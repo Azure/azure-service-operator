@@ -334,8 +334,12 @@ type KeyVaultProperties_STATUS struct {
 
 // Storage version of v1api20210101preview.NamespaceOperatorSecrets
 type NamespaceOperatorSecrets struct {
-	Endpoint    *genruntime.SecretDestination `json:"endpoint,omitempty"`
-	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Endpoint                  *genruntime.SecretDestination `json:"endpoint,omitempty"`
+	PrimaryConnectionString   *genruntime.SecretDestination `json:"primaryConnectionString,omitempty"`
+	PrimaryKey                *genruntime.SecretDestination `json:"primaryKey,omitempty"`
+	PropertyBag               genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecondaryConnectionString *genruntime.SecretDestination `json:"secondaryConnectionString,omitempty"`
+	SecondaryKey              *genruntime.SecretDestination `json:"secondaryKey,omitempty"`
 }
 
 // Storage version of v1api20210101preview.UserAssignedIdentityDetails

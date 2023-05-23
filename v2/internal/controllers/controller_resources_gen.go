@@ -525,6 +525,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(resources_v1api20200601s.ResourceGroup)})
 	result = append(result, &registration.StorageType{Obj: new(search_v1api20220901s.SearchService)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v1api20210101ps.Namespace)})
+	result = append(result, &registration.StorageType{Obj: new(servicebus_v1api20210101ps.NamespacesAuthorizationRule)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v1api20210101ps.NamespacesQueue)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v1api20210101ps.NamespacesTopic)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v1api20210101ps.NamespacesTopicsSubscription)})
@@ -1216,6 +1217,7 @@ func getKnownTypes() []client.Object {
 	result = append(
 		result,
 		new(servicebus_v1api20210101p.Namespace),
+		new(servicebus_v1api20210101p.NamespacesAuthorizationRule),
 		new(servicebus_v1api20210101p.NamespacesQueue),
 		new(servicebus_v1api20210101p.NamespacesTopic),
 		new(servicebus_v1api20210101p.NamespacesTopicsSubscription),
@@ -1223,6 +1225,7 @@ func getKnownTypes() []client.Object {
 	result = append(
 		result,
 		new(servicebus_v1api20210101ps.Namespace),
+		new(servicebus_v1api20210101ps.NamespacesAuthorizationRule),
 		new(servicebus_v1api20210101ps.NamespacesQueue),
 		new(servicebus_v1api20210101ps.NamespacesTopic),
 		new(servicebus_v1api20210101ps.NamespacesTopicsSubscription),
@@ -1638,6 +1641,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &resources_customizations.ResourceGroupExtension{})
 	result = append(result, &search_customizations.SearchServiceExtension{})
 	result = append(result, &servicebus_customizations.NamespaceExtension{})
+	result = append(result, &servicebus_customizations.NamespacesAuthorizationRuleExtension{})
 	result = append(result, &servicebus_customizations.NamespacesQueueExtension{})
 	result = append(result, &servicebus_customizations.NamespacesTopicExtension{})
 	result = append(result, &servicebus_customizations.NamespacesTopicsSubscriptionExtension{})

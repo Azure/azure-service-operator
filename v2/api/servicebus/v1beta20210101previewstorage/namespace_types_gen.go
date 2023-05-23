@@ -2022,8 +2022,12 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultPropert
 
 // Storage version of v1beta20210101preview.NamespaceOperatorSecrets
 type NamespaceOperatorSecrets struct {
-	Endpoint    *genruntime.SecretDestination `json:"endpoint,omitempty"`
-	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Endpoint                  *genruntime.SecretDestination `json:"endpoint,omitempty"`
+	PrimaryConnectionString   *genruntime.SecretDestination `json:"primaryConnectionString,omitempty"`
+	PrimaryKey                *genruntime.SecretDestination `json:"primaryKey,omitempty"`
+	PropertyBag               genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecondaryConnectionString *genruntime.SecretDestination `json:"secondaryConnectionString,omitempty"`
+	SecondaryKey              *genruntime.SecretDestination `json:"secondaryKey,omitempty"`
 }
 
 // AssignProperties_From_NamespaceOperatorSecrets populates our NamespaceOperatorSecrets from the provided source NamespaceOperatorSecrets
@@ -2037,6 +2041,38 @@ func (secrets *NamespaceOperatorSecrets) AssignProperties_From_NamespaceOperator
 		secrets.Endpoint = &endpoint
 	} else {
 		secrets.Endpoint = nil
+	}
+
+	// PrimaryConnectionString
+	if source.PrimaryConnectionString != nil {
+		primaryConnectionString := source.PrimaryConnectionString.Copy()
+		secrets.PrimaryConnectionString = &primaryConnectionString
+	} else {
+		secrets.PrimaryConnectionString = nil
+	}
+
+	// PrimaryKey
+	if source.PrimaryKey != nil {
+		primaryKey := source.PrimaryKey.Copy()
+		secrets.PrimaryKey = &primaryKey
+	} else {
+		secrets.PrimaryKey = nil
+	}
+
+	// SecondaryConnectionString
+	if source.SecondaryConnectionString != nil {
+		secondaryConnectionString := source.SecondaryConnectionString.Copy()
+		secrets.SecondaryConnectionString = &secondaryConnectionString
+	} else {
+		secrets.SecondaryConnectionString = nil
+	}
+
+	// SecondaryKey
+	if source.SecondaryKey != nil {
+		secondaryKey := source.SecondaryKey.Copy()
+		secrets.SecondaryKey = &secondaryKey
+	} else {
+		secrets.SecondaryKey = nil
 	}
 
 	// Update the property bag
@@ -2070,6 +2106,38 @@ func (secrets *NamespaceOperatorSecrets) AssignProperties_To_NamespaceOperatorSe
 		destination.Endpoint = &endpoint
 	} else {
 		destination.Endpoint = nil
+	}
+
+	// PrimaryConnectionString
+	if secrets.PrimaryConnectionString != nil {
+		primaryConnectionString := secrets.PrimaryConnectionString.Copy()
+		destination.PrimaryConnectionString = &primaryConnectionString
+	} else {
+		destination.PrimaryConnectionString = nil
+	}
+
+	// PrimaryKey
+	if secrets.PrimaryKey != nil {
+		primaryKey := secrets.PrimaryKey.Copy()
+		destination.PrimaryKey = &primaryKey
+	} else {
+		destination.PrimaryKey = nil
+	}
+
+	// SecondaryConnectionString
+	if secrets.SecondaryConnectionString != nil {
+		secondaryConnectionString := secrets.SecondaryConnectionString.Copy()
+		destination.SecondaryConnectionString = &secondaryConnectionString
+	} else {
+		destination.SecondaryConnectionString = nil
+	}
+
+	// SecondaryKey
+	if secrets.SecondaryKey != nil {
+		secondaryKey := secrets.SecondaryKey.Copy()
+		destination.SecondaryKey = &secondaryKey
+	} else {
+		destination.SecondaryKey = nil
 	}
 
 	// Update the property bag

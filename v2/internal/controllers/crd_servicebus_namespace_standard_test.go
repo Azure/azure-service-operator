@@ -14,6 +14,7 @@ import (
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	servicebus "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_ServiceBus_Namespace_Standard_CRUD(t *testing.T) {
@@ -40,6 +41,14 @@ func Test_ServiceBus_Namespace_Standard_CRUD(t *testing.T) {
 			Name: "Topic CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) { ServiceBus_Topic_CRUD(tc, namespace) },
 		},
+		testcommon.Subtest{
+			Name: "AuthorizationRule CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) { ServiceBus_AuthorizationRule_CRUD(tc, namespace) },
+		},
+		testcommon.Subtest{
+			Name: "NamespaceSecrets CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) { ServiceBus_Namespace_Secrets(tc, namespace) },
+		},
 	)
 
 	tc.DeleteResourceAndWait(namespace)
@@ -62,6 +71,48 @@ func NewServiceBusNamespace(tc *testcommon.KubePerTestContext, rg *resources.Res
 		},
 	}
 	return namespace
+}
+
+func ServiceBus_AuthorizationRule_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client.Object) {
+	secretName := "rule-secrets"
+
+	rule := &servicebus.NamespacesAuthorizationRule{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("rule")),
+		Spec: servicebus.Namespaces_AuthorizationRule_Spec{
+			Owner: testcommon.AsOwner(sbNamespace),
+			Rights: []servicebus.Namespaces_AuthorizationRule_Properties_Rights_Spec{
+				servicebus.Namespaces_AuthorizationRule_Properties_Rights_Spec_Listen,
+				servicebus.Namespaces_AuthorizationRule_Properties_Rights_Spec_Send,
+			},
+			OperatorSpec: &servicebus.NamespacesAuthorizationRuleOperatorSpec{
+				Secrets: &servicebus.NamespacesAuthorizationRuleOperatorSecrets{
+					PrimaryKey: &genruntime.SecretDestination{
+						Name: secretName,
+						Key:  "PrimaryKey",
+					},
+					PrimaryConnectionString: &genruntime.SecretDestination{
+						Name: secretName,
+						Key:  "PrimaryConnectionString",
+					},
+					SecondaryKey: &genruntime.SecretDestination{
+						Name: secretName,
+						Key:  "SecondaryKey",
+					},
+					SecondaryConnectionString: &genruntime.SecretDestination{
+						Name: secretName,
+						Key:  "SecondaryConnectionString",
+					},
+				},
+			},
+		},
+	}
+
+	tc.CreateResourceAndWait(rule)
+	defer tc.DeleteResourceAndWait(rule)
+
+	tc.Expect(rule.Status.Rights).To(HaveLen(2))
+
+	tc.ExpectSecretHasKeys(secretName, "PrimaryKey", "PrimaryConnectionString", "SecondaryKey", "SecondaryConnectionString")
 }
 
 // Topics can only be created in Standard or Premium SKUs
