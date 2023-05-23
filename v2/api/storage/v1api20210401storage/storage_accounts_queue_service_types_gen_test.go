@@ -5,6 +5,7 @@ package v1api20210401storage
 
 import (
 	"encoding/json"
+	v1api20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_StorageAccountsQueueService_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from StorageAccountsQueueService to hub returns original",
+		prop.ForAll(RunResourceConversionTestForStorageAccountsQueueService, StorageAccountsQueueServiceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForStorageAccountsQueueService tests if a specific instance of StorageAccountsQueueService round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForStorageAccountsQueueService(subject StorageAccountsQueueService) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1api20220901s.StorageAccountsQueueService
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual StorageAccountsQueueService
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_StorageAccountsQueueService_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from StorageAccountsQueueService to StorageAccountsQueueService via AssignProperties_To_StorageAccountsQueueService & AssignProperties_From_StorageAccountsQueueService returns original",
+		prop.ForAll(RunPropertyAssignmentTestForStorageAccountsQueueService, StorageAccountsQueueServiceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForStorageAccountsQueueService tests if a specific instance of StorageAccountsQueueService can be assigned to v1api20220901storage and back losslessly
+func RunPropertyAssignmentTestForStorageAccountsQueueService(subject StorageAccountsQueueService) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220901s.StorageAccountsQueueService
+	err := copied.AssignProperties_To_StorageAccountsQueueService(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual StorageAccountsQueueService
+	err = actual.AssignProperties_From_StorageAccountsQueueService(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_StorageAccountsQueueService_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -77,6 +163,48 @@ func StorageAccountsQueueServiceGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForStorageAccountsQueueService(gens map[string]gopter.Gen) {
 	gens["Spec"] = StorageAccounts_QueueService_SpecGenerator()
 	gens["Status"] = StorageAccounts_QueueService_STATUSGenerator()
+}
+
+func Test_StorageAccounts_QueueService_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from StorageAccounts_QueueService_Spec to StorageAccounts_QueueService_Spec via AssignProperties_To_StorageAccounts_QueueService_Spec & AssignProperties_From_StorageAccounts_QueueService_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForStorageAccounts_QueueService_Spec, StorageAccounts_QueueService_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForStorageAccounts_QueueService_Spec tests if a specific instance of StorageAccounts_QueueService_Spec can be assigned to v1api20220901storage and back losslessly
+func RunPropertyAssignmentTestForStorageAccounts_QueueService_Spec(subject StorageAccounts_QueueService_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220901s.StorageAccounts_QueueService_Spec
+	err := copied.AssignProperties_To_StorageAccounts_QueueService_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual StorageAccounts_QueueService_Spec
+	err = actual.AssignProperties_From_StorageAccounts_QueueService_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_StorageAccounts_QueueService_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -152,6 +280,48 @@ func AddIndependentPropertyGeneratorsForStorageAccounts_QueueService_Spec(gens m
 // AddRelatedPropertyGeneratorsForStorageAccounts_QueueService_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccounts_QueueService_Spec(gens map[string]gopter.Gen) {
 	gens["Cors"] = gen.PtrOf(CorsRulesGenerator())
+}
+
+func Test_StorageAccounts_QueueService_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from StorageAccounts_QueueService_STATUS to StorageAccounts_QueueService_STATUS via AssignProperties_To_StorageAccounts_QueueService_STATUS & AssignProperties_From_StorageAccounts_QueueService_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForStorageAccounts_QueueService_STATUS, StorageAccounts_QueueService_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForStorageAccounts_QueueService_STATUS tests if a specific instance of StorageAccounts_QueueService_STATUS can be assigned to v1api20220901storage and back losslessly
+func RunPropertyAssignmentTestForStorageAccounts_QueueService_STATUS(subject StorageAccounts_QueueService_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220901s.StorageAccounts_QueueService_STATUS
+	err := copied.AssignProperties_To_StorageAccounts_QueueService_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual StorageAccounts_QueueService_STATUS
+	err = actual.AssignProperties_From_StorageAccounts_QueueService_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_StorageAccounts_QueueService_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

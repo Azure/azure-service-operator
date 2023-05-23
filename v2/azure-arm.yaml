@@ -63,11 +63,6 @@ typeFilters:
     because: We want to export this particular preview version
 
   - action: include
-    group: dbformysql
-    version: v*20211201preview
-    because: We want to export this particular preview version
-
-  - action: include
     group: insights
     version: v*20180501preview
     because: We're using webTests from this. There is a "newer" version but it's not actually supported, see https://github.com/Azure/azure-rest-api-specs/issues/14827
@@ -936,10 +931,10 @@ objectModelConfiguration:
       FlexibleServers_FirewallRule:
         $exportAs: FlexibleServersFirewallRule
         $supportedFrom: v2.0.0-alpha.2
-    2021-12-01-preview:
+    2022-01-01:
       FlexibleServers_Administrator:
         $exportAs: FlexibleServersAdministrator
-        $supportedFrom: v2.0.0
+        $supportedFrom: v2.1.0
       AdministratorProperties:
         IdentityResourceId:
           $armReference: true # TODO: Upstream to Swagger
@@ -947,6 +942,9 @@ objectModelConfiguration:
           $importConfigMapMode: optional
         TenantId:
           $importConfigMapMode: optional
+      FlexibleServers_Configuration:
+        $exportAs: FlexibleServersConfiguration
+        $supportedFrom: v2.1.0
   dbforpostgresql:
     2021-06-01:
       FlexibleServer:
@@ -1310,6 +1308,9 @@ objectModelConfiguration:
         $resourceEmbeddedInParent: LoadBalancer # Can GET (has ID) but can't create
       FrontendIPConfiguration_STATUS:
         $resourceEmbeddedInParent: LoadBalancer
+      LoadBalancers_InboundNatRule: # TODO: There must always be a parent and child in the same API version. See https://github.com/Azure/azure-service-operator/issues/3002
+        $exportAs: LoadBalancersInboundNatRule
+        $supportedFrom: v2.1.0
       InboundNatRule:
         # TODO[breaking]: This is actually a real resource that can be created as a child of a loadbalancer,
         # but we didn't model it that way initially, so marking it as not a resource for now to maintain backcompat
@@ -1357,7 +1358,7 @@ objectModelConfiguration:
       RouteTablePropertiesFormat:
         Routes:
           $resourceLifecycleOwnedByParent: RouteTable
-      RouteTables_Route:
+      RouteTables_Route: # TODO: There must always be a parent and child in the same API version. See https://github.com/Azure/azure-service-operator/issues/3002
         $exportAs: RouteTablesRoute
         $supportedFrom: v2.0.0-beta.1
 #      SecurityRule_NetworkInterface_SubResourceEmbedded:
@@ -1397,7 +1398,7 @@ objectModelConfiguration:
           # Technically this resource behaves fine (updating the vnet doesn't delete these if they
           # aren't included in the payload). Marking it here so that the pruning takes effect.
           $resourceLifecycleOwnedByParent: VirtualNetwork
-      VirtualNetworks_Subnet:
+      VirtualNetworks_Subnet: # TODO: There must always be a parent and child in the same API version. See https://github.com/Azure/azure-service-operator/issues/3002
         $exportAs: VirtualNetworksSubnet
         $supportedFrom: v2.0.0-alpha.1
       VirtualNetworks_VirtualNetworkPeering:
@@ -1467,6 +1468,18 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-alpha.1
         $azureGeneratedSecrets:
           - Endpoint
+          - PrimaryKey
+          - PrimaryConnectionString
+          - SecondaryKey
+          - SecondaryConnectionString
+      Namespaces_AuthorizationRule:
+        $exportAs: NamespacesAuthorizationRule
+        $supportedFrom: v2.1.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - PrimaryConnectionString
+          - SecondaryKey
+          - SecondaryConnectionString
       Namespaces_Queue:
         $exportAs: NamespacesQueue
         $supportedFrom: v2.0.0-alpha.1
@@ -1646,6 +1659,68 @@ objectModelConfiguration:
         $exportAs: StorageAccountsManagementPolicy
         $supportedFrom: v2.0.0-alpha.6
       VirtualNetworkRule:
+        Id:
+          $armReference: true
+    2022-09-01:
+      StorageAccount:
+        $export: true
+        $supportedFrom: v2.1.0
+        $azureGeneratedSecrets:
+          - Key1
+          - Key2
+          - WebEndpoint
+          - BlobEndpoint
+          - FileEndpoint
+          - QueueEndpoint
+          - TableEndpoint
+          - DfsEndpoint
+        $generatedConfigs:
+          WebEndpoint: $.Status.PrimaryEndpoints.Web
+          BlobEndpoint: $.Status.PrimaryEndpoints.Blob
+          FileEndpoint: $.Status.PrimaryEndpoints.File
+          QueueEndpoint: $.Status.PrimaryEndpoints.Queue
+          TableEndpoint: $.Status.PrimaryEndpoints.Table
+          DfsEndpoint: $.Status.PrimaryEndpoints.Dfs
+      StorageAccounts_BlobService:
+        $exportAs: StorageAccountsBlobService
+        $supportedFrom: v2.1.0
+      StorageAccounts_BlobServices_Container:
+        $exportAs: StorageAccountsBlobServicesContainer
+        $supportedFrom: v2.1.0
+      StorageAccounts_QueueService:
+        $exportAs: StorageAccountsQueueService
+        $supportedFrom: v2.1.0
+      StorageAccounts_QueueServices_Queue:
+        $exportAs: StorageAccountsQueueServicesQueue
+        $supportedFrom: v2.1.0
+      StorageAccounts_ManagementPolicy:
+        $exportAs: StorageAccountsManagementPolicy
+        $supportedFrom: v2.1.0
+      VirtualNetworkRule:
+        Id:
+          $armReference: true
+      EncryptionIdentity:
+        UserAssignedIdentity:
+          $armReference: true
+      ResourceAccessRule:
+        ResourceId:
+          $armReference: true
+      StorageAccounts_TableService:
+        $exportAs: StorageAccountsTableService
+        $supportedFrom: v2.1.0
+      StorageAccounts_TableServices_Table:
+        $exportAs: StorageAccountsTableServicesTable
+        $supportedFrom: v2.1.0
+      TableSignedIdentifier:
+        Id:
+          $armReference: true
+      StorageAccounts_FileService:
+        $exportAs: StorageAccountsFileService
+        $supportedFrom: v2.1.0
+      StorageAccounts_FileServices_Share:
+        $exportAs: StorageAccountsFileServicesShare
+        $supportedFrom: v2.1.0
+      SignedIdentifier:
         Id:
           $armReference: true
   subscription:

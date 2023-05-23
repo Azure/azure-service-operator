@@ -1,0 +1,13 @@
+apiVersion: network.azure.com/v1api20201101
+kind: LoadBalancersInboundNatRule
+metadata:
+  name: sampleinboundnatrule
+  namespace: default
+spec:
+  owner:
+    name: sampleloadbalancer
+  backendPort: 22
+  frontendPort: 23
+  frontendIPConfiguration:
+    reference:
+      armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Network/loadBalancers/sampleloadbalancer/frontendIPConfigurations/LoadBalancerFrontend

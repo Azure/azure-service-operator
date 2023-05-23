@@ -12,6 +12,7 @@ github.com/Azure/azure-service-operator/v2/api/network/customizations
 ├── DnsZonesSRVRecordExtension: Object (0 properties)
 ├── DnsZonesTXTRecordExtension: Object (0 properties)
 ├── LoadBalancerExtension: Object (0 properties)
+├── LoadBalancersInboundNatRuleExtension: Object (0 properties)
 ├── NatGatewayExtension: Object (0 properties)
 ├── NetworkInterfaceExtension: Object (0 properties)
 ├── NetworkSecurityGroupExtension: Object (0 properties)

@@ -50,22 +50,36 @@ var _ conversion.Convertible = &StorageAccountsBlobServicesContainer{}
 
 // ConvertFrom populates our StorageAccountsBlobServicesContainer from the provided hub StorageAccountsBlobServicesContainer
 func (container *StorageAccountsBlobServicesContainer) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20210401s.StorageAccountsBlobServicesContainer)
-	if !ok {
-		return fmt.Errorf("expected storage/v1api20210401storage/StorageAccountsBlobServicesContainer but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1api20210401s.StorageAccountsBlobServicesContainer
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return container.AssignProperties_From_StorageAccountsBlobServicesContainer(source)
+	err = container.AssignProperties_From_StorageAccountsBlobServicesContainer(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to container")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub StorageAccountsBlobServicesContainer from our StorageAccountsBlobServicesContainer
 func (container *StorageAccountsBlobServicesContainer) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20210401s.StorageAccountsBlobServicesContainer)
-	if !ok {
-		return fmt.Errorf("expected storage/v1api20210401storage/StorageAccountsBlobServicesContainer but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1api20210401s.StorageAccountsBlobServicesContainer
+	err := container.AssignProperties_To_StorageAccountsBlobServicesContainer(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from container")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return container.AssignProperties_To_StorageAccountsBlobServicesContainer(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-storage-azure-com-v1api20210401-storageaccountsblobservicescontainer,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=storage.azure.com,resources=storageaccountsblobservicescontainers,verbs=create;update,versions=v1api20210401,name=default.v1api20210401.storageaccountsblobservicescontainers.storage.azure.com,admissionReviewVersions=v1
@@ -90,17 +104,6 @@ func (container *StorageAccountsBlobServicesContainer) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the StorageAccountsBlobServicesContainer resource
 func (container *StorageAccountsBlobServicesContainer) defaultImpl() { container.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &StorageAccountsBlobServicesContainer{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (container *StorageAccountsBlobServicesContainer) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*StorageAccounts_BlobServices_Container_STATUS); ok {
-		return container.Spec.Initialize_From_StorageAccounts_BlobServices_Container_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type StorageAccounts_BlobServices_Container_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &StorageAccountsBlobServicesContainer{}
 
@@ -645,47 +648,6 @@ func (container *StorageAccounts_BlobServices_Container_Spec) AssignProperties_T
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_StorageAccounts_BlobServices_Container_STATUS populates our StorageAccounts_BlobServices_Container_Spec from the provided source StorageAccounts_BlobServices_Container_STATUS
-func (container *StorageAccounts_BlobServices_Container_Spec) Initialize_From_StorageAccounts_BlobServices_Container_STATUS(source *StorageAccounts_BlobServices_Container_STATUS) error {
-
-	// DefaultEncryptionScope
-	container.DefaultEncryptionScope = genruntime.ClonePointerToString(source.DefaultEncryptionScope)
-
-	// DenyEncryptionScopeOverride
-	if source.DenyEncryptionScopeOverride != nil {
-		denyEncryptionScopeOverride := *source.DenyEncryptionScopeOverride
-		container.DenyEncryptionScopeOverride = &denyEncryptionScopeOverride
-	} else {
-		container.DenyEncryptionScopeOverride = nil
-	}
-
-	// ImmutableStorageWithVersioning
-	if source.ImmutableStorageWithVersioning != nil {
-		var immutableStorageWithVersioning ImmutableStorageWithVersioning
-		err := immutableStorageWithVersioning.Initialize_From_ImmutableStorageWithVersioning_STATUS(source.ImmutableStorageWithVersioning)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ImmutableStorageWithVersioning_STATUS() to populate field ImmutableStorageWithVersioning")
-		}
-		container.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
-	} else {
-		container.ImmutableStorageWithVersioning = nil
-	}
-
-	// Metadata
-	container.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
-
-	// PublicAccess
-	if source.PublicAccess != nil {
-		publicAccess := ContainerProperties_PublicAccess(*source.PublicAccess)
-		container.PublicAccess = &publicAccess
-	} else {
-		container.PublicAccess = nil
 	}
 
 	// No error
@@ -1635,21 +1597,6 @@ func (versioning *ImmutableStorageWithVersioning) AssignProperties_To_ImmutableS
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ImmutableStorageWithVersioning_STATUS populates our ImmutableStorageWithVersioning from the provided source ImmutableStorageWithVersioning_STATUS
-func (versioning *ImmutableStorageWithVersioning) Initialize_From_ImmutableStorageWithVersioning_STATUS(source *ImmutableStorageWithVersioning_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		versioning.Enabled = &enabled
-	} else {
-		versioning.Enabled = nil
 	}
 
 	// No error

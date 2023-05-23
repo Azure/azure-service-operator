@@ -12,7 +12,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
-	mysqlpreview "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20211201preview"
+	mysql20220101 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101"
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -64,6 +64,12 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 	)
 
 	tc.RunParallelSubtests(
+		testcommon.Subtest{
+			Name: "MySQL Flexible servers configuration CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				MySQLFlexibleServer_Configuration_CRUD(tc, flexibleServer)
+			},
+		},
 		testcommon.Subtest{
 			Name: "MySQL Flexible servers database CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
@@ -199,10 +205,10 @@ func MySQLFlexibleServer_AADAdmin_CRUD(tc *testcommon.KubePerTestContext, rg *re
 
 	tc.PatchResourceAndWait(old, server)
 
-	aadAdmin := mysqlpreview.AdministratorProperties_AdministratorType_ActiveDirectory
-	admin := &mysqlpreview.FlexibleServersAdministrator{
+	aadAdmin := mysql20220101.AdministratorProperties_AdministratorType_ActiveDirectory
+	admin := &mysql20220101.FlexibleServersAdministrator{
 		ObjectMeta: tc.MakeObjectMeta("aadadmin"),
-		Spec: mysqlpreview.FlexibleServers_Administrator_Spec{
+		Spec: mysql20220101.FlexibleServers_Administrator_Spec{
 			Owner:             testcommon.AsOwner(server),
 			AdministratorType: &aadAdmin,
 			Login:             &mi.Name,
@@ -222,4 +228,18 @@ func MySQLFlexibleServer_AADAdmin_CRUD(tc *testcommon.KubePerTestContext, rg *re
 	defer tc.DeleteResourceAndWait(admin)
 
 	tc.Expect(admin.Status.Id).ToNot(BeNil())
+}
+
+func MySQLFlexibleServer_Configuration_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *mysql.FlexibleServer) {
+	configuration := &mysql20220101.FlexibleServersConfiguration{
+		ObjectMeta: tc.MakeObjectMetaWithName("maxconnections"),
+		Spec: mysql20220101.FlexibleServers_Configuration_Spec{
+			AzureName: "max_connections",
+			Owner:     testcommon.AsOwner(flexibleServer),
+			Source:    to.Ptr(mysql20220101.ConfigurationProperties_Source_UserOverride),
+			Value:     to.Ptr("20"),
+		},
+	}
+	tc.CreateResourceAndWait(configuration)
+	tc.Expect(configuration.Status.Id).ToNot(BeNil())
 }

@@ -80,8 +80,8 @@ import (
 	dbformysql_customizations "github.com/Azure/azure-service-operator/v2/api/dbformysql/customizations"
 	dbformysql_v1api20210501 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
 	dbformysql_v1api20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501storage"
-	dbformysql_v1api20211201p "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20211201preview"
-	dbformysql_v1api20211201ps "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20211201previewstorage"
+	dbformysql_v1api20220101 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101"
+	dbformysql_v1api20220101s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101storage"
 	dbformysql_v20210501 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501"
 	dbformysql_v20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501storage"
 	dbforpostgresql_customizations "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/customizations"
@@ -180,6 +180,8 @@ import (
 	storage_customizations "github.com/Azure/azure-service-operator/v2/api/storage/customizations"
 	storage_v1api20210401 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	storage_v1api20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401storage"
+	storage_v1api20220901 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901"
+	storage_v1api20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
 	storage_v20210401 "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
 	storage_v20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage"
 	subscription_customizations "github.com/Azure/azure-service-operator/v2/api/subscription/customizations"
@@ -331,7 +333,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(dbformysql_v1api20210501s.FlexibleServersDatabase)})
 	result = append(result, &registration.StorageType{Obj: new(dbformysql_v1api20210501s.FlexibleServersFirewallRule)})
 	result = append(result, &registration.StorageType{
-		Obj: new(dbformysql_v1api20211201ps.FlexibleServersAdministrator),
+		Obj: new(dbformysql_v1api20220101s.FlexibleServersAdministrator),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.sidFromConfig",
@@ -345,10 +347,11 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Src:              &source.Kind{Type: &v1.ConfigMap{}},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.sidFromConfig", ".spec.tenantIdFromConfig"}, &dbformysql_v1api20211201ps.FlexibleServersAdministratorList{}),
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.sidFromConfig", ".spec.tenantIdFromConfig"}, &dbformysql_v1api20220101s.FlexibleServersAdministratorList{}),
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(dbformysql_v1api20220101s.FlexibleServersConfiguration)})
 	result = append(result, &registration.StorageType{
 		Obj: new(dbforpostgresql_v1api20210601s.FlexibleServer),
 		Indexes: []registration.Index{
@@ -501,6 +504,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20200601s.PrivateDnsZonesTXTRecord)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20200601s.PrivateDnsZonesVirtualNetworkLink)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20201101s.LoadBalancer)})
+	result = append(result, &registration.StorageType{Obj: new(network_v1api20201101s.LoadBalancersInboundNatRule)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20201101s.NetworkInterface)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20201101s.NetworkSecurityGroup)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20201101s.NetworkSecurityGroupsSecurityRule)})
@@ -521,6 +525,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(resources_v1api20200601s.ResourceGroup)})
 	result = append(result, &registration.StorageType{Obj: new(search_v1api20220901s.SearchService)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v1api20210101ps.Namespace)})
+	result = append(result, &registration.StorageType{Obj: new(servicebus_v1api20210101ps.NamespacesAuthorizationRule)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v1api20210101ps.NamespacesQueue)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v1api20210101ps.NamespacesTopic)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v1api20210101ps.NamespacesTopicsSubscription)})
@@ -688,12 +693,16 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(storage_v1api20210401s.StorageAccount)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v1api20210401s.StorageAccountsBlobService)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v1api20210401s.StorageAccountsBlobServicesContainer)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v1api20210401s.StorageAccountsManagementPolicy)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v1api20210401s.StorageAccountsQueueService)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v1api20210401s.StorageAccountsQueueServicesQueue)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v1api20220901s.StorageAccount)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v1api20220901s.StorageAccountsBlobService)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v1api20220901s.StorageAccountsBlobServicesContainer)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v1api20220901s.StorageAccountsFileService)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v1api20220901s.StorageAccountsFileServicesShare)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v1api20220901s.StorageAccountsManagementPolicy)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v1api20220901s.StorageAccountsQueueService)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v1api20220901s.StorageAccountsQueueServicesQueue)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v1api20220901s.StorageAccountsTableService)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v1api20220901s.StorageAccountsTableServicesTable)})
 	result = append(result, &registration.StorageType{Obj: new(subscription_v1api20211001s.Alias)})
 	result = append(result, &registration.StorageType{
 		Obj: new(synapse_v1api20210601s.Workspace),
@@ -865,8 +874,8 @@ func getKnownTypes() []client.Object {
 		new(dbformysql_v1api20210501s.FlexibleServer),
 		new(dbformysql_v1api20210501s.FlexibleServersDatabase),
 		new(dbformysql_v1api20210501s.FlexibleServersFirewallRule))
-	result = append(result, new(dbformysql_v1api20211201p.FlexibleServersAdministrator))
-	result = append(result, new(dbformysql_v1api20211201ps.FlexibleServersAdministrator))
+	result = append(result, new(dbformysql_v1api20220101.FlexibleServersAdministrator), new(dbformysql_v1api20220101.FlexibleServersConfiguration))
+	result = append(result, new(dbformysql_v1api20220101s.FlexibleServersAdministrator), new(dbformysql_v1api20220101s.FlexibleServersConfiguration))
 	result = append(
 		result,
 		new(dbformysql_v20210501.FlexibleServer),
@@ -1126,6 +1135,7 @@ func getKnownTypes() []client.Object {
 	result = append(
 		result,
 		new(network_v1api20201101.LoadBalancer),
+		new(network_v1api20201101.LoadBalancersInboundNatRule),
 		new(network_v1api20201101.NetworkInterface),
 		new(network_v1api20201101.NetworkSecurityGroup),
 		new(network_v1api20201101.NetworkSecurityGroupsSecurityRule),
@@ -1139,6 +1149,7 @@ func getKnownTypes() []client.Object {
 	result = append(
 		result,
 		new(network_v1api20201101s.LoadBalancer),
+		new(network_v1api20201101s.LoadBalancersInboundNatRule),
 		new(network_v1api20201101s.NetworkInterface),
 		new(network_v1api20201101s.NetworkSecurityGroup),
 		new(network_v1api20201101s.NetworkSecurityGroupsSecurityRule),
@@ -1206,6 +1217,7 @@ func getKnownTypes() []client.Object {
 	result = append(
 		result,
 		new(servicebus_v1api20210101p.Namespace),
+		new(servicebus_v1api20210101p.NamespacesAuthorizationRule),
 		new(servicebus_v1api20210101p.NamespacesQueue),
 		new(servicebus_v1api20210101p.NamespacesTopic),
 		new(servicebus_v1api20210101p.NamespacesTopicsSubscription),
@@ -1213,6 +1225,7 @@ func getKnownTypes() []client.Object {
 	result = append(
 		result,
 		new(servicebus_v1api20210101ps.Namespace),
+		new(servicebus_v1api20210101ps.NamespacesAuthorizationRule),
 		new(servicebus_v1api20210101ps.NamespacesQueue),
 		new(servicebus_v1api20210101ps.NamespacesTopic),
 		new(servicebus_v1api20210101ps.NamespacesTopicsSubscription),
@@ -1299,6 +1312,30 @@ func getKnownTypes() []client.Object {
 		new(storage_v1api20210401s.StorageAccountsManagementPolicy),
 		new(storage_v1api20210401s.StorageAccountsQueueService),
 		new(storage_v1api20210401s.StorageAccountsQueueServicesQueue))
+	result = append(
+		result,
+		new(storage_v1api20220901.StorageAccount),
+		new(storage_v1api20220901.StorageAccountsBlobService),
+		new(storage_v1api20220901.StorageAccountsBlobServicesContainer),
+		new(storage_v1api20220901.StorageAccountsFileService),
+		new(storage_v1api20220901.StorageAccountsFileServicesShare),
+		new(storage_v1api20220901.StorageAccountsManagementPolicy),
+		new(storage_v1api20220901.StorageAccountsQueueService),
+		new(storage_v1api20220901.StorageAccountsQueueServicesQueue),
+		new(storage_v1api20220901.StorageAccountsTableService),
+		new(storage_v1api20220901.StorageAccountsTableServicesTable))
+	result = append(
+		result,
+		new(storage_v1api20220901s.StorageAccount),
+		new(storage_v1api20220901s.StorageAccountsBlobService),
+		new(storage_v1api20220901s.StorageAccountsBlobServicesContainer),
+		new(storage_v1api20220901s.StorageAccountsFileService),
+		new(storage_v1api20220901s.StorageAccountsFileServicesShare),
+		new(storage_v1api20220901s.StorageAccountsManagementPolicy),
+		new(storage_v1api20220901s.StorageAccountsQueueService),
+		new(storage_v1api20220901s.StorageAccountsQueueServicesQueue),
+		new(storage_v1api20220901s.StorageAccountsTableService),
+		new(storage_v1api20220901s.StorageAccountsTableServicesTable))
 	result = append(
 		result,
 		new(storage_v20210401.StorageAccount),
@@ -1396,8 +1433,8 @@ func createScheme() *runtime.Scheme {
 	_ = dbformariadb_v20180601s.AddToScheme(scheme)
 	_ = dbformysql_v1api20210501.AddToScheme(scheme)
 	_ = dbformysql_v1api20210501s.AddToScheme(scheme)
-	_ = dbformysql_v1api20211201p.AddToScheme(scheme)
-	_ = dbformysql_v1api20211201ps.AddToScheme(scheme)
+	_ = dbformysql_v1api20220101.AddToScheme(scheme)
+	_ = dbformysql_v1api20220101s.AddToScheme(scheme)
 	_ = dbformysql_v20210501.AddToScheme(scheme)
 	_ = dbformysql_v20210501s.AddToScheme(scheme)
 	_ = dbforpostgresql_v1api20210601.AddToScheme(scheme)
@@ -1480,6 +1517,8 @@ func createScheme() *runtime.Scheme {
 	_ = sql_v1api20211101s.AddToScheme(scheme)
 	_ = storage_v1api20210401.AddToScheme(scheme)
 	_ = storage_v1api20210401s.AddToScheme(scheme)
+	_ = storage_v1api20220901.AddToScheme(scheme)
+	_ = storage_v1api20220901s.AddToScheme(scheme)
 	_ = storage_v20210401.AddToScheme(scheme)
 	_ = storage_v20210401s.AddToScheme(scheme)
 	_ = subscription_v1api20211001.AddToScheme(scheme)
@@ -1524,6 +1563,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &dbformariadb_customizations.ServerExtension{})
 	result = append(result, &dbformysql_customizations.FlexibleServerExtension{})
 	result = append(result, &dbformysql_customizations.FlexibleServersAdministratorExtension{})
+	result = append(result, &dbformysql_customizations.FlexibleServersConfigurationExtension{})
 	result = append(result, &dbformysql_customizations.FlexibleServersDatabaseExtension{})
 	result = append(result, &dbformysql_customizations.FlexibleServersFirewallRuleExtension{})
 	result = append(result, &dbforpostgresql_customizations.FlexibleServerExtension{})
@@ -1572,6 +1612,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &network_customizations.DnsZonesSRVRecordExtension{})
 	result = append(result, &network_customizations.DnsZonesTXTRecordExtension{})
 	result = append(result, &network_customizations.LoadBalancerExtension{})
+	result = append(result, &network_customizations.LoadBalancersInboundNatRuleExtension{})
 	result = append(result, &network_customizations.NatGatewayExtension{})
 	result = append(result, &network_customizations.NetworkInterfaceExtension{})
 	result = append(result, &network_customizations.NetworkSecurityGroupExtension{})
@@ -1600,6 +1641,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &resources_customizations.ResourceGroupExtension{})
 	result = append(result, &search_customizations.SearchServiceExtension{})
 	result = append(result, &servicebus_customizations.NamespaceExtension{})
+	result = append(result, &servicebus_customizations.NamespacesAuthorizationRuleExtension{})
 	result = append(result, &servicebus_customizations.NamespacesQueueExtension{})
 	result = append(result, &servicebus_customizations.NamespacesTopicExtension{})
 	result = append(result, &servicebus_customizations.NamespacesTopicsSubscriptionExtension{})
@@ -1630,9 +1672,13 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &storage_customizations.StorageAccountExtension{})
 	result = append(result, &storage_customizations.StorageAccountsBlobServiceExtension{})
 	result = append(result, &storage_customizations.StorageAccountsBlobServicesContainerExtension{})
+	result = append(result, &storage_customizations.StorageAccountsFileServiceExtension{})
+	result = append(result, &storage_customizations.StorageAccountsFileServicesShareExtension{})
 	result = append(result, &storage_customizations.StorageAccountsManagementPolicyExtension{})
 	result = append(result, &storage_customizations.StorageAccountsQueueServiceExtension{})
 	result = append(result, &storage_customizations.StorageAccountsQueueServicesQueueExtension{})
+	result = append(result, &storage_customizations.StorageAccountsTableServiceExtension{})
+	result = append(result, &storage_customizations.StorageAccountsTableServicesTableExtension{})
 	result = append(result, &subscription_customizations.AliasExtension{})
 	result = append(result, &synapse_customizations.WorkspaceExtension{})
 	result = append(result, &synapse_customizations.WorkspacesBigDataPoolExtension{})
@@ -1786,9 +1832,9 @@ func indexDbformysqlFlexibleServerAdministratorLoginPassword(rawObj client.Objec
 	return obj.Spec.AdministratorLoginPassword.Index()
 }
 
-// indexDbformysqlFlexibleServersAdministratorSidFromConfig an index function for dbformysql_v1api20211201ps.FlexibleServersAdministrator .spec.sidFromConfig
+// indexDbformysqlFlexibleServersAdministratorSidFromConfig an index function for dbformysql_v1api20220101s.FlexibleServersAdministrator .spec.sidFromConfig
 func indexDbformysqlFlexibleServersAdministratorSidFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*dbformysql_v1api20211201ps.FlexibleServersAdministrator)
+	obj, ok := rawObj.(*dbformysql_v1api20220101s.FlexibleServersAdministrator)
 	if !ok {
 		return nil
 	}
@@ -1798,9 +1844,9 @@ func indexDbformysqlFlexibleServersAdministratorSidFromConfig(rawObj client.Obje
 	return obj.Spec.SidFromConfig.Index()
 }
 
-// indexDbformysqlFlexibleServersAdministratorTenantIdFromConfig an index function for dbformysql_v1api20211201ps.FlexibleServersAdministrator .spec.tenantIdFromConfig
+// indexDbformysqlFlexibleServersAdministratorTenantIdFromConfig an index function for dbformysql_v1api20220101s.FlexibleServersAdministrator .spec.tenantIdFromConfig
 func indexDbformysqlFlexibleServersAdministratorTenantIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*dbformysql_v1api20211201ps.FlexibleServersAdministrator)
+	obj, ok := rawObj.(*dbformysql_v1api20220101s.FlexibleServersAdministrator)
 	if !ok {
 		return nil
 	}

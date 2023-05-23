@@ -4,8 +4,8 @@
 package customizations
 
 import (
-	v1api20211201p "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20211201preview"
-	v1api20211201ps "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20211201previewstorage"
+	v1api20220101 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101"
+	v1api20220101s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +15,6 @@ type FlexibleServersAdministratorExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *FlexibleServersAdministratorExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1api20211201p.FlexibleServersAdministrator{},
-		&v1api20211201ps.FlexibleServersAdministrator{}}
+		&v1api20220101.FlexibleServersAdministrator{},
+		&v1api20220101s.FlexibleServersAdministrator{}}
 }
