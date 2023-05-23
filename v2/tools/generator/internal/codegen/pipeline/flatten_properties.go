@@ -152,7 +152,7 @@ func collectAndFlattenProperties(
 			return // continue
 		}
 
-		innerProps, err := flattenProperty(container, prop, defs)
+		innerProps, err := flattenProperty(container, prop, defs, logr.Discard())
 		if err != nil {
 			log.V(2).Info(
 				"Skipping flatten",

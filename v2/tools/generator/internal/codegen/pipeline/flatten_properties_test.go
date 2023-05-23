@@ -32,7 +32,10 @@ func TestDuplicateNamesAreCaughtAndRenamed(t *testing.T) {
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(placeholderPackage, "ObjType"), objType))
 
-	result, err := applyPropertyFlattening(context.Background(), defs, logr.Discard())
+	state := NewState(defs)
+	stage := FlattenProperties(logr.Discard())
+
+	result, err := stage.Run(context.Background(), state)
 
 	// We don't fail but flattening does not occur, and flatten is set to false
 	g.Expect(err).ToNot(HaveOccurred())
@@ -47,7 +50,7 @@ func TestDuplicateNamesAreCaughtAndRenamed(t *testing.T) {
 	expectedDefs := make(astmodel.TypeDefinitionSet)
 	expectedDefs.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(placeholderPackage, "ObjType"), newObjType))
 
-	g.Expect(result).To(Equal(expectedDefs))
+	g.Expect(result.Definitions()).To(Equal(expectedDefs))
 }
 
 func TestFlatteningWorks(t *testing.T) {
@@ -68,12 +71,15 @@ func TestFlatteningWorks(t *testing.T) {
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(placeholderPackage, "objType"), objType))
 
-	result, err := applyPropertyFlattening(context.Background(), defs, logr.Discard())
+	state := NewState(defs)
+	stage := FlattenProperties(logr.Discard())
+
+	result, err := stage.Run(context.Background(), state)
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(result).To(HaveLen(1))
+	g.Expect(result.Definitions()).To(HaveLen(1))
 
 	var it astmodel.Type
-	for _, single := range result {
+	for _, single := range result.Definitions() {
 		it = single.Type()
 		break
 	}

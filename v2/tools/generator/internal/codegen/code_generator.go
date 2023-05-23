@@ -134,7 +134,7 @@ func createAllPipelineStages(
 		pipeline.ApplyIsResourceOverrides(configuration),
 		pipeline.FixIDFields(),
 
-		pipeline.UnrollRecursiveTypes(),
+		pipeline.UnrollRecursiveTypes(log),
 		pipeline.RemoveStatusValidations(),
 
 		// Figure out resource owners:

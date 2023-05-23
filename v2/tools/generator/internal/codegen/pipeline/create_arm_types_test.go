@@ -46,7 +46,7 @@ func TestCreateFlattenedARMType_CreatesExpectedConversions(t *testing.T) {
 
 	createARMTypes := CreateARMTypes(idFactory, logr.Discard())
 	applyARMConversionInterface := ApplyARMConversionInterface(idFactory)
-	flatten := FlattenProperties()
+	flatten := FlattenProperties(logr.Discard())
 	simplify := SimplifyDefinitions()
 	strip := StripUnreferencedTypeDefinitions()
 
@@ -102,7 +102,7 @@ func TestCreateFlattenedARMTypeWithResourceRef_CreatesExpectedConversions(t *tes
 	crossResourceRefs := TransformCrossResourceReferences(configuration, idFactory)
 	createARMTypes := CreateARMTypes(idFactory, logr.Discard())
 	applyARMConversionInterface := ApplyARMConversionInterface(idFactory)
-	flatten := FlattenProperties()
+	flatten := FlattenProperties(logr.Discard())
 	simplify := SimplifyDefinitions()
 	strip := StripUnreferencedTypeDefinitions()
 
@@ -169,7 +169,7 @@ func TestCreateFlattenedARMTypeWithConfigMap_CreatesExpectedConversions(t *testi
 	addConfigMaps := AddConfigMaps(configuration)
 	createARMTypes := CreateARMTypes(idFactory, logr.Discard())
 	applyARMConversionInterface := ApplyARMConversionInterface(idFactory)
-	flatten := FlattenProperties()
+	flatten := FlattenProperties(logr.Discard())
 	simplify := SimplifyDefinitions()
 	strip := StripUnreferencedTypeDefinitions()
 
