@@ -601,7 +601,7 @@ func (s synthesizer) handleObjectObject(
 		if !ok {
 			// Property doesn't already exist, so just add it
 			mergedProps[p.PropertyName()] = p
-			return nil
+			return nil // continue
 		}
 
 		newType, err := s.intersectTypes(existingProp.PropertyType(), p.PropertyType())

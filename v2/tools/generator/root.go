@@ -82,7 +82,6 @@ var (
 )
 
 // CreateLogger creates a logger  for console output.
-// Use this when your command wants to show only log messages
 func CreateLogger() logr.Logger {
 
 	// Configure console writer for ZeroLog

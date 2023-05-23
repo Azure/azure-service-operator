@@ -9,35 +9,37 @@ import (
 	"context"
 	"strings"
 
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
-func FlattenProperties() *Stage {
-	return NewLegacyStage("flattenProperties", "Apply flattening to properties marked for flattening", applyPropertyFlattening)
+const FlattenPropertiesStageId = "flattenProperties"
+
+func FlattenProperties(log logr.Logger) *Stage {
+	return NewStage(
+		FlattenPropertiesStageId,
+		"Apply flattening to properties marked for flattening",
+		func(ctx context.Context, state *State) (*State, error) {
+			defs := state.Definitions()
+			visitor := makeFlatteningVisitor(defs, log)
+
+			result := make(astmodel.TypeDefinitionSet)
+			for name, def := range defs {
+				newDef, err := visitor.VisitDefinition(def, name)
+				if err != nil {
+					return nil, err
+				}
+
+				result.Add(newDef)
+			}
+
+			return state.WithDefinitions(result), nil
+		})
 }
 
-func applyPropertyFlattening(
-	ctx context.Context,
-	defs astmodel.TypeDefinitionSet,
-) (astmodel.TypeDefinitionSet, error) {
-	visitor := makeFlatteningVisitor(defs)
-
-	result := make(astmodel.TypeDefinitionSet)
-	for name, def := range defs {
-		newDef, err := visitor.VisitDefinition(def, name)
-		if err != nil {
-			return nil, err
-		}
-
-		result.Add(newDef)
-	}
-
-	return result, nil
-}
-
-func makeFlatteningVisitor(defs astmodel.TypeDefinitionSet) astmodel.TypeVisitor {
+func makeFlatteningVisitor(defs astmodel.TypeDefinitionSet, log logr.Logger) astmodel.TypeVisitor {
 	return astmodel.TypeVisitorBuilder{
 		VisitObjectType: func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 			name := ctx.(astmodel.TypeName)
@@ -49,7 +51,7 @@ func makeFlatteningVisitor(defs astmodel.TypeDefinitionSet) astmodel.TypeVisitor
 
 			it = newIt.(*astmodel.ObjectType)
 
-			newProps, err := collectAndFlattenProperties(name, it, defs)
+			newProps, err := collectAndFlattenProperties(name, it, defs, log)
 			if err != nil {
 				return nil, err
 			}
@@ -139,6 +141,7 @@ func collectAndFlattenProperties(
 	container astmodel.TypeName,
 	objectType *astmodel.ObjectType,
 	defs astmodel.TypeDefinitionSet,
+	log logr.Logger,
 ) ([]*astmodel.PropertyDefinition, error) {
 	var flattenedProps []*astmodel.PropertyDefinition
 
@@ -151,6 +154,12 @@ func collectAndFlattenProperties(
 
 		innerProps, err := flattenProperty(container, prop, defs)
 		if err != nil {
+			log.V(2).Info(
+				"Skipping flatten",
+				"property", prop.PropertyName(),
+				"container", container,
+				"reason", err)
+
 			innerProps = []*astmodel.PropertyDefinition{
 				prop.SetFlatten(false),
 			}
@@ -166,8 +175,9 @@ func flattenProperty(
 	container astmodel.TypeName,
 	prop *astmodel.PropertyDefinition,
 	defs astmodel.TypeDefinitionSet,
+	log logr.Logger,
 ) ([]*astmodel.PropertyDefinition, error) {
-	props, err := flattenPropType(container, prop.PropertyType(), defs)
+	props, err := flattenPropType(container, prop.PropertyType(), defs, log)
 	if err != nil {
 		return nil, errors.Wrapf(err, "flattening property %s", prop.PropertyName())
 	}
@@ -184,11 +194,12 @@ func flattenPropType(
 	container astmodel.TypeName,
 	propType astmodel.Type,
 	defs astmodel.TypeDefinitionSet,
+	log logr.Logger,
 ) ([]*astmodel.PropertyDefinition, error) {
 	switch propType := propType.(type) {
 	// "base case"
 	case *astmodel.ObjectType:
-		return collectAndFlattenProperties(container, propType, defs)
+		return collectAndFlattenProperties(container, propType, defs, log)
 
 	// typename must be resolved
 	case astmodel.TypeName:
@@ -197,7 +208,7 @@ func flattenPropType(
 			return nil, err
 		}
 
-		props, err := flattenPropType(container, resolved, defs)
+		props, err := flattenPropType(container, resolved, defs, log)
 		if err != nil {
 			return nil, err
 		}
@@ -206,7 +217,7 @@ func flattenPropType(
 
 	// flattening something that is optional makes everything inside it optional
 	case *astmodel.OptionalType:
-		innerProps, err := flattenPropType(container, propType.Element(), defs)
+		innerProps, err := flattenPropType(container, propType.Element(), defs, log)
 		if err != nil {
 			return nil, errors.Wrap(err, "wrapping optional type")
 		}

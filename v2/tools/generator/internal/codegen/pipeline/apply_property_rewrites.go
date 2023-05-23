@@ -35,7 +35,7 @@ func ApplyPropertyRewrites(
 
 				transformations := config.TransformTypeProperties(name, objectType)
 				for _, transformation := range transformations {
-					transformation.Log(log)
+					transformation.LogTo(log)
 					objectType = transformation.NewType
 				}
 

@@ -131,16 +131,16 @@ func (e *ErroredType) RequiredPackageReferences() *PackageReferenceSet {
 func (e *ErroredType) handleWarningsAndErrors() {
 	var errs []error
 
+	if len(e.errors) > 0 {
+		for _, err := range e.errors {
+			errs = append(errs, errors.New(err))
+		}
+	}
+
 	// Treating warnings as errors isn't quite right, but good enough for now
 	if len(e.warnings) > 0 {
 		for _, wrn := range e.warnings {
 			errs = append(errs, errors.New(wrn))
-		}
-	}
-
-	if len(e.errors) > 0 {
-		for _, err := range e.errors {
-			errs = append(errs, errors.New(err))
 		}
 	}
 

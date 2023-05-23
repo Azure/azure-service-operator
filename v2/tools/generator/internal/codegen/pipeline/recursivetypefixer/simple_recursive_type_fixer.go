@@ -7,6 +7,7 @@ package recursivetypefixer
 
 import (
 	"github.com/Azure/azure-service-operator/v2/internal/set"
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -18,6 +19,7 @@ import (
 type SimpleRecursiveTypeFixer struct {
 	visitor        *astmodel.TypeVisitor
 	newDefinitions astmodel.TypeDefinitionSet
+	log            logr.Logger
 }
 
 type simpleRecursiveTypeFixerContext struct {
@@ -32,9 +34,10 @@ func (c simpleRecursiveTypeFixerContext) WithUnrolledName(name astmodel.TypeName
 	return c
 }
 
-func NewSimpleRecursiveTypeFixer() *SimpleRecursiveTypeFixer {
+func NewSimpleRecursiveTypeFixer(log logr.Logger) *SimpleRecursiveTypeFixer {
 	result := &SimpleRecursiveTypeFixer{
 		newDefinitions: make(astmodel.TypeDefinitionSet),
+		log:            log,
 	}
 
 	visitor := astmodel.TypeVisitorBuilder{
@@ -100,6 +103,11 @@ func (s *SimpleRecursiveTypeFixer) unrollRecursiveReference(this *astmodel.TypeV
 	if !typedCtx.mustUnroll {
 		return astmodel.IdentityVisitOfTypeName(this, it, ctx)
 	}
+
+	s.log.V(2).Info(
+		"unrolling recursive reference",
+		"from", typedCtx.name,
+		"to", typedCtx.unrolledName)
 
 	return astmodel.IdentityVisitOfTypeName(this, typedCtx.unrolledName, typedCtx)
 }

@@ -194,7 +194,7 @@ func createAllPipelineStages(
 		pipeline.ApplyKubernetesResourceInterface(idFactory, log).UsedFor(pipeline.ARMTarget),
 
 		// Effects the "flatten" property of Properties:
-		pipeline.FlattenProperties(),
+		pipeline.FlattenProperties(log),
 
 		// Remove types which may not be needed after flattening
 		pipeline.StripUnreferencedTypeDefinitions(),
@@ -288,7 +288,6 @@ func (generator *CodeGenerator) Generate(
 
 		newState, err := generator.executeStage(ctx, stageNumber, stage, state)
 		if err != nil {
-			log.Error(err, "failed to execute stage", "stage", stage.Description())
 			return errors.Wrapf(err, "failed to execute stage %d: %s", stageNumber, stage.Description())
 		}
 
@@ -297,29 +296,16 @@ func (generator *CodeGenerator) Generate(
 		defsAdded := newState.Definitions().Except(state.Definitions())
 		defsRemoved := state.Definitions().Except(newState.Definitions())
 
-		if len(defsAdded) > 0 && len(defsRemoved) > 0 {
-			log.Info(
-				stageDescription,
-				"elapsed", duration,
-				"added", len(defsAdded),
-				"removed", len(defsRemoved))
-		} else if len(defsAdded) > 0 {
-			log.Info(
-				stageDescription,
-				"elapsed", duration,
-				"added", len(defsAdded))
-		} else if len(defsRemoved) > 0 {
-			log.Info(
-				stageDescription,
-				"elapsed", duration,
-				"removed", len(defsRemoved))
-		}
+		log.Info(
+			stageDescription,
+			"elapsed", duration,
+			"added", len(defsAdded),
+			"removed", len(defsRemoved))
 
 		state = newState
 	}
 
 	if err := state.CheckFinalState(); err != nil {
-		log.Error(err, "Final state check failed")
 		return err
 	}
 

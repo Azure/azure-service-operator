@@ -9,6 +9,7 @@ import (
 	"context"
 	"testing"
 
+	"github.com/go-logr/logr"
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -31,7 +32,7 @@ func TestDuplicateNamesAreCaughtAndRenamed(t *testing.T) {
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(placeholderPackage, "ObjType"), objType))
 
-	result, err := applyPropertyFlattening(context.Background(), defs)
+	result, err := applyPropertyFlattening(context.Background(), defs, logr.Discard())
 
 	// We don't fail but flattening does not occur, and flatten is set to false
 	g.Expect(err).ToNot(HaveOccurred())
@@ -67,7 +68,7 @@ func TestFlatteningWorks(t *testing.T) {
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(placeholderPackage, "objType"), objType))
 
-	result, err := applyPropertyFlattening(context.Background(), defs)
+	result, err := applyPropertyFlattening(context.Background(), defs, logr.Discard())
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(result).To(HaveLen(1))
 

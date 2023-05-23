@@ -334,8 +334,8 @@ func (r PropertyTransformResult) String() string {
 	)
 }
 
-// Log creates a log message for the transformation
-func (r PropertyTransformResult) Log(log logr.Logger) {
+// LogTo creates a log message for the transformation
+func (r PropertyTransformResult) LogTo(log logr.Logger) {
 	if r.Removed {
 		log.V(2).Info(
 			"Removing property",

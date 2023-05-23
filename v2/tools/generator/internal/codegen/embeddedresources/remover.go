@@ -132,7 +132,7 @@ func (e EmbeddedResourceRemover) RemoveEmbeddedResources(
 		}
 	}
 
-	result, err := simplifyTypeNames(result, e.typeFlag, originalNames)
+	result, err := simplifyTypeNames(result, e.typeFlag, originalNames, log)
 	if err != nil {
 		return nil, err
 	}
