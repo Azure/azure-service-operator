@@ -7,7 +7,6 @@ package config
 
 import (
 	"fmt"
-	"regexp"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -51,9 +50,9 @@ func (t *TypeMatcher) AppliesToType(typeName astmodel.TypeName) bool {
 		return false
 	}
 
-	result := t.Group.Matches(group) &&
-		t.Version.Matches(version) &&
-		t.Name.Matches(typeName.Name())
+	result := t.Group.Matches(group).Matched &&
+		t.Version.Matches(version).Matched &&
+		t.Name.Matches(typeName.Name()).Matched
 
 	// Track this match, so we can later report if we didn't match anything
 	if result {
@@ -128,28 +127,4 @@ func (t *TypeMatcher) String() string {
 	}
 
 	return result.String()
-}
-
-// createGlobbingRegex creates a regex that does globbing of names
-// * and ? have their usual (DOS style) meanings as wildcards
-// Multiple wildcards can be separated with semicolons
-func createGlobbingRegex(globbing string) *regexp.Regexp {
-	if globbing == "" {
-		// nil here as "" is fast-tracked elsewhere
-		return nil
-	}
-
-	globs := strings.Split(globbing, ";")
-	regexes := make([]string, 0, len(globs))
-	for _, glob := range globs {
-		g := regexp.QuoteMeta(glob)
-		g = strings.ReplaceAll(g, "\\*", ".*")
-		g = strings.ReplaceAll(g, "\\?", ".")
-		g = "(^" + g + "$)"
-		regexes = append(regexes, g)
-	}
-
-	// (?i) forces case-insensitive matches
-	regex := "(?i)" + strings.Join(regexes, "|")
-	return regexp.MustCompile(regex)
 }

@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package config
+package typo
 
 import (
 	"fmt"
@@ -16,44 +16,44 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 )
 
-// TypoAdvisor is a utility that helps augment errors with guidance when mistakes are made in configuration.
-type TypoAdvisor struct {
+// Advisor is a utility that helps augment errors with guidance when mistakes are made in configuration.
+type Advisor struct {
 	lock  sync.RWMutex
 	terms set.Set[string] // set of terms we know to exist
 }
 
-func NewTypoAdvisor() *TypoAdvisor {
-	return &TypoAdvisor{
+func NewAdvisor() *Advisor {
+	return &Advisor{
 		terms: set.Make[string](),
 	}
 }
 
 // AddTerm records that we saw the specified item
-func (advisor *TypoAdvisor) AddTerm(item string) {
+func (advisor *Advisor) AddTerm(item string) {
 	advisor.lock.Lock()
 	defer advisor.lock.Unlock()
 	advisor.terms.Add(item)
 }
 
 // HasTerms returns true if this advisor has any terms available
-func (advisor *TypoAdvisor) HasTerms() bool {
+func (advisor *Advisor) HasTerms() bool {
 	return len(advisor.terms) > 0
 }
 
 // HasTerm returns true if the specified term is known to the advisor
-func (advisor *TypoAdvisor) HasTerm(term string) bool {
+func (advisor *Advisor) HasTerm(term string) bool {
 	advisor.lock.RLock()
 	defer advisor.lock.RUnlock()
 	return advisor.terms.Contains(term)
 }
 
 // ClearTerms removes all the terms from ths advisor
-func (advisor *TypoAdvisor) ClearTerms() {
+func (advisor *Advisor) ClearTerms() {
 	advisor.terms.Clear()
 }
 
 // Errorf creates a new error with advice, or a simple error if no advice possible
-func (advisor *TypoAdvisor) Errorf(typo string, format string, args ...interface{}) error {
+func (advisor *Advisor) Errorf(typo string, format string, args ...interface{}) error {
 	advisor.lock.RLock()
 	defer advisor.lock.RUnlock()
 
@@ -83,7 +83,7 @@ func (advisor *TypoAdvisor) Errorf(typo string, format string, args ...interface
 }
 
 // Wrapf adds any guidance to the provided error, if possible
-func (advisor *TypoAdvisor) Wrapf(originalError error, typo string, format string, args ...interface{}) error {
+func (advisor *Advisor) Wrapf(originalError error, typo string, format string, args ...interface{}) error {
 	advisor.lock.RLock()
 	defer advisor.lock.RUnlock()
 
