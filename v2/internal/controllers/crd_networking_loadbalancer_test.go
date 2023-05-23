@@ -95,6 +95,15 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 
 	tc.CreateResourceAndWait(loadBalancer)
 
+	tc.RunParallelSubtests(
+		testcommon.Subtest{
+			Name: "Test_LoadBalancer_InboundNatRule_CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				LoadBalancer_InboundNatRule_CRUD(tc, loadBalancer, frontendIPConfigurationARMID)
+			},
+		},
+	)
+
 	// It should be created in Kubernetes
 	g.Expect(loadBalancer.Status.Id).ToNot(BeNil())
 	armId := *loadBalancer.Status.Id
@@ -106,6 +115,37 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(retryAfter).To(BeZero())
 	g.Expect(exists).To(BeFalse())
+}
+
+func LoadBalancer_InboundNatRule_CRUD(tc *testcommon.KubePerTestContext, lb *network.LoadBalancer, frontendIPConfigurationARMID string) {
+
+	natRule := &network.LoadBalancersInboundNatRule{
+		ObjectMeta: tc.MakeObjectMeta("rule"),
+		Spec: network.LoadBalancers_InboundNatRule_Spec{
+			BackendPort: to.Ptr(22),
+			FrontendIPConfiguration: &network.SubResource{
+				Reference: &genruntime.ResourceReference{
+					ARMID: frontendIPConfigurationARMID,
+				},
+			},
+			FrontendPort: to.Ptr(28),
+			Owner:        testcommon.AsOwner(lb),
+		},
+	}
+
+	tc.CreateResourceAndWait(natRule)
+
+	tc.Expect(natRule.Status.Id).ToNot(BeNil())
+
+	old := natRule.DeepCopy()
+	port := 20
+	natRule.Spec.FrontendPort = &port
+
+	tc.PatchResourceAndWait(old, natRule)
+	tc.Expect(natRule.Status.FrontendPort).To(BeEquivalentTo(&port))
+
+	tc.DeleteResourceAndWait(natRule)
+
 }
 
 // TODO: This is still really awkward
