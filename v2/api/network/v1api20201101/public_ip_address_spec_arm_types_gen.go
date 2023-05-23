@@ -152,8 +152,3 @@ const (
 type PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
-
-// Reference to another subresource.
-type SubResource_ARM struct {
-	Id *string `json:"id,omitempty"`
-}

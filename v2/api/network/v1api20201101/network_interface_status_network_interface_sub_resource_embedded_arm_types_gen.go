@@ -149,12 +149,6 @@ type PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-// Reference to another subresource.
-type SubResource_STATUS_ARM struct {
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-}
-
 // Properties of IP configuration.
 type NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM struct {
 	// ApplicationGatewayBackendAddressPools: The reference to ApplicationGatewayBackendAddressPool resource.
