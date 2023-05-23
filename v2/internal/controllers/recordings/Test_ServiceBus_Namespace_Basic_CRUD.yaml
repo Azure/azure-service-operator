@@ -352,7 +352,7 @@ interactions:
       Accept:
       - application/json
       Content-Length:
-      - "52"
+      - "31"
       Content-Type:
       - application/json
       Test-Request-Attempt:
@@ -561,6 +561,38 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb/AuthorizationRules/RootManageSharedAccessKey/listKeys?api-version=2021-11-01
+    method: POST
+  response:
+    body: '{"primaryConnectionString":"Endpoint=sb://asotest-namespace-teqmwb.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={KEY}","secondaryConnectionString":"Endpoint=sb://asotest-namespace-teqmwb.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={KEY}","primaryKey":"{KEY}","secondaryKey":"{KEY}","keyName":"RootManageSharedAccessKey"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb?api-version=2021-01-01-preview
     method: DELETE
   response:
@@ -603,7 +635,7 @@ interactions:
       Cache-Control:
       - no-cache
       Content-Length:
-      - "630"
+      - "631"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -613,7 +645,7 @@ interactions:
       Pragma:
       - no-cache
       Retry-After:
-      - "45"
+      - "35"
       Server:
       - Service-Bus-Resource-Provider/SN1
       - Microsoft-HTTPAPI/2.0
@@ -745,7 +777,43 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb?api-version=2021-01-01-preview
     method: GET
   response:
-    body: '{"error":{"message":"Namespace does not exist. CorrelationId: f21e21a1-3eed-43b1-9bee-c5cc83327ce8","code":"NotFound"}}'
+    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb","name":"asotest-namespace-teqmwb","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-teqmwb","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-teqmwb.servicebus.windows.net:443/","status":"Removing"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "13"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb?api-version=2021-01-01-preview
+    method: GET
+  response:
+    body: '{"error":{"message":"Namespace does not exist. CorrelationId: 986da2cc-ed27-4857-ac5f-1aaa159c670a","code":"NotFound"}}'
     headers:
       Cache-Control:
       - no-cache

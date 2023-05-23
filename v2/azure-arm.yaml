@@ -1308,6 +1308,9 @@ objectModelConfiguration:
         $resourceEmbeddedInParent: LoadBalancer # Can GET (has ID) but can't create
       FrontendIPConfiguration_STATUS:
         $resourceEmbeddedInParent: LoadBalancer
+      LoadBalancers_InboundNatRule: # TODO: There must always be a parent and child in the same API version. See https://github.com/Azure/azure-service-operator/issues/3002
+        $exportAs: LoadBalancersInboundNatRule
+        $supportedFrom: v2.1.0
       InboundNatRule:
         # TODO[breaking]: This is actually a real resource that can be created as a child of a loadbalancer,
         # but we didn't model it that way initially, so marking it as not a resource for now to maintain backcompat
@@ -1355,7 +1358,7 @@ objectModelConfiguration:
       RouteTablePropertiesFormat:
         Routes:
           $resourceLifecycleOwnedByParent: RouteTable
-      RouteTables_Route:
+      RouteTables_Route: # TODO: There must always be a parent and child in the same API version. See https://github.com/Azure/azure-service-operator/issues/3002
         $exportAs: RouteTablesRoute
         $supportedFrom: v2.0.0-beta.1
 #      SecurityRule_NetworkInterface_SubResourceEmbedded:
@@ -1395,7 +1398,7 @@ objectModelConfiguration:
           # Technically this resource behaves fine (updating the vnet doesn't delete these if they
           # aren't included in the payload). Marking it here so that the pruning takes effect.
           $resourceLifecycleOwnedByParent: VirtualNetwork
-      VirtualNetworks_Subnet:
+      VirtualNetworks_Subnet: # TODO: There must always be a parent and child in the same API version. See https://github.com/Azure/azure-service-operator/issues/3002
         $exportAs: VirtualNetworksSubnet
         $supportedFrom: v2.0.0-alpha.1
       VirtualNetworks_VirtualNetworkPeering:
@@ -1465,6 +1468,18 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-alpha.1
         $azureGeneratedSecrets:
           - Endpoint
+          - PrimaryKey
+          - PrimaryConnectionString
+          - SecondaryKey
+          - SecondaryConnectionString
+      Namespaces_AuthorizationRule:
+        $exportAs: NamespacesAuthorizationRule
+        $supportedFrom: v2.1.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - PrimaryConnectionString
+          - SecondaryKey
+          - SecondaryConnectionString
       Namespaces_Queue:
         $exportAs: NamespacesQueue
         $supportedFrom: v2.0.0-alpha.1
