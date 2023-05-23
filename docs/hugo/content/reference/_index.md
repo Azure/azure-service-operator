@@ -625,6 +625,15 @@ Development of these new resources is complete and they will be available in the
 
 ## ServiceBus
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+
+| Resource                                                                                                                                                                                       | ARM Version        | CRD Version          | Supported From | Sample                                                                                                                                              |
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|----------------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| [NamespacesAuthorizationRule](https://azure.github.io/azure-service-operator/reference/servicebus/v1api20210101preview/#servicebus.azure.com/v1api20210101preview.NamespacesAuthorizationRule) | 2021-01-01-preview | v1api20210101preview | v2.1.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api/v1api20210101preview_namespacesauthorizationrule.yaml) |
+
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
