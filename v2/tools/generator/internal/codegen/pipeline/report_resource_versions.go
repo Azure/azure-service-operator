@@ -318,40 +318,34 @@ func (report *ResourceVersionsReport) writeGroupSections(
 	releasedResources = releasedResources.Except(prereleaseResources)
 
 	// First list prerelease reources, if any
-	if len(prereleaseResources) > 0 {
-		err := report.writeSection(
-			group,
-			"prerelease",
-			"### Next Release",
-			prereleaseResources,
-			buffer)
-		if err != nil {
-			return errors.Wrapf(err, "writing prerelease resources for group %s", group)
-		}
+	err := report.writeSection(
+		group,
+		"prerelease",
+		"### Next Release",
+		prereleaseResources,
+		buffer)
+	if err != nil {
+		return errors.Wrapf(err, "writing prerelease resources for group %s", group)
 	}
 
-	if len(releasedResources) > 0 {
-		err := report.writeSection(
-			group,
-			"released",
-			"### Released",
-			releasedResources,
-			buffer)
-		if err != nil {
-			return errors.Wrapf(err, "writing released resources for group %s", group)
-		}
+	err = report.writeSection(
+		group,
+		"released",
+		"### Released",
+		releasedResources,
+		buffer)
+	if err != nil {
+		return errors.Wrapf(err, "writing released resources for group %s", group)
 	}
 
-	if len(deprecatedResources) > 0 {
-		err := report.writeSection(
-			group,
-			"deprecated",
-			"### Deprecated",
-			deprecatedResources,
-			buffer)
-		if err != nil {
-			return errors.Wrapf(err, "writing deprecated resources for group %s", group)
-		}
+	err = report.writeSection(
+		group,
+		"deprecated",
+		"### Deprecated",
+		deprecatedResources,
+		buffer)
+	if err != nil {
+		return errors.Wrapf(err, "writing deprecated resources for group %s", group)
 	}
 
 	return nil
@@ -385,6 +379,11 @@ func (report *ResourceVersionsReport) writeSection(
 	kinds astmodel.TypeDefinitionSet,
 	buffer *strings.Builder,
 ) error {
+	// Skip if nothing to do
+	if len(kinds) == 0 {
+		return nil
+	}
+
 	buffer.WriteString(heading)
 	buffer.WriteString("\n\n")
 
