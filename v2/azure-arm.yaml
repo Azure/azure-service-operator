@@ -1308,7 +1308,7 @@ objectModelConfiguration:
         $resourceEmbeddedInParent: LoadBalancer # Can GET (has ID) but can't create
       FrontendIPConfiguration_STATUS:
         $resourceEmbeddedInParent: LoadBalancer
-      LoadBalancers_InboundNatRule:
+      LoadBalancers_InboundNatRule: # TODO: There must always be a parent and child in the same API version. See https://github.com/Azure/azure-service-operator/issues/3002
         $exportAs: LoadBalancersInboundNatRule
         $supportedFrom: v2.1.0
       InboundNatRule:
@@ -1358,7 +1358,7 @@ objectModelConfiguration:
       RouteTablePropertiesFormat:
         Routes:
           $resourceLifecycleOwnedByParent: RouteTable
-      RouteTables_Route:
+      RouteTables_Route: # TODO: There must always be a parent and child in the same API version. See https://github.com/Azure/azure-service-operator/issues/3002
         $exportAs: RouteTablesRoute
         $supportedFrom: v2.0.0-beta.1
 #      SecurityRule_NetworkInterface_SubResourceEmbedded:
@@ -1398,7 +1398,7 @@ objectModelConfiguration:
           # Technically this resource behaves fine (updating the vnet doesn't delete these if they
           # aren't included in the payload). Marking it here so that the pruning takes effect.
           $resourceLifecycleOwnedByParent: VirtualNetwork
-      VirtualNetworks_Subnet:
+      VirtualNetworks_Subnet: # TODO: There must always be a parent and child in the same API version. See https://github.com/Azure/azure-service-operator/issues/3002
         $exportAs: VirtualNetworksSubnet
         $supportedFrom: v2.0.0-alpha.1
       VirtualNetworks_VirtualNetworkPeering:
