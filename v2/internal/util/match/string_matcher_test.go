@@ -37,10 +37,9 @@ func TestStringMatcher_GivenMatcher_ReturnsExpectedResults(t *testing.T) {
 			func(t *testing.T) {
 				t.Parallel()
 				g := NewGomegaWithT(t)
-				matcher, err := NewStringMatcher(c.matcher)
-				g.Expect(err).ToNot(HaveOccurred())
+				matcher := NewStringMatcher(c.matcher)
 
-				g.Expect(matcher.Matches(c.value)).To(Equal(c.expected))
+				g.Expect(matcher.Matches(c.value).Matched).To(Equal(c.expected))
 			})
 	}
 }

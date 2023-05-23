@@ -11,15 +11,14 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/Azure/azure-service-operator/v2/internal/util/match"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 // TypeMatcher contains basic functionality for a filter
 type TypeMatcher struct {
-	Group   match.FieldMatcher `yaml:",omitempty"` // Filter matching types by group
-	Version match.FieldMatcher `yaml:",omitempty"` // Filter matching types by version
-	Name    match.FieldMatcher `yaml:",omitempty"` // Filter matching types by name
+	Group   FieldMatcher `yaml:",omitempty"` // Filter matching types by group
+	Version FieldMatcher `yaml:",omitempty"` // Filter matching types by version
+	Name    FieldMatcher `yaml:",omitempty"` // Filter matching types by name
 	// Because is used to articulate why the filter applied to a type (used to generate explanatory logs in debug mode)
 	Because string
 	// MatchRequired indicates if an error will be raised if this TypeMatcher doesn't match at least one type.
@@ -51,9 +50,9 @@ func (t *TypeMatcher) AppliesToType(typeName astmodel.TypeName) bool {
 		return false
 	}
 
-	result := t.Group.Matches(group) &&
-		t.Version.Matches(version) &&
-		t.Name.Matches(typeName.Name())
+	result := t.Group.Matches(group).Matched &&
+		t.Version.Matches(version).Matched &&
+		t.Name.Matches(typeName.Name()).Matched
 
 	// Track this match, so we can later report if we didn't match anything
 	if result {

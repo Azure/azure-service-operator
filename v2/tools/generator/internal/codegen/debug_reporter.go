@@ -40,7 +40,7 @@ func (dr *debugReporter) ReportStage(stage int, description string, state *pipel
 	included := state.Definitions().Where(
 		func(def astmodel.TypeDefinition) bool {
 			grp, _ := def.Name().PackageReference.GroupVersion()
-			return dr.groupSelector.Matches(grp)
+			return dr.groupSelector.Matches(grp).Matched
 		})
 
 	tcr := reporting.NewTypeCatalogReport(included)

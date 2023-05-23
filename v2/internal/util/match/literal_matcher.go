@@ -28,15 +28,7 @@ func newLiteralMatcher(literal string) StringMatcher {
 	}
 }
 
-func (lm *literalMatcher) Matches(value string) bool {
-	matches, _ := lm.MatchesDetailed(value)
-	return matches
-}
-
-// MatchesDetailed returns true if the provided value is matched by the matcher
-// If there was a match, the second return value contains the pattern that matched.
-// If there was not a match, the second return value contains ""
-func (lm *literalMatcher) MatchesDetailed(value string) (bool, string) {
+func (lm *literalMatcher) Matches(value string) Result {
 	if strings.EqualFold(lm.literal, strings.TrimSpace(value)) {
 		if !lm.matched {
 			// First time we match, clear out our advisory as we won't be using it
@@ -44,7 +36,7 @@ func (lm *literalMatcher) MatchesDetailed(value string) (bool, string) {
 			lm.advisor.ClearTerms()
 		}
 
-		return true, lm.literal
+		return matchFound(lm.literal)
 	}
 
 	if !lm.matched {
@@ -52,7 +44,7 @@ func (lm *literalMatcher) MatchesDetailed(value string) (bool, string) {
 		lm.advisor.AddTerm(value)
 	}
 
-	return false, ""
+	return matchNotFound()
 }
 
 // WasMatched returns an error if we didn't match anything, nil otherwise

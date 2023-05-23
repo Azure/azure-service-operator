@@ -9,16 +9,31 @@ import (
 	"fmt"
 )
 
+type Result struct {
+	Matched         bool
+	MatchingPattern string
+}
+
+func matchFound(pattern string) Result {
+	return Result{
+		Matched:         true,
+		MatchingPattern: pattern,
+	}
+}
+
+func matchNotFound() Result {
+	return Result{
+		Matched:         false,
+		MatchingPattern: "",
+	}
+}
+
 // StringMatcher is an interface implemented by predicates used to test string values
 type StringMatcher interface {
 	fmt.Stringer
 
 	// Matches returns true if the provided value is matched by the matcher
-	Matches(value string) bool
-	// MatchesDetailed returns true if the provided value is matched by the matcher
-	// If there was a match, the second return value contains the pattern that matched.
-	// If there was not a match, the second return value contains ""
-	MatchesDetailed(value string) (bool, string)
+	Matches(value string) Result
 	// WasMatched returns nil if the matcher had a match, otherwise returning a diagnostic error
 	WasMatched() error
 	// IsRestrictive returns true if the matcher is populated and will restrict matches
@@ -30,7 +45,7 @@ type StringMatcher interface {
 // o If the string contains ';', a multi-matcher of sub-matches, one for each item in the string separated by ';'
 // o If the string contains '*' or '?' a globbing wildcard matcher
 // o Otherwise a case-insensitive literal string matcher
-func NewStringMatcher(matcher string) (StringMatcher, error) {
+func NewStringMatcher(matcher string) StringMatcher {
 	if HasMultipleMatchers(matcher) {
 		return newMultiMatcher(matcher)
 	}
@@ -39,5 +54,5 @@ func NewStringMatcher(matcher string) (StringMatcher, error) {
 		return newGlobMatcher(matcher)
 	}
 
-	return newLiteralMatcher(matcher), nil
+	return newLiteralMatcher(matcher)
 }

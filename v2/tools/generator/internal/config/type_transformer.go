@@ -11,16 +11,15 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/Azure/azure-service-operator/v2/internal/util/match"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 // A TransformTarget represents the target of a transformation
 type TransformTarget struct {
-	Group        match.FieldMatcher `yaml:",omitempty"`
-	Version      match.FieldMatcher `yaml:"version,omitempty"`
-	Name         match.FieldMatcher `yaml:",omitempty"`
-	Optional     bool               `yaml:",omitempty"`
+	Group        FieldMatcher `yaml:",omitempty"`
+	Version      FieldMatcher `yaml:"version,omitempty"`
+	Name         FieldMatcher `yaml:",omitempty"`
+	Optional     bool         `yaml:",omitempty"`
 	Map          *MapType
 	actualType   astmodel.Type
 	appliesCache map[astmodel.Type]bool // cache for the results of AppliesToType()
@@ -36,7 +35,7 @@ type TypeTransformer struct {
 	TypeMatcher `yaml:",inline"`
 
 	// Property is a wildcard matching specific properties on the types selected by this filter
-	Property match.FieldMatcher `yaml:",omitempty"`
+	Property FieldMatcher `yaml:",omitempty"`
 
 	// IfType only performs the transform if the original type matches (only usable with Property at the moment)
 	IfType *TransformTarget `yaml:"ifType,omitempty"`
@@ -119,7 +118,7 @@ func (target *TransformTarget) appliesToType(t astmodel.Type) bool {
 }
 
 func (target *TransformTarget) appliesToTypeName(tn astmodel.TypeName) bool {
-	if !target.Name.Matches(tn.Name()) {
+	if !target.Name.Matches(tn.Name()).Matched {
 		// No match on name
 		return false
 	}
@@ -127,7 +126,7 @@ func (target *TransformTarget) appliesToTypeName(tn astmodel.TypeName) bool {
 	g, v := tn.PackageReference.GroupVersion()
 
 	if target.Group.IsRestrictive() {
-		if !target.Group.Matches(g) {
+		if !target.Group.Matches(g).Matched {
 			// No match on group
 			return false
 		}
@@ -138,11 +137,11 @@ func (target *TransformTarget) appliesToTypeName(tn astmodel.TypeName) bool {
 		// Need to handle both full (v1beta20200101) and API (2020-01-01) formats
 		switch ref := tn.PackageReference.(type) {
 		case astmodel.LocalPackageReference:
-			if !ref.HasApiVersion(target.Version.String()) && !target.Version.Matches(v) {
+			if !ref.HasApiVersion(target.Version.String()) && !target.Version.Matches(v).Matched {
 				return false
 			}
 		case astmodel.StoragePackageReference:
-			if !ref.Local().HasApiVersion(target.Version.String()) && target.Version.Matches(v) {
+			if !ref.Local().HasApiVersion(target.Version.String()) && target.Version.Matches(v).Matched {
 				return false
 			}
 		default:
@@ -154,7 +153,7 @@ func (target *TransformTarget) appliesToTypeName(tn astmodel.TypeName) bool {
 }
 
 func (target *TransformTarget) appliesToPrimitiveType(pt *astmodel.PrimitiveType) bool {
-	if target.Name.Matches(pt.Name()) {
+	if target.Name.Matches(pt.Name()).Matched {
 		return true
 	}
 
@@ -370,7 +369,7 @@ func (transformer *TypeTransformer) TransformProperty(name astmodel.TypeName, ob
 	var newProps []*astmodel.PropertyDefinition
 
 	for _, prop := range objectType.Properties().AsSlice() {
-		if transformer.Property.Matches(string(prop.PropertyName())) &&
+		if transformer.Property.Matches(string(prop.PropertyName())).Matched &&
 			(transformer.IfType == nil || transformer.IfType.AppliesToType(prop.PropertyType())) {
 
 			found = true

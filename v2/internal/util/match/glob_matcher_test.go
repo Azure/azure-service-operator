@@ -33,10 +33,9 @@ func TestGlobMatcher_GivenTerms_MatchesExpectedStrings(t *testing.T) {
 			func(t *testing.T) {
 				t.Parallel()
 				g := NewGomegaWithT(t)
-				matcher, err := newGlobMatcher(c.glob)
-				g.Expect(err).ToNot(HaveOccurred())
+				matcher := newGlobMatcher(c.glob)
 
-				g.Expect(matcher.Matches(c.term)).To(Equal(c.expectedMatch))
+				g.Expect(matcher.Matches(c.term).Matched).To(Equal(c.expectedMatch))
 			})
 	}
 }
@@ -60,8 +59,7 @@ func TestGlobMatcher_IsRestrictive_GivesExpectedResults(t *testing.T) {
 			func(t *testing.T) {
 				t.Parallel()
 				g := NewGomegaWithT(t)
-				matcher, err := newGlobMatcher(c.glob)
-				g.Expect(err).ToNot(HaveOccurred())
+				matcher := newGlobMatcher(c.glob)
 
 				g.Expect(matcher.IsRestrictive()).To(Equal(c.restrictive))
 			})

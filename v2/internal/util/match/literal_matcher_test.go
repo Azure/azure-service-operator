@@ -39,7 +39,7 @@ func TestLiteralMatcher_Matches_GivesExpectedResults(t *testing.T) {
 				t.Parallel()
 				g := NewGomegaWithT(t)
 				matcher := newLiteralMatcher(c.literal)
-				g.Expect(matcher.Matches(c.value)).To(Equal(c.expected))
+				g.Expect(matcher.Matches(c.value).Matched).To(Equal(c.expected))
 			})
 	}
 }

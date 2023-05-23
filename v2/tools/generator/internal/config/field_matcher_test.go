@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package match
+package config
 
 import (
 	"testing"
@@ -36,7 +36,7 @@ func TestFieldMatcher_DeserializedFromYaml_GivesExpectedMatchResult(t *testing.T
 
 			var h matcherHost
 			g.Expect(yaml.Unmarshal([]byte(c.yaml), &h)).To(Succeed())
-			g.Expect(h.Field.Matches(c.value)).To(Equal(c.shouldMatch))
+			g.Expect(h.Field.Matches(c.value).Matched).To(Equal(c.shouldMatch))
 		})
 	}
 }

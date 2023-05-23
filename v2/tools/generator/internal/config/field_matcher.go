@@ -3,29 +3,28 @@
  * Licensed under the MIT license.
  */
 
-package match
+package config
 
 import (
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v3"
+
+	"github.com/Azure/azure-service-operator/v2/internal/util/match"
 )
 
 // FieldMatcher allows a StringMatcher to be deserialized from YAML
 type FieldMatcher struct {
-	actual StringMatcher
+	actual match.StringMatcher
 }
 
-var _ StringMatcher = &FieldMatcher{}
+var _ match.StringMatcher = &FieldMatcher{}
 
-func NewFieldMatcher(field string) (FieldMatcher, error) {
-	matcher, err := NewStringMatcher(field)
-	if err != nil {
-		return FieldMatcher{}, err
-	}
+func NewFieldMatcher(field string) FieldMatcher {
+	matcher := match.NewStringMatcher(field)
 
 	return FieldMatcher{
 		actual: matcher,
-	}, nil
+	}
 }
 
 func (dm *FieldMatcher) String() string {
@@ -37,18 +36,16 @@ func (dm *FieldMatcher) String() string {
 	return dm.actual.String()
 }
 
-func (dm *FieldMatcher) Matches(value string) bool {
-	matches, _ := dm.MatchesDetailed(value)
-	return matches
-}
-
-func (dm *FieldMatcher) MatchesDetailed(value string) (bool, string) {
+func (dm *FieldMatcher) Matches(value string) match.Result {
 	if dm.actual == nil {
 		// No nested matcher
-		return true, ""
+		return match.Result{
+			Matched:         true,
+			MatchingPattern: "",
+		}
 	}
 
-	return dm.actual.MatchesDetailed(value)
+	return dm.actual.Matches(value)
 }
 
 func (dm *FieldMatcher) WasMatched() error {
@@ -72,10 +69,7 @@ func (dm *FieldMatcher) UnmarshalYAML(value *yaml.Node) error {
 		return errors.New("expected scalar value")
 	}
 
-	actual, err := NewStringMatcher(value.Value)
-	if err != nil {
-		return err
-	}
+	actual := match.NewStringMatcher(value.Value)
 
 	dm.actual = actual
 	return nil

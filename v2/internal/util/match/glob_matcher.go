@@ -26,30 +26,22 @@ type globMatcher struct {
 var _ StringMatcher = &globMatcher{}
 
 // newGlobMatcher returns a new matcher for handling wildcards
-func newGlobMatcher(glob string) (StringMatcher, error) {
+func newGlobMatcher(glob string) StringMatcher {
 	if !HasWildCards(glob) {
 		msg := fmt.Sprintf("glob string %q has no wildcards", glob)
 		panic(msg)
 	}
 
-	regex, err := newGlobRegex(glob)
-	if err != nil {
-		return nil, errors.Wrapf(err, "failed to create regexp for glob %q", glob)
-	}
+	regex := newGlobRegex(glob)
 
 	return &globMatcher{
 		glob:       glob,
 		regex:      regex,
 		candidates: make(set.Set[string]),
-	}, nil
+	}
 }
 
-func (gm *globMatcher) Matches(value string) bool {
-	matches, _ := gm.MatchesDetailed(value)
-	return matches
-}
-
-func (gm *globMatcher) MatchesDetailed(term string) (bool, string) {
+func (gm *globMatcher) Matches(term string) Result {
 	if gm.regex.MatchString(term) {
 		if !gm.matched {
 			// First time we match, clear out our candidates as we won't be needing them
@@ -57,7 +49,7 @@ func (gm *globMatcher) MatchesDetailed(term string) (bool, string) {
 			gm.candidates.Clear()
 		}
 
-		return true, gm.glob
+		return matchFound(gm.glob)
 	}
 
 	if !gm.matched {
@@ -65,7 +57,7 @@ func (gm *globMatcher) MatchesDetailed(term string) (bool, string) {
 		gm.candidates.Add(term)
 	}
 
-	return false, ""
+	return matchNotFound()
 }
 
 func (gm *globMatcher) WasMatched() error {
@@ -90,13 +82,15 @@ func (gm *globMatcher) String() string {
 	return gm.glob
 }
 
-func newGlobRegex(glob string) (*regexp.Regexp, error) {
+func newGlobRegex(glob string) *regexp.Regexp {
 	g := regexp.QuoteMeta(glob)
 	g = strings.ReplaceAll(g, "\\*", ".*")
 	g = strings.ReplaceAll(g, "\\?", ".")
 	g = "(?i)(^" + g + "$)"
 
-	return regexp.Compile(g)
+	// We use MustCompile here because QuotaMeta above removes almost all possibility of a panic.
+	// While it's technically still possible to panic it should be extremely rare.
+	return regexp.MustCompile(g)
 }
 
 // HasWildCards returns true if the passed matcher string contains a wildcard, false otherwise.

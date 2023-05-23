@@ -8,7 +8,6 @@ package config_test
 import (
 	"testing"
 
-	"github.com/Azure/azure-service-operator/v2/internal/util/match"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 
@@ -625,11 +624,7 @@ func TestTypeTarget_AppliesToType_ReturnsExpectedResult(t *testing.T) {
 	}
 }
 
-func newFieldMatcher(field string) match.FieldMatcher {
-	matcher, err := match.NewFieldMatcher(field)
-	if err != nil {
-		panic(err)
-	}
-
+func newFieldMatcher(field string) config.FieldMatcher {
+	matcher := config.NewFieldMatcher(field)
 	return matcher
 }
