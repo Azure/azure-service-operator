@@ -97,31 +97,37 @@ func TestSortTypeName(t *testing.T) {
 
 	// Test cases
 	testCases := []struct {
+		name     string
 		left     TypeName
 		right    TypeName
 		expected bool
 	}{
 		{
+			name :    "Package v2 sorts before v3",
 			left:     MakeTypeName(pkgv2, "TypeA"),
 			right:    MakeTypeName(pkgv3, "TypeB"),
 			expected: true,
 		},
 		{
+			name :    "Package v3 can't be sorted before v2",
 			left:     MakeTypeName(pkgv3, "TypeA"),
 			right:    MakeTypeName(pkgv2, "TypeB"),
 			expected: false,
 		},
 		{
+			name :    "Package v2 of TypeA sorts before Package v2 of TypeB",
 			left:     MakeTypeName(pkgv2, "TypeA"),
 			right:    MakeTypeName(pkgv2, "TypeB"),
 			expected: true,
 		},
 		{
+			name :    "Package v2 can't be sorted before Package v2 of same Type",
 			left:     MakeTypeName(pkgv2, "TypeB"),
 			right:    MakeTypeName(pkgv2, "TypeB"),
 			expected: false,
 		},
 		{
+			name :    "Package v2 can't be sorted before Package v2 of same Type",
 			left:     MakeTypeName(pkgv2, "TypeA"),
 			right:    MakeTypeName(pkgv2, "TypeA"),
 			expected: false,
@@ -130,7 +136,11 @@ func TestSortTypeName(t *testing.T) {
 
 	// Run test cases
 	for _, tc := range testCases {
-		result := SortTypeName(tc.left, tc.right)
-		g.Expect(result).To(Equal(tc.expected))
+		tc := tc
+		t.Run( tc.name, func (t *testing.T) {
+			t.Parallel()
+			result := SortTypeName(tc.left, tc.right)
+			g.Expect(result).To(Equal(tc.expected))
+		})
 	}
 }
