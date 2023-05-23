@@ -68,18 +68,41 @@ func ServiceBus_Queue_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client
 	tc.Expect(*queue.Status.SizeInBytes).To(Equal(0))
 }
 
-func ServiceBus_Namespace_Secrets(tc *testcommon.KubePerTestContext, namespace *servicebus.Namespace) {
+func ServiceBus_Namespace_Secrets(tc *testcommon.KubePerTestContext, sbNamespace client.Object) {
+	namespace := sbNamespace.(*servicebus.Namespace)
+	secretName := "namespace-secrets"
+
 	old := namespace.DeepCopy()
-	secret := "s1"
-	namespace.Spec.OperatorSpec = &servicebus.NamespaceOperatorSpec{
-		Secrets: &servicebus.NamespaceOperatorSecrets{
-			Endpoint: &genruntime.SecretDestination{
-				Name: secret,
-				Key:  "endpoint",
-			},
+
+	if namespace.Spec.OperatorSpec == nil {
+		namespace.Spec.OperatorSpec = &servicebus.NamespaceOperatorSpec{}
+	}
+
+	namespace.Spec.OperatorSpec.Secrets = &servicebus.NamespaceOperatorSecrets{
+		Endpoint: &genruntime.SecretDestination{
+			Name: secretName,
+			Key:  "Endpoint",
+		},
+		PrimaryKey: &genruntime.SecretDestination{
+			Name: secretName,
+			Key:  "PrimaryKey",
+		},
+		PrimaryConnectionString: &genruntime.SecretDestination{
+			Name: secretName,
+			Key:  "PrimaryConnectionString",
+		},
+		SecondaryKey: &genruntime.SecretDestination{
+			Name: secretName,
+			Key:  "SecondaryKey",
+		},
+		SecondaryConnectionString: &genruntime.SecretDestination{
+			Name: secretName,
+			Key:  "SecondaryConnectionString",
 		},
 	}
+
 	tc.PatchResourceAndWait(old, namespace)
 
-	tc.ExpectSecretHasKeys(secret, "endpoint")
+	tc.UpdateResource(namespace)
+	tc.ExpectSecretHasKeys(secretName, "Endpoint", "PrimaryKey", "PrimaryConnectionString", "SecondaryKey", "SecondaryConnectionString")
 }
