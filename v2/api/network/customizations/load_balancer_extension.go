@@ -163,7 +163,19 @@ func fuzzySetInboundNatRule(InboundNatRule genruntime.ARMResourceSpec, embeddedI
 	if err != nil {
 		return errors.Wrap(err, "unable to check that embedded inboundNatRule is the same as inboundNatRule")
 	}
-	if string(embeddedInboundNatRuleJSON) != string(inboundNatRuleJSON) {
+
+	var embeddedInboundNatRuleJSONMap map[string]interface{}
+	err = json.Unmarshal(embeddedInboundNatRuleJSON, &embeddedInboundNatRuleJSONMap)
+	if err != nil {
+		return errors.Wrap(err, "unable to check that embedded subnet is the same as subnet")
+	}
+	var InboundNatRuleJSONMap map[string]interface{}
+	err = json.Unmarshal(inboundNatRuleJSON, &InboundNatRuleJSONMap)
+	if err != nil {
+		return errors.Wrap(err, "unable to check that embedded subnet is the same as subnet")
+	}
+
+	if !reflect.DeepEqual(embeddedInboundNatRuleJSONMap, InboundNatRuleJSONMap) {
 		return errors.Errorf("embeddedInboundNatRuleJSON (%s) != inboundNatRuleJSON (%s)", string(embeddedInboundNatRuleJSON), string(inboundNatRuleJSON))
 	}
 

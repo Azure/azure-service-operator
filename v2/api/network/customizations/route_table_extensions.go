@@ -167,7 +167,19 @@ func fuzzySetRoute(route genruntime.ARMResourceSpec, embeddedRoute reflect.Value
 	if err != nil {
 		return errors.Wrap(err, "unable to check that embedded route is the same as route")
 	}
-	if string(embeddedRouteJSON) != string(routeJSON) {
+
+	var embeddedRouteJSONMap map[string]interface{}
+	err = json.Unmarshal(embeddedRouteJSON, &embeddedRouteJSONMap)
+	if err != nil {
+		return errors.Wrap(err, "unable to check that embedded subnet is the same as subnet")
+	}
+	var routeJSONMap map[string]interface{}
+	err = json.Unmarshal(routeJSON, &routeJSONMap)
+	if err != nil {
+		return errors.Wrap(err, "unable to check that embedded subnet is the same as subnet")
+	}
+
+	if !reflect.DeepEqual(embeddedRouteJSONMap, routeJSONMap) {
 		return errors.Errorf("embeddedRouteJSON (%s) != routeJSON (%s)", string(embeddedRouteJSON), string(routeJSON))
 	}
 

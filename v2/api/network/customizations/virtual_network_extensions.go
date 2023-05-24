@@ -201,7 +201,19 @@ func fuzzySetSubnet(subnet genruntime.ARMResourceSpec, embeddedSubnet reflect.Va
 	if err != nil {
 		return errors.Wrap(err, "unable to check that embedded subnet is the same as subnet")
 	}
-	if string(embeddedSubnetJSON) != string(subnetJSON) {
+
+	var embeddedSubnetJSONMap map[string]interface{}
+	err = json.Unmarshal(embeddedSubnetJSON, &embeddedSubnetJSONMap)
+	if err != nil {
+		return errors.Wrap(err, "unable to check that embedded subnet is the same as subnet")
+	}
+	var subnetJSONMap map[string]interface{}
+	err = json.Unmarshal(subnetJSON, &subnetJSONMap)
+	if err != nil {
+		return errors.Wrap(err, "unable to check that embedded subnet is the same as subnet")
+	}
+
+	if !reflect.DeepEqual(embeddedSubnetJSONMap, subnetJSONMap) {
 		return errors.Errorf("embeddedSubnetJSON (%s) != subnetJSON (%s)", string(embeddedSubnetJSON), string(subnetJSON))
 	}
 
