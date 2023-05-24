@@ -118,7 +118,7 @@ func (target *TransformTarget) appliesToType(t astmodel.Type) bool {
 }
 
 func (target *TransformTarget) appliesToTypeName(tn astmodel.TypeName) bool {
-	if !target.Name.Matches(tn.Name()) {
+	if !target.Name.Matches(tn.Name()).Matched {
 		// No match on name
 		return false
 	}
@@ -126,7 +126,7 @@ func (target *TransformTarget) appliesToTypeName(tn astmodel.TypeName) bool {
 	g, v := tn.PackageReference.GroupVersion()
 
 	if target.Group.IsRestrictive() {
-		if !target.Group.Matches(g) {
+		if !target.Group.Matches(g).Matched {
 			// No match on group
 			return false
 		}
@@ -137,11 +137,11 @@ func (target *TransformTarget) appliesToTypeName(tn astmodel.TypeName) bool {
 		// Need to handle both full (v1beta20200101) and API (2020-01-01) formats
 		switch ref := tn.PackageReference.(type) {
 		case astmodel.LocalPackageReference:
-			if !ref.HasApiVersion(target.Version.String()) && !target.Version.Matches(v) {
+			if !ref.HasApiVersion(target.Version.String()) && !target.Version.Matches(v).Matched {
 				return false
 			}
 		case astmodel.StoragePackageReference:
-			if !ref.Local().HasApiVersion(target.Version.String()) && target.Version.Matches(v) {
+			if !ref.Local().HasApiVersion(target.Version.String()) && target.Version.Matches(v).Matched {
 				return false
 			}
 		default:
@@ -153,7 +153,7 @@ func (target *TransformTarget) appliesToTypeName(tn astmodel.TypeName) bool {
 }
 
 func (target *TransformTarget) appliesToPrimitiveType(pt *astmodel.PrimitiveType) bool {
-	if target.Name.Matches(pt.Name()) {
+	if target.Name.Matches(pt.Name()).Matched {
 		return true
 	}
 
@@ -369,7 +369,7 @@ func (transformer *TypeTransformer) TransformProperty(name astmodel.TypeName, ob
 	var newProps []*astmodel.PropertyDefinition
 
 	for _, prop := range objectType.Properties().AsSlice() {
-		if transformer.Property.Matches(string(prop.PropertyName())) &&
+		if transformer.Property.Matches(string(prop.PropertyName())).Matched &&
 			(transformer.IfType == nil || transformer.IfType.AppliesToType(prop.PropertyType())) {
 
 			found = true

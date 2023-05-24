@@ -22,6 +22,7 @@ import (
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
+	"github.com/Azure/azure-service-operator/v2/internal/util/typo"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -74,7 +75,7 @@ type ResourceVersionsReport struct {
 	groups                   set.Set[string]                                         // A set of all our groups
 	kinds                    map[string]astmodel.TypeDefinitionSet                   // For each group, the set of all available resources
 	lists                    map[astmodel.PackageReference][]astmodel.TypeDefinition // A separate list of resources for each package
-	typoAdvisor              *config.TypoAdvisor                                     // Advisor used to troubleshoot unused fragments
+	typoAdvisor              *typo.Advisor                                           // Advisor used to troubleshoot unused fragments
 	titleCase                cases.Caser
 }
 
@@ -91,7 +92,7 @@ func NewResourceVersionsReport(
 		groups:                   set.Make[string](),
 		kinds:                    make(map[string]astmodel.TypeDefinitionSet),
 		lists:                    make(map[astmodel.PackageReference][]astmodel.TypeDefinition),
-		typoAdvisor:              config.NewTypoAdvisor(),
+		typoAdvisor:              typo.NewAdvisor(),
 		titleCase:                cases.Title(language.English),
 	}
 
