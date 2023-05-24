@@ -74,6 +74,12 @@ func SetupPreUpgradeCheck(ctx context.Context) error {
 			continue
 		}
 
+		// If this CRD is annotated with "serviceoperator.azure.com/version", it must be >=2.0.0 and so safe
+		// as we didn't start using this label until 2.0.0
+		if _, ok := crd.Labels[crdmanagement.ServiceOperatorVersionLabel]; ok {
+			continue
+		}
+
 		if policy, ok := crd.Annotations["helm.sh/resource-policy"]; !ok || policy != "keep" {
 			err = errors.New(fmt.Sprintf("CRD '%s' does not have annotation for helm keep policy. Make sure the upgrade is from beta.5", crd.Name))
 			errs = append(errs, err)

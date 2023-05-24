@@ -317,19 +317,19 @@ tasks:
     # -race fails at the moment in gopter - possibly due to our shared generator variable?
     - go test -short -tags=noexit -timeout 10m -covermode atomic -coverprofile=controller-coverage.out -json -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./... > '{{.TEST_OUT}}/controller-unit-tests.json'
 
-  controller:test-upgrade:
+  controller:test-upgrade-pre:
     desc: Test upgrading {{.CONTROLLER_APP}} and helm chart for new release
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
-    - task: controller:kind-create
-    - task: controller:install-cert-manager
-    - task: controller:docker-push-local
-    - task: controller:gen-helm-manifest
-    # We need the below to wait until cert-manager is up, otherwise the subsequent installation of webhooks fails. See https://cert-manager.io/next-docs/installation/verify/
-    - "cmctl check api --wait=2m"
-    - "helm repo add asov2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts"
-    - "helm repo update"
-    - "helm upgrade --install --devel aso2 asov2/azure-service-operator \
+      - task: controller:kind-create
+      - task: controller:install-cert-manager
+      - task: controller:docker-push-local
+      - task: controller:gen-helm-manifest
+      # We need the below to wait until cert-manager is up, otherwise the subsequent installation of webhooks fails. See https://cert-manager.io/next-docs/installation/verify/
+      - "cmctl check api --wait=2m"
+      - "helm repo add asov2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts"
+      - "helm repo update"
+      - "helm upgrade --install --devel aso2 asov2/azure-service-operator \
       --create-namespace \
       --namespace={{.ASO_NAMESPACE}} \
       --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
@@ -337,18 +337,24 @@ tasks:
       --set azureClientID=$AZURE_CLIENT_ID \
       --set azureClientSecret=$AZURE_CLIENT_SECRET \
       --set crdPattern=*"
-    - "kubectl create namespace pre-release"
-    # TODO: Can remove the -c parameter once we GA. -c means skip waiting for CRDs to reach established state.
-    # TODO: this needs to be skipped because the CRD label for filtering doesn't exist in the old beta charts.
-    - task: controller:wait-for-operator-ready
-      vars:
-        ARGS: "-c"
-    - "go test -timeout 15m -v -run Test_Pre_Release_ResourceCanBeCreated_BeforeUpgrade ./test/pre-release"
-    - task: controller:install-helm
-    - task: controller:wait-for-operator-ready
-#   TODO: Will have to change versions in 'Test_Pre_Release_ResourceCanBeCreated_AfterUpgrade' test once we move from beta to stable
-    - "go test -timeout 15m -v -run Test_Pre_Release_ResourceCanBeCreated_AfterUpgrade ./test/pre-release"
-    - task controller:kind-delete
+      - "kubectl create namespace pre-release"
+      - task: controller:wait-for-operator-ready
+      - "go test -timeout 15m -count=1 -v -run Test_Pre_Release_ResourceCanBeCreated_BeforeUpgrade ./test/pre-release"
+
+  controller:test-upgrade-post:
+    desc: Test upgrading {{.CONTROLLER_APP}} and helm chart for new release
+    dir: "{{.CONTROLLER_ROOT}}"
+    cmds:
+      - task: controller:install-helm
+      - "go test -timeout 15m -count=1 -v -run Test_Pre_Release_ResourceCanBeCreated_AfterUpgrade ./test/pre-release"
+      - task controller:kind-delete
+
+  controller:test-upgrade:
+    desc: Test upgrading {{.CONTROLLER_APP}} and helm chart for new release
+    dir: "{{.CONTROLLER_ROOT}}"
+    cmds:
+    - task: controller:test-upgrade-pre
+    - task: controller:test-upgrade-post
 
   controller:build:
     desc: Generate the {{.CONTROLLER_APP}} binary.
@@ -361,7 +367,7 @@ tasks:
     - "*.go"
     - "internal/**/*.go"
     - "pkg/**/*.go"
-    - "cmd/controller/main.go"
+    - "cmd/controller/**/*.go"
     cmds:
     - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build {{.VERSION_FLAGS}} -o ./bin/{{.CONTROLLER_APP}} ./cmd/controller/
 
