@@ -16,7 +16,6 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/pkg/errors"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
