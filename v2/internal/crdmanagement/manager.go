@@ -13,6 +13,7 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
+	"golang.org/x/exp/maps"
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
@@ -23,6 +24,7 @@ import (
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/internal/util/match"
 )
 
 // ServiceOperatorVersionLabel is the label the CRDs have on them containing the ASO version. This value must match the value
@@ -154,70 +156,138 @@ func (m *Manager) FindNonMatchingCRDs(
 	return m.FindMatchingCRDs(existing, goal, invertedComparators...)
 }
 
-func (m *Manager) ApplyCRDs(
-	ctx context.Context,
+// DetermineCRDsToInstallOrUpgrade examines the set of goal CRDs and installed CRDs to determine the set which should
+// be installed or upgraded.
+func (m *Manager) DetermineCRDsToInstallOrUpgrade(
 	goalCRDs []apiextensions.CustomResourceDefinition,
 	existingCRDs []apiextensions.CustomResourceDefinition,
-	patterns []string) error {
+	patterns string,
+) ([]*CRDInstallationInstruction, error) {
 
 	m.logger.V(Info).Info("Goal CRDs", "count", len(goalCRDs))
 	m.logger.V(Info).Info("Existing CRDs", "count", len(existingCRDs))
 
-	goalCRDsWithDifferentVersion := m.FindNonMatchingCRDs(existingCRDs, goalCRDs, VersionEqual)
-	goalCRDsWithDifferentSpec := m.FindNonMatchingCRDs(existingCRDs, goalCRDs, SpecEqual)
-
-	// The same CRD may be in both sets, but we don't want to apply twice, so combine the sets
-	crdsToApply := make(map[string]apiextensions.CustomResourceDefinition)
-	for name, crd := range goalCRDsWithDifferentVersion {
-		crdsToApply[name] = crd
+	// Filter the goal CRDs to only those goal CRDs that match an already installed CRD
+	resultMap := make(map[string]*CRDInstallationInstruction, len(goalCRDs))
+	for _, crd := range goalCRDs {
+		resultMap[crd.Name] = &CRDInstallationInstruction{
+			CRD: crd,
+			// Assumption to begin with is that the CRD is excluded. This will get updated later if it's matched.
+			FilterResult: Excluded,
+			FilterReason: fmt.Sprintf("%q was not matched by CRD pattern and did not already exist in cluster", makeMatchString(crd)),
+			DiffResult:   NoDifference,
+		}
 	}
-	for name, crd := range goalCRDsWithDifferentSpec {
-		crdsToApply[name] = crd
+
+	m.filterCRDsByExisting(existingCRDs, resultMap)
+	err := m.filterCRDsByPatterns(patterns, resultMap)
+	if err != nil {
+		return nil, err
 	}
 
-	if len(crdsToApply) > 0 {
-		m.logger.V(Status).Info("Will apply CRDs", "count", len(crdsToApply))
-
-		i := 0
-		for _, crd := range crdsToApply {
-			crd := crd
-
-			i += 1
-			_, isDifferentVersion := goalCRDsWithDifferentVersion[crd.Name]
-			_, isDifferentSpec := goalCRDsWithDifferentSpec[crd.Name]
-			m.logger.V(Verbose).Info(
-				"Found CRD in need of update",
-				"Progress", fmt.Sprintf("%d/%d", i, len(crdsToApply)),
-				"CRD", crd.Name,
-				"SpecDifferent", isDifferentSpec,
-				"VersionDifferent", isDifferentVersion)
-
-			toApply := &apiextensions.CustomResourceDefinition{
-				ObjectMeta: metav1.ObjectMeta{
-					Name: crd.Name,
-				},
-			}
-			result, err := controllerutil.CreateOrUpdate(ctx, m.kubeClient, toApply, func() error {
-				resourceVersion := toApply.ResourceVersion
-				*toApply = crd
-				toApply.ResourceVersion = resourceVersion
-
-				return nil
-			})
-			if err != nil {
-				return errors.Wrapf(err, "failed to apply CRD %s", crd.Name)
-			}
-
-			m.logger.V(Debug).Info("Successfully applied CRD", "name", crd.Name, "result", result)
+	// Prealloc false positive: https://github.com/alexkohler/prealloc/issues/16
+	//nolint:prealloc
+	var filteredGoalCRDs []apiextensions.CustomResourceDefinition
+	for _, result := range resultMap {
+		if result.FilterResult == Excluded {
+			continue
 		}
 
-		// If we make it to here, we have successfully updated all the CRDs we needed to. We need to kill the pod and let it restart so
-		// that the new shape CRDs can be reconciled.
-		m.logger.V(Status).Info("Restarting operator pod after updating CRDs", "count", len(crdsToApply))
-		os.Exit(0)
+		filteredGoalCRDs = append(filteredGoalCRDs, result.CRD)
 	}
 
-	m.logger.V(Status).Info("Successfully reconciled CRDs.")
+	goalCRDsWithDifferentVersion := m.FindNonMatchingCRDs(existingCRDs, filteredGoalCRDs, VersionEqual)
+	goalCRDsWithDifferentSpec := m.FindNonMatchingCRDs(existingCRDs, filteredGoalCRDs, SpecEqual)
+
+	// The same CRD may be in both sets, but we don't want to include it in the results twice
+	for name := range goalCRDsWithDifferentSpec {
+		result, ok := resultMap[name]
+		if !ok {
+			return nil, errors.Errorf("Couldn't find goal CRD %q. This is unexpected!", name)
+		}
+
+		result.DiffResult = SpecDifferent
+	}
+	for name := range goalCRDsWithDifferentVersion {
+		result, ok := resultMap[name]
+		if !ok {
+			return nil, errors.Errorf("Couldn't find goal CRD %q. This is unexpected!", name)
+		}
+
+		result.DiffResult = VersionDifferent
+	}
+
+	// Collapse result to a slice
+	results := maps.Values(resultMap)
+	return results, nil
+}
+
+func (m *Manager) ApplyCRDs(
+	ctx context.Context,
+	instructions []*CRDInstallationInstruction,
+) error {
+	var instructionsToApply []*CRDInstallationInstruction
+
+	for _, item := range instructions {
+		apply, reason := item.ShouldApply()
+		if apply {
+			instructionsToApply = append(instructionsToApply, item)
+			m.logger.V(Verbose).Info(
+				"Will update CRD",
+				"crd", item.CRD.Name,
+				"diffResult", item.DiffResult,
+				"filterReason", item.FilterReason,
+				"reason", reason)
+		} else {
+			m.logger.V(Verbose).Info(
+				"Will NOT update CRD",
+				"crd", item.CRD.Name,
+				"reason", reason)
+		}
+	}
+
+	if len(instructionsToApply) == 0 {
+		m.logger.V(Status).Info("Successfully reconciled CRDs because there were no CRDs to update.")
+		return nil
+	}
+
+	m.logger.V(Status).Info("Will apply CRDs", "count", len(instructionsToApply))
+
+	i := 0
+	for _, instruction := range instructionsToApply {
+		instruction := instruction
+
+		i += 1
+		toApply := &apiextensions.CustomResourceDefinition{
+			ObjectMeta: metav1.ObjectMeta{
+				Name: instruction.CRD.Name,
+			},
+		}
+		m.logger.V(Verbose).Info(
+			"Applying CRD",
+			"progress", fmt.Sprintf("%d/%d", i, len(instructionsToApply)),
+			"crd", instruction.CRD.Name)
+
+		result, err := controllerutil.CreateOrUpdate(ctx, m.kubeClient, toApply, func() error {
+			resourceVersion := toApply.ResourceVersion
+			*toApply = instruction.CRD
+			toApply.ResourceVersion = resourceVersion
+
+			return nil
+		})
+		if err != nil {
+			return errors.Wrapf(err, "failed to apply CRD %s", instruction.CRD.Name)
+		}
+
+		m.logger.V(Debug).Info("Successfully applied CRD", "name", instruction.CRD.Name, "result", result)
+	}
+
+	// If we make it to here, we have successfully updated all the CRDs we needed to. We need to kill the pod and let it restart so
+	// that the new shape CRDs can be reconciled.
+	m.logger.V(Status).Info("Restarting operator pod after updating CRDs", "count", len(instructionsToApply))
+	os.Exit(0)
+
+	// Will never get here
 	return nil
 }
 
@@ -264,6 +334,43 @@ func (m *Manager) fixCRDNamespaceRefs(crds []apiextensions.CustomResourceDefinit
 	}
 
 	return results
+}
+
+func (m *Manager) filterCRDsByExisting(existingCRDs []apiextensions.CustomResourceDefinition, resultMap map[string]*CRDInstallationInstruction) {
+	for _, crd := range existingCRDs {
+		result, ok := resultMap[crd.Name]
+		if !ok {
+			m.logger.V(Status).Info("Found existing CRD for which no goal CRD exists. This is unexpected!", "existing", makeMatchString(crd))
+			continue
+		}
+
+		result.FilterResult = MatchedExistingCRD
+		result.FilterReason = fmt.Sprintf("A CRD named %q was already installed, considering that existing CRD for update", makeMatchString(crd))
+	}
+}
+
+func (m *Manager) filterCRDsByPatterns(patterns string, resultMap map[string]*CRDInstallationInstruction) error {
+	if patterns == "" {
+		return nil
+	}
+
+	matcher := match.NewStringMatcher(patterns)
+
+	for _, goal := range resultMap {
+		matchString := makeMatchString(goal.CRD)
+		matchResult := matcher.Matches(matchString)
+		if matchResult.Matched {
+			goal.FilterResult = MatchedPattern
+			goal.FilterReason = fmt.Sprintf("CRD named %q matched pattern %q", makeMatchString(goal.CRD), matchResult.MatchingPattern)
+		}
+	}
+
+	err := matcher.WasMatched()
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // fixCRDNamespace fixes up namespace references in the CRD to match the provided namespace.
