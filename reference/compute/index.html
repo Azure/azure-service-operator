@@ -592,7 +592,19 @@
 
 </div>
 
-            
+            <div class="td-toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#released">Released</a></li>
+        <li><a href="#deprecated">Deprecated</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+      </div>
+    
             
 
 	
@@ -647,7 +659,8 @@
 
 		
 	</header>
-	<p>Supporting 5 resources: Disk, Image, Snapshot, VirtualMachine, VirtualMachineScaleSet</p>
+	<h3 id="released">Released</h3>
+<p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
 <thead>
 <tr>
@@ -667,13 +680,6 @@
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20200930_disk.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/compute/v1beta20200930/#compute.azure.com/v1beta20200930.Disk">Disk</a></td>
-<td>2020-09-30</td>
-<td>v1beta20200930</td>
-<td>v2.0.0-beta.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1beta/v1beta20200930_disk.yaml">View</a></td>
-</tr>
-<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/compute/v1api20220301/#compute.azure.com/v1api20220301.Image">Image</a></td>
 <td>2022-03-01</td>
 <td>v1api20220301</td>
@@ -688,32 +694,11 @@
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20210701_image.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/compute/v1beta20220301/#compute.azure.com/v1beta20220301.Image">Image</a></td>
-<td>2022-03-01</td>
-<td>v1beta20220301</td>
-<td>v2.0.0-beta.2</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1beta/v1beta20220301_image.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/compute/v1beta20210701/#compute.azure.com/v1beta20210701.Image">Image</a></td>
-<td>2021-07-01</td>
-<td>v1beta20210701</td>
-<td>v2.0.0-beta.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1beta/v1beta20210701_image.yaml">View</a></td>
-</tr>
-<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/compute/v1api20200930/#compute.azure.com/v1api20200930.Snapshot">Snapshot</a></td>
 <td>2020-09-30</td>
 <td>v1api20200930</td>
 <td>v2.0.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20200930_snapshot.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/compute/v1beta20200930/#compute.azure.com/v1beta20200930.Snapshot">Snapshot</a></td>
-<td>2020-09-30</td>
-<td>v1beta20200930</td>
-<td>v2.0.0-beta.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1beta/v1beta20200930_snapshot.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/compute/v1api20220301/#compute.azure.com/v1api20220301.VirtualMachine">VirtualMachine</a></td>
@@ -730,20 +715,6 @@
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20201201_virtualmachine.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/compute/v1beta20220301/#compute.azure.com/v1beta20220301.VirtualMachine">VirtualMachine</a></td>
-<td>2022-03-01</td>
-<td>v1beta20220301</td>
-<td>v2.0.0-beta.2</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1beta/v1beta20220301_virtualmachine.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/compute/v1beta20201201/#compute.azure.com/v1beta20201201.VirtualMachine">VirtualMachine</a></td>
-<td>2020-12-01</td>
-<td>v1beta20201201</td>
-<td>v2.0.0-beta.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1beta/v1beta20201201_virtualmachine.yaml">View</a></td>
-</tr>
-<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/compute/v1api20220301/#compute.azure.com/v1api20220301.VirtualMachineScaleSet">VirtualMachineScaleSet</a></td>
 <td>2022-03-01</td>
 <td>v1api20220301</td>
@@ -756,6 +727,63 @@
 <td>v1api20201201</td>
 <td>v2.0.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20201201_virtualmachinescaleset.yaml">View</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="deprecated">Deprecated</h3>
+<p>These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a> for more information.</p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>ARM Version</th>
+<th>CRD Version</th>
+<th>Supported From</th>
+<th>Sample</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://azure.github.io/azure-service-operator/reference/compute/v1beta20200930/#compute.azure.com/v1beta20200930.Disk">Disk</a></td>
+<td>2020-09-30</td>
+<td>v1beta20200930</td>
+<td>v2.0.0-beta.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1beta/v1beta20200930_disk.yaml">View</a></td>
+</tr>
+<tr>
+<td><a href="https://azure.github.io/azure-service-operator/reference/compute/v1beta20220301/#compute.azure.com/v1beta20220301.Image">Image</a></td>
+<td>2022-03-01</td>
+<td>v1beta20220301</td>
+<td>v2.0.0-beta.2</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1beta/v1beta20220301_image.yaml">View</a></td>
+</tr>
+<tr>
+<td><a href="https://azure.github.io/azure-service-operator/reference/compute/v1beta20210701/#compute.azure.com/v1beta20210701.Image">Image</a></td>
+<td>2021-07-01</td>
+<td>v1beta20210701</td>
+<td>v2.0.0-beta.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1beta/v1beta20210701_image.yaml">View</a></td>
+</tr>
+<tr>
+<td><a href="https://azure.github.io/azure-service-operator/reference/compute/v1beta20200930/#compute.azure.com/v1beta20200930.Snapshot">Snapshot</a></td>
+<td>2020-09-30</td>
+<td>v1beta20200930</td>
+<td>v2.0.0-beta.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1beta/v1beta20200930_snapshot.yaml">View</a></td>
+</tr>
+<tr>
+<td><a href="https://azure.github.io/azure-service-operator/reference/compute/v1beta20220301/#compute.azure.com/v1beta20220301.VirtualMachine">VirtualMachine</a></td>
+<td>2022-03-01</td>
+<td>v1beta20220301</td>
+<td>v2.0.0-beta.2</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1beta/v1beta20220301_virtualmachine.yaml">View</a></td>
+</tr>
+<tr>
+<td><a href="https://azure.github.io/azure-service-operator/reference/compute/v1beta20201201/#compute.azure.com/v1beta20201201.VirtualMachine">VirtualMachine</a></td>
+<td>2020-12-01</td>
+<td>v1beta20201201</td>
+<td>v2.0.0-beta.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1beta/v1beta20201201_virtualmachine.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/compute/v1beta20220301/#compute.azure.com/v1beta20220301.VirtualMachineScaleSet">VirtualMachineScaleSet</a></td>

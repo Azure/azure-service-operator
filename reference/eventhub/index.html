@@ -592,7 +592,19 @@
 
 </div>
 
-            
+            <div class="td-toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#released">Released</a></li>
+        <li><a href="#deprecated">Deprecated</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+      </div>
+    
             
 
 	
@@ -647,7 +659,8 @@
 
 		
 	</header>
-	<p>Supporting 5 resources: Namespace, NamespacesAuthorizationRule, NamespacesEventhub, NamespacesEventhubsAuthorizationRule, NamespacesEventhubsConsumerGroup</p>
+	<h3 id="released">Released</h3>
+<p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
 <thead>
 <tr>
@@ -667,25 +680,11 @@
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1api/v1api20211101_namespace.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/eventhub/v1beta20211101/#eventhub.azure.com/v1beta20211101.Namespace">Namespace</a></td>
-<td>2021-11-01</td>
-<td>v1beta20211101</td>
-<td>v2.0.0-beta.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1beta/v1beta20211101_namespace.yaml">View</a></td>
-</tr>
-<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/eventhub/v1api20211101/#eventhub.azure.com/v1api20211101.NamespacesAuthorizationRule">NamespacesAuthorizationRule</a></td>
 <td>2021-11-01</td>
 <td>v1api20211101</td>
 <td>v2.0.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1api/v1api20211101_namespacesauthorizationrule.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/eventhub/v1beta20211101/#eventhub.azure.com/v1beta20211101.NamespacesAuthorizationRule">NamespacesAuthorizationRule</a></td>
-<td>2021-11-01</td>
-<td>v1beta20211101</td>
-<td>v2.0.0-beta.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1beta/v1beta20211101_namespacesauthorizationrule.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/eventhub/v1api20211101/#eventhub.azure.com/v1api20211101.NamespacesEventhub">NamespacesEventhub</a></td>
@@ -695,13 +694,6 @@
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1api/v1api20211101_namespaceseventhub.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/eventhub/v1beta20211101/#eventhub.azure.com/v1beta20211101.NamespacesEventhub">NamespacesEventhub</a></td>
-<td>2021-11-01</td>
-<td>v1beta20211101</td>
-<td>v2.0.0-beta.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1beta/v1beta20211101_namespaceseventhub.yaml">View</a></td>
-</tr>
-<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/eventhub/v1api20211101/#eventhub.azure.com/v1api20211101.NamespacesEventhubsAuthorizationRule">NamespacesEventhubsAuthorizationRule</a></td>
 <td>2021-11-01</td>
 <td>v1api20211101</td>
@@ -709,18 +701,54 @@
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1api/v1api20211101_namespaceseventhubsauthorizationrule.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/eventhub/v1beta20211101/#eventhub.azure.com/v1beta20211101.NamespacesEventhubsAuthorizationRule">NamespacesEventhubsAuthorizationRule</a></td>
-<td>2021-11-01</td>
-<td>v1beta20211101</td>
-<td>v2.0.0-beta.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1beta/v1beta20211101_namespaceseventhubsauthorizationrule.yaml">View</a></td>
-</tr>
-<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/eventhub/v1api20211101/#eventhub.azure.com/v1api20211101.NamespacesEventhubsConsumerGroup">NamespacesEventhubsConsumerGroup</a></td>
 <td>2021-11-01</td>
 <td>v1api20211101</td>
 <td>v2.0.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1api/v1api20211101_namespaceseventhubsconsumergroup.yaml">View</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="deprecated">Deprecated</h3>
+<p>These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a> for more information.</p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>ARM Version</th>
+<th>CRD Version</th>
+<th>Supported From</th>
+<th>Sample</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://azure.github.io/azure-service-operator/reference/eventhub/v1beta20211101/#eventhub.azure.com/v1beta20211101.Namespace">Namespace</a></td>
+<td>2021-11-01</td>
+<td>v1beta20211101</td>
+<td>v2.0.0-beta.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1beta/v1beta20211101_namespace.yaml">View</a></td>
+</tr>
+<tr>
+<td><a href="https://azure.github.io/azure-service-operator/reference/eventhub/v1beta20211101/#eventhub.azure.com/v1beta20211101.NamespacesAuthorizationRule">NamespacesAuthorizationRule</a></td>
+<td>2021-11-01</td>
+<td>v1beta20211101</td>
+<td>v2.0.0-beta.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1beta/v1beta20211101_namespacesauthorizationrule.yaml">View</a></td>
+</tr>
+<tr>
+<td><a href="https://azure.github.io/azure-service-operator/reference/eventhub/v1beta20211101/#eventhub.azure.com/v1beta20211101.NamespacesEventhub">NamespacesEventhub</a></td>
+<td>2021-11-01</td>
+<td>v1beta20211101</td>
+<td>v2.0.0-beta.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1beta/v1beta20211101_namespaceseventhub.yaml">View</a></td>
+</tr>
+<tr>
+<td><a href="https://azure.github.io/azure-service-operator/reference/eventhub/v1beta20211101/#eventhub.azure.com/v1beta20211101.NamespacesEventhubsAuthorizationRule">NamespacesEventhubsAuthorizationRule</a></td>
+<td>2021-11-01</td>
+<td>v1beta20211101</td>
+<td>v2.0.0-beta.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1beta/v1beta20211101_namespaceseventhubsauthorizationrule.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/eventhub/v1beta20211101/#eventhub.azure.com/v1beta20211101.NamespacesEventhubsConsumerGroup">NamespacesEventhubsConsumerGroup</a></td>

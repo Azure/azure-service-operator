@@ -592,7 +592,20 @@
 
 </div>
 
-            
+            <div class="td-toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#next-release">Next Release</a></li>
+        <li><a href="#released">Released</a></li>
+        <li><a href="#deprecated">Deprecated</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+      </div>
+    
             
 
 	
@@ -649,7 +662,37 @@
 	</header>
 	<p>Azure Database for MySQL - Single Server is on the retirement path and is <a href="https://learn.microsoft.com/en-us/azure/mysql/single-server/whats-happening-to-mysql-single-server">scheduled for retirement by September 16, 2024</a>. We will not be supporting it in ASO v2.</p>
 <p>Existing instances of <em>Single Server</em> can be migrated to <em>Azure Database for MySQL - Flexible Server</em> using the <a href="https://azure.microsoft.com/en-us/products/database-migration">Azure Database migration Service</a>.</p>
-<p>Supporting 5 resources: FlexibleServer, FlexibleServersAdministrator, FlexibleServersConfiguration, FlexibleServersDatabase, FlexibleServersFirewallRule</p>
+<h3 id="next-release">Next Release</h3>
+<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>ARM Version</th>
+<th>CRD Version</th>
+<th>Supported From</th>
+<th>Sample</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FlexibleServersAdministrator</td>
+<td>2022-01-01</td>
+<td>v1api20220101</td>
+<td>v2.1.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api/v1api20220101_flexibleserversadministrator.yaml">View</a></td>
+</tr>
+<tr>
+<td>FlexibleServersConfiguration</td>
+<td>2022-01-01</td>
+<td>v1api20220101</td>
+<td>v2.1.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api/v1api20220101_flexibleserversconfiguration.yaml">View</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="released">Released</h3>
+<p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
 <thead>
 <tr>
@@ -669,27 +712,6 @@
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api/v1api20210501_flexibleserver.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/dbformysql/v1beta20210501/#dbformysql.azure.com/v1beta20210501.FlexibleServer">FlexibleServer</a></td>
-<td>2021-05-01</td>
-<td>v1beta20210501</td>
-<td>v2.0.0-beta.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1beta/v1beta20210501_flexibleserver.yaml">View</a></td>
-</tr>
-<tr>
-<td>FlexibleServersAdministrator</td>
-<td>2022-01-01</td>
-<td>v1api20220101</td>
-<td>v2.1.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api/v1api20220101_flexibleserversadministrator.yaml">View</a></td>
-</tr>
-<tr>
-<td>FlexibleServersConfiguration</td>
-<td>2022-01-01</td>
-<td>v1api20220101</td>
-<td>v2.1.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api/v1api20220101_flexibleserversconfiguration.yaml">View</a></td>
-</tr>
-<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/dbformysql/v1api20210501/#dbformysql.azure.com/v1api20210501.FlexibleServersDatabase">FlexibleServersDatabase</a></td>
 <td>2021-05-01</td>
 <td>v1api20210501</td>
@@ -697,18 +719,40 @@
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api/v1api20210501_flexibleserversdatabase.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/dbformysql/v1beta20210501/#dbformysql.azure.com/v1beta20210501.FlexibleServersDatabase">FlexibleServersDatabase</a></td>
-<td>2021-05-01</td>
-<td>v1beta20210501</td>
-<td>v2.0.0-beta.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1beta/v1beta20210501_flexibleserversdatabase.yaml">View</a></td>
-</tr>
-<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/dbformysql/v1api20210501/#dbformysql.azure.com/v1api20210501.FlexibleServersFirewallRule">FlexibleServersFirewallRule</a></td>
 <td>2021-05-01</td>
 <td>v1api20210501</td>
 <td>v2.0.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api/v1api20210501_flexibleserversfirewallrule.yaml">View</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="deprecated">Deprecated</h3>
+<p>These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a> for more information.</p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>ARM Version</th>
+<th>CRD Version</th>
+<th>Supported From</th>
+<th>Sample</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://azure.github.io/azure-service-operator/reference/dbformysql/v1beta20210501/#dbformysql.azure.com/v1beta20210501.FlexibleServer">FlexibleServer</a></td>
+<td>2021-05-01</td>
+<td>v1beta20210501</td>
+<td>v2.0.0-beta.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1beta/v1beta20210501_flexibleserver.yaml">View</a></td>
+</tr>
+<tr>
+<td><a href="https://azure.github.io/azure-service-operator/reference/dbformysql/v1beta20210501/#dbformysql.azure.com/v1beta20210501.FlexibleServersDatabase">FlexibleServersDatabase</a></td>
+<td>2021-05-01</td>
+<td>v1beta20210501</td>
+<td>v2.0.0-beta.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1beta/v1beta20210501_flexibleserversdatabase.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/dbformysql/v1beta20210501/#dbformysql.azure.com/v1beta20210501.FlexibleServersFirewallRule">FlexibleServersFirewallRule</a></td>

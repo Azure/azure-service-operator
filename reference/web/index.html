@@ -592,7 +592,19 @@
 
 </div>
 
-            
+            <div class="td-toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#released">Released</a></li>
+        <li><a href="#deprecated">Deprecated</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+      </div>
+    
             
 
 	
@@ -647,7 +659,8 @@
 
 		
 	</header>
-	<p>Supporting 2 resources: ServerFarm, Site</p>
+	<h3 id="released">Released</h3>
+<p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
 <thead>
 <tr>
@@ -667,18 +680,33 @@
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v1api/v1api20220301_serverfarm.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/web/v1beta20220301/#web.azure.com/v1beta20220301.ServerFarm">ServerFarm</a></td>
-<td>2022-03-01</td>
-<td>v1beta20220301</td>
-<td>v2.0.0-beta.3</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v1beta/v1beta20220301_serverfarm.yaml">View</a></td>
-</tr>
-<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/web/v1api20220301/#web.azure.com/v1api20220301.Site">Site</a></td>
 <td>2022-03-01</td>
 <td>v1api20220301</td>
 <td>v2.0.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v1api/v1api20220301_site.yaml">View</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="deprecated">Deprecated</h3>
+<p>These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a> for more information.</p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>ARM Version</th>
+<th>CRD Version</th>
+<th>Supported From</th>
+<th>Sample</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://azure.github.io/azure-service-operator/reference/web/v1beta20220301/#web.azure.com/v1beta20220301.ServerFarm">ServerFarm</a></td>
+<td>2022-03-01</td>
+<td>v1beta20220301</td>
+<td>v2.0.0-beta.3</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v1beta/v1beta20220301_serverfarm.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/web/v1beta20220301/#web.azure.com/v1beta20220301.Site">Site</a></td>
