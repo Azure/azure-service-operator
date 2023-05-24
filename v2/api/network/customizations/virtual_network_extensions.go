@@ -5,6 +5,7 @@ package customizations
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"reflect"
 
 	"github.com/go-logr/logr"
@@ -205,12 +206,13 @@ func fuzzySetSubnet(subnet genruntime.ARMResourceSpec, embeddedSubnet reflect.Va
 	var embeddedSubnetJSONMap map[string]interface{}
 	err = json.Unmarshal(embeddedSubnetJSON, &embeddedSubnetJSONMap)
 	if err != nil {
-		return errors.Wrap(err, "unable to check that embedded subnet is the same as subnet")
+		return errors.Wrap(err, fmt.Sprintf("unable to unmarshal embeddedSubnetJSON (%s)", embeddedSubnetJSONMap))
 	}
+
 	var subnetJSONMap map[string]interface{}
 	err = json.Unmarshal(subnetJSON, &subnetJSONMap)
 	if err != nil {
-		return errors.Wrap(err, "unable to check that embedded subnet is the same as subnet")
+		return errors.Wrap(err, fmt.Sprintf("unable to unmarshal subnetJSON (%s)", subnetJSONMap))
 	}
 
 	if !reflect.DeepEqual(embeddedSubnetJSONMap, subnetJSONMap) {

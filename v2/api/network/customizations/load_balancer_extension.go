@@ -5,6 +5,7 @@ package customizations
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"reflect"
 
 	"github.com/go-logr/logr"
@@ -167,12 +168,13 @@ func fuzzySetInboundNatRule(InboundNatRule genruntime.ARMResourceSpec, embeddedI
 	var embeddedInboundNatRuleJSONMap map[string]interface{}
 	err = json.Unmarshal(embeddedInboundNatRuleJSON, &embeddedInboundNatRuleJSONMap)
 	if err != nil {
-		return errors.Wrap(err, "unable to check that embedded subnet is the same as subnet")
+		return errors.Wrap(err, fmt.Sprintf("unable to unmarshal embeddedInboundNatRuleJSON (%s)", embeddedInboundNatRuleJSON))
 	}
+
 	var InboundNatRuleJSONMap map[string]interface{}
 	err = json.Unmarshal(inboundNatRuleJSON, &InboundNatRuleJSONMap)
 	if err != nil {
-		return errors.Wrap(err, "unable to check that embedded subnet is the same as subnet")
+		return errors.Wrap(err, fmt.Sprintf("unable to unmarshal inboundNatRuleJSON (%s)", inboundNatRuleJSON))
 	}
 
 	if !reflect.DeepEqual(embeddedInboundNatRuleJSONMap, InboundNatRuleJSONMap) {

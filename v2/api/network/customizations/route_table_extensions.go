@@ -6,6 +6,7 @@ package customizations
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"reflect"
 
 	"github.com/go-logr/logr"
@@ -171,12 +172,13 @@ func fuzzySetRoute(route genruntime.ARMResourceSpec, embeddedRoute reflect.Value
 	var embeddedRouteJSONMap map[string]interface{}
 	err = json.Unmarshal(embeddedRouteJSON, &embeddedRouteJSONMap)
 	if err != nil {
-		return errors.Wrap(err, "unable to check that embedded subnet is the same as subnet")
+		return errors.Wrap(err, fmt.Sprintf("unable to unmarshal embeddedRouteJSON (%s)", embeddedRouteJSON))
 	}
+
 	var routeJSONMap map[string]interface{}
 	err = json.Unmarshal(routeJSON, &routeJSONMap)
 	if err != nil {
-		return errors.Wrap(err, "unable to check that embedded subnet is the same as subnet")
+		return errors.Wrap(err, fmt.Sprintf("unable to unmarshal routeJSON (%s)", routeJSON))
 	}
 
 	if !reflect.DeepEqual(embeddedRouteJSONMap, routeJSONMap) {
