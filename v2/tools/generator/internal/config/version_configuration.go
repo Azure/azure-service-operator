@@ -12,6 +12,8 @@ import (
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v3"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+
+	"github.com/Azure/azure-service-operator/v2/internal/util/typo"
 )
 
 // VersionConfiguration contains additional information about a specific version of a group and forms part of a
@@ -25,7 +27,7 @@ import (
 type VersionConfiguration struct {
 	name    string
 	types   map[string]*TypeConfiguration
-	advisor *TypoAdvisor
+	advisor *typo.Advisor
 }
 
 // NewVersionConfiguration returns a new (empty) VersionConfiguration
@@ -33,7 +35,7 @@ func NewVersionConfiguration(name string) *VersionConfiguration {
 	return &VersionConfiguration{
 		name:    name,
 		types:   make(map[string]*TypeConfiguration),
-		advisor: NewTypoAdvisor(),
+		advisor: typo.NewAdvisor(),
 	}
 }
 

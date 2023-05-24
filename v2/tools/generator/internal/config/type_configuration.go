@@ -13,6 +13,7 @@ import (
 	"gopkg.in/yaml.v3"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
+	"github.com/Azure/azure-service-operator/v2/internal/util/typo"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
@@ -37,7 +38,7 @@ type TypeConfiguration struct {
 	isResource               configurable[bool]
 	resourceEmbeddedInParent configurable[string]
 	importable               configurable[bool]
-	advisor                  *TypoAdvisor
+	advisor                  *typo.Advisor
 }
 
 const (
@@ -57,7 +58,7 @@ func NewTypeConfiguration(name string) *TypeConfiguration {
 	return &TypeConfiguration{
 		name:       name,
 		properties: make(map[string]*PropertyConfiguration),
-		advisor:    NewTypoAdvisor(),
+		advisor:    typo.NewAdvisor(),
 	}
 }
 

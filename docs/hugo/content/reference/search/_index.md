@@ -3,7 +3,10 @@ title: Search Supported Resources
 linktitle: Search
 no_list: true
 ---
-Supporting 1 resource: SearchService
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
 
 | Resource                                                                                                                                     | ARM Version | CRD Version   | Supported From | Sample                                                                                                                     |
 |----------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|----------------------------------------------------------------------------------------------------------------------------|

@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package config
+package match
 
 import (
 	"testing"
@@ -38,8 +38,8 @@ func TestStringMatcher_GivenMatcher_ReturnsExpectedResults(t *testing.T) {
 				t.Parallel()
 				g := NewGomegaWithT(t)
 				matcher := NewStringMatcher(c.matcher)
-				g.Expect(matcher.Matches(c.value)).To(Equal(c.expected))
+
+				g.Expect(matcher.Matches(c.value).Matched).To(Equal(c.expected))
 			})
 	}
-
 }

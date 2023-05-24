@@ -335,7 +335,8 @@ tasks:
       --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
       --set azureTenantID=$AZURE_TENANT_ID \
       --set azureClientID=$AZURE_CLIENT_ID \
-      --set azureClientSecret=$AZURE_CLIENT_SECRET"
+      --set azureClientSecret=$AZURE_CLIENT_SECRET \
+      --set crdPattern=*"
     - "kubectl create namespace pre-release"
     # TODO: Can remove the -c parameter once we GA. -c means skip waiting for CRDs to reach established state.
     # TODO: this needs to be skipped because the CRD label for filtering doesn't exist in the old beta charts.
@@ -629,6 +630,7 @@ tasks:
       --set azureClientID=$AZURE_CLIENT_ID \
       --set azureClientSecret=$AZURE_CLIENT_SECRET \
       --set image.repository={{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} \
+      --set crdPattern=* \
       aso2 -n {{.ASO_NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
     - task: controller:wait-for-operator-ready
 
@@ -641,6 +643,7 @@ tasks:
       --set azureClientID={{.AZURE_MI_CLIENT_ID}} \
       --set useWorkloadIdentityAuth=true \
       --set image.repository={{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} \
+      --set crdPattern=* \
       aso2 -n {{.ASO_NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
       - task: controller:wait-for-operator-ready
     vars:
@@ -714,6 +717,7 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
       - "{{.SCRIPTS_ROOT}}/kustomize-build.sh -k operator -v {{.VERSION}} > out/operator.yaml"
+      - "sed -i 's/--crd-pattern=.*/--crd-pattern=*/g' out/operator.yaml"
       - "kubectl apply --server-side=true -f out/operator.yaml" # TODO: may need | sed "s_${CONFIG_REGISTRY}_${REGISTRY}/${IMG}_" at some point
 
   controller:bundle-crds:
@@ -820,6 +824,7 @@ tasks:
       # Install cluster scope chart (mode == webhooks)
       - "helm upgrade --install --set multitenant.enable=true --set azureOperatorMode=webhooks \
            --set image.repository={{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} \
+           --set crdPattern=* \
            aso2 -n {{.ASO_NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
       - task: controller:wait-for-operator-ready
       # Install tenant chart

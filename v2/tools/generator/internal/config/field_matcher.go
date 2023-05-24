@@ -8,18 +8,22 @@ package config
 import (
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v3"
+
+	"github.com/Azure/azure-service-operator/v2/internal/util/match"
 )
 
 // FieldMatcher allows a StringMatcher to be deserialized from YAML
 type FieldMatcher struct {
-	actual StringMatcher
+	actual match.StringMatcher
 }
 
-var _ StringMatcher = &FieldMatcher{}
+var _ match.StringMatcher = &FieldMatcher{}
 
 func NewFieldMatcher(field string) FieldMatcher {
+	matcher := match.NewStringMatcher(field)
+
 	return FieldMatcher{
-		actual: NewStringMatcher(field),
+		actual: matcher,
 	}
 }
 
@@ -32,10 +36,13 @@ func (dm *FieldMatcher) String() string {
 	return dm.actual.String()
 }
 
-func (dm *FieldMatcher) Matches(value string) bool {
+func (dm *FieldMatcher) Matches(value string) match.Result {
 	if dm.actual == nil {
 		// No nested matcher
-		return true
+		return match.Result{
+			Matched:         true,
+			MatchingPattern: "",
+		}
 	}
 
 	return dm.actual.Matches(value)
@@ -62,6 +69,8 @@ func (dm *FieldMatcher) UnmarshalYAML(value *yaml.Node) error {
 		return errors.New("expected scalar value")
 	}
 
-	dm.actual = NewStringMatcher(value.Value)
+	actual := match.NewStringMatcher(value.Value)
+
+	dm.actual = actual
 	return nil
 }

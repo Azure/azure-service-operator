@@ -7,11 +7,10 @@ package app
 
 import (
 	"flag"
+	"fmt"
 
-	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
 
-	internalflags "github.com/Azure/azure-service-operator/v2/internal/util/flags"
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 )
 
@@ -19,8 +18,18 @@ type Flags struct {
 	MetricsAddr          string
 	HealthAddr           string
 	EnableLeaderElection bool
-	CrdPatterns          []string
+	CRDPatterns          string // This is a ; delimited string containing a collection of patterns
 	PreUpgradeCheck      bool
+}
+
+func (f Flags) String() string {
+	return fmt.Sprintf(
+		"MetricsAddr: %s, HealthAddr: %s, EnableLeaderElection: %t, CRDPatterns: %s, PreUpgradeCheck: %t",
+		f.MetricsAddr,
+		f.HealthAddr,
+		f.EnableLeaderElection,
+		f.CRDPatterns,
+		f.PreUpgradeCheck)
 }
 
 func ParseFlags(args []string) (Flags, error) {
@@ -31,7 +40,7 @@ func ParseFlags(args []string) (Flags, error) {
 	var metricsAddr string
 	var healthAddr string
 	var enableLeaderElection bool
-	var crdPatterns internalflags.SliceFlags
+	var crdPatterns string
 	var preUpgradeCheck bool
 
 	// default here for 'MetricsAddr' is set to "0", which sets metrics to be disabled if 'metrics-addr' flag is omitted.
@@ -39,24 +48,17 @@ func ParseFlags(args []string) (Flags, error) {
 	flagSet.StringVar(&healthAddr, "health-addr", "", "The address the healthz endpoint binds to.")
 	flagSet.BoolVar(&enableLeaderElection, "enable-leader-election", false,
 		"Enable leader election for controllers manager. Enabling this will ensure there is only one active controllers manager.")
-	flagSet.Var(&crdPatterns, "crd-pattern", "Install these CRDs. Currently the only value supported is '*'")
+	flagSet.StringVar(&crdPatterns, "crd-pattern", "", "Install these CRDs. CRDs already in the cluster will also always be upgraded.")
 	flagSet.BoolVar(&preUpgradeCheck, "pre-upgrade-check", false,
 		"Enable pre upgrade check to check if existing crds contain helm 'keep' policy.")
 
 	flagSet.Parse(args[1:]) //nolint:errcheck
 
-	if len(crdPatterns) >= 2 {
-		return Flags{}, errors.Errorf("crd-pattern flag can have at most 1 argument, had %d", len(crdPatterns))
-	}
-	if len(crdPatterns) == 1 && crdPatterns[0] != "*" {
-		return Flags{}, errors.Errorf("crd-pattern flag must be '*', was %q", crdPatterns[0])
-	}
-
 	return Flags{
 		MetricsAddr:          metricsAddr,
 		HealthAddr:           healthAddr,
 		EnableLeaderElection: enableLeaderElection,
-		CrdPatterns:          crdPatterns,
+		CRDPatterns:          crdPatterns,
 		PreUpgradeCheck:      preUpgradeCheck,
 	}, nil
 }

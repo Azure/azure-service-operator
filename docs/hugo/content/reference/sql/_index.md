@@ -3,7 +3,10 @@ title: Sql Supported Resources
 linktitle: Sql
 no_list: true
 ---
-Supporting 22 resources: Server, ServersAdministrator, ServersAdvancedThreatProtectionSetting, ServersAuditingSetting, ServersAzureADOnlyAuthentication, ServersConnectionPolicy, ServersDatabase, ServersDatabasesAdvancedThreatProtectionSetting, ServersDatabasesAuditingSetting, ServersDatabasesBackupLongTermRetentionPolicy, ServersDatabasesBackupShortTermRetentionPolicy, ServersDatabasesSecurityAlertPolicy, ServersDatabasesTransparentDataEncryption, ServersDatabasesVulnerabilityAssessment, ServersElasticPool, ServersFailoverGroup, ServersFirewallRule, ServersIPV6FirewallRule, ServersOutboundFirewallRule, ServersSecurityAlertPolicy, ServersVirtualNetworkRule, ServersVulnerabilityAssessment
+### Released
+
+These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+
 
 | Resource                                                                                                                                                                                                   | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                    |
 |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|

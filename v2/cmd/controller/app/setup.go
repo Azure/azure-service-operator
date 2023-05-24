@@ -120,6 +120,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 		os.Exit(1)
 	}
 
+	// TODO: Put all of the CRD stuff into a method?
 	crdManager, err := newCRDManager(clients.log, mgr.GetConfig())
 	if err != nil {
 		setupLog.Error(err, "failed to initialize CRD client")
@@ -138,15 +139,32 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 		os.Exit(1)
 	}
 
-	nonReadyResources := crdmanagement.GetNonReadyCRDs(cfg, crdManager, goalCRDs, existingCRDs)
+	// We only apply CRDs if we're in webhooks mode. No other mode will have CRD CRUD permissions
+	if cfg.OperatorMode.IncludesWebhooks() {
+		var installationInstructions []*crdmanagement.CRDInstallationInstruction
+		installationInstructions, err = crdManager.DetermineCRDsToInstallOrUpgrade(goalCRDs, existingCRDs, flgs.CRDPatterns)
+		if err != nil {
+			setupLog.Error(err, "failed to determine CRDs to apply")
+			os.Exit(1)
+		}
 
-	if len(flgs.CrdPatterns) > 0 {
-		err = crdManager.ApplyCRDs(ctx, goalCRDs, existingCRDs, flgs.CrdPatterns)
+		included := crdmanagement.IncludedCRDs(installationInstructions)
+		if len(included) == 0 {
+			err = errors.New("No existing CRDs in cluster and no --crd-pattern specified")
+			setupLog.Error(err, "failed to apply CRDs")
+			os.Exit(1)
+		}
+
+		err = crdManager.ApplyCRDs(ctx, installationInstructions)
 		if err != nil {
 			setupLog.Error(err, "failed to apply CRDs")
 			os.Exit(1)
 		}
 	}
+
+	// Of all the resources we know of, find any that aren't ready. We will use this collection
+	// to skip watching of these not-ready resources.
+	nonReadyResources := crdmanagement.GetNonReadyCRDs(cfg, crdManager, goalCRDs, existingCRDs)
 
 	if cfg.OperatorMode.IncludesWatchers() {
 		//nolint:contextcheck

@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package config
+package typo
 
 import (
 	"testing"
@@ -64,8 +64,8 @@ func TestTypoAdvisor_Wrapf_WhenErrorAndTypo_ReturnsExpectedError(t *testing.T) {
 	g.Expect(actual.Error()).To(ContainSubstring("did you mean beta?"))
 }
 
-func createTestTypoAdvisor(terms ...string) *TypoAdvisor {
-	result := NewTypoAdvisor()
+func createTestTypoAdvisor(terms ...string) *Advisor {
+	result := NewAdvisor()
 	for _, term := range terms {
 		result.AddTerm(term)
 	}
