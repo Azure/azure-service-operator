@@ -7,7 +7,7 @@ These are the Crossplane resources committed to our **main** branch, grouped by 
 
 ## Cache
 
-### Next Release
+### Released
 
 | Resource | ARM Version | CRD Version   | Supported From | Sample |
 |----------|-------------|---------------|----------------|--------|
@@ -15,7 +15,7 @@ These are the Crossplane resources committed to our **main** branch, grouped by 
 
 ## Sql
 
-### Next Release
+### Released
 
 | Resource         | ARM Version        | CRD Version          | Supported From | Sample |
 |------------------|--------------------|----------------------|----------------|--------|

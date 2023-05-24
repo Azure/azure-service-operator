@@ -3,7 +3,7 @@ title: Cache Supported Resources
 linktitle: Cache
 no_list: true
 ---
-### Next Release
+### Released
 
 | Resource | ARM Version | CRD Version   | Supported From | Sample |
 |----------|-------------|---------------|----------------|--------|
