@@ -11,6 +11,7 @@ import (
 	"io/fs"
 	"net/url"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -23,6 +24,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/typo"
+	"github.com/Azure/azure-service-operator/v2/internal/version"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -77,12 +79,19 @@ type ResourceVersionsReport struct {
 	lists                    map[astmodel.PackageReference][]astmodel.TypeDefinition // A separate list of resources for each package
 	typoAdvisor              *typo.Advisor                                           // Advisor used to troubleshoot unused fragments
 	titleCase                cases.Caser
+	latestVersion            string // Latest released version
 }
 
 func NewResourceVersionsReport(
 	definitions astmodel.TypeDefinitionSet,
 	cfg *config.Configuration,
 ) (*ResourceVersionsReport, error) {
+
+	latestVersion, err := latestVersion()
+	if err != nil {
+		return nil, errors.Wrapf(err, "Unable to determine latest version")
+	}
+
 	result := &ResourceVersionsReport{
 		reportConfiguration:      cfg.SupportedResourcesReport,
 		objectModelConfiguration: cfg.ObjectModelConfiguration,
@@ -94,9 +103,10 @@ func NewResourceVersionsReport(
 		lists:                    make(map[astmodel.PackageReference][]astmodel.TypeDefinition),
 		typoAdvisor:              typo.NewAdvisor(),
 		titleCase:                cases.Title(language.English),
+		latestVersion:            latestVersion,
 	}
 
-	err := result.loadFragments()
+	err = result.loadFragments()
 	if err != nil {
 		return nil, errors.Wrapf(err, "Unable to load report fragments")
 	}
@@ -258,19 +268,10 @@ func (report *ResourceVersionsReport) WriteAllResourcesReportToBuffer(
 			buffer.WriteString("\n\n")
 		}
 
-		summary := report.createSummary(kinds)
-
-		buffer.WriteString(summary)
-		buffer.WriteString("\n\n")
-
-		table, err := report.createTable(grp, kinds)
+		err := report.writeGroupSections(grp, kinds, buffer)
 		if err != nil {
-			errs = append(errs, err)
-			continue
+			errs = append(errs, err) // Don't need to wrap, will already specify the group
 		}
-
-		table.WriteTo(buffer)
-		buffer.WriteString("\n")
 	}
 
 	// Check to see whether all fragments were used
@@ -308,10 +309,103 @@ func (report *ResourceVersionsReport) WriteGroupResourcesReportToBuffer(
 		buffer.WriteString("\n\n")
 	}
 
-	summary := report.createSummary(kinds)
+	return report.writeGroupSections(group, kinds, buffer)
+}
 
-	buffer.WriteString(summary)
+func (report *ResourceVersionsReport) writeGroupSections(
+	group string,
+	kinds astmodel.TypeDefinitionSet,
+	buffer *strings.Builder,
+) error {
+	// By default, we treat everything as released
+	releasedResources := kinds
+
+	// Pull out any deprecated resources
+	deprecatedResources := releasedResources.Where(report.isDeprecatedResource)
+	releasedResources = releasedResources.Except(deprecatedResources)
+
+	// Pull out any prerelease resources
+	prereleaseResources := releasedResources.Where(report.isUnreleasedResource)
+	releasedResources = releasedResources.Except(prereleaseResources)
+
+	// First list prerelease reources, if any
+	err := report.writeSection(
+		group,
+		"prerelease",
+		"### Next Release",
+		prereleaseResources,
+		buffer)
+	if err != nil {
+		return errors.Wrapf(err, "writing prerelease resources for group %s", group)
+	}
+
+	err = report.writeSection(
+		group,
+		"released",
+		"### Released",
+		releasedResources,
+		buffer)
+	if err != nil {
+		return errors.Wrapf(err, "writing released resources for group %s", group)
+	}
+
+	err = report.writeSection(
+		group,
+		"deprecated",
+		"### Deprecated",
+		deprecatedResources,
+		buffer)
+	if err != nil {
+		return errors.Wrapf(err, "writing deprecated resources for group %s", group)
+	}
+
+	return nil
+}
+
+// isUnreleasedResource returns true if the type definition is for an unreleased resource
+func (report *ResourceVersionsReport) isUnreleasedResource(def astmodel.TypeDefinition) bool {
+	supportedFrom := report.supportedFrom(def.Name())
+
+	if supportedFrom == report.latestVersion {
+		return false
+	}
+
+	result := astmodel.ComparePathAndVersion(supportedFrom, report.latestVersion)
+	return !result
+}
+
+// isDeprecatedResource returns true if the type definition is for a deprecated resource
+func (report *ResourceVersionsReport) isDeprecatedResource(def astmodel.TypeDefinition) bool {
+	_, ver := def.Name().PackageReference.GroupVersion()
+	result := !strings.HasPrefix(ver, astmodel.GeneratorVersion)
+	return result
+}
+
+// writeSection writes a section to the buffer, consisting of a header, description, and a table listing resources.
+func (report *ResourceVersionsReport) writeSection(
+	group string,
+	id string,
+	heading string,
+	kinds astmodel.TypeDefinitionSet,
+	buffer *strings.Builder,
+) error {
+	// Skip if nothing to do
+	if len(kinds) == 0 {
+		return nil
+	}
+
+	buffer.WriteString(heading)
 	buffer.WriteString("\n\n")
+
+	// Find description, using a group-specific one if available
+	description, ok := report.findFragment(fmt.Sprintf("%s-%s", group, id))
+	if !ok {
+		description, ok = report.findFragment(id)
+	}
+	if ok {
+		buffer.WriteString(description)
+		buffer.WriteString("\n\n")
+	}
 
 	table, err := report.createTable(group, kinds)
 	if err != nil {
@@ -322,28 +416,6 @@ func (report *ResourceVersionsReport) WriteGroupResourcesReportToBuffer(
 	buffer.WriteString("\n")
 
 	return nil
-}
-
-func (report *ResourceVersionsReport) createSummary(
-	resources astmodel.TypeDefinitionSet,
-) string {
-	// names is a set of the distinct resources
-	names := set.Make[string]()
-
-	for _, rsrc := range resources {
-		name := rsrc.Name()
-		names.Add(name.Name())
-	}
-
-	countDescription := fmt.Sprintf("Supporting %d resources", len(names))
-	if len(names) == 1 {
-		countDescription = "Supporting 1 resource"
-	}
-
-	return fmt.Sprintf(
-		"%s: %s",
-		countDescription,
-		strings.Join(set.AsSortedSlice(names), ", "))
 }
 
 func (report *ResourceVersionsReport) createTable(
@@ -393,7 +465,7 @@ func (report *ResourceVersionsReport) createTable(
 
 		api := report.generateApiLink(rsrc)
 		sample := report.generateSampleLink(rsrc, sampleLinks)
-		supportedFrom := report.generateSupportedFrom(rsrc.Name())
+		supportedFrom := report.supportedFrom(rsrc.Name())
 
 		result.AddRow(
 			api,
@@ -500,7 +572,7 @@ func (report *ResourceVersionsReport) generateSampleLink(rsrc astmodel.TypeDefin
 	return "-"
 }
 
-func (report *ResourceVersionsReport) generateSupportedFrom(typeName astmodel.TypeName) string {
+func (report *ResourceVersionsReport) supportedFrom(typeName astmodel.TypeName) string {
 	supportedFrom, err := report.objectModelConfiguration.LookupSupportedFrom(typeName)
 	if err != nil {
 		return "" // Leave it blank
@@ -607,4 +679,39 @@ func (report *ResourceVersionsReport) groupTitle(group string, kinds astmodel.Ty
 	}
 
 	return report.titleCase.String(group)
+}
+
+func latestVersion() (string, error) {
+	buildVersion := version.BuildVersion
+	if buildVersion == "" {
+		// Use the latest git tag as a fall back
+		return getLatestGitTag()
+	}
+
+	if index := strings.Index(buildVersion, "-"); index > 0 {
+		// Trim off cruft after the version number
+		buildVersion = buildVersion[:index]
+	}
+
+	return buildVersion, nil
+}
+
+// getLatestGitTag returns the latest git version tag, as a fallback for when generator is run directly
+// When built/run through Taskfile, this is not needed
+func getLatestGitTag() (string, error) {
+	bytes, err := exec.Command("git", "rev-list", "--tags=v2*", "--max-count=1").Output()
+	if err != nil {
+		return "", errors.Wrapf(err, "failed to get hash latest git tag")
+	}
+
+	hash := strings.TrimSpace(string(bytes))
+
+	bytes, err = exec.Command("git", "describe", "--tags", hash).Output()
+	if err != nil {
+		return "", errors.Wrapf(err, "failed to get tag for git hash")
+	}
+
+	tag := strings.TrimSpace(string(bytes))
+
+	return tag, nil
 }

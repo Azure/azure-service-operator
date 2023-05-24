@@ -58,6 +58,10 @@ func TestComparePackageReferencesByPathAndVersion(t *testing.T) {
 		{"Preview comes before storage", "1preview", "1storage", -1},
 		{"Preview comes before grape", "1preview", "1grape", -1},
 		{"Preview comes before GA", "1preview", "1", -1},
+		// Version tests
+		{"v2.0.0 comes before v2.1.0", "v2.0.0", "v2.1.0", -1},
+		{"v2.1.0 comes before v2.9.0", "v2.1.0", "v2.9.0", -1},
+		{"v2.9.0 comes before v2.10.0", "v2.9.0", "v2.10.0", -1},
 	}
 
 	for _, c := range cases {
