@@ -11,6 +11,7 @@ import (
 	"io/fs"
 	"net/url"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -23,6 +24,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/typo"
+	"github.com/Azure/azure-service-operator/v2/internal/version"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -77,12 +79,19 @@ type ResourceVersionsReport struct {
 	lists                    map[astmodel.PackageReference][]astmodel.TypeDefinition // A separate list of resources for each package
 	typoAdvisor              *typo.Advisor                                           // Advisor used to troubleshoot unused fragments
 	titleCase                cases.Caser
+	latestVersion            string // Latest released version
 }
 
 func NewResourceVersionsReport(
 	definitions astmodel.TypeDefinitionSet,
 	cfg *config.Configuration,
 ) (*ResourceVersionsReport, error) {
+
+	latestVersion, err := latestVersion()
+	if err != nil {
+		return nil, errors.Wrapf(err, "Unable to determine latest version")
+	}
+
 	result := &ResourceVersionsReport{
 		reportConfiguration:      cfg.SupportedResourcesReport,
 		objectModelConfiguration: cfg.ObjectModelConfiguration,
@@ -94,9 +103,10 @@ func NewResourceVersionsReport(
 		lists:                    make(map[astmodel.PackageReference][]astmodel.TypeDefinition),
 		typoAdvisor:              typo.NewAdvisor(),
 		titleCase:                cases.Title(language.English),
+		latestVersion:            latestVersion,
 	}
 
-	err := result.loadFragments()
+	err = result.loadFragments()
 	if err != nil {
 		return nil, errors.Wrapf(err, "Unable to load report fragments")
 	}
@@ -355,13 +365,12 @@ func (report *ResourceVersionsReport) writeGroupSections(
 // isUnreleasedResource returns true if the type definition is for an unreleased resource
 func (report *ResourceVersionsReport) isUnreleasedResource(def astmodel.TypeDefinition) bool {
 	supportedFrom := report.supportedFrom(def.Name())
-	latestRelease := report.reportConfiguration.LatestRelease
 
-	if supportedFrom == latestRelease {
+	if supportedFrom == report.latestVersion {
 		return false
 	}
 
-	result := astmodel.ComparePathAndVersion(supportedFrom, latestRelease)
+	result := astmodel.ComparePathAndVersion(supportedFrom, report.latestVersion)
 	return !result
 }
 
@@ -670,4 +679,39 @@ func (report *ResourceVersionsReport) groupTitle(group string, kinds astmodel.Ty
 	}
 
 	return report.titleCase.String(group)
+}
+
+func latestVersion() (string, error) {
+	buildVersion := version.BuildVersion
+	if buildVersion == "" {
+		// Use the latest git tag as a fall back
+		return getLatestGitTag()
+	}
+
+	if index := strings.Index(buildVersion, "-"); index > 0 {
+		// Trim off cruft after the version number
+		buildVersion = buildVersion[:index]
+	}
+
+	return buildVersion, nil
+}
+
+// getLatestGitTag returns the latest git version tag, as a fallback for when generator is run directly
+// When built/run through Taskfile, this is not needed
+func getLatestGitTag() (string, error) {
+	bytes, err := exec.Command("git", "rev-list", "--tags=v2*", "--max-count=1").Output()
+	if err != nil {
+		return "", errors.Wrapf(err, "failed to get hash latest git tag")
+	}
+
+	hash := strings.TrimSpace(string(bytes))
+
+	bytes, err = exec.Command("git", "describe", "--tags", hash).Output()
+	if err != nil {
+		return "", errors.Wrapf(err, "failed to get tag for git hash")
+	}
+
+	tag := strings.TrimSpace(string(bytes))
+
+	return tag, nil
 }
