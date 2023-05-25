@@ -203,20 +203,29 @@ func fuzzySetSubnet(subnet genruntime.ARMResourceSpec, embeddedSubnet reflect.Va
 		return errors.Wrap(err, "unable to check that embedded subnet is the same as subnet")
 	}
 
-	var embeddedSubnetJSONMap map[string]interface{}
-	err = json.Unmarshal(embeddedSubnetJSON, &embeddedSubnetJSONMap)
+	err = fuzzyEqualityComparison(embeddedSubnetJSON, subnetJSON)
 	if err != nil {
-		return errors.Wrap(err, fmt.Sprintf("unable to unmarshal embeddedSubnetJSON (%s)", embeddedSubnetJSONMap))
+		return errors.Wrap(err, "failed during comparison for embeddedSubnetJSON and subnetJSON")
 	}
 
-	var subnetJSONMap map[string]interface{}
-	err = json.Unmarshal(subnetJSON, &subnetJSONMap)
+	return nil
+}
+
+func fuzzyEqualityComparison(embeddedResourceJSON, resourceJSON []byte) error {
+	var embeddedResourceJSONMap map[string]interface{}
+	err := json.Unmarshal(embeddedResourceJSON, &embeddedResourceJSONMap)
 	if err != nil {
-		return errors.Wrap(err, fmt.Sprintf("unable to unmarshal subnetJSON (%s)", subnetJSONMap))
+		return errors.Wrap(err, fmt.Sprintf("unable to unmarshal (%s)", embeddedResourceJSONMap))
 	}
 
-	if !reflect.DeepEqual(embeddedSubnetJSONMap, subnetJSONMap) {
-		return errors.Errorf("embeddedSubnetJSON (%s) != subnetJSON (%s)", string(embeddedSubnetJSON), string(subnetJSON))
+	var resourceJSONMap map[string]interface{}
+	err = json.Unmarshal(resourceJSON, &resourceJSONMap)
+	if err != nil {
+		return errors.Wrap(err, fmt.Sprintf("unable to unmarshal (%s)", resourceJSONMap))
+	}
+
+	if !reflect.DeepEqual(embeddedResourceJSONMap, resourceJSONMap) {
+		return errors.Errorf(" (%s) != (%s)", string(embeddedResourceJSON), string(resourceJSON))
 	}
 
 	return nil

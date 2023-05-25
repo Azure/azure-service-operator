@@ -5,7 +5,6 @@ package customizations
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"reflect"
 
 	"github.com/go-logr/logr"
@@ -147,8 +146,8 @@ func fuzzySetInboundNatRules(lb genruntime.ARMResourceSpec, inboundNatRules []ge
 	return nil
 }
 
-func fuzzySetInboundNatRule(InboundNatRule genruntime.ARMResourceSpec, embeddedInboundNatRule reflect.Value) error {
-	inboundNatRuleJSON, err := json.Marshal(InboundNatRule)
+func fuzzySetInboundNatRule(inboundNatRule genruntime.ARMResourceSpec, embeddedInboundNatRule reflect.Value) error {
+	inboundNatRuleJSON, err := json.Marshal(inboundNatRule)
 	if err != nil {
 		return errors.Wrapf(err, "failed to marshal inboundNatRule json")
 	}
@@ -165,20 +164,9 @@ func fuzzySetInboundNatRule(InboundNatRule genruntime.ARMResourceSpec, embeddedI
 		return errors.Wrap(err, "unable to check that embedded inboundNatRule is the same as inboundNatRule")
 	}
 
-	var embeddedInboundNatRuleJSONMap map[string]interface{}
-	err = json.Unmarshal(embeddedInboundNatRuleJSON, &embeddedInboundNatRuleJSONMap)
+	err = fuzzyEqualityComparison(embeddedInboundNatRuleJSON, inboundNatRuleJSON)
 	if err != nil {
-		return errors.Wrapf(err, "unable to unmarshal embeddedInboundNatRuleJSON (%s)", embeddedInboundNatRuleJSON)
-	}
-
-	var InboundNatRuleJSONMap map[string]interface{}
-	err = json.Unmarshal(inboundNatRuleJSON, &InboundNatRuleJSONMap)
-	if err != nil {
-		return errors.Wrap(err, fmt.Sprintf("unable to unmarshal inboundNatRuleJSON (%s)", inboundNatRuleJSON))
-	}
-
-	if !reflect.DeepEqual(embeddedInboundNatRuleJSONMap, InboundNatRuleJSONMap) {
-		return errors.Errorf("embeddedInboundNatRuleJSON (%s) != inboundNatRuleJSON (%s)", string(embeddedInboundNatRuleJSON), string(inboundNatRuleJSON))
+		return errors.Wrap(err, "failed during comparison for embeddedInboundNatRuleJSON and inboundNatRuleJSON")
 	}
 
 	return nil

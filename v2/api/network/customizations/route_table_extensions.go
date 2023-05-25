@@ -6,7 +6,6 @@ package customizations
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"reflect"
 
 	"github.com/go-logr/logr"
@@ -169,20 +168,9 @@ func fuzzySetRoute(route genruntime.ARMResourceSpec, embeddedRoute reflect.Value
 		return errors.Wrap(err, "unable to check that embedded route is the same as route")
 	}
 
-	var embeddedRouteJSONMap map[string]interface{}
-	err = json.Unmarshal(embeddedRouteJSON, &embeddedRouteJSONMap)
+	err = fuzzyEqualityComparison(embeddedRouteJSON, routeJSON)
 	if err != nil {
-		return errors.Wrap(err, fmt.Sprintf("unable to unmarshal embeddedRouteJSON (%s)", embeddedRouteJSON))
-	}
-
-	var routeJSONMap map[string]interface{}
-	err = json.Unmarshal(routeJSON, &routeJSONMap)
-	if err != nil {
-		return errors.Wrap(err, fmt.Sprintf("unable to unmarshal routeJSON (%s)", routeJSON))
-	}
-
-	if !reflect.DeepEqual(embeddedRouteJSONMap, routeJSONMap) {
-		return errors.Errorf("embeddedRouteJSON (%s) != routeJSON (%s)", string(embeddedRouteJSON), string(routeJSON))
+		return errors.Wrap(err, "failed during comparison for embeddedRouteJSON and routeJSON")
 	}
 
 	return nil
