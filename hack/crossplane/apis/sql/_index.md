@@ -3,7 +3,7 @@ title: Sql Supported Resources
 linktitle: Sql
 no_list: true
 ---
-Supporting 2 resources: Server, Servers_Database
+### Released
 
 | Resource         | ARM Version        | CRD Version          | Supported From | Sample |
 |------------------|--------------------|----------------------|----------------|--------|
