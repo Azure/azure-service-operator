@@ -46,6 +46,9 @@ func newRootCommand() (*cobra.Command, error) {
 
 	rootCmd.PersistentFlags().BoolVar(&verbose, "verbose", false, "Enable verbose logging")
 	rootCmd.PersistentFlags().BoolVar(&quiet, "quiet", false, "Suppress non-error logging")
+	rootCmd.PersistentFlags().BoolVar(&trace, "trace", false, "Enable trace logging (very verbose)")
+
+	rootCmd.MarkFlagsMutuallyExclusive("verbose", "quiet", "trace")
 
 	cmdFuncs := []func() (*cobra.Command, error){
 		NewGenTypesCommand,
@@ -62,8 +65,10 @@ func newRootCommand() (*cobra.Command, error) {
 	}
 
 	rootCmd.PersistentPreRun = func(cmd *cobra.Command, args []string) {
-		// Configure logging; --verbose overrides --quiet
-		if verbose {
+		// Configure logging; --trace overrides --verbose overrides --quiet
+		if trace {
+			zerologr.SetMaxV(2)
+		} else if verbose {
 			zerologr.SetMaxV(1)
 		} else if quiet {
 			// Can't use zerologr.SetMaxV(-1)
@@ -77,8 +82,9 @@ func newRootCommand() (*cobra.Command, error) {
 }
 
 var (
-	verbose bool
 	quiet   bool
+	trace   bool
+	verbose bool
 )
 
 // CreateLogger creates a logger  for console output.
