@@ -168,7 +168,7 @@ func fuzzySetInboundNatRule(InboundNatRule genruntime.ARMResourceSpec, embeddedI
 	var embeddedInboundNatRuleJSONMap map[string]interface{}
 	err = json.Unmarshal(embeddedInboundNatRuleJSON, &embeddedInboundNatRuleJSONMap)
 	if err != nil {
-		return errors.Wrap(err, fmt.Sprintf("unable to unmarshal embeddedInboundNatRuleJSON (%s)", embeddedInboundNatRuleJSON))
+		return errors.Wrapf(err, "unable to unmarshal embeddedInboundNatRuleJSON (%s)", embeddedInboundNatRuleJSON)
 	}
 
 	var InboundNatRuleJSONMap map[string]interface{}
