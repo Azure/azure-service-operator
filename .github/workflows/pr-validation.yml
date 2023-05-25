@@ -9,10 +9,14 @@ on:
   pull_request: 
     branches:
       - main
+    paths-ignore:
+      - "docs/**"
 
   merge_group:
     branches:
       - main
+    paths-ignore:
+      - "docs/**"
 
 jobs:
   test-go-get:
