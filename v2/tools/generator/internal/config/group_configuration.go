@@ -14,6 +14,7 @@ import (
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
+	"github.com/Azure/azure-service-operator/v2/internal/util/typo"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -29,7 +30,7 @@ import (
 type GroupConfiguration struct {
 	name     string
 	versions map[string]*VersionConfiguration
-	advisor  *TypoAdvisor
+	advisor  *typo.Advisor
 }
 
 // NewGroupConfiguration returns a new (empty) GroupConfiguration
@@ -37,7 +38,7 @@ func NewGroupConfiguration(name string) *GroupConfiguration {
 	return &GroupConfiguration{
 		name:     name,
 		versions: make(map[string]*VersionConfiguration),
-		advisor:  NewTypoAdvisor(),
+		advisor:  typo.NewAdvisor(),
 	}
 }
 

@@ -4,7 +4,7 @@ title: Supported Resources
 
 ## Batch
 
-Supporting 1 resource: BatchAccount
+### Deprecated
 
 | Resource     | ARM Version    | CRD Version    | Supported From | Sample                                                                                                                  |
 |--------------|----------------|----------------|----------------|-------------------------------------------------------------------------------------------------------------------------|
@@ -12,7 +12,7 @@ Supporting 1 resource: BatchAccount
 
 ## Person
 
-Supporting 2 resources: Address, Person
+### Deprecated
 
 | Resource | ARM Version | CRD Version | Supported From | Sample |
 |----------|-------------|-------------|----------------|--------|

@@ -3,31 +3,32 @@
  * Licensed under the MIT license.
  */
 
-package config
+package match
 
 import (
 	"strings"
+
+	"github.com/Azure/azure-service-operator/v2/internal/util/typo"
 )
 
 // literalMatcher is a StringMatcher that provides a case-insensitive match against a given string
 type literalMatcher struct {
 	literal string
 	matched bool
-	advisor *TypoAdvisor
+	advisor *typo.Advisor
 }
 
 var _ StringMatcher = &literalMatcher{}
 
 // newLiteralMatcher returns a new literalMatcher for the given string
-func newLiteralMatcher(literal string) *literalMatcher {
+func newLiteralMatcher(literal string) StringMatcher {
 	return &literalMatcher{
 		literal: strings.TrimSpace(literal),
-		advisor: NewTypoAdvisor(),
+		advisor: typo.NewAdvisor(),
 	}
 }
 
-// Matches returns true if the passed value is a case-insensitive match with our configured literal
-func (lm *literalMatcher) Matches(value string) bool {
+func (lm *literalMatcher) Matches(value string) Result {
 	if strings.EqualFold(lm.literal, strings.TrimSpace(value)) {
 		if !lm.matched {
 			// First time we match, clear out our advisory as we won't be using it
@@ -35,7 +36,7 @@ func (lm *literalMatcher) Matches(value string) bool {
 			lm.advisor.ClearTerms()
 		}
 
-		return true
+		return matchFound(lm.literal)
 	}
 
 	if !lm.matched {
@@ -43,7 +44,7 @@ func (lm *literalMatcher) Matches(value string) bool {
 		lm.advisor.AddTerm(value)
 	}
 
-	return false
+	return matchNotFound()
 }
 
 // WasMatched returns an error if we didn't match anything, nil otherwise
