@@ -15,9 +15,9 @@ import (
 	"strings"
 
 	"github.com/devigned/tab"
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -29,7 +29,7 @@ type (
 	// TypeHandler is a standard delegate used for walking the schema tree.
 	// Note that it is permissible for a TypeHandler to return `nil, nil`, which indicates that
 	// there is no type to be included in the output.
-	TypeHandler func(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error)
+	TypeHandler func(ctx context.Context, scanner *SchemaScanner, schema Schema, log logr.Logger) (astmodel.Type, error)
 
 	// UnknownSchemaError is used when we find a JSON schema node that we don't know how to handle
 	UnknownSchemaError struct {
@@ -43,6 +43,7 @@ type (
 		TypeHandlers  map[SchemaType]TypeHandler
 		configuration *config.Configuration
 		idFactory     astmodel.IdentifierFactory
+		log           logr.Logger
 	}
 )
 
@@ -80,12 +81,17 @@ func (use *UnknownSchemaError) Error() string {
 }
 
 // NewSchemaScanner constructs a new scanner, ready for use
-func NewSchemaScanner(idFactory astmodel.IdentifierFactory, configuration *config.Configuration) *SchemaScanner {
+func NewSchemaScanner(
+	idFactory astmodel.IdentifierFactory,
+	configuration *config.Configuration,
+	log logr.Logger,
+) *SchemaScanner {
 	return &SchemaScanner{
 		definitions:   make(map[astmodel.TypeName]*astmodel.TypeDefinition),
 		TypeHandlers:  defaultTypeHandlers(),
 		configuration: configuration,
 		idFactory:     idFactory,
+		log:           log,
 	}
 }
 
@@ -102,7 +108,7 @@ func (scanner *SchemaScanner) RunHandler(ctx context.Context, schemaType SchemaT
 	}
 
 	handler := scanner.TypeHandlers[schemaType]
-	return handler(ctx, scanner, schema)
+	return handler(ctx, scanner, schema, scanner.log)
 }
 
 // RunHandlerForSchema inspects the passed schema to identify what kind it is, then runs the appropriate handler
@@ -126,7 +132,10 @@ func (scanner *SchemaScanner) RunHandlersForSchemas(ctx context.Context, schemas
 			if errors.As(err, &unknownSchema) {
 				if unknownSchema.Schema.description() != nil {
 					// some Swagger types (e.g. ServiceFabric Cluster) use allOf with a description-only schema
-					klog.V(2).Infof("skipping description-only schema type with description %q", *unknownSchema.Schema.description())
+					scanner.log.V(2).Info(
+						"skipping description-only schema type",
+						"schema", unknownSchema.Schema.url(),
+						"description", *unknownSchema.Schema.description())
 					continue
 				}
 			}
@@ -212,7 +221,7 @@ func defaultTypeHandlers() map[SchemaType]TypeHandler {
 	}
 }
 
-func stringHandler(_ context.Context, _ *SchemaScanner, schema Schema) (astmodel.Type, error) {
+func stringHandler(_ context.Context, _ *SchemaScanner, schema Schema, log logr.Logger) (astmodel.Type, error) {
 	t := astmodel.StringType
 
 	maxLength := schema.maxLength()
@@ -221,13 +230,13 @@ func stringHandler(_ context.Context, _ *SchemaScanner, schema Schema) (astmodel
 	format := schema.format()
 
 	if maxLength != nil || minLength != nil || pattern != nil || format != "" {
-		patterns := []*regexp.Regexp{}
+		patterns := make([]*regexp.Regexp, 0, 2)
 		if pattern != nil {
 			patterns = append(patterns, pattern)
 		}
 
 		if format != "" {
-			formatPattern := formatToPattern(format)
+			formatPattern := formatToPattern(format, log)
 			if formatPattern != nil {
 				patterns = append(patterns, formatPattern)
 			}
@@ -258,7 +267,7 @@ func stringHandler(_ context.Context, _ *SchemaScanner, schema Schema) (astmodel
 // copied from ARM implementation
 var uuidRegex = regexp.MustCompile("^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$")
 
-func formatToPattern(format string) *regexp.Regexp {
+func formatToPattern(format string, log logr.Logger) *regexp.Regexp {
 	switch format {
 	case "uuid":
 		return uuidRegex
@@ -270,12 +279,14 @@ func formatToPattern(format string) *regexp.Regexp {
 		// ignore it for now
 		return nil
 	default:
-		klog.Warningf("unknown format %q", format)
+		log.V(1).Info(
+			"Unknown property format",
+			"format", format)
 		return nil
 	}
 }
 
-func numberHandler(_ context.Context, _ *SchemaScanner, schema Schema) (astmodel.Type, error) {
+func numberHandler(_ context.Context, _ *SchemaScanner, schema Schema, _ logr.Logger) (astmodel.Type, error) {
 	t := astmodel.FloatType
 	v := getNumberValidations(schema)
 	if v != nil {
@@ -318,7 +329,7 @@ var (
 	maxUint32 *big.Rat = big.NewRat(1, 1).SetUint64(math.MaxUint32)
 )
 
-func intHandler(_ context.Context, _ *SchemaScanner, schema Schema) (astmodel.Type, error) {
+func intHandler(_ context.Context, _ *SchemaScanner, schema Schema, _ logr.Logger) (astmodel.Type, error) {
 	t := astmodel.IntType
 	v := getNumberValidations(schema)
 	if v != nil {
@@ -358,11 +369,11 @@ func getNumberValidations(schema Schema) *astmodel.NumberValidations {
 	return nil
 }
 
-func boolHandler(_ context.Context, _ *SchemaScanner, _ Schema) (astmodel.Type, error) {
+func boolHandler(_ context.Context, _ *SchemaScanner, _ Schema, _ logr.Logger) (astmodel.Type, error) {
 	return astmodel.BoolType, nil
 }
 
-func enumHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
+func enumHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, _ logr.Logger) (astmodel.Type, error) {
 	_, span := tab.StartSpan(ctx, "enumHandler")
 	defer span.End()
 
@@ -402,11 +413,11 @@ func enumHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (as
 	return enumType, nil
 }
 
-func objectHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
+func objectHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, log logr.Logger) (astmodel.Type, error) {
 	ctx, span := tab.StartSpan(ctx, "objectHandler")
 	defer span.End()
 
-	properties, err := getProperties(ctx, scanner, schema)
+	properties, err := getProperties(ctx, scanner, schema, log)
 	if err != nil {
 		return nil, err
 	}
@@ -423,7 +434,7 @@ func objectHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (
 	// If we're a resource, our 'Id' property needs to have a special type
 	if isResource {
 		for i, prop := range properties {
-			if prop.HasName(astmodel.PropertyName("Id")) || prop.HasName(astmodel.PropertyName("ID")) {
+			if prop.HasName("Id") || prop.HasName("ID") {
 				properties[i] = prop.WithType(astmodel.NewOptionalType(astmodel.ARMIDType))
 			}
 		}
@@ -474,6 +485,7 @@ func getProperties(
 	ctx context.Context,
 	scanner *SchemaScanner,
 	schema Schema,
+	log logr.Logger,
 ) ([]*astmodel.PropertyDefinition, error) {
 	ctx, span := tab.StartSpan(ctx, "getProperties")
 	defer span.End()
@@ -494,7 +506,9 @@ func getProperties(
 		if property == nil {
 			// TODO: This log shouldn't happen in cases where the type in question is later excluded, see:
 			// TODO: https://github.com/Azure/azure-service-operator/issues/1517
-			klog.V(2).Infof("Property %s omitted due to nil propType (probably due to type filter)", propName)
+			log.V(2).Info(
+				"Property omitted due to nil propType (probably due to type filter)",
+				"property", propName)
 			continue
 		}
 
@@ -586,7 +600,7 @@ func getProperties(
 	return properties, nil
 }
 
-func refHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
+func refHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, log logr.Logger) (astmodel.Type, error) {
 	ctx, span := tab.StartSpan(ctx, "refHandler")
 	defer span.End()
 
@@ -606,14 +620,21 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (ast
 	// Prune the graph according to the configuration
 	shouldPrune, because := scanner.configuration.ShouldPrune(typeName)
 	if shouldPrune == config.Prune {
-		klog.V(3).Infof("Skipping %s because %s", typeName, because)
+		log.V(2).Info(
+			"Skipping type",
+			"type", typeName,
+			"because", because)
 		return nil, nil // Skip entirely
 	}
 
 	// Target types according to configuration
 	transformation, because := scanner.configuration.TransformType(typeName)
 	if transformation != nil {
-		klog.V(2).Infof("Transforming %s -> %s because %s", typeName, transformation, because)
+		log.V(2).Info(
+			"Transforming type",
+			"type", typeName,
+			"because", because,
+			"transformation", transformation)
 		return transformation, nil
 	}
 
@@ -631,7 +652,7 @@ func generateDefinitionsFor(
 		return astmodel.EmptyTypeName, err
 	}
 
-	url := schema.url()
+	schemaUrl := schema.url()
 
 	// see if we already generated something for this ref
 	if _, ok := scanner.findTypeDefinition(typeName); ok {
@@ -650,7 +671,7 @@ func generateDefinitionsFor(
 	// TODO: This code and below does nothing in the Swagger path as schema.url() is always empty.
 	// TODO: It's still used in the JSON schema path for golden tests and should be removed once those
 	// TODO: are retired.
-	resourceType := categorizeResourceType(url)
+	resourceType := categorizeResourceType(schemaUrl)
 	if resourceType != nil {
 		result = astmodel.NewAzureResourceType(result, nil, typeName, *resourceType)
 	}
@@ -681,7 +702,7 @@ func generateDefinitionsFor(
 	return definition.Name(), nil
 }
 
-func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
+func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, _ logr.Logger) (astmodel.Type, error) {
 	ctx, span := tab.StartSpan(ctx, "allOfHandler")
 	defer span.End()
 
@@ -703,7 +724,7 @@ func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (a
 	return astmodel.BuildAllOfType(types...), nil
 }
 
-func oneOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
+func oneOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, _ logr.Logger) (astmodel.Type, error) {
 	ctx, span := tab.StartSpan(ctx, "oneOfHandler")
 	defer span.End()
 
@@ -785,16 +806,18 @@ func asCommonProperties(
 	return nil, false
 }
 
-func anyOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
+func anyOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, log logr.Logger) (astmodel.Type, error) {
 	ctx, span := tab.StartSpan(ctx, "anyOfHandler")
 	defer span.End()
 
 	// See https://github.com/Azure/azure-service-operator/issues/1518 for details about why this is treated as oneOf
-	klog.V(2).Infof("Handling anyOf type as if it were oneOf: %s\n", schema.url()) // TODO: was Ref.URL
-	return oneOfHandler(ctx, scanner, schema)
+	log.V(1).Info(
+		"Handling anyOf type as if it were oneOf",
+		"url", schema.url())
+	return oneOfHandler(ctx, scanner, schema, log)
 }
 
-func arrayHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
+func arrayHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, log logr.Logger) (astmodel.Type, error) {
 	ctx, span := tab.StartSpan(ctx, "arrayHandler")
 	defer span.End()
 
@@ -805,7 +828,9 @@ func arrayHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (a
 
 	if len(items) == 0 {
 		// there is no type to the elements, so we must assume interface{}
-		klog.Warningf("Interface assumption unproven for %s\n", schema.url())
+		log.V(1).Info(
+			"Interface assumption unproven",
+			"url", schema.url())
 
 		result := astmodel.NewArrayType(astmodel.AnyType)
 		return withArrayValidations(schema, result), nil

@@ -8,6 +8,7 @@ package pipeline
 import (
 	"testing"
 
+	"github.com/go-logr/logr"
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -185,7 +186,7 @@ func TestGolden_EmbeddedSubresource_IsRemoved(t *testing.T) {
 	// TODO: Take this bit and put it into a helper?
 	// Define stages to run
 	configuration := config.NewConfiguration()
-	removeEmbedded := RemoveEmbeddedResources(configuration)
+	removeEmbedded := RemoveEmbeddedResources(configuration, logr.Discard())
 
 	state, err := RunTestPipeline(
 		NewState().WithDefinitions(defs),
@@ -204,7 +205,7 @@ func TestGolden_EmbeddedResource_IsRemovedRetainsId(t *testing.T) {
 
 	// Define stages to run
 	configuration := config.NewConfiguration()
-	removeEmbedded := RemoveEmbeddedResources(configuration)
+	removeEmbedded := RemoveEmbeddedResources(configuration, logr.Discard())
 
 	state, err := RunTestPipeline(
 		NewState().WithDefinitions(defs),
@@ -228,7 +229,7 @@ func TestGolden_EmbeddedResourcesWithMultipleEmbeddings_AllEmbeddingsAreRemovedA
 
 	// Define stages to run
 	configuration := config.NewConfiguration()
-	removeEmbedded := RemoveEmbeddedResources(configuration)
+	removeEmbedded := RemoveEmbeddedResources(configuration, logr.Discard())
 
 	state, err := RunTestPipeline(
 		NewState().WithDefinitions(defs),
@@ -284,7 +285,7 @@ func TestGolden_EmbeddedResourceWithCyclesAndResourceLookalikes_RemovesCycles(t 
 
 	// Define stages to run
 	configuration := config.NewConfiguration()
-	removeEmbedded := RemoveEmbeddedResources(configuration)
+	removeEmbedded := RemoveEmbeddedResources(configuration, logr.Discard())
 
 	state, err := RunTestPipeline(
 		NewState().WithDefinitions(defs),

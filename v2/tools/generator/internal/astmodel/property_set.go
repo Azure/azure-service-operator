@@ -9,6 +9,7 @@ import (
 	"sort"
 
 	"golang.org/x/exp/maps"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
 // PropertySet wraps a set of property definitions, indexed by name, along with some convenience methods
@@ -24,6 +25,7 @@ type ReadOnlyPropertySet interface {
 	Equals(other ReadOnlyPropertySet, overrides EqualityOverrides) bool
 	First() *PropertyDefinition
 	ForEach(func(def *PropertyDefinition))
+	ForEachError(func(def *PropertyDefinition) error) error
 	IsEmpty() bool
 	Len() int
 }
@@ -102,6 +104,18 @@ func (p PropertySet) ForEach(f func(*PropertyDefinition)) {
 	for _, v := range p {
 		f(v)
 	}
+}
+
+func (p PropertySet) ForEachError(f func(*PropertyDefinition) error) error {
+	var errs []error
+	for _, v := range p {
+		err := f(v)
+		if err != nil {
+			errs = append(errs, err)
+		}
+	}
+
+	return kerrors.NewAggregate(errs)
 }
 
 func (p PropertySet) Len() int {

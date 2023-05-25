@@ -10,8 +10,8 @@ import (
 	"go/token"
 
 	"github.com/dave/dst"
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -24,6 +24,7 @@ func AddKubernetesResourceInterfaceImpls(
 	resourceDef astmodel.TypeDefinition,
 	idFactory astmodel.IdentifierFactory,
 	definitions astmodel.TypeDefinitionSet,
+	log logr.Logger,
 ) (*astmodel.ResourceType, error) {
 	resolved, err := definitions.ResolveResourceSpecAndStatus(resourceDef)
 	if err != nil {
@@ -47,7 +48,12 @@ func AddKubernetesResourceInterfaceImpls(
 		return nil, errors.Errorf("resource spec doesn't have %q property", astmodel.AzureNameProperty)
 	}
 
-	getNameFunction, setNameFunction, err := getAzureNameFunctionsForType(&r, spec, azureNameProp.PropertyType(), definitions)
+	getNameFunction, setNameFunction, err := getAzureNameFunctionsForType(
+		&r,
+		spec,
+		azureNameProp.PropertyType(),
+		definitions,
+		log)
 	if err != nil {
 		return nil, err
 	}
@@ -119,13 +125,15 @@ func AddKubernetesResourceInterfaceImpls(
 	return r, nil
 }
 
-// note that this can, as a side-effect, update the resource type
+// note that this can, as a side effect, update the resource type
 // it is a bit ugly!
 func getAzureNameFunctionsForType(
 	r **astmodel.ResourceType,
 	spec *astmodel.ObjectType,
 	t astmodel.Type,
-	definitions astmodel.TypeDefinitionSet) (functions.ObjectFunctionHandler, functions.ObjectFunctionHandler, error) {
+	definitions astmodel.TypeDefinitionSet,
+	log logr.Logger,
+) (functions.ObjectFunctionHandler, functions.ObjectFunctionHandler, error) {
 
 	if opt, ok := astmodel.AsOptionalType(t); ok {
 		t = opt.BaseType()
@@ -146,7 +154,7 @@ func getAzureNameFunctionsForType(
 				return fixedValueGetAzureNameFunction("default"), nil, nil // no SetAzureName for this case
 			} else {
 				// ignoring for now:
-				klog.Warningf("unable to handle pattern in Name property: %s", validations.Patterns[0].String())
+				log.V(1).Info("ignoring pattern validation on Name property", "pattern", validations.Patterns[0].String())
 				return getStringAzureNameFunction, setStringAzureNameFunction, nil
 			}
 		} else {

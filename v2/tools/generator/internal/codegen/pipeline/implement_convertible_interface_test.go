@@ -8,6 +8,7 @@ package pipeline
 import (
 	"testing"
 
+	"github.com/go-logr/logr"
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -41,9 +42,9 @@ func TestGolden_InjectConvertibleInterface(t *testing.T) {
 	cfg := config.NewConfiguration()
 	initialState, err := RunTestPipeline(
 		NewState().WithDefinitions(defs),
-		CreateStorageTypes(),                              // First create the storage types
-		CreateConversionGraph(cfg, "v"),                   // Then, create the conversion graph showing relationships
-		InjectPropertyAssignmentFunctions(cfg, idFactory), // After which we inject property assignment functions
+		CreateStorageTypes(),                                              // First create the storage types
+		CreateConversionGraph(cfg, "v"),                                   // Then, create the conversion graph showing relationships
+		InjectPropertyAssignmentFunctions(cfg, idFactory, logr.Discard()), // After which we inject property assignment functions
 	)
 	g.Expect(err).To(Succeed())
 

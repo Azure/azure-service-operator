@@ -10,11 +10,10 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
-	"k8s.io/klog/v2"
 
-	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
@@ -207,8 +206,6 @@ func (stage *Stage) Run(ctx context.Context, state *State) (*State, error) {
 
 // checkPreconditions checks to ensure the preconditions of this stage have been satisfied
 func (stage *Stage) checkPreconditions(state *State) error {
-	klog.V(3).Infof("Checking requisites of %s", stage.Id())
-
 	if err := stage.checkPrerequisites(state); err != nil {
 		return err
 	}
@@ -225,12 +222,6 @@ func (stage *Stage) checkPrerequisites(state *State) error {
 	var errs []error
 	for _, prereq := range stage.prerequisites {
 		satisfied := state.stagesSeen.Contains(prereq)
-		if satisfied {
-			klog.V(3).Infof("[✓] Required prerequisite %s satisfied", prereq)
-		} else {
-			klog.V(3).Infof("[✗] Required prerequisite %s NOT satisfied", prereq)
-		}
-
 		if !satisfied {
 			errs = append(errs, errors.Errorf("prerequisite %q of stage %q NOT satisfied.", prereq, stage.Id()))
 		}
@@ -245,7 +236,6 @@ func (stage *Stage) checkPostrequisites(state *State) error {
 	for _, postreq := range stage.postrequisites {
 		early := state.stagesSeen.Contains(postreq)
 		if early {
-			klog.V(3).Infof("[✗] Required postrequisite %s satisfied early", postreq)
 			errs = append(errs, errors.Errorf("postrequisite %q satisfied of stage %q early.", postreq, stage.Id()))
 		}
 	}

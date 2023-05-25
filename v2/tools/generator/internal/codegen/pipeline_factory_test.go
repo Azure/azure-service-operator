@@ -11,6 +11,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/go-logr/logr"
 	"github.com/sebdah/goldie/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -28,7 +29,7 @@ func TestGolden_NewARMCodeGeneratorFromConfigCreatesRightPipeline(t *testing.T) 
 	idFactory := astmodel.NewIdentifierFactory()
 	configuration := config.NewConfiguration()
 
-	codegen, err := NewTargetedCodeGeneratorFromConfig(configuration, idFactory, pipeline.ARMTarget)
+	codegen, err := NewTargetedCodeGeneratorFromConfig(configuration, idFactory, pipeline.ARMTarget, logr.Discard())
 	g.Expect(err).To(Succeed())
 
 	result := writePipeline("Expected Pipeline Stages for ARM Code Generation", codegen)
@@ -46,7 +47,7 @@ func TestGolden_NewCrossplaneCodeGeneratorFromConfigCreatesRightPipeline(t *test
 	idFactory := astmodel.NewIdentifierFactory()
 	configuration := config.NewConfiguration()
 
-	codegen, err := NewTargetedCodeGeneratorFromConfig(configuration, idFactory, pipeline.CrossplaneTarget)
+	codegen, err := NewTargetedCodeGeneratorFromConfig(configuration, idFactory, pipeline.CrossplaneTarget, logr.Discard())
 	g.Expect(err).To(Succeed())
 
 	result := writePipeline("Expected Pipeline Stages for ARM Code Generation", codegen)

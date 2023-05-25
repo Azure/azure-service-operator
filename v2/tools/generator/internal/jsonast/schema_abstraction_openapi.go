@@ -7,17 +7,18 @@ package jsonast
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"math/big"
 	"net/url"
 	"path/filepath"
 	"regexp"
 	"strings"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
+	"github.com/go-logr/logr"
+
 	"github.com/go-openapi/jsonpointer"
 	"github.com/go-openapi/spec"
 	"github.com/pkg/errors"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -30,6 +31,7 @@ type OpenAPISchema struct {
 	outputPackage astmodel.LocalPackageReference
 	idFactory     astmodel.IdentifierFactory
 	loader        OpenAPIFileLoader
+	log           logr.Logger
 }
 
 // MakeOpenAPISchema wraps a spec.Swagger to conform to the Schema abstraction
@@ -39,14 +41,18 @@ func MakeOpenAPISchema(
 	fileName string,
 	outputPackage astmodel.LocalPackageReference,
 	idFactory astmodel.IdentifierFactory,
-	cache OpenAPIFileLoader) Schema {
+	cache OpenAPIFileLoader,
+	log logr.Logger,
+) Schema {
 	return &OpenAPISchema{
 		name:          name,
 		inner:         schema,
 		fileName:      fileName,
 		outputPackage: outputPackage,
 		idFactory:     idFactory,
-		loader:        cache}
+		loader:        cache,
+		log:           log,
+	}
 }
 
 func (schema *OpenAPISchema) withNewSchema(newSchema spec.Schema) Schema {
@@ -188,7 +194,9 @@ func (schema *OpenAPISchema) pattern() *regexp.Regexp {
 
 	result, err := regexp.Compile(p)
 	if err != nil {
-		klog.Warningf("Unable to compile regexp, ignoring: %s", p) // use %s instead of %q or everything gets re-escaped
+		schema.log.V(1).Info(
+			"Ignoring regexp we can't compile",
+			"pattern", p)
 		return nil
 	}
 
@@ -401,7 +409,8 @@ func (schema *OpenAPISchema) refSchema() Schema {
 		fileName,
 		outputPackage,
 		schema.idFactory,
-		schema.loader)
+		schema.loader,
+		schema.log)
 }
 
 // findFileForRef identifies the schema path for a ref, relative to the give schema path
