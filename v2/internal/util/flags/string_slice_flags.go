@@ -19,6 +19,10 @@ func (i *SliceFlags) String() string {
 }
 
 func (i *SliceFlags) Set(value string) error {
+	if value == "" {
+		return nil
+	}
+
 	if strings.Contains(value, ",") {
 		// split
 		split := strings.Split(value, ",")

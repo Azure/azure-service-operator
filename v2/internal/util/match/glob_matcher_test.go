@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package config
+package match
 
 import (
 	"testing"
@@ -34,7 +34,8 @@ func TestGlobMatcher_GivenTerms_MatchesExpectedStrings(t *testing.T) {
 				t.Parallel()
 				g := NewGomegaWithT(t)
 				matcher := newGlobMatcher(c.glob)
-				g.Expect(matcher.Matches(c.term)).To(Equal(c.expectedMatch))
+
+				g.Expect(matcher.Matches(c.term).Matched).To(Equal(c.expectedMatch))
 			})
 	}
 }
@@ -59,6 +60,7 @@ func TestGlobMatcher_IsRestrictive_GivesExpectedResults(t *testing.T) {
 				t.Parallel()
 				g := NewGomegaWithT(t)
 				matcher := newGlobMatcher(c.glob)
+
 				g.Expect(matcher.IsRestrictive()).To(Equal(c.restrictive))
 			})
 	}

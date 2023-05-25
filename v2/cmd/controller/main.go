@@ -26,6 +26,8 @@ func main() {
 		os.Exit(1)
 	}
 
+	setupLog.Info("Launching with flags", "flags", flgs.String())
+
 	if flgs.PreUpgradeCheck {
 		err = app.SetupPreUpgradeCheck(ctx)
 		if err != nil {

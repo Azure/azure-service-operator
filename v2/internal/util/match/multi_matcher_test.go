@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package config
+package match
 
 import (
 	"testing"
@@ -15,8 +15,8 @@ func TestMultiMatcher_GivenDefinition_MatchesExpectedStrings(t *testing.T) {
 	t.Parallel()
 
 	type expectation struct {
-		value string
-		match bool
+		value       string
+		matchResult Result
 	}
 
 	cases := []struct {
@@ -28,28 +28,28 @@ func TestMultiMatcher_GivenDefinition_MatchesExpectedStrings(t *testing.T) {
 			"Literal matches match all literals",
 			"foo;bar;baz",
 			[]expectation{
-				{"foo", true},
-				{"bar", true},
-				{"baz", true},
-				{"zoo", false},
-				{"Foo", true},
-				{"Bar", true},
-				{"Baz", true},
-				{"Zoo", false},
+				{"foo", matchFound("foo")},
+				{"bar", matchFound("bar")},
+				{"baz", matchFound("baz")},
+				{"zoo", matchNotFound()},
+				{"Foo", matchFound("foo")},
+				{"Bar", matchFound("bar")},
+				{"Baz", matchFound("baz")},
+				{"Zoo", matchNotFound()},
 			},
 		},
 		{
 			"Wildcard matches match different things",
 			"f*;Ba*",
 			[]expectation{
-				{"foo", true},
-				{"bar", true},
-				{"baz", true},
-				{"zoo", false},
-				{"Foo", true},
-				{"Bar", true},
-				{"Baz", true},
-				{"Zoo", false},
+				{"foo", matchFound("f*")},
+				{"bar", matchFound("Ba*")},
+				{"baz", matchFound("Ba*")},
+				{"zoo", matchNotFound()},
+				{"Foo", matchFound("f*")},
+				{"Bar", matchFound("Ba*")},
+				{"Baz", matchFound("Ba*")},
+				{"Zoo", matchNotFound()},
 			},
 		},
 	}
@@ -62,7 +62,8 @@ func TestMultiMatcher_GivenDefinition_MatchesExpectedStrings(t *testing.T) {
 
 			m := newMultiMatcher(c.definition)
 			for _, e := range c.expected {
-				g.Expect(m.Matches(e.value)).To(Equal(e.match))
+				matchResult := m.Matches(e.value)
+				g.Expect(matchResult).To(Equal(e.matchResult))
 			}
 		})
 	}
@@ -81,13 +82,14 @@ func TestMultiMatcher_DoesNotShortCircuit(t *testing.T) {
 	 */
 
 	cases := []struct {
-		name       string
-		definition string
-		probe      string
+		name          string
+		definition    string
+		probe         string
+		expectedMatch string
 	}{
-		{"Similar literals", "foo;Foo", "foo"},
-		{"Similar globs", "T*;*T", "that"},
-		{"Mixed types", "B*;Ba?;baz", "baz"},
+		{"Similar literals", "foo;Foo", "foo", "foo"},
+		{"Similar globs", "T*;*T", "that", "T*"},
+		{"Mixed types", "B*;Ba?;baz", "baz", "B*"},
 	}
 
 	for _, c := range cases {
@@ -97,13 +99,17 @@ func TestMultiMatcher_DoesNotShortCircuit(t *testing.T) {
 			g := NewGomegaWithT(t)
 
 			m := newMultiMatcher(c.definition)
-			g.Expect(m.Matches(c.probe)).To(BeTrue())
-			for _, nested := range m.matchers {
+
+			matchResult := m.Matches(c.probe)
+			g.Expect(matchResult.Matched).To(BeTrue())
+			g.Expect(matchResult.MatchingPattern).To(Equal(c.expectedMatch))
+
+			castMatches := m.(*multiMatcher)
+			for _, nested := range castMatches.matchers {
 				g.Expect(nested.WasMatched()).To(BeNil())
 			}
 		})
 	}
-
 }
 
 func TestMultiMatcher_IsRestrictive_GivesExpectedResults(t *testing.T) {
@@ -127,6 +133,7 @@ func TestMultiMatcher_IsRestrictive_GivesExpectedResults(t *testing.T) {
 				t.Parallel()
 				g := NewGomegaWithT(t)
 				matcher := newMultiMatcher(c.matcher)
+
 				g.Expect(matcher.IsRestrictive()).To(Equal(c.restrictive))
 			})
 	}

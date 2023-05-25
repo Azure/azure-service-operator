@@ -61,6 +61,7 @@ find "$GEN_FILES_DIR" -type f -exec sed -i 's/azureserviceoperator-system/{{ .Re
 # Apply CRD guards
 sed -i "1 s/^/$IF_CRDS\n/;$ a {{- end }}" "$GEN_FILES_DIR"/*crd-manager-role*
 flow_control "--crd-pattern" "--crd-pattern" "$IF_CRDS" "$GEN_FILES_DIR"/*_deployment_*
+sed -i 's/--crd-pattern=.*/--crd-pattern={{ .Values.crdPattern }}/g' "$GEN_FILES_DIR"/*_deployment_*
 
 # Perform file level changes for cluster and tenant
 for file in $(find "$GEN_FILES_DIR" -type f)
