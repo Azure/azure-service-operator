@@ -326,7 +326,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 				}
 			},
 			NewErroredType(StringType, nil, nil),
-			"errored",
+			"string",
 		},
 		{
 			"ErroredTypeSimplified",
@@ -337,7 +337,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 				}
 			},
 			NewErroredType(StringType, nil, nil),
-			"errored",
+			"string",
 		},
 		{
 			"ValidatedTypeHandler",
@@ -348,7 +348,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 				}
 			},
 			NewValidatedType(StringType, StringValidations{}),
-			"validated",
+			"Validated",
 		},
 		{
 			"ValidatedTypeSimplified",
@@ -359,7 +359,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 				}
 			},
 			NewValidatedType(StringType, StringValidations{}),
-			"validated",
+			"Validated",
 		},
 		{
 			"ResourceTypeHandler",
