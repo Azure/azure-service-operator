@@ -4,9 +4,8 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702
 │   └── "2021-07-02"
 ├── IotHub: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
-│   ├── Spec: Object (9 properties)
+│   ├── Spec: Object (8 properties)
 │   │   ├── AzureName: string
-│   │   ├── Etag: *string
 │   │   ├── Identity: *Object (2 properties)
 │   │   │   ├── Type: *Enum (4 values)
 │   │   │   │   ├── "None"
@@ -107,7 +106,7 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702
 │   │   │   │   │   │   ├── AuthenticationType: *Enum (2 values)
 │   │   │   │   │   │   │   ├── "identityBased"
 │   │   │   │   │   │   │   └── "keyBased"
-│   │   │   │   │   │   ├── ConnectionString: *string
+│   │   │   │   │   │   ├── ConnectionString: *genruntime.SecretReference
 │   │   │   │   │   │   ├── EndpointUri: *string
 │   │   │   │   │   │   ├── EntityPath: *string
 │   │   │   │   │   │   ├── Identity: *Object (1 property)
@@ -121,7 +120,7 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702
 │   │   │   │   │   │   ├── AuthenticationType: *Enum (2 values)
 │   │   │   │   │   │   │   ├── "identityBased"
 │   │   │   │   │   │   │   └── "keyBased"
-│   │   │   │   │   │   ├── ConnectionString: *string
+│   │   │   │   │   │   ├── ConnectionString: *genruntime.SecretReference
 │   │   │   │   │   │   ├── EndpointUri: *string
 │   │   │   │   │   │   ├── EntityPath: *string
 │   │   │   │   │   │   ├── Identity: *Object (1 property)
@@ -135,7 +134,7 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702
 │   │   │   │   │   │   ├── AuthenticationType: *Enum (2 values)
 │   │   │   │   │   │   │   ├── "identityBased"
 │   │   │   │   │   │   │   └── "keyBased"
-│   │   │   │   │   │   ├── ConnectionString: *string
+│   │   │   │   │   │   ├── ConnectionString: *genruntime.SecretReference
 │   │   │   │   │   │   ├── EndpointUri: *string
 │   │   │   │   │   │   ├── EntityPath: *string
 │   │   │   │   │   │   ├── Identity: *Object (1 property)
@@ -152,7 +151,7 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702
 │   │   │   │   │       ├── BatchFrequencyInSeconds: Validated<*int> (2 rules)
 │   │   │   │   │       │   ├── Rule 0: Maximum: 720
 │   │   │   │   │       │   └── Rule 1: Minimum: 60
-│   │   │   │   │       ├── ConnectionString: *string
+│   │   │   │   │       ├── ConnectionString: *genruntime.SecretReference
 │   │   │   │   │       ├── ContainerName: *string
 │   │   │   │   │       ├── Encoding: *Enum (3 values)
 │   │   │   │   │       │   ├── "Avro"
@@ -203,7 +202,7 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702
 │   │   │       ├── AuthenticationType: *Enum (2 values)
 │   │   │       │   ├── "identityBased"
 │   │   │       │   └── "keyBased"
-│   │   │       ├── ConnectionString: *string
+│   │   │       ├── ConnectionString: genruntime.SecretReference
 │   │   │       ├── ContainerName: *string
 │   │   │       ├── Identity: *Object (1 property)
 │   │   │       │   └── UserAssignedIdentity: *string
@@ -658,8 +657,7 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702
 │   │       └── "User"
 │   ├── Tags: map[string]string
 │   └── Type: *string
-└── IotHub_Spec_ARM: Object (7 properties)
-    ├── Etag: *string
+└── IotHub_Spec_ARM: Object (6 properties)
     ├── Identity: *Object (2 properties)
     │   ├── Type: *Enum (4 values)
     │   │   ├── "None"
@@ -823,7 +821,7 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702
     │       ├── AuthenticationType: *Enum (2 values)
     │       │   ├── "identityBased"
     │       │   └── "keyBased"
-    │       ├── ConnectionString: *string
+    │       ├── ConnectionString: string
     │       ├── ContainerName: *string
     │       ├── Identity: *Object (1 property)
     │       │   └── UserAssignedIdentity: *string

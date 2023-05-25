@@ -6,10 +6,6 @@ package v1api20210702
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type IotHub_Spec_ARM struct {
-	// Etag: The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per
-	// the normal ETag convention.
-	Etag *string `json:"etag,omitempty"`
-
 	// Identity: The managed identities for the IotHub.
 	Identity *ArmIdentity_ARM `json:"identity,omitempty"`
 
@@ -274,7 +270,7 @@ type StorageEndpointProperties_ARM struct {
 	AuthenticationType *StorageEndpointProperties_AuthenticationType `json:"authenticationType,omitempty"`
 
 	// ConnectionString: The connection string for the Azure Storage account to which files are uploaded.
-	ConnectionString *string `json:"connectionString,omitempty"`
+	ConnectionString string `json:"connectionString,omitempty"`
 
 	// ContainerName: The name of the root container where you upload files. The container need not exist but should be
 	// creatable using the connectionString specified.

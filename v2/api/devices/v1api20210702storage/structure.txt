@@ -4,9 +4,8 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702storage
 │   └── "2021-07-02"
 └── IotHub: Resource
     ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
-    ├── Spec: Object (11 properties)
+    ├── Spec: Object (10 properties)
     │   ├── AzureName: string
-    │   ├── Etag: *string
     │   ├── Identity: *Object (3 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   ├── Type: *string
@@ -85,7 +84,7 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702storage
     │   │   │   ├── Endpoints: *Object (5 properties)
     │   │   │   │   ├── EventHubs: Object (10 properties)[]
     │   │   │   │   │   ├── AuthenticationType: *string
-    │   │   │   │   │   ├── ConnectionString: *string
+    │   │   │   │   │   ├── ConnectionString: *genruntime.SecretReference
     │   │   │   │   │   ├── EndpointUri: *string
     │   │   │   │   │   ├── EntityPath: *string
     │   │   │   │   │   ├── Identity: *Object (2 properties)
@@ -99,7 +98,7 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702storage
     │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   ├── ServiceBusQueues: Object (10 properties)[]
     │   │   │   │   │   ├── AuthenticationType: *string
-    │   │   │   │   │   ├── ConnectionString: *string
+    │   │   │   │   │   ├── ConnectionString: *genruntime.SecretReference
     │   │   │   │   │   ├── EndpointUri: *string
     │   │   │   │   │   ├── EntityPath: *string
     │   │   │   │   │   ├── Identity: *Object (2 properties)
@@ -112,7 +111,7 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702storage
     │   │   │   │   │   └── SubscriptionId: *string
     │   │   │   │   ├── ServiceBusTopics: Object (10 properties)[]
     │   │   │   │   │   ├── AuthenticationType: *string
-    │   │   │   │   │   ├── ConnectionString: *string
+    │   │   │   │   │   ├── ConnectionString: *genruntime.SecretReference
     │   │   │   │   │   ├── EndpointUri: *string
     │   │   │   │   │   ├── EntityPath: *string
     │   │   │   │   │   ├── Identity: *Object (2 properties)
@@ -126,7 +125,7 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702storage
     │   │   │   │   └── StorageContainers: Object (14 properties)[]
     │   │   │   │       ├── AuthenticationType: *string
     │   │   │   │       ├── BatchFrequencyInSeconds: *int
-    │   │   │   │       ├── ConnectionString: *string
+    │   │   │   │       ├── ConnectionString: *genruntime.SecretReference
     │   │   │   │       ├── ContainerName: *string
     │   │   │   │       ├── Encoding: *string
     │   │   │   │       ├── EndpointUri: *string
@@ -162,7 +161,7 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702storage
     │   │   │       └── Source: *string
     │   │   └── StorageEndpoints: map[string]Object (6 properties)
     │   │       ├── AuthenticationType: *string
-    │   │       ├── ConnectionString: *string
+    │   │       ├── ConnectionString: *genruntime.SecretReference
     │   │       ├── ContainerName: *string
     │   │       ├── Identity: *Object (2 properties)
     │   │       │   ├── PropertyBag: genruntime.PropertyBag

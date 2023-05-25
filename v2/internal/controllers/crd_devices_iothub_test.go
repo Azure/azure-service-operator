@@ -18,7 +18,6 @@ import (
 )
 
 func Test_Devices_IotHub_CRUD(t *testing.T) {
-
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -69,7 +68,6 @@ func IotHub_WriteSecrets(tc *testcommon.KubePerTestContext, iotHub *devices.IotH
 	old := iotHub.DeepCopy()
 	iotHubKeysSecret := "iothubkeyssecret"
 	iotHub.Spec.OperatorSpec = &devices.IotHubOperatorSpec{
-
 		Secrets: &devices.IotHubOperatorSecrets{
 			DevicePrimaryKey:              &genruntime.SecretDestination{Name: iotHubKeysSecret, Key: "devicePrimaryKey"},
 			DeviceSecondaryKey:            &genruntime.SecretDestination{Name: iotHubKeysSecret, Key: "deviceSecondaryKey"},
@@ -83,9 +81,8 @@ func IotHub_WriteSecrets(tc *testcommon.KubePerTestContext, iotHub *devices.IotH
 			ServiceSecondaryKey:           &genruntime.SecretDestination{Name: iotHubKeysSecret, Key: "serviceSecondaryKey"},
 		},
 	}
-	tc.ExportAsSample(iotHub)
-	tc.PatchResourceAndWait(old, iotHub)
 
+	tc.PatchResourceAndWait(old, iotHub)
 	tc.ExpectSecretHasKeys(
 		iotHubKeysSecret,
 		"devicePrimaryKey",

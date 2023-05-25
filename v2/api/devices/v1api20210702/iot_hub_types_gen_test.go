@@ -273,7 +273,6 @@ func IotHub_SpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIotHub_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIotHub_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
@@ -3435,7 +3434,6 @@ func StorageEndpointPropertiesGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForStorageEndpointProperties is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageEndpointProperties(gens map[string]gopter.Gen) {
 	gens["AuthenticationType"] = gen.PtrOf(gen.OneConstOf(StorageEndpointProperties_AuthenticationType_IdentityBased, StorageEndpointProperties_AuthenticationType_KeyBased))
-	gens["ConnectionString"] = gen.PtrOf(gen.AlphaString())
 	gens["ContainerName"] = gen.PtrOf(gen.AlphaString())
 	gens["SasTtlAsIso8601"] = gen.PtrOf(gen.AlphaString())
 }
@@ -5256,7 +5254,6 @@ func RoutingEventHubPropertiesGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForRoutingEventHubProperties is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRoutingEventHubProperties(gens map[string]gopter.Gen) {
 	gens["AuthenticationType"] = gen.PtrOf(gen.OneConstOf(RoutingEventHubProperties_AuthenticationType_IdentityBased, RoutingEventHubProperties_AuthenticationType_KeyBased))
-	gens["ConnectionString"] = gen.PtrOf(gen.AlphaString())
 	gens["EndpointUri"] = gen.PtrOf(gen.AlphaString())
 	gens["EntityPath"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -5503,7 +5500,6 @@ func RoutingServiceBusQueueEndpointPropertiesGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForRoutingServiceBusQueueEndpointProperties is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRoutingServiceBusQueueEndpointProperties(gens map[string]gopter.Gen) {
 	gens["AuthenticationType"] = gen.PtrOf(gen.OneConstOf(RoutingServiceBusQueueEndpointProperties_AuthenticationType_IdentityBased, RoutingServiceBusQueueEndpointProperties_AuthenticationType_KeyBased))
-	gens["ConnectionString"] = gen.PtrOf(gen.AlphaString())
 	gens["EndpointUri"] = gen.PtrOf(gen.AlphaString())
 	gens["EntityPath"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -5750,7 +5746,6 @@ func RoutingServiceBusTopicEndpointPropertiesGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForRoutingServiceBusTopicEndpointProperties is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRoutingServiceBusTopicEndpointProperties(gens map[string]gopter.Gen) {
 	gens["AuthenticationType"] = gen.PtrOf(gen.OneConstOf(RoutingServiceBusTopicEndpointProperties_AuthenticationType_IdentityBased, RoutingServiceBusTopicEndpointProperties_AuthenticationType_KeyBased))
-	gens["ConnectionString"] = gen.PtrOf(gen.AlphaString())
 	gens["EndpointUri"] = gen.PtrOf(gen.AlphaString())
 	gens["EntityPath"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -5998,7 +5993,6 @@ func RoutingStorageContainerPropertiesGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForRoutingStorageContainerProperties(gens map[string]gopter.Gen) {
 	gens["AuthenticationType"] = gen.PtrOf(gen.OneConstOf(RoutingStorageContainerProperties_AuthenticationType_IdentityBased, RoutingStorageContainerProperties_AuthenticationType_KeyBased))
 	gens["BatchFrequencyInSeconds"] = gen.PtrOf(gen.Int())
-	gens["ConnectionString"] = gen.PtrOf(gen.AlphaString())
 	gens["ContainerName"] = gen.PtrOf(gen.AlphaString())
 	gens["Encoding"] = gen.PtrOf(gen.OneConstOf(RoutingStorageContainerProperties_Encoding_Avro, RoutingStorageContainerProperties_Encoding_AvroDeflate, RoutingStorageContainerProperties_Encoding_JSON))
 	gens["EndpointUri"] = gen.PtrOf(gen.AlphaString())

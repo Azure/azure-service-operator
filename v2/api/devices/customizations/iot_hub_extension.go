@@ -16,9 +16,10 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	storage "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702storage"
+	devices "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
@@ -31,9 +32,9 @@ func (ext *IotHubExtension) ExportKubernetesResources(
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger) ([]client.Object, error) {
 
-	// This has to be the current hub storage version. It will need to be updated
-	// if the hub storage version changes.
-	typedObj, ok := obj.(*storage.IotHub)
+	// This has to be the current hub devices version. It will need to be updated
+	// if the hub devices version changes.
+	typedObj, ok := obj.(*devices.IotHub)
 	if !ok {
 		return nil, errors.Errorf("cannot run on unknown resource type %T, expected *devices.IotHub", obj)
 	}
@@ -89,7 +90,7 @@ func (ext *IotHubExtension) ExportKubernetesResources(
 	return secrets.SliceToClientObjectSlice(secretSlice), nil
 }
 
-func secretsSpecified(obj *storage.IotHub) bool {
+func secretsSpecified(obj *devices.IotHub) bool {
 	if obj.Spec.OperatorSpec == nil || obj.Spec.OperatorSpec.Secrets == nil {
 		return false
 	}
@@ -121,41 +122,42 @@ func addSecretsToMap(keys []*armiothub.SharedAccessSignatureAuthorizationRule, r
 	}
 }
 
-func secretsToWrite(obj *storage.IotHub, keys map[string]armiothub.SharedAccessSignatureAuthorizationRule) ([]*v1.Secret, error) {
+func secretsToWrite(obj *devices.IotHub, keys map[string]armiothub.SharedAccessSignatureAuthorizationRule) ([]*v1.Secret, error) {
 	operatorSpecSecrets := obj.Spec.OperatorSpec.Secrets
 	if operatorSpecSecrets == nil {
 		return nil, errors.Errorf("unexpected nil operatorspec")
 	}
 
+	// Documentation for keys : https://learn.microsoft.com/en-us/rest/api/iothub/iot-hub-resource/list-keys?tabs=HTTP#sharedaccesssignatureauthorizationrule
 	collector := secrets.NewCollector(obj.Namespace)
 	iothubowner, ok := keys["iothubowner"]
 	if ok {
-		collector.AddValue(operatorSpecSecrets.IotHubOwnerPrimaryKey, *iothubowner.PrimaryKey)
-		collector.AddValue(operatorSpecSecrets.IotHubOwnerSecondaryKey, *iothubowner.SecondaryKey)
+		collector.AddValue(operatorSpecSecrets.IotHubOwnerPrimaryKey, to.Value(iothubowner.PrimaryKey))
+		collector.AddValue(operatorSpecSecrets.IotHubOwnerSecondaryKey, to.Value(iothubowner.SecondaryKey))
 	}
 
 	service, ok := keys["service"]
 	if ok {
-		collector.AddValue(operatorSpecSecrets.ServicePrimaryKey, *service.PrimaryKey)
-		collector.AddValue(operatorSpecSecrets.ServiceSecondaryKey, *service.SecondaryKey)
+		collector.AddValue(operatorSpecSecrets.ServicePrimaryKey, to.Value(service.PrimaryKey))
+		collector.AddValue(operatorSpecSecrets.ServiceSecondaryKey, to.Value(service.SecondaryKey))
 	}
 
 	device, ok := keys["device"]
 	if ok {
-		collector.AddValue(operatorSpecSecrets.DevicePrimaryKey, *device.PrimaryKey)
-		collector.AddValue(operatorSpecSecrets.DeviceSecondaryKey, *device.SecondaryKey)
+		collector.AddValue(operatorSpecSecrets.DevicePrimaryKey, to.Value(device.PrimaryKey))
+		collector.AddValue(operatorSpecSecrets.DeviceSecondaryKey, to.Value(device.SecondaryKey))
 	}
 
 	registryRead, ok := keys["registryRead"]
 	if ok {
-		collector.AddValue(operatorSpecSecrets.RegistryReadPrimaryKey, *registryRead.PrimaryKey)
-		collector.AddValue(operatorSpecSecrets.RegistryReadSecondaryKey, *registryRead.SecondaryKey)
+		collector.AddValue(operatorSpecSecrets.RegistryReadPrimaryKey, to.Value(registryRead.PrimaryKey))
+		collector.AddValue(operatorSpecSecrets.RegistryReadSecondaryKey, to.Value(registryRead.SecondaryKey))
 	}
 
 	registryReadWrite, ok := keys["registryReadWrite"]
 	if ok {
-		collector.AddValue(operatorSpecSecrets.RegistryReadWritePrimaryKey, *registryReadWrite.PrimaryKey)
-		collector.AddValue(operatorSpecSecrets.RegistryReadWriteSecondaryKey, *registryReadWrite.SecondaryKey)
+		collector.AddValue(operatorSpecSecrets.RegistryReadWritePrimaryKey, to.Value(registryReadWrite.PrimaryKey))
+		collector.AddValue(operatorSpecSecrets.RegistryReadWriteSecondaryKey, to.Value(registryReadWrite.SecondaryKey))
 	}
 
 	return collector.Values()

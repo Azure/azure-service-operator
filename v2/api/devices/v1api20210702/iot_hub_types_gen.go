@@ -369,10 +369,6 @@ type IotHub_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// Etag: The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per
-	// the normal ETag convention.
-	Etag *string `json:"etag,omitempty"`
-
 	// Identity: The managed identities for the IotHub.
 	Identity *ArmIdentity `json:"identity,omitempty"`
 
@@ -409,12 +405,6 @@ func (iotHub *IotHub_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		return nil, nil
 	}
 	result := &IotHub_Spec_ARM{}
-
-	// Set property ‘Etag’:
-	if iotHub.Etag != nil {
-		etag := *iotHub.Etag
-		result.Etag = &etag
-	}
 
 	// Set property ‘Identity’:
 	if iotHub.Identity != nil {
@@ -479,12 +469,6 @@ func (iotHub *IotHub_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 
 	// Set property ‘AzureName’:
 	iotHub.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘Etag’:
-	if typedInput.Etag != nil {
-		etag := *typedInput.Etag
-		iotHub.Etag = &etag
-	}
 
 	// Set property ‘Identity’:
 	if typedInput.Identity != nil {
@@ -598,9 +582,6 @@ func (iotHub *IotHub_Spec) AssignProperties_From_IotHub_Spec(source *v1api202107
 	// AzureName
 	iotHub.AzureName = source.AzureName
 
-	// Etag
-	iotHub.Etag = genruntime.ClonePointerToString(source.Etag)
-
 	// Identity
 	if source.Identity != nil {
 		var identity ArmIdentity
@@ -674,9 +655,6 @@ func (iotHub *IotHub_Spec) AssignProperties_To_IotHub_Spec(destination *v1api202
 
 	// AzureName
 	destination.AzureName = iotHub.AzureName
-
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(iotHub.Etag)
 
 	// Identity
 	if iotHub.Identity != nil {
@@ -756,9 +734,6 @@ func (iotHub *IotHub_Spec) AssignProperties_To_IotHub_Spec(destination *v1api202
 
 // Initialize_From_IotHub_STATUS populates our IotHub_Spec from the provided source IotHub_STATUS
 func (iotHub *IotHub_Spec) Initialize_From_IotHub_STATUS(source *IotHub_STATUS) error {
-
-	// Etag
-	iotHub.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Identity
 	if source.Identity != nil {
@@ -6429,7 +6404,7 @@ type StorageEndpointProperties struct {
 
 	// +kubebuilder:validation:Required
 	// ConnectionString: The connection string for the Azure Storage account to which files are uploaded.
-	ConnectionString *string `json:"connectionString,omitempty"`
+	ConnectionString genruntime.SecretReference `json:"connectionString,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// ContainerName: The name of the root container where you upload files. The container need not exist but should be
@@ -6460,10 +6435,11 @@ func (properties *StorageEndpointProperties) ConvertToARM(resolved genruntime.Co
 	}
 
 	// Set property ‘ConnectionString’:
-	if properties.ConnectionString != nil {
-		connectionString := *properties.ConnectionString
-		result.ConnectionString = &connectionString
+	connectionStringSecret, err := resolved.ResolvedSecrets.Lookup(properties.ConnectionString)
+	if err != nil {
+		return nil, errors.Wrap(err, "looking up secret for property ConnectionString")
 	}
+	result.ConnectionString = connectionStringSecret
 
 	// Set property ‘ContainerName’:
 	if properties.ContainerName != nil {
@@ -6507,11 +6483,7 @@ func (properties *StorageEndpointProperties) PopulateFromARM(owner genruntime.Ar
 		properties.AuthenticationType = &authenticationType
 	}
 
-	// Set property ‘ConnectionString’:
-	if typedInput.ConnectionString != nil {
-		connectionString := *typedInput.ConnectionString
-		properties.ConnectionString = &connectionString
-	}
+	// no assignment for property ‘ConnectionString’
 
 	// Set property ‘ContainerName’:
 	if typedInput.ContainerName != nil {
@@ -6552,7 +6524,11 @@ func (properties *StorageEndpointProperties) AssignProperties_From_StorageEndpoi
 	}
 
 	// ConnectionString
-	properties.ConnectionString = genruntime.ClonePointerToString(source.ConnectionString)
+	if source.ConnectionString != nil {
+		properties.ConnectionString = source.ConnectionString.Copy()
+	} else {
+		properties.ConnectionString = genruntime.SecretReference{}
+	}
 
 	// ContainerName
 	properties.ContainerName = genruntime.ClonePointerToString(source.ContainerName)
@@ -6590,7 +6566,8 @@ func (properties *StorageEndpointProperties) AssignProperties_To_StorageEndpoint
 	}
 
 	// ConnectionString
-	destination.ConnectionString = genruntime.ClonePointerToString(properties.ConnectionString)
+	connectionString := properties.ConnectionString.Copy()
+	destination.ConnectionString = &connectionString
 
 	// ContainerName
 	destination.ContainerName = genruntime.ClonePointerToString(properties.ContainerName)
@@ -6633,7 +6610,10 @@ func (properties *StorageEndpointProperties) Initialize_From_StorageEndpointProp
 	}
 
 	// ConnectionString
-	properties.ConnectionString = genruntime.ClonePointerToString(source.ConnectionString)
+	if source.ConnectionString != nil {
+	} else {
+		properties.ConnectionString = genruntime.SecretReference{}
+	}
 
 	// ContainerName
 	properties.ContainerName = genruntime.ClonePointerToString(source.ContainerName)
@@ -9145,7 +9125,7 @@ type RoutingEventHubProperties struct {
 	AuthenticationType *RoutingEventHubProperties_AuthenticationType `json:"authenticationType,omitempty"`
 
 	// ConnectionString: The connection string of the event hub endpoint.
-	ConnectionString *string `json:"connectionString,omitempty"`
+	ConnectionString *genruntime.SecretReference `json:"connectionString,omitempty"`
 
 	// EndpointUri: The url of the event hub endpoint. It must include the protocol sb://
 	EndpointUri *string `json:"endpointUri,omitempty"`
@@ -9190,7 +9170,11 @@ func (properties *RoutingEventHubProperties) ConvertToARM(resolved genruntime.Co
 
 	// Set property ‘ConnectionString’:
 	if properties.ConnectionString != nil {
-		connectionString := *properties.ConnectionString
+		connectionStringSecret, err := resolved.ResolvedSecrets.Lookup(*properties.ConnectionString)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property ConnectionString")
+		}
+		connectionString := connectionStringSecret
 		result.ConnectionString = &connectionString
 	}
 
@@ -9264,11 +9248,7 @@ func (properties *RoutingEventHubProperties) PopulateFromARM(owner genruntime.Ar
 		properties.AuthenticationType = &authenticationType
 	}
 
-	// Set property ‘ConnectionString’:
-	if typedInput.ConnectionString != nil {
-		connectionString := *typedInput.ConnectionString
-		properties.ConnectionString = &connectionString
-	}
+	// no assignment for property ‘ConnectionString’
 
 	// Set property ‘EndpointUri’:
 	if typedInput.EndpointUri != nil {
@@ -9329,7 +9309,12 @@ func (properties *RoutingEventHubProperties) AssignProperties_From_RoutingEventH
 	}
 
 	// ConnectionString
-	properties.ConnectionString = genruntime.ClonePointerToString(source.ConnectionString)
+	if source.ConnectionString != nil {
+		connectionString := source.ConnectionString.Copy()
+		properties.ConnectionString = &connectionString
+	} else {
+		properties.ConnectionString = nil
+	}
 
 	// EndpointUri
 	properties.EndpointUri = genruntime.ClonePointerToString(source.EndpointUri)
@@ -9389,7 +9374,12 @@ func (properties *RoutingEventHubProperties) AssignProperties_To_RoutingEventHub
 	}
 
 	// ConnectionString
-	destination.ConnectionString = genruntime.ClonePointerToString(properties.ConnectionString)
+	if properties.ConnectionString != nil {
+		connectionString := properties.ConnectionString.Copy()
+		destination.ConnectionString = &connectionString
+	} else {
+		destination.ConnectionString = nil
+	}
 
 	// EndpointUri
 	destination.EndpointUri = genruntime.ClonePointerToString(properties.EndpointUri)
@@ -9454,7 +9444,10 @@ func (properties *RoutingEventHubProperties) Initialize_From_RoutingEventHubProp
 	}
 
 	// ConnectionString
-	properties.ConnectionString = genruntime.ClonePointerToString(source.ConnectionString)
+	if source.ConnectionString != nil {
+	} else {
+		properties.ConnectionString = nil
+	}
 
 	// EndpointUri
 	properties.EndpointUri = genruntime.ClonePointerToString(source.EndpointUri)
@@ -9720,7 +9713,7 @@ type RoutingServiceBusQueueEndpointProperties struct {
 	AuthenticationType *RoutingServiceBusQueueEndpointProperties_AuthenticationType `json:"authenticationType,omitempty"`
 
 	// ConnectionString: The connection string of the service bus queue endpoint.
-	ConnectionString *string `json:"connectionString,omitempty"`
+	ConnectionString *genruntime.SecretReference `json:"connectionString,omitempty"`
 
 	// EndpointUri: The url of the service bus queue endpoint. It must include the protocol sb://
 	EndpointUri *string `json:"endpointUri,omitempty"`
@@ -9765,7 +9758,11 @@ func (properties *RoutingServiceBusQueueEndpointProperties) ConvertToARM(resolve
 
 	// Set property ‘ConnectionString’:
 	if properties.ConnectionString != nil {
-		connectionString := *properties.ConnectionString
+		connectionStringSecret, err := resolved.ResolvedSecrets.Lookup(*properties.ConnectionString)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property ConnectionString")
+		}
+		connectionString := connectionStringSecret
 		result.ConnectionString = &connectionString
 	}
 
@@ -9839,11 +9836,7 @@ func (properties *RoutingServiceBusQueueEndpointProperties) PopulateFromARM(owne
 		properties.AuthenticationType = &authenticationType
 	}
 
-	// Set property ‘ConnectionString’:
-	if typedInput.ConnectionString != nil {
-		connectionString := *typedInput.ConnectionString
-		properties.ConnectionString = &connectionString
-	}
+	// no assignment for property ‘ConnectionString’
 
 	// Set property ‘EndpointUri’:
 	if typedInput.EndpointUri != nil {
@@ -9904,7 +9897,12 @@ func (properties *RoutingServiceBusQueueEndpointProperties) AssignProperties_Fro
 	}
 
 	// ConnectionString
-	properties.ConnectionString = genruntime.ClonePointerToString(source.ConnectionString)
+	if source.ConnectionString != nil {
+		connectionString := source.ConnectionString.Copy()
+		properties.ConnectionString = &connectionString
+	} else {
+		properties.ConnectionString = nil
+	}
 
 	// EndpointUri
 	properties.EndpointUri = genruntime.ClonePointerToString(source.EndpointUri)
@@ -9964,7 +9962,12 @@ func (properties *RoutingServiceBusQueueEndpointProperties) AssignProperties_To_
 	}
 
 	// ConnectionString
-	destination.ConnectionString = genruntime.ClonePointerToString(properties.ConnectionString)
+	if properties.ConnectionString != nil {
+		connectionString := properties.ConnectionString.Copy()
+		destination.ConnectionString = &connectionString
+	} else {
+		destination.ConnectionString = nil
+	}
 
 	// EndpointUri
 	destination.EndpointUri = genruntime.ClonePointerToString(properties.EndpointUri)
@@ -10029,7 +10032,10 @@ func (properties *RoutingServiceBusQueueEndpointProperties) Initialize_From_Rout
 	}
 
 	// ConnectionString
-	properties.ConnectionString = genruntime.ClonePointerToString(source.ConnectionString)
+	if source.ConnectionString != nil {
+	} else {
+		properties.ConnectionString = nil
+	}
 
 	// EndpointUri
 	properties.EndpointUri = genruntime.ClonePointerToString(source.EndpointUri)
@@ -10295,7 +10301,7 @@ type RoutingServiceBusTopicEndpointProperties struct {
 	AuthenticationType *RoutingServiceBusTopicEndpointProperties_AuthenticationType `json:"authenticationType,omitempty"`
 
 	// ConnectionString: The connection string of the service bus topic endpoint.
-	ConnectionString *string `json:"connectionString,omitempty"`
+	ConnectionString *genruntime.SecretReference `json:"connectionString,omitempty"`
 
 	// EndpointUri: The url of the service bus topic endpoint. It must include the protocol sb://
 	EndpointUri *string `json:"endpointUri,omitempty"`
@@ -10340,7 +10346,11 @@ func (properties *RoutingServiceBusTopicEndpointProperties) ConvertToARM(resolve
 
 	// Set property ‘ConnectionString’:
 	if properties.ConnectionString != nil {
-		connectionString := *properties.ConnectionString
+		connectionStringSecret, err := resolved.ResolvedSecrets.Lookup(*properties.ConnectionString)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property ConnectionString")
+		}
+		connectionString := connectionStringSecret
 		result.ConnectionString = &connectionString
 	}
 
@@ -10414,11 +10424,7 @@ func (properties *RoutingServiceBusTopicEndpointProperties) PopulateFromARM(owne
 		properties.AuthenticationType = &authenticationType
 	}
 
-	// Set property ‘ConnectionString’:
-	if typedInput.ConnectionString != nil {
-		connectionString := *typedInput.ConnectionString
-		properties.ConnectionString = &connectionString
-	}
+	// no assignment for property ‘ConnectionString’
 
 	// Set property ‘EndpointUri’:
 	if typedInput.EndpointUri != nil {
@@ -10479,7 +10485,12 @@ func (properties *RoutingServiceBusTopicEndpointProperties) AssignProperties_Fro
 	}
 
 	// ConnectionString
-	properties.ConnectionString = genruntime.ClonePointerToString(source.ConnectionString)
+	if source.ConnectionString != nil {
+		connectionString := source.ConnectionString.Copy()
+		properties.ConnectionString = &connectionString
+	} else {
+		properties.ConnectionString = nil
+	}
 
 	// EndpointUri
 	properties.EndpointUri = genruntime.ClonePointerToString(source.EndpointUri)
@@ -10539,7 +10550,12 @@ func (properties *RoutingServiceBusTopicEndpointProperties) AssignProperties_To_
 	}
 
 	// ConnectionString
-	destination.ConnectionString = genruntime.ClonePointerToString(properties.ConnectionString)
+	if properties.ConnectionString != nil {
+		connectionString := properties.ConnectionString.Copy()
+		destination.ConnectionString = &connectionString
+	} else {
+		destination.ConnectionString = nil
+	}
 
 	// EndpointUri
 	destination.EndpointUri = genruntime.ClonePointerToString(properties.EndpointUri)
@@ -10604,7 +10620,10 @@ func (properties *RoutingServiceBusTopicEndpointProperties) Initialize_From_Rout
 	}
 
 	// ConnectionString
-	properties.ConnectionString = genruntime.ClonePointerToString(source.ConnectionString)
+	if source.ConnectionString != nil {
+	} else {
+		properties.ConnectionString = nil
+	}
 
 	// EndpointUri
 	properties.EndpointUri = genruntime.ClonePointerToString(source.EndpointUri)
@@ -10876,7 +10895,7 @@ type RoutingStorageContainerProperties struct {
 	BatchFrequencyInSeconds *int `json:"batchFrequencyInSeconds,omitempty"`
 
 	// ConnectionString: The connection string of the storage account.
-	ConnectionString *string `json:"connectionString,omitempty"`
+	ConnectionString *genruntime.SecretReference `json:"connectionString,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// ContainerName: The name of storage container in the storage account.
@@ -10942,7 +10961,11 @@ func (properties *RoutingStorageContainerProperties) ConvertToARM(resolved genru
 
 	// Set property ‘ConnectionString’:
 	if properties.ConnectionString != nil {
-		connectionString := *properties.ConnectionString
+		connectionStringSecret, err := resolved.ResolvedSecrets.Lookup(*properties.ConnectionString)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property ConnectionString")
+		}
+		connectionString := connectionStringSecret
 		result.ConnectionString = &connectionString
 	}
 
@@ -11040,11 +11063,7 @@ func (properties *RoutingStorageContainerProperties) PopulateFromARM(owner genru
 		properties.BatchFrequencyInSeconds = &batchFrequencyInSeconds
 	}
 
-	// Set property ‘ConnectionString’:
-	if typedInput.ConnectionString != nil {
-		connectionString := *typedInput.ConnectionString
-		properties.ConnectionString = &connectionString
-	}
+	// no assignment for property ‘ConnectionString’
 
 	// Set property ‘ContainerName’:
 	if typedInput.ContainerName != nil {
@@ -11131,7 +11150,12 @@ func (properties *RoutingStorageContainerProperties) AssignProperties_From_Routi
 	}
 
 	// ConnectionString
-	properties.ConnectionString = genruntime.ClonePointerToString(source.ConnectionString)
+	if source.ConnectionString != nil {
+		connectionString := source.ConnectionString.Copy()
+		properties.ConnectionString = &connectionString
+	} else {
+		properties.ConnectionString = nil
+	}
 
 	// ContainerName
 	properties.ContainerName = genruntime.ClonePointerToString(source.ContainerName)
@@ -11218,7 +11242,12 @@ func (properties *RoutingStorageContainerProperties) AssignProperties_To_Routing
 	}
 
 	// ConnectionString
-	destination.ConnectionString = genruntime.ClonePointerToString(properties.ConnectionString)
+	if properties.ConnectionString != nil {
+		connectionString := properties.ConnectionString.Copy()
+		destination.ConnectionString = &connectionString
+	} else {
+		destination.ConnectionString = nil
+	}
 
 	// ContainerName
 	destination.ContainerName = genruntime.ClonePointerToString(properties.ContainerName)
@@ -11310,7 +11339,10 @@ func (properties *RoutingStorageContainerProperties) Initialize_From_RoutingStor
 	}
 
 	// ConnectionString
-	properties.ConnectionString = genruntime.ClonePointerToString(source.ConnectionString)
+	if source.ConnectionString != nil {
+	} else {
+		properties.ConnectionString = nil
+	}
 
 	// ContainerName
 	properties.ContainerName = genruntime.ClonePointerToString(source.ContainerName)

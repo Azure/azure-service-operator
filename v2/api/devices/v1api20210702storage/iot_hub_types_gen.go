@@ -144,7 +144,6 @@ type IotHub_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string              `json:"azureName,omitempty"`
-	Etag            *string             `json:"etag,omitempty"`
 	Identity        *ArmIdentity        `json:"identity,omitempty"`
 	Location        *string             `json:"location,omitempty"`
 	OperatorSpec    *IotHubOperatorSpec `json:"operatorSpec,omitempty"`
@@ -495,12 +494,12 @@ type SharedAccessSignatureAuthorizationRule_STATUS struct {
 // Storage version of v1api20210702.StorageEndpointProperties
 // The properties of the Azure Storage endpoint for file upload.
 type StorageEndpointProperties struct {
-	AuthenticationType *string                `json:"authenticationType,omitempty"`
-	ConnectionString   *string                `json:"connectionString,omitempty"`
-	ContainerName      *string                `json:"containerName,omitempty"`
-	Identity           *ManagedIdentity       `json:"identity,omitempty"`
-	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SasTtlAsIso8601    *string                `json:"sasTtlAsIso8601,omitempty"`
+	AuthenticationType *string                     `json:"authenticationType,omitempty"`
+	ConnectionString   *genruntime.SecretReference `json:"connectionString,omitempty"`
+	ContainerName      *string                     `json:"containerName,omitempty"`
+	Identity           *ManagedIdentity            `json:"identity,omitempty"`
+	PropertyBag        genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	SasTtlAsIso8601    *string                     `json:"sasTtlAsIso8601,omitempty"`
 }
 
 // Storage version of v1api20210702.StorageEndpointProperties_STATUS
@@ -660,13 +659,13 @@ type RoutingEndpoints_STATUS struct {
 // Storage version of v1api20210702.RoutingEventHubProperties
 // The properties related to an event hub endpoint.
 type RoutingEventHubProperties struct {
-	AuthenticationType *string                `json:"authenticationType,omitempty"`
-	ConnectionString   *string                `json:"connectionString,omitempty"`
-	EndpointUri        *string                `json:"endpointUri,omitempty"`
-	EntityPath         *string                `json:"entityPath,omitempty"`
-	Identity           *ManagedIdentity       `json:"identity,omitempty"`
-	Name               *string                `json:"name,omitempty"`
-	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	AuthenticationType *string                     `json:"authenticationType,omitempty"`
+	ConnectionString   *genruntime.SecretReference `json:"connectionString,omitempty"`
+	EndpointUri        *string                     `json:"endpointUri,omitempty"`
+	EntityPath         *string                     `json:"entityPath,omitempty"`
+	Identity           *ManagedIdentity            `json:"identity,omitempty"`
+	Name               *string                     `json:"name,omitempty"`
+	PropertyBag        genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 
 	// Reference: Id of the event hub endpoint
 	Reference      *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -692,13 +691,13 @@ type RoutingEventHubProperties_STATUS struct {
 // Storage version of v1api20210702.RoutingServiceBusQueueEndpointProperties
 // The properties related to service bus queue endpoint types.
 type RoutingServiceBusQueueEndpointProperties struct {
-	AuthenticationType *string                `json:"authenticationType,omitempty"`
-	ConnectionString   *string                `json:"connectionString,omitempty"`
-	EndpointUri        *string                `json:"endpointUri,omitempty"`
-	EntityPath         *string                `json:"entityPath,omitempty"`
-	Identity           *ManagedIdentity       `json:"identity,omitempty"`
-	Name               *string                `json:"name,omitempty"`
-	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	AuthenticationType *string                     `json:"authenticationType,omitempty"`
+	ConnectionString   *genruntime.SecretReference `json:"connectionString,omitempty"`
+	EndpointUri        *string                     `json:"endpointUri,omitempty"`
+	EntityPath         *string                     `json:"entityPath,omitempty"`
+	Identity           *ManagedIdentity            `json:"identity,omitempty"`
+	Name               *string                     `json:"name,omitempty"`
+	PropertyBag        genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 
 	// Reference: Id of the service bus queue endpoint
 	Reference      *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -724,13 +723,13 @@ type RoutingServiceBusQueueEndpointProperties_STATUS struct {
 // Storage version of v1api20210702.RoutingServiceBusTopicEndpointProperties
 // The properties related to service bus topic endpoint types.
 type RoutingServiceBusTopicEndpointProperties struct {
-	AuthenticationType *string                `json:"authenticationType,omitempty"`
-	ConnectionString   *string                `json:"connectionString,omitempty"`
-	EndpointUri        *string                `json:"endpointUri,omitempty"`
-	EntityPath         *string                `json:"entityPath,omitempty"`
-	Identity           *ManagedIdentity       `json:"identity,omitempty"`
-	Name               *string                `json:"name,omitempty"`
-	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	AuthenticationType *string                     `json:"authenticationType,omitempty"`
+	ConnectionString   *genruntime.SecretReference `json:"connectionString,omitempty"`
+	EndpointUri        *string                     `json:"endpointUri,omitempty"`
+	EntityPath         *string                     `json:"entityPath,omitempty"`
+	Identity           *ManagedIdentity            `json:"identity,omitempty"`
+	Name               *string                     `json:"name,omitempty"`
+	PropertyBag        genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 
 	// Reference: Id of the service bus topic endpoint
 	Reference      *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -756,17 +755,17 @@ type RoutingServiceBusTopicEndpointProperties_STATUS struct {
 // Storage version of v1api20210702.RoutingStorageContainerProperties
 // The properties related to a storage container endpoint.
 type RoutingStorageContainerProperties struct {
-	AuthenticationType      *string                `json:"authenticationType,omitempty"`
-	BatchFrequencyInSeconds *int                   `json:"batchFrequencyInSeconds,omitempty"`
-	ConnectionString        *string                `json:"connectionString,omitempty"`
-	ContainerName           *string                `json:"containerName,omitempty"`
-	Encoding                *string                `json:"encoding,omitempty"`
-	EndpointUri             *string                `json:"endpointUri,omitempty"`
-	FileNameFormat          *string                `json:"fileNameFormat,omitempty"`
-	Identity                *ManagedIdentity       `json:"identity,omitempty"`
-	MaxChunkSizeInBytes     *int                   `json:"maxChunkSizeInBytes,omitempty"`
-	Name                    *string                `json:"name,omitempty"`
-	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	AuthenticationType      *string                     `json:"authenticationType,omitempty"`
+	BatchFrequencyInSeconds *int                        `json:"batchFrequencyInSeconds,omitempty"`
+	ConnectionString        *genruntime.SecretReference `json:"connectionString,omitempty"`
+	ContainerName           *string                     `json:"containerName,omitempty"`
+	Encoding                *string                     `json:"encoding,omitempty"`
+	EndpointUri             *string                     `json:"endpointUri,omitempty"`
+	FileNameFormat          *string                     `json:"fileNameFormat,omitempty"`
+	Identity                *ManagedIdentity            `json:"identity,omitempty"`
+	MaxChunkSizeInBytes     *int                        `json:"maxChunkSizeInBytes,omitempty"`
+	Name                    *string                     `json:"name,omitempty"`
+	PropertyBag             genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 
 	// Reference: Id of the storage container endpoint
 	Reference      *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
