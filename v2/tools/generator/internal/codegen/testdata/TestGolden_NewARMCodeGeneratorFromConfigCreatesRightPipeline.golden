@@ -18,7 +18,7 @@ removeAliases                                                Remove type aliases
 collapseCrossGroupReferences                                 Find and remove cross group references
 stripUnreferenced                                            Strip unreferenced types
 assertTypesStructureValid                                    Verify that all local TypeNames refer to a type
-removeEmbeddedResources                           azure      Remove properties that point to embedded resources. Only removes structural aspects of embedded resources, Id/ARMId references are retained.
+removeEmbeddedResources                           azure      Remove properties that point to embedded resources.
 filterTypes                                                  Apply export filters to reduce the number of generated types
 add-api-version-enums                                        Add enums for API Versions in each package
 removeAliases                                                Remove type aliases

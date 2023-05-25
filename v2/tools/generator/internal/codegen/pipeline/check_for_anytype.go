@@ -10,10 +10,9 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/pkg/errors"
-	"k8s.io/klog/v2"
-
 	"github.com/Azure/azure-service-operator/v2/internal/set"
+	"github.com/pkg/errors"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
@@ -125,13 +124,6 @@ func collectBadPackages(
 		groupNames = append(groupNames, groupName)
 	}
 	sort.Strings(groupNames)
-
-	if klog.V(2).Enabled() {
-		for _, groupName := range groupNames {
-			sort.Strings(grouped[groupName])
-			klog.Infof("%s: %s", groupName, grouped[groupName])
-		}
-	}
 
 	// Complain if there were some packages where we expected problems
 	// but didn't see any.

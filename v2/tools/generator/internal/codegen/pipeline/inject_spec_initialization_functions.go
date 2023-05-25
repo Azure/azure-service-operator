@@ -10,7 +10,6 @@ import (
 
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
@@ -45,8 +44,6 @@ func InjectSpecInitializationFunctions(
 			newDefs := make(astmodel.TypeDefinitionSet, len(mappings))
 			var errs []error
 			for specName, statusName := range mappings {
-				klog.V(3).Infof("Injecting specName initialization function into %s", specName.String())
-
 				spec := defs[specName]
 				status := defs[statusName]
 

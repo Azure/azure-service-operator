@@ -8,6 +8,7 @@ package pipeline
 import (
 	"testing"
 
+	"github.com/go-logr/logr"
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -51,7 +52,7 @@ func TestGolden_InjectResourceConversionTestCases(t *testing.T) {
 		NewState().WithDefinitions(defs),
 		CreateStorageTypes(),            // First create the storage types
 		CreateConversionGraph(cfg, "v"), // Then, create the conversion graph showing relationships
-		InjectPropertyAssignmentFunctions(cfg, idFactory),
+		InjectPropertyAssignmentFunctions(cfg, idFactory, logr.Discard()),
 		ImplementConvertibleInterface(idFactory),
 		InjectJsonSerializationTests(idFactory),
 		InjectPropertyAssignmentTests(idFactory),

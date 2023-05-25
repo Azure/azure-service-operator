@@ -9,7 +9,6 @@ import (
 	"context"
 
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -31,9 +30,6 @@ func SimplifyDefinitions() *Stage {
 					errs = append(errs, err)
 				} else {
 					result.Add(visited)
-					if !astmodel.TypeEquals(def.Type(), visited.Type()) {
-						klog.V(3).Infof("Simplified %s from %s to %s", def.Name(), def.Type(), visited.Type())
-					}
 				}
 			}
 

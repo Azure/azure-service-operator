@@ -7,12 +7,11 @@ package jsonast
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 
 	"github.com/go-openapi/spec"
 	"github.com/pkg/errors"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -44,7 +43,9 @@ func NewCachingFileLoader(specs map[string]PackageAndSwagger) CachingFileLoader 
 		files[filepath.ToSlash(specPath)] = spec
 	}
 
-	return CachingFileLoader{files}
+	return CachingFileLoader{
+		files: files,
+	}
 }
 
 func (fileCache CachingFileLoader) knownFiles() []string {
@@ -71,9 +72,7 @@ func (fileCache CachingFileLoader) loadFile(absPath string) (PackageAndSwagger, 
 	// which indicates to the caller to reuse the existing package for definitions
 	result := PackageAndSwagger{}
 
-	klog.V(3).Infof("Loading file into cache %q", absPath)
-
-	fileContent, err := ioutil.ReadFile(absPath)
+	fileContent, err := os.ReadFile(absPath)
 	if err != nil {
 		return result, errors.Wrapf(err, "unable to read swagger file %q", absPath)
 	}
