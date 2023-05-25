@@ -324,7 +324,10 @@ These resource versions are deprecated and will be removed in an upcoming ASO re
 
 ## Devices
 
-Supporting 1 resource: IotHub
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
 
 | Resource | ARM Version | CRD Version   | Supported From | Sample                                                                                                               |
 |----------|-------------|---------------|----------------|----------------------------------------------------------------------------------------------------------------------|
