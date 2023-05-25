@@ -8,9 +8,9 @@ package pipeline
 import (
 	"context"
 
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -28,7 +28,10 @@ const (
 const ApplyCrossResourceReferencesFromConfigStageID = "applyCrossResourceReferencesFromConfig"
 
 // ApplyCrossResourceReferencesFromConfig replaces cross resource references from the configuration with astmodel.ARMID.
-func ApplyCrossResourceReferencesFromConfig(configuration *config.Configuration) *Stage {
+func ApplyCrossResourceReferencesFromConfig(
+	configuration *config.Configuration,
+	log logr.Logger,
+) *Stage {
 	return NewStage(
 		ApplyCrossResourceReferencesFromConfigStageID,
 		"Replace cross-resource references in the config with astmodel.ARMID",
@@ -88,7 +91,7 @@ func ApplyCrossResourceReferencesFromConfig(configuration *config.Configuration)
 				return ARMIDPropertyClassificationUnspecified
 			}
 
-			visitor := MakeARMIDPropertyTypeVisitor(isCrossResourceReference)
+			visitor := MakeARMIDPropertyTypeVisitor(isCrossResourceReference, log)
 			for _, def := range state.Definitions() {
 				// Skip Status types
 				// TODO: we need flags
@@ -115,8 +118,6 @@ func ApplyCrossResourceReferencesFromConfig(configuration *config.Configuration)
 
 			err = configuration.VerifyARMReferencesConsumed()
 			if err != nil {
-				klog.Error(err)
-
 				return nil, errors.Wrap(
 					err,
 					"Found unused $armReference configurations; these need to be fixed or removed.")
@@ -135,7 +136,10 @@ type ARMIDPropertyTypeVisitor struct {
 	isPropertyAnARMReference crossResourceReferenceChecker
 }
 
-func MakeARMIDPropertyTypeVisitor(referenceChecker crossResourceReferenceChecker) ARMIDPropertyTypeVisitor {
+func MakeARMIDPropertyTypeVisitor(
+	referenceChecker crossResourceReferenceChecker,
+	log logr.Logger,
+) ARMIDPropertyTypeVisitor {
 	visitor := ARMIDPropertyTypeVisitor{
 		isPropertyAnARMReference: referenceChecker,
 	}
@@ -147,10 +151,20 @@ func MakeARMIDPropertyTypeVisitor(referenceChecker crossResourceReferenceChecker
 		it.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
 			classification := visitor.isPropertyAnARMReference(typeName, prop)
 			if classification == ARMIDPropertyClassificationSet {
-				klog.V(4).Infof("Transforming \"%s.%s\" field into astmodel.ARMID", typeName, prop.PropertyName())
+				log.V(1).Info(
+					"Transforming property",
+					"definition", typeName,
+					"property", prop.PropertyName(),
+					"was", prop.PropertyType(),
+					"now", "astmodel.ARMID")
 				prop = makeARMIDProperty(prop)
 			} else if classification == ARMIDPropertyClassificationUnset {
-				klog.V(4).Infof("Transforming \"%s.%s\" field into string from astmodel.ARMID", typeName, prop.PropertyName())
+				log.V(1).Info(
+					"Transforming property",
+					"definition", typeName,
+					"property", prop.PropertyName(),
+					"was", prop.PropertyType(),
+					"now", "string")
 				prop = unsetARMIDProperty(prop)
 			}
 

@@ -8,9 +8,9 @@ package pipeline
 import (
 	"context"
 
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -19,12 +19,15 @@ import (
 const ApplyExportFiltersStageID = "filterTypes"
 
 // ApplyExportFilters creates a Stage to reduce our set of types for export
-func ApplyExportFilters(configuration *config.Configuration) *Stage {
+func ApplyExportFilters(
+	configuration *config.Configuration,
+	log logr.Logger,
+) *Stage {
 	stage := NewStage(
 		ApplyExportFiltersStageID,
 		"Apply export filters to reduce the number of generated types",
 		func(ctx context.Context, state *State) (*State, error) {
-			return filterTypes(configuration, state)
+			return filterTypes(configuration, state, log)
 		})
 
 	stage.RequiresPostrequisiteStages(VerifyNoErroredTypesStageID)
@@ -35,6 +38,7 @@ func ApplyExportFilters(configuration *config.Configuration) *Stage {
 func filterTypes(
 	configuration *config.Configuration,
 	state *State,
+	log logr.Logger,
 ) (*State, error) {
 	resourcesToExport := make(astmodel.TypeDefinitionSet)
 	var errs []error
@@ -48,11 +52,11 @@ func filterTypes(
 		}
 
 		if !export {
-			klog.V(3).Infof("Skipping resource %s", defName)
+			log.V(1).Info("Skipping resource", "resource", defName)
 			continue
 		}
 
-		klog.V(3).Infof("Exporting resource %s and related types", defName)
+		log.V(1).Info("Exporting resource", "resource", defName)
 		resourcesToExport.Add(def)
 	}
 

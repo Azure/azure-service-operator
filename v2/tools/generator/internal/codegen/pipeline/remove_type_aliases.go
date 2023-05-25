@@ -12,7 +12,6 @@ import (
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/pkg/errors"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -82,7 +81,6 @@ func resolveTypeName(visitor *astmodel.TypeVisitor, name astmodel.TypeName, defi
 		return def.Name(), nil // must remain named
 	case astmodel.TypeName:
 		// We need to resolve further because this type is an alias
-		klog.V(3).Infof("Found type alias %s, replacing it with %s", name, concreteType)
 		return resolveTypeName(visitor, concreteType, definitions)
 	case *astmodel.PrimitiveType:
 		return visitor.Visit(concreteType, nil)

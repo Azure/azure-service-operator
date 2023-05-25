@@ -9,6 +9,7 @@ import (
 	"context"
 	"strings"
 
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -49,7 +50,7 @@ const UnrollRecursiveTypesStageID = "unrollRecursiveTypes"
 // a depth of 1 in practice.
 // If we were to unroll all loops (rather than just types that directly reference themselves like we're doing here) that
 // "in practice" observation may no longer hold, so we avoid doing it here (it's also more complicated to do that).
-func UnrollRecursiveTypes() *Stage {
+func UnrollRecursiveTypes(log logr.Logger) *Stage {
 	return NewStage(
 		UnrollRecursiveTypesStageID,
 		"Unroll directly recursive types since they are not supported by controller-gen",
@@ -57,7 +58,7 @@ func UnrollRecursiveTypes() *Stage {
 			result := make(astmodel.TypeDefinitionSet)
 
 			// Find object types that reference themselves
-			fixer := recursivetypefixer.NewSimpleRecursiveTypeFixer()
+			fixer := recursivetypefixer.NewSimpleRecursiveTypeFixer(log)
 
 			for _, def := range state.Definitions() {
 				updatedDef, err := fixer.Fix(def)

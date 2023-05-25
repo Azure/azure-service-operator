@@ -10,6 +10,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
+	"github.com/go-logr/logr"
 
 	. "github.com/onsi/gomega"
 )
@@ -163,7 +164,7 @@ func TestCleanupTypeNames_TypeWithNoOriginalName_UpdatedNameCollapsed(t *testing
 
 	types, originalNames := typesWithSubresourceTypeNoOriginalNameUsage()
 
-	updatedTypes, err := simplifyTypeNames(types, exampleTypeFlag, originalNames)
+	updatedTypes, err := simplifyTypeNames(types, exampleTypeFlag, originalNames, logr.Discard())
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(len(updatedTypes)).To(Equal(2))
@@ -188,7 +189,7 @@ func TestCleanupTypeNames_TypeWithOriginalNameExists_UpdatedNamePartiallyCollaps
 	expectedOriginalTypeName := newTestName("T1")
 
 	types, originalNames := typesWithSubresourceTypeOriginalNameUsage()
-	updatedTypes, err := simplifyTypeNames(types, exampleTypeFlag, originalNames)
+	updatedTypes, err := simplifyTypeNames(types, exampleTypeFlag, originalNames, logr.Discard())
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(len(updatedTypes)).To(Equal(3))
@@ -217,7 +218,7 @@ func TestCleanupTypeNames_UpdatedNamesAreAllForSameResource_UpdatedNamesStripped
 	expectedUpdatedTypeName2 := newTestName("T1_TestSuffix_1")
 
 	types, originalNames := typesWithSubresourceTypeMultipleUsageContextsOneResource()
-	updatedTypes, err := simplifyTypeNames(types, exampleTypeFlag, originalNames)
+	updatedTypes, err := simplifyTypeNames(types, exampleTypeFlag, originalNames, logr.Discard())
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(len(updatedTypes)).To(Equal(3))
@@ -246,7 +247,7 @@ func TestCleanupTypeNames_UpdatedNamesAreEachForDifferentResource_UpdatedNamesSt
 	expectedUpdatedTypeName2 := newTestName("T1_Resource2_TestSuffix")
 
 	types, originalNames := typesWithSubresourceTypeMultipleResourcesOneUsageContextEach()
-	updatedTypes, err := simplifyTypeNames(types, exampleTypeFlag, originalNames)
+	updatedTypes, err := simplifyTypeNames(types, exampleTypeFlag, originalNames, logr.Discard())
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(len(updatedTypes)).To(Equal(3))

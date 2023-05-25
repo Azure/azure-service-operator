@@ -12,9 +12,8 @@ import (
 	. "github.com/onsi/gomega"
 	"k8s.io/apimachinery/pkg/types"
 
-	// TODO: Using beta APIs here for upgrade test as GA APIs don't exist on v2.0.0-beta.5
-	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
+	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
@@ -33,17 +32,7 @@ func Test_Pre_Release_ResourceCanBeCreated_BeforeUpgrade(t *testing.T) {
 
 	tc.Namespace = preReleaseNamespace
 
-	//rg := tc.NewTestResourceGroup()
-	// TODO: Currently using beta ResourceGroup as that exists in both old and new version.
-	// TODO: Can move this to tc.NewTestResourceGroup() commented out above after GA
-	rg := &resources.ResourceGroup{
-		ObjectMeta: tc.MakeObjectMeta("rg"),
-		Spec: resources.ResourceGroup_Spec{
-			Location: tc.AzureRegion,
-			// This tag is used for cleanup optimization
-			Tags: testcommon.CreateTestResourceGroupDefaultTags(),
-		},
-	}
+	rg := tc.NewTestResourceGroup()
 	rg.Name = rgName
 
 	vnet := newVnet(tc, newNamer.GenerateName(vnetBeforeUpgradeName), rgName)
@@ -82,12 +71,12 @@ func Test_Pre_Release_ResourceCanBeCreated_AfterUpgrade(t *testing.T) {
 	tc.GetResource(types.NamespacedName{Namespace: tc.Namespace, Name: rgName}, rg)
 
 	tc.Expect(rg.Status.Id).ToNot(BeNil())
+	defer tc.DeleteResourcesAndWait(rg)
 
 	// This resource already will exist in kind as will be created without cleanup in test 'Test_Pre_Release_ResourceCanBeCreated_BeforeUpgrade'.
 	vnetBeforeUpgrade := newVnet(tc, newNamer.GenerateName(vnetBeforeUpgradeName), rgName)
 	defer tc.DeleteResourceAndWait(vnetBeforeUpgrade)
 
-	// TODO: Will have to change the version here when we go from beta to stable
 	vnetAfterUpgrade := newVnet(tc, tc.Namer.GenerateName("vn"), rgName)
 	tc.CreateResourceAndWait(vnetAfterUpgrade)
 	tc.DeleteResourcesAndWait(vnetAfterUpgrade)

@@ -7,13 +7,12 @@ package pipeline
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"strings"
 	"unicode"
 
 	"github.com/pkg/errors"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 )
@@ -37,8 +36,7 @@ func NewPipelineDiagram(debugDir string) *PipelineDiagram {
 func (diagram *PipelineDiagram) WriteDiagram(stages []*Stage) error {
 	dotsrc := diagram.createDiagram(stages)
 	filename := filepath.Join(diagram.debugDir, "pipeline.dot")
-	err := ioutil.WriteFile(filename, dotsrc, 0600)
-	klog.V(2).Infof("Wrote diagram for pipeline to %s", filename)
+	err := os.WriteFile(filename, dotsrc, 0600)
 	return errors.Wrapf(err, "failed to write diagram to %s", filename)
 }
 

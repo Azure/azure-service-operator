@@ -8,12 +8,13 @@ package astmodel
 import (
 	"fmt"
 	"go/token"
-	"golang.org/x/exp/slices"
 	"sort"
 	"strings"
 
+	"github.com/pkg/errors"
+	"golang.org/x/exp/slices"
+
 	"github.com/dave/dst"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 )
@@ -131,10 +132,9 @@ func (enum *EnumType) createValueDeclaration(name TypeName, value EnumValue) dst
 }
 
 // AsType implements Type for EnumType
-func (enum *EnumType) AsType(codeGenerationContext *CodeGenerationContext) dst.Expr {
-	// this should "never" happen as we name all enums; warn about it if it does
-	klog.Warning("Emitting unnamed enum, something’s awry")
-	return enum.baseType.AsType(codeGenerationContext)
+func (enum *EnumType) AsType(_ *CodeGenerationContext) dst.Expr {
+	// this should "never" happen as we name all enums; panic if it does
+	panic(errors.New("Emitting unnamed enum, something’s awry"))
 }
 
 // AsZero renders an expression for the "zero" value of the type,

@@ -6,15 +6,12 @@
 package main
 
 import (
-	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/kustomization"
 )
@@ -34,22 +31,28 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 			const bases = "bases"
 			const patches = "patches"
 
+			log := CreateLogger()
+
 			// We have an expectation that the folder structure is: .../config/crd/generated/bases and .../config/crd/generated/patches
 			basesPath := filepath.Join(crdPath, bases)
 			patchesPath := filepath.Join(crdPath, patches)
 
 			destination := filepath.Join(crdPath, "kustomization.yaml")
 
-			klog.V(3).Infof("Scanning %q for resources", basesPath)
+			log.Info(
+				"Scanning for resources",
+				"basePath", basesPath)
 
-			files, err := ioutil.ReadDir(basesPath)
+			files, err := os.ReadDir(basesPath)
 			if err != nil {
-				return logAndExtractStack(fmt.Sprintf("Unable to scan folder %q", basesPath), err)
+				log.Error(err, "Unable to scan folder", "folder", basesPath)
+				return err
 			}
 
 			err = os.MkdirAll(patchesPath, os.ModePerm)
 			if err != nil {
-				return logAndExtractStack(fmt.Sprintf("Unable to create output folder %s", patchesPath), err)
+				log.Error(err, "Unable to create output folder", "folder", patchesPath)
+				return err
 			}
 
 			var errs []error
@@ -60,7 +63,9 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 					continue
 				}
 
-				klog.V(3).Infof("Found resource file %s", f.Name())
+				log.V(1).Info(
+					"Found resource file",
+					"file", f.Name())
 
 				patchFile := "webhook-conversion-" + f.Name()
 				var def *kustomization.ResourceDefinition
@@ -70,7 +75,9 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 					continue
 				}
 
-				klog.V(4).Infof("Resource is %q", def.Name())
+				log.V(1).Info(
+					"Loaded Resource",
+					"name", def.Name())
 
 				patch := kustomization.NewConversionPatchFile(def.Name())
 				err = patch.Save(filepath.Join(patchesPath, patchFile))
@@ -84,17 +91,28 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 			}
 
 			if len(errs) > 0 {
-				return logAndExtractStack("Error creating conversion patches", kerrors.NewAggregate(errs))
+				err = kerrors.NewAggregate(errs)
+				log.Error(
+					err,
+					"Error creating conversion patches")
+				return err
 			}
 
 			if len(result.Resources) == 0 {
 				err = errors.Errorf("no files found in %q", basesPath)
-				return logAndExtractStack("No CRD files found", err)
+				log.Error(
+					err,
+					"No CRD files found")
+				return err
 			}
 
 			err = result.Save(destination)
 			if err != nil {
-				return logAndExtractStack("Error generating "+destination, err)
+				log.Error(
+					err,
+					"Error generating",
+					"destination", destination)
+				return err
 			}
 
 			return nil
@@ -102,15 +120,4 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 	}
 
 	return cmd, nil
-}
-
-func logAndExtractStack(str string, err error) error {
-	klog.Errorf("%s:\n%s\n", str, err)
-	if tr, ok := findDeepestTrace(err); ok {
-		for _, fr := range tr {
-			klog.Errorf("%n (%s:%d)", fr, fr, fr)
-		}
-	}
-
-	return err
 }

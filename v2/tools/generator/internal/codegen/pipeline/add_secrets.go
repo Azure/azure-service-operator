@@ -9,7 +9,6 @@ import (
 	"context"
 
 	"github.com/pkg/errors"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -79,8 +78,6 @@ func applyConfigSecretOverrides(config *config.Configuration, definitions astmod
 	// Verify that all 'isSecret' modifiers are consumed before returning the result
 	err := config.VerifyIsSecretConsumed()
 	if err != nil {
-		klog.Error(err)
-
 		return nil, errors.Wrap(
 			err,
 			"Found unused $isSecret configurations; these need to be fixed or removed.")
