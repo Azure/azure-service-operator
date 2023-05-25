@@ -345,7 +345,7 @@ func (r PropertyTransformResult) LogTo(log logr.Logger) {
 		return
 	}
 
-	log.V(1).Info(
+	log.V(2).Info(
 		"Transforming property",
 		"type", r.TypeName,
 		"property", r.Property,

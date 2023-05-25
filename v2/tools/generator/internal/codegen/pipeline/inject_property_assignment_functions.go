@@ -9,6 +9,7 @@ import (
 	"context"
 
 	"github.com/dave/dst"
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
@@ -27,7 +28,9 @@ const InjectPropertyAssignmentFunctionsStageID = "injectPropertyAssignmentFuncti
 // are the building blocks of the main CovertTo*() and ConvertFrom*() methods.
 func InjectPropertyAssignmentFunctions(
 	configuration *config.Configuration,
-	idFactory astmodel.IdentifierFactory) *Stage {
+	idFactory astmodel.IdentifierFactory,
+	log logr.Logger,
+) *Stage {
 	stage := NewStage(
 		InjectPropertyAssignmentFunctionsStageID,
 		"Inject property assignment functions AssignFrom() and AssignTo() into resources and objects",
@@ -40,6 +43,9 @@ func InjectPropertyAssignmentFunctions(
 				_, ok := astmodel.AsFunctionContainer(def.Type())
 				if !ok {
 					// just skip it - not a resource nor an object
+					log.V(2).Info(
+						"Skipping as no conversion functions needed",
+						"type", name)
 					continue
 				}
 
