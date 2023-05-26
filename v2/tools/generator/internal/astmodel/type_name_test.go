@@ -137,7 +137,7 @@ func TestSortTypeName(t *testing.T) {
 	// Run test cases
 	for _, tc := range testCases {
 		tc := tc
-		t.Run( tc.name, func (t *testing.T) {
+		t.Run(tc.name, func(t *testing.T) {
 			t.Parallel()
 			result := SortTypeName(tc.left, tc.right)
 			g.Expect(result).To(Equal(tc.expected))
