@@ -13,7 +13,17 @@ on:
       - "docs/**"
 
 jobs:
-  build:
+  integration-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'echo "No build required"'
+
+  test-generator:
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'echo "No build required"'
+
+  integration-tests-fork:
     runs-on: ubuntu-latest
     steps:
       - run: 'echo "No build required"'
