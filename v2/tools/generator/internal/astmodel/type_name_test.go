@@ -103,31 +103,31 @@ func TestSortTypeName(t *testing.T) {
 		expected bool
 	}{
 		{
-			name :    "Package v2 sorts before v3",
+			name:     "Package v2 sorts before v3",
 			left:     MakeTypeName(pkgv2, "TypeA"),
 			right:    MakeTypeName(pkgv3, "TypeB"),
 			expected: true,
 		},
 		{
-			name :    "Package v3 can't be sorted before v2",
+			name:     "Package v3 can't be sorted before v2",
 			left:     MakeTypeName(pkgv3, "TypeA"),
 			right:    MakeTypeName(pkgv2, "TypeB"),
 			expected: false,
 		},
 		{
-			name :    "Package v2 of TypeA sorts before Package v2 of TypeB",
+			name:     "Package v2 of TypeA sorts before Package v2 of TypeB",
 			left:     MakeTypeName(pkgv2, "TypeA"),
 			right:    MakeTypeName(pkgv2, "TypeB"),
 			expected: true,
 		},
 		{
-			name :    "Package v2 can't be sorted before Package v2 of same Type",
+			name:     "Package v2 can't be sorted before Package v2 of same Type",
 			left:     MakeTypeName(pkgv2, "TypeB"),
 			right:    MakeTypeName(pkgv2, "TypeB"),
 			expected: false,
 		},
 		{
-			name :    "Package v2 can't be sorted before Package v2 of same Type",
+			name:     "Package v2 can't be sorted before Package v2 of same Type",
 			left:     MakeTypeName(pkgv2, "TypeA"),
 			right:    MakeTypeName(pkgv2, "TypeA"),
 			expected: false,
