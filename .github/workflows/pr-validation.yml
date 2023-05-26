@@ -59,12 +59,17 @@ jobs:
           fetch-depth: 0 # required to access tags
           submodules: 'true'
 
+      - name: check-changes
+        id: check-changes
+        run: scripts/v2/check-changes.sh
+
       - name: Log in to GitHub Docker Registry
         uses: docker/login-action@v2
         with:
           registry: docker.pkg.github.com # ghcr.io not yet enabled for Azure org
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+        if: steps.check-changes.outputs.code-changed == 'true'
 
       # Note: Changes to this step must also be mirrored into pr-validation-with-secrets.yaml
       - name: Build devcontainer image
@@ -86,6 +91,7 @@ jobs:
           docker build --cache-from docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest --tag devcontainer:latest .devcontainer
         env:
           DOCKER_BUILDKIT: 1
+        if: steps.check-changes.outputs.code-changed == 'true'
 
       - name: Run devcontainer image
         id: devcontainer
@@ -93,12 +99,8 @@ jobs:
           container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock --network=host devcontainer:latest)
           docker start "$container_id"
           echo "container_id=$container_id" >> $GITHUB_ENV
+        if: steps.check-changes.outputs.code-changed == 'true'
 
-      - name: Build & validate docs site
-        run: | 
-          container_id=${{ env.container_id }}
-          docker exec "$container_id" task build-docs-site
-        
       - name: Run CI tasks
         run: |
           container_id=${{ env.container_id }}
@@ -112,6 +114,7 @@ jobs:
           # generate summary Markdown file for display in Actions
           cat reports/*.md > $GITHUB_STEP_SUMMARY
           exit $EXIT_CODE
+        if: steps.check-changes.outputs.code-changed == 'true'
 
       - name: Save JSON logs on failure
         if: ${{ failure() }}
@@ -125,6 +128,7 @@ jobs:
           container_id=${{ env.container_id }}
           docker exec "$container_id" task controller:docker-build-and-save --concurrency 1 # limit concurrency because build machines are small
           docker exec "$container_id" task controller:run-kustomize-for-envtest --concurrency 1 # limit concurrency because build machines are small
+        if: steps.check-changes.outputs.code-changed == 'true'
 
       - name: Archive outputs
         uses: actions/upload-artifact@v3.1.2
@@ -132,9 +136,11 @@ jobs:
           name: output
           path: v2/bin/*
           if-no-files-found: error
+        if: steps.check-changes.outputs.code-changed == 'true'
 
       - name: Upload code coverage to Codecov
         run: bash <(curl -s https://codecov.io/bash)
+        if: steps.check-changes.outputs.code-changed == 'true'
 
   # TODO: Changing this name requires changing the github API calls in pr-validation-fork.yml
   integration-tests:
@@ -151,12 +157,16 @@ jobs:
           fetch-depth: 0 # required to access tags
           submodules: 'true'
 
+      - name: check-changes
+        run: scripts/v2/check-changes.sh
+
       - name: Log in to GitHub Docker Registry
         uses: docker/login-action@v2
         with:
           registry: docker.pkg.github.com # ghcr.io not yet enabled for Azure org
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+        if: steps.check-changes.outputs.code-changed == 'true'
 
       # Note: Changes to this step must also be mirror into pr-validation.yaml
       - name: Build devcontainer image
@@ -178,6 +188,7 @@ jobs:
           docker build --cache-from docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest --tag devcontainer:latest .devcontainer
         env:
           DOCKER_BUILDKIT: 1
+        if: steps.check-changes.outputs.code-changed == 'true'
 
       - name: Run devcontainer image
         id: devcontainer
@@ -185,6 +196,7 @@ jobs:
           container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock --network=host devcontainer:latest)
           docker start "$container_id"
           echo "container_id=$container_id" >> $GITHUB_ENV
+        if: steps.check-changes.outputs.code-changed == 'true'
 
       - name: Run integration tests
         run: |
@@ -199,6 +211,7 @@ jobs:
           AZURE_CLIENT_ID_MULTITENANT: ${{ secrets.AZURE_CLIENT_ID_MULTITENANT }}
           AZURE_CLIENT_ID_CERT_AUTH: ${{ secrets.AZURE_CLIENT_ID_CERT_AUTH }}
           AZURE_CLIENT_SECRET_CERT_AUTH: ${{ secrets.AZURE_CLIENT_SECRET_CERT_AUTH }}
+        if: steps.check-changes.outputs.code-changed == 'true'
 
       # Update check run called "integration-tests-fork"
       - uses: actions/github-script@v2
