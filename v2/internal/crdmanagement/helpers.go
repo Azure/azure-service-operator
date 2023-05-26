@@ -82,6 +82,7 @@ func FilterKnownTypesByReadyCRDs(
 		skipKinds.Add(schema.GroupKind{Group: crd.Spec.Group, Kind: crd.Spec.Names.Kind})
 	}
 
+	print("here")
 	result := make([]client.Object, 0, len(knownTypes))
 	for _, knownType := range knownTypes {
 		// Use the provided GVK to construct a new runtime object of the desired concrete type.
