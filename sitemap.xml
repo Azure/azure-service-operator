@@ -6,6 +6,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/installing-from-yaml/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/crd-management/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/upgrading/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/frequently-asked-questions/</loc>

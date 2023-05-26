@@ -36,7 +36,7 @@ Multiple operator multitenancy deployment To deploy the operator in multi-operat
 ASO may also be deployed in a multi-tenant configuration, enabling the use of separate credentials for managing resources in different Kubernetes namespaces.
 Multiple operator multitenancy deployment To deploy the operator in multi-operator multi-tenant mode the release YAML/helm installation has been split into two parts:">
 
-<meta itemprop="wordCount" content="744">
+<meta itemprop="wordCount" content="747">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Deploying Azure Service Operator v2 in multi-tenant mode"/>
 <meta name="twitter:description" content="Multiple operator multitenancy Multiple operators deployed in different namespaces requires one deployment to handle webhooks (required because webhook configurations are cluster-level resources) and then a separate deployment for each tenant, each with its own credentials and set of namespaces that it watches for Azure resources.
@@ -112,6 +112,8 @@ Multiple operator multitenancy deployment To deploy the operator in multi-operat
   <a href="/azure-service-operator/guide/installing-from-helm/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-helm"><span class="">Installation: From Helm</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideinstalling-from-yaml-li">
   <a href="/azure-service-operator/guide/installing-from-yaml/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-yaml"><span class="">Installation: From YAML</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidecrd-management-li">
+  <a href="/azure-service-operator/guide/crd-management/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidecrd-management"><span class="">CRD management in ASO</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideupgrading-li">
   <a href="/azure-service-operator/guide/upgrading/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideupgrading"><span class="">Upgrading</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidefrequently-asked-questions-li">
@@ -771,7 +773,8 @@ secret/default-token-mqmpb       kubernetes.io/service-account-token   <span sty
    --create-namespace \
    --namespace=azureserviceoperator-system \
    --set multitenant.enable=true \
-   --set azureOperatorMode=webhooks
+   --set azureOperatorMode=webhooks \
+   --set crdPattern='resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*'
 </code></pre></li>
 <li>
 <p><strong>Per-tenant operator installation</strong>:</p>

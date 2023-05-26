@@ -100,6 +100,8 @@
   <a href="/azure-service-operator/guide/installing-from-helm/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-helm"><span class="">Installation: From Helm</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideinstalling-from-yaml-li">
   <a href="/azure-service-operator/guide/installing-from-yaml/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-yaml"><span class="">Installation: From YAML</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidecrd-management-li">
+  <a href="/azure-service-operator/guide/crd-management/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidecrd-management"><span class="">CRD management in ASO</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideupgrading-li">
   <a href="/azure-service-operator/guide/upgrading/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideupgrading"><span class="">Upgrading</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidefrequently-asked-questions-li">
@@ -724,8 +726,16 @@ AZURE_CLIENT_SECRET<span style="color:#f92672">=</span>&lt;your-client-secret&gt
      --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
      --set azureTenantID=$AZURE_TENANT_ID \
      --set azureClientID=$AZURE_CLIENT_ID \
-     --set azureClientSecret=$AZURE_CLIENT_SECRET
-</code></pre><p>Alternatively you can install from the <a href="https://azure.github.io/azure-service-operator/guide/installing-from-yaml">release YAML directly</a>.</p>
+     --set azureClientSecret=$AZURE_CLIENT_SECRET \
+     --set crdPattern='resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*'
+</code></pre><blockquote>
+<p><strong>Warning:</strong> Make sure to set the <code>crdPattern</code> variable to include the CRDs you are interested in using.
+You can use <code>--set crdPattern=*</code> to install all the CRDs, but be aware of the
+<a href="https://github.com/Azure/azure-service-operator/issues/2920">limits of the Kubernetes you are running</a>. <code>*</code> is <strong>not</strong>
+recommended on AKS Free-tier clusters.</p>
+<p>See <a href="./guide/crd-management">CRD management</a> for more details.</p>
+</blockquote>
+<p>Alternatively you can install from the <a href="https://azure.github.io/azure-service-operator/guide/installing-from-yaml">release YAML directly</a>.</p>
 <p>To learn more about other authentication options, see the <a href="https://azure.github.io/azure-service-operator/guide/authentication/">authentication documentation</a>.</p>
 </li>
 </ol>

@@ -87,8 +87,10 @@ export AZURE_TENANT_ID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&l
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureSubscriptionID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_SUBSCRIPTION_ID &lt;span style=&#34;color:#ae81ff&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureTenantID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_TENANT_ID &lt;span style=&#34;color:#ae81ff&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureClientID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_CLIENT_ID &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureClientSecret&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_CLIENT_SECRET
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Otherwise, create or update the &lt;code&gt;aso-controller-settings&lt;/code&gt; secret:&lt;/p&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureClientSecret&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_CLIENT_SECRET &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set crdPattern&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;See &lt;a href=&#34;../../crd-management&#34;&gt;CRD management&lt;/a&gt; for more details about &lt;code&gt;crdPattern&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Otherwise, create or update the &lt;code&gt;aso-controller-settings&lt;/code&gt; secret:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF | kubectl apply -f -
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;apiVersion: v1
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;kind: Secret
@@ -217,8 +219,10 @@ export AZURE_CLIENT_CERTIFICATE_PASSWORD&lt;span style=&#34;color:#f92672&#34;&g
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureSubscriptionID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_SUBSCRIPTION_ID &lt;span style=&#34;color:#ae81ff&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureTenantID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_TENANT_ID &lt;span style=&#34;color:#ae81ff&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureClientID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_CLIENT_ID &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureClientCertificatePassword&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_CLIENT_CERTIFICATE_PASSWORD
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Otherwise, create or update the &lt;code&gt;aso-controller-settings&lt;/code&gt; secret:&lt;/p&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureClientCertificatePassword&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_CLIENT_CERTIFICATE_PASSWORD &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set crdPattern&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;See &lt;a href=&#34;../../crd-management&#34;&gt;CRD management&lt;/a&gt; for more details about &lt;code&gt;crdPattern&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Otherwise, create or update the &lt;code&gt;aso-controller-settings&lt;/code&gt; secret:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF | kubectl apply -f -
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;apiVersion: v1
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;kind: Secret
@@ -386,8 +390,10 @@ az rest --method put --url /subscriptions/&lt;span style=&#34;color:#e6db74&#34;
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureSubscriptionID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_SUBSCRIPTION_ID &lt;span style=&#34;color:#ae81ff&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureTenantID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_TENANT_ID &lt;span style=&#34;color:#ae81ff&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureClientID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_CLIENT_ID &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set useWorkloadIdentityAuth&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;true
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Otherwise, create or update the &lt;code&gt;aso-controller-settings&lt;/code&gt; secret:&lt;/p&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set useWorkloadIdentityAuth&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;true &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set crdPattern&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;See &lt;a href=&#34;../../crd-management&#34;&gt;CRD management&lt;/a&gt; for more details about &lt;code&gt;crdPattern&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Otherwise, create or update the &lt;code&gt;aso-controller-settings&lt;/code&gt; secret:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF | kubectl apply -f -
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;apiVersion: v1
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;kind: Secret
@@ -519,8 +525,10 @@ helm upgrade --install --devel aso2 aso2/azure-service-operator &lt;span style=&
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     --set azureSubscriptionID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_SUBSCRIPTION_ID &lt;span style=&#34;color:#ae81ff&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     --set aadPodIdentity.enable&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;true &lt;span style=&#34;color:#ae81ff&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     --set aadPodIdentity.azureManagedIdentityResourceId&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;IDENTITY_RESOURCE_ID&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     --set azureClientID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;IDENTITY_CLIENT_ID&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     --set azureClientID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;IDENTITY_CLIENT_ID&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     --set crdPattern&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;See &lt;a href=&#34;../../crd-management&#34;&gt;CRD management&lt;/a&gt; for more details about &lt;code&gt;crdPattern&lt;/code&gt;.&lt;/p&gt;
+
       </description>
     </item>
     
@@ -662,7 +670,8 @@ secret/default-token-mqmpb       kubernetes.io/service-account-token   &lt;span 
    --create-namespace \
    --namespace=azureserviceoperator-system \
    --set multitenant.enable=true \
-   --set azureOperatorMode=webhooks
+   --set azureOperatorMode=webhooks \
+   --set crdPattern=&#39;resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*&#39;
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;Per-tenant operator installation&lt;/strong&gt;:&lt;/p&gt;
