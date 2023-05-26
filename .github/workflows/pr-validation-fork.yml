@@ -56,12 +56,17 @@ jobs:
           submodules: 'true'
           ref: 'refs/pull/${{ github.event.client_payload.pull_request.number }}/merge'
 
+      - name: check-changes
+        id: check-changes
+        run: scripts/v2/check-changes.sh
+
       - name: Log in to GitHub Docker Registry
         uses: docker/login-action@v2
         with:
           registry: docker.pkg.github.com # ghcr.io not yet enabled for Azure org
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+        if: steps.check-changes.outputs.code-changed == 'true'
 
       # Note: Changes to this step must also be mirrored into pr-validation.yaml
       - name: Build devcontainer image
@@ -83,6 +88,7 @@ jobs:
           docker build --cache-from docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest --tag devcontainer:latest .devcontainer
         env:
           DOCKER_BUILDKIT: 1
+        if: steps.check-changes.outputs.code-changed == 'true'
 
       - name: Run devcontainer image
         id: devcontainer
@@ -90,6 +96,7 @@ jobs:
           container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock --network=host devcontainer:latest)
           docker start "$container_id"
           echo "container_id=$container_id" >> $GITHUB_ENV
+        if: steps.check-changes.outputs.code-changed == 'true'
 
       - name: Run integration tests
         run: |
@@ -104,6 +111,7 @@ jobs:
           AZURE_CLIENT_ID_MULTITENANT: ${{ secrets.AZURE_CLIENT_ID_MULTITENANT }}
           AZURE_CLIENT_ID_CERT_AUTH: ${{ secrets.AZURE_CLIENT_ID_CERT_AUTH }}
           AZURE_CLIENT_SECRET_CERT_AUTH: ${{ secrets.AZURE_CLIENT_SECRET_CERT_AUTH }}
+        if: steps.check-changes.outputs.code-changed == 'true'
 
       # Update check run called "integration-fork"
       - uses: actions/github-script@v2

@@ -66,3 +66,8 @@ jobs:
         run: |
           container_id=${{ env.container_id }}
           docker exec "$container_id" task check-docs-site-links
+
+      - name: Build & validate docs site
+        run: |
+          container_id=${{ env.container_id }}
+          docker exec "$container_id" task build-docs-site
