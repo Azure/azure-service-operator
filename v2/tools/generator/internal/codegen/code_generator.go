@@ -10,10 +10,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/pkg/errors"
-	"k8s.io/klog/v2"
-
 	"github.com/Azure/azure-service-operator/v2/internal/version"
+	"github.com/go-logr/logr"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/pipeline"
@@ -28,7 +27,12 @@ type CodeGenerator struct {
 }
 
 // NewCodeGeneratorFromConfigFile produces a new Generator with the given configuration file
-func NewCodeGeneratorFromConfigFile(configurationFile string) (*CodeGenerator, error) {
+// configurationFile is the path to the configuration file.
+// log is captured by stages to log messages.
+func NewCodeGeneratorFromConfigFile(
+	configurationFile string,
+	log logr.Logger,
+) (*CodeGenerator, error) {
 	configuration, err := config.LoadConfiguration(configurationFile)
 	if err != nil {
 		return nil, err
@@ -39,17 +43,22 @@ func NewCodeGeneratorFromConfigFile(configurationFile string) (*CodeGenerator, e
 		return nil, err
 	}
 
-	return NewTargetedCodeGeneratorFromConfig(configuration, astmodel.NewIdentifierFactory(), target)
+	return NewTargetedCodeGeneratorFromConfig(configuration, astmodel.NewIdentifierFactory(), target, log)
 }
 
 // NewTargetedCodeGeneratorFromConfig produces a new code generator with the given configuration and
 // only the stages appropriate for the specified target.
+// configuration is used to configure the pipeline.
+// idFactory is used to create identifiers for types.
+// target is the target for which code is being generated.
+// log is captured by stages to log messages.
 func NewTargetedCodeGeneratorFromConfig(
 	configuration *config.Configuration,
 	idFactory astmodel.IdentifierFactory,
 	target pipeline.Target,
+	log logr.Logger,
 ) (*CodeGenerator, error) {
-	result, err := NewCodeGeneratorFromConfig(configuration, idFactory)
+	result, err := NewCodeGeneratorFromConfig(configuration, idFactory, log)
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating pipeline targeting %s", target)
 	}
@@ -68,22 +77,34 @@ func NewTargetedCodeGeneratorFromConfig(
 }
 
 // NewCodeGeneratorFromConfig produces a new code generator with the given configuration all available stages
+// configuration is used to configure the pipeline.
+// idFactory is used to create identifiers for types.
+// log is captured by stages to log messages.
 func NewCodeGeneratorFromConfig(
 	configuration *config.Configuration,
 	idFactory astmodel.IdentifierFactory,
+	log logr.Logger,
 ) (*CodeGenerator, error) {
 	result := &CodeGenerator{
 		configuration: configuration,
-		pipeline:      createAllPipelineStages(idFactory, configuration),
+		pipeline:      createAllPipelineStages(idFactory, configuration, log),
 	}
 
 	return result, nil
 }
 
-func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration *config.Configuration) []*pipeline.Stage {
+// createAllPipelineStages creates all the stages of the pipeline
+// idFactory is used to create identifiers for types.
+// configuration is used to configure the pipeline.
+// log is captured by stages to log messages.
+func createAllPipelineStages(
+	idFactory astmodel.IdentifierFactory,
+	configuration *config.Configuration,
+	log logr.Logger,
+) []*pipeline.Stage {
 	return []*pipeline.Stage{
 		// Import Swagger data:
-		pipeline.LoadTypes(idFactory, configuration),
+		pipeline.LoadTypes(idFactory, configuration, log),
 
 		// Assemble actual one-of types from roots and leaves
 		pipeline.AssembleOneOfTypes(idFactory),
@@ -108,12 +129,12 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// Apply property type rewrites from the config file
 		// Must come after NameTypesForCRD ('nameTypes') and ConvertAllOfAndOneOfToObjects ('allof-anyof-objects') so
 		// that objects are all expanded
-		pipeline.ApplyPropertyRewrites(configuration),
+		pipeline.ApplyPropertyRewrites(configuration, log),
 
 		pipeline.ApplyIsResourceOverrides(configuration),
 		pipeline.FixIDFields(),
 
-		pipeline.UnrollRecursiveTypes(),
+		pipeline.UnrollRecursiveTypes(log),
 		pipeline.RemoveStatusValidations(),
 
 		// Figure out resource owners:
@@ -125,11 +146,11 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.StripUnreferencedTypeDefinitions(),
 		pipeline.AssertTypesCollectionValid(),
 
-		pipeline.RemoveEmbeddedResources(configuration).UsedFor(pipeline.ARMTarget),
+		pipeline.RemoveEmbeddedResources(configuration, log).UsedFor(pipeline.ARMTarget),
 
 		// Apply export filters before generating
 		// ARM types for resources etc:
-		pipeline.ApplyExportFilters(configuration),
+		pipeline.ApplyExportFilters(configuration, log),
 
 		pipeline.AddAPIVersionEnums(),
 		pipeline.RemoveTypeAliases(),
@@ -140,7 +161,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		// This is currently also run as part of RemoveEmbeddedResources and so is technically not needed here,
 		// but we include it to hedge against future changes
-		pipeline.RemoveEmptyObjects(),
+		pipeline.RemoveEmptyObjects(log),
 
 		pipeline.VerifyNoErroredTypes(),
 
@@ -151,7 +172,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		pipeline.FixOptionalCollectionAliases(),
 
-		pipeline.ApplyCrossResourceReferencesFromConfig(configuration).UsedFor(pipeline.ARMTarget),
+		pipeline.ApplyCrossResourceReferencesFromConfig(configuration, log).UsedFor(pipeline.ARMTarget),
 		pipeline.TransformCrossResourceReferences(configuration, idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.TransformCrossResourceReferencesToString().UsedFor(pipeline.CrossplaneTarget),
 		pipeline.AddSecrets(configuration).UsedFor(pipeline.ARMTarget),
@@ -166,14 +187,14 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		pipeline.ReportOnTypesAndVersions(configuration).UsedFor(pipeline.ARMTarget), // TODO: For now only used for ARM
 
-		pipeline.CreateARMTypes(idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.CreateARMTypes(idFactory, log).UsedFor(pipeline.ARMTarget),
 		pipeline.PruneResourcesWithLifecycleOwnedByParent(configuration).UsedFor(pipeline.ARMTarget),
 		pipeline.MakeOneOfDiscriminantRequired().UsedFor(pipeline.ARMTarget),
 		pipeline.ApplyARMConversionInterface(idFactory).UsedFor(pipeline.ARMTarget),
-		pipeline.ApplyKubernetesResourceInterface(idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.ApplyKubernetesResourceInterface(idFactory, log).UsedFor(pipeline.ARMTarget),
 
 		// Effects the "flatten" property of Properties:
-		pipeline.FlattenProperties(),
+		pipeline.FlattenProperties(log),
 
 		// Remove types which may not be needed after flattening
 		pipeline.StripUnreferencedTypeDefinitions(),
@@ -199,7 +220,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.CreateStorageTypes().UsedFor(pipeline.ARMTarget),
 		pipeline.CreateConversionGraph(configuration, astmodel.GeneratorVersion).UsedFor(pipeline.ARMTarget),
 		pipeline.InjectOriginalVersionProperty().UsedFor(pipeline.ARMTarget),
-		pipeline.InjectPropertyAssignmentFunctions(configuration, idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.InjectPropertyAssignmentFunctions(configuration, idFactory, log).UsedFor(pipeline.ARMTarget),
 		pipeline.ImplementConvertibleSpecInterface(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.ImplementConvertibleStatusInterface(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.InjectOriginalGVKFunction(idFactory).UsedFor(pipeline.ARMTarget),
@@ -228,7 +249,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.DetectSkippingProperties().UsedFor(pipeline.ARMTarget),
 
 		pipeline.DeleteGeneratedCode(configuration.FullTypesOutputPath()),
-		pipeline.ExportPackages(configuration.FullTypesOutputPath(), configuration.EmitDocFiles),
+		pipeline.ExportPackages(configuration.FullTypesOutputPath(), configuration.EmitDocFiles, log),
 
 		pipeline.ExportControllerResourceRegistrations(idFactory, configuration.FullTypesRegistrationOutputFilePath()).UsedFor(pipeline.ARMTarget),
 
@@ -238,8 +259,15 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 }
 
 // Generate produces the Go code corresponding to the configured JSON schema in the given output folder
-func (generator *CodeGenerator) Generate(ctx context.Context) error {
-	klog.V(1).Infof("Generator version: %s", version.BuildVersion)
+// ctx is used to cancel the generation process.
+// log is used to log progress.
+func (generator *CodeGenerator) Generate(
+	ctx context.Context,
+	log logr.Logger,
+) error {
+	log.V(1).Info(
+		"ASO Code Generator",
+		"version", version.BuildVersion)
 
 	if generator.debugReporter != nil {
 		// Generate a diagram containing our stages
@@ -253,70 +281,88 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 
 	state := pipeline.NewState()
 	for i, stage := range generator.pipeline {
-		klog.V(0).Infof(
-			"%d/%d: %s",
-			i+1, // Computers count from 0, people from 1
-			len(generator.pipeline),
-			stage.Description())
-
+		stageNumber := i + 1
+		stageDescription := fmt.Sprintf("%d/%d: %s", stageNumber, len(generator.pipeline), stage.Description())
+		log.Info(stageDescription)
 		start := time.Now()
 
-		newState, err := stage.Run(ctx, state)
+		newState, err := generator.executeStage(ctx, stageNumber, stage, state)
 		if err != nil {
-			return errors.Wrapf(err, "failed during pipeline stage %d/%d [%s]: %s", i+1, len(generator.pipeline), stage.Id(), stage.Description())
-		}
-
-		if ctx.Err() != nil {
-			// Cancelled
-			return errors.Wrapf(ctx.Err(), "pipeline cancelled during stage %d/%d [%s]: %s", i+1, len(generator.pipeline), stage.Id(), stage.Description())
-		}
-
-		// Fail fast if something goes awry
-		if len(newState.Definitions()) == 0 {
-			return errors.Errorf("all type definitions removed by stage %s", stage.Id())
-		}
-
-		generator.logStateChange(state, newState)
-
-		if generator.debugReporter != nil {
-			err := generator.debugReporter.ReportStage(i, stage.Description(), newState)
-			if err != nil {
-				return errors.Wrapf(err, "failed to generate debug report for stage %d/%d: %s", i+1, len(generator.pipeline), stage.Description())
-			}
+			return errors.Wrapf(err, "failed to execute stage %d: %s", stageNumber, stage.Description())
 		}
 
 		duration := time.Since(start).Round(time.Millisecond)
-		klog.V(0).Infof(
-			"%d/%d: %s, completed in %s",
-			i+1, // Computers count from 0, people from 1
-			len(generator.pipeline),
-			stage.Description(),
-			duration)
+
+		defsAdded := newState.Definitions().Except(state.Definitions())
+		defsRemoved := state.Definitions().Except(newState.Definitions())
+
+		log.Info(
+			stageDescription,
+			"elapsed", duration,
+			"added", len(defsAdded),
+			"removed", len(defsRemoved))
 
 		state = newState
 	}
 
 	if err := state.CheckFinalState(); err != nil {
-		klog.Info("Failed")
 		return err
 	}
 
-	klog.Info("Finished")
+	log.Info("Finished")
 
 	return nil
 }
 
-func (generator *CodeGenerator) logStateChange(former *pipeline.State, later *pipeline.State) {
-	defsAdded := later.Definitions().Except(former.Definitions())
-	defsRemoved := former.Definitions().Except(later.Definitions())
+// executeStage runs the given stage against the given state, returning the new state.
+// Any error generated will be wrapped with details of the stage by our caller.
+// ctx is used to cancel the generation process.
+// stage is the stage to execute.
+// state is the state to execute the stage against.
+func (generator *CodeGenerator) executeStage(
+	ctx context.Context,
+	stageNumber int,
+	stage *pipeline.Stage,
+	state *pipeline.State,
+) (newState *pipeline.State, err error) {
+	// Catch any panics and turn them into errors, unless they already are
+	defer func() {
+		if r := recover(); r != nil {
+			if e, ok := r.(error); ok {
+				err = e
+			} else {
+				err = errors.Errorf("panic: %s", r)
+			}
+		}
+	}()
 
-	if len(defsAdded) > 0 && len(defsRemoved) > 0 {
-		klog.V(1).Infof("Added %d, removed %d type definitions", len(defsAdded), len(defsRemoved))
-	} else if len(defsAdded) > 0 {
-		klog.V(1).Infof("Added %d type definitions", len(defsAdded))
-	} else if len(defsRemoved) > 0 {
-		klog.V(1).Infof("Removed %d type definitions", len(defsRemoved))
+	// Run the stage
+	newState, err = stage.Run(ctx, state)
+	if err != nil {
+		// Will be wrapped by our caller with details of the stage
+		return nil, err
 	}
+
+	if ctx.Err() != nil {
+		// Cancelled - will be wrapped by our caller
+		return nil, errors.New("pipeline cancelled")
+	}
+
+	// Fail fast if something goes awry
+	if len(newState.Definitions()) == 0 {
+		// Will be wrapped by our caller with details of the stage
+		return nil, errors.Errorf("all type definitions removed by stage")
+	}
+
+	if generator.debugReporter != nil {
+		err := generator.debugReporter.ReportStage(stageNumber, stage.Description(), newState)
+		if err != nil {
+			// Will be wrapped by our caller with details of the stage
+			return nil, errors.Wrapf(err, "failed to generate debug report for stage")
+		}
+	}
+
+	return
 }
 
 // RemoveStages will remove all stages from the pipeline with the given ids.

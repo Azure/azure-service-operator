@@ -9,17 +9,16 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
 	"testing"
 
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"github.com/sebdah/goldie/v2"
 	"github.com/xeipuuv/gojsonschema"
 	"gopkg.in/yaml.v3"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/pipeline"
@@ -47,7 +46,7 @@ func makeDefaultTestConfig() GoldenTestConfig {
 func loadTestConfig(path string) (GoldenTestConfig, error) {
 	result := makeDefaultTestConfig()
 
-	fileBytes, err := ioutil.ReadFile(path)
+	fileBytes, err := os.ReadFile(path)
 	if err != nil {
 		// If the file doesn't exist we just use the default
 		if os.IsNotExist(err) {
@@ -123,7 +122,7 @@ func runGoldenTest(t *testing.T, path string, testConfig GoldenTestConfig) {
 				t.Fatalf("failed to create code generator: %s", err)
 			}
 
-			err = codegen.Generate(ctx)
+			err = codegen.Generate(ctx, logr.Discard())
 			if err != nil {
 				t.Fatalf("codegen failed: %s", err)
 			}
@@ -147,7 +146,7 @@ func NewTestCodeGenerator(
 		return nil, err
 	}
 
-	codegen, err := NewTargetedCodeGeneratorFromConfig(cfg, idFactory, pipelineTarget)
+	codegen, err := NewTargetedCodeGeneratorFromConfig(cfg, idFactory, pipelineTarget, logr.Discard())
 	if err != nil {
 		return nil, err
 	}
@@ -228,9 +227,7 @@ func loadTestSchemaIntoTypes(
 		"loadTestSchema",
 		"Load and walk schema (test)",
 		func(ctx context.Context, state *pipeline.State) (*pipeline.State, error) {
-			klog.V(0).Infof("Loading test schema from %q", path)
-
-			inputFile, err := ioutil.ReadFile(path)
+			inputFile, err := os.ReadFile(path)
 			if err != nil {
 				return nil, errors.Wrapf(err, "cannot read golden test input file")
 			}
@@ -241,9 +238,7 @@ func loadTestSchemaIntoTypes(
 				return nil, errors.Wrapf(err, "could not compile input")
 			}
 
-			scanner := jsonast.NewSchemaScanner(idFactory, configuration)
-
-			klog.V(0).Infof("Walking deployment template")
+			scanner := jsonast.NewSchemaScanner(idFactory, configuration, logr.Discard())
 
 			schemaAbstraction := jsonast.MakeGoJSONSchema(schema.Root(), configuration.MakeLocalPackageReference, idFactory)
 			_, err = scanner.GenerateAllDefinitions(ctx, schemaAbstraction)
@@ -349,7 +344,7 @@ func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) *pi
 				return pipeline.ARMIDPropertyClassificationUnspecified
 			}
 
-			crossReferenceVisitor := pipeline.MakeARMIDPropertyTypeVisitor(isCrossResourceReference)
+			crossReferenceVisitor := pipeline.MakeARMIDPropertyTypeVisitor(isCrossResourceReference, logr.Discard())
 			resourceReferenceVisitor := pipeline.MakeARMIDToResourceReferenceTypeVisitor(idFactory)
 
 			for _, def := range state.Definitions() {

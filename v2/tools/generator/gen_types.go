@@ -12,7 +12,6 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen"
 )
@@ -32,9 +31,11 @@ func NewGenTypesCommand() (*cobra.Command, error) {
 			configFile := args[0]
 			ctx := cmd.Context()
 
-			cg, err := codegen.NewCodeGeneratorFromConfigFile(configFile)
+			log := CreateLogger()
+
+			cg, err := codegen.NewCodeGeneratorFromConfigFile(configFile, log)
 			if err != nil {
-				klog.Errorf("Error creating code generator: %s\n", err)
+				log.Error(err, "Error creating code generator")
 				return err
 			}
 
@@ -42,22 +43,27 @@ func NewGenTypesCommand() (*cobra.Command, error) {
 				var tmpDir string
 				tmpDir, err = ioutil.TempDir("", createDebugPrefix(*debugMode))
 				if err != nil {
-					klog.Errorf("Error creating temporary directory: %s\n", err)
+					log.Error(err, "Error creating temporary directory")
 					return err
 				}
 
-				klog.V(0).Infof("Debug output will be written to the folder %s\n", tmpDir)
+				log.Info(
+					"Debug output will be written",
+					"folder", tmpDir)
 				cg.UseDebugMode(*debugMode, tmpDir)
 				defer func() {
 					// Write the debug folder again so the user doesn't have to scroll back
-					klog.V(0).Infof("Debug output is available in folder %s\n", tmpDir)
+					log.Info(
+						"Debug output available",
+						"folder", tmpDir)
 				}()
 			}
 
-			err = cg.Generate(ctx)
+			err = cg.Generate(ctx, log)
 
 			if err != nil {
-				return logAndExtractStack("Error during code generation", err)
+				log.Error(err, "Error generating code generation")
+				return err
 			}
 
 			return nil

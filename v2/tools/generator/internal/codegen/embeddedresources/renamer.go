@@ -8,8 +8,8 @@ package embeddedresources
 import (
 	"fmt"
 
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -22,21 +22,27 @@ type renameAction func(
 	original astmodel.TypeName, // Original name of the resource type
 	associatedNames astmodel.TypeNameSet, // all the subresource names that copies have acquired
 	originalNames map[astmodel.TypeName]embeddedResourceTypeName, // map from the new names back to the original
+	log logr.Logger, // Log to use for reporting
 ) (astmodel.TypeAssociation, error)
 
 func (r renamer) simplifyEmbeddedNameToOriginalName(
 	original astmodel.TypeName,
 	associatedNames astmodel.TypeNameSet,
 	_ map[astmodel.TypeName]embeddedResourceTypeName,
+	log logr.Logger,
 ) (astmodel.TypeAssociation, error) {
 	_, originalExists := r.definitions[original]
 	if originalExists || len(associatedNames) != 1 {
 		return nil, nil
 	}
 
-	klog.V(4).Infof("There are no usages of %q. Collapsing %q into the original for simplicity.", original, associatedNames.Single())
 	renames := make(astmodel.TypeAssociation)
 	renames[associatedNames.Single()] = original
+
+	log.V(2).Info(
+		"Type not used, renaming for simplicity",
+		"originalName", associatedNames.Single(),
+		"newName", original)
 
 	return renames, nil
 }
@@ -45,6 +51,7 @@ func (r renamer) simplifyEmbeddedNameRemoveContextAndCount(
 	_ astmodel.TypeName,
 	associatedNames astmodel.TypeNameSet,
 	originalNames map[astmodel.TypeName]embeddedResourceTypeName,
+	log logr.Logger,
 ) (astmodel.TypeAssociation, error) {
 	if len(associatedNames) != 1 {
 		return nil, nil
@@ -61,7 +68,11 @@ func (r renamer) simplifyEmbeddedNameRemoveContextAndCount(
 	embeddedName.context = ""
 	embeddedName.count = 0
 	renames[associated] = embeddedName.ToSimplifiedTypeName()
-	klog.V(4).Infof("There is only a single context %q is used in. Renaming it to %q for simplicity.", associated, renames[associated])
+
+	log.V(2).Info(
+		"Type used in single context, renaming for simplicity",
+		"originalName", associated,
+		"newName", renames[associated])
 
 	return renames, nil
 }
@@ -70,6 +81,7 @@ func (r renamer) simplifyEmbeddedNameRemoveContext(
 	_ astmodel.TypeName,
 	associatedNames astmodel.TypeNameSet,
 	originalNames map[astmodel.TypeName]embeddedResourceTypeName,
+	log logr.Logger,
 ) (astmodel.TypeAssociation, error) {
 	// Gather information about the associated definitions
 	associatedCountPerContext := make(map[string]int, len(associatedNames))
@@ -94,6 +106,11 @@ func (r renamer) simplifyEmbeddedNameRemoveContext(
 		}
 		embeddedName.context = ""
 		renames[associated] = embeddedName.ToSimplifiedTypeName()
+
+		log.V(2).Info(
+			"Type used in single context, removing context from name",
+			"originalName", associated,
+			"newName", renames[associated])
 	}
 
 	return renames, nil
@@ -103,6 +120,7 @@ func (r renamer) simplifyEmbeddedName(
 	_ astmodel.TypeName,
 	associatedNames astmodel.TypeNameSet,
 	originalNames map[astmodel.TypeName]embeddedResourceTypeName,
+	log logr.Logger,
 ) (astmodel.TypeAssociation, error) {
 	// remove _0, which especially for the cases where there's only a single
 	// kind of usage will make the type name much clearer
@@ -159,6 +177,7 @@ func simplifyTypeNames(
 	definitions astmodel.TypeDefinitionSet,
 	flag astmodel.TypeFlag,
 	originalNames map[astmodel.TypeName]embeddedResourceTypeName,
+	log logr.Logger,
 ) (astmodel.TypeDefinitionSet, error) {
 	// Find all of the type names that have the flag we're interested in
 	updatedNames := make(map[astmodel.TypeName]astmodel.TypeNameSet)
@@ -188,7 +207,7 @@ func simplifyTypeNames(
 	renames := make(astmodel.TypeAssociation)
 	for original, associatedNames := range updatedNames {
 		for _, action := range renameActions {
-			result, err := action(original, associatedNames, originalNames)
+			result, err := action(original, associatedNames, originalNames, log)
 			if err != nil {
 				return nil, err
 			}

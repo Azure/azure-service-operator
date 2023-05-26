@@ -12,7 +12,6 @@ import (
 
 	"github.com/pkg/errors"
 	"golang.org/x/exp/maps"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -585,7 +584,10 @@ func max(left, right int) int {
 	return right
 }
 
-func (s synthesizer) handleObjectObject(leftObj *astmodel.ObjectType, rightObj *astmodel.ObjectType) (astmodel.Type, error) {
+func (s synthesizer) handleObjectObject(
+	leftObj *astmodel.ObjectType,
+	rightObj *astmodel.ObjectType,
+) (astmodel.Type, error) {
 	leftProperties := leftObj.Properties()
 	rightProperties := rightObj.Properties()
 	mergedProps := make(map[astmodel.PropertyName]*astmodel.PropertyDefinition, max(leftProperties.Len(), rightProperties.Len()))
@@ -594,18 +596,17 @@ func (s synthesizer) handleObjectObject(leftObj *astmodel.ObjectType, rightObj *
 		mergedProps[p.PropertyName()] = p
 	})
 
-	rightProperties.ForEach(func(p *astmodel.PropertyDefinition) {
+	err := rightProperties.ForEachError(func(p *astmodel.PropertyDefinition) error {
 		existingProp, ok := mergedProps[p.PropertyName()]
 		if !ok {
 			// Property doesn't already exist, so just add it
 			mergedProps[p.PropertyName()] = p
-			return // continue
+			return nil // continue
 		}
 
 		newType, err := s.intersectTypes(existingProp.PropertyType(), p.PropertyType())
 		if err != nil {
-			klog.Errorf("unable to combine properties: %s (%s)", p.PropertyName(), err)
-			return // continue
+			return errors.Wrapf(err, "unable to combine properties: %s", p.PropertyName())
 		}
 
 		// TODO: need to handle merging requiredness and tags and...
@@ -619,7 +620,11 @@ func (s synthesizer) handleObjectObject(leftObj *astmodel.ObjectType, rightObj *
 		}
 
 		mergedProps[p.PropertyName()] = newProp
+		return nil
 	})
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to combine properties in handle object-object")
+	}
 
 	// flatten
 	properties := maps.Values(mergedProps)

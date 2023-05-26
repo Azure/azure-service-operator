@@ -97,7 +97,8 @@ To deploy the operator in multi-operator multi-tenant using helm is split into t
       --create-namespace \
       --namespace=azureserviceoperator-system \
       --set multitenant.enable=true \
-      --set azureOperatorMode=webhooks
+      --set azureOperatorMode=webhooks \
+      --set crdPattern='resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*'
    ```
 
 2. **Per-tenant operator installation**:

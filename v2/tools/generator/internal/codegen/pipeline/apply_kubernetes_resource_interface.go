@@ -8,6 +8,7 @@ package pipeline
 import (
 	"context"
 
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -17,7 +18,10 @@ import (
 const ApplyKubernetesResourceInterfaceStageID = "applyKubernetesResourceInterface"
 
 // ApplyKubernetesResourceInterface ensures that every Resource implements the KubernetesResource interface
-func ApplyKubernetesResourceInterface(idFactory astmodel.IdentifierFactory) *Stage {
+func ApplyKubernetesResourceInterface(
+	idFactory astmodel.IdentifierFactory,
+	log logr.Logger,
+) *Stage {
 	return NewStage(
 		ApplyKubernetesResourceInterfaceStageID,
 		"Add the KubernetesResource interface to every resource",
@@ -26,7 +30,11 @@ func ApplyKubernetesResourceInterface(idFactory astmodel.IdentifierFactory) *Sta
 
 			for typeName, typeDef := range astmodel.FindResourceDefinitions(state.Definitions()) {
 				resource := typeDef.Type().(*astmodel.ResourceType)
-				newResource, err := interfaces.AddKubernetesResourceInterfaceImpls(typeDef, idFactory, state.Definitions())
+				newResource, err := interfaces.AddKubernetesResourceInterfaceImpls(
+					typeDef,
+					idFactory,
+					state.Definitions(),
+					log)
 				if err != nil {
 					return nil, errors.Wrapf(err, "couldn't implement Kubernetes resource interface for %q", typeName)
 				}

@@ -109,6 +109,7 @@ installCRDs: true
 # "dbformysql.azure.com/FlexibleServer" can be listed, but there are often other resources in the group which pair
 # together to enable other scenarios, such as dbformysql.azure.com/FlexibleServersFirewallRules, and it's generally
 # easier to just include the whole group.
+# See https://azure.github.io/azure-service-operator/guide/crd-management for more details.
 crdPattern: ''
 
 # podAnnotations contain the pod annotations for Azure Service Operator

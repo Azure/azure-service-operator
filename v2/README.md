@@ -89,8 +89,17 @@ See the list of supported resources [here](https://azure.github.io/azure-service
         --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
         --set azureTenantID=$AZURE_TENANT_ID \
         --set azureClientID=$AZURE_CLIENT_ID \
-        --set azureClientSecret=$AZURE_CLIENT_SECRET
+        --set azureClientSecret=$AZURE_CLIENT_SECRET \
+        --set crdPattern='resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*'
    ```
+
+   > **Warning:** Make sure to set the `crdPattern` variable to include the CRDs you are interested in using. 
+   > You can use `--set crdPattern=*` to install all the CRDs, but be aware of the 
+   > [limits of the Kubernetes you are running](https://github.com/Azure/azure-service-operator/issues/2920). `*` is **not**
+   > recommended on AKS Free-tier clusters.
+   > 
+   > See [CRD management](./guide/crd-management) for more details.
+
    Alternatively you can install from the [release YAML directly](https://azure.github.io/azure-service-operator/guide/installing-from-yaml).
 
    To learn more about other authentication options, see the [authentication documentation](https://azure.github.io/azure-service-operator/guide/authentication/).

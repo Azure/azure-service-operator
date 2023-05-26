@@ -13,7 +13,6 @@ import (
 
 	"github.com/dave/dst"
 	"golang.org/x/exp/maps"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 )
@@ -111,8 +110,6 @@ func NewAzureResourceType(specType Type, statusType Type, typeName TypeName, sco
 		}
 
 		if nameProperty == nil {
-			klog.V(1).Infof("resource %s is missing field 'Name', fabricating one...", typeName)
-
 			nameProperty = NewPropertyDefinition("Name", "name", StringType)
 			nameProperty.WithDescription("The name of the resource")
 			isNameOptional = true

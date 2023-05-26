@@ -9,6 +9,7 @@ import (
 	"context"
 	"testing"
 
+	"github.com/go-logr/logr"
 	"github.com/go-openapi/spec"
 	. "github.com/onsi/gomega"
 
@@ -222,7 +223,7 @@ func Test_ExpandAndCanonicalizePath_DoesNotExpandSimplePath(t *testing.T) {
 	extractor := &SwaggerTypeExtractor{
 		idFactory: astmodel.NewIdentifierFactory(),
 	}
-	scanner := NewSchemaScanner(astmodel.NewIdentifierFactory(), config.NewConfiguration())
+	scanner := NewSchemaScanner(astmodel.NewIdentifierFactory(), config.NewConfiguration(), logr.Discard())
 
 	parameters := []spec.Parameter{
 		makeSubscriptionIDParameter(),
@@ -257,7 +258,7 @@ func Test_ExpandAndCanonicalizePath_ExpandsSingleValueEnumInNameLocationWithDefa
 	extractor := &SwaggerTypeExtractor{
 		idFactory: astmodel.NewIdentifierFactory(),
 	}
-	scanner := NewSchemaScanner(astmodel.NewIdentifierFactory(), config.NewConfiguration())
+	scanner := NewSchemaScanner(astmodel.NewIdentifierFactory(), config.NewConfiguration(), logr.Discard())
 
 	parameters := []spec.Parameter{
 		makeSubscriptionIDParameter(),
@@ -295,7 +296,7 @@ func Test_ExpandAndCanonicalizePath_DoesNotExpandSingleValueEnumWithoutDefault(t
 	extractor := &SwaggerTypeExtractor{
 		idFactory: astmodel.NewIdentifierFactory(),
 	}
-	scanner := NewSchemaScanner(astmodel.NewIdentifierFactory(), config.NewConfiguration())
+	scanner := NewSchemaScanner(astmodel.NewIdentifierFactory(), config.NewConfiguration(), logr.Discard())
 
 	parameters := []spec.Parameter{
 		makeSubscriptionIDParameter(),
@@ -333,7 +334,7 @@ func Test_ExpandAndCanonicalizePath_ExpandsEnumInResourceTypePath(t *testing.T) 
 	extractor := &SwaggerTypeExtractor{
 		idFactory: astmodel.NewIdentifierFactory(),
 	}
-	scanner := NewSchemaScanner(astmodel.NewIdentifierFactory(), config.NewConfiguration())
+	scanner := NewSchemaScanner(astmodel.NewIdentifierFactory(), config.NewConfiguration(), logr.Discard())
 
 	parameters := []spec.Parameter{
 		makeSubscriptionIDParameter(),

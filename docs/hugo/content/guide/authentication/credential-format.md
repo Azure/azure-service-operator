@@ -40,8 +40,11 @@ helm upgrade --install --devel aso2 aso2/azure-service-operator \
         --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
         --set azureTenantID=$AZURE_TENANT_ID \
         --set azureClientID=$AZURE_CLIENT_ID \
-        --set azureClientSecret=$AZURE_CLIENT_SECRET
+        --set azureClientSecret=$AZURE_CLIENT_SECRET \
+        --set crdPattern='resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*'
 ```
+
+See [CRD management](../../crd-management) for more details about `crdPattern`.
 
 Otherwise, create or update the `aso-controller-settings` secret:
 
@@ -156,8 +159,11 @@ helm upgrade --install --devel aso2 aso2/azure-service-operator \
         --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
         --set azureTenantID=$AZURE_TENANT_ID \
         --set azureClientID=$AZURE_CLIENT_ID \
-        --set azureClientCertificatePassword=$AZURE_CLIENT_CERTIFICATE_PASSWORD
+        --set azureClientCertificatePassword=$AZURE_CLIENT_CERTIFICATE_PASSWORD \
+        --set crdPattern='resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*'
 ```
+
+See [CRD management](../../crd-management) for more details about `crdPattern`.
 
 Otherwise, create or update the `aso-controller-settings` secret:
 
@@ -324,8 +330,11 @@ helm upgrade --install --devel aso2 aso2/azure-service-operator \
         --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
         --set azureTenantID=$AZURE_TENANT_ID \
         --set azureClientID=$AZURE_CLIENT_ID \
-        --set useWorkloadIdentityAuth=true
+        --set useWorkloadIdentityAuth=true \
+        --set crdPattern='resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*'
 ```
+
+See [CRD management](../../crd-management) for more details about `crdPattern`.
 
 Otherwise, create or update the `aso-controller-settings` secret:
 
@@ -490,5 +499,8 @@ helm upgrade --install --devel aso2 aso2/azure-service-operator \
      --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
      --set aadPodIdentity.enable=true \
      --set aadPodIdentity.azureManagedIdentityResourceId=${IDENTITY_RESOURCE_ID} \
-     --set azureClientID=${IDENTITY_CLIENT_ID}
+     --set azureClientID=${IDENTITY_CLIENT_ID} \
+     --set crdPattern='resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*'
 ```
+
+See [CRD management](../../crd-management) for more details about `crdPattern`.
