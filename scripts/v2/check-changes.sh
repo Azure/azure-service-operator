@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-IGNORE_FILTERS=("docs/" "README.md" "scripts/v2/check-changes.sh")
+IGNORE_FILTERS=("docs/" "README.md" "v2/README.md" "scripts/v2/check-changes.sh")
 CHANGED_FILES=$(git diff HEAD HEAD~ --name-only)
 IGNORED_COUNT=0
 NON_IGNORED_COUNT=0

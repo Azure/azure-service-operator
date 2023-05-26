@@ -98,7 +98,7 @@ See the list of supported resources [here](https://azure.github.io/azure-service
    > [limits of the Kubernetes you are running](https://github.com/Azure/azure-service-operator/issues/2920). `*` is **not**
    > recommended on AKS Free-tier clusters.
    > 
-   > See [CRD management](./guide/crd-management) for more details.
+   > See [CRD management](https://azure.github.io/azure-service-operator/guide/crd-management/) for more details.
 
    Alternatively you can install from the [release YAML directly](https://azure.github.io/azure-service-operator/guide/installing-from-yaml).
 
