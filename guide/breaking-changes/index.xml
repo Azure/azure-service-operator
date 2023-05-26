@@ -15,6 +15,37 @@
     
     
     <item>
+      <title>Guide: v2.1.0 Breaking Changes</title>
+      <link>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.1.0/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.1.0/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;the-operator-no-longer-installs-crds-by-default&#34;&gt;The operator no longer installs CRDs by default&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Action required:&lt;/strong&gt; When installing ASO for the first time, you must now specify &lt;code&gt;crdPattern&lt;/code&gt; (for Helm) or &lt;code&gt;--crd-patterns&lt;/code&gt;
+(in operator pod cmdline for raw YAML) to select the subset of CRDs you would like to install.&lt;/p&gt;
+&lt;p&gt;When upgrading ASO, existing CRDs will be automatically updated to the new version but new CRDs added in that release
+will not automatically be installed.
+This means that when upgrading the operator, if you don&amp;rsquo;t want to use any CRDs newly added in that release you don&amp;rsquo;t
+need to do anything.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Action required:&lt;/strong&gt; When upgrading ASO, if you want to install new CRDs (for example CRDs just added in the version of
+ASO you are upgrading to) you must specify &lt;code&gt;crdPattern&lt;/code&gt; (Helm) or &lt;code&gt;--crd-patterns&lt;/code&gt; (YAML) to install the CRDs.
+For example: if you do want to use a newly added CRD (such as &lt;code&gt;network.azure.com/bastionHosts&lt;/code&gt; mentioned
+below), you would need to specify &lt;code&gt;crdPatterns=network.azure.com/*&lt;/code&gt; when performing the upgrade.&lt;/p&gt;
+&lt;p&gt;See &lt;a href=&#34;https://azure.github.io/azure-service-operator/guide/crd-management/&#34;&gt;CRD management in ASO&lt;/a&gt; for more details
+about this change and why it was made.&lt;/p&gt;
+&lt;h2 id=&#34;serviceoperatorazurecomcredential-from-no-longer-supports-cross-namespace-secret-references&#34;&gt;&lt;code&gt;serviceoperator.azure.com/credential-from&lt;/code&gt; no longer supports cross namespace secret references&lt;/h2&gt;
+&lt;p&gt;This was never documented as supported but worked unintentionally. The feature now works as it was always documented:
+allowing references to secrets only if the secret is in the same namespace as the resource itself.&lt;/p&gt;
+&lt;p&gt;This was a security issue which we had to close.&lt;/p&gt;
+&lt;p&gt;See &lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/2919&#34;&gt;#2919&lt;/a&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Guide: v2.0.0 Breaking Changes</title>
       <link>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
