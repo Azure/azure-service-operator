@@ -1912,6 +1912,62 @@ genruntime.SecretDestination
 <p>Endpoint: indicates where the Endpoint secret should be placed. If omitted, the secret will not be retrieved from Azure.</p>
 </td>
 </tr>
+<tr>
+<td>
+<code>primaryConnectionString</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>PrimaryConnectionString: indicates where the PrimaryConnectionString secret should be placed. If omitted, the secret
+will not be retrieved from Azure.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>primaryKey</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>PrimaryKey: indicates where the PrimaryKey secret should be placed. If omitted, the secret will not be retrieved from
+Azure.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secondaryConnectionString</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>SecondaryConnectionString: indicates where the SecondaryConnectionString secret should be placed. If omitted, the secret
+will not be retrieved from Azure.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secondaryKey</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>SecondaryKey: indicates where the SecondaryKey secret should be placed. If omitted, the secret will not be retrieved
+from Azure.</p>
+</td>
+</tr>
 </tbody>
 </table>
 <h3 id="servicebus.azure.com/v1beta20210101preview.NamespaceOperatorSpec">NamespaceOperatorSpec
