@@ -331,7 +331,7 @@ func (resource *ResourceType) Equals(other Type, override EqualityOverrides) boo
 		resource.scope != otherResource.scope ||
 		resource.armType != otherResource.armType ||
 		!TypeEquals(resource.apiVersionTypeName, otherResource.apiVersionTypeName) ||
-		resource.apiVersionEnumValue.Equals(&otherResource.apiVersionEnumValue) ||
+		!resource.apiVersionEnumValue.Equals(&otherResource.apiVersionEnumValue) ||
 		!resource.InterfaceImplementer.Equals(otherResource.InterfaceImplementer, override) {
 		return false
 	}

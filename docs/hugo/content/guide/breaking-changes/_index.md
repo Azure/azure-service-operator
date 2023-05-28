@@ -15,6 +15,18 @@ You can easily swap from a `v1beta` version to a `v1api` version by just replaci
 
 ## Released Breaking Changes
 
+### v2.1.0
+
+Breaking changes are:
+
+* The operator no longer installs CRDs by default.
+* `serviceoperator.azure.com/credential-from` no longer supports secret references that are outside the namespace the resource is in
+* Upgrades from releases prior to `v2.0.0-beta.5` are still disallowed (same as v2.0.0)
+
+<!-- The replacementPatterns in link-checker.json are 97% correct, but don't work for _index.md files. Link manually checked by @matthchr -->
+<!-- markdown-link-check-disable-next-line -->
+For more information see [v2.1.0 Breaking Changes](breaking-changes-v2.1.0).
+
 ### v2.0.0
 
 Breaking changes are:

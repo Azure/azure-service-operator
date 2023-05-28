@@ -150,6 +150,10 @@ func TestIdentityVisitorReturnsEqualResult(t *testing.T) {
 
 	allofType := NewAllOfType()
 
+	erroredType := NewErroredType(StringType, nil, nil)
+
+	validatedType := NewValidatedType(StringType, StringValidations{})
+
 	resource := NewResourceType(person, individual)
 
 	iface := NewInterfaceType(transform)
@@ -170,6 +174,8 @@ func TestIdentityVisitorReturnsEqualResult(t *testing.T) {
 		{"Enum type", stringEnum},
 		{"One of type", oneOfType},
 		{"All of Type", allofType},
+		{"ErroredType", erroredType},
+		{"ValidatedType", validatedType},
 	}
 
 	for _, c := range cases {
@@ -312,6 +318,72 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			"oneOf",
 		},
 		{
+			"ErroredTypeHandler",
+			NewErroredType(StringType, nil, nil),
+			func(builder *TypeVisitorBuilder) {
+				builder.VisitErroredType = func(tv *TypeVisitor, et *ErroredType, _ interface{}) (Type, error) {
+					return et, errors.New(et.String())
+				}
+			},
+			NewErroredType(StringType, nil, nil),
+			"string",
+		},
+		{
+			"ErroredTypeSimplified",
+			NewErroredType(StringType, nil, nil),
+			func(builder *TypeVisitorBuilder) {
+				builder.VisitErroredType = func(et *ErroredType) (Type, error) {
+					return et, errors.New(et.String())
+				}
+			},
+			NewErroredType(StringType, nil, nil),
+			"string",
+		},
+		{
+			"ValidatedTypeHandler",
+			NewValidatedType(StringType, StringValidations{}),
+			func(builder *TypeVisitorBuilder) {
+				builder.VisitValidatedType = func(tv *TypeVisitor, vt *ValidatedType, _ interface{}) (Type, error) {
+					return vt, errors.New(vt.String())
+				}
+			},
+			NewValidatedType(StringType, StringValidations{}),
+			"Validated",
+		},
+		{
+			"ValidatedTypeSimplified",
+			NewValidatedType(StringType, StringValidations{}),
+			func(builder *TypeVisitorBuilder) {
+				builder.VisitValidatedType = func(vt *ValidatedType) (Type, error) {
+					return vt, errors.New(vt.String())
+				}
+			},
+			NewValidatedType(StringType, StringValidations{}),
+			"Validated",
+		},
+		{
+			"ResourceTypeHandler",
+			NewResourceType(StringType, StringType),
+			func(builder *TypeVisitorBuilder) {
+				builder.VisitResourceType = func(tv *TypeVisitor, rt *ResourceType, _ interface{}) (Type, error) {
+					return rt, errors.New(rt.String())
+				}
+			},
+			NewResourceType(StringType, StringType),
+			"resource",
+		},
+		{
+			"ResourceTypeSimplified",
+			NewResourceType(StringType, StringType),
+			func(builder *TypeVisitorBuilder) {
+				builder.VisitResourceType = func(rt *ResourceType) (Type, error) {
+					return rt, errors.New(rt.String())
+				}
+			},
+			NewResourceType(StringType, StringType),
+			"resource",
+		},
+		{
 			"AllOfTypeHandler",
 			NewAllOfType(),
 			func(builder *TypeVisitorBuilder) {
@@ -403,9 +475,6 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 
 	// TODO: Pending tests for
 	// visitTypeName:
-	// visitResourceType:
-	// visitValidatedType:
-	// visitErroredType:
 
 	for _, c := range cases {
 		c := c
