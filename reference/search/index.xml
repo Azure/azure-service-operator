@@ -1636,8 +1636,6 @@ string
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;running&amp;#34;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
-&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;stopped&amp;#34;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h3 id=&#34;search.azure.com/v1api20220901.SearchService_STATUS&#34;&gt;SearchService_STATUS

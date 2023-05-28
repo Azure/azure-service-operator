@@ -23405,7 +23405,7 @@ string
 &lt;h3 id=&#34;network.azure.com/v1api20201101.InboundNatRulePropertiesFormat_ARM&#34;&gt;InboundNatRulePropertiesFormat_ARM
 &lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatRule_LoadBalancer_SubResourceEmbedded_ARM&#34;&gt;InboundNatRule_LoadBalancer_SubResourceEmbedded_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatRule_LoadBalancer_SubResourceEmbedded_ARM&#34;&gt;InboundNatRule_LoadBalancer_SubResourceEmbedded_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancers_InboundNatRule_Spec_ARM&#34;&gt;LoadBalancers_InboundNatRule_Spec_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Properties of the inbound NAT rule.&lt;/p&gt;
@@ -23528,6 +23528,137 @@ TransportProtocol
 &lt;em&gt;
 &lt;a href=&#34;#network.azure.com/v1api20201101.NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded_ARM&#34;&gt;
 NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;BackendIPConfiguration: A reference to a private IP address defined on a network interface of a VM. Traffic sent to the
+frontend port of each of the frontend IP configurations is forwarded to the backend IP.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;backendPort&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;BackendPort: The port used for the internal endpoint. Acceptable values range from 1 to 65535.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;enableFloatingIP&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+bool
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;EnableFloatingIP: Configures a virtual machine&amp;rsquo;s endpoint for the floating IP capability required to configure a SQL
+AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server.
+This setting can&amp;rsquo;t be changed after you create the endpoint.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;enableTcpReset&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+bool
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
+element is only used when the protocol is set to TCP.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;frontendIPConfiguration&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1api20201101.SubResource_STATUS_ARM&#34;&gt;
+SubResource_STATUS_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;FrontendIPConfiguration: A reference to frontend IP addresses.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;frontendPort&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;FrontendPort: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer.
+Acceptable values range from 1 to 65534.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;idleTimeoutInMinutes&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The
+default value is 4 minutes. This element is only used when the protocol is set to TCP.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;protocol&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1api20201101.TransportProtocol_STATUS&#34;&gt;
+TransportProtocol_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Protocol: The reference to the transport protocol used by the load balancing rule.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1api20201101.ProvisioningState_STATUS&#34;&gt;
+ProvisioningState_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ProvisioningState: The provisioning state of the inbound NAT rule resource.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.azure.com/v1api20201101.InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM&#34;&gt;InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancers_InboundNatRule_STATUS_ARM&#34;&gt;LoadBalancers_InboundNatRule_STATUS_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Properties of the inbound NAT rule.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;backendIPConfiguration&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1api20201101.NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM&#34;&gt;
+NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -26721,6 +26852,607 @@ map[string]string
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
+&lt;h3 id=&#34;network.azure.com/v1api20201101.LoadBalancersInboundNatRule&#34;&gt;LoadBalancersInboundNatRule
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;p&gt;Generator information:
+- Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/loadBalancer.json
+- ARM URI: /&amp;#x200b;subscriptions/&amp;#x200b;{subscriptionId}/&amp;#x200b;resourceGroups/&amp;#x200b;{resourceGroupName}/&amp;#x200b;providers/&amp;#x200b;Microsoft.Network/&amp;#x200b;loadBalancers/&amp;#x200b;{loadBalancerName}/&amp;#x200b;inboundNatRules/&amp;#x200b;{inboundNatRuleName}&lt;/&amp;#x200b;p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;metadata&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta&#34;&gt;
+Kubernetes meta/v1.ObjectMeta
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+Refer to the Kubernetes API documentation for the fields of the
+&lt;code&gt;metadata&lt;/code&gt; field.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;spec&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancers_InboundNatRule_Spec&#34;&gt;
+LoadBalancers_InboundNatRule_Spec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;br/&gt;
+&lt;br/&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;azureName&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&amp;rsquo;t have to be.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;backendPort&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;BackendPort: The port used for the internal endpoint. Acceptable values range from 1 to 65535.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;enableFloatingIP&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+bool
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;EnableFloatingIP: Configures a virtual machine&amp;rsquo;s endpoint for the floating IP capability required to configure a SQL
+AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server.
+This setting can&amp;rsquo;t be changed after you create the endpoint.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;enableTcpReset&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+bool
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
+element is only used when the protocol is set to TCP.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;frontendIPConfiguration&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1api20201101.SubResource&#34;&gt;
+SubResource
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;FrontendIPConfiguration: A reference to frontend IP addresses.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;frontendPort&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;FrontendPort: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer.
+Acceptable values range from 1 to 65534.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;idleTimeoutInMinutes&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The
+default value is 4 minutes. This element is only used when the protocol is set to TCP.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;owner&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference&#34;&gt;
+genruntime.KnownResourceReference
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a network.azure.com/LoadBalancer resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;protocol&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1api20201101.TransportProtocol&#34;&gt;
+TransportProtocol
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Protocol: The reference to the transport protocol used by the load balancing rule.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancers_InboundNatRule_STATUS&#34;&gt;
+LoadBalancers_InboundNatRule_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.azure.com/v1api20201101.LoadBalancers_InboundNatRule_STATUS&#34;&gt;LoadBalancers_InboundNatRule_STATUS
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancersInboundNatRule&#34;&gt;LoadBalancersInboundNatRule&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;backendIPConfiguration&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1api20201101.NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded&#34;&gt;
+NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;BackendIPConfiguration: A reference to a private IP address defined on a network interface of a VM. Traffic sent to the
+frontend port of each of the frontend IP configurations is forwarded to the backend IP.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;backendPort&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;BackendPort: The port used for the internal endpoint. Acceptable values range from 1 to 65535.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;conditions&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition&#34;&gt;
+[]genruntime/conditions.Condition
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Conditions: The observed state of the resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;enableFloatingIP&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+bool
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;EnableFloatingIP: Configures a virtual machine&amp;rsquo;s endpoint for the floating IP capability required to configure a SQL
+AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server.
+This setting can&amp;rsquo;t be changed after you create the endpoint.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;enableTcpReset&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+bool
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
+element is only used when the protocol is set to TCP.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;etag&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Etag: A unique read-only string that changes whenever the resource is updated.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;frontendIPConfiguration&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1api20201101.SubResource_STATUS&#34;&gt;
+SubResource_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;FrontendIPConfiguration: A reference to frontend IP addresses.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;frontendPort&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;FrontendPort: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer.
+Acceptable values range from 1 to 65534.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Id: Resource ID.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;idleTimeoutInMinutes&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The
+default value is 4 minutes. This element is only used when the protocol is set to TCP.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: The name of the resource that is unique within the set of inbound NAT rules used by the load balancer. This name
+can be used to access the resource.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;protocol&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1api20201101.TransportProtocol_STATUS&#34;&gt;
+TransportProtocol_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Protocol: The reference to the transport protocol used by the load balancing rule.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1api20201101.ProvisioningState_STATUS&#34;&gt;
+ProvisioningState_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ProvisioningState: The provisioning state of the inbound NAT rule resource.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Type: Type of the resource.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.azure.com/v1api20201101.LoadBalancers_InboundNatRule_STATUS_ARM&#34;&gt;LoadBalancers_InboundNatRule_STATUS_ARM
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;etag&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Etag: A unique read-only string that changes whenever the resource is updated.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Id: Resource ID.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: The name of the resource that is unique within the set of inbound NAT rules used by the load balancer. This name
+can be used to access the resource.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM&#34;&gt;
+InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Properties: Properties of load balancer inbound nat rule.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Type: Type of the resource.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.azure.com/v1api20201101.LoadBalancers_InboundNatRule_Spec&#34;&gt;LoadBalancers_InboundNatRule_Spec
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancersInboundNatRule&#34;&gt;LoadBalancersInboundNatRule&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;azureName&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&amp;rsquo;t have to be.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;backendPort&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;BackendPort: The port used for the internal endpoint. Acceptable values range from 1 to 65535.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;enableFloatingIP&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+bool
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;EnableFloatingIP: Configures a virtual machine&amp;rsquo;s endpoint for the floating IP capability required to configure a SQL
+AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server.
+This setting can&amp;rsquo;t be changed after you create the endpoint.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;enableTcpReset&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+bool
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
+element is only used when the protocol is set to TCP.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;frontendIPConfiguration&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1api20201101.SubResource&#34;&gt;
+SubResource
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;FrontendIPConfiguration: A reference to frontend IP addresses.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;frontendPort&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;FrontendPort: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer.
+Acceptable values range from 1 to 65534.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;idleTimeoutInMinutes&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The
+default value is 4 minutes. This element is only used when the protocol is set to TCP.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;owner&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference&#34;&gt;
+genruntime.KnownResourceReference
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a network.azure.com/LoadBalancer resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;protocol&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1api20201101.TransportProtocol&#34;&gt;
+TransportProtocol
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Protocol: The reference to the transport protocol used by the load balancing rule.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.azure.com/v1api20201101.LoadBalancers_InboundNatRule_Spec_ARM&#34;&gt;LoadBalancers_InboundNatRule_Spec_ARM
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: The name of the resource that is unique within the set of inbound NAT rules used by the load balancer. This name
+can be used to access the resource.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatRulePropertiesFormat_ARM&#34;&gt;
+InboundNatRulePropertiesFormat_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Properties: Properties of load balancer inbound nat rule.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 &lt;h3 id=&#34;network.azure.com/v1api20201101.LoadBalancingRule&#34;&gt;LoadBalancingRule
 &lt;/h3&gt;
 &lt;p&gt;
@@ -28845,6 +29577,64 @@ string
 &lt;/h3&gt;
 &lt;p&gt;
 (&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.BackendAddressPoolPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM&#34;&gt;BackendAddressPoolPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM&#34;&gt;InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;IPConfiguration in a network interface.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Id: Resource ID.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.azure.com/v1api20201101.NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded&#34;&gt;NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancers_InboundNatRule_STATUS&#34;&gt;LoadBalancers_InboundNatRule_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;IPConfiguration in a network interface.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Id: Resource ID.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.azure.com/v1api20201101.NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM&#34;&gt;NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM&#34;&gt;InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;IPConfiguration in a network interface.&lt;/p&gt;
@@ -33608,7 +34398,7 @@ string
 &lt;h3 id=&#34;network.azure.com/v1api20201101.ProvisioningState_STATUS&#34;&gt;ProvisioningState_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.BackendAddressPoolPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM&#34;&gt;BackendAddressPoolPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded&#34;&gt;BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.Delegation_STATUS&#34;&gt;Delegation_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.FrontendIPConfigurationPropertiesFormat_STATUS_ARM&#34;&gt;FrontendIPConfigurationPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded&#34;&gt;FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatPoolPropertiesFormat_STATUS_ARM&#34;&gt;InboundNatPoolPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatPool_STATUS&#34;&gt;InboundNatPool_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM&#34;&gt;InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded&#34;&gt;InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancerPropertiesFormat_STATUS_ARM&#34;&gt;LoadBalancerPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancer_STATUS&#34;&gt;LoadBalancer_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancingRulePropertiesFormat_STATUS_ARM&#34;&gt;LoadBalancingRulePropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancingRule_STATUS&#34;&gt;LoadBalancingRule_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM&#34;&gt;NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded&#34;&gt;NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.NetworkInterfacePropertiesFormat_STATUS_ARM&#34;&gt;NetworkInterfacePropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded&#34;&gt;NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.NetworkSecurityGroupPropertiesFormat_STATUS_ARM&#34;&gt;NetworkSecurityGroupPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded&#34;&gt;NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.NetworkSecurityGroups_SecurityRule_STATUS&#34;&gt;NetworkSecurityGroups_SecurityRule_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.OutboundRulePropertiesFormat_STATUS_ARM&#34;&gt;OutboundRulePropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.OutboundRule_STATUS&#34;&gt;OutboundRule_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.ProbePropertiesFormat_STATUS_ARM&#34;&gt;ProbePropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.Probe_STATUS&#34;&gt;Probe_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.PublicIPAddressPropertiesFormat_STATUS_ARM&#34;&gt;PublicIPAddressPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded&#34;&gt;PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.RoutePropertiesFormat_STATUS_ARM&#34;&gt;RoutePropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.RouteTablePropertiesFormat_STATUS_ARM&#34;&gt;RouteTablePropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.RouteTable_STATUS&#34;&gt;RouteTable_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.RouteTables_Route_STATUS&#34;&gt;RouteTables_Route_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_STATUS_ARM&#34;&gt;SecurityRulePropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.ServiceDelegationPropertiesFormat_STATUS_ARM&#34;&gt;ServiceDelegationPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.ServiceEndpointPropertiesFormat_STATUS&#34;&gt;ServiceEndpointPropertiesFormat_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.ServiceEndpointPropertiesFormat_STATUS_ARM&#34;&gt;ServiceEndpointPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.SubnetPropertiesFormat_STATUS_ARM&#34;&gt;SubnetPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworkGatewayIPConfigurationPropertiesFormat_STATUS_ARM&#34;&gt;VirtualNetworkGatewayIPConfigurationPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworkGatewayIPConfiguration_STATUS&#34;&gt;VirtualNetworkGatewayIPConfiguration_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_STATUS_ARM&#34;&gt;VirtualNetworkGatewayPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworkGateway_STATUS&#34;&gt;VirtualNetworkGateway_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworkPeeringPropertiesFormat_STATUS_ARM&#34;&gt;VirtualNetworkPeeringPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworkPropertiesFormat_STATUS_ARM&#34;&gt;VirtualNetworkPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetwork_STATUS&#34;&gt;VirtualNetwork_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworks_Subnet_STATUS&#34;&gt;VirtualNetworks_Subnet_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworks_VirtualNetworkPeering_STATUS&#34;&gt;VirtualNetworks_VirtualNetworkPeering_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VpnClientRevokedCertificatePropertiesFormat_STATUS_ARM&#34;&gt;VpnClientRevokedCertificatePropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VpnClientRevokedCertificate_STATUS&#34;&gt;VpnClientRevokedCertificate_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VpnClientRootCertificatePropertiesFormat_STATUS_ARM&#34;&gt;VpnClientRootCertificatePropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VpnClientRootCertificate_STATUS&#34;&gt;VpnClientRootCertificate_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.BackendAddressPoolPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM&#34;&gt;BackendAddressPoolPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded&#34;&gt;BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.Delegation_STATUS&#34;&gt;Delegation_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.FrontendIPConfigurationPropertiesFormat_STATUS_ARM&#34;&gt;FrontendIPConfigurationPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded&#34;&gt;FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatPoolPropertiesFormat_STATUS_ARM&#34;&gt;InboundNatPoolPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatPool_STATUS&#34;&gt;InboundNatPool_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM&#34;&gt;InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM&#34;&gt;InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded&#34;&gt;InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancerPropertiesFormat_STATUS_ARM&#34;&gt;LoadBalancerPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancer_STATUS&#34;&gt;LoadBalancer_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancers_InboundNatRule_STATUS&#34;&gt;LoadBalancers_InboundNatRule_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancingRulePropertiesFormat_STATUS_ARM&#34;&gt;LoadBalancingRulePropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancingRule_STATUS&#34;&gt;LoadBalancingRule_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM&#34;&gt;NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded&#34;&gt;NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.NetworkInterfacePropertiesFormat_STATUS_ARM&#34;&gt;NetworkInterfacePropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded&#34;&gt;NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.NetworkSecurityGroupPropertiesFormat_STATUS_ARM&#34;&gt;NetworkSecurityGroupPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded&#34;&gt;NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.NetworkSecurityGroups_SecurityRule_STATUS&#34;&gt;NetworkSecurityGroups_SecurityRule_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.OutboundRulePropertiesFormat_STATUS_ARM&#34;&gt;OutboundRulePropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.OutboundRule_STATUS&#34;&gt;OutboundRule_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.ProbePropertiesFormat_STATUS_ARM&#34;&gt;ProbePropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.Probe_STATUS&#34;&gt;Probe_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.PublicIPAddressPropertiesFormat_STATUS_ARM&#34;&gt;PublicIPAddressPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded&#34;&gt;PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.RoutePropertiesFormat_STATUS_ARM&#34;&gt;RoutePropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.RouteTablePropertiesFormat_STATUS_ARM&#34;&gt;RouteTablePropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.RouteTable_STATUS&#34;&gt;RouteTable_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.RouteTables_Route_STATUS&#34;&gt;RouteTables_Route_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_STATUS_ARM&#34;&gt;SecurityRulePropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.ServiceDelegationPropertiesFormat_STATUS_ARM&#34;&gt;ServiceDelegationPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.ServiceEndpointPropertiesFormat_STATUS&#34;&gt;ServiceEndpointPropertiesFormat_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.ServiceEndpointPropertiesFormat_STATUS_ARM&#34;&gt;ServiceEndpointPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.SubnetPropertiesFormat_STATUS_ARM&#34;&gt;SubnetPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworkGatewayIPConfigurationPropertiesFormat_STATUS_ARM&#34;&gt;VirtualNetworkGatewayIPConfigurationPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworkGatewayIPConfiguration_STATUS&#34;&gt;VirtualNetworkGatewayIPConfiguration_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_STATUS_ARM&#34;&gt;VirtualNetworkGatewayPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworkGateway_STATUS&#34;&gt;VirtualNetworkGateway_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworkPeeringPropertiesFormat_STATUS_ARM&#34;&gt;VirtualNetworkPeeringPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworkPropertiesFormat_STATUS_ARM&#34;&gt;VirtualNetworkPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetwork_STATUS&#34;&gt;VirtualNetwork_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworks_Subnet_STATUS&#34;&gt;VirtualNetworks_Subnet_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworks_VirtualNetworkPeering_STATUS&#34;&gt;VirtualNetworks_VirtualNetworkPeering_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VpnClientRevokedCertificatePropertiesFormat_STATUS_ARM&#34;&gt;VpnClientRevokedCertificatePropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VpnClientRevokedCertificate_STATUS&#34;&gt;VpnClientRevokedCertificate_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VpnClientRootCertificatePropertiesFormat_STATUS_ARM&#34;&gt;VpnClientRootCertificatePropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VpnClientRootCertificate_STATUS&#34;&gt;VpnClientRootCertificate_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;The current provisioning state.&lt;/p&gt;
@@ -38610,7 +39400,7 @@ string
 &lt;h3 id=&#34;network.azure.com/v1api20201101.SubResource&#34;&gt;SubResource
 &lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.DdosSettings&#34;&gt;DdosSettings&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded&#34;&gt;FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatPool&#34;&gt;InboundNatPool&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatRule_LoadBalancer_SubResourceEmbedded&#34;&gt;InboundNatRule_LoadBalancer_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancerBackendAddress&#34;&gt;LoadBalancerBackendAddress&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancingRule&#34;&gt;LoadBalancingRule&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.OutboundRule&#34;&gt;OutboundRule&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.PublicIPAddress_Spec&#34;&gt;PublicIPAddress_Spec&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworkGatewayIPConfiguration&#34;&gt;VirtualNetworkGatewayIPConfiguration&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworkGateway_Spec&#34;&gt;VirtualNetworkGateway_Spec&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetwork_Spec&#34;&gt;VirtualNetwork_Spec&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworks_Subnet_Spec&#34;&gt;VirtualNetworks_Subnet_Spec&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworks_VirtualNetworkPeering_Spec&#34;&gt;VirtualNetworks_VirtualNetworkPeering_Spec&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.DdosSettings&#34;&gt;DdosSettings&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded&#34;&gt;FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatPool&#34;&gt;InboundNatPool&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatRule_LoadBalancer_SubResourceEmbedded&#34;&gt;InboundNatRule_LoadBalancer_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancerBackendAddress&#34;&gt;LoadBalancerBackendAddress&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancers_InboundNatRule_Spec&#34;&gt;LoadBalancers_InboundNatRule_Spec&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancingRule&#34;&gt;LoadBalancingRule&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.OutboundRule&#34;&gt;OutboundRule&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.PublicIPAddress_Spec&#34;&gt;PublicIPAddress_Spec&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworkGatewayIPConfiguration&#34;&gt;VirtualNetworkGatewayIPConfiguration&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworkGateway_Spec&#34;&gt;VirtualNetworkGateway_Spec&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetwork_Spec&#34;&gt;VirtualNetwork_Spec&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworks_Subnet_Spec&#34;&gt;VirtualNetworks_Subnet_Spec&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworks_VirtualNetworkPeering_Spec&#34;&gt;VirtualNetworks_VirtualNetworkPeering_Spec&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Reference to another subresource.&lt;/p&gt;
@@ -38669,7 +39459,7 @@ string
 &lt;h3 id=&#34;network.azure.com/v1api20201101.SubResource_STATUS&#34;&gt;SubResource_STATUS
 &lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded&#34;&gt;BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.DdosSettings_STATUS&#34;&gt;DdosSettings_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded&#34;&gt;FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatPool_STATUS&#34;&gt;InboundNatPool_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded&#34;&gt;InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancerBackendAddress_STATUS&#34;&gt;LoadBalancerBackendAddress_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancingRule_STATUS&#34;&gt;LoadBalancingRule_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded&#34;&gt;NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.OutboundRule_STATUS&#34;&gt;OutboundRule_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.Probe_STATUS&#34;&gt;Probe_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded&#34;&gt;PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworkGatewayIPConfiguration_STATUS&#34;&gt;VirtualNetworkGatewayIPConfiguration_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworkGateway_STATUS&#34;&gt;VirtualNetworkGateway_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetwork_STATUS&#34;&gt;VirtualNetwork_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworks_Subnet_STATUS&#34;&gt;VirtualNetworks_Subnet_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworks_VirtualNetworkPeering_STATUS&#34;&gt;VirtualNetworks_VirtualNetworkPeering_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded&#34;&gt;BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.DdosSettings_STATUS&#34;&gt;DdosSettings_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded&#34;&gt;FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatPool_STATUS&#34;&gt;InboundNatPool_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded&#34;&gt;InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancerBackendAddress_STATUS&#34;&gt;LoadBalancerBackendAddress_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancers_InboundNatRule_STATUS&#34;&gt;LoadBalancers_InboundNatRule_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancingRule_STATUS&#34;&gt;LoadBalancingRule_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded&#34;&gt;NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.OutboundRule_STATUS&#34;&gt;OutboundRule_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.Probe_STATUS&#34;&gt;Probe_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded&#34;&gt;PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworkGatewayIPConfiguration_STATUS&#34;&gt;VirtualNetworkGatewayIPConfiguration_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworkGateway_STATUS&#34;&gt;VirtualNetworkGateway_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetwork_STATUS&#34;&gt;VirtualNetwork_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworks_Subnet_STATUS&#34;&gt;VirtualNetworks_Subnet_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworks_VirtualNetworkPeering_STATUS&#34;&gt;VirtualNetworks_VirtualNetworkPeering_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Reference to another subresource.&lt;/p&gt;
@@ -38698,7 +39488,7 @@ string
 &lt;h3 id=&#34;network.azure.com/v1api20201101.SubResource_STATUS_ARM&#34;&gt;SubResource_STATUS_ARM
 &lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.BackendAddressPoolPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM&#34;&gt;BackendAddressPoolPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.DdosSettings_STATUS_ARM&#34;&gt;DdosSettings_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.FrontendIPConfigurationPropertiesFormat_STATUS_ARM&#34;&gt;FrontendIPConfigurationPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatPoolPropertiesFormat_STATUS_ARM&#34;&gt;InboundNatPoolPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM&#34;&gt;InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancerBackendAddressPropertiesFormat_STATUS_ARM&#34;&gt;LoadBalancerBackendAddressPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancingRulePropertiesFormat_STATUS_ARM&#34;&gt;LoadBalancingRulePropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.NetworkInterfacePropertiesFormat_STATUS_ARM&#34;&gt;NetworkInterfacePropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.OutboundRulePropertiesFormat_STATUS_ARM&#34;&gt;OutboundRulePropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.ProbePropertiesFormat_STATUS_ARM&#34;&gt;ProbePropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.PublicIPAddressPropertiesFormat_STATUS_ARM&#34;&gt;PublicIPAddressPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.SubnetPropertiesFormat_STATUS_ARM&#34;&gt;SubnetPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworkGatewayIPConfigurationPropertiesFormat_STATUS_ARM&#34;&gt;VirtualNetworkGatewayIPConfigurationPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_STATUS_ARM&#34;&gt;VirtualNetworkGatewayPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworkPeeringPropertiesFormat_STATUS_ARM&#34;&gt;VirtualNetworkPeeringPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworkPropertiesFormat_STATUS_ARM&#34;&gt;VirtualNetworkPropertiesFormat_STATUS_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.BackendAddressPoolPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM&#34;&gt;BackendAddressPoolPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.DdosSettings_STATUS_ARM&#34;&gt;DdosSettings_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.FrontendIPConfigurationPropertiesFormat_STATUS_ARM&#34;&gt;FrontendIPConfigurationPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatPoolPropertiesFormat_STATUS_ARM&#34;&gt;InboundNatPoolPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM&#34;&gt;InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM&#34;&gt;InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancerBackendAddressPropertiesFormat_STATUS_ARM&#34;&gt;LoadBalancerBackendAddressPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancingRulePropertiesFormat_STATUS_ARM&#34;&gt;LoadBalancingRulePropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.NetworkInterfacePropertiesFormat_STATUS_ARM&#34;&gt;NetworkInterfacePropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.OutboundRulePropertiesFormat_STATUS_ARM&#34;&gt;OutboundRulePropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.ProbePropertiesFormat_STATUS_ARM&#34;&gt;ProbePropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.PublicIPAddressPropertiesFormat_STATUS_ARM&#34;&gt;PublicIPAddressPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.SubnetPropertiesFormat_STATUS_ARM&#34;&gt;SubnetPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworkGatewayIPConfigurationPropertiesFormat_STATUS_ARM&#34;&gt;VirtualNetworkGatewayIPConfigurationPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworkGatewayPropertiesFormat_STATUS_ARM&#34;&gt;VirtualNetworkGatewayPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworkPeeringPropertiesFormat_STATUS_ARM&#34;&gt;VirtualNetworkPeeringPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.VirtualNetworkPropertiesFormat_STATUS_ARM&#34;&gt;VirtualNetworkPropertiesFormat_STATUS_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Reference to another subresource.&lt;/p&gt;
@@ -39762,7 +40552,7 @@ string
 &lt;h3 id=&#34;network.azure.com/v1api20201101.TransportProtocol&#34;&gt;TransportProtocol
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatPool&#34;&gt;InboundNatPool&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatPoolPropertiesFormat_ARM&#34;&gt;InboundNatPoolPropertiesFormat_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatRulePropertiesFormat_ARM&#34;&gt;InboundNatRulePropertiesFormat_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatRule_LoadBalancer_SubResourceEmbedded&#34;&gt;InboundNatRule_LoadBalancer_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancingRule&#34;&gt;LoadBalancingRule&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancingRulePropertiesFormat_ARM&#34;&gt;LoadBalancingRulePropertiesFormat_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatPool&#34;&gt;InboundNatPool&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatPoolPropertiesFormat_ARM&#34;&gt;InboundNatPoolPropertiesFormat_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatRulePropertiesFormat_ARM&#34;&gt;InboundNatRulePropertiesFormat_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatRule_LoadBalancer_SubResourceEmbedded&#34;&gt;InboundNatRule_LoadBalancer_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancers_InboundNatRule_Spec&#34;&gt;LoadBalancers_InboundNatRule_Spec&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancingRule&#34;&gt;LoadBalancingRule&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancingRulePropertiesFormat_ARM&#34;&gt;LoadBalancingRulePropertiesFormat_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;The transport protocol for the endpoint.&lt;/p&gt;
@@ -39785,7 +40575,7 @@ string
 &lt;h3 id=&#34;network.azure.com/v1api20201101.TransportProtocol_STATUS&#34;&gt;TransportProtocol_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatPoolPropertiesFormat_STATUS_ARM&#34;&gt;InboundNatPoolPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatPool_STATUS&#34;&gt;InboundNatPool_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM&#34;&gt;InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded&#34;&gt;InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancingRulePropertiesFormat_STATUS_ARM&#34;&gt;LoadBalancingRulePropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancingRule_STATUS&#34;&gt;LoadBalancingRule_STATUS&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatPoolPropertiesFormat_STATUS_ARM&#34;&gt;InboundNatPoolPropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatPool_STATUS&#34;&gt;InboundNatPool_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM&#34;&gt;InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM&#34;&gt;InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded&#34;&gt;InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancers_InboundNatRule_STATUS&#34;&gt;LoadBalancers_InboundNatRule_STATUS&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancingRulePropertiesFormat_STATUS_ARM&#34;&gt;LoadBalancingRulePropertiesFormat_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.LoadBalancingRule_STATUS&#34;&gt;LoadBalancingRule_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;The transport protocol for the endpoint.&lt;/p&gt;

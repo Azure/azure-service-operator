@@ -20,12 +20,10 @@
 
 <title>dbformysql.azure.com/v1 | Azure Service Operator</title>
 <meta name="description" content="dbformysql.azure.com/v1  Package v1 contains hand-crafted API Schema definitions for the dbformysql v1 API group
- Resource Types:  LocalUserSpec   (Appears on:UserSpec)      Field Description      serverAdminUsername  string    ServerAdminUsername is the user name of the Server administrator
-    serverAdminPassword  genruntime.SecretReference     ServerAdminPassword is a reference to a secret containing the servers administrator password">
+ Resource Types:  AADUserSpec   (Appears on:UserSpec)      Field Description      alias  string    Alias is the short name associated with the user. This is required if the AzureName is longer than 32 characters. Note that Alias denotes the name used to manage the SQL user in MySQL, NOT the name used to log in to the SQL server.">
 <meta property="og:title" content="dbformysql.azure.com/v1" />
 <meta property="og:description" content="dbformysql.azure.com/v1  Package v1 contains hand-crafted API Schema definitions for the dbformysql v1 API group
- Resource Types:  LocalUserSpec   (Appears on:UserSpec)      Field Description      serverAdminUsername  string    ServerAdminUsername is the user name of the Server administrator
-    serverAdminPassword  genruntime.SecretReference     ServerAdminPassword is a reference to a secret containing the servers administrator password" />
+ Resource Types:  AADUserSpec   (Appears on:UserSpec)      Field Description      alias  string    Alias is the short name associated with the user. This is required if the AzureName is longer than 32 characters. Note that Alias denotes the name used to manage the SQL user in MySQL, NOT the name used to log in to the SQL server." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/dbformysql/v1/" /><meta property="article:section" content="reference" />
 
@@ -33,15 +31,13 @@
 
 <meta itemprop="name" content="dbformysql.azure.com/v1">
 <meta itemprop="description" content="dbformysql.azure.com/v1  Package v1 contains hand-crafted API Schema definitions for the dbformysql v1 API group
- Resource Types:  LocalUserSpec   (Appears on:UserSpec)      Field Description      serverAdminUsername  string    ServerAdminUsername is the user name of the Server administrator
-    serverAdminPassword  genruntime.SecretReference     ServerAdminPassword is a reference to a secret containing the servers administrator password">
+ Resource Types:  AADUserSpec   (Appears on:UserSpec)      Field Description      alias  string    Alias is the short name associated with the user. This is required if the AzureName is longer than 32 characters. Note that Alias denotes the name used to manage the SQL user in MySQL, NOT the name used to log in to the SQL server.">
 
-<meta itemprop="wordCount" content="498">
+<meta itemprop="wordCount" content="895">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="dbformysql.azure.com/v1"/>
 <meta name="twitter:description" content="dbformysql.azure.com/v1  Package v1 contains hand-crafted API Schema definitions for the dbformysql v1 API group
- Resource Types:  LocalUserSpec   (Appears on:UserSpec)      Field Description      serverAdminUsername  string    ServerAdminUsername is the user name of the Server administrator
-    serverAdminPassword  genruntime.SecretReference     ServerAdminPassword is a reference to a secret containing the servers administrator password"/>
+ Resource Types:  AADUserSpec   (Appears on:UserSpec)      Field Description      alias  string    Alias is the short name associated with the user. This is required if the AzureName is longer than 32 characters. Note that Alias denotes the name used to manage the SQL user in MySQL, NOT the name used to log in to the SQL server."/>
 
 
 
@@ -307,8 +303,8 @@
   <a href="/azure-service-operator/reference/dbformysql/v1/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1"><span class="td-sidebar-nav-active-item">dbformysql.azure.com/v1</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedbformysqlv1api20210501-li">
   <a href="/azure-service-operator/reference/dbformysql/v1api20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20210501"><span class="">dbformysql.azure.com/v1api20210501</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedbformysqlv1api20211201preview-li">
-  <a href="/azure-service-operator/reference/dbformysql/v1api20211201preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20211201preview"><span class="">dbformysql.azure.com/v1api20211201preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedbformysqlv1api20220101-li">
+  <a href="/azure-service-operator/reference/dbformysql/v1api20220101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20220101"><span class="">dbformysql.azure.com/v1api20220101</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedbformysqlv1beta1-li">
   <a href="/azure-service-operator/reference/dbformysql/v1beta1/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1beta1"><span class="">dbformysql.azure.com/v1beta1</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedbformysqlv1beta20210501-li">
@@ -475,6 +471,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1api20210401-li">
   <a href="/azure-service-operator/reference/storage/v1api20210401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1api20210401"><span class="">storage.azure.com/v1api20210401</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1api20220901-li">
+  <a href="/azure-service-operator/reference/storage/v1api20220901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1api20220901"><span class="">storage.azure.com/v1api20220901</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1beta20210401-li">
   <a href="/azure-service-operator/reference/storage/v1beta20210401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1beta20210401"><span class="">storage.azure.com/v1beta20210401</span></a>
 </li>
@@ -672,6 +670,51 @@
 </div>
 Resource Types:
 <ul></ul>
+<h3 id="dbformysql.azure.com/v1.AADUserSpec">AADUserSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1.UserSpec">UserSpec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>alias</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Alias is the short name associated with the user. This is required if the AzureName is longer than 32 characters.
+Note that Alias denotes the name used to manage the SQL user in MySQL, NOT the name used to log in to the SQL server.
+When logging in to the SQL server and prompted to provider the username, supply the AzureName.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>serverAdminUsername</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ServerAdminUsername is the username of the Server administrator. If your server admin was configured with
+Azure Service Operator, this should match the value of the Administrator&rsquo;s $.spec.login field. If the
+administrator is a group, the ServerAdminUsername should be the group name, not the actual username of the
+identity to log in with. For example if the administrator group is &ldquo;admin-group&rdquo; and identity &ldquo;my-identity&rdquo; is
+a member of that group, the ServerAdminUsername should be &ldquo;admin-group&rdquo;</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="dbformysql.azure.com/v1.LocalUserSpec">LocalUserSpec
 </h3>
 <p>
@@ -695,7 +738,10 @@ string
 </em>
 </td>
 <td>
-<p>ServerAdminUsername is the user name of the Server administrator</p>
+<p>ServerAdminUsername is the username of the Server administrator. If the
+administrator is a group, the ServerAdminUsername should be the group name, not the actual username of the
+identity to log in with. For example if the administrator group is &ldquo;admin-group&rdquo; and identity &ldquo;my-identity&rdquo; is
+a member of that group, the ServerAdminUsername should be &ldquo;admin-group&rdquo;.</p>
 </td>
 </tr>
 <tr>
@@ -708,7 +754,15 @@ genruntime.SecretReference
 </em>
 </td>
 <td>
-<p>ServerAdminPassword is a reference to a secret containing the servers administrator password</p>
+<p>ServerAdminPassword is a reference to a secret containing the servers administrator password.
+If specified, the operator uses the ServerAdminUsername and ServerAdminPassword to log into the server
+as a local administrator.
+If NOT specified, the operator uses its identity to log into the server. The operator can only successfully
+log into the server if its identity is the administrator of the server or if its identity is a member of a
+group which is the administrator of the server. If the
+administrator is a group, the ServerAdminUsername should be the group name, not the actual username of the
+identity to log in with. For example if the administrator group is &ldquo;admin-group&rdquo; and identity &ldquo;my-identity&rdquo; is
+a member of that group, the ServerAdminUsername should be &ldquo;admin-group&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -775,7 +829,13 @@ string
 </td>
 <td>
 <p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
+doesn&rsquo;t have to be.
+If not specified, the default is the name of the Kubernetes object.
+When creating a local user, this will be the name of the user created.
+When creating an AAD user, this must have a specific format depending on the type of AAD user being created.
+For managed identity: &ldquo;my-managed-identity-name&rdquo;
+For standard AAD user: &ldquo;myuser@mydomain.onmicrosoft.com&rdquo;
+For AAD group: &ldquo;my-group&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -842,8 +902,20 @@ LocalUserSpec
 </em>
 </td>
 <td>
-<p>TODO: Note this is required right now but will move to be optional in the future when we have AAD support
-LocalUser contains details for creating a standard (non-aad) MySQL User</p>
+<p>LocalUser contains details for creating a standard (non-aad) MySQL User</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>aadUser</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1.AADUserSpec">
+AADUserSpec
+</a>
+</em>
+</td>
+<td>
+<p>AADUser contains details for creating an AAD user.</p>
 </td>
 </tr>
 </table>
@@ -887,7 +959,13 @@ string
 </td>
 <td>
 <p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
+doesn&rsquo;t have to be.
+If not specified, the default is the name of the Kubernetes object.
+When creating a local user, this will be the name of the user created.
+When creating an AAD user, this must have a specific format depending on the type of AAD user being created.
+For managed identity: &ldquo;my-managed-identity-name&rdquo;
+For standard AAD user: &ldquo;myuser@mydomain.onmicrosoft.com&rdquo;
+For AAD group: &ldquo;my-group&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -954,8 +1032,20 @@ LocalUserSpec
 </em>
 </td>
 <td>
-<p>TODO: Note this is required right now but will move to be optional in the future when we have AAD support
-LocalUser contains details for creating a standard (non-aad) MySQL User</p>
+<p>LocalUser contains details for creating a standard (non-aad) MySQL User</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>aadUser</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1.AADUserSpec">
+AADUserSpec
+</a>
+</em>
+</td>
+<td>
+<p>AADUser contains details for creating an AAD user.</p>
 </td>
 </tr>
 </tbody>
