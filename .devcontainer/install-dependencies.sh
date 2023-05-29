@@ -223,14 +223,6 @@ if should-install "/usr/bin/postcss"; then
     npm install --global postcss postcss-cli autoprefixer
 fi
 
-# Ensure we can check links
-write-verbose "Checking for /usr/bin/markdown-link-check"
-if should-install "/usr/bin/markdown-link-check"; then 
-    write-info "Installing markdown-link-check"
-    # Pinned to 3.10 due to https://github.com/tcort/markdown-link-check/issues/246
-    npm install --global markdown-link-check@3.10
-fi
-
 if [ "$VERBOSE" == true ]; then 
     echo "Installed tools: $(ls "$TOOL_DEST")"
 fi

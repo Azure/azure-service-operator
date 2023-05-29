@@ -23,8 +23,6 @@ Breaking changes are:
 * `serviceoperator.azure.com/credential-from` no longer supports secret references that are outside the namespace the resource is in
 * Upgrades from releases prior to `v2.0.0-beta.5` are still disallowed (same as v2.0.0)
 
-<!-- The replacementPatterns in link-checker.json are 97% correct, but don't work for _index.md files. Link manually checked by @matthchr -->
-<!-- markdown-link-check-disable-next-line -->
 For more information see [v2.1.0 Breaking Changes]( {{< relref "breaking-changes-v2.1.0.md" >}} ).
 
 ### v2.0.0
@@ -35,8 +33,6 @@ Breaking changes are:
 * Alpha CRD versions have been removed
 * Structure change for ResourceGroup status
 
-<!-- The replacementPatterns in link-checker.json are 97% correct, but don't work for _index.md files. Link manually checked by @theunrepentantgeek -->
-<!-- markdown-link-check-disable-next-line -->
 For more information see [v2.0.0 Breaking Changes]( {{< relref "breaking-changes-v2.0.0.md" >}} ).
 
 ### v2.0.0-beta.4
@@ -56,8 +52,6 @@ Breaking changes are:
 * Properties that previously included on Spec but actually had no function have been removed.
 * Validation rules have been tightened, or added to properties that previously had no validation rules.
 
-<!-- The replacementPatterns in link-checker.json are 97% correct, but don't work for _index.md files. Link manually checked by @theunrepentantgeek -->
-<!-- markdown-link-check-disable-next-line -->
 For detailed information, including an exhaustive list of all affected resource properties, see [v2.0.0-beta.4 Breaking Changes]( {{< relref "breaking-changes-v2.0.0-beta.4.md" >}} ).
 
 ## Policies
