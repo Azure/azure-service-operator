@@ -1,3 +1,13 @@
 DirectoryPath: public
 CheckExternal: false
 IgnoreAltMissing: true
+BaseURL: https://azure.github.io/azure-service-operator
+CheckSelfReferencesAsInternal: true
+IgnoreDirs:
+  - "reference" # Ignore errors in CRD docs, content is not under our control
+IgnoreURLs:
+  - /favicons/
+  - /scss/
+  - /js/
+  - example.com
+LogLevel: 3
