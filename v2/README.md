@@ -76,7 +76,7 @@ See the list of supported resources [here](https://azure.github.io/azure-service
    AZURE_CLIENT_SECRET=<your-client-secret> # This is the password from the service principal we created.
    ```
 
-3. Install [the latest **v2+** Helm chart](/charts):
+3. Install [the latest **v2+** Helm chart](https://github.com/Azure/azure-service-operator/tree/main/charts):
    
    ```
    helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
