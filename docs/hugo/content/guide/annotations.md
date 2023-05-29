@@ -29,7 +29,7 @@ This credential supersedes any global or namespace scoped credentials the operat
 Allow values are:
 - The name of any secret in the same namespace as the resource. Secrets from other namespaces cannot be referenced.
 
-See [authentication](./authentication/_index.md#credential-scope) for more details.
+See [authentication]( {{< relref "authentication#credential-scope" >}} ) for more details.
 
 ## Annotations written by the operator
 

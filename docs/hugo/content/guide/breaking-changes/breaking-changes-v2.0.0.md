@@ -10,7 +10,7 @@ We changed how we manage CRDs in this release (see [PR#2769](https://github.com/
 
 You cannot upgrade from v2.0.0-beta.4 or earlier directly to v2.0.0. This is enforced with a Helm upgrade hook.
 
-This restriction is just for upgrades to the v2.0.0 version, although [we always recommend](../../upgrading#recommended-upgrade-pattern) upgrading one version at a time.
+This restriction is just for upgrades to the v2.0.0 version, although [we always recommend]( {{< relref "upgrading#recommended-upgrade-pattern" >}} ) upgrading one version at a time.
 
 ## Alpha CRD versions have been removed
 
@@ -19,10 +19,10 @@ This restriction is just for upgrades to the v2.0.0 version, although [we always
 1. If you have never installed an `alpha` version of ASOv2, or used an `alpha` version of a CRD, no action is required.
    If you're not sure, run the below steps anyway. They will not do anything if alpha was never used.
 2. Ensure the cluster is running the `v2.0.0-beta.5` version of ASO.
-3. Install the `asoctl` tool by following the [installation instructions](../../../tools/asoctl#installation)
+3. Install the `asoctl` tool by following the [installation instructions]( {{< relref "asoctl#installation" >}})
 4. Run `asoctl clean crds`. This will migrate your resources to a newer version if needed and remove the `alpha` CRD 
    versions from the CRD `Status.StoredVersions` collection. For more details on this command see the 
-   [asoctl clean crds documentation](../../../tools/asoctl#clean-crds)
+   [asoctl clean crds documentation]( {{< relref "asoctl#clean-crds" >}} )
 
 Once you have successfully executed the above steps, you can upgrade to `v2.0.0`. When upgrading to `v2.0.0` the following
 error means that you need to run the above steps:

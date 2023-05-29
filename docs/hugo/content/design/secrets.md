@@ -327,7 +327,7 @@ get us what we need. Issue [#1978](https://github.com/Azure/azure-service-operat
 
 <!-- Link check fails because Hugo transforms the filename to lowercase. Manually checked by @theunrepentantgeek -->
 <!-- markdown-link-check-disable-next-line -->
-See also the design of [reconciler extensions](../adr-2022-01-reconciler-extensions).
+See also the design of [reconciler extensions]( {{< relref "adr-2022-01-reconciler-extensions" >}} ).
 
 ```go
 type ARMDetails struct {

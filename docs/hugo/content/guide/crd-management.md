@@ -6,7 +6,7 @@ weight: -3
 ## How does CRD management work in Azure Service Operator?
 
 ASO performs CRD management differently than many traditional operators. You might notice if you install the
-[Helm chart](../installing-from-helm) or the [YAML](../installing-from-yaml) that there are NO CRDs installed by default.
+[Helm chart]( {{< relref "installing-from-helm" >}} ) or the [YAML]( {{< relref "installing-from-yaml" >}} ) that there are NO CRDs installed by default.
 
 This is for two reasons:
 
@@ -121,7 +121,7 @@ The recommended workflow for removing CRDs you are no longer using is:
 
 1. Delete or otherwise remove all instances of the CRD in question. For example if you want to remove the 
    `keyvault.azure.com/vault` CRD, first delete all instances of that CRD.
-   * If you want to retain the `vault` resources in Azure, apply a [reconcile-policy](../annotations#serviceoperatorazurecomreconcile-policy)
+   * If you want to retain the `vault` resources in Azure, apply a [reconcile-policy]( {{< relref "annotations#serviceoperatorazurecomreconcile-policy" >}} )
      of `skip` prior to issuing `kubectl delete`.
 2. Ensure that the operator pod does not have a pattern matching the CRD you would like to remove in `--crd-patterns`.
    If it does, the CRD may be re-installed by the operator pod after you've removed it.
