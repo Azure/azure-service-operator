@@ -2024,6 +2024,62 @@ genruntime.SecretDestination
 <p>Endpoint: indicates where the Endpoint secret should be placed. If omitted, the secret will not be retrieved from Azure.</p>
 </td>
 </tr>
+<tr>
+<td>
+<code>primaryConnectionString</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>PrimaryConnectionString: indicates where the PrimaryConnectionString secret should be placed. If omitted, the secret
+will not be retrieved from Azure.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>primaryKey</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>PrimaryKey: indicates where the PrimaryKey secret should be placed. If omitted, the secret will not be retrieved from
+Azure.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secondaryConnectionString</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>SecondaryConnectionString: indicates where the SecondaryConnectionString secret should be placed. If omitted, the secret
+will not be retrieved from Azure.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secondaryKey</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>SecondaryKey: indicates where the SecondaryKey secret should be placed. If omitted, the secret will not be retrieved
+from Azure.</p>
+</td>
+</tr>
 </tbody>
 </table>
 <h3 id="servicebus.azure.com/v1api20210101preview.NamespaceOperatorSpec">NamespaceOperatorSpec
@@ -2616,6 +2672,223 @@ map[string]string
 </td>
 <td>
 <p>Tags: Resource tags</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="servicebus.azure.com/v1api20210101preview.NamespacesAuthorizationRule">NamespacesAuthorizationRule
+</h3>
+<div>
+<p>Generator information:
+- Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/AuthorizationRules.json
+- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ServiceBus/&#x200b;namespaces/&#x200b;{namespaceName}/&#x200b;AuthorizationRules/&#x200b;{authorizationRuleName}</&#x200b;p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Spec">
+Namespaces_AuthorizationRule_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#servicebus.azure.com/v1api20210101preview.NamespacesAuthorizationRuleOperatorSpec">
+NamespacesAuthorizationRuleOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a servicebus.azure.com/Namespace resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>rights</code><br/>
+<em>
+<a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Properties_Rights_Spec">
+[]Namespaces_AuthorizationRule_Properties_Rights_Spec
+</a>
+</em>
+</td>
+<td>
+<p>Rights: The rights associated with the rule.</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_STATUS">
+Namespaces_AuthorizationRule_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="servicebus.azure.com/v1api20210101preview.NamespacesAuthorizationRuleOperatorSecrets">NamespacesAuthorizationRuleOperatorSecrets
+</h3>
+<p>
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.NamespacesAuthorizationRuleOperatorSpec">NamespacesAuthorizationRuleOperatorSpec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>primaryConnectionString</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>PrimaryConnectionString: indicates where the PrimaryConnectionString secret should be placed. If omitted, the secret
+will not be retrieved from Azure.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>primaryKey</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>PrimaryKey: indicates where the PrimaryKey secret should be placed. If omitted, the secret will not be retrieved from
+Azure.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secondaryConnectionString</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>SecondaryConnectionString: indicates where the SecondaryConnectionString secret should be placed. If omitted, the secret
+will not be retrieved from Azure.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>secondaryKey</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
+genruntime.SecretDestination
+</a>
+</em>
+</td>
+<td>
+<p>SecondaryKey: indicates where the SecondaryKey secret should be placed. If omitted, the secret will not be retrieved
+from Azure.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="servicebus.azure.com/v1api20210101preview.NamespacesAuthorizationRuleOperatorSpec">NamespacesAuthorizationRuleOperatorSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Spec">Namespaces_AuthorizationRule_Spec</a>)
+</p>
+<div>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>secrets</code><br/>
+<em>
+<a href="#servicebus.azure.com/v1api20210101preview.NamespacesAuthorizationRuleOperatorSecrets">
+NamespacesAuthorizationRuleOperatorSecrets
+</a>
+</em>
+</td>
+<td>
+<p>Secrets: configures where to place Azure generated secrets.</p>
 </td>
 </tr>
 </tbody>
@@ -3408,6 +3681,380 @@ Namespaces_Topics_Subscriptions_Rule_STATUS
 </em>
 </td>
 <td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Properties_Rights_STATUS">Namespaces_AuthorizationRule_Properties_Rights_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Properties_STATUS_ARM">Namespaces_AuthorizationRule_Properties_STATUS_ARM</a>, <a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_STATUS">Namespaces_AuthorizationRule_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Listen&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Manage&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Send&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Properties_Rights_Spec">Namespaces_AuthorizationRule_Properties_Rights_Spec
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Properties_Spec_ARM">Namespaces_AuthorizationRule_Properties_Spec_ARM</a>, <a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Spec">Namespaces_AuthorizationRule_Spec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Listen&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Manage&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Send&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Properties_STATUS_ARM">Namespaces_AuthorizationRule_Properties_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_STATUS_ARM">Namespaces_AuthorizationRule_STATUS_ARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>rights</code><br/>
+<em>
+<a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Properties_Rights_STATUS">
+[]Namespaces_AuthorizationRule_Properties_Rights_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Rights: The rights associated with the rule.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Properties_Spec_ARM">Namespaces_AuthorizationRule_Properties_Spec_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Spec_ARM">Namespaces_AuthorizationRule_Spec_ARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>rights</code><br/>
+<em>
+<a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Properties_Rights_Spec">
+[]Namespaces_AuthorizationRule_Properties_Rights_Spec
+</a>
+</em>
+</td>
+<td>
+<p>Rights: The rights associated with the rule.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_STATUS">Namespaces_AuthorizationRule_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.NamespacesAuthorizationRule">NamespacesAuthorizationRule</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Resource Id</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: Resource name</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>rights</code><br/>
+<em>
+<a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Properties_Rights_STATUS">
+[]Namespaces_AuthorizationRule_Properties_Rights_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Rights: The rights associated with the rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#servicebus.azure.com/v1api20210101preview.SystemData_STATUS">
+SystemData_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>SystemData: The system meta data relating to this resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: Resource type</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_STATUS_ARM">Namespaces_AuthorizationRule_STATUS_ARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Resource Id</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: Resource name</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Properties_STATUS_ARM">
+Namespaces_AuthorizationRule_Properties_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: AuthorizationRule properties.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#servicebus.azure.com/v1api20210101preview.SystemData_STATUS_ARM">
+SystemData_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>SystemData: The system meta data relating to this resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: Resource type</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Spec">Namespaces_AuthorizationRule_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.NamespacesAuthorizationRule">NamespacesAuthorizationRule</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>operatorSpec</code><br/>
+<em>
+<a href="#servicebus.azure.com/v1api20210101preview.NamespacesAuthorizationRuleOperatorSpec">
+NamespacesAuthorizationRuleOperatorSpec
+</a>
+</em>
+</td>
+<td>
+<p>OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a servicebus.azure.com/Namespace resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>rights</code><br/>
+<em>
+<a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Properties_Rights_Spec">
+[]Namespaces_AuthorizationRule_Properties_Rights_Spec
+</a>
+</em>
+</td>
+<td>
+<p>Rights: The rights associated with the rule.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Spec_ARM">Namespaces_AuthorizationRule_Spec_ARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_Properties_Spec_ARM">
+Namespaces_AuthorizationRule_Properties_Spec_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: AuthorizationRule properties.</p>
 </td>
 </tr>
 </tbody>
@@ -7520,7 +8167,7 @@ string
 <h3 id="servicebus.azure.com/v1api20210101preview.SystemData_STATUS">SystemData_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Namespace_STATUS">Namespace_STATUS</a>, <a href="#servicebus.azure.com/v1api20210101preview.Namespaces_Queue_STATUS">Namespaces_Queue_STATUS</a>, <a href="#servicebus.azure.com/v1api20210101preview.Namespaces_Topic_STATUS">Namespaces_Topic_STATUS</a>, <a href="#servicebus.azure.com/v1api20210101preview.Namespaces_Topics_Subscription_STATUS">Namespaces_Topics_Subscription_STATUS</a>, <a href="#servicebus.azure.com/v1api20210101preview.Namespaces_Topics_Subscriptions_Rule_STATUS">Namespaces_Topics_Subscriptions_Rule_STATUS</a>)
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Namespace_STATUS">Namespace_STATUS</a>, <a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_STATUS">Namespaces_AuthorizationRule_STATUS</a>, <a href="#servicebus.azure.com/v1api20210101preview.Namespaces_Queue_STATUS">Namespaces_Queue_STATUS</a>, <a href="#servicebus.azure.com/v1api20210101preview.Namespaces_Topic_STATUS">Namespaces_Topic_STATUS</a>, <a href="#servicebus.azure.com/v1api20210101preview.Namespaces_Topics_Subscription_STATUS">Namespaces_Topics_Subscription_STATUS</a>, <a href="#servicebus.azure.com/v1api20210101preview.Namespaces_Topics_Subscriptions_Rule_STATUS">Namespaces_Topics_Subscriptions_Rule_STATUS</a>)
 </p>
 <div>
 <p>Metadata pertaining to creation and last modification of the resource.</p>
@@ -7608,7 +8255,7 @@ SystemData_LastModifiedByType_STATUS
 <h3 id="servicebus.azure.com/v1api20210101preview.SystemData_STATUS_ARM">SystemData_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Namespace_STATUS_ARM">Namespace_STATUS_ARM</a>, <a href="#servicebus.azure.com/v1api20210101preview.Namespaces_Queue_STATUS_ARM">Namespaces_Queue_STATUS_ARM</a>, <a href="#servicebus.azure.com/v1api20210101preview.Namespaces_Topic_STATUS_ARM">Namespaces_Topic_STATUS_ARM</a>, <a href="#servicebus.azure.com/v1api20210101preview.Namespaces_Topics_Subscription_STATUS_ARM">Namespaces_Topics_Subscription_STATUS_ARM</a>, <a href="#servicebus.azure.com/v1api20210101preview.Namespaces_Topics_Subscriptions_Rule_STATUS_ARM">Namespaces_Topics_Subscriptions_Rule_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#servicebus.azure.com/v1api20210101preview.Namespace_STATUS_ARM">Namespace_STATUS_ARM</a>, <a href="#servicebus.azure.com/v1api20210101preview.Namespaces_AuthorizationRule_STATUS_ARM">Namespaces_AuthorizationRule_STATUS_ARM</a>, <a href="#servicebus.azure.com/v1api20210101preview.Namespaces_Queue_STATUS_ARM">Namespaces_Queue_STATUS_ARM</a>, <a href="#servicebus.azure.com/v1api20210101preview.Namespaces_Topic_STATUS_ARM">Namespaces_Topic_STATUS_ARM</a>, <a href="#servicebus.azure.com/v1api20210101preview.Namespaces_Topics_Subscription_STATUS_ARM">Namespaces_Topics_Subscription_STATUS_ARM</a>, <a href="#servicebus.azure.com/v1api20210101preview.Namespaces_Topics_Subscriptions_Rule_STATUS_ARM">Namespaces_Topics_Subscriptions_Rule_STATUS_ARM</a>)
 </p>
 <div>
 <p>Metadata pertaining to creation and last modification of the resource.</p>
