@@ -46,11 +46,11 @@ The return will be one of three possibilities:
 
 For the initial implementation, we'll only do the GET if the extension exists, and the default `next` action will be hard coded to request a reconciliation.
 
-![Initial Sequence](images/adr-2022-12-reconciliation-initial-flow.png)
+![Initial Sequence](../images/adr-2022-12-reconciliation-initial-flow.png)
 
 Down the track when we switch to a GET/PUT workflow, we'll always do the GET, and the default 'next` action will do the comparison to see if the resource has changed.
 
-![GET/PUT Sequence](images/adr-2022-12-reconciliation-diffing-flow.png)
+![GET/PUT Sequence](../images/adr-2022-12-reconciliation-diffing-flow.png)
 
 ## Status
 

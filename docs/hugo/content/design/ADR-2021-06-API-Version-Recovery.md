@@ -8,7 +8,7 @@ In addition to structural changes, there may be behaviour changes between ARM AP
 
 Revisting the CRM example from the [Versioning]( {{< relref "versioning" >}} ) specification, consider what happens if we have two available versions of the resource `Person`, lets call them **v1** and **v2**. In **v2** the new properties `PostalAddress` and `ResidentialAddress` are mandatory, requiring that everyone have a both a mailing address and a home. 
 
-![example](images/adr-2021-06-api-version-recovery-example.png)
+![example](../images/adr-2021-06-api-version-recovery-example.png)
 
 If we have a valid **v1** `Person`, trying to submit that through the **v2** ARM API will fail because it's missing these addresses.
 
@@ -53,7 +53,7 @@ type StorageAccounts_Spec struct {
 }
 ```
 
-![preservation](images/adr-2021-06-api-version-recovery-preservation.png)
+![preservation](../images/adr-2021-06-api-version-recovery-preservation.png)
 
 The generated `AssignProperties*()` methods will copy OriginalVersion as expected.
 

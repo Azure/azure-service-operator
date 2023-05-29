@@ -19,7 +19,7 @@ To support this, ASO will introduce support for multiple credentials, each assoc
 
 We'll be using a pattern to determine which of the above secrets we use for operation on a resource. As in the below flow chart, if a resource is applied to the operator and the resource exists, operator would fetch and apply credentials in a following manner. If it's a new resource, operator would have to go through the secret selection hierarchy. Where, operator would first check if Per-resource or per-resource-group secret exists, if not, then will check for the namespaced secret. If any of the above is provided, operator would perform actions according to the **options** below. If none is provided, we'll fallback to use the global credential for that resource, which is the default cluster scoped secret(aso-controller-settings) in ASO namespace used today. 
 
-![hierarchy](images/adr-2022-09-multiple-credential-operator.png) 
+![hierarchy](../images/adr-2022-09-multiple-credential-operator.png) 
 
 ## Options
 
