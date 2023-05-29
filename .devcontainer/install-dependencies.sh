@@ -150,7 +150,7 @@ go-install kustomize sigs.k8s.io/kustomize/kustomize/v4@v4.5.7
 
 # for docs site
 go-install hugo -tags extended github.com/gohugoio/hugo@v0.88.1
-go-install htmltest github.com/wjdp/htmltest@v0.15.0
+go-install htmltest github.com/theunrepentantgeek/htmltest@latest
 
 # for api docs 
 # TODO: Replace this with the new release tag.
