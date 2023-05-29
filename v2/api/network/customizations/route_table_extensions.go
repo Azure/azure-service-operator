@@ -167,8 +167,10 @@ func fuzzySetRoute(route genruntime.ARMResourceSpec, embeddedRoute reflect.Value
 	if err != nil {
 		return errors.Wrap(err, "unable to check that embedded route is the same as route")
 	}
-	if string(embeddedRouteJSON) != string(routeJSON) {
-		return errors.Errorf("embeddedRouteJSON (%s) != routeJSON (%s)", string(embeddedRouteJSON), string(routeJSON))
+
+	err = fuzzyEqualityComparison(embeddedRouteJSON, routeJSON)
+	if err != nil {
+		return errors.Wrap(err, "failed during comparison for embeddedRouteJSON and routeJSON")
 	}
 
 	return nil
