@@ -1,5 +1,5 @@
 DirectoryPath: public
-CheckExternal: false
+CheckExternal: true
 IgnoreAltMissing: true
 BaseURL: https://azure.github.io/azure-service-operator
 CheckSelfReferencesAsInternal: true
@@ -10,4 +10,5 @@ IgnoreURLs:
   - /scss/
   - /js/
   - example.com
+  - index.xml
 LogLevel: 3
