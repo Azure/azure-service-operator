@@ -13,7 +13,7 @@ The supported options are:
 ### AZURE_SUBSCRIPTION_ID
 
 Azure subscription the operator will use for ARM communication if 
-no [more specific](authentication/credential-scope)
+no [more specific]( {{< relref "authentication/credential-scope" >}} )
 credential is specified at the per-resource or per-namespace scope.
 
 **Format:** `GUID`
@@ -27,7 +27,7 @@ This may be set to empty string to configure no global credential.
 ### AZURE_TENANT_ID
 
 Azure tenantID the operator will use for ARM communication if
-no [more specific](authentication/credential-scope)
+no [more specific]( {{< relref "authentication/credential-scope" >}} )
 credential is specified at the per-resource or per-namespace scope.
 
 **Format:** `GUID`
@@ -41,7 +41,7 @@ This may be set to empty string to configure no global credential.
 ### AZURE_CLIENT_ID
 
 Azure clientID the operator will use for ARM communication if
-no [more specific](authentication/credential-scope)
+no [more specific]( {{< relref "authentication/credential-scope" >}} )
 credential is specified at the per-resource or per-namespace scope.
 
 **Format:** `GUID`
@@ -55,7 +55,7 @@ This may be set to empty string to configure no global credential.
 ### AZURE_CLIENT_SECRET
 
 The secret associated with the client to use if
-no [more specific](authentication/credential-scope)
+no [more specific]( {{< relref "authentication/credential-scope" >}} )
 credential is specified at the per-resource or per-namespace scope.
 
 **Format:** `String`

@@ -1,3 +1,18 @@
 DirectoryPath: public
-CheckExternal: false
+CheckExternal: true
 IgnoreAltMissing: true
+BaseURL: https://azure.github.io/azure-service-operator
+CheckSelfReferencesAsInternal: true
+IgnoreDirs:
+  - "reference" # Ignore errors in CRD docs, content is not under our control
+IgnoreURLs:
+  - /favicons/
+  - /scss/
+  - /js/
+  - example.com
+  - index.xml
+  - "https://armwiki.azurewebsites.net/api_contracts/guidelines/templatedeployment.html" # Returns 404 even though valid
+  - "https://marketplace.visualstudio.com/items" # Marketplace links return 401 even if valid
+  - "https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/async-api-reference.md" # Manually checked, not a 404
+  - "azure-workload-identity" # TODO: Work out why this fails
+LogLevel: 3

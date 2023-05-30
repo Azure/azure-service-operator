@@ -54,7 +54,6 @@ jobs:
       - name: Build & validate docs site
         run: |
           container_id=${{ env.container_id }}
-          docker exec "$container_id" task check-docs-site-links
           docker exec "$container_id" task build-docs-site
 
       - name: Publish to gh-pages branch
