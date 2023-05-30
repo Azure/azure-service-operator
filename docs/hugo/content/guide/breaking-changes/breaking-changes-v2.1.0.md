@@ -41,6 +41,6 @@ below steps should be performed before upgrading. If you have `ManagedClusterSer
 4. Create a kubernetes secret containing the value for `ManagedClusterServicePrincipalProfile.Secret`.
 5. Edit downloaded YAML in step 3, and add a secret key and name reference. Example [here](https://github.com/Azure/azure-service-operator/blob/main/v2/samples/compute/v1api/v1api20201201_virtualmachine.yaml#L18).
 6. Delete the resource from your cluster using `kubectl delete`. Your Azure resource will be left untouched because of the `reconcile-policy` annotation you added above.
-7. [Upgrade ASO](../../upgrading) in your cluster.
+7. [Upgrade ASO]( {{< relref "upgrading" >}} ) in your cluster.
 8. Apply the updated YAML to your cluster using `kubectl apply`. If any errors occur, address them.
 9. If the `reconcile-policy` annotation is still present, remove it from the resource.
