@@ -8665,7 +8665,7 @@ func (in *ManagedClusterServicePrincipalProfile) DeepCopyInto(out *ManagedCluste
 	}
 	if in.Secret != nil {
 		in, out := &in.Secret, &out.Secret
-		*out = new(string)
+		*out = new(genruntime.SecretReference)
 		**out = **in
 	}
 }
