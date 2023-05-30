@@ -683,8 +683,8 @@ Revisting the CRM example from the Versioning specification, consider what happe
 	</header>    
 	<h2 id="context">Context</h2>
 <p>In addition to structural changes, there may be behaviour changes between ARM API versions. It is therefore important that we use the correct API version - the version requested by the user - when interacting with ARM, to ensure that we get the expected behaviour.</p>
-<p>Revisting the CRM example from the <a href="../versioning/">Versioning</a> specification, consider what happens if we have two available versions of the resource <code>Person</code>, lets call them <strong>v1</strong> and <strong>v2</strong>. In <strong>v2</strong> the new properties <code>PostalAddress</code> and <code>ResidentialAddress</code> are mandatory, requiring that everyone have a both a mailing address and a home.</p>
-<p><img src="images/adr-2021-06-api-version-recovery-example.png" alt="example"></p>
+<p>Revisting the CRM example from the <a href="/azure-service-operator/design/versioning/">Versioning</a> specification, consider what happens if we have two available versions of the resource <code>Person</code>, lets call them <strong>v1</strong> and <strong>v2</strong>. In <strong>v2</strong> the new properties <code>PostalAddress</code> and <code>ResidentialAddress</code> are mandatory, requiring that everyone have a both a mailing address and a home.</p>
+<p><img src="../images/adr-2021-06-api-version-recovery-example.png" alt="example"></p>
 <p>If we have a valid <strong>v1</strong> <code>Person</code>, trying to submit that through the <strong>v2</strong> ARM API will fail because it&rsquo;s missing these addresses.</p>
 <p>We need to be able to pivot from the version Person we have &ldquo;in hand&rdquo; (usually the Hub version) back to the original version in order to generate the correct ARM payload.</p>
 <p>We also have a performance issue - our current infrastructure for conversions is oriented to convert an entire resource, including both <em>Spec</em> and <em>Status</em>.</p>
@@ -709,7 +709,7 @@ Revisting the CRM example from the Versioning specification, consider what happe
 </span><span style="color:#75715e"></span>	<span style="color:#a6e22e">OriginalVersion</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;originalVersion&#34;`</span>
     <span style="color:#75715e">// ... elided ...
 </span><span style="color:#75715e"></span>}
-</code></pre></div><p><img src="images/adr-2021-06-api-version-recovery-preservation.png" alt="preservation"></p>
+</code></pre></div><p><img src="../images/adr-2021-06-api-version-recovery-preservation.png" alt="preservation"></p>
 <p>The generated <code>AssignProperties*()</code> methods will copy OriginalVersion as expected.</p>
 <h3 id="retrieving-the-api-version">Retrieving the API Version</h3>
 <p>Into each resource, inject function <code>OriginalGVK()</code> to return the required group-version-kind for the original version of the specified resource:</p>

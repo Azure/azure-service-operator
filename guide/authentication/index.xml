@@ -25,7 +25,7 @@
         
         &lt;p&gt;Azure Service Operator supports four different styles of authentication today.&lt;/p&gt;
 &lt;p&gt;Each section below dives into one of these authentication options, including examples for how to set it up and
-use it at the different &lt;a href=&#34;../credential-scope&#34;&gt;credential scopes&lt;/a&gt;.&lt;/p&gt;
+use it at the different &lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/guide/authentication/credential-scope/&#34;&gt;credential scopes&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;service-principal-using-a-client-secret&#34;&gt;Service Principal using a Client Secret&lt;/h2&gt;
 &lt;h3 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h3&gt;
 &lt;ol&gt;
@@ -45,41 +45,41 @@ export AZURE_TENANT_ID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&l
 
 
 
-&lt;ul class=&#34;nav nav-tabs&#34; id=&#34;tabs-0&#34; role=&#34;tablist&#34;&gt;
+&lt;ul class=&#34;nav nav-tabs&#34; id=&#34;tabs-1&#34; role=&#34;tablist&#34;&gt;
   &lt;li class=&#34;nav-item&#34;&gt;
       &lt;a class=&#34;nav-link disabled&#34;
-          id=&#34;tabs-00-00-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-00-00&#34; role=&#34;tab&#34;
-          aria-controls=&#34;tabs-00-00&#34; aria-selected=&#34;false&#34;&gt;
+          id=&#34;tabs-01-00-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-01-00&#34; role=&#34;tab&#34;
+          aria-controls=&#34;tabs-01-00&#34; aria-selected=&#34;false&#34;&gt;
         &lt;strong&gt;Scope&lt;/strong&gt;:
       &lt;/a&gt;
     &lt;/li&gt;&lt;li class=&#34;nav-item&#34;&gt;
       &lt;a class=&#34;nav-link active&#34;
-          id=&#34;tabs-00-01-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-00-01&#34; role=&#34;tab&#34;
-          aria-controls=&#34;tabs-00-01&#34; aria-selected=&#34;false&#34;&gt;
+          id=&#34;tabs-01-01-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-01-01&#34; role=&#34;tab&#34;
+          aria-controls=&#34;tabs-01-01&#34; aria-selected=&#34;false&#34;&gt;
         Global
       &lt;/a&gt;
     &lt;/li&gt;&lt;li class=&#34;nav-item&#34;&gt;
       &lt;a class=&#34;nav-link&#34;
-          id=&#34;tabs-00-02-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-00-02&#34; role=&#34;tab&#34;
-          aria-controls=&#34;tabs-00-02&#34; aria-selected=&#34;false&#34;&gt;
+          id=&#34;tabs-01-02-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-01-02&#34; role=&#34;tab&#34;
+          aria-controls=&#34;tabs-01-02&#34; aria-selected=&#34;false&#34;&gt;
         Namespace
       &lt;/a&gt;
     &lt;/li&gt;&lt;li class=&#34;nav-item&#34;&gt;
       &lt;a class=&#34;nav-link&#34;
-          id=&#34;tabs-00-03-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-00-03&#34; role=&#34;tab&#34;
-          aria-controls=&#34;tabs-00-03&#34; aria-selected=&#34;false&#34;&gt;
+          id=&#34;tabs-01-03-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-01-03&#34; role=&#34;tab&#34;
+          aria-controls=&#34;tabs-01-03&#34; aria-selected=&#34;false&#34;&gt;
         Resource
       &lt;/a&gt;
     &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;div class=&#34;tab-content&#34; id=&#34;tabs-0-content&#34;&gt;
+&lt;div class=&#34;tab-content&#34; id=&#34;tabs-1-content&#34;&gt;
     &lt;div class=&#34;tab-body tab-pane fade&#34;
-        id=&#34;tabs-00-00&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-00-00-tab&#34;&gt;
+        id=&#34;tabs-01-00&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-01-00-tab&#34;&gt;
         
     &lt;/div&gt;
     &lt;div class=&#34;tab-body tab-pane fade show active&#34;
-        id=&#34;tabs-00-01&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-00-01-tab&#34;&gt;
+        id=&#34;tabs-01-01&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-01-01-tab&#34;&gt;
         &lt;p&gt;If installing ASO for the first time, you can pass these values via Helm arguments:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;helm upgrade --install --devel aso2 aso2/azure-service-operator &lt;span style=&#34;color:#ae81ff&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --create-namespace &lt;span style=&#34;color:#ae81ff&#34;&gt;\
@@ -89,7 +89,7 @@ export AZURE_TENANT_ID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&l
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureClientID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_CLIENT_ID &lt;span style=&#34;color:#ae81ff&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureClientSecret&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_CLIENT_SECRET &lt;span style=&#34;color:#ae81ff&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set crdPattern&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*&amp;#39;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;See &lt;a href=&#34;../../crd-management&#34;&gt;CRD management&lt;/a&gt; for more details about &lt;code&gt;crdPattern&lt;/code&gt;.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;See &lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/guide/crd-management/&#34;&gt;CRD management&lt;/a&gt; for more details about &lt;code&gt;crdPattern&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Otherwise, create or update the &lt;code&gt;aso-controller-settings&lt;/code&gt; secret:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF | kubectl apply -f -
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;apiVersion: v1
@@ -105,11 +105,11 @@ export AZURE_TENANT_ID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&l
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;EOF&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; The &lt;code&gt;aso-controller-settings&lt;/code&gt; secret contains more configuration than just the global credential.
 If ASO was already installed on your cluster and you are updating the &lt;code&gt;aso-controller-settings&lt;/code&gt; secret, ensure that
-&lt;a href=&#34;../../aso-controller-settings-options.md&#34;&gt;other values&lt;/a&gt; in that secret are not being overwritten.&lt;/p&gt;
+&lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/guide/aso-controller-settings-options/&#34;&gt;other values&lt;/a&gt; in that secret are not being overwritten.&lt;/p&gt;
 
     &lt;/div&gt;
     &lt;div class=&#34;tab-body tab-pane fade&#34;
-        id=&#34;tabs-00-02&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-00-02-tab&#34;&gt;
+        id=&#34;tabs-01-02&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-01-02-tab&#34;&gt;
         &lt;p&gt;Create the &lt;code&gt;aso-credential&lt;/code&gt; secret in your namespace:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF | kubectl apply -f -
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;apiVersion: v1
@@ -126,7 +126,7 @@ If ASO was already installed on your cluster and you are updating the &lt;code&g
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
     &lt;/div&gt;
     &lt;div class=&#34;tab-body tab-pane fade&#34;
-        id=&#34;tabs-00-03&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-00-03-tab&#34;&gt;
+        id=&#34;tabs-01-03&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-01-03-tab&#34;&gt;
         &lt;p&gt;Create a per-resource secret. We&amp;rsquo;ll use &lt;code&gt;my-resource-secret&lt;/code&gt;:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF | kubectl apply -f -
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;apiVersion: v1
@@ -177,41 +177,41 @@ export AZURE_CLIENT_CERTIFICATE_PASSWORD&lt;span style=&#34;color:#f92672&#34;&g
 
 
 
-&lt;ul class=&#34;nav nav-tabs&#34; id=&#34;tabs-1&#34; role=&#34;tablist&#34;&gt;
+&lt;ul class=&#34;nav nav-tabs&#34; id=&#34;tabs-2&#34; role=&#34;tablist&#34;&gt;
   &lt;li class=&#34;nav-item&#34;&gt;
       &lt;a class=&#34;nav-link disabled&#34;
-          id=&#34;tabs-01-00-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-01-00&#34; role=&#34;tab&#34;
-          aria-controls=&#34;tabs-01-00&#34; aria-selected=&#34;false&#34;&gt;
+          id=&#34;tabs-02-00-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-02-00&#34; role=&#34;tab&#34;
+          aria-controls=&#34;tabs-02-00&#34; aria-selected=&#34;false&#34;&gt;
         &lt;strong&gt;Scope&lt;/strong&gt;:
       &lt;/a&gt;
     &lt;/li&gt;&lt;li class=&#34;nav-item&#34;&gt;
       &lt;a class=&#34;nav-link active&#34;
-          id=&#34;tabs-01-01-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-01-01&#34; role=&#34;tab&#34;
-          aria-controls=&#34;tabs-01-01&#34; aria-selected=&#34;false&#34;&gt;
+          id=&#34;tabs-02-01-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-02-01&#34; role=&#34;tab&#34;
+          aria-controls=&#34;tabs-02-01&#34; aria-selected=&#34;false&#34;&gt;
         Global
       &lt;/a&gt;
     &lt;/li&gt;&lt;li class=&#34;nav-item&#34;&gt;
       &lt;a class=&#34;nav-link&#34;
-          id=&#34;tabs-01-02-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-01-02&#34; role=&#34;tab&#34;
-          aria-controls=&#34;tabs-01-02&#34; aria-selected=&#34;false&#34;&gt;
+          id=&#34;tabs-02-02-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-02-02&#34; role=&#34;tab&#34;
+          aria-controls=&#34;tabs-02-02&#34; aria-selected=&#34;false&#34;&gt;
         Namespace
       &lt;/a&gt;
     &lt;/li&gt;&lt;li class=&#34;nav-item&#34;&gt;
       &lt;a class=&#34;nav-link&#34;
-          id=&#34;tabs-01-03-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-01-03&#34; role=&#34;tab&#34;
-          aria-controls=&#34;tabs-01-03&#34; aria-selected=&#34;false&#34;&gt;
+          id=&#34;tabs-02-03-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-02-03&#34; role=&#34;tab&#34;
+          aria-controls=&#34;tabs-02-03&#34; aria-selected=&#34;false&#34;&gt;
         Resource
       &lt;/a&gt;
     &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;div class=&#34;tab-content&#34; id=&#34;tabs-1-content&#34;&gt;
+&lt;div class=&#34;tab-content&#34; id=&#34;tabs-2-content&#34;&gt;
     &lt;div class=&#34;tab-body tab-pane fade&#34;
-        id=&#34;tabs-01-00&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-01-00-tab&#34;&gt;
+        id=&#34;tabs-02-00&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-02-00-tab&#34;&gt;
         
     &lt;/div&gt;
     &lt;div class=&#34;tab-body tab-pane fade show active&#34;
-        id=&#34;tabs-01-01&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-01-01-tab&#34;&gt;
+        id=&#34;tabs-02-01&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-02-01-tab&#34;&gt;
         &lt;p&gt;If installing ASO for the first time, you can pass these values via Helm arguments:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;helm upgrade --install --devel aso2 aso2/azure-service-operator &lt;span style=&#34;color:#ae81ff&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --create-namespace &lt;span style=&#34;color:#ae81ff&#34;&gt;\
@@ -221,7 +221,7 @@ export AZURE_CLIENT_CERTIFICATE_PASSWORD&lt;span style=&#34;color:#f92672&#34;&g
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureClientID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_CLIENT_ID &lt;span style=&#34;color:#ae81ff&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureClientCertificatePassword&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_CLIENT_CERTIFICATE_PASSWORD &lt;span style=&#34;color:#ae81ff&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set crdPattern&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*&amp;#39;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;See &lt;a href=&#34;../../crd-management&#34;&gt;CRD management&lt;/a&gt; for more details about &lt;code&gt;crdPattern&lt;/code&gt;.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;See &lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/guide/crd-management/&#34;&gt;CRD management&lt;/a&gt; for more details about &lt;code&gt;crdPattern&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Otherwise, create or update the &lt;code&gt;aso-controller-settings&lt;/code&gt; secret:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF | kubectl apply -f -
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;apiVersion: v1
@@ -238,11 +238,11 @@ export AZURE_CLIENT_CERTIFICATE_PASSWORD&lt;span style=&#34;color:#f92672&#34;&g
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;EOF&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; The &lt;code&gt;aso-controller-settings&lt;/code&gt; secret contains more configuration than just the global credential.
 If ASO was already installed on your cluster and you are updating the &lt;code&gt;aso-controller-settings&lt;/code&gt; secret, ensure that
-&lt;a href=&#34;../../aso-controller-settings-options.md&#34;&gt;other values&lt;/a&gt; in that secret are not being overwritten.&lt;/p&gt;
+&lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/guide/aso-controller-settings-options/&#34;&gt;other values&lt;/a&gt; in that secret are not being overwritten.&lt;/p&gt;
 
     &lt;/div&gt;
     &lt;div class=&#34;tab-body tab-pane fade&#34;
-        id=&#34;tabs-01-02&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-01-02-tab&#34;&gt;
+        id=&#34;tabs-02-02&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-02-02-tab&#34;&gt;
         &lt;p&gt;Create the &lt;code&gt;aso-credential&lt;/code&gt; secret in your namespace:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF | kubectl apply -f -
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;apiVersion: v1
@@ -260,7 +260,7 @@ If ASO was already installed on your cluster and you are updating the &lt;code&g
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
     &lt;/div&gt;
     &lt;div class=&#34;tab-body tab-pane fade&#34;
-        id=&#34;tabs-01-03&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-01-03-tab&#34;&gt;
+        id=&#34;tabs-02-03&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-02-03-tab&#34;&gt;
         &lt;p&gt;Create a per-resource secret. We&amp;rsquo;ll use &lt;code&gt;my-resource-secret&lt;/code&gt;:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF | kubectl apply -f -
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;apiVersion: v1
@@ -348,41 +348,41 @@ az rest --method put --url /subscriptions/&lt;span style=&#34;color:#e6db74&#34;
 
 
 
-&lt;ul class=&#34;nav nav-tabs&#34; id=&#34;tabs-2&#34; role=&#34;tablist&#34;&gt;
+&lt;ul class=&#34;nav nav-tabs&#34; id=&#34;tabs-3&#34; role=&#34;tablist&#34;&gt;
   &lt;li class=&#34;nav-item&#34;&gt;
       &lt;a class=&#34;nav-link disabled&#34;
-          id=&#34;tabs-02-00-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-02-00&#34; role=&#34;tab&#34;
-          aria-controls=&#34;tabs-02-00&#34; aria-selected=&#34;false&#34;&gt;
+          id=&#34;tabs-03-00-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-03-00&#34; role=&#34;tab&#34;
+          aria-controls=&#34;tabs-03-00&#34; aria-selected=&#34;false&#34;&gt;
         &lt;strong&gt;Scope&lt;/strong&gt;:
       &lt;/a&gt;
     &lt;/li&gt;&lt;li class=&#34;nav-item&#34;&gt;
       &lt;a class=&#34;nav-link active&#34;
-          id=&#34;tabs-02-01-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-02-01&#34; role=&#34;tab&#34;
-          aria-controls=&#34;tabs-02-01&#34; aria-selected=&#34;false&#34;&gt;
+          id=&#34;tabs-03-01-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-03-01&#34; role=&#34;tab&#34;
+          aria-controls=&#34;tabs-03-01&#34; aria-selected=&#34;false&#34;&gt;
         Global
       &lt;/a&gt;
     &lt;/li&gt;&lt;li class=&#34;nav-item&#34;&gt;
       &lt;a class=&#34;nav-link&#34;
-          id=&#34;tabs-02-02-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-02-02&#34; role=&#34;tab&#34;
-          aria-controls=&#34;tabs-02-02&#34; aria-selected=&#34;false&#34;&gt;
+          id=&#34;tabs-03-02-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-03-02&#34; role=&#34;tab&#34;
+          aria-controls=&#34;tabs-03-02&#34; aria-selected=&#34;false&#34;&gt;
         Namespace
       &lt;/a&gt;
     &lt;/li&gt;&lt;li class=&#34;nav-item&#34;&gt;
       &lt;a class=&#34;nav-link&#34;
-          id=&#34;tabs-02-03-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-02-03&#34; role=&#34;tab&#34;
-          aria-controls=&#34;tabs-02-03&#34; aria-selected=&#34;false&#34;&gt;
+          id=&#34;tabs-03-03-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-03-03&#34; role=&#34;tab&#34;
+          aria-controls=&#34;tabs-03-03&#34; aria-selected=&#34;false&#34;&gt;
         Resource
       &lt;/a&gt;
     &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;div class=&#34;tab-content&#34; id=&#34;tabs-2-content&#34;&gt;
+&lt;div class=&#34;tab-content&#34; id=&#34;tabs-3-content&#34;&gt;
     &lt;div class=&#34;tab-body tab-pane fade&#34;
-        id=&#34;tabs-02-00&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-02-00-tab&#34;&gt;
+        id=&#34;tabs-03-00&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-03-00-tab&#34;&gt;
         
     &lt;/div&gt;
     &lt;div class=&#34;tab-body tab-pane fade show active&#34;
-        id=&#34;tabs-02-01&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-02-01-tab&#34;&gt;
+        id=&#34;tabs-03-01&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-03-01-tab&#34;&gt;
         &lt;p&gt;If installing ASO for the first time, you can pass these values via Helm arguments:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;helm upgrade --install --devel aso2 aso2/azure-service-operator &lt;span style=&#34;color:#ae81ff&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --create-namespace &lt;span style=&#34;color:#ae81ff&#34;&gt;\
@@ -392,7 +392,7 @@ az rest --method put --url /subscriptions/&lt;span style=&#34;color:#e6db74&#34;
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureClientID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_CLIENT_ID &lt;span style=&#34;color:#ae81ff&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set useWorkloadIdentityAuth&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;true &lt;span style=&#34;color:#ae81ff&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set crdPattern&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*&amp;#39;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;See &lt;a href=&#34;../../crd-management&#34;&gt;CRD management&lt;/a&gt; for more details about &lt;code&gt;crdPattern&lt;/code&gt;.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;See &lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/guide/crd-management/&#34;&gt;CRD management&lt;/a&gt; for more details about &lt;code&gt;crdPattern&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Otherwise, create or update the &lt;code&gt;aso-controller-settings&lt;/code&gt; secret:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF | kubectl apply -f -
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;apiVersion: v1
@@ -408,11 +408,11 @@ az rest --method put --url /subscriptions/&lt;span style=&#34;color:#e6db74&#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;EOF&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; The &lt;code&gt;aso-controller-settings&lt;/code&gt; secret contains more configuration than just the global credential.
 If ASO was already installed on your cluster and you are updating the &lt;code&gt;aso-controller-settings&lt;/code&gt; secret, ensure that
-&lt;a href=&#34;../../aso-controller-settings-options.md&#34;&gt;other values&lt;/a&gt; in that secret are not being overwritten.&lt;/p&gt;
+&lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/guide/aso-controller-settings-options/&#34;&gt;other values&lt;/a&gt; in that secret are not being overwritten.&lt;/p&gt;
 
     &lt;/div&gt;
     &lt;div class=&#34;tab-body tab-pane fade&#34;
-        id=&#34;tabs-02-02&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-02-02-tab&#34;&gt;
+        id=&#34;tabs-03-02&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-03-02-tab&#34;&gt;
         &lt;p&gt;Create the &lt;code&gt;aso-credential&lt;/code&gt; secret in your namespace:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF | kubectl apply -f -
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;apiVersion: v1
@@ -430,7 +430,7 @@ issuer URL and the backing Service Principal or Managed Identity. See &lt;a href
 
     &lt;/div&gt;
     &lt;div class=&#34;tab-body tab-pane fade&#34;
-        id=&#34;tabs-02-03&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-02-03-tab&#34;&gt;
+        id=&#34;tabs-03-03&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-03-03-tab&#34;&gt;
         &lt;p&gt;Create a per-resource secret. We&amp;rsquo;ll use &lt;code&gt;my-resource-secret&lt;/code&gt;:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF | kubectl apply -f -
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;apiVersion: v1
@@ -527,7 +527,7 @@ helm upgrade --install --devel aso2 aso2/azure-service-operator &lt;span style=&
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     --set aadPodIdentity.azureManagedIdentityResourceId&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;IDENTITY_RESOURCE_ID&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     --set azureClientID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;IDENTITY_CLIENT_ID&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     --set crdPattern&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*&amp;#39;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;See &lt;a href=&#34;../../crd-management&#34;&gt;CRD management&lt;/a&gt; for more details about &lt;code&gt;crdPattern&lt;/code&gt;.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;See &lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/guide/crd-management/&#34;&gt;CRD management&lt;/a&gt; for more details about &lt;code&gt;crdPattern&lt;/code&gt;.&lt;/p&gt;
 
       </description>
     </item>
@@ -621,7 +621,7 @@ It won&amp;rsquo;t try to reconcile Azure resources with ARM, and so doesn&amp;r
 The cluster-wide file &lt;code&gt;multitenant-cluster_v2.0.0-beta.0.yaml&lt;/code&gt; can be used as-is (the webhook deployment namespace is fixed as &lt;code&gt;azureserviceoperator-system&lt;/code&gt;),
 but the namespaces and cluster role binding in the per-tenant file &lt;code&gt;multitenant-tenant_v2.0.0-beta.0.yaml&lt;/code&gt; will need to be customised in each tenant&amp;rsquo;s YAML file from &lt;code&gt;tenant1&lt;/code&gt; to the desired name for that tenant.&lt;/p&gt;
 &lt;h4 id=&#34;per-tenant-configuration&#34;&gt;Per-tenant configuration&lt;/h4&gt;
-&lt;p&gt;Create the &lt;code&gt;aso-controller-settings&lt;/code&gt; secret as described in the &lt;a href=&#34;./credential-format.md&#34;&gt;authentication docs&lt;/a&gt;,
+&lt;p&gt;Create the &lt;code&gt;aso-controller-settings&lt;/code&gt; secret as described in the &lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/guide/authentication/credential-format/&#34;&gt;authentication docs&lt;/a&gt;,
 but create the secret in the tenant namespace and add an extra target namespaces key to it:&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;   export TENANT_NAMESPACE=&amp;quot;&amp;lt;tenant namespace&amp;gt;&amp;quot;
    export AZURE_SUBSCRIPTION_ID=&amp;quot;&amp;lt;subscription id&amp;gt;&amp;quot;

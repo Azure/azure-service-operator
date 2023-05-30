@@ -676,7 +676,7 @@ They may also support storing certain output into a <code>ConfigMap</code> (such
 In general, these fields are usually optional, and you can choose to specify the raw value <em>or</em> source it from a <code>ConfigMap</code> for something more dynamic.</p>
 <p>For example, in order to create a <code>RoleAssignment</code>, you must specify the <code>principalId</code> of the identity it applies to.
 You can hardcode that <code>principalId</code> or you can refer to it dynamically as a <code>ConfigMap</code> key.</p>
-<p><strong>Example (from <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/samples/authorization/v1beta/v1beta20200801preview_roleassignment.yaml">the RoleAssignment sample</a>):</strong></p>
+<p><strong>Example (from <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/samples/authorization/v1beta/v1beta20200801preview_roleassignment.yaml/">the RoleAssignment sample</a>):</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">authorization.azure.com/v1beta20200801preview</span>
 <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">RoleAssignment</span>
 <span style="color:#f92672">metadata</span>:
@@ -699,12 +699,12 @@ You can hardcode that <code>principalId</code> or you can refer to it dynamicall
 </code></pre></div><p>This reads the <code>principalId</code> value from a <code>ConfigMap</code>. Alternatively it could have been specified explicitly via the
 <code>spec.principalId</code> field instead of using <code>spec.principalIdFromConfig</code>.</p>
 <p>Note that not every field for every resource supports importing data from <code>ConfigMap</code>. To check if a resource supports it,
-consult its <a href="../../reference/authorization/v1beta20200801preview#authorization.azure.com/v1beta20200801preview.RoleAssignment">documentation</a>.</p>
+consult its <a href="../../reference/authorization/v1beta20200801preview/#authorization.azure.com/v1beta20200801preview.RoleAssignment">documentation</a>.</p>
 <h2 id="how-to-export-configmap-data-from-aso">How to export ConfigMap data from ASO</h2>
 <p>Some resources support saving data into a <code>ConfigMap</code>. The individual properties can be exported to a <code>ConfigMap</code> of your choosing by
 configuring the <code>.spec.operatorSpec.configMaps</code> field. The data will be written to the destination(s) you specify once the resource has
 successfully been provisioned in Azure.
-The resource will not move to <a href="../conditions">Condition</a> <code>Ready=True</code>
+The resource will not move to <a href="/azure-service-operator/guide/conditions/">Condition</a> <code>Ready=True</code>
 until the data has been written.</p>
 <p><strong>Example (from <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/samples/managedidentity/v1beta/v1beta20181130_userassignedidentity.yaml">the UserAssignedIdentity sample</a>):</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">managedidentity.azure.com/v1beta20181130</span>

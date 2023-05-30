@@ -728,7 +728,7 @@ It won&rsquo;t try to reconcile Azure resources with ARM, and so doesn&rsquo;t n
 The cluster-wide file <code>multitenant-cluster_v2.0.0-beta.0.yaml</code> can be used as-is (the webhook deployment namespace is fixed as <code>azureserviceoperator-system</code>),
 but the namespaces and cluster role binding in the per-tenant file <code>multitenant-tenant_v2.0.0-beta.0.yaml</code> will need to be customised in each tenant&rsquo;s YAML file from <code>tenant1</code> to the desired name for that tenant.</p>
 <h4 id="per-tenant-configuration">Per-tenant configuration</h4>
-<p>Create the <code>aso-controller-settings</code> secret as described in the <a href="./credential-format.md">authentication docs</a>,
+<p>Create the <code>aso-controller-settings</code> secret as described in the <a href="/azure-service-operator/guide/authentication/credential-format/">authentication docs</a>,
 but create the secret in the tenant namespace and add an extra target namespaces key to it:</p>
 <pre tabindex="0"><code>   export TENANT_NAMESPACE=&quot;&lt;tenant namespace&gt;&quot;
    export AZURE_SUBSCRIPTION_ID=&quot;&lt;subscription id&gt;&quot;

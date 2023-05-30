@@ -705,9 +705,9 @@ For some resources this doesn&rsquo;t work particularly well because the resourc
 <li><code>error</code> if something went wrong.</li>
 </ul>
 <p>For the initial implementation, we&rsquo;ll only do the GET if the extension exists, and the default <code>next</code> action will be hard coded to request a reconciliation.</p>
-<p><img src="images/adr-2022-12-reconciliation-initial-flow.png" alt="Initial Sequence"></p>
+<p><img src="../images/adr-2022-12-reconciliation-initial-flow.png" alt="Initial Sequence"></p>
 <p>Down the track when we switch to a GET/PUT workflow, we&rsquo;ll always do the GET, and the default &lsquo;next` action will do the comparison to see if the resource has changed.</p>
-<p><img src="images/adr-2022-12-reconciliation-diffing-flow.png" alt="GET/PUT Sequence"></p>
+<p><img src="../images/adr-2022-12-reconciliation-diffing-flow.png" alt="GET/PUT Sequence"></p>
 <h2 id="status">Status</h2>
 <p>Accepted.</p>
 <ul>

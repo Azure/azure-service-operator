@@ -57,17 +57,17 @@ allowing references to secrets only if the secret is in the same namespace as th
         &lt;h2 id=&#34;upgrades-from-releases-prior-to-v200-beta5-are-disallowed&#34;&gt;Upgrades from releases prior to v2.0.0-beta.5 are disallowed&lt;/h2&gt;
 &lt;p&gt;We changed how we manage CRDs in this release (see &lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/2769&#34;&gt;PR#2769&lt;/a&gt;), and as a result if using Helm you &lt;em&gt;must&lt;/em&gt; upgrade from v2.0.0-beta.5 to v2.0.0.&lt;/p&gt;
 &lt;p&gt;You cannot upgrade from v2.0.0-beta.4 or earlier directly to v2.0.0. This is enforced with a Helm upgrade hook.&lt;/p&gt;
-&lt;p&gt;This restriction is just for upgrades to the v2.0.0 version, although &lt;a href=&#34;../../upgrading#recommended-upgrade-pattern&#34;&gt;we always recommend&lt;/a&gt; upgrading one version at a time.&lt;/p&gt;
+&lt;p&gt;This restriction is just for upgrades to the v2.0.0 version, although &lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/guide/upgrading/#recommended-upgrade-pattern&#34;&gt;we always recommend&lt;/a&gt; upgrading one version at a time.&lt;/p&gt;
 &lt;h2 id=&#34;alpha-crd-versions-have-been-removed&#34;&gt;Alpha CRD versions have been removed&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;You cannot successfully upgrade to v2.0.0 until you have followed the migration steps below:&lt;/strong&gt;&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;If you have never installed an &lt;code&gt;alpha&lt;/code&gt; version of ASOv2, or used an &lt;code&gt;alpha&lt;/code&gt; version of a CRD, no action is required.
 If you&amp;rsquo;re not sure, run the below steps anyway. They will not do anything if alpha was never used.&lt;/li&gt;
 &lt;li&gt;Ensure the cluster is running the &lt;code&gt;v2.0.0-beta.5&lt;/code&gt; version of ASO.&lt;/li&gt;
-&lt;li&gt;Install the &lt;code&gt;asoctl&lt;/code&gt; tool by following the &lt;a href=&#34;../../../tools/asoctl#installation&#34;&gt;installation instructions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Install the &lt;code&gt;asoctl&lt;/code&gt; tool by following the &lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/tools/asoctl/#installation&#34;&gt;installation instructions&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Run &lt;code&gt;asoctl clean crds&lt;/code&gt;. This will migrate your resources to a newer version if needed and remove the &lt;code&gt;alpha&lt;/code&gt; CRD
 versions from the CRD &lt;code&gt;Status.StoredVersions&lt;/code&gt; collection. For more details on this command see the
-&lt;a href=&#34;../../../tools/asoctl#clean-crds&#34;&gt;asoctl clean crds documentation&lt;/a&gt;&lt;/li&gt;
+&lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/tools/asoctl/#clean-crds&#34;&gt;asoctl clean crds documentation&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;Once you have successfully executed the above steps, you can upgrade to &lt;code&gt;v2.0.0&lt;/code&gt;. When upgrading to &lt;code&gt;v2.0.0&lt;/code&gt; the following
 error means that you need to run the above steps:&lt;/p&gt;
@@ -98,7 +98,7 @@ error means that you need to run the above steps:&lt;/p&gt;
 &lt;li&gt;Annotate the resource with &lt;code&gt;serviceoperator.azure.com/reconcile-policy: skip&lt;/code&gt; to prevent ASO from trying to reconcile the resource while you are upgrading.&lt;/li&gt;
 &lt;li&gt;Download the current YAML for the resource using &lt;code&gt;kubectl&lt;/code&gt; if you don&amp;rsquo;t have it elsewhere.&lt;/li&gt;
 &lt;li&gt;Delete the resource from your cluster using &lt;code&gt;kubectl delete&lt;/code&gt;. Your Azure resource will be left untouched because of the &lt;code&gt;reconcile-policy&lt;/code&gt; annotation you added above.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;../../upgrading&#34;&gt;Upgrade ASO&lt;/a&gt; in your cluster.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/guide/upgrading/&#34;&gt;Upgrade ASO&lt;/a&gt; in your cluster.&lt;/li&gt;
 &lt;li&gt;Modify the YAML for your resource to address the breaking changes noted below.&lt;/li&gt;
 &lt;li&gt;Apply the updated YAML to your cluster using &lt;code&gt;kubectl apply&lt;/code&gt;. If any errors occur, address them.&lt;/li&gt;
 &lt;li&gt;If the &lt;code&gt;reconcile-policy&lt;/code&gt; annotation is still present, remove the it from the resource.&lt;/li&gt;

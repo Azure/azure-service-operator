@@ -688,7 +688,7 @@ This is for two reasons:
 	</header>    
 	<h2 id="how-does-crd-management-work-in-azure-service-operator">How does CRD management work in Azure Service Operator?</h2>
 <p>ASO performs CRD management differently than many traditional operators. You might notice if you install the
-<a href="../installing-from-helm">Helm chart</a> or the <a href="../installing-from-yaml">YAML</a> that there are NO CRDs installed by default.</p>
+<a href="/azure-service-operator/guide/installing-from-helm/">Helm chart</a> or the <a href="/azure-service-operator/guide/installing-from-yaml/">YAML</a> that there are NO CRDs installed by default.</p>
 <p>This is for two reasons:</p>
 <ol>
 <li>ASO supports so many CRDs that it exceeds the maximum Helm chart size when CRDs are included, so the CRDs cannot be
@@ -786,7 +786,7 @@ This is a safety feature because removal of CRDs can be dangerous.</p>
 <li>Delete or otherwise remove all instances of the CRD in question. For example if you want to remove the
 <code>keyvault.azure.com/vault</code> CRD, first delete all instances of that CRD.
 <ul>
-<li>If you want to retain the <code>vault</code> resources in Azure, apply a <a href="../annotations#serviceoperatorazurecomreconcile-policy">reconcile-policy</a>
+<li>If you want to retain the <code>vault</code> resources in Azure, apply a <a href="/azure-service-operator/guide/annotations/#serviceoperatorazurecomreconcile-policy">reconcile-policy</a>
 of <code>skip</code> prior to issuing <code>kubectl delete</code>.</li>
 </ul>
 </li>

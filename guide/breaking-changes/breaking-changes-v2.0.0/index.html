@@ -680,17 +680,17 @@ This restriction is just for upgrades to the v2.0.0 version, although we always 
 	<h2 id="upgrades-from-releases-prior-to-v200-beta5-are-disallowed">Upgrades from releases prior to v2.0.0-beta.5 are disallowed</h2>
 <p>We changed how we manage CRDs in this release (see <a href="https://github.com/Azure/azure-service-operator/pull/2769">PR#2769</a>), and as a result if using Helm you <em>must</em> upgrade from v2.0.0-beta.5 to v2.0.0.</p>
 <p>You cannot upgrade from v2.0.0-beta.4 or earlier directly to v2.0.0. This is enforced with a Helm upgrade hook.</p>
-<p>This restriction is just for upgrades to the v2.0.0 version, although <a href="../../upgrading#recommended-upgrade-pattern">we always recommend</a> upgrading one version at a time.</p>
+<p>This restriction is just for upgrades to the v2.0.0 version, although <a href="/azure-service-operator/guide/upgrading/#recommended-upgrade-pattern">we always recommend</a> upgrading one version at a time.</p>
 <h2 id="alpha-crd-versions-have-been-removed">Alpha CRD versions have been removed</h2>
 <p><strong>You cannot successfully upgrade to v2.0.0 until you have followed the migration steps below:</strong></p>
 <ol>
 <li>If you have never installed an <code>alpha</code> version of ASOv2, or used an <code>alpha</code> version of a CRD, no action is required.
 If you&rsquo;re not sure, run the below steps anyway. They will not do anything if alpha was never used.</li>
 <li>Ensure the cluster is running the <code>v2.0.0-beta.5</code> version of ASO.</li>
-<li>Install the <code>asoctl</code> tool by following the <a href="../../../tools/asoctl#installation">installation instructions</a></li>
+<li>Install the <code>asoctl</code> tool by following the <a href="/azure-service-operator/tools/asoctl/#installation">installation instructions</a></li>
 <li>Run <code>asoctl clean crds</code>. This will migrate your resources to a newer version if needed and remove the <code>alpha</code> CRD
 versions from the CRD <code>Status.StoredVersions</code> collection. For more details on this command see the
-<a href="../../../tools/asoctl#clean-crds">asoctl clean crds documentation</a></li>
+<a href="/azure-service-operator/tools/asoctl/#clean-crds">asoctl clean crds documentation</a></li>
 </ol>
 <p>Once you have successfully executed the above steps, you can upgrade to <code>v2.0.0</code>. When upgrading to <code>v2.0.0</code> the following
 error means that you need to run the above steps:</p>

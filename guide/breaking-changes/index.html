@@ -690,9 +690,7 @@ We recommend you start using <code>v1api</code> prefixed versions now.</p>
 <li><code>serviceoperator.azure.com/credential-from</code> no longer supports secret references that are outside the namespace the resource is in</li>
 <li>Upgrades from releases prior to <code>v2.0.0-beta.5</code> are still disallowed (same as v2.0.0)</li>
 </ul>
-<!-- The replacementPatterns in link-checker.json are 97% correct, but don't work for _index.md files. Link manually checked by @matthchr -->
-<!-- markdown-link-check-disable-next-line -->
-<p>For more information see <a href="breaking-changes-v2.1.0">v2.1.0 Breaking Changes</a>.</p>
+<p>For more information see <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.1.0/">v2.1.0 Breaking Changes</a>.</p>
 <h3 id="v200">v2.0.0</h3>
 <p>Breaking changes are:</p>
 <ul>
@@ -700,9 +698,7 @@ We recommend you start using <code>v1api</code> prefixed versions now.</p>
 <li>Alpha CRD versions have been removed</li>
 <li>Structure change for ResourceGroup status</li>
 </ul>
-<!-- The replacementPatterns in link-checker.json are 97% correct, but don't work for _index.md files. Link manually checked by @theunrepentantgeek -->
-<!-- markdown-link-check-disable-next-line -->
-<p>For more information see <a href="breaking-changes-v2.0.0">v2.0.0 Breaking Changes</a>.</p>
+<p>For more information see <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0/">v2.0.0 Breaking Changes</a>.</p>
 <h3 id="v200-beta4">v2.0.0-beta.4</h3>
 <p>In the <code>v2.0.0-beta.4</code> release of Azure Service Operator (ASO) we pivoted to using Azure Swagger API Specifications as the sole source of truth for our code generator. This change brought with it a significant improvement in fidelity - the code we generate is now much closer to what the Azure Swagger API Specifications describe.</p>
 <p>Unfortunately, this change also brings with it a number of breaking changes requiring simple manual modifications to pre-existing resources.</p>
@@ -717,9 +713,7 @@ We recommend you start using <code>v1api</code> prefixed versions now.</p>
 <li>Properties that previously included on Spec but actually had no function have been removed.</li>
 <li>Validation rules have been tightened, or added to properties that previously had no validation rules.</li>
 </ul>
-<!-- The replacementPatterns in link-checker.json are 97% correct, but don't work for _index.md files. Link manually checked by @theunrepentantgeek -->
-<!-- markdown-link-check-disable-next-line -->
-<p>For detailed information, including an exhaustive list of all affected resource properties, see <a href="breaking-changes-v2.0.0-beta.4">v2.0.0-beta.4 Breaking Changes</a>.</p>
+<p>For detailed information, including an exhaustive list of all affected resource properties, see <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/">v2.0.0-beta.4 Breaking Changes</a>.</p>
 <h2 id="policies">Policies</h2>
 <p>We know that breaking changes are a problem for many of our users, so we&rsquo;re making the following commitments.</p>
 <p><strong>No breaking changes to existing resource versions</strong></p>
@@ -731,8 +725,8 @@ We recommend you start using <code>v1api</code> prefixed versions now.</p>
 <p><strong>Automatic conversion</strong>: By manually augmenting the intra-version conversions produced by our code-generator, we may be able to automatically upgrade resources from the older version to the new. Migration would be zero-touch for our users.</p>
 <p>We&rsquo;ve done this before when a new version of a resource API introduced a breaking change, see <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/api/containerservice/v1api20210501storage/managed_cluster_conversion_overrides.go">managed_cluster_conversion_overrides.go</a>.</p>
 <p><strong>Custom Tooling</strong>: For our <code>v2.0.0</code> release, we provided a specialized tool (<code>asoctl</code>) specifically designed to smooth the way for upgrading users. In addition to the existing two modes, we may add further functions to cater for other scenarios.</p>
-<p>For users upgrading from ASO v1, <a href="../../../tools/asoctl#import-azure-resource"><code>asoctl import azure-resource</code></a> provides a way to scaffold an ASO v2 resource based on an existing Azure resource.</p>
-<p>For clusters that once had an alpha release of ASO v2 installed, <a href="../../../tools/asoctl#clean-crds"><code>asoctl clean crds</code></a> does the cleanup required to ensure the upgrade from <code>v2.0.0-beta.5</code> to <code>v2.0.0</code> goes smoothly.</p>
+<p>For users upgrading from ASO v1, <a href="/azure-service-operator/tools/asoctl/#import-azure-resource"><code>asoctl import azure-resource</code></a> provides a way to scaffold an ASO v2 resource based on an existing Azure resource.</p>
+<p>For clusters that once had an alpha release of ASO v2 installed, <a href="/azure-service-operator/tools/asoctl/#clean-crds"><code>asoctl clean crds</code></a> does the cleanup required to ensure the upgrade from <code>v2.0.0-beta.5</code> to <code>v2.0.0</code> goes smoothly.</p>
 <p>We may, in future, create additional tooling designed to smooth the way for users encountering what would otherwise be breaking changes.</p>
 <p><strong>Documentation</strong>: As a last resort, if we have a breaking change that we can&rsquo;t avoid (or can&rsquo;t transparently mitigate), we&rsquo;ll explicitly document it, both here and in the release notes for that version.</p>
 

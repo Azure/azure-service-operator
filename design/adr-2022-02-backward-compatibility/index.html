@@ -796,10 +796,10 @@ Mitigation: Pruning documentation would push users towards the beta versions.</p
 <p>All resources will be duplicated, published as both <code>v1beta</code> and as <code>v1alpha1api</code>. This includes new resources published for the first time in the beta.</p>
 <p>Introduce a new pipeline stage to create additional versions for backward compatibility, each created by cloning an existing version but using a package name based on the old <code>v1alpha1api</code> prefix.</p>
 <p>For example, the API resource <code>v1beta20201201storage/VirtualMachine</code> will be cloned as <code>v1alpha1api20201201/VirtualMachine</code>. Subsequent pipeline stages will create matching storage versions and the necessary conversions.</p>
-<p><img src="images/adr-2022-02-backward-compatibility-single-version.png" alt="image"></p>
+<p><img src="../images/adr-2022-02-backward-compatibility-single-version.png" alt="image"></p>
 <p>For the trivial case where we only support a single ARM version of a resource, this gives us full compatibility to upgrade an older (alpha) installation of ASO to a new beta release.</p>
 <p>When we have multiple ARM versions in flight (as we do with <code>compute</code>), supporting all <em>potential</em> older resource versions gives us maximum compatibility without any need for configuration or to make any assumptions about which ARM versions were previously supported.</p>
-<p><img src="images/adr-2022-02-backward-compatibility-multiple-version.png" alt="image"></p>
+<p><img src="../images/adr-2022-02-backward-compatibility-multiple-version.png" alt="image"></p>
 <p>This approach also gives us backward compatibility when we have a mix of resources across multiple versions (as happens with both <code>compute</code> and <code>network</code>). We know from prior work (including introduction of the <code>PropertyBag</code> field) that conversions between storage versions are lossless.</p>
 <h3 id="beta-1-release">Beta 1 Release</h3>
 <p>Additional configuration will ensure that resources introduced in that (or later) releases won&rsquo;t include alpha versions. This configuration will require opt-in for backward compatibility, so that the overhead for new resources is as low as possible. <a href="https://github.com/Azure/azure-service-operator/issues/2176">Issue #2176</a> has been logged to track this work.</p>

@@ -813,7 +813,7 @@ We expect that most users will find their resources are unaffected by these chan
 <li>Annotate the resource with <code>serviceoperator.azure.com/reconcile-policy: skip</code> to prevent ASO from trying to reconcile the resource while you are upgrading.</li>
 <li>Download the current YAML for the resource using <code>kubectl</code> if you don&rsquo;t have it elsewhere.</li>
 <li>Delete the resource from your cluster using <code>kubectl delete</code>. Your Azure resource will be left untouched because of the <code>reconcile-policy</code> annotation you added above.</li>
-<li><a href="../../upgrading">Upgrade ASO</a> in your cluster.</li>
+<li><a href="/azure-service-operator/guide/upgrading/">Upgrade ASO</a> in your cluster.</li>
 <li>Modify the YAML for your resource to address the breaking changes noted below.</li>
 <li>Apply the updated YAML to your cluster using <code>kubectl apply</code>. If any errors occur, address them.</li>
 <li>If the <code>reconcile-policy</code> annotation is still present, remove the it from the resource.</li>

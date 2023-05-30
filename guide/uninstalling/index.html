@@ -680,7 +680,7 @@ You can check if all ASO resources have been deleted by using: kubectl api-resou
 	</header>    
 	<h2 id="before-you-uninstall">Before you uninstall</h2>
 <p>Before you uninstall Azure Service Operator, ensure that all of the resources managed by it are deleted from Kubernetes.</p>
-<p>Use the <a href="../annotations#serviceoperatorazurecomreconcile-policy">detach-on-delete reconcile-policy annotation</a>
+<p>Use the <a href="/azure-service-operator/guide/annotations/#serviceoperatorazurecomreconcile-policy">detach-on-delete reconcile-policy annotation</a>
 if you want to delete an ASO resource from Kubernetes but retain it in Azure.</p>
 <p>You can check if all ASO resources have been deleted by using: <code>kubectl api-resources -o name | grep azure.com | paste -sd &quot;,&quot; - | xargs kubectl get -A</code></p>
 <h2 id="uninstalling">Uninstalling</h2>

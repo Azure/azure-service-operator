@@ -666,17 +666,17 @@
 <h2 id="credential-type">Credential type</h2>
 <p>Azure Service Operator supports four different styles of authentication today.</p>
 <ol>
-<li><a href="./credential-format#service-principal-using-a-client-secret">Service Principal using a Client Secret</a></li>
-<li><a href="./credential-format#service-principal-using-a-client-certificate">Service Principal using a Client Certificate</a></li>
-<li><a href="./credential-format#azure-workload-identity">Azure-Workload-Identity authentication</a> (OIDC + Managed Identity or Service Principal)</li>
-<li>[Deprecated] <a href="./credential-format#deprecated-managed-identity--aad-pod-identity-">aad-pod-identity authentication (Managed Identity)</a></li>
+<li><a href="/azure-service-operator/guide/authentication/credential-format/#service-principal-using-a-client-secret">Service Principal using a Client Secret</a></li>
+<li><a href="/azure-service-operator/guide/authentication/credential-format/#service-principal-using-a-client-certificate">Service Principal using a Client Certificate</a></li>
+<li><a href="/azure-service-operator/guide/authentication/credential-format/#azure-workload-identity">Azure-Workload-Identity authentication</a> (OIDC + Managed Identity or Service Principal)</li>
+<li>[Deprecated] <a href="/azure-service-operator/guide/authentication/credential-format/#deprecated-managed-identity-aad-pod-identity">aad-pod-identity authentication (Managed Identity)</a></li>
 </ol>
 <h2 id="credential-scope">Credential scope</h2>
 <p>Each supported credential type can be specified at one of three supported scopes:</p>
 <ol>
-<li><a href="./credential-scope#global-scope">Global</a> - The credential applies to all resources managed by ASO.</li>
-<li><a href="./credential-scope#namespace-scope">Namespace</a> - The credential applies to all resources managed by ASO in that namespace.</li>
-<li><a href="./credential-scope#resource-scope">Resource</a> - The credential applies to only the specific resource it is referenced on.</li>
+<li><a href="/azure-service-operator/guide/authentication/credential-scope/#global-scope">Global</a> - The credential applies to all resources managed by ASO.</li>
+<li><a href="/azure-service-operator/guide/authentication/credential-scope/#namespace-scope">Namespace</a> - The credential applies to all resources managed by ASO in that namespace.</li>
+<li><a href="/azure-service-operator/guide/authentication/credential-scope/#resource-scope">Resource</a> - The credential applies to only the specific resource it is referenced on.</li>
 </ol>
 <p>When presented with multiple credential choices, the operator chooses the most specific one:
 <em>resource scope</em> takes precedence over <em>namespace scope</em> which takes precedence over <em>global scope</em>.</p>
@@ -704,7 +704,7 @@ configured with different credentials.</p>
 <li>Significantly harder to orchestrate ASO upgrades.</li>
 <li>More kube-apiserver load, as there will be multiple operators running and watching/reconciling resources.</li>
 </ul>
-<p>For more details about this approach, see <a href="./multitenant-deployment">multitenant deployment</a></p>
+<p>For more details about this approach, see <a href="/azure-service-operator/guide/authentication/multitenant-deployment/">multitenant deployment</a></p>
 
 	
 	

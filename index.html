@@ -708,7 +708,7 @@ cert-manager-webhook-c4b5687dc-x66bj      1/1     Running   <span style="color:#
 <p>Next, create a service principal with Contributor permissions for your subscription.</p>
 <p>You can optionally use a service principal with a more restricted permission set
 (for example contributor to just a Resource Group), but that will restrict what you can
-do with ASO. See <a href="https://azure.github.io/azure-service-operator/guide/authentication/reducing-access#using-a-credential-for-aso-with-reduced-permissions">using reduced permissions</a> for more details.</p>
+do with ASO. See <a href="https://azure.github.io/azure-service-operator/guide/authentication/reducing-access/#using-a-credential-for-aso-with-reduced-permissions">using reduced permissions</a> for more details.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">az ad sp create-for-rbac -n azure-service-operator --role contributor <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    --scopes /subscriptions/$AZURE_SUBSCRIPTION_ID
 </code></pre></div><p>This should give you output like the following:</p>
@@ -722,7 +722,7 @@ do with ASO. See <a href="https://azure.github.io/azure-service-operator/guide/a
 AZURE_CLIENT_SECRET<span style="color:#f92672">=</span>&lt;your-client-secret&gt; <span style="color:#75715e"># This is the password from the service principal we created.</span>
 </code></pre></div></li>
 <li>
-<p>Install <a href="/charts">the latest <strong>v2+</strong> Helm chart</a>:</p>
+<p>Install <a href="https://github.com/Azure/azure-service-operator/tree/main/charts">the latest <strong>v2+</strong> Helm chart</a>:</p>
 <pre tabindex="0"><code>helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
 </code></pre><pre tabindex="0"><code>helm upgrade --install --devel aso2 aso2/azure-service-operator \
      --create-namespace \
@@ -739,7 +739,7 @@ You can use <code>--set crdPattern=*</code> to install all the CRDs, but be awar
 recommended on AKS Free-tier clusters.</p>
 <p>See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD management</a> for more details.</p>
 </blockquote>
-<p>Alternatively you can install from the <a href="https://azure.github.io/azure-service-operator/guide/installing-from-yaml">release YAML directly</a>.</p>
+<p>Alternatively you can install from the <a href="https://azure.github.io/azure-service-operator/guide/installing-from-yaml/">release YAML directly</a>.</p>
 <p>To learn more about other authentication options, see the <a href="https://azure.github.io/azure-service-operator/guide/authentication/">authentication documentation</a>.</p>
 </li>
 </ol>
