@@ -336,7 +336,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201
 │   │   │       └── Enabled: *bool
 │   │   ├── ServicePrincipalProfile: *Object (2 properties)
 │   │   │   ├── ClientId: *string
-│   │   │   └── Secret: *string
+│   │   │   └── Secret: *genruntime.SecretReference
 │   │   ├── Sku: *Object (2 properties)
 │   │   │   ├── Name: *Enum (1 value)
 │   │   │   │   └── "Base"

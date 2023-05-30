@@ -366,7 +366,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202pre
 │   │   ├── ServicePrincipalProfile: *Object (3 properties)
 │   │   │   ├── ClientId: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Secret: *string
+│   │   │   └── Secret: *genruntime.SecretReference
 │   │   ├── Sku: *Object (3 properties)
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
