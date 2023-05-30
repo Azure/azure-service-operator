@@ -55,7 +55,7 @@ Some Azure resources produce secrets themselves. ASO supports automatically quer
 and storing them in the [SecretDestination](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination) you specify.
 
 These secrets will be written to the destination(s) you specify once the resource has successfully been provisioned in Azure.
-The resource will not move to [Condition](../conditions) `Ready=True` 
+The resource will not move to [Condition]( {{< relref "conditions" >}} ) `Ready=True` 
 until the secrets have been written.
 
 **Example:**

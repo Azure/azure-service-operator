@@ -150,7 +150,8 @@ go-install kustomize sigs.k8s.io/kustomize/kustomize/v4@v4.5.7
 
 # for docs site
 go-install hugo -tags extended github.com/gohugoio/hugo@v0.88.1
-go-install htmltest github.com/wjdp/htmltest@v0.15.0
+# Restore this to github.com/wjdp/htmltest@v?? once PR#215 is merged with the feature we need
+go-install htmltest github.com/theunrepentantgeek/htmltest@latest
 
 # for api docs 
 # TODO: Replace this with the new release tag.
@@ -220,15 +221,7 @@ fi
 write-verbose "Checking for /usr/bin/postcss"
 if should-install "/usr/bin/postcss"; then 
     write-info "Installing postcss"
-    sudo npm install -g postcss postcss-cli autoprefixer
-fi
-
-# Ensure we can check links
-write-verbose "Checking for /usr/bin/markdown-link-check"
-if should-install "/usr/bin/markdown-link-check"; then 
-    write-info "Installing markdown-link-check"
-    # Pinned to 3.10 due to https://github.com/tcort/markdown-link-check/issues/246
-    sudo npm install -g markdown-link-check@3.10
+    npm install --global postcss postcss-cli autoprefixer
 fi
 
 if [ "$VERBOSE" == true ]; then 

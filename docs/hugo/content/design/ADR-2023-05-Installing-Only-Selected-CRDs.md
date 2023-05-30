@@ -152,7 +152,7 @@ pre-install hook (or post-install) seems easier though.
 
 #### Answer 2c: Using a CRD
 
-We investigated doing this originally for [Helm chart size limitations](../ADR-2023-02-Helm-Chart-Size-Limitations)
+We investigated doing this originally for [Helm chart size limitations]( {{< relref "ADR-2023-02-Helm-Chart-Size-Limitations" >}} )
 
 Pros:
 * More structured than a `ConfigMap`.

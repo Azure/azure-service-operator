@@ -13,7 +13,7 @@ In general, these fields are usually optional, and you can choose to specify the
 For example, in order to create a `RoleAssignment`, you must specify the `principalId` of the identity it applies to. 
 You can hardcode that `principalId` or you can refer to it dynamically as a `ConfigMap` key.
 
-**Example (from [the RoleAssignment sample](https://github.com/Azure/azure-service-operator/blob/main/v2/samples/authorization/v1beta/v1beta20200801preview_roleassignment.yaml)):**
+**Example (from [the RoleAssignment sample](https://github.com/Azure/azure-service-operator/blob/main/v2/samples/authorization/v1beta/v1beta20200801preview_roleassignment.yaml/)):**
 ```yaml
 apiVersion: authorization.azure.com/v1beta20200801preview
 kind: RoleAssignment
@@ -40,14 +40,14 @@ This reads the `principalId` value from a `ConfigMap`. Alternatively it could ha
 `spec.principalId` field instead of using `spec.principalIdFromConfig`.
 
 Note that not every field for every resource supports importing data from `ConfigMap`. To check if a resource supports it,
-consult its [documentation](../../reference/authorization/v1beta20200801preview#authorization.azure.com/v1beta20200801preview.RoleAssignment).
+consult its [documentation](../../reference/authorization/v1beta20200801preview/#authorization.azure.com/v1beta20200801preview.RoleAssignment).
 
 ## How to export ConfigMap data from ASO
 
 Some resources support saving data into a `ConfigMap`. The individual properties can be exported to a `ConfigMap` of your choosing by
 configuring the `.spec.operatorSpec.configMaps` field. The data will be written to the destination(s) you specify once the resource has 
 successfully been provisioned in Azure.
-The resource will not move to [Condition](../conditions) `Ready=True` 
+The resource will not move to [Condition]( {{< relref "conditions" >}} ) `Ready=True` 
 until the data has been written.
 
 **Example (from [the UserAssignedIdentity sample](https://github.com/Azure/azure-service-operator/blob/main/v2/samples/managedidentity/v1beta/v1beta20181130_userassignedidentity.yaml)):**
