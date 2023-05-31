@@ -1250,12 +1250,6 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 	// SqlAdministratorLogin
 	workspace.SqlAdministratorLogin = genruntime.ClonePointerToString(source.SqlAdministratorLogin)
 
-	// SqlAdministratorLoginPassword
-	if source.SqlAdministratorLoginPassword != nil {
-	} else {
-		workspace.SqlAdministratorLoginPassword = nil
-	}
-
 	// Tags
 	workspace.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -1371,9 +1365,6 @@ type Workspace_STATUS struct {
 
 	// SqlAdministratorLogin: Login for workspace SQL active directory administrator
 	SqlAdministratorLogin *string `json:"sqlAdministratorLogin,omitempty"`
-
-	// SqlAdministratorLoginPassword: SQL administrator login password
-	SqlAdministratorLoginPassword *string `json:"sqlAdministratorLoginPassword,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -1668,15 +1659,6 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘SqlAdministratorLoginPassword’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.SqlAdministratorLoginPassword != nil {
-			sqlAdministratorLoginPassword := *typedInput.Properties.SqlAdministratorLoginPassword
-			workspace.SqlAdministratorLoginPassword = &sqlAdministratorLoginPassword
-		}
-	}
-
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
 		workspace.Tags = make(map[string]string, len(typedInput.Tags))
@@ -1906,9 +1888,6 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 	// SqlAdministratorLogin
 	workspace.SqlAdministratorLogin = genruntime.ClonePointerToString(source.SqlAdministratorLogin)
 
-	// SqlAdministratorLoginPassword
-	workspace.SqlAdministratorLoginPassword = genruntime.ClonePointerToString(source.SqlAdministratorLoginPassword)
-
 	// Tags
 	workspace.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -2120,9 +2099,6 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 
 	// SqlAdministratorLogin
 	destination.SqlAdministratorLogin = genruntime.ClonePointerToString(workspace.SqlAdministratorLogin)
-
-	// SqlAdministratorLoginPassword
-	destination.SqlAdministratorLoginPassword = genruntime.ClonePointerToString(workspace.SqlAdministratorLoginPassword)
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(workspace.Tags)
