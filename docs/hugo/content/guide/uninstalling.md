@@ -6,7 +6,7 @@ title: "Uninstalling"
 
 Before you uninstall Azure Service Operator, ensure that all of the resources managed by it are deleted from Kubernetes.
 
-Use the [detach-on-delete reconcile-policy annotation](../annotations#serviceoperatorazurecomreconcile-policy) 
+Use the [detach-on-delete reconcile-policy annotation]( {{< relref "annotations#serviceoperatorazurecomreconcile-policy" >}} )
 if you want to delete an ASO resource from Kubernetes but retain it in Azure.
 
 You can check if all ASO resources have been deleted by using: `kubectl api-resources -o name | grep azure.com | paste -sd "," - | xargs kubectl get -A`

@@ -74,7 +74,7 @@ configuration around the existing values.
 
 ## Run the code generator
 
-Follow the steps in the [contributing guide](_index.md) to set up your development environment.
+Follow the steps in the [contributing guide]( {{< relref "." >}} ) to set up your development environment.
 Once you have a working development environment, run the `task` command to run the code generator.
 
 ## Fix any errors raised by the code generator

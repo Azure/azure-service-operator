@@ -6,7 +6,7 @@ linktitle: Credential Format
 Azure Service Operator supports four different styles of authentication today. 
 
 Each section below dives into one of these authentication options, including examples for how to set it up and
-use it at the different [credential scopes](../credential-scope).
+use it at the different [credential scopes]( {{< relref "credential-scope" >}} ).
 
 ## Service Principal using a Client Secret
 
@@ -44,7 +44,7 @@ helm upgrade --install --devel aso2 aso2/azure-service-operator \
         --set crdPattern='resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*'
 ```
 
-See [CRD management](../../crd-management) for more details about `crdPattern`.
+See [CRD management]( {{< relref "crd-management" >}} ) for more details about `crdPattern`.
 
 Otherwise, create or update the `aso-controller-settings` secret:
 
@@ -65,7 +65,7 @@ EOF
 
 **Note:** The `aso-controller-settings` secret contains more configuration than just the global credential.
 If ASO was already installed on your cluster and you are updating the `aso-controller-settings` secret, ensure that
-[other values](../../aso-controller-settings-options.md) in that secret are not being overwritten.
+[other values]( {{< relref "aso-controller-settings-options" >}} ) in that secret are not being overwritten.
 
 {{% /tab %}}
 {{% tab header="Namespace" %}}
@@ -163,7 +163,7 @@ helm upgrade --install --devel aso2 aso2/azure-service-operator \
         --set crdPattern='resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*'
 ```
 
-See [CRD management](../../crd-management) for more details about `crdPattern`.
+See [CRD management]( {{< relref "crd-management" >}} ) for more details about `crdPattern`.
 
 Otherwise, create or update the `aso-controller-settings` secret:
 
@@ -185,7 +185,7 @@ EOF
 
 **Note:** The `aso-controller-settings` secret contains more configuration than just the global credential.
 If ASO was already installed on your cluster and you are updating the `aso-controller-settings` secret, ensure that
-[other values](../../aso-controller-settings-options.md) in that secret are not being overwritten.
+[other values]( {{< relref "aso-controller-settings-options" >}} ) in that secret are not being overwritten.
 
 {{% /tab %}}
 {{% tab header="Namespace" %}}
@@ -334,7 +334,7 @@ helm upgrade --install --devel aso2 aso2/azure-service-operator \
         --set crdPattern='resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*'
 ```
 
-See [CRD management](../../crd-management) for more details about `crdPattern`.
+See [CRD management]( {{< relref "crd-management" >}} ) for more details about `crdPattern`.
 
 Otherwise, create or update the `aso-controller-settings` secret:
 
@@ -355,7 +355,7 @@ EOF
 
 **Note:** The `aso-controller-settings` secret contains more configuration than just the global credential.
 If ASO was already installed on your cluster and you are updating the `aso-controller-settings` secret, ensure that
-[other values](../../aso-controller-settings-options.md) in that secret are not being overwritten.
+[other values]( {{< relref "aso-controller-settings-options" >}} ) in that secret are not being overwritten.
 
 {{% /tab %}}
 {{% tab header="Namespace" %}}
@@ -503,4 +503,4 @@ helm upgrade --install --devel aso2 aso2/azure-service-operator \
      --set crdPattern='resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*'
 ```
 
-See [CRD management](../../crd-management) for more details about `crdPattern`.
+See [CRD management]( {{< relref "crd-management" >}} ) for more details about `crdPattern`.

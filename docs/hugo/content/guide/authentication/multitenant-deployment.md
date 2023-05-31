@@ -38,7 +38,7 @@ The cluster-wide file `multitenant-cluster_v2.0.0-beta.0.yaml` can be used as-is
 but the namespaces and cluster role binding in the per-tenant file `multitenant-tenant_v2.0.0-beta.0.yaml` will need to be customised in each tenant's YAML file from `tenant1` to the desired name for that tenant.
 
 #### Per-tenant configuration
-Create the `aso-controller-settings` secret as described in the [authentication docs](./credential-format.md),
+Create the `aso-controller-settings` secret as described in the [authentication docs]( {{< relref "credential-format" >}} ),
 but create the secret in the tenant namespace and add an extra target namespaces key to it:
 ```
    export TENANT_NAMESPACE="<tenant namespace>"
