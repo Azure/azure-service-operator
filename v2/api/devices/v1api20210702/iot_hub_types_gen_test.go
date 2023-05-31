@@ -3183,7 +3183,6 @@ func SharedAccessSignatureAuthorizationRuleGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSharedAccessSignatureAuthorizationRule is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSharedAccessSignatureAuthorizationRule(gens map[string]gopter.Gen) {
 	gens["KeyName"] = gen.PtrOf(gen.AlphaString())
-	gens["PrimaryKey"] = gen.PtrOf(gen.AlphaString())
 	gens["Rights"] = gen.PtrOf(gen.OneConstOf(
 		SharedAccessSignatureAuthorizationRule_Rights_DeviceConnect,
 		SharedAccessSignatureAuthorizationRule_Rights_RegistryRead,
@@ -3200,7 +3199,6 @@ func AddIndependentPropertyGeneratorsForSharedAccessSignatureAuthorizationRule(g
 		SharedAccessSignatureAuthorizationRule_Rights_RegistryWriteServiceConnectDeviceConnect,
 		SharedAccessSignatureAuthorizationRule_Rights_ServiceConnect,
 		SharedAccessSignatureAuthorizationRule_Rights_ServiceConnectDeviceConnect))
-	gens["SecondaryKey"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_SharedAccessSignatureAuthorizationRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -3304,7 +3302,6 @@ func SharedAccessSignatureAuthorizationRule_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSharedAccessSignatureAuthorizationRule_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSharedAccessSignatureAuthorizationRule_STATUS(gens map[string]gopter.Gen) {
 	gens["KeyName"] = gen.PtrOf(gen.AlphaString())
-	gens["PrimaryKey"] = gen.PtrOf(gen.AlphaString())
 	gens["Rights"] = gen.PtrOf(gen.OneConstOf(
 		SharedAccessSignatureAuthorizationRule_Rights_STATUS_DeviceConnect,
 		SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryRead,
@@ -3321,7 +3318,6 @@ func AddIndependentPropertyGeneratorsForSharedAccessSignatureAuthorizationRule_S
 		SharedAccessSignatureAuthorizationRule_Rights_STATUS_RegistryWriteServiceConnectDeviceConnect,
 		SharedAccessSignatureAuthorizationRule_Rights_STATUS_ServiceConnect,
 		SharedAccessSignatureAuthorizationRule_Rights_STATUS_ServiceConnectDeviceConnect))
-	gens["SecondaryKey"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_StorageEndpointProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

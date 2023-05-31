@@ -254,14 +254,8 @@ type SharedAccessSignatureAuthorizationRule_ARM struct {
 	// KeyName: The name of the shared access policy.
 	KeyName *string `json:"keyName,omitempty"`
 
-	// PrimaryKey: The primary key.
-	PrimaryKey *string `json:"primaryKey,omitempty"`
-
 	// Rights: The permissions assigned to the shared access policy.
 	Rights *SharedAccessSignatureAuthorizationRule_Rights `json:"rights,omitempty"`
-
-	// SecondaryKey: The secondary key.
-	SecondaryKey *string `json:"secondaryKey,omitempty"`
 }
 
 // The properties of the Azure Storage endpoint for file upload.

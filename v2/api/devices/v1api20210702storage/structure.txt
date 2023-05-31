@@ -31,12 +31,10 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702storage
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── Properties: *Object (20 properties)
     │   │   ├── AllowedFqdnList: string[]
-    │   │   ├── AuthorizationPolicies: Object (5 properties)[]
+    │   │   ├── AuthorizationPolicies: Object (3 properties)[]
     │   │   │   ├── KeyName: *string
-    │   │   │   ├── PrimaryKey: *string
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   ├── Rights: *string
-    │   │   │   └── SecondaryKey: *string
+    │   │   │   └── Rights: *string
     │   │   ├── CloudToDevice: *Object (4 properties)
     │   │   │   ├── DefaultTtlAsIso8601: *string
     │   │   │   ├── Feedback: *Object (4 properties)
@@ -191,12 +189,10 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702storage
         ├── Name: *string
         ├── Properties: *Object (25 properties)
         │   ├── AllowedFqdnList: string[]
-        │   ├── AuthorizationPolicies: Object (5 properties)[]
+        │   ├── AuthorizationPolicies: Object (3 properties)[]
         │   │   ├── KeyName: *string
-        │   │   ├── PrimaryKey: *string
         │   │   ├── PropertyBag: genruntime.PropertyBag
-        │   │   ├── Rights: *string
-        │   │   └── SecondaryKey: *string
+        │   │   └── Rights: *string
         │   ├── CloudToDevice: *Object (4 properties)
         │   │   ├── DefaultTtlAsIso8601: *string
         │   │   ├── Feedback: *Object (4 properties)

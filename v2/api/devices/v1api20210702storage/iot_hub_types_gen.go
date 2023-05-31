@@ -474,21 +474,17 @@ type RoutingProperties_STATUS struct {
 // Storage version of v1api20210702.SharedAccessSignatureAuthorizationRule
 // The properties of an IoT hub shared access policy.
 type SharedAccessSignatureAuthorizationRule struct {
-	KeyName      *string                `json:"keyName,omitempty"`
-	PrimaryKey   *string                `json:"primaryKey,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Rights       *string                `json:"rights,omitempty"`
-	SecondaryKey *string                `json:"secondaryKey,omitempty"`
+	KeyName     *string                `json:"keyName,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Rights      *string                `json:"rights,omitempty"`
 }
 
 // Storage version of v1api20210702.SharedAccessSignatureAuthorizationRule_STATUS
 // The properties of an IoT hub shared access policy.
 type SharedAccessSignatureAuthorizationRule_STATUS struct {
-	KeyName      *string                `json:"keyName,omitempty"`
-	PrimaryKey   *string                `json:"primaryKey,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Rights       *string                `json:"rights,omitempty"`
-	SecondaryKey *string                `json:"secondaryKey,omitempty"`
+	KeyName     *string                `json:"keyName,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Rights      *string                `json:"rights,omitempty"`
 }
 
 // Storage version of v1api20210702.StorageEndpointProperties

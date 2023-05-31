@@ -30,26 +30,24 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── Properties: *Object (19 properties)
 │   │   │   ├── AllowedFqdnList: string[]
-│   │   │   ├── AuthorizationPolicies: Object (4 properties)[]
+│   │   │   ├── AuthorizationPolicies: Object (2 properties)[]
 │   │   │   │   ├── KeyName: *string
-│   │   │   │   ├── PrimaryKey: *string
-│   │   │   │   ├── Rights: *Enum (15 values)
-│   │   │   │   │   ├── "DeviceConnect"
-│   │   │   │   │   ├── "RegistryRead"
-│   │   │   │   │   ├── "RegistryRead, DeviceConnect"
-│   │   │   │   │   ├── "RegistryRead, RegistryWrite"
-│   │   │   │   │   ├── "RegistryRead, RegistryWrite, DeviceConnect"
-│   │   │   │   │   ├── "RegistryRead, RegistryWrite, ServiceConnect"
-│   │   │   │   │   ├── "RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect"
-│   │   │   │   │   ├── "RegistryRead, ServiceConnect"
-│   │   │   │   │   ├── "RegistryRead, ServiceConnect, DeviceConnect"
-│   │   │   │   │   ├── "RegistryWrite"
-│   │   │   │   │   ├── "RegistryWrite, DeviceConnect"
-│   │   │   │   │   ├── "RegistryWrite, ServiceConnect"
-│   │   │   │   │   ├── "RegistryWrite, ServiceConnect, DeviceConnect"
-│   │   │   │   │   ├── "ServiceConnect"
-│   │   │   │   │   └── "ServiceConnect, DeviceConnect"
-│   │   │   │   └── SecondaryKey: *string
+│   │   │   │   └── Rights: *Enum (15 values)
+│   │   │   │       ├── "DeviceConnect"
+│   │   │   │       ├── "RegistryRead"
+│   │   │   │       ├── "RegistryRead, DeviceConnect"
+│   │   │   │       ├── "RegistryRead, RegistryWrite"
+│   │   │   │       ├── "RegistryRead, RegistryWrite, DeviceConnect"
+│   │   │   │       ├── "RegistryRead, RegistryWrite, ServiceConnect"
+│   │   │   │       ├── "RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect"
+│   │   │   │       ├── "RegistryRead, ServiceConnect"
+│   │   │   │       ├── "RegistryRead, ServiceConnect, DeviceConnect"
+│   │   │   │       ├── "RegistryWrite"
+│   │   │   │       ├── "RegistryWrite, DeviceConnect"
+│   │   │   │       ├── "RegistryWrite, ServiceConnect"
+│   │   │   │       ├── "RegistryWrite, ServiceConnect, DeviceConnect"
+│   │   │   │       ├── "ServiceConnect"
+│   │   │   │       └── "ServiceConnect, DeviceConnect"
 │   │   │   ├── CloudToDevice: *Object (3 properties)
 │   │   │   │   ├── DefaultTtlAsIso8601: *string
 │   │   │   │   ├── Feedback: *Object (3 properties)
@@ -237,26 +235,24 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702
 │       ├── Name: *string
 │       ├── Properties: *Object (24 properties)
 │       │   ├── AllowedFqdnList: string[]
-│       │   ├── AuthorizationPolicies: Object (4 properties)[]
+│       │   ├── AuthorizationPolicies: Object (2 properties)[]
 │       │   │   ├── KeyName: *string
-│       │   │   ├── PrimaryKey: *string
-│       │   │   ├── Rights: *Enum (15 values)
-│       │   │   │   ├── "DeviceConnect"
-│       │   │   │   ├── "RegistryRead"
-│       │   │   │   ├── "RegistryRead, DeviceConnect"
-│       │   │   │   ├── "RegistryRead, RegistryWrite"
-│       │   │   │   ├── "RegistryRead, RegistryWrite, DeviceConnect"
-│       │   │   │   ├── "RegistryRead, RegistryWrite, ServiceConnect"
-│       │   │   │   ├── "RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect"
-│       │   │   │   ├── "RegistryRead, ServiceConnect"
-│       │   │   │   ├── "RegistryRead, ServiceConnect, DeviceConnect"
-│       │   │   │   ├── "RegistryWrite"
-│       │   │   │   ├── "RegistryWrite, DeviceConnect"
-│       │   │   │   ├── "RegistryWrite, ServiceConnect"
-│       │   │   │   ├── "RegistryWrite, ServiceConnect, DeviceConnect"
-│       │   │   │   ├── "ServiceConnect"
-│       │   │   │   └── "ServiceConnect, DeviceConnect"
-│       │   │   └── SecondaryKey: *string
+│       │   │   └── Rights: *Enum (15 values)
+│       │   │       ├── "DeviceConnect"
+│       │   │       ├── "RegistryRead"
+│       │   │       ├── "RegistryRead, DeviceConnect"
+│       │   │       ├── "RegistryRead, RegistryWrite"
+│       │   │       ├── "RegistryRead, RegistryWrite, DeviceConnect"
+│       │   │       ├── "RegistryRead, RegistryWrite, ServiceConnect"
+│       │   │       ├── "RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect"
+│       │   │       ├── "RegistryRead, ServiceConnect"
+│       │   │       ├── "RegistryRead, ServiceConnect, DeviceConnect"
+│       │   │       ├── "RegistryWrite"
+│       │   │       ├── "RegistryWrite, DeviceConnect"
+│       │   │       ├── "RegistryWrite, ServiceConnect"
+│       │   │       ├── "RegistryWrite, ServiceConnect, DeviceConnect"
+│       │   │       ├── "ServiceConnect"
+│       │   │       └── "ServiceConnect, DeviceConnect"
 │       │   ├── CloudToDevice: *Object (3 properties)
 │       │   │   ├── DefaultTtlAsIso8601: *string
 │       │   │   ├── Feedback: *Object (3 properties)
@@ -456,26 +452,24 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702
 │   ├── Name: *string
 │   ├── Properties: *Object (24 properties)
 │   │   ├── AllowedFqdnList: string[]
-│   │   ├── AuthorizationPolicies: Object (4 properties)[]
+│   │   ├── AuthorizationPolicies: Object (2 properties)[]
 │   │   │   ├── KeyName: *string
-│   │   │   ├── PrimaryKey: *string
-│   │   │   ├── Rights: *Enum (15 values)
-│   │   │   │   ├── "DeviceConnect"
-│   │   │   │   ├── "RegistryRead"
-│   │   │   │   ├── "RegistryRead, DeviceConnect"
-│   │   │   │   ├── "RegistryRead, RegistryWrite"
-│   │   │   │   ├── "RegistryRead, RegistryWrite, DeviceConnect"
-│   │   │   │   ├── "RegistryRead, RegistryWrite, ServiceConnect"
-│   │   │   │   ├── "RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect"
-│   │   │   │   ├── "RegistryRead, ServiceConnect"
-│   │   │   │   ├── "RegistryRead, ServiceConnect, DeviceConnect"
-│   │   │   │   ├── "RegistryWrite"
-│   │   │   │   ├── "RegistryWrite, DeviceConnect"
-│   │   │   │   ├── "RegistryWrite, ServiceConnect"
-│   │   │   │   ├── "RegistryWrite, ServiceConnect, DeviceConnect"
-│   │   │   │   ├── "ServiceConnect"
-│   │   │   │   └── "ServiceConnect, DeviceConnect"
-│   │   │   └── SecondaryKey: *string
+│   │   │   └── Rights: *Enum (15 values)
+│   │   │       ├── "DeviceConnect"
+│   │   │       ├── "RegistryRead"
+│   │   │       ├── "RegistryRead, DeviceConnect"
+│   │   │       ├── "RegistryRead, RegistryWrite"
+│   │   │       ├── "RegistryRead, RegistryWrite, DeviceConnect"
+│   │   │       ├── "RegistryRead, RegistryWrite, ServiceConnect"
+│   │   │       ├── "RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect"
+│   │   │       ├── "RegistryRead, ServiceConnect"
+│   │   │       ├── "RegistryRead, ServiceConnect, DeviceConnect"
+│   │   │       ├── "RegistryWrite"
+│   │   │       ├── "RegistryWrite, DeviceConnect"
+│   │   │       ├── "RegistryWrite, ServiceConnect"
+│   │   │       ├── "RegistryWrite, ServiceConnect, DeviceConnect"
+│   │   │       ├── "ServiceConnect"
+│   │   │       └── "ServiceConnect, DeviceConnect"
 │   │   ├── CloudToDevice: *Object (3 properties)
 │   │   │   ├── DefaultTtlAsIso8601: *string
 │   │   │   ├── Feedback: *Object (3 properties)
@@ -669,26 +663,24 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702
     ├── Name: string
     ├── Properties: *Object (19 properties)
     │   ├── AllowedFqdnList: string[]
-    │   ├── AuthorizationPolicies: Object (4 properties)[]
+    │   ├── AuthorizationPolicies: Object (2 properties)[]
     │   │   ├── KeyName: *string
-    │   │   ├── PrimaryKey: *string
-    │   │   ├── Rights: *Enum (15 values)
-    │   │   │   ├── "DeviceConnect"
-    │   │   │   ├── "RegistryRead"
-    │   │   │   ├── "RegistryRead, DeviceConnect"
-    │   │   │   ├── "RegistryRead, RegistryWrite"
-    │   │   │   ├── "RegistryRead, RegistryWrite, DeviceConnect"
-    │   │   │   ├── "RegistryRead, RegistryWrite, ServiceConnect"
-    │   │   │   ├── "RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect"
-    │   │   │   ├── "RegistryRead, ServiceConnect"
-    │   │   │   ├── "RegistryRead, ServiceConnect, DeviceConnect"
-    │   │   │   ├── "RegistryWrite"
-    │   │   │   ├── "RegistryWrite, DeviceConnect"
-    │   │   │   ├── "RegistryWrite, ServiceConnect"
-    │   │   │   ├── "RegistryWrite, ServiceConnect, DeviceConnect"
-    │   │   │   ├── "ServiceConnect"
-    │   │   │   └── "ServiceConnect, DeviceConnect"
-    │   │   └── SecondaryKey: *string
+    │   │   └── Rights: *Enum (15 values)
+    │   │       ├── "DeviceConnect"
+    │   │       ├── "RegistryRead"
+    │   │       ├── "RegistryRead, DeviceConnect"
+    │   │       ├── "RegistryRead, RegistryWrite"
+    │   │       ├── "RegistryRead, RegistryWrite, DeviceConnect"
+    │   │       ├── "RegistryRead, RegistryWrite, ServiceConnect"
+    │   │       ├── "RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect"
+    │   │       ├── "RegistryRead, ServiceConnect"
+    │   │       ├── "RegistryRead, ServiceConnect, DeviceConnect"
+    │   │       ├── "RegistryWrite"
+    │   │       ├── "RegistryWrite, DeviceConnect"
+    │   │       ├── "RegistryWrite, ServiceConnect"
+    │   │       ├── "RegistryWrite, ServiceConnect, DeviceConnect"
+    │   │       ├── "ServiceConnect"
+    │   │       └── "ServiceConnect, DeviceConnect"
     │   ├── CloudToDevice: *Object (3 properties)
     │   │   ├── DefaultTtlAsIso8601: *string
     │   │   ├── Feedback: *Object (3 properties)

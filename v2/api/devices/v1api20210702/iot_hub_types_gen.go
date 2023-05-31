@@ -6116,15 +6116,9 @@ type SharedAccessSignatureAuthorizationRule struct {
 	// KeyName: The name of the shared access policy.
 	KeyName *string `json:"keyName,omitempty"`
 
-	// PrimaryKey: The primary key.
-	PrimaryKey *string `json:"primaryKey,omitempty"`
-
 	// +kubebuilder:validation:Required
 	// Rights: The permissions assigned to the shared access policy.
 	Rights *SharedAccessSignatureAuthorizationRule_Rights `json:"rights,omitempty"`
-
-	// SecondaryKey: The secondary key.
-	SecondaryKey *string `json:"secondaryKey,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SharedAccessSignatureAuthorizationRule{}
@@ -6142,22 +6136,10 @@ func (rule *SharedAccessSignatureAuthorizationRule) ConvertToARM(resolved genrun
 		result.KeyName = &keyName
 	}
 
-	// Set property ‘PrimaryKey’:
-	if rule.PrimaryKey != nil {
-		primaryKey := *rule.PrimaryKey
-		result.PrimaryKey = &primaryKey
-	}
-
 	// Set property ‘Rights’:
 	if rule.Rights != nil {
 		rights := *rule.Rights
 		result.Rights = &rights
-	}
-
-	// Set property ‘SecondaryKey’:
-	if rule.SecondaryKey != nil {
-		secondaryKey := *rule.SecondaryKey
-		result.SecondaryKey = &secondaryKey
 	}
 	return result, nil
 }
@@ -6180,22 +6162,10 @@ func (rule *SharedAccessSignatureAuthorizationRule) PopulateFromARM(owner genrun
 		rule.KeyName = &keyName
 	}
 
-	// Set property ‘PrimaryKey’:
-	if typedInput.PrimaryKey != nil {
-		primaryKey := *typedInput.PrimaryKey
-		rule.PrimaryKey = &primaryKey
-	}
-
 	// Set property ‘Rights’:
 	if typedInput.Rights != nil {
 		rights := *typedInput.Rights
 		rule.Rights = &rights
-	}
-
-	// Set property ‘SecondaryKey’:
-	if typedInput.SecondaryKey != nil {
-		secondaryKey := *typedInput.SecondaryKey
-		rule.SecondaryKey = &secondaryKey
 	}
 
 	// No error
@@ -6208,9 +6178,6 @@ func (rule *SharedAccessSignatureAuthorizationRule) AssignProperties_From_Shared
 	// KeyName
 	rule.KeyName = genruntime.ClonePointerToString(source.KeyName)
 
-	// PrimaryKey
-	rule.PrimaryKey = genruntime.ClonePointerToString(source.PrimaryKey)
-
 	// Rights
 	if source.Rights != nil {
 		right := SharedAccessSignatureAuthorizationRule_Rights(*source.Rights)
@@ -6218,9 +6185,6 @@ func (rule *SharedAccessSignatureAuthorizationRule) AssignProperties_From_Shared
 	} else {
 		rule.Rights = nil
 	}
-
-	// SecondaryKey
-	rule.SecondaryKey = genruntime.ClonePointerToString(source.SecondaryKey)
 
 	// No error
 	return nil
@@ -6234,9 +6198,6 @@ func (rule *SharedAccessSignatureAuthorizationRule) AssignProperties_To_SharedAc
 	// KeyName
 	destination.KeyName = genruntime.ClonePointerToString(rule.KeyName)
 
-	// PrimaryKey
-	destination.PrimaryKey = genruntime.ClonePointerToString(rule.PrimaryKey)
-
 	// Rights
 	if rule.Rights != nil {
 		right := string(*rule.Rights)
@@ -6244,9 +6205,6 @@ func (rule *SharedAccessSignatureAuthorizationRule) AssignProperties_To_SharedAc
 	} else {
 		destination.Rights = nil
 	}
-
-	// SecondaryKey
-	destination.SecondaryKey = genruntime.ClonePointerToString(rule.SecondaryKey)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -6265,9 +6223,6 @@ func (rule *SharedAccessSignatureAuthorizationRule) Initialize_From_SharedAccess
 	// KeyName
 	rule.KeyName = genruntime.ClonePointerToString(source.KeyName)
 
-	// PrimaryKey
-	rule.PrimaryKey = genruntime.ClonePointerToString(source.PrimaryKey)
-
 	// Rights
 	if source.Rights != nil {
 		right := SharedAccessSignatureAuthorizationRule_Rights(*source.Rights)
@@ -6275,9 +6230,6 @@ func (rule *SharedAccessSignatureAuthorizationRule) Initialize_From_SharedAccess
 	} else {
 		rule.Rights = nil
 	}
-
-	// SecondaryKey
-	rule.SecondaryKey = genruntime.ClonePointerToString(source.SecondaryKey)
 
 	// No error
 	return nil
@@ -6288,14 +6240,8 @@ type SharedAccessSignatureAuthorizationRule_STATUS struct {
 	// KeyName: The name of the shared access policy.
 	KeyName *string `json:"keyName,omitempty"`
 
-	// PrimaryKey: The primary key.
-	PrimaryKey *string `json:"primaryKey,omitempty"`
-
 	// Rights: The permissions assigned to the shared access policy.
 	Rights *SharedAccessSignatureAuthorizationRule_Rights_STATUS `json:"rights,omitempty"`
-
-	// SecondaryKey: The secondary key.
-	SecondaryKey *string `json:"secondaryKey,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SharedAccessSignatureAuthorizationRule_STATUS{}
@@ -6318,22 +6264,10 @@ func (rule *SharedAccessSignatureAuthorizationRule_STATUS) PopulateFromARM(owner
 		rule.KeyName = &keyName
 	}
 
-	// Set property ‘PrimaryKey’:
-	if typedInput.PrimaryKey != nil {
-		primaryKey := *typedInput.PrimaryKey
-		rule.PrimaryKey = &primaryKey
-	}
-
 	// Set property ‘Rights’:
 	if typedInput.Rights != nil {
 		rights := *typedInput.Rights
 		rule.Rights = &rights
-	}
-
-	// Set property ‘SecondaryKey’:
-	if typedInput.SecondaryKey != nil {
-		secondaryKey := *typedInput.SecondaryKey
-		rule.SecondaryKey = &secondaryKey
 	}
 
 	// No error
@@ -6346,9 +6280,6 @@ func (rule *SharedAccessSignatureAuthorizationRule_STATUS) AssignProperties_From
 	// KeyName
 	rule.KeyName = genruntime.ClonePointerToString(source.KeyName)
 
-	// PrimaryKey
-	rule.PrimaryKey = genruntime.ClonePointerToString(source.PrimaryKey)
-
 	// Rights
 	if source.Rights != nil {
 		right := SharedAccessSignatureAuthorizationRule_Rights_STATUS(*source.Rights)
@@ -6356,9 +6287,6 @@ func (rule *SharedAccessSignatureAuthorizationRule_STATUS) AssignProperties_From
 	} else {
 		rule.Rights = nil
 	}
-
-	// SecondaryKey
-	rule.SecondaryKey = genruntime.ClonePointerToString(source.SecondaryKey)
 
 	// No error
 	return nil
@@ -6372,9 +6300,6 @@ func (rule *SharedAccessSignatureAuthorizationRule_STATUS) AssignProperties_To_S
 	// KeyName
 	destination.KeyName = genruntime.ClonePointerToString(rule.KeyName)
 
-	// PrimaryKey
-	destination.PrimaryKey = genruntime.ClonePointerToString(rule.PrimaryKey)
-
 	// Rights
 	if rule.Rights != nil {
 		right := string(*rule.Rights)
@@ -6382,9 +6307,6 @@ func (rule *SharedAccessSignatureAuthorizationRule_STATUS) AssignProperties_To_S
 	} else {
 		destination.Rights = nil
 	}
-
-	// SecondaryKey
-	destination.SecondaryKey = genruntime.ClonePointerToString(rule.SecondaryKey)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -795,7 +795,6 @@ func SharedAccessSignatureAuthorizationRule_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSharedAccessSignatureAuthorizationRule_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSharedAccessSignatureAuthorizationRule_ARM(gens map[string]gopter.Gen) {
 	gens["KeyName"] = gen.PtrOf(gen.AlphaString())
-	gens["PrimaryKey"] = gen.PtrOf(gen.AlphaString())
 	gens["Rights"] = gen.PtrOf(gen.OneConstOf(
 		SharedAccessSignatureAuthorizationRule_Rights_DeviceConnect,
 		SharedAccessSignatureAuthorizationRule_Rights_RegistryRead,
@@ -812,7 +811,6 @@ func AddIndependentPropertyGeneratorsForSharedAccessSignatureAuthorizationRule_A
 		SharedAccessSignatureAuthorizationRule_Rights_RegistryWriteServiceConnectDeviceConnect,
 		SharedAccessSignatureAuthorizationRule_Rights_ServiceConnect,
 		SharedAccessSignatureAuthorizationRule_Rights_ServiceConnectDeviceConnect))
-	gens["SecondaryKey"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_StorageEndpointProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
