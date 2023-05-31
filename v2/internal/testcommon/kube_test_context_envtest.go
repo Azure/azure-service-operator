@@ -9,9 +9,11 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"math"
 	"math/rand"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"sync"
 	"time"
@@ -430,9 +432,12 @@ func createEnvtestContext() (BaseTestContextFactory, context.CancelFunc) {
 		clients: make(map[string]*perNamespace),
 	}
 
+	cpus := runtime.NumCPU()
+	concurrencyLimit := math.Max(float64(cpus/4), 1)
+
 	envTests := sharedEnvTests{
 		envtestLock:               sync.Mutex{},
-		concurrencyLimitSemaphore: semaphore.NewWeighted(1),
+		concurrencyLimitSemaphore: semaphore.NewWeighted(int64(concurrencyLimit)),
 		envtests:                  make(map[string]*runningEnvTest),
 		namespaceResources:        perNamespaceResources,
 	}
