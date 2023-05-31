@@ -334,6 +334,9 @@ func (report *ResourceVersionsReport) writeGroupSections(
 		return errors.Wrapf(err, "writing prerelease resources for group %s", group)
 	}
 
+	// Prerelease may have no usage, but consume its fragment anyway to avoid unconsumed fragment errors
+	report.findFragment("prerelease")
+
 	err = report.writeSection(
 		group,
 		"released",
@@ -353,6 +356,9 @@ func (report *ResourceVersionsReport) writeGroupSections(
 	if err != nil {
 		return errors.Wrapf(err, "writing deprecated resources for group %s", group)
 	}
+
+	// Deprecated fragment may have no usage, but consume its fragment anyway to avoid unconsumed fragment errors
+	report.findFragment("deprecated")
 
 	return nil
 }

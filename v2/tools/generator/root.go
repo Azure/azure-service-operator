@@ -9,12 +9,13 @@ import (
 	"context"
 	"os"
 
-	"github.com/Azure/azure-service-operator/v2/internal/version"
-	"github.com/Azure/azure-service-operator/v2/pkg/xcontext"
 	"github.com/go-logr/logr"
 	"github.com/go-logr/zerologr"
 	"github.com/rs/zerolog"
 	"github.com/spf13/cobra"
+
+	"github.com/Azure/azure-service-operator/v2/internal/version"
+	"github.com/Azure/azure-service-operator/v2/pkg/xcontext"
 )
 
 // Execute kicks off the command line
@@ -30,6 +31,7 @@ func Execute() {
 	if err := cmd.ExecuteContext(ctx); err != nil {
 		log := CreateLogger()
 		log.Error(err, "failed to execute root command")
+		os.Exit(1)
 	}
 }
 
