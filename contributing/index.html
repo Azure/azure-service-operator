@@ -704,6 +704,8 @@
 <li>Search for &ldquo;<code>Azure/azure-service-operator</code>&rdquo;.</li>
 <li>Choose either of the following options about where to create the volume.</li>
 <li>The window will reload and run the <code>Dockerfile</code> setup. The first time, this will take some minutes to complete as it installs all dependencies.</li>
+<li>Once the repository is cloned in your local, make sure you have access to tags as they are needed for the build. Run these commands to check <code>git-fetch --all --tags</code> <code>git tag -l</code>. If this shows empty, go to the next step.</li>
+<li>Run <code>git remote add azure https://github.com/Azure/azure-service-operator.git</code>, <code>git fetch azure</code>, and <code>git fetch azure --all --tags</code>. This will fetch all the required tags in your local.</li>
 <li>Run <code>git fetch --unshallow</code> if the repository you clone is a shallow clone. If you miss this step, you may see errors like <code>&quot;./scripts/build-version.py v2&quot; failed: exit status 1</code> when running <code>task</code>.</li>
 <li>Run <code>git submodule init</code> and <code>git submodule update</code></li>
 </ol>
