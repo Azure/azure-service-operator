@@ -8,9 +8,9 @@ package pipeline
 import (
 	"context"
 
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/armconversion"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -22,20 +22,20 @@ const CreateARMTypesStageID = "createArmTypes"
 
 // CreateARMTypes walks the type graph and builds new types for communicating
 // with ARM
-func CreateARMTypes(idFactory astmodel.IdentifierFactory) *Stage {
-	return NewLegacyStage(
+func CreateARMTypes(idFactory astmodel.IdentifierFactory, log logr.Logger) *Stage {
+	return NewStage(
 		CreateARMTypesStageID,
 		"Create types for interaction with ARM",
-		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			typeCreator := newARMTypeCreator(definitions, idFactory)
+		func(ctx context.Context, state *State) (*State, error) {
+			typeCreator := newARMTypeCreator(state.Definitions(), idFactory, log)
 			armTypes, err := typeCreator.createARMTypes()
 			if err != nil {
 				return nil, err
 			}
 
-			result := astmodel.TypesDisjointUnion(armTypes, definitions)
+			newDefs := astmodel.TypesDisjointUnion(armTypes, state.Definitions())
 
-			return result, nil
+			return state.WithDefinitions(newDefs), nil
 		})
 }
 
@@ -54,9 +54,13 @@ type armTypeCreator struct {
 	idFactory   astmodel.IdentifierFactory
 	newDefs     astmodel.TypeDefinitionSet
 	skipTypes   []func(it astmodel.TypeDefinition) bool
+	log         logr.Logger
 }
 
-func newARMTypeCreator(definitions astmodel.TypeDefinitionSet, idFactory astmodel.IdentifierFactory) *armTypeCreator {
+func newARMTypeCreator(
+	definitions astmodel.TypeDefinitionSet,
+	idFactory astmodel.IdentifierFactory,
+	log logr.Logger) *armTypeCreator {
 	return &armTypeCreator{
 		definitions: definitions,
 		idFactory:   idFactory,
@@ -64,6 +68,7 @@ func newARMTypeCreator(definitions astmodel.TypeDefinitionSet, idFactory astmode
 		skipTypes: []func(it astmodel.TypeDefinition) bool{
 			skipUserAssignedIdentity,
 		},
+		log: log,
 	}
 }
 
@@ -179,7 +184,9 @@ func (c *armTypeCreator) createARMTypeDefinition(isSpecType bool, def astmodel.T
 
 	addOneOfConversionFunctionIfNeeded := func(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
 		if isOneOf {
-			klog.V(4).Infof("Type %s is a OneOf type, adding MarshalJSON and UnmarshalJSON", def.Name())
+			c.log.V(1).Info(
+				"Adding MarshalJSON and UnmarshalJSON to OneOf",
+				"type", def.Name())
 			marshal := functions.NewOneOfJSONMarshalFunction(t, c.idFactory)
 			unmarshal := functions.NewOneOfJSONUnmarshalFunction(t, c.idFactory)
 			return t.WithFunction(marshal).WithFunction(unmarshal), nil
@@ -257,7 +264,7 @@ func (c *armTypeCreator) createARMTypeIfNeeded(t astmodel.Type) (astmodel.Type, 
 func (c *armTypeCreator) createARMNameProperty(prop *astmodel.PropertyDefinition, isSpec bool) (*astmodel.PropertyDefinition, error) {
 	if isSpec && prop.HasName("Name") {
 		// all resource Spec Name properties must be strings on their way to ARM
-		// as nested resources will have the owner etc added to the start:
+		// as nested resources will have the owner etc. added to the start:
 		return prop.WithType(astmodel.StringType), nil
 	}
 
@@ -414,7 +421,7 @@ func (c *armTypeCreator) convertObjectPropertiesForARM(t *astmodel.ObjectType, i
 	}
 
 	// Also convert embedded properties if there are any
-	result = result.WithoutEmbeddedProperties() // Clear them out first so we're starting with a clean slate
+	result = result.WithoutEmbeddedProperties() // Clear them out first, so we're starting with a clean slate
 	for _, prop := range t.EmbeddedProperties() {
 		for _, handler := range embeddedPropertyHandlers {
 			newProp, err := handler(prop, isSpecType)

@@ -9,15 +9,9 @@ Ensure that you have carefully reviewed the upgrade instructions included in the
 
 ### Caution
 
-<!-- Our replacementPatterns don't handle `.` in the filename well.
-     Manually checked by @theunrepentantgeek -->
-<!-- markdown-link-check-disable-next-line -->
-If upgrading to **v2.0.0**, carefully review [v2.0.0 Breaking Changes](../breaking-changes/breaking-changes-v2.0.0), especially the section on using [`asoctl clean crds`](./../../tools/asoctl#clean-crds).
+If upgrading to **v2.0.0**, carefully review [v2.0.0 Breaking Changes]( {{< relref "breaking-changes-v2.0.0.md" >}} ), especially the section on using [`asoctl clean crds`]( {{< relref "asoctl#clean-crds" >}} ).
 
-<!-- Our replacementPatterns don't handle `.` in the filename well.
-     Manually checked by @theunrepentantgeek -->
-<!-- markdown-link-check-disable-next-line -->
-If upgrading to **v2.0.0-beta.4**, carefully review [v2.0.0-beta.4 Breaking Changes](../breaking-changes/breaking-changes-v2.0.0-beta.4), you may need to make some minor changes to your resources.
+If upgrading to **v2.0.0-beta.4**, carefully review [v2.0.0-beta.4 Breaking Changes]( {{< relref "breaking-changes-v2.0.0-beta.4.md" >}} ), you may need to make some minor changes to your resources.
 
 ## Recommended upgrade pattern
 
@@ -72,7 +66,7 @@ If you encounter an issue after an upgrade of ASO that can't be addressed by any
 
 Summary: If the new version of ASO didn't change the stored version of your resource, then you should be able to downgrade without issue. If the new version of ASO did change the stored version of your resource, then you will need to manually fix things up.
 
-To determine whether the new version of ASO changed the stored version of your resource, consult both the [release notes](https://github.com/Azure/azure-service-operator/releases) for that version and the list of [supported resources](../../reference/).
+To determine whether the new version of ASO changed the stored version of your resource, consult both the [release notes](https://github.com/Azure/azure-service-operator/releases) for that version and the list of [supported resources]( {{< relref "reference" >}} ).
 
 Each ASO resource is stored within the cluster using a canonical storage (or hub) version, regardless of the actual version used for interaction with the cluster or with Azure. These stored versions are based on the latest Stable Azure API version of that resource. (See [Resource Versioning](../../design/versioning/) for all the background on this design decision.)
 

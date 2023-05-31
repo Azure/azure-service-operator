@@ -54,7 +54,7 @@ See the list of supported resources [here](https://azure.github.io/azure-service
    
    You can optionally use a service principal with a more restricted permission set 
    (for example contributor to just a Resource Group), but that will restrict what you can
-   do with ASO. See [using reduced permissions](https://azure.github.io/azure-service-operator/guide/authentication/reducing-access#using-a-credential-for-aso-with-reduced-permissions) for more details.
+   do with ASO. See [using reduced permissions](https://azure.github.io/azure-service-operator/guide/authentication/reducing-access/#using-a-credential-for-aso-with-reduced-permissions) for more details.
 
    ```bash
    az ad sp create-for-rbac -n azure-service-operator --role contributor \
@@ -76,7 +76,7 @@ See the list of supported resources [here](https://azure.github.io/azure-service
    AZURE_CLIENT_SECRET=<your-client-secret> # This is the password from the service principal we created.
    ```
 
-3. Install [the latest **v2+** Helm chart](/charts):
+3. Install [the latest **v2+** Helm chart](https://github.com/Azure/azure-service-operator/tree/main/charts):
    
    ```
    helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
@@ -89,9 +89,18 @@ See the list of supported resources [here](https://azure.github.io/azure-service
         --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
         --set azureTenantID=$AZURE_TENANT_ID \
         --set azureClientID=$AZURE_CLIENT_ID \
-        --set azureClientSecret=$AZURE_CLIENT_SECRET
+        --set azureClientSecret=$AZURE_CLIENT_SECRET \
+        --set crdPattern='resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*'
    ```
-   Alternatively you can install from the [release YAML directly](https://azure.github.io/azure-service-operator/guide/installing-from-yaml).
+
+   > **Warning:** Make sure to set the `crdPattern` variable to include the CRDs you are interested in using. 
+   > You can use `--set crdPattern=*` to install all the CRDs, but be aware of the 
+   > [limits of the Kubernetes you are running](https://github.com/Azure/azure-service-operator/issues/2920). `*` is **not**
+   > recommended on AKS Free-tier clusters.
+   > 
+   > See [CRD management](https://azure.github.io/azure-service-operator/guide/crd-management/) for more details.
+
+   Alternatively you can install from the [release YAML directly](https://azure.github.io/azure-service-operator/guide/installing-from-yaml/).
 
    To learn more about other authentication options, see the [authentication documentation](https://azure.github.io/azure-service-operator/guide/authentication/).
 

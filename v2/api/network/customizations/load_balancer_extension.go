@@ -146,8 +146,8 @@ func fuzzySetInboundNatRules(lb genruntime.ARMResourceSpec, inboundNatRules []ge
 	return nil
 }
 
-func fuzzySetInboundNatRule(InboundNatRule genruntime.ARMResourceSpec, embeddedInboundNatRule reflect.Value) error {
-	inboundNatRuleJSON, err := json.Marshal(InboundNatRule)
+func fuzzySetInboundNatRule(inboundNatRule genruntime.ARMResourceSpec, embeddedInboundNatRule reflect.Value) error {
+	inboundNatRuleJSON, err := json.Marshal(inboundNatRule)
 	if err != nil {
 		return errors.Wrapf(err, "failed to marshal inboundNatRule json")
 	}
@@ -163,8 +163,10 @@ func fuzzySetInboundNatRule(InboundNatRule genruntime.ARMResourceSpec, embeddedI
 	if err != nil {
 		return errors.Wrap(err, "unable to check that embedded inboundNatRule is the same as inboundNatRule")
 	}
-	if string(embeddedInboundNatRuleJSON) != string(inboundNatRuleJSON) {
-		return errors.Errorf("embeddedInboundNatRuleJSON (%s) != inboundNatRuleJSON (%s)", string(embeddedInboundNatRuleJSON), string(inboundNatRuleJSON))
+
+	err = fuzzyEqualityComparison(embeddedInboundNatRuleJSON, inboundNatRuleJSON)
+	if err != nil {
+		return errors.Wrap(err, "failed during comparison for embeddedInboundNatRuleJSON and inboundNatRuleJSON")
 	}
 
 	return nil

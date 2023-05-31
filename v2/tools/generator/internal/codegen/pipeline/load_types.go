@@ -8,19 +8,19 @@ package pipeline
 import (
 	"context"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"regexp"
 	"sort"
 	"strings"
 	"sync"
+	"time"
 
+	"github.com/go-logr/logr"
 	"github.com/go-openapi/spec"
 	"github.com/pkg/errors"
 	"golang.org/x/sync/errgroup"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -37,19 +37,28 @@ any actions that appear to be ARM resources (have PUT methods with types we can 
 action path). Then for each resource, we use the existing JSON AST parser to extract the status type
 (the type-definition part of swagger is the same as JSON Schema).
 */
-func LoadTypes(idFactory astmodel.IdentifierFactory, config *config.Configuration) *Stage {
+func LoadTypes(
+	idFactory astmodel.IdentifierFactory,
+	config *config.Configuration,
+	log logr.Logger,
+) *Stage {
 	return NewLegacyStage(
 		LoadTypesStageID,
 		"Load all types from Swagger files",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			klog.V(1).Infof("Loading Swagger data from %q", config.SchemaRoot)
+			log.V(1).Info(
+				"Loading Swagger data",
+				"source", config.SchemaRoot)
 
-			swaggerTypes, err := loadSwaggerData(ctx, idFactory, config)
+			swaggerTypes, err := loadSwaggerData(ctx, idFactory, config, log)
 			if err != nil {
 				return nil, errors.Wrapf(err, "unable to load Swagger data")
 			}
 
-			klog.V(1).Infof("Loaded Swagger data (%d resources, %d other definitions)", len(swaggerTypes.ResourceDefinitions), len(swaggerTypes.OtherDefinitions))
+			log.V(1).Info(
+				"Loaded Swagger data",
+				"resources", len(swaggerTypes.ResourceDefinitions),
+				"otherDefinitions", len(swaggerTypes.OtherDefinitions))
 
 			if len(swaggerTypes.ResourceDefinitions) == 0 || len(swaggerTypes.OtherDefinitions) == 0 {
 				return nil, errors.Errorf("Failed to load swagger information")
@@ -110,8 +119,6 @@ func LoadTypes(idFactory astmodel.IdentifierFactory, config *config.Configuratio
 					return nil, errors.Wrapf(err, "failed to add resource link to %s", status.Name())
 				}
 			}
-
-			klog.V(1).Infof("Input %d definitions, output %d definitions", len(definitions), len(defs))
 
 			return defs, nil
 		})
@@ -292,8 +299,19 @@ func generateSpecTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefiniti
 	return resources, otherTypes, nil
 }
 
-func loadSwaggerData(ctx context.Context, idFactory astmodel.IdentifierFactory, config *config.Configuration) (jsonast.SwaggerTypes, error) {
-	schemas, err := loadAllSchemas(ctx, config.SchemaRoot, config.LocalPathPrefix(), idFactory, config.Status.Overrides)
+func loadSwaggerData(
+	ctx context.Context,
+	idFactory astmodel.IdentifierFactory,
+	config *config.Configuration,
+	log logr.Logger,
+) (jsonast.SwaggerTypes, error) {
+	schemas, err := loadAllSchemas(
+		ctx,
+		config.SchemaRoot,
+		config.LocalPathPrefix(),
+		idFactory,
+		config.Status.Overrides,
+		log)
 	if err != nil {
 		return jsonast.SwaggerTypes{}, err
 	}
@@ -301,7 +319,14 @@ func loadSwaggerData(ctx context.Context, idFactory astmodel.IdentifierFactory, 
 	loader := jsonast.NewCachingFileLoader(schemas)
 
 	typesByGroup := make(map[astmodel.LocalPackageReference][]typesFromFile)
+	countLoaded := 0
 	for schemaPath, schema := range schemas {
+		logInfoSparse(
+			log,
+			"Loading Swagger files",
+			"loaded", countLoaded,
+			"total", len(schemas))
+		countLoaded++
 
 		extractor := jsonast.NewSwaggerTypeExtractor(
 			config,
@@ -309,7 +334,8 @@ func loadSwaggerData(ctx context.Context, idFactory astmodel.IdentifierFactory, 
 			schema.Swagger,
 			schemaPath,
 			*schema.Package, // always set during generation
-			loader)
+			loader,
+			log)
 
 		types, err := extractor.ExtractTypes(ctx)
 		if err != nil {
@@ -319,19 +345,38 @@ func loadSwaggerData(ctx context.Context, idFactory astmodel.IdentifierFactory, 
 		typesByGroup[*schema.Package] = append(typesByGroup[*schema.Package], typesFromFile{types, schemaPath})
 	}
 
+	log.Info(
+		"Loaded Swagger files",
+		"loaded", countLoaded,
+		"total", len(schemas))
+
 	return mergeSwaggerTypesByGroup(idFactory, typesByGroup)
 }
 
-func mergeSwaggerTypesByGroup(idFactory astmodel.IdentifierFactory, m map[astmodel.LocalPackageReference][]typesFromFile) (jsonast.SwaggerTypes, error) {
-	klog.V(3).Infof("Merging types for %d groups/versions", len(m))
+var (
+	loadingLock sync.Mutex
+	lastLogTime *time.Time
+)
 
+func logInfoSparse(log logr.Logger, message string, keysAndValues ...interface{}) {
+	loadingLock.Lock()
+	defer loadingLock.Unlock()
+
+	shouldDisplay := lastLogTime == nil || time.Since(*lastLogTime) > 800*time.Millisecond
+	if shouldDisplay {
+		log.Info(message, keysAndValues...)
+		now := time.Now()
+		lastLogTime = &now
+	}
+}
+
+func mergeSwaggerTypesByGroup(idFactory astmodel.IdentifierFactory, m map[astmodel.LocalPackageReference][]typesFromFile) (jsonast.SwaggerTypes, error) {
 	result := jsonast.SwaggerTypes{
 		ResourceDefinitions: make(jsonast.ResourceDefinitionSet),
 		OtherDefinitions:    make(astmodel.TypeDefinitionSet),
 	}
 
 	for pkg, group := range m {
-		klog.V(3).Infof("Merging types for %s", pkg)
 		merged := mergeTypesForPackage(idFactory, group)
 		for rn, rt := range merged.ResourceDefinitions {
 			if _, ok := result.ResourceDefinitions[rn]; ok {
@@ -392,8 +437,6 @@ func mergeTypesForPackage(idFactory astmodel.IdentifierFactory, typesFromFiles [
 			names[ix] = newName.Name()
 			renames[ttc.typesFromFileIx][name] = newName
 		}
-
-		klog.V(3).Infof("Conflicting definitions for %s, renaming to: %s", name, strings.Join(names, ", "))
 	}
 
 	for ix := range typesFromFiles {
@@ -625,11 +668,16 @@ func loadAllSchemas(
 	localPathPrefix string,
 	idFactory astmodel.IdentifierFactory,
 	overrides []config.SchemaOverride,
+	log logr.Logger,
 ) (map[string]jsonast.PackageAndSwagger, error) {
 	var mutex sync.Mutex
 	schemas := make(map[string]jsonast.PackageAndSwagger)
 
+	log.Info("Loading schemas", "rootPath", rootPath)
 	var eg errgroup.Group
+	eg.SetLimit(10)
+
+	countFound := 0
 	err := filepath.Walk(rootPath, func(filePath string, fileInfo os.FileInfo, err error) error {
 		if err != nil {
 			return err
@@ -659,12 +707,20 @@ func loadAllSchemas(
 				version)
 
 			// all files are loaded in parallel to speed this up
+			logInfoSparse(
+				log,
+				"Scanning for schemas",
+				"found", countFound)
+			countFound++
+
 			eg.Go(func() error {
 				var swagger spec.Swagger
 
-				klog.V(3).Infof("Loading file %q", filePath)
+				log.V(1).Info(
+					"Loading OpenAPI spec",
+					"file", filePath)
 
-				fileContent, err := ioutil.ReadFile(filePath)
+				fileContent, err := os.ReadFile(filePath)
 				if err != nil {
 					return errors.Wrapf(err, "unable to read swagger file %q", filePath)
 				}
@@ -686,6 +742,9 @@ func loadAllSchemas(
 	})
 
 	egErr := eg.Wait() // for files to finish loading
+	log.Info(
+		"Scanning for schemas",
+		"found", countFound)
 
 	if err != nil {
 		return nil, err
@@ -708,14 +767,12 @@ func groupFromPath(filePath string, rootPath string, overrides []config.SchemaOv
 		if strings.HasPrefix(filePath, configSchemaPath) {
 			// a forced namespace: use it
 			if schemaOverride.Namespace != "" {
-				klog.V(1).Infof("Overriding namespace to %s for file %s", schemaOverride.Namespace, filePath)
 				return schemaOverride.Namespace
 			}
 
 			// found a suffix override: apply it
 			if schemaOverride.Suffix != "" {
 				group = group + "." + schemaOverride.Suffix
-				klog.V(1).Infof("Overriding namespace to %s for file %s", group, filePath)
 				return group
 			}
 		}

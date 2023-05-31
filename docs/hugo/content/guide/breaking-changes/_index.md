@@ -15,6 +15,16 @@ You can easily swap from a `v1beta` version to a `v1api` version by just replaci
 
 ## Released Breaking Changes
 
+### v2.1.0
+
+Breaking changes are:
+
+* The operator no longer installs CRDs by default.
+* `serviceoperator.azure.com/credential-from` no longer supports secret references that are outside the namespace the resource is in
+* Upgrades from releases prior to `v2.0.0-beta.5` are still disallowed (same as v2.0.0)
+
+For more information see [v2.1.0 Breaking Changes]( {{< relref "breaking-changes-v2.1.0.md" >}} ).
+
 ### v2.0.0
 
 Breaking changes are:
@@ -23,9 +33,7 @@ Breaking changes are:
 * Alpha CRD versions have been removed
 * Structure change for ResourceGroup status
 
-<!-- The replacementPatterns in link-checker.json are 97% correct, but don't work for _index.md files. Link manually checked by @theunrepentantgeek -->
-<!-- markdown-link-check-disable-next-line -->
-For more information see [v2.0.0 Breaking Changes](breaking-changes-v2.0.0).
+For more information see [v2.0.0 Breaking Changes]( {{< relref "breaking-changes-v2.0.0.md" >}} ).
 
 ### v2.0.0-beta.4
 
@@ -44,9 +52,7 @@ Breaking changes are:
 * Properties that previously included on Spec but actually had no function have been removed.
 * Validation rules have been tightened, or added to properties that previously had no validation rules.
 
-<!-- The replacementPatterns in link-checker.json are 97% correct, but don't work for _index.md files. Link manually checked by @theunrepentantgeek -->
-<!-- markdown-link-check-disable-next-line -->
-For detailed information, including an exhaustive list of all affected resource properties, see [v2.0.0-beta.4 Breaking Changes](breaking-changes-v2.0.0-beta.4).
+For detailed information, including an exhaustive list of all affected resource properties, see [v2.0.0-beta.4 Breaking Changes]( {{< relref "breaking-changes-v2.0.0-beta.4.md" >}} ).
 
 ## Policies
 
@@ -70,9 +76,9 @@ We've done this before when a new version of a resource API introduced a breakin
 
 **Custom Tooling**: For our `v2.0.0` release, we provided a specialized tool (`asoctl`) specifically designed to smooth the way for upgrading users. In addition to the existing two modes, we may add further functions to cater for other scenarios.
 
-For users upgrading from ASO v1, [`asoctl import azure-resource`](../../../tools/asoctl#import-azure-resource) provides a way to scaffold an ASO v2 resource based on an existing Azure resource. 
+For users upgrading from ASO v1, [`asoctl import azure-resource`]( {{< relref "asoctl#import-azure-resource" >}} ) provides a way to scaffold an ASO v2 resource based on an existing Azure resource. 
 
-For clusters that once had an alpha release of ASO v2 installed, [`asoctl clean crds`](../../../tools/asoctl#clean-crds) does the cleanup required to ensure the upgrade from `v2.0.0-beta.5` to `v2.0.0` goes smoothly.
+For clusters that once had an alpha release of ASO v2 installed, [`asoctl clean crds`]( {{< relref "asoctl#clean-crds" >}} ) does the cleanup required to ensure the upgrade from `v2.0.0-beta.5` to `v2.0.0` goes smoothly.
 
 We may, in future, create additional tooling designed to smooth the way for users encountering what would otherwise be breaking changes.
 

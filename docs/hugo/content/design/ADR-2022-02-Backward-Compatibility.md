@@ -102,13 +102,13 @@ Introduce a new pipeline stage to create additional versions for backward compat
 
 For example, the API resource `v1beta20201201storage/VirtualMachine` will be cloned as `v1alpha1api20201201/VirtualMachine`. Subsequent pipeline stages will create matching storage versions and the necessary conversions.
 
-![image](images/adr-2022-02-backward-compatibility-single-version.png)
+![image](../images/adr-2022-02-backward-compatibility-single-version.png)
 
 For the trivial case where we only support a single ARM version of a resource, this gives us full compatibility to upgrade an older (alpha) installation of ASO to a new beta release.
 
 When we have multiple ARM versions in flight (as we do with `compute`), supporting all *potential* older resource versions gives us maximum compatibility without any need for configuration or to make any assumptions about which ARM versions were previously supported.
 
-![image](images/adr-2022-02-backward-compatibility-multiple-version.png)
+![image](../images/adr-2022-02-backward-compatibility-multiple-version.png)
 
 This approach also gives us backward compatibility when we have a mix of resources across multiple versions (as happens with both `compute` and `network`). We know from prior work (including introduction of the `PropertyBag` field) that conversions between storage versions are lossless.
 

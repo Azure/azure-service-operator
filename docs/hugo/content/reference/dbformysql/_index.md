@@ -12,10 +12,10 @@ Existing instances of *Single Server* can be migrated to *Azure Database for MyS
 Development of these new resources is complete and they will be available in the next release of ASO.
 
 
-| Resource                     | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                        |
-|------------------------------|-------------|---------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
-| FlexibleServersAdministrator | 2022-01-01  | v1api20220101 | v2.1.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api/v1api20220101_flexibleserversadministrator.yaml) |
-| FlexibleServersConfiguration | 2022-01-01  | v1api20220101 | v2.1.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api/v1api20220101_flexibleserversconfiguration.yaml) |
+| Resource                                                                                                                                                                           | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                        |
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| [FlexibleServersAdministrator](https://azure.github.io/azure-service-operator/reference/dbformysql/v1api20220101/#dbformysql.azure.com/v1api20220101.FlexibleServersAdministrator) | 2022-01-01  | v1api20220101 | v2.1.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api/v1api20220101_flexibleserversadministrator.yaml) |
+| [FlexibleServersConfiguration](https://azure.github.io/azure-service-operator/reference/dbformysql/v1api20220101/#dbformysql.azure.com/v1api20220101.FlexibleServersConfiguration) | 2022-01-01  | v1api20220101 | v2.1.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api/v1api20220101_flexibleserversconfiguration.yaml) |
 
 ### Released
 

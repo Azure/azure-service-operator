@@ -5,6 +5,7 @@ package customizations
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"reflect"
 
 	"github.com/go-logr/logr"
@@ -201,8 +202,30 @@ func fuzzySetSubnet(subnet genruntime.ARMResourceSpec, embeddedSubnet reflect.Va
 	if err != nil {
 		return errors.Wrap(err, "unable to check that embedded subnet is the same as subnet")
 	}
-	if string(embeddedSubnetJSON) != string(subnetJSON) {
-		return errors.Errorf("embeddedSubnetJSON (%s) != subnetJSON (%s)", string(embeddedSubnetJSON), string(subnetJSON))
+
+	err = fuzzyEqualityComparison(embeddedSubnetJSON, subnetJSON)
+	if err != nil {
+		return errors.Wrap(err, "failed during comparison for embeddedSubnetJSON and subnetJSON")
+	}
+
+	return nil
+}
+
+func fuzzyEqualityComparison(embeddedResourceJSON, resourceJSON []byte) error {
+	var embeddedResourceJSONMap map[string]interface{}
+	err := json.Unmarshal(embeddedResourceJSON, &embeddedResourceJSONMap)
+	if err != nil {
+		return errors.Wrap(err, fmt.Sprintf("unable to unmarshal (%s)", embeddedResourceJSONMap))
+	}
+
+	var resourceJSONMap map[string]interface{}
+	err = json.Unmarshal(resourceJSON, &resourceJSONMap)
+	if err != nil {
+		return errors.Wrap(err, fmt.Sprintf("unable to unmarshal (%s)", resourceJSONMap))
+	}
+
+	if !reflect.DeepEqual(embeddedResourceJSONMap, resourceJSONMap) {
+		return errors.Errorf(" (%s) != (%s)", string(embeddedResourceJSON), string(resourceJSON))
 	}
 
 	return nil

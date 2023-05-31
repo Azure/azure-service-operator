@@ -8,6 +8,7 @@ package pipeline
 import (
 	"testing"
 
+	"github.com/go-logr/logr"
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -43,9 +44,9 @@ func TestCreateFlattenedARMType_CreatesExpectedConversions(t *testing.T) {
 
 	idFactory := astmodel.NewIdentifierFactory()
 
-	createARMTypes := CreateARMTypes(idFactory)
+	createARMTypes := CreateARMTypes(idFactory, logr.Discard())
 	applyARMConversionInterface := ApplyARMConversionInterface(idFactory)
-	flatten := FlattenProperties()
+	flatten := FlattenProperties(logr.Discard())
 	simplify := SimplifyDefinitions()
 	strip := StripUnreferencedTypeDefinitions()
 
@@ -97,11 +98,11 @@ func TestCreateFlattenedARMTypeWithResourceRef_CreatesExpectedConversions(t *tes
 	configuration := config.NewConfiguration()
 	configuration.ObjectModelConfiguration = omc
 
-	configToARMIDs := ApplyCrossResourceReferencesFromConfig(configuration)
+	configToARMIDs := ApplyCrossResourceReferencesFromConfig(configuration, logr.Discard())
 	crossResourceRefs := TransformCrossResourceReferences(configuration, idFactory)
-	createARMTypes := CreateARMTypes(idFactory)
+	createARMTypes := CreateARMTypes(idFactory, logr.Discard())
 	applyARMConversionInterface := ApplyARMConversionInterface(idFactory)
-	flatten := FlattenProperties()
+	flatten := FlattenProperties(logr.Discard())
 	simplify := SimplifyDefinitions()
 	strip := StripUnreferencedTypeDefinitions()
 
@@ -166,9 +167,9 @@ func TestCreateFlattenedARMTypeWithConfigMap_CreatesExpectedConversions(t *testi
 	configuration.ObjectModelConfiguration = omc
 
 	addConfigMaps := AddConfigMaps(configuration)
-	createARMTypes := CreateARMTypes(idFactory)
+	createARMTypes := CreateARMTypes(idFactory, logr.Discard())
 	applyARMConversionInterface := ApplyARMConversionInterface(idFactory)
-	flatten := FlattenProperties()
+	flatten := FlattenProperties(logr.Discard())
 	simplify := SimplifyDefinitions()
 	strip := StripUnreferencedTypeDefinitions()
 
@@ -242,7 +243,7 @@ func TestCreateARMTypeWithConfigMap_CreatesExpectedConversions(t *testing.T) {
 	configuration.ObjectModelConfiguration = omc
 
 	addConfigMaps := AddConfigMaps(configuration)
-	createARMTypes := CreateARMTypes(idFactory)
+	createARMTypes := CreateARMTypes(idFactory, logr.Discard())
 	applyARMConversionInterface := ApplyARMConversionInterface(idFactory)
 	simplify := SimplifyDefinitions()
 	strip := StripUnreferencedTypeDefinitions()

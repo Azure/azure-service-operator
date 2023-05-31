@@ -24,7 +24,7 @@ If the underlying Azure Resource doesn't support DR (or the story is more compli
 
 ### How can I protect against accidentally deleting an important resource?
 
-1. You can set [serviceoperator.azure.com/reconcile-policy: detach-on-delete](../annotations#serviceoperatorazurecomreconcile-policy). This will allow the resource to be deleted in k8s but not delete the underlying resource in Azure.
+1. You can set [serviceoperator.azure.com/reconcile-policy: detach-on-delete]( {{< relref "annotations#serviceoperatorazurecomreconcile-policy" >}}). This will allow the resource to be deleted in k8s but not delete the underlying resource in Azure.
 2. You can use a project like https://github.com/petrkotas/k8s-object-lock to protect the resources you're worried about. Note: That project is not owned/sponsored by Microsoft.
 3. You can manually add a finalizer to the resource which will not be removed except manually by you when ready to delete the resource, see [this](https://kubernetes.io/blog/2021/05/14/using-finalizers-to-control-deletion/)
 
@@ -38,7 +38,7 @@ There are two important tenets to remember when transferring resources between c
 
 Let's say that you want to migrate all of your ASO resources from cluster A to cluster B. We recommend the following pattern:
 
-1. Annotate the resources in cluster A with [serviceoperator.azure.com/reconcile-policy: skip](../annotations#serviceoperatorazurecomreconcile-policy). This prevents ASO in that cluster from updating or deleting those resources.
+1. Annotate the resources in cluster A with [serviceoperator.azure.com/reconcile-policy: skip]( {{< relref "annotations#serviceoperatorazurecomreconcile-policy" >}} ). This prevents ASO in that cluster from updating or deleting those resources.
 2. Ensure that cluster B has ASO installed.
 3. `kubectl apply` the resources into cluster B. We strongly recommend an infrastructure-as-code approach where you keep your original/goal-state ASO YAMLs around.
 4. Delete the resources in cluster A. Note that because of the `skip` annotation, this will not delete the backing Azure resources.
@@ -56,7 +56,7 @@ as each operator instance tries to drive to its goal. If you take great care to 
 active-active can be done.
 
 We instead recommend an active-passive approach, where in 1 cluster the resources are created/managed as normal, and in the other cluster the resources are just watched.
-This can be accomplished with the [serviceoperator.azure.com/reconcile-policy: skip](../annotations#serviceoperatorazurecomreconcile-policy) 
+This can be accomplished with the [serviceoperator.azure.com/reconcile-policy: skip]( {{< relref "annotations#serviceoperatorazurecomreconcile-policy" >}} ) 
 annotation used in the second cluster. In the case of a DR event, automation or manual action can remove the `skip` annotation in the passive cluster, turning it into active mode.
 
 ### Can ASO be used with IAC/GitOps tools?

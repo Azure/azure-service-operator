@@ -13,18 +13,18 @@ There are two key topics surrounding authentication in Azure Service Operator: T
 
 Azure Service Operator supports four different styles of authentication today.
 
-1. [Service Principal using a Client Secret](./credential-format#service-principal-using-a-client-secret)
-2. [Service Principal using a Client Certificate](./credential-format#service-principal-using-a-client-certificate)
-3. [Azure-Workload-Identity authentication](./credential-format#azure-workload-identity) (OIDC + Managed Identity or Service Principal)
-4. [Deprecated] [aad-pod-identity authentication (Managed Identity)](./credential-format#deprecated-managed-identity--aad-pod-identity-)
+1. [Service Principal using a Client Secret]( {{< relref "credential-format#service-principal-using-a-client-secret" >}} )
+2. [Service Principal using a Client Certificate]( {{< relref "credential-format#service-principal-using-a-client-certificate" >}} )
+3. [Azure-Workload-Identity authentication]( {{< relref "credential-format#azure-workload-identity" >}} ) (OIDC + Managed Identity or Service Principal)
+4. [Deprecated] [aad-pod-identity authentication (Managed Identity)]( {{< relref "credential-format#deprecated-managed-identity-aad-pod-identity" >}} )
 
 ## Credential scope
 
 Each supported credential type can be specified at one of three supported scopes:
 
-1. [Global](./credential-scope#global-scope) - The credential applies to all resources managed by ASO.
-2. [Namespace](./credential-scope#namespace-scope) - The credential applies to all resources managed by ASO in that namespace.
-3. [Resource](./credential-scope#resource-scope) - The credential applies to only the specific resource it is referenced on.
+1. [Global]( {{< relref "credential-scope#global-scope" >}} ) - The credential applies to all resources managed by ASO.
+2. [Namespace]( {{< relref "credential-scope#namespace-scope" >}} ) - The credential applies to all resources managed by ASO in that namespace.
+3. [Resource]( {{< relref "credential-scope#resource-scope" >}} ) - The credential applies to only the specific resource it is referenced on.
 
 When presented with multiple credential choices, the operator chooses the most specific one:
 _resource scope_ takes precedence over _namespace scope_ which takes precedence over _global scope_.
@@ -53,4 +53,4 @@ Disadvantages:
 * Significantly harder to orchestrate ASO upgrades.
 * More kube-apiserver load, as there will be multiple operators running and watching/reconciling resources.
 
-For more details about this approach, see [multitenant deployment](./multitenant-deployment)
+For more details about this approach, see [multitenant deployment]( {{< relref "multitenant-deployment" >}} )

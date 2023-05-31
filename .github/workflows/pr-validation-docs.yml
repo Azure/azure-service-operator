@@ -62,7 +62,7 @@ jobs:
           docker start "$container_id"
           echo "container_id=$container_id" >> $GITHUB_ENV
 
-      - name: Validate docs site
+      - name: Build & validate docs site
         run: |
           container_id=${{ env.container_id }}
-          docker exec "$container_id" task check-docs-site-links
+          docker exec "$container_id" task build-docs-site

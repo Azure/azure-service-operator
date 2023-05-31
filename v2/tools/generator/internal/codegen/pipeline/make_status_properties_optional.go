@@ -9,7 +9,6 @@ import (
 	"context"
 
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -63,11 +62,7 @@ func makeStatusPropertiesOptional(statusDef astmodel.TypeDefinition) (astmodel.T
 
 // makeObjectPropertiesOptional makes properties optional for the object
 func makeObjectPropertiesOptional(this *astmodel.TypeVisitor, ot *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-	typeName := ctx.(astmodel.TypeName)
 	ot.Properties().ForEach(func(property *astmodel.PropertyDefinition) {
-		if property.IsRequired() {
-			klog.V(4).Infof("\"%s.%s\" was required, changing it to optional", typeName.String(), property.PropertyName())
-		}
 		ot = ot.WithProperty(property.MakeOptional().MakeTypeOptional())
 	})
 

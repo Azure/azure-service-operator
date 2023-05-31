@@ -11,7 +11,6 @@ import (
 
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -321,10 +320,6 @@ func (oa *oneOfAssembler) addDiscriminatorProperty(name astmodel.TypeName, rootN
 				propertyName,
 				propertyJson,
 				astmodel.NewOptionalType(enumType))
-
-			if discriminatorValue == "" {
-				klog.Warning("Weirdness")
-			}
 
 			obj := astmodel.NewObjectType().WithProperty(property)
 			return oneOf.WithAdditionalPropertyObject(obj), nil

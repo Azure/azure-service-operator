@@ -35,11 +35,11 @@ Unlike the typical situation with a hand written service operator, we don't have
 
 There are three case studies that accompany this specification, each one walking through one possible solution and showing how it will perform as a synthetic ARM style API evolves over time.
 
-The [**Chained Versions**](../case-studies/chained-storage-versions/) case study shows how the preferred solution adapts to changes as the API is modified.
+The [**Chained Versions**]( {{< relref "case-studies/chained-storage-versions" >}} ) case study shows how the preferred solution adapts to changes as the API is modified.
 
-The [**Rolling Versions**](../case-studies/rolling-storage-versions/) case study shows an alternative that works well but falls down when hand coded conversions are introduced between versions.
+The [**Rolling Versions**]( {{< relref "case-studies/rolling-storage-versions" >}} ) case study shows an alternative that works well but falls down when hand coded conversions are introduced between versions.
 
-The [**Fixed Version**](../case-studies/fixed-storage-version/) case study shows how a popular alternative would fare, calling out some specific problems that will occur.
+The [**Fixed Version**]( {{< relref "case-studies/fixed-storage-version" >}} ) case study shows how a popular alternative would fare, calling out some specific problems that will occur.
 
 **TL;DR:** Using a *fixed storage version* appears simpler at first, and works well as long as the changes from version to version are simple. However, when the changes become complex (as they are bound to do over time), this approach starts to break down. While there is up front complexity to address with *chained storage versions*, the approach doesn't break down over time and we can generate useful automated tests for verification. The *rolling storage version* approach is viable, but requires additional ongoing maintenance when manual conversions are introduced between versions.
 
