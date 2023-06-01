@@ -10,7 +10,7 @@ description: "How to set up your developer environment for Azure Service Operato
 
 ## Dev Container with VS Code on Linux 
 
-Use these steps if you've checked out the ASO code into a Linux environment (_including_ WSL 2 on Windows) or MacOS.
+Use these steps if you've checked out the ASO code into a Linux environment (_including_ WSL 2 on Windows).
 
 The ASO repository contains a [devcontainer](https://code.visualstudio.com/docs/remote/containers) configuration that can be used in conjunction with VS Code to set up an environment with all the required tools preinstalled.
 
@@ -34,7 +34,7 @@ The ASO repository contains a [devcontainer](https://code.visualstudio.com/docs/
 2. Open VS Code
 3. Run the VS Code command (with `Ctrl-Shift-P`): `Remote Containers: Clone Repository in Container Volume...`
 
-   **Note**: in Windows, it is important to clone directly into a container instead of cloning first and then loading that with the `Remote Containers` extension, as the tooling performs a lot of file I/O, and if this is performed against a volume mounted in WSL then it is unusably slow.
+   **Note**: in Windows, it is important to clone directly into a container instead of cloning first and then loading that with the `Remote Containers` extension, as the tooling performs a lot of file I/O, and if this is performed against a Windows folder mounted into the devcontainer then it is unusably slow.
 
 4. To complete the clone:
     1. Select "`GitHub`".
@@ -42,12 +42,11 @@ The ASO repository contains a [devcontainer](https://code.visualstudio.com/docs/
        * If you have direct access to the ASO repo, search for `Azure/azure-service-operator`
        * Otherwise search for `<your-user-name>/azure-service-operator`
     3. If asked, choose either of the following options about where to create the volume.
-    4. The window will reload and run the `Dockerfile` setup. The first time, this will take some minutes to complete as it installs all dependencies. Later runs will be faster due to caching.
+    4. The window will reload and run the `Dockerfile` setup to build the devcontainer. The first time, this will take some minutes to complete as it installs all dependencies. Later runs will be faster due to caching.
 5. Once the repository is cloned in your local
    * Make sure you have access to tags (by running `git tag --list 'v2*'`).
    * Set up our submodule by running both `git submodule init` and `git submodule update`.
    * See [Check your repo health](#check-your-repo-health) for more information.
-
 6. To validate everything is working correctly,  open a terminal in VS Code and run `task -l`. This will show a list of all `task` commands. Running `task` by itself (or `task default`) will run quick local pre-checkin tests and validation.
 
 ## Docker on Linux
@@ -71,16 +70,16 @@ If you are using Linux, instead of using VS Code you can run the `dev.sh` script
 
 ## MacOS
 
-Development of ASO on MacOS works, but things are less automated.
+Development of ASO on MacOS is possible (one of our team does so), but things are less automated.
 
 You'll need to manually install the tools as listed by `.devcontainer/install-dependencies.sh`.
 
-If you have an ARM based Mac, you;ll also need to install [Rosetta](https://support.apple.com/en-nz/HT211861).
+If you have an ARM based Mac, you'll also need to install [Rosetta](https://support.apple.com/en-nz/HT211861).
 
 
 ## Check your repo health
 
-After you've cloned the ASO repo, verify you have access to tags and clone the submodule.
+After you've cloned the ASO repo, verify you have access to tags and ensure you have cloned the submodule.
 
 ### Verify tags
 
