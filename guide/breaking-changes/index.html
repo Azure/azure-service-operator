@@ -608,6 +608,7 @@
     </li>
     <li><a href="#released-breaking-changes">Released Breaking Changes</a>
       <ul>
+        <li><a href="#upcoming-breaking-changes-1">Upcoming breaking changes</a></li>
         <li><a href="#v210">v2.1.0</a></li>
         <li><a href="#v200">v2.0.0</a></li>
         <li><a href="#v200-beta4">v2.0.0-beta.4</a></li>
@@ -683,6 +684,10 @@
 We recommend you start using <code>v1api</code> prefixed versions now.</p>
 <p>You can easily swap from a <code>v1beta</code> version to a <code>v1api</code> version by just replacing <code>v1beta</code> with <code>v1api</code> in your CRD YAML, the resource shapes are the same.</p>
 <h2 id="released-breaking-changes">Released Breaking Changes</h2>
+<h3 id="upcoming-breaking-changes-1">Upcoming breaking changes</h3>
+<ul>
+<li>AKS ManagedClusterServicePrincipalProfile.Secret will change from <code>string</code> to <code>genruntime.SecretReference</code></li>
+</ul>
 <h3 id="v210">v2.1.0</h3>
 <p>Breaking changes are:</p>
 <ul>

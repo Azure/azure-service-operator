@@ -41,6 +41,11 @@ about this change and why it was made.&lt;/p&gt;
 allowing references to secrets only if the secret is in the same namespace as the resource itself.&lt;/p&gt;
 &lt;p&gt;This was a security issue which we had to close.&lt;/p&gt;
 &lt;p&gt;See &lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/2919&#34;&gt;#2919&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;upcoming-breaking-changes&#34;&gt;Upcoming breaking changes&lt;/h2&gt;
+&lt;h3 id=&#34;aks-managedclusterserviceprincipalprofilesecret-will-change-from-string-to-genruntimesecretreference&#34;&gt;AKS ManagedClusterServicePrincipalProfile.Secret will change from &lt;code&gt;string&lt;/code&gt; to &lt;code&gt;genruntime.SecretReference&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;We realized that this field contains a secret and as such &lt;em&gt;should not be specified&lt;/em&gt;. Secrets should not appear in plain
+text in CRs. We will be making a breaking change in 2.2.0 to resolve this issue.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;In the meantime:&lt;/strong&gt; We strongly recommend you use managed identity (the default) for your clusters.&lt;/p&gt;
 
       </description>
     </item>

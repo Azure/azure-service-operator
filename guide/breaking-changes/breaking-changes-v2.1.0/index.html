@@ -33,7 +33,7 @@ When upgrading ASO, existing CRDs will be automatically updated to the new versi
 <meta itemprop="description" content="The operator no longer installs CRDs by default Action required: When installing ASO for the first time, you must now specify crdPattern (for Helm) or --crd-patterns (in operator pod cmdline for raw YAML) to select the subset of CRDs you would like to install.
 When upgrading ASO, existing CRDs will be automatically updated to the new version but new CRDs added in that release will not automatically be installed. This means that when upgrading the operator, if you don&rsquo;t want to use any CRDs newly added in that release you don&rsquo;t need to do anything.">
 
-<meta itemprop="wordCount" content="231">
+<meta itemprop="wordCount" content="294">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="v2.1.0 Breaking Changes"/>
 <meta name="twitter:description" content="The operator no longer installs CRDs by default Action required: When installing ASO for the first time, you must now specify crdPattern (for Helm) or --crd-patterns (in operator pod cmdline for raw YAML) to select the subset of CRDs you would like to install.
@@ -611,6 +611,11 @@ When upgrading ASO, existing CRDs will be automatically updated to the new versi
   <ul>
     <li><a href="#the-operator-no-longer-installs-crds-by-default">The operator no longer installs CRDs by default</a></li>
     <li><a href="#serviceoperatorazurecomcredential-from-no-longer-supports-cross-namespace-secret-references"><code>serviceoperator.azure.com/credential-from</code> no longer supports cross namespace secret references</a></li>
+    <li><a href="#upcoming-breaking-changes">Upcoming breaking changes</a>
+      <ul>
+        <li><a href="#aks-managedclusterserviceprincipalprofilesecret-will-change-from-string-to-genruntimesecretreference">AKS ManagedClusterServicePrincipalProfile.Secret will change from <code>string</code> to <code>genruntime.SecretReference</code></a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
       </div>
@@ -690,6 +695,11 @@ about this change and why it was made.</p>
 allowing references to secrets only if the secret is in the same namespace as the resource itself.</p>
 <p>This was a security issue which we had to close.</p>
 <p>See <a href="https://github.com/Azure/azure-service-operator/pull/2919">#2919</a></p>
+<h2 id="upcoming-breaking-changes">Upcoming breaking changes</h2>
+<h3 id="aks-managedclusterserviceprincipalprofilesecret-will-change-from-string-to-genruntimesecretreference">AKS ManagedClusterServicePrincipalProfile.Secret will change from <code>string</code> to <code>genruntime.SecretReference</code></h3>
+<p>We realized that this field contains a secret and as such <em>should not be specified</em>. Secrets should not appear in plain
+text in CRs. We will be making a breaking change in 2.2.0 to resolve this issue.</p>
+<p><strong>In the meantime:</strong> We strongly recommend you use managed identity (the default) for your clusters.</p>
 
 	
 	
