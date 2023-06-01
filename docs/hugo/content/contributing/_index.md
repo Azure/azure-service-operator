@@ -16,51 +16,6 @@ description: "How to contribute new resources to Azure Service Operator v2"
 * [Adding a new code-generator resource]( {{< relref "add-a-new-code-generated-resource" >}} ).
 * [Generator code overview]( {{< relref "generator-overview" >}} )
 
-## Developer setup (with VS Code)
-This is the recommended setup, especially if you are using Windows as your development platform.
-
-This repository contains a [devcontainer](https://code.visualstudio.com/docs/remote/containers) configuration that can be used in conjunction with VS Code to set up an environment with all the required tools preinstalled.
-
-If you want to use this:
-
-0. Make sure you have installed [the prerequisites to use Docker](https://code.visualstudio.com/docs/remote/containers#_system-requirements), including WSL if on Windows.
-1. Install VS Code and the [Remote Development](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack) extension (check installation instructions there).
-2. Run the VS Code command (with `Ctrl-Shift-P`): `Remote Containers: Clone Repository in Container Volume...`
-
-   **Note**: in Windows, it is important to clone directly into a container instead of cloning first and then loading that with the `Remote Containers` extension, as the tooling performs a lot of file I/O, and if this is performed against a volume mounted in WSL then it is unusably slow.
-
-   To complete the clone:
-    1. Select "`GitHub`".
-    2. Search for "`Azure/azure-service-operator`".
-    3. Choose either of the following options about where to create the volume.
-    4. The window will reload and run the `Dockerfile` setup. The first time, this will take some minutes to complete as it installs all dependencies.
-    5. Once the repository is cloned in your local, make sure you have access to tags as they are needed for the build. Run these commands to check `git-fetch --all --tags` `git tag -l`. If this shows empty, go to the next step.
-    6. Run `git remote add azure https://github.com/Azure/azure-service-operator.git`, `git fetch azure`, and `git fetch azure --all --tags`. This will fetch all the required tags in your local.  
-    7. Run `git fetch --unshallow` if the repository you clone is a shallow clone. If you miss this step, you may see errors like `"./scripts/build-version.py v2" failed: exit status 1` when running `task`.
-    8. Run `git submodule init` and `git submodule update`
-
-3. To validate everything is working correctly, you can open a terminal in VS Code and run `task -l`. This will show a list of all `task` commands. Running `task` by itself (or `task default`) will run quick local pre-checkin tests and validation.
-
-## Without VS Code
-
-### Option 1: Dockerfile
-
-The same `Dockerfile` that the VS Code `devcontainer` extension uses can also be used outside of VS Code; it is stored in the root `.devcontainer` directory and can be used to create a development container with all the tooling preinstalled:
-
-```console
-$ docker build $(git rev-parse --show-toplevel)/.devcontainer -t asodev:latest
-… image will be created …
-
-$ # After that you can start a terminal in the development container with:
-$ docker run --env-file ~/work/envs.env --env HOSTROOT=$(git rev-parse --show-toplevel) -v $(git rev-parse --show-toplevel):/go/src -w /go/src -u $(id -u ${USER}):$(id -g ${USER}) --group-add $(stat -c '%g' /var/run/docker.sock) -v /var/run/docker.sock:/var/run/docker.sock --network=host  -it asodev:latest /bin/bash
-```
-
-It is not recommended to mount the source like this on Windows (WSL2) as the cross-VM file operations are very slow.
-
-### Option 2: ./dev.sh
-
-If you are using Linux, instead of using VS Code you can run the `dev.sh` script in the root of the repository. This will install all required tooling into the `hack/tools` directory and then start a new shell with the `PATH` updated to use it.
-
 ## Directory structure of the operator
 
 Key folders of note include:
