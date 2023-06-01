@@ -11,11 +11,6 @@ cascade:
 description: "How to contribute new resources to Azure Service Operator v2"
 ---
 
-## Related pages
-
-* [Adding a new code-generator resource]( {{< relref "add-a-new-code-generated-resource" >}} ).
-* [Generator code overview]( {{< relref "generator-overview" >}} )
-
 ## Directory structure of the operator
 
 Key folders of note include:
