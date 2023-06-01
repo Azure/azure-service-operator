@@ -10,13 +10,13 @@ description: "How to set up your developer environment for Azure Service Operato
 
 ## Dev Container with VS Code on Linux 
 
-Use these steps if you've checked out the ASO code into a Linux environment (_including_ WSL 2 on Windows).
+Use these steps if you've checked out the ASO code into a Linux environment (_including_ WSL 2 on Windows). We've found this to be the best performing option.
 
 The ASO repository contains a [devcontainer](https://code.visualstudio.com/docs/remote/containers) configuration that can be used in conjunction with VS Code to set up an environment with all the required tools preinstalled.
 
 0. Make sure you have installed [the prerequisites to use Docker](https://code.visualstudio.com/docs/remote/containers#_system-requirements), including [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) if on Windows. 
 1. Install VS Code and the [Remote Development](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack) extension (check installation instructions there).
-2. Ensure you have ASO checked out, and that your [repo is healthy](#check-your-repo-health).
+2. Ensure you have ASO checked out, and that your [repo is healthy](#troubleshooting-repo-health).
 3. Open VS Code by running `code .` from the root folder of the ASO repo.
 4. VS Code will automatically notice the `.devcontainer` folder and ask you if you want to open it; press _Reopen in Container_ when prompted.
    * If you miss this, type `Control-Shift-P` and run the command `Dev Containers: Reopen in Container`.
@@ -46,7 +46,7 @@ The ASO repository contains a [devcontainer](https://code.visualstudio.com/docs/
 5. Once the repository is cloned in your local
    * Make sure you have access to tags (by running `git tag --list 'v2*'`).
    * Set up our submodule by running both `git submodule init` and `git submodule update`.
-   * See [Check your repo health](#check-your-repo-health) for more information.
+   * See [Check your repo health](#troubleshooting-repo-health) for more information.
 6. To validate everything is working correctly,  open a terminal in VS Code and run `task -l`. This will show a list of all `task` commands. Running `task` by itself (or `task default`) will run quick local pre-checkin tests and validation.
 
 ## Docker on Linux
@@ -77,13 +77,18 @@ You'll need to manually install the tools as listed by `.devcontainer/install-de
 If you have an ARM based Mac, you'll also need to install [Rosetta](https://support.apple.com/en-nz/HT211861).
 
 
-## Check your repo health
+## Troubleshooting: Repo health
 
-After you've cloned the ASO repo, verify you have access to tags and ensure you have cloned the submodule.
+Simply cloning the ASO repo is not enough to successfully run a build. There are two additional things you must ensure that:
 
-### Verify tags
+* You have access to git tags  
+  Our build scripts depend on tags in order to create a version number
+* The `azure-rest-api-specs` submodule has been cloned  
+  Our code generator parses these specs to determine the shape of our code generated resources.
 
-Verify that you have access to tags. Some tools default to shallow cloning of repos, which omits tags. Our build process depends on tags being present and will fail if they're missing. 
+### Git tag access 
+
+Verify that you have access to tags. Some tools default to shallow cloning of repos, omitting tags. Our build process depends on tags being present and will fail if they're missing. 
 
 To check if you have any tags:
 
@@ -122,15 +127,37 @@ You should now have all the tags.
 
 ### Submodule cloning
 
-ASO references the Azure repo containing API definitions for Azure Resource Providers. If this submodule is missing, the code generator will not run.
+ASO references the `azure-rest-api-specs` repo containing API definitions for Azure Resource Providers. If this submodule is missing, the code generator will not run.
 
-From the root of your repo, run
+From the root of your ASO repo clone, run
 
 ``` bash
 $ git submodule init
 Submodule 'hack/generator/specs/azure-rest-api-specs' (https://github.com/Azure/azure-rest-api-specs) registered for path 'specs/azure-rest-api-specs'
-$ git submodule update`
+
+$ git submodule update
 Cloning into '/workspaces/azure-service-operator/v2/specs/azure-rest-api-specs'...
 Submodule path 'specs/azure-rest-api-specs': checked out '3ac733b1b1c63969fbed0c7ffe60ff5cccc708c7'
 ```
+
+The exact git hash that's checked out will likely be different.
+
+## Troubleshooting: Docker on Windows
+
+We've observed that Docker on Windows performs significantly better when using WSL as the back end. Check your settings in Docker Desktop and ensure the option _Use the WSL 2 based engine_ is turned on.
+
+~[Docker Desktop General Settings showing WSL 2 option](images/docker-desktop-wsl.png)
+
+## Troubleshooting: Visual Studio Code
+
+If the commands to open a dev container don't work, check to see where you have Visual Studio Code installed. Open a PowerShell window and run this command:
+
+``` powershell
+PS> get-command code
+CommandType     Name        Version    Source
+-----------     ----        -------    ------
+Application     code.cmd    0.0.0.0    C:\Users\<user>\AppData\Local\Programs\Microso...
+```
+
+If your installation is a global one (in `C:\Program Files` or `C:\Program Files (x86)`) then you may find some extensions don't work properly. Install another copy of Visual Studio Code using the standard installer; this will be a local installation into your `AppData` folder and will take priority.
 
