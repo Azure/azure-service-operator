@@ -154,6 +154,7 @@ jobs:
           submodules: 'true'
 
       - name: check-changes
+        id: check-changes
         run: scripts/v2/check-changes.sh
 
       - name: Log in to GitHub Docker Registry
