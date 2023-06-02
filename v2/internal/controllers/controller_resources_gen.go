@@ -72,6 +72,9 @@ import (
 	datafactory_customizations "github.com/Azure/azure-service-operator/v2/api/datafactory/customizations"
 	datafactory_v1api20180601 "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601"
 	datafactory_v1api20180601s "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601storage"
+	dataprotection_customizations "github.com/Azure/azure-service-operator/v2/api/dataprotection/customizations"
+	dataprotection_v1api20230101 "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101"
+	dataprotection_v1api20230101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101storage"
 	dbformariadb_customizations "github.com/Azure/azure-service-operator/v2/api/dbformariadb/customizations"
 	dbformariadb_v1api20180601 "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601"
 	dbformariadb_v1api20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601storage"
@@ -298,6 +301,9 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v1api20230201s.ManagedCluster)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v1api20230201s.ManagedClustersAgentPool)})
 	result = append(result, &registration.StorageType{Obj: new(datafactory_v1api20180601s.Factory)})
+	result = append(result, &registration.StorageType{Obj: new(dataprotection_v1api20230101s.BackupVault)})
+	result = append(result, &registration.StorageType{Obj: new(dataprotection_v1api20230101s.BackupVaultsBackupInstance)})
+	result = append(result, &registration.StorageType{Obj: new(dataprotection_v1api20230101s.BackupVaultsBackupPolicy)})
 	result = append(result, &registration.StorageType{Obj: new(dbformariadb_v1api20180601s.Configuration)})
 	result = append(result, &registration.StorageType{Obj: new(dbformariadb_v1api20180601s.Database)})
 	result = append(result, &registration.StorageType{
@@ -844,6 +850,16 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(containerservice_v20210501s.ManagedCluster), new(containerservice_v20210501s.ManagedClustersAgentPool))
 	result = append(result, new(datafactory_v1api20180601.Factory))
 	result = append(result, new(datafactory_v1api20180601s.Factory))
+	result = append(
+		result,
+		new(dataprotection_v1api20230101.BackupVault),
+		new(dataprotection_v1api20230101.BackupVaultsBackupInstance),
+		new(dataprotection_v1api20230101.BackupVaultsBackupPolicy))
+	result = append(
+		result,
+		new(dataprotection_v1api20230101s.BackupVault),
+		new(dataprotection_v1api20230101s.BackupVaultsBackupInstance),
+		new(dataprotection_v1api20230101s.BackupVaultsBackupPolicy))
 	result = append(
 		result,
 		new(dbformariadb_v1api20180601.Configuration),
@@ -1427,6 +1443,8 @@ func createScheme() *runtime.Scheme {
 	_ = containerservice_v20210501s.AddToScheme(scheme)
 	_ = datafactory_v1api20180601.AddToScheme(scheme)
 	_ = datafactory_v1api20180601s.AddToScheme(scheme)
+	_ = dataprotection_v1api20230101.AddToScheme(scheme)
+	_ = dataprotection_v1api20230101s.AddToScheme(scheme)
 	_ = dbformariadb_v1api20180601.AddToScheme(scheme)
 	_ = dbformariadb_v1api20180601s.AddToScheme(scheme)
 	_ = dbformariadb_v20180601.AddToScheme(scheme)
@@ -1558,6 +1576,9 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &containerservice_customizations.ManagedClusterExtension{})
 	result = append(result, &containerservice_customizations.ManagedClustersAgentPoolExtension{})
 	result = append(result, &datafactory_customizations.FactoryExtension{})
+	result = append(result, &dataprotection_customizations.BackupVaultExtension{})
+	result = append(result, &dataprotection_customizations.BackupVaultsBackupInstanceExtension{})
+	result = append(result, &dataprotection_customizations.BackupVaultsBackupPolicyExtension{})
 	result = append(result, &dbformariadb_customizations.ConfigurationExtension{})
 	result = append(result, &dbformariadb_customizations.DatabaseExtension{})
 	result = append(result, &dbformariadb_customizations.ServerExtension{})
