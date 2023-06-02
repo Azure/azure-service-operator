@@ -3,7 +3,6 @@ title: DataProtection Supported Resources
 linktitle: DataProtection
 no_list: true
 ---
-
 ### Next Release
 
 Development of these new resources is complete and they will be available in the next release of ASO.
