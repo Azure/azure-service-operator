@@ -10027,10 +10027,8 @@ func (credentials *UserAccountCredentials) AssignProperties_To_UserAccountCreden
 // Storage version of v1beta20210701.UserAccountCredentials_STATUS
 // Deprecated version of UserAccountCredentials_STATUS. Use v1api20210701.UserAccountCredentials_STATUS instead
 type UserAccountCredentials_STATUS struct {
-	AdminUserName         *string                `json:"adminUserName,omitempty"`
-	AdminUserPassword     *string                `json:"adminUserPassword,omitempty"`
-	AdminUserSshPublicKey *string                `json:"adminUserSshPublicKey,omitempty"`
-	PropertyBag           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	AdminUserName *string                `json:"adminUserName,omitempty"`
+	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // AssignProperties_From_UserAccountCredentials_STATUS populates our UserAccountCredentials_STATUS from the provided source UserAccountCredentials_STATUS
@@ -10040,12 +10038,6 @@ func (credentials *UserAccountCredentials_STATUS) AssignProperties_From_UserAcco
 
 	// AdminUserName
 	credentials.AdminUserName = genruntime.ClonePointerToString(source.AdminUserName)
-
-	// AdminUserPassword
-	credentials.AdminUserPassword = genruntime.ClonePointerToString(source.AdminUserPassword)
-
-	// AdminUserSshPublicKey
-	credentials.AdminUserSshPublicKey = genruntime.ClonePointerToString(source.AdminUserSshPublicKey)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -10074,12 +10066,6 @@ func (credentials *UserAccountCredentials_STATUS) AssignProperties_To_UserAccoun
 
 	// AdminUserName
 	destination.AdminUserName = genruntime.ClonePointerToString(credentials.AdminUserName)
-
-	// AdminUserPassword
-	destination.AdminUserPassword = genruntime.ClonePointerToString(credentials.AdminUserPassword)
-
-	// AdminUserSshPublicKey
-	destination.AdminUserSshPublicKey = genruntime.ClonePointerToString(credentials.AdminUserSshPublicKey)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -10336,7 +10322,6 @@ func (credentials *VirtualMachineSshCredentials) AssignProperties_To_VirtualMach
 // Storage version of v1beta20210701.VirtualMachineSshCredentials_STATUS
 // Deprecated version of VirtualMachineSshCredentials_STATUS. Use v1api20210701.VirtualMachineSshCredentials_STATUS instead
 type VirtualMachineSshCredentials_STATUS struct {
-	Password       *string                `json:"password,omitempty"`
 	PrivateKeyData *string                `json:"privateKeyData,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	PublicKeyData  *string                `json:"publicKeyData,omitempty"`
@@ -10347,9 +10332,6 @@ type VirtualMachineSshCredentials_STATUS struct {
 func (credentials *VirtualMachineSshCredentials_STATUS) AssignProperties_From_VirtualMachineSshCredentials_STATUS(source *v1api20210701s.VirtualMachineSshCredentials_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Password
-	credentials.Password = genruntime.ClonePointerToString(source.Password)
 
 	// PrivateKeyData
 	credentials.PrivateKeyData = genruntime.ClonePointerToString(source.PrivateKeyData)
@@ -10384,9 +10366,6 @@ func (credentials *VirtualMachineSshCredentials_STATUS) AssignProperties_From_Vi
 func (credentials *VirtualMachineSshCredentials_STATUS) AssignProperties_To_VirtualMachineSshCredentials_STATUS(destination *v1api20210701s.VirtualMachineSshCredentials_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(credentials.PropertyBag)
-
-	// Password
-	destination.Password = genruntime.ClonePointerToString(credentials.Password)
 
 	// PrivateKeyData
 	destination.PrivateKeyData = genruntime.ClonePointerToString(credentials.PrivateKeyData)

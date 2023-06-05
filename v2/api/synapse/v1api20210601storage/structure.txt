@@ -68,7 +68,7 @@ github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601storage
 │   │       ├── RootFolder: *string
 │   │       ├── TenantId: *string
 │   │       └── Type: *string
-│   └── Status: Object (29 properties)
+│   └── Status: Object (28 properties)
 │       ├── AdlaResourceId: *string
 │       ├── AzureADOnlyAuthentication: *bool
 │       ├── Conditions: conditions.Condition[]
@@ -127,7 +127,6 @@ github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601storage
 │       │   └── PurviewResourceId: *string
 │       ├── Settings: map[string]v1.JSON
 │       ├── SqlAdministratorLogin: *string
-│       ├── SqlAdministratorLoginPassword: *string
 │       ├── Tags: map[string]string
 │       ├── TrustedServiceBypassEnabled: *bool
 │       ├── Type: *string

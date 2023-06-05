@@ -3044,8 +3044,6 @@ func UserAccountCredentials_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForUserAccountCredentials_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForUserAccountCredentials_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["AdminUserName"] = gen.PtrOf(gen.AlphaString())
-	gens["AdminUserPassword"] = gen.PtrOf(gen.AlphaString())
-	gens["AdminUserSshPublicKey"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_VirtualMachineImage_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3167,7 +3165,6 @@ func VirtualMachineSshCredentials_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualMachineSshCredentials_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineSshCredentials_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Password"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateKeyData"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicKeyData"] = gen.PtrOf(gen.AlphaString())
 	gens["Username"] = gen.PtrOf(gen.AlphaString())

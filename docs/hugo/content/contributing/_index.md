@@ -34,8 +34,10 @@ If you want to use this:
     2. Search for "`Azure/azure-service-operator`".
     3. Choose either of the following options about where to create the volume.
     4. The window will reload and run the `Dockerfile` setup. The first time, this will take some minutes to complete as it installs all dependencies.
-    5. Run `git fetch --unshallow` if the repository you clone is a shallow clone. If you miss this step, you may see errors like `"./scripts/build-version.py v2" failed: exit status 1` when running `task`.
-    6. Run `git submodule init` and `git submodule update`
+    5. Once the repository is cloned in your local, make sure you have access to tags as they are needed for the build. Run these commands to check `git-fetch --all --tags` `git tag -l`. If this shows empty, go to the next step.
+    6. Run `git remote add azure https://github.com/Azure/azure-service-operator.git`, `git fetch azure`, and `git fetch azure --all --tags`. This will fetch all the required tags in your local.  
+    7. Run `git fetch --unshallow` if the repository you clone is a shallow clone. If you miss this step, you may see errors like `"./scripts/build-version.py v2" failed: exit status 1` when running `task`.
+    8. Run `git submodule init` and `git submodule update`
 
 3. To validate everything is working correctly, you can open a terminal in VS Code and run `task -l`. This will show a list of all `task` commands. Running `task` by itself (or `task default`) will run quick local pre-checkin tests and validation.
 

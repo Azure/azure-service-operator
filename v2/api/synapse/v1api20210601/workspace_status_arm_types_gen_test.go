@@ -249,7 +249,6 @@ func AddIndependentPropertyGeneratorsForWorkspaceProperties_STATUS_ARM(gens map[
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(WorkspaceProperties_PublicNetworkAccess_STATUS_Disabled, WorkspaceProperties_PublicNetworkAccess_STATUS_Enabled))
 	gens["SqlAdministratorLogin"] = gen.PtrOf(gen.AlphaString())
-	gens["SqlAdministratorLoginPassword"] = gen.PtrOf(gen.AlphaString())
 	gens["TrustedServiceBypassEnabled"] = gen.PtrOf(gen.Bool())
 	gens["WorkspaceUID"] = gen.PtrOf(gen.AlphaString())
 }

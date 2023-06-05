@@ -30,3 +30,12 @@ allowing references to secrets only if the secret is in the same namespace as th
 This was a security issue which we had to close.
 
 See [#2919](https://github.com/Azure/azure-service-operator/pull/2919)
+
+## Upcoming breaking changes
+
+### AKS ManagedClusterServicePrincipalProfile.Secret will change from `string` to `genruntime.SecretReference`
+
+We realized that this field contains a secret and as such _should not be specified_. Secrets should not appear in plain
+text in CRs. We will be making a breaking change in 2.2.0 to resolve this issue.
+
+**In the meantime:** We strongly recommend you use managed identity (the default) for your clusters.

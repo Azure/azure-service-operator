@@ -16043,18 +16043,6 @@ func (credentials *UserAccountCredentials) Initialize_From_UserAccountCredential
 	// AdminUserName
 	credentials.AdminUserName = genruntime.ClonePointerToString(source.AdminUserName)
 
-	// AdminUserPassword
-	if source.AdminUserPassword != nil {
-	} else {
-		credentials.AdminUserPassword = nil
-	}
-
-	// AdminUserSshPublicKey
-	if source.AdminUserSshPublicKey != nil {
-	} else {
-		credentials.AdminUserSshPublicKey = nil
-	}
-
 	// No error
 	return nil
 }
@@ -16063,12 +16051,6 @@ func (credentials *UserAccountCredentials) Initialize_From_UserAccountCredential
 type UserAccountCredentials_STATUS struct {
 	// AdminUserName: Name of the administrator user account which can be used to SSH to nodes.
 	AdminUserName *string `json:"adminUserName,omitempty"`
-
-	// AdminUserPassword: Password of the administrator user account.
-	AdminUserPassword *string `json:"adminUserPassword,omitempty"`
-
-	// AdminUserSshPublicKey: SSH public key of the administrator user account.
-	AdminUserSshPublicKey *string `json:"adminUserSshPublicKey,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &UserAccountCredentials_STATUS{}
@@ -16091,18 +16073,6 @@ func (credentials *UserAccountCredentials_STATUS) PopulateFromARM(owner genrunti
 		credentials.AdminUserName = &adminUserName
 	}
 
-	// Set property ‘AdminUserPassword’:
-	if typedInput.AdminUserPassword != nil {
-		adminUserPassword := *typedInput.AdminUserPassword
-		credentials.AdminUserPassword = &adminUserPassword
-	}
-
-	// Set property ‘AdminUserSshPublicKey’:
-	if typedInput.AdminUserSshPublicKey != nil {
-		adminUserSshPublicKey := *typedInput.AdminUserSshPublicKey
-		credentials.AdminUserSshPublicKey = &adminUserSshPublicKey
-	}
-
 	// No error
 	return nil
 }
@@ -16112,12 +16082,6 @@ func (credentials *UserAccountCredentials_STATUS) AssignProperties_From_UserAcco
 
 	// AdminUserName
 	credentials.AdminUserName = genruntime.ClonePointerToString(source.AdminUserName)
-
-	// AdminUserPassword
-	credentials.AdminUserPassword = genruntime.ClonePointerToString(source.AdminUserPassword)
-
-	// AdminUserSshPublicKey
-	credentials.AdminUserSshPublicKey = genruntime.ClonePointerToString(source.AdminUserSshPublicKey)
 
 	// No error
 	return nil
@@ -16130,12 +16094,6 @@ func (credentials *UserAccountCredentials_STATUS) AssignProperties_To_UserAccoun
 
 	// AdminUserName
 	destination.AdminUserName = genruntime.ClonePointerToString(credentials.AdminUserName)
-
-	// AdminUserPassword
-	destination.AdminUserPassword = genruntime.ClonePointerToString(credentials.AdminUserPassword)
-
-	// AdminUserSshPublicKey
-	destination.AdminUserSshPublicKey = genruntime.ClonePointerToString(credentials.AdminUserSshPublicKey)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -16457,12 +16415,6 @@ func (credentials *VirtualMachineSshCredentials) AssignProperties_To_VirtualMach
 // Initialize_From_VirtualMachineSshCredentials_STATUS populates our VirtualMachineSshCredentials from the provided source VirtualMachineSshCredentials_STATUS
 func (credentials *VirtualMachineSshCredentials) Initialize_From_VirtualMachineSshCredentials_STATUS(source *VirtualMachineSshCredentials_STATUS) error {
 
-	// Password
-	if source.Password != nil {
-	} else {
-		credentials.Password = nil
-	}
-
 	// PrivateKeyData
 	credentials.PrivateKeyData = genruntime.ClonePointerToString(source.PrivateKeyData)
 
@@ -16478,9 +16430,6 @@ func (credentials *VirtualMachineSshCredentials) Initialize_From_VirtualMachineS
 
 // Admin credentials for virtual machine
 type VirtualMachineSshCredentials_STATUS struct {
-	// Password: Password of admin account
-	Password *string `json:"password,omitempty"`
-
 	// PrivateKeyData: Private key data
 	PrivateKeyData *string `json:"privateKeyData,omitempty"`
 
@@ -16503,12 +16452,6 @@ func (credentials *VirtualMachineSshCredentials_STATUS) PopulateFromARM(owner ge
 	typedInput, ok := armInput.(VirtualMachineSshCredentials_STATUS_ARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineSshCredentials_STATUS_ARM, got %T", armInput)
-	}
-
-	// Set property ‘Password’:
-	if typedInput.Password != nil {
-		password := *typedInput.Password
-		credentials.Password = &password
 	}
 
 	// Set property ‘PrivateKeyData’:
@@ -16536,9 +16479,6 @@ func (credentials *VirtualMachineSshCredentials_STATUS) PopulateFromARM(owner ge
 // AssignProperties_From_VirtualMachineSshCredentials_STATUS populates our VirtualMachineSshCredentials_STATUS from the provided source VirtualMachineSshCredentials_STATUS
 func (credentials *VirtualMachineSshCredentials_STATUS) AssignProperties_From_VirtualMachineSshCredentials_STATUS(source *v1api20210701s.VirtualMachineSshCredentials_STATUS) error {
 
-	// Password
-	credentials.Password = genruntime.ClonePointerToString(source.Password)
-
 	// PrivateKeyData
 	credentials.PrivateKeyData = genruntime.ClonePointerToString(source.PrivateKeyData)
 
@@ -16556,9 +16496,6 @@ func (credentials *VirtualMachineSshCredentials_STATUS) AssignProperties_From_Vi
 func (credentials *VirtualMachineSshCredentials_STATUS) AssignProperties_To_VirtualMachineSshCredentials_STATUS(destination *v1api20210701s.VirtualMachineSshCredentials_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// Password
-	destination.Password = genruntime.ClonePointerToString(credentials.Password)
 
 	// PrivateKeyData
 	destination.PrivateKeyData = genruntime.ClonePointerToString(credentials.PrivateKeyData)
