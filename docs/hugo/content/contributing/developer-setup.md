@@ -157,7 +157,7 @@ The exact git hash that's checked out will likely be different.
 
 We've observed that Docker on Windows performs significantly better when using WSL as the back end. Check your settings in Docker Desktop and ensure the option _Use the WSL 2 based engine_ is turned on.
 
-~[Docker Desktop General Settings showing WSL 2 option](images/docker-desktop-wsl.png)
+![Docker Desktop General Settings showing WSL 2 option](../images/docker-desktop-wsl.png)
 
 ## Troubleshooting: Visual Studio Code
 
