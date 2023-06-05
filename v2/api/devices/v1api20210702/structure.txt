@@ -311,11 +311,10 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702
 │       │   ├── RestrictOutboundNetworkAccess: *bool
 │       │   ├── Routing: *Object (4 properties)
 │       │   │   ├── Endpoints: *Object (4 properties)
-│       │   │   │   ├── EventHubs: Object (9 properties)[]
+│       │   │   │   ├── EventHubs: Object (8 properties)[]
 │       │   │   │   │   ├── AuthenticationType: *Enum (2 values)
 │       │   │   │   │   │   ├── "identityBased"
 │       │   │   │   │   │   └── "keyBased"
-│       │   │   │   │   ├── ConnectionString: *string
 │       │   │   │   │   ├── EndpointUri: *string
 │       │   │   │   │   ├── EntityPath: *string
 │       │   │   │   │   ├── Id: *string
@@ -324,11 +323,10 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702
 │       │   │   │   │   ├── Name: *string
 │       │   │   │   │   ├── ResourceGroup: *string
 │       │   │   │   │   └── SubscriptionId: *string
-│       │   │   │   ├── ServiceBusQueues: Object (9 properties)[]
+│       │   │   │   ├── ServiceBusQueues: Object (8 properties)[]
 │       │   │   │   │   ├── AuthenticationType: *Enum (2 values)
 │       │   │   │   │   │   ├── "identityBased"
 │       │   │   │   │   │   └── "keyBased"
-│       │   │   │   │   ├── ConnectionString: *string
 │       │   │   │   │   ├── EndpointUri: *string
 │       │   │   │   │   ├── EntityPath: *string
 │       │   │   │   │   ├── Id: *string
@@ -337,11 +335,10 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702
 │       │   │   │   │   ├── Name: *string
 │       │   │   │   │   ├── ResourceGroup: *string
 │       │   │   │   │   └── SubscriptionId: *string
-│       │   │   │   ├── ServiceBusTopics: Object (9 properties)[]
+│       │   │   │   ├── ServiceBusTopics: Object (8 properties)[]
 │       │   │   │   │   ├── AuthenticationType: *Enum (2 values)
 │       │   │   │   │   │   ├── "identityBased"
 │       │   │   │   │   │   └── "keyBased"
-│       │   │   │   │   ├── ConnectionString: *string
 │       │   │   │   │   ├── EndpointUri: *string
 │       │   │   │   │   ├── EntityPath: *string
 │       │   │   │   │   ├── Id: *string
@@ -350,12 +347,11 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702
 │       │   │   │   │   ├── Name: *string
 │       │   │   │   │   ├── ResourceGroup: *string
 │       │   │   │   │   └── SubscriptionId: *string
-│       │   │   │   └── StorageContainers: Object (13 properties)[]
+│       │   │   │   └── StorageContainers: Object (12 properties)[]
 │       │   │   │       ├── AuthenticationType: *Enum (2 values)
 │       │   │   │       │   ├── "identityBased"
 │       │   │   │       │   └── "keyBased"
 │       │   │   │       ├── BatchFrequencyInSeconds: *int
-│       │   │   │       ├── ConnectionString: *string
 │       │   │   │       ├── ContainerName: *string
 │       │   │   │       ├── Encoding: *Enum (3 values)
 │       │   │   │       │   ├── "Avro"
@@ -394,11 +390,10 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702
 │       │   │           ├── "Invalid"
 │       │   │           └── "TwinChangeEvents"
 │       │   ├── State: *string
-│       │   └── StorageEndpoints: map[string]Object (5 properties)
+│       │   └── StorageEndpoints: map[string]Object (4 properties)
 │       │       ├── AuthenticationType: *Enum (2 values)
 │       │       │   ├── "identityBased"
 │       │       │   └── "keyBased"
-│       │       ├── ConnectionString: *string
 │       │       ├── ContainerName: *string
 │       │       ├── Identity: *Object (1 property)
 │       │       │   └── UserAssignedIdentity: *string
@@ -528,11 +523,10 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702
 │   │   ├── RestrictOutboundNetworkAccess: *bool
 │   │   ├── Routing: *Object (4 properties)
 │   │   │   ├── Endpoints: *Object (4 properties)
-│   │   │   │   ├── EventHubs: Object (9 properties)[]
+│   │   │   │   ├── EventHubs: Object (8 properties)[]
 │   │   │   │   │   ├── AuthenticationType: *Enum (2 values)
 │   │   │   │   │   │   ├── "identityBased"
 │   │   │   │   │   │   └── "keyBased"
-│   │   │   │   │   ├── ConnectionString: *string
 │   │   │   │   │   ├── EndpointUri: *string
 │   │   │   │   │   ├── EntityPath: *string
 │   │   │   │   │   ├── Id: *string
@@ -541,11 +535,10 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702
 │   │   │   │   │   ├── Name: *string
 │   │   │   │   │   ├── ResourceGroup: *string
 │   │   │   │   │   └── SubscriptionId: *string
-│   │   │   │   ├── ServiceBusQueues: Object (9 properties)[]
+│   │   │   │   ├── ServiceBusQueues: Object (8 properties)[]
 │   │   │   │   │   ├── AuthenticationType: *Enum (2 values)
 │   │   │   │   │   │   ├── "identityBased"
 │   │   │   │   │   │   └── "keyBased"
-│   │   │   │   │   ├── ConnectionString: *string
 │   │   │   │   │   ├── EndpointUri: *string
 │   │   │   │   │   ├── EntityPath: *string
 │   │   │   │   │   ├── Id: *string
@@ -554,11 +547,10 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702
 │   │   │   │   │   ├── Name: *string
 │   │   │   │   │   ├── ResourceGroup: *string
 │   │   │   │   │   └── SubscriptionId: *string
-│   │   │   │   ├── ServiceBusTopics: Object (9 properties)[]
+│   │   │   │   ├── ServiceBusTopics: Object (8 properties)[]
 │   │   │   │   │   ├── AuthenticationType: *Enum (2 values)
 │   │   │   │   │   │   ├── "identityBased"
 │   │   │   │   │   │   └── "keyBased"
-│   │   │   │   │   ├── ConnectionString: *string
 │   │   │   │   │   ├── EndpointUri: *string
 │   │   │   │   │   ├── EntityPath: *string
 │   │   │   │   │   ├── Id: *string
@@ -567,12 +559,11 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702
 │   │   │   │   │   ├── Name: *string
 │   │   │   │   │   ├── ResourceGroup: *string
 │   │   │   │   │   └── SubscriptionId: *string
-│   │   │   │   └── StorageContainers: Object (13 properties)[]
+│   │   │   │   └── StorageContainers: Object (12 properties)[]
 │   │   │   │       ├── AuthenticationType: *Enum (2 values)
 │   │   │   │       │   ├── "identityBased"
 │   │   │   │       │   └── "keyBased"
 │   │   │   │       ├── BatchFrequencyInSeconds: *int
-│   │   │   │       ├── ConnectionString: *string
 │   │   │   │       ├── ContainerName: *string
 │   │   │   │       ├── Encoding: *Enum (3 values)
 │   │   │   │       │   ├── "Avro"
@@ -611,11 +602,10 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702
 │   │   │           ├── "Invalid"
 │   │   │           └── "TwinChangeEvents"
 │   │   ├── State: *string
-│   │   └── StorageEndpoints: map[string]Object (5 properties)
+│   │   └── StorageEndpoints: map[string]Object (4 properties)
 │   │       ├── AuthenticationType: *Enum (2 values)
 │   │       │   ├── "identityBased"
 │   │       │   └── "keyBased"
-│   │       ├── ConnectionString: *string
 │   │       ├── ContainerName: *string
 │   │       ├── Identity: *Object (1 property)
 │   │       │   └── UserAssignedIdentity: *string

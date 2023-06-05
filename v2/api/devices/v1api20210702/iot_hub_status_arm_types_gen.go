@@ -339,9 +339,6 @@ type StorageEndpointProperties_STATUS_ARM struct {
 	// AuthenticationType: Specifies authentication type being used for connecting to the storage account.
 	AuthenticationType *StorageEndpointProperties_AuthenticationType_STATUS `json:"authenticationType,omitempty"`
 
-	// ConnectionString: The connection string for the Azure Storage account to which files are uploaded.
-	ConnectionString *string `json:"connectionString,omitempty"`
-
 	// ContainerName: The name of the root container where you upload files. The container need not exist but should be
 	// creatable using the connectionString specified.
 	ContainerName *string `json:"containerName,omitempty"`
@@ -552,9 +549,6 @@ type RoutingEventHubProperties_STATUS_ARM struct {
 	// AuthenticationType: Method used to authenticate against the event hub endpoint
 	AuthenticationType *RoutingEventHubProperties_AuthenticationType_STATUS `json:"authenticationType,omitempty"`
 
-	// ConnectionString: The connection string of the event hub endpoint.
-	ConnectionString *string `json:"connectionString,omitempty"`
-
 	// EndpointUri: The url of the event hub endpoint. It must include the protocol sb://
 	EndpointUri *string `json:"endpointUri,omitempty"`
 
@@ -584,9 +578,6 @@ type RoutingServiceBusQueueEndpointProperties_STATUS_ARM struct {
 	// AuthenticationType: Method used to authenticate against the service bus queue endpoint
 	AuthenticationType *RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS `json:"authenticationType,omitempty"`
 
-	// ConnectionString: The connection string of the service bus queue endpoint.
-	ConnectionString *string `json:"connectionString,omitempty"`
-
 	// EndpointUri: The url of the service bus queue endpoint. It must include the protocol sb://
 	EndpointUri *string `json:"endpointUri,omitempty"`
 
@@ -615,9 +606,6 @@ type RoutingServiceBusQueueEndpointProperties_STATUS_ARM struct {
 type RoutingServiceBusTopicEndpointProperties_STATUS_ARM struct {
 	// AuthenticationType: Method used to authenticate against the service bus topic endpoint
 	AuthenticationType *RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS `json:"authenticationType,omitempty"`
-
-	// ConnectionString: The connection string of the service bus topic endpoint.
-	ConnectionString *string `json:"connectionString,omitempty"`
 
 	// EndpointUri: The url of the service bus topic endpoint. It must include the protocol sb://
 	EndpointUri *string `json:"endpointUri,omitempty"`
@@ -651,9 +639,6 @@ type RoutingStorageContainerProperties_STATUS_ARM struct {
 	// BatchFrequencyInSeconds: Time interval at which blobs are written to storage. Value should be between 60 and 720
 	// seconds. Default value is 300 seconds.
 	BatchFrequencyInSeconds *int `json:"batchFrequencyInSeconds,omitempty"`
-
-	// ConnectionString: The connection string of the storage account.
-	ConnectionString *string `json:"connectionString,omitempty"`
 
 	// ContainerName: The name of storage container in the storage account.
 	ContainerName *string `json:"containerName,omitempty"`

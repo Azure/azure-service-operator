@@ -250,9 +250,8 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702storage
         │   ├── RestrictOutboundNetworkAccess: *bool
         │   ├── Routing: *Object (5 properties)
         │   │   ├── Endpoints: *Object (5 properties)
-        │   │   │   ├── EventHubs: Object (10 properties)[]
+        │   │   │   ├── EventHubs: Object (9 properties)[]
         │   │   │   │   ├── AuthenticationType: *string
-        │   │   │   │   ├── ConnectionString: *string
         │   │   │   │   ├── EndpointUri: *string
         │   │   │   │   ├── EntityPath: *string
         │   │   │   │   ├── Id: *string
@@ -264,9 +263,8 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702storage
         │   │   │   │   ├── ResourceGroup: *string
         │   │   │   │   └── SubscriptionId: *string
         │   │   │   ├── PropertyBag: genruntime.PropertyBag
-        │   │   │   ├── ServiceBusQueues: Object (10 properties)[]
+        │   │   │   ├── ServiceBusQueues: Object (9 properties)[]
         │   │   │   │   ├── AuthenticationType: *string
-        │   │   │   │   ├── ConnectionString: *string
         │   │   │   │   ├── EndpointUri: *string
         │   │   │   │   ├── EntityPath: *string
         │   │   │   │   ├── Id: *string
@@ -277,9 +275,8 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702storage
         │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   │   │   ├── ResourceGroup: *string
         │   │   │   │   └── SubscriptionId: *string
-        │   │   │   ├── ServiceBusTopics: Object (10 properties)[]
+        │   │   │   ├── ServiceBusTopics: Object (9 properties)[]
         │   │   │   │   ├── AuthenticationType: *string
-        │   │   │   │   ├── ConnectionString: *string
         │   │   │   │   ├── EndpointUri: *string
         │   │   │   │   ├── EntityPath: *string
         │   │   │   │   ├── Id: *string
@@ -290,10 +287,9 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702storage
         │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   │   │   ├── ResourceGroup: *string
         │   │   │   │   └── SubscriptionId: *string
-        │   │   │   └── StorageContainers: Object (14 properties)[]
+        │   │   │   └── StorageContainers: Object (13 properties)[]
         │   │   │       ├── AuthenticationType: *string
         │   │   │       ├── BatchFrequencyInSeconds: *int
-        │   │   │       ├── ConnectionString: *string
         │   │   │       ├── ContainerName: *string
         │   │   │       ├── Encoding: *string
         │   │   │       ├── EndpointUri: *string
@@ -328,9 +324,8 @@ github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702storage
         │   │       ├── PropertyBag: genruntime.PropertyBag
         │   │       └── Source: *string
         │   ├── State: *string
-        │   └── StorageEndpoints: map[string]Object (6 properties)
+        │   └── StorageEndpoints: map[string]Object (5 properties)
         │       ├── AuthenticationType: *string
-        │       ├── ConnectionString: *string
         │       ├── ContainerName: *string
         │       ├── Identity: *Object (2 properties)
         │       │   ├── PropertyBag: genruntime.PropertyBag

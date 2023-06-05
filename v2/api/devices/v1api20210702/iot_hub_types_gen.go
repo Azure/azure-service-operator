@@ -6531,12 +6531,6 @@ func (properties *StorageEndpointProperties) Initialize_From_StorageEndpointProp
 		properties.AuthenticationType = nil
 	}
 
-	// ConnectionString
-	if source.ConnectionString != nil {
-	} else {
-		properties.ConnectionString = genruntime.SecretReference{}
-	}
-
 	// ContainerName
 	properties.ContainerName = genruntime.ClonePointerToString(source.ContainerName)
 
@@ -6563,9 +6557,6 @@ func (properties *StorageEndpointProperties) Initialize_From_StorageEndpointProp
 type StorageEndpointProperties_STATUS struct {
 	// AuthenticationType: Specifies authentication type being used for connecting to the storage account.
 	AuthenticationType *StorageEndpointProperties_AuthenticationType_STATUS `json:"authenticationType,omitempty"`
-
-	// ConnectionString: The connection string for the Azure Storage account to which files are uploaded.
-	ConnectionString *string `json:"connectionString,omitempty"`
 
 	// ContainerName: The name of the root container where you upload files. The container need not exist but should be
 	// creatable using the connectionString specified.
@@ -6597,12 +6588,6 @@ func (properties *StorageEndpointProperties_STATUS) PopulateFromARM(owner genrun
 	if typedInput.AuthenticationType != nil {
 		authenticationType := *typedInput.AuthenticationType
 		properties.AuthenticationType = &authenticationType
-	}
-
-	// Set property ‘ConnectionString’:
-	if typedInput.ConnectionString != nil {
-		connectionString := *typedInput.ConnectionString
-		properties.ConnectionString = &connectionString
 	}
 
 	// Set property ‘ContainerName’:
@@ -6643,9 +6628,6 @@ func (properties *StorageEndpointProperties_STATUS) AssignProperties_From_Storag
 		properties.AuthenticationType = nil
 	}
 
-	// ConnectionString
-	properties.ConnectionString = genruntime.ClonePointerToString(source.ConnectionString)
-
 	// ContainerName
 	properties.ContainerName = genruntime.ClonePointerToString(source.ContainerName)
 
@@ -6680,9 +6662,6 @@ func (properties *StorageEndpointProperties_STATUS) AssignProperties_To_StorageE
 	} else {
 		destination.AuthenticationType = nil
 	}
-
-	// ConnectionString
-	destination.ConnectionString = genruntime.ClonePointerToString(properties.ConnectionString)
 
 	// ContainerName
 	destination.ContainerName = genruntime.ClonePointerToString(properties.ContainerName)
@@ -9365,12 +9344,6 @@ func (properties *RoutingEventHubProperties) Initialize_From_RoutingEventHubProp
 		properties.AuthenticationType = nil
 	}
 
-	// ConnectionString
-	if source.ConnectionString != nil {
-	} else {
-		properties.ConnectionString = nil
-	}
-
 	// EndpointUri
 	properties.EndpointUri = genruntime.ClonePointerToString(source.EndpointUri)
 
@@ -9420,9 +9393,6 @@ type RoutingEventHubProperties_STATUS struct {
 	// AuthenticationType: Method used to authenticate against the event hub endpoint
 	AuthenticationType *RoutingEventHubProperties_AuthenticationType_STATUS `json:"authenticationType,omitempty"`
 
-	// ConnectionString: The connection string of the event hub endpoint.
-	ConnectionString *string `json:"connectionString,omitempty"`
-
 	// EndpointUri: The url of the event hub endpoint. It must include the protocol sb://
 	EndpointUri *string `json:"endpointUri,omitempty"`
 
@@ -9465,12 +9435,6 @@ func (properties *RoutingEventHubProperties_STATUS) PopulateFromARM(owner genrun
 	if typedInput.AuthenticationType != nil {
 		authenticationType := *typedInput.AuthenticationType
 		properties.AuthenticationType = &authenticationType
-	}
-
-	// Set property ‘ConnectionString’:
-	if typedInput.ConnectionString != nil {
-		connectionString := *typedInput.ConnectionString
-		properties.ConnectionString = &connectionString
 	}
 
 	// Set property ‘EndpointUri’:
@@ -9535,9 +9499,6 @@ func (properties *RoutingEventHubProperties_STATUS) AssignProperties_From_Routin
 		properties.AuthenticationType = nil
 	}
 
-	// ConnectionString
-	properties.ConnectionString = genruntime.ClonePointerToString(source.ConnectionString)
-
 	// EndpointUri
 	properties.EndpointUri = genruntime.ClonePointerToString(source.EndpointUri)
 
@@ -9584,9 +9545,6 @@ func (properties *RoutingEventHubProperties_STATUS) AssignProperties_To_RoutingE
 	} else {
 		destination.AuthenticationType = nil
 	}
-
-	// ConnectionString
-	destination.ConnectionString = genruntime.ClonePointerToString(properties.ConnectionString)
 
 	// EndpointUri
 	destination.EndpointUri = genruntime.ClonePointerToString(properties.EndpointUri)
@@ -9953,12 +9911,6 @@ func (properties *RoutingServiceBusQueueEndpointProperties) Initialize_From_Rout
 		properties.AuthenticationType = nil
 	}
 
-	// ConnectionString
-	if source.ConnectionString != nil {
-	} else {
-		properties.ConnectionString = nil
-	}
-
 	// EndpointUri
 	properties.EndpointUri = genruntime.ClonePointerToString(source.EndpointUri)
 
@@ -10008,9 +9960,6 @@ type RoutingServiceBusQueueEndpointProperties_STATUS struct {
 	// AuthenticationType: Method used to authenticate against the service bus queue endpoint
 	AuthenticationType *RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS `json:"authenticationType,omitempty"`
 
-	// ConnectionString: The connection string of the service bus queue endpoint.
-	ConnectionString *string `json:"connectionString,omitempty"`
-
 	// EndpointUri: The url of the service bus queue endpoint. It must include the protocol sb://
 	EndpointUri *string `json:"endpointUri,omitempty"`
 
@@ -10053,12 +10002,6 @@ func (properties *RoutingServiceBusQueueEndpointProperties_STATUS) PopulateFromA
 	if typedInput.AuthenticationType != nil {
 		authenticationType := *typedInput.AuthenticationType
 		properties.AuthenticationType = &authenticationType
-	}
-
-	// Set property ‘ConnectionString’:
-	if typedInput.ConnectionString != nil {
-		connectionString := *typedInput.ConnectionString
-		properties.ConnectionString = &connectionString
 	}
 
 	// Set property ‘EndpointUri’:
@@ -10123,9 +10066,6 @@ func (properties *RoutingServiceBusQueueEndpointProperties_STATUS) AssignPropert
 		properties.AuthenticationType = nil
 	}
 
-	// ConnectionString
-	properties.ConnectionString = genruntime.ClonePointerToString(source.ConnectionString)
-
 	// EndpointUri
 	properties.EndpointUri = genruntime.ClonePointerToString(source.EndpointUri)
 
@@ -10172,9 +10112,6 @@ func (properties *RoutingServiceBusQueueEndpointProperties_STATUS) AssignPropert
 	} else {
 		destination.AuthenticationType = nil
 	}
-
-	// ConnectionString
-	destination.ConnectionString = genruntime.ClonePointerToString(properties.ConnectionString)
 
 	// EndpointUri
 	destination.EndpointUri = genruntime.ClonePointerToString(properties.EndpointUri)
@@ -10541,12 +10478,6 @@ func (properties *RoutingServiceBusTopicEndpointProperties) Initialize_From_Rout
 		properties.AuthenticationType = nil
 	}
 
-	// ConnectionString
-	if source.ConnectionString != nil {
-	} else {
-		properties.ConnectionString = nil
-	}
-
 	// EndpointUri
 	properties.EndpointUri = genruntime.ClonePointerToString(source.EndpointUri)
 
@@ -10596,9 +10527,6 @@ type RoutingServiceBusTopicEndpointProperties_STATUS struct {
 	// AuthenticationType: Method used to authenticate against the service bus topic endpoint
 	AuthenticationType *RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS `json:"authenticationType,omitempty"`
 
-	// ConnectionString: The connection string of the service bus topic endpoint.
-	ConnectionString *string `json:"connectionString,omitempty"`
-
 	// EndpointUri: The url of the service bus topic endpoint. It must include the protocol sb://
 	EndpointUri *string `json:"endpointUri,omitempty"`
 
@@ -10641,12 +10569,6 @@ func (properties *RoutingServiceBusTopicEndpointProperties_STATUS) PopulateFromA
 	if typedInput.AuthenticationType != nil {
 		authenticationType := *typedInput.AuthenticationType
 		properties.AuthenticationType = &authenticationType
-	}
-
-	// Set property ‘ConnectionString’:
-	if typedInput.ConnectionString != nil {
-		connectionString := *typedInput.ConnectionString
-		properties.ConnectionString = &connectionString
 	}
 
 	// Set property ‘EndpointUri’:
@@ -10711,9 +10633,6 @@ func (properties *RoutingServiceBusTopicEndpointProperties_STATUS) AssignPropert
 		properties.AuthenticationType = nil
 	}
 
-	// ConnectionString
-	properties.ConnectionString = genruntime.ClonePointerToString(source.ConnectionString)
-
 	// EndpointUri
 	properties.EndpointUri = genruntime.ClonePointerToString(source.EndpointUri)
 
@@ -10760,9 +10679,6 @@ func (properties *RoutingServiceBusTopicEndpointProperties_STATUS) AssignPropert
 	} else {
 		destination.AuthenticationType = nil
 	}
-
-	// ConnectionString
-	destination.ConnectionString = genruntime.ClonePointerToString(properties.ConnectionString)
 
 	// EndpointUri
 	destination.EndpointUri = genruntime.ClonePointerToString(properties.EndpointUri)
@@ -11260,12 +11176,6 @@ func (properties *RoutingStorageContainerProperties) Initialize_From_RoutingStor
 		properties.BatchFrequencyInSeconds = nil
 	}
 
-	// ConnectionString
-	if source.ConnectionString != nil {
-	} else {
-		properties.ConnectionString = nil
-	}
-
 	// ContainerName
 	properties.ContainerName = genruntime.ClonePointerToString(source.ContainerName)
 
@@ -11338,9 +11248,6 @@ type RoutingStorageContainerProperties_STATUS struct {
 	// seconds. Default value is 300 seconds.
 	BatchFrequencyInSeconds *int `json:"batchFrequencyInSeconds,omitempty"`
 
-	// ConnectionString: The connection string of the storage account.
-	ConnectionString *string `json:"connectionString,omitempty"`
-
 	// ContainerName: The name of storage container in the storage account.
 	ContainerName *string `json:"containerName,omitempty"`
 
@@ -11401,12 +11308,6 @@ func (properties *RoutingStorageContainerProperties_STATUS) PopulateFromARM(owne
 	if typedInput.BatchFrequencyInSeconds != nil {
 		batchFrequencyInSeconds := *typedInput.BatchFrequencyInSeconds
 		properties.BatchFrequencyInSeconds = &batchFrequencyInSeconds
-	}
-
-	// Set property ‘ConnectionString’:
-	if typedInput.ConnectionString != nil {
-		connectionString := *typedInput.ConnectionString
-		properties.ConnectionString = &connectionString
 	}
 
 	// Set property ‘ContainerName’:
@@ -11492,9 +11393,6 @@ func (properties *RoutingStorageContainerProperties_STATUS) AssignProperties_Fro
 	// BatchFrequencyInSeconds
 	properties.BatchFrequencyInSeconds = genruntime.ClonePointerToInt(source.BatchFrequencyInSeconds)
 
-	// ConnectionString
-	properties.ConnectionString = genruntime.ClonePointerToString(source.ConnectionString)
-
 	// ContainerName
 	properties.ContainerName = genruntime.ClonePointerToString(source.ContainerName)
 
@@ -11558,9 +11456,6 @@ func (properties *RoutingStorageContainerProperties_STATUS) AssignProperties_To_
 
 	// BatchFrequencyInSeconds
 	destination.BatchFrequencyInSeconds = genruntime.ClonePointerToInt(properties.BatchFrequencyInSeconds)
-
-	// ConnectionString
-	destination.ConnectionString = genruntime.ClonePointerToString(properties.ConnectionString)
 
 	// ContainerName
 	destination.ContainerName = genruntime.ClonePointerToString(properties.ContainerName)

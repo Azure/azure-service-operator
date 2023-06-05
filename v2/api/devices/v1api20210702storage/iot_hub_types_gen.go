@@ -502,7 +502,6 @@ type StorageEndpointProperties struct {
 // The properties of the Azure Storage endpoint for file upload.
 type StorageEndpointProperties_STATUS struct {
 	AuthenticationType *string                 `json:"authenticationType,omitempty"`
-	ConnectionString   *string                 `json:"connectionString,omitempty"`
 	ContainerName      *string                 `json:"containerName,omitempty"`
 	Identity           *ManagedIdentity_STATUS `json:"identity,omitempty"`
 	PropertyBag        genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
@@ -673,7 +672,6 @@ type RoutingEventHubProperties struct {
 // The properties related to an event hub endpoint.
 type RoutingEventHubProperties_STATUS struct {
 	AuthenticationType *string                 `json:"authenticationType,omitempty"`
-	ConnectionString   *string                 `json:"connectionString,omitempty"`
 	EndpointUri        *string                 `json:"endpointUri,omitempty"`
 	EntityPath         *string                 `json:"entityPath,omitempty"`
 	Id                 *string                 `json:"id,omitempty"`
@@ -705,7 +703,6 @@ type RoutingServiceBusQueueEndpointProperties struct {
 // The properties related to service bus queue endpoint types.
 type RoutingServiceBusQueueEndpointProperties_STATUS struct {
 	AuthenticationType *string                 `json:"authenticationType,omitempty"`
-	ConnectionString   *string                 `json:"connectionString,omitempty"`
 	EndpointUri        *string                 `json:"endpointUri,omitempty"`
 	EntityPath         *string                 `json:"entityPath,omitempty"`
 	Id                 *string                 `json:"id,omitempty"`
@@ -737,7 +734,6 @@ type RoutingServiceBusTopicEndpointProperties struct {
 // The properties related to service bus topic endpoint types.
 type RoutingServiceBusTopicEndpointProperties_STATUS struct {
 	AuthenticationType *string                 `json:"authenticationType,omitempty"`
-	ConnectionString   *string                 `json:"connectionString,omitempty"`
 	EndpointUri        *string                 `json:"endpointUri,omitempty"`
 	EntityPath         *string                 `json:"entityPath,omitempty"`
 	Id                 *string                 `json:"id,omitempty"`
@@ -774,7 +770,6 @@ type RoutingStorageContainerProperties struct {
 type RoutingStorageContainerProperties_STATUS struct {
 	AuthenticationType      *string                 `json:"authenticationType,omitempty"`
 	BatchFrequencyInSeconds *int                    `json:"batchFrequencyInSeconds,omitempty"`
-	ConnectionString        *string                 `json:"connectionString,omitempty"`
 	ContainerName           *string                 `json:"containerName,omitempty"`
 	Encoding                *string                 `json:"encoding,omitempty"`
 	EndpointUri             *string                 `json:"endpointUri,omitempty"`
