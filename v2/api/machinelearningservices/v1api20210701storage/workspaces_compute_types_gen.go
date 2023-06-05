@@ -1010,10 +1010,8 @@ type UserAccountCredentials struct {
 // Storage version of v1api20210701.UserAccountCredentials_STATUS
 // Settings for user account that gets created on each on the nodes of a compute.
 type UserAccountCredentials_STATUS struct {
-	AdminUserName         *string                `json:"adminUserName,omitempty"`
-	AdminUserPassword     *string                `json:"adminUserPassword,omitempty"`
-	AdminUserSshPublicKey *string                `json:"adminUserSshPublicKey,omitempty"`
-	PropertyBag           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	AdminUserName *string                `json:"adminUserName,omitempty"`
+	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20210701.VirtualMachineImage
@@ -1046,7 +1044,6 @@ type VirtualMachineSshCredentials struct {
 // Storage version of v1api20210701.VirtualMachineSshCredentials_STATUS
 // Admin credentials for virtual machine
 type VirtualMachineSshCredentials_STATUS struct {
-	Password       *string                `json:"password,omitempty"`
 	PrivateKeyData *string                `json:"privateKeyData,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	PublicKeyData  *string                `json:"publicKeyData,omitempty"`

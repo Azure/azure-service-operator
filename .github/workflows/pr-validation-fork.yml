@@ -6,7 +6,7 @@ on:
 
 jobs:
   integration-tests-fork:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool]
     if:
       github.event_name == 'repository_dispatch' &&
       github.event.client_payload.slash_command.args.named.sha != '' &&
@@ -101,7 +101,7 @@ jobs:
       - name: Run integration tests
         run: |
           container_id=${{ env.container_id }}
-          docker exec --env HOSTROOT=$GITHUB_WORKSPACE -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID -e AZURE_CLIENT_SECRET_MULTITENANT -e AZURE_CLIENT_ID_MULTITENANT -e AZURE_CLIENT_ID_CERT_AUTH -e AZURE_CLIENT_SECRET_CERT_AUTH "$container_id" task controller:ci-integration-tests --concurrency 1 # limit concurrency because build machines are small
+          docker exec --env HOSTROOT=$GITHUB_WORKSPACE -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID -e AZURE_CLIENT_SECRET_MULTITENANT -e AZURE_CLIENT_ID_MULTITENANT -e AZURE_CLIENT_ID_CERT_AUTH -e AZURE_CLIENT_SECRET_CERT_AUTH "$container_id" task controller:ci-integration-tests
         env:
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
