@@ -1,0 +1,13 @@
+apiVersion: network.azure.com/v1api20220701
+kind: DnsForwardingRuleSetsForwardingRule
+metadata:
+  name: aso-sample-rule
+  namespace: default
+spec:
+  domainName: test.
+  forwardingRuleState: Disabled
+  owner:
+    name: aso-sample-ruleset
+  targetDnsServers:
+  - ipAddress: 192.168.1.1
+    port: 53

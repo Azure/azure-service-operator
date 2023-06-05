@@ -1,7 +1,7 @@
 apiVersion: network.azure.com/v1api20201101
 kind: VirtualNetwork
 metadata:
-  name: aso-sample-vn
+  name: aso-sample-vn-dnsresolver
   namespace: default
 spec:
   addressSpace:

@@ -3,6 +3,19 @@ title: Network Supported Resources
 linktitle: Network
 no_list: true
 ---
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+
+| Resource                                                                                                                                                                                   | ARM Version | CRD Version   | Supported From | Sample |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|--------|
+| [DnsForwardingRuleSetsForwardingRule](https://azure.github.io/azure-service-operator/reference/network/v1api20220701/#network.azure.com/v1api20220701.DnsForwardingRuleSetsForwardingRule) | 2022-07-01  | v1api20220701 | v2.2.0         | -      |
+| [DnsForwardingRuleset](https://azure.github.io/azure-service-operator/reference/network/v1api20220701/#network.azure.com/v1api20220701.DnsForwardingRuleset)                               | 2022-07-01  | v1api20220701 | v2.2.0         | -      |
+| [DnsResolver](https://azure.github.io/azure-service-operator/reference/network/v1api20220701/#network.azure.com/v1api20220701.DnsResolver)                                                 | 2022-07-01  | v1api20220701 | v2.2.0         | -      |
+| [DnsResolversInboundEndpoint](https://azure.github.io/azure-service-operator/reference/network/v1api20220701/#network.azure.com/v1api20220701.DnsResolversInboundEndpoint)                 | 2022-07-01  | v1api20220701 | v2.2.0         | -      |
+| [DnsResolversOutboundEndpoint](https://azure.github.io/azure-service-operator/reference/network/v1api20220701/#network.azure.com/v1api20220701.DnsResolversOutboundEndpoint)               | 2022-07-01  | v1api20220701 | v2.2.0         | -      |
+
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.

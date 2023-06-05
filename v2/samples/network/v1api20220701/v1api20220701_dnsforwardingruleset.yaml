@@ -1,0 +1,14 @@
+apiVersion: network.azure.com/v1api20220701
+kind: DnsForwardingRuleset
+metadata:
+  name: aso-sample-ruleset
+  namespace: default
+spec:
+  dnsResolverOutboundEndpoints:
+  - reference:
+      group: network.azure.com
+      kind: DnsResolversOutboundEndpoint
+      name: aso-sample-outbound-ep-dnsforwardingruleset
+  location: westus2
+  owner:
+    name: aso-sample-rg

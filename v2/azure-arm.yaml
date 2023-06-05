@@ -1412,6 +1412,21 @@ objectModelConfiguration:
         $supportedFrom: v2.1.0
       BastionHostIPConfiguration:
         $resourceEmbeddedInParent: BastionHost
+      DnsResolver:
+        $export: true
+        $supportedFrom: v2.2.0
+      DnsResolvers_InboundEndpoint:
+        $exportAs: DnsResolversInboundEndpoint
+        $supportedFrom: v2.2.0
+      DnsResolvers_OutboundEndpoint:
+        $exportAs: DnsResolversOutboundEndpoint
+        $supportedFrom: v2.2.0
+      DnsForwardingRuleSet:
+        $export: true
+        $supportedFrom: v2.2.0
+      DnsForwardingRuleSets_ForwardingRule:
+        $exportAs: DnsForwardingRuleSetsForwardingRule
+        $supportedFrom: v2.2.0
       NatGateway:
         $export: true
         $supportedFrom: v2.1.0

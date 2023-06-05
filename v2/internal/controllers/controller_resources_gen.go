@@ -516,6 +516,11 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20201101s.VirtualNetworksSubnet)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20201101s.VirtualNetworksVirtualNetworkPeering)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20220701s.BastionHost)})
+	result = append(result, &registration.StorageType{Obj: new(network_v1api20220701s.DnsForwardingRuleSetsForwardingRule)})
+	result = append(result, &registration.StorageType{Obj: new(network_v1api20220701s.DnsForwardingRuleset)})
+	result = append(result, &registration.StorageType{Obj: new(network_v1api20220701s.DnsResolver)})
+	result = append(result, &registration.StorageType{Obj: new(network_v1api20220701s.DnsResolversInboundEndpoint)})
+	result = append(result, &registration.StorageType{Obj: new(network_v1api20220701s.DnsResolversOutboundEndpoint)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20220701s.NatGateway)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20220701s.PrivateEndpoint)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20220701s.PrivateEndpointsPrivateDnsZoneGroup)})
@@ -1163,6 +1168,11 @@ func getKnownTypes() []client.Object {
 	result = append(
 		result,
 		new(network_v1api20220701.BastionHost),
+		new(network_v1api20220701.DnsForwardingRuleSetsForwardingRule),
+		new(network_v1api20220701.DnsForwardingRuleset),
+		new(network_v1api20220701.DnsResolver),
+		new(network_v1api20220701.DnsResolversInboundEndpoint),
+		new(network_v1api20220701.DnsResolversOutboundEndpoint),
 		new(network_v1api20220701.NatGateway),
 		new(network_v1api20220701.PrivateEndpoint),
 		new(network_v1api20220701.PrivateEndpointsPrivateDnsZoneGroup),
@@ -1171,6 +1181,11 @@ func getKnownTypes() []client.Object {
 	result = append(
 		result,
 		new(network_v1api20220701s.BastionHost),
+		new(network_v1api20220701s.DnsForwardingRuleSetsForwardingRule),
+		new(network_v1api20220701s.DnsForwardingRuleset),
+		new(network_v1api20220701s.DnsResolver),
+		new(network_v1api20220701s.DnsResolversInboundEndpoint),
+		new(network_v1api20220701s.DnsResolversOutboundEndpoint),
 		new(network_v1api20220701s.NatGateway),
 		new(network_v1api20220701s.PrivateEndpoint),
 		new(network_v1api20220701s.PrivateEndpointsPrivateDnsZoneGroup),
@@ -1601,6 +1616,11 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &managedidentity_customizations.FederatedIdentityCredentialExtension{})
 	result = append(result, &managedidentity_customizations.UserAssignedIdentityExtension{})
 	result = append(result, &network_customizations.BastionHostExtension{})
+	result = append(result, &network_customizations.DnsForwardingRuleSetsForwardingRuleExtension{})
+	result = append(result, &network_customizations.DnsForwardingRulesetExtension{})
+	result = append(result, &network_customizations.DnsResolverExtension{})
+	result = append(result, &network_customizations.DnsResolversInboundEndpointExtension{})
+	result = append(result, &network_customizations.DnsResolversOutboundEndpointExtension{})
 	result = append(result, &network_customizations.DnsZoneExtension{})
 	result = append(result, &network_customizations.DnsZonesAAAARecordExtension{})
 	result = append(result, &network_customizations.DnsZonesARecordExtension{})
