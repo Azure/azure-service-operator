@@ -529,10 +529,8 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │       │   │   │   │   ├── Id: *string
 │       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   │   │   ├── TargetNodeCount: *int
-│       │   │   │   ├── UserAccountCredentials: *Object (4 properties)
+│       │   │   │   ├── UserAccountCredentials: *Object (2 properties)
 │       │   │   │   │   ├── AdminUserName: *string
-│       │   │   │   │   ├── AdminUserPassword: *string
-│       │   │   │   │   ├── AdminUserSshPublicKey: *string
 │       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   │   │   ├── VirtualMachineImage: *Object (2 properties)
 │       │   │   │   │   ├── Id: *string
@@ -778,8 +776,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │       │   │   ├── ModifiedOn: *string
 │       │   │   ├── Properties: *Object (4 properties)
 │       │   │   │   ├── Address: *string
-│       │   │   │   ├── AdministratorAccount: *Object (5 properties)
-│       │   │   │   │   ├── Password: *string
+│       │   │   │   ├── AdministratorAccount: *Object (4 properties)
 │       │   │   │   │   ├── PrivateKeyData: *string
 │       │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   │   │   ├── PublicKeyData: *string
@@ -915,8 +912,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │       │       ├── ModifiedOn: *string
 │       │       ├── Properties: *Object (6 properties)
 │       │       │   ├── Address: *string
-│       │       │   ├── AdministratorAccount: *Object (5 properties)
-│       │       │   │   ├── Password: *string
+│       │       │   ├── AdministratorAccount: *Object (4 properties)
 │       │       │   │   ├── PrivateKeyData: *string
 │       │       │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │       │   │   ├── PublicKeyData: *string
