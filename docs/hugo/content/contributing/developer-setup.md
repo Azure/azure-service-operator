@@ -8,6 +8,16 @@ cascade:
 description: "How to set up your developer environment for Azure Service Operator v2"
 ---
 
+We support a number of different approaches to ASO development.
+
+- Dev Container with VS Code on Linux
+- Dev Container with VS Code on Windows
+- Docker on Linux
+- CLI on Linux
+- CLI on MacOS
+
+Each of these is described in a different section below. See also the [troubleshooting](#troubleshooting-repo-health) sections below for help with common problems.
+
 ## Dev Container with VS Code on Linux 
 
 Use these steps if you've checked out the ASO code into a Linux environment (_including_ WSL 2 on Windows). We've found this to be the best performing option.
@@ -32,7 +42,7 @@ The ASO repository contains a [devcontainer](https://code.visualstudio.com/docs/
 0. Make sure you have installed [the prerequisites to use Docker](https://code.visualstudio.com/docs/remote/containers#_system-requirements), including [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) if on Windows. 
 1. Install VS Code and the [Remote Development](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack) extension (check installation instructions there).
 2. Open VS Code
-3. Run the VS Code command (with `Ctrl-Shift-P`): `Remote Containers: Clone Repository in Container Volume...`
+3. Run the VS Code command (with `Ctrl-Shift-P`): `Dev Containers: Clone Repository in Container Volume...`
 
    **Note**: in Windows, it is important to clone directly into a container instead of cloning first and then loading that with the `Remote Containers` extension, as the tooling performs a lot of file I/O, and if this is performed against a Windows folder mounted into the devcontainer then it is unusably slow.
 
@@ -64,11 +74,11 @@ $ docker run --env-file ~/work/envs.env --env HOSTROOT=$(git rev-parse --show-to
 Note: If you mount the source like this from a Windows folder, performance will be poor as file operations between the container and Windows are very slow.
 
 
-## Linux
+## CLI on Linux
 
 If you are using Linux, instead of using VS Code you can run the `dev.sh` script in the root of the repository. This will install all required tooling into the `hack/tools` directory and then start a new shell with the `PATH` updated to use it.
 
-## MacOS
+## CLI on MacOS
 
 Development of ASO on MacOS is possible (one of our team does so), but things are less automated.
 
@@ -79,16 +89,17 @@ If you have an ARM based Mac, you'll also need to install [Rosetta](https://supp
 
 ## Troubleshooting: Repo health
 
-Simply cloning the ASO repo is not enough to successfully run a build. There are two additional things you must ensure that:
+A simple cloning of the ASO repo is not enough to successfully run a build. You must also ensure:
 
-* You have access to git tags  
-  Our build scripts depend on tags in order to create a version number
-* The `azure-rest-api-specs` submodule has been cloned  
-  Our code generator parses these specs to determine the shape of our code generated resources.
+* You have access to git tags.  
+  The build scripts depend on tags in order to create a version number.
+
+* The `azure-rest-api-specs` submodule has been cloned.  
+  The specifications in this repo are the input used by the code generator.
 
 ### Git tag access 
 
-Verify that you have access to tags. Some tools default to shallow cloning of repos, omitting tags. Our build process depends on tags being present and will fail if they're missing. 
+Some tools default to shallow cloning of repos, omitting tags. The build process depends on tags being present and will fail if they're missing. 
 
 To check if you have any tags:
 
