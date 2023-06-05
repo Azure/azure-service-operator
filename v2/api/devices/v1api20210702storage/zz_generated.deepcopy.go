@@ -2454,11 +2454,6 @@ func (in *SharedAccessSignatureAuthorizationRule) DeepCopyInto(out *SharedAccess
 		*out = new(string)
 		**out = **in
 	}
-	if in.PrimaryKey != nil {
-		in, out := &in.PrimaryKey, &out.PrimaryKey
-		*out = new(string)
-		**out = **in
-	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -2468,11 +2463,6 @@ func (in *SharedAccessSignatureAuthorizationRule) DeepCopyInto(out *SharedAccess
 	}
 	if in.Rights != nil {
 		in, out := &in.Rights, &out.Rights
-		*out = new(string)
-		**out = **in
-	}
-	if in.SecondaryKey != nil {
-		in, out := &in.SecondaryKey, &out.SecondaryKey
 		*out = new(string)
 		**out = **in
 	}
@@ -2496,11 +2486,6 @@ func (in *SharedAccessSignatureAuthorizationRule_STATUS) DeepCopyInto(out *Share
 		*out = new(string)
 		**out = **in
 	}
-	if in.PrimaryKey != nil {
-		in, out := &in.PrimaryKey, &out.PrimaryKey
-		*out = new(string)
-		**out = **in
-	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -2510,11 +2495,6 @@ func (in *SharedAccessSignatureAuthorizationRule_STATUS) DeepCopyInto(out *Share
 	}
 	if in.Rights != nil {
 		in, out := &in.Rights, &out.Rights
-		*out = new(string)
-		**out = **in
-	}
-	if in.SecondaryKey != nil {
-		in, out := &in.SecondaryKey, &out.SecondaryKey
 		*out = new(string)
 		**out = **in
 	}
