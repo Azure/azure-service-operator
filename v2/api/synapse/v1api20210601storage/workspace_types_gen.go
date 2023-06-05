@@ -218,7 +218,6 @@ type Workspace_STATUS struct {
 	PurviewConfiguration             *PurviewConfiguration_STATUS             `json:"purviewConfiguration,omitempty"`
 	Settings                         map[string]v1.JSON                       `json:"settings,omitempty"`
 	SqlAdministratorLogin            *string                                  `json:"sqlAdministratorLogin,omitempty"`
-	SqlAdministratorLoginPassword    *string                                  `json:"sqlAdministratorLoginPassword,omitempty"`
 	Tags                             map[string]string                        `json:"tags,omitempty"`
 	TrustedServiceBypassEnabled      *bool                                    `json:"trustedServiceBypassEnabled,omitempty"`
 	Type                             *string                                  `json:"type,omitempty"`
