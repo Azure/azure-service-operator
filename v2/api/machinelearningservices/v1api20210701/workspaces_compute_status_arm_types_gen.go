@@ -1210,12 +1210,6 @@ type SystemService_STATUS_ARM struct {
 type UserAccountCredentials_STATUS_ARM struct {
 	// AdminUserName: Name of the administrator user account which can be used to SSH to nodes.
 	AdminUserName *string `json:"adminUserName,omitempty"`
-
-	// AdminUserPassword: Password of the administrator user account.
-	AdminUserPassword *string `json:"adminUserPassword,omitempty"`
-
-	// AdminUserSshPublicKey: SSH public key of the administrator user account.
-	AdminUserSshPublicKey *string `json:"adminUserSshPublicKey,omitempty"`
 }
 
 // Virtual Machine image for Windows AML Compute
@@ -1226,9 +1220,6 @@ type VirtualMachineImage_STATUS_ARM struct {
 
 // Admin credentials for virtual machine
 type VirtualMachineSshCredentials_STATUS_ARM struct {
-	// Password: Password of admin account
-	Password *string `json:"password,omitempty"`
-
 	// PrivateKeyData: Private key data
 	PrivateKeyData *string `json:"privateKeyData,omitempty"`
 

@@ -60,7 +60,7 @@ github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601
 │   │       ├── TenantId: Validated<*string> (1 rule)
 │   │       │   └── Rule 0: Pattern: "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
 │   │       └── Type: *string
-│   └── Status: Object (28 properties)
+│   └── Status: Object (27 properties)
 │       ├── AdlaResourceId: *string
 │       ├── AzureADOnlyAuthentication: *bool
 │       ├── Conditions: conditions.Condition[]
@@ -112,7 +112,6 @@ github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601
 │       │   └── PurviewResourceId: *string
 │       ├── Settings: map[string]v1.JSON
 │       ├── SqlAdministratorLogin: *string
-│       ├── SqlAdministratorLoginPassword: *string
 │       ├── Tags: map[string]string
 │       ├── TrustedServiceBypassEnabled: *bool
 │       ├── Type: *string
@@ -143,7 +142,7 @@ github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601
 │   │       └── PrincipalId: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: *Object (21 properties)
+│   ├── Properties: *Object (20 properties)
 │   │   ├── AdlaResourceId: *string
 │   │   ├── AzureADOnlyAuthentication: *bool
 │   │   ├── ConnectivityEndpoints: map[string]string
@@ -181,7 +180,6 @@ github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601
 │   │   │   └── PurviewResourceId: *string
 │   │   ├── Settings: map[string]v1.JSON
 │   │   ├── SqlAdministratorLogin: *string
-│   │   ├── SqlAdministratorLoginPassword: *string
 │   │   ├── TrustedServiceBypassEnabled: *bool
 │   │   ├── VirtualNetworkProfile: *Object (1 property)
 │   │   │   └── ComputeSubnetId: *string

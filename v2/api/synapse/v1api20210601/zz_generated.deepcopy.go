@@ -2363,11 +2363,6 @@ func (in *WorkspaceProperties_STATUS_ARM) DeepCopyInto(out *WorkspaceProperties_
 		*out = new(string)
 		**out = **in
 	}
-	if in.SqlAdministratorLoginPassword != nil {
-		in, out := &in.SqlAdministratorLoginPassword, &out.SqlAdministratorLoginPassword
-		*out = new(string)
-		**out = **in
-	}
 	if in.TrustedServiceBypassEnabled != nil {
 		in, out := &in.TrustedServiceBypassEnabled, &out.TrustedServiceBypassEnabled
 		*out = new(bool)
@@ -2755,11 +2750,6 @@ func (in *Workspace_STATUS) DeepCopyInto(out *Workspace_STATUS) {
 	}
 	if in.SqlAdministratorLogin != nil {
 		in, out := &in.SqlAdministratorLogin, &out.SqlAdministratorLogin
-		*out = new(string)
-		**out = **in
-	}
-	if in.SqlAdministratorLoginPassword != nil {
-		in, out := &in.SqlAdministratorLoginPassword, &out.SqlAdministratorLoginPassword
 		*out = new(string)
 		**out = **in
 	}
