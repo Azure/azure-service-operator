@@ -2,6 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://azure.github.io/azure-service-operator/contributing/developer-setup/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/installing-from-helm/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/installing-from-yaml/</loc>

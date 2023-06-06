@@ -18,46 +18,22 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>subscription.azure.com/v1beta20211001 | Azure Service Operator</title>
-<meta name="description" content="subscription.azure.com/v1beta20211001  Package v1beta20211001 contains API Schema definitions for the subscription v1beta20211001 API group
- Resource Types:  APIVersion (string alias)  Deprecated version of APIVersion. Use v1api20211001.APIVersion instead
-    Value Description   &amp;#34;2021-10-01&amp;#34;
-    AcceptOwnershipState_STATUS (string alias)  (Appears on:SubscriptionAliasResponseProperties_STATUS, SubscriptionAliasResponseProperties_STATUS_ARM)  Deprecated version of AcceptOwnershipState_STATUS. Use v1api20211001.AcceptOwnershipState_STATUS instead
-    Value Description   &amp;#34;Completed&amp;#34;
-  &amp;#34;Expired&amp;#34;
-  &amp;#34;Pending&amp;#34;">
-<meta property="og:title" content="subscription.azure.com/v1beta20211001" />
-<meta property="og:description" content="subscription.azure.com/v1beta20211001  Package v1beta20211001 contains API Schema definitions for the subscription v1beta20211001 API group
- Resource Types:  APIVersion (string alias)  Deprecated version of APIVersion. Use v1api20211001.APIVersion instead
-    Value Description   &#34;2021-10-01&#34;
-    AcceptOwnershipState_STATUS (string alias)  (Appears on:SubscriptionAliasResponseProperties_STATUS, SubscriptionAliasResponseProperties_STATUS_ARM)  Deprecated version of AcceptOwnershipState_STATUS. Use v1api20211001.AcceptOwnershipState_STATUS instead
-    Value Description   &#34;Completed&#34;
-  &#34;Expired&#34;
-  &#34;Pending&#34;" />
+<title>Developer Setup | Azure Service Operator</title>
+<meta name="description" content="How to set up your developer environment for Azure Service Operator v2">
+<meta property="og:title" content="Developer Setup" />
+<meta property="og:description" content="How to set up your developer environment for Azure Service Operator v2" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/subscription/v1beta20211001/" /><meta property="article:section" content="reference" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/contributing/developer-setup/" /><meta property="article:section" content="contributing" />
 
 
 
-<meta itemprop="name" content="subscription.azure.com/v1beta20211001">
-<meta itemprop="description" content="subscription.azure.com/v1beta20211001  Package v1beta20211001 contains API Schema definitions for the subscription v1beta20211001 API group
- Resource Types:  APIVersion (string alias)  Deprecated version of APIVersion. Use v1api20211001.APIVersion instead
-    Value Description   &#34;2021-10-01&#34;
-    AcceptOwnershipState_STATUS (string alias)  (Appears on:SubscriptionAliasResponseProperties_STATUS, SubscriptionAliasResponseProperties_STATUS_ARM)  Deprecated version of AcceptOwnershipState_STATUS. Use v1api20211001.AcceptOwnershipState_STATUS instead
-    Value Description   &#34;Completed&#34;
-  &#34;Expired&#34;
-  &#34;Pending&#34;">
+<meta itemprop="name" content="Developer Setup">
+<meta itemprop="description" content="How to set up your developer environment for Azure Service Operator v2">
 
-<meta itemprop="wordCount" content="506">
+<meta itemprop="wordCount" content="1206">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="subscription.azure.com/v1beta20211001"/>
-<meta name="twitter:description" content="subscription.azure.com/v1beta20211001  Package v1beta20211001 contains API Schema definitions for the subscription v1beta20211001 API group
- Resource Types:  APIVersion (string alias)  Deprecated version of APIVersion. Use v1api20211001.APIVersion instead
-    Value Description   &#34;2021-10-01&#34;
-    AcceptOwnershipState_STATUS (string alias)  (Appears on:SubscriptionAliasResponseProperties_STATUS, SubscriptionAliasResponseProperties_STATUS_ARM)  Deprecated version of AcceptOwnershipState_STATUS. Use v1api20211001.AcceptOwnershipState_STATUS instead
-    Value Description   &#34;Completed&#34;
-  &#34;Expired&#34;
-  &#34;Pending&#34;"/>
+<meta name="twitter:title" content="Developer Setup"/>
+<meta name="twitter:description" content="How to set up your developer environment for Azure Service Operator v2"/>
 
 
 
@@ -87,10 +63,10 @@
         <a class="nav-link" href="/azure-service-operator/tools/"><span>Tools</span></a>
       </li>
       <li class="nav-item mr-4 mb-2 mb-lg-0">
-        <a class="nav-link active" href="/azure-service-operator/reference/"><span class="active">Supported Resources</span></a>
+        <a class="nav-link" href="/azure-service-operator/reference/"><span>Supported Resources</span></a>
       </li>
       <li class="nav-item mr-4 mb-2 mb-lg-0">
-        <a class="nav-link" href="/azure-service-operator/contributing/"><span>Contributing</span></a>
+        <a class="nav-link active" href="/azure-service-operator/contributing/"><span class="active">Contributing</span></a>
       </li>
       <li class="nav-item mr-4 mb-2 mb-lg-0">
         <a class="nav-link" href="/azure-service-operator/design/"><span>Design</span></a>
@@ -196,10 +172,10 @@
   <a href="/azure-service-operator/tools/generator/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatortoolsgenerator"><span class="">generator</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreference-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreference-li">
   <a href="/azure-service-operator/reference/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreference"><span class="">Supported Resources</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceappconfiguration-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceappconfiguration-li">
   <a href="/azure-service-operator/reference/appconfiguration/" title="AppConfiguration Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceappconfiguration"><span class="">AppConfiguration</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappconfigurationv1api20220501-li">
@@ -208,7 +184,7 @@
   <a href="/azure-service-operator/reference/appconfiguration/v1beta20220501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappconfigurationv1beta20220501"><span class="">appconfiguration.azure.com/v1beta20220501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceauthorization-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceauthorization-li">
   <a href="/azure-service-operator/reference/authorization/" title="Authorization Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceauthorization"><span class="">Authorization</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1api20200801preview-li">
@@ -217,7 +193,7 @@
   <a href="/azure-service-operator/reference/authorization/v1beta20200801preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1beta20200801preview"><span class="">authorization.azure.com/v1beta20200801preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencebatch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencebatch-li">
   <a href="/azure-service-operator/reference/batch/" title="Batch Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencebatch"><span class="">Batch</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv1api20210101-li">
@@ -226,7 +202,7 @@
   <a href="/azure-service-operator/reference/batch/v1beta20210101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv1beta20210101"><span class="">batch.azure.com/v1beta20210101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecache-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecache-li">
   <a href="/azure-service-operator/reference/cache/" title="Cache Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecache"><span class="">Cache</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20201201-li">
@@ -239,7 +215,7 @@
   <a href="/azure-service-operator/reference/cache/v1beta20210301/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1beta20210301"><span class="">cache.azure.com/v1beta20210301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecdn-li">
   <a href="/azure-service-operator/reference/cdn/" title="Cdn Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecdn"><span class="">Cdn</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecdnv1api20210601-li">
@@ -248,7 +224,7 @@
   <a href="/azure-service-operator/reference/cdn/v1beta20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv1beta20210601"><span class="">cdn.azure.com/v1beta20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecompute-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecompute-li">
   <a href="/azure-service-operator/reference/compute/" title="Compute Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecompute"><span class="">Compute</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20200930-li">
@@ -269,7 +245,7 @@
   <a href="/azure-service-operator/reference/compute/v1beta20220301/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1beta20220301"><span class="">compute.azure.com/v1beta20220301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerinstance-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerinstance-li">
   <a href="/azure-service-operator/reference/containerinstance/" title="ContainerInstance Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerinstance"><span class="">ContainerInstance</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerinstancev1api20211001-li">
@@ -278,7 +254,7 @@
   <a href="/azure-service-operator/reference/containerinstance/v1beta20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerinstancev1beta20211001"><span class="">containerinstance.azure.com/v1beta20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerregistry-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerregistry-li">
   <a href="/azure-service-operator/reference/containerregistry/" title="ContainerRegistry Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerregistry"><span class="">ContainerRegistry</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1api20210901-li">
@@ -287,7 +263,7 @@
   <a href="/azure-service-operator/reference/containerregistry/v1beta20210901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1beta20210901"><span class="">containerregistry.azure.com/v1beta20210901</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerservice-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerservice-li">
   <a href="/azure-service-operator/reference/containerservice/" title="ContainerService Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerservice"><span class="">ContainerService</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20210501-li">
@@ -300,14 +276,14 @@
   <a href="/azure-service-operator/reference/containerservice/v1beta20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1beta20210501"><span class="">containerservice.azure.com/v1beta20210501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedatafactory-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedatafactory-li">
   <a href="/azure-service-operator/reference/datafactory/" title="DataFactory Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedatafactory"><span class="">DataFactory</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedatafactoryv1api20180601-li">
   <a href="/azure-service-operator/reference/datafactory/v1api20180601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedatafactoryv1api20180601"><span class="">datafactory.azure.com/v1api20180601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformariadb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformariadb-li">
   <a href="/azure-service-operator/reference/dbformariadb/" title="DBforMariaDB Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformariadb"><span class="">DBforMariaDB</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformariadbv1api20180601-li">
@@ -316,7 +292,7 @@
   <a href="/azure-service-operator/reference/dbformariadb/v1beta20180601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformariadbv1beta20180601"><span class="">dbformariadb.azure.com/v1beta20180601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformysql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformysql-li">
   <a href="/azure-service-operator/reference/dbformysql/" title="DBforMySQL Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformysql"><span class="">DBforMySQL</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1-li">
@@ -331,7 +307,7 @@
   <a href="/azure-service-operator/reference/dbformysql/v1beta20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1beta20210501"><span class="">dbformysql.azure.com/v1beta20210501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbforpostgresql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbforpostgresql-li">
   <a href="/azure-service-operator/reference/dbforpostgresql/" title="DBforPostgreSQL Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbforpostgresql"><span class="">DBforPostgreSQL</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1-li">
@@ -346,7 +322,7 @@
   <a href="/azure-service-operator/reference/dbforpostgresql/v1beta20220120preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1beta20220120preview"><span class="">dbforpostgresql.azure.com/v1beta20220120preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedocumentdb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedocumentdb-li">
   <a href="/azure-service-operator/reference/documentdb/" title="DocumentDB Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedocumentdb"><span class="">DocumentDB</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1api20210515-li">
@@ -355,7 +331,7 @@
   <a href="/azure-service-operator/reference/documentdb/v1beta20210515/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1beta20210515"><span class="">documentdb.azure.com/v1beta20210515</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventgrid-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventgrid-li">
   <a href="/azure-service-operator/reference/eventgrid/" title="EventGrid Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventgrid"><span class="">EventGrid</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventgridv1api20200601-li">
@@ -364,7 +340,7 @@
   <a href="/azure-service-operator/reference/eventgrid/v1beta20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv1beta20200601"><span class="">eventgrid.azure.com/v1beta20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventhub-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventhub-li">
   <a href="/azure-service-operator/reference/eventhub/" title="EventHub Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventhub"><span class="">EventHub</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1api20211101-li">
@@ -373,7 +349,7 @@
   <a href="/azure-service-operator/reference/eventhub/v1beta20211101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1beta20211101"><span class="">eventhub.azure.com/v1beta20211101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceinsights-li">
   <a href="/azure-service-operator/reference/insights/" title="Insights Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceinsights"><span class="">Insights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20180501preview-li">
@@ -386,7 +362,7 @@
   <a href="/azure-service-operator/reference/insights/v1beta20200202/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1beta20200202"><span class="">insights.azure.com/v1beta20200202</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekeyvault-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekeyvault-li">
   <a href="/azure-service-operator/reference/keyvault/" title="KeyVault Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekeyvault"><span class="">KeyVault</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekeyvaultv1api20210401preview-li">
@@ -395,7 +371,7 @@
   <a href="/azure-service-operator/reference/keyvault/v1beta20210401preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekeyvaultv1beta20210401preview"><span class="">keyvault.azure.com/v1beta20210401preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemachinelearningservices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemachinelearningservices-li">
   <a href="/azure-service-operator/reference/machinelearningservices/" title="MachineLearningServices Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemachinelearningservices"><span class="">MachineLearningServices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
@@ -404,7 +380,7 @@
   <a href="/azure-service-operator/reference/machinelearningservices/v1beta20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1beta20210701"><span class="">machinelearningservices.azure.com/v1beta20210701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemanagedidentity-li">
   <a href="/azure-service-operator/reference/managedidentity/" title="ManagedIdentity Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemanagedidentity"><span class="">ManagedIdentity</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1api20181130-li">
@@ -417,7 +393,7 @@
   <a href="/azure-service-operator/reference/managedidentity/v1beta20220131preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1beta20220131preview"><span class="">managedidentity.azure.com/v1beta20220131preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetwork-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencenetwork-li">
   <a href="/azure-service-operator/reference/network/" title="Network Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetwork"><span class="">Network</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20180501-li">
@@ -436,7 +412,7 @@
   <a href="/azure-service-operator/reference/network/v1beta20201101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1beta20201101"><span class="">network.azure.com/v1beta20201101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceoperationalinsights-li">
   <a href="/azure-service-operator/reference/operationalinsights/" title="OperationalInsights Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceoperationalinsights"><span class="">OperationalInsights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601-li">
@@ -445,7 +421,7 @@
   <a href="/azure-service-operator/reference/operationalinsights/v1beta20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1beta20210601"><span class="">operationalinsights.azure.com/v1beta20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceresources-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceresources-li">
   <a href="/azure-service-operator/reference/resources/" title="Resources Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceresources"><span class="">Resources</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceresourcesv1api20200601-li">
@@ -454,14 +430,14 @@
   <a href="/azure-service-operator/reference/resources/v1beta20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1beta20200601"><span class="">resources.azure.com/v1beta20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesearch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesearch-li">
   <a href="/azure-service-operator/reference/search/" title="Search Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesearch"><span class="">Search</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesearchv1api20220901-li">
   <a href="/azure-service-operator/reference/search/v1api20220901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesearchv1api20220901"><span class="">search.azure.com/v1api20220901</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceservicebus-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceservicebus-li">
   <a href="/azure-service-operator/reference/servicebus/" title="ServiceBus Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceservicebus"><span class="">ServiceBus</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1api20210101preview-li">
@@ -470,7 +446,7 @@
   <a href="/azure-service-operator/reference/servicebus/v1beta20210101preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1beta20210101preview"><span class="">servicebus.azure.com/v1beta20210101preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesignalrservice-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesignalrservice-li">
   <a href="/azure-service-operator/reference/signalrservice/" title="SignalRService Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesignalrservice"><span class="">SignalRService</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1api20211001-li">
@@ -479,14 +455,14 @@
   <a href="/azure-service-operator/reference/signalrservice/v1beta20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1beta20211001"><span class="">signalrservice.azure.com/v1beta20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesql-li">
   <a href="/azure-service-operator/reference/sql/" title="Sql Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesql"><span class="">Sql</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesqlv1api20211101-li">
   <a href="/azure-service-operator/reference/sql/v1api20211101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesqlv1api20211101"><span class="">sql.azure.com/v1api20211101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencestorage-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencestorage-li">
   <a href="/azure-service-operator/reference/storage/" title="Storage Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencestorage"><span class="">Storage</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1api20210401-li">
@@ -497,23 +473,23 @@
   <a href="/azure-service-operator/reference/storage/v1beta20210401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1beta20210401"><span class="">storage.azure.com/v1beta20210401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencesubscription-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesubscription-li">
   <a href="/azure-service-operator/reference/subscription/" title="Subscription Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesubscription"><span class="">Subscription</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencesubscriptionv1api20211001-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesubscriptionv1api20211001-li">
   <a href="/azure-service-operator/reference/subscription/v1api20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesubscriptionv1api20211001"><span class="">subscription.azure.com/v1api20211001</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferencesubscriptionv1beta20211001-li">
-  <a href="/azure-service-operator/reference/subscription/v1beta20211001/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesubscriptionv1beta20211001"><span class="td-sidebar-nav-active-item">subscription.azure.com/v1beta20211001</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesubscriptionv1beta20211001-li">
+  <a href="/azure-service-operator/reference/subscription/v1beta20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesubscriptionv1beta20211001"><span class="">subscription.azure.com/v1beta20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesynapse-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesynapse-li">
   <a href="/azure-service-operator/reference/synapse/" title="Synapse Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesynapse"><span class="">Synapse</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesynapsev1api20210601-li">
   <a href="/azure-service-operator/reference/synapse/v1api20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesynapsev1api20210601"><span class="">synapse.azure.com/v1api20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceweb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceweb-li">
   <a href="/azure-service-operator/reference/web/" title="Web Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceweb"><span class="">Web</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencewebv1api20220301-li">
@@ -524,16 +500,16 @@
   </ul>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorcontributing-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorcontributing-li">
   <a href="/azure-service-operator/contributing/" title="Contributing to Azure Service Operator v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorcontributing"><span class="">Contributing</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingdeveloper-setup-li">
-  <a href="/azure-service-operator/contributing/developer-setup/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingdeveloper-setup"><span class="">Developer Setup</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resource-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorcontributingdeveloper-setup-li">
+  <a href="/azure-service-operator/contributing/developer-setup/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingdeveloper-setup"><span class="td-sidebar-nav-active-item">Developer Setup</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resource-li">
   <a href="/azure-service-operator/contributing/add-a-new-code-generated-resource/" title="Adding a new code generated resource to ASO v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resource"><span class="">Add a resource</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributinggenerator-overview-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributinggenerator-overview-li">
   <a href="/azure-service-operator/contributing/generator-overview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributinggenerator-overview"><span class="">Code Generator</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingcreate-a-new-release-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingcreate-a-new-release-li">
   <a href="/azure-service-operator/contributing/create-a-new-release/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingcreate-a-new-release"><span class="">Creating a new release</span></a>
 </li>
   </ul>
@@ -628,7 +604,26 @@
 
 </div>
 
-            
+            <div class="td-toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#dev-container-with-vs-code-on-linux">Dev Container with VS Code on Linux</a></li>
+    <li><a href="#dev-container-with-vs-code-on-windows">Dev Container with VS Code on Windows</a></li>
+    <li><a href="#docker-on-linux">Docker on Linux</a></li>
+    <li><a href="#cli-on-linux">CLI on Linux</a></li>
+    <li><a href="#cli-on-macos">CLI on MacOS</a></li>
+    <li><a href="#troubleshooting-repo-health">Troubleshooting: Repo health</a>
+      <ul>
+        <li><a href="#git-tag-access">Git tag access</a></li>
+        <li><a href="#submodule-cloning">Submodule cloning</a></li>
+      </ul>
+    </li>
+    <li><a href="#troubleshooting-docker-on-windows">Troubleshooting: Docker on Windows</a></li>
+    <li><a href="#troubleshooting-visual-studio-code">Troubleshooting: Visual Studio Code</a></li>
+  </ul>
+</nav>
+      </div>
+    
             
 
 	
@@ -657,20 +652,17 @@
             <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
-    <a href="https://azure.github.io/azure-service-operator/reference/">Supported Resources</a>
-  </li>
-  <li class="breadcrumb-item">
-    <a href="https://azure.github.io/azure-service-operator/reference/subscription/">Subscription</a>
+    <a href="https://azure.github.io/azure-service-operator/contributing/">Contributing</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="https://azure.github.io/azure-service-operator/reference/subscription/v1beta20211001/" aria-disabled="true" class="btn-link disabled">subscription.azure.com/v1beta20211001</a>
+    <a href="https://azure.github.io/azure-service-operator/contributing/developer-setup/" aria-disabled="true" class="btn-link disabled">Developer Setup</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>subscription.azure.com/v1beta20211001</h1>
-	
+	<h1>Developer Setup</h1>
+	<div class="lead">How to set up your developer environment for Azure Service Operator v2</div>
 	<header class="article-meta">
 		
 
@@ -686,1214 +678,143 @@
 
 		
 	</header>    
-	<h2 id="subscription.azure.com/v1beta20211001">subscription.azure.com/v1beta20211001</h2>
-<div>
-<p>Package v1beta20211001 contains API Schema definitions for the subscription v1beta20211001 API group</p>
-</div>
-Resource Types:
-<ul></ul>
-<h3 id="subscription.azure.com/v1beta20211001.APIVersion">APIVersion
-(<code>string</code> alias)</h3>
-<div>
-<p>Deprecated version of APIVersion. Use v1api20211001.APIVersion instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-10-01&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="subscription.azure.com/v1beta20211001.AcceptOwnershipState_STATUS">AcceptOwnershipState_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.SubscriptionAliasResponseProperties_STATUS">SubscriptionAliasResponseProperties_STATUS</a>, <a href="#subscription.azure.com/v1beta20211001.SubscriptionAliasResponseProperties_STATUS_ARM">SubscriptionAliasResponseProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of AcceptOwnershipState_STATUS. Use v1api20211001.AcceptOwnershipState_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Completed&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Expired&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Pending&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="subscription.azure.com/v1beta20211001.Alias">Alias
-</h3>
-<div>
-<p>Deprecated version of Alias. Use v1api20211001.Alias instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>metadata</code><br/>
-<em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
-</a>
-</em>
-</td>
-<td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
-</td>
-</tr>
-<tr>
-<td>
-<code>spec</code><br/>
-<em>
-<a href="#subscription.azure.com/v1beta20211001.Alias_Spec">
-Alias_Spec
-</a>
-</em>
-</td>
-<td>
-<br/>
-<br/>
-<table>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#subscription.azure.com/v1beta20211001.PutAliasRequestProperties">
-PutAliasRequestProperties
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#subscription.azure.com/v1beta20211001.Alias_STATUS">
-Alias_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="subscription.azure.com/v1beta20211001.Alias_STATUS">Alias_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.Alias">Alias</a>)
-</p>
-<div>
-<p>Deprecated version of Alias_STATUS. Use v1api20211001.Alias_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#subscription.azure.com/v1beta20211001.SubscriptionAliasResponseProperties_STATUS">
-SubscriptionAliasResponseProperties_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#subscription.azure.com/v1beta20211001.SystemData_STATUS">
-SystemData_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="subscription.azure.com/v1beta20211001.Alias_STATUS_ARM">Alias_STATUS_ARM
-</h3>
-<div>
-<p>Deprecated version of Alias_STATUS. Use v1api20211001.Alias_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#subscription.azure.com/v1beta20211001.SubscriptionAliasResponseProperties_STATUS_ARM">
-SubscriptionAliasResponseProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#subscription.azure.com/v1beta20211001.SystemData_STATUS_ARM">
-SystemData_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="subscription.azure.com/v1beta20211001.Alias_Spec">Alias_Spec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.Alias">Alias</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#subscription.azure.com/v1beta20211001.PutAliasRequestProperties">
-PutAliasRequestProperties
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="subscription.azure.com/v1beta20211001.Alias_Spec_ARM">Alias_Spec_ARM
-</h3>
-<div>
-<p>Deprecated version of Alias_Spec. Use v1api20211001.Alias_Spec instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#subscription.azure.com/v1beta20211001.PutAliasRequestProperties_ARM">
-PutAliasRequestProperties_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="subscription.azure.com/v1beta20211001.PutAliasRequestAdditionalProperties">PutAliasRequestAdditionalProperties
-</h3>
-<p>
-(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.PutAliasRequestProperties">PutAliasRequestProperties</a>)
-</p>
-<div>
-<p>Deprecated version of PutAliasRequestAdditionalProperties. Use v1api20211001.PutAliasRequestAdditionalProperties instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>managementGroupId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>subscriptionOwnerId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>subscriptionTenantId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="subscription.azure.com/v1beta20211001.PutAliasRequestAdditionalProperties_ARM">PutAliasRequestAdditionalProperties_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.PutAliasRequestProperties_ARM">PutAliasRequestProperties_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of PutAliasRequestAdditionalProperties. Use v1api20211001.PutAliasRequestAdditionalProperties instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>managementGroupId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>subscriptionOwnerId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>subscriptionTenantId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="subscription.azure.com/v1beta20211001.PutAliasRequestProperties">PutAliasRequestProperties
-</h3>
-<p>
-(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.Alias_Spec">Alias_Spec</a>)
-</p>
-<div>
-<p>Deprecated version of PutAliasRequestProperties. Use v1api20211001.PutAliasRequestProperties instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>additionalProperties</code><br/>
-<em>
-<a href="#subscription.azure.com/v1beta20211001.PutAliasRequestAdditionalProperties">
-PutAliasRequestAdditionalProperties
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>billingScope</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>displayName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>resellerId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>subscriptionId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>workload</code><br/>
-<em>
-<a href="#subscription.azure.com/v1beta20211001.Workload">
-Workload
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="subscription.azure.com/v1beta20211001.PutAliasRequestProperties_ARM">PutAliasRequestProperties_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.Alias_Spec_ARM">Alias_Spec_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of PutAliasRequestProperties. Use v1api20211001.PutAliasRequestProperties instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>additionalProperties</code><br/>
-<em>
-<a href="#subscription.azure.com/v1beta20211001.PutAliasRequestAdditionalProperties_ARM">
-PutAliasRequestAdditionalProperties_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>billingScope</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>displayName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>resellerId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>subscriptionId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>workload</code><br/>
-<em>
-<a href="#subscription.azure.com/v1beta20211001.Workload">
-Workload
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="subscription.azure.com/v1beta20211001.SubscriptionAliasResponseProperties_ProvisioningState_STATUS">SubscriptionAliasResponseProperties_ProvisioningState_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.SubscriptionAliasResponseProperties_STATUS">SubscriptionAliasResponseProperties_STATUS</a>, <a href="#subscription.azure.com/v1beta20211001.SubscriptionAliasResponseProperties_STATUS_ARM">SubscriptionAliasResponseProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of SubscriptionAliasResponseProperties_ProvisioningState_STATUS. Use
-v1api20211001.SubscriptionAliasResponseProperties_ProvisioningState_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Accepted&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Failed&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="subscription.azure.com/v1beta20211001.SubscriptionAliasResponseProperties_STATUS">SubscriptionAliasResponseProperties_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.Alias_STATUS">Alias_STATUS</a>)
-</p>
-<div>
-<p>Deprecated version of SubscriptionAliasResponseProperties_STATUS. Use v1api20211001.SubscriptionAliasResponseProperties_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>acceptOwnershipState</code><br/>
-<em>
-<a href="#subscription.azure.com/v1beta20211001.AcceptOwnershipState_STATUS">
-AcceptOwnershipState_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>acceptOwnershipUrl</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>billingScope</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdTime</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>displayName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>managementGroupId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-<a href="#subscription.azure.com/v1beta20211001.SubscriptionAliasResponseProperties_ProvisioningState_STATUS">
-SubscriptionAliasResponseProperties_ProvisioningState_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>resellerId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>subscriptionId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>subscriptionOwnerId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>workload</code><br/>
-<em>
-<a href="#subscription.azure.com/v1beta20211001.Workload_STATUS">
-Workload_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="subscription.azure.com/v1beta20211001.SubscriptionAliasResponseProperties_STATUS_ARM">SubscriptionAliasResponseProperties_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.Alias_STATUS_ARM">Alias_STATUS_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of SubscriptionAliasResponseProperties_STATUS. Use v1api20211001.SubscriptionAliasResponseProperties_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>acceptOwnershipState</code><br/>
-<em>
-<a href="#subscription.azure.com/v1beta20211001.AcceptOwnershipState_STATUS">
-AcceptOwnershipState_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>acceptOwnershipUrl</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>billingScope</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdTime</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>displayName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>managementGroupId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-<a href="#subscription.azure.com/v1beta20211001.SubscriptionAliasResponseProperties_ProvisioningState_STATUS">
-SubscriptionAliasResponseProperties_ProvisioningState_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>resellerId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>subscriptionId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>subscriptionOwnerId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>workload</code><br/>
-<em>
-<a href="#subscription.azure.com/v1beta20211001.Workload_STATUS">
-Workload_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="subscription.azure.com/v1beta20211001.SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.SystemData_STATUS">SystemData_STATUS</a>, <a href="#subscription.azure.com/v1beta20211001.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of SystemData_CreatedByType_STATUS. Use v1api20211001.SystemData_CreatedByType_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Application&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Key&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="subscription.azure.com/v1beta20211001.SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.SystemData_STATUS">SystemData_STATUS</a>, <a href="#subscription.azure.com/v1beta20211001.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of SystemData_LastModifiedByType_STATUS. Use v1api20211001.SystemData_LastModifiedByType_STATUS
-instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Application&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Key&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;User&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="subscription.azure.com/v1beta20211001.SystemData_STATUS">SystemData_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.Alias_STATUS">Alias_STATUS</a>)
-</p>
-<div>
-<p>Deprecated version of SystemData_STATUS. Use v1api20211001.SystemData_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>createdAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdByType</code><br/>
-<em>
-<a href="#subscription.azure.com/v1beta20211001.SystemData_CreatedByType_STATUS">
-SystemData_CreatedByType_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedByType</code><br/>
-<em>
-<a href="#subscription.azure.com/v1beta20211001.SystemData_LastModifiedByType_STATUS">
-SystemData_LastModifiedByType_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="subscription.azure.com/v1beta20211001.SystemData_STATUS_ARM">SystemData_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.Alias_STATUS_ARM">Alias_STATUS_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of SystemData_STATUS. Use v1api20211001.SystemData_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>createdAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdByType</code><br/>
-<em>
-<a href="#subscription.azure.com/v1beta20211001.SystemData_CreatedByType_STATUS">
-SystemData_CreatedByType_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedAt</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedBy</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastModifiedByType</code><br/>
-<em>
-<a href="#subscription.azure.com/v1beta20211001.SystemData_LastModifiedByType_STATUS">
-SystemData_LastModifiedByType_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="subscription.azure.com/v1beta20211001.Workload">Workload
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.PutAliasRequestProperties">PutAliasRequestProperties</a>, <a href="#subscription.azure.com/v1beta20211001.PutAliasRequestProperties_ARM">PutAliasRequestProperties_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of Workload. Use v1api20211001.Workload instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;DevTest&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Production&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="subscription.azure.com/v1beta20211001.Workload_STATUS">Workload_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#subscription.azure.com/v1beta20211001.SubscriptionAliasResponseProperties_STATUS">SubscriptionAliasResponseProperties_STATUS</a>, <a href="#subscription.azure.com/v1beta20211001.SubscriptionAliasResponseProperties_STATUS_ARM">SubscriptionAliasResponseProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of Workload_STATUS. Use v1api20211001.Workload_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;DevTest&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Production&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<hr/>
+	<p>We support a number of different approaches to ASO development.</p>
+<ul>
+<li>Dev Container with VS Code on Linux</li>
+<li>Dev Container with VS Code on Windows</li>
+<li>Docker on Linux</li>
+<li>CLI on Linux</li>
+<li>CLI on MacOS</li>
+</ul>
+<p>Each of these is described in a different section below. See also the <a href="#troubleshooting-repo-health">troubleshooting</a> sections below for help with common problems.</p>
+<h2 id="dev-container-with-vs-code-on-linux">Dev Container with VS Code on Linux</h2>
+<p>Use these steps if you&rsquo;ve checked out the ASO code into a Linux environment (<em>including</em> WSL 2 on Windows). We&rsquo;ve found this to be the best performing option.</p>
+<p>The ASO repository contains a <a href="https://code.visualstudio.com/docs/remote/containers">devcontainer</a> configuration that can be used in conjunction with VS Code to set up an environment with all the required tools preinstalled.</p>
+<ol start="0">
+<li>Make sure you have installed <a href="https://code.visualstudio.com/docs/remote/containers#_system-requirements">the prerequisites to use Docker</a>, including <a href="https://learn.microsoft.com/en-us/windows/wsl/install">WSL</a> if on Windows.</li>
+<li>Install VS Code and the <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack">Remote Development</a> extension (check installation instructions there).</li>
+<li>Ensure you have ASO checked out, and that your <a href="#troubleshooting-repo-health">repo is healthy</a>.</li>
+<li>Open VS Code by running <code>code .</code> from the root folder of the ASO repo.</li>
+<li>VS Code will automatically notice the <code>.devcontainer</code> folder and ask you if you want to open it; press <em>Reopen in Container</em> when prompted.
+<ul>
+<li>If you miss this, type <code>Control-Shift-P</code> and run the command <code>Dev Containers: Reopen in Container</code>.</li>
+</ul>
+</li>
+<li>The window will reload and run the <code>Dockerfile</code> setup. The first time, this will take some minutes to complete as it installs all dependencies. Later runs will be faster due to caching.</li>
+<li>To validate everything is working correctly,  open a terminal in VS Code and run <code>task -l</code>. This will show a list of all <code>task</code> commands. Running <code>task</code> by itself (or <code>task default</code>) will run quick local pre-checkin tests and validation.</li>
+</ol>
+<h2 id="dev-container-with-vs-code-on-windows">Dev Container with VS Code on Windows</h2>
+<p>If you&rsquo;re working on Windows and <em><strong>not</strong></em> using WSL 2, this is the recommended setup.</p>
+<p>The ASO repository contains a <a href="https://code.visualstudio.com/docs/remote/containers">devcontainer</a> configuration that can be used in conjunction with VS Code to set up an environment with all the required tools preinstalled.</p>
+<ol start="0">
+<li>
+<p>Make sure you have installed <a href="https://code.visualstudio.com/docs/remote/containers#_system-requirements">the prerequisites to use Docker</a>, including <a href="https://learn.microsoft.com/en-us/windows/wsl/install">WSL</a> if on Windows.</p>
+</li>
+<li>
+<p>Install VS Code and the <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack">Remote Development</a> extension (check installation instructions there).</p>
+</li>
+<li>
+<p>Open VS Code</p>
+</li>
+<li>
+<p>Run the VS Code command (with <code>Ctrl-Shift-P</code>): <code>Dev Containers: Clone Repository in Container Volume...</code></p>
+<p><strong>Note</strong>: in Windows, it is important to clone directly into a container instead of cloning first and then loading that with the <code>Remote Containers</code> extension, as the tooling performs a lot of file I/O, and if this is performed against a Windows folder mounted into the devcontainer then it is unusably slow.</p>
+</li>
+<li>
+<p>To complete the clone:</p>
+<ol>
+<li>Select &ldquo;<code>GitHub</code>&rdquo;.</li>
+<li>Search the azure-service-operator repo.
+<ul>
+<li>If you have direct access to the ASO repo, search for <code>Azure/azure-service-operator</code></li>
+<li>Otherwise search for <code>&lt;your-user-name&gt;/azure-service-operator</code></li>
+</ul>
+</li>
+<li>If asked, choose either of the following options about where to create the volume.</li>
+<li>The window will reload and run the <code>Dockerfile</code> setup to build the devcontainer. The first time, this will take some minutes to complete as it installs all dependencies. Later runs will be faster due to caching.</li>
+</ol>
+</li>
+<li>
+<p>Once the repository is cloned in your local</p>
+<ul>
+<li>Make sure you have access to tags (by running <code>git tag --list 'v2*'</code>).</li>
+<li>Set up our submodule by running both <code>git submodule init</code> and <code>git submodule update</code>.</li>
+<li>See <a href="#troubleshooting-repo-health">Check your repo health</a> for more information.</li>
+</ul>
+</li>
+<li>
+<p>To validate everything is working correctly,  open a terminal in VS Code and run <code>task -l</code>. This will show a list of all <code>task</code> commands. Running <code>task</code> by itself (or <code>task default</code>) will run quick local pre-checkin tests and validation.</p>
+</li>
+</ol>
+<h2 id="docker-on-linux">Docker on Linux</h2>
+<p>The same <code>Dockerfile</code> that the VS Code <code>devcontainer</code> extension uses can also be used outside of VS Code; it is stored in the root <code>.devcontainer</code> directory and can be used to create a development container with all the tooling preinstalled:</p>
+<pre tabindex="0"><code class="language-console" data-lang="console">$ docker build $(git rev-parse --show-toplevel)/.devcontainer -t asodev:latest
+… image will be created …
+
+$ # After that you can start a terminal in the development container with:
+$ docker run --env-file ~/work/envs.env --env HOSTROOT=$(git rev-parse --show-toplevel) -v $(git rev-parse --show-toplevel):/go/src -w /go/src -u $(id -u ${USER}):$(id -g ${USER}) --group-add $(stat -c '%g' /var/run/docker.sock) -v /var/run/docker.sock:/var/run/docker.sock --network=host  -it asodev:latest /bin/bash
+</code></pre><p>Note: If you mount the source like this from a Windows folder, performance will be poor as file operations between the container and Windows are very slow.</p>
+<h2 id="cli-on-linux">CLI on Linux</h2>
+<p>If you are using Linux, instead of using VS Code you can run the <code>dev.sh</code> script in the root of the repository. This will install all required tooling into the <code>hack/tools</code> directory and then start a new shell with the <code>PATH</code> updated to use it.</p>
+<h2 id="cli-on-macos">CLI on MacOS</h2>
+<p>Development of ASO on MacOS is possible (one of our team does so), but things are less automated.</p>
+<p>You&rsquo;ll need to manually install the tools as listed by <code>.devcontainer/install-dependencies.sh</code>.</p>
+<p>If you have an ARM based Mac, you&rsquo;ll also need to install <a href="https://support.apple.com/en-nz/HT211861">Rosetta</a>.</p>
+<h2 id="troubleshooting-repo-health">Troubleshooting: Repo health</h2>
+<p>A simple cloning of the ASO repo is not enough to successfully run a build. You must also ensure:</p>
+<ul>
+<li>
+<p>You have access to git tags.<br>
+The build scripts depend on tags in order to create a version number.</p>
+</li>
+<li>
+<p>The <code>azure-rest-api-specs</code> submodule has been cloned.<br>
+The specifications in this repo are the input used by the code generator.</p>
+</li>
+</ul>
+<h3 id="git-tag-access">Git tag access</h3>
+<p>Some tools default to shallow cloning of repos, omitting tags. The build process depends on tags being present and will fail if they&rsquo;re missing.</p>
+<p>To check if you have any tags:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git tag --list <span style="color:#e6db74">&#39;v2*&#39;</span>
+v2.0.0
+<span style="color:#75715e"># ... elided ...</span>
+v2.1.0
+</code></pre></div><p>If you see a list of tags (as shown above), then you&rsquo;re good to go.</p>
+<p>Otherwise, pull tags from your upstream repo and check again:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git-fetch --all --tags
+Fetching origin
+$ git tag --list <span style="color:#e6db74">&#39;v2*&#39;</span>
+v2.0.0
+<span style="color:#75715e"># ... elided ...</span>
+v2.1.0
+</code></pre></div><p>If the list is still empty, add the ASO repo as a direct upstream reference and pull the tags from there.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git remote add azure https://github.com/Azure/azure-service-operator.git
+$ git fetch azure
+$ git tag --list <span style="color:#e6db74">&#39;v2*&#39;</span>
+v2.0.0
+<span style="color:#75715e"># ... elided ...</span>
+v2.1.0
+</code></pre></div><p>You should now have all the tags.</p>
+<h3 id="submodule-cloning">Submodule cloning</h3>
+<p>ASO references the <code>azure-rest-api-specs</code> repo containing API definitions for Azure Resource Providers. If this submodule is missing, the code generator will not run.</p>
+<p>From the root of your ASO repo clone, run</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git submodule init
+Submodule <span style="color:#e6db74">&#39;hack/generator/specs/azure-rest-api-specs&#39;</span> <span style="color:#f92672">(</span>https://github.com/Azure/azure-rest-api-specs<span style="color:#f92672">)</span> registered <span style="color:#66d9ef">for</span> path <span style="color:#e6db74">&#39;specs/azure-rest-api-specs&#39;</span>
+
+$ git submodule update
+Cloning into <span style="color:#e6db74">&#39;/workspaces/azure-service-operator/v2/specs/azure-rest-api-specs&#39;</span>...
+Submodule path <span style="color:#e6db74">&#39;specs/azure-rest-api-specs&#39;</span>: checked out <span style="color:#e6db74">&#39;3ac733b1b1c63969fbed0c7ffe60ff5cccc708c7&#39;</span>
+</code></pre></div><p>The exact git hash that&rsquo;s checked out will likely be different.</p>
+<h2 id="troubleshooting-docker-on-windows">Troubleshooting: Docker on Windows</h2>
+<p>We&rsquo;ve observed that Docker on Windows performs significantly better when using WSL as the back end. Check your settings in Docker Desktop and ensure the option <em>Use the WSL 2 based engine</em> is turned on.</p>
+<p><img src="../images/docker-desktop-wsl.png" alt="Docker Desktop General Settings showing WSL 2 option"></p>
+<h2 id="troubleshooting-visual-studio-code">Troubleshooting: Visual Studio Code</h2>
+<p>If the commands to open a dev container don&rsquo;t work, check to see where you have Visual Studio Code installed. Open a PowerShell window and run this command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">PS&gt; get-command code
+CommandType     Name        Version    Source
+-----------     ----        -------    ------
+Application     code.cmd    0.0.0.0    C:\Users\&lt;user&gt;\AppData\Local\Programs\Microso...
+</code></pre></div><p>If your installation is a global one (in <code>C:\Program Files</code> or <code>C:\Program Files (x86)</code>) then you may find some extensions don&rsquo;t work properly. Install another copy of Visual Studio Code using the standard installer; this will be a local installation into your <code>AppData</code> folder and will take priority.</p>
 
 	
 	

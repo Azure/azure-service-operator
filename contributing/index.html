@@ -499,7 +499,9 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorcontributing-li">
   <a href="/azure-service-operator/contributing/" title="Contributing to Azure Service Operator v2" class="align-left pl-0 active td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorcontributing"><span class="td-sidebar-nav-active-item">Contributing</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resource-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingdeveloper-setup-li">
+  <a href="/azure-service-operator/contributing/developer-setup/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingdeveloper-setup"><span class="">Developer Setup</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resource-li">
   <a href="/azure-service-operator/contributing/add-a-new-code-generated-resource/" title="Adding a new code generated resource to ASO v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resource"><span class="">Add a resource</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributinggenerator-overview-li">
   <a href="/azure-service-operator/contributing/generator-overview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributinggenerator-overview"><span class="">Code Generator</span></a>
@@ -602,13 +604,6 @@
         <nav id="TableOfContents">
   <ul>
     <li><a href="#related-pages">Related pages</a></li>
-    <li><a href="#developer-setup-with-vs-code">Developer setup (with VS Code)</a></li>
-    <li><a href="#without-vs-code">Without VS Code</a>
-      <ul>
-        <li><a href="#option-1-dockerfile">Option 1: Dockerfile</a></li>
-        <li><a href="#option-2-devsh">Option 2: ./dev.sh</a></li>
-      </ul>
-    </li>
     <li><a href="#directory-structure-of-the-operator">Directory structure of the operator</a></li>
     <li><a href="#running-integration-tests">Running integration tests</a>
       <ul>
@@ -681,50 +676,10 @@
 	</header>
 	<h2 id="related-pages">Related pages</h2>
 <ul>
+<li><a href="/azure-service-operator/contributing/developer-setup/">Developer Setup</a>.</li>
 <li><a href="/azure-service-operator/contributing/add-a-new-code-generated-resource/">Adding a new code-generator resource</a>.</li>
-<li><a href="/azure-service-operator/contributing/generator-overview/">Generator code overview</a></li>
+<li><a href="/azure-service-operator/contributing/generator-overview/">Generator code overview</a>.</li>
 </ul>
-<h2 id="developer-setup-with-vs-code">Developer setup (with VS Code)</h2>
-<p>This is the recommended setup, especially if you are using Windows as your development platform.</p>
-<p>This repository contains a <a href="https://code.visualstudio.com/docs/remote/containers">devcontainer</a> configuration that can be used in conjunction with VS Code to set up an environment with all the required tools preinstalled.</p>
-<p>If you want to use this:</p>
-<ol start="0">
-<li>
-<p>Make sure you have installed <a href="https://code.visualstudio.com/docs/remote/containers#_system-requirements">the prerequisites to use Docker</a>, including WSL if on Windows.</p>
-</li>
-<li>
-<p>Install VS Code and the <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack">Remote Development</a> extension (check installation instructions there).</p>
-</li>
-<li>
-<p>Run the VS Code command (with <code>Ctrl-Shift-P</code>): <code>Remote Containers: Clone Repository in Container Volume...</code></p>
-<p><strong>Note</strong>: in Windows, it is important to clone directly into a container instead of cloning first and then loading that with the <code>Remote Containers</code> extension, as the tooling performs a lot of file I/O, and if this is performed against a volume mounted in WSL then it is unusably slow.</p>
-<p>To complete the clone:</p>
-<ol>
-<li>Select &ldquo;<code>GitHub</code>&rdquo;.</li>
-<li>Search for &ldquo;<code>Azure/azure-service-operator</code>&rdquo;.</li>
-<li>Choose either of the following options about where to create the volume.</li>
-<li>The window will reload and run the <code>Dockerfile</code> setup. The first time, this will take some minutes to complete as it installs all dependencies.</li>
-<li>Once the repository is cloned in your local, make sure you have access to tags as they are needed for the build. Run these commands to check <code>git-fetch --all --tags</code> <code>git tag -l</code>. If this shows empty, go to the next step.</li>
-<li>Run <code>git remote add azure https://github.com/Azure/azure-service-operator.git</code>, <code>git fetch azure</code>, and <code>git fetch azure --all --tags</code>. This will fetch all the required tags in your local.</li>
-<li>Run <code>git fetch --unshallow</code> if the repository you clone is a shallow clone. If you miss this step, you may see errors like <code>&quot;./scripts/build-version.py v2&quot; failed: exit status 1</code> when running <code>task</code>.</li>
-<li>Run <code>git submodule init</code> and <code>git submodule update</code></li>
-</ol>
-</li>
-<li>
-<p>To validate everything is working correctly, you can open a terminal in VS Code and run <code>task -l</code>. This will show a list of all <code>task</code> commands. Running <code>task</code> by itself (or <code>task default</code>) will run quick local pre-checkin tests and validation.</p>
-</li>
-</ol>
-<h2 id="without-vs-code">Without VS Code</h2>
-<h3 id="option-1-dockerfile">Option 1: Dockerfile</h3>
-<p>The same <code>Dockerfile</code> that the VS Code <code>devcontainer</code> extension uses can also be used outside of VS Code; it is stored in the root <code>.devcontainer</code> directory and can be used to create a development container with all the tooling preinstalled:</p>
-<pre tabindex="0"><code class="language-console" data-lang="console">$ docker build $(git rev-parse --show-toplevel)/.devcontainer -t asodev:latest
-… image will be created …
-
-$ # After that you can start a terminal in the development container with:
-$ docker run --env-file ~/work/envs.env --env HOSTROOT=$(git rev-parse --show-toplevel) -v $(git rev-parse --show-toplevel):/go/src -w /go/src -u $(id -u ${USER}):$(id -g ${USER}) --group-add $(stat -c '%g' /var/run/docker.sock) -v /var/run/docker.sock:/var/run/docker.sock --network=host  -it asodev:latest /bin/bash
-</code></pre><p>It is not recommended to mount the source like this on Windows (WSL2) as the cross-VM file operations are very slow.</p>
-<h3 id="option-2-devsh">Option 2: ./dev.sh</h3>
-<p>If you are using Linux, instead of using VS Code you can run the <code>dev.sh</code> script in the root of the repository. This will install all required tooling into the <code>hack/tools</code> directory and then start a new shell with the <code>PATH</code> updated to use it.</p>
 <h2 id="directory-structure-of-the-operator">Directory structure of the operator</h2>
 <p>Key folders of note include:</p>
 <ul>
@@ -794,6 +749,14 @@ to kick off an integration test pass. If this check passes along with the other 
     
     
     <hr class="panel-line">
+        
+            
+            <div class="entry">
+                <h5>
+                    <a href="/azure-service-operator/contributing/developer-setup/">Developer Setup</a>
+                </h5>
+                <p>How to set up your developer environment for Azure Service Operator v2</p>
+            </div>
         
             
             <div class="entry">
