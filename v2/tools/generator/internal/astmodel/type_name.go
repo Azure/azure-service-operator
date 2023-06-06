@@ -216,6 +216,6 @@ func CreateARMTypeName(name TypeName) TypeName {
 }
 
 // IsARMType returns true if the TypeName identifies an ARM specific type, false otherwise.
-func IsARMType(typeName TypeName) bool {
+func (typeName TypeName) IsARMType() bool {
 	return strings.HasSuffix(typeName.Name(), ARMSuffix)
 }
