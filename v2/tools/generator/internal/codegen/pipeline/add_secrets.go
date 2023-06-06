@@ -7,6 +7,7 @@ package pipeline
 
 import (
 	"context"
+	"strings"
 
 	"github.com/pkg/errors"
 
@@ -52,10 +53,19 @@ func applyConfigSecretOverrides(config *config.Configuration, definitions astmod
 
 	applyConfigSecrets := func(_ *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 		typeName := ctx.(astmodel.TypeName)
+		strippedTypeName := typeName.WithName(strings.TrimSuffix(typeName.Name(), astmodel.StatusSuffix))
+
 		for _, prop := range it.Properties().Copy() {
 			isSecret, _ := config.IsSecret(typeName, prop.PropertyName())
 			if isSecret {
 				it = it.WithProperty(prop.WithIsSecret(true))
+			}
+
+			if typeName.IsStatus() {
+				isSecret, _ = config.IsSecret(strippedTypeName, prop.PropertyName())
+				if isSecret {
+					it = it.WithProperty(prop.WithIsSecret(true))
+				}
 			}
 		}
 

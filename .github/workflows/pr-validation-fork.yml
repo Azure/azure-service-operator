@@ -6,7 +6,7 @@ on:
 
 jobs:
   integration-tests-fork:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool]
     if:
       github.event_name == 'repository_dispatch' &&
       github.event.client_payload.slash_command.args.named.sha != '' &&
@@ -23,7 +23,7 @@ jobs:
       # Given the above limitations, we create a new check for the fork integration tests, and then at the end
       # of this job we update the "integration-tests" check to be passing as well (so this single job really
       # ends up writing the status 2 checks, 1 is "integration-tests" and one is "integration-tests-fork").
-      - uses: actions/github-script@v2.1.0
+      - uses: actions/github-script@v6
         id: set-check-run-in-progress
         env:
           number: ${{ github.event.client_payload.pull_request.number }}
@@ -35,12 +35,12 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const url = `${process.env.server_url}/${process.env.repo}/actions/runs/${process.env.run_id}`
-            const { data: pull } = await github.pulls.get({
+            const { data: pull } = await github.rest.pulls.get({
               ...context.repo,
               pull_number: process.env.number
             });
             const ref = pull.head.sha;
-            const { data: result } = await github.checks.create({
+            const { data: result } = await github.rest.checks.create({
               ...context.repo,
               name: process.env.job,
               head_sha: ref,
@@ -101,7 +101,7 @@ jobs:
       - name: Run integration tests
         run: |
           container_id=${{ env.container_id }}
-          docker exec --env HOSTROOT=$GITHUB_WORKSPACE -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID -e AZURE_CLIENT_SECRET_MULTITENANT -e AZURE_CLIENT_ID_MULTITENANT -e AZURE_CLIENT_ID_CERT_AUTH -e AZURE_CLIENT_SECRET_CERT_AUTH "$container_id" task controller:ci-integration-tests --concurrency 1 # limit concurrency because build machines are small
+          docker exec --env HOSTROOT=$GITHUB_WORKSPACE -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID -e AZURE_CLIENT_SECRET_MULTITENANT -e AZURE_CLIENT_ID_MULTITENANT -e AZURE_CLIENT_ID_CERT_AUTH -e AZURE_CLIENT_SECRET_CERT_AUTH "$container_id" task controller:ci-integration-tests
         env:
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
@@ -114,7 +114,7 @@ jobs:
         if: steps.check-changes.outputs.code-changed == 'true'
 
       # Update check run called "integration-fork"
-      - uses: actions/github-script@v2
+      - uses: actions/github-script@v6
         id: update-check-run
         if: ${{ always() }}
         env:

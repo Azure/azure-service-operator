@@ -98,9 +98,6 @@ type WorkspaceProperties_STATUS_ARM struct {
 	// SqlAdministratorLogin: Login for workspace SQL active directory administrator
 	SqlAdministratorLogin *string `json:"sqlAdministratorLogin,omitempty"`
 
-	// SqlAdministratorLoginPassword: SQL administrator login password
-	SqlAdministratorLoginPassword *string `json:"sqlAdministratorLoginPassword,omitempty"`
-
 	// TrustedServiceBypassEnabled: Is trustedServiceBypassEnabled for the workspace
 	TrustedServiceBypassEnabled *bool `json:"trustedServiceBypassEnabled,omitempty"`
 
