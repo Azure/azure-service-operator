@@ -321,7 +321,7 @@ func (builder *PropertyAssignmentFunctionBuilder) createConversion(
 				"converting %s to %s",
 				sourceEndpoint, destinationEndpoint)
 		}
-		
+
 		return stmts, nil
 	}, nil
 }
