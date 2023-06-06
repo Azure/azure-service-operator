@@ -920,13 +920,13 @@ func assignHandcraftedImplementations(
 	for _, impl := range handCraftedConversions {
 		if astmodel.TypeEquals(sourceEndpoint.Type(), impl.fromType) &&
 			astmodel.TypeEquals(destinationEndpoint.Type(), impl.toType) {
-				pkg := cgc.MustGetImportedPackageName(impl.implPackage)
 			return func(
 				reader dst.Expr,
 				writer func(dst.Expr) []dst.Stmt,
 				knownLocals *astmodel.KnownLocalsSet,
 				generationContext *astmodel.CodeGenerationContext,
 			) ([]dst.Stmt, error) {
+				pkg := generationContext.MustGetImportedPackageName(impl.implPackage)
 				return writer(astbuilder.CallQualifiedFunc(pkg, impl.implFunc, reader)), nil
 			}, nil
 		}
