@@ -314,7 +314,15 @@ func (builder *PropertyAssignmentFunctionBuilder) createConversion(
 			return destinationEndpoint.Write(destination, expr)
 		}
 
-		return conversion(reader, writer, knownLocals, generationContext)
+		stmts, err := conversion(reader, writer, knownLocals, generationContext)
+		if err != nil {
+			return nil, errors.Wrapf(
+				err,
+				"converting %s to %s",
+				sourceEndpoint, destinationEndpoint)
+		}
+		
+		return stmts, nil
 	}, nil
 }
 

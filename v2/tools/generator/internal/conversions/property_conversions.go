@@ -534,12 +534,19 @@ func assignFromOptional(
 		checkForNil := astbuilder.AreNotEqual(actualReader, astbuilder.Nil())
 
 		// If we have a value, need to convert it to our destination type
-		// We use a cloned knownLocals as the write is within our if statement and we don't want locals to leak
-		writeActualValue := conversion(
+		// We use a cloned knownLocals as the Write is within our if statement, and we don't want locals to leak
+		writeActualValue, err := conversion(
 			astbuilder.Dereference(actualReader),
 			writer,
 			knownLocals.Clone(),
 			generationContext)
+		if err != nil {
+			return nil, errors.Wrapf(
+				err,
+				"unable to convert %s to %s",
+				sourceEndpoint.Name(),
+				destinationEndpoint.Name())
+		}
 
 		writeZeroValue := writer(
 			destinationEndpoint.Type().AsZero(conversionContext.Types(), generationContext))
@@ -1083,9 +1090,16 @@ func assignArrayFromArray(
 		avoidAliasing.Decs.Start.Append("// Shadow the loop variable to avoid aliasing")
 		avoidAliasing.Decs.Before = dst.NewLine
 
-		loopBody := astbuilder.Statements(
-			avoidAliasing,
-			conversion(dst.NewIdent(itemId), writeToElement, loopLocals, generationContext))
+		elemConv, err := conversion(dst.NewIdent(itemId), writeToElement, loopLocals, generationContext)
+		if err != nil {
+			return nil, errors.Wrapf(
+				err,
+				"creating conversion for array element from %s to %s",
+				astmodel.DebugDescription(sourceEndpoint.Type()),
+				astmodel.DebugDescription(destinationEndpoint.Type()))
+		}
+
+		loopBody := astbuilder.Statements(avoidAliasing, elemConv)
 
 		assignValue := writer(dst.NewIdent(tempId))
 		loop := astbuilder.IterateOverSliceWithIndex(indexId, itemId, reader, loopBody...)
@@ -1222,9 +1236,16 @@ func assignMapFromMap(
 		avoidAliasing.Decs.Start.Append("// Shadow the loop variable to avoid aliasing")
 		avoidAliasing.Decs.Before = dst.NewLine
 
-		loopBody := astbuilder.Statements(
-			avoidAliasing,
-			conversion(dst.NewIdent(itemId), assignToItem, loopLocals, generationContext))
+		elemConv, err := conversion(dst.NewIdent(itemId), assignToItem, loopLocals, generationContext)
+		if err != nil {
+			return nil, errors.Wrapf(
+				err,
+				"creating map item conversion from %s to %s",
+				astmodel.DebugDescription(sourceMap.ValueType()),
+				astmodel.DebugDescription(destinationMap.ValueType()))
+		}
+
+		loopBody := astbuilder.Statements(avoidAliasing, elemConv)
 
 		loop := astbuilder.IterateOverMapWithValue(keyId, itemId, actualReader, loopBody...)
 		assignMap := writer(dst.NewIdent(tempId))
@@ -1343,8 +1364,17 @@ func assignUserAssignedIdentityMapFromArray(
 		//	   ref := genruntime.CreateResourceReferenceFromARMID(key)
 		//	   <arr> = append(<arr>, UserAssignedIdentityDetails{Reference: ref})
 		//	}
+		elemConv, err := conversion(dst.NewIdent(keyID), writeToElement, loopLocals, generationContext)
+		if err != nil {
+			return nil, errors.Wrapf(
+				err,
+				"creating UserAssignedIdentities conversion from %s to %s",
+				astmodel.DebugDescription(astmodel.StringType),
+				astmodel.DebugDescription(astmodel.ResourceReferenceType))
+		}
+
 		loopBody := astbuilder.Statements(
-			conversion(dst.NewIdent(keyID), writeToElement, loopLocals, generationContext),
+			elemConv,
 			astbuilder.AppendItemToSlice(dst.NewIdent(tempId), uaiBuilder.Build()),
 		)
 		loop := astbuilder.IterateOverMapWithKey(
@@ -1863,8 +1893,23 @@ func assignObjectsViaIntermediateObject(
 		}
 
 		// Capture the first step
-		firstStep := firstConversion(reader, capturingWriter, knownLocals, generationContext)
-		secondStep := secondConversion(capture, writer, knownLocals, generationContext)
+		firstStep, err := firstConversion(reader, capturingWriter, knownLocals, generationContext)
+		if err != nil {
+			return nil, errors.Wrapf(
+				err,
+				"converting from %s to %s",
+				astmodel.DebugDescription(sourceName),
+				astmodel.DebugDescription(intermediateName))
+		}
+
+		secondStep, err := secondConversion(capture, writer, knownLocals, generationContext)
+		if err != nil {
+			return nil, errors.Wrapf(
+				err,
+				"converting from %s to %s",
+				astmodel.DebugDescription(intermediateName),
+				astmodel.DebugDescription(destinationName))
+		}
 
 		return astbuilder.Statements(
 			firstStep,
