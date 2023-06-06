@@ -20,6 +20,8 @@ interactions:
     headers:
       Cache-Control:
       - no-cache
+      Content-Length:
+      - "276"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -28,12 +30,10 @@ interactions:
       - no-cache
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-    status: 200 OK
-    code: 200
+    status: 201 Created
+    code: 201
     duration: ""
 - request:
     body: ""
@@ -80,10 +80,10 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kpenrx/providers/Microsoft.DataProtection/backupVaults/backupvault?api-version=2023-01-01
     method: PUT
   response:
-    body: '{"location":"westus2","tags":{"cheese":"blue"},"identity":{"type":"SystemAssigned","principalId":"082b2263-7553-472a-8731-76dbcbf23031","tenantId":"00000000-0000-0000-0000-000000000000"},"properties":{"provisioningState":"Provisioning","storageSettings":[{"datastoreType":"VaultStore","type":"LocallyRedundant"}],"isVaultProtectedByResourceGuard":false,"monitoringSettings":{"azureMonitorAlertSettings":{"alertsForAllJobFailures":"Enabled"}},"securitySettings":{"softDeleteSettings":{"state":"On","retentionDurationInDays":14.0}}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kpenrx/providers/Microsoft.DataProtection/backupVaults/backupvault","name":"backupvault","type":"Microsoft.DataProtection/backupVaults"}'
+    body: '{"location":"westus2","tags":{"cheese":"blue"},"identity":{"type":"SystemAssigned","principalId":"d5a414c8-7bec-4689-bfaa-62530436c75e","tenantId":"00000000-0000-0000-0000-000000000000"},"properties":{"provisioningState":"Provisioning","storageSettings":[{"datastoreType":"VaultStore","type":"LocallyRedundant"}],"isVaultProtectedByResourceGuard":false,"monitoringSettings":{"azureMonitorAlertSettings":{"alertsForAllJobFailures":"Enabled"}},"securitySettings":{"softDeleteSettings":{"state":"On","retentionDurationInDays":14.0}}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kpenrx/providers/Microsoft.DataProtection/backupVaults/backupvault","name":"backupvault","type":"Microsoft.DataProtection/backupVaults"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kpenrx/providers/Microsoft.DataProtection/backupVaults/backupvault/operationStatus/NTlhZmY1ZjItODZhMC00ZjI1LWI3NGMtNzIzNjFiMWE2MDkwO2QyNWZmNDkxLTBjNDktNGNhZS1hYjEwLWMwMGNiMzA1NmY3Nw==?api-version=2023-01-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kpenrx/providers/Microsoft.DataProtection/backupVaults/backupvault/operationStatus/MmRhOWM3MDItMjc0Ny00YTZkLWI3NTktZmNkZTlkMmJlYjNjO2MyMGIwYmQzLTM5NjQtNGQ2Mi1iOTFjLWMyM2M5M2QxMmEzNQ==?api-version=2023-01-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -103,9 +103,9 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Arm-Resource-System-Data:
-      - '{"createdBy":"dbc7a17d-39a1-4c7c-bd50-3f5fad093030","createdByType":"Application","createdAt":"2023-06-05T15:47:57.4500951Z","lastModifiedBy":"dbc7a17d-39a1-4c7c-bd50-3f5fad093030","lastModifiedByType":"Application","lastModifiedAt":"2023-06-05T15:47:57.4500951Z"}'
+      - '{"createdBy":"7778604e-f3cc-465b-9575-2b7bdc6f5184","createdByType":"Application","createdAt":"2023-06-06T10:50:23.5712232Z","lastModifiedBy":"7778604e-f3cc-465b-9575-2b7bdc6f5184","lastModifiedByType":"Application","lastModifiedAt":"2023-06-06T10:50:23.5712232Z"}'
       X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "99"
+      - "98"
     status: 201 Created
     code: 201
     duration: ""
@@ -115,7 +115,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kpenrx/providers/Microsoft.DataProtection/backupVaults/backupvault/operationStatus/NTlhZmY1ZjItODZhMC00ZjI1LWI3NGMtNzIzNjFiMWE2MDkwO2QyNWZmNDkxLTBjNDktNGNhZS1hYjEwLWMwMGNiMzA1NmY3Nw==?api-version=2023-01-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kpenrx/providers/Microsoft.DataProtection/backupVaults/backupvault/operationStatus/MmRhOWM3MDItMjc0Ny00YTZkLWI3NTktZmNkZTlkMmJlYjNjO2MyMGIwYmQzLTM5NjQtNGQ2Mi1iOTFjLWMyM2M5M2QxMmEzNQ==?api-version=2023-01-01
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kpenrx/providers/Microsoft.{KEY}","name":"{KEY}","status":"Succeeded","startTime":"2001-02-03T04:05:06Z","endTime":"2001-02-03T04:05:06Z"}'
@@ -137,7 +137,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "999"
+      - "998"
     status: 200 OK
     code: 200
     duration: ""
@@ -150,7 +150,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kpenrx/providers/Microsoft.DataProtection/backupVaults/backupvault?api-version=2023-01-01
     method: GET
   response:
-    body: '{"location":"westus2","tags":{"cheese":"blue"},"identity":{"type":"SystemAssigned","principalId":"082b2263-7553-472a-8731-76dbcbf23031","tenantId":"00000000-0000-0000-0000-000000000000"},"properties":{"provisioningState":"Succeeded","storageSettings":[{"datastoreType":"VaultStore","type":"LocallyRedundant"}],"isVaultProtectedByResourceGuard":false,"monitoringSettings":{"azureMonitorAlertSettings":{"alertsForAllJobFailures":"Enabled"}},"securitySettings":{"softDeleteSettings":{"state":"On","retentionDurationInDays":14.0}}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kpenrx/providers/Microsoft.DataProtection/backupVaults/backupvault","name":"backupvault","type":"Microsoft.DataProtection/backupVaults"}'
+    body: '{"location":"westus2","tags":{"cheese":"blue"},"identity":{"type":"SystemAssigned","principalId":"d5a414c8-7bec-4689-bfaa-62530436c75e","tenantId":"00000000-0000-0000-0000-000000000000"},"properties":{"provisioningState":"Succeeded","storageSettings":[{"datastoreType":"VaultStore","type":"LocallyRedundant"}],"isVaultProtectedByResourceGuard":false,"monitoringSettings":{"azureMonitorAlertSettings":{"alertsForAllJobFailures":"Enabled"}},"securitySettings":{"softDeleteSettings":{"state":"On","retentionDurationInDays":14.0}}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kpenrx/providers/Microsoft.DataProtection/backupVaults/backupvault","name":"backupvault","type":"Microsoft.DataProtection/backupVaults"}'
     headers:
       Cache-Control:
       - no-cache
@@ -169,7 +169,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "499"
+      - "497"
     status: 200 OK
     code: 200
     duration: ""
@@ -184,7 +184,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kpenrx/providers/Microsoft.DataProtection/backupVaults/backupvault?api-version=2023-01-01
     method: GET
   response:
-    body: '{"location":"westus2","tags":{"cheese":"blue"},"identity":{"type":"SystemAssigned","principalId":"082b2263-7553-472a-8731-76dbcbf23031","tenantId":"00000000-0000-0000-0000-000000000000"},"properties":{"provisioningState":"Succeeded","storageSettings":[{"datastoreType":"VaultStore","type":"LocallyRedundant"}],"isVaultProtectedByResourceGuard":false,"monitoringSettings":{"azureMonitorAlertSettings":{"alertsForAllJobFailures":"Enabled"}},"securitySettings":{"softDeleteSettings":{"state":"On","retentionDurationInDays":14.0}}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kpenrx/providers/Microsoft.DataProtection/backupVaults/backupvault","name":"backupvault","type":"Microsoft.DataProtection/backupVaults"}'
+    body: '{"location":"westus2","tags":{"cheese":"blue"},"identity":{"type":"SystemAssigned","principalId":"d5a414c8-7bec-4689-bfaa-62530436c75e","tenantId":"00000000-0000-0000-0000-000000000000"},"properties":{"provisioningState":"Succeeded","storageSettings":[{"datastoreType":"VaultStore","type":"LocallyRedundant"}],"isVaultProtectedByResourceGuard":false,"monitoringSettings":{"azureMonitorAlertSettings":{"alertsForAllJobFailures":"Enabled"}},"securitySettings":{"softDeleteSettings":{"state":"On","retentionDurationInDays":14.0}}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kpenrx/providers/Microsoft.DataProtection/backupVaults/backupvault","name":"backupvault","type":"Microsoft.DataProtection/backupVaults"}'
     headers:
       Cache-Control:
       - no-cache
@@ -203,7 +203,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "498"
+      - "496"
     status: 200 OK
     code: 200
     duration: ""
