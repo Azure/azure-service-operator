@@ -182,7 +182,7 @@ func (fn *PropertyAssignmentFunction) generateBody(
 		assignments,
 		bagEpilogue,
 		handleOverrideInterface,
-		astbuilder.ReturnNoError())
+		astbuilder.ReturnNoError()), nil
 }
 
 // createPropertyBagPrologue creates any introductory statements needed to set up our property bag before we start doing
@@ -351,7 +351,7 @@ func (fn *PropertyAssignmentFunction) generateAssignments(
 		}
 	}
 
-	return result
+	return result, nil
 }
 
 // sourceType returns the type we are reading information from

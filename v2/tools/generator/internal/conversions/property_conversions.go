@@ -280,7 +280,7 @@ func writeToBagItem(
 				astbuilder.NotNil(reader),
 				astbuilder.Statements(createAddToBag(astbuilder.Dereference(reader))),
 				astbuilder.Statements(removeFromBag))
-			return astbuilder.Statements(writer)
+			return astbuilder.Statements(writer), nil
 		}
 
 		// If slice or map, check for non-empty and only store if we have a value
@@ -289,12 +289,12 @@ func writeToBagItem(
 				astbuilder.NotEmpty(reader),
 				astbuilder.Statements(createAddToBag(reader)),
 				astbuilder.Statements(removeFromBag))
-			return astbuilder.Statements(writer)
+			return astbuilder.Statements(writer), nil
 		}
 
 		// Otherwise, just store the value
 		writer := createAddToBag(reader)
-		return astbuilder.Statements(writer)
+		return astbuilder.Statements(writer), nil
 	}, nil
 }
 
@@ -460,7 +460,7 @@ func pullFromBagItem(
 			astbuilder.Statements(declare, pull, returnIfErr, assignValue),
 			assignZero)
 
-		return astbuilder.Statements(ifStatement)
+		return astbuilder.Statements(ifStatement), nil
 	}, nil
 }
 
@@ -549,7 +549,7 @@ func assignFromOptional(
 			writeActualValue,
 			writeZeroValue)
 
-		return astbuilder.Statements(cacheOriginal, stmt)
+		return astbuilder.Statements(cacheOriginal, stmt), nil
 	}, nil
 }
 
@@ -650,13 +650,13 @@ func assignPrimitiveFromPrimitive(
 		return nil, nil
 	}
 
-		return writer(reader)
 	return func(
 		reader dst.Expr,
 		writer func(dst.Expr) []dst.Stmt,
 		knownLocals *astmodel.KnownLocalsSet,
 		generationContext *astmodel.CodeGenerationContext,
 	) ([]dst.Stmt, error) {
+		return writer(reader), nil
 	}, nil
 }
 
@@ -713,7 +713,7 @@ func assignAliasedPrimitiveFromAliasedPrimitive(
 		return writer(&dst.CallExpr{
 			Fun:  destinationName.AsType(generationContext),
 			Args: []dst.Expr{reader},
-		})
+		}), nil
 	}, nil
 }
 
@@ -914,13 +914,13 @@ func assignHandcraftedImplementations(
 		if astmodel.TypeEquals(sourceEndpoint.Type(), impl.fromType) &&
 			astmodel.TypeEquals(destinationEndpoint.Type(), impl.toType) {
 				pkg := cgc.MustGetImportedPackageName(impl.implPackage)
-				return writer(astbuilder.CallQualifiedFunc(pkg, impl.implFunc, reader))
 			return func(
 				reader dst.Expr,
 				writer func(dst.Expr) []dst.Stmt,
 				knownLocals *astmodel.KnownLocalsSet,
 				generationContext *astmodel.CodeGenerationContext,
 			) ([]dst.Stmt, error) {
+				return writer(astbuilder.CallQualifiedFunc(pkg, impl.implFunc, reader)), nil
 			}, nil
 		}
 	}
@@ -959,13 +959,13 @@ func neuterForbiddenConversions(
 	for _, forbidden := range forbiddenConversions {
 		if astmodel.TypeEquals(sourceEndpoint.Type(), forbidden.fromType) &&
 			astmodel.TypeEquals(destinationEndpoint.Type(), forbidden.toType) {
-				return nil
 			return func(
 				reader dst.Expr,
 				writer func(dst.Expr) []dst.Stmt,
 				knownLocals *astmodel.KnownLocalsSet,
 				generationContext *astmodel.CodeGenerationContext,
 			) ([]dst.Stmt, error) {
+				return nil, nil
 			}, nil
 		}
 	}
@@ -1095,7 +1095,7 @@ func assignArrayFromArray(
 
 		return astbuilder.Statements(
 			cacheOriginal,
-			astbuilder.SimpleIfElse(checkForNil, trueBranch, assignZero))
+			astbuilder.SimpleIfElse(checkForNil, trueBranch, assignZero)), nil
 	}, nil
 }
 
@@ -1234,7 +1234,7 @@ func assignMapFromMap(
 
 		return astbuilder.Statements(
 			cacheOriginal,
-			astbuilder.SimpleIfElse(checkForNil, trueBranch, assignNil))
+			astbuilder.SimpleIfElse(checkForNil, trueBranch, assignNil)), nil
 	}, nil
 }
 
@@ -1373,7 +1373,7 @@ func assignUserAssignedIdentityMapFromArray(
 			assignValue)
 
 		return astbuilder.Statements(
-			astbuilder.SimpleIfElse(checkForNil, trueBranch, assignNil))
+			astbuilder.SimpleIfElse(checkForNil, trueBranch, assignNil)), nil
 	}, nil
 }
 
@@ -1439,7 +1439,7 @@ func assignEnumFromEnum(
 		return astbuilder.Statements(
 			declare,
 			write,
-		)
+		), nil
 	}, nil
 }
 
@@ -1485,13 +1485,13 @@ func assignPrimitiveFromEnum(
 		return nil, nil
 	}
 
-		return writer(astbuilder.CallFunc(dstPrimitive.Name(), reader))
 	return func(
 		reader dst.Expr,
 		writer func(dst.Expr) []dst.Stmt,
 		knownLocals *astmodel.KnownLocalsSet,
 		generationContext *astmodel.CodeGenerationContext,
 	) ([]dst.Stmt, error) {
+		return writer(astbuilder.CallFunc(dstPrimitive.Name(), reader)), nil
 	}, nil
 }
 
@@ -1615,7 +1615,7 @@ func assignObjectDirectlyFromObject(
 				describeAssignment(sourceEndpoint, destinationEndpoint)))
 
 		assignment := writer(localId)
-		return astbuilder.Statements(declaration, conversion, checkForError, assignment)
+		return astbuilder.Statements(declaration, conversion, checkForError, assignment), nil
 	}, nil
 }
 
@@ -1739,7 +1739,7 @@ func assignObjectDirectlyToObject(
 				describeAssignment(sourceEndpoint, destinationEndpoint)))
 
 		assignment := writer(dst.NewIdent(copyVar))
-		return astbuilder.Statements(declaration, conversion, checkForError, assignment)
+		return astbuilder.Statements(declaration, conversion, checkForError, assignment), nil
 	}, nil
 }
 
@@ -1868,7 +1868,7 @@ func assignObjectsViaIntermediateObject(
 
 		return astbuilder.Statements(
 			firstStep,
-			secondStep)
+			secondStep), nil
 	}, nil
 }
 
@@ -1911,13 +1911,13 @@ func assignKnownType(name astmodel.TypeName) func(*TypedConversionEndpoint, *Typ
 			return nil, nil
 		}
 
-			return writer(reader)
 		return func(
 			reader dst.Expr,
 			writer func(dst.Expr) []dst.Stmt,
 			knownLocals *astmodel.KnownLocalsSet,
 			generationContext *astmodel.CodeGenerationContext,
 		) ([]dst.Stmt, error) {
+			return writer(reader), nil
 		}, nil
 	}
 }
@@ -1981,10 +1981,10 @@ func copyKnownType(name astmodel.TypeName, methodName string, returnKind knownTy
 				// If the copy method returns a ptr, we need to dereference
 				// This dereference is always safe because we ensured that both source and destination are always
 				// non-optional. The handler assignToOptional() should do the right thing when this happens.
-				return writer(astbuilder.Dereference(astbuilder.CallExpr(reader, methodName)))
+				return writer(astbuilder.Dereference(astbuilder.CallExpr(reader, methodName))), nil
 			}
 
-			return writer(astbuilder.CallExpr(reader, methodName))
+			return writer(astbuilder.CallExpr(reader, methodName)), nil
 		}, nil
 	}
 }
