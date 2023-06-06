@@ -1853,11 +1853,6 @@ func (in *RoutingEventHubProperties_STATUS) DeepCopyInto(out *RoutingEventHubPro
 		*out = new(string)
 		**out = **in
 	}
-	if in.ConnectionString != nil {
-		in, out := &in.ConnectionString, &out.ConnectionString
-		*out = new(string)
-		**out = **in
-	}
 	if in.EndpointUri != nil {
 		in, out := &in.EndpointUri, &out.EndpointUri
 		*out = new(string)
@@ -2079,11 +2074,6 @@ func (in *RoutingServiceBusQueueEndpointProperties_STATUS) DeepCopyInto(out *Rou
 		*out = new(string)
 		**out = **in
 	}
-	if in.ConnectionString != nil {
-		in, out := &in.ConnectionString, &out.ConnectionString
-		*out = new(string)
-		**out = **in
-	}
 	if in.EndpointUri != nil {
 		in, out := &in.EndpointUri, &out.EndpointUri
 		*out = new(string)
@@ -2210,11 +2200,6 @@ func (in *RoutingServiceBusTopicEndpointProperties_STATUS) DeepCopyInto(out *Rou
 	*out = *in
 	if in.AuthenticationType != nil {
 		in, out := &in.AuthenticationType, &out.AuthenticationType
-		*out = new(string)
-		**out = **in
-	}
-	if in.ConnectionString != nil {
-		in, out := &in.ConnectionString, &out.ConnectionString
 		*out = new(string)
 		**out = **in
 	}
@@ -2370,11 +2355,6 @@ func (in *RoutingStorageContainerProperties_STATUS) DeepCopyInto(out *RoutingSto
 	if in.BatchFrequencyInSeconds != nil {
 		in, out := &in.BatchFrequencyInSeconds, &out.BatchFrequencyInSeconds
 		*out = new(int)
-		**out = **in
-	}
-	if in.ConnectionString != nil {
-		in, out := &in.ConnectionString, &out.ConnectionString
-		*out = new(string)
 		**out = **in
 	}
 	if in.ContainerName != nil {
@@ -2562,11 +2542,6 @@ func (in *StorageEndpointProperties_STATUS) DeepCopyInto(out *StorageEndpointPro
 	*out = *in
 	if in.AuthenticationType != nil {
 		in, out := &in.AuthenticationType, &out.AuthenticationType
-		*out = new(string)
-		**out = **in
-	}
-	if in.ConnectionString != nil {
-		in, out := &in.ConnectionString, &out.ConnectionString
 		*out = new(string)
 		**out = **in
 	}

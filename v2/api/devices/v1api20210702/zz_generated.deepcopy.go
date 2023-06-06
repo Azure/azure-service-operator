@@ -2987,11 +2987,6 @@ func (in *RoutingEventHubProperties_STATUS) DeepCopyInto(out *RoutingEventHubPro
 		*out = new(RoutingEventHubProperties_AuthenticationType_STATUS)
 		**out = **in
 	}
-	if in.ConnectionString != nil {
-		in, out := &in.ConnectionString, &out.ConnectionString
-		*out = new(string)
-		**out = **in
-	}
 	if in.EndpointUri != nil {
 		in, out := &in.EndpointUri, &out.EndpointUri
 		*out = new(string)
@@ -3045,11 +3040,6 @@ func (in *RoutingEventHubProperties_STATUS_ARM) DeepCopyInto(out *RoutingEventHu
 	if in.AuthenticationType != nil {
 		in, out := &in.AuthenticationType, &out.AuthenticationType
 		*out = new(RoutingEventHubProperties_AuthenticationType_STATUS)
-		**out = **in
-	}
-	if in.ConnectionString != nil {
-		in, out := &in.ConnectionString, &out.ConnectionString
-		*out = new(string)
 		**out = **in
 	}
 	if in.EndpointUri != nil {
@@ -3383,11 +3373,6 @@ func (in *RoutingServiceBusQueueEndpointProperties_STATUS) DeepCopyInto(out *Rou
 		*out = new(RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS)
 		**out = **in
 	}
-	if in.ConnectionString != nil {
-		in, out := &in.ConnectionString, &out.ConnectionString
-		*out = new(string)
-		**out = **in
-	}
 	if in.EndpointUri != nil {
 		in, out := &in.EndpointUri, &out.EndpointUri
 		*out = new(string)
@@ -3441,11 +3426,6 @@ func (in *RoutingServiceBusQueueEndpointProperties_STATUS_ARM) DeepCopyInto(out 
 	if in.AuthenticationType != nil {
 		in, out := &in.AuthenticationType, &out.AuthenticationType
 		*out = new(RoutingServiceBusQueueEndpointProperties_AuthenticationType_STATUS)
-		**out = **in
-	}
-	if in.ConnectionString != nil {
-		in, out := &in.ConnectionString, &out.ConnectionString
-		*out = new(string)
 		**out = **in
 	}
 	if in.EndpointUri != nil {
@@ -3623,11 +3603,6 @@ func (in *RoutingServiceBusTopicEndpointProperties_STATUS) DeepCopyInto(out *Rou
 		*out = new(RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS)
 		**out = **in
 	}
-	if in.ConnectionString != nil {
-		in, out := &in.ConnectionString, &out.ConnectionString
-		*out = new(string)
-		**out = **in
-	}
 	if in.EndpointUri != nil {
 		in, out := &in.EndpointUri, &out.EndpointUri
 		*out = new(string)
@@ -3681,11 +3656,6 @@ func (in *RoutingServiceBusTopicEndpointProperties_STATUS_ARM) DeepCopyInto(out 
 	if in.AuthenticationType != nil {
 		in, out := &in.AuthenticationType, &out.AuthenticationType
 		*out = new(RoutingServiceBusTopicEndpointProperties_AuthenticationType_STATUS)
-		**out = **in
-	}
-	if in.ConnectionString != nil {
-		in, out := &in.ConnectionString, &out.ConnectionString
-		*out = new(string)
 		**out = **in
 	}
 	if in.EndpointUri != nil {
@@ -3908,11 +3878,6 @@ func (in *RoutingStorageContainerProperties_STATUS) DeepCopyInto(out *RoutingSto
 		*out = new(int)
 		**out = **in
 	}
-	if in.ConnectionString != nil {
-		in, out := &in.ConnectionString, &out.ConnectionString
-		*out = new(string)
-		**out = **in
-	}
 	if in.ContainerName != nil {
 		in, out := &in.ContainerName, &out.ContainerName
 		*out = new(string)
@@ -3986,11 +3951,6 @@ func (in *RoutingStorageContainerProperties_STATUS_ARM) DeepCopyInto(out *Routin
 	if in.BatchFrequencyInSeconds != nil {
 		in, out := &in.BatchFrequencyInSeconds, &out.BatchFrequencyInSeconds
 		*out = new(int)
-		**out = **in
-	}
-	if in.ConnectionString != nil {
-		in, out := &in.ConnectionString, &out.ConnectionString
-		*out = new(string)
 		**out = **in
 	}
 	if in.ContainerName != nil {
@@ -4234,11 +4194,6 @@ func (in *StorageEndpointProperties_STATUS) DeepCopyInto(out *StorageEndpointPro
 		*out = new(StorageEndpointProperties_AuthenticationType_STATUS)
 		**out = **in
 	}
-	if in.ConnectionString != nil {
-		in, out := &in.ConnectionString, &out.ConnectionString
-		*out = new(string)
-		**out = **in
-	}
 	if in.ContainerName != nil {
 		in, out := &in.ContainerName, &out.ContainerName
 		*out = new(string)
@@ -4272,11 +4227,6 @@ func (in *StorageEndpointProperties_STATUS_ARM) DeepCopyInto(out *StorageEndpoin
 	if in.AuthenticationType != nil {
 		in, out := &in.AuthenticationType, &out.AuthenticationType
 		*out = new(StorageEndpointProperties_AuthenticationType_STATUS)
-		**out = **in
-	}
-	if in.ConnectionString != nil {
-		in, out := &in.ConnectionString, &out.ConnectionString
-		*out = new(string)
 		**out = **in
 	}
 	if in.ContainerName != nil {
