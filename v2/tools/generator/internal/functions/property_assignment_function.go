@@ -7,6 +7,7 @@ package functions
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 	"go/token"
 	"sort"
 
@@ -68,7 +69,7 @@ type StoragePropertyConversion func(
 	source dst.Expr,
 	destination dst.Expr,
 	knownLocals *astmodel.KnownLocalsSet,
-	generationContext *astmodel.CodeGenerationContext) []dst.Stmt
+	generationContext *astmodel.CodeGenerationContext) ([]dst.Stmt, error)
 
 // Ensure that PropertyAssignmentFunction implements Function
 var _ astmodel.Function = &PropertyAssignmentFunction{}
@@ -162,7 +163,7 @@ func (fn *PropertyAssignmentFunction) generateBody(
 	receiver string,
 	parameter string,
 	generationContext *astmodel.CodeGenerationContext,
-) []dst.Stmt {
+) ([]dst.Stmt, error) {
 	// source is the identifier from which we are reading values
 	source := fn.direction.SelectString(parameter, receiver)
 
@@ -329,7 +330,7 @@ func (fn *PropertyAssignmentFunction) generateAssignments(
 	source dst.Expr,
 	destination dst.Expr,
 	generationContext *astmodel.CodeGenerationContext,
-) []dst.Stmt {
+) ([]dst.Stmt, error) {
 	var result []dst.Stmt
 
 	// Find all the properties for which we have a conversion

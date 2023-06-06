@@ -25,7 +25,8 @@ type PropertyConversion func(
 	reader dst.Expr,
 	writer func(dst.Expr) []dst.Stmt,
 	knownLocals *astmodel.KnownLocalsSet,
-	generationContext *astmodel.CodeGenerationContext) []dst.Stmt
+	generationContext *astmodel.CodeGenerationContext,
+) ([]dst.Stmt, error)
 
 // PropertyConversionFactory represents factory methods that can be used to create a PropertyConversion for a specific
 // pair of properties
@@ -252,7 +253,12 @@ func writeToBagItem(
 	_, sourceIsMap := astmodel.AsMapType(actualSourceType)
 	_, sourceIsSlice := astmodel.AsArrayType(actualSourceType)
 
-	return func(reader dst.Expr, _ func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+	return func(
+		reader dst.Expr,
+		_ func(dst.Expr) []dst.Stmt,
+		knownLocals *astmodel.KnownLocalsSet,
+		generationContext *astmodel.CodeGenerationContext,
+	) ([]dst.Stmt, error) {
 		createAddToBag := func(expr dst.Expr) dst.Stmt {
 			addToBag := astbuilder.CallQualifiedFuncAsStmt(
 				conversionContext.PropertyBagName(),
@@ -329,7 +335,12 @@ func assignToOptional(
 		return nil, nil
 	}
 
-	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+	return func(
+		reader dst.Expr,
+		writer func(dst.Expr) []dst.Stmt,
+		knownLocals *astmodel.KnownLocalsSet,
+		generationContext *astmodel.CodeGenerationContext,
+	) ([]dst.Stmt, error) {
 		// Create a writer that uses the address of the passed expression
 		// If expr isn't a plain identifier (implying a local variable), we introduce one
 		// This both allows us to avoid aliasing and complies with Go language semantics
@@ -396,7 +407,12 @@ func pullFromBagItem(
 
 	errIdent := dst.NewIdent("err")
 
-	return func(_ dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+	return func(
+		_ dst.Expr,
+		writer func(dst.Expr) []dst.Stmt,
+		knownLocals *astmodel.KnownLocalsSet,
+		generationContext *astmodel.CodeGenerationContext,
+	) ([]dst.Stmt, error) {
 		// our first parameter is an expression to read the value from our original instance, but in this case we're
 		// going to read from the property bag, so we're ignoring it.
 
@@ -490,7 +506,12 @@ func assignFromOptional(
 		return nil, nil
 	}
 
-	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+	return func(
+		reader dst.Expr,
+		writer func(dst.Expr) []dst.Stmt,
+		knownLocals *astmodel.KnownLocalsSet,
+		generationContext *astmodel.CodeGenerationContext,
+	) ([]dst.Stmt, error) {
 		var cacheOriginal dst.Stmt
 		var actualReader dst.Expr
 
@@ -571,7 +592,12 @@ func assignToEnumeration(
 		return nil, nil
 	}
 
-	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+	return func(
+		reader dst.Expr,
+		writer func(dst.Expr) []dst.Stmt,
+		knownLocals *astmodel.KnownLocalsSet,
+		generationContext *astmodel.CodeGenerationContext,
+	) ([]dst.Stmt, error) {
 		convertingWriter := func(expr dst.Expr) []dst.Stmt {
 			cast := &dst.CallExpr{
 				Fun:  dstName.AsType(generationContext),
@@ -624,8 +650,13 @@ func assignPrimitiveFromPrimitive(
 		return nil, nil
 	}
 
-	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 		return writer(reader)
+	return func(
+		reader dst.Expr,
+		writer func(dst.Expr) []dst.Stmt,
+		knownLocals *astmodel.KnownLocalsSet,
+		generationContext *astmodel.CodeGenerationContext,
+	) ([]dst.Stmt, error) {
 	}, nil
 }
 
@@ -673,7 +704,12 @@ func assignAliasedPrimitiveFromAliasedPrimitive(
 		return nil, nil
 	}
 
-	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+	return func(
+		reader dst.Expr,
+		writer func(dst.Expr) []dst.Stmt,
+		knownLocals *astmodel.KnownLocalsSet,
+		generationContext *astmodel.CodeGenerationContext,
+	) ([]dst.Stmt, error) {
 		return writer(&dst.CallExpr{
 			Fun:  destinationName.AsType(generationContext),
 			Args: []dst.Expr{reader},
@@ -721,7 +757,12 @@ func assignFromAliasedType(
 		return nil, nil
 	}
 
-	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+	return func(
+		reader dst.Expr,
+		writer func(dst.Expr) []dst.Stmt,
+		knownLocals *astmodel.KnownLocalsSet,
+		generationContext *astmodel.CodeGenerationContext,
+	) ([]dst.Stmt, error) {
 		actualReader := &dst.CallExpr{
 			Fun:  sourceType.AsType(generationContext),
 			Args: []dst.Expr{reader},
@@ -773,7 +814,12 @@ func assignToAliasedType(
 		return nil, nil
 	}
 
-	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+	return func(
+		reader dst.Expr,
+		writer func(dst.Expr) []dst.Stmt,
+		knownLocals *astmodel.KnownLocalsSet,
+		generationContext *astmodel.CodeGenerationContext,
+	) ([]dst.Stmt, error) {
 		actualWriter := func(expr dst.Expr) []dst.Stmt {
 			castToAlias := &dst.CallExpr{
 				Fun:  destinationName.AsType(generationContext),
@@ -867,9 +913,14 @@ func assignHandcraftedImplementations(
 	for _, impl := range handCraftedConversions {
 		if astmodel.TypeEquals(sourceEndpoint.Type(), impl.fromType) &&
 			astmodel.TypeEquals(destinationEndpoint.Type(), impl.toType) {
-			return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, _ *astmodel.KnownLocalsSet, cgc *astmodel.CodeGenerationContext) []dst.Stmt {
 				pkg := cgc.MustGetImportedPackageName(impl.implPackage)
 				return writer(astbuilder.CallQualifiedFunc(pkg, impl.implFunc, reader))
+			return func(
+				reader dst.Expr,
+				writer func(dst.Expr) []dst.Stmt,
+				knownLocals *astmodel.KnownLocalsSet,
+				generationContext *astmodel.CodeGenerationContext,
+			) ([]dst.Stmt, error) {
 			}, nil
 		}
 	}
@@ -908,8 +959,13 @@ func neuterForbiddenConversions(
 	for _, forbidden := range forbiddenConversions {
 		if astmodel.TypeEquals(sourceEndpoint.Type(), forbidden.fromType) &&
 			astmodel.TypeEquals(destinationEndpoint.Type(), forbidden.toType) {
-			return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, _ *astmodel.KnownLocalsSet, _ *astmodel.CodeGenerationContext) []dst.Stmt {
 				return nil
+			return func(
+				reader dst.Expr,
+				writer func(dst.Expr) []dst.Stmt,
+				knownLocals *astmodel.KnownLocalsSet,
+				generationContext *astmodel.CodeGenerationContext,
+			) ([]dst.Stmt, error) {
 			}, nil
 		}
 	}
@@ -969,7 +1025,12 @@ func assignArrayFromArray(
 		return nil, nil
 	}
 
-	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+	return func(
+		reader dst.Expr,
+		writer func(dst.Expr) []dst.Stmt,
+		knownLocals *astmodel.KnownLocalsSet,
+		generationContext *astmodel.CodeGenerationContext,
+	) ([]dst.Stmt, error) {
 		var cacheOriginal dst.Stmt
 		var actualReader dst.Expr
 
@@ -1099,7 +1160,12 @@ func assignMapFromMap(
 		return nil, nil
 	}
 
-	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+	return func(
+		reader dst.Expr,
+		writer func(dst.Expr) []dst.Stmt,
+		knownLocals *astmodel.KnownLocalsSet,
+		generationContext *astmodel.CodeGenerationContext,
+	) ([]dst.Stmt, error) {
 		var cacheOriginal dst.Stmt
 		var actualReader dst.Expr
 
@@ -1247,7 +1313,12 @@ func assignUserAssignedIdentityMapFromArray(
 			astmodel.DebugDescription(astmodel.ResourceReferenceType))
 	}
 
-	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+	return func(
+		reader dst.Expr,
+		writer func(dst.Expr) []dst.Stmt,
+		knownLocals *astmodel.KnownLocalsSet,
+		generationContext *astmodel.CodeGenerationContext,
+	) ([]dst.Stmt, error) {
 
 		// <source>List := make([]<type>, 0, len(<source>)
 		tempId := knownLocals.CreateSingularLocal(sourceEndpoint.Name(), "List")
@@ -1356,7 +1427,12 @@ func assignEnumFromEnum(
 			astmodel.DebugDescription(destinationEnum.BaseType()))
 	}
 
-	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, ctx *astmodel.CodeGenerationContext) []dst.Stmt {
+	return func(
+		reader dst.Expr,
+		writer func(dst.Expr) []dst.Stmt,
+		knownLocals *astmodel.KnownLocalsSet,
+		generationContext *astmodel.CodeGenerationContext,
+	) ([]dst.Stmt, error) {
 		local := knownLocals.CreateSingularLocal(destinationEndpoint.Name(), "", "As"+destinationName.Name(), "Value")
 		declare := astbuilder.ShortDeclaration(local, astbuilder.CallFunc(destinationName.Name(), reader))
 		write := writer(dst.NewIdent(local))
@@ -1409,8 +1485,13 @@ func assignPrimitiveFromEnum(
 		return nil, nil
 	}
 
-	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, ctx *astmodel.CodeGenerationContext) []dst.Stmt {
 		return writer(astbuilder.CallFunc(dstPrimitive.Name(), reader))
+	return func(
+		reader dst.Expr,
+		writer func(dst.Expr) []dst.Stmt,
+		knownLocals *astmodel.KnownLocalsSet,
+		generationContext *astmodel.CodeGenerationContext,
+	) ([]dst.Stmt, error) {
 	}, nil
 }
 
@@ -1495,7 +1576,12 @@ func assignObjectDirectlyFromObject(
 		}
 	}
 
-	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+	return func(
+		reader dst.Expr,
+		writer func(dst.Expr) []dst.Stmt,
+		knownLocals *astmodel.KnownLocalsSet,
+		generationContext *astmodel.CodeGenerationContext,
+	) ([]dst.Stmt, error) {
 		copyVar := knownLocals.CreateSingularLocal(destinationEndpoint.Name(), "", "Local", "Copy", "Temp")
 
 		// We have to do this at render time in order to ensure the first conversion generated
@@ -1615,7 +1701,12 @@ func assignObjectDirectlyToObject(
 		}
 	}
 
-	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+	return func(
+		reader dst.Expr,
+		writer func(dst.Expr) []dst.Stmt,
+		knownLocals *astmodel.KnownLocalsSet,
+		generationContext *astmodel.CodeGenerationContext,
+	) ([]dst.Stmt, error) {
 		copyVar := knownLocals.CreateSingularLocal(destinationEndpoint.Name(), "", "Local", "Copy", "Temp")
 
 		// We have to do this at render time in order to ensure the first conversion generated
@@ -1755,7 +1846,12 @@ func assignObjectsViaIntermediateObject(
 		return nil, nil
 	}
 
-	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+	return func(
+		reader dst.Expr,
+		writer func(dst.Expr) []dst.Stmt,
+		knownLocals *astmodel.KnownLocalsSet,
+		generationContext *astmodel.CodeGenerationContext,
+	) ([]dst.Stmt, error) {
 
 		// We capture the expression written by the first step pass it to the second step,
 		// allowing us to avoid extra local variable (this is a bit sneaky, as we rely on assignObjectDirectlyFromObject
@@ -1815,8 +1911,13 @@ func assignKnownType(name astmodel.TypeName) func(*TypedConversionEndpoint, *Typ
 			return nil, nil
 		}
 
-		return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 			return writer(reader)
+		return func(
+			reader dst.Expr,
+			writer func(dst.Expr) []dst.Stmt,
+			knownLocals *astmodel.KnownLocalsSet,
+			generationContext *astmodel.CodeGenerationContext,
+		) ([]dst.Stmt, error) {
 		}, nil
 	}
 }
@@ -1865,7 +1966,12 @@ func copyKnownType(name astmodel.TypeName, methodName string, returnKind knownTy
 			return nil, nil
 		}
 
-		return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+		return func(
+			reader dst.Expr,
+			writer func(dst.Expr) []dst.Stmt,
+			knownLocals *astmodel.KnownLocalsSet,
+			generationContext *astmodel.CodeGenerationContext,
+		) ([]dst.Stmt, error) {
 			// If our writer is dereferencing a value, skip that as we don't need to dereference before a method call
 			if star, ok := reader.(*dst.StarExpr); ok {
 				reader = star.X
