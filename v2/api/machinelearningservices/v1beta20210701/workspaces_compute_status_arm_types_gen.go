@@ -776,9 +776,7 @@ type SystemService_STATUS_ARM struct {
 
 // Deprecated version of UserAccountCredentials_STATUS. Use v1api20210701.UserAccountCredentials_STATUS instead
 type UserAccountCredentials_STATUS_ARM struct {
-	AdminUserName         *string `json:"adminUserName,omitempty"`
-	AdminUserPassword     *string `json:"adminUserPassword,omitempty"`
-	AdminUserSshPublicKey *string `json:"adminUserSshPublicKey,omitempty"`
+	AdminUserName *string `json:"adminUserName,omitempty"`
 }
 
 // Deprecated version of VirtualMachineImage_STATUS. Use v1api20210701.VirtualMachineImage_STATUS instead
@@ -788,7 +786,6 @@ type VirtualMachineImage_STATUS_ARM struct {
 
 // Deprecated version of VirtualMachineSshCredentials_STATUS. Use v1api20210701.VirtualMachineSshCredentials_STATUS instead
 type VirtualMachineSshCredentials_STATUS_ARM struct {
-	Password       *string `json:"password,omitempty"`
 	PrivateKeyData *string `json:"privateKeyData,omitempty"`
 	PublicKeyData  *string `json:"publicKeyData,omitempty"`
 	Username       *string `json:"username,omitempty"`

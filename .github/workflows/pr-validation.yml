@@ -44,7 +44,7 @@ jobs:
           go get "$repo/v2@$sha"
 
   test-generator:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool]
     permissions:
       packages: read
 
@@ -102,7 +102,7 @@ jobs:
           container_id=${{ env.container_id }}
 
           set +e # don't exit instantly on failure, we need to produce Markdown summary
-          docker exec "$container_id" task ci --concurrency 1 # limit concurrency because build machines are small
+          docker exec "$container_id" task ci
 
           EXIT_CODE=$?
           set -e
@@ -122,8 +122,8 @@ jobs:
       - name: Build docker image & build configuration YAML
         run: |
           container_id=${{ env.container_id }}
-          docker exec "$container_id" task controller:docker-build-and-save --concurrency 1 # limit concurrency because build machines are small
-          docker exec "$container_id" task controller:run-kustomize-for-envtest --concurrency 1 # limit concurrency because build machines are small
+          docker exec "$container_id" task controller:docker-build-and-save
+          docker exec "$container_id" task controller:run-kustomize-for-envtest
         if: steps.check-changes.outputs.code-changed == 'true'
 
       - name: Archive outputs
@@ -140,7 +140,7 @@ jobs:
 
   # TODO: Changing this name requires changing the github API calls in pr-validation-fork.yml
   integration-tests:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool]
     if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
     permissions:
       packages: read
@@ -154,6 +154,7 @@ jobs:
           submodules: 'true'
 
       - name: check-changes
+        id: check-changes
         run: scripts/v2/check-changes.sh
 
       - name: Log in to GitHub Docker Registry
@@ -210,7 +211,7 @@ jobs:
         if: steps.check-changes.outputs.code-changed == 'true'
 
       # Update check run called "integration-tests-fork"
-      - uses: actions/github-script@v2
+      - uses: actions/github-script@v6
         id: update-check-run
         if: ${{ always() }}
         env:
@@ -225,12 +226,12 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const url = `${process.env.server_url}/${process.env.repo}/actions/runs/${process.env.run_id}`
-            const { data: pull } = await github.pulls.get({
+            const { data: pull } = await github.rest.pulls.get({
               ...context.repo,
               pull_number: process.env.number
             });
             const ref = pull.head.sha;
-            const { data: result } = await github.checks.create({
+            const { data: result } = await github.rest.checks.create({
               ...context.repo,
               name: process.env.integration_test_job,
               head_sha: ref,

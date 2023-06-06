@@ -1535,11 +1535,6 @@ func (in *Workspace_STATUS) DeepCopyInto(out *Workspace_STATUS) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.SqlAdministratorLoginPassword != nil {
-		in, out := &in.SqlAdministratorLoginPassword, &out.SqlAdministratorLoginPassword
-		*out = new(string)
-		**out = **in
-	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
 		*out = make(map[string]string, len(*in))

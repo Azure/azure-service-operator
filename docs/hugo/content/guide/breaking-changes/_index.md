@@ -15,6 +15,9 @@ You can easily swap from a `v1beta` version to a `v1api` version by just replaci
 
 ## Released Breaking Changes
 
+### Upcoming breaking changes
+* AKS ManagedClusterServicePrincipalProfile.Secret will change from `string` to `genruntime.SecretReference`
+
 ### v2.1.0
 
 Breaking changes are:
