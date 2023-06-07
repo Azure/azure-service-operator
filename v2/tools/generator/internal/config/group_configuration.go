@@ -28,10 +28,22 @@ import (
 // │                          │1  1..n║                    ║1  1..n│                      │1  1..n│                   │1  1..n│                       │
 // └──────────────────────────┘       ╚════════════════════╝       └──────────────────────┘       └───────────────────┘       └───────────────────────┘
 type GroupConfiguration struct {
-	name     string
-	versions map[string]*VersionConfiguration
-	advisor  *typo.Advisor
+	name        string
+	versions    map[string]*VersionConfiguration
+	advisor     *typo.Advisor
+	payloadType configurable[PayloadType]
 }
+
+type PayloadType string
+
+const (
+	PayloadTypeOmitEmpty PayloadType = "omitempty"
+	PayloadTypeExplicit  PayloadType = "explicit"
+)
+
+const (
+	payloadTypeTag = "$payloadType" // Enumeration specifying what kind of payload to send to ARM.
+)
 
 // NewGroupConfiguration returns a new (empty) GroupConfiguration
 func NewGroupConfiguration(name string) *GroupConfiguration {
@@ -40,6 +52,27 @@ func NewGroupConfiguration(name string) *GroupConfiguration {
 		versions: make(map[string]*VersionConfiguration),
 		advisor:  typo.NewAdvisor(),
 	}
+}
+
+// LookupPayloadType returns the configured payload type for this group, or an error if not configured
+func (gc *GroupConfiguration) LookupPayloadType() (PayloadType, error) {
+	pt, ok := gc.payloadType.read()
+	if !ok {
+		msg := fmt.Sprintf(payloadTypeTag+" not specified for group %s", gc.name)
+		return "", NewNotConfiguredError(msg)
+	}
+
+	return pt, nil
+}
+
+// VerifyPayloadTypeConsumed returns an error if the payload type has not been consumed
+func (gc *GroupConfiguration) VerifyPayloadTypeConsumed() error {
+	if gc.payloadType.isUnconsumed() {
+		v, _ := gc.payloadType.read()
+		return errors.Errorf("group %s: "+payloadTypeTag+": %s not consumed", gc.name, v)
+	}
+
+	return nil
 }
 
 // Add includes configuration for the specified version as a part of this group configuration
@@ -166,6 +199,20 @@ func (gc *GroupConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			}
 
 			gc.addVersion(lastId, v)
+			continue
+		}
+
+		// $payloadType: <string>
+		if strings.EqualFold(lastId, payloadTypeTag) && c.Kind == yaml.ScalarNode {
+			switch strings.ToLower(c.Value) {
+			case string(PayloadTypeOmitEmpty):
+				gc.payloadType.write(PayloadTypeOmitEmpty)
+			case string(PayloadTypeExplicit):
+				gc.payloadType.write(PayloadTypeExplicit)
+			default:
+				return errors.Errorf("unknown %s value: %s.", payloadTypeTag, c.Value)
+			}
+
 			continue
 		}
 

@@ -134,3 +134,55 @@ func TestGroupConfiguration_WhenVersionConfigurationNotConsumed_ReturnsErrorWith
 	g.Expect(err.Error()).To(ContainSubstring("did you mean"))     // We want to receive a tip
 	g.Expect(err.Error()).To(ContainSubstring(versionConfig.name)) // and we want the correct version to be suggested
 }
+
+/*
+ * PayloadType tests
+ */
+
+func TestGroupConfiguration_LookupPayloadType_WhenConfigured_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	groupConfig := NewGroupConfiguration("Network")
+	groupConfig.payloadType.write(PayloadTypeExplicit)
+
+	payloadType, err := groupConfig.LookupPayloadType()
+
+	g.Expect(payloadType).To(Equal(PayloadTypeExplicit))
+	g.Expect(err).To(Succeed())
+}
+
+func TestGroupConfiguration_LookupPayloadType_WhenNotConfigured_ReturnsExpectedError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	groupConfig := NewGroupConfiguration("Network")
+
+	name, err := groupConfig.LookupPayloadType()
+	g.Expect(name).To(Equal(PayloadType("")))
+	g.Expect(err).NotTo(Succeed())
+	g.Expect(err.Error()).To(ContainSubstring(groupConfig.name))
+	g.Expect(err.Error()).To(ContainSubstring(payloadTypeTag))
+}
+
+func TestGroupConfiguration_VerifyPayloadTypeConsumed_WhenConsumed_ReturnsNoError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	groupConfig := NewGroupConfiguration("Network")
+	groupConfig.payloadType.write(PayloadTypeOmitEmpty)
+
+	_, err := groupConfig.LookupPayloadType()
+	g.Expect(err).To(Succeed())
+	g.Expect(groupConfig.VerifyPayloadTypeConsumed()).To(Succeed())
+}
+
+func TestGroupConfiguration_VerifyPayloadTypeConsumed_WhenNotConsumed_ReturnsExpectedError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	groupConfig := NewGroupConfiguration("Network")
+	groupConfig.payloadType.write(PayloadTypeExplicit)
+
+	err := groupConfig.VerifyPayloadTypeConsumed()
+	g.Expect(err).NotTo(BeNil())
+	g.Expect(err.Error()).To(ContainSubstring(groupConfig.name))
+}
