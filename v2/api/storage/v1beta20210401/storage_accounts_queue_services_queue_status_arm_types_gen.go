@@ -5,14 +5,14 @@ package v1beta20210401
 
 // Deprecated version of StorageAccounts_QueueServices_Queue_STATUS. Use v1api20210401.StorageAccounts_QueueServices_Queue_STATUS instead
 type StorageAccounts_QueueServices_Queue_STATUS_ARM struct {
-	Id         *string                     `json:"id,omitempty"`
-	Name       *string                     `json:"name,omitempty"`
-	Properties *QueueProperties_STATUS_ARM `json:"properties,omitempty"`
-	Type       *string                     `json:"type,omitempty"`
+	Id         *string                     `json:"id"`
+	Name       *string                     `json:"name"`
+	Properties *QueueProperties_STATUS_ARM `json:"properties"`
+	Type       *string                     `json:"type"`
 }
 
 // Deprecated version of QueueProperties_STATUS. Use v1api20210401.QueueProperties_STATUS instead
 type QueueProperties_STATUS_ARM struct {
-	ApproximateMessageCount *int              `json:"approximateMessageCount,omitempty"`
-	Metadata                map[string]string `json:"metadata,omitempty"`
+	ApproximateMessageCount *int              `json:"approximateMessageCount"`
+	Metadata                map[string]string `json:"metadata"`
 }

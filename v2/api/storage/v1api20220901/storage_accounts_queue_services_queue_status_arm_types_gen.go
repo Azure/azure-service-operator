@@ -6,23 +6,23 @@ package v1api20220901
 type StorageAccounts_QueueServices_Queue_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
+	Id *string `json:"id"`
 
 	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
+	Name *string `json:"name"`
 
 	// Properties: Queue resource properties.
-	Properties *QueueProperties_STATUS_ARM `json:"properties,omitempty"`
+	Properties *QueueProperties_STATUS_ARM `json:"properties"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Type *string `json:"type"`
 }
 
 type QueueProperties_STATUS_ARM struct {
 	// ApproximateMessageCount: Integer indicating an approximate number of messages in the queue. This number is not lower
 	// than the actual number of messages in the queue, but could be higher.
-	ApproximateMessageCount *int `json:"approximateMessageCount,omitempty"`
+	ApproximateMessageCount *int `json:"approximateMessageCount"`
 
 	// Metadata: A name-value pair that represents queue metadata.
-	Metadata map[string]string `json:"metadata,omitempty"`
+	Metadata map[string]string `json:"metadata"`
 }

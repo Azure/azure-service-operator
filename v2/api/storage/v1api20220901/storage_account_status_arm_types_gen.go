@@ -6,71 +6,71 @@ package v1api20220901
 // The storage account.
 type StorageAccount_STATUS_ARM struct {
 	// ExtendedLocation: The extendedLocation of the resource.
-	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
+	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation"`
 
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
+	Id *string `json:"id"`
 
 	// Identity: The identity of the resource.
-	Identity *Identity_STATUS_ARM `json:"identity,omitempty"`
+	Identity *Identity_STATUS_ARM `json:"identity"`
 
 	// Kind: Gets the Kind.
-	Kind *StorageAccount_Kind_STATUS `json:"kind,omitempty"`
+	Kind *StorageAccount_Kind_STATUS `json:"kind"`
 
 	// Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
+	Location *string `json:"location"`
 
 	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
+	Name *string `json:"name"`
 
 	// Properties: Properties of the storage account.
-	Properties *StorageAccountProperties_STATUS_ARM `json:"properties,omitempty"`
+	Properties *StorageAccountProperties_STATUS_ARM `json:"properties"`
 
 	// Sku: Gets the SKU.
-	Sku *Sku_STATUS_ARM `json:"sku,omitempty"`
+	Sku *Sku_STATUS_ARM `json:"sku"`
 
 	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags map[string]string `json:"tags"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Type *string `json:"type"`
 }
 
 // The complex type of the extended location.
 type ExtendedLocation_STATUS_ARM struct {
 	// Name: The name of the extended location.
-	Name *string `json:"name,omitempty"`
+	Name *string `json:"name"`
 
 	// Type: The type of the extended location.
-	Type *ExtendedLocationType_STATUS `json:"type,omitempty"`
+	Type *ExtendedLocationType_STATUS `json:"type"`
 }
 
 // Identity for the resource.
 type Identity_STATUS_ARM struct {
 	// PrincipalId: The principal ID of resource identity.
-	PrincipalId *string `json:"principalId,omitempty"`
+	PrincipalId *string `json:"principalId"`
 
 	// TenantId: The tenant ID of resource.
-	TenantId *string `json:"tenantId,omitempty"`
+	TenantId *string `json:"tenantId"`
 
 	// Type: The identity type.
-	Type *Identity_Type_STATUS `json:"type,omitempty"`
+	Type *Identity_Type_STATUS `json:"type"`
 
 	// UserAssignedIdentities: Gets or sets a list of key value pairs that describe the set of User Assigned identities that
 	// will be used with this storage account. The key is the ARM resource identifier of the identity. Only 1 User Assigned
 	// identity is permitted here.
-	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS_ARM `json:"userAssignedIdentities"`
 }
 
 // The SKU of the storage account.
 type Sku_STATUS_ARM struct {
 	// Name: The SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called
 	//  accountType.
-	Name *SkuName_STATUS `json:"name,omitempty"`
+	Name *SkuName_STATUS `json:"name"`
 
 	// Tier: The SKU tier. This is based on the SKU name.
-	Tier *Tier_STATUS `json:"tier,omitempty"`
+	Tier *Tier_STATUS `json:"tier"`
 }
 
 type StorageAccount_Kind_STATUS string
@@ -88,221 +88,221 @@ type StorageAccountProperties_STATUS_ARM struct {
 	// AccessTier: Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium'
 	// access tier is the default value for premium block blobs storage account type and it cannot be changed for the premium
 	// block blobs storage account type.
-	AccessTier *StorageAccountProperties_AccessTier_STATUS `json:"accessTier,omitempty"`
+	AccessTier *StorageAccountProperties_AccessTier_STATUS `json:"accessTier"`
 
 	// AllowBlobPublicAccess: Allow or disallow public access to all blobs or containers in the storage account. The default
 	// interpretation is true for this property.
-	AllowBlobPublicAccess *bool `json:"allowBlobPublicAccess,omitempty"`
+	AllowBlobPublicAccess *bool `json:"allowBlobPublicAccess"`
 
 	// AllowCrossTenantReplication: Allow or disallow cross AAD tenant object replication. The default interpretation is true
 	// for this property.
-	AllowCrossTenantReplication *bool `json:"allowCrossTenantReplication,omitempty"`
+	AllowCrossTenantReplication *bool `json:"allowCrossTenantReplication"`
 
 	// AllowSharedKeyAccess: Indicates whether the storage account permits requests to be authorized with the account access
 	// key via Shared Key. If false, then all requests, including shared access signatures, must be authorized with Azure
 	// Active Directory (Azure AD). The default value is null, which is equivalent to true.
-	AllowSharedKeyAccess *bool `json:"allowSharedKeyAccess,omitempty"`
+	AllowSharedKeyAccess *bool `json:"allowSharedKeyAccess"`
 
 	// AllowedCopyScope: Restrict copy to and from Storage Accounts within an AAD tenant or with Private Links to the same VNet.
-	AllowedCopyScope *StorageAccountProperties_AllowedCopyScope_STATUS `json:"allowedCopyScope,omitempty"`
+	AllowedCopyScope *StorageAccountProperties_AllowedCopyScope_STATUS `json:"allowedCopyScope"`
 
 	// AzureFilesIdentityBasedAuthentication: Provides the identity based authentication settings for Azure Files.
-	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication_STATUS_ARM `json:"azureFilesIdentityBasedAuthentication,omitempty"`
+	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication_STATUS_ARM `json:"azureFilesIdentityBasedAuthentication"`
 
 	// BlobRestoreStatus: Blob restore status
-	BlobRestoreStatus *BlobRestoreStatus_STATUS_ARM `json:"blobRestoreStatus,omitempty"`
+	BlobRestoreStatus *BlobRestoreStatus_STATUS_ARM `json:"blobRestoreStatus"`
 
 	// CreationTime: Gets the creation date and time of the storage account in UTC.
-	CreationTime *string `json:"creationTime,omitempty"`
+	CreationTime *string `json:"creationTime"`
 
 	// CustomDomain: Gets the custom domain the user assigned to this storage account.
-	CustomDomain *CustomDomain_STATUS_ARM `json:"customDomain,omitempty"`
+	CustomDomain *CustomDomain_STATUS_ARM `json:"customDomain"`
 
 	// DefaultToOAuthAuthentication: A boolean flag which indicates whether the default authentication is OAuth or not. The
 	// default interpretation is false for this property.
-	DefaultToOAuthAuthentication *bool `json:"defaultToOAuthAuthentication,omitempty"`
+	DefaultToOAuthAuthentication *bool `json:"defaultToOAuthAuthentication"`
 
 	// DnsEndpointType: Allows you to specify the type of endpoint. Set this to AzureDNSZone to create a large number of
 	// accounts in a single subscription, which creates accounts in an Azure DNS Zone and the endpoint URL will have an
 	// alphanumeric DNS Zone identifier.
-	DnsEndpointType *StorageAccountProperties_DnsEndpointType_STATUS `json:"dnsEndpointType,omitempty"`
+	DnsEndpointType *StorageAccountProperties_DnsEndpointType_STATUS `json:"dnsEndpointType"`
 
 	// Encryption: Encryption settings to be used for server-side encryption for the storage account.
-	Encryption *Encryption_STATUS_ARM `json:"encryption,omitempty"`
+	Encryption *Encryption_STATUS_ARM `json:"encryption"`
 
 	// FailoverInProgress: If the failover is in progress, the value will be true, otherwise, it will be null.
-	FailoverInProgress *bool `json:"failoverInProgress,omitempty"`
+	FailoverInProgress *bool `json:"failoverInProgress"`
 
 	// GeoReplicationStats: Geo Replication Stats
-	GeoReplicationStats *GeoReplicationStats_STATUS_ARM `json:"geoReplicationStats,omitempty"`
+	GeoReplicationStats *GeoReplicationStats_STATUS_ARM `json:"geoReplicationStats"`
 
 	// ImmutableStorageWithVersioning: The property is immutable and can only be set to true at the account creation time. When
 	// set to true, it enables object level immutability for all the containers in the account by default.
-	ImmutableStorageWithVersioning *ImmutableStorageAccount_STATUS_ARM `json:"immutableStorageWithVersioning,omitempty"`
+	ImmutableStorageWithVersioning *ImmutableStorageAccount_STATUS_ARM `json:"immutableStorageWithVersioning"`
 
 	// IsHnsEnabled: Account HierarchicalNamespace enabled if sets to true.
-	IsHnsEnabled *bool `json:"isHnsEnabled,omitempty"`
+	IsHnsEnabled *bool `json:"isHnsEnabled"`
 
 	// IsLocalUserEnabled: Enables local users feature, if set to true
-	IsLocalUserEnabled *bool `json:"isLocalUserEnabled,omitempty"`
+	IsLocalUserEnabled *bool `json:"isLocalUserEnabled"`
 
 	// IsNfsV3Enabled: NFS 3.0 protocol support enabled if set to true.
-	IsNfsV3Enabled *bool `json:"isNfsV3Enabled,omitempty"`
+	IsNfsV3Enabled *bool `json:"isNfsV3Enabled"`
 
 	// IsSftpEnabled: Enables Secure File Transfer Protocol, if set to true
-	IsSftpEnabled *bool `json:"isSftpEnabled,omitempty"`
+	IsSftpEnabled *bool `json:"isSftpEnabled"`
 
 	// KeyCreationTime: Storage account keys creation time.
-	KeyCreationTime *KeyCreationTime_STATUS_ARM `json:"keyCreationTime,omitempty"`
+	KeyCreationTime *KeyCreationTime_STATUS_ARM `json:"keyCreationTime"`
 
 	// KeyPolicy: KeyPolicy assigned to the storage account.
-	KeyPolicy *KeyPolicy_STATUS_ARM `json:"keyPolicy,omitempty"`
+	KeyPolicy *KeyPolicy_STATUS_ARM `json:"keyPolicy"`
 
 	// LargeFileSharesState: Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled.
-	LargeFileSharesState *StorageAccountProperties_LargeFileSharesState_STATUS `json:"largeFileSharesState,omitempty"`
+	LargeFileSharesState *StorageAccountProperties_LargeFileSharesState_STATUS `json:"largeFileSharesState"`
 
 	// LastGeoFailoverTime: Gets the timestamp of the most recent instance of a failover to the secondary location. Only the
 	// most recent timestamp is retained. This element is not returned if there has never been a failover instance. Only
 	// available if the accountType is Standard_GRS or Standard_RAGRS.
-	LastGeoFailoverTime *string `json:"lastGeoFailoverTime,omitempty"`
+	LastGeoFailoverTime *string `json:"lastGeoFailoverTime"`
 
 	// MinimumTlsVersion: Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS
 	// 1.0 for this property.
-	MinimumTlsVersion *StorageAccountProperties_MinimumTlsVersion_STATUS `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *StorageAccountProperties_MinimumTlsVersion_STATUS `json:"minimumTlsVersion"`
 
 	// NetworkAcls: Network rule set
-	NetworkAcls *NetworkRuleSet_STATUS_ARM `json:"networkAcls,omitempty"`
+	NetworkAcls *NetworkRuleSet_STATUS_ARM `json:"networkAcls"`
 
 	// PrimaryEndpoints: Gets the URLs that are used to perform a retrieval of a public blob, queue, or table object. Note that
 	// Standard_ZRS and Premium_LRS accounts only return the blob endpoint.
-	PrimaryEndpoints *Endpoints_STATUS_ARM `json:"primaryEndpoints,omitempty"`
+	PrimaryEndpoints *Endpoints_STATUS_ARM `json:"primaryEndpoints"`
 
 	// PrimaryLocation: Gets the location of the primary data center for the storage account.
-	PrimaryLocation *string `json:"primaryLocation,omitempty"`
+	PrimaryLocation *string `json:"primaryLocation"`
 
 	// PrivateEndpointConnections: List of private endpoint connection associated with the specified storage account
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_ARM `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_ARM `json:"privateEndpointConnections"`
 
 	// ProvisioningState: Gets the status of the storage account at the time the operation was called.
-	ProvisioningState *StorageAccountProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *StorageAccountProperties_ProvisioningState_STATUS `json:"provisioningState"`
 
 	// PublicNetworkAccess: Allow or disallow public network access to Storage Account. Value is optional but if passed in,
 	// must be 'Enabled' or 'Disabled'.
-	PublicNetworkAccess *StorageAccountProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *StorageAccountProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess"`
 
 	// RoutingPreference: Maintains information about the network routing choice opted by the user for data transfer
-	RoutingPreference *RoutingPreference_STATUS_ARM `json:"routingPreference,omitempty"`
+	RoutingPreference *RoutingPreference_STATUS_ARM `json:"routingPreference"`
 
 	// SasPolicy: SasPolicy assigned to the storage account.
-	SasPolicy *SasPolicy_STATUS_ARM `json:"sasPolicy,omitempty"`
+	SasPolicy *SasPolicy_STATUS_ARM `json:"sasPolicy"`
 
 	// SecondaryEndpoints: Gets the URLs that are used to perform a retrieval of a public blob, queue, or table object from the
 	// secondary location of the storage account. Only available if the SKU name is Standard_RAGRS.
-	SecondaryEndpoints *Endpoints_STATUS_ARM `json:"secondaryEndpoints,omitempty"`
+	SecondaryEndpoints *Endpoints_STATUS_ARM `json:"secondaryEndpoints"`
 
 	// SecondaryLocation: Gets the location of the geo-replicated secondary for the storage account. Only available if the
 	// accountType is Standard_GRS or Standard_RAGRS.
-	SecondaryLocation *string `json:"secondaryLocation,omitempty"`
+	SecondaryLocation *string `json:"secondaryLocation"`
 
 	// StatusOfPrimary: Gets the status indicating whether the primary location of the storage account is available or
 	// unavailable.
-	StatusOfPrimary *StorageAccountProperties_StatusOfPrimary_STATUS `json:"statusOfPrimary,omitempty"`
+	StatusOfPrimary *StorageAccountProperties_StatusOfPrimary_STATUS `json:"statusOfPrimary"`
 
 	// StatusOfSecondary: Gets the status indicating whether the secondary location of the storage account is available or
 	// unavailable. Only available if the SKU name is Standard_GRS or Standard_RAGRS.
-	StatusOfSecondary *StorageAccountProperties_StatusOfSecondary_STATUS `json:"statusOfSecondary,omitempty"`
+	StatusOfSecondary *StorageAccountProperties_StatusOfSecondary_STATUS `json:"statusOfSecondary"`
 
 	// StorageAccountSkuConversionStatus: This property is readOnly and is set by server during asynchronous storage account
 	// sku conversion operations.
-	StorageAccountSkuConversionStatus *StorageAccountSkuConversionStatus_STATUS_ARM `json:"storageAccountSkuConversionStatus,omitempty"`
+	StorageAccountSkuConversionStatus *StorageAccountSkuConversionStatus_STATUS_ARM `json:"storageAccountSkuConversionStatus"`
 
 	// SupportsHttpsTrafficOnly: Allows https traffic only to storage service if sets to true.
-	SupportsHttpsTrafficOnly *bool `json:"supportsHttpsTrafficOnly,omitempty"`
+	SupportsHttpsTrafficOnly *bool `json:"supportsHttpsTrafficOnly"`
 }
 
 // Settings for Azure Files identity based authentication.
 type AzureFilesIdentityBasedAuthentication_STATUS_ARM struct {
 	// ActiveDirectoryProperties: Required if directoryServiceOptions are AD, optional if they are AADKERB.
-	ActiveDirectoryProperties *ActiveDirectoryProperties_STATUS_ARM `json:"activeDirectoryProperties,omitempty"`
+	ActiveDirectoryProperties *ActiveDirectoryProperties_STATUS_ARM `json:"activeDirectoryProperties"`
 
 	// DefaultSharePermission: Default share permission for users using Kerberos authentication if RBAC role is not assigned.
-	DefaultSharePermission *AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS `json:"defaultSharePermission,omitempty"`
+	DefaultSharePermission *AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS `json:"defaultSharePermission"`
 
 	// DirectoryServiceOptions: Indicates the directory service used. Note that this enum may be extended in the future.
-	DirectoryServiceOptions *AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS `json:"directoryServiceOptions,omitempty"`
+	DirectoryServiceOptions *AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS `json:"directoryServiceOptions"`
 }
 
 // Blob restore status.
 type BlobRestoreStatus_STATUS_ARM struct {
 	// FailureReason: Failure reason when blob restore is failed.
-	FailureReason *string `json:"failureReason,omitempty"`
+	FailureReason *string `json:"failureReason"`
 
 	// Parameters: Blob restore request parameters.
-	Parameters *BlobRestoreParameters_STATUS_ARM `json:"parameters,omitempty"`
+	Parameters *BlobRestoreParameters_STATUS_ARM `json:"parameters"`
 
 	// RestoreId: Id for tracking blob restore request.
-	RestoreId *string `json:"restoreId,omitempty"`
+	RestoreId *string `json:"restoreId"`
 
 	// Status: The status of blob restore progress. Possible values are: - InProgress: Indicates that blob restore is ongoing.
 	// - Complete: Indicates that blob restore has been completed successfully. - Failed: Indicates that blob restore is failed.
-	Status *BlobRestoreStatus_Status_STATUS `json:"status,omitempty"`
+	Status *BlobRestoreStatus_Status_STATUS `json:"status"`
 }
 
 // The custom domain assigned to this storage account. This can be set via Update.
 type CustomDomain_STATUS_ARM struct {
 	// Name: Gets or sets the custom domain name assigned to the storage account. Name is the CNAME source.
-	Name *string `json:"name,omitempty"`
+	Name *string `json:"name"`
 
 	// UseSubDomainName: Indicates whether indirect CName validation is enabled. Default value is false. This should only be
 	// set on updates.
-	UseSubDomainName *bool `json:"useSubDomainName,omitempty"`
+	UseSubDomainName *bool `json:"useSubDomainName"`
 }
 
 // The encryption settings on the storage account.
 type Encryption_STATUS_ARM struct {
 	// Identity: The identity to be used with service-side encryption at rest.
-	Identity *EncryptionIdentity_STATUS_ARM `json:"identity,omitempty"`
+	Identity *EncryptionIdentity_STATUS_ARM `json:"identity"`
 
 	// KeySource: The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.Storage,
 	// Microsoft.Keyvault
-	KeySource *Encryption_KeySource_STATUS `json:"keySource,omitempty"`
+	KeySource *Encryption_KeySource_STATUS `json:"keySource"`
 
 	// Keyvaultproperties: Properties provided by key vault.
-	Keyvaultproperties *KeyVaultProperties_STATUS_ARM `json:"keyvaultproperties,omitempty"`
+	Keyvaultproperties *KeyVaultProperties_STATUS_ARM `json:"keyvaultproperties"`
 
 	// RequireInfrastructureEncryption: A boolean indicating whether or not the service applies a secondary layer of encryption
 	// with platform managed keys for data at rest.
-	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
+	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption"`
 
 	// Services: List of services which support encryption.
-	Services *EncryptionServices_STATUS_ARM `json:"services,omitempty"`
+	Services *EncryptionServices_STATUS_ARM `json:"services"`
 }
 
 // The URIs that are used to perform a retrieval of a public blob, queue, table, web or dfs object.
 type Endpoints_STATUS_ARM struct {
 	// Blob: Gets the blob endpoint.
-	Blob *string `json:"blob,omitempty"`
+	Blob *string `json:"blob"`
 
 	// Dfs: Gets the dfs endpoint.
-	Dfs *string `json:"dfs,omitempty"`
+	Dfs *string `json:"dfs"`
 
 	// File: Gets the file endpoint.
-	File *string `json:"file,omitempty"`
+	File *string `json:"file"`
 
 	// InternetEndpoints: Gets the internet routing storage endpoints
-	InternetEndpoints *StorageAccountInternetEndpoints_STATUS_ARM `json:"internetEndpoints,omitempty"`
+	InternetEndpoints *StorageAccountInternetEndpoints_STATUS_ARM `json:"internetEndpoints"`
 
 	// MicrosoftEndpoints: Gets the microsoft routing storage endpoints.
-	MicrosoftEndpoints *StorageAccountMicrosoftEndpoints_STATUS_ARM `json:"microsoftEndpoints,omitempty"`
+	MicrosoftEndpoints *StorageAccountMicrosoftEndpoints_STATUS_ARM `json:"microsoftEndpoints"`
 
 	// Queue: Gets the queue endpoint.
-	Queue *string `json:"queue,omitempty"`
+	Queue *string `json:"queue"`
 
 	// Table: Gets the table endpoint.
-	Table *string `json:"table,omitempty"`
+	Table *string `json:"table"`
 
 	// Web: Gets the web endpoint.
-	Web *string `json:"web,omitempty"`
+	Web *string `json:"web"`
 }
 
 // The type of extendedLocation.
@@ -314,18 +314,18 @@ const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZo
 // geo-redundant replication is enabled for the storage account.
 type GeoReplicationStats_STATUS_ARM struct {
 	// CanFailover: A boolean flag which indicates whether or not account failover is supported for the account.
-	CanFailover *bool `json:"canFailover,omitempty"`
+	CanFailover *bool `json:"canFailover"`
 
 	// LastSyncTime: All primary writes preceding this UTC date/time value are guaranteed to be available for read operations.
 	// Primary writes following this point in time may or may not be available for reads. Element may be default value if value
 	// of LastSyncTime is not available, this can happen if secondary is offline or we are in bootstrap.
-	LastSyncTime *string `json:"lastSyncTime,omitempty"`
+	LastSyncTime *string `json:"lastSyncTime"`
 
 	// Status: The status of the secondary location. Possible values are: - Live: Indicates that the secondary location is
 	// active and operational. - Bootstrap: Indicates initial synchronization from the primary location to the secondary
 	// location is in progress.This typically occurs when replication is first enabled. - Unavailable: Indicates that the
 	// secondary location is temporarily unavailable.
-	Status *GeoReplicationStats_Status_STATUS `json:"status,omitempty"`
+	Status *GeoReplicationStats_Status_STATUS `json:"status"`
 }
 
 type Identity_Type_STATUS string
@@ -341,73 +341,73 @@ const (
 type ImmutableStorageAccount_STATUS_ARM struct {
 	// Enabled: A boolean flag which enables account-level immutability. All the containers under such an account have
 	// object-level immutability enabled by default.
-	Enabled *bool `json:"enabled,omitempty"`
+	Enabled *bool `json:"enabled"`
 
 	// ImmutabilityPolicy: Specifies the default account-level immutability policy which is inherited and applied to objects
 	// that do not possess an explicit immutability policy at the object level. The object-level immutability policy has higher
 	// precedence than the container-level immutability policy, which has a higher precedence than the account-level
 	// immutability policy.
-	ImmutabilityPolicy *AccountImmutabilityPolicyProperties_STATUS_ARM `json:"immutabilityPolicy,omitempty"`
+	ImmutabilityPolicy *AccountImmutabilityPolicyProperties_STATUS_ARM `json:"immutabilityPolicy"`
 }
 
 // Storage account keys creation time.
 type KeyCreationTime_STATUS_ARM struct {
-	Key1 *string `json:"key1,omitempty"`
-	Key2 *string `json:"key2,omitempty"`
+	Key1 *string `json:"key1"`
+	Key2 *string `json:"key2"`
 }
 
 // KeyPolicy assigned to the storage account.
 type KeyPolicy_STATUS_ARM struct {
 	// KeyExpirationPeriodInDays: The key expiration period in days.
-	KeyExpirationPeriodInDays *int `json:"keyExpirationPeriodInDays,omitempty"`
+	KeyExpirationPeriodInDays *int `json:"keyExpirationPeriodInDays"`
 }
 
 // Network rule set
 type NetworkRuleSet_STATUS_ARM struct {
 	// Bypass: Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Possible values are any combination of
 	// Logging|Metrics|AzureServices (For example, "Logging, Metrics"), or None to bypass none of those traffics.
-	Bypass *NetworkRuleSet_Bypass_STATUS `json:"bypass,omitempty"`
+	Bypass *NetworkRuleSet_Bypass_STATUS `json:"bypass"`
 
 	// DefaultAction: Specifies the default action of allow or deny when no other rules match.
-	DefaultAction *NetworkRuleSet_DefaultAction_STATUS `json:"defaultAction,omitempty"`
+	DefaultAction *NetworkRuleSet_DefaultAction_STATUS `json:"defaultAction"`
 
 	// IpRules: Sets the IP ACL rules
-	IpRules []IPRule_STATUS_ARM `json:"ipRules,omitempty"`
+	IpRules []IPRule_STATUS_ARM `json:"ipRules"`
 
 	// ResourceAccessRules: Sets the resource access rules
-	ResourceAccessRules []ResourceAccessRule_STATUS_ARM `json:"resourceAccessRules,omitempty"`
+	ResourceAccessRules []ResourceAccessRule_STATUS_ARM `json:"resourceAccessRules"`
 
 	// VirtualNetworkRules: Sets the virtual network rules
-	VirtualNetworkRules []VirtualNetworkRule_STATUS_ARM `json:"virtualNetworkRules,omitempty"`
+	VirtualNetworkRules []VirtualNetworkRule_STATUS_ARM `json:"virtualNetworkRules"`
 }
 
 // The Private Endpoint Connection resource.
 type PrivateEndpointConnection_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
+	Id *string `json:"id"`
 }
 
 // Routing preference defines the type of network, either microsoft or internet routing to be used to deliver the user
 // data, the default option is microsoft routing
 type RoutingPreference_STATUS_ARM struct {
 	// PublishInternetEndpoints: A boolean flag which indicates whether internet routing storage endpoints are to be published
-	PublishInternetEndpoints *bool `json:"publishInternetEndpoints,omitempty"`
+	PublishInternetEndpoints *bool `json:"publishInternetEndpoints"`
 
 	// PublishMicrosoftEndpoints: A boolean flag which indicates whether microsoft routing storage endpoints are to be published
-	PublishMicrosoftEndpoints *bool `json:"publishMicrosoftEndpoints,omitempty"`
+	PublishMicrosoftEndpoints *bool `json:"publishMicrosoftEndpoints"`
 
 	// RoutingChoice: Routing Choice defines the kind of network routing opted by the user.
-	RoutingChoice *RoutingPreference_RoutingChoice_STATUS `json:"routingChoice,omitempty"`
+	RoutingChoice *RoutingPreference_RoutingChoice_STATUS `json:"routingChoice"`
 }
 
 // SasPolicy assigned to the storage account.
 type SasPolicy_STATUS_ARM struct {
 	// ExpirationAction: The SAS expiration action. Can only be Log.
-	ExpirationAction *SasPolicy_ExpirationAction_STATUS `json:"expirationAction,omitempty"`
+	ExpirationAction *SasPolicy_ExpirationAction_STATUS `json:"expirationAction"`
 
 	// SasExpirationPeriod: The SAS expiration period, DD.HH:MM:SS.
-	SasExpirationPeriod *string `json:"sasExpirationPeriod,omitempty"`
+	SasExpirationPeriod *string `json:"sasExpirationPeriod"`
 }
 
 // The SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called
@@ -428,16 +428,16 @@ const (
 // This defines the sku conversion status object for asynchronous sku conversions.
 type StorageAccountSkuConversionStatus_STATUS_ARM struct {
 	// EndTime: This property represents the sku conversion end time.
-	EndTime *string `json:"endTime,omitempty"`
+	EndTime *string `json:"endTime"`
 
 	// SkuConversionStatus: This property indicates the current sku conversion status.
-	SkuConversionStatus *StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS `json:"skuConversionStatus,omitempty"`
+	SkuConversionStatus *StorageAccountSkuConversionStatus_SkuConversionStatus_STATUS `json:"skuConversionStatus"`
 
 	// StartTime: This property represents the sku conversion start time.
-	StartTime *string `json:"startTime,omitempty"`
+	StartTime *string `json:"startTime"`
 
 	// TargetSkuName: This property represents the target sku name to which the account sku is being converted asynchronously.
-	TargetSkuName *SkuName_STATUS `json:"targetSkuName,omitempty"`
+	TargetSkuName *SkuName_STATUS `json:"targetSkuName"`
 }
 
 // The SKU tier. This is based on the SKU name.
@@ -451,10 +451,10 @@ const (
 // UserAssignedIdentity for the resource.
 type UserAssignedIdentity_STATUS_ARM struct {
 	// ClientId: The client ID of the identity.
-	ClientId *string `json:"clientId,omitempty"`
+	ClientId *string `json:"clientId"`
 
 	// PrincipalId: The principal ID of the identity.
-	PrincipalId *string `json:"principalId,omitempty"`
+	PrincipalId *string `json:"principalId"`
 }
 
 // This defines account-level immutability policy properties.
@@ -462,192 +462,192 @@ type AccountImmutabilityPolicyProperties_STATUS_ARM struct {
 	// AllowProtectedAppendWrites: This property can only be changed for disabled and unlocked time-based retention policies.
 	// When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only
 	// new blocks can be added and any existing blocks cannot be modified or deleted.
-	AllowProtectedAppendWrites *bool `json:"allowProtectedAppendWrites,omitempty"`
+	AllowProtectedAppendWrites *bool `json:"allowProtectedAppendWrites"`
 
 	// ImmutabilityPeriodSinceCreationInDays: The immutability period for the blobs in the container since the policy creation,
 	// in days.
-	ImmutabilityPeriodSinceCreationInDays *int `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
+	ImmutabilityPeriodSinceCreationInDays *int `json:"immutabilityPeriodSinceCreationInDays"`
 
 	// State: The ImmutabilityPolicy state defines the mode of the policy. Disabled state disables the policy, Unlocked state
 	// allows increase and decrease of immutability retention time and also allows toggling allowProtectedAppendWrites
 	// property, Locked state only allows the increase of the immutability retention time. A policy can only be created in a
 	// Disabled or Unlocked state and can be toggled between the two states. Only a policy in an Unlocked state can transition
 	// to a Locked state which cannot be reverted.
-	State *AccountImmutabilityPolicyProperties_State_STATUS `json:"state,omitempty"`
+	State *AccountImmutabilityPolicyProperties_State_STATUS `json:"state"`
 }
 
 // Settings properties for Active Directory (AD).
 type ActiveDirectoryProperties_STATUS_ARM struct {
 	// AccountType: Specifies the Active Directory account type for Azure Storage.
-	AccountType *ActiveDirectoryProperties_AccountType_STATUS `json:"accountType,omitempty"`
+	AccountType *ActiveDirectoryProperties_AccountType_STATUS `json:"accountType"`
 
 	// AzureStorageSid: Specifies the security identifier (SID) for Azure Storage.
-	AzureStorageSid *string `json:"azureStorageSid,omitempty"`
+	AzureStorageSid *string `json:"azureStorageSid"`
 
 	// DomainGuid: Specifies the domain GUID.
-	DomainGuid *string `json:"domainGuid,omitempty"`
+	DomainGuid *string `json:"domainGuid"`
 
 	// DomainName: Specifies the primary domain that the AD DNS server is authoritative for.
-	DomainName *string `json:"domainName,omitempty"`
+	DomainName *string `json:"domainName"`
 
 	// DomainSid: Specifies the security identifier (SID).
-	DomainSid *string `json:"domainSid,omitempty"`
+	DomainSid *string `json:"domainSid"`
 
 	// ForestName: Specifies the Active Directory forest to get.
-	ForestName *string `json:"forestName,omitempty"`
+	ForestName *string `json:"forestName"`
 
 	// NetBiosDomainName: Specifies the NetBIOS domain name.
-	NetBiosDomainName *string `json:"netBiosDomainName,omitempty"`
+	NetBiosDomainName *string `json:"netBiosDomainName"`
 
 	// SamAccountName: Specifies the Active Directory SAMAccountName for Azure Storage.
-	SamAccountName *string `json:"samAccountName,omitempty"`
+	SamAccountName *string `json:"samAccountName"`
 }
 
 // Blob restore parameters
 type BlobRestoreParameters_STATUS_ARM struct {
 	// BlobRanges: Blob ranges to restore.
-	BlobRanges []BlobRestoreRange_STATUS_ARM `json:"blobRanges,omitempty"`
+	BlobRanges []BlobRestoreRange_STATUS_ARM `json:"blobRanges"`
 
 	// TimeToRestore: Restore blob to the specified time.
-	TimeToRestore *string `json:"timeToRestore,omitempty"`
+	TimeToRestore *string `json:"timeToRestore"`
 }
 
 // Encryption identity for the storage account.
 type EncryptionIdentity_STATUS_ARM struct {
 	// FederatedIdentityClientId: ClientId of the multi-tenant application to be used in conjunction with the user-assigned
 	// identity for cross-tenant customer-managed-keys server-side encryption on the storage account.
-	FederatedIdentityClientId *string `json:"federatedIdentityClientId,omitempty"`
+	FederatedIdentityClientId *string `json:"federatedIdentityClientId"`
 
 	// UserAssignedIdentity: Resource identifier of the UserAssigned identity to be associated with server-side encryption on
 	// the storage account.
-	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
+	UserAssignedIdentity *string `json:"userAssignedIdentity"`
 }
 
 // A list of services that support encryption.
 type EncryptionServices_STATUS_ARM struct {
 	// Blob: The encryption function of the blob storage service.
-	Blob *EncryptionService_STATUS_ARM `json:"blob,omitempty"`
+	Blob *EncryptionService_STATUS_ARM `json:"blob"`
 
 	// File: The encryption function of the file storage service.
-	File *EncryptionService_STATUS_ARM `json:"file,omitempty"`
+	File *EncryptionService_STATUS_ARM `json:"file"`
 
 	// Queue: The encryption function of the queue storage service.
-	Queue *EncryptionService_STATUS_ARM `json:"queue,omitempty"`
+	Queue *EncryptionService_STATUS_ARM `json:"queue"`
 
 	// Table: The encryption function of the table storage service.
-	Table *EncryptionService_STATUS_ARM `json:"table,omitempty"`
+	Table *EncryptionService_STATUS_ARM `json:"table"`
 }
 
 // IP rule with specific IP or IP range in CIDR format.
 type IPRule_STATUS_ARM struct {
 	// Action: The action of IP ACL rule.
-	Action *IPRule_Action_STATUS `json:"action,omitempty"`
+	Action *IPRule_Action_STATUS `json:"action"`
 
 	// Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
-	Value *string `json:"value,omitempty"`
+	Value *string `json:"value"`
 }
 
 // Properties of key vault.
 type KeyVaultProperties_STATUS_ARM struct {
 	// CurrentVersionedKeyExpirationTimestamp: This is a read only property that represents the expiration time of the current
 	// version of the customer managed key used for encryption.
-	CurrentVersionedKeyExpirationTimestamp *string `json:"currentVersionedKeyExpirationTimestamp,omitempty"`
+	CurrentVersionedKeyExpirationTimestamp *string `json:"currentVersionedKeyExpirationTimestamp"`
 
 	// CurrentVersionedKeyIdentifier: The object identifier of the current versioned Key Vault Key in use.
-	CurrentVersionedKeyIdentifier *string `json:"currentVersionedKeyIdentifier,omitempty"`
+	CurrentVersionedKeyIdentifier *string `json:"currentVersionedKeyIdentifier"`
 
 	// Keyname: The name of KeyVault key.
-	Keyname *string `json:"keyname,omitempty"`
+	Keyname *string `json:"keyname"`
 
 	// Keyvaulturi: The Uri of KeyVault.
-	Keyvaulturi *string `json:"keyvaulturi,omitempty"`
+	Keyvaulturi *string `json:"keyvaulturi"`
 
 	// Keyversion: The version of KeyVault key.
-	Keyversion *string `json:"keyversion,omitempty"`
+	Keyversion *string `json:"keyversion"`
 
 	// LastKeyRotationTimestamp: Timestamp of last rotation of the Key Vault Key.
-	LastKeyRotationTimestamp *string `json:"lastKeyRotationTimestamp,omitempty"`
+	LastKeyRotationTimestamp *string `json:"lastKeyRotationTimestamp"`
 }
 
 // Resource Access Rule.
 type ResourceAccessRule_STATUS_ARM struct {
 	// ResourceId: Resource Id
-	ResourceId *string `json:"resourceId,omitempty"`
+	ResourceId *string `json:"resourceId"`
 
 	// TenantId: Tenant Id
-	TenantId *string `json:"tenantId,omitempty"`
+	TenantId *string `json:"tenantId"`
 }
 
 // The URIs that are used to perform a retrieval of a public blob, file, web or dfs object via a internet routing endpoint.
 type StorageAccountInternetEndpoints_STATUS_ARM struct {
 	// Blob: Gets the blob endpoint.
-	Blob *string `json:"blob,omitempty"`
+	Blob *string `json:"blob"`
 
 	// Dfs: Gets the dfs endpoint.
-	Dfs *string `json:"dfs,omitempty"`
+	Dfs *string `json:"dfs"`
 
 	// File: Gets the file endpoint.
-	File *string `json:"file,omitempty"`
+	File *string `json:"file"`
 
 	// Web: Gets the web endpoint.
-	Web *string `json:"web,omitempty"`
+	Web *string `json:"web"`
 }
 
 // The URIs that are used to perform a retrieval of a public blob, queue, table, web or dfs object via a microsoft routing
 // endpoint.
 type StorageAccountMicrosoftEndpoints_STATUS_ARM struct {
 	// Blob: Gets the blob endpoint.
-	Blob *string `json:"blob,omitempty"`
+	Blob *string `json:"blob"`
 
 	// Dfs: Gets the dfs endpoint.
-	Dfs *string `json:"dfs,omitempty"`
+	Dfs *string `json:"dfs"`
 
 	// File: Gets the file endpoint.
-	File *string `json:"file,omitempty"`
+	File *string `json:"file"`
 
 	// Queue: Gets the queue endpoint.
-	Queue *string `json:"queue,omitempty"`
+	Queue *string `json:"queue"`
 
 	// Table: Gets the table endpoint.
-	Table *string `json:"table,omitempty"`
+	Table *string `json:"table"`
 
 	// Web: Gets the web endpoint.
-	Web *string `json:"web,omitempty"`
+	Web *string `json:"web"`
 }
 
 // Virtual Network rule.
 type VirtualNetworkRule_STATUS_ARM struct {
 	// Action: The action of virtual network rule.
-	Action *VirtualNetworkRule_Action_STATUS `json:"action,omitempty"`
+	Action *VirtualNetworkRule_Action_STATUS `json:"action"`
 
 	// Id: Resource ID of a subnet, for example:
 	// /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.
-	Id *string `json:"id,omitempty"`
+	Id *string `json:"id"`
 
 	// State: Gets the state of virtual network rule.
-	State *VirtualNetworkRule_State_STATUS `json:"state,omitempty"`
+	State *VirtualNetworkRule_State_STATUS `json:"state"`
 }
 
 // Blob range
 type BlobRestoreRange_STATUS_ARM struct {
 	// EndRange: Blob end range. This is exclusive. Empty means account end.
-	EndRange *string `json:"endRange,omitempty"`
+	EndRange *string `json:"endRange"`
 
 	// StartRange: Blob start range. This is inclusive. Empty means account start.
-	StartRange *string `json:"startRange,omitempty"`
+	StartRange *string `json:"startRange"`
 }
 
 // A service that allows server-side encryption to be used.
 type EncryptionService_STATUS_ARM struct {
 	// Enabled: A boolean indicating whether or not the service encrypts the data as it is stored. Encryption at rest is
 	// enabled by default today and cannot be disabled.
-	Enabled *bool `json:"enabled,omitempty"`
+	Enabled *bool `json:"enabled"`
 
 	// KeyType: Encryption key type to be used for the encryption service. 'Account' key type implies that an account-scoped
 	// encryption key will be used. 'Service' key type implies that a default service key is used.
-	KeyType *EncryptionService_KeyType_STATUS `json:"keyType,omitempty"`
+	KeyType *EncryptionService_KeyType_STATUS `json:"keyType"`
 
 	// LastEnabledTime: Gets a rough estimate of the date/time when the encryption was last enabled by the user. Data is
 	// encrypted at rest by default today and cannot be disabled.
-	LastEnabledTime *string `json:"lastEnabledTime,omitempty"`
+	LastEnabledTime *string `json:"lastEnabledTime"`
 }

@@ -5,64 +5,64 @@ package v1beta20210401
 
 // Deprecated version of StorageAccounts_BlobService_STATUS. Use v1api20210401.StorageAccounts_BlobService_STATUS instead
 type StorageAccounts_BlobService_STATUS_ARM struct {
-	Id         *string                                            `json:"id,omitempty"`
-	Name       *string                                            `json:"name,omitempty"`
-	Properties *StorageAccounts_BlobService_Properties_STATUS_ARM `json:"properties,omitempty"`
-	Sku        *Sku_STATUS_ARM                                    `json:"sku,omitempty"`
-	Type       *string                                            `json:"type,omitempty"`
+	Id         *string                                            `json:"id"`
+	Name       *string                                            `json:"name"`
+	Properties *StorageAccounts_BlobService_Properties_STATUS_ARM `json:"properties"`
+	Sku        *Sku_STATUS_ARM                                    `json:"sku"`
+	Type       *string                                            `json:"type"`
 }
 
 // Deprecated version of StorageAccounts_BlobService_Properties_STATUS. Use v1api20210401.StorageAccounts_BlobService_Properties_STATUS instead
 type StorageAccounts_BlobService_Properties_STATUS_ARM struct {
-	AutomaticSnapshotPolicyEnabled *bool                                    `json:"automaticSnapshotPolicyEnabled,omitempty"`
-	ChangeFeed                     *ChangeFeed_STATUS_ARM                   `json:"changeFeed,omitempty"`
-	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy_STATUS_ARM        `json:"containerDeleteRetentionPolicy,omitempty"`
-	Cors                           *CorsRules_STATUS_ARM                    `json:"cors,omitempty"`
-	DefaultServiceVersion          *string                                  `json:"defaultServiceVersion,omitempty"`
-	DeleteRetentionPolicy          *DeleteRetentionPolicy_STATUS_ARM        `json:"deleteRetentionPolicy,omitempty"`
-	IsVersioningEnabled            *bool                                    `json:"isVersioningEnabled,omitempty"`
-	LastAccessTimeTrackingPolicy   *LastAccessTimeTrackingPolicy_STATUS_ARM `json:"lastAccessTimeTrackingPolicy,omitempty"`
-	RestorePolicy                  *RestorePolicyProperties_STATUS_ARM      `json:"restorePolicy,omitempty"`
+	AutomaticSnapshotPolicyEnabled *bool                                    `json:"automaticSnapshotPolicyEnabled"`
+	ChangeFeed                     *ChangeFeed_STATUS_ARM                   `json:"changeFeed"`
+	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy_STATUS_ARM        `json:"containerDeleteRetentionPolicy"`
+	Cors                           *CorsRules_STATUS_ARM                    `json:"cors"`
+	DefaultServiceVersion          *string                                  `json:"defaultServiceVersion"`
+	DeleteRetentionPolicy          *DeleteRetentionPolicy_STATUS_ARM        `json:"deleteRetentionPolicy"`
+	IsVersioningEnabled            *bool                                    `json:"isVersioningEnabled"`
+	LastAccessTimeTrackingPolicy   *LastAccessTimeTrackingPolicy_STATUS_ARM `json:"lastAccessTimeTrackingPolicy"`
+	RestorePolicy                  *RestorePolicyProperties_STATUS_ARM      `json:"restorePolicy"`
 }
 
 // Deprecated version of ChangeFeed_STATUS. Use v1api20210401.ChangeFeed_STATUS instead
 type ChangeFeed_STATUS_ARM struct {
-	Enabled         *bool `json:"enabled,omitempty"`
-	RetentionInDays *int  `json:"retentionInDays,omitempty"`
+	Enabled         *bool `json:"enabled"`
+	RetentionInDays *int  `json:"retentionInDays"`
 }
 
 // Deprecated version of CorsRules_STATUS. Use v1api20210401.CorsRules_STATUS instead
 type CorsRules_STATUS_ARM struct {
-	CorsRules []CorsRule_STATUS_ARM `json:"corsRules,omitempty"`
+	CorsRules []CorsRule_STATUS_ARM `json:"corsRules"`
 }
 
 // Deprecated version of DeleteRetentionPolicy_STATUS. Use v1api20210401.DeleteRetentionPolicy_STATUS instead
 type DeleteRetentionPolicy_STATUS_ARM struct {
-	Days    *int  `json:"days,omitempty"`
-	Enabled *bool `json:"enabled,omitempty"`
+	Days    *int  `json:"days"`
+	Enabled *bool `json:"enabled"`
 }
 
 // Deprecated version of LastAccessTimeTrackingPolicy_STATUS. Use v1api20210401.LastAccessTimeTrackingPolicy_STATUS instead
 type LastAccessTimeTrackingPolicy_STATUS_ARM struct {
-	BlobType                  []string                                  `json:"blobType,omitempty"`
-	Enable                    *bool                                     `json:"enable,omitempty"`
-	Name                      *LastAccessTimeTrackingPolicy_Name_STATUS `json:"name,omitempty"`
-	TrackingGranularityInDays *int                                      `json:"trackingGranularityInDays,omitempty"`
+	BlobType                  []string                                  `json:"blobType"`
+	Enable                    *bool                                     `json:"enable"`
+	Name                      *LastAccessTimeTrackingPolicy_Name_STATUS `json:"name"`
+	TrackingGranularityInDays *int                                      `json:"trackingGranularityInDays"`
 }
 
 // Deprecated version of RestorePolicyProperties_STATUS. Use v1api20210401.RestorePolicyProperties_STATUS instead
 type RestorePolicyProperties_STATUS_ARM struct {
-	Days            *int    `json:"days,omitempty"`
-	Enabled         *bool   `json:"enabled,omitempty"`
-	LastEnabledTime *string `json:"lastEnabledTime,omitempty"`
-	MinRestoreTime  *string `json:"minRestoreTime,omitempty"`
+	Days            *int    `json:"days"`
+	Enabled         *bool   `json:"enabled"`
+	LastEnabledTime *string `json:"lastEnabledTime"`
+	MinRestoreTime  *string `json:"minRestoreTime"`
 }
 
 // Deprecated version of CorsRule_STATUS. Use v1api20210401.CorsRule_STATUS instead
 type CorsRule_STATUS_ARM struct {
-	AllowedHeaders  []string                         `json:"allowedHeaders,omitempty"`
-	AllowedMethods  []CorsRule_AllowedMethods_STATUS `json:"allowedMethods,omitempty"`
-	AllowedOrigins  []string                         `json:"allowedOrigins,omitempty"`
-	ExposedHeaders  []string                         `json:"exposedHeaders,omitempty"`
-	MaxAgeInSeconds *int                             `json:"maxAgeInSeconds,omitempty"`
+	AllowedHeaders  []string                         `json:"allowedHeaders"`
+	AllowedMethods  []CorsRule_AllowedMethods_STATUS `json:"allowedMethods"`
+	AllowedOrigins  []string                         `json:"allowedOrigins"`
+	ExposedHeaders  []string                         `json:"exposedHeaders"`
+	MaxAgeInSeconds *int                             `json:"maxAgeInSeconds"`
 }

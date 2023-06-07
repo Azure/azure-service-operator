@@ -9,7 +9,7 @@ type StorageAccounts_FileServices_Share_Spec_ARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Properties of the file share.
-	Properties *FileShareProperties_ARM `json:"properties,omitempty"`
+	Properties *FileShareProperties_ARM `json:"properties"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccounts_FileServices_Share_Spec_ARM{}
@@ -33,39 +33,39 @@ func (share *StorageAccounts_FileServices_Share_Spec_ARM) GetType() string {
 type FileShareProperties_ARM struct {
 	// AccessTier: Access tier for specific share. GpV2 account can choose between TransactionOptimized (default), Hot, and
 	// Cool. FileStorage account can choose Premium.
-	AccessTier *FileShareProperties_AccessTier `json:"accessTier,omitempty"`
+	AccessTier *FileShareProperties_AccessTier `json:"accessTier"`
 
 	// EnabledProtocols: The authentication protocol that is used for the file share. Can only be specified when creating a
 	// share.
-	EnabledProtocols *FileShareProperties_EnabledProtocols `json:"enabledProtocols,omitempty"`
+	EnabledProtocols *FileShareProperties_EnabledProtocols `json:"enabledProtocols"`
 
 	// Metadata: A name-value pair to associate with the share as metadata.
-	Metadata map[string]string `json:"metadata,omitempty"`
+	Metadata map[string]string `json:"metadata"`
 
 	// RootSquash: The property is for NFS share only. The default is NoRootSquash.
-	RootSquash *FileShareProperties_RootSquash `json:"rootSquash,omitempty"`
+	RootSquash *FileShareProperties_RootSquash `json:"rootSquash"`
 
 	// ShareQuota: The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to 5TB (5120).
 	// For Large File Shares, the maximum size is 102400.
-	ShareQuota *int `json:"shareQuota,omitempty"`
+	ShareQuota *int `json:"shareQuota"`
 
 	// SignedIdentifiers: List of stored access policies specified on the share.
-	SignedIdentifiers []SignedIdentifier_ARM `json:"signedIdentifiers,omitempty"`
+	SignedIdentifiers []SignedIdentifier_ARM `json:"signedIdentifiers"`
 }
 
 type SignedIdentifier_ARM struct {
 	// AccessPolicy: Access policy
-	AccessPolicy *AccessPolicy_ARM `json:"accessPolicy,omitempty"`
+	AccessPolicy *AccessPolicy_ARM `json:"accessPolicy"`
 	Id           *string           `json:"id,omitempty"`
 }
 
 type AccessPolicy_ARM struct {
 	// ExpiryTime: Expiry time of the access policy
-	ExpiryTime *string `json:"expiryTime,omitempty"`
+	ExpiryTime *string `json:"expiryTime"`
 
 	// Permission: List of abbreviated permissions.
-	Permission *string `json:"permission,omitempty"`
+	Permission *string `json:"permission"`
 
 	// StartTime: Start time of the access policy
-	StartTime *string `json:"startTime,omitempty"`
+	StartTime *string `json:"startTime"`
 }

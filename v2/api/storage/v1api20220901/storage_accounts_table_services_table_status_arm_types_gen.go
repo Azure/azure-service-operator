@@ -6,43 +6,43 @@ package v1api20220901
 type StorageAccounts_TableServices_Table_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
+	Id *string `json:"id"`
 
 	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
+	Name *string `json:"name"`
 
 	// Properties: Table resource properties.
-	Properties *TableProperties_STATUS_ARM `json:"properties,omitempty"`
+	Properties *TableProperties_STATUS_ARM `json:"properties"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Type *string `json:"type"`
 }
 
 type TableProperties_STATUS_ARM struct {
 	// SignedIdentifiers: List of stored access policies specified on the table.
-	SignedIdentifiers []TableSignedIdentifier_STATUS_ARM `json:"signedIdentifiers,omitempty"`
+	SignedIdentifiers []TableSignedIdentifier_STATUS_ARM `json:"signedIdentifiers"`
 
 	// TableName: Table name under the specified account
-	TableName *string `json:"tableName,omitempty"`
+	TableName *string `json:"tableName"`
 }
 
 // Object to set Table Access Policy.
 type TableSignedIdentifier_STATUS_ARM struct {
 	// AccessPolicy: Access policy
-	AccessPolicy *TableAccessPolicy_STATUS_ARM `json:"accessPolicy,omitempty"`
+	AccessPolicy *TableAccessPolicy_STATUS_ARM `json:"accessPolicy"`
 
 	// Id: unique-64-character-value of the stored access policy.
-	Id *string `json:"id,omitempty"`
+	Id *string `json:"id"`
 }
 
 // Table Access Policy Properties Object.
 type TableAccessPolicy_STATUS_ARM struct {
 	// ExpiryTime: Expiry time of the access policy
-	ExpiryTime *string `json:"expiryTime,omitempty"`
+	ExpiryTime *string `json:"expiryTime"`
 
 	// Permission: Required. List of abbreviated permissions. Supported permission values include 'r','a','u','d'
-	Permission *string `json:"permission,omitempty"`
+	Permission *string `json:"permission"`
 
 	// StartTime: Start time of the access policy
-	StartTime *string `json:"startTime,omitempty"`
+	StartTime *string `json:"startTime"`
 }

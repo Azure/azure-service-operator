@@ -9,7 +9,7 @@ type StorageAccounts_QueueServices_Queue_Spec_ARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Queue resource properties.
-	Properties *QueueProperties_ARM `json:"properties,omitempty"`
+	Properties *QueueProperties_ARM `json:"properties"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccounts_QueueServices_Queue_Spec_ARM{}
@@ -31,5 +31,5 @@ func (queue *StorageAccounts_QueueServices_Queue_Spec_ARM) GetType() string {
 
 type QueueProperties_ARM struct {
 	// Metadata: A name-value pair that represents queue metadata.
-	Metadata map[string]string `json:"metadata,omitempty"`
+	Metadata map[string]string `json:"metadata"`
 }

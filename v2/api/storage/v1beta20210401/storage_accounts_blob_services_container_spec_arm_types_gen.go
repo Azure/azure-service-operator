@@ -8,7 +8,7 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of StorageAccounts_BlobServices_Container_Spec. Use v1api20210401.StorageAccounts_BlobServices_Container_Spec instead
 type StorageAccounts_BlobServices_Container_Spec_ARM struct {
 	Name       string                   `json:"name,omitempty"`
-	Properties *ContainerProperties_ARM `json:"properties,omitempty"`
+	Properties *ContainerProperties_ARM `json:"properties"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccounts_BlobServices_Container_Spec_ARM{}
@@ -30,14 +30,14 @@ func (container *StorageAccounts_BlobServices_Container_Spec_ARM) GetType() stri
 
 // Deprecated version of ContainerProperties. Use v1api20210401.ContainerProperties instead
 type ContainerProperties_ARM struct {
-	DefaultEncryptionScope         *string                             `json:"defaultEncryptionScope,omitempty"`
-	DenyEncryptionScopeOverride    *bool                               `json:"denyEncryptionScopeOverride,omitempty"`
-	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_ARM `json:"immutableStorageWithVersioning,omitempty"`
-	Metadata                       map[string]string                   `json:"metadata,omitempty"`
-	PublicAccess                   *ContainerProperties_PublicAccess   `json:"publicAccess,omitempty"`
+	DefaultEncryptionScope         *string                             `json:"defaultEncryptionScope"`
+	DenyEncryptionScopeOverride    *bool                               `json:"denyEncryptionScopeOverride"`
+	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_ARM `json:"immutableStorageWithVersioning"`
+	Metadata                       map[string]string                   `json:"metadata"`
+	PublicAccess                   *ContainerProperties_PublicAccess   `json:"publicAccess"`
 }
 
 // Deprecated version of ImmutableStorageWithVersioning. Use v1api20210401.ImmutableStorageWithVersioning instead
 type ImmutableStorageWithVersioning_ARM struct {
-	Enabled *bool `json:"enabled,omitempty"`
+	Enabled *bool `json:"enabled"`
 }

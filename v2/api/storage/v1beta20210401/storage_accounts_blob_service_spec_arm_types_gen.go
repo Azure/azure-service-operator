@@ -8,7 +8,7 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of StorageAccounts_BlobService_Spec. Use v1api20210401.StorageAccounts_BlobService_Spec instead
 type StorageAccounts_BlobService_Spec_ARM struct {
 	Name       string                                           `json:"name,omitempty"`
-	Properties *StorageAccounts_BlobService_Properties_Spec_ARM `json:"properties,omitempty"`
+	Properties *StorageAccounts_BlobService_Properties_Spec_ARM `json:"properties"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccounts_BlobService_Spec_ARM{}
@@ -30,53 +30,53 @@ func (service *StorageAccounts_BlobService_Spec_ARM) GetType() string {
 
 // Deprecated version of StorageAccounts_BlobService_Properties_Spec. Use v1api20210401.StorageAccounts_BlobService_Properties_Spec instead
 type StorageAccounts_BlobService_Properties_Spec_ARM struct {
-	AutomaticSnapshotPolicyEnabled *bool                             `json:"automaticSnapshotPolicyEnabled,omitempty"`
-	ChangeFeed                     *ChangeFeed_ARM                   `json:"changeFeed,omitempty"`
-	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy_ARM        `json:"containerDeleteRetentionPolicy,omitempty"`
-	Cors                           *CorsRules_ARM                    `json:"cors,omitempty"`
-	DefaultServiceVersion          *string                           `json:"defaultServiceVersion,omitempty"`
-	DeleteRetentionPolicy          *DeleteRetentionPolicy_ARM        `json:"deleteRetentionPolicy,omitempty"`
-	IsVersioningEnabled            *bool                             `json:"isVersioningEnabled,omitempty"`
-	LastAccessTimeTrackingPolicy   *LastAccessTimeTrackingPolicy_ARM `json:"lastAccessTimeTrackingPolicy,omitempty"`
-	RestorePolicy                  *RestorePolicyProperties_ARM      `json:"restorePolicy,omitempty"`
+	AutomaticSnapshotPolicyEnabled *bool                             `json:"automaticSnapshotPolicyEnabled"`
+	ChangeFeed                     *ChangeFeed_ARM                   `json:"changeFeed"`
+	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy_ARM        `json:"containerDeleteRetentionPolicy"`
+	Cors                           *CorsRules_ARM                    `json:"cors"`
+	DefaultServiceVersion          *string                           `json:"defaultServiceVersion"`
+	DeleteRetentionPolicy          *DeleteRetentionPolicy_ARM        `json:"deleteRetentionPolicy"`
+	IsVersioningEnabled            *bool                             `json:"isVersioningEnabled"`
+	LastAccessTimeTrackingPolicy   *LastAccessTimeTrackingPolicy_ARM `json:"lastAccessTimeTrackingPolicy"`
+	RestorePolicy                  *RestorePolicyProperties_ARM      `json:"restorePolicy"`
 }
 
 // Deprecated version of ChangeFeed. Use v1api20210401.ChangeFeed instead
 type ChangeFeed_ARM struct {
-	Enabled         *bool `json:"enabled,omitempty"`
-	RetentionInDays *int  `json:"retentionInDays,omitempty"`
+	Enabled         *bool `json:"enabled"`
+	RetentionInDays *int  `json:"retentionInDays"`
 }
 
 // Deprecated version of CorsRules. Use v1api20210401.CorsRules instead
 type CorsRules_ARM struct {
-	CorsRules []CorsRule_ARM `json:"corsRules,omitempty"`
+	CorsRules []CorsRule_ARM `json:"corsRules"`
 }
 
 // Deprecated version of DeleteRetentionPolicy. Use v1api20210401.DeleteRetentionPolicy instead
 type DeleteRetentionPolicy_ARM struct {
-	Days    *int  `json:"days,omitempty"`
-	Enabled *bool `json:"enabled,omitempty"`
+	Days    *int  `json:"days"`
+	Enabled *bool `json:"enabled"`
 }
 
 // Deprecated version of LastAccessTimeTrackingPolicy. Use v1api20210401.LastAccessTimeTrackingPolicy instead
 type LastAccessTimeTrackingPolicy_ARM struct {
-	BlobType                  []string                           `json:"blobType,omitempty"`
-	Enable                    *bool                              `json:"enable,omitempty"`
-	Name                      *LastAccessTimeTrackingPolicy_Name `json:"name,omitempty"`
-	TrackingGranularityInDays *int                               `json:"trackingGranularityInDays,omitempty"`
+	BlobType                  []string                           `json:"blobType"`
+	Enable                    *bool                              `json:"enable"`
+	Name                      *LastAccessTimeTrackingPolicy_Name `json:"name"`
+	TrackingGranularityInDays *int                               `json:"trackingGranularityInDays"`
 }
 
 // Deprecated version of RestorePolicyProperties. Use v1api20210401.RestorePolicyProperties instead
 type RestorePolicyProperties_ARM struct {
-	Days    *int  `json:"days,omitempty"`
-	Enabled *bool `json:"enabled,omitempty"`
+	Days    *int  `json:"days"`
+	Enabled *bool `json:"enabled"`
 }
 
 // Deprecated version of CorsRule. Use v1api20210401.CorsRule instead
 type CorsRule_ARM struct {
-	AllowedHeaders  []string                  `json:"allowedHeaders,omitempty"`
-	AllowedMethods  []CorsRule_AllowedMethods `json:"allowedMethods,omitempty"`
-	AllowedOrigins  []string                  `json:"allowedOrigins,omitempty"`
-	ExposedHeaders  []string                  `json:"exposedHeaders,omitempty"`
-	MaxAgeInSeconds *int                      `json:"maxAgeInSeconds,omitempty"`
+	AllowedHeaders  []string                  `json:"allowedHeaders"`
+	AllowedMethods  []CorsRule_AllowedMethods `json:"allowedMethods"`
+	AllowedOrigins  []string                  `json:"allowedOrigins"`
+	ExposedHeaders  []string                  `json:"exposedHeaders"`
+	MaxAgeInSeconds *int                      `json:"maxAgeInSeconds"`
 }
