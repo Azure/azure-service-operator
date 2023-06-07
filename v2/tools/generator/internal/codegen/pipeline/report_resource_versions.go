@@ -458,15 +458,17 @@ func (report *ResourceVersionsReport) createTable(
 	for _, rsrc := range toIterate {
 		resourceType := astmodel.MustBeResourceType(rsrc.Type())
 
-		crdVersion := rsrc.Name().PackageReference.PackageName()
+		name := rsrc.Name()
+
+		crdVersion := name.PackageReference.PackageName()
 		armVersion := strings.Trim(resourceType.APIVersionEnumValue().Value, "\"")
 		if armVersion == "" {
 			armVersion = crdVersion
 		}
 
-		api := report.generateApiLink(rsrc)
-		sample := report.generateSampleLink(rsrc, sampleLinks)
-		supportedFrom := report.supportedFrom(rsrc.Name())
+		api := report.generateApiLink(name)
+		sample := report.generateSampleLink(name, sampleLinks)
+		supportedFrom := report.supportedFrom(name)
 
 		result.AddRow(
 			api,
@@ -521,10 +523,9 @@ func (report *ResourceVersionsReport) FindSampleLinks(group string) (map[string]
 	return result, nil
 }
 
-// generateApiLink returns a link to the API definition for the given resource
-func (report *ResourceVersionsReport) generateApiLink(rsrc astmodel.TypeDefinition) string {
 
-	name := rsrc.Name()
+// generateApiLink returns a link to the API definition for the given resource
+func (report *ResourceVersionsReport) generateApiLink(name astmodel.TypeName) string {
 	crdKind := name.Name()
 	linkTemplate := report.reportConfiguration.ResourceUrlTemplate
 	pathTemplate := report.reportConfiguration.ResourcePathTemplate
@@ -560,9 +561,9 @@ func (report *ResourceVersionsReport) expandPlaceholders(template string, rsrc a
 	return result
 }
 
-func (report *ResourceVersionsReport) generateSampleLink(rsrc astmodel.TypeDefinition, sampleLinks map[string]string) string {
-	crdVersion := rsrc.Name().PackageReference.PackageName()
-	key := fmt.Sprintf("%s_%s.yaml", crdVersion, strings.ToLower(rsrc.Name().Name()))
+func (report *ResourceVersionsReport) generateSampleLink(name astmodel.TypeName, sampleLinks map[string]string) string {
+	crdVersion := name.PackageReference.PackageName()
+	key := fmt.Sprintf("%s_%s.yaml", crdVersion, strings.ToLower(name.Name()))
 	sampleLink, ok := sampleLinks[key]
 
 	if ok {
