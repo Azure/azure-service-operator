@@ -50,18 +50,19 @@ var _ error = skipError{}
 type armPropertyTypeConversionHandler func(prop *astmodel.PropertyDefinition, isSpec bool) (*astmodel.PropertyDefinition, error)
 
 type armTypeCreator struct {
-	definitions astmodel.TypeDefinitionSet
-	idFactory   astmodel.IdentifierFactory
-	newDefs     astmodel.TypeDefinitionSet
-	skipTypes   []func(it astmodel.TypeDefinition) bool
-	log         logr.Logger
+	definitions   astmodel.TypeDefinitionSet
+	idFactory     astmodel.IdentifierFactory
+	newDefs       astmodel.TypeDefinitionSet
+	skipTypes     []func(it astmodel.TypeDefinition) bool
+	log           logr.Logger
+	visitor       astmodel.TypeVisitor
 }
 
 func newARMTypeCreator(
 	definitions astmodel.TypeDefinitionSet,
 	idFactory astmodel.IdentifierFactory,
 	log logr.Logger) *armTypeCreator {
-	return &armTypeCreator{
+	result := &armTypeCreator{
 		definitions: definitions,
 		idFactory:   idFactory,
 		newDefs:     make(astmodel.TypeDefinitionSet),
@@ -70,6 +71,11 @@ func newARMTypeCreator(
 		},
 		log: log,
 	}
+	result.visitor = astmodel.TypeVisitorBuilder{
+		VisitTypeName: result.visitARMTypeName,
+	}.Build()
+
+	return result
 }
 
 func (c *armTypeCreator) createARMTypes() (astmodel.TypeDefinitionSet, error) {
@@ -225,40 +231,7 @@ func (c *armTypeCreator) createARMTypeDefinition(isSpecType bool, def astmodel.T
 }
 
 func (c *armTypeCreator) createARMTypeIfNeeded(t astmodel.Type) (astmodel.Type, error) {
-	createArmTypeName := func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
-		// Allow json type to pass through.
-		if it == astmodel.JSONType {
-			return it, nil
-		}
-
-		def, ok := c.definitions[it]
-		if !ok {
-			return nil, errors.Errorf("failed to lookup %s", it)
-		}
-
-		if _, ok := def.Type().(*astmodel.ObjectType); ok {
-			return astmodel.CreateARMTypeName(def.Name()), nil
-		}
-
-		// We may or may not need to use an updated type name (i.e. if it's an aliased primitive type we can
-		// just keep using that alias)
-		updatedType, err := this.Visit(def.Type(), ctx)
-		if err != nil {
-			return nil, errors.Wrapf(err, "failed to update definition %s", def.Name())
-		}
-
-		if astmodel.TypeEquals(updatedType, def.Type()) {
-			return it, nil
-		}
-
-		return astmodel.CreateARMTypeName(def.Name()), nil
-	}
-
-	visitor := astmodel.TypeVisitorBuilder{
-		VisitTypeName: createArmTypeName,
-	}.Build()
-
-	return visitor.Visit(t, nil)
+	return c.visitor.Visit(t, nil)
 }
 
 func (c *armTypeCreator) createARMNameProperty(prop *astmodel.PropertyDefinition, isSpec bool) (*astmodel.PropertyDefinition, error) {
@@ -446,6 +419,37 @@ func (c *armTypeCreator) convertObjectPropertiesForARM(t *astmodel.ObjectType, i
 	}
 
 	return result, nil
+}
+
+func (c *armTypeCreator) visitARMTypeName(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
+	// Allow json type to pass through.
+	if it == astmodel.JSONType {
+		return it, nil
+	}
+
+	// Look up the definition
+	def, ok := c.definitions[it]
+	if !ok {
+		return nil, errors.Errorf("failed to lookup %s", it)
+	}
+
+	// If the name references an object type, we need an updated name, create it and return
+	if _, ok := astmodel.AsObjectType(def.Type()); ok {
+		return astmodel.CreateARMTypeName(def.Name()), nil
+	}
+
+	// We may or may not need to use an updated type name (i.e. if it's an aliased primitive type we can
+	// just keep using that alias)
+	updatedType, err := this.Visit(def.Type(), ctx)
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to update definition %s", def.Name())
+	}
+
+	if astmodel.TypeEquals(updatedType, def.Type()) {
+		return it, nil
+	}
+
+	return astmodel.CreateARMTypeName(def.Name()), nil
 }
 
 var skipARMFuncs = []func(it astmodel.TypeDefinition) bool{
