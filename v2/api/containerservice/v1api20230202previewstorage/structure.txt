@@ -808,10 +808,9 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202pre
 │       │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   ├── Mode: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── ServicePrincipalProfile: *Object (3 properties)
+│       ├── ServicePrincipalProfile: *Object (2 properties)
 │       │   ├── ClientId: *string
-│       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   └── Secret: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── Sku: *Object (3 properties)
 │       │   ├── Name: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag

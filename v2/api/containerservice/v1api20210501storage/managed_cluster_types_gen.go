@@ -6152,7 +6152,6 @@ func (profile *ManagedClusterServicePrincipalProfile) AssignProperties_To_Manage
 type ManagedClusterServicePrincipalProfile_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Secret      *string                `json:"secret,omitempty"`
 }
 
 // AssignProperties_From_ManagedClusterServicePrincipalProfile_STATUS populates our ManagedClusterServicePrincipalProfile_STATUS from the provided source ManagedClusterServicePrincipalProfile_STATUS
@@ -6162,9 +6161,6 @@ func (profile *ManagedClusterServicePrincipalProfile_STATUS) AssignProperties_Fr
 
 	// ClientId
 	profile.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// Secret
-	profile.Secret = genruntime.ClonePointerToString(source.Secret)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -6193,9 +6189,6 @@ func (profile *ManagedClusterServicePrincipalProfile_STATUS) AssignProperties_To
 
 	// ClientId
 	destination.ClientId = genruntime.ClonePointerToString(profile.ClientId)
-
-	// Secret
-	destination.Secret = genruntime.ClonePointerToString(profile.Secret)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

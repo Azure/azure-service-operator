@@ -2642,7 +2642,6 @@ func ManagedClusterServicePrincipalProfile_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedClusterServicePrincipalProfile_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterServicePrincipalProfile_STATUS(gens map[string]gopter.Gen) {
 	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
-	gens["Secret"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ManagedClusterSKU_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
