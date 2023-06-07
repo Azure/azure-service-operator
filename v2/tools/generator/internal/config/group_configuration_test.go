@@ -6,7 +6,7 @@
 package config
 
 import (
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"strings"
 	"testing"
@@ -95,7 +95,7 @@ func loadTestData(t *testing.T) []byte {
 	file := string(testName[index+1:]) + ".yaml"
 	yamlPath := filepath.Join("testdata", folder, file)
 
-	yamlBytes, err := ioutil.ReadFile(yamlPath)
+	yamlBytes, err := os.ReadFile(yamlPath)
 	if err != nil {
 		// If the file doesn't exist we fail the test
 		t.Fatalf("unable to load %s (%s)", yamlPath, err)
