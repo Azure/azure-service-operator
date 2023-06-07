@@ -1,7 +1,7 @@
 apiVersion: cache.azure.com/v1api20201201
 kind: Redis
 metadata:
-  name: linked-sampleredis
+  name: linked-sample-redis
   namespace: default
 spec:
   location: westcentralus
