@@ -104,6 +104,17 @@ func newEveryVersionConfigurationVisitor(
 	}
 }
 
+// newEveryGroupConfigurationVisitor creates a ConfigurationVisitor to apply an action to every group configuration
+// specified.
+// action is the action to apply to each group.
+// Returns nil if every call to action returned nil; otherwise returns an aggregated error containing all the errors returned.
+func newEveryGroupConfigurationVisitor(
+	action func(configuration *GroupConfiguration) error) *configurationVisitor {
+	return &configurationVisitor{
+		handleGroup: action,
+	}
+}
+
 // newSingleGroupConfigurationVisitor creates a ConfigurationVisitor to apply an action to the group specified
 // ref is the package reference of the group expected.
 // action is the action to apply to that group.
