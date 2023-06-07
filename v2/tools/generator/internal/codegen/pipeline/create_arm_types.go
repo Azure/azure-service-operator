@@ -47,7 +47,15 @@ func (s skipError) Error() string {
 
 var _ error = skipError{}
 
-type armPropertyTypeConversionHandler func(prop *astmodel.PropertyDefinition, isSpec bool) (*astmodel.PropertyDefinition, error)
+type armPropertyTypeConversionHandler func(
+	prop *astmodel.PropertyDefinition,
+	convContext *armPropertyTypeConversionContext,
+) (*astmodel.PropertyDefinition, error)
+
+type armPropertyTypeConversionContext struct {
+	isSpec      bool
+	payloadType config.PayloadType
+}
 
 type armTypeCreator struct {
 	definitions   astmodel.TypeDefinitionSet
@@ -105,14 +113,17 @@ func (c *armTypeCreator) createARMTypes() (astmodel.TypeDefinitionSet, error) {
 		return ok
 	})
 
-	for _, def := range otherDefs {
+	for name, def := range otherDefs {
 		if !requiresARMType(def) {
 			continue
 		}
 
-		armDef, err := c.createARMTypeDefinition(
-			false, // not Spec type
-			def)
+		convContext, err := c.createConversionContext(name)
+		if err != nil {
+			return nil, err
+		}
+
+		armDef, err := c.createARMTypeDefinition(def, convContext)
 		if err != nil {
 			return nil, err
 		}
@@ -131,7 +142,12 @@ func (c *armTypeCreator) createARMResourceSpecDefinition(
 ) (astmodel.TypeDefinition, error) {
 	emptyDef := astmodel.TypeDefinition{}
 
-	armTypeDef, err := c.createARMTypeDefinition(true, resourceSpecDef)
+	convContext, err := c.createSpecConversionContext(resourceSpecDef.Name())
+	if err != nil {
+		return emptyDef, err
+	}
+
+	armTypeDef, err := c.createARMTypeDefinition(resourceSpecDef, convContext)
 	if err != nil {
 		return emptyDef, err
 	}
@@ -181,9 +197,12 @@ func removeFlattening(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
 	return removeFlattenFromObject(t), nil
 }
 
-func (c *armTypeCreator) createARMTypeDefinition(isSpecType bool, def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
+func (c *armTypeCreator) createARMTypeDefinition(
+	def astmodel.TypeDefinition,
+	convContext *armPropertyTypeConversionContext,
+) (astmodel.TypeDefinition, error) {
 	convertObjectPropertiesForARM := func(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
-		return c.convertObjectPropertiesForARM(t, isSpecType)
+		return c.convertObjectPropertiesForARM(t, convContext)
 	}
 
 	isOneOf := astmodel.OneOfFlag.IsOn(def.Type())
@@ -234,8 +253,11 @@ func (c *armTypeCreator) createARMTypeIfNeeded(t astmodel.Type) (astmodel.Type, 
 	return c.visitor.Visit(t, nil)
 }
 
-func (c *armTypeCreator) createARMNameProperty(prop *astmodel.PropertyDefinition, isSpec bool) (*astmodel.PropertyDefinition, error) {
-	if isSpec && prop.HasName("Name") {
+func (c *armTypeCreator) createARMNameProperty(
+	prop *astmodel.PropertyDefinition,
+	convContext *armPropertyTypeConversionContext,
+) (*astmodel.PropertyDefinition, error) {
+	if convContext.isSpec && prop.HasName("Name") {
 		// all resource Spec Name properties must be strings on their way to ARM
 		// as nested resources will have the owner etc. added to the start:
 		return prop.WithType(astmodel.StringType), nil
@@ -244,7 +266,10 @@ func (c *armTypeCreator) createARMNameProperty(prop *astmodel.PropertyDefinition
 	return nil, nil
 }
 
-func (c *armTypeCreator) createUserAssignedIdentitiesProperty(prop *astmodel.PropertyDefinition, _ bool) (*astmodel.PropertyDefinition, error) {
+func (c *armTypeCreator) createUserAssignedIdentitiesProperty(
+	prop *astmodel.PropertyDefinition,
+	_ *armPropertyTypeConversionContext,
+) (*astmodel.PropertyDefinition, error) {
 	typeName, ok := astmodel.IsUserAssignedIdentityProperty(prop)
 	if !ok {
 		return nil, nil
@@ -275,7 +300,10 @@ func (c *armTypeCreator) createUserAssignedIdentitiesProperty(prop *astmodel.Pro
 	return newProp, nil
 }
 
-func (c *armTypeCreator) createResourceReferenceProperty(prop *astmodel.PropertyDefinition, _ bool) (*astmodel.PropertyDefinition, error) {
+func (c *armTypeCreator) createResourceReferenceProperty(
+	prop *astmodel.PropertyDefinition,
+	_ *armPropertyTypeConversionContext,
+) (*astmodel.PropertyDefinition, error) {
 	if !astmodel.IsTypeResourceReference(prop.PropertyType()) {
 		return nil, nil
 	}
@@ -308,7 +336,10 @@ func (c *armTypeCreator) createResourceReferenceProperty(prop *astmodel.Property
 	return newProp, nil
 }
 
-func (c *armTypeCreator) createSecretReferenceProperty(prop *astmodel.PropertyDefinition, _ bool) (*astmodel.PropertyDefinition, error) {
+func (c *armTypeCreator) createSecretReferenceProperty(
+	prop *astmodel.PropertyDefinition,
+	_ *armPropertyTypeConversionContext,
+) (*astmodel.PropertyDefinition, error) {
 	if !astmodel.TypeEquals(prop.PropertyType(), astmodel.SecretReferenceType) &&
 		!astmodel.TypeEquals(prop.PropertyType(), astmodel.OptionalSecretReferenceType) {
 		return nil, nil
@@ -326,7 +357,10 @@ func (c *armTypeCreator) createSecretReferenceProperty(prop *astmodel.PropertyDe
 	return prop.WithType(newType), nil
 }
 
-func (c *armTypeCreator) createConfigMapReferenceProperty(prop *astmodel.PropertyDefinition, _ bool) (*astmodel.PropertyDefinition, error) {
+func (c *armTypeCreator) createConfigMapReferenceProperty(
+	prop *astmodel.PropertyDefinition,
+	_ *armPropertyTypeConversionContext,
+) (*astmodel.PropertyDefinition, error) {
 	if !astmodel.TypeEquals(prop.PropertyType(), astmodel.ConfigMapReferenceType) &&
 		!astmodel.TypeEquals(prop.PropertyType(), astmodel.OptionalConfigMapReferenceType) {
 		return nil, nil
@@ -348,7 +382,10 @@ func (c *armTypeCreator) createConfigMapReferenceProperty(prop *astmodel.Propert
 	return prop.WithType(newType), nil
 }
 
-func (c *armTypeCreator) createARMProperty(prop *astmodel.PropertyDefinition, _ bool) (*astmodel.PropertyDefinition, error) {
+func (c *armTypeCreator) createARMProperty(
+	prop *astmodel.PropertyDefinition,
+	convContext *armPropertyTypeConversionContext,
+) (*astmodel.PropertyDefinition, error) {
 	newType, err := c.createARMTypeIfNeeded(prop.PropertyType())
 	if err != nil {
 		return nil, err
@@ -358,7 +395,10 @@ func (c *armTypeCreator) createARMProperty(prop *astmodel.PropertyDefinition, _ 
 
 // convertObjectPropertiesForARM returns the given object type with
 // any properties updated that need to be changed for ARM
-func (c *armTypeCreator) convertObjectPropertiesForARM(t *astmodel.ObjectType, isSpecType bool) (*astmodel.ObjectType, error) {
+func (c *armTypeCreator) convertObjectPropertiesForARM(
+	t *astmodel.ObjectType,
+	convContext *armPropertyTypeConversionContext,
+) (*astmodel.ObjectType, error) {
 	propertyHandlers := []armPropertyTypeConversionHandler{
 		c.createARMNameProperty,
 		c.createUserAssignedIdentitiesProperty,
@@ -372,7 +412,7 @@ func (c *armTypeCreator) convertObjectPropertiesForARM(t *astmodel.ObjectType, i
 	var errs []error
 	for _, prop := range t.Properties().Copy() {
 		for _, handler := range propertyHandlers {
-			newProp, err := handler(prop, isSpecType)
+			newProp, err := handler(prop, convContext)
 			if err != nil {
 				if errors.As(err, &skipError{}) {
 					break
@@ -397,7 +437,7 @@ func (c *armTypeCreator) convertObjectPropertiesForARM(t *astmodel.ObjectType, i
 	result = result.WithoutEmbeddedProperties() // Clear them out first, so we're starting with a clean slate
 	for _, prop := range t.EmbeddedProperties() {
 		for _, handler := range embeddedPropertyHandlers {
-			newProp, err := handler(prop, isSpecType)
+			newProp, err := handler(prop, convContext)
 			if err != nil {
 				errs = append(errs, err)
 				break // Stop calling handlers and proceed to the next property
@@ -450,6 +490,24 @@ func (c *armTypeCreator) visitARMTypeName(this *astmodel.TypeVisitor, it astmode
 	}
 
 	return astmodel.CreateARMTypeName(def.Name()), nil
+}
+
+func (c *armTypeCreator) createSpecConversionContext(name astmodel.TypeName) (*armPropertyTypeConversionContext, error) {
+	result, err := c.createConversionContext(name)
+	if err != nil {
+		return nil, err
+	}
+
+	result.isSpec = true
+	return result, nil
+}
+
+func (c *armTypeCreator) createConversionContext(name astmodel.TypeName) (*armPropertyTypeConversionContext, error) {
+
+	result := &armPropertyTypeConversionContext{
+	}
+
+	return result, nil
 }
 
 var skipARMFuncs = []func(it astmodel.TypeDefinition) bool{
