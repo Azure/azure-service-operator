@@ -8,7 +8,7 @@ package controllers_test
 import (
 	"testing"
 
-	 . "github.com/onsi/gomega"
+	. "github.com/onsi/gomega"
 
 	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101"
 	dataprotectionstorage "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101storage"
@@ -74,7 +74,7 @@ func Test_Dataprotection_Backupvault_CRUD(t *testing.T) {
 		Spec: dataprotection.BackupVault_Spec{
 			Location: region,
 			Tags:     map[string]string{"cheese": "blue"},
-			Owner: testcommon.AsOwner(rg),
+			Owner:    testcommon.AsOwner(rg),
 			Identity: &dataprotection.DppIdentityDetails{
 				Type: amon4.Type,
 			},
@@ -85,7 +85,7 @@ func Test_Dataprotection_Backupvault_CRUD(t *testing.T) {
 				StorageSettings: []dataprotection.StorageSetting{
 					{
 						DatastoreType: amon2.DatastoreType,
-						Type: amon3.Type,
+						Type:          amon3.Type,
 					},
 				},
 			},
@@ -112,6 +112,6 @@ func Test_Dataprotection_Backupvault_CRUD(t *testing.T) {
 	// 	armId,
 	// 	string(dataprotection.APIVersion_Value))
 	// tc.Expect(err).ToNot(HaveOccurred())
-	// tc.Expect(exists).To(BeFalse())	
+	// tc.Expect(exists).To(BeFalse())
 
 }
