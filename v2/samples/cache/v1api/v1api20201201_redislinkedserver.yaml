@@ -2,7 +2,7 @@ apiVersion: cache.azure.com/v1api20201201
 kind: RedisLinkedServer
 metadata:
   # This name needs to be the same as the secondary redis server.
-  name: linked-sampleredis
+  name: linked-sample-redis
   namespace: default
 spec:
   owner:
