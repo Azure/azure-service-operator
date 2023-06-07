@@ -40,6 +40,10 @@ func CreateARMTypes(
 
 			newDefs := astmodel.TypesDisjointUnion(armTypes, state.Definitions())
 
+			if err := configuration.VerifyPayloadTypeConsumed(); err != nil {
+				return nil, err
+			}
+
 			return state.WithDefinitions(newDefs), nil
 		})
 }
@@ -403,6 +407,15 @@ func (c *armTypeCreator) createARMProperty(
 	// Return a property with (potentially) a new type
 	result := prop.WithType(newType)
 
+	if convContext.payloadType == config.PayloadTypeExplicit {
+		// With PayloadType 'explicit' we also remove the `omitempty` tag, because we always want to send ARM properties
+		// to the server, even if they are empty.
+		// See https://github.com/Azure/azure-service-operator/issues/2914 for the problem we're solving here.
+		// See https://azure.github.io/azure-service-operator/design/adr-2023-04-patch-collections/ for how we're solving it.
+
+		result = result.WithoutTag("json", "omitempty")
+	}
+
 	return result, nil
 }
 
@@ -516,8 +529,19 @@ func (c *armTypeCreator) createSpecConversionContext(name astmodel.TypeName) (*a
 }
 
 func (c *armTypeCreator) createConversionContext(name astmodel.TypeName) (*armPropertyTypeConversionContext, error) {
+	payloadType, err := c.configuration.LookupPayloadType(name)
+	if err != nil {
+		if config.IsNotConfiguredError(err) {
+			// Default to 'omitempty' if not configured
+			payloadType = config.PayloadTypeOmitEmpty
+		} else {
+			// otherwise we return an error
+			return nil, errors.Wrapf(err, "looking up payload type for %q", name)
+		}
+	}
 
 	result := &armPropertyTypeConversionContext{
+		payloadType: payloadType,
 	}
 
 	return result, nil
