@@ -7,6 +7,7 @@ package pipeline
 
 import (
 	"context"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
@@ -22,12 +23,16 @@ const CreateARMTypesStageID = "createArmTypes"
 
 // CreateARMTypes walks the type graph and builds new types for communicating
 // with ARM
-func CreateARMTypes(idFactory astmodel.IdentifierFactory, log logr.Logger) *Stage {
+func CreateARMTypes(
+	configuration *config.ObjectModelConfiguration,
+	idFactory astmodel.IdentifierFactory,
+	log logr.Logger,
+) *Stage {
 	return NewStage(
 		CreateARMTypesStageID,
 		"Create types for interaction with ARM",
 		func(ctx context.Context, state *State) (*State, error) {
-			typeCreator := newARMTypeCreator(state.Definitions(), idFactory, log)
+			typeCreator := newARMTypeCreator(state.Definitions(), configuration, idFactory, log)
 			armTypes, err := typeCreator.createARMTypes()
 			if err != nil {
 				return nil, err
@@ -64,10 +69,12 @@ type armTypeCreator struct {
 	skipTypes     []func(it astmodel.TypeDefinition) bool
 	log           logr.Logger
 	visitor       astmodel.TypeVisitor
+	configuration *config.ObjectModelConfiguration
 }
 
 func newARMTypeCreator(
 	definitions astmodel.TypeDefinitionSet,
+	configuration *config.ObjectModelConfiguration,
 	idFactory astmodel.IdentifierFactory,
 	log logr.Logger) *armTypeCreator {
 	result := &armTypeCreator{
@@ -77,8 +84,10 @@ func newARMTypeCreator(
 		skipTypes: []func(it astmodel.TypeDefinition) bool{
 			skipUserAssignedIdentity,
 		},
-		log: log,
+		log:           log,
+		configuration: configuration,
 	}
+
 	result.visitor = astmodel.TypeVisitorBuilder{
 		VisitTypeName: result.visitARMTypeName,
 	}.Build()
@@ -390,7 +399,11 @@ func (c *armTypeCreator) createARMProperty(
 	if err != nil {
 		return nil, err
 	}
-	return prop.WithType(newType), nil
+
+	// Return a property with (potentially) a new type
+	result := prop.WithType(newType)
+
+	return result, nil
 }
 
 // convertObjectPropertiesForARM returns the given object type with
