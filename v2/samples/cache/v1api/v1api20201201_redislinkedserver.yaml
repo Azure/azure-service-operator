@@ -11,5 +11,5 @@ spec:
   linkedRedisCacheReference:
     group: cache.azure.com
     kind: Redis
-    name: linked-sampleredis
+    name: linked-sample-redis
   serverRole: Secondary
