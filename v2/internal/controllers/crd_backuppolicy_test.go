@@ -6,8 +6,9 @@ Licensed under the MIT license.
 package controllers_test
 
 import (
+	"encoding/json"
+	"fmt"
 	"testing"
-
 	// . "github.com/onsi/gomega"
 
 	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101"
@@ -20,9 +21,80 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 
-	rg := tc.CreateTestResourceGroupAndWait()
+	// rg := tc.CreateTestResourceGroupAndWait()
 
-	// region := tc.AzureRegion
+	region := tc.AzureRegion
+
+	// This code is meant for Monitoring Settings
+	vval1 := "Enabled"
+	aamons := &dataprotectionstorage.AzureMonitorAlertSettings{
+		AlertsForAllJobFailures: &vval1,
+	}
+	aamon := &dataprotection.AzureMonitorAlertSettings{}
+	eerr := aamon.AssignProperties_From_AzureMonitorAlertSettings(aamons)
+	if eerr != nil {
+		t.Fatalf("failed to assign properties from AzureMonitorAlertSettings: %v", eerr)
+	}
+
+	// This code is meant for Storage Settings
+	vval2 := "VaultStore"
+	aamons2 := &dataprotectionstorage.StorageSetting{
+		DatastoreType: &vval2,
+	}
+	aamon2 := &dataprotection.StorageSetting{}
+	eerr2 := aamon2.AssignProperties_From_StorageSetting(aamons2)
+	if eerr2 != nil {
+		t.Fatalf("failed to assign properties from StorageSetting: %v", eerr2)
+	}
+
+	vval3 := "LocallyRedundant"
+	aamons3 := &dataprotectionstorage.StorageSetting{
+		Type: &vval3,
+	}
+	aamon3 := &dataprotection.StorageSetting{}
+	eerr3 := aamon3.AssignProperties_From_StorageSetting(aamons3)
+	if eerr3 != nil {
+		t.Fatalf("failed to assign properties from StorageSetting: %v", eerr3)
+	}
+
+	// This code is meant for Identity
+	vval4 := "SystemAssigned"
+	aamons4 := &dataprotectionstorage.DppIdentityDetails{
+		Type: &vval4,
+	}
+	aamon4 := &dataprotection.DppIdentityDetails{}
+	eerr4 := aamon4.AssignProperties_From_DppIdentityDetails(aamons4)
+	if eerr4 != nil {
+		t.Fatalf("failed to assign properties from DppIdentityDetails: %v", eerr4)
+	}
+
+	//Create a backupvault
+	backupvault := &dataprotection.BackupVault{
+		ObjectMeta: tc.MakeObjectMetaWithName("backupvault"),
+		Spec: dataprotection.BackupVault_Spec{
+			Location: region,
+			Tags:     map[string]string{"cheese": "blue"},
+			// Owner:    testcommon.AsOwner(rg),
+			Identity: &dataprotection.DppIdentityDetails{
+				Type: aamon4.Type,
+			},
+			Properties: &dataprotection.BackupVaultSpec{
+				MonitoringSettings: &dataprotection.MonitoringSettings{
+					AzureMonitorAlertSettings: aamon,
+				},
+				StorageSettings: []dataprotection.StorageSetting{
+					{
+						DatastoreType: aamon2.DatastoreType,
+						Type:          aamon3.Type,
+					},
+				},
+			},
+		},
+	}
+
+	// tc.CreateResourceAndWait(backupvault)
+
+	// Below code is meant for BackupPolicy
 
 	// This code is meant for Object Type
 	val1 := "BackupPolicy"
@@ -114,9 +186,11 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 
 	val12 := "Default"
 	val13 := "AzureRetentionRule"
+	valtrue := true
 	amons9 := &dataprotectionstorage.AzureRetentionRule{
 		Name:       &val12,
 		ObjectType: &val13,
+		IsDefault:  &valtrue,
 	}
 	amon9 := &dataprotection.AzureRetentionRule{}
 	err9 := amon9.AssignProperties_From_AzureRetentionRule(amons9)
@@ -150,13 +224,11 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 
 	val18 := true
 	val19 := 99
-	amons12 := []dataprotection.TaggingCriteria{
-		{
-			IsDefault:       &val18,
-			TaggingPriority: &val19,
-		},
+	amons12 := &dataprotectionstorage.TaggingCriteria{
+		IsDefault:       &val18,
+		TaggingPriority: &val19,
 	}
-	amon12 := []dataprotection.TaggingCriteria{}
+	amon12 := &dataprotection.TaggingCriteria{}
 	err12 := amon12.AssignProperties_From_TaggingCriteria(amons12)
 	if err12 != nil {
 		t.Fatalf("failed to assign properties from TaggingCriteria: %v", err12)
@@ -176,7 +248,7 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 	backuppolicy := &dataprotection.BackupVaultsBackupPolicy{
 		ObjectMeta: tc.MakeObjectMetaWithName("testsbackuppolicy"),
 		Spec: dataprotection.BackupVaults_BackupPolicy_Spec{
-			Owner: testcommon.AsOwner(rg),
+			Owner: testcommon.AsOwner(backupvault),
 			Properties: &dataprotection.BaseBackupPolicy{
 				BackupPolicy: &dataprotection.BackupPolicy{
 					DatasourceTypes: []string{"Microsoft.ContainerService/managedClusters"},
@@ -186,19 +258,25 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 							AzureBackup: &dataprotection.AzureBackupRule{
 								Name:       amon2.Name,
 								ObjectType: amon2.ObjectType,
+								BackupParameters: &dataprotection.BackupParameters{
+									AzureBackupParams: &dataprotection.AzureBackupParams{
+										BackupType: amon8.BackupType,
+										ObjectType: amon8.ObjectType,
+									},
+								},
 								DataStore: &dataprotection.DataStoreInfoBase{
 									DataStoreType: amon3.DataStoreType,
 									ObjectType:    amon3.ObjectType,
 								},
 								Trigger: &dataprotection.TriggerContext{
-									Adhoc: &dataprotection.AdhocBasedTriggerContext{
-										ObjectType: amon4.ObjectType,
-										TaggingCriteria: &dataprotection.AdhocBasedTaggingCriteria{
-											TagInfo: &dataprotection.RetentionTag{
-												TagName: amon5.TagName,
-											},
-										},
-									},
+									// Adhoc: &dataprotection.AdhocBasedTriggerContext{
+									// 	ObjectType: amon4.ObjectType,
+									// 	TaggingCriteria: &dataprotection.AdhocBasedTaggingCriteria{
+									// 		TagInfo: &dataprotection.RetentionTag{
+									// 			TagName: amon5.TagName,
+									// 		},
+									// 	},
+									// },
 									Schedule: &dataprotection.ScheduleBasedTriggerContext{
 										ObjectType: amon6.ObjectType,
 										Schedule: &dataprotection.BackupSchedule{
@@ -207,8 +285,8 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 										},
 										TaggingCriteria: []dataprotection.TaggingCriteria{
 											{
-												IsDefault:       amon12[0].IsDefault,
-												TaggingPriority: amon12[0].TaggingPriority,
+												IsDefault:       amon12.IsDefault,
+												TaggingPriority: amon12.TaggingPriority,
 												TagInfo: &dataprotection.RetentionTag{
 													TagName: amon13.TagName,
 												},
@@ -223,90 +301,48 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 										},
 									},
 								},
-								BackupParameters: &dataprotection.BackupParameters{
-									AzureBackupParams: &dataprotection.AzureBackupParams{
-										BackupType: amon8.BackupType,
-										ObjectType: amon8.ObjectType,
-									},
-								},
 							},
 							AzureRetention: &dataprotection.AzureRetentionRule{
 								Name:       amon9.Name,
 								ObjectType: amon9.ObjectType,
+								IsDefault:  amon9.IsDefault,
 								Lifecycles: []dataprotection.SourceLifeCycle{
 									{
+										// DeleteAfter: &dataprotection.DeleteOption{
+										// 	AbsoluteDeleteOption: &dataprotection.AbsoluteDeleteOption{
+										// 		Duration:   amon10.Duration,
+										// 		ObjectType: amon10.ObjectType,
+										// 	},
+										// },
 										DeleteAfter: &dataprotection.DeleteOption{
-											AbsoluteDeleteOption: &dataprotection.AbsoluteDeleteOption{
-												Duration:   amon10.Duration,
-												ObjectType: amon10.ObjectType,
-											},
+											Duration:   amon10.Duration,
+											ObjectType: amon10.ObjectType,
 										},
 										SourceDataStore: &dataprotection.DataStoreInfoBase{
 											DataStoreType: amon11.DataStoreType,
 											ObjectType:    amon11.ObjectType,
 										},
+										TargetDataStoreCopySettings: []dataprotection.TargetCopySetting{},
 									},
 								},
 							},
 						},
 					},
-
-					// PolicyRules: []dataprotection.BasePolicyRule{
-					// 	AzureBackupRule: &dataprotection.AzureBackupRule{
-					// 		Name: "BackupHourly",
-					// 		ObjectType: &dataprotection.AzureBackupRule_ObjectType{
-					// 			objectType: "AzureBackupRule",
-					// 		},
-					// 		// Trigger: &dataprotection.TriggerContext{},
-					// 		DataStore: &dataprotection.DataStoreInfoBase{
-					// 			DataStoreType: &dataprotection.DataStoreInfoBase_DataStoreType{
-					// 				dataStoreType: "OperationalStore",
-					// 			},
-					// 			ObjectType: "DataStoreInfoBase",
-					// 		},
-					// 		BackupParameters: &dataprotection.BackupParameters{
-					// 			AzureBackupParams: &dataprotection.AzureBackupParams{
-					// 				BackupType: "Incremental",
-					// 				ObjectType: &dataprotection.AzureBackupParams_ObjectType{
-					// 					objectType: "AzureBackupParams",
-					// 				},
-					// 			},
-					// 		},
-					// 	},
-					// 	AzureRetentionRule: &dataprotection.AzureRetentionRule{
-					// 		Name: "Default",
-					// 		ObjectType: &dataprotection.AzureRetentionRule_ObjectType{
-					// 			objectType: "AzureRetentionRule",
-					// 		},
-					// 		IsDefault: true,
-					// 		Lifecycles: []dataprotection.SourceLifeCycle{
-					// 			SourceDataStore: &dataprotection.DataStoreInfoBase{
-					// 				DataStoreType: &dataprotection.DataStoreInfoBase_DataStoreType{
-					// 					dataStoreType: "OperationalStore",
-					// 				},
-					// 				ObjectType: "DataStoreInfoBase",
-					// 			},
-					// 		},
-					// 	},
-					// },
 				},
 			},
 		},
 	}
 
-	tc.CreateResourceAndWait(backuppolicy)
+	fmt.Println(backuppolicy)
+
+	res2B, _ := json.Marshal(backuppolicy)
+	newvar := string(res2B)
+
+	fmt.Println("////////////////New///Line//////////////")
+	fmt.Println(newvar)
+
+	// tc.CreateResourceAndWait(backuppolicy)
 
 	// Asserts
 
 }
-
-// "taggingCriteria": [
-//         {
-//           "isDefault": true,
-//           "taggingPriority": 99,
-//           "tagInfo": {
-//             "id": "Default_",
-//             "tagName": "Default"
-//           }
-//         }
-//       ]
