@@ -72,11 +72,10 @@ type ResourceVersionsReport struct {
 	objectModelConfiguration *config.ObjectModelConfiguration
 	rootUrl                  string
 	samplesPath              string
-	availableFragments       map[string]string                                       // A collection of the fragments to use in the report
-	groups                   set.Set[string]                                         // A set of all our groups
-	items                    map[string]set.Set[ResourceVersionsReportItem]          // For each group, the set of all available items
-	lists                    map[astmodel.PackageReference][]astmodel.TypeDefinition // A separate list of resources for each package
-	typoAdvisor              *typo.Advisor                                           // Advisor used to troubleshoot unused fragments
+	availableFragments       map[string]string                              // A collection of the fragments to use in the report
+	groups                   set.Set[string]                                // A set of all our groups
+	items                    map[string]set.Set[ResourceVersionsReportItem] // For each group, the set of all available items
+	typoAdvisor              *typo.Advisor                                  // Advisor used to troubleshoot unused fragments
 	titleCase                cases.Caser
 	latestVersion            string // Latest released version
 }
@@ -106,7 +105,6 @@ func NewResourceVersionsReport(
 		availableFragments:       make(map[string]string),
 		groups:                   set.Make[string](),
 		items:                    make(map[string]set.Set[ResourceVersionsReportItem]),
-		lists:                    make(map[astmodel.PackageReference][]astmodel.TypeDefinition),
 		typoAdvisor:              typo.NewAdvisor(),
 		titleCase:                cases.Title(language.English),
 		latestVersion:            latestVersion,
@@ -173,7 +171,6 @@ func (report *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinit
 
 		grp, _ := pkg.GroupVersion()
 		report.groups.Add(grp)
-		report.lists[pkg] = append(report.lists[pkg], rsrc)
 
 		items, ok := report.items[grp]
 		if !ok {
