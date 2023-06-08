@@ -78,6 +78,7 @@ type ResourceVersionsReport struct {
 	typoAdvisor              *typo.Advisor                                  // Advisor used to troubleshoot unused fragments
 	titleCase                cases.Caser
 	latestVersion            string // Latest released version
+	localPath                string // Prefix to use for local packages
 }
 
 type ResourceVersionsReportItem struct {
@@ -108,6 +109,7 @@ func NewResourceVersionsReport(
 		typoAdvisor:              typo.NewAdvisor(),
 		titleCase:                cases.Title(language.English),
 		latestVersion:            latestVersion,
+		localPath:                cfg.LocalPathPrefix(),
 	}
 
 	err = result.loadFragments()
@@ -115,7 +117,11 @@ func NewResourceVersionsReport(
 		return nil, errors.Wrapf(err, "Unable to load report fragments")
 	}
 
-	result.summarize(definitions)
+	err = result.summarize(definitions)
+	if err != nil {
+		return nil, errors.Wrapf(err, "Unable to summarize resources")
+	}
+
 	return result, nil
 }
 
@@ -159,28 +165,48 @@ func (report *ResourceVersionsReport) loadFragments() error {
 }
 
 // summarize collates a list of all resources, grouped by package
-func (report *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinitionSet) {
+func (report *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinitionSet) error {
 	resources := astmodel.FindResourceDefinitions(definitions)
 	for _, rsrc := range resources {
 		name := rsrc.Name()
 		pkg := name.PackageReference
+
+		defType := astmodel.MustBeResourceType(rsrc.Type())
+		armVersion := strings.Trim(defType.APIVersionEnumValue().Value, "\"")
+		item := report.createItem(name, defType.ARMType(), armVersion)
+
 		if astmodel.IsStoragePackageReference(pkg) {
 			// Skip storage versions - they're an implementation detail
 			continue
 		}
 
-		grp, _ := pkg.GroupVersion()
-		report.groups.Add(grp)
-
-		items, ok := report.items[grp]
-		if !ok {
-			items = set.Make[ResourceVersionsReportItem]()
-			report.items[grp] = items
-		}
-
-		item := report.createItem(rsrc)
-		items.Add(item)
+		report.addItem(item)
 	}
+
+	handcraftedTypes, err := report.objectModelConfiguration.FindHandCraftedTypeNames(report.localPath)
+	if err != nil {
+		return err
+	}
+
+	for name := range handcraftedTypes {
+		item := report.createItem(name, "", "")
+		report.addItem(item)
+	}
+
+	return nil
+}
+
+func (report *ResourceVersionsReport) addItem(item ResourceVersionsReportItem) {
+	grp, _ := item.name.PackageReference.GroupVersion()
+	report.groups.Add(grp)
+
+	items, ok := report.items[grp]
+	if !ok {
+		items = set.Make[ResourceVersionsReportItem]()
+		report.items[grp] = items
+	}
+
+	items.Add(item)
 }
 
 // SaveAllResourcesReportTo creates a file containing a report listing all supported resources
@@ -517,19 +543,17 @@ func (report *ResourceVersionsReport) FindSampleLinks(group string) (map[string]
 	return result, nil
 }
 
-func (report *ResourceVersionsReport) createItem(def astmodel.TypeDefinition) ResourceVersionsReportItem {
-	defType := astmodel.MustBeResourceType(def.Type())
-
-	armVersion := strings.Trim(defType.APIVersionEnumValue().Value, "\"")
-
-	result := ResourceVersionsReportItem{
-		name:          def.Name(),
-		armType:       defType.ARMType(),
+func (report *ResourceVersionsReport) createItem(
+	name astmodel.TypeName,
+	armType string,
+	armVersion string,
+) ResourceVersionsReportItem {
+	return ResourceVersionsReportItem{
+		name:          name,
+		armType:       armType,
 		armVersion:    armVersion,
-		supportedFrom: report.supportedFrom(def.Name()),
+		supportedFrom: report.supportedFrom(name),
 	}
-
-	return result
 }
 
 // generateApiLink returns a link to the API definition for the given resource
