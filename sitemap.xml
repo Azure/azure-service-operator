@@ -222,6 +222,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1beta20220120preview/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/devices/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/diagnosing-problems/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/documentdb/</loc>
