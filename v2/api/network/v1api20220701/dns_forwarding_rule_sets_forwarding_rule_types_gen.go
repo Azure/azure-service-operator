@@ -225,7 +225,7 @@ func (rule *DnsForwardingRuleSetsForwardingRule) ValidateUpdate(old runtime.Obje
 
 // createValidations validates the creation of the resource
 func (rule *DnsForwardingRuleSetsForwardingRule) createValidations() []func() error {
-	return []func() error{rule.validateResourceReferences}
+	return []func() error{rule.validateResourceReferences, rule.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -239,7 +239,20 @@ func (rule *DnsForwardingRuleSetsForwardingRule) updateValidations() []func(old 
 		func(old runtime.Object) error {
 			return rule.validateResourceReferences()
 		},
-		rule.validateWriteOnceProperties}
+		rule.validateWriteOnceProperties,
+		func(old runtime.Object) error {
+			return rule.validateOptionalConfigMapReferences()
+		},
+	}
+}
+
+// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
+func (rule *DnsForwardingRuleSetsForwardingRule) validateOptionalConfigMapReferences() error {
+	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&rule.Spec)
+	if err != nil {
+		return err
+	}
+	return genruntime.ValidateOptionalConfigMapReferences(refs)
 }
 
 // validateResourceReferences validates all resource references
@@ -1209,9 +1222,11 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 
 // Describes a server to forward the DNS queries to.
 type TargetDnsServer struct {
-	// +kubebuilder:validation:Required
 	// IpAddress: DNS server IP address.
-	IpAddress *string `json:"ipAddress,omitempty"`
+	IpAddress *string `json:"ipAddress,omitempty" optionalConfigMapPair:"IpAddress"`
+
+	// IpAddressFromConfig: DNS server IP address.
+	IpAddressFromConfig *genruntime.ConfigMapReference `json:"ipAddressFromConfig,omitempty" optionalConfigMapPair:"IpAddress"`
 
 	// Port: DNS server port.
 	Port *int `json:"port,omitempty"`
@@ -1229,6 +1244,14 @@ func (server *TargetDnsServer) ConvertToARM(resolved genruntime.ConvertToARMReso
 	// Set property ‘IpAddress’:
 	if server.IpAddress != nil {
 		ipAddress := *server.IpAddress
+		result.IpAddress = &ipAddress
+	}
+	if server.IpAddressFromConfig != nil {
+		ipAddressValue, err := resolved.ResolvedConfigMaps.Lookup(*server.IpAddressFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property IpAddress")
+		}
+		ipAddress := ipAddressValue
 		result.IpAddress = &ipAddress
 	}
 
@@ -1258,6 +1281,8 @@ func (server *TargetDnsServer) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		server.IpAddress = &ipAddress
 	}
 
+	// no assignment for property ‘IpAddressFromConfig’
+
 	// Set property ‘Port’:
 	if typedInput.Port != nil {
 		port := *typedInput.Port
@@ -1274,6 +1299,14 @@ func (server *TargetDnsServer) AssignProperties_From_TargetDnsServer(source *v1a
 	// IpAddress
 	server.IpAddress = genruntime.ClonePointerToString(source.IpAddress)
 
+	// IpAddressFromConfig
+	if source.IpAddressFromConfig != nil {
+		ipAddressFromConfig := source.IpAddressFromConfig.Copy()
+		server.IpAddressFromConfig = &ipAddressFromConfig
+	} else {
+		server.IpAddressFromConfig = nil
+	}
+
 	// Port
 	server.Port = genruntime.ClonePointerToInt(source.Port)
 
@@ -1288,6 +1321,14 @@ func (server *TargetDnsServer) AssignProperties_To_TargetDnsServer(destination *
 
 	// IpAddress
 	destination.IpAddress = genruntime.ClonePointerToString(server.IpAddress)
+
+	// IpAddressFromConfig
+	if server.IpAddressFromConfig != nil {
+		ipAddressFromConfig := server.IpAddressFromConfig.Copy()
+		destination.IpAddressFromConfig = &ipAddressFromConfig
+	} else {
+		destination.IpAddressFromConfig = nil
+	}
 
 	// Port
 	destination.Port = genruntime.ClonePointerToInt(server.Port)

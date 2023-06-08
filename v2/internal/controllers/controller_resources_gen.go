@@ -516,7 +516,21 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20201101s.VirtualNetworksSubnet)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20201101s.VirtualNetworksVirtualNetworkPeering)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20220701s.BastionHost)})
-	result = append(result, &registration.StorageType{Obj: new(network_v1api20220701s.DnsForwardingRuleSetsForwardingRule)})
+	result = append(result, &registration.StorageType{
+		Obj: new(network_v1api20220701s.DnsForwardingRuleSetsForwardingRule),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.targetDnsServers.ipAddressFromConfig",
+				Func: indexNetworkDnsForwardingRuleSetsForwardingRuleIpAddressFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Src:              &source.Kind{Type: &v1.ConfigMap{}},
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.targetDnsServers.ipAddressFromConfig"}, &network_v1api20220701s.DnsForwardingRuleSetsForwardingRuleList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20220701s.DnsForwardingRuleset)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20220701s.DnsResolver)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20220701s.DnsResolversInboundEndpoint)})
@@ -2111,6 +2125,22 @@ func indexMachinelearningservicesWorkspacesComputeVirtualMachinePassword(rawObj 
 		return nil
 	}
 	return obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount.Password.Index()
+}
+
+// indexNetworkDnsForwardingRuleSetsForwardingRuleIpAddressFromConfig an index function for network_v1api20220701s.DnsForwardingRuleSetsForwardingRule .spec.targetDnsServers.ipAddressFromConfig
+func indexNetworkDnsForwardingRuleSetsForwardingRuleIpAddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v1api20220701s.DnsForwardingRuleSetsForwardingRule)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, targetDnsServerItem := range obj.Spec.TargetDnsServers {
+		if targetDnsServerItem.IpAddressFromConfig == nil {
+			continue
+		}
+		result = append(result, targetDnsServerItem.IpAddressFromConfig.Index()...)
+	}
+	return result
 }
 
 // indexSqlServerAdministratorLoginPassword an index function for sql_v1api20211101s.Server .spec.administratorLoginPassword

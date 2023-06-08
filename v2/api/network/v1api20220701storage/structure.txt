@@ -64,8 +64,9 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   └── TargetDnsServers: Object (3 properties)[]
+│   │   └── TargetDnsServers: Object (4 properties)[]
 │   │       ├── IpAddress: *string
+│   │       ├── IpAddressFromConfig: *genruntime.ConfigMapReference
 │   │       ├── Port: *int
 │   │       └── PropertyBag: genruntime.PropertyBag
 │   └── Status: Object (12 properties)

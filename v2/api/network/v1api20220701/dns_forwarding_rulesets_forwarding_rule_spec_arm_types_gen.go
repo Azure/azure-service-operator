@@ -47,7 +47,7 @@ type ForwardingRuleProperties_ARM struct {
 // Describes a server to forward the DNS queries to.
 type TargetDnsServer_ARM struct {
 	// IpAddress: DNS server IP address.
-	IpAddress *string `json:"ipAddress,omitempty"`
+	IpAddress *string `json:"ipAddress,omitempty" optionalConfigMapPair:"IpAddress"`
 
 	// Port: DNS server port.
 	Port *int `json:"port,omitempty"`

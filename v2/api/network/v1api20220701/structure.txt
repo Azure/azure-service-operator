@@ -119,8 +119,9 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20220701
 │   │   │   └── "Enabled"
 │   │   ├── Metadata: map[string]string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   └── TargetDnsServers: Object (2 properties)[]
+│   │   └── TargetDnsServers: Object (3 properties)[]
 │   │       ├── IpAddress: *string
+│   │       ├── IpAddressFromConfig: *genruntime.ConfigMapReference
 │   │       └── Port: *int
 │   └── Status: Object (11 properties)
 │       ├── Conditions: conditions.Condition[]

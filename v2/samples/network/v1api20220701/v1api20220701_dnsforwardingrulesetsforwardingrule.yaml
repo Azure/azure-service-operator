@@ -11,3 +11,6 @@ spec:
   targetDnsServers:
   - ipAddress: 192.168.1.1
     port: 53
+#    ipAddressFromConfig: # Optional property to import ipAddress from a config map reference.ipAddressFromConfig
+#      name: myconfig
+#      key: ipaddress

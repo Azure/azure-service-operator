@@ -223,9 +223,10 @@ type SystemData_STATUS struct {
 // Storage version of v1api20220701.TargetDnsServer
 // Describes a server to forward the DNS queries to.
 type TargetDnsServer struct {
-	IpAddress   *string                `json:"ipAddress,omitempty"`
-	Port        *int                   `json:"port,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	IpAddress           *string                        `json:"ipAddress,omitempty" optionalConfigMapPair:"IpAddress"`
+	IpAddressFromConfig *genruntime.ConfigMapReference `json:"ipAddressFromConfig,omitempty" optionalConfigMapPair:"IpAddress"`
+	Port                *int                           `json:"port,omitempty"`
+	PropertyBag         genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20220701.TargetDnsServer_STATUS

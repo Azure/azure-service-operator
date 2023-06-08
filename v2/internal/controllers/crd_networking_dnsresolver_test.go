@@ -11,7 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
-	"github.com/Azure/azure-service-operator/v2/api/network/v1api20220701"
+	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
@@ -59,24 +59,24 @@ func Test_Networking_DnsResolver_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(resolver)
 
 	// Ensure delete
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(v1api20220701.APIVersion_Value))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
 }
 
-func DnsResolver_InboundEndpoint_CRUD(tc *testcommon.KubePerTestContext, resolver *v1api20220701.DnsResolver, vnet *v1api20201101.VirtualNetwork) {
+func DnsResolver_InboundEndpoint_CRUD(tc *testcommon.KubePerTestContext, resolver *network.DnsResolver, vnet *v1api20201101.VirtualNetwork) {
 	subnet := newSubnet(tc, vnet, "10.0.0.0/24")
 	tc.CreateResourceAndWait(subnet)
 	defer tc.DeleteResourceAndWait(subnet)
 
-	inbound := &v1api20220701.DnsResolversInboundEndpoint{
+	inbound := &network.DnsResolversInboundEndpoint{
 		ObjectMeta: tc.MakeObjectMeta("inbound"),
-		Spec: v1api20220701.DnsResolvers_InboundEndpoint_Spec{
-			IpConfigurations: []v1api20220701.IpConfiguration{
+		Spec: network.DnsResolvers_InboundEndpoint_Spec{
+			IpConfigurations: []network.IpConfiguration{
 				{
-					PrivateIpAllocationMethod: to.Ptr(v1api20220701.IpConfiguration_PrivateIpAllocationMethod_Dynamic),
-					Subnet:                    &v1api20220701.DnsresolverSubResource{Reference: tc.MakeReferenceFromResource(subnet)},
+					PrivateIpAllocationMethod: to.Ptr(network.IpConfiguration_PrivateIpAllocationMethod_Dynamic),
+					Subnet:                    &network.DnsresolverSubResource{Reference: tc.MakeReferenceFromResource(subnet)},
 				},
 			},
 			Location: tc.AzureRegion,
@@ -98,13 +98,13 @@ func DnsResolver_InboundEndpoint_CRUD(tc *testcommon.KubePerTestContext, resolve
 	tc.DeleteResourceAndWait(inbound)
 
 	// Ensure delete
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(v1api20220701.APIVersion_Value))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
 }
 
-func DnsResolver_OutboundEndpoint_CRUD(tc *testcommon.KubePerTestContext, resolver *v1api20220701.DnsResolver, vnet *v1api20201101.VirtualNetwork) {
+func DnsResolver_OutboundEndpoint_CRUD(tc *testcommon.KubePerTestContext, resolver *network.DnsResolver, vnet *v1api20201101.VirtualNetwork) {
 	subnet := newSubnet(tc, vnet, "10.225.0.0/28")
 	tc.CreateResourceAndWait(subnet)
 	defer tc.DeleteResourceAndWait(subnet)
@@ -125,17 +125,17 @@ func DnsResolver_OutboundEndpoint_CRUD(tc *testcommon.KubePerTestContext, resolv
 	tc.DeleteResourceAndWait(outbound)
 
 	// Ensure delete
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(v1api20220701.APIVersion_Value))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
 }
 
-func newDnsResolversOutboundEndpoint(tc *testcommon.KubePerTestContext, resolver *v1api20220701.DnsResolver, subnet *v1api20201101.VirtualNetworksSubnet) *v1api20220701.DnsResolversOutboundEndpoint {
-	outbound := &v1api20220701.DnsResolversOutboundEndpoint{
+func newDnsResolversOutboundEndpoint(tc *testcommon.KubePerTestContext, resolver *network.DnsResolver, subnet *v1api20201101.VirtualNetworksSubnet) *network.DnsResolversOutboundEndpoint {
+	outbound := &network.DnsResolversOutboundEndpoint{
 		ObjectMeta: tc.MakeObjectMeta("outbound"),
-		Spec: v1api20220701.DnsResolvers_OutboundEndpoint_Spec{
-			Subnet:   &v1api20220701.DnsresolverSubResource{Reference: tc.MakeReferenceFromResource(subnet)},
+		Spec: network.DnsResolvers_OutboundEndpoint_Spec{
+			Subnet:   &network.DnsresolverSubResource{Reference: tc.MakeReferenceFromResource(subnet)},
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(resolver),
 		},
@@ -143,13 +143,13 @@ func newDnsResolversOutboundEndpoint(tc *testcommon.KubePerTestContext, resolver
 	return outbound
 }
 
-func newDnsResolver(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, vnet *v1api20201101.VirtualNetwork) *v1api20220701.DnsResolver {
-	resolver := &v1api20220701.DnsResolver{
+func newDnsResolver(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, vnet *v1api20201101.VirtualNetwork) *network.DnsResolver {
+	resolver := &network.DnsResolver{
 		ObjectMeta: tc.MakeObjectMeta("resolver"),
-		Spec: v1api20220701.DnsResolver_Spec{
+		Spec: network.DnsResolver_Spec{
 			Location:       tc.AzureRegion,
 			Owner:          testcommon.AsOwner(rg),
-			VirtualNetwork: &v1api20220701.DnsresolverSubResource{Reference: tc.MakeReferenceFromResource(vnet)},
+			VirtualNetwork: &network.DnsresolverSubResource{Reference: tc.MakeReferenceFromResource(vnet)},
 		},
 	}
 	return resolver

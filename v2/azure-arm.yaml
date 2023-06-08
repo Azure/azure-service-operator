@@ -1427,6 +1427,9 @@ objectModelConfiguration:
       DnsForwardingRuleSets_ForwardingRule:
         $exportAs: DnsForwardingRuleSetsForwardingRule
         $supportedFrom: v2.2.0
+      TargetDnsServer:
+        IpAddress:
+          $importConfigMapMode: optional
       NatGateway:
         $export: true
         $supportedFrom: v2.1.0
