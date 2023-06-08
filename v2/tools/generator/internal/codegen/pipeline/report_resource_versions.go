@@ -74,11 +74,18 @@ type ResourceVersionsReport struct {
 	samplesPath              string
 	availableFragments       map[string]string                                       // A collection of the fragments to use in the report
 	groups                   set.Set[string]                                         // A set of all our groups
-	kinds                    map[string]astmodel.TypeDefinitionSet                   // For each group, the set of all available resources
+	items                    map[string]set.Set[ResourceVersionsReportItem]          // For each group, the set of all available items
 	lists                    map[astmodel.PackageReference][]astmodel.TypeDefinition // A separate list of resources for each package
 	typoAdvisor              *typo.Advisor                                           // Advisor used to troubleshoot unused fragments
 	titleCase                cases.Caser
 	latestVersion            string // Latest released version
+}
+
+type ResourceVersionsReportItem struct {
+	name          astmodel.TypeName
+	armType       string
+	armVersion    string
+	supportedFrom string
 }
 
 func NewResourceVersionsReport(
@@ -98,7 +105,7 @@ func NewResourceVersionsReport(
 		samplesPath:              cfg.FullSamplesPath(),
 		availableFragments:       make(map[string]string),
 		groups:                   set.Make[string](),
-		kinds:                    make(map[string]astmodel.TypeDefinitionSet),
+		items:                    make(map[string]set.Set[ResourceVersionsReportItem]),
 		lists:                    make(map[astmodel.PackageReference][]astmodel.TypeDefinition),
 		typoAdvisor:              typo.NewAdvisor(),
 		titleCase:                cases.Title(language.English),
@@ -168,13 +175,14 @@ func (report *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinit
 		report.groups.Add(grp)
 		report.lists[pkg] = append(report.lists[pkg], rsrc)
 
-		defs, ok := report.kinds[grp]
+		items, ok := report.items[grp]
 		if !ok {
-			defs = make(astmodel.TypeDefinitionSet)
-			report.kinds[grp] = defs
+			items = set.Make[ResourceVersionsReportItem]()
+			report.items[grp] = items
 		}
 
-		defs.Add(rsrc)
+		item := report.createItem(rsrc)
+		items.Add(item)
 	}
 }
 
@@ -252,9 +260,9 @@ func (report *ResourceVersionsReport) WriteAllResourcesReportToBuffer(
 
 	errs := make([]error, 0, len(groups)) // Preallocate maximum size
 	for _, grp := range groups {
-		kinds := report.kinds[grp]
+		items := report.items[grp]
 
-		title := report.groupTitle(grp, kinds)
+		title := report.groupTitle(grp, items)
 		buffer.WriteString(fmt.Sprintf("## %s\n\n", title))
 
 		// Include a fragment for this group if we have one
@@ -263,7 +271,7 @@ func (report *ResourceVersionsReport) WriteAllResourcesReportToBuffer(
 			buffer.WriteString("\n\n")
 		}
 
-		err := report.writeGroupSections(grp, kinds, buffer)
+		err := report.writeGroupSections(grp, items, buffer)
 		if err != nil {
 			errs = append(errs, err) // Don't need to wrap, will already specify the group
 		}
@@ -288,8 +296,8 @@ func (report *ResourceVersionsReport) WriteGroupResourcesReportToBuffer(
 	frontMatter string,
 	buffer *strings.Builder,
 ) error {
-	kinds := report.kinds[group]
-	title := report.groupTitle(group, kinds)
+	items := report.items[group]
+	title := report.groupTitle(group, items)
 
 	// Reuse existing front-matter if available, else generate a default one
 	if frontMatter != "" {
@@ -304,14 +312,10 @@ func (report *ResourceVersionsReport) WriteGroupResourcesReportToBuffer(
 		buffer.WriteString("\n\n")
 	}
 
-	return report.writeGroupSections(group, kinds, buffer)
+	return report.writeGroupSections(group, items, buffer)
 }
 
-func (report *ResourceVersionsReport) writeGroupSections(
-	group string,
-	kinds astmodel.TypeDefinitionSet,
-	buffer *strings.Builder,
-) error {
+func (report *ResourceVersionsReport) writeGroupSections(group string, kinds set.Set[ResourceVersionsReportItem], buffer *strings.Builder) error {
 	// By default, we treat everything as released
 	releasedResources := kinds
 
@@ -364,20 +368,18 @@ func (report *ResourceVersionsReport) writeGroupSections(
 }
 
 // isUnreleasedResource returns true if the type definition is for an unreleased resource
-func (report *ResourceVersionsReport) isUnreleasedResource(def astmodel.TypeDefinition) bool {
-	supportedFrom := report.supportedFrom(def.Name())
-
-	if supportedFrom == report.latestVersion {
+func (report *ResourceVersionsReport) isUnreleasedResource(item ResourceVersionsReportItem) bool {
+	if item.supportedFrom == report.latestVersion {
 		return false
 	}
 
-	result := astmodel.ComparePathAndVersion(supportedFrom, report.latestVersion)
+	result := astmodel.ComparePathAndVersion(item.supportedFrom, report.latestVersion)
 	return !result
 }
 
 // isDeprecatedResource returns true if the type definition is for a deprecated resource
-func (report *ResourceVersionsReport) isDeprecatedResource(def astmodel.TypeDefinition) bool {
-	_, ver := def.Name().PackageReference.GroupVersion()
+func (report *ResourceVersionsReport) isDeprecatedResource(item ResourceVersionsReportItem) bool {
+	_, ver := item.name.PackageReference.GroupVersion()
 	result := !strings.HasPrefix(ver, astmodel.GeneratorVersion)
 	return result
 }
@@ -387,11 +389,11 @@ func (report *ResourceVersionsReport) writeSection(
 	group string,
 	id string,
 	heading string,
-	kinds astmodel.TypeDefinitionSet,
+	items set.Set[ResourceVersionsReportItem],
 	buffer *strings.Builder,
 ) error {
 	// Skip if nothing to do
-	if len(kinds) == 0 {
+	if len(items) == 0 {
 		return nil
 	}
 
@@ -408,7 +410,7 @@ func (report *ResourceVersionsReport) writeSection(
 		buffer.WriteString("\n\n")
 	}
 
-	table, err := report.createTable(group, kinds)
+	table, err := report.createTable(group, items)
 	if err != nil {
 		return errors.Wrapf(err, "creating table for group %s", group)
 	}
@@ -419,10 +421,7 @@ func (report *ResourceVersionsReport) writeSection(
 	return nil
 }
 
-func (report *ResourceVersionsReport) createTable(
-	group string,
-	resources astmodel.TypeDefinitionSet,
-) (*reporting.MarkdownTable, error) {
+func (report *ResourceVersionsReport) createTable(group string, items set.Set[ResourceVersionsReportItem]) (*reporting.MarkdownTable, error) {
 	const (
 		name          = "Resource"
 		armVersion    = "ARM Version"
@@ -438,10 +437,10 @@ func (report *ResourceVersionsReport) createTable(
 		supportedFrom,
 		sample)
 
-	toIterate := resources.AsSlice()
+	toIterate := items.Values()
 	sort.Slice(toIterate, func(i, j int) bool {
-		left := toIterate[i].Name()
-		right := toIterate[j].Name()
+		left := toIterate[i].name
+		right := toIterate[j].name
 		if left.Name() != right.Name() {
 			return left.Name() < right.Name()
 		}
@@ -455,13 +454,11 @@ func (report *ResourceVersionsReport) createTable(
 		return nil, err
 	}
 
-	for _, rsrc := range toIterate {
-		resourceType := astmodel.MustBeResourceType(rsrc.Type())
-
-		name := rsrc.Name()
+	for _, item := range toIterate {
+		name := item.name
 
 		crdVersion := name.PackageReference.PackageName()
-		armVersion := strings.Trim(resourceType.APIVersionEnumValue().Value, "\"")
+		armVersion := item.armVersion
 		if armVersion == "" {
 			armVersion = crdVersion
 		}
@@ -523,6 +520,20 @@ func (report *ResourceVersionsReport) FindSampleLinks(group string) (map[string]
 	return result, nil
 }
 
+func (report *ResourceVersionsReport) createItem(def astmodel.TypeDefinition) ResourceVersionsReportItem {
+	defType := astmodel.MustBeResourceType(def.Type())
+
+	armVersion := strings.Trim(defType.APIVersionEnumValue().Value, "\"")
+
+	result := ResourceVersionsReportItem{
+		name:          def.Name(),
+		armType:       defType.ARMType(),
+		armVersion:    armVersion,
+		supportedFrom: report.supportedFrom(def.Name()),
+	}
+
+	return result
+}
 
 // generateApiLink returns a link to the API definition for the given resource
 func (report *ResourceVersionsReport) generateApiLink(name astmodel.TypeName) string {
@@ -655,17 +666,15 @@ func (report *ResourceVersionsReport) findFragment(name string) (string, bool) {
 }
 
 // groupTitle returns the title to use for the given group, based on the first resource found in that group
-func (report *ResourceVersionsReport) groupTitle(group string, kinds astmodel.TypeDefinitionSet) string {
-	for _, rsrc := range kinds {
-		// Look for a resource definition
-		rsrc, ok := astmodel.AsResourceType(rsrc.Type())
-		if !ok {
+func (report *ResourceVersionsReport) groupTitle(group string, items set.Set[ResourceVersionsReportItem]) string {
+	for item := range items {
+		if item.armType == "" {
 			// Didn't find a resource, keep looking
 			continue
 		}
 
 		// Slice off the part before the first "/" to get the Provider name
-		parts := strings.Split(rsrc.ARMType(), "/")
+		parts := strings.Split(item.armType, "/")
 		if len(parts) == 0 {
 			// String doesn't look like a resource type, keep looking
 			continue
