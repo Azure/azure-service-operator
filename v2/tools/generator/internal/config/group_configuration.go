@@ -37,8 +37,9 @@ type GroupConfiguration struct {
 type PayloadType string
 
 const (
-	PayloadTypeOmitEmpty PayloadType = "omitempty"
-	PayloadTypeExplicit  PayloadType = "explicit"
+	PayloadTypeOmitEmpty   PayloadType = "omitempty"   // Omit empty properties, including collections
+	PayloadTypeCollections PayloadType = "collections" // Omit empty properties, but include collections
+	PayloadTypeExplicit    PayloadType = "explicit"    // Expclitly include all properties
 )
 
 const (
@@ -207,6 +208,8 @@ func (gc *GroupConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			switch strings.ToLower(c.Value) {
 			case string(PayloadTypeOmitEmpty):
 				gc.payloadType.write(PayloadTypeOmitEmpty)
+			case string(PayloadTypeCollections):
+				gc.payloadType.write(PayloadTypeCollections)
 			case string(PayloadTypeExplicit):
 				gc.payloadType.write(PayloadTypeExplicit)
 			default:

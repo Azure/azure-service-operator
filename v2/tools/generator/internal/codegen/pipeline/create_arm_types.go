@@ -7,6 +7,7 @@ package pipeline
 
 import (
 	"context"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 
 	"github.com/go-logr/logr"
@@ -407,12 +408,20 @@ func (c *armTypeCreator) createARMProperty(
 	// Return a property with (potentially) a new type
 	result := prop.WithType(newType)
 
+	removeOmitEmpty := false
 	if convContext.payloadType == config.PayloadTypeExplicit {
-		// With PayloadType 'explicit' we also remove the `omitempty` tag, because we always want to send ARM properties
+		// With PayloadType 'explicit' we remove the `omitempty` tag, because we always want to send *all* ARM properties
 		// to the server, even if they are empty.
 		// See https://github.com/Azure/azure-service-operator/issues/2914 for the problem we're solving here.
 		// See https://azure.github.io/azure-service-operator/design/adr-2023-04-patch-collections/ for how we're solving it.
+		removeOmitEmpty = true
+	} else if convContext.payloadType == config.PayloadTypeCollections {
+		_, isMap := astmodel.AsMapType(newType)
+		_, isArray := astmodel.AsArrayType(newType)
+		removeOmitEmpty = isMap || isArray
+	}
 
+	if removeOmitEmpty {
 		result = result.WithoutTag("json", "omitempty")
 	}
 
