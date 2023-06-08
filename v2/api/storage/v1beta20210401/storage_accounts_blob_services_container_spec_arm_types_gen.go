@@ -30,11 +30,11 @@ func (container *StorageAccounts_BlobServices_Container_Spec_ARM) GetType() stri
 
 // Deprecated version of ContainerProperties. Use v1api20210401.ContainerProperties instead
 type ContainerProperties_ARM struct {
-	DefaultEncryptionScope         *string                             `json:"defaultEncryptionScope"`
-	DenyEncryptionScopeOverride    *bool                               `json:"denyEncryptionScopeOverride"`
-	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_ARM `json:"immutableStorageWithVersioning"`
+	DefaultEncryptionScope         *string                             `json:"defaultEncryptionScope,omitempty"`
+	DenyEncryptionScopeOverride    *bool                               `json:"denyEncryptionScopeOverride,omitempty"`
+	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_ARM `json:"immutableStorageWithVersioning,omitempty"`
 	Metadata                       map[string]string                   `json:"metadata"`
-	PublicAccess                   *ContainerProperties_PublicAccess   `json:"publicAccess"`
+	PublicAccess                   *ContainerProperties_PublicAccess   `json:"publicAccess,omitempty"`
 }
 
 // Deprecated version of ImmutableStorageWithVersioning. Use v1api20210401.ImmutableStorageWithVersioning instead

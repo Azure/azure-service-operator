@@ -61,9 +61,9 @@ type DeleteRetentionPolicy_ARM struct {
 // Deprecated version of LastAccessTimeTrackingPolicy. Use v1api20210401.LastAccessTimeTrackingPolicy instead
 type LastAccessTimeTrackingPolicy_ARM struct {
 	BlobType                  []string                           `json:"blobType"`
-	Enable                    *bool                              `json:"enable"`
-	Name                      *LastAccessTimeTrackingPolicy_Name `json:"name"`
-	TrackingGranularityInDays *int                               `json:"trackingGranularityInDays"`
+	Enable                    *bool                              `json:"enable,omitempty"`
+	Name                      *LastAccessTimeTrackingPolicy_Name `json:"name,omitempty"`
+	TrackingGranularityInDays *int                               `json:"trackingGranularityInDays,omitempty"`
 }
 
 // Deprecated version of RestorePolicyProperties. Use v1api20210401.RestorePolicyProperties instead
@@ -78,5 +78,5 @@ type CorsRule_ARM struct {
 	AllowedMethods  []CorsRule_AllowedMethods `json:"allowedMethods"`
 	AllowedOrigins  []string                  `json:"allowedOrigins"`
 	ExposedHeaders  []string                  `json:"exposedHeaders"`
-	MaxAgeInSeconds *int                      `json:"maxAgeInSeconds"`
+	MaxAgeInSeconds *int                      `json:"maxAgeInSeconds,omitempty"`
 }

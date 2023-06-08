@@ -13,6 +13,6 @@ type StorageAccounts_QueueServices_Queue_STATUS_ARM struct {
 
 // Deprecated version of QueueProperties_STATUS. Use v1api20210401.QueueProperties_STATUS instead
 type QueueProperties_STATUS_ARM struct {
-	ApproximateMessageCount *int              `json:"approximateMessageCount"`
+	ApproximateMessageCount *int              `json:"approximateMessageCount,omitempty"`
 	Metadata                map[string]string `json:"metadata"`
 }

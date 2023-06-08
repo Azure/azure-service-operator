@@ -14,29 +14,29 @@ type StorageAccounts_BlobServices_Container_STATUS_ARM struct {
 
 // Deprecated version of ContainerProperties_STATUS. Use v1api20210401.ContainerProperties_STATUS instead
 type ContainerProperties_STATUS_ARM struct {
-	DefaultEncryptionScope         *string                                    `json:"defaultEncryptionScope"`
-	Deleted                        *bool                                      `json:"deleted"`
-	DeletedTime                    *string                                    `json:"deletedTime"`
-	DenyEncryptionScopeOverride    *bool                                      `json:"denyEncryptionScopeOverride"`
-	HasImmutabilityPolicy          *bool                                      `json:"hasImmutabilityPolicy"`
-	HasLegalHold                   *bool                                      `json:"hasLegalHold"`
-	ImmutabilityPolicy             *ImmutabilityPolicyProperties_STATUS_ARM   `json:"immutabilityPolicy"`
-	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_STATUS_ARM `json:"immutableStorageWithVersioning"`
-	LastModifiedTime               *string                                    `json:"lastModifiedTime"`
-	LeaseDuration                  *ContainerProperties_LeaseDuration_STATUS  `json:"leaseDuration"`
-	LeaseState                     *ContainerProperties_LeaseState_STATUS     `json:"leaseState"`
-	LeaseStatus                    *ContainerProperties_LeaseStatus_STATUS    `json:"leaseStatus"`
-	LegalHold                      *LegalHoldProperties_STATUS_ARM            `json:"legalHold"`
+	DefaultEncryptionScope         *string                                    `json:"defaultEncryptionScope,omitempty"`
+	Deleted                        *bool                                      `json:"deleted,omitempty"`
+	DeletedTime                    *string                                    `json:"deletedTime,omitempty"`
+	DenyEncryptionScopeOverride    *bool                                      `json:"denyEncryptionScopeOverride,omitempty"`
+	HasImmutabilityPolicy          *bool                                      `json:"hasImmutabilityPolicy,omitempty"`
+	HasLegalHold                   *bool                                      `json:"hasLegalHold,omitempty"`
+	ImmutabilityPolicy             *ImmutabilityPolicyProperties_STATUS_ARM   `json:"immutabilityPolicy,omitempty"`
+	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_STATUS_ARM `json:"immutableStorageWithVersioning,omitempty"`
+	LastModifiedTime               *string                                    `json:"lastModifiedTime,omitempty"`
+	LeaseDuration                  *ContainerProperties_LeaseDuration_STATUS  `json:"leaseDuration,omitempty"`
+	LeaseState                     *ContainerProperties_LeaseState_STATUS     `json:"leaseState,omitempty"`
+	LeaseStatus                    *ContainerProperties_LeaseStatus_STATUS    `json:"leaseStatus,omitempty"`
+	LegalHold                      *LegalHoldProperties_STATUS_ARM            `json:"legalHold,omitempty"`
 	Metadata                       map[string]string                          `json:"metadata"`
-	PublicAccess                   *ContainerProperties_PublicAccess_STATUS   `json:"publicAccess"`
-	RemainingRetentionDays         *int                                       `json:"remainingRetentionDays"`
-	Version                        *string                                    `json:"version"`
+	PublicAccess                   *ContainerProperties_PublicAccess_STATUS   `json:"publicAccess,omitempty"`
+	RemainingRetentionDays         *int                                       `json:"remainingRetentionDays,omitempty"`
+	Version                        *string                                    `json:"version,omitempty"`
 }
 
 // Deprecated version of ImmutabilityPolicyProperties_STATUS. Use v1api20210401.ImmutabilityPolicyProperties_STATUS instead
 type ImmutabilityPolicyProperties_STATUS_ARM struct {
-	Etag          *string                                `json:"etag"`
-	Properties    *ImmutabilityPolicyProperty_STATUS_ARM `json:"properties"`
+	Etag          *string                                `json:"etag,omitempty"`
+	Properties    *ImmutabilityPolicyProperty_STATUS_ARM `json:"properties,omitempty"`
 	UpdateHistory []UpdateHistoryProperty_STATUS_ARM     `json:"updateHistory"`
 }
 
@@ -49,7 +49,7 @@ type ImmutableStorageWithVersioning_STATUS_ARM struct {
 
 // Deprecated version of LegalHoldProperties_STATUS. Use v1api20210401.LegalHoldProperties_STATUS instead
 type LegalHoldProperties_STATUS_ARM struct {
-	HasLegalHold *bool                    `json:"hasLegalHold"`
+	HasLegalHold *bool                    `json:"hasLegalHold,omitempty"`
 	Tags         []TagProperty_STATUS_ARM `json:"tags"`
 }
 
