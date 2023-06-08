@@ -52,6 +52,47 @@ func Test_LoadCRDs(t *testing.T) {
 	g.Expect(loadedCRDs[0]).To(Equal(crd))
 }
 
+func Test_LoadCRDs_FixesNamespace(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	var port int32 = 443
+
+	crd := makeBasicCRD("test")
+	crd.Spec.Conversion = &apiextensions.CustomResourceConversion{
+		Strategy: apiextensions.WebhookConverter,
+		Webhook: &apiextensions.WebhookConversion{
+			ClientConfig: &apiextensions.WebhookClientConfig{
+				Service: &apiextensions.ServiceReference{
+					Name:      "azureserviceoperator-webhook-service",
+					Namespace: "azureserviceoperator-system",
+					Path:      to.Ptr("/convert"),
+					Port:      to.Ptr(port),
+				},
+				CABundle: makeFakeCABundle(),
+			},
+		},
+	}
+	dir := t.TempDir()
+	logger := testcommon.NewTestLogger(t)
+
+	bytes, err := yaml.Marshal(crd)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	crdPath := filepath.Join(dir, "crd.yaml")
+	g.Expect(os.WriteFile(crdPath, bytes, 0600)).To(Succeed())
+
+	crdManager := crdmanagement.NewManager(logger, nil)
+
+	loadedCRDs, err := crdManager.LoadOperatorCRDs(dir, "other-namespace")
+	g.Expect(err).ToNot(HaveOccurred())
+
+	g.Expect(loadedCRDs).To(HaveLen(1))
+	g.Expect(loadedCRDs[0].Annotations).To(HaveLen(1))
+	g.Expect(loadedCRDs[0].Annotations["cert-manager.io/inject-ca-from"]).To(Equal("other-namespace/azureserviceoperator-serving-cert"))
+	g.Expect(loadedCRDs[0].Spec.Conversion.Webhook.ClientConfig.Service.Namespace).To(Equal("other-namespace"))
+}
+
 /*
  * FindMatchingCRDs tests
  */
@@ -430,6 +471,9 @@ func makeBasicCRD(name string) apiextensions.CustomResourceDefinition {
 		},
 		ObjectMeta: metav1.ObjectMeta{
 			Name: fmt.Sprintf("%s.testrp.azure.com", name),
+			Annotations: map[string]string{
+				"cert-manager.io/inject-ca-from": "azureserviceoperator-system/azureserviceoperator-serving-cert",
+			},
 		},
 		Spec: apiextensions.CustomResourceDefinitionSpec{
 			Group: "testrp.azure.com",
