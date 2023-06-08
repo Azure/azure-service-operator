@@ -130,6 +130,26 @@ func TestConfigurationVisitor_WhenVisitingAllGroups_VisitsExpectedGroups(t *test
 	g.Expect(seen).To(HaveKey("OtherGroup"))
 }
 
+func TestConfigurationVisitor_WhenVisitingAllVersions_VisitsExpectedVersions(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	omc := createTestObjectModelConfigurationForVisitor()
+	seen := set.Make[string]()
+	visitor := newEveryVersionConfigurationVisitor(
+		func(configuration *VersionConfiguration) error {
+			seen.Add(configuration.name)
+			return nil
+		})
+
+	g.Expect(visitor.Visit(omc)).To(Succeed())
+	g.Expect(seen).To(HaveLen(4))
+	g.Expect(seen).To(HaveKey(test.Pkg2020.Version()))
+	g.Expect(seen).To(HaveKey(test.Pkg2022.Version()))
+	g.Expect(seen).To(HaveKey("v1"))
+	g.Expect(seen).To(HaveKey("v2"))
+}
+
 func createTestObjectModelConfigurationForVisitor() *ObjectModelConfiguration {
 	lastName := NewPropertyConfiguration("LastName")
 	firstName := NewPropertyConfiguration("FirstName")
