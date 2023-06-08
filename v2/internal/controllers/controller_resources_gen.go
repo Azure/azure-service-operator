@@ -93,6 +93,9 @@ import (
 	dbforpostgresql_v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601storage"
 	dbforpostgresql_v20220120p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120preview"
 	dbforpostgresql_v20220120ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120previewstorage"
+	devices_customizations "github.com/Azure/azure-service-operator/v2/api/devices/customizations"
+	devices_v1api20210702 "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702"
+	devices_v1api20210702s "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702storage"
 	documentdb_customizations "github.com/Azure/azure-service-operator/v2/api/documentdb/customizations"
 	documentdb_v1api20210515 "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515"
 	documentdb_v1api20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515storage"
@@ -370,6 +373,37 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v1api20210601s.FlexibleServersConfiguration)})
 	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v1api20210601s.FlexibleServersDatabase)})
 	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v1api20210601s.FlexibleServersFirewallRule)})
+	result = append(result, &registration.StorageType{
+		Obj: new(devices_v1api20210702s.IotHub),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.properties.routing.endpoints.eventHubs.connectionString",
+				Func: indexDevicesIotHubEventHubsConnectionString,
+			},
+			{
+				Key:  ".spec.properties.routing.endpoints.serviceBusQueues.connectionString",
+				Func: indexDevicesIotHubServiceBusQueuesConnectionString,
+			},
+			{
+				Key:  ".spec.properties.routing.endpoints.serviceBusTopics.connectionString",
+				Func: indexDevicesIotHubServiceBusTopicsConnectionString,
+			},
+			{
+				Key:  ".spec.properties.routing.endpoints.storageContainers.connectionString",
+				Func: indexDevicesIotHubStorageContainersConnectionString,
+			},
+			{
+				Key:  ".spec.properties.storageEndpoints.connectionString",
+				Func: indexDevicesIotHubStorageEndpointsConnectionString,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.routing.endpoints.eventHubs.connectionString", ".spec.properties.routing.endpoints.serviceBusQueues.connectionString", ".spec.properties.routing.endpoints.serviceBusTopics.connectionString", ".spec.properties.routing.endpoints.storageContainers.connectionString", ".spec.properties.storageEndpoints.connectionString"}, &devices_v1api20210702s.IotHubList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(documentdb_v1api20210515s.DatabaseAccount)})
 	result = append(result, &registration.StorageType{Obj: new(documentdb_v1api20210515s.MongodbDatabase)})
 	result = append(result, &registration.StorageType{Obj: new(documentdb_v1api20210515s.MongodbDatabaseCollection)})
@@ -953,6 +987,8 @@ func getKnownTypes() []client.Object {
 		new(dbforpostgresql_v20220120ps.FlexibleServersConfiguration),
 		new(dbforpostgresql_v20220120ps.FlexibleServersDatabase),
 		new(dbforpostgresql_v20220120ps.FlexibleServersFirewallRule))
+	result = append(result, new(devices_v1api20210702.IotHub))
+	result = append(result, new(devices_v1api20210702s.IotHub))
 	result = append(
 		result,
 		new(documentdb_v1api20210515.DatabaseAccount),
@@ -1474,6 +1510,8 @@ func createScheme() *runtime.Scheme {
 	_ = dbforpostgresql_v20210601s.AddToScheme(scheme)
 	_ = dbforpostgresql_v20220120p.AddToScheme(scheme)
 	_ = dbforpostgresql_v20220120ps.AddToScheme(scheme)
+	_ = devices_v1api20210702.AddToScheme(scheme)
+	_ = devices_v1api20210702s.AddToScheme(scheme)
 	_ = documentdb_v1api20210515.AddToScheme(scheme)
 	_ = documentdb_v1api20210515s.AddToScheme(scheme)
 	_ = documentdb_v20210515.AddToScheme(scheme)
@@ -1599,6 +1637,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &dbforpostgresql_customizations.FlexibleServersConfigurationExtension{})
 	result = append(result, &dbforpostgresql_customizations.FlexibleServersDatabaseExtension{})
 	result = append(result, &dbforpostgresql_customizations.FlexibleServersFirewallRuleExtension{})
+	result = append(result, &devices_customizations.IotHubExtension{})
 	result = append(result, &documentdb_customizations.DatabaseAccountExtension{})
 	result = append(result, &documentdb_customizations.MongodbDatabaseCollectionExtension{})
 	result = append(result, &documentdb_customizations.MongodbDatabaseCollectionThroughputSettingExtension{})
@@ -1900,6 +1939,125 @@ func indexDbforpostgresqlFlexibleServerAdministratorLoginPassword(rawObj client.
 		return nil
 	}
 	return obj.Spec.AdministratorLoginPassword.Index()
+}
+
+// indexDevicesIotHubEventHubsConnectionString an index function for devices_v1api20210702s.IotHub .spec.properties.routing.endpoints.eventHubs.connectionString
+func indexDevicesIotHubEventHubsConnectionString(rawObj client.Object) []string {
+	obj, ok := rawObj.(*devices_v1api20210702s.IotHub)
+	if !ok {
+		return nil
+	}
+	var result []string
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Routing == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Routing.Endpoints == nil {
+		return nil
+	}
+	for _, eventHubItem := range obj.Spec.Properties.Routing.Endpoints.EventHubs {
+		if eventHubItem.ConnectionString == nil {
+			continue
+		}
+		result = append(result, eventHubItem.ConnectionString.Index()...)
+	}
+	return result
+}
+
+// indexDevicesIotHubServiceBusQueuesConnectionString an index function for devices_v1api20210702s.IotHub .spec.properties.routing.endpoints.serviceBusQueues.connectionString
+func indexDevicesIotHubServiceBusQueuesConnectionString(rawObj client.Object) []string {
+	obj, ok := rawObj.(*devices_v1api20210702s.IotHub)
+	if !ok {
+		return nil
+	}
+	var result []string
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Routing == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Routing.Endpoints == nil {
+		return nil
+	}
+	for _, serviceBusQueueItem := range obj.Spec.Properties.Routing.Endpoints.ServiceBusQueues {
+		if serviceBusQueueItem.ConnectionString == nil {
+			continue
+		}
+		result = append(result, serviceBusQueueItem.ConnectionString.Index()...)
+	}
+	return result
+}
+
+// indexDevicesIotHubServiceBusTopicsConnectionString an index function for devices_v1api20210702s.IotHub .spec.properties.routing.endpoints.serviceBusTopics.connectionString
+func indexDevicesIotHubServiceBusTopicsConnectionString(rawObj client.Object) []string {
+	obj, ok := rawObj.(*devices_v1api20210702s.IotHub)
+	if !ok {
+		return nil
+	}
+	var result []string
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Routing == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Routing.Endpoints == nil {
+		return nil
+	}
+	for _, serviceBusTopicItem := range obj.Spec.Properties.Routing.Endpoints.ServiceBusTopics {
+		if serviceBusTopicItem.ConnectionString == nil {
+			continue
+		}
+		result = append(result, serviceBusTopicItem.ConnectionString.Index()...)
+	}
+	return result
+}
+
+// indexDevicesIotHubStorageContainersConnectionString an index function for devices_v1api20210702s.IotHub .spec.properties.routing.endpoints.storageContainers.connectionString
+func indexDevicesIotHubStorageContainersConnectionString(rawObj client.Object) []string {
+	obj, ok := rawObj.(*devices_v1api20210702s.IotHub)
+	if !ok {
+		return nil
+	}
+	var result []string
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Routing == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Routing.Endpoints == nil {
+		return nil
+	}
+	for _, storageContainerItem := range obj.Spec.Properties.Routing.Endpoints.StorageContainers {
+		if storageContainerItem.ConnectionString == nil {
+			continue
+		}
+		result = append(result, storageContainerItem.ConnectionString.Index()...)
+	}
+	return result
+}
+
+// indexDevicesIotHubStorageEndpointsConnectionString an index function for devices_v1api20210702s.IotHub .spec.properties.storageEndpoints.connectionString
+func indexDevicesIotHubStorageEndpointsConnectionString(rawObj client.Object) []string {
+	obj, ok := rawObj.(*devices_v1api20210702s.IotHub)
+	if !ok {
+		return nil
+	}
+	var result []string
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	for _, value := range obj.Spec.Properties.StorageEndpoints {
+		if value.ConnectionString == nil {
+			continue
+		}
+		result = append(result, value.ConnectionString.Index()...)
+	}
+	return result
 }
 
 // indexDocumentdbSqlRoleAssignmentPrincipalIdFromConfig an index function for documentdb_v1api20210515s.SqlRoleAssignment .spec.principalIdFromConfig

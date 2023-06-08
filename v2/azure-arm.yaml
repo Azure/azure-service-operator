@@ -149,6 +149,30 @@ typeTransformers:
     because: AccessKeys is only set on response to PUT/CREATE, but we fill out Status via GET so this field is always empty. It also contains secrets we wouldn't want to expose in status anyway.
 
   # Properties that should have been marked as ReadOnly in the Swagger
+  - name: IotHub_Spec
+    group: devices
+    property: Etag
+    remove: true
+    because: This property should be marked readonly
+  - name: SharedAccessSignatureAuthorizationRule
+    group: devices
+    property: PrimaryKey
+    remove: true
+    because: This property should be marked readonly
+  - name: SharedAccessSignatureAuthorizationRule
+    group: devices
+    property: SecondaryKey
+    remove: true
+  - name: SharedAccessSignatureAuthorizationRule_STATUS
+    group: devices
+    property: PrimaryKey
+    remove: true
+    because: This property should be marked readonly
+  - name: SharedAccessSignatureAuthorizationRule_STATUS
+    group: devices
+    property: SecondaryKey
+    remove: true
+    because: This property should be marked readonly
   - name: Namespace_Properties_Spec
     group: eventhub
     property: PrivateEndpointConnections
@@ -984,6 +1008,45 @@ objectModelConfiguration:
           $armReference: true
         PrivateDnsZoneArmResourceId:
           $armReference: true
+  devices:
+    2021-07-02:
+      IotHub:
+        $export: true
+        $supportedFrom: v2.1.0
+        $azureGeneratedSecrets:
+          - ServicePrimaryKey
+          - ServiceSecondaryKey
+          - IotHubOwnerPrimaryKey
+          - IotHubOwnerSecondaryKey
+          - DevicePrimaryKey
+          - DeviceSecondaryKey
+          - RegistryReadPrimaryKey
+          - RegistryReadSecondaryKey
+          - RegistryReadWritePrimaryKey
+          - RegistryReadWriteSecondaryKey
+      RoutingServiceBusQueueEndpointProperties:
+        Id:
+          $armReference: true
+        ConnectionString:
+          $isSecret: true
+      RoutingEventHubProperties:
+        Id:
+          $armReference: true
+        ConnectionString:
+          $isSecret: true
+      RoutingServiceBusTopicEndpointProperties:
+        Id:
+          $armReference: true
+        ConnectionString:
+          $isSecret: true
+      RoutingStorageContainerProperties:
+        Id:
+          $armReference: true
+        ConnectionString:
+          $isSecret: true
+      StorageEndpointProperties:
+        ConnectionString:
+          $isSecret: true
   documentdb:
     2021-05-15:
       DatabaseAccount:
