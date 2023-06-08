@@ -7010,6 +7010,11 @@ func (in *TargetDnsServer) DeepCopyInto(out *TargetDnsServer) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.IpAddressFromConfig != nil {
+		in, out := &in.IpAddressFromConfig, &out.IpAddressFromConfig
+		*out = new(genruntime.ConfigMapReference)
+		**out = **in
+	}
 	if in.Port != nil {
 		in, out := &in.Port, &out.Port
 		*out = new(int)
