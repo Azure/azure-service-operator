@@ -75,6 +75,19 @@ func (set Set[T]) Values() []T {
 	return maps.Keys(set)
 }
 
+// Where returns a new set with only the set of values which match the predicate
+func (set Set[T]) Where(predicate func(T) bool) Set[T] {
+	result := make(Set[T], len(set))
+
+	for val := range set {
+		if predicate(val) {
+			result.Add(val)
+		}
+	}
+
+	return result
+}
+
 // AsSortedSlice returns a sorted slice of values from this set
 func AsSortedSlice[T constraints.Ordered](set Set[T]) []T {
 	result := maps.Keys(set)
