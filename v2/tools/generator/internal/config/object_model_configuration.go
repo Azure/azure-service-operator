@@ -500,8 +500,8 @@ func (omc *ObjectModelConfiguration) FindHandCraftedTypeNames(localPath string) 
 		})
 
 	// Collect hand-crafted versions as we see them.
-	// They look like v<n> where n is a number.
-	versionRegex := regexp.MustCompile(`^v\d+$`)
+	// They look like v<n> where n is a small number.
+	versionRegex := regexp.MustCompile(`^v\d\d?$`)
 	versionVisitor := newEveryVersionConfigurationVisitor(
 		func(verConfig *VersionConfiguration) error {
 			if versionRegex.MatchString(verConfig.name) {
