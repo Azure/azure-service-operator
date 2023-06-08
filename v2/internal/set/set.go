@@ -88,6 +88,19 @@ func (set Set[T]) Where(predicate func(T) bool) Set[T] {
 	return result
 }
 
+// Except returns a new set with only the set of values which are not in the other set
+func (set Set[T]) Except(other Set[T]) Set[T] {
+	result := make(Set[T], len(set))
+
+	for val := range set {
+		if !other.Contains(val) {
+			result.Add(val)
+		}
+	}
+
+	return result
+}
+
 // AsSortedSlice returns a sorted slice of values from this set
 func AsSortedSlice[T constraints.Ordered](set Set[T]) []T {
 	result := maps.Keys(set)
