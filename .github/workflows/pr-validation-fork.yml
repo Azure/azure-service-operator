@@ -135,12 +135,12 @@ jobs:
               pull_number: process.env.number
             });
             const ref = pull.head.sha;
-            const { data: checks } = await github.checks.listForRef({
+            const { data: checks } = await github.rest.checks.listForRef({
               ...context.repo,
               ref
             });
             const forkCheck = checks.check_runs.filter(c => c.name === process.env.job);
-            await github.checks.update({
+            await github.rest.checks.update({
               ...context.repo,
               check_run_id: forkCheck[0].id,
               status: 'completed',
@@ -148,7 +148,7 @@ jobs:
               details_url: url,
             });
             const mainCheck = checks.check_runs.filter(c => c.name === process.env.integration_test_job);
-            const { data: result } = await github.checks.update({
+            const { data: result } = await github.rest.checks.update({
               ...context.repo,
               check_run_id: mainCheck[0].id,
               status: 'completed',
