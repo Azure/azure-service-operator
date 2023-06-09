@@ -130,7 +130,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const url = `${process.env.server_url}/${process.env.repo}/actions/runs/${process.env.run_id}`
-            const { data: pull } = await github.pulls.get({
+            const { data: pull } = await github.rest.pulls.get({
               ...context.repo,
               pull_number: process.env.number
             });
