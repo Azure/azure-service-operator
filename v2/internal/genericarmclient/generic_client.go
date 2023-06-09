@@ -7,6 +7,8 @@ package genericarmclient
 
 import (
 	"context"
+	"encoding/json"
+	"fmt"
 	"net/http"
 	"strings"
 	"time"
@@ -163,7 +165,26 @@ func (client *GenericClient) createOrUpdateByID(
 	resource interface{}) (*http.Response, error) {
 
 	req, err := client.createOrUpdateByIDCreateRequest(ctx, resourceID, apiVersion, resource)
+
+	// body, err := strings.Reader(req.Body)
+	// bodyString := string(body)
+	// fmt.Println(bodyString)
+	// fmt.Println((*req).req.Body)
+
+	//myVar, err := json.Marshal(resource)
+	//fmt.Println(string(myVar))
+
+	if(strings.Contains(resourceID, "policy")) {
+		myVar, err := json.Marshal(resource)
+		fmt.Println(string(myVar))	
+		if err != nil {
+			fmt.Println(err)
+			return nil, err
+		}
+	}
+
 	if err != nil {
+		fmt.Println(err)
 		return nil, err
 	}
 

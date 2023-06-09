@@ -1,0 +1,3 @@
+"go.testEnvVars" : {
+    "AZURE_SUBSCRIPTION_ID": "debug",
+  },

@@ -21,7 +21,7 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 
-	// rg := tc.CreateTestResourceGroupAndWait()
+	rg := tc.CreateTestResourceGroupAndWait()
 
 	region := tc.AzureRegion
 
@@ -74,7 +74,7 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 		Spec: dataprotection.BackupVault_Spec{
 			Location: region,
 			Tags:     map[string]string{"cheese": "blue"},
-			// Owner:    testcommon.AsOwner(rg),
+			Owner:    testcommon.AsOwner(rg),
 			Identity: &dataprotection.DppIdentityDetails{
 				Type: aamon4.Type,
 			},
@@ -92,7 +92,7 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 		},
 	}
 
-	// tc.CreateResourceAndWait(backupvault)
+	tc.CreateResourceAndWait(backupvault)
 
 	// Below code is meant for BackupPolicy
 
@@ -269,14 +269,6 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 									ObjectType:    amon3.ObjectType,
 								},
 								Trigger: &dataprotection.TriggerContext{
-									// Adhoc: &dataprotection.AdhocBasedTriggerContext{
-									// 	ObjectType: amon4.ObjectType,
-									// 	TaggingCriteria: &dataprotection.AdhocBasedTaggingCriteria{
-									// 		TagInfo: &dataprotection.RetentionTag{
-									// 			TagName: amon5.TagName,
-									// 		},
-									// 	},
-									// },
 									Schedule: &dataprotection.ScheduleBasedTriggerContext{
 										ObjectType: amon6.ObjectType,
 										Schedule: &dataprotection.BackupSchedule{
@@ -290,13 +282,6 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 												TagInfo: &dataprotection.RetentionTag{
 													TagName: amon13.TagName,
 												},
-												// Criteria: []dataprotection.BackupCriteria{
-												// 	{
-												// 		ScheduleBasedBackupCriteria: &dataprotection.ScheduleBasedBackupCriteria{
-												// 			ObjectType:
-												// 		},
-												// 	},
-												// },
 											},
 										},
 									},
@@ -308,16 +293,21 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 								IsDefault:  amon9.IsDefault,
 								Lifecycles: []dataprotection.SourceLifeCycle{
 									{
-										// DeleteAfter: &dataprotection.DeleteOption{
-										// 	AbsoluteDeleteOption: &dataprotection.AbsoluteDeleteOption{
-										// 		Duration:   amon10.Duration,
-										// 		ObjectType: amon10.ObjectType,
-										// 	},
-										// },
 										DeleteAfter: &dataprotection.DeleteOption{
-											Duration:   amon10.Duration,
-											ObjectType: amon10.ObjectType,
+											AbsoluteDeleteOption: &dataprotection.AbsoluteDeleteOption{
+												Duration:   amon10.Duration,
+												ObjectType: amon10.ObjectType,
+											},
 										},
+										// DeleteAfter: &dataprotection.DeleteOption{
+										// 	Duration:   amon10.Duration,
+										// 	ObjectType: amon10.ObjectType,
+										// },
+										// var temp DeleteAfter_Mystruct
+										// temp = DeleteAfter_Mystruct{
+										// 	Duration:   amon10.Duration,
+										// 	ObjectType: amon10.ObjectType,
+										// },
 										SourceDataStore: &dataprotection.DataStoreInfoBase{
 											DataStoreType: amon11.DataStoreType,
 											ObjectType:    amon11.ObjectType,
@@ -335,14 +325,55 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 
 	fmt.Println(backuppolicy)
 
-	res2B, _ := json.Marshal(backuppolicy)
+	res2B, error := json.Marshal(backuppolicy)
+	if error != nil {
+		fmt.Println("Error")
+	}
 	newvar := string(res2B)
 
 	fmt.Println("////////////////New///Line//////////////")
 	fmt.Println(newvar)
 
-	// tc.CreateResourceAndWait(backuppolicy)
+	tc.CreateResourceAndWait(backuppolicy)
 
 	// Asserts
-
 }
+
+// Criteria: []dataprotection.BackupCriteria{
+// 	{
+// 		ScheduleBasedBackupCriteria: &dataprotection.ScheduleBasedBackupCriteria{
+// 			ObjectType:
+// 		},
+// 	},
+// },
+
+// Adhoc: &dataprotection.AdhocBasedTriggerContext{
+// 	ObjectType: amon4.ObjectType,
+// 	TaggingCriteria: &dataprotection.AdhocBasedTaggingCriteria{
+// 		TagInfo: &dataprotection.RetentionTag{
+// 			TagName: amon5.TagName,
+// 		},
+// 	},
+// },
+
+// Global Struct Approach
+
+// type DeleteAfter_Mystruct struct {
+// 	Duration   *string `json:"duration,omitempty"`
+// 	ObjectType *string `json:"objectType,omitempty"`
+// }
+// type DeleteAfter_Mystruct struct {
+// 	Duration   *string `json:"duration,omitempty"`
+// 	ObjectType *string `json:"objectType,omitempty"`
+// }
+
+// globalval1 := "P1Y"
+// globalval2 := "AzureRetentionRule"
+
+// DeleteAfter := DeleteAfter_Mystruct{
+// 	Duration:   &globalval1,
+// 	ObjectType: &globalval2,
+// }
+
+// Feed the above object in the above backuppolicy object
+// backuppolicy.Spec.Properties.BackupPolicy.PolicyRules[0].AzureRetention.Lifecycles[0].DeleteAfter = DeleteAfter
