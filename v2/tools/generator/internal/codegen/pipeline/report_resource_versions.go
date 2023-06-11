@@ -233,7 +233,7 @@ func (report *ResourceVersionsReport) ensureFolderExists(outputFile string) erro
 	if _, err := os.Stat(outputFolder); os.IsNotExist(err) {
 		err = os.MkdirAll(outputFolder, 0o700)
 		if err != nil {
-			return errors.Wrapf(err, "Unable to create directory %q", outputFile)
+			return errors.Wrapf(err, "unable to create directory %q", outputFile)
 		}
 	}
 
@@ -486,7 +486,7 @@ func (report *ResourceVersionsReport) createTable(group string, items set.Set[Re
 			armVersion = crdVersion
 		}
 
-		api := report.generateApiLink(name)
+		api := report.generateAPILink(name)
 		sample := report.generateSampleLink(name, sampleLinks)
 		supportedFrom := report.supportedFrom(name)
 
@@ -556,8 +556,8 @@ func (report *ResourceVersionsReport) createItem(
 	}
 }
 
-// generateApiLink returns a link to the API definition for the given resource
-func (report *ResourceVersionsReport) generateApiLink(name astmodel.TypeName) string {
+// generateAPILink returns a link to the API definition for the given resource
+func (report *ResourceVersionsReport) generateAPILink(name astmodel.TypeName) string {
 	crdKind := name.Name()
 	linkTemplate := report.reportConfiguration.ResourceUrlTemplate
 	pathTemplate := report.reportConfiguration.ResourcePathTemplate
