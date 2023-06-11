@@ -7,6 +7,7 @@ package functions
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 	"go/token"
 	"sort"
 
@@ -68,7 +69,7 @@ type StoragePropertyConversion func(
 	source dst.Expr,
 	destination dst.Expr,
 	knownLocals *astmodel.KnownLocalsSet,
-	generationContext *astmodel.CodeGenerationContext) []dst.Stmt
+	generationContext *astmodel.CodeGenerationContext) ([]dst.Stmt, error)
 
 // Ensure that PropertyAssignmentFunction implements Function
 var _ astmodel.Function = &PropertyAssignmentFunction{}
@@ -133,11 +134,18 @@ func (fn *PropertyAssignmentFunction) AsFunc(generationContext *astmodel.CodeGen
 	// We always use a pointer receiver, so we can modify it
 	receiverType := astmodel.NewOptionalType(receiver).AsType(generationContext)
 
+	body, err := fn.generateBody(fn.receiverName, fn.parameterName, generationContext)
+	if err != nil {
+		// Temporary panic until we modify AsFunc() to return errors
+		// See https://github.com/Azure/azure-service-operator/issues/2971
+		panic(err)
+	}
+
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: fn.receiverName,
 		ReceiverType:  receiverType,
 		Name:          fn.Name(),
-		Body:          fn.generateBody(fn.receiverName, fn.parameterName, generationContext),
+		Body:          body,
 	}
 
 	funcDetails.AddParameter(
@@ -162,7 +170,7 @@ func (fn *PropertyAssignmentFunction) generateBody(
 	receiver string,
 	parameter string,
 	generationContext *astmodel.CodeGenerationContext,
-) []dst.Stmt {
+) ([]dst.Stmt, error) {
 	// source is the identifier from which we are reading values
 	source := fn.direction.SelectString(parameter, receiver)
 
@@ -172,7 +180,11 @@ func (fn *PropertyAssignmentFunction) generateBody(
 	knownLocals := fn.knownLocals.Clone()
 
 	bagPrologue := fn.createPropertyBagPrologue(source, generationContext)
-	assignments := fn.generateAssignments(knownLocals, dst.NewIdent(source), dst.NewIdent(destination), generationContext)
+	assignments, err := fn.generateAssignments(knownLocals, dst.NewIdent(source), dst.NewIdent(destination), generationContext)
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to generate assignments for %s", fn.Name())
+	}
+
 	bagEpilogue := fn.propertyBagEpilogue(destination)
 	handleOverrideInterface := fn.handleAugmentationInterface(receiver, parameter, knownLocals, generationContext)
 
@@ -181,7 +193,7 @@ func (fn *PropertyAssignmentFunction) generateBody(
 		assignments,
 		bagEpilogue,
 		handleOverrideInterface,
-		astbuilder.ReturnNoError())
+		astbuilder.ReturnNoError()), nil
 }
 
 // createPropertyBagPrologue creates any introductory statements needed to set up our property bag before we start doing
@@ -329,7 +341,7 @@ func (fn *PropertyAssignmentFunction) generateAssignments(
 	source dst.Expr,
 	destination dst.Expr,
 	generationContext *astmodel.CodeGenerationContext,
-) []dst.Stmt {
+) ([]dst.Stmt, error) {
 	var result []dst.Stmt
 
 	// Find all the properties for which we have a conversion
@@ -341,7 +353,11 @@ func (fn *PropertyAssignmentFunction) generateAssignments(
 	// Accumulate all the statements required for conversions, in alphabetical order
 	for _, prop := range properties {
 		conversion := fn.conversions[prop]
-		block := conversion(source, destination, knownLocals, generationContext)
+		block, err := conversion(source, destination, knownLocals, generationContext)
+		if err != nil {
+			return nil, errors.Wrapf(err, "property %s", prop)
+		}
+
 		if len(block) > 0 {
 			firstStatement := block[0]
 			firstStatement.Decorations().Before = dst.EmptyLine
@@ -350,7 +366,7 @@ func (fn *PropertyAssignmentFunction) generateAssignments(
 		}
 	}
 
-	return result
+	return result, nil
 }
 
 // sourceType returns the type we are reading information from

@@ -390,11 +390,11 @@ func fixCRDNamespace(crd apiextensions.CustomResourceDefinition, namespace strin
 	}
 
 	// Set cert-manager.io/inject-ca-from
-	if len(result.Labels) > 0 {
-		if injectCAFrom, ok := result.Labels[certMgrInjectCAFromAnnotation]; ok {
+	if len(result.Annotations) > 0 {
+		if injectCAFrom, ok := result.Annotations[certMgrInjectCAFromAnnotation]; ok {
 			split := strings.Split(injectCAFrom, "/")
 			if len(split) == 2 {
-				result.Labels[certMgrInjectCAFromAnnotation] = fmt.Sprintf("%s/%s", namespace, split[1])
+				result.Annotations[certMgrInjectCAFromAnnotation] = fmt.Sprintf("%s/%s", namespace, split[1])
 			}
 		}
 	}
