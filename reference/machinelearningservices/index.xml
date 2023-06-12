@@ -15343,28 +15343,6 @@ string
 &lt;p&gt;AdminUserName: Name of the administrator user account which can be used to SSH to nodes.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;adminUserPassword&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;AdminUserPassword: Password of the administrator user account.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;adminUserSshPublicKey&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;AdminUserSshPublicKey: SSH public key of the administrator user account.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h3 id=&#34;machinelearningservices.azure.com/v1api20210701.UserAccountCredentials_STATUS_ARM&#34;&gt;UserAccountCredentials_STATUS_ARM
@@ -15392,28 +15370,6 @@ string
 &lt;/td&gt;
 &lt;td&gt;
 &lt;p&gt;AdminUserName: Name of the administrator user account which can be used to SSH to nodes.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;adminUserPassword&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;AdminUserPassword: Password of the administrator user account.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;adminUserSshPublicKey&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;AdminUserSshPublicKey: SSH public key of the administrator user account.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -15908,17 +15864,6 @@ string
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;
-&lt;code&gt;password&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Password: Password of admin account&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
 &lt;code&gt;privateKeyData&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 string
@@ -15968,17 +15913,6 @@ string
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;password&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Password: Password of admin account&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
 &lt;code&gt;privateKeyData&lt;/code&gt;&lt;br/&gt;
@@ -34541,26 +34475,6 @@ string
 &lt;td&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;adminUserPassword&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;adminUserSshPublicKey&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h3 id=&#34;machinelearningservices.azure.com/v1beta20210701.UserAccountCredentials_STATUS_ARM&#34;&gt;UserAccountCredentials_STATUS_ARM
@@ -34582,26 +34496,6 @@ string
 &lt;tr&gt;
 &lt;td&gt;
 &lt;code&gt;adminUserName&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;adminUserPassword&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;adminUserSshPublicKey&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 string
 &lt;/em&gt;
@@ -35079,16 +34973,6 @@ string
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;
-&lt;code&gt;password&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
 &lt;code&gt;privateKeyData&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 string
@@ -35135,16 +35019,6 @@ string
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;password&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
 &lt;code&gt;privateKeyData&lt;/code&gt;&lt;br/&gt;

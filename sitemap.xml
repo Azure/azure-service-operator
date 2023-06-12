@@ -224,6 +224,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/devices/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/devices/v1api20210702/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/diagnosing-problems/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/documentdb/</loc>

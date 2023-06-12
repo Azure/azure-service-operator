@@ -4614,17 +4614,6 @@ string
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
-&lt;code&gt;sqlAdministratorLoginPassword&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;SqlAdministratorLoginPassword: SQL administrator login password&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
 &lt;code&gt;trustedServiceBypassEnabled&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 bool
@@ -5412,17 +5401,6 @@ string
 &lt;/td&gt;
 &lt;td&gt;
 &lt;p&gt;SqlAdministratorLogin: Login for workspace SQL active directory administrator&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;sqlAdministratorLoginPassword&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;SqlAdministratorLoginPassword: SQL administrator login password&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
