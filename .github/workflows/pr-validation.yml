@@ -211,7 +211,8 @@ jobs:
         if: steps.check-changes.outputs.code-changed == 'true'
 
       # Update check run called "integration-tests-fork"
-      - uses: actions/github-script@v6
+      - name: update-integration-tests-result
+        uses: actions/github-script@v6
         id: update-check-run
         if: ${{ always() }}
         env:
