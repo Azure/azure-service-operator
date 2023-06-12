@@ -938,6 +938,9 @@ objectModelConfiguration:
         $exportAs: Database
         $supportedFrom: v2.0.0-beta.1
   dbformysql:
+    v1: # Handcrafted 
+      User:
+        $supportedFrom: v2.0.0
     2021-05-01:
       DataEncryption:
         GeoBackupUserAssignedIdentityId:
@@ -970,6 +973,9 @@ objectModelConfiguration:
         $exportAs: FlexibleServersConfiguration
         $supportedFrom: v2.1.0
   dbforpostgresql:
+    v1: # Handcrafted 
+      User:
+        $supportedFrom: v2.0.0
     2021-06-01:
       FlexibleServer:
         $export: true

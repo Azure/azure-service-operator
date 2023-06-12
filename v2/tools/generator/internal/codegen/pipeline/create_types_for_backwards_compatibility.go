@@ -40,11 +40,6 @@ func CreateTypesForBackwardCompatibility(
 				return nil, err
 			}
 
-			err = configuration.VerifySupportedFromConsumed()
-			if err != nil {
-				return nil, err
-			}
-
 			compatibilityDefs, err := createBackwardCompatibleDefinitions(resources, state.Definitions())
 			if err != nil {
 				return nil, err
