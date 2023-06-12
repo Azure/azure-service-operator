@@ -80,7 +80,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zklaaa/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-userassignedidentity?api-version=2018-11-30
     method: PUT
   response:
-    body: '{"location":"westcentralus","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-zklaaa/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-userassignedidentity","name":"aso-sample-userassignedidentity","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"ba5cef4c-e59e-4851-b6a6-f25ed31f7f1f","clientId":"592bbac0-e841-43c9-b6b5-19d649f53249"}}'
+    body: '{"location":"westcentralus","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-zklaaa/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-userassignedidentity","name":"aso-sample-userassignedidentity","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"4e831dbe-6dee-4482-8a8f-b1319058b30b","clientId":"64343184-aafc-47b0-a0cc-72ed3e6c51b2"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -116,7 +116,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zklaaa/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-userassignedidentity?api-version=2018-11-30
     method: PUT
   response:
-    body: '{"location":"westcentralus","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-zklaaa/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-userassignedidentity","name":"aso-sample-userassignedidentity","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"ba5cef4c-e59e-4851-b6a6-f25ed31f7f1f","clientId":"592bbac0-e841-43c9-b6b5-19d649f53249"}}'
+    body: '{"location":"westcentralus","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-zklaaa/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-userassignedidentity","name":"aso-sample-userassignedidentity","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"4e831dbe-6dee-4482-8a8f-b1319058b30b","clientId":"64343184-aafc-47b0-a0cc-72ed3e6c51b2"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -146,7 +146,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zklaaa/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-userassignedidentity?api-version=2018-11-30
     method: GET
   response:
-    body: '{"location":"westcentralus","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-zklaaa/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-userassignedidentity","name":"aso-sample-userassignedidentity","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"ba5cef4c-e59e-4851-b6a6-f25ed31f7f1f","clientId":"592bbac0-e841-43c9-b6b5-19d649f53249"}}'
+    body: '{"location":"westcentralus","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-zklaaa/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-userassignedidentity","name":"aso-sample-userassignedidentity","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"4e831dbe-6dee-4482-8a8f-b1319058b30b","clientId":"64343184-aafc-47b0-a0cc-72ed3e6c51b2"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -181,7 +181,7 @@ interactions:
     method: PUT
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zklaaa/providers/Microsoft.Search/searchServices/asotestqctlbg","name":"asotestqctlbg","type":"Microsoft.Search/searchServices","location":"West
-      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"4bbe01d0-5fd8-41e5-a717-47dd6868e534","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"0d411f24-fe23-4a40-a713-f0a93f3d4f6c","tenantId":"00000000-0000-0000-0000-000000000000"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -190,15 +190,15 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Elapsed-Time:
-      - "4101"
+      - "5605"
       Etag:
-      - W/"datetime'2023-04-27T00%3A54%3A21.9079743Z'"
+      - W/"datetime'2023-06-11T23%3A42%3A25.7991325Z'"
       Expires:
       - "-1"
       Pragma:
       - no-cache
       Request-Id:
-      - 9914e370-87cd-489c-9f4a-a2c9509d72e5
+      - 339ea7c4-3dd3-4552-8994-574f6830777c
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
@@ -216,22 +216,22 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zklaaa/providers/Microsoft.Search/searchServices/asotestqctlbg","name":"asotestqctlbg","type":"Microsoft.Search/searchServices","location":"West
-      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"4bbe01d0-5fd8-41e5-a717-47dd6868e534","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"0d411f24-fe23-4a40-a713-f0a93f3d4f6c","tenantId":"00000000-0000-0000-0000-000000000000"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Elapsed-Time:
-      - "155"
+      - "141"
       Etag:
-      - W/"datetime'2023-04-27T00%3A54%3A21.9079743Z'"
+      - W/"datetime'2023-06-11T23%3A42%3A25.7991325Z'"
       Expires:
       - "-1"
       Pragma:
       - no-cache
       Request-Id:
-      - 32cf5d4c-1eaf-4b24-8f3b-f5dff64aeec9
+      - b7c2a2c2-9318-4695-b653-5f16bc0d2661
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -251,22 +251,22 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zklaaa/providers/Microsoft.Search/searchServices/asotestqctlbg","name":"asotestqctlbg","type":"Microsoft.Search/searchServices","location":"West
-      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"4bbe01d0-5fd8-41e5-a717-47dd6868e534","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"0d411f24-fe23-4a40-a713-f0a93f3d4f6c","tenantId":"00000000-0000-0000-0000-000000000000"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Elapsed-Time:
-      - "316"
+      - "1382"
       Etag:
-      - W/"datetime'2023-04-27T00%3A54%3A21.9079743Z'"
+      - W/"datetime'2023-06-11T23%3A42%3A25.7991325Z'"
       Expires:
       - "-1"
       Pragma:
       - no-cache
       Request-Id:
-      - 4822eb95-31e3-4dd9-ad75-2f13955a394e
+      - 434944be-d008-478d-a67c-eedd6a5c9557
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -286,22 +286,22 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zklaaa/providers/Microsoft.Search/searchServices/asotestqctlbg","name":"asotestqctlbg","type":"Microsoft.Search/searchServices","location":"West
-      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"4bbe01d0-5fd8-41e5-a717-47dd6868e534","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"0d411f24-fe23-4a40-a713-f0a93f3d4f6c","tenantId":"00000000-0000-0000-0000-000000000000"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Elapsed-Time:
-      - "161"
+      - "1015"
       Etag:
-      - W/"datetime'2023-04-27T00%3A54%3A21.9079743Z'"
+      - W/"datetime'2023-06-11T23%3A42%3A25.7991325Z'"
       Expires:
       - "-1"
       Pragma:
       - no-cache
       Request-Id:
-      - 0a87fcf9-41b9-46cf-9342-adafab088d90
+      - b5c89d7c-bb52-40aa-88c0-90c492132501
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -321,22 +321,22 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zklaaa/providers/Microsoft.Search/searchServices/asotestqctlbg","name":"asotestqctlbg","type":"Microsoft.Search/searchServices","location":"West
-      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"4bbe01d0-5fd8-41e5-a717-47dd6868e534","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"0d411f24-fe23-4a40-a713-f0a93f3d4f6c","tenantId":"00000000-0000-0000-0000-000000000000"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Elapsed-Time:
-      - "214"
+      - "188"
       Etag:
-      - W/"datetime'2023-04-27T00%3A54%3A21.9079743Z'"
+      - W/"datetime'2023-06-11T23%3A42%3A25.7991325Z'"
       Expires:
       - "-1"
       Pragma:
       - no-cache
       Request-Id:
-      - efd23a5e-50c7-4403-9de6-123164e1edaf
+      - 1f0941f6-5f00-4415-9b12-4ebf4723e327
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -356,22 +356,22 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zklaaa/providers/Microsoft.Search/searchServices/asotestqctlbg","name":"asotestqctlbg","type":"Microsoft.Search/searchServices","location":"West
-      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"4bbe01d0-5fd8-41e5-a717-47dd6868e534","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"0d411f24-fe23-4a40-a713-f0a93f3d4f6c","tenantId":"00000000-0000-0000-0000-000000000000"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Elapsed-Time:
-      - "223"
+      - "700"
       Etag:
-      - W/"datetime'2023-04-27T00%3A54%3A21.9079743Z'"
+      - W/"datetime'2023-06-11T23%3A42%3A25.7991325Z'"
       Expires:
       - "-1"
       Pragma:
       - no-cache
       Request-Id:
-      - e6bd443d-a323-43f1-a744-4c5ea7b2e781
+      - f6bab0a8-4bee-4726-a0c0-dcf200abe9fa
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -391,22 +391,22 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zklaaa/providers/Microsoft.Search/searchServices/asotestqctlbg","name":"asotestqctlbg","type":"Microsoft.Search/searchServices","location":"West
-      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"4bbe01d0-5fd8-41e5-a717-47dd6868e534","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"0d411f24-fe23-4a40-a713-f0a93f3d4f6c","tenantId":"00000000-0000-0000-0000-000000000000"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Elapsed-Time:
-      - "183"
+      - "561"
       Etag:
-      - W/"datetime'2023-04-27T00%3A54%3A21.9079743Z'"
+      - W/"datetime'2023-06-11T23%3A42%3A25.7991325Z'"
       Expires:
       - "-1"
       Pragma:
       - no-cache
       Request-Id:
-      - 0eda1956-0d95-455d-8070-c53a8c95074e
+      - 80805778-17cd-466a-82d5-695eceb9c3c4
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -426,22 +426,22 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zklaaa/providers/Microsoft.Search/searchServices/asotestqctlbg","name":"asotestqctlbg","type":"Microsoft.Search/searchServices","location":"West
-      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"4bbe01d0-5fd8-41e5-a717-47dd6868e534","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"0d411f24-fe23-4a40-a713-f0a93f3d4f6c","tenantId":"00000000-0000-0000-0000-000000000000"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Elapsed-Time:
-      - "222"
+      - "226"
       Etag:
-      - W/"datetime'2023-04-27T00%3A54%3A21.9079743Z'"
+      - W/"datetime'2023-06-11T23%3A42%3A25.7991325Z'"
       Expires:
       - "-1"
       Pragma:
       - no-cache
       Request-Id:
-      - 7b5dd83b-6c87-4467-b10d-db5d53e340b6
+      - bb1308e4-a0ed-46f7-a2f7-a3969d46a8f6
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -461,22 +461,22 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zklaaa/providers/Microsoft.Search/searchServices/asotestqctlbg","name":"asotestqctlbg","type":"Microsoft.Search/searchServices","location":"West
-      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"4bbe01d0-5fd8-41e5-a717-47dd6868e534","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"0d411f24-fe23-4a40-a713-f0a93f3d4f6c","tenantId":"00000000-0000-0000-0000-000000000000"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Elapsed-Time:
-      - "149"
+      - "429"
       Etag:
-      - W/"datetime'2023-04-27T00%3A54%3A21.9079743Z'"
+      - W/"datetime'2023-06-11T23%3A42%3A25.7991325Z'"
       Expires:
       - "-1"
       Pragma:
       - no-cache
       Request-Id:
-      - 27f0439d-9a27-4675-80ea-8f6b28829c14
+      - 5575ac40-b3c0-4a02-b859-001d579ec890
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -496,22 +496,22 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zklaaa/providers/Microsoft.Search/searchServices/asotestqctlbg","name":"asotestqctlbg","type":"Microsoft.Search/searchServices","location":"West
-      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"4bbe01d0-5fd8-41e5-a717-47dd6868e534","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"0d411f24-fe23-4a40-a713-f0a93f3d4f6c","tenantId":"00000000-0000-0000-0000-000000000000"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Elapsed-Time:
-      - "200"
+      - "555"
       Etag:
-      - W/"datetime'2023-04-27T00%3A54%3A21.9079743Z'"
+      - W/"datetime'2023-06-11T23%3A42%3A25.7991325Z'"
       Expires:
       - "-1"
       Pragma:
       - no-cache
       Request-Id:
-      - eeea049a-15ac-46ee-be90-3918fafe31f6
+      - 475ce61a-a584-41d8-95ba-28f24a3e8304
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -531,22 +531,22 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zklaaa/providers/Microsoft.Search/searchServices/asotestqctlbg","name":"asotestqctlbg","type":"Microsoft.Search/searchServices","location":"West
-      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"4bbe01d0-5fd8-41e5-a717-47dd6868e534","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"0d411f24-fe23-4a40-a713-f0a93f3d4f6c","tenantId":"00000000-0000-0000-0000-000000000000"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Elapsed-Time:
-      - "303"
+      - "495"
       Etag:
-      - W/"datetime'2023-04-27T00%3A54%3A21.9079743Z'"
+      - W/"datetime'2023-06-11T23%3A42%3A25.7991325Z'"
       Expires:
       - "-1"
       Pragma:
       - no-cache
       Request-Id:
-      - 50258e60-0297-47d7-8787-8dce2d6594e3
+      - 5e35dcfc-5785-475e-9a5a-94f6125d0cda
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -566,22 +566,22 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zklaaa/providers/Microsoft.Search/searchServices/asotestqctlbg","name":"asotestqctlbg","type":"Microsoft.Search/searchServices","location":"West
-      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"4bbe01d0-5fd8-41e5-a717-47dd6868e534","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"0d411f24-fe23-4a40-a713-f0a93f3d4f6c","tenantId":"00000000-0000-0000-0000-000000000000"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Elapsed-Time:
-      - "201"
+      - "237"
       Etag:
-      - W/"datetime'2023-04-27T00%3A54%3A21.9079743Z'"
+      - W/"datetime'2023-06-11T23%3A42%3A25.7991325Z'"
       Expires:
       - "-1"
       Pragma:
       - no-cache
       Request-Id:
-      - 7d935e50-2610-4ccf-b4b3-310b1cca11d3
+      - 5b4dd5ae-c43f-4b36-8afb-1f6d3be01611
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -601,22 +601,22 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zklaaa/providers/Microsoft.Search/searchServices/asotestqctlbg","name":"asotestqctlbg","type":"Microsoft.Search/searchServices","location":"West
-      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"4bbe01d0-5fd8-41e5-a717-47dd6868e534","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"0d411f24-fe23-4a40-a713-f0a93f3d4f6c","tenantId":"00000000-0000-0000-0000-000000000000"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Elapsed-Time:
-      - "162"
+      - "694"
       Etag:
-      - W/"datetime'2023-04-27T00%3A54%3A21.9079743Z'"
+      - W/"datetime'2023-06-11T23%3A42%3A25.7991325Z'"
       Expires:
       - "-1"
       Pragma:
       - no-cache
       Request-Id:
-      - 7ce4d0d7-60f1-45cc-9cb8-00c8e416d646
+      - da39025e-ddad-4267-85e3-3cd632635828
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -636,22 +636,22 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zklaaa/providers/Microsoft.Search/searchServices/asotestqctlbg","name":"asotestqctlbg","type":"Microsoft.Search/searchServices","location":"West
-      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"4bbe01d0-5fd8-41e5-a717-47dd6868e534","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"0d411f24-fe23-4a40-a713-f0a93f3d4f6c","tenantId":"00000000-0000-0000-0000-000000000000"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Elapsed-Time:
-      - "169"
+      - "322"
       Etag:
-      - W/"datetime'2023-04-27T00%3A54%3A21.9079743Z'"
+      - W/"datetime'2023-06-11T23%3A42%3A25.7991325Z'"
       Expires:
       - "-1"
       Pragma:
       - no-cache
       Request-Id:
-      - a35d664d-0ff0-430d-98dd-f2ccff8a3c7f
+      - e73ce207-52b2-4942-baf1-412d30a883d3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -671,22 +671,22 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zklaaa/providers/Microsoft.Search/searchServices/asotestqctlbg","name":"asotestqctlbg","type":"Microsoft.Search/searchServices","location":"West
-      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"4bbe01d0-5fd8-41e5-a717-47dd6868e534","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"0d411f24-fe23-4a40-a713-f0a93f3d4f6c","tenantId":"00000000-0000-0000-0000-000000000000"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Elapsed-Time:
-      - "224"
+      - "172"
       Etag:
-      - W/"datetime'2023-04-27T00%3A54%3A21.9079743Z'"
+      - W/"datetime'2023-06-11T23%3A42%3A25.7991325Z'"
       Expires:
       - "-1"
       Pragma:
       - no-cache
       Request-Id:
-      - 3943736b-77be-49d1-b8b2-65241f9d763a
+      - 2694a6d4-3cb2-448a-8ede-01676afd3f81
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -706,22 +706,22 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zklaaa/providers/Microsoft.Search/searchServices/asotestqctlbg","name":"asotestqctlbg","type":"Microsoft.Search/searchServices","location":"West
-      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"running","statusDetails":"","provisioningState":"succeeded","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"4bbe01d0-5fd8-41e5-a717-47dd6868e534","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"running","statusDetails":"","provisioningState":"succeeded","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"0d411f24-fe23-4a40-a713-f0a93f3d4f6c","tenantId":"00000000-0000-0000-0000-000000000000"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Elapsed-Time:
-      - "215"
+      - "182"
       Etag:
-      - W/"datetime'2023-04-27T00%3A54%3A21.9079743Z'"
+      - W/"datetime'2023-06-11T23%3A42%3A25.7991325Z'"
       Expires:
       - "-1"
       Pragma:
       - no-cache
       Request-Id:
-      - f3179139-4b8f-43cf-b643-ece912fcd2a1
+      - 6e41cbb6-3b55-4cef-8925-7b6e837e1d8b
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -743,22 +743,90 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zklaaa/providers/Microsoft.Search/searchServices/asotestqctlbg","name":"asotestqctlbg","type":"Microsoft.Search/searchServices","location":"West
-      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"running","statusDetails":"","provisioningState":"succeeded","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"4bbe01d0-5fd8-41e5-a717-47dd6868e534","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"running","statusDetails":"","provisioningState":"succeeded","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"0d411f24-fe23-4a40-a713-f0a93f3d4f6c","tenantId":"00000000-0000-0000-0000-000000000000"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Elapsed-Time:
-      - "151"
+      - "167"
       Etag:
-      - W/"datetime'2023-04-27T00%3A54%3A21.9079743Z'"
+      - W/"datetime'2023-06-11T23%3A42%3A25.7991325Z'"
       Expires:
       - "-1"
       Pragma:
       - no-cache
       Request-Id:
-      - 6cae7388-1148-4009-908f-56bdd7688632
+      - 7513d0b7-5aca-487d-92bd-c7ae9368c947
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zklaaa/providers/Microsoft.Search/searchServices/asotestqctlbg/listQueryKeys?api-version=2020-08-01
+    method: POST
+  response:
+    body: '{"value":[{"name":null,"key":"{KEY}"}],"nextLink":null}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Elapsed-Time:
+      - "109"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Request-Id:
+      - d7519775-6e6e-4f87-9f5c-a3e33442974f
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zklaaa/providers/Microsoft.Search/searchServices/asotestqctlbg/listAdminKeys?api-version=2020-08-01
+    method: POST
+  response:
+    body: '{"primaryKey":"{KEY}","secondaryKey":"{KEY}"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Elapsed-Time:
+      - "1419"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Request-Id:
+      - 79a11863-10ea-430e-88c8-145034b4395d
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -954,7 +1022,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zklaaa/providers/Microsoft.Search/searchServices/asotestqctlbg?api-version=2022-09-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zklaaa/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-userassignedidentity?api-version=2018-11-30
     method: DELETE
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-zklaaa''
@@ -987,7 +1055,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zklaaa/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aso-sample-userassignedidentity?api-version=2018-11-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zklaaa/providers/Microsoft.Search/searchServices/asotestqctlbg?api-version=2022-09-01
     method: DELETE
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-zklaaa''

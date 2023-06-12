@@ -1524,6 +1524,10 @@ objectModelConfiguration:
       SearchService:
         $export: true
         $supportedFrom: v2.1.0
+        $azureGeneratedSecrets:
+          - AdminPrimaryKey
+          - AdminSecondaryKey
+          - QueryKey
   servicebus:
     2021-01-01-preview:
       Namespace:

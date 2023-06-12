@@ -226,7 +226,7 @@ func (service *SearchService) ValidateUpdate(old runtime.Object) error {
 
 // createValidations validates the creation of the resource
 func (service *SearchService) createValidations() []func() error {
-	return []func() error{service.validateResourceReferences}
+	return []func() error{service.validateResourceReferences, service.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -240,7 +240,11 @@ func (service *SearchService) updateValidations() []func(old runtime.Object) err
 		func(old runtime.Object) error {
 			return service.validateResourceReferences()
 		},
-		service.validateWriteOnceProperties}
+		service.validateWriteOnceProperties,
+		func(old runtime.Object) error {
+			return service.validateSecretDestinations()
+		},
+	}
 }
 
 // validateResourceReferences validates all resource references
@@ -250,6 +254,22 @@ func (service *SearchService) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (service *SearchService) validateSecretDestinations() error {
+	if service.Spec.OperatorSpec == nil {
+		return nil
+	}
+	if service.Spec.OperatorSpec.Secrets == nil {
+		return nil
+	}
+	toValidate := []*genruntime.SecretDestination{
+		service.Spec.OperatorSpec.Secrets.AdminPrimaryKey,
+		service.Spec.OperatorSpec.Secrets.AdminSecondaryKey,
+		service.Spec.OperatorSpec.Secrets.QueryKey,
+	}
+	return genruntime.ValidateSecretDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -365,6 +385,10 @@ type SearchService_Spec struct {
 
 	// NetworkRuleSet: Network specific rules that determine how the Azure Cognitive Search service may be reached.
 	NetworkRuleSet *NetworkRuleSet `json:"networkRuleSet,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *SearchServiceOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -571,6 +595,8 @@ func (service *SearchService_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
+	// no assignment for property ‘OperatorSpec’
+
 	// Set property ‘Owner’:
 	service.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
@@ -735,6 +761,18 @@ func (service *SearchService_Spec) AssignProperties_From_SearchService_Spec(sour
 		service.NetworkRuleSet = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec SearchServiceOperatorSpec
+		err := operatorSpec.AssignProperties_From_SearchServiceOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SearchServiceOperatorSpec() to populate field OperatorSpec")
+		}
+		service.OperatorSpec = &operatorSpec
+	} else {
+		service.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -847,6 +885,18 @@ func (service *SearchService_Spec) AssignProperties_To_SearchService_Spec(destin
 		destination.NetworkRuleSet = &networkRuleSet
 	} else {
 		destination.NetworkRuleSet = nil
+	}
+
+	// OperatorSpec
+	if service.OperatorSpec != nil {
+		var operatorSpec v1api20220901s.SearchServiceOperatorSpec
+		err := service.OperatorSpec.AssignProperties_To_SearchServiceOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SearchServiceOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -2534,6 +2584,59 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 	return nil
 }
 
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type SearchServiceOperatorSpec struct {
+	// Secrets: configures where to place Azure generated secrets.
+	Secrets *SearchServiceOperatorSecrets `json:"secrets,omitempty"`
+}
+
+// AssignProperties_From_SearchServiceOperatorSpec populates our SearchServiceOperatorSpec from the provided source SearchServiceOperatorSpec
+func (operator *SearchServiceOperatorSpec) AssignProperties_From_SearchServiceOperatorSpec(source *v1api20220901s.SearchServiceOperatorSpec) error {
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret SearchServiceOperatorSecrets
+		err := secret.AssignProperties_From_SearchServiceOperatorSecrets(source.Secrets)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SearchServiceOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SearchServiceOperatorSpec populates the provided destination SearchServiceOperatorSpec from our SearchServiceOperatorSpec
+func (operator *SearchServiceOperatorSpec) AssignProperties_To_SearchServiceOperatorSpec(destination *v1api20220901s.SearchServiceOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret v1api20220901s.SearchServiceOperatorSecrets
+		err := operator.Secrets.AssignProperties_To_SearchServiceOperatorSecrets(&secret)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SearchServiceOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // +kubebuilder:validation:Enum={"default","highDensity"}
 type SearchServiceProperties_HostingMode string
 
@@ -3048,6 +3151,90 @@ func (rule *IpRule_STATUS) AssignProperties_To_IpRule_STATUS(destination *v1api2
 
 	// Value
 	destination.Value = genruntime.ClonePointerToString(rule.Value)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type SearchServiceOperatorSecrets struct {
+	// AdminPrimaryKey: indicates where the AdminPrimaryKey secret should be placed. If omitted, the secret will not be
+	// retrieved from Azure.
+	AdminPrimaryKey *genruntime.SecretDestination `json:"adminPrimaryKey,omitempty"`
+
+	// AdminSecondaryKey: indicates where the AdminSecondaryKey secret should be placed. If omitted, the secret will not be
+	// retrieved from Azure.
+	AdminSecondaryKey *genruntime.SecretDestination `json:"adminSecondaryKey,omitempty"`
+
+	// QueryKey: indicates where the QueryKey secret should be placed. If omitted, the secret will not be retrieved from Azure.
+	QueryKey *genruntime.SecretDestination `json:"queryKey,omitempty"`
+}
+
+// AssignProperties_From_SearchServiceOperatorSecrets populates our SearchServiceOperatorSecrets from the provided source SearchServiceOperatorSecrets
+func (secrets *SearchServiceOperatorSecrets) AssignProperties_From_SearchServiceOperatorSecrets(source *v1api20220901s.SearchServiceOperatorSecrets) error {
+
+	// AdminPrimaryKey
+	if source.AdminPrimaryKey != nil {
+		adminPrimaryKey := source.AdminPrimaryKey.Copy()
+		secrets.AdminPrimaryKey = &adminPrimaryKey
+	} else {
+		secrets.AdminPrimaryKey = nil
+	}
+
+	// AdminSecondaryKey
+	if source.AdminSecondaryKey != nil {
+		adminSecondaryKey := source.AdminSecondaryKey.Copy()
+		secrets.AdminSecondaryKey = &adminSecondaryKey
+	} else {
+		secrets.AdminSecondaryKey = nil
+	}
+
+	// QueryKey
+	if source.QueryKey != nil {
+		queryKey := source.QueryKey.Copy()
+		secrets.QueryKey = &queryKey
+	} else {
+		secrets.QueryKey = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SearchServiceOperatorSecrets populates the provided destination SearchServiceOperatorSecrets from our SearchServiceOperatorSecrets
+func (secrets *SearchServiceOperatorSecrets) AssignProperties_To_SearchServiceOperatorSecrets(destination *v1api20220901s.SearchServiceOperatorSecrets) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AdminPrimaryKey
+	if secrets.AdminPrimaryKey != nil {
+		adminPrimaryKey := secrets.AdminPrimaryKey.Copy()
+		destination.AdminPrimaryKey = &adminPrimaryKey
+	} else {
+		destination.AdminPrimaryKey = nil
+	}
+
+	// AdminSecondaryKey
+	if secrets.AdminSecondaryKey != nil {
+		adminSecondaryKey := secrets.AdminSecondaryKey.Copy()
+		destination.AdminSecondaryKey = &adminSecondaryKey
+	} else {
+		destination.AdminSecondaryKey = nil
+	}
+
+	// QueryKey
+	if secrets.QueryKey != nil {
+		queryKey := secrets.QueryKey.Copy()
+		destination.QueryKey = &queryKey
+	} else {
+		destination.QueryKey = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

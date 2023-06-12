@@ -144,14 +144,15 @@ const APIVersion_Value = APIVersion("2022-09-01")
 type SearchService_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName         string             `json:"azureName,omitempty"`
-	DisableLocalAuth  *bool              `json:"disableLocalAuth,omitempty"`
-	EncryptionWithCmk *EncryptionWithCmk `json:"encryptionWithCmk,omitempty"`
-	HostingMode       *string            `json:"hostingMode,omitempty"`
-	Identity          *Identity          `json:"identity,omitempty"`
-	Location          *string            `json:"location,omitempty"`
-	NetworkRuleSet    *NetworkRuleSet    `json:"networkRuleSet,omitempty"`
-	OriginalVersion   string             `json:"originalVersion,omitempty"`
+	AzureName         string                     `json:"azureName,omitempty"`
+	DisableLocalAuth  *bool                      `json:"disableLocalAuth,omitempty"`
+	EncryptionWithCmk *EncryptionWithCmk         `json:"encryptionWithCmk,omitempty"`
+	HostingMode       *string                    `json:"hostingMode,omitempty"`
+	Identity          *Identity                  `json:"identity,omitempty"`
+	Location          *string                    `json:"location,omitempty"`
+	NetworkRuleSet    *NetworkRuleSet            `json:"networkRuleSet,omitempty"`
+	OperatorSpec      *SearchServiceOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion   string                     `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -296,6 +297,13 @@ type PrivateEndpointConnection_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1api20220901.SearchServiceOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type SearchServiceOperatorSpec struct {
+	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Secrets     *SearchServiceOperatorSecrets `json:"secrets,omitempty"`
+}
+
 // Storage version of v1api20220901.SharedPrivateLinkResource_STATUS
 // Describes a Shared Private Link Resource managed by the Azure Cognitive Search service.
 type SharedPrivateLinkResource_STATUS struct {
@@ -336,6 +344,14 @@ type IpRule struct {
 type IpRule_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Value       *string                `json:"value,omitempty"`
+}
+
+// Storage version of v1api20220901.SearchServiceOperatorSecrets
+type SearchServiceOperatorSecrets struct {
+	AdminPrimaryKey   *genruntime.SecretDestination `json:"adminPrimaryKey,omitempty"`
+	AdminSecondaryKey *genruntime.SecretDestination `json:"adminSecondaryKey,omitempty"`
+	PropertyBag       genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	QueryKey          *genruntime.SecretDestination `json:"queryKey,omitempty"`
 }
 
 func init() {

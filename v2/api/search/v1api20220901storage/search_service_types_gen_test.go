@@ -160,6 +160,7 @@ func AddRelatedPropertyGeneratorsForSearchService_Spec(gens map[string]gopter.Ge
 	gens["EncryptionWithCmk"] = gen.PtrOf(EncryptionWithCmkGenerator())
 	gens["Identity"] = gen.PtrOf(IdentityGenerator())
 	gens["NetworkRuleSet"] = gen.PtrOf(NetworkRuleSetGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(SearchServiceOperatorSpecGenerator())
 	gens["Sku"] = gen.PtrOf(SkuGenerator())
 }
 
@@ -743,6 +744,67 @@ func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS(gens ma
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_SearchServiceOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SearchServiceOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSearchServiceOperatorSpec, SearchServiceOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSearchServiceOperatorSpec runs a test to see if a specific instance of SearchServiceOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForSearchServiceOperatorSpec(subject SearchServiceOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SearchServiceOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SearchServiceOperatorSpec instances for property testing - lazily instantiated by
+// SearchServiceOperatorSpecGenerator()
+var searchServiceOperatorSpecGenerator gopter.Gen
+
+// SearchServiceOperatorSpecGenerator returns a generator of SearchServiceOperatorSpec instances for property testing.
+func SearchServiceOperatorSpecGenerator() gopter.Gen {
+	if searchServiceOperatorSpecGenerator != nil {
+		return searchServiceOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForSearchServiceOperatorSpec(generators)
+	searchServiceOperatorSpecGenerator = gen.Struct(reflect.TypeOf(SearchServiceOperatorSpec{}), generators)
+
+	return searchServiceOperatorSpecGenerator
+}
+
+// AddRelatedPropertyGeneratorsForSearchServiceOperatorSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSearchServiceOperatorSpec(gens map[string]gopter.Gen) {
+	gens["Secrets"] = gen.PtrOf(SearchServiceOperatorSecretsGenerator())
+}
+
 func Test_SharedPrivateLinkResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1103,4 +1165,59 @@ func IpRule_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIpRule_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIpRule_STATUS(gens map[string]gopter.Gen) {
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_SearchServiceOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SearchServiceOperatorSecrets via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSearchServiceOperatorSecrets, SearchServiceOperatorSecretsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSearchServiceOperatorSecrets runs a test to see if a specific instance of SearchServiceOperatorSecrets round trips to JSON and back losslessly
+func RunJSONSerializationTestForSearchServiceOperatorSecrets(subject SearchServiceOperatorSecrets) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SearchServiceOperatorSecrets
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SearchServiceOperatorSecrets instances for property testing - lazily instantiated by
+// SearchServiceOperatorSecretsGenerator()
+var searchServiceOperatorSecretsGenerator gopter.Gen
+
+// SearchServiceOperatorSecretsGenerator returns a generator of SearchServiceOperatorSecrets instances for property testing.
+func SearchServiceOperatorSecretsGenerator() gopter.Gen {
+	if searchServiceOperatorSecretsGenerator != nil {
+		return searchServiceOperatorSecretsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	searchServiceOperatorSecretsGenerator = gen.Struct(reflect.TypeOf(SearchServiceOperatorSecrets{}), generators)
+
+	return searchServiceOperatorSecretsGenerator
 }
