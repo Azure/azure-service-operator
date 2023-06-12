@@ -4,7 +4,9 @@ type: docs
 description: "Manage your Azure resources from within your Kubernetes cluster."
 ---
 
-<img src="https://azure.github.io/azure-service-operator/favicons/favicon-256.png" style="float:right; "/>Azure Service Operator (ASO) allows you to deploy and maintain Azure Resources using the Kubernetes tooling you already know and use. Instead of separately deploying your [Redis Cache](https://azure.github.io/azure-service-operator/reference/cache/) or [PostgreSQL database server](https://azure.github.io/azure-service-operator/reference/dbforpostgresql/) and then configuring your Kubernetes application to use them, you can use ASO to deploy and manage these resources from within your Kubernetes cluster. ASO will then automatically configure your application to use them.
+<img src="https://azure.github.io/azure-service-operator/favicons/favicon-256.png" style="float:right; "/>Azure Service Operator (ASO) allows you to deploy and maintain a wide variety of Azure Resources using the Kubernetes tooling you already know and use. 
+
+Instead of deploying and managing your Azure resources separately from your Kubernetes application, ASO allows you to manage them together, automatically configuring your application as needed. For example, ASO can set up your [Redis Cache](https://azure.github.io/azure-service-operator/reference/cache/) or [PostgreSQL database server](https://azure.github.io/azure-service-operator/reference/dbforpostgresql/) and then configure your Kubernetes application to use them.
 
 ## Project Status
 This project is stable. We follow the [Kubernetes definition of stable](https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/#feature-stages).
