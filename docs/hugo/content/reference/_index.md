@@ -280,6 +280,7 @@ These resource versions are deprecated and will be removed in an upcoming ASO re
 | [FlexibleServer](https://azure.github.io/azure-service-operator/reference/dbformysql/v1beta20210501/#dbformysql.azure.com/v1beta20210501.FlexibleServer)                           | 2021-05-01  | v1beta20210501 | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1beta/v1beta20210501_flexibleserver.yaml)              |
 | [FlexibleServersDatabase](https://azure.github.io/azure-service-operator/reference/dbformysql/v1beta20210501/#dbformysql.azure.com/v1beta20210501.FlexibleServersDatabase)         | 2021-05-01  | v1beta20210501 | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1beta/v1beta20210501_flexibleserversdatabase.yaml)     |
 | [FlexibleServersFirewallRule](https://azure.github.io/azure-service-operator/reference/dbformysql/v1beta20210501/#dbformysql.azure.com/v1beta20210501.FlexibleServersFirewallRule) | 2021-05-01  | v1beta20210501 | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1beta/v1beta20210501_flexibleserversfirewallrule.yaml) |
+| [User](https://azure.github.io/azure-service-operator/reference/dbformysql/v1/#dbformysql.azure.com/v1.User)                                                                       | v1          | v1             | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api/v1_user.yaml)                                     |
 
 ## DBforPostgreSQL
 
@@ -313,6 +314,7 @@ These resource versions are deprecated and will be removed in an upcoming ASO re
 | [FlexibleServersDatabase](https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1beta20210601/#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersDatabase)                         | 2021-06-01         | v1beta20210601        | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1beta20210601/v1beta20210601_flexibleserversdatabase.yaml)                    |
 | [FlexibleServersFirewallRule](https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1beta20220120preview/#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServersFirewallRule)   | 2022-01-20-preview | v1beta20220120preview | v2.0.0-beta.4  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1beta20220120preview/v1beta20220120preview_flexibleserversfirewallrule.yaml)  |
 | [FlexibleServersFirewallRule](https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1beta20210601/#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersFirewallRule)                 | 2021-06-01         | v1beta20210601        | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1beta20210601/v1beta20210601_flexibleserversfirewallrule.yaml)                |
+| [User](https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1/#dbforpostgresql.azure.com/v1.User)                                                                                       | v1                 | v1                    | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api/v1_user.yaml)                                                            |
 
 ## Devices
 
@@ -321,9 +323,9 @@ These resource versions are deprecated and will be removed in an upcoming ASO re
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 
 
-| Resource | ARM Version | CRD Version   | Supported From | Sample                                                                                                               |
-|----------|-------------|---------------|----------------|----------------------------------------------------------------------------------------------------------------------|
-| IotHub   | 2021-07-02  | v1api20210702 | v2.1.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/devices/v1api/v1api20210702_iothub.yaml) |
+| Resource                                                                                                                         | ARM Version | CRD Version   | Supported From | Sample                                                                                                               |
+|----------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|----------------------------------------------------------------------------------------------------------------------|
+| [IotHub](https://azure.github.io/azure-service-operator/reference/devices/v1api20210702/#devices.azure.com/v1api20210702.IotHub) | 2021-07-02  | v1api20210702 | v2.1.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/devices/v1api/v1api20210702_iothub.yaml) |
 
 ## DocumentDB
 
