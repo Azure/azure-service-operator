@@ -7,6 +7,7 @@ package config
 
 import (
 	"fmt"
+	"regexp"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -481,6 +482,53 @@ func (omc *ObjectModelConfiguration) VerifyImportableConsumed() error {
 			return configuration.VerifyImportableConsumed()
 		})
 	return visitor.Visit(omc)
+}
+
+// FindHandCraftedTypeNames returns the set of typenames that are hand-crafted.
+// These are identified by having `v<n>` as their version.
+func (omc *ObjectModelConfiguration) FindHandCraftedTypeNames(localPath string) (astmodel.TypeNameSet, error) {
+	result := make(astmodel.TypeNameSet)
+	var currentGroup string
+	var currentPackage astmodel.PackageReference
+
+	// Collect the names of hand-crafted types
+	typeVisitor := newEveryTypeConfigurationVisitor(
+		func(typeConfig *TypeConfiguration) error {
+			name := astmodel.MakeTypeName(currentPackage, typeConfig.name)
+			result.Add(name)
+			return nil
+		})
+
+	// Collect hand-crafted versions as we see them.
+	// They look like v<n> where n is a small number.
+	versionRegex := regexp.MustCompile(`^v\d\d?$`)
+	versionVisitor := newEveryVersionConfigurationVisitor(
+		func(verConfig *VersionConfiguration) error {
+			if versionRegex.MatchString(verConfig.name) {
+				currentPackage = astmodel.MakeLocalPackageReference(
+					localPath,
+					currentGroup,
+					"", // no prefix needed (or wanted!) for v1
+					verConfig.name)
+				return verConfig.visitTypes(typeVisitor)
+			}
+
+			return nil
+		})
+
+	// Look inside each group for hand-crafted versions
+	groupVisitor := newEveryGroupConfigurationVisitor(
+		func(groupConfig *GroupConfiguration) error {
+			currentGroup = groupConfig.name
+			return groupConfig.visitVersions(versionVisitor)
+		})
+
+	err := groupVisitor.Visit(omc)
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to find hand-crafted packages")
+	}
+
+	return result, nil
 }
 
 // addGroup includes the provided GroupConfiguration in this model configuration
