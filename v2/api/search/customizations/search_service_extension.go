@@ -126,6 +126,7 @@ func addSecretsToMap(keys []*armsearch.QueryKey, result map[string]armsearch.Que
 			result["default"] = *key
 			continue
 		}
+
 		result[*key.Name] = *key
 	}
 }
