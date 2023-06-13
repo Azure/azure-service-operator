@@ -54,6 +54,189 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── Tags: map[string]string
 │       └── Type: *string
+├── DnsForwardingRuleSetsForwardingRule: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1api20220701.DnsForwardingRuleset
+│   ├── Spec: Object (8 properties)
+│   │   ├── AzureName: string
+│   │   ├── DomainName: *string
+│   │   ├── ForwardingRuleState: *string
+│   │   ├── Metadata: map[string]string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── TargetDnsServers: Object (4 properties)[]
+│   │       ├── IpAddress: *string
+│   │       ├── IpAddressFromConfig: *genruntime.ConfigMapReference
+│   │       ├── Port: *int
+│   │       └── PropertyBag: genruntime.PropertyBag
+│   └── Status: Object (12 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── DomainName: *string
+│       ├── Etag: *string
+│       ├── ForwardingRuleState: *string
+│       ├── Id: *string
+│       ├── Metadata: map[string]string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── SystemData: *Object (7 properties)
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *string
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   ├── LastModifiedByType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── TargetDnsServers: Object (3 properties)[]
+│       │   ├── IpAddress: *string
+│       │   ├── Port: *int
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       └── Type: *string
+├── DnsForwardingRuleset: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
+│   ├── Spec: Object (7 properties)
+│   │   ├── AzureName: string
+│   │   ├── DnsResolverOutboundEndpoints: Object (2 properties)[]
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── Tags: map[string]string
+│   └── Status: Object (12 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── DnsResolverOutboundEndpoints: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Etag: *string
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── ResourceGuid: *string
+│       ├── SystemData: *Object (7 properties)
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *string
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   ├── LastModifiedByType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Tags: map[string]string
+│       └── Type: *string
+├── DnsResolver: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
+│   ├── Spec: Object (7 properties)
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Tags: map[string]string
+│   │   └── VirtualNetwork: *Object (2 properties)
+│   │       ├── PropertyBag: genruntime.PropertyBag
+│   │       └── Reference: *genruntime.ResourceReference
+│   └── Status: Object (13 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── DnsResolverState: *string
+│       ├── Etag: *string
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── ResourceGuid: *string
+│       ├── SystemData: *Object (7 properties)
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *string
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   ├── LastModifiedByType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Tags: map[string]string
+│       ├── Type: *string
+│       └── VirtualNetwork: *Object (2 properties)
+│           ├── Id: *string
+│           └── PropertyBag: genruntime.PropertyBag
+├── DnsResolversInboundEndpoint: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1api20220701.DnsResolver
+│   ├── Spec: Object (7 properties)
+│   │   ├── AzureName: string
+│   │   ├── IpConfigurations: Object (4 properties)[]
+│   │   │   ├── PrivateIpAddress: *string
+│   │   │   ├── PrivateIpAllocationMethod: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Subnet: *Object (2 properties)
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: *genruntime.ResourceReference
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── Tags: map[string]string
+│   └── Status: Object (12 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Etag: *string
+│       ├── Id: *string
+│       ├── IpConfigurations: Object (4 properties)[]
+│       │   ├── PrivateIpAddress: *string
+│       │   ├── PrivateIpAllocationMethod: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Subnet: *Object (2 properties)
+│       │       ├── Id: *string
+│       │       └── PropertyBag: genruntime.PropertyBag
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── ResourceGuid: *string
+│       ├── SystemData: *Object (7 properties)
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *string
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   ├── LastModifiedByType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Tags: map[string]string
+│       └── Type: *string
+├── DnsResolversOutboundEndpoint: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1api20220701.DnsResolver
+│   ├── Spec: Object (7 properties)
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Subnet: *Object (2 properties)
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   └── Tags: map[string]string
+│   └── Status: Object (12 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Etag: *string
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── ResourceGuid: *string
+│       ├── Subnet: *Object (2 properties)
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── SystemData: *Object (7 properties)
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *string
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   ├── LastModifiedByType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Tags: map[string]string
+│       └── Type: *string
 ├── NatGateway: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (11 properties)

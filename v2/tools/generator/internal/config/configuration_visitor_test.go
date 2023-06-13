@@ -112,6 +112,44 @@ func TestConfigurationVisitor_WhenVisitingASpecificProperty_VisitsExpectedProper
 	g.Expect(seen).To(HaveKey("KnownAs"))
 }
 
+func TestConfigurationVisitor_WhenVisitingAllGroups_VisitsExpectedGroups(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	omc := createTestObjectModelConfigurationForVisitor()
+	seen := set.Make[string]()
+	visitor := newEveryGroupConfigurationVisitor(
+		func(configuration *GroupConfiguration) error {
+			seen.Add(configuration.name)
+			return nil
+		})
+
+	g.Expect(visitor.Visit(omc)).To(Succeed())
+	g.Expect(seen).To(HaveLen(2))
+	g.Expect(seen).To(HaveKey(test.Group))
+	g.Expect(seen).To(HaveKey("OtherGroup"))
+}
+
+func TestConfigurationVisitor_WhenVisitingAllVersions_VisitsExpectedVersions(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	omc := createTestObjectModelConfigurationForVisitor()
+	seen := set.Make[string]()
+	visitor := newEveryVersionConfigurationVisitor(
+		func(configuration *VersionConfiguration) error {
+			seen.Add(configuration.name)
+			return nil
+		})
+
+	g.Expect(visitor.Visit(omc)).To(Succeed())
+	g.Expect(seen).To(HaveLen(4))
+	g.Expect(seen).To(HaveKey(test.Pkg2020.Version()))
+	g.Expect(seen).To(HaveKey(test.Pkg2022.Version()))
+	g.Expect(seen).To(HaveKey("v1"))
+	g.Expect(seen).To(HaveKey("v2"))
+}
+
 func createTestObjectModelConfigurationForVisitor() *ObjectModelConfiguration {
 	lastName := NewPropertyConfiguration("LastName")
 	firstName := NewPropertyConfiguration("FirstName")
@@ -139,8 +177,17 @@ func createTestObjectModelConfigurationForVisitor() *ObjectModelConfiguration {
 	group.addVersion(version2020.name, version2020)
 	group.addVersion(version2022.name, version2022)
 
+	group2 := NewGroupConfiguration("OtherGroup")
+	group2.addVersion(
+		"v1",
+		NewVersionConfiguration("v1"))
+	group2.addVersion(
+		"v2",
+		NewVersionConfiguration("v2"))
+
 	modelConfig := NewObjectModelConfiguration()
 	modelConfig.addGroup(group.name, group)
+	modelConfig.addGroup(group2.name, group2)
 
 	return modelConfig
 }
