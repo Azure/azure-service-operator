@@ -1,0 +1,16 @@
+apiVersion: network.azure.com/v1api20220701
+kind: DnsResolversInboundEndpoint
+metadata:
+  name: aso-sample-inbound-ep
+  namespace: default
+spec:
+  ipConfigurations:
+  - privateIpAllocationMethod: Dynamic
+    subnet:
+      reference:
+        group: network.azure.com
+        kind: VirtualNetworksSubnet
+        name: aso-sample-subnet-inbound-ep
+  location: westus2
+  owner:
+    name: aso-sample-resolver

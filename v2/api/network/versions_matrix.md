@@ -54,6 +54,26 @@
 | DhGroup_STATUS                                                                          |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | DhcpOptions                                                                             |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | DhcpOptions_STATUS                                                                      |               |               |               | v1api20201101 |               |                | v1beta20201101 |
+| DnsForwardingRuleSetsForwardingRule                                                     |               |               |               |               | v1api20220701 |                |                |
+| DnsForwardingRuleset                                                                    |               |               |               |               | v1api20220701 |                |                |
+| DnsForwardingRulesetProperties                                                          |               |               |               |               | v1api20220701 |                |                |
+| DnsForwardingRulesetProperties_STATUS                                                   |               |               |               |               | v1api20220701 |                |                |
+| DnsForwardingRuleset_STATUS                                                             |               |               |               |               | v1api20220701 |                |                |
+| DnsForwardingRuleset_Spec                                                               |               |               |               |               | v1api20220701 |                |                |
+| DnsForwardingRulesets_ForwardingRule_STATUS                                             |               |               |               |               | v1api20220701 |                |                |
+| DnsForwardingRulesets_ForwardingRule_Spec                                               |               |               |               |               | v1api20220701 |                |                |
+| DnsResolver                                                                             |               |               |               |               | v1api20220701 |                |                |
+| DnsResolverProperties                                                                   |               |               |               |               | v1api20220701 |                |                |
+| DnsResolverProperties_DnsResolverState_STATUS                                           |               |               |               |               | v1api20220701 |                |                |
+| DnsResolverProperties_STATUS                                                            |               |               |               |               | v1api20220701 |                |                |
+| DnsResolver_STATUS                                                                      |               |               |               |               | v1api20220701 |                |                |
+| DnsResolver_Spec                                                                        |               |               |               |               | v1api20220701 |                |                |
+| DnsResolversInboundEndpoint                                                             |               |               |               |               | v1api20220701 |                |                |
+| DnsResolversOutboundEndpoint                                                            |               |               |               |               | v1api20220701 |                |                |
+| DnsResolvers_InboundEndpoint_STATUS                                                     |               |               |               |               | v1api20220701 |                |                |
+| DnsResolvers_InboundEndpoint_Spec                                                       |               |               |               |               | v1api20220701 |                |                |
+| DnsResolvers_OutboundEndpoint_STATUS                                                    |               |               |               |               | v1api20220701 |                |                |
+| DnsResolvers_OutboundEndpoint_Spec                                                      |               |               |               |               | v1api20220701 |                |                |
 | DnsZone                                                                                 | v1api20180501 |               |               |               |               |                |                |
 | DnsZone_STATUS                                                                          | v1api20180501 |               |               |               |               |                |                |
 | DnsZone_Spec                                                                            | v1api20180501 |               |               |               |               |                |                |
@@ -84,11 +104,18 @@
 | DnsZones_SRV_Spec                                                                       | v1api20180501 |               |               |               |               |                |                |
 | DnsZones_TXT_STATUS                                                                     | v1api20180501 |               |               |               |               |                |                |
 | DnsZones_TXT_Spec                                                                       | v1api20180501 |               |               |               |               |                |                |
+| DnsresolverProvisioningState_STATUS                                                     |               |               |               |               | v1api20220701 |                |                |
+| DnsresolverSubResource                                                                  |               |               |               |               | v1api20220701 |                |                |
+| DnsresolverSubResource_STATUS                                                           |               |               |               |               | v1api20220701 |                |                |
 | ExtendedLocation                                                                        |               |               |               | v1api20201101 | v1api20220701 |                | v1beta20201101 |
 | ExtendedLocationType                                                                    |               |               |               | v1api20201101 | v1api20220701 |                | v1beta20201101 |
 | ExtendedLocationType_STATUS                                                             |               |               |               | v1api20201101 | v1api20220701 |                | v1beta20201101 |
 | ExtendedLocation_STATUS                                                                 |               |               |               | v1api20201101 | v1api20220701 |                | v1beta20201101 |
 | FlowLog_STATUS                                                                          |               |               |               | v1api20201101 |               |                | v1beta20201101 |
+| ForwardingRuleProperties                                                                |               |               |               |               | v1api20220701 |                |                |
+| ForwardingRuleProperties_ForwardingRuleState                                            |               |               |               |               | v1api20220701 |                |                |
+| ForwardingRuleProperties_ForwardingRuleState_STATUS                                     |               |               |               |               | v1api20220701 |                |                |
+| ForwardingRuleProperties_STATUS                                                         |               |               |               |               | v1api20220701 |                |                |
 | FrontendIPConfigurationPropertiesFormat                                                 |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | FrontendIPConfigurationPropertiesFormat_STATUS                                          |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded                                |               |               |               | v1api20201101 |               |                | v1beta20201101 |
@@ -108,6 +135,8 @@
 | IkeEncryption_STATUS                                                                    |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | IkeIntegrity                                                                            |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | IkeIntegrity_STATUS                                                                     |               |               |               | v1api20201101 |               |                | v1beta20201101 |
+| InboundEndpointProperties                                                               |               |               |               |               | v1api20220701 |                |                |
+| InboundEndpointProperties_STATUS                                                        |               |               |               |               | v1api20220701 |                |                |
 | InboundNatPool                                                                          |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | InboundNatPoolPropertiesFormat                                                          |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | InboundNatPoolPropertiesFormat_STATUS                                                   |               |               |               | v1api20201101 |               |                | v1beta20201101 |
@@ -119,6 +148,10 @@
 | InboundNatRule_NetworkInterface_SubResourceEmbedded                                     |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded                                  |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded                              |               |               |               | v1api20201101 |               |                | v1beta20201101 |
+| IpConfiguration                                                                         |               |               |               |               | v1api20220701 |                |                |
+| IpConfiguration_PrivateIpAllocationMethod                                               |               |               |               |               | v1api20220701 |                |                |
+| IpConfiguration_PrivateIpAllocationMethod_STATUS                                        |               |               |               |               | v1api20220701 |                |                |
+| IpConfiguration_STATUS                                                                  |               |               |               |               | v1api20220701 |                |                |
 | IpTag                                                                                   |               |               |               | v1api20201101 | v1api20220701 |                | v1beta20201101 |
 | IpTag_STATUS                                                                            |               |               |               | v1api20201101 | v1api20220701 |                | v1beta20201101 |
 | IpsecEncryption                                                                         |               |               |               | v1api20201101 |               |                | v1beta20201101 |
@@ -201,6 +234,8 @@
 | NetworkSecurityGroups_SecurityRule_Spec                                                 |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | NsRecord                                                                                | v1api20180501 |               |               |               |               |                |                |
 | NsRecord_STATUS                                                                         | v1api20180501 |               |               |               |               |                |                |
+| OutboundEndpointProperties                                                              |               |               |               |               | v1api20220701 |                |                |
+| OutboundEndpointProperties_STATUS                                                       |               |               |               |               | v1api20220701 |                |                |
 | OutboundRule                                                                            |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | OutboundRulePropertiesFormat                                                            |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | OutboundRulePropertiesFormat_Protocol                                                   |               |               |               | v1api20201101 |               |                | v1beta20201101 |
@@ -388,6 +423,11 @@
 | Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded                                       |               |               |               |               | v1api20220701 |                |                |
 | Subnet_STATUS_PrivateLinkService_SubResourceEmbedded                                    |               |               |               |               | v1api20220701 |                |                |
 | Subnet_VirtualNetwork_SubResourceEmbedded                                               |               |               |               | v1api20201101 |               |                | v1beta20201101 |
+| SystemData_CreatedByType_STATUS                                                         |               |               |               |               | v1api20220701 |                |                |
+| SystemData_LastModifiedByType_STATUS                                                    |               |               |               |               | v1api20220701 |                |                |
+| SystemData_STATUS                                                                       |               |               |               |               | v1api20220701 |                |                |
+| TargetDnsServer                                                                         |               |               |               |               | v1api20220701 |                |                |
+| TargetDnsServer_STATUS                                                                  |               |               |               |               | v1api20220701 |                |                |
 | TransportProtocol                                                                       |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | TransportProtocol_STATUS                                                                |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | TxtRecord                                                                               | v1api20180501 |               | v1api20200601 |               |               |                |                |
