@@ -10,6 +10,8 @@ import (
 
 	// . "github.com/onsi/gomega"
 
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+
 	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
@@ -18,20 +20,30 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
+	region := "East Asia"
 
-	rg := tc.CreateTestResourceGroupAndWait()
+	// rg := tc.CreateTestResourceGroupAndWait()
+	rg := &resources.ResourceGroup{
+		ObjectMeta: tc.MakeObjectMetaWithName("t-agrawals"),
+		Spec: resources.ResourceGroup_Spec{
+			Location: &region,
+		},
+	}
+
+	tc.CreateResourceAndWaitWithoutCleanup(rg)
 
 	// Create a backupvault
-	region := tc.AzureRegion
+	// region := tc.AzureRegion
+	region_backupvault := "East US"
 	identityType := "SystemAssigned"
 	alertsForAllJobFailures_Status := dataprotection.AzureMonitorAlertSettings_AlertsForAllJobFailures_Enabled
 	StorageSetting_DatastoreType_Value := dataprotection.StorageSetting_DatastoreType_VaultStore
 	StorageSetting_Type_Value := dataprotection.StorageSetting_Type_LocallyRedundant
 
 	backupvault := &dataprotection.BackupVault{
-		ObjectMeta: tc.MakeObjectMetaWithName("backupvault"),
+		ObjectMeta: tc.MakeObjectMetaWithName("shayvault1"),
 		Spec: dataprotection.BackupVault_Spec{
-			Location: region,
+			Location: &region_backupvault,
 			Tags:     map[string]string{"cheese": "blue"},
 			Owner:    testcommon.AsOwner(rg),
 			Identity: &dataprotection.DppIdentityDetails{
@@ -52,8 +64,8 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 			},
 		},
 	}
-	tc.CreateResourceAndWait(backupvault)
-
+	// tc.CreateResourceAndWait(backupvault)
+	tc.CreateResourceAndWaitWithoutCleanup(backupvault)
 	// Note:
 	// It is mandatory to create a backupvault before creating a backuppolicy
 
@@ -159,7 +171,8 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourceAndWait(backuppolicy)
+	// tc.CreateResourceAndWait(backuppolicy)
+	tc.CreateResourceAndWaitWithoutCleanup(backuppolicy)
 
 	// Asserts
 }
