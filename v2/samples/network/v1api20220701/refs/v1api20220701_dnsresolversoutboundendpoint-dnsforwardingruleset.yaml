@@ -1,0 +1,14 @@
+apiVersion: network.azure.com/v1api20220701
+kind: DnsResolversOutboundEndpoint
+metadata:
+  name: aso-sample-outbound-ep-dnsforwardingruleset
+  namespace: default
+spec:
+  location: westus2
+  owner:
+    name: aso-sample-resolver-dnsforwardingruleset
+  subnet:
+    reference:
+      group: network.azure.com
+      kind: VirtualNetworksSubnet
+      name: aso-sample-subnet-outbound-ep-dnsforwardingruleset

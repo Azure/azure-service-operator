@@ -49,13 +49,7 @@ func Test_Networking_VirtualNetwork_CRUD(t *testing.T) {
 }
 
 func Subnet_CRUD(tc *testcommon.KubePerTestContext, vnet *network.VirtualNetwork) {
-	subnet := &network.VirtualNetworksSubnet{
-		ObjectMeta: tc.MakeObjectMeta("subnet"),
-		Spec: network.VirtualNetworks_Subnet_Spec{
-			Owner:         testcommon.AsOwner(vnet),
-			AddressPrefix: to.Ptr("10.0.0.0/24"),
-		},
-	}
+	subnet := newSubnet(tc, vnet, "10.0.0.0/24")
 
 	tc.CreateResourceAndWait(subnet)
 	defer tc.DeleteResourceAndWait(subnet)
@@ -73,6 +67,17 @@ func Subnet_CRUD(tc *testcommon.KubePerTestContext, vnet *network.VirtualNetwork
 	}
 	tc.PatchResourceAndWait(old, subnet)
 	tc.Expect(subnet.Status.Delegations).To(HaveLen(1))
+}
+
+func newSubnet(tc *testcommon.KubePerTestContext, vnet *network.VirtualNetwork, addressPrefix string) *network.VirtualNetworksSubnet {
+	subnet := &network.VirtualNetworksSubnet{
+		ObjectMeta: tc.MakeObjectMeta("subnet"),
+		Spec: network.VirtualNetworks_Subnet_Spec{
+			Owner:         testcommon.AsOwner(vnet),
+			AddressPrefix: to.Ptr(addressPrefix),
+		},
+	}
+	return subnet
 }
 
 func Test_Networking_Subnet_CreatedThenVNETUpdated_SubnetStillExists(t *testing.T) {
