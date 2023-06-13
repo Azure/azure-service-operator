@@ -5,10 +5,10 @@ package v1beta20210401
 
 // Deprecated version of StorageAccounts_QueueServices_Queue_STATUS. Use v1api20210401.StorageAccounts_QueueServices_Queue_STATUS instead
 type StorageAccounts_QueueServices_Queue_STATUS_ARM struct {
-	Id         *string                     `json:"id"`
-	Name       *string                     `json:"name"`
-	Properties *QueueProperties_STATUS_ARM `json:"properties"`
-	Type       *string                     `json:"type"`
+	Id         *string                     `json:"id,omitempty"`
+	Name       *string                     `json:"name,omitempty"`
+	Properties *QueueProperties_STATUS_ARM `json:"properties,omitempty"`
+	Type       *string                     `json:"type,omitempty"`
 }
 
 // Deprecated version of QueueProperties_STATUS. Use v1api20210401.QueueProperties_STATUS instead

@@ -8,7 +8,7 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of StorageAccounts_QueueServices_Queue_Spec. Use v1api20210401.StorageAccounts_QueueServices_Queue_Spec instead
 type StorageAccounts_QueueServices_Queue_Spec_ARM struct {
 	Name       string               `json:"name,omitempty"`
-	Properties *QueueProperties_ARM `json:"properties"`
+	Properties *QueueProperties_ARM `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccounts_QueueServices_Queue_Spec_ARM{}

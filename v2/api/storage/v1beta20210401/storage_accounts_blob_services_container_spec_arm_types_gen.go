@@ -8,7 +8,7 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of StorageAccounts_BlobServices_Container_Spec. Use v1api20210401.StorageAccounts_BlobServices_Container_Spec instead
 type StorageAccounts_BlobServices_Container_Spec_ARM struct {
 	Name       string                   `json:"name,omitempty"`
-	Properties *ContainerProperties_ARM `json:"properties"`
+	Properties *ContainerProperties_ARM `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccounts_BlobServices_Container_Spec_ARM{}
@@ -39,5 +39,5 @@ type ContainerProperties_ARM struct {
 
 // Deprecated version of ImmutableStorageWithVersioning. Use v1api20210401.ImmutableStorageWithVersioning instead
 type ImmutableStorageWithVersioning_ARM struct {
-	Enabled *bool `json:"enabled"`
+	Enabled *bool `json:"enabled,omitempty"`
 }

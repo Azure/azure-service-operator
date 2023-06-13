@@ -9,7 +9,7 @@ type StorageAccounts_QueueService_Spec_ARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: The properties of a storage account’s Queue service.
-	Properties *StorageAccounts_QueueService_Properties_Spec_ARM `json:"properties"`
+	Properties *StorageAccounts_QueueService_Properties_Spec_ARM `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccounts_QueueService_Spec_ARM{}
@@ -33,5 +33,5 @@ type StorageAccounts_QueueService_Properties_Spec_ARM struct {
 	// Cors: Specifies CORS rules for the Queue service. You can include up to five CorsRule elements in the request. If no
 	// CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the
 	// Queue service.
-	Cors *CorsRules_ARM `json:"cors"`
+	Cors *CorsRules_ARM `json:"cors,omitempty"`
 }

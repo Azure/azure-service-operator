@@ -9,7 +9,7 @@ type StorageAccounts_TableServices_Table_Spec_ARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Table resource properties.
-	Properties *TableProperties_ARM `json:"properties"`
+	Properties *TableProperties_ARM `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccounts_TableServices_Table_Spec_ARM{}
@@ -37,18 +37,18 @@ type TableProperties_ARM struct {
 // Object to set Table Access Policy.
 type TableSignedIdentifier_ARM struct {
 	// AccessPolicy: Access policy
-	AccessPolicy *TableAccessPolicy_ARM `json:"accessPolicy"`
+	AccessPolicy *TableAccessPolicy_ARM `json:"accessPolicy,omitempty"`
 	Id           *string                `json:"id,omitempty"`
 }
 
 // Table Access Policy Properties Object.
 type TableAccessPolicy_ARM struct {
 	// ExpiryTime: Expiry time of the access policy
-	ExpiryTime *string `json:"expiryTime"`
+	ExpiryTime *string `json:"expiryTime,omitempty"`
 
 	// Permission: Required. List of abbreviated permissions. Supported permission values include 'r','a','u','d'
-	Permission *string `json:"permission"`
+	Permission *string `json:"permission,omitempty"`
 
 	// StartTime: Start time of the access policy
-	StartTime *string `json:"startTime"`
+	StartTime *string `json:"startTime,omitempty"`
 }

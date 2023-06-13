@@ -19,8 +19,8 @@ type StorageAccount_STATUS_ARM struct {
 
 // Deprecated version of ExtendedLocation_STATUS. Use v1api20210401.ExtendedLocation_STATUS instead
 type ExtendedLocation_STATUS_ARM struct {
-	Name *string                      `json:"name"`
-	Type *ExtendedLocationType_STATUS `json:"type"`
+	Name *string                      `json:"name,omitempty"`
+	Type *ExtendedLocationType_STATUS `json:"type,omitempty"`
 }
 
 // Deprecated version of Identity_STATUS. Use v1api20210401.Identity_STATUS instead
@@ -33,8 +33,8 @@ type Identity_STATUS_ARM struct {
 
 // Deprecated version of Sku_STATUS. Use v1api20210401.Sku_STATUS instead
 type Sku_STATUS_ARM struct {
-	Name *SkuName_STATUS `json:"name"`
-	Tier *Tier_STATUS    `json:"tier"`
+	Name *SkuName_STATUS `json:"name,omitempty"`
+	Tier *Tier_STATUS    `json:"tier,omitempty"`
 }
 
 // Deprecated version of StorageAccount_Kind_STATUS. Use v1api20210401.StorageAccount_Kind_STATUS instead
@@ -84,44 +84,44 @@ type StorageAccountProperties_STATUS_ARM struct {
 
 // Deprecated version of AzureFilesIdentityBasedAuthentication_STATUS. Use v1api20210401.AzureFilesIdentityBasedAuthentication_STATUS instead
 type AzureFilesIdentityBasedAuthentication_STATUS_ARM struct {
-	ActiveDirectoryProperties *ActiveDirectoryProperties_STATUS_ARM                                 `json:"activeDirectoryProperties"`
-	DefaultSharePermission    *AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS  `json:"defaultSharePermission"`
-	DirectoryServiceOptions   *AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS `json:"directoryServiceOptions"`
+	ActiveDirectoryProperties *ActiveDirectoryProperties_STATUS_ARM                                 `json:"activeDirectoryProperties,omitempty"`
+	DefaultSharePermission    *AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS  `json:"defaultSharePermission,omitempty"`
+	DirectoryServiceOptions   *AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS `json:"directoryServiceOptions,omitempty"`
 }
 
 // Deprecated version of BlobRestoreStatus_STATUS. Use v1api20210401.BlobRestoreStatus_STATUS instead
 type BlobRestoreStatus_STATUS_ARM struct {
-	FailureReason *string                           `json:"failureReason"`
-	Parameters    *BlobRestoreParameters_STATUS_ARM `json:"parameters"`
-	RestoreId     *string                           `json:"restoreId"`
-	Status        *BlobRestoreStatus_Status_STATUS  `json:"status"`
+	FailureReason *string                           `json:"failureReason,omitempty"`
+	Parameters    *BlobRestoreParameters_STATUS_ARM `json:"parameters,omitempty"`
+	RestoreId     *string                           `json:"restoreId,omitempty"`
+	Status        *BlobRestoreStatus_Status_STATUS  `json:"status,omitempty"`
 }
 
 // Deprecated version of CustomDomain_STATUS. Use v1api20210401.CustomDomain_STATUS instead
 type CustomDomain_STATUS_ARM struct {
-	Name             *string `json:"name"`
-	UseSubDomainName *bool   `json:"useSubDomainName"`
+	Name             *string `json:"name,omitempty"`
+	UseSubDomainName *bool   `json:"useSubDomainName,omitempty"`
 }
 
 // Deprecated version of Encryption_STATUS. Use v1api20210401.Encryption_STATUS instead
 type Encryption_STATUS_ARM struct {
-	Identity                        *EncryptionIdentity_STATUS_ARM `json:"identity"`
-	KeySource                       *Encryption_KeySource_STATUS   `json:"keySource"`
-	Keyvaultproperties              *KeyVaultProperties_STATUS_ARM `json:"keyvaultproperties"`
-	RequireInfrastructureEncryption *bool                          `json:"requireInfrastructureEncryption"`
-	Services                        *EncryptionServices_STATUS_ARM `json:"services"`
+	Identity                        *EncryptionIdentity_STATUS_ARM `json:"identity,omitempty"`
+	KeySource                       *Encryption_KeySource_STATUS   `json:"keySource,omitempty"`
+	Keyvaultproperties              *KeyVaultProperties_STATUS_ARM `json:"keyvaultproperties,omitempty"`
+	RequireInfrastructureEncryption *bool                          `json:"requireInfrastructureEncryption,omitempty"`
+	Services                        *EncryptionServices_STATUS_ARM `json:"services,omitempty"`
 }
 
 // Deprecated version of Endpoints_STATUS. Use v1api20210401.Endpoints_STATUS instead
 type Endpoints_STATUS_ARM struct {
-	Blob               *string                                      `json:"blob"`
-	Dfs                *string                                      `json:"dfs"`
-	File               *string                                      `json:"file"`
-	InternetEndpoints  *StorageAccountInternetEndpoints_STATUS_ARM  `json:"internetEndpoints"`
-	MicrosoftEndpoints *StorageAccountMicrosoftEndpoints_STATUS_ARM `json:"microsoftEndpoints"`
-	Queue              *string                                      `json:"queue"`
-	Table              *string                                      `json:"table"`
-	Web                *string                                      `json:"web"`
+	Blob               *string                                      `json:"blob,omitempty"`
+	Dfs                *string                                      `json:"dfs,omitempty"`
+	File               *string                                      `json:"file,omitempty"`
+	InternetEndpoints  *StorageAccountInternetEndpoints_STATUS_ARM  `json:"internetEndpoints,omitempty"`
+	MicrosoftEndpoints *StorageAccountMicrosoftEndpoints_STATUS_ARM `json:"microsoftEndpoints,omitempty"`
+	Queue              *string                                      `json:"queue,omitempty"`
+	Table              *string                                      `json:"table,omitempty"`
+	Web                *string                                      `json:"web,omitempty"`
 }
 
 // Deprecated version of ExtendedLocationType_STATUS. Use v1api20210401.ExtendedLocationType_STATUS instead
@@ -131,9 +131,9 @@ const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZo
 
 // Deprecated version of GeoReplicationStats_STATUS. Use v1api20210401.GeoReplicationStats_STATUS instead
 type GeoReplicationStats_STATUS_ARM struct {
-	CanFailover  *bool                              `json:"canFailover"`
-	LastSyncTime *string                            `json:"lastSyncTime"`
-	Status       *GeoReplicationStats_Status_STATUS `json:"status"`
+	CanFailover  *bool                              `json:"canFailover,omitempty"`
+	LastSyncTime *string                            `json:"lastSyncTime,omitempty"`
+	Status       *GeoReplicationStats_Status_STATUS `json:"status,omitempty"`
 }
 
 // Deprecated version of Identity_Type_STATUS. Use v1api20210401.Identity_Type_STATUS instead
@@ -148,13 +148,13 @@ const (
 
 // Deprecated version of KeyCreationTime_STATUS. Use v1api20210401.KeyCreationTime_STATUS instead
 type KeyCreationTime_STATUS_ARM struct {
-	Key1 *string `json:"key1"`
-	Key2 *string `json:"key2"`
+	Key1 *string `json:"key1,omitempty"`
+	Key2 *string `json:"key2,omitempty"`
 }
 
 // Deprecated version of KeyPolicy_STATUS. Use v1api20210401.KeyPolicy_STATUS instead
 type KeyPolicy_STATUS_ARM struct {
-	KeyExpirationPeriodInDays *int `json:"keyExpirationPeriodInDays"`
+	KeyExpirationPeriodInDays *int `json:"keyExpirationPeriodInDays,omitempty"`
 }
 
 // Deprecated version of NetworkRuleSet_STATUS. Use v1api20210401.NetworkRuleSet_STATUS instead
@@ -168,20 +168,20 @@ type NetworkRuleSet_STATUS_ARM struct {
 
 // Deprecated version of PrivateEndpointConnection_STATUS. Use v1api20210401.PrivateEndpointConnection_STATUS instead
 type PrivateEndpointConnection_STATUS_ARM struct {
-	Id *string `json:"id"`
+	Id *string `json:"id,omitempty"`
 }
 
 // Deprecated version of RoutingPreference_STATUS. Use v1api20210401.RoutingPreference_STATUS instead
 type RoutingPreference_STATUS_ARM struct {
-	PublishInternetEndpoints  *bool                                   `json:"publishInternetEndpoints"`
-	PublishMicrosoftEndpoints *bool                                   `json:"publishMicrosoftEndpoints"`
-	RoutingChoice             *RoutingPreference_RoutingChoice_STATUS `json:"routingChoice"`
+	PublishInternetEndpoints  *bool                                   `json:"publishInternetEndpoints,omitempty"`
+	PublishMicrosoftEndpoints *bool                                   `json:"publishMicrosoftEndpoints,omitempty"`
+	RoutingChoice             *RoutingPreference_RoutingChoice_STATUS `json:"routingChoice,omitempty"`
 }
 
 // Deprecated version of SasPolicy_STATUS. Use v1api20210401.SasPolicy_STATUS instead
 type SasPolicy_STATUS_ARM struct {
-	ExpirationAction    *SasPolicy_ExpirationAction_STATUS `json:"expirationAction"`
-	SasExpirationPeriod *string                            `json:"sasExpirationPeriod"`
+	ExpirationAction    *SasPolicy_ExpirationAction_STATUS `json:"expirationAction,omitempty"`
+	SasExpirationPeriod *string                            `json:"sasExpirationPeriod,omitempty"`
 }
 
 // Deprecated version of SkuName_STATUS. Use v1api20210401.SkuName_STATUS instead
@@ -208,18 +208,18 @@ const (
 
 // Deprecated version of UserAssignedIdentity_STATUS. Use v1api20210401.UserAssignedIdentity_STATUS instead
 type UserAssignedIdentity_STATUS_ARM struct {
-	ClientId    *string `json:"clientId"`
-	PrincipalId *string `json:"principalId"`
+	ClientId    *string `json:"clientId,omitempty"`
+	PrincipalId *string `json:"principalId,omitempty"`
 }
 
 // Deprecated version of ActiveDirectoryProperties_STATUS. Use v1api20210401.ActiveDirectoryProperties_STATUS instead
 type ActiveDirectoryProperties_STATUS_ARM struct {
-	AzureStorageSid   *string `json:"azureStorageSid"`
-	DomainGuid        *string `json:"domainGuid"`
-	DomainName        *string `json:"domainName"`
-	DomainSid         *string `json:"domainSid"`
-	ForestName        *string `json:"forestName"`
-	NetBiosDomainName *string `json:"netBiosDomainName"`
+	AzureStorageSid   *string `json:"azureStorageSid,omitempty"`
+	DomainGuid        *string `json:"domainGuid,omitempty"`
+	DomainName        *string `json:"domainName,omitempty"`
+	DomainSid         *string `json:"domainSid,omitempty"`
+	ForestName        *string `json:"forestName,omitempty"`
+	NetBiosDomainName *string `json:"netBiosDomainName,omitempty"`
 }
 
 // Deprecated version of BlobRestoreParameters_STATUS. Use v1api20210401.BlobRestoreParameters_STATUS instead
@@ -230,72 +230,72 @@ type BlobRestoreParameters_STATUS_ARM struct {
 
 // Deprecated version of EncryptionIdentity_STATUS. Use v1api20210401.EncryptionIdentity_STATUS instead
 type EncryptionIdentity_STATUS_ARM struct {
-	UserAssignedIdentity *string `json:"userAssignedIdentity"`
+	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }
 
 // Deprecated version of EncryptionServices_STATUS. Use v1api20210401.EncryptionServices_STATUS instead
 type EncryptionServices_STATUS_ARM struct {
-	Blob  *EncryptionService_STATUS_ARM `json:"blob"`
-	File  *EncryptionService_STATUS_ARM `json:"file"`
-	Queue *EncryptionService_STATUS_ARM `json:"queue"`
-	Table *EncryptionService_STATUS_ARM `json:"table"`
+	Blob  *EncryptionService_STATUS_ARM `json:"blob,omitempty"`
+	File  *EncryptionService_STATUS_ARM `json:"file,omitempty"`
+	Queue *EncryptionService_STATUS_ARM `json:"queue,omitempty"`
+	Table *EncryptionService_STATUS_ARM `json:"table,omitempty"`
 }
 
 // Deprecated version of IPRule_STATUS. Use v1api20210401.IPRule_STATUS instead
 type IPRule_STATUS_ARM struct {
-	Action *IPRule_Action_STATUS `json:"action"`
-	Value  *string               `json:"value"`
+	Action *IPRule_Action_STATUS `json:"action,omitempty"`
+	Value  *string               `json:"value,omitempty"`
 }
 
 // Deprecated version of KeyVaultProperties_STATUS. Use v1api20210401.KeyVaultProperties_STATUS instead
 type KeyVaultProperties_STATUS_ARM struct {
-	CurrentVersionedKeyIdentifier *string `json:"currentVersionedKeyIdentifier"`
-	Keyname                       *string `json:"keyname"`
-	Keyvaulturi                   *string `json:"keyvaulturi"`
-	Keyversion                    *string `json:"keyversion"`
-	LastKeyRotationTimestamp      *string `json:"lastKeyRotationTimestamp"`
+	CurrentVersionedKeyIdentifier *string `json:"currentVersionedKeyIdentifier,omitempty"`
+	Keyname                       *string `json:"keyname,omitempty"`
+	Keyvaulturi                   *string `json:"keyvaulturi,omitempty"`
+	Keyversion                    *string `json:"keyversion,omitempty"`
+	LastKeyRotationTimestamp      *string `json:"lastKeyRotationTimestamp,omitempty"`
 }
 
 // Deprecated version of ResourceAccessRule_STATUS. Use v1api20210401.ResourceAccessRule_STATUS instead
 type ResourceAccessRule_STATUS_ARM struct {
-	ResourceId *string `json:"resourceId"`
-	TenantId   *string `json:"tenantId"`
+	ResourceId *string `json:"resourceId,omitempty"`
+	TenantId   *string `json:"tenantId,omitempty"`
 }
 
 // Deprecated version of StorageAccountInternetEndpoints_STATUS. Use v1api20210401.StorageAccountInternetEndpoints_STATUS instead
 type StorageAccountInternetEndpoints_STATUS_ARM struct {
-	Blob *string `json:"blob"`
-	Dfs  *string `json:"dfs"`
-	File *string `json:"file"`
-	Web  *string `json:"web"`
+	Blob *string `json:"blob,omitempty"`
+	Dfs  *string `json:"dfs,omitempty"`
+	File *string `json:"file,omitempty"`
+	Web  *string `json:"web,omitempty"`
 }
 
 // Deprecated version of StorageAccountMicrosoftEndpoints_STATUS. Use v1api20210401.StorageAccountMicrosoftEndpoints_STATUS instead
 type StorageAccountMicrosoftEndpoints_STATUS_ARM struct {
-	Blob  *string `json:"blob"`
-	Dfs   *string `json:"dfs"`
-	File  *string `json:"file"`
-	Queue *string `json:"queue"`
-	Table *string `json:"table"`
-	Web   *string `json:"web"`
+	Blob  *string `json:"blob,omitempty"`
+	Dfs   *string `json:"dfs,omitempty"`
+	File  *string `json:"file,omitempty"`
+	Queue *string `json:"queue,omitempty"`
+	Table *string `json:"table,omitempty"`
+	Web   *string `json:"web,omitempty"`
 }
 
 // Deprecated version of VirtualNetworkRule_STATUS. Use v1api20210401.VirtualNetworkRule_STATUS instead
 type VirtualNetworkRule_STATUS_ARM struct {
-	Action *VirtualNetworkRule_Action_STATUS `json:"action"`
-	Id     *string                           `json:"id"`
-	State  *VirtualNetworkRule_State_STATUS  `json:"state"`
+	Action *VirtualNetworkRule_Action_STATUS `json:"action,omitempty"`
+	Id     *string                           `json:"id,omitempty"`
+	State  *VirtualNetworkRule_State_STATUS  `json:"state,omitempty"`
 }
 
 // Deprecated version of BlobRestoreRange_STATUS. Use v1api20210401.BlobRestoreRange_STATUS instead
 type BlobRestoreRange_STATUS_ARM struct {
-	EndRange   *string `json:"endRange"`
-	StartRange *string `json:"startRange"`
+	EndRange   *string `json:"endRange,omitempty"`
+	StartRange *string `json:"startRange,omitempty"`
 }
 
 // Deprecated version of EncryptionService_STATUS. Use v1api20210401.EncryptionService_STATUS instead
 type EncryptionService_STATUS_ARM struct {
-	Enabled         *bool                             `json:"enabled"`
-	KeyType         *EncryptionService_KeyType_STATUS `json:"keyType"`
-	LastEnabledTime *string                           `json:"lastEnabledTime"`
+	Enabled         *bool                             `json:"enabled,omitempty"`
+	KeyType         *EncryptionService_KeyType_STATUS `json:"keyType,omitempty"`
+	LastEnabledTime *string                           `json:"lastEnabledTime,omitempty"`
 }

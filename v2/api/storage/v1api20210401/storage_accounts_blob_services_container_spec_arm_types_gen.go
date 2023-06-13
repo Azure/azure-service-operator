@@ -9,7 +9,7 @@ type StorageAccounts_BlobServices_Container_Spec_ARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Properties of the blob container.
-	Properties *ContainerProperties_ARM `json:"properties"`
+	Properties *ContainerProperties_ARM `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccounts_BlobServices_Container_Spec_ARM{}
@@ -32,24 +32,24 @@ func (container *StorageAccounts_BlobServices_Container_Spec_ARM) GetType() stri
 // The properties of a container.
 type ContainerProperties_ARM struct {
 	// DefaultEncryptionScope: Default the container to use specified encryption scope for all writes.
-	DefaultEncryptionScope *string `json:"defaultEncryptionScope"`
+	DefaultEncryptionScope *string `json:"defaultEncryptionScope,omitempty"`
 
 	// DenyEncryptionScopeOverride: Block override of encryption scope from the container default.
-	DenyEncryptionScopeOverride *bool `json:"denyEncryptionScopeOverride"`
+	DenyEncryptionScopeOverride *bool `json:"denyEncryptionScopeOverride,omitempty"`
 
 	// ImmutableStorageWithVersioning: The object level immutability property of the container. The property is immutable and
 	// can only be set to true at the container creation time. Existing containers must undergo a migration process.
-	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_ARM `json:"immutableStorageWithVersioning"`
+	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_ARM `json:"immutableStorageWithVersioning,omitempty"`
 
 	// Metadata: A name-value pair to associate with the container as metadata.
 	Metadata map[string]string `json:"metadata"`
 
 	// PublicAccess: Specifies whether data in the container may be accessed publicly and the level of access.
-	PublicAccess *ContainerProperties_PublicAccess `json:"publicAccess"`
+	PublicAccess *ContainerProperties_PublicAccess `json:"publicAccess,omitempty"`
 }
 
 // Object level immutability properties of the container.
 type ImmutableStorageWithVersioning_ARM struct {
 	// Enabled: This is an immutable property, when set to true it enables object level immutability at the container level.
-	Enabled *bool `json:"enabled"`
+	Enabled *bool `json:"enabled,omitempty"`
 }

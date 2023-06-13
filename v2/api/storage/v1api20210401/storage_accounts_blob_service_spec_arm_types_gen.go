@@ -9,7 +9,7 @@ type StorageAccounts_BlobService_Spec_ARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: The properties of a storage account’s Blob service.
-	Properties *StorageAccounts_BlobService_Properties_Spec_ARM `json:"properties"`
+	Properties *StorageAccounts_BlobService_Properties_Spec_ARM `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccounts_BlobService_Spec_ARM{}
@@ -31,44 +31,44 @@ func (service *StorageAccounts_BlobService_Spec_ARM) GetType() string {
 
 type StorageAccounts_BlobService_Properties_Spec_ARM struct {
 	// AutomaticSnapshotPolicyEnabled: Deprecated in favor of isVersioningEnabled property.
-	AutomaticSnapshotPolicyEnabled *bool `json:"automaticSnapshotPolicyEnabled"`
+	AutomaticSnapshotPolicyEnabled *bool `json:"automaticSnapshotPolicyEnabled,omitempty"`
 
 	// ChangeFeed: The blob service properties for change feed events.
-	ChangeFeed *ChangeFeed_ARM `json:"changeFeed"`
+	ChangeFeed *ChangeFeed_ARM `json:"changeFeed,omitempty"`
 
 	// ContainerDeleteRetentionPolicy: The blob service properties for container soft delete.
-	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy_ARM `json:"containerDeleteRetentionPolicy"`
+	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy_ARM `json:"containerDeleteRetentionPolicy,omitempty"`
 
 	// Cors: Specifies CORS rules for the Blob service. You can include up to five CorsRule elements in the request. If no
 	// CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the
 	// Blob service.
-	Cors *CorsRules_ARM `json:"cors"`
+	Cors *CorsRules_ARM `json:"cors,omitempty"`
 
 	// DefaultServiceVersion: DefaultServiceVersion indicates the default version to use for requests to the Blob service if an
 	// incoming request’s version is not specified. Possible values include version 2008-10-27 and all more recent versions.
-	DefaultServiceVersion *string `json:"defaultServiceVersion"`
+	DefaultServiceVersion *string `json:"defaultServiceVersion,omitempty"`
 
 	// DeleteRetentionPolicy: The blob service properties for blob soft delete.
-	DeleteRetentionPolicy *DeleteRetentionPolicy_ARM `json:"deleteRetentionPolicy"`
+	DeleteRetentionPolicy *DeleteRetentionPolicy_ARM `json:"deleteRetentionPolicy,omitempty"`
 
 	// IsVersioningEnabled: Versioning is enabled if set to true.
-	IsVersioningEnabled *bool `json:"isVersioningEnabled"`
+	IsVersioningEnabled *bool `json:"isVersioningEnabled,omitempty"`
 
 	// LastAccessTimeTrackingPolicy: The blob service property to configure last access time based tracking policy.
-	LastAccessTimeTrackingPolicy *LastAccessTimeTrackingPolicy_ARM `json:"lastAccessTimeTrackingPolicy"`
+	LastAccessTimeTrackingPolicy *LastAccessTimeTrackingPolicy_ARM `json:"lastAccessTimeTrackingPolicy,omitempty"`
 
 	// RestorePolicy: The blob service properties for blob restore policy.
-	RestorePolicy *RestorePolicyProperties_ARM `json:"restorePolicy"`
+	RestorePolicy *RestorePolicyProperties_ARM `json:"restorePolicy,omitempty"`
 }
 
 // The blob service properties for change feed events.
 type ChangeFeed_ARM struct {
 	// Enabled: Indicates whether change feed event logging is enabled for the Blob service.
-	Enabled *bool `json:"enabled"`
+	Enabled *bool `json:"enabled,omitempty"`
 
 	// RetentionInDays: Indicates the duration of changeFeed retention in days. Minimum value is 1 day and maximum value is
 	// 146000 days (400 years). A null value indicates an infinite retention of the change feed.
-	RetentionInDays *int `json:"retentionInDays"`
+	RetentionInDays *int `json:"retentionInDays,omitempty"`
 }
 
 // Sets the CORS rules. You can include up to five CorsRule elements in the request.
@@ -81,10 +81,10 @@ type CorsRules_ARM struct {
 type DeleteRetentionPolicy_ARM struct {
 	// Days: Indicates the number of days that the deleted item should be retained. The minimum specified value can be 1 and
 	// the maximum value can be 365.
-	Days *int `json:"days"`
+	Days *int `json:"days,omitempty"`
 
 	// Enabled: Indicates whether DeleteRetentionPolicy is enabled.
-	Enabled *bool `json:"enabled"`
+	Enabled *bool `json:"enabled,omitempty"`
 }
 
 // The blob service properties for Last access time based tracking policy.
@@ -94,23 +94,23 @@ type LastAccessTimeTrackingPolicy_ARM struct {
 	BlobType []string `json:"blobType"`
 
 	// Enable: When set to true last access time based tracking is enabled.
-	Enable *bool `json:"enable"`
+	Enable *bool `json:"enable,omitempty"`
 
 	// Name: Name of the policy. The valid value is AccessTimeTracking. This field is currently read only
-	Name *LastAccessTimeTrackingPolicy_Name `json:"name"`
+	Name *LastAccessTimeTrackingPolicy_Name `json:"name,omitempty"`
 
 	// TrackingGranularityInDays: The field specifies blob object tracking granularity in days, typically how often the blob
 	// object should be tracked.This field is currently read only with value as 1
-	TrackingGranularityInDays *int `json:"trackingGranularityInDays"`
+	TrackingGranularityInDays *int `json:"trackingGranularityInDays,omitempty"`
 }
 
 // The blob service properties for blob restore policy
 type RestorePolicyProperties_ARM struct {
 	// Days: how long this blob can be restored. It should be great than zero and less than DeleteRetentionPolicy.days.
-	Days *int `json:"days"`
+	Days *int `json:"days,omitempty"`
 
 	// Enabled: Blob restore is enabled if set to true.
-	Enabled *bool `json:"enabled"`
+	Enabled *bool `json:"enabled,omitempty"`
 }
 
 // Specifies a CORS rule for the Blob service.
@@ -132,5 +132,5 @@ type CorsRule_ARM struct {
 
 	// MaxAgeInSeconds: Required if CorsRule element is present. The number of seconds that the client/browser should cache a
 	// preflight response.
-	MaxAgeInSeconds *int `json:"maxAgeInSeconds"`
+	MaxAgeInSeconds *int `json:"maxAgeInSeconds,omitempty"`
 }

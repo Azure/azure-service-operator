@@ -5,11 +5,11 @@ package v1beta20210401
 
 // Deprecated version of StorageAccounts_BlobServices_Container_STATUS. Use v1api20210401.StorageAccounts_BlobServices_Container_STATUS instead
 type StorageAccounts_BlobServices_Container_STATUS_ARM struct {
-	Etag       *string                         `json:"etag"`
-	Id         *string                         `json:"id"`
-	Name       *string                         `json:"name"`
-	Properties *ContainerProperties_STATUS_ARM `json:"properties"`
-	Type       *string                         `json:"type"`
+	Etag       *string                         `json:"etag,omitempty"`
+	Id         *string                         `json:"id,omitempty"`
+	Name       *string                         `json:"name,omitempty"`
+	Properties *ContainerProperties_STATUS_ARM `json:"properties,omitempty"`
+	Type       *string                         `json:"type,omitempty"`
 }
 
 // Deprecated version of ContainerProperties_STATUS. Use v1api20210401.ContainerProperties_STATUS instead
@@ -42,9 +42,9 @@ type ImmutabilityPolicyProperties_STATUS_ARM struct {
 
 // Deprecated version of ImmutableStorageWithVersioning_STATUS. Use v1api20210401.ImmutableStorageWithVersioning_STATUS instead
 type ImmutableStorageWithVersioning_STATUS_ARM struct {
-	Enabled        *bool                                                 `json:"enabled"`
-	MigrationState *ImmutableStorageWithVersioning_MigrationState_STATUS `json:"migrationState"`
-	TimeStamp      *string                                               `json:"timeStamp"`
+	Enabled        *bool                                                 `json:"enabled,omitempty"`
+	MigrationState *ImmutableStorageWithVersioning_MigrationState_STATUS `json:"migrationState,omitempty"`
+	TimeStamp      *string                                               `json:"timeStamp,omitempty"`
 }
 
 // Deprecated version of LegalHoldProperties_STATUS. Use v1api20210401.LegalHoldProperties_STATUS instead
@@ -55,26 +55,26 @@ type LegalHoldProperties_STATUS_ARM struct {
 
 // Deprecated version of ImmutabilityPolicyProperty_STATUS. Use v1api20210401.ImmutabilityPolicyProperty_STATUS instead
 type ImmutabilityPolicyProperty_STATUS_ARM struct {
-	AllowProtectedAppendWrites            *bool                                    `json:"allowProtectedAppendWrites"`
-	ImmutabilityPeriodSinceCreationInDays *int                                     `json:"immutabilityPeriodSinceCreationInDays"`
-	State                                 *ImmutabilityPolicyProperty_State_STATUS `json:"state"`
+	AllowProtectedAppendWrites            *bool                                    `json:"allowProtectedAppendWrites,omitempty"`
+	ImmutabilityPeriodSinceCreationInDays *int                                     `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
+	State                                 *ImmutabilityPolicyProperty_State_STATUS `json:"state,omitempty"`
 }
 
 // Deprecated version of TagProperty_STATUS. Use v1api20210401.TagProperty_STATUS instead
 type TagProperty_STATUS_ARM struct {
-	ObjectIdentifier *string `json:"objectIdentifier"`
-	Tag              *string `json:"tag"`
-	TenantId         *string `json:"tenantId"`
-	Timestamp        *string `json:"timestamp"`
-	Upn              *string `json:"upn"`
+	ObjectIdentifier *string `json:"objectIdentifier,omitempty"`
+	Tag              *string `json:"tag,omitempty"`
+	TenantId         *string `json:"tenantId,omitempty"`
+	Timestamp        *string `json:"timestamp,omitempty"`
+	Upn              *string `json:"upn,omitempty"`
 }
 
 // Deprecated version of UpdateHistoryProperty_STATUS. Use v1api20210401.UpdateHistoryProperty_STATUS instead
 type UpdateHistoryProperty_STATUS_ARM struct {
-	ImmutabilityPeriodSinceCreationInDays *int                                 `json:"immutabilityPeriodSinceCreationInDays"`
-	ObjectIdentifier                      *string                              `json:"objectIdentifier"`
-	TenantId                              *string                              `json:"tenantId"`
-	Timestamp                             *string                              `json:"timestamp"`
-	Update                                *UpdateHistoryProperty_Update_STATUS `json:"update"`
-	Upn                                   *string                              `json:"upn"`
+	ImmutabilityPeriodSinceCreationInDays *int                                 `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
+	ObjectIdentifier                      *string                              `json:"objectIdentifier,omitempty"`
+	TenantId                              *string                              `json:"tenantId,omitempty"`
+	Timestamp                             *string                              `json:"timestamp,omitempty"`
+	Update                                *UpdateHistoryProperty_Update_STATUS `json:"update,omitempty"`
+	Upn                                   *string                              `json:"upn,omitempty"`
 }
