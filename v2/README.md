@@ -25,7 +25,8 @@ ASO supports more than 150 different Azure resources, with more added every rele
 ### Prerequisites
 1. A Kubernetes cluster (at least version 1.16) [created and running](https://kubernetes.io/docs/tutorials/kubernetes-basics/create-cluster/). You can check your cluster version with `kubectl version`. If you want to try it out quickly, spin up a local cluster using [Kind](https://kind.sigs.k8s.io).
 2. An Azure Subscription to provision resources into.
-3. An Azure Service Principal for the operator to use, or the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest) to create one. How to create a Service Principal is covered in [installation](#installation).
+3. An Azure Service Principal for the operator to use, or the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest) to create one. How to create a Service Principal is covered in [installation](#installation). 
+   See the [Azure Workload Identity](https://azure.github.io/azure-service-operator/guide/authentication/credential-format/#azure-workload-identity) setup for how to use managed identity instead. We recommend using workload identity in production.
 
 ### Installation
 1. Install [cert-manager](https://cert-manager.io/docs/installation/kubernetes/) on the cluster using the following command.
