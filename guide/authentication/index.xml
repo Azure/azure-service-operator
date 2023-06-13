@@ -26,21 +26,22 @@
         &lt;p&gt;Azure Service Operator supports four different styles of authentication today.&lt;/p&gt;
 &lt;p&gt;Each section below dives into one of these authentication options, including examples for how to set it up and
 use it at the different &lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/guide/authentication/credential-scope/&#34;&gt;credential scopes&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;service-principal-using-a-client-secret&#34;&gt;Service Principal using a Client Secret&lt;/h2&gt;
+&lt;h2 id=&#34;azure-workload-identity&#34;&gt;Azure Workload Identity&lt;/h2&gt;
+&lt;p&gt;See &lt;a href=&#34;https://github.com/Azure/azure-workload-identity&#34;&gt;Azure Workload Identity&lt;/a&gt; for details about the workload identity project.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Workload identity (with Managed Identity) is the recommended authentication mode for production use-cases&lt;/strong&gt;.&lt;/p&gt;
 &lt;h3 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h3&gt;
 &lt;ol&gt;
-&lt;li&gt;An existing Azure Service Principal.&lt;/li&gt;
+&lt;li&gt;An existing Azure Service Principal or Managed Identity. The setup is the same regardless of which you choose.&lt;/li&gt;
+&lt;li&gt;The &lt;a href=&#34;https://docs.microsoft.com/cli/azure/install-azure-cli&#34;&gt;Azure CLI&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;An OIDC endpoint associated with your cluster. See &lt;a href=&#34;https://learn.microsoft.com/en-us/azure/aks/use-oidc-issuer&#34;&gt;how to enable OIDC on AKS&lt;/a&gt;.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;To use Service Principal authentication with &lt;strong&gt;client secret&lt;/strong&gt;, create a secret with the &lt;code&gt;AZURE_CLIENT_ID&lt;/code&gt; and &lt;code&gt;AZURE_CLIENT_SECRET&lt;/code&gt; keys set.&lt;/p&gt;
-&lt;p&gt;For more information about Service Principals, see &lt;a href=&#34;https://docs.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli#password-based-authentication&#34;&gt;creating an Azure Service Principal using the Azure CLI&lt;/a&gt;.
-The &lt;code&gt;AZURE_CLIENT_ID&lt;/code&gt; is sometimes also called the App ID. The &lt;code&gt;AZURE_CLIENT_SECRET&lt;/code&gt; is the &amp;ldquo;password&amp;rdquo; returned by the command in the previously linked documentation.&lt;/p&gt;
-&lt;p&gt;Use the following Bash commands to set the environment variables containing the service principal secret (customize with your values):&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;export AZURE_CLIENT_ID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;00000000-0000-0000-0000-00000000000&amp;#34;&lt;/span&gt;       &lt;span style=&#34;color:#75715e&#34;&gt;# The client ID (sometimes called App Id) of the Service Principal.&lt;/span&gt;
-export AZURE_CLIENT_SECRET&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;00000000-0000-0000-0000-00000000000&amp;#34;&lt;/span&gt;   &lt;span style=&#34;color:#75715e&#34;&gt;# The client secret of the Service Principal.&lt;/span&gt;
+&lt;p&gt;Use the following Bash commands to set the environment variables containing the workload identity secret (customize with your values):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;export AZURE_CLIENT_ID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;00000000-0000-0000-0000-00000000000&amp;#34;&lt;/span&gt;       &lt;span style=&#34;color:#75715e&#34;&gt;# The client ID (sometimes called App Id) of the Service Principal, or the Client ID of the Managed Identity with which you are using Workload Identity.&lt;/span&gt;
 export AZURE_SUBSCRIPTION_ID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;00000000-0000-0000-0000-00000000000&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# The Azure Subscription ID the identity is in.&lt;/span&gt;
 export AZURE_TENANT_ID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;00000000-0000-0000-0000-00000000000&amp;#34;&lt;/span&gt;       &lt;span style=&#34;color:#75715e&#34;&gt;# The Azure AAD Tenant the identity/subscription is associated with.&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;create-the-secret&#34;&gt;Create the secret&lt;/h3&gt;
-
+export SERVICE_ACCOUNT_ISSUER&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;https://oidc.prod-aks.azure.com/00000000-0000-0000-0000-00000000000/&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# The OIDC endpoint for your cluster in this example AKS&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;configure-trust&#34;&gt;Configure trust&lt;/h3&gt;
+&lt;p&gt;Establish trust between your OIDC issuer URL and the backing Service Principal or Managed Identity. See &lt;a href=&#34;https://docs.microsoft.com/en-us/azure/active-directory/develop/workload-identity-federation#how-it-works&#34;&gt;how it works&lt;/a&gt; for details.&lt;/p&gt;
 
 
 
@@ -50,25 +51,19 @@ export AZURE_TENANT_ID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&l
       &lt;a class=&#34;nav-link disabled&#34;
           id=&#34;tabs-01-00-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-01-00&#34; role=&#34;tab&#34;
           aria-controls=&#34;tabs-01-00&#34; aria-selected=&#34;false&#34;&gt;
-        &lt;strong&gt;Scope&lt;/strong&gt;:
+        &lt;strong&gt;Kind&lt;/strong&gt;:
       &lt;/a&gt;
     &lt;/li&gt;&lt;li class=&#34;nav-item&#34;&gt;
       &lt;a class=&#34;nav-link active&#34;
           id=&#34;tabs-01-01-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-01-01&#34; role=&#34;tab&#34;
           aria-controls=&#34;tabs-01-01&#34; aria-selected=&#34;false&#34;&gt;
-        Global
+        Managed Identity
       &lt;/a&gt;
     &lt;/li&gt;&lt;li class=&#34;nav-item&#34;&gt;
       &lt;a class=&#34;nav-link&#34;
           id=&#34;tabs-01-02-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-01-02&#34; role=&#34;tab&#34;
           aria-controls=&#34;tabs-01-02&#34; aria-selected=&#34;false&#34;&gt;
-        Namespace
-      &lt;/a&gt;
-    &lt;/li&gt;&lt;li class=&#34;nav-item&#34;&gt;
-      &lt;a class=&#34;nav-link&#34;
-          id=&#34;tabs-01-03-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-01-03&#34; role=&#34;tab&#34;
-          aria-controls=&#34;tabs-01-03&#34; aria-selected=&#34;false&#34;&gt;
-        Resource
+        Service Principal
       &lt;/a&gt;
     &lt;/li&gt;
 &lt;/ul&gt;
@@ -80,98 +75,50 @@ export AZURE_TENANT_ID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&l
     &lt;/div&gt;
     &lt;div class=&#34;tab-body tab-pane fade show active&#34;
         id=&#34;tabs-01-01&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-01-01-tab&#34;&gt;
-        &lt;p&gt;If installing ASO for the first time, you can pass these values via Helm arguments:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;helm upgrade --install --devel aso2 aso2/azure-service-operator &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --create-namespace &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --namespace&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;azureserviceoperator-system &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureSubscriptionID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_SUBSCRIPTION_ID &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureTenantID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_TENANT_ID &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureClientID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_CLIENT_ID &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureClientSecret&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_CLIENT_SECRET &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set crdPattern&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*&amp;#39;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;See &lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/guide/crd-management/&#34;&gt;CRD management&lt;/a&gt; for more details about &lt;code&gt;crdPattern&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;Otherwise, create or update the &lt;code&gt;aso-controller-settings&lt;/code&gt; secret:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF | kubectl apply -f -
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;apiVersion: v1
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;kind: Secret
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;metadata:
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; name: aso-controller-settings
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; namespace: azureserviceoperator-system
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;stringData:
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_SUBSCRIPTION_ID: &amp;#34;$AZURE_SUBSCRIPTION_ID&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_TENANT_ID: &amp;#34;$AZURE_TENANT_ID&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_ID: &amp;#34;$AZURE_CLIENT_ID&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_SECRET: &amp;#34;$AZURE_CLIENT_SECRET&amp;#34;
+        &lt;p&gt;Set the following additional environment variables:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;export MI_RESOURCE_GROUP&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;my-rg&amp;#34;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;# The resource group containing the managed identity that will be used by ASO&lt;/span&gt;
+export MI_NAME&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;my-mi&amp;#34;&lt;/span&gt;            &lt;span style=&#34;color:#75715e&#34;&gt;# The name of the managed identity that will be used by ASO&lt;/span&gt;
+export APPLICATION_OBJECT_ID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;$(&lt;/span&gt;az resource show --id /subscriptions/&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;AZURE_SUBSCRIPTION_ID&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;/resourceGroups/&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;MI_RESOURCE_GROUP&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;/providers/Microsoft.ManagedIdentity/userAssignedIdentities/&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;MI_NAME&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt; --query &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;properties.principalId&amp;#34;&lt;/span&gt; -o tsv | tr -d &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;[:space:]&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;`&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Create the Federated Identity Credential registering your service account with AAD:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF &amp;gt; body.json
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  &amp;#34;name&amp;#34;: &amp;#34;aso-federated-credential&amp;#34;,
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  &amp;#34;type&amp;#34;:&amp;#34;Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials&amp;#34;,
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  &amp;#34;properties&amp;#34;: {
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &amp;#34;issuer&amp;#34;:&amp;#34;${SERVICE_ACCOUNT_ISSUER}&amp;#34;,
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &amp;#34;subject&amp;#34;:&amp;#34;system:serviceaccount:azureserviceoperator-system:azureserviceoperator-default&amp;#34;,
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &amp;#34;audiences&amp;#34;: [
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;      &amp;#34;api://AzureADTokenExchange&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    ]
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  }
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;}
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;EOF&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; The &lt;code&gt;aso-controller-settings&lt;/code&gt; secret contains more configuration than just the global credential.
-If ASO was already installed on your cluster and you are updating the &lt;code&gt;aso-controller-settings&lt;/code&gt; secret, ensure that
-&lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/guide/aso-controller-settings-options/&#34;&gt;other values&lt;/a&gt; in that secret are not being overwritten.&lt;/p&gt;
 
-    &lt;/div&gt;
-    &lt;div class=&#34;tab-body tab-pane fade&#34;
-        id=&#34;tabs-01-02&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-01-02-tab&#34;&gt;
-        &lt;p&gt;Create the &lt;code&gt;aso-credential&lt;/code&gt; secret in your namespace:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF | kubectl apply -f -
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;apiVersion: v1
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;kind: Secret
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;metadata:
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; name: aso-credential
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; namespace: my-namespace
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;stringData:
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_SUBSCRIPTION_ID: &amp;#34;$AZURE_SUBSCRIPTION_ID&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_TENANT_ID: &amp;#34;$AZURE_TENANT_ID&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_ID: &amp;#34;$AZURE_CLIENT_ID&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_SECRET: &amp;#34;$AZURE_CLIENT_SECRET&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;EOF&lt;/span&gt;
+az rest --method put --url /subscriptions/&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;AZURE_SUBSCRIPTION_ID&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;/resourcegroups/&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;MI_RESOURCE_GROUP&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;/providers/Microsoft.ManagedIdentity/userAssignedIdentities/&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;MI_NAME&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;/federatedIdentityCredentials/aso-federated-credential?api-version&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;2022-01-31-preview --body @body.json
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
     &lt;/div&gt;
     &lt;div class=&#34;tab-body tab-pane fade&#34;
-        id=&#34;tabs-01-03&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-01-03-tab&#34;&gt;
-        &lt;p&gt;Create a per-resource secret. We&amp;rsquo;ll use &lt;code&gt;my-resource-secret&lt;/code&gt;:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF | kubectl apply -f -
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;apiVersion: v1
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;kind: Secret
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;metadata:
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; name: my-resource-secret
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; namespace: my-namespace
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;stringData:
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_SUBSCRIPTION_ID: &amp;#34;$AZURE_SUBSCRIPTION_ID&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_TENANT_ID: &amp;#34;$AZURE_TENANT_ID&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_ID: &amp;#34;$AZURE_CLIENT_ID&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_SECRET: &amp;#34;$AZURE_CLIENT_SECRET&amp;#34;
+        id=&#34;tabs-01-02&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-01-02-tab&#34;&gt;
+        &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;export APPLICATION_OBJECT_ID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;$(&lt;/span&gt;az ad app show --id &lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;AZURE_CLIENT_ID&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt; --query id -otsv&lt;span style=&#34;color:#66d9ef&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
+
+cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF &amp;gt; params.json
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  &amp;#34;name&amp;#34;: &amp;#34;aso-federated-credential&amp;#34;,
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  &amp;#34;issuer&amp;#34;: &amp;#34;${SERVICE_ACCOUNT_ISSUER}&amp;#34;,
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  &amp;#34;subject&amp;#34;: &amp;#34;system:serviceaccount:azureserviceoperator-system:azureserviceoperator-default&amp;#34;,
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  &amp;#34;description&amp;#34;: &amp;#34;Kubernetes service account federated credential&amp;#34;,
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  &amp;#34;audiences&amp;#34;: [
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &amp;#34;api://AzureADTokenExchange&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  ]
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;}
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;EOF&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Create the ASO resource referring to &lt;code&gt;my-resource-secret&lt;/code&gt;. We show a &lt;code&gt;ResourceGroup&lt;/code&gt; here, but any ASO resource will work.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF | kubectl apply -f -
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;apiVersion: resources.azure.com/v1api20200601
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;kind: ResourceGroup
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;metadata:
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  name: aso-sample-rg
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  namespace: default
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  annotation:
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    serviceoperator.azure.com/credential-from: my-resource-secret
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;spec:
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  location: westcentralus
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;EOF&lt;/span&gt;
+
+az ad app federated-credential create --id &lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;APPLICATION_OBJECT_ID&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt; --parameters @params.json
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;h2 id=&#34;service-principal-using-a-client-certificate&#34;&gt;Service Principal using a Client Certificate&lt;/h2&gt;
-&lt;h3 id=&#34;prerequisites-1&#34;&gt;Prerequisites&lt;/h3&gt;
-&lt;ol&gt;
-&lt;li&gt;An existing Azure Service Principal.&lt;/li&gt;
-&lt;li&gt;X.509 certificate in ASCII format such as PEM, CER, or DER.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;To use Service Principal authentication via client certificate, create a secret with the &lt;code&gt;AZURE_CLIENT_ID&lt;/code&gt;, &lt;code&gt;AZURE_CLIENT_CERTIFICATE&lt;/code&gt; and &lt;code&gt;AZURE_CLIENT_CERTIFICATE_PASSWORD&lt;/code&gt;(optional) keys set.&lt;/p&gt;
-&lt;p&gt;For more information about creating Service Principals with certificate, see &lt;a href=&#34;https://learn.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli#certificate-based-authentication&#34;&gt;creating an Azure Service Principal using the Azure CLI&lt;/a&gt;.
-The &lt;code&gt;AZURE_CLIENT_ID&lt;/code&gt; is sometimes also called the App ID. The &lt;code&gt;AZURE_CLIENT_CERTIFICATE&lt;/code&gt; is the &lt;em&gt;certificate&lt;/em&gt; returned by the command in the previously linked documentation.&lt;/p&gt;
-&lt;p&gt;Use the following Bash commands to set the environment variables containing the service principal certificate secret (customize with your values):&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;export AZURE_CLIENT_ID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;00000000-0000-0000-0000-00000000000&amp;#34;&lt;/span&gt;          &lt;span style=&#34;color:#75715e&#34;&gt;# The client ID (sometimes called App Id) of the Service Principal.&lt;/span&gt;
-export AZURE_SUBSCRIPTION_ID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;00000000-0000-0000-0000-00000000000&amp;#34;&lt;/span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;# The Azure Subscription ID the identity is in.&lt;/span&gt;
-export AZURE_TENANT_ID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;00000000-0000-0000-0000-00000000000&amp;#34;&lt;/span&gt;          &lt;span style=&#34;color:#75715e&#34;&gt;# The Azure AAD Tenant the identity/subscription is associated with.&lt;/span&gt;
-export AZURE_CLIENT_CERTIFICATE&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;`&lt;/span&gt;cat path/to/certFile.pem&lt;span style=&#34;color:#e6db74&#34;&gt;`&lt;/span&gt;                    &lt;span style=&#34;color:#75715e&#34;&gt;# The client certificate of the Service Principal.&lt;/span&gt;
-export AZURE_CLIENT_CERTIFICATE_PASSWORD&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;myPrivateKeyValue&amp;#34;&lt;/span&gt;          &lt;span style=&#34;color:#75715e&#34;&gt;# The private key for the above certificate (optional)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;create-the-secret-1&#34;&gt;Create the secret&lt;/h3&gt;
+&lt;h3 id=&#34;create-the-secret&#34;&gt;Create the secret&lt;/h3&gt;
 
 
 
@@ -219,7 +166,7 @@ export AZURE_CLIENT_CERTIFICATE_PASSWORD&lt;span style=&#34;color:#f92672&#34;&g
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureSubscriptionID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_SUBSCRIPTION_ID &lt;span style=&#34;color:#ae81ff&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureTenantID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_TENANT_ID &lt;span style=&#34;color:#ae81ff&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureClientID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_CLIENT_ID &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureClientCertificatePassword&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_CLIENT_CERTIFICATE_PASSWORD &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set useWorkloadIdentityAuth&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;true &lt;span style=&#34;color:#ae81ff&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set crdPattern&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*&amp;#39;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;See &lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/guide/crd-management/&#34;&gt;CRD management&lt;/a&gt; for more details about &lt;code&gt;crdPattern&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Otherwise, create or update the &lt;code&gt;aso-controller-settings&lt;/code&gt; secret:&lt;/p&gt;
@@ -233,8 +180,7 @@ export AZURE_CLIENT_CERTIFICATE_PASSWORD&lt;span style=&#34;color:#f92672&#34;&g
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_SUBSCRIPTION_ID: &amp;#34;$AZURE_SUBSCRIPTION_ID&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_TENANT_ID: &amp;#34;$AZURE_TENANT_ID&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_ID: &amp;#34;$AZURE_CLIENT_ID&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_CERTIFICATE: &amp;#34;$AZURE_CLIENT_CERTIFICATE&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_CERTIFICATE_PASSWORD: &amp;#34;$AZURE_CLIENT_CERTIFICATE_PASSWORD&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; USE_WORKLOAD_IDENTITY_AUTH: &amp;#34;true&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;EOF&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; The &lt;code&gt;aso-controller-settings&lt;/code&gt; secret contains more configuration than just the global credential.
 If ASO was already installed on your cluster and you are updating the &lt;code&gt;aso-controller-settings&lt;/code&gt; secret, ensure that
@@ -254,10 +200,10 @@ If ASO was already installed on your cluster and you are updating the &lt;code&g
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_SUBSCRIPTION_ID: &amp;#34;$AZURE_SUBSCRIPTION_ID&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_TENANT_ID: &amp;#34;$AZURE_TENANT_ID&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_ID: &amp;#34;$AZURE_CLIENT_ID&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_CERTIFICATE: &amp;#34;$AZURE_CLIENT_CERTIFICATE&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_CERTIFICATE_PASSWORD: &amp;#34;$AZURE_CLIENT_CERTIFICATE_PASSWORD&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;EOF&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; Each credential (both namespaced and per-resource) you create must have a trust relationship between your OIDC
+issuer URL and the backing Service Principal or Managed Identity. See &lt;a href=&#34;#configure-trust&#34;&gt;how to configure trust&lt;/a&gt; for more details.&lt;/p&gt;
+
     &lt;/div&gt;
     &lt;div class=&#34;tab-body tab-pane fade&#34;
         id=&#34;tabs-02-03&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-02-03-tab&#34;&gt;
@@ -272,8 +218,6 @@ If ASO was already installed on your cluster and you are updating the &lt;code&g
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_SUBSCRIPTION_ID: &amp;#34;$AZURE_SUBSCRIPTION_ID&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_TENANT_ID: &amp;#34;$AZURE_TENANT_ID&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_ID: &amp;#34;$AZURE_CLIENT_ID&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_CERTIFICATE: &amp;#34;$AZURE_CLIENT_CERTIFICATE&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_CERTIFICATE_PASSWORD: &amp;#34;$AZURE_CLIENT_CERTIFICATE_PASSWORD&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;EOF&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Create the ASO resource referring to &lt;code&gt;my-resource-secret&lt;/code&gt;. We show a &lt;code&gt;ResourceGroup&lt;/code&gt; here, but any ASO resource will work.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF | kubectl apply -f -
@@ -287,62 +231,26 @@ If ASO was already installed on your cluster and you are updating the &lt;code&g
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;spec:
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  location: westcentralus
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;EOF&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; Each credential (both namespaced and per-resource) you create must have a trust relationship between your OIDC
+issuer URL and the backing Service Principal or Managed Identity. See &lt;a href=&#34;#configure-trust&#34;&gt;how to configure trust&lt;/a&gt; for more details.&lt;/p&gt;
+
     &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;h2 id=&#34;azure-workload-identity&#34;&gt;Azure Workload Identity&lt;/h2&gt;
-&lt;p&gt;See &lt;a href=&#34;https://github.com/Azure/azure-workload-identity&#34;&gt;Azure Workload Identity&lt;/a&gt; for details about the workload identity project.&lt;/p&gt;
-&lt;h3 id=&#34;prerequisites-2&#34;&gt;Prerequisites&lt;/h3&gt;
+&lt;h2 id=&#34;service-principal-using-a-client-secret&#34;&gt;Service Principal using a Client Secret&lt;/h2&gt;
+&lt;h3 id=&#34;prerequisites-1&#34;&gt;Prerequisites&lt;/h3&gt;
 &lt;ol&gt;
-&lt;li&gt;An existing Azure Service Principal or Managed Identity. The setup is the same regardless of which you choose.&lt;/li&gt;
-&lt;li&gt;The &lt;a href=&#34;https://docs.microsoft.com/cli/azure/install-azure-cli&#34;&gt;Azure CLI&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;An existing Azure Service Principal.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;Use the following Bash commands to set the environment variables containing the workload identity secret (customize with your values):&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;export AZURE_CLIENT_ID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;00000000-0000-0000-0000-00000000000&amp;#34;&lt;/span&gt;       &lt;span style=&#34;color:#75715e&#34;&gt;# The client ID (sometimes called App Id) of the Service Principal, or the Client ID of the Managed Identity with which you are using Workload Identity.&lt;/span&gt;
+&lt;p&gt;To use Service Principal authentication with &lt;strong&gt;client secret&lt;/strong&gt;, create a secret with the &lt;code&gt;AZURE_CLIENT_ID&lt;/code&gt; and &lt;code&gt;AZURE_CLIENT_SECRET&lt;/code&gt; keys set.&lt;/p&gt;
+&lt;p&gt;For more information about Service Principals, see &lt;a href=&#34;https://docs.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli#password-based-authentication&#34;&gt;creating an Azure Service Principal using the Azure CLI&lt;/a&gt;.
+The &lt;code&gt;AZURE_CLIENT_ID&lt;/code&gt; is sometimes also called the App ID. The &lt;code&gt;AZURE_CLIENT_SECRET&lt;/code&gt; is the &amp;ldquo;password&amp;rdquo; returned by the command in the previously linked documentation.&lt;/p&gt;
+&lt;p&gt;Use the following Bash commands to set the environment variables containing the service principal secret (customize with your values):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;export AZURE_CLIENT_ID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;00000000-0000-0000-0000-00000000000&amp;#34;&lt;/span&gt;       &lt;span style=&#34;color:#75715e&#34;&gt;# The client ID (sometimes called App Id) of the Service Principal.&lt;/span&gt;
+export AZURE_CLIENT_SECRET&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;00000000-0000-0000-0000-00000000000&amp;#34;&lt;/span&gt;   &lt;span style=&#34;color:#75715e&#34;&gt;# The client secret of the Service Principal.&lt;/span&gt;
 export AZURE_SUBSCRIPTION_ID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;00000000-0000-0000-0000-00000000000&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# The Azure Subscription ID the identity is in.&lt;/span&gt;
 export AZURE_TENANT_ID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;00000000-0000-0000-0000-00000000000&amp;#34;&lt;/span&gt;       &lt;span style=&#34;color:#75715e&#34;&gt;# The Azure AAD Tenant the identity/subscription is associated with.&lt;/span&gt;
-export SERVICE_ACCOUNT_ISSUER&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;https://oidc.prod-aks.azure.com/00000000-0000-0000-0000-00000000000/&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# The OIDC endpoint for your cluster in this example AKS&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;get-the-application-object-id-of-the-identity&#34;&gt;Get the Application Object ID of the identity&lt;/h3&gt;
-&lt;p&gt;For Managed Identity: &lt;code&gt;export APPLICATION_OBJECT_ID=$(az resource show --id /subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/{my resource group name}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{my managed identity name} --query &amp;quot;properties.principalId&amp;quot; -o tsv | tr -d &#39;[:space:]&#39;)&lt;/code&gt;&lt;/p&gt;
-&lt;h3 id=&#34;configure-trust&#34;&gt;Configure trust&lt;/h3&gt;
-&lt;p&gt;Establish trust between your OIDC issuer URL and the backing Service Principal or Managed Identity. See &lt;a href=&#34;https://docs.microsoft.com/en-us/azure/active-directory/develop/workload-identity-federation#how-it-works&#34;&gt;how it works&lt;/a&gt; for details.&lt;/p&gt;
-&lt;h4 id=&#34;service-principal&#34;&gt;Service Principal&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;export APPLICATION_OBJECT_ID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;$(&lt;/span&gt;az ad app show --id &lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;AZURE_CLIENT_ID&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt; --query id -otsv&lt;span style=&#34;color:#66d9ef&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
-
-cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF &amp;gt; params.json
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  &amp;#34;name&amp;#34;: &amp;#34;aso-federated-credential&amp;#34;,
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  &amp;#34;issuer&amp;#34;: &amp;#34;${SERVICE_ACCOUNT_ISSUER}&amp;#34;,
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  &amp;#34;subject&amp;#34;: &amp;#34;system:serviceaccount:azureserviceoperator-system:azureserviceoperator-default&amp;#34;,
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  &amp;#34;description&amp;#34;: &amp;#34;Kubernetes service account federated credential&amp;#34;,
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  &amp;#34;audiences&amp;#34;: [
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &amp;#34;api://AzureADTokenExchange&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  ]
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;}
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;EOF&lt;/span&gt;
-
-az ad app federated-credential create --id &lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;APPLICATION_OBJECT_ID&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt; --parameters @params.json
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;managed-identity&#34;&gt;Managed Identity&lt;/h4&gt;
-&lt;p&gt;Set the following additional environment variables:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;export MI_RESOURCE_GROUP&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;my-rg&amp;#34;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;# The resource group containing the managed identity that will be used by ASO&lt;/span&gt;
-export MI_NAME&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;my-mi&amp;#34;&lt;/span&gt;            &lt;span style=&#34;color:#75715e&#34;&gt;# The name of the managed identity that will be used by ASO&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF &amp;gt; body.json
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  &amp;#34;name&amp;#34;: &amp;#34;aso-federated-credential&amp;#34;,
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  &amp;#34;type&amp;#34;:&amp;#34;Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials&amp;#34;,
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  &amp;#34;properties&amp;#34;: {
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &amp;#34;issuer&amp;#34;:&amp;#34;${SERVICE_ACCOUNT_ISSUER}&amp;#34;,
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &amp;#34;subject&amp;#34;:&amp;#34;system:serviceaccount:azureserviceoperator-system:azureserviceoperator-default&amp;#34;,
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &amp;#34;audiences&amp;#34;: [
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;      &amp;#34;api://AzureADTokenExchange&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    ]
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  }
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;}
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;EOF&lt;/span&gt;
-
-az rest --method put --url /subscriptions/&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;AZURE_SUBSCRIPTION_ID&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;/resourcegroups/&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;MI_RESOURCE_GROUP&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;/providers/Microsoft.ManagedIdentity/userAssignedIdentities/&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;MI_NAME&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;/federatedIdentityCredentials/aso-federated-credential?api-version&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;2022-01-31-preview --body @body.json
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;create-the-secret-2&#34;&gt;Create the secret&lt;/h3&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;create-the-secret-1&#34;&gt;Create the secret&lt;/h3&gt;
 
 
 
@@ -390,7 +298,7 @@ az rest --method put --url /subscriptions/&lt;span style=&#34;color:#e6db74&#34;
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureSubscriptionID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_SUBSCRIPTION_ID &lt;span style=&#34;color:#ae81ff&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureTenantID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_TENANT_ID &lt;span style=&#34;color:#ae81ff&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureClientID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_CLIENT_ID &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set useWorkloadIdentityAuth&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;true &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureClientSecret&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_CLIENT_SECRET &lt;span style=&#34;color:#ae81ff&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set crdPattern&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*&amp;#39;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;See &lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/guide/crd-management/&#34;&gt;CRD management&lt;/a&gt; for more details about &lt;code&gt;crdPattern&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Otherwise, create or update the &lt;code&gt;aso-controller-settings&lt;/code&gt; secret:&lt;/p&gt;
@@ -404,7 +312,7 @@ az rest --method put --url /subscriptions/&lt;span style=&#34;color:#e6db74&#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_SUBSCRIPTION_ID: &amp;#34;$AZURE_SUBSCRIPTION_ID&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_TENANT_ID: &amp;#34;$AZURE_TENANT_ID&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_ID: &amp;#34;$AZURE_CLIENT_ID&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; USE_WORKLOAD_IDENTITY_AUTH: &amp;#34;true&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_SECRET: &amp;#34;$AZURE_CLIENT_SECRET&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;EOF&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; The &lt;code&gt;aso-controller-settings&lt;/code&gt; secret contains more configuration than just the global credential.
 If ASO was already installed on your cluster and you are updating the &lt;code&gt;aso-controller-settings&lt;/code&gt; secret, ensure that
@@ -424,10 +332,9 @@ If ASO was already installed on your cluster and you are updating the &lt;code&g
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_SUBSCRIPTION_ID: &amp;#34;$AZURE_SUBSCRIPTION_ID&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_TENANT_ID: &amp;#34;$AZURE_TENANT_ID&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_ID: &amp;#34;$AZURE_CLIENT_ID&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_SECRET: &amp;#34;$AZURE_CLIENT_SECRET&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;EOF&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; Each credential (both namespaced and per-resource) you create must have a trust relationship between your OIDC
-issuer URL and the backing Service Principal or Managed Identity. See &lt;a href=&#34;#configure-trust&#34;&gt;how to configure trust&lt;/a&gt; for more details.&lt;/p&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
     &lt;/div&gt;
     &lt;div class=&#34;tab-body tab-pane fade&#34;
         id=&#34;tabs-03-03&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-03-03-tab&#34;&gt;
@@ -442,6 +349,7 @@ issuer URL and the backing Service Principal or Managed Identity. See &lt;a href
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_SUBSCRIPTION_ID: &amp;#34;$AZURE_SUBSCRIPTION_ID&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_TENANT_ID: &amp;#34;$AZURE_TENANT_ID&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_ID: &amp;#34;$AZURE_CLIENT_ID&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_SECRET: &amp;#34;$AZURE_CLIENT_SECRET&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;EOF&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Create the ASO resource referring to &lt;code&gt;my-resource-secret&lt;/code&gt;. We show a &lt;code&gt;ResourceGroup&lt;/code&gt; here, but any ASO resource will work.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF | kubectl apply -f -
@@ -455,9 +363,142 @@ issuer URL and the backing Service Principal or Managed Identity. See &lt;a href
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;spec:
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  location: westcentralus
 &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;EOF&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; Each credential (both namespaced and per-resource) you create must have a trust relationship between your OIDC
-issuer URL and the backing Service Principal or Managed Identity. See &lt;a href=&#34;#configure-trust&#34;&gt;how to configure trust&lt;/a&gt; for more details.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
 
+&lt;h2 id=&#34;service-principal-using-a-client-certificate&#34;&gt;Service Principal using a Client Certificate&lt;/h2&gt;
+&lt;h3 id=&#34;prerequisites-2&#34;&gt;Prerequisites&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;An existing Azure Service Principal.&lt;/li&gt;
+&lt;li&gt;X.509 certificate in ASCII format such as PEM, CER, or DER.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;To use Service Principal authentication via client certificate, create a secret with the &lt;code&gt;AZURE_CLIENT_ID&lt;/code&gt;, &lt;code&gt;AZURE_CLIENT_CERTIFICATE&lt;/code&gt; and &lt;code&gt;AZURE_CLIENT_CERTIFICATE_PASSWORD&lt;/code&gt;(optional) keys set.&lt;/p&gt;
+&lt;p&gt;For more information about creating Service Principals with certificate, see &lt;a href=&#34;https://learn.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli#certificate-based-authentication&#34;&gt;creating an Azure Service Principal using the Azure CLI&lt;/a&gt;.
+The &lt;code&gt;AZURE_CLIENT_ID&lt;/code&gt; is sometimes also called the App ID. The &lt;code&gt;AZURE_CLIENT_CERTIFICATE&lt;/code&gt; is the &lt;em&gt;certificate&lt;/em&gt; returned by the command in the previously linked documentation.&lt;/p&gt;
+&lt;p&gt;Use the following Bash commands to set the environment variables containing the service principal certificate secret (customize with your values):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;export AZURE_CLIENT_ID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;00000000-0000-0000-0000-00000000000&amp;#34;&lt;/span&gt;          &lt;span style=&#34;color:#75715e&#34;&gt;# The client ID (sometimes called App Id) of the Service Principal.&lt;/span&gt;
+export AZURE_SUBSCRIPTION_ID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;00000000-0000-0000-0000-00000000000&amp;#34;&lt;/span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;# The Azure Subscription ID the identity is in.&lt;/span&gt;
+export AZURE_TENANT_ID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;00000000-0000-0000-0000-00000000000&amp;#34;&lt;/span&gt;          &lt;span style=&#34;color:#75715e&#34;&gt;# The Azure AAD Tenant the identity/subscription is associated with.&lt;/span&gt;
+export AZURE_CLIENT_CERTIFICATE&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;`&lt;/span&gt;cat path/to/certFile.pem&lt;span style=&#34;color:#e6db74&#34;&gt;`&lt;/span&gt;                    &lt;span style=&#34;color:#75715e&#34;&gt;# The client certificate of the Service Principal.&lt;/span&gt;
+export AZURE_CLIENT_CERTIFICATE_PASSWORD&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;myPrivateKeyValue&amp;#34;&lt;/span&gt;          &lt;span style=&#34;color:#75715e&#34;&gt;# The private key for the above certificate (optional)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;create-the-secret-2&#34;&gt;Create the secret&lt;/h3&gt;
+
+
+
+
+
+&lt;ul class=&#34;nav nav-tabs&#34; id=&#34;tabs-4&#34; role=&#34;tablist&#34;&gt;
+  &lt;li class=&#34;nav-item&#34;&gt;
+      &lt;a class=&#34;nav-link disabled&#34;
+          id=&#34;tabs-04-00-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-04-00&#34; role=&#34;tab&#34;
+          aria-controls=&#34;tabs-04-00&#34; aria-selected=&#34;false&#34;&gt;
+        &lt;strong&gt;Scope&lt;/strong&gt;:
+      &lt;/a&gt;
+    &lt;/li&gt;&lt;li class=&#34;nav-item&#34;&gt;
+      &lt;a class=&#34;nav-link active&#34;
+          id=&#34;tabs-04-01-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-04-01&#34; role=&#34;tab&#34;
+          aria-controls=&#34;tabs-04-01&#34; aria-selected=&#34;false&#34;&gt;
+        Global
+      &lt;/a&gt;
+    &lt;/li&gt;&lt;li class=&#34;nav-item&#34;&gt;
+      &lt;a class=&#34;nav-link&#34;
+          id=&#34;tabs-04-02-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-04-02&#34; role=&#34;tab&#34;
+          aria-controls=&#34;tabs-04-02&#34; aria-selected=&#34;false&#34;&gt;
+        Namespace
+      &lt;/a&gt;
+    &lt;/li&gt;&lt;li class=&#34;nav-item&#34;&gt;
+      &lt;a class=&#34;nav-link&#34;
+          id=&#34;tabs-04-03-tab&#34; data-toggle=&#34;tab&#34; href=&#34;#tabs-04-03&#34; role=&#34;tab&#34;
+          aria-controls=&#34;tabs-04-03&#34; aria-selected=&#34;false&#34;&gt;
+        Resource
+      &lt;/a&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&#34;tab-content&#34; id=&#34;tabs-4-content&#34;&gt;
+    &lt;div class=&#34;tab-body tab-pane fade&#34;
+        id=&#34;tabs-04-00&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-04-00-tab&#34;&gt;
+        
+    &lt;/div&gt;
+    &lt;div class=&#34;tab-body tab-pane fade show active&#34;
+        id=&#34;tabs-04-01&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-04-01-tab&#34;&gt;
+        &lt;p&gt;If installing ASO for the first time, you can pass these values via Helm arguments:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;helm upgrade --install --devel aso2 aso2/azure-service-operator &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --create-namespace &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --namespace&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;azureserviceoperator-system &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureSubscriptionID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_SUBSCRIPTION_ID &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureTenantID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_TENANT_ID &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureClientID&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_CLIENT_ID &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set azureClientCertificatePassword&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$AZURE_CLIENT_CERTIFICATE_PASSWORD &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;        --set crdPattern&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;See &lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/guide/crd-management/&#34;&gt;CRD management&lt;/a&gt; for more details about &lt;code&gt;crdPattern&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Otherwise, create or update the &lt;code&gt;aso-controller-settings&lt;/code&gt; secret:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF | kubectl apply -f -
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;apiVersion: v1
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;kind: Secret
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; name: aso-controller-settings
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; namespace: azureserviceoperator-system
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;stringData:
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_SUBSCRIPTION_ID: &amp;#34;$AZURE_SUBSCRIPTION_ID&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_TENANT_ID: &amp;#34;$AZURE_TENANT_ID&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_ID: &amp;#34;$AZURE_CLIENT_ID&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_CERTIFICATE: &amp;#34;$AZURE_CLIENT_CERTIFICATE&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_CERTIFICATE_PASSWORD: &amp;#34;$AZURE_CLIENT_CERTIFICATE_PASSWORD&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;EOF&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; The &lt;code&gt;aso-controller-settings&lt;/code&gt; secret contains more configuration than just the global credential.
+If ASO was already installed on your cluster and you are updating the &lt;code&gt;aso-controller-settings&lt;/code&gt; secret, ensure that
+&lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/guide/aso-controller-settings-options/&#34;&gt;other values&lt;/a&gt; in that secret are not being overwritten.&lt;/p&gt;
+
+    &lt;/div&gt;
+    &lt;div class=&#34;tab-body tab-pane fade&#34;
+        id=&#34;tabs-04-02&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-04-02-tab&#34;&gt;
+        &lt;p&gt;Create the &lt;code&gt;aso-credential&lt;/code&gt; secret in your namespace:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF | kubectl apply -f -
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;apiVersion: v1
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;kind: Secret
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; name: aso-credential
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; namespace: my-namespace
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;stringData:
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_SUBSCRIPTION_ID: &amp;#34;$AZURE_SUBSCRIPTION_ID&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_TENANT_ID: &amp;#34;$AZURE_TENANT_ID&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_ID: &amp;#34;$AZURE_CLIENT_ID&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_CERTIFICATE: &amp;#34;$AZURE_CLIENT_CERTIFICATE&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_CERTIFICATE_PASSWORD: &amp;#34;$AZURE_CLIENT_CERTIFICATE_PASSWORD&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;EOF&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&#34;tab-body tab-pane fade&#34;
+        id=&#34;tabs-04-03&#34; role=&#34;tabpanel&#34; aria-labelled-by=&#34;tabs-04-03-tab&#34;&gt;
+        &lt;p&gt;Create a per-resource secret. We&amp;rsquo;ll use &lt;code&gt;my-resource-secret&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF | kubectl apply -f -
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;apiVersion: v1
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;kind: Secret
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; name: my-resource-secret
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; namespace: my-namespace
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;stringData:
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_SUBSCRIPTION_ID: &amp;#34;$AZURE_SUBSCRIPTION_ID&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_TENANT_ID: &amp;#34;$AZURE_TENANT_ID&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_ID: &amp;#34;$AZURE_CLIENT_ID&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_CERTIFICATE: &amp;#34;$AZURE_CLIENT_CERTIFICATE&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; AZURE_CLIENT_CERTIFICATE_PASSWORD: &amp;#34;$AZURE_CLIENT_CERTIFICATE_PASSWORD&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;EOF&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Create the ASO resource referring to &lt;code&gt;my-resource-secret&lt;/code&gt;. We show a &lt;code&gt;ResourceGroup&lt;/code&gt; here, but any ASO resource will work.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cat &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;&amp;lt;EOF | kubectl apply -f -
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;apiVersion: resources.azure.com/v1api20200601
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;kind: ResourceGroup
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  name: aso-sample-rg
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  namespace: default
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  annotation:
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    serviceoperator.azure.com/credential-from: my-resource-secret
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;  location: westcentralus
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;EOF&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
 

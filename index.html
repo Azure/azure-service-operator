@@ -695,7 +695,8 @@
 <ol>
 <li>A Kubernetes cluster (at least version 1.16) <a href="https://kubernetes.io/docs/tutorials/kubernetes-basics/create-cluster/">created and running</a>. You can check your cluster version with <code>kubectl version</code>. If you want to try it out quickly, spin up a local cluster using <a href="https://kind.sigs.k8s.io">Kind</a>.</li>
 <li>An Azure Subscription to provision resources into.</li>
-<li>An Azure Service Principal for the operator to use, or the <a href="https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest">Azure CLI</a> to create one. How to create a Service Principal is covered in <a href="#installation">installation</a>.</li>
+<li>An Azure Service Principal for the operator to use, or the <a href="https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest">Azure CLI</a> to create one. How to create a Service Principal is covered in <a href="#installation">installation</a>.
+See the <a href="https://azure.github.io/azure-service-operator/guide/authentication/credential-format/#azure-workload-identity">Azure Workload Identity</a> setup for how to use managed identity instead. We recommend using workload identity in production.</li>
 </ol>
 <h3 id="installation">Installation</h3>
 <ol>
