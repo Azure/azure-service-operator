@@ -17,6 +17,9 @@ spec:
   replicaCount: 1
   sku:
     name: standard
+  authOptions:
+    aadOrApiKey:
+      aadAuthFailureMode: http403
   operatorSpec:
     secrets:
       adminPrimaryKey:
