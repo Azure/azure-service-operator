@@ -12,6 +12,7 @@ import (
 
 	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_Dataprotection_Backupinstance_CRUD(t *testing.T) {
@@ -21,15 +22,16 @@ func Test_Dataprotection_Backupinstance_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	// Create a backupvault
+	// CONSTANTS: BACKUP_VAULT
 	region := tc.AzureRegion
 	identityType := "SystemAssigned"
 	alertsForAllJobFailures_Status := dataprotection.AzureMonitorAlertSettings_AlertsForAllJobFailures_Enabled
 	StorageSetting_DatastoreType_Value := dataprotection.StorageSetting_DatastoreType_VaultStore
 	StorageSetting_Type_Value := dataprotection.StorageSetting_Type_LocallyRedundant
 
+	// Create a backupvault
 	backupvault := &dataprotection.BackupVault{
-		ObjectMeta: tc.MakeObjectMetaWithName("backupvault"),
+		ObjectMeta: tc.MakeObjectMetaWithName("test-backup-vault"),
 		Spec: dataprotection.BackupVault_Spec{
 			Location: region,
 			Tags:     map[string]string{"cheese": "blue"},
@@ -57,7 +59,7 @@ func Test_Dataprotection_Backupinstance_CRUD(t *testing.T) {
 	// Note:
 	// It is mandatory to create a backupvault before creating a backuppolicy
 
-	// Create a BackupPolicy
+	// CONSTANTS: BACKUP_POLICY
 	backupPolicy_ObjectType := dataprotection.BackupPolicy_ObjectType_BackupPolicy
 
 	// consts for AzureBackupRule
@@ -89,7 +91,7 @@ func Test_Dataprotection_Backupinstance_CRUD(t *testing.T) {
 
 	// backuppolicy generation
 	backuppolicy := &dataprotection.BackupVaultsBackupPolicy{
-		ObjectMeta: tc.MakeObjectMetaWithName("testsbackuppolicy"),
+		ObjectMeta: tc.MakeObjectMetaWithName("test-backup-policy"),
 		Spec: dataprotection.BackupVaults_BackupPolicy_Spec{
 			Owner: testcommon.AsOwner(backupvault),
 			Properties: &dataprotection.BaseBackupPolicy{
@@ -158,13 +160,10 @@ func Test_Dataprotection_Backupinstance_CRUD(t *testing.T) {
 			},
 		},
 	}
-
 	tc.CreateResourceAndWait(backuppolicy)
 
-	// Create a BackupInstance
-	
-	// consts for BackupInstance
-	BackupInstance_FriendlyName_Value := "test_backup_instance"
+	// CONSTANTS: BACKUP_INSTANCE
+	BackupInstance_FriendlyName_Value := "test-shashwat"
 	BackupInstance_ObjectType_Value := "BackupInstance"
 
 	// consts for BackupInstance:DataSourceInfo
@@ -178,73 +177,81 @@ func Test_Dataprotection_Backupinstance_CRUD(t *testing.T) {
 	DataSourceSetInfo_DatasourceType_Value := "Microsoft.ContainerService/managedClusters"
 
 	// consts for BackupInstance:PolicyInfo:DataStoreParameters
-	DataStoreParameters_DataStoreType_Value:= dataprotection.AzureOperationalStoreParameters_DataStoreType_OperationalStore
+	PolicyId_Value := "/subscriptions/f0c630e0-2995-4853-b056-0b3c09cb673f/resourceGroups/t-agrawals/providers/Microsoft.DataProtection/BackupVaults/test-backup-vault/backupPolicies/test-backup-policy"
+	DataStoreParameters_DataStoreType_Value := dataprotection.AzureOperationalStoreParameters_DataStoreType_OperationalStore
 	DataStoreParameters_ObjectType_Value := dataprotection.AzureOperationalStoreParameters_ObjectType_AzureOperationalStoreParameters
+	DataStoreParameters_ResourceGroupId_Value := "/subscriptions/f0c630e0-2995-4853-b056-0b3c09cb673f/resourceGroups/t-agrawals"
 
 	// consts for BackupInstance:PolicyInfo:BackupDatasourceParameters
 	BackupDatasourceParameters_ObjectType_Value := dataprotection.KubernetesClusterBackupDatasourceParameters_ObjectType_KubernetesClusterBackupDatasourceParameters
 	BackupDatasourceParameters_SnapshotVolumes_Value := true
 	BackupDatasourceParameters_IncludeClusterScopeResources_Value := true
 
-	// backupinstance generation
+	// common consts for BackupInstance
+	ResourceName_Value := "test-aks-cluster"
+	ResourceUri_Value := "/subscriptions/f0c630e0-2995-4853-b056-0b3c09cb673f/resourceGroups/t-agrawals/providers/Microsoft.ContainerService/managedClusters/test-aks-cluster"
+
+	// Create a BackupInstance
 	backupinstance := &dataprotection.BackupVaultsBackupInstance{
-		ObjectMeta: tc.MakeObjectMetaWithName("testsbackupinstance"),
+		ObjectMeta: tc.MakeObjectMetaWithName(BackupInstance_FriendlyName_Value),
 		Spec: dataprotection.BackupVaults_BackupInstance_Spec{
 			Owner: testcommon.AsOwner(backupvault),
-			Tags: map[string]string{"cheese": "blue"},
+			Tags:  map[string]string{"cheese": "blue"},
 			Properties: &dataprotection.BackupInstance{
 				FriendlyName: &BackupInstance_FriendlyName_Value,
-				ObjectType: &BackupInstance_ObjectType_Value,
+				ObjectType:   &BackupInstance_ObjectType_Value,
 				DataSourceInfo: &dataprotection.Datasource{
 					ObjectType: &DataSourceInfo_ObjectType_Value,
-					// ResourceReference: "resource ID here  ........??",
-					ResourceName: "testAKSCluster",
-					ResourceType: &DataSourceInfo_ResourceType_Value,
+					ResourceReference: &genruntime.ResourceReference{
+						ARMID: ResourceUri_Value,
+					},
+					ResourceName:     &ResourceName_Value,
+					ResourceType:     &DataSourceInfo_ResourceType_Value,
 					ResourceLocation: region, // Resource Location is same as of BackupVault
-					ResourceUri: "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testRG/providers/Microsoft.ContainerService/managedClusters/testAKSCluster ......... reource URI here  ........??",
-					DatasourceType: &DataSourceInfo_DatasourceType_Value,
+					ResourceUri:      &ResourceUri_Value,
+					DatasourceType:   &DataSourceInfo_DatasourceType_Value,
 				},
 				DataSourceSetInfo: &dataprotection.DatasourceSet{
 					ObjectType: &DataSourceSetInfo_ObjectType_Value,
-					ResourceReference: "resource ID here  ........??",
-					ResourceName: "testAKSCluster",
-					ResourceType: &DataSourceSetInfo_ResourceType_Value,
+					ResourceReference: &genruntime.ResourceReference{
+						ARMID: ResourceUri_Value,
+					},
+					ResourceName:     &ResourceName_Value,
+					ResourceType:     &DataSourceSetInfo_ResourceType_Value,
 					ResourceLocation: region, // Resource Location is same as of BackupVault
-					ResourceUri: "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testRG/providers/Microsoft.ContainerService/managedClusters/testAKSCluster ......... reource URI here  ........??",
-					DatasourceType: &DataSourceSetInfo_DatasourceType_Value,
+					ResourceUri:      &ResourceUri_Value,
+					DatasourceType:   &DataSourceSetInfo_DatasourceType_Value,
 				},
 				PolicyInfo: &dataprotection.PolicyInfo{
-					PolicyId: "policy ID here  ........??",
+					PolicyId: &PolicyId_Value,
 					PolicyParameters: &dataprotection.PolicyParameters{
 						DataStoreParametersList: []dataprotection.DataStoreParameters{
 							{
-								AzureOperationalStoreParameters : &dataprotection.AzureOperationalStoreParameters{
-									DataStoreType: &DataStoreParameters_DataStoreType_Value,
-									ObjectType: &DataStoreParameters_ObjectType_Value,
-									ResourceGroupId: "resourceGroupID",
+								AzureOperationalStoreParameters: &dataprotection.AzureOperationalStoreParameters{
+									DataStoreType:   &DataStoreParameters_DataStoreType_Value,
+									ObjectType:      &DataStoreParameters_ObjectType_Value,
+									ResourceGroupId: &DataStoreParameters_ResourceGroupId_Value,
 								},
-							},	
+							},
 						},
 						BackupDatasourceParametersList: []dataprotection.BackupDatasourceParameters{
 							{
 								KubernetesCluster: &dataprotection.KubernetesClusterBackupDatasourceParameters{
-									ObjectType: &BackupDatasourceParameters_ObjectType_Value,
-									IncludedNamespaces: []string{"default"},
-									ExcludedNamespaces: []string{"kube-system"},
-									IncludedResourceTypes: []string{"pods"},
-									ExcludedResourceTypes: []string{"v1/Secret"},
-									LabelSelectors: []string{"app=nginx"},
-									SnapshotVolumes: &BackupDatasourceParameters_SnapshotVolumes_Value,
+									ObjectType:                   &BackupDatasourceParameters_ObjectType_Value,
+									IncludedNamespaces:           []string{},
+									ExcludedNamespaces:           []string{},
+									IncludedResourceTypes:        []string{},
+									ExcludedResourceTypes:        []string{"v1/Secret"},
+									LabelSelectors:               []string{},
+									SnapshotVolumes:              &BackupDatasourceParameters_SnapshotVolumes_Value,
 									IncludeClusterScopeResources: &BackupDatasourceParameters_IncludeClusterScopeResources_Value,
 								},
 							},
 						},
 					},
 				},
-				// DatasourceAuthCredentials: &dataprotection.AuthCredentials{},
-				// ValidationType: &dataprotection.BackupInstance_ValidationType{},
 			},
 		},
-	},
-
+	}
+	tc.CreateResourceAndWait(backupinstance)
 }
