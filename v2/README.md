@@ -11,6 +11,11 @@ Instead of deploying and managing your Azure resources separately from your Kube
 ## Project Status
 This project is stable. We follow the [Kubernetes definition of stable](https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/#feature-stages).
 
+| Release                                                                       | Date       |                 |
+| ----------------------------------------------------------------------------- | ---------- | --------------- |
+| [v2.1.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.1.0) | June 2023  | Current Release |
+| [v2.0.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.0.0) | April 2023 | GA              |
+
 ## Why use Azure Service Operator v2?
 - **K8s Native:** we provide CRDs and Golang API structures to deploy and manage Azure resources through Kubernetes.
 - **Azure Native:** our CRDs understand Azure resource lifecycle and model it using K8s garbage collection via ownership references.
