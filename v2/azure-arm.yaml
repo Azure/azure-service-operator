@@ -31,6 +31,7 @@ supportedResourcesReport:
   # resourcePath is a template used for generating a file path for checking whether docs for a resource have been generated
   # specified relative to the directory of outputPath, and supports the same placeholders
   resourcePathTemplate: "{group}/{version}.md"
+  currentRelease: v2.1.0
 
 #
 # These filters are used early in the processing pipeline. 
