@@ -520,7 +520,6 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     deps:
       - controller:test-integration-envtest-live
-      - controller:ci-integration-tests
 
   controller:generate-types:
     desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CONTROLLER_APP}}.
