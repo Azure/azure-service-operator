@@ -702,7 +702,7 @@ See the <a href="https://azure.github.io/azure-service-operator/guide/authentica
 <ol>
 <li>
 <p>Install <a href="https://cert-manager.io/docs/installation/kubernetes/">cert-manager</a> on the cluster using the following command.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.8.2/cert-manager.yaml
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.12.1/cert-manager.yaml
 </code></pre></div><p>Check that the cert-manager pods have started successfully before continuing.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pods -n cert-manager
 NAME                                      READY   STATUS    RESTARTS   AGE
@@ -825,7 +825,7 @@ resources.</p>
 <p>As for deleting controller components, just <code>kubectl delete -f</code> the release manifests you created
 to get started. For example, creating and deleting cert-manager.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># remove the cert-manager components</span>
-kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.8.2/cert-manager.yaml
+kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.12.1/cert-manager.yaml
 </code></pre></div><h2 id="how-to-contribute">How to contribute</h2>
 <p>To get started developing or contributing to the project, follow the instructions in the <a href="https://azure.github.io/azure-service-operator/contributing/">contributing guide</a>.</p>
 
