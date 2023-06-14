@@ -403,7 +403,14 @@ func (report *ResourceVersionsReport) isUnreleasedResource(item ResourceVersions
 // isDeprecatedResource returns true if the type definition is for a deprecated resource
 func (report *ResourceVersionsReport) isDeprecatedResource(item ResourceVersionsReportItem) bool {
 	_, ver := item.name.PackageReference.GroupVersion()
-	result := !strings.HasPrefix(ver, astmodel.GeneratorVersion)
+
+	// Handcrafted versions are never deprecated
+	// (reusing the regex from config to ensure consistency)
+	if config.VersionRegex.MatchString(ver) {
+		return false
+	}
+
+	result := !strings.HasPrefix(ver, astmodel.GeneratorVersion) && len(ver) > 3
 	return result
 }
 
