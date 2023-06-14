@@ -941,6 +941,12 @@ objectModelConfiguration:
       ManagedClusterServicePrincipalProfile:
         Secret:
           $isSecret: true
+      ManagedClusters_TrustedAccessRoleBinding:
+        $exportAs: TrustedAccessRoleBinding
+        $supportedFrom: v2.2.0
+      TrustedAccessRoleBindingProperties:
+        SourceResourceId:
+          $armReference: true
       PrivateLinkResource:
         Id:
           $armReference: true
