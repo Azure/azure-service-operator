@@ -6,24 +6,30 @@ Licensed under the MIT license.
 package controllers_test
 
 import (
+	// The testing package is imported for testing-related functionality.
 	"testing"
 
-	// . "github.com/onsi/gomega"
+	// The gomega package is used for assertions and expectations in tests.
+	. "github.com/onsi/gomega"
 
+	// The dataprotection package contains types and functions related to dataprotection resources.
 	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101"
+	// The testcommon package includes common testing utilities.
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func Test_Dataprotection_Backupinstance_CRUD(t *testing.T) {
+func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
+	// indicates that this test function can run in parallel with other tests
 	t.Parallel()
 
+	// tc := globalTestContext.ForTest(t) initializes the test context for this test.
+	// The globalTestContext is a global object that provides the necessary context and utilities for testing.
 	tc := globalTestContext.ForTest(t)
 
+	// rg := tc.CreateTestResourceGroupAndWait() creates a test resource group and waits until the operation is completed.
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	// CONSTANTS: BACKUP_VAULT
-	region := tc.AzureRegion
+	// Consts for BackupVault
 	identityType := "SystemAssigned"
 	alertsForAllJobFailures_Status := dataprotection.AzureMonitorAlertSettings_AlertsForAllJobFailures_Enabled
 	StorageSetting_DatastoreType_Value := dataprotection.StorageSetting_DatastoreType_VaultStore
@@ -31,9 +37,9 @@ func Test_Dataprotection_Backupinstance_CRUD(t *testing.T) {
 
 	// Create a backupvault
 	backupvault := &dataprotection.BackupVault{
-		ObjectMeta: tc.MakeObjectMetaWithName("test-backup-vault"),
+		ObjectMeta: tc.MakeObjectMetaWithName("shayvault1"),
 		Spec: dataprotection.BackupVault_Spec{
-			Location: region,
+			Location: tc.AzureRegion,
 			Tags:     map[string]string{"cheese": "blue"},
 			Owner:    testcommon.AsOwner(rg),
 			Identity: &dataprotection.DppIdentityDetails{
@@ -59,10 +65,10 @@ func Test_Dataprotection_Backupinstance_CRUD(t *testing.T) {
 	// Note:
 	// It is mandatory to create a backupvault before creating a backuppolicy
 
-	// CONSTANTS: BACKUP_POLICY
+	// Consts for BackupPolicy
 	backupPolicy_ObjectType := dataprotection.BackupPolicy_ObjectType_BackupPolicy
 
-	// consts for AzureBackupRule
+	// Consts for BackupPolicy:AzureBackupRule
 	AzureBackRule_Name := "BackupHourly"
 	AzureBackupRule_ObjectType := dataprotection.AzureBackupRule_ObjectType_AzureBackupRule
 
@@ -79,7 +85,7 @@ func Test_Dataprotection_Backupinstance_CRUD(t *testing.T) {
 	TaggingCriteria_TaggingPriority_Value := 99
 	TaggingCriteria_TagInfo_TagName_Value := "Default"
 
-	// consts for AzureRetentionRule
+	// Consts for BackupPolicy:AzureRetentionRule
 	AzureRetentionRule_Name := "Default"
 	AzureRetentionRule_ObjectType := dataprotection.AzureRetentionRule_ObjectType_AzureRetentionRule
 	AzureRetentionRule_IsDefault := true
@@ -89,9 +95,9 @@ func Test_Dataprotection_Backupinstance_CRUD(t *testing.T) {
 	AzureRetentionRule_Lifecycles_SourceDataStore_DataStoreType := dataprotection.DataStoreInfoBase_DataStoreType_OperationalStore
 	AzureRetentionRule_Lifecycles_SourceDataStore_ObjectType := "DataStoreInfoBase"
 
-	// backuppolicy generation
+	// Create a BackupPolicy
 	backuppolicy := &dataprotection.BackupVaultsBackupPolicy{
-		ObjectMeta: tc.MakeObjectMetaWithName("test-backup-policy"),
+		ObjectMeta: tc.MakeObjectMeta("testsbackuppolicy"),
 		Spec: dataprotection.BackupVaults_BackupPolicy_Spec{
 			Owner: testcommon.AsOwner(backupvault),
 			Properties: &dataprotection.BaseBackupPolicy{
@@ -160,98 +166,53 @@ func Test_Dataprotection_Backupinstance_CRUD(t *testing.T) {
 			},
 		},
 	}
+
 	tc.CreateResourceAndWait(backuppolicy)
 
-	// CONSTANTS: BACKUP_INSTANCE
-	BackupInstance_FriendlyName_Value := "test-shashwat"
-	BackupInstance_ObjectType_Value := "BackupInstance"
+	// Assertions and Expectations
+	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.DatasourceTypes).To(BeEquivalentTo([]string{"Microsoft.ContainerService/managedClusters"}))
+	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.ObjectType).To(BeEquivalentTo(&backupPolicy_ObjectType))
 
-	// consts for BackupInstance:DataSourceInfo
-	DataSourceInfo_ObjectType_Value := "Datasource"
-	DataSourceInfo_ResourceType_Value := "Microsoft.ContainerService/managedClusters"
-	DataSourceInfo_DatasourceType_Value := "Microsoft.ContainerService/managedClusters"
+	// Assertions and Expectations for BackupPolicy:AzureBackupRule
+	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.PolicyRules[0].AzureBackup.Name).To(BeEquivalentTo(&AzureBackRule_Name))
+	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.PolicyRules[0].AzureBackup.ObjectType).To(BeEquivalentTo(&AzureBackupRule_ObjectType))
 
-	// consts for BackupInstance:DataSourceSetInfo
-	DataSourceSetInfo_ObjectType_Value := "DatasourceSet"
-	DataSourceSetInfo_ResourceType_Value := "Microsoft.ContainerService/managedClusters"
-	DataSourceSetInfo_DatasourceType_Value := "Microsoft.ContainerService/managedClusters"
+	// Assertions and Expectations for BackupPolicy:AzureBackupRule:BackupParameters
+	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.PolicyRules[0].AzureBackup.BackupParameters.AzureBackupParams.BackupType).To(BeEquivalentTo(&AzureBackupParams_BackupType_Value))
+	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.PolicyRules[0].AzureBackup.BackupParameters.AzureBackupParams.ObjectType).To(BeEquivalentTo(&AzureBackupParams_ObjectType_Value))
 
-	// consts for BackupInstance:PolicyInfo:DataStoreParameters
-	PolicyId_Value := "/subscriptions/f0c630e0-2995-4853-b056-0b3c09cb673f/resourceGroups/t-agrawals/providers/Microsoft.DataProtection/BackupVaults/test-backup-vault/backupPolicies/test-backup-policy"
-	DataStoreParameters_DataStoreType_Value := dataprotection.AzureOperationalStoreParameters_DataStoreType_OperationalStore
-	DataStoreParameters_ObjectType_Value := dataprotection.AzureOperationalStoreParameters_ObjectType_AzureOperationalStoreParameters
-	DataStoreParameters_ResourceGroupId_Value := "/subscriptions/f0c630e0-2995-4853-b056-0b3c09cb673f/resourceGroups/t-agrawals"
+	// Assertions and Expectations for BackupPolicy:AzureBackupRule:DataStore
+	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.PolicyRules[0].AzureBackup.DataStore.DataStoreType).To(BeEquivalentTo(&DataStore_DataStoreType_Value))
+	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.PolicyRules[0].AzureBackup.DataStore.ObjectType).To(BeEquivalentTo(&DataStore_ObjectType_Value))
 
-	// consts for BackupInstance:PolicyInfo:BackupDatasourceParameters
-	BackupDatasourceParameters_ObjectType_Value := dataprotection.KubernetesClusterBackupDatasourceParameters_ObjectType_KubernetesClusterBackupDatasourceParameters
-	BackupDatasourceParameters_SnapshotVolumes_Value := true
-	BackupDatasourceParameters_IncludeClusterScopeResources_Value := true
+	// Assertions and Expectations for BackupPolicy:AzureBackupRule:Trigger
+	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.PolicyRules[0].AzureBackup.Trigger.Schedule.ObjectType).To(BeEquivalentTo(&Schedule_ObjectType_Value))
 
-	// common consts for BackupInstance
-	ResourceName_Value := "test-aks-cluster"
-	ResourceUri_Value := "/subscriptions/f0c630e0-2995-4853-b056-0b3c09cb673f/resourceGroups/t-agrawals/providers/Microsoft.ContainerService/managedClusters/test-aks-cluster"
+	// Assertions and Expectations for BackupPolicy:AzureRetentionRule
+	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.PolicyRules[1].AzureRetention.Name).To(BeEquivalentTo(&AzureRetentionRule_Name))
+	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.PolicyRules[1].AzureRetention.ObjectType).To(BeEquivalentTo(&AzureRetentionRule_ObjectType))
+	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.PolicyRules[1].AzureRetention.IsDefault).To(BeEquivalentTo(&AzureRetentionRule_IsDefault))
 
-	// Create a BackupInstance
-	backupinstance := &dataprotection.BackupVaultsBackupInstance{
-		ObjectMeta: tc.MakeObjectMetaWithName(BackupInstance_FriendlyName_Value),
-		Spec: dataprotection.BackupVaults_BackupInstance_Spec{
-			Owner: testcommon.AsOwner(backupvault),
-			Tags:  map[string]string{"cheese": "blue"},
-			Properties: &dataprotection.BackupInstance{
-				FriendlyName: &BackupInstance_FriendlyName_Value,
-				ObjectType:   &BackupInstance_ObjectType_Value,
-				DataSourceInfo: &dataprotection.Datasource{
-					ObjectType: &DataSourceInfo_ObjectType_Value,
-					ResourceReference: &genruntime.ResourceReference{
-						ARMID: ResourceUri_Value,
-					},
-					ResourceName:     &ResourceName_Value,
-					ResourceType:     &DataSourceInfo_ResourceType_Value,
-					ResourceLocation: region, // Resource Location is same as of BackupVault
-					ResourceUri:      &ResourceUri_Value,
-					DatasourceType:   &DataSourceInfo_DatasourceType_Value,
-				},
-				DataSourceSetInfo: &dataprotection.DatasourceSet{
-					ObjectType: &DataSourceSetInfo_ObjectType_Value,
-					ResourceReference: &genruntime.ResourceReference{
-						ARMID: ResourceUri_Value,
-					},
-					ResourceName:     &ResourceName_Value,
-					ResourceType:     &DataSourceSetInfo_ResourceType_Value,
-					ResourceLocation: region, // Resource Location is same as of BackupVault
-					ResourceUri:      &ResourceUri_Value,
-					DatasourceType:   &DataSourceSetInfo_DatasourceType_Value,
-				},
-				PolicyInfo: &dataprotection.PolicyInfo{
-					PolicyId: &PolicyId_Value,
-					PolicyParameters: &dataprotection.PolicyParameters{
-						DataStoreParametersList: []dataprotection.DataStoreParameters{
-							{
-								AzureOperationalStoreParameters: &dataprotection.AzureOperationalStoreParameters{
-									DataStoreType:   &DataStoreParameters_DataStoreType_Value,
-									ObjectType:      &DataStoreParameters_ObjectType_Value,
-									ResourceGroupId: &DataStoreParameters_ResourceGroupId_Value,
-								},
-							},
-						},
-						BackupDatasourceParametersList: []dataprotection.BackupDatasourceParameters{
-							{
-								KubernetesCluster: &dataprotection.KubernetesClusterBackupDatasourceParameters{
-									ObjectType:                   &BackupDatasourceParameters_ObjectType_Value,
-									IncludedNamespaces:           []string{},
-									ExcludedNamespaces:           []string{},
-									IncludedResourceTypes:        []string{},
-									ExcludedResourceTypes:        []string{"v1/Secret"},
-									LabelSelectors:               []string{},
-									SnapshotVolumes:              &BackupDatasourceParameters_SnapshotVolumes_Value,
-									IncludeClusterScopeResources: &BackupDatasourceParameters_IncludeClusterScopeResources_Value,
-								},
-							},
-						},
-					},
-				},
-			},
-		},
-	}
-	tc.CreateResourceAndWait(backupinstance)
+	// Assertions and Expectations for BackupPolicy:AzureRetentionRule:Lifecycles
+	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.PolicyRules[1].AzureRetention.Lifecycles[0].DeleteAfter.AbsoluteDeleteOption.Duration).To(BeEquivalentTo(&AzureRetentionRule_Lifecycles_DeleteAfter_Duration))
+	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.PolicyRules[1].AzureRetention.Lifecycles[0].DeleteAfter.AbsoluteDeleteOption.ObjectType).To(BeEquivalentTo(&AzureRetentionRule_Lifecycles_DeleteAfter_ObjectType))
+
+	// Assertions and Expectations for BackupPolicy:AzureRetentionRule:Lifecycles:SourceDataStore
+	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.PolicyRules[1].AzureRetention.Lifecycles[0].SourceDataStore.DataStoreType).To(BeEquivalentTo(&AzureRetentionRule_Lifecycles_SourceDataStore_DataStoreType))
+	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.PolicyRules[1].AzureRetention.Lifecycles[0].SourceDataStore.ObjectType).To(BeEquivalentTo(&AzureRetentionRule_Lifecycles_SourceDataStore_ObjectType))
+
+	tc.Expect(backuppolicy.Status.Id).ToNot(BeNil())
+
+	armId := *backuppolicy.Status.Id
+
+	tc.DeleteResourceAndWait(backuppolicy)
+
+	// Ensure that the resource group was really deleted in Azure
+	exists, _, err := tc.AzureClient.HeadByID(
+		tc.Ctx,
+		armId,
+		string(dataprotection.APIVersion_Value),
+	)
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(exists).To(BeFalse())
 }
