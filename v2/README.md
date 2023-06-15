@@ -3,6 +3,11 @@ title: Azure Service Operator v2
 type: docs
 description: "Manage your Azure resources from within your Kubernetes cluster."
 ---
+
+<img src="https://azure.github.io/azure-service-operator/favicons/favicon-128.png" style="float:left; margin: -8px 8px 8px 0px;"/>Azure Service Operator (ASO) allows you to deploy and maintain a wide variety of Azure Resources using the Kubernetes tooling you already know and use. 
+
+Instead of deploying and managing your Azure resources separately from your Kubernetes application, ASO allows you to manage them together, automatically configuring your application as needed. For example, ASO can set up your [Redis Cache](https://azure.github.io/azure-service-operator/reference/cache/) or [PostgreSQL database server](https://azure.github.io/azure-service-operator/reference/dbforpostgresql/) and then configure your Kubernetes application to use them.
+
 ## Project Status
 This project is stable. We follow the [Kubernetes definition of stable](https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/#feature-stages).
 
@@ -14,19 +19,20 @@ This project is stable. We follow the [Kubernetes definition of stable](https://
 
 ## What resources does ASO v2 support?
 
-See the list of supported resources [here](https://azure.github.io/azure-service-operator/reference/).
+ASO supports more than 150 different Azure resources, with more added every release. See the full list of [supported resources](https://azure.github.io/azure-service-operator/reference/).
 
 ## Getting Started
 ### Prerequisites
 1. A Kubernetes cluster (at least version 1.16) [created and running](https://kubernetes.io/docs/tutorials/kubernetes-basics/create-cluster/). You can check your cluster version with `kubectl version`. If you want to try it out quickly, spin up a local cluster using [Kind](https://kind.sigs.k8s.io).
 2. An Azure Subscription to provision resources into.
-3. An Azure Service Principal for the operator to use, or the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest) to create one. How to create a Service Principal is covered in [installation](#installation).
+3. An Azure Service Principal for the operator to use, or the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest) to create one. How to create a Service Principal is covered in [installation](#installation). 
+   See the [Azure Workload Identity](https://azure.github.io/azure-service-operator/guide/authentication/credential-format/#azure-workload-identity) setup for how to use managed identity instead. We recommend using workload identity in production.
 
 ### Installation
 1. Install [cert-manager](https://cert-manager.io/docs/installation/kubernetes/) on the cluster using the following command.
 
     ```bash
-    kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.8.2/cert-manager.yaml
+    kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.12.1/cert-manager.yaml
     ```
    Check that the cert-manager pods have started successfully before continuing.
 
@@ -184,7 +190,7 @@ As for deleting controller components, just `kubectl delete -f` the release mani
 to get started. For example, creating and deleting cert-manager.
 ```bash
 # remove the cert-manager components
-kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.8.2/cert-manager.yaml
+kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.12.1/cert-manager.yaml
 ```
 
 ## How to contribute

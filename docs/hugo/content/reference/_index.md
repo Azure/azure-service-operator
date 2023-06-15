@@ -293,6 +293,7 @@ These resource versions are deprecated and will be removed in an upcoming ASO re
 | [FlexibleServer](https://azure.github.io/azure-service-operator/reference/dbformysql/v1beta20210501/#dbformysql.azure.com/v1beta20210501.FlexibleServer)                           | 2021-05-01  | v1beta20210501 | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1beta/v1beta20210501_flexibleserver.yaml)              |
 | [FlexibleServersDatabase](https://azure.github.io/azure-service-operator/reference/dbformysql/v1beta20210501/#dbformysql.azure.com/v1beta20210501.FlexibleServersDatabase)         | 2021-05-01  | v1beta20210501 | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1beta/v1beta20210501_flexibleserversdatabase.yaml)     |
 | [FlexibleServersFirewallRule](https://azure.github.io/azure-service-operator/reference/dbformysql/v1beta20210501/#dbformysql.azure.com/v1beta20210501.FlexibleServersFirewallRule) | 2021-05-01  | v1beta20210501 | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1beta/v1beta20210501_flexibleserversfirewallrule.yaml) |
+| [User](https://azure.github.io/azure-service-operator/reference/dbformysql/v1/#dbformysql.azure.com/v1.User)                                                                       | v1          | v1             | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api/v1_user.yaml)                                     |
 
 ## DBforPostgreSQL
 
@@ -326,6 +327,18 @@ These resource versions are deprecated and will be removed in an upcoming ASO re
 | [FlexibleServersDatabase](https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1beta20210601/#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersDatabase)                         | 2021-06-01         | v1beta20210601        | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1beta20210601/v1beta20210601_flexibleserversdatabase.yaml)                    |
 | [FlexibleServersFirewallRule](https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1beta20220120preview/#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServersFirewallRule)   | 2022-01-20-preview | v1beta20220120preview | v2.0.0-beta.4  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1beta20220120preview/v1beta20220120preview_flexibleserversfirewallrule.yaml)  |
 | [FlexibleServersFirewallRule](https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1beta20210601/#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersFirewallRule)                 | 2021-06-01         | v1beta20210601        | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1beta20210601/v1beta20210601_flexibleserversfirewallrule.yaml)                |
+| [User](https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1/#dbforpostgresql.azure.com/v1.User)                                                                                       | v1                 | v1                    | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api/v1_user.yaml)                                                            |
+
+## Devices
+
+### Released
+
+These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+
+
+| Resource                                                                                                                         | ARM Version | CRD Version   | Supported From | Sample                                                                                                               |
+|----------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|----------------------------------------------------------------------------------------------------------------------|
+| [IotHub](https://azure.github.io/azure-service-operator/reference/devices/v1api20210702/#devices.azure.com/v1api20210702.IotHub) | 2021-07-02  | v1api20210702 | v2.1.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/devices/v1api/v1api20210702_iothub.yaml) |
 
 ## DocumentDB
 
@@ -507,6 +520,19 @@ These resource versions are deprecated and will be removed in an upcoming ASO re
 | [UserAssignedIdentity](https://azure.github.io/azure-service-operator/reference/managedidentity/v1beta20181130/#managedidentity.azure.com/v1beta20181130.UserAssignedIdentity)                             | 2018-11-30         | v1beta20181130        | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/managedidentity/v1beta/v1beta20181130_userassignedidentity.yaml)               |
 
 ## Network
+
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+
+| Resource                                                                                                                                                                                   | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                    |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [DnsForwardingRuleSetsForwardingRule](https://azure.github.io/azure-service-operator/reference/network/v1api20220701/#network.azure.com/v1api20220701.DnsForwardingRuleSetsForwardingRule) | 2022-07-01  | v1api20220701 | v2.2.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_dnsforwardingrulesetsforwardingrule.yaml) |
+| [DnsForwardingRuleset](https://azure.github.io/azure-service-operator/reference/network/v1api20220701/#network.azure.com/v1api20220701.DnsForwardingRuleset)                               | 2022-07-01  | v1api20220701 | v2.2.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_dnsforwardingruleset.yaml)                |
+| [DnsResolver](https://azure.github.io/azure-service-operator/reference/network/v1api20220701/#network.azure.com/v1api20220701.DnsResolver)                                                 | 2022-07-01  | v1api20220701 | v2.2.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_dnsresolver.yaml)                         |
+| [DnsResolversInboundEndpoint](https://azure.github.io/azure-service-operator/reference/network/v1api20220701/#network.azure.com/v1api20220701.DnsResolversInboundEndpoint)                 | 2022-07-01  | v1api20220701 | v2.2.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_dnsresolversinboundendpoint.yaml)         |
+| [DnsResolversOutboundEndpoint](https://azure.github.io/azure-service-operator/reference/network/v1api20220701/#network.azure.com/v1api20220701.DnsResolversOutboundEndpoint)               | 2022-07-01  | v1api20220701 | v2.2.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_dnsresolversoutboundendpoint.yaml)        |
 
 ### Released
 

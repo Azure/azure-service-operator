@@ -91,3 +91,23 @@ func TestSet_WhenGettingSortedSlice_ReturnsSortedValues(t *testing.T) {
 	sortedValues := AsSortedSlice(set)
 	g.Expect(sortedValues).To(Equal([]int{1, 2, 3}))
 }
+
+func TestSet_Where_GivenPredicate_ReturnsSetOfMatchingItems(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	set := Make(1, 2, 3, 4, 5)
+	evenSet := set.Where(func(x int) bool {
+		return x%2 == 0
+	})
+	g.Expect(evenSet).To(Equal(Make(2, 4)))
+}
+
+func TestSet_Except_GivenSetOfVues_ReturnsRemainingValues(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	set := Make(1, 2, 3, 4, 5)
+	remainingSet := set.Except(Make(2, 4))
+	g.Expect(remainingSet).To(Equal(Make(1, 3, 5)))
+}

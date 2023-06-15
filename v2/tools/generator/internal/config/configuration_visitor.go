@@ -95,6 +95,15 @@ func newSingleVersionConfigurationVisitor(
 	}
 }
 
+// newEveryVersionConfigurationVisitor creates a ConfigurationVisitor to apply an action to every version configuration.
+// action is the action to apply to each version.
+func newEveryVersionConfigurationVisitor(
+	action func(configuration *VersionConfiguration) error) *configurationVisitor {
+	return &configurationVisitor{
+		handleVersion: action,
+	}
+}
+
 // newSingleGroupConfigurationVisitor creates a ConfigurationVisitor to apply an action to the group specified
 // ref is the package reference of the group expected.
 // action is the action to apply to that group.
@@ -105,6 +114,15 @@ func newSingleGroupConfigurationVisitor(
 	action func(configuration *GroupConfiguration) error) *configurationVisitor {
 	return &configurationVisitor{
 		ref:         ref,
+		handleGroup: action,
+	}
+}
+
+// newEveryGroupConfigurationVisitor creates a ConfigurationVisitor to apply an action to every group configuration.
+// action is the action to apply to each group.
+func newEveryGroupConfigurationVisitor(
+	action func(configuration *GroupConfiguration) error) *configurationVisitor {
+	return &configurationVisitor{
 		handleGroup: action,
 	}
 }

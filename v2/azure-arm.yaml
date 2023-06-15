@@ -149,6 +149,30 @@ typeTransformers:
     because: AccessKeys is only set on response to PUT/CREATE, but we fill out Status via GET so this field is always empty. It also contains secrets we wouldn't want to expose in status anyway.
 
   # Properties that should have been marked as ReadOnly in the Swagger
+  - name: IotHub_Spec
+    group: devices
+    property: Etag
+    remove: true
+    because: This property should be marked readonly
+  - name: SharedAccessSignatureAuthorizationRule
+    group: devices
+    property: PrimaryKey
+    remove: true
+    because: This property should be marked readonly
+  - name: SharedAccessSignatureAuthorizationRule
+    group: devices
+    property: SecondaryKey
+    remove: true
+  - name: SharedAccessSignatureAuthorizationRule_STATUS
+    group: devices
+    property: PrimaryKey
+    remove: true
+    because: This property should be marked readonly
+  - name: SharedAccessSignatureAuthorizationRule_STATUS
+    group: devices
+    property: SecondaryKey
+    remove: true
+    because: This property should be marked readonly
   - name: Namespace_Properties_Spec
     group: eventhub
     property: PrivateEndpointConnections
@@ -931,6 +955,9 @@ objectModelConfiguration:
         $exportAs: Database
         $supportedFrom: v2.0.0-beta.1
   dbformysql:
+    v1: # Handcrafted 
+      User:
+        $supportedFrom: v2.0.0
     2021-05-01:
       DataEncryption:
         GeoBackupUserAssignedIdentityId:
@@ -963,6 +990,9 @@ objectModelConfiguration:
         $exportAs: FlexibleServersConfiguration
         $supportedFrom: v2.1.0
   dbforpostgresql:
+    v1: # Handcrafted 
+      User:
+        $supportedFrom: v2.0.0
     2021-06-01:
       FlexibleServer:
         $export: true
@@ -1001,6 +1031,45 @@ objectModelConfiguration:
           $armReference: true
         PrivateDnsZoneArmResourceId:
           $armReference: true
+  devices:
+    2021-07-02:
+      IotHub:
+        $export: true
+        $supportedFrom: v2.1.0
+        $azureGeneratedSecrets:
+          - ServicePrimaryKey
+          - ServiceSecondaryKey
+          - IotHubOwnerPrimaryKey
+          - IotHubOwnerSecondaryKey
+          - DevicePrimaryKey
+          - DeviceSecondaryKey
+          - RegistryReadPrimaryKey
+          - RegistryReadSecondaryKey
+          - RegistryReadWritePrimaryKey
+          - RegistryReadWriteSecondaryKey
+      RoutingServiceBusQueueEndpointProperties:
+        Id:
+          $armReference: true
+        ConnectionString:
+          $isSecret: true
+      RoutingEventHubProperties:
+        Id:
+          $armReference: true
+        ConnectionString:
+          $isSecret: true
+      RoutingServiceBusTopicEndpointProperties:
+        Id:
+          $armReference: true
+        ConnectionString:
+          $isSecret: true
+      RoutingStorageContainerProperties:
+        Id:
+          $armReference: true
+        ConnectionString:
+          $isSecret: true
+      StorageEndpointProperties:
+        ConnectionString:
+          $isSecret: true
   documentdb:
     2021-05-15:
       DatabaseAccount:
@@ -1429,6 +1498,24 @@ objectModelConfiguration:
         $supportedFrom: v2.1.0
       BastionHostIPConfiguration:
         $resourceEmbeddedInParent: BastionHost
+      DnsResolver:
+        $export: true
+        $supportedFrom: v2.2.0
+      DnsResolvers_InboundEndpoint:
+        $exportAs: DnsResolversInboundEndpoint
+        $supportedFrom: v2.2.0
+      DnsResolvers_OutboundEndpoint:
+        $exportAs: DnsResolversOutboundEndpoint
+        $supportedFrom: v2.2.0
+      DnsForwardingRuleSet:
+        $export: true
+        $supportedFrom: v2.2.0
+      DnsForwardingRuleSets_ForwardingRule:
+        $exportAs: DnsForwardingRuleSetsForwardingRule
+        $supportedFrom: v2.2.0
+      TargetDnsServer:
+        IpAddress:
+          $importConfigMapMode: optional
       NatGateway:
         $export: true
         $supportedFrom: v2.1.0

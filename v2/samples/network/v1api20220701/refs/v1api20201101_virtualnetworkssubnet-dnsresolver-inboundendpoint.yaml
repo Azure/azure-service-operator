@@ -1,0 +1,9 @@
+apiVersion: network.azure.com/v1api20201101
+kind: VirtualNetworksSubnet
+metadata:
+  name: aso-sample-subnet-inbound-ep
+  namespace: default
+spec:
+  addressPrefix: 10.0.0.0/24
+  owner:
+    name: aso-sample-vn-dnsresolver

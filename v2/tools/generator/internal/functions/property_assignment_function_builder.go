@@ -303,13 +303,26 @@ func (builder *PropertyAssignmentFunctionBuilder) createConversion(
 			sourceEndpoint, destinationEndpoint)
 	}
 
-	return func(source dst.Expr, destination dst.Expr, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+	return func(
+		source dst.Expr,
+		destination dst.Expr,
+		knownLocals *astmodel.KnownLocalsSet,
+		generationContext *astmodel.CodeGenerationContext,
+	) ([]dst.Stmt, error) {
 		reader := sourceEndpoint.Read(source)
 		writer := func(expr dst.Expr) []dst.Stmt {
 			return destinationEndpoint.Write(destination, expr)
 		}
 
-		return conversion(reader, writer, knownLocals, generationContext)
+		stmts, err := conversion(reader, writer, knownLocals, generationContext)
+		if err != nil {
+			return nil, errors.Wrapf(
+				err,
+				"converting %s to %s",
+				sourceEndpoint, destinationEndpoint)
+		}
+
+		return stmts, nil
 	}, nil
 }
 

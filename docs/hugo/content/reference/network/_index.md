@@ -3,6 +3,19 @@ title: Network Supported Resources
 linktitle: Network
 no_list: true
 ---
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+
+| Resource                                                                                                                                                                                   | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                    |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [DnsForwardingRuleSetsForwardingRule](https://azure.github.io/azure-service-operator/reference/network/v1api20220701/#network.azure.com/v1api20220701.DnsForwardingRuleSetsForwardingRule) | 2022-07-01  | v1api20220701 | v2.2.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_dnsforwardingrulesetsforwardingrule.yaml) |
+| [DnsForwardingRuleset](https://azure.github.io/azure-service-operator/reference/network/v1api20220701/#network.azure.com/v1api20220701.DnsForwardingRuleset)                               | 2022-07-01  | v1api20220701 | v2.2.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_dnsforwardingruleset.yaml)                |
+| [DnsResolver](https://azure.github.io/azure-service-operator/reference/network/v1api20220701/#network.azure.com/v1api20220701.DnsResolver)                                                 | 2022-07-01  | v1api20220701 | v2.2.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_dnsresolver.yaml)                         |
+| [DnsResolversInboundEndpoint](https://azure.github.io/azure-service-operator/reference/network/v1api20220701/#network.azure.com/v1api20220701.DnsResolversInboundEndpoint)                 | 2022-07-01  | v1api20220701 | v2.2.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_dnsresolversinboundendpoint.yaml)         |
+| [DnsResolversOutboundEndpoint](https://azure.github.io/azure-service-operator/reference/network/v1api20220701/#network.azure.com/v1api20220701.DnsResolversOutboundEndpoint)               | 2022-07-01  | v1api20220701 | v2.2.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_dnsresolversoutboundendpoint.yaml)        |
+
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.

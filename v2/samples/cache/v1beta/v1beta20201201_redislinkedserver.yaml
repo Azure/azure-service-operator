@@ -5,7 +5,6 @@ metadata:
   name: sampleredis2-beta
   namespace: default
 spec:
-  location: westcentralus
   owner:
     name: sampleredis1
   linkedRedisCacheLocation: westcentralus

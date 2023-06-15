@@ -256,6 +256,7 @@ tasks:
       - task: cleanup-old-live-azure-resources
       - task: controller:test-integration-kind-ci
       - task: controller:test-multitenant-integration-kind-ci
+      - task: cleanup-old-live-azure-resources  # Run this on both sides of the test pass to do our best to avoid leaking something
 
   controller:ci-live:
     cmds:
@@ -519,8 +520,7 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     deps:
       - controller:test-integration-envtest-live
-      - controller:test-integration-kind-ci
-      - cleanup-old-live-azure-resources
+      - controller:ci-integration-tests
 
   controller:generate-types:
     desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CONTROLLER_APP}}.
@@ -732,7 +732,7 @@ tasks:
     cmds:
       - "kubectl create namespace cert-manager"
       - "kubectl label namespace cert-manager cert-manager.io/disable-validation=true"
-      - "kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.8.2/cert-manager.yaml"
+      - "kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.12.1/cert-manager.yaml"
     status:
       - "kubectl get namespace cert-manager"
 
