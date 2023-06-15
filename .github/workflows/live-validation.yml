@@ -28,7 +28,7 @@ jobs:
           echo "container_id=$container_id" >> $GITHUB_ENV
 
       - name: Run CI tasks against live resources
-        run: docker exec --env HOSTROOT=$GITHUB_WORKSPACE -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID -e AZURE_CLIENT_SECRET_MULTITENANT -e AZURE_CLIENT_ID_MULTITENANT  -e AZURE_CLIENT_ID_CERT_AUTH -e AZURE_CLIENT_SECRET_CERT_AUTH "${{env.container_id }}" task ci-live
+        run: docker exec --env HOSTROOT=$GITHUB_WORKSPACE -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID -e AZURE_CLIENT_SECRET_MULTITENANT -e AZURE_CLIENT_ID_MULTITENANT  -e AZURE_CLIENT_ID_CERT_AUTH -e AZURE_CLIENT_SECRET_CERT_AUTH "${{env.container_id }}" task ci-live --concurrency 2 # limit concurrency because build machines are small
         env:
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
@@ -44,7 +44,7 @@ jobs:
 
       - name: Cleanup test resources
         if: always()
-        run: docker exec -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID "${{ env.container_id }}" task cleanup-azure-resources
+        run: docker exec -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID "${{ env.container_id }}" task cleanup-azure-resources --concurrency 2 # limit concurrency because build machines are small
         env:
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
