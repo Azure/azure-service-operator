@@ -45,7 +45,6 @@ spec:
             description: AzureSQLUserSpec defines the desired state of SqlUser
             properties:
               adminSecret:
-                description: optional
                 type: string
               adminSecretKeyVault:
                 type: string
@@ -70,6 +69,9 @@ spec:
                 type: array
               server:
                 minLength: 1
+                type: string
+              subscriptionId:
+                description: optional
                 type: string
               username:
                 type: string
