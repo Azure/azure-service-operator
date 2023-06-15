@@ -109,6 +109,457 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20220701
 │   │       ├── "Basic"
 │   │       └── "Standard"
 │   └── Tags: map[string]string
+├── DnsForwardingRuleSetsForwardingRule: Resource
+│   ├── Owner: DnsForwardingRuleset
+│   ├── Spec: Object (6 properties)
+│   │   ├── AzureName: string
+│   │   ├── DomainName: *string
+│   │   ├── ForwardingRuleState: *Enum (2 values)
+│   │   │   ├── "Disabled"
+│   │   │   └── "Enabled"
+│   │   ├── Metadata: map[string]string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   └── TargetDnsServers: Object (3 properties)[]
+│   │       ├── IpAddress: *string
+│   │       ├── IpAddressFromConfig: *genruntime.ConfigMapReference
+│   │       └── Port: *int
+│   └── Status: Object (11 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── DomainName: *string
+│       ├── Etag: *string
+│       ├── ForwardingRuleState: *Enum (2 values)
+│       │   ├── "Disabled"
+│       │   └── "Enabled"
+│       ├── Id: *string
+│       ├── Metadata: map[string]string
+│       ├── Name: *string
+│       ├── ProvisioningState: *Enum (6 values)
+│       │   ├── "Canceled"
+│       │   ├── "Creating"
+│       │   ├── "Deleting"
+│       │   ├── "Failed"
+│       │   ├── "Succeeded"
+│       │   └── "Updating"
+│       ├── SystemData: *Object (6 properties)
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *Enum (4 values)
+│       │   │   ├── "Application"
+│       │   │   ├── "Key"
+│       │   │   ├── "ManagedIdentity"
+│       │   │   └── "User"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: *Enum (4 values)
+│       │       ├── "Application"
+│       │       ├── "Key"
+│       │       ├── "ManagedIdentity"
+│       │       └── "User"
+│       ├── TargetDnsServers: Object (2 properties)[]
+│       │   ├── IpAddress: *string
+│       │   └── Port: *int
+│       └── Type: *string
+├── DnsForwardingRuleset: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
+│   ├── Spec: Object (5 properties)
+│   │   ├── AzureName: string
+│   │   ├── DnsResolverOutboundEndpoints: Object (1 property)[]
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   └── Tags: map[string]string
+│   └── Status: Object (11 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── DnsResolverOutboundEndpoints: Object (1 property)[]
+│       │   └── Id: *string
+│       ├── Etag: *string
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── ProvisioningState: *Enum (6 values)
+│       │   ├── "Canceled"
+│       │   ├── "Creating"
+│       │   ├── "Deleting"
+│       │   ├── "Failed"
+│       │   ├── "Succeeded"
+│       │   └── "Updating"
+│       ├── ResourceGuid: *string
+│       ├── SystemData: *Object (6 properties)
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *Enum (4 values)
+│       │   │   ├── "Application"
+│       │   │   ├── "Key"
+│       │   │   ├── "ManagedIdentity"
+│       │   │   └── "User"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: *Enum (4 values)
+│       │       ├── "Application"
+│       │       ├── "Key"
+│       │       ├── "ManagedIdentity"
+│       │       └── "User"
+│       ├── Tags: map[string]string
+│       └── Type: *string
+├── DnsForwardingRuleset_STATUS_ARM: Object (8 properties)
+│   ├── Etag: *string
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (3 properties)
+│   │   ├── DnsResolverOutboundEndpoints: Object (1 property)[]
+│   │   │   └── Id: *string
+│   │   ├── ProvisioningState: *Enum (6 values)
+│   │   │   ├── "Canceled"
+│   │   │   ├── "Creating"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Failed"
+│   │   │   ├── "Succeeded"
+│   │   │   └── "Updating"
+│   │   └── ResourceGuid: *string
+│   ├── SystemData: *Object (6 properties)
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: *Enum (4 values)
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: *Enum (4 values)
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   ├── Tags: map[string]string
+│   └── Type: *string
+├── DnsForwardingRuleset_Spec_ARM: Object (4 properties)
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: *Object (1 property)
+│   │   └── DnsResolverOutboundEndpoints: Object (1 property)[]
+│   │       └── Id: *string
+│   └── Tags: map[string]string
+├── DnsForwardingRulesets_ForwardingRule_STATUS_ARM: Object (6 properties)
+│   ├── Etag: *string
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (5 properties)
+│   │   ├── DomainName: *string
+│   │   ├── ForwardingRuleState: *Enum (2 values)
+│   │   │   ├── "Disabled"
+│   │   │   └── "Enabled"
+│   │   ├── Metadata: map[string]string
+│   │   ├── ProvisioningState: *Enum (6 values)
+│   │   │   ├── "Canceled"
+│   │   │   ├── "Creating"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Failed"
+│   │   │   ├── "Succeeded"
+│   │   │   └── "Updating"
+│   │   └── TargetDnsServers: Object (2 properties)[]
+│   │       ├── IpAddress: *string
+│   │       └── Port: *int
+│   ├── SystemData: *Object (6 properties)
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: *Enum (4 values)
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: *Enum (4 values)
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   └── Type: *string
+├── DnsForwardingRulesets_ForwardingRule_Spec_ARM: Object (2 properties)
+│   ├── Name: string
+│   └── Properties: *Object (4 properties)
+│       ├── DomainName: *string
+│       ├── ForwardingRuleState: *Enum (2 values)
+│       │   ├── "Disabled"
+│       │   └── "Enabled"
+│       ├── Metadata: map[string]string
+│       └── TargetDnsServers: Object (2 properties)[]
+│           ├── IpAddress: *string
+│           └── Port: *int
+├── DnsResolver: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
+│   ├── Spec: Object (5 properties)
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Tags: map[string]string
+│   │   └── VirtualNetwork: *Object (1 property)
+│   │       └── Reference: *genruntime.ResourceReference
+│   └── Status: Object (12 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── DnsResolverState: *Enum (2 values)
+│       │   ├── "Connected"
+│       │   └── "Disconnected"
+│       ├── Etag: *string
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── ProvisioningState: *Enum (6 values)
+│       │   ├── "Canceled"
+│       │   ├── "Creating"
+│       │   ├── "Deleting"
+│       │   ├── "Failed"
+│       │   ├── "Succeeded"
+│       │   └── "Updating"
+│       ├── ResourceGuid: *string
+│       ├── SystemData: *Object (6 properties)
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *Enum (4 values)
+│       │   │   ├── "Application"
+│       │   │   ├── "Key"
+│       │   │   ├── "ManagedIdentity"
+│       │   │   └── "User"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: *Enum (4 values)
+│       │       ├── "Application"
+│       │       ├── "Key"
+│       │       ├── "ManagedIdentity"
+│       │       └── "User"
+│       ├── Tags: map[string]string
+│       ├── Type: *string
+│       └── VirtualNetwork: *Object (1 property)
+│           └── Id: *string
+├── DnsResolver_STATUS_ARM: Object (8 properties)
+│   ├── Etag: *string
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (4 properties)
+│   │   ├── DnsResolverState: *Enum (2 values)
+│   │   │   ├── "Connected"
+│   │   │   └── "Disconnected"
+│   │   ├── ProvisioningState: *Enum (6 values)
+│   │   │   ├── "Canceled"
+│   │   │   ├── "Creating"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Failed"
+│   │   │   ├── "Succeeded"
+│   │   │   └── "Updating"
+│   │   ├── ResourceGuid: *string
+│   │   └── VirtualNetwork: *Object (1 property)
+│   │       └── Id: *string
+│   ├── SystemData: *Object (6 properties)
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: *Enum (4 values)
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: *Enum (4 values)
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   ├── Tags: map[string]string
+│   └── Type: *string
+├── DnsResolver_Spec_ARM: Object (4 properties)
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: *Object (1 property)
+│   │   └── VirtualNetwork: *Object (1 property)
+│   │       └── Id: *string
+│   └── Tags: map[string]string
+├── DnsResolversInboundEndpoint: Resource
+│   ├── Owner: DnsResolver
+│   ├── Spec: Object (5 properties)
+│   │   ├── AzureName: string
+│   │   ├── IpConfigurations: Object (3 properties)[]
+│   │   │   ├── PrivateIpAddress: *string
+│   │   │   ├── PrivateIpAllocationMethod: *Enum (2 values)
+│   │   │   │   ├── "Dynamic"
+│   │   │   │   └── "Static"
+│   │   │   └── Subnet: *Object (1 property)
+│   │   │       └── Reference: *genruntime.ResourceReference
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   └── Tags: map[string]string
+│   └── Status: Object (11 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Etag: *string
+│       ├── Id: *string
+│       ├── IpConfigurations: Object (3 properties)[]
+│       │   ├── PrivateIpAddress: *string
+│       │   ├── PrivateIpAllocationMethod: *Enum (2 values)
+│       │   │   ├── "Dynamic"
+│       │   │   └── "Static"
+│       │   └── Subnet: *Object (1 property)
+│       │       └── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── ProvisioningState: *Enum (6 values)
+│       │   ├── "Canceled"
+│       │   ├── "Creating"
+│       │   ├── "Deleting"
+│       │   ├── "Failed"
+│       │   ├── "Succeeded"
+│       │   └── "Updating"
+│       ├── ResourceGuid: *string
+│       ├── SystemData: *Object (6 properties)
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *Enum (4 values)
+│       │   │   ├── "Application"
+│       │   │   ├── "Key"
+│       │   │   ├── "ManagedIdentity"
+│       │   │   └── "User"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: *Enum (4 values)
+│       │       ├── "Application"
+│       │       ├── "Key"
+│       │       ├── "ManagedIdentity"
+│       │       └── "User"
+│       ├── Tags: map[string]string
+│       └── Type: *string
+├── DnsResolversOutboundEndpoint: Resource
+│   ├── Owner: DnsResolver
+│   ├── Spec: Object (5 properties)
+│   │   ├── AzureName: string
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Subnet: *Object (1 property)
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   └── Tags: map[string]string
+│   └── Status: Object (11 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Etag: *string
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── ProvisioningState: *Enum (6 values)
+│       │   ├── "Canceled"
+│       │   ├── "Creating"
+│       │   ├── "Deleting"
+│       │   ├── "Failed"
+│       │   ├── "Succeeded"
+│       │   └── "Updating"
+│       ├── ResourceGuid: *string
+│       ├── Subnet: *Object (1 property)
+│       │   └── Id: *string
+│       ├── SystemData: *Object (6 properties)
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *Enum (4 values)
+│       │   │   ├── "Application"
+│       │   │   ├── "Key"
+│       │   │   ├── "ManagedIdentity"
+│       │   │   └── "User"
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   └── LastModifiedByType: *Enum (4 values)
+│       │       ├── "Application"
+│       │       ├── "Key"
+│       │       ├── "ManagedIdentity"
+│       │       └── "User"
+│       ├── Tags: map[string]string
+│       └── Type: *string
+├── DnsResolvers_InboundEndpoint_STATUS_ARM: Object (8 properties)
+│   ├── Etag: *string
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (3 properties)
+│   │   ├── IpConfigurations: Object (3 properties)[]
+│   │   │   ├── PrivateIpAddress: *string
+│   │   │   ├── PrivateIpAllocationMethod: *Enum (2 values)
+│   │   │   │   ├── "Dynamic"
+│   │   │   │   └── "Static"
+│   │   │   └── Subnet: *Object (1 property)
+│   │   │       └── Id: *string
+│   │   ├── ProvisioningState: *Enum (6 values)
+│   │   │   ├── "Canceled"
+│   │   │   ├── "Creating"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Failed"
+│   │   │   ├── "Succeeded"
+│   │   │   └── "Updating"
+│   │   └── ResourceGuid: *string
+│   ├── SystemData: *Object (6 properties)
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: *Enum (4 values)
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: *Enum (4 values)
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   ├── Tags: map[string]string
+│   └── Type: *string
+├── DnsResolvers_InboundEndpoint_Spec_ARM: Object (4 properties)
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: *Object (1 property)
+│   │   └── IpConfigurations: Object (3 properties)[]
+│   │       ├── PrivateIpAddress: *string
+│   │       ├── PrivateIpAllocationMethod: *Enum (2 values)
+│   │       │   ├── "Dynamic"
+│   │       │   └── "Static"
+│   │       └── Subnet: *Object (1 property)
+│   │           └── Id: *string
+│   └── Tags: map[string]string
+├── DnsResolvers_OutboundEndpoint_STATUS_ARM: Object (8 properties)
+│   ├── Etag: *string
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (3 properties)
+│   │   ├── ProvisioningState: *Enum (6 values)
+│   │   │   ├── "Canceled"
+│   │   │   ├── "Creating"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Failed"
+│   │   │   ├── "Succeeded"
+│   │   │   └── "Updating"
+│   │   ├── ResourceGuid: *string
+│   │   └── Subnet: *Object (1 property)
+│   │       └── Id: *string
+│   ├── SystemData: *Object (6 properties)
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: *Enum (4 values)
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: *Enum (4 values)
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   ├── Tags: map[string]string
+│   └── Type: *string
+├── DnsResolvers_OutboundEndpoint_Spec_ARM: Object (4 properties)
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: *Object (1 property)
+│   │   └── Subnet: *Object (1 property)
+│   │       └── Id: *string
+│   └── Tags: map[string]string
 ├── NatGateway: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (9 properties)

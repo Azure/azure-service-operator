@@ -27,7 +27,7 @@ This is the latest released operator bundle, which might not correspond to the l
     ```
 3. Install cert-manager:
     ```sh
-    k apply -f https://github.com/jetstack/cert-manager/releases/download/v1.3.1/cert-manager.yaml
+    k apply -f https://github.com/jetstack/cert-manager/releases/download/v1.12.1/cert-manager.yaml
     ```
 4. Install the `opm` tool to build the index image:
     * Follow [these instructions](https://docs.openshift.com/container-platform/4.5/operators/admin/olm-managing-custom-catalogs.html#olm-installing-opm_olm-managing-custom-catalogs) to get the `opm` binary.

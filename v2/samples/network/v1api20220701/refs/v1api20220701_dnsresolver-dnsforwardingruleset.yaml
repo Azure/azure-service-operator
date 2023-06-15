@@ -1,0 +1,14 @@
+apiVersion: network.azure.com/v1api20220701
+kind: DnsResolver
+metadata:
+  name: aso-sample-resolver-dnsforwardingruleset
+  namespace: default
+spec:
+  location: westus2
+  owner:
+    name: aso-sample-rg
+  virtualNetwork:
+    reference:
+      group: network.azure.com
+      kind: VirtualNetwork
+      name: aso-sample-vn
