@@ -67,6 +67,8 @@ spec:
               server:
                 minLength: 1
                 type: string
+              subscriptionId:
+                type: string
             required:
             - dbName
             - managedIdentityClientId
