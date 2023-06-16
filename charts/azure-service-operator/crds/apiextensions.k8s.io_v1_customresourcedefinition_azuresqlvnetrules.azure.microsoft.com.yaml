@@ -57,6 +57,8 @@ spec:
               server:
                 minLength: 1
                 type: string
+              serverSubscriptionID:
+                type: string
               subnetName:
                 type: string
               vNetName:

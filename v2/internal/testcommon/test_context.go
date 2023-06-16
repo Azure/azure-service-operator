@@ -392,6 +392,10 @@ var (
 
 	// baseURLMatcher matches the base part of a URL
 	baseURLMatcher = regexp.MustCompile(`^https://[^/]+/`)
+
+	// customKeyMatcher is used to match 'key' or 'Key' followed by the base64 patterns without '=' padding.
+	customKeyMatcher  = regexp.MustCompile(`"([a-z]+)?[K-k]ey":"[a-zA-Z0-9+/]+"`)
+	customKeyReplacer = regexp.MustCompile(`"(?:[A-Za-z0-9+/]{4}){10,}(?:[A-Za-z0-9+/]{4}|[A-Za-z0-9+/])"`)
 )
 
 // hideDates replaces all ISO8601 datetimes with a fixed value
@@ -422,12 +426,19 @@ func hideBaseRequestURL(s string) string {
 	return baseURLMatcher.ReplaceAllLiteralString(s, `https://management.azure.com/`)
 }
 
+func hideCustomKeys(s string) string {
+	return customKeyMatcher.ReplaceAllStringFunc(s, func(matched string) string {
+		return customKeyReplacer.ReplaceAllString(matched, `"{KEY}"`)
+	})
+}
+
 func hideRecordingData(s string) string {
 	result := hideDates(s)
 	result = hideSSHKeys(result)
 	result = hidePasswords(result)
 	result = hideKubeConfigs(result)
 	result = hideKeys(result)
+	result = hideCustomKeys(result)
 
 	return result
 }
