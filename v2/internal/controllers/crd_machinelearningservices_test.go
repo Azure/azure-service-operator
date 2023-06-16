@@ -22,6 +22,10 @@ import (
 func Test_MachineLearning_Workspaces_CRUD(t *testing.T) {
 	t.Parallel()
 
+	if *isLive {
+		t.Skip("can't run in live mode, as this test is creates a KeyVault which reserves the name unless manually purged")
+	}
+
 	tc := globalTestContext.ForTest(t)
 
 	rg := tc.CreateTestResourceGroupAndWait()
