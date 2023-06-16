@@ -49,6 +49,10 @@ type Identity_ARM struct {
 
 // Properties of the search service.
 type SearchServiceProperties_ARM struct {
+	// AuthOptions: Defines the options for how the data plane API of a search service authenticates requests. This cannot be
+	// set if 'disableLocalAuth' is set to true.
+	AuthOptions *DataPlaneAuthOptions_ARM `json:"authOptions,omitempty"`
+
 	// DisableLocalAuth: When set to true, calls to the search service will not be permitted to utilize API keys for
 	// authentication. This cannot be set to true if 'dataPlaneAuthOptions' are defined.
 	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
@@ -91,6 +95,14 @@ type Sku_ARM struct {
 	Name *Sku_Name `json:"name,omitempty"`
 }
 
+// Defines the options for how the data plane API of a Search service authenticates requests. This cannot be set if
+// 'disableLocalAuth' is set to true.
+type DataPlaneAuthOptions_ARM struct {
+	// AadOrApiKey: Indicates that either the API key or an access token from Azure Active Directory can be used for
+	// authentication.
+	AadOrApiKey *DataPlaneAadOrApiKeyAuthOption_ARM `json:"aadOrApiKey,omitempty"`
+}
+
 // Describes a policy that determines how resources within the search service are to be encrypted with Customer Managed
 // Keys.
 type EncryptionWithCmk_ARM struct {
@@ -127,6 +139,13 @@ const (
 	Sku_Name_Storage_Optimized_L1 = Sku_Name("storage_optimized_l1")
 	Sku_Name_Storage_Optimized_L2 = Sku_Name("storage_optimized_l2")
 )
+
+// Indicates that either the API key or an access token from Azure Active Directory can be used for authentication.
+type DataPlaneAadOrApiKeyAuthOption_ARM struct {
+	// AadAuthFailureMode: Describes what response the data plane API of a Search service would send for requests that failed
+	// authentication.
+	AadAuthFailureMode *DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode `json:"aadAuthFailureMode,omitempty"`
+}
 
 // The IP restriction rule of the Azure Cognitive Search service.
 type IpRule_ARM struct {
