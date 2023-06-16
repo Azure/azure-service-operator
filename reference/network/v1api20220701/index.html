@@ -45,7 +45,7 @@
   &#34;Failed&#34;
   &#34;Succeeded&#34;">
 
-<meta itemprop="wordCount" content="8707">
+<meta itemprop="wordCount" content="12369">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="network.azure.com/v1api20220701"/>
 <meta name="twitter:description" content="network.azure.com/v1api20220701  Package v1api20220701 contains API Schema definitions for the network v1api20220701 API group
@@ -2359,6 +2359,2937 @@ string
 </tr>
 </tbody>
 </table>
+<h3 id="network.azure.com/v1api20220701.DnsForwardingRuleSetsForwardingRule">DnsForwardingRuleSetsForwardingRule
+</h3>
+<div>
+<p>Generator information:
+- Generated from: /dnsresolver/resource-manager/Microsoft.Network/stable/2022-07-01/dnsresolver.json
+- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;dnsForwardingRulesets/&#x200b;{dnsForwardingRulesetName}/&#x200b;forwardingRules/&#x200b;{forwardingRuleName}</&#x200b;p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsForwardingRulesets_ForwardingRule_Spec">
+DnsForwardingRulesets_ForwardingRule_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>domainName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DomainName: The domain name for the forwarding rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>forwardingRuleState</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.ForwardingRuleProperties_ForwardingRuleState">
+ForwardingRuleProperties_ForwardingRuleState
+</a>
+</em>
+</td>
+<td>
+<p>ForwardingRuleState: The state of forwarding rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Metadata: Metadata attached to the forwarding rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a network.azure.com/DnsForwardingRuleset resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>targetDnsServers</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.TargetDnsServer">
+[]TargetDnsServer
+</a>
+</em>
+</td>
+<td>
+<p>TargetDnsServers: DNS servers to forward the DNS query to.</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsForwardingRulesets_ForwardingRule_STATUS">
+DnsForwardingRulesets_ForwardingRule_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsForwardingRuleset">DnsForwardingRuleset
+</h3>
+<div>
+<p>Generator information:
+- Generated from: /dnsresolver/resource-manager/Microsoft.Network/stable/2022-07-01/dnsresolver.json
+- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;dnsForwardingRulesets/&#x200b;{dnsForwardingRulesetName}</&#x200b;p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsForwardingRuleset_Spec">
+DnsForwardingRuleset_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>dnsResolverOutboundEndpoints</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsresolverSubResource">
+[]DnsresolverSubResource
+</a>
+</em>
+</td>
+<td>
+<p>DnsResolverOutboundEndpoints: The reference to the DNS resolver outbound endpoints that are used to route DNS queries
+matching the forwarding rules in the ruleset to the target DNS servers.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: The geo-location where the resource lives</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Resource tags.</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsForwardingRuleset_STATUS">
+DnsForwardingRuleset_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsForwardingRulesetProperties_ARM">DnsForwardingRulesetProperties_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsForwardingRuleset_Spec_ARM">DnsForwardingRuleset_Spec_ARM</a>)
+</p>
+<div>
+<p>Represents the properties of a DNS forwarding ruleset.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>dnsResolverOutboundEndpoints</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsresolverSubResource_ARM">
+[]DnsresolverSubResource_ARM
+</a>
+</em>
+</td>
+<td>
+<p>DnsResolverOutboundEndpoints: The reference to the DNS resolver outbound endpoints that are used to route DNS queries
+matching the forwarding rules in the ruleset to the target DNS servers.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsForwardingRulesetProperties_STATUS_ARM">DnsForwardingRulesetProperties_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsForwardingRuleset_STATUS_ARM">DnsForwardingRuleset_STATUS_ARM</a>)
+</p>
+<div>
+<p>Represents the properties of a DNS forwarding ruleset.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>dnsResolverOutboundEndpoints</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsresolverSubResource_STATUS_ARM">
+[]DnsresolverSubResource_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>DnsResolverOutboundEndpoints: The reference to the DNS resolver outbound endpoints that are used to route DNS queries
+matching the forwarding rules in the ruleset to the target DNS servers.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>provisioningState</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsresolverProvisioningState_STATUS">
+DnsresolverProvisioningState_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>ProvisioningState: The current provisioning state of the DNS forwarding ruleset. This is a read-only property and any
+attempt to set this value will be ignored.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>resourceGuid</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ResourceGuid: The resourceGuid for the DNS forwarding ruleset.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsForwardingRuleset_STATUS">DnsForwardingRuleset_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsForwardingRuleset">DnsForwardingRuleset</a>)
+</p>
+<div>
+<p>Describes a DNS forwarding ruleset.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>dnsResolverOutboundEndpoints</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsresolverSubResource_STATUS">
+[]DnsresolverSubResource_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>DnsResolverOutboundEndpoints: The reference to the DNS resolver outbound endpoints that are used to route DNS queries
+matching the forwarding rules in the ruleset to the target DNS servers.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>etag</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Etag: ETag of the DNS forwarding ruleset.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. Ex -
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: The geo-location where the resource lives</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>provisioningState</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsresolverProvisioningState_STATUS">
+DnsresolverProvisioningState_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>ProvisioningState: The current provisioning state of the DNS forwarding ruleset. This is a read-only property and any
+attempt to set this value will be ignored.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>resourceGuid</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ResourceGuid: The resourceGuid for the DNS forwarding ruleset.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.SystemData_STATUS">
+SystemData_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>SystemData: Metadata pertaining to creation and last modification of the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Resource tags.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsForwardingRuleset_STATUS_ARM">DnsForwardingRuleset_STATUS_ARM
+</h3>
+<div>
+<p>Describes a DNS forwarding ruleset.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>etag</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Etag: ETag of the DNS forwarding ruleset.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. Ex -
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: The geo-location where the resource lives</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsForwardingRulesetProperties_STATUS_ARM">
+DnsForwardingRulesetProperties_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Properties of the DNS forwarding ruleset.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.SystemData_STATUS_ARM">
+SystemData_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>SystemData: Metadata pertaining to creation and last modification of the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Resource tags.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsForwardingRuleset_Spec">DnsForwardingRuleset_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsForwardingRuleset">DnsForwardingRuleset</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>dnsResolverOutboundEndpoints</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsresolverSubResource">
+[]DnsresolverSubResource
+</a>
+</em>
+</td>
+<td>
+<p>DnsResolverOutboundEndpoints: The reference to the DNS resolver outbound endpoints that are used to route DNS queries
+matching the forwarding rules in the ruleset to the target DNS servers.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: The geo-location where the resource lives</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Resource tags.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsForwardingRuleset_Spec_ARM">DnsForwardingRuleset_Spec_ARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: The geo-location where the resource lives</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsForwardingRulesetProperties_ARM">
+DnsForwardingRulesetProperties_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Properties of the DNS forwarding ruleset.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Resource tags.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsForwardingRulesets_ForwardingRule_STATUS">DnsForwardingRulesets_ForwardingRule_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsForwardingRuleSetsForwardingRule">DnsForwardingRuleSetsForwardingRule</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>domainName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DomainName: The domain name for the forwarding rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>etag</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Etag: ETag of the forwarding rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>forwardingRuleState</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.ForwardingRuleProperties_ForwardingRuleState_STATUS">
+ForwardingRuleProperties_ForwardingRuleState_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>ForwardingRuleState: The state of forwarding rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. Ex -
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Metadata: Metadata attached to the forwarding rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>provisioningState</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsresolverProvisioningState_STATUS">
+DnsresolverProvisioningState_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>ProvisioningState: The current provisioning state of the forwarding rule. This is a read-only property and any attempt
+to set this value will be ignored.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.SystemData_STATUS">
+SystemData_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>SystemData: Metadata pertaining to creation and last modification of the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>targetDnsServers</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.TargetDnsServer_STATUS">
+[]TargetDnsServer_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>TargetDnsServers: DNS servers to forward the DNS query to.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsForwardingRulesets_ForwardingRule_STATUS_ARM">DnsForwardingRulesets_ForwardingRule_STATUS_ARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>etag</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Etag: ETag of the forwarding rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. Ex -
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.ForwardingRuleProperties_STATUS_ARM">
+ForwardingRuleProperties_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Properties of the forwarding rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.SystemData_STATUS_ARM">
+SystemData_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>SystemData: Metadata pertaining to creation and last modification of the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsForwardingRulesets_ForwardingRule_Spec">DnsForwardingRulesets_ForwardingRule_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsForwardingRuleSetsForwardingRule">DnsForwardingRuleSetsForwardingRule</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>domainName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DomainName: The domain name for the forwarding rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>forwardingRuleState</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.ForwardingRuleProperties_ForwardingRuleState">
+ForwardingRuleProperties_ForwardingRuleState
+</a>
+</em>
+</td>
+<td>
+<p>ForwardingRuleState: The state of forwarding rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Metadata: Metadata attached to the forwarding rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a network.azure.com/DnsForwardingRuleset resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>targetDnsServers</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.TargetDnsServer">
+[]TargetDnsServer
+</a>
+</em>
+</td>
+<td>
+<p>TargetDnsServers: DNS servers to forward the DNS query to.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsForwardingRulesets_ForwardingRule_Spec_ARM">DnsForwardingRulesets_ForwardingRule_Spec_ARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.ForwardingRuleProperties_ARM">
+ForwardingRuleProperties_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Properties of the forwarding rule.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsResolver">DnsResolver
+</h3>
+<div>
+<p>Generator information:
+- Generated from: /dnsresolver/resource-manager/Microsoft.Network/stable/2022-07-01/dnsresolver.json
+- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;dnsResolvers/&#x200b;{dnsResolverName}</&#x200b;p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsResolver_Spec">
+DnsResolver_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: The geo-location where the resource lives</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Resource tags.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>virtualNetwork</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsresolverSubResource">
+DnsresolverSubResource
+</a>
+</em>
+</td>
+<td>
+<p>VirtualNetwork: The reference to the virtual network. This cannot be changed after creation.</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsResolver_STATUS">
+DnsResolver_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsResolverProperties_ARM">DnsResolverProperties_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsResolver_Spec_ARM">DnsResolver_Spec_ARM</a>)
+</p>
+<div>
+<p>Represents the properties of a DNS resolver.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>virtualNetwork</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsresolverSubResource_ARM">
+DnsresolverSubResource_ARM
+</a>
+</em>
+</td>
+<td>
+<p>VirtualNetwork: The reference to the virtual network. This cannot be changed after creation.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsResolverProperties_DnsResolverState_STATUS">DnsResolverProperties_DnsResolverState_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsResolverProperties_STATUS_ARM">DnsResolverProperties_STATUS_ARM</a>, <a href="#network.azure.com/v1api20220701.DnsResolver_STATUS">DnsResolver_STATUS</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Connected&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Disconnected&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsResolverProperties_STATUS_ARM">DnsResolverProperties_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsResolver_STATUS_ARM">DnsResolver_STATUS_ARM</a>)
+</p>
+<div>
+<p>Represents the properties of a DNS resolver.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>dnsResolverState</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsResolverProperties_DnsResolverState_STATUS">
+DnsResolverProperties_DnsResolverState_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>DnsResolverState: The current status of the DNS resolver. This is a read-only property and any attempt to set this value
+will be ignored.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>provisioningState</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsresolverProvisioningState_STATUS">
+DnsresolverProvisioningState_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>ProvisioningState: The current provisioning state of the DNS resolver. This is a read-only property and any attempt to
+set this value will be ignored.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>resourceGuid</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ResourceGuid: The resourceGuid property of the DNS resolver resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>virtualNetwork</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsresolverSubResource_STATUS_ARM">
+DnsresolverSubResource_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>VirtualNetwork: The reference to the virtual network. This cannot be changed after creation.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsResolver_STATUS">DnsResolver_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsResolver">DnsResolver</a>)
+</p>
+<div>
+<p>Describes a DNS resolver.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>dnsResolverState</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsResolverProperties_DnsResolverState_STATUS">
+DnsResolverProperties_DnsResolverState_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>DnsResolverState: The current status of the DNS resolver. This is a read-only property and any attempt to set this value
+will be ignored.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>etag</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Etag: ETag of the DNS resolver.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. Ex -
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: The geo-location where the resource lives</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>provisioningState</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsresolverProvisioningState_STATUS">
+DnsresolverProvisioningState_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>ProvisioningState: The current provisioning state of the DNS resolver. This is a read-only property and any attempt to
+set this value will be ignored.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>resourceGuid</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ResourceGuid: The resourceGuid property of the DNS resolver resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.SystemData_STATUS">
+SystemData_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>SystemData: Metadata pertaining to creation and last modification of the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Resource tags.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>virtualNetwork</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsresolverSubResource_STATUS">
+DnsresolverSubResource_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>VirtualNetwork: The reference to the virtual network. This cannot be changed after creation.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsResolver_STATUS_ARM">DnsResolver_STATUS_ARM
+</h3>
+<div>
+<p>Describes a DNS resolver.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>etag</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Etag: ETag of the DNS resolver.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. Ex -
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: The geo-location where the resource lives</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsResolverProperties_STATUS_ARM">
+DnsResolverProperties_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Properties of the DNS resolver.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.SystemData_STATUS_ARM">
+SystemData_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>SystemData: Metadata pertaining to creation and last modification of the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Resource tags.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsResolver_Spec">DnsResolver_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsResolver">DnsResolver</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: The geo-location where the resource lives</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Resource tags.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>virtualNetwork</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsresolverSubResource">
+DnsresolverSubResource
+</a>
+</em>
+</td>
+<td>
+<p>VirtualNetwork: The reference to the virtual network. This cannot be changed after creation.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsResolver_Spec_ARM">DnsResolver_Spec_ARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: The geo-location where the resource lives</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsResolverProperties_ARM">
+DnsResolverProperties_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Properties of the DNS resolver.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Resource tags.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsResolversInboundEndpoint">DnsResolversInboundEndpoint
+</h3>
+<div>
+<p>Generator information:
+- Generated from: /dnsresolver/resource-manager/Microsoft.Network/stable/2022-07-01/dnsresolver.json
+- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;dnsResolvers/&#x200b;{dnsResolverName}/&#x200b;inboundEndpoints/&#x200b;{inboundEndpointName}</&#x200b;p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsResolvers_InboundEndpoint_Spec">
+DnsResolvers_InboundEndpoint_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ipConfigurations</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.IpConfiguration">
+[]IpConfiguration
+</a>
+</em>
+</td>
+<td>
+<p>IpConfigurations: IP configurations for the inbound endpoint.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: The geo-location where the resource lives</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a network.azure.com/DnsResolver resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Resource tags.</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsResolvers_InboundEndpoint_STATUS">
+DnsResolvers_InboundEndpoint_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsResolversOutboundEndpoint">DnsResolversOutboundEndpoint
+</h3>
+<div>
+<p>Generator information:
+- Generated from: /dnsresolver/resource-manager/Microsoft.Network/stable/2022-07-01/dnsresolver.json
+- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;dnsResolvers/&#x200b;{dnsResolverName}/&#x200b;outboundEndpoints/&#x200b;{outboundEndpointName}</&#x200b;p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsResolvers_OutboundEndpoint_Spec">
+DnsResolvers_OutboundEndpoint_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: The geo-location where the resource lives</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a network.azure.com/DnsResolver resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subnet</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsresolverSubResource">
+DnsresolverSubResource
+</a>
+</em>
+</td>
+<td>
+<p>Subnet: The reference to the subnet used for the outbound endpoint.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Resource tags.</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsResolvers_OutboundEndpoint_STATUS">
+DnsResolvers_OutboundEndpoint_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsResolvers_InboundEndpoint_STATUS">DnsResolvers_InboundEndpoint_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsResolversInboundEndpoint">DnsResolversInboundEndpoint</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>etag</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Etag: ETag of the inbound endpoint.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. Ex -
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ipConfigurations</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.IpConfiguration_STATUS">
+[]IpConfiguration_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>IpConfigurations: IP configurations for the inbound endpoint.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: The geo-location where the resource lives</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>provisioningState</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsresolverProvisioningState_STATUS">
+DnsresolverProvisioningState_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>ProvisioningState: The current provisioning state of the inbound endpoint. This is a read-only property and any attempt
+to set this value will be ignored.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>resourceGuid</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ResourceGuid: The resourceGuid property of the inbound endpoint resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.SystemData_STATUS">
+SystemData_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>SystemData: Metadata pertaining to creation and last modification of the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Resource tags.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsResolvers_InboundEndpoint_STATUS_ARM">DnsResolvers_InboundEndpoint_STATUS_ARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>etag</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Etag: ETag of the inbound endpoint.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. Ex -
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: The geo-location where the resource lives</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.InboundEndpointProperties_STATUS_ARM">
+InboundEndpointProperties_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Properties of the inbound endpoint.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.SystemData_STATUS_ARM">
+SystemData_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>SystemData: Metadata pertaining to creation and last modification of the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Resource tags.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsResolvers_InboundEndpoint_Spec">DnsResolvers_InboundEndpoint_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsResolversInboundEndpoint">DnsResolversInboundEndpoint</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ipConfigurations</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.IpConfiguration">
+[]IpConfiguration
+</a>
+</em>
+</td>
+<td>
+<p>IpConfigurations: IP configurations for the inbound endpoint.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: The geo-location where the resource lives</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a network.azure.com/DnsResolver resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Resource tags.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsResolvers_InboundEndpoint_Spec_ARM">DnsResolvers_InboundEndpoint_Spec_ARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: The geo-location where the resource lives</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.InboundEndpointProperties_ARM">
+InboundEndpointProperties_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Properties of the inbound endpoint.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Resource tags.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsResolvers_OutboundEndpoint_STATUS">DnsResolvers_OutboundEndpoint_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsResolversOutboundEndpoint">DnsResolversOutboundEndpoint</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>etag</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Etag: ETag of the outbound endpoint.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. Ex -
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: The geo-location where the resource lives</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>provisioningState</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsresolverProvisioningState_STATUS">
+DnsresolverProvisioningState_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>ProvisioningState: The current provisioning state of the outbound endpoint. This is a read-only property and any attempt
+to set this value will be ignored.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>resourceGuid</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ResourceGuid: The resourceGuid property of the outbound endpoint resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subnet</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsresolverSubResource_STATUS">
+DnsresolverSubResource_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Subnet: The reference to the subnet used for the outbound endpoint.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.SystemData_STATUS">
+SystemData_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>SystemData: Metadata pertaining to creation and last modification of the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Resource tags.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsResolvers_OutboundEndpoint_STATUS_ARM">DnsResolvers_OutboundEndpoint_STATUS_ARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>etag</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Etag: ETag of the outbound endpoint.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. Ex -
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: The geo-location where the resource lives</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.OutboundEndpointProperties_STATUS_ARM">
+OutboundEndpointProperties_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Properties of the outbound endpoint.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.SystemData_STATUS_ARM">
+SystemData_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>SystemData: Metadata pertaining to creation and last modification of the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Resource tags.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsResolvers_OutboundEndpoint_Spec">DnsResolvers_OutboundEndpoint_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsResolversOutboundEndpoint">DnsResolversOutboundEndpoint</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: The geo-location where the resource lives</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a network.azure.com/DnsResolver resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subnet</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsresolverSubResource">
+DnsresolverSubResource
+</a>
+</em>
+</td>
+<td>
+<p>Subnet: The reference to the subnet used for the outbound endpoint.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Resource tags.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsResolvers_OutboundEndpoint_Spec_ARM">DnsResolvers_OutboundEndpoint_Spec_ARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location: The geo-location where the resource lives</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.OutboundEndpointProperties_ARM">
+OutboundEndpointProperties_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Properties of the outbound endpoint.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags: Resource tags.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsresolverProvisioningState_STATUS">DnsresolverProvisioningState_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsForwardingRulesetProperties_STATUS_ARM">DnsForwardingRulesetProperties_STATUS_ARM</a>, <a href="#network.azure.com/v1api20220701.DnsForwardingRuleset_STATUS">DnsForwardingRuleset_STATUS</a>, <a href="#network.azure.com/v1api20220701.DnsForwardingRulesets_ForwardingRule_STATUS">DnsForwardingRulesets_ForwardingRule_STATUS</a>, <a href="#network.azure.com/v1api20220701.DnsResolverProperties_STATUS_ARM">DnsResolverProperties_STATUS_ARM</a>, <a href="#network.azure.com/v1api20220701.DnsResolver_STATUS">DnsResolver_STATUS</a>, <a href="#network.azure.com/v1api20220701.DnsResolvers_InboundEndpoint_STATUS">DnsResolvers_InboundEndpoint_STATUS</a>, <a href="#network.azure.com/v1api20220701.DnsResolvers_OutboundEndpoint_STATUS">DnsResolvers_OutboundEndpoint_STATUS</a>, <a href="#network.azure.com/v1api20220701.ForwardingRuleProperties_STATUS_ARM">ForwardingRuleProperties_STATUS_ARM</a>, <a href="#network.azure.com/v1api20220701.InboundEndpointProperties_STATUS_ARM">InboundEndpointProperties_STATUS_ARM</a>, <a href="#network.azure.com/v1api20220701.OutboundEndpointProperties_STATUS_ARM">OutboundEndpointProperties_STATUS_ARM</a>)
+</p>
+<div>
+<p>The current provisioning state of the resource.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Canceled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Creating&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Deleting&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Failed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Updating&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsresolverSubResource">DnsresolverSubResource
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsForwardingRuleset_Spec">DnsForwardingRuleset_Spec</a>, <a href="#network.azure.com/v1api20220701.DnsResolver_Spec">DnsResolver_Spec</a>, <a href="#network.azure.com/v1api20220701.DnsResolvers_OutboundEndpoint_Spec">DnsResolvers_OutboundEndpoint_Spec</a>, <a href="#network.azure.com/v1api20220701.IpConfiguration">IpConfiguration</a>)
+</p>
+<div>
+<p>Reference to another ARM resource.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>reference</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Reference: Resource ID.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsresolverSubResource_ARM">DnsresolverSubResource_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsForwardingRulesetProperties_ARM">DnsForwardingRulesetProperties_ARM</a>, <a href="#network.azure.com/v1api20220701.DnsResolverProperties_ARM">DnsResolverProperties_ARM</a>, <a href="#network.azure.com/v1api20220701.IpConfiguration_ARM">IpConfiguration_ARM</a>, <a href="#network.azure.com/v1api20220701.OutboundEndpointProperties_ARM">OutboundEndpointProperties_ARM</a>)
+</p>
+<div>
+<p>Reference to another ARM resource.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsresolverSubResource_STATUS">DnsresolverSubResource_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsForwardingRuleset_STATUS">DnsForwardingRuleset_STATUS</a>, <a href="#network.azure.com/v1api20220701.DnsResolver_STATUS">DnsResolver_STATUS</a>, <a href="#network.azure.com/v1api20220701.DnsResolvers_OutboundEndpoint_STATUS">DnsResolvers_OutboundEndpoint_STATUS</a>, <a href="#network.azure.com/v1api20220701.IpConfiguration_STATUS">IpConfiguration_STATUS</a>)
+</p>
+<div>
+<p>Reference to another ARM resource.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Resource ID.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.DnsresolverSubResource_STATUS_ARM">DnsresolverSubResource_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsForwardingRulesetProperties_STATUS_ARM">DnsForwardingRulesetProperties_STATUS_ARM</a>, <a href="#network.azure.com/v1api20220701.DnsResolverProperties_STATUS_ARM">DnsResolverProperties_STATUS_ARM</a>, <a href="#network.azure.com/v1api20220701.IpConfiguration_STATUS_ARM">IpConfiguration_STATUS_ARM</a>, <a href="#network.azure.com/v1api20220701.OutboundEndpointProperties_STATUS_ARM">OutboundEndpointProperties_STATUS_ARM</a>)
+</p>
+<div>
+<p>Reference to another ARM resource.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Resource ID.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="network.azure.com/v1api20220701.ExtendedLocation">ExtendedLocation
 </h3>
 <p>
@@ -2565,6 +5496,192 @@ ExtendedLocationType_STATUS
 </tr>
 </tbody>
 </table>
+<h3 id="network.azure.com/v1api20220701.ForwardingRuleProperties_ARM">ForwardingRuleProperties_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsForwardingRulesets_ForwardingRule_Spec_ARM">DnsForwardingRulesets_ForwardingRule_Spec_ARM</a>)
+</p>
+<div>
+<p>Represents the properties of a forwarding rule within a DNS forwarding ruleset.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>domainName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DomainName: The domain name for the forwarding rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>forwardingRuleState</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.ForwardingRuleProperties_ForwardingRuleState">
+ForwardingRuleProperties_ForwardingRuleState
+</a>
+</em>
+</td>
+<td>
+<p>ForwardingRuleState: The state of forwarding rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Metadata: Metadata attached to the forwarding rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>targetDnsServers</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.TargetDnsServer_ARM">
+[]TargetDnsServer_ARM
+</a>
+</em>
+</td>
+<td>
+<p>TargetDnsServers: DNS servers to forward the DNS query to.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.ForwardingRuleProperties_ForwardingRuleState">ForwardingRuleProperties_ForwardingRuleState
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsForwardingRulesets_ForwardingRule_Spec">DnsForwardingRulesets_ForwardingRule_Spec</a>, <a href="#network.azure.com/v1api20220701.ForwardingRuleProperties_ARM">ForwardingRuleProperties_ARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.ForwardingRuleProperties_ForwardingRuleState_STATUS">ForwardingRuleProperties_ForwardingRuleState_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsForwardingRulesets_ForwardingRule_STATUS">DnsForwardingRulesets_ForwardingRule_STATUS</a>, <a href="#network.azure.com/v1api20220701.ForwardingRuleProperties_STATUS_ARM">ForwardingRuleProperties_STATUS_ARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.ForwardingRuleProperties_STATUS_ARM">ForwardingRuleProperties_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsForwardingRulesets_ForwardingRule_STATUS_ARM">DnsForwardingRulesets_ForwardingRule_STATUS_ARM</a>)
+</p>
+<div>
+<p>Represents the properties of a forwarding rule within a DNS forwarding ruleset.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>domainName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>DomainName: The domain name for the forwarding rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>forwardingRuleState</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.ForwardingRuleProperties_ForwardingRuleState_STATUS">
+ForwardingRuleProperties_ForwardingRuleState_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>ForwardingRuleState: The state of forwarding rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Metadata: Metadata attached to the forwarding rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>provisioningState</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsresolverProvisioningState_STATUS">
+DnsresolverProvisioningState_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>ProvisioningState: The current provisioning state of the forwarding rule. This is a read-only property and any attempt
+to set this value will be ignored.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>targetDnsServers</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.TargetDnsServer_STATUS_ARM">
+[]TargetDnsServer_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>TargetDnsServers: DNS servers to forward the DNS query to.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="network.azure.com/v1api20220701.FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded">FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded
 </h3>
 <p>
@@ -2765,6 +5882,353 @@ string
 </tr><tr><td><p>&#34;IPv6&#34;</p></td>
 <td></td>
 </tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.InboundEndpointProperties_ARM">InboundEndpointProperties_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsResolvers_InboundEndpoint_Spec_ARM">DnsResolvers_InboundEndpoint_Spec_ARM</a>)
+</p>
+<div>
+<p>Represents the properties of an inbound endpoint for a DNS resolver.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>ipConfigurations</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.IpConfiguration_ARM">
+[]IpConfiguration_ARM
+</a>
+</em>
+</td>
+<td>
+<p>IpConfigurations: IP configurations for the inbound endpoint.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.InboundEndpointProperties_STATUS_ARM">InboundEndpointProperties_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsResolvers_InboundEndpoint_STATUS_ARM">DnsResolvers_InboundEndpoint_STATUS_ARM</a>)
+</p>
+<div>
+<p>Represents the properties of an inbound endpoint for a DNS resolver.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>ipConfigurations</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.IpConfiguration_STATUS_ARM">
+[]IpConfiguration_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>IpConfigurations: IP configurations for the inbound endpoint.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>provisioningState</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsresolverProvisioningState_STATUS">
+DnsresolverProvisioningState_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>ProvisioningState: The current provisioning state of the inbound endpoint. This is a read-only property and any attempt
+to set this value will be ignored.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>resourceGuid</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ResourceGuid: The resourceGuid property of the inbound endpoint resource.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.IpConfiguration">IpConfiguration
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsResolvers_InboundEndpoint_Spec">DnsResolvers_InboundEndpoint_Spec</a>)
+</p>
+<div>
+<p>IP configuration.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>privateIpAddress</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>PrivateIpAddress: Private IP address of the IP configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>privateIpAllocationMethod</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.IpConfiguration_PrivateIpAllocationMethod">
+IpConfiguration_PrivateIpAllocationMethod
+</a>
+</em>
+</td>
+<td>
+<p>PrivateIpAllocationMethod: Private IP address allocation method.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subnet</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsresolverSubResource">
+DnsresolverSubResource
+</a>
+</em>
+</td>
+<td>
+<p>Subnet: The reference to the subnet bound to the IP configuration.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.IpConfiguration_ARM">IpConfiguration_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.InboundEndpointProperties_ARM">InboundEndpointProperties_ARM</a>)
+</p>
+<div>
+<p>IP configuration.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>privateIpAddress</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>PrivateIpAddress: Private IP address of the IP configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>privateIpAllocationMethod</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.IpConfiguration_PrivateIpAllocationMethod">
+IpConfiguration_PrivateIpAllocationMethod
+</a>
+</em>
+</td>
+<td>
+<p>PrivateIpAllocationMethod: Private IP address allocation method.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subnet</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsresolverSubResource_ARM">
+DnsresolverSubResource_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Subnet: The reference to the subnet bound to the IP configuration.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.IpConfiguration_PrivateIpAllocationMethod">IpConfiguration_PrivateIpAllocationMethod
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.IpConfiguration">IpConfiguration</a>, <a href="#network.azure.com/v1api20220701.IpConfiguration_ARM">IpConfiguration_ARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Dynamic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Static&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.IpConfiguration_PrivateIpAllocationMethod_STATUS">IpConfiguration_PrivateIpAllocationMethod_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.IpConfiguration_STATUS">IpConfiguration_STATUS</a>, <a href="#network.azure.com/v1api20220701.IpConfiguration_STATUS_ARM">IpConfiguration_STATUS_ARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Dynamic&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Static&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.IpConfiguration_STATUS">IpConfiguration_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsResolvers_InboundEndpoint_STATUS">DnsResolvers_InboundEndpoint_STATUS</a>)
+</p>
+<div>
+<p>IP configuration.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>privateIpAddress</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>PrivateIpAddress: Private IP address of the IP configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>privateIpAllocationMethod</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.IpConfiguration_PrivateIpAllocationMethod_STATUS">
+IpConfiguration_PrivateIpAllocationMethod_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>PrivateIpAllocationMethod: Private IP address allocation method.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subnet</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsresolverSubResource_STATUS">
+DnsresolverSubResource_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>Subnet: The reference to the subnet bound to the IP configuration.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.IpConfiguration_STATUS_ARM">IpConfiguration_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.InboundEndpointProperties_STATUS_ARM">InboundEndpointProperties_STATUS_ARM</a>)
+</p>
+<div>
+<p>IP configuration.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>privateIpAddress</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>PrivateIpAddress: Private IP address of the IP configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>privateIpAllocationMethod</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.IpConfiguration_PrivateIpAllocationMethod_STATUS">
+IpConfiguration_PrivateIpAllocationMethod_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>PrivateIpAllocationMethod: Private IP address allocation method.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subnet</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsresolverSubResource_STATUS_ARM">
+DnsresolverSubResource_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Subnet: The reference to the subnet bound to the IP configuration.</p>
+</td>
+</tr>
+</tbody>
 </table>
 <h3 id="network.azure.com/v1api20220701.IpTag">IpTag
 </h3>
@@ -4154,6 +7618,93 @@ string
 </td>
 <td>
 <p>Id: Resource ID.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.OutboundEndpointProperties_ARM">OutboundEndpointProperties_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsResolvers_OutboundEndpoint_Spec_ARM">DnsResolvers_OutboundEndpoint_Spec_ARM</a>)
+</p>
+<div>
+<p>Represents the properties of an outbound endpoint for a DNS resolver.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>subnet</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsresolverSubResource_ARM">
+DnsresolverSubResource_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Subnet: The reference to the subnet used for the outbound endpoint.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.OutboundEndpointProperties_STATUS_ARM">OutboundEndpointProperties_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsResolvers_OutboundEndpoint_STATUS_ARM">DnsResolvers_OutboundEndpoint_STATUS_ARM</a>)
+</p>
+<div>
+<p>Represents the properties of an outbound endpoint for a DNS resolver.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>provisioningState</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsresolverProvisioningState_STATUS">
+DnsresolverProvisioningState_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>ProvisioningState: The current provisioning state of the outbound endpoint. This is a read-only property and any attempt
+to set this value will be ignored.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>resourceGuid</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ResourceGuid: The resourceGuid property of the outbound endpoint resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subnet</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.DnsresolverSubResource_STATUS_ARM">
+DnsresolverSubResource_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Subnet: The reference to the subnet used for the outbound endpoint.</p>
 </td>
 </tr>
 </tbody>
@@ -10738,6 +14289,403 @@ string
 </td>
 <td>
 <p>Id: Resource ID.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.SystemData_STATUS">SystemData_STATUS</a>, <a href="#network.azure.com/v1api20220701.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.SystemData_STATUS">SystemData_STATUS</a>, <a href="#network.azure.com/v1api20220701.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Application&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Key&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;ManagedIdentity&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;User&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.SystemData_STATUS">SystemData_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsForwardingRuleset_STATUS">DnsForwardingRuleset_STATUS</a>, <a href="#network.azure.com/v1api20220701.DnsForwardingRulesets_ForwardingRule_STATUS">DnsForwardingRulesets_ForwardingRule_STATUS</a>, <a href="#network.azure.com/v1api20220701.DnsResolver_STATUS">DnsResolver_STATUS</a>, <a href="#network.azure.com/v1api20220701.DnsResolvers_InboundEndpoint_STATUS">DnsResolvers_InboundEndpoint_STATUS</a>, <a href="#network.azure.com/v1api20220701.DnsResolvers_OutboundEndpoint_STATUS">DnsResolvers_OutboundEndpoint_STATUS</a>)
+</p>
+<div>
+<p>Metadata pertaining to creation and last modification of the resource.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>createdAt</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>CreatedAt: The timestamp of resource creation (UTC).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>createdBy</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>CreatedBy: The identity that created the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>createdByType</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.SystemData_CreatedByType_STATUS">
+SystemData_CreatedByType_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>CreatedByType: The type of identity that created the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>lastModifiedAt</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>LastModifiedAt: The timestamp of resource last modification (UTC)</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>lastModifiedBy</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>LastModifiedBy: The identity that last modified the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>lastModifiedByType</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.SystemData_LastModifiedByType_STATUS">
+SystemData_LastModifiedByType_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>LastModifiedByType: The type of identity that last modified the resource.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.SystemData_STATUS_ARM">SystemData_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsForwardingRuleset_STATUS_ARM">DnsForwardingRuleset_STATUS_ARM</a>, <a href="#network.azure.com/v1api20220701.DnsForwardingRulesets_ForwardingRule_STATUS_ARM">DnsForwardingRulesets_ForwardingRule_STATUS_ARM</a>, <a href="#network.azure.com/v1api20220701.DnsResolver_STATUS_ARM">DnsResolver_STATUS_ARM</a>, <a href="#network.azure.com/v1api20220701.DnsResolvers_InboundEndpoint_STATUS_ARM">DnsResolvers_InboundEndpoint_STATUS_ARM</a>, <a href="#network.azure.com/v1api20220701.DnsResolvers_OutboundEndpoint_STATUS_ARM">DnsResolvers_OutboundEndpoint_STATUS_ARM</a>)
+</p>
+<div>
+<p>Metadata pertaining to creation and last modification of the resource.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>createdAt</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>CreatedAt: The timestamp of resource creation (UTC).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>createdBy</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>CreatedBy: The identity that created the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>createdByType</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.SystemData_CreatedByType_STATUS">
+SystemData_CreatedByType_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>CreatedByType: The type of identity that created the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>lastModifiedAt</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>LastModifiedAt: The timestamp of resource last modification (UTC)</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>lastModifiedBy</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>LastModifiedBy: The identity that last modified the resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>lastModifiedByType</code><br/>
+<em>
+<a href="#network.azure.com/v1api20220701.SystemData_LastModifiedByType_STATUS">
+SystemData_LastModifiedByType_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>LastModifiedByType: The type of identity that last modified the resource.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.TargetDnsServer">TargetDnsServer
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsForwardingRulesets_ForwardingRule_Spec">DnsForwardingRulesets_ForwardingRule_Spec</a>)
+</p>
+<div>
+<p>Describes a server to forward the DNS queries to.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>ipAddress</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>IpAddress: DNS server IP address.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>ipAddressFromConfig</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">
+genruntime.ConfigMapReference
+</a>
+</em>
+</td>
+<td>
+<p>IpAddressFromConfig: DNS server IP address.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>port</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>Port: DNS server port.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.TargetDnsServer_ARM">TargetDnsServer_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.ForwardingRuleProperties_ARM">ForwardingRuleProperties_ARM</a>)
+</p>
+<div>
+<p>Describes a server to forward the DNS queries to.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>ipAddress</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>IpAddress: DNS server IP address.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>port</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>Port: DNS server port.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.TargetDnsServer_STATUS">TargetDnsServer_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.DnsForwardingRulesets_ForwardingRule_STATUS">DnsForwardingRulesets_ForwardingRule_STATUS</a>)
+</p>
+<div>
+<p>Describes a server to forward the DNS queries to.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>ipAddress</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>IpAddress: DNS server IP address.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>port</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>Port: DNS server port.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1api20220701.TargetDnsServer_STATUS_ARM">TargetDnsServer_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1api20220701.ForwardingRuleProperties_STATUS_ARM">ForwardingRuleProperties_STATUS_ARM</a>)
+</p>
+<div>
+<p>Describes a server to forward the DNS queries to.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>ipAddress</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>IpAddress: DNS server IP address.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>port</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+<p>Port: DNS server port.</p>
 </td>
 </tr>
 </tbody>
