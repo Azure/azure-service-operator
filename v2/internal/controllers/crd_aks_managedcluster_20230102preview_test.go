@@ -11,6 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview"
+	"github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -92,6 +93,12 @@ func Test_AKS_ManagedCluster_20230202Preview_CRUD(t *testing.T) {
 			Test: func(tc *testcommon.KubePerTestContext) {
 				AKS_ManagedCluster_Kubeconfig_20230102Preview_Secrets(tc, cluster)
 			},
+		},
+		testcommon.Subtest{
+			Name: "AKS RoleBinding CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				AKS_ManagedCluster_TrustedAccessRoleBinding_20230102Preview_CRUD(tc, rg, cluster)
+			},
 		})
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
@@ -161,4 +168,54 @@ func AKS_ManagedCluster_Kubeconfig_20230102Preview_Secrets(tc *testcommon.KubePe
 
 	tc.PatchResourceAndWait(old, cluster)
 	tc.ExpectSecretHasKeys(secret, "admin", "user")
+}
+
+func AKS_ManagedCluster_TrustedAccessRoleBinding_20230102Preview_CRUD(
+	tc *testcommon.KubePerTestContext,
+	resourceGroup *v1api20200601.ResourceGroup,
+	cluster *aks.ManagedCluster,
+) {
+
+	// Create a storage account and key vault to use for the workspace
+	sa := newStorageAccount(tc, resourceGroup)
+	tc.CreateResourceAndWait(sa)
+
+	kv := newVault("kv", tc, resourceGroup)
+	tc.CreateResourceAndWait(kv)
+
+	// Create workspace
+	workspace := newWorkspace(
+		tc,
+		testcommon.AsOwner(resourceGroup),
+		sa,
+		kv,
+		resourceGroup.Spec.Location,
+	)
+	tc.CreateResourceAndWait(workspace)
+
+	roleBinding := &aks.TrustedAccessRoleBinding{
+		ObjectMeta: tc.MakeObjectMetaWithName("tarb"),
+		Spec: aks.ManagedClusters_TrustedAccessRoleBinding_Spec{
+			Owner: testcommon.AsOwner(cluster),
+			Roles: []string{
+				workspace.GetType() + "/mlworkload",
+			},
+			SourceResourceReference: tc.MakeReferenceFromResource(workspace),
+		},
+	}
+
+	// Create the role binding
+	tc.CreateResourceAndWait(roleBinding)
+
+	// Clean up when we're done
+	defer tc.DeleteResourcesAndWait(roleBinding, workspace, kv, sa)
+
+	// Perform a simple patch
+	old := roleBinding.DeepCopy()
+	roleBinding.Spec.Roles = []string{
+		workspace.GetType() + "/inference-v1",
+	}
+
+	tc.PatchResourceAndWait(old, roleBinding)
+	tc.Expect(roleBinding.Status.Roles).To(HaveLen(1))
 }
