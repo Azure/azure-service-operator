@@ -37,7 +37,7 @@ ASO supports more than 150 different Azure resources, with more added every rele
 1. Install [cert-manager](https://cert-manager.io/docs/installation/kubernetes/) on the cluster using the following command.
 
     ```bash
-    kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.8.2/cert-manager.yaml
+    kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.12.1/cert-manager.yaml
     ```
    Check that the cert-manager pods have started successfully before continuing.
 
@@ -195,7 +195,7 @@ As for deleting controller components, just `kubectl delete -f` the release mani
 to get started. For example, creating and deleting cert-manager.
 ```bash
 # remove the cert-manager components
-kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.8.2/cert-manager.yaml
+kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.12.1/cert-manager.yaml
 ```
 
 ## How to contribute

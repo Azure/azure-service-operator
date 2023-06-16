@@ -206,7 +206,7 @@ validate-cainjection-files:
 
 # Generate manifests for helm and package them up
 .PHONY: helm-chart-manifests
-helm-chart-manifests: LATEST_TAG := $(shell curl -sL https://api.github.com/repos/Azure/azure-service-operator/releases/latest  | jq '.tag_name' --raw-output )
+helm-chart-manifests: LATEST_TAG := $(shell curl -sL https://api.github.com/repos/Azure/azure-service-operator/releases | jq '[.[] | select(.tag_name | startswith("1.0")).tag_name][0]' --raw-output )
 helm-chart-manifests: KUBE_RBAC_PROXY := gcr.io/kubebuilder/kube-rbac-proxy:v0.13.1
 helm-chart-manifests: generate
 	@echo "Latest released tag is $(LATEST_TAG)"

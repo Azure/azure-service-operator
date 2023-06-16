@@ -226,7 +226,7 @@ func (service *SearchService) ValidateUpdate(old runtime.Object) error {
 
 // createValidations validates the creation of the resource
 func (service *SearchService) createValidations() []func() error {
-	return []func() error{service.validateResourceReferences}
+	return []func() error{service.validateResourceReferences, service.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -240,7 +240,11 @@ func (service *SearchService) updateValidations() []func(old runtime.Object) err
 		func(old runtime.Object) error {
 			return service.validateResourceReferences()
 		},
-		service.validateWriteOnceProperties}
+		service.validateWriteOnceProperties,
+		func(old runtime.Object) error {
+			return service.validateSecretDestinations()
+		},
+	}
 }
 
 // validateResourceReferences validates all resource references
@@ -250,6 +254,22 @@ func (service *SearchService) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (service *SearchService) validateSecretDestinations() error {
+	if service.Spec.OperatorSpec == nil {
+		return nil
+	}
+	if service.Spec.OperatorSpec.Secrets == nil {
+		return nil
+	}
+	toValidate := []*genruntime.SecretDestination{
+		service.Spec.OperatorSpec.Secrets.AdminPrimaryKey,
+		service.Spec.OperatorSpec.Secrets.AdminSecondaryKey,
+		service.Spec.OperatorSpec.Secrets.QueryKey,
+	}
+	return genruntime.ValidateSecretDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -339,6 +359,10 @@ type APIVersion string
 const APIVersion_Value = APIVersion("2022-09-01")
 
 type SearchService_Spec struct {
+	// AuthOptions: Defines the options for how the data plane API of a search service authenticates requests. This cannot be
+	// set if 'disableLocalAuth' is set to true.
+	AuthOptions *DataPlaneAuthOptions `json:"authOptions,omitempty"`
+
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -365,6 +389,10 @@ type SearchService_Spec struct {
 
 	// NetworkRuleSet: Network specific rules that determine how the Azure Cognitive Search service may be reached.
 	NetworkRuleSet *NetworkRuleSet `json:"networkRuleSet,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *SearchServiceOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -427,7 +455,8 @@ func (service *SearchService_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if service.DisableLocalAuth != nil ||
+	if service.AuthOptions != nil ||
+		service.DisableLocalAuth != nil ||
 		service.EncryptionWithCmk != nil ||
 		service.HostingMode != nil ||
 		service.NetworkRuleSet != nil ||
@@ -435,6 +464,14 @@ func (service *SearchService_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		service.PublicNetworkAccess != nil ||
 		service.ReplicaCount != nil {
 		result.Properties = &SearchServiceProperties_ARM{}
+	}
+	if service.AuthOptions != nil {
+		authOptions_ARM, err := (*service.AuthOptions).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		authOptions := *authOptions_ARM.(*DataPlaneAuthOptions_ARM)
+		result.Properties.AuthOptions = &authOptions
 	}
 	if service.DisableLocalAuth != nil {
 		disableLocalAuth := *service.DisableLocalAuth
@@ -505,6 +542,20 @@ func (service *SearchService_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SearchService_Spec_ARM, got %T", armInput)
 	}
 
+	// Set property ‘AuthOptions’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AuthOptions != nil {
+			var authOptions1 DataPlaneAuthOptions
+			err := authOptions1.PopulateFromARM(owner, *typedInput.Properties.AuthOptions)
+			if err != nil {
+				return err
+			}
+			authOptions := authOptions1
+			service.AuthOptions = &authOptions
+		}
+	}
+
 	// Set property ‘AzureName’:
 	service.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
@@ -570,6 +621,8 @@ func (service *SearchService_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 			service.NetworkRuleSet = &networkRuleSet
 		}
 	}
+
+	// no assignment for property ‘OperatorSpec’
 
 	// Set property ‘Owner’:
 	service.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
@@ -677,6 +730,18 @@ func (service *SearchService_Spec) ConvertSpecTo(destination genruntime.Converti
 // AssignProperties_From_SearchService_Spec populates our SearchService_Spec from the provided source SearchService_Spec
 func (service *SearchService_Spec) AssignProperties_From_SearchService_Spec(source *v1api20220901s.SearchService_Spec) error {
 
+	// AuthOptions
+	if source.AuthOptions != nil {
+		var authOption DataPlaneAuthOptions
+		err := authOption.AssignProperties_From_DataPlaneAuthOptions(source.AuthOptions)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DataPlaneAuthOptions() to populate field AuthOptions")
+		}
+		service.AuthOptions = &authOption
+	} else {
+		service.AuthOptions = nil
+	}
+
 	// AzureName
 	service.AzureName = source.AzureName
 
@@ -735,6 +800,18 @@ func (service *SearchService_Spec) AssignProperties_From_SearchService_Spec(sour
 		service.NetworkRuleSet = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec SearchServiceOperatorSpec
+		err := operatorSpec.AssignProperties_From_SearchServiceOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SearchServiceOperatorSpec() to populate field OperatorSpec")
+		}
+		service.OperatorSpec = &operatorSpec
+	} else {
+		service.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -790,6 +867,18 @@ func (service *SearchService_Spec) AssignProperties_From_SearchService_Spec(sour
 func (service *SearchService_Spec) AssignProperties_To_SearchService_Spec(destination *v1api20220901s.SearchService_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// AuthOptions
+	if service.AuthOptions != nil {
+		var authOption v1api20220901s.DataPlaneAuthOptions
+		err := service.AuthOptions.AssignProperties_To_DataPlaneAuthOptions(&authOption)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DataPlaneAuthOptions() to populate field AuthOptions")
+		}
+		destination.AuthOptions = &authOption
+	} else {
+		destination.AuthOptions = nil
+	}
 
 	// AzureName
 	destination.AzureName = service.AzureName
@@ -847,6 +936,18 @@ func (service *SearchService_Spec) AssignProperties_To_SearchService_Spec(destin
 		destination.NetworkRuleSet = &networkRuleSet
 	} else {
 		destination.NetworkRuleSet = nil
+	}
+
+	// OperatorSpec
+	if service.OperatorSpec != nil {
+		var operatorSpec v1api20220901s.SearchServiceOperatorSpec
+		err := service.OperatorSpec.AssignProperties_To_SearchServiceOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SearchServiceOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -912,6 +1013,18 @@ func (service *SearchService_Spec) AssignProperties_To_SearchService_Spec(destin
 
 // Initialize_From_SearchService_STATUS populates our SearchService_Spec from the provided source SearchService_STATUS
 func (service *SearchService_Spec) Initialize_From_SearchService_STATUS(source *SearchService_STATUS) error {
+
+	// AuthOptions
+	if source.AuthOptions != nil {
+		var authOption DataPlaneAuthOptions
+		err := authOption.Initialize_From_DataPlaneAuthOptions_STATUS(source.AuthOptions)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_DataPlaneAuthOptions_STATUS() to populate field AuthOptions")
+		}
+		service.AuthOptions = &authOption
+	} else {
+		service.AuthOptions = nil
+	}
 
 	// DisableLocalAuth
 	if source.DisableLocalAuth != nil {
@@ -1716,6 +1829,128 @@ func (service *SearchService_STATUS) AssignProperties_To_SearchService_STATUS(de
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Defines the options for how the data plane API of a Search service authenticates requests. This cannot be set if
+// 'disableLocalAuth' is set to true.
+type DataPlaneAuthOptions struct {
+	// AadOrApiKey: Indicates that either the API key or an access token from Azure Active Directory can be used for
+	// authentication.
+	AadOrApiKey *DataPlaneAadOrApiKeyAuthOption `json:"aadOrApiKey,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &DataPlaneAuthOptions{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (options *DataPlaneAuthOptions) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if options == nil {
+		return nil, nil
+	}
+	result := &DataPlaneAuthOptions_ARM{}
+
+	// Set property ‘AadOrApiKey’:
+	if options.AadOrApiKey != nil {
+		aadOrApiKey_ARM, err := (*options.AadOrApiKey).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		aadOrApiKey := *aadOrApiKey_ARM.(*DataPlaneAadOrApiKeyAuthOption_ARM)
+		result.AadOrApiKey = &aadOrApiKey
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (options *DataPlaneAuthOptions) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DataPlaneAuthOptions_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (options *DataPlaneAuthOptions) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DataPlaneAuthOptions_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DataPlaneAuthOptions_ARM, got %T", armInput)
+	}
+
+	// Set property ‘AadOrApiKey’:
+	if typedInput.AadOrApiKey != nil {
+		var aadOrApiKey1 DataPlaneAadOrApiKeyAuthOption
+		err := aadOrApiKey1.PopulateFromARM(owner, *typedInput.AadOrApiKey)
+		if err != nil {
+			return err
+		}
+		aadOrApiKey := aadOrApiKey1
+		options.AadOrApiKey = &aadOrApiKey
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_DataPlaneAuthOptions populates our DataPlaneAuthOptions from the provided source DataPlaneAuthOptions
+func (options *DataPlaneAuthOptions) AssignProperties_From_DataPlaneAuthOptions(source *v1api20220901s.DataPlaneAuthOptions) error {
+
+	// AadOrApiKey
+	if source.AadOrApiKey != nil {
+		var aadOrApiKey DataPlaneAadOrApiKeyAuthOption
+		err := aadOrApiKey.AssignProperties_From_DataPlaneAadOrApiKeyAuthOption(source.AadOrApiKey)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DataPlaneAadOrApiKeyAuthOption() to populate field AadOrApiKey")
+		}
+		options.AadOrApiKey = &aadOrApiKey
+	} else {
+		options.AadOrApiKey = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DataPlaneAuthOptions populates the provided destination DataPlaneAuthOptions from our DataPlaneAuthOptions
+func (options *DataPlaneAuthOptions) AssignProperties_To_DataPlaneAuthOptions(destination *v1api20220901s.DataPlaneAuthOptions) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AadOrApiKey
+	if options.AadOrApiKey != nil {
+		var aadOrApiKey v1api20220901s.DataPlaneAadOrApiKeyAuthOption
+		err := options.AadOrApiKey.AssignProperties_To_DataPlaneAadOrApiKeyAuthOption(&aadOrApiKey)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DataPlaneAadOrApiKeyAuthOption() to populate field AadOrApiKey")
+		}
+		destination.AadOrApiKey = &aadOrApiKey
+	} else {
+		destination.AadOrApiKey = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_DataPlaneAuthOptions_STATUS populates our DataPlaneAuthOptions from the provided source DataPlaneAuthOptions_STATUS
+func (options *DataPlaneAuthOptions) Initialize_From_DataPlaneAuthOptions_STATUS(source *DataPlaneAuthOptions_STATUS) error {
+
+	// AadOrApiKey
+	if source.AadOrApiKey != nil {
+		var aadOrApiKey DataPlaneAadOrApiKeyAuthOption
+		err := aadOrApiKey.Initialize_From_DataPlaneAadOrApiKeyAuthOption_STATUS(source.AadOrApiKey)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_DataPlaneAadOrApiKeyAuthOption_STATUS() to populate field AadOrApiKey")
+		}
+		options.AadOrApiKey = &aadOrApiKey
+	} else {
+		options.AadOrApiKey = nil
 	}
 
 	// No error
@@ -2534,6 +2769,59 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 	return nil
 }
 
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type SearchServiceOperatorSpec struct {
+	// Secrets: configures where to place Azure generated secrets.
+	Secrets *SearchServiceOperatorSecrets `json:"secrets,omitempty"`
+}
+
+// AssignProperties_From_SearchServiceOperatorSpec populates our SearchServiceOperatorSpec from the provided source SearchServiceOperatorSpec
+func (operator *SearchServiceOperatorSpec) AssignProperties_From_SearchServiceOperatorSpec(source *v1api20220901s.SearchServiceOperatorSpec) error {
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret SearchServiceOperatorSecrets
+		err := secret.AssignProperties_From_SearchServiceOperatorSecrets(source.Secrets)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SearchServiceOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SearchServiceOperatorSpec populates the provided destination SearchServiceOperatorSpec from our SearchServiceOperatorSpec
+func (operator *SearchServiceOperatorSpec) AssignProperties_To_SearchServiceOperatorSpec(destination *v1api20220901s.SearchServiceOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret v1api20220901s.SearchServiceOperatorSecrets
+		err := operator.Secrets.AssignProperties_To_SearchServiceOperatorSecrets(&secret)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SearchServiceOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // +kubebuilder:validation:Enum={"default","highDensity"}
 type SearchServiceProperties_HostingMode string
 
@@ -2822,6 +3110,106 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v1api20220901
 }
 
 // Indicates that either the API key or an access token from Azure Active Directory can be used for authentication.
+type DataPlaneAadOrApiKeyAuthOption struct {
+	// AadAuthFailureMode: Describes what response the data plane API of a Search service would send for requests that failed
+	// authentication.
+	AadAuthFailureMode *DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode `json:"aadAuthFailureMode,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &DataPlaneAadOrApiKeyAuthOption{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (option *DataPlaneAadOrApiKeyAuthOption) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if option == nil {
+		return nil, nil
+	}
+	result := &DataPlaneAadOrApiKeyAuthOption_ARM{}
+
+	// Set property ‘AadAuthFailureMode’:
+	if option.AadAuthFailureMode != nil {
+		aadAuthFailureMode := *option.AadAuthFailureMode
+		result.AadAuthFailureMode = &aadAuthFailureMode
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (option *DataPlaneAadOrApiKeyAuthOption) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DataPlaneAadOrApiKeyAuthOption_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (option *DataPlaneAadOrApiKeyAuthOption) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DataPlaneAadOrApiKeyAuthOption_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DataPlaneAadOrApiKeyAuthOption_ARM, got %T", armInput)
+	}
+
+	// Set property ‘AadAuthFailureMode’:
+	if typedInput.AadAuthFailureMode != nil {
+		aadAuthFailureMode := *typedInput.AadAuthFailureMode
+		option.AadAuthFailureMode = &aadAuthFailureMode
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_DataPlaneAadOrApiKeyAuthOption populates our DataPlaneAadOrApiKeyAuthOption from the provided source DataPlaneAadOrApiKeyAuthOption
+func (option *DataPlaneAadOrApiKeyAuthOption) AssignProperties_From_DataPlaneAadOrApiKeyAuthOption(source *v1api20220901s.DataPlaneAadOrApiKeyAuthOption) error {
+
+	// AadAuthFailureMode
+	if source.AadAuthFailureMode != nil {
+		aadAuthFailureMode := DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode(*source.AadAuthFailureMode)
+		option.AadAuthFailureMode = &aadAuthFailureMode
+	} else {
+		option.AadAuthFailureMode = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DataPlaneAadOrApiKeyAuthOption populates the provided destination DataPlaneAadOrApiKeyAuthOption from our DataPlaneAadOrApiKeyAuthOption
+func (option *DataPlaneAadOrApiKeyAuthOption) AssignProperties_To_DataPlaneAadOrApiKeyAuthOption(destination *v1api20220901s.DataPlaneAadOrApiKeyAuthOption) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AadAuthFailureMode
+	if option.AadAuthFailureMode != nil {
+		aadAuthFailureMode := string(*option.AadAuthFailureMode)
+		destination.AadAuthFailureMode = &aadAuthFailureMode
+	} else {
+		destination.AadAuthFailureMode = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_DataPlaneAadOrApiKeyAuthOption_STATUS populates our DataPlaneAadOrApiKeyAuthOption from the provided source DataPlaneAadOrApiKeyAuthOption_STATUS
+func (option *DataPlaneAadOrApiKeyAuthOption) Initialize_From_DataPlaneAadOrApiKeyAuthOption_STATUS(source *DataPlaneAadOrApiKeyAuthOption_STATUS) error {
+
+	// AadAuthFailureMode
+	if source.AadAuthFailureMode != nil {
+		aadAuthFailureMode := DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode(*source.AadAuthFailureMode)
+		option.AadAuthFailureMode = &aadAuthFailureMode
+	} else {
+		option.AadAuthFailureMode = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Indicates that either the API key or an access token from Azure Active Directory can be used for authentication.
 type DataPlaneAadOrApiKeyAuthOption_STATUS struct {
 	// AadAuthFailureMode: Describes what response the data plane API of a Search service would send for requests that failed
 	// authentication.
@@ -3059,6 +3447,98 @@ func (rule *IpRule_STATUS) AssignProperties_To_IpRule_STATUS(destination *v1api2
 	// No error
 	return nil
 }
+
+type SearchServiceOperatorSecrets struct {
+	// AdminPrimaryKey: indicates where the AdminPrimaryKey secret should be placed. If omitted, the secret will not be
+	// retrieved from Azure.
+	AdminPrimaryKey *genruntime.SecretDestination `json:"adminPrimaryKey,omitempty"`
+
+	// AdminSecondaryKey: indicates where the AdminSecondaryKey secret should be placed. If omitted, the secret will not be
+	// retrieved from Azure.
+	AdminSecondaryKey *genruntime.SecretDestination `json:"adminSecondaryKey,omitempty"`
+
+	// QueryKey: indicates where the QueryKey secret should be placed. If omitted, the secret will not be retrieved from Azure.
+	QueryKey *genruntime.SecretDestination `json:"queryKey,omitempty"`
+}
+
+// AssignProperties_From_SearchServiceOperatorSecrets populates our SearchServiceOperatorSecrets from the provided source SearchServiceOperatorSecrets
+func (secrets *SearchServiceOperatorSecrets) AssignProperties_From_SearchServiceOperatorSecrets(source *v1api20220901s.SearchServiceOperatorSecrets) error {
+
+	// AdminPrimaryKey
+	if source.AdminPrimaryKey != nil {
+		adminPrimaryKey := source.AdminPrimaryKey.Copy()
+		secrets.AdminPrimaryKey = &adminPrimaryKey
+	} else {
+		secrets.AdminPrimaryKey = nil
+	}
+
+	// AdminSecondaryKey
+	if source.AdminSecondaryKey != nil {
+		adminSecondaryKey := source.AdminSecondaryKey.Copy()
+		secrets.AdminSecondaryKey = &adminSecondaryKey
+	} else {
+		secrets.AdminSecondaryKey = nil
+	}
+
+	// QueryKey
+	if source.QueryKey != nil {
+		queryKey := source.QueryKey.Copy()
+		secrets.QueryKey = &queryKey
+	} else {
+		secrets.QueryKey = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SearchServiceOperatorSecrets populates the provided destination SearchServiceOperatorSecrets from our SearchServiceOperatorSecrets
+func (secrets *SearchServiceOperatorSecrets) AssignProperties_To_SearchServiceOperatorSecrets(destination *v1api20220901s.SearchServiceOperatorSecrets) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AdminPrimaryKey
+	if secrets.AdminPrimaryKey != nil {
+		adminPrimaryKey := secrets.AdminPrimaryKey.Copy()
+		destination.AdminPrimaryKey = &adminPrimaryKey
+	} else {
+		destination.AdminPrimaryKey = nil
+	}
+
+	// AdminSecondaryKey
+	if secrets.AdminSecondaryKey != nil {
+		adminSecondaryKey := secrets.AdminSecondaryKey.Copy()
+		destination.AdminSecondaryKey = &adminSecondaryKey
+	} else {
+		destination.AdminSecondaryKey = nil
+	}
+
+	// QueryKey
+	if secrets.QueryKey != nil {
+		queryKey := secrets.QueryKey.Copy()
+		destination.QueryKey = &queryKey
+	} else {
+		destination.QueryKey = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// +kubebuilder:validation:Enum={"http401WithBearerChallenge","http403"}
+type DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode string
+
+const (
+	DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_Http401WithBearerChallenge = DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode("http401WithBearerChallenge")
+	DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_Http403                    = DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode("http403")
+)
 
 type DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS string
 
