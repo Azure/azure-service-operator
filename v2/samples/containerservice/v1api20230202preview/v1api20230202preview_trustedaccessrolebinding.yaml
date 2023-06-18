@@ -1,0 +1,14 @@
+apiVersion: containerservice.azure.com/v1api20230202preview
+kind: TrustedAccessRoleBinding
+metadata:
+  name: sample-tarb
+  namespace: default
+spec:
+  owner:
+    name: samplemanagedcluster202221preview
+  roles: 
+      - Microsoft.MachineLearningServices/workspaces/mlworkload
+  sourceResourceReference:
+      group: "machinelearningservices.azure.com"
+      kind:  "Workspace"
+      name:  "sampleworkspaces"
