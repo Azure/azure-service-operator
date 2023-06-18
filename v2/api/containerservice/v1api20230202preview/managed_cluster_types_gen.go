@@ -13147,7 +13147,7 @@ type ManagedClusterServicePrincipalProfile struct {
 	ClientId *string `json:"clientId,omitempty"`
 
 	// Secret: The secret password associated with the service principal in plain text.
-	Secret *string `json:"secret,omitempty"`
+	Secret *genruntime.SecretReference `json:"secret,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ManagedClusterServicePrincipalProfile{}
@@ -13167,7 +13167,11 @@ func (profile *ManagedClusterServicePrincipalProfile) ConvertToARM(resolved genr
 
 	// Set property ‘Secret’:
 	if profile.Secret != nil {
-		secret := *profile.Secret
+		secretSecret, err := resolved.ResolvedSecrets.Lookup(*profile.Secret)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property Secret")
+		}
+		secret := secretSecret
 		result.Secret = &secret
 	}
 	return result, nil
@@ -13191,11 +13195,7 @@ func (profile *ManagedClusterServicePrincipalProfile) PopulateFromARM(owner genr
 		profile.ClientId = &clientId
 	}
 
-	// Set property ‘Secret’:
-	if typedInput.Secret != nil {
-		secret := *typedInput.Secret
-		profile.Secret = &secret
-	}
+	// no assignment for property ‘Secret’
 
 	// No error
 	return nil
@@ -13208,7 +13208,12 @@ func (profile *ManagedClusterServicePrincipalProfile) AssignProperties_From_Mana
 	profile.ClientId = genruntime.ClonePointerToString(source.ClientId)
 
 	// Secret
-	profile.Secret = genruntime.ClonePointerToString(source.Secret)
+	if source.Secret != nil {
+		secret := source.Secret.Copy()
+		profile.Secret = &secret
+	} else {
+		profile.Secret = nil
+	}
 
 	// No error
 	return nil
@@ -13223,7 +13228,12 @@ func (profile *ManagedClusterServicePrincipalProfile) AssignProperties_To_Manage
 	destination.ClientId = genruntime.ClonePointerToString(profile.ClientId)
 
 	// Secret
-	destination.Secret = genruntime.ClonePointerToString(profile.Secret)
+	if profile.Secret != nil {
+		secret := profile.Secret.Copy()
+		destination.Secret = &secret
+	} else {
+		destination.Secret = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -13240,9 +13250,6 @@ func (profile *ManagedClusterServicePrincipalProfile) AssignProperties_To_Manage
 type ManagedClusterServicePrincipalProfile_STATUS struct {
 	// ClientId: The ID for the service principal.
 	ClientId *string `json:"clientId,omitempty"`
-
-	// Secret: The secret password associated with the service principal in plain text.
-	Secret *string `json:"secret,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagedClusterServicePrincipalProfile_STATUS{}
@@ -13265,12 +13272,6 @@ func (profile *ManagedClusterServicePrincipalProfile_STATUS) PopulateFromARM(own
 		profile.ClientId = &clientId
 	}
 
-	// Set property ‘Secret’:
-	if typedInput.Secret != nil {
-		secret := *typedInput.Secret
-		profile.Secret = &secret
-	}
-
 	// No error
 	return nil
 }
@@ -13280,9 +13281,6 @@ func (profile *ManagedClusterServicePrincipalProfile_STATUS) AssignProperties_Fr
 
 	// ClientId
 	profile.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// Secret
-	profile.Secret = genruntime.ClonePointerToString(source.Secret)
 
 	// No error
 	return nil
@@ -13295,9 +13293,6 @@ func (profile *ManagedClusterServicePrincipalProfile_STATUS) AssignProperties_To
 
 	// ClientId
 	destination.ClientId = genruntime.ClonePointerToString(profile.ClientId)
-
-	// Secret
-	destination.Secret = genruntime.ClonePointerToString(profile.Secret)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
