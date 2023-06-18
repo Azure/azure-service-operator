@@ -12,7 +12,7 @@ title: Creating a new release
 8. Ensure that the action associated with your release finishes successfully.
 9. Create a new PR to update our documentation and move resources listed under "Next Release" to the heading "Released" by checking out `main`, running `task` and creating a PR of the results.
 
-# Cataloging breaking changes in a new release
+## Cataloging breaking changes in a new release
 
 There may be breaking changes in a new release of ASO, either due to changes we made or changes made in the upstream
 service Swagger specifications. We must validate each breaking change so that we can notify customers about it.
@@ -21,7 +21,7 @@ service Swagger specifications. We must validate each breaking change so that we
 2. Run `task controller:gen-helm-chart` to generate a local helm chart (saved to `v2/charts`). Extract it as well.
 3. Produce a diff between these files: `diff -u <old> <new> > comparison.diff` and examine it.
 
-# Testing the new release
+## Testing the new release
 1. Create a kind cluster: `task controller:kind-create`
 2. Install cert-manager: `task controller:install-cert-manager`
 3. Create the namespace for the operator: `k create namespace azureserviceoperator-system`
@@ -62,7 +62,17 @@ service Swagger specifications. We must validate each breaking change so that we
 9. If installed successfully, commit the files under `v2/charts/azure-service-operator`.
 10. Send a PR.
 
-# Fixing an incorrect release
+## Update Documentation
+
+Any resources included in the new release will currently be listed under "Next Release" in the documentation, so we need to update the documentation to move them to the "Released" section.
+
+1. Create a new branch from `main` and check it out.
+2. Update the setting `supportedResourcesReport.currentRelease` to the new release in `v2/azure-arm.yaml` 
+3. Run `task controller:generate-types` to update the documentation.
+4. Repeat the above steps by modifying `hack/crossplane/azure-crossplane.yml` and running `task crossplane:generate-types`.
+5. Commit the changes and send a PR.
+
+## Fixing an incorrect release
 If there was an issue publishing a new release, we may want to delete the existing release and try again. 
 Only do this if you've just published the release and there is something wrong with it. We shouldn't be deleting releases people are actually using. 
 
