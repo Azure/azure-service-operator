@@ -37,7 +37,7 @@ func Test_Dataprotection_Backupvault_CRUD(t *testing.T) {
 
 	// Create a backupvault
 	backupvault := &dataprotection.BackupVault{
-		ObjectMeta: tc.MakeObjectMeta("backupvault"),
+		ObjectMeta: tc.MakeObjectMeta("asotestbackupvault"),
 		Spec: dataprotection.BackupVault_Spec{
 			Location: tc.AzureRegion,
 			Tags:     map[string]string{"cheese": "blue"},

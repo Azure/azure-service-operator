@@ -37,7 +37,7 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 
 	// Create a backupvault
 	backupvault := &dataprotection.BackupVault{
-		ObjectMeta: tc.MakeObjectMetaWithName("shayvault1"),
+		ObjectMeta: tc.MakeObjectMetaWithName("asotestbackupvault"),
 		Spec: dataprotection.BackupVault_Spec{
 			Location: tc.AzureRegion,
 			Tags:     map[string]string{"cheese": "blue"},
@@ -97,7 +97,7 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 
 	// Create a BackupPolicy
 	backuppolicy := &dataprotection.BackupVaultsBackupPolicy{
-		ObjectMeta: tc.MakeObjectMeta("testsbackuppolicy"),
+		ObjectMeta: tc.MakeObjectMeta("asotestbackuppolicy"),
 		Spec: dataprotection.BackupVaults_BackupPolicy_Spec{
 			Owner: testcommon.AsOwner(backupvault),
 			Properties: &dataprotection.BaseBackupPolicy{
