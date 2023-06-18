@@ -540,9 +540,6 @@ type ManagedClusterProperties_AutoScalerProfile_STATUS_ARM struct {
 type ManagedClusterServicePrincipalProfile_STATUS_ARM struct {
 	// ClientId: The ID for the service principal.
 	ClientId *string `json:"clientId,omitempty"`
-
-	// Secret: The secret password associated with the service principal in plain text.
-	Secret *string `json:"secret,omitempty"`
 }
 
 type ManagedClusterSKU_Name_STATUS string

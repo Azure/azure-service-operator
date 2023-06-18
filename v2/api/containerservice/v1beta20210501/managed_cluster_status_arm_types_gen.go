@@ -220,7 +220,6 @@ type ManagedClusterProperties_AutoScalerProfile_STATUS_ARM struct {
 // Deprecated version of ManagedClusterServicePrincipalProfile_STATUS. Use v1api20210501.ManagedClusterServicePrincipalProfile_STATUS instead
 type ManagedClusterServicePrincipalProfile_STATUS_ARM struct {
 	ClientId *string `json:"clientId,omitempty"`
-	Secret   *string `json:"secret,omitempty"`
 }
 
 // Deprecated version of ManagedClusterSKU_Name_STATUS. Use v1api20210501.ManagedClusterSKU_Name_STATUS instead
