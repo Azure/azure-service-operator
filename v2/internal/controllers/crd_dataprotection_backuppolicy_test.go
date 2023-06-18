@@ -16,7 +16,71 @@ import (
 	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101"
 	// The testcommon package includes common testing utilities.
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	// The to package includes utilities for converting values to pointers.
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
+
+func createAzureBackupRule() *dataprotection.AzureBackupRule {
+	azureBackupRule := &dataprotection.AzureBackupRule{
+		Name:       to.Ptr("BackupHourly"),
+		ObjectType: to.Ptr(dataprotection.AzureBackupRule_ObjectType_AzureBackupRule),
+		BackupParameters: &dataprotection.BackupParameters{
+			AzureBackupParams: &dataprotection.AzureBackupParams{
+				BackupType: to.Ptr("Incremental"),
+				ObjectType: to.Ptr(dataprotection.AzureBackupParams_ObjectType_AzureBackupParams),
+			},
+		},
+		DataStore: &dataprotection.DataStoreInfoBase{
+			DataStoreType: to.Ptr(dataprotection.DataStoreInfoBase_DataStoreType_OperationalStore),
+			ObjectType:    to.Ptr("DataStoreInfoBase"),
+		},
+		Trigger: &dataprotection.TriggerContext{
+			Schedule: &dataprotection.ScheduleBasedTriggerContext{
+				ObjectType: to.Ptr(dataprotection.ScheduleBasedTriggerContext_ObjectType_ScheduleBasedTriggerContext),
+				Schedule: &dataprotection.BackupSchedule{
+					RepeatingTimeIntervals: []string{"R/2023-06-07T10:26:32+00:00/PT4H"},
+					TimeZone:               to.Ptr("UTC"),
+				},
+				TaggingCriteria: []dataprotection.TaggingCriteria{
+					{
+						IsDefault:       to.Ptr(true),
+						TaggingPriority: to.Ptr(99),
+						TagInfo: &dataprotection.RetentionTag{
+							TagName: to.Ptr("Default"),
+						},
+					},
+				},
+			},
+		},
+	}
+
+	return azureBackupRule
+}
+
+func createAzureRetentionRule() *dataprotection.AzureRetentionRule {
+	azureRetentionRule := &dataprotection.AzureRetentionRule{
+		Name:       to.Ptr("Default"),
+		ObjectType: to.Ptr(dataprotection.AzureRetentionRule_ObjectType_AzureRetentionRule),
+		IsDefault:  to.Ptr(true),
+		Lifecycles: []dataprotection.SourceLifeCycle{
+			{
+				DeleteAfter: &dataprotection.DeleteOption{
+					AbsoluteDeleteOption: &dataprotection.AbsoluteDeleteOption{
+						Duration:   to.Ptr("P9D"),
+						ObjectType: to.Ptr(dataprotection.AbsoluteDeleteOption_ObjectType_AbsoluteDeleteOption),
+					},
+				},
+				SourceDataStore: &dataprotection.DataStoreInfoBase{
+					DataStoreType: to.Ptr(dataprotection.DataStoreInfoBase_DataStoreType_OperationalStore),
+					ObjectType:    to.Ptr("DataStoreInfoBase"),
+				},
+				TargetDataStoreCopySettings: []dataprotection.TargetCopySetting{},
+			},
+		},
+	}
+
+	return azureRetentionRule
+}
 
 func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 	// indicates that this test function can run in parallel with other tests
@@ -65,36 +129,6 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 	// Note:
 	// It is mandatory to create a backupvault before creating a backuppolicy
 
-	// Consts for BackupPolicy
-	backupPolicy_ObjectType := dataprotection.BackupPolicy_ObjectType_BackupPolicy
-
-	// Consts for BackupPolicy:AzureBackupRule
-	AzureBackRule_Name := "BackupHourly"
-	AzureBackupRule_ObjectType := dataprotection.AzureBackupRule_ObjectType_AzureBackupRule
-
-	AzureBackupParams_BackupType_Value := "Incremental"
-	AzureBackupParams_ObjectType_Value := dataprotection.AzureBackupParams_ObjectType_AzureBackupParams
-
-	DataStore_DataStoreType_Value := dataprotection.DataStoreInfoBase_DataStoreType_OperationalStore
-	DataStore_ObjectType_Value := "DataStoreInfoBase"
-
-	Schedule_ObjectType_Value := dataprotection.ScheduleBasedTriggerContext_ObjectType_ScheduleBasedTriggerContext
-	Schedule_Timezone_Value := "UTC"
-
-	TaggingCriteria_isDefault_Value := true
-	TaggingCriteria_TaggingPriority_Value := 99
-	TaggingCriteria_TagInfo_TagName_Value := "Default"
-
-	// Consts for BackupPolicy:AzureRetentionRule
-	AzureRetentionRule_Name := "Default"
-	AzureRetentionRule_ObjectType := dataprotection.AzureRetentionRule_ObjectType_AzureRetentionRule
-	AzureRetentionRule_IsDefault := true
-
-	AzureRetentionRule_Lifecycles_DeleteAfter_Duration := "P9D"
-	AzureRetentionRule_Lifecycles_DeleteAfter_ObjectType := dataprotection.AbsoluteDeleteOption_ObjectType_AbsoluteDeleteOption
-	AzureRetentionRule_Lifecycles_SourceDataStore_DataStoreType := dataprotection.DataStoreInfoBase_DataStoreType_OperationalStore
-	AzureRetentionRule_Lifecycles_SourceDataStore_ObjectType := "DataStoreInfoBase"
-
 	// Create a BackupPolicy
 	backuppolicy := &dataprotection.BackupVaultsBackupPolicy{
 		ObjectMeta: tc.MakeObjectMeta("asotestbackuppolicy"),
@@ -103,63 +137,13 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 			Properties: &dataprotection.BaseBackupPolicy{
 				BackupPolicy: &dataprotection.BackupPolicy{
 					DatasourceTypes: []string{"Microsoft.ContainerService/managedClusters"},
-					ObjectType:      &backupPolicy_ObjectType,
+					ObjectType:      to.Ptr(dataprotection.BackupPolicy_ObjectType_BackupPolicy),
 					PolicyRules: []dataprotection.BasePolicyRule{
 						{
-							AzureBackup: &dataprotection.AzureBackupRule{
-								Name:       &AzureBackRule_Name,
-								ObjectType: &AzureBackupRule_ObjectType,
-								BackupParameters: &dataprotection.BackupParameters{
-									AzureBackupParams: &dataprotection.AzureBackupParams{
-										BackupType: &AzureBackupParams_BackupType_Value,
-										ObjectType: &AzureBackupParams_ObjectType_Value,
-									},
-								},
-								DataStore: &dataprotection.DataStoreInfoBase{
-									DataStoreType: &DataStore_DataStoreType_Value,
-									ObjectType:    &DataStore_ObjectType_Value,
-								},
-								Trigger: &dataprotection.TriggerContext{
-									Schedule: &dataprotection.ScheduleBasedTriggerContext{
-										ObjectType: &Schedule_ObjectType_Value,
-										Schedule: &dataprotection.BackupSchedule{
-											RepeatingTimeIntervals: []string{"R/2023-06-07T10:26:32+00:00/PT4H"},
-											TimeZone:               &Schedule_Timezone_Value,
-										},
-										TaggingCriteria: []dataprotection.TaggingCriteria{
-											{
-												IsDefault:       &TaggingCriteria_isDefault_Value,
-												TaggingPriority: &TaggingCriteria_TaggingPriority_Value,
-												TagInfo: &dataprotection.RetentionTag{
-													TagName: &TaggingCriteria_TagInfo_TagName_Value,
-												},
-											},
-										},
-									},
-								},
-							},
+							AzureBackup: createAzureBackupRule(),
 						},
 						{
-							AzureRetention: &dataprotection.AzureRetentionRule{
-								Name:       &AzureRetentionRule_Name,
-								ObjectType: &AzureRetentionRule_ObjectType,
-								IsDefault:  &AzureRetentionRule_IsDefault,
-								Lifecycles: []dataprotection.SourceLifeCycle{
-									{
-										DeleteAfter: &dataprotection.DeleteOption{
-											AbsoluteDeleteOption: &dataprotection.AbsoluteDeleteOption{
-												Duration:   &AzureRetentionRule_Lifecycles_DeleteAfter_Duration,
-												ObjectType: &AzureRetentionRule_Lifecycles_DeleteAfter_ObjectType,
-											},
-										},
-										SourceDataStore: &dataprotection.DataStoreInfoBase{
-											DataStoreType: &AzureRetentionRule_Lifecycles_SourceDataStore_DataStoreType,
-											ObjectType:    &AzureRetentionRule_Lifecycles_SourceDataStore_ObjectType,
-										},
-										TargetDataStoreCopySettings: []dataprotection.TargetCopySetting{},
-									},
-								},
-							},
+							AzureRetention: createAzureRetentionRule(),
 						},
 					},
 				},
@@ -171,40 +155,47 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 
 	// Assertions and Expectations
 	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.DatasourceTypes).To(BeEquivalentTo([]string{"Microsoft.ContainerService/managedClusters"}))
-	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.ObjectType).To(BeEquivalentTo(&backupPolicy_ObjectType))
+	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.ObjectType).To(BeEquivalentTo(to.Ptr(dataprotection.BackupPolicy_ObjectType_BackupPolicy)))
 
 	// Assertions and Expectations for BackupPolicy:AzureBackupRule
-	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.PolicyRules[0].AzureBackup.Name).To(BeEquivalentTo(&AzureBackRule_Name))
-	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.PolicyRules[0].AzureBackup.ObjectType).To(BeEquivalentTo(&AzureBackupRule_ObjectType))
+	policyRule0 := backuppolicy.Status.Properties.BackupPolicy.PolicyRules[0].AzureBackup
+
+	tc.Expect(policyRule0.Name).To(BeEquivalentTo(to.Ptr("BackupHourly")))
+	tc.Expect(policyRule0.ObjectType).To(BeEquivalentTo(to.Ptr(dataprotection.AzureBackupRule_ObjectType_AzureBackupRule)))
 
 	// Assertions and Expectations for BackupPolicy:AzureBackupRule:BackupParameters
-	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.PolicyRules[0].AzureBackup.BackupParameters.AzureBackupParams.BackupType).To(BeEquivalentTo(&AzureBackupParams_BackupType_Value))
-	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.PolicyRules[0].AzureBackup.BackupParameters.AzureBackupParams.ObjectType).To(BeEquivalentTo(&AzureBackupParams_ObjectType_Value))
+	tc.Expect(policyRule0.BackupParameters.AzureBackupParams.BackupType).To(BeEquivalentTo(to.Ptr("Incremental")))
+	tc.Expect(policyRule0.BackupParameters.AzureBackupParams.ObjectType).To(BeEquivalentTo(to.Ptr(dataprotection.AzureBackupParams_ObjectType_AzureBackupParams)))
 
 	// Assertions and Expectations for BackupPolicy:AzureBackupRule:DataStore
-	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.PolicyRules[0].AzureBackup.DataStore.DataStoreType).To(BeEquivalentTo(&DataStore_DataStoreType_Value))
-	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.PolicyRules[0].AzureBackup.DataStore.ObjectType).To(BeEquivalentTo(&DataStore_ObjectType_Value))
+	tc.Expect(policyRule0.DataStore.DataStoreType).To(BeEquivalentTo(to.Ptr(dataprotection.DataStoreInfoBase_DataStoreType_OperationalStore)))
+	tc.Expect(policyRule0.DataStore.ObjectType).To(BeEquivalentTo(to.Ptr("DataStoreInfoBase")))
 
 	// Assertions and Expectations for BackupPolicy:AzureBackupRule:Trigger
-	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.PolicyRules[0].AzureBackup.Trigger.Schedule.ObjectType).To(BeEquivalentTo(&Schedule_ObjectType_Value))
+	tc.Expect(policyRule0.Trigger.Schedule.ObjectType).To(BeEquivalentTo(to.Ptr(dataprotection.ScheduleBasedTriggerContext_ObjectType_ScheduleBasedTriggerContext)))
 
 	// Assertions and Expectations for BackupPolicy:AzureRetentionRule
-	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.PolicyRules[1].AzureRetention.Name).To(BeEquivalentTo(&AzureRetentionRule_Name))
-	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.PolicyRules[1].AzureRetention.ObjectType).To(BeEquivalentTo(&AzureRetentionRule_ObjectType))
-	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.PolicyRules[1].AzureRetention.IsDefault).To(BeEquivalentTo(&AzureRetentionRule_IsDefault))
+	policyRule1 := backuppolicy.Status.Properties.BackupPolicy.PolicyRules[1].AzureRetention
+
+	tc.Expect(policyRule1.Name).To(BeEquivalentTo(to.Ptr("Default")))
+	tc.Expect(policyRule1.ObjectType).To(BeEquivalentTo(to.Ptr(dataprotection.AzureRetentionRule_ObjectType_AzureRetentionRule)))
+	tc.Expect(policyRule1.IsDefault).To(BeEquivalentTo(to.Ptr(true)))
 
 	// Assertions and Expectations for BackupPolicy:AzureRetentionRule:Lifecycles
-	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.PolicyRules[1].AzureRetention.Lifecycles[0].DeleteAfter.AbsoluteDeleteOption.Duration).To(BeEquivalentTo(&AzureRetentionRule_Lifecycles_DeleteAfter_Duration))
-	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.PolicyRules[1].AzureRetention.Lifecycles[0].DeleteAfter.AbsoluteDeleteOption.ObjectType).To(BeEquivalentTo(&AzureRetentionRule_Lifecycles_DeleteAfter_ObjectType))
+	tc.Expect(policyRule1.Lifecycles[0].DeleteAfter.AbsoluteDeleteOption.Duration).To(BeEquivalentTo(to.Ptr("P9D")))
+	tc.Expect(policyRule1.Lifecycles[0].DeleteAfter.AbsoluteDeleteOption.ObjectType).To(BeEquivalentTo(to.Ptr(dataprotection.AbsoluteDeleteOption_ObjectType_AbsoluteDeleteOption)))
 
 	// Assertions and Expectations for BackupPolicy:AzureRetentionRule:Lifecycles:SourceDataStore
-	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.PolicyRules[1].AzureRetention.Lifecycles[0].SourceDataStore.DataStoreType).To(BeEquivalentTo(&AzureRetentionRule_Lifecycles_SourceDataStore_DataStoreType))
-	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.PolicyRules[1].AzureRetention.Lifecycles[0].SourceDataStore.ObjectType).To(BeEquivalentTo(&AzureRetentionRule_Lifecycles_SourceDataStore_ObjectType))
+	tc.Expect(policyRule1.Lifecycles[0].SourceDataStore.DataStoreType).To(BeEquivalentTo(to.Ptr(dataprotection.DataStoreInfoBase_DataStoreType_OperationalStore)))
+	tc.Expect(policyRule1.Lifecycles[0].SourceDataStore.ObjectType).To(BeEquivalentTo(to.Ptr("DataStoreInfoBase")))
 
 	tc.Expect(backuppolicy.Status.Id).ToNot(BeNil())
 
 	armId := *backuppolicy.Status.Id
 
+	// Note: Patch Operations are currently not allowed on BackupPolicy
+
+	// Delete the backuppolicy
 	tc.DeleteResourceAndWait(backuppolicy)
 
 	// Ensure that the resource group was really deleted in Azure

@@ -20,20 +20,11 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
-func Test_Dataprotection_Backupvault_CRUD(t *testing.T) {
-	// indicates that this test function can run in parallel with other tests
-	t.Parallel()
-
-	// tc := globalTestContext.ForTest(t) initializes the test context for this test.
-	// The globalTestContext is a global object that provides the necessary context and utilities for testing.
-	tc := globalTestContext.ForTest(t)
-
-	// rg := tc.CreateTestResourceGroupAndWait() creates a test resource group and waits until the operation is completed.
+func newBackupVault(tc *testcommon.KubePerTestContext, name string) *dataprotection.BackupVault {
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	// Create a backupvault
 	backupvault := &dataprotection.BackupVault{
-		ObjectMeta: tc.MakeObjectMeta("asotestbackupvault"),
+		ObjectMeta: tc.MakeObjectMeta(name),
 		Spec: dataprotection.BackupVault_Spec{
 			Location: tc.AzureRegion,
 			Tags:     map[string]string{"cheese": "blue"},
@@ -58,6 +49,17 @@ func Test_Dataprotection_Backupvault_CRUD(t *testing.T) {
 	}
 	tc.CreateResourceAndWait(backupvault)
 
+	return backupvault
+}
+
+func Test_Dataprotection_Backupvault_CRUD(t *testing.T) {
+	// indicates that this test function can run in parallel with other tests
+	t.Parallel()
+
+	tc := globalTestContext.ForTest(t)
+
+	backupvault := newBackupVault(tc, "asotestbackupvault")
+
 	// Assertions and Expectations
 	tc.Expect(backupvault.Status.Location).To(Equal(tc.AzureRegion))
 	tc.Expect(backupvault.Status.Tags).To(BeEquivalentTo(map[string]string{"cheese": "blue"}))
@@ -69,6 +71,16 @@ func Test_Dataprotection_Backupvault_CRUD(t *testing.T) {
 
 	armId := *backupvault.Status.Id
 
+	// Perform a Simple Patch
+	old := backupvault.DeepCopy()
+	backupvault.Spec.Properties.MonitoringSettings.AzureMonitorAlertSettings.AlertsForAllJobFailures = to.Ptr(dataprotection.AzureMonitorAlertSettings_AlertsForAllJobFailures_Disabled)
+
+	tc.PatchResourceAndWait(old, backupvault)
+
+	// Assertions and Expectations for Patch Operation
+	tc.Expect(backupvault.Status.Properties.MonitoringSettings.AzureMonitorAlertSettings.AlertsForAllJobFailures).To(BeEquivalentTo(to.Ptr(dataprotection.AzureMonitorAlertSettings_AlertsForAllJobFailures_Disabled)))
+
+	// Delete the resource
 	tc.DeleteResourceAndWait(backupvault)
 
 	// Ensure that the resource group was really deleted in Azure
