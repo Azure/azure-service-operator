@@ -1352,11 +1352,6 @@ func (in *BackupVault_Spec) DeepCopyInto(out *BackupVault_Spec) {
 			(*out)[key] = val
 		}
 	}
-	if in.SystemData != nil {
-		in, out := &in.SystemData, &out.SystemData
-		*out = new(SystemData)
-		(*in).DeepCopyInto(*out)
-	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
 		*out = make(map[string]string, len(*in))

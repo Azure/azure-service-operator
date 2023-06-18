@@ -2048,11 +2048,6 @@ func (in *BackupVault_Spec) DeepCopyInto(out *BackupVault_Spec) {
 		*out = new(BackupVaultSpec)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.SystemData != nil {
-		in, out := &in.SystemData, &out.SystemData
-		*out = new(SystemData)
-		(*in).DeepCopyInto(*out)
-	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
 		*out = make(map[string]string, len(*in))
@@ -2093,11 +2088,6 @@ func (in *BackupVault_Spec_ARM) DeepCopyInto(out *BackupVault_Spec_ARM) {
 	if in.Properties != nil {
 		in, out := &in.Properties, &out.Properties
 		*out = new(BackupVaultSpec_ARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.SystemData != nil {
-		in, out := &in.SystemData, &out.SystemData
-		*out = new(SystemData_ARM)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Tags != nil {

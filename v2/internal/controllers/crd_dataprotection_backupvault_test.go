@@ -16,6 +16,8 @@ import (
 	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101"
 	// The testcommon package includes common testing utilities.
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	// The to package includes utilities for converting values to pointers.
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_Dataprotection_Backupvault_CRUD(t *testing.T) {
@@ -29,12 +31,6 @@ func Test_Dataprotection_Backupvault_CRUD(t *testing.T) {
 	// rg := tc.CreateTestResourceGroupAndWait() creates a test resource group and waits until the operation is completed.
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	// Consts for BackupVault
-	identityType := "SystemAssigned"
-	alertsForAllJobFailures_Status := dataprotection.AzureMonitorAlertSettings_AlertsForAllJobFailures_Enabled
-	StorageSetting_DatastoreType_Value := dataprotection.StorageSetting_DatastoreType_VaultStore
-	StorageSetting_Type_Value := dataprotection.StorageSetting_Type_LocallyRedundant
-
 	// Create a backupvault
 	backupvault := &dataprotection.BackupVault{
 		ObjectMeta: tc.MakeObjectMeta("asotestbackupvault"),
@@ -43,18 +39,18 @@ func Test_Dataprotection_Backupvault_CRUD(t *testing.T) {
 			Tags:     map[string]string{"cheese": "blue"},
 			Owner:    testcommon.AsOwner(rg),
 			Identity: &dataprotection.DppIdentityDetails{
-				Type: &identityType,
+				Type: to.Ptr("SystemAssigned"),
 			},
 			Properties: &dataprotection.BackupVaultSpec{
 				MonitoringSettings: &dataprotection.MonitoringSettings{
 					AzureMonitorAlertSettings: &dataprotection.AzureMonitorAlertSettings{
-						AlertsForAllJobFailures: &alertsForAllJobFailures_Status,
+						AlertsForAllJobFailures: to.Ptr(dataprotection.AzureMonitorAlertSettings_AlertsForAllJobFailures_Enabled),
 					},
 				},
 				StorageSettings: []dataprotection.StorageSetting{
 					{
-						DatastoreType: &StorageSetting_DatastoreType_Value,
-						Type:          &StorageSetting_Type_Value,
+						DatastoreType: to.Ptr(dataprotection.StorageSetting_DatastoreType_VaultStore),
+						Type:          to.Ptr(dataprotection.StorageSetting_Type_LocallyRedundant),
 					},
 				},
 			},
@@ -65,10 +61,10 @@ func Test_Dataprotection_Backupvault_CRUD(t *testing.T) {
 	// Assertions and Expectations
 	tc.Expect(backupvault.Status.Location).To(Equal(tc.AzureRegion))
 	tc.Expect(backupvault.Status.Tags).To(BeEquivalentTo(map[string]string{"cheese": "blue"}))
-	tc.Expect(backupvault.Status.Identity.Type).To(BeEquivalentTo(&identityType))
-	tc.Expect(backupvault.Status.Properties.MonitoringSettings.AzureMonitorAlertSettings.AlertsForAllJobFailures).To(BeEquivalentTo(&alertsForAllJobFailures_Status))
-	tc.Expect(backupvault.Status.Properties.StorageSettings[0].DatastoreType).To(BeEquivalentTo(&StorageSetting_DatastoreType_Value))
-	tc.Expect(backupvault.Status.Properties.StorageSettings[0].Type).To(BeEquivalentTo(&StorageSetting_Type_Value))
+	tc.Expect(backupvault.Status.Identity.Type).To(BeEquivalentTo(to.Ptr("SystemAssigned")))
+	tc.Expect(backupvault.Status.Properties.MonitoringSettings.AzureMonitorAlertSettings.AlertsForAllJobFailures).To(BeEquivalentTo(to.Ptr(dataprotection.AzureMonitorAlertSettings_AlertsForAllJobFailures_Enabled)))
+	tc.Expect(backupvault.Status.Properties.StorageSettings[0].DatastoreType).To(BeEquivalentTo(to.Ptr(dataprotection.StorageSetting_DatastoreType_VaultStore)))
+	tc.Expect(backupvault.Status.Properties.StorageSettings[0].Type).To(BeEquivalentTo(to.Ptr(dataprotection.StorageSetting_Type_LocallyRedundant)))
 	tc.Expect(backupvault.Status.Id).ToNot(BeNil())
 
 	armId := *backupvault.Status.Id
