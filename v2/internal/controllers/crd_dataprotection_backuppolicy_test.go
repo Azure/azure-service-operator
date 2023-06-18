@@ -20,6 +20,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
+// creating a new backup policy rule: AZURE_BACKUP_RULE
 func createAzureBackupRule() *dataprotection.AzureBackupRule {
 	azureBackupRule := &dataprotection.AzureBackupRule{
 		Name:       to.Ptr("BackupHourly"),
@@ -57,6 +58,7 @@ func createAzureBackupRule() *dataprotection.AzureBackupRule {
 	return azureBackupRule
 }
 
+// creating a new retention policy rule: AZURE_RETENTION_RULE
 func createAzureRetentionRule() *dataprotection.AzureRetentionRule {
 	azureRetentionRule := &dataprotection.AzureRetentionRule{
 		Name:       to.Ptr("Default"),
@@ -93,38 +95,32 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 	// rg := tc.CreateTestResourceGroupAndWait() creates a test resource group and waits until the operation is completed.
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	// Consts for BackupVault
-	identityType := "SystemAssigned"
-	alertsForAllJobFailures_Status := dataprotection.AzureMonitorAlertSettings_AlertsForAllJobFailures_Enabled
-	StorageSetting_DatastoreType_Value := dataprotection.StorageSetting_DatastoreType_VaultStore
-	StorageSetting_Type_Value := dataprotection.StorageSetting_Type_LocallyRedundant
-
 	// Create a backupvault
 	backupvault := &dataprotection.BackupVault{
-		ObjectMeta: tc.MakeObjectMetaWithName("asotestbackupvault"),
+		ObjectMeta: tc.MakeObjectMeta("asotestbackupvault"),
 		Spec: dataprotection.BackupVault_Spec{
 			Location: tc.AzureRegion,
 			Tags:     map[string]string{"cheese": "blue"},
 			Owner:    testcommon.AsOwner(rg),
 			Identity: &dataprotection.DppIdentityDetails{
-				Type: &identityType,
+				Type: to.Ptr("SystemAssigned"),
 			},
 			Properties: &dataprotection.BackupVaultSpec{
 				MonitoringSettings: &dataprotection.MonitoringSettings{
 					AzureMonitorAlertSettings: &dataprotection.AzureMonitorAlertSettings{
-						AlertsForAllJobFailures: &alertsForAllJobFailures_Status,
+						AlertsForAllJobFailures: to.Ptr(dataprotection.AzureMonitorAlertSettings_AlertsForAllJobFailures_Enabled),
 					},
 				},
 				StorageSettings: []dataprotection.StorageSetting{
 					{
-						DatastoreType: &StorageSetting_DatastoreType_Value,
-						Type:          &StorageSetting_Type_Value,
+						DatastoreType: to.Ptr(dataprotection.StorageSetting_DatastoreType_VaultStore),
+						Type:          to.Ptr(dataprotection.StorageSetting_Type_LocallyRedundant),
 					},
 				},
 			},
 		},
 	}
-	tc.CreateResourceAndWait(backupvault)
+	// tc.CreateResourceAndWait(backupvault)
 
 	// Note:
 	// It is mandatory to create a backupvault before creating a backuppolicy
@@ -193,7 +189,8 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 
 	armId := *backuppolicy.Status.Id
 
-	// Note: Patch Operations are currently not allowed on BackupPolicy
+	// Note:
+	// Patch Operations are currently not allowed on BackupPolicy
 
 	// Delete the backuppolicy
 	tc.DeleteResourceAndWait(backuppolicy)
