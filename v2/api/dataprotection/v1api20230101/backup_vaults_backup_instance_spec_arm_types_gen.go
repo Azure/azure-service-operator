@@ -61,6 +61,27 @@ type BackupInstance_ARM struct {
 	ValidationType *BackupInstance_ValidationType `json:"validationType,omitempty"`
 }
 
+// Metadata pertaining to creation and last modification of the resource.
+type SystemData_ARM struct {
+	// CreatedAt: The timestamp of resource creation (UTC).
+	CreatedAt *string `json:"createdAt,omitempty"`
+
+	// CreatedBy: The identity that created the resource.
+	CreatedBy *string `json:"createdBy,omitempty"`
+
+	// CreatedByType: The type of identity that created the resource.
+	CreatedByType *SystemData_CreatedByType `json:"createdByType,omitempty"`
+
+	// LastModifiedAt: The timestamp of resource last modification (UTC)
+	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
+
+	// LastModifiedBy: The identity that last modified the resource.
+	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
+
+	// LastModifiedByType: The type of identity that last modified the resource.
+	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
+}
+
 type AuthCredentials_ARM struct {
 	// SecretStoreBasedAuthCredentials: Mutually exclusive with all other properties
 	SecretStoreBasedAuthCredentials *SecretStoreBasedAuthCredentials_ARM `json:"secretStoreBasedAuthCredentials,omitempty"`
@@ -150,6 +171,26 @@ type PolicyInfo_ARM struct {
 	// PolicyParameters: Policy parameters for the backup instance
 	PolicyParameters *PolicyParameters_ARM `json:"policyParameters,omitempty"`
 }
+
+// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
+type SystemData_CreatedByType string
+
+const (
+	SystemData_CreatedByType_Application     = SystemData_CreatedByType("Application")
+	SystemData_CreatedByType_Key             = SystemData_CreatedByType("Key")
+	SystemData_CreatedByType_ManagedIdentity = SystemData_CreatedByType("ManagedIdentity")
+	SystemData_CreatedByType_User            = SystemData_CreatedByType("User")
+)
+
+// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
+type SystemData_LastModifiedByType string
+
+const (
+	SystemData_LastModifiedByType_Application     = SystemData_LastModifiedByType("Application")
+	SystemData_LastModifiedByType_Key             = SystemData_LastModifiedByType("Key")
+	SystemData_LastModifiedByType_ManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
+	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
+)
 
 // Parameters in Policy
 type PolicyParameters_ARM struct {

@@ -233,6 +233,18 @@ type BackupInstance_STATUS struct {
 	ValidationType            *string                         `json:"validationType,omitempty"`
 }
 
+// Storage version of v1api20230101.SystemData
+// Metadata pertaining to creation and last modification of the resource.
+type SystemData struct {
+	CreatedAt          *string                `json:"createdAt,omitempty"`
+	CreatedBy          *string                `json:"createdBy,omitempty"`
+	CreatedByType      *string                `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
+	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
+	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1api20230101.AuthCredentials
 type AuthCredentials struct {
 	PropertyBag                     genruntime.PropertyBag           `json:"$propertyBag,omitempty"`

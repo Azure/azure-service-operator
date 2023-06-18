@@ -156,7 +156,6 @@ type BackupVault_Spec struct {
 	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	Properties  *BackupVaultSpec                   `json:"properties,omitempty"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	SystemData  *SystemData                        `json:"systemData,omitempty"`
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
@@ -254,18 +253,6 @@ type DppIdentityDetails_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	TenantId    *string                `json:"tenantId,omitempty"`
 	Type        *string                `json:"type,omitempty"`
-}
-
-// Storage version of v1api20230101.SystemData
-// Metadata pertaining to creation and last modification of the resource.
-type SystemData struct {
-	CreatedAt          *string                `json:"createdAt,omitempty"`
-	CreatedBy          *string                `json:"createdBy,omitempty"`
-	CreatedByType      *string                `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
-	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20230101.SystemData_STATUS

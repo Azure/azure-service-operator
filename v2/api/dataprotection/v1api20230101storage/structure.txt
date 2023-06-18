@@ -4,7 +4,7 @@ github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101stora
 │   └── "2023-01-01"
 ├── BackupVault: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
-│   ├── Spec: Object (10 properties)
+│   ├── Spec: Object (9 properties)
 │   │   ├── AzureName: string
 │   │   ├── ETag: *string
 │   │   ├── Identity: *Object (2 properties)
@@ -39,14 +39,6 @@ github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101stora
 │   │   │       ├── PropertyBag: genruntime.PropertyBag
 │   │   │       └── Type: *string
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── SystemData: *Object (7 properties)
-│   │   │   ├── CreatedAt: *string
-│   │   │   ├── CreatedBy: *string
-│   │   │   ├── CreatedByType: *string
-│   │   │   ├── LastModifiedAt: *string
-│   │   │   ├── LastModifiedBy: *string
-│   │   │   ├── LastModifiedByType: *string
-│   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   └── Tags: map[string]string
 │   └── Status: Object (11 properties)
 │       ├── Conditions: conditions.Condition[]

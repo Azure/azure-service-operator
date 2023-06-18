@@ -149,6 +149,11 @@ typeTransformers:
     because: AccessKeys is only set on response to PUT/CREATE, but we fill out Status via GET so this field is always empty. It also contains secrets we wouldn't want to expose in status anyway.
 
   # Properties that should have been marked as ReadOnly in the Swagger
+  - name: BackupVault_Spec
+    group: dataprotection
+    property: SystemData
+    remove: true
+    because: This property should be marked readonly in Swagger
   - name: IotHub_Spec
     group: devices
     property: Etag
