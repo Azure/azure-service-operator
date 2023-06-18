@@ -1,0 +1,20 @@
+apiVersion: dataprotection.azure.com/v1api20230101
+kind: BackupVault
+metadata:
+  name: asotestbackupvault
+  namespace: default
+spec: 
+  location: eastus
+  owner:
+    name: aso-sample-rg
+  identity:
+    type: SystemAssigned
+  tags:
+    tag1: value1
+  properties:
+    monitorsettings:
+      azuremonitoralertsettings:
+        alertsforalljobfailures: enabled
+    storagesettings:
+      datastoretype: vaultstore
+      type: locallyreduntant

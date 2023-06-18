@@ -1,0 +1,57 @@
+apiVersion: dataprotection.azure.com/v1api20230101
+kind: BackupVaultsBackupInstance
+metadata:
+  name: asotestbackupinstance
+  namespace: default
+spec:
+  owner:
+    name: asotestbackupvault
+  tags:
+    tag1: value1
+  properties:
+    friendlyName: asotestbackupinstance
+    dataSourceInfo:
+      objectType: Datasource
+      resourceID: >-
+        /subscriptions/f0c630e0-2995-4853-b056-0b3c09cb673f/resourceGroups/t-agrawals/providers/Microsoft.ContainerService/managedClusters/testAKScluster
+      resourceName: testAKScluster
+      resourceType: Microsoft.ContainerService/managedclusters
+      resourceLocation: eastus
+      resourceUri: >-
+        /subscriptions/f0c630e0-2995-4853-b056-0b3c09cb673f/resourceGroups/t-agrawals/providers/Microsoft.ContainerService/managedClusters/testAKScluster
+      datasourceType: Microsoft.ContainerService/managedClusters
+      resourceProperties: {}
+    dataSourceSetInfo:
+      objectType: DatasourceSet
+      resourceID: >-
+        /subscriptions/f0c630e0-2995-4853-b056-0b3c09cb673f/resourceGroups/t-agrawals/providers/Microsoft.ContainerService/managedClusters/testAKScluster
+      resourceName: testAKScluster
+      resourceType: Microsoft.ContainerService/managedclusters
+      resourceLocation: eastus
+      resourceUri: >-
+        /subscriptions/f0c630e0-2995-4853-b056-0b3c09cb673f/resourceGroups/t-agrawals/providers/Microsoft.ContainerService/managedClusters/testAKScluster
+      datasourceType: Microsoft.ContainerService/managedClusters
+      resourceProperties: {}
+    objectType: BackupInstance
+    policyInfo:
+      policyId: >-
+        /subscriptions/f0c630e0-2995-4853-b056-0b3c09cb673f/resourceGroups/t-agrawals/providers/Microsoft.DataProtection/BackupVaults/shayBackupVault/backupPolicies/testbackuppolicy
+      policyVersion: ''
+      policyParameters:
+        dataStoreParametersList:
+          - objectType: AzureOperationalStoreParameters
+            dataStoreType: OperationalStore
+            resourceGroupId: >-
+              /subscriptions/f0c630e0-2995-4853-b056-0b3c09cb673f/resourceGroups/t-agrawals
+        backupDatasourceParametersList:
+          - objectType: KubernetesClusterBackupDatasourceParameters
+            includedNamespaces: []
+            excludedNamespaces: []
+            includedResourceTypes: []
+            excludedResourceTypes:
+              - v1/Secret
+            labelSelectors: []
+            snapshotVolumes: 'true'
+            includeClusterScopeResources: 'true'
+    
+
