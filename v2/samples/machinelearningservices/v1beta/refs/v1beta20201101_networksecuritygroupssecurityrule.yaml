@@ -4,7 +4,6 @@ metadata:
   name: workspacescomputensgrule
   namespace: default
 spec:
-  location: westus3
   owner:
     name: workspacescomputensg
   protocol: Tcp

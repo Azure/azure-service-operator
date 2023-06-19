@@ -4,7 +4,6 @@ metadata:
   name: fee8b6b1-fe6e-481d-8330-0e950e4e6b86 # Should be UUID
   namespace: default
 spec:
-  location: westcentralus
   # This resource can be owner by any resource. In this example we've chosen a resource group for simplicity
   owner:
     name: aso-sample-rg
