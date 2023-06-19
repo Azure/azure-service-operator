@@ -6,9 +6,9 @@ Licensed under the MIT license.
 package testcommon
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"reflect"
@@ -18,7 +18,6 @@ import (
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/runtime/serializer"
 	"k8s.io/apimachinery/pkg/util/yaml"
 
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
@@ -53,7 +52,6 @@ var exclusions = []string{
 
 type SamplesTester struct {
 	noSpaceNamer      ResourceNamer
-	decoder           runtime.Decoder
 	scheme            *runtime.Scheme
 	groupVersionPath  string
 	namespace         string
@@ -88,7 +86,6 @@ func NewSamplesTester(
 	azureSubscription string) *SamplesTester {
 	return &SamplesTester{
 		noSpaceNamer:      noSpaceNamer,
-		decoder:           serializer.NewCodecFactory(scheme).UniversalDecoder(),
 		scheme:            scheme,
 		groupVersionPath:  groupVersionPath,
 		namespace:         namespace,
@@ -157,7 +154,7 @@ func (t *SamplesTester) handleObject(sample genruntime.ARMMetaObject, samples ma
 func (t *SamplesTester) getObjectFromFile(path string) (genruntime.ARMMetaObject, error) {
 	jsonMap := make(map[string]interface{})
 
-	byteData, err := ioutil.ReadFile(path)
+	byteData, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}
@@ -180,9 +177,11 @@ func (t *SamplesTester) getObjectFromFile(path string) (genruntime.ARMMetaObject
 		return nil, err
 	}
 
-	err = runtime.DecodeInto(t.decoder, byteData, obj)
+	decorder := json.NewDecoder(bytes.NewReader(jsonBytes))
+	decorder.DisallowUnknownFields()
+	err = decorder.Decode(obj)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrapf(err, "while decoding %s", path)
 	}
 
 	return obj.(genruntime.ARMMetaObject), nil

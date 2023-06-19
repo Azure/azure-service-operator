@@ -4,7 +4,6 @@ metadata:
   name: samplesqlsubnet
   namespace: default
 spec:
-  location: eastus
   owner:
     name: samplesqlvnet
   addressPrefix: 10.0.0.0/24

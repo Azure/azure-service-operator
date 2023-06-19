@@ -4,7 +4,6 @@ metadata:
   name: workspacescomputesubnet
   namespace: default
 spec:
-  location: westus3
   owner:
     name: workspacescomputevnet
   addressPrefix: 10.0.0.0/24
