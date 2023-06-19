@@ -18,7 +18,6 @@ spec:
             sourceDataStore:
               dataStoreType: OperationalStore
               objectType: DataStoreInfoBase
-            targetDataStoreCopySettings: []
       - name: BackupHourly
         objectType: AzureBackupRule
         backupParameters:
