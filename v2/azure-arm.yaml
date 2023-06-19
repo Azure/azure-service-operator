@@ -661,6 +661,7 @@ objectModelConfiguration:
       RoleAssignment:
         $export: true
         $supportedFrom: v2.0.0-alpha.2
+        $defaultAzureName: false
       RoleAssignmentProperties:
         RoleDefinitionId:
           $armReference: true

@@ -1,7 +1,7 @@
 apiVersion: authorization.azure.com/v1beta20200801preview
 kind: RoleAssignment
 metadata:
-  name: fee8b6b1-fe6e-481d-8330-0e950e4e6b86 # Should be UUID
+  name: aso-sample-contributor
   namespace: default
 spec:
   # This resource can be owner by any resource. In this example we've chosen a resource group for simplicity

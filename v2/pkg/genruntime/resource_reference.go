@@ -11,6 +11,7 @@ import (
 	"reflect"
 
 	"github.com/pkg/errors"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
@@ -132,6 +133,14 @@ func (ref ResourceReference) AsNamespacedRef(namespace string) NamespacedResourc
 	return NamespacedResourceReference{
 		ResourceReference: ref,
 		Namespace:         namespace,
+	}
+}
+
+// GroupKind returns the GroupKind of the resource reference
+func (ref ResourceReference) GroupKind() schema.GroupKind {
+	return schema.GroupKind{
+		Group: ref.Group,
+		Kind:  ref.Kind,
 	}
 }
 

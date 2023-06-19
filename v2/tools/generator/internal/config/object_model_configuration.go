@@ -484,6 +484,34 @@ func (omc *ObjectModelConfiguration) VerifyImportableConsumed() error {
 	return visitor.Visit(omc)
 }
 
+// LookupDefaultAzureName checks to see whether a specified type should default the Azure Name property.
+// Returns a NotConfiguredError if no $defaultAzureName flag is configured.
+func (omc *ObjectModelConfiguration) LookupDefaultAzureName(name astmodel.TypeName) (bool, error) {
+	var defaultAzureName bool
+	visitor := newSingleTypeConfigurationVisitor(
+		name,
+		func(configuration *TypeConfiguration) error {
+			defAzure, err := configuration.LookupDefaultAzureName()
+			defaultAzureName = defAzure
+			return err
+		})
+	err := visitor.Visit(omc)
+	if err != nil {
+		return false, err
+	}
+
+	return defaultAzureName, nil
+}
+
+// VerifyDefaultAzureNameConsumed returns an error if our configured $defaultAzureName flag was not used, nil otherwise.
+func (omc *ObjectModelConfiguration) VerifyDefaultAzureNameConsumed() error {
+	visitor := newEveryTypeConfigurationVisitor(
+		func(configuration *TypeConfiguration) error {
+			return configuration.VerifyDefaultAzureNameConsumed()
+		})
+	return visitor.Visit(omc)
+}
+
 var VersionRegex = regexp.MustCompile(`^v\d\d?$`)
 
 // FindHandCraftedTypeNames returns the set of typenames that are hand-crafted.
