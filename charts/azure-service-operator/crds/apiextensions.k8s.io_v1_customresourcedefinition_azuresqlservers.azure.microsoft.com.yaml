@@ -149,6 +149,8 @@ spec:
                 minLength: 1
                 pattern: ^[-\w\._\(\)]+$
                 type: string
+              subscriptionId:
+                type: string
             required:
             - location
             - resourceGroup

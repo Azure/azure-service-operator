@@ -241,7 +241,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
 │   │   ├── ServicePrincipalProfile: *Object (3 properties)
 │   │   │   ├── ClientId: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Secret: *string
+│   │   │   └── Secret: *genruntime.SecretReference
 │   │   ├── Sku: *Object (3 properties)
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -515,10 +515,9 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
 │       │   └── Type: *string
 │       ├── PropertyBag: genruntime.PropertyBag
 │       ├── ProvisioningState: *string
-│       ├── ServicePrincipalProfile: *Object (3 properties)
+│       ├── ServicePrincipalProfile: *Object (2 properties)
 │       │   ├── ClientId: *string
-│       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   └── Secret: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── Sku: *Object (3 properties)
 │       │   ├── Name: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag

@@ -282,8 +282,8 @@ typeTransformers:
     because: These properties should be marked readonly
 
   - group: search
-    name: SearchServiceProperties
-    property: AuthOptions
+    name: DataPlaneAuthOptions
+    property: ApiKeyOnly
     remove: true
     because: We need a better handling for JSON # Discussion: https://github.com/Azure/azure-service-operator/pull/2916/files/93b06daa9549a91ac626e3241c5987b23b4087ac#r1179803300
 
@@ -889,6 +889,9 @@ objectModelConfiguration:
       ManagedClusterAgentPoolProfileProperties:
         ProximityPlacementGroupID:
           $armReference: false # This is true in the next version and we have custom conversion to make round-tripping work
+      ManagedClusterServicePrincipalProfile:
+        Secret:
+          $isSecret: true
       PrivateLinkResource:
         Id:
           $armReference: true
@@ -902,6 +905,9 @@ objectModelConfiguration:
       ManagedClusters_AgentPool:
         $exportAs: ManagedClustersAgentPool
         $supportedFrom: v2.0.0
+      ManagedClusterServicePrincipalProfile:
+        Secret:
+          $isSecret: true
       PrivateLinkResource:
         Id:
           $armReference: true
@@ -915,6 +921,9 @@ objectModelConfiguration:
       ManagedClusters_AgentPool:
         $exportAs: ManagedClustersAgentPool
         $supportedFrom: v2.0.0
+      ManagedClusterServicePrincipalProfile:
+        Secret:
+          $isSecret: true
       PrivateLinkResource:
         Id:
           $armReference: true
@@ -1570,6 +1579,10 @@ objectModelConfiguration:
       SearchService:
         $export: true
         $supportedFrom: v2.1.0
+        $azureGeneratedSecrets:
+          - AdminPrimaryKey
+          - AdminSecondaryKey
+          - QueryKey
   servicebus:
     2021-01-01-preview:
       Namespace:

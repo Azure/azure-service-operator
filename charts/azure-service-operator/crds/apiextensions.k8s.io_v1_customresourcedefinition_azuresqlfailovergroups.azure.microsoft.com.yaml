@@ -162,6 +162,8 @@ spec:
           spec:
             description: AzureSqlFailoverGroupSpec defines the desired state of AzureSqlFailoverGroup
             properties:
+              SecondaryServerSubscriptionId:
+                type: string
               databaseList:
                 items:
                   type: string
@@ -195,6 +197,8 @@ spec:
                 type: string
               server:
                 minLength: 1
+                type: string
+              subscriptionId:
                 type: string
             required:
             - databaseList
