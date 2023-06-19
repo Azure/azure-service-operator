@@ -66,28 +66,28 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"identity":{"type":"SystemAssigned"},"location":"westus2","name":"shayvault1","properties":{"monitoringSettings":{"azureMonitorAlertSettings":{"alertsForAllJobFailures":"Enabled"}},"storageSettings":[{"datastoreType":"VaultStore","type":"LocallyRedundant"}]},"tags":{"cheese":"blue"}}'
+    body: '{"identity":{"type":"SystemAssigned"},"location":"westus2","name":"asotest-asotestbackupvault-ausjak","properties":{"monitoringSettings":{"azureMonitorAlertSettings":{"alertsForAllJobFailures":"Enabled"}},"storageSettings":[{"datastoreType":"VaultStore","type":"LocallyRedundant"}]},"tags":{"cheese":"blue"}}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "285"
+      - "308"
       Content-Type:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/shayvault1?api-version=2023-01-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/asotest-asotestbackupvault-ausjak?api-version=2023-01-01
     method: PUT
   response:
-    body: '{"location":"westus2","tags":{"cheese":"blue"},"identity":{"type":"SystemAssigned","principalId":"f3863c88-dd56-49a6-8a21-75feb15268ac","tenantId":"00000000-0000-0000-0000-000000000000"},"properties":{"provisioningState":"Provisioning","storageSettings":[{"datastoreType":"VaultStore","type":"LocallyRedundant"}],"isVaultProtectedByResourceGuard":false,"monitoringSettings":{"azureMonitorAlertSettings":{"alertsForAllJobFailures":"Enabled"}},"securitySettings":{"softDeleteSettings":{"state":"On","retentionDurationInDays":14.0}}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/shayvault1","name":"shayvault1","type":"Microsoft.DataProtection/backupVaults"}'
+    body: '{"location":"westus2","tags":{"cheese":"blue"},"identity":{"type":"SystemAssigned","principalId":"4bffbb05-0a29-45e5-9691-aca43677ea40","tenantId":"00000000-0000-0000-0000-000000000000"},"properties":{"provisioningState":"Provisioning","storageSettings":[{"datastoreType":"VaultStore","type":"LocallyRedundant"}],"isVaultProtectedByResourceGuard":false,"monitoringSettings":{"azureMonitorAlertSettings":{"alertsForAllJobFailures":"Enabled"}},"securitySettings":{"softDeleteSettings":{"state":"On","retentionDurationInDays":14.0}}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/asotest-asotestbackupvault-ausjak","name":"asotest-asotestbackupvault-ausjak","type":"Microsoft.DataProtection/backupVaults"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/shayvault1/operationStatus/NWE3MWJhNjgtYjEyYS00ZjJhLThlNWQtOGJlM2M2ZDM5YjYxO2ViMDgyNjdlLTI1ZGEtNGM4Yy1hMzZlLTk0NGI4N2Y5ZDg3Yg==?api-version=2023-01-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/asotest-asotestbackupvault-ausjak/operationStatus/MTZkZDk1MTQtZWM2ZC00YWJiLTkzYWYtNWEwYzgyNjZjOWE3OzI3NTQwMGRlLTNkYWYtNDNmYS1hNjhmLTlkNjQzZTJhYzFhZA==?api-version=2023-01-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "749"
+      - "795"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -103,7 +103,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Arm-Resource-System-Data:
-      - '{"createdBy":"7778604e-f3cc-465b-9575-2b7bdc6f5184","createdByType":"Application","createdAt":"2023-06-14T14:53:02.5155554Z","lastModifiedBy":"7778604e-f3cc-465b-9575-2b7bdc6f5184","lastModifiedByType":"Application","lastModifiedAt":"2023-06-14T14:53:02.5155554Z"}'
+      - '{"createdBy":"7778604e-f3cc-465b-9575-2b7bdc6f5184","createdByType":"Application","createdAt":"2023-06-19T10:36:00.2789274Z","lastModifiedBy":"7778604e-f3cc-465b-9575-2b7bdc6f5184","lastModifiedByType":"Application","lastModifiedAt":"2023-06-19T10:36:00.2789274Z"}'
       X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
       - "99"
     status: 201 Created
@@ -115,10 +115,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/shayvault1/operationStatus/NWE3MWJhNjgtYjEyYS00ZjJhLThlNWQtOGJlM2M2ZDM5YjYxO2ViMDgyNjdlLTI1ZGEtNGM4Yy1hMzZlLTk0NGI4N2Y5ZDg3Yg==?api-version=2023-01-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/asotest-asotestbackupvault-ausjak/operationStatus/MTZkZDk1MTQtZWM2ZC00YWJiLTkzYWYtNWEwYzgyNjZjOWE3OzI3NTQwMGRlLTNkYWYtNDNmYS1hNjhmLTlkNjQzZTJhYzFhZA==?api-version=2023-01-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.Da{KEY}=","name":"{KEY}","status":"Succeeded","startTime":"2001-02-03T04:05:06Z","endTime":"2001-02-03T04:05:06Z"}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/asotest-asotestbackupvault-au{KEY}=","name":"{KEY}","status":"Succeeded","startTime":"2001-02-03T04:05:06Z","endTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -147,10 +147,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/shayvault1?api-version=2023-01-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/asotest-asotestbackupvault-ausjak?api-version=2023-01-01
     method: GET
   response:
-    body: '{"location":"westus2","tags":{"cheese":"blue"},"identity":{"type":"SystemAssigned","principalId":"f3863c88-dd56-49a6-8a21-75feb15268ac","tenantId":"00000000-0000-0000-0000-000000000000"},"properties":{"provisioningState":"Succeeded","storageSettings":[{"datastoreType":"VaultStore","type":"LocallyRedundant"}],"isVaultProtectedByResourceGuard":false,"monitoringSettings":{"azureMonitorAlertSettings":{"alertsForAllJobFailures":"Enabled"}},"securitySettings":{"softDeleteSettings":{"state":"On","retentionDurationInDays":14.0}}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/shayvault1","name":"shayvault1","type":"Microsoft.DataProtection/backupVaults"}'
+    body: '{"location":"westus2","tags":{"cheese":"blue"},"identity":{"type":"SystemAssigned","principalId":"4bffbb05-0a29-45e5-9691-aca43677ea40","tenantId":"00000000-0000-0000-0000-000000000000"},"properties":{"provisioningState":"Succeeded","storageSettings":[{"datastoreType":"VaultStore","type":"LocallyRedundant"}],"isVaultProtectedByResourceGuard":false,"monitoringSettings":{"azureMonitorAlertSettings":{"alertsForAllJobFailures":"Enabled"}},"securitySettings":{"softDeleteSettings":{"state":"On","retentionDurationInDays":14.0}}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/asotest-asotestbackupvault-ausjak","name":"asotest-asotestbackupvault-ausjak","type":"Microsoft.DataProtection/backupVaults"}'
     headers:
       Cache-Control:
       - no-cache
@@ -181,10 +181,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/shayvault1?api-version=2023-01-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/asotest-asotestbackupvault-ausjak?api-version=2023-01-01
     method: GET
   response:
-    body: '{"location":"westus2","tags":{"cheese":"blue"},"identity":{"type":"SystemAssigned","principalId":"f3863c88-dd56-49a6-8a21-75feb15268ac","tenantId":"00000000-0000-0000-0000-000000000000"},"properties":{"provisioningState":"Succeeded","storageSettings":[{"datastoreType":"VaultStore","type":"LocallyRedundant"}],"isVaultProtectedByResourceGuard":false,"monitoringSettings":{"azureMonitorAlertSettings":{"alertsForAllJobFailures":"Enabled"}},"securitySettings":{"softDeleteSettings":{"state":"On","retentionDurationInDays":14.0}}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/shayvault1","name":"shayvault1","type":"Microsoft.DataProtection/backupVaults"}'
+    body: '{"location":"westus2","tags":{"cheese":"blue"},"identity":{"type":"SystemAssigned","principalId":"4bffbb05-0a29-45e5-9691-aca43677ea40","tenantId":"00000000-0000-0000-0000-000000000000"},"properties":{"provisioningState":"Succeeded","storageSettings":[{"datastoreType":"VaultStore","type":"LocallyRedundant"}],"isVaultProtectedByResourceGuard":false,"monitoringSettings":{"azureMonitorAlertSettings":{"alertsForAllJobFailures":"Enabled"}},"securitySettings":{"softDeleteSettings":{"state":"On","retentionDurationInDays":14.0}}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/asotest-asotestbackupvault-ausjak","name":"asotest-asotestbackupvault-ausjak","type":"Microsoft.DataProtection/backupVaults"}'
     headers:
       Cache-Control:
       - no-cache
@@ -208,21 +208,21 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"asotest-testsbackuppolicy-ausjak","properties":{"datasourceTypes":["Microsoft.ContainerService/managedClusters"],"objectType":"BackupPolicy","policyRules":[{"backupParameters":{"backupType":"Incremental","objectType":"AzureBackupParams"},"dataStore":{"dataStoreType":"OperationalStore","objectType":"DataStoreInfoBase"},"name":"BackupHourly","objectType":"AzureBackupRule","trigger":{"objectType":"ScheduleBasedTriggerContext","schedule":{"repeatingTimeIntervals":["R/2023-06-07T10:26:32+00:00/PT4H"],"timeZone":"UTC"},"taggingCriteria":[{"isDefault":true,"tagInfo":{"tagName":"Default"},"taggingPriority":99}]}},{"isDefault":true,"lifecycles":[{"deleteAfter":{"duration":"P9D","objectType":"AbsoluteDeleteOption"},"sourceDataStore":{"dataStoreType":"OperationalStore","objectType":"DataStoreInfoBase"}}],"name":"Default","objectType":"AzureRetentionRule"}]}}'
+    body: '{"name":"asotest-asotestbackuppolicy-jtingf","properties":{"datasourceTypes":["Microsoft.ContainerService/managedClusters"],"objectType":"BackupPolicy","policyRules":[{"backupParameters":{"backupType":"Incremental","objectType":"AzureBackupParams"},"dataStore":{"dataStoreType":"OperationalStore","objectType":"DataStoreInfoBase"},"name":"BackupHourly","objectType":"AzureBackupRule","trigger":{"objectType":"ScheduleBasedTriggerContext","schedule":{"repeatingTimeIntervals":["R/2023-06-07T10:26:32+00:00/PT4H"],"timeZone":"UTC"},"taggingCriteria":[{"isDefault":true,"tagInfo":{"tagName":"Default"},"taggingPriority":99}]}},{"isDefault":true,"lifecycles":[{"deleteAfter":{"duration":"P9D","objectType":"AbsoluteDeleteOption"},"sourceDataStore":{"dataStoreType":"OperationalStore","objectType":"DataStoreInfoBase"}}],"name":"Default","objectType":"AzureRetentionRule"}]}}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "868"
+      - "870"
       Content-Type:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/shayvault1/backupPolicies/asotest-testsbackuppolicy-ausjak?api-version=2023-01-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/asotest-asotestbackupvault-ausjak/backupPolicies/asotest-asotestbackuppolicy-jtingf?api-version=2023-01-01
     method: PUT
   response:
-    body: '{"properties":{"policyRules":[{"backupParameters":{"backupType":"Incremental","objectType":"AzureBackupParams"},"trigger":{"schedule":{"repeatingTimeIntervals":["R/2023-06-07T10:26:32+00:00/PT4H"],"timeZone":"UTC"},"taggingCriteria":[{"tagInfo":{"tagName":"Default","id":"Default_"},"taggingPriority":99,"isDefault":true}],"objectType":"ScheduleBasedTriggerContext"},"dataStore":{"dataStoreType":"OperationalStore","objectType":"DataStoreInfoBase"},"name":"BackupHourly","objectType":"AzureBackupRule"},{"lifecycles":[{"deleteAfter":{"objectType":"AbsoluteDeleteOption","duration":"P9D"},"sourceDataStore":{"dataStoreType":"OperationalStore","objectType":"DataStoreInfoBase"}}],"isDefault":true,"name":"Default","objectType":"AzureRetentionRule"}],"datasourceTypes":["Microsoft.ContainerService/managedClusters"],"objectType":"BackupPolicy"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/shayvault1/backupPolicies/asotest-testsbackuppolicy-ausjak","name":"asotest-testsbackuppolicy-ausjak","type":"Microsoft.DataProtection/backupVaults/backupPolicies"}'
+    body: '{"properties":{"policyRules":[{"backupParameters":{"backupType":"Incremental","objectType":"AzureBackupParams"},"trigger":{"schedule":{"repeatingTimeIntervals":["R/2023-06-07T10:26:32+00:00/PT4H"],"timeZone":"UTC"},"taggingCriteria":[{"tagInfo":{"tagName":"Default","id":"Default_"},"taggingPriority":99,"isDefault":true}],"objectType":"ScheduleBasedTriggerContext"},"dataStore":{"dataStoreType":"OperationalStore","objectType":"DataStoreInfoBase"},"name":"BackupHourly","objectType":"AzureBackupRule"},{"lifecycles":[{"deleteAfter":{"objectType":"AbsoluteDeleteOption","duration":"P9D"},"sourceDataStore":{"dataStoreType":"OperationalStore","objectType":"DataStoreInfoBase"}}],"isDefault":true,"name":"Default","objectType":"AzureRetentionRule"}],"datasourceTypes":["Microsoft.ContainerService/managedClusters"],"objectType":"BackupPolicy"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/asotest-asotestbackupvault-ausjak/backupPolicies/asotest-asotestbackuppolicy-jtingf","name":"asotest-asotestbackuppolicy-jtingf","type":"Microsoft.DataProtection/backupVaults/backupPolicies"}'
     headers:
       Cache-Control:
       - no-cache
@@ -253,10 +253,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/shayvault1/backupPolicies/asotest-testsbackuppolicy-ausjak?api-version=2023-01-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/asotest-asotestbackupvault-ausjak/backupPolicies/asotest-asotestbackuppolicy-jtingf?api-version=2023-01-01
     method: GET
   response:
-    body: '{"properties":{"policyRules":[{"backupParameters":{"backupType":"Incremental","objectType":"AzureBackupParams"},"trigger":{"schedule":{"repeatingTimeIntervals":["R/2023-06-07T10:26:32+00:00/PT4H"],"timeZone":"UTC"},"taggingCriteria":[{"tagInfo":{"tagName":"Default","id":"Default_"},"taggingPriority":99,"isDefault":true}],"objectType":"ScheduleBasedTriggerContext"},"dataStore":{"dataStoreType":"OperationalStore","objectType":"DataStoreInfoBase"},"name":"BackupHourly","objectType":"AzureBackupRule"},{"lifecycles":[{"deleteAfter":{"objectType":"AbsoluteDeleteOption","duration":"P9D"},"sourceDataStore":{"dataStoreType":"OperationalStore","objectType":"DataStoreInfoBase"}}],"isDefault":true,"name":"Default","objectType":"AzureRetentionRule"}],"datasourceTypes":["Microsoft.ContainerService/managedClusters"],"objectType":"BackupPolicy"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/shayvault1/backupPolicies/asotest-testsbackuppolicy-ausjak","name":"asotest-testsbackuppolicy-ausjak","type":"Microsoft.DataProtection/backupVaults/backupPolicies"}'
+    body: '{"properties":{"policyRules":[{"backupParameters":{"backupType":"Incremental","objectType":"AzureBackupParams"},"trigger":{"schedule":{"repeatingTimeIntervals":["R/2023-06-07T10:26:32+00:00/PT4H"],"timeZone":"UTC"},"taggingCriteria":[{"tagInfo":{"tagName":"Default","id":"Default_"},"taggingPriority":99,"isDefault":true}],"objectType":"ScheduleBasedTriggerContext"},"dataStore":{"dataStoreType":"OperationalStore","objectType":"DataStoreInfoBase"},"name":"BackupHourly","objectType":"AzureBackupRule"},{"lifecycles":[{"deleteAfter":{"objectType":"AbsoluteDeleteOption","duration":"P9D"},"sourceDataStore":{"dataStoreType":"OperationalStore","objectType":"DataStoreInfoBase"}}],"isDefault":true,"name":"Default","objectType":"AzureRetentionRule"}],"datasourceTypes":["Microsoft.ContainerService/managedClusters"],"objectType":"BackupPolicy"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/asotest-asotestbackupvault-ausjak/backupPolicies/asotest-asotestbackuppolicy-jtingf","name":"asotest-asotestbackuppolicy-jtingf","type":"Microsoft.DataProtection/backupVaults/backupPolicies"}'
     headers:
       Cache-Control:
       - no-cache
@@ -287,7 +287,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/shayvault1/backupPolicies/asotest-testsbackuppolicy-ausjak?api-version=2023-01-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/asotest-asotestbackupvault-ausjak/backupPolicies/asotest-asotestbackuppolicy-jtingf?api-version=2023-01-01
     method: DELETE
   response:
     body: ""
@@ -319,7 +319,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/shayvault1/backupPolicies/asotest-testsbackuppolicy-ausjak?api-version=2023-01-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/asotest-asotestbackupvault-ausjak/backupPolicies/asotest-asotestbackuppolicy-jtingf?api-version=2023-01-01
     method: GET
   response:
     body: '{"error":{"code":"UserErrorGenericResourceNotFound","message":"Azure resource
@@ -520,96 +520,6 @@ interactions:
       - "0"
       Expires:
       - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWEpaUlktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWEpaUlktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-    method: GET
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWEpaUlktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "6"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWEpaUlktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-    method: GET
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWEpaUlktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "7"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWEpaUlktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-    method: GET
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
       Pragma:
       - no-cache
       Strict-Transport-Security:
@@ -627,7 +537,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/shayvault1?api-version=2023-01-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-exjzry/providers/Microsoft.DataProtection/backupVaults/asotest-asotestbackupvault-ausjak?api-version=2023-01-01
     method: DELETE
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-exjzry''
