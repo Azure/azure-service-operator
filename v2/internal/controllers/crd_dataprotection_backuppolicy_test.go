@@ -20,70 +20,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
-// creating a new backup policy rule: AZURE_BACKUP_RULE
-func createAzureBackupRule() *dataprotection.AzureBackupRule {
-	azureBackupRule := &dataprotection.AzureBackupRule{
-		Name:       to.Ptr("BackupHourly"),
-		ObjectType: to.Ptr(dataprotection.AzureBackupRule_ObjectType_AzureBackupRule),
-		BackupParameters: &dataprotection.BackupParameters{
-			AzureBackupParams: &dataprotection.AzureBackupParams{
-				BackupType: to.Ptr("Incremental"),
-				ObjectType: to.Ptr(dataprotection.AzureBackupParams_ObjectType_AzureBackupParams),
-			},
-		},
-		DataStore: &dataprotection.DataStoreInfoBase{
-			DataStoreType: to.Ptr(dataprotection.DataStoreInfoBase_DataStoreType_OperationalStore),
-			ObjectType:    to.Ptr("DataStoreInfoBase"),
-		},
-		Trigger: &dataprotection.TriggerContext{
-			Schedule: &dataprotection.ScheduleBasedTriggerContext{
-				ObjectType: to.Ptr(dataprotection.ScheduleBasedTriggerContext_ObjectType_ScheduleBasedTriggerContext),
-				Schedule: &dataprotection.BackupSchedule{
-					RepeatingTimeIntervals: []string{"R/2023-06-07T10:26:32+00:00/PT4H"},
-					TimeZone:               to.Ptr("UTC"),
-				},
-				TaggingCriteria: []dataprotection.TaggingCriteria{
-					{
-						IsDefault:       to.Ptr(true),
-						TaggingPriority: to.Ptr(99),
-						TagInfo: &dataprotection.RetentionTag{
-							TagName: to.Ptr("Default"),
-						},
-					},
-				},
-			},
-		},
-	}
-
-	return azureBackupRule
-}
-
-// creating a new retention policy rule: AZURE_RETENTION_RULE
-func createAzureRetentionRule() *dataprotection.AzureRetentionRule {
-	azureRetentionRule := &dataprotection.AzureRetentionRule{
-		Name:       to.Ptr("Default"),
-		ObjectType: to.Ptr(dataprotection.AzureRetentionRule_ObjectType_AzureRetentionRule),
-		IsDefault:  to.Ptr(true),
-		Lifecycles: []dataprotection.SourceLifeCycle{
-			{
-				DeleteAfter: &dataprotection.DeleteOption{
-					AbsoluteDeleteOption: &dataprotection.AbsoluteDeleteOption{
-						Duration:   to.Ptr("P9D"),
-						ObjectType: to.Ptr(dataprotection.AbsoluteDeleteOption_ObjectType_AbsoluteDeleteOption),
-					},
-				},
-				SourceDataStore: &dataprotection.DataStoreInfoBase{
-					DataStoreType: to.Ptr(dataprotection.DataStoreInfoBase_DataStoreType_OperationalStore),
-					ObjectType:    to.Ptr("DataStoreInfoBase"),
-				},
-				TargetDataStoreCopySettings: []dataprotection.TargetCopySetting{},
-			},
-		},
-	}
-
-	return azureRetentionRule
-}
-
 func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 	// indicates that this test function can run in parallel with other tests
 	t.Parallel()
@@ -120,7 +56,9 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 			},
 		},
 	}
-	// tc.CreateResourceAndWait(backupvault)
+	tc.CreateResourceAndWait(backupvault)
+
+	// backupvault := controllers_test.newBackupVault(tc, "asotestbackupvault")
 
 	// Note:
 	// It is mandatory to create a backupvault before creating a backuppolicy
@@ -203,4 +141,68 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
+}
+
+// creating a new backup policy rule: AZURE_BACKUP_RULE
+func createAzureBackupRule() *dataprotection.AzureBackupRule {
+	azureBackupRule := &dataprotection.AzureBackupRule{
+		Name:       to.Ptr("BackupHourly"),
+		ObjectType: to.Ptr(dataprotection.AzureBackupRule_ObjectType_AzureBackupRule),
+		BackupParameters: &dataprotection.BackupParameters{
+			AzureBackupParams: &dataprotection.AzureBackupParams{
+				BackupType: to.Ptr("Incremental"),
+				ObjectType: to.Ptr(dataprotection.AzureBackupParams_ObjectType_AzureBackupParams),
+			},
+		},
+		DataStore: &dataprotection.DataStoreInfoBase{
+			DataStoreType: to.Ptr(dataprotection.DataStoreInfoBase_DataStoreType_OperationalStore),
+			ObjectType:    to.Ptr("DataStoreInfoBase"),
+		},
+		Trigger: &dataprotection.TriggerContext{
+			Schedule: &dataprotection.ScheduleBasedTriggerContext{
+				ObjectType: to.Ptr(dataprotection.ScheduleBasedTriggerContext_ObjectType_ScheduleBasedTriggerContext),
+				Schedule: &dataprotection.BackupSchedule{
+					RepeatingTimeIntervals: []string{"R/2023-06-07T10:26:32+00:00/PT4H"},
+					TimeZone:               to.Ptr("UTC"),
+				},
+				TaggingCriteria: []dataprotection.TaggingCriteria{
+					{
+						IsDefault:       to.Ptr(true),
+						TaggingPriority: to.Ptr(99),
+						TagInfo: &dataprotection.RetentionTag{
+							TagName: to.Ptr("Default"),
+						},
+					},
+				},
+			},
+		},
+	}
+
+	return azureBackupRule
+}
+
+// creating a new retention policy rule: AZURE_RETENTION_RULE
+func createAzureRetentionRule() *dataprotection.AzureRetentionRule {
+	azureRetentionRule := &dataprotection.AzureRetentionRule{
+		Name:       to.Ptr("Default"),
+		ObjectType: to.Ptr(dataprotection.AzureRetentionRule_ObjectType_AzureRetentionRule),
+		IsDefault:  to.Ptr(true),
+		Lifecycles: []dataprotection.SourceLifeCycle{
+			{
+				DeleteAfter: &dataprotection.DeleteOption{
+					AbsoluteDeleteOption: &dataprotection.AbsoluteDeleteOption{
+						Duration:   to.Ptr("P9D"),
+						ObjectType: to.Ptr(dataprotection.AbsoluteDeleteOption_ObjectType_AbsoluteDeleteOption),
+					},
+				},
+				SourceDataStore: &dataprotection.DataStoreInfoBase{
+					DataStoreType: to.Ptr(dataprotection.DataStoreInfoBase_DataStoreType_OperationalStore),
+					ObjectType:    to.Ptr("DataStoreInfoBase"),
+				},
+				TargetDataStoreCopySettings: []dataprotection.TargetCopySetting{},
+			},
+		},
+	}
+
+	return azureRetentionRule
 }
