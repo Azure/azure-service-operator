@@ -44,6 +44,90 @@ Resource Types:
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;&lt;/tbody&gt;
 &lt;/table&gt;
+&lt;h3 id=&#34;search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption&#34;&gt;DataPlaneAadOrApiKeyAuthOption
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.DataPlaneAuthOptions&#34;&gt;DataPlaneAuthOptions&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Indicates that either the API key or an access token from Azure Active Directory can be used for authentication.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;aadAuthFailureMode&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode&#34;&gt;
+DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AadAuthFailureMode: Describes what response the data plane API of a Search service would send for requests that failed
+authentication.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_ARM&#34;&gt;DataPlaneAadOrApiKeyAuthOption_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.DataPlaneAuthOptions_ARM&#34;&gt;DataPlaneAuthOptions_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Indicates that either the API key or an access token from Azure Active Directory can be used for authentication.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;aadAuthFailureMode&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode&#34;&gt;
+DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AadAuthFailureMode: Describes what response the data plane API of a Search service would send for requests that failed
+authentication.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode&#34;&gt;DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption&#34;&gt;DataPlaneAadOrApiKeyAuthOption&lt;/a&gt;, &lt;a href=&#34;#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_ARM&#34;&gt;DataPlaneAadOrApiKeyAuthOption_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;http401WithBearerChallenge&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;http403&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
 &lt;h3 id=&#34;search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS&#34;&gt;DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
@@ -123,6 +207,72 @@ DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS
 &lt;/td&gt;
 &lt;td&gt;
 &lt;p&gt;AadAuthFailureMode: Describes what response the data plane API of a Search service would send for requests that failed
+authentication.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;search.azure.com/v1api20220901.DataPlaneAuthOptions&#34;&gt;DataPlaneAuthOptions
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.SearchService_Spec&#34;&gt;SearchService_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Defines the options for how the data plane API of a Search service authenticates requests. This cannot be set if
+&amp;lsquo;disableLocalAuth&amp;rsquo; is set to true.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;aadOrApiKey&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption&#34;&gt;
+DataPlaneAadOrApiKeyAuthOption
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AadOrApiKey: Indicates that either the API key or an access token from Azure Active Directory can be used for
+authentication.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;search.azure.com/v1api20220901.DataPlaneAuthOptions_ARM&#34;&gt;DataPlaneAuthOptions_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.SearchServiceProperties_ARM&#34;&gt;SearchServiceProperties_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Defines the options for how the data plane API of a Search service authenticates requests. This cannot be set if
+&amp;lsquo;disableLocalAuth&amp;rsquo; is set to true.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;aadOrApiKey&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#search.azure.com/v1api20220901.DataPlaneAadOrApiKeyAuthOption_ARM&#34;&gt;
+DataPlaneAadOrApiKeyAuthOption_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AadOrApiKey: Indicates that either the API key or an access token from Azure Active Directory can be used for
 authentication.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
@@ -1010,6 +1160,20 @@ SearchService_Spec
 &lt;table&gt;
 &lt;tr&gt;
 &lt;td&gt;
+&lt;code&gt;authOptions&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#search.azure.com/v1api20220901.DataPlaneAuthOptions&#34;&gt;
+DataPlaneAuthOptions
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AuthOptions: Defines the options for how the data plane API of a search service authenticates requests. This cannot be
+set if &amp;lsquo;disableLocalAuth&amp;rsquo; is set to true.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
 &lt;code&gt;azureName&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 string
@@ -1096,6 +1260,20 @@ NetworkRuleSet
 &lt;/td&gt;
 &lt;td&gt;
 &lt;p&gt;NetworkRuleSet: Network specific rules that determine how the Azure Cognitive Search service may be reached.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;operatorSpec&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#search.azure.com/v1api20220901.SearchServiceOperatorSpec&#34;&gt;
+SearchServiceOperatorSpec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1195,6 +1373,95 @@ SearchService_STATUS
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
+&lt;h3 id=&#34;search.azure.com/v1api20220901.SearchServiceOperatorSecrets&#34;&gt;SearchServiceOperatorSecrets
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.SearchServiceOperatorSpec&#34;&gt;SearchServiceOperatorSpec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;adminPrimaryKey&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination&#34;&gt;
+genruntime.SecretDestination
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AdminPrimaryKey: indicates where the AdminPrimaryKey secret should be placed. If omitted, the secret will not be
+retrieved from Azure.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;adminSecondaryKey&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination&#34;&gt;
+genruntime.SecretDestination
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AdminSecondaryKey: indicates where the AdminSecondaryKey secret should be placed. If omitted, the secret will not be
+retrieved from Azure.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;queryKey&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination&#34;&gt;
+genruntime.SecretDestination
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;QueryKey: indicates where the QueryKey secret should be placed. If omitted, the secret will not be retrieved from Azure.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;search.azure.com/v1api20220901.SearchServiceOperatorSpec&#34;&gt;SearchServiceOperatorSpec
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#search.azure.com/v1api20220901.SearchService_Spec&#34;&gt;SearchService_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;secrets&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#search.azure.com/v1api20220901.SearchServiceOperatorSecrets&#34;&gt;
+SearchServiceOperatorSecrets
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Secrets: configures where to place Azure generated secrets.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 &lt;h3 id=&#34;search.azure.com/v1api20220901.SearchServiceProperties_ARM&#34;&gt;SearchServiceProperties_ARM
 &lt;/h3&gt;
 &lt;p&gt;
@@ -1211,6 +1478,20 @@ SearchService_STATUS
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;authOptions&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#search.azure.com/v1api20220901.DataPlaneAuthOptions_ARM&#34;&gt;
+DataPlaneAuthOptions_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AuthOptions: Defines the options for how the data plane API of a search service authenticates requests. This cannot be
+set if &amp;lsquo;disableLocalAuth&amp;rsquo; is set to true.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
 &lt;code&gt;disableLocalAuth&lt;/code&gt;&lt;br/&gt;
@@ -2063,6 +2344,20 @@ string
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;
+&lt;code&gt;authOptions&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#search.azure.com/v1api20220901.DataPlaneAuthOptions&#34;&gt;
+DataPlaneAuthOptions
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AuthOptions: Defines the options for how the data plane API of a search service authenticates requests. This cannot be
+set if &amp;lsquo;disableLocalAuth&amp;rsquo; is set to true.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
 &lt;code&gt;azureName&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 string
@@ -2149,6 +2444,20 @@ NetworkRuleSet
 &lt;/td&gt;
 &lt;td&gt;
 &lt;p&gt;NetworkRuleSet: Network specific rules that determine how the Azure Cognitive Search service may be reached.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;operatorSpec&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#search.azure.com/v1api20220901.SearchServiceOperatorSpec&#34;&gt;
+SearchServiceOperatorSpec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
