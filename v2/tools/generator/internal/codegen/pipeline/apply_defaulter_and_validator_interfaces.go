@@ -29,8 +29,13 @@ func ApplyDefaulterAndValidatorInterfaces(idFactory astmodel.IdentifierFactory) 
 			defs := state.Definitions()
 			updatedDefs := make(astmodel.TypeDefinitionSet)
 
-			for _, typeDef := range astmodel.FindResourceDefinitions(defs) {
-				resource, err := interfaces.AddDefaulterInterface(typeDef, idFactory, defs)
+			for _, resourceDef := range astmodel.FindResourceDefinitions(defs) {
+				defaults, err := getDefaults(resourceDef, idFactory, state.Definitions())
+				if err != nil {
+					return nil, errors.Wrap(err, "failed to get defaults")
+				}
+
+				resource, err := interfaces.AddDefaulterInterface(resourceDef, idFactory, defaults)
 				if err != nil {
 					return nil, err
 				}
@@ -52,6 +57,26 @@ func ApplyDefaulterAndValidatorInterfaces(idFactory astmodel.IdentifierFactory) 
 
 	stage.RequiresPrerequisiteStages(ApplyKubernetesResourceInterfaceStageID, AddOperatorSpecStageID)
 	return stage
+}
+
+func getDefaults(
+	resourceDef astmodel.TypeDefinition,
+	idFactory astmodel.IdentifierFactory,
+	defs astmodel.TypeDefinitionSet,
+) ([]*functions.ResourceFunction, error) {
+	var result []*functions.ResourceFunction
+
+	resolved, err := defs.ResolveResourceSpecAndStatus(resourceDef)
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to resolve resource %s", resourceDef.Name())
+	}
+
+	// Determine if the resource has a SetName function
+	if resolved.SpecType.HasFunctionWithName(astmodel.SetAzureNameFunc) {
+		result = append(result, functions.NewDefaultAzureNameFunction(resolved.ResourceType, idFactory))
+	}
+
+	return result, nil
 }
 
 func getValidations(
