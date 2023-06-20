@@ -22,6 +22,8 @@ type SupportedResourcesReport struct {
 	// ResourcePathTemplate is a template used for generating a file path for checking whether docs for a resource have been generated
 	// specified relative to the directory of outputPath
 	ResourcePathTemplate string `yaml:"resourcePathTemplate"`
+	// CurrentRelease identifies the current release of ASO, allowing newer resources to be classified as Next Release
+	CurrentRelease string `yaml:"currentRelease"`
 }
 
 // NewSupportedResourcesReport creates a new SupportedResourcesReport.
