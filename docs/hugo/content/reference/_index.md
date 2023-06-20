@@ -625,6 +625,9 @@ These resource versions are deprecated and will be removed in an upcoming ASO re
 
 ## Search
 
+The `authOptions` and `operatorSpec` properties on [`SearchService`](https://azure.github.io/azure-service-operator/reference/search/v1api20220901/#search.azure.com/v1api20220901.SearchService) are not supported in ASO v2.1.0; they'll be included in the next release.
+
+
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
