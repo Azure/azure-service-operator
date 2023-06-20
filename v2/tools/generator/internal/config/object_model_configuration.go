@@ -484,6 +484,8 @@ func (omc *ObjectModelConfiguration) VerifyImportableConsumed() error {
 	return visitor.Visit(omc)
 }
 
+var VersionRegex = regexp.MustCompile(`^v\d\d?$`)
+
 // FindHandCraftedTypeNames returns the set of typenames that are hand-crafted.
 // These are identified by having `v<n>` as their version.
 func (omc *ObjectModelConfiguration) FindHandCraftedTypeNames(localPath string) (astmodel.TypeNameSet, error) {
@@ -501,10 +503,9 @@ func (omc *ObjectModelConfiguration) FindHandCraftedTypeNames(localPath string) 
 
 	// Collect hand-crafted versions as we see them.
 	// They look like v<n> where n is a small number.
-	versionRegex := regexp.MustCompile(`^v\d\d?$`)
 	versionVisitor := newEveryVersionConfigurationVisitor(
 		func(verConfig *VersionConfiguration) error {
-			if versionRegex.MatchString(verConfig.name) {
+			if VersionRegex.MatchString(verConfig.name) {
 				currentPackage = astmodel.MakeLocalPackageReference(
 					localPath,
 					currentGroup,
