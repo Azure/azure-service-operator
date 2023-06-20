@@ -6,7 +6,6 @@ metadata:
 spec:
   owner:
     name: sample-sqldb-account-beta
-  azureName: 8849e244-64ab-4943-a7ef-46e60e0d2562 # Name in Azure must be a GUID
   principalIdFromConfig:
     name: identity-settings
     key: principalId
