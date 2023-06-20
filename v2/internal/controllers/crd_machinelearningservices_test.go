@@ -17,7 +17,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-// If recording this test, might need to manually purge the old KeyVault: az keyvault purge --name asotest-keyvault-qpxtvz
+// If recording this test, might need to manually purge the old KeyVault: az keyvault purge --name asotest-kv-qpxtvz
 
 func Test_MachineLearning_Workspaces_CRUD(t *testing.T) {
 	t.Parallel()
@@ -27,16 +27,12 @@ func Test_MachineLearning_Workspaces_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	sa := newStorageAccount(tc, rg)
-
-	tc.CreateResourceAndWait(sa)
-
-	kv := newVault(tc, rg)
-	tc.CreateResourceAndWait(kv)
+	kv := newVault("kv", tc, rg)
 
 	// Have to use 'eastus' location here as 'ListKeys' API is unavailable/still broken for 'westus2'
 	workspace := newWorkspace(tc, testcommon.AsOwner(rg), sa, kv, to.Ptr("eastus"))
 
-	tc.CreateResourcesAndWait(workspace)
+	tc.CreateResourcesAndWait(workspace, sa, kv)
 
 	tc.RunSubtests(
 		testcommon.Subtest{
