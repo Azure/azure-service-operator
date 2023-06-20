@@ -22,6 +22,10 @@ import (
 func Test_DBForPostgreSQL_FlexibleServer_20220120preview_CRUD(t *testing.T) {
 	t.Parallel()
 
+	if *isLive {
+		t.Skip("can't run in live mode, postresql flexible server takes too long to be provisioned and deletion")
+	}
+
 	g := NewGomegaWithT(t)
 	ctx := context.Background()
 	tc := globalTestContext.ForTest(t)
