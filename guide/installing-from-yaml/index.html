@@ -30,7 +30,7 @@
 <meta itemprop="name" content="Installation: From YAML">
 <meta itemprop="description" content="Prerequisites  You have installed Cert Manager as per the installation instructions up to the &ldquo;install from Helm&rdquo; step. You have the AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET environment variables set from the installation instructions.  Installation  Install the latest v2&#43; release of Azure Service Operator. kubectl apply --server-side=true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0/azureserviceoperator_v2.0.0.yaml  Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as.">
 
-<meta itemprop="wordCount" content="119">
+<meta itemprop="wordCount" content="185">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Installation: From YAML"/>
 <meta name="twitter:description" content="Prerequisites  You have installed Cert Manager as per the installation instructions up to the &ldquo;install from Helm&rdquo; step. You have the AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET environment variables set from the installation instructions.  Installation  Install the latest v2&#43; release of Azure Service Operator. kubectl apply --server-side=true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0/azureserviceoperator_v2.0.0.yaml  Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as."/>
@@ -614,10 +614,11 @@
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#prerequisites">Prerequisites</a></li>
+    <li><a href="#installation">Installation</a></li>
+    <li><a href="#troubleshooting">Troubleshooting</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#metadata-too-long">Metadata too long</a></li>
       </ul>
     </li>
   </ul>
@@ -678,13 +679,13 @@
 
 		
 	</header>    
-	<h3 id="prerequisites">Prerequisites</h3>
+	<h2 id="prerequisites">Prerequisites</h2>
 <ol>
 <li>You have installed Cert Manager as per the <a href="../../#installation">installation instructions</a> up to the &ldquo;install from Helm&rdquo; step.</li>
 <li>You have the <code>AZURE_SUBSCRIPTION_ID</code>, <code>AZURE_TENANT_ID</code>, <code>AZURE_CLIENT_ID</code> and <code>AZURE_CLIENT_SECRET</code> environment variables set from the
 <a href="../../#installation">installation instructions</a>.</li>
 </ol>
-<h3 id="installation">Installation</h3>
+<h2 id="installation">Installation</h2>
 <ol>
 <li>Install <a href="https://github.com/Azure/azure-service-operator/releases">the latest <strong>v2+</strong> release</a> of Azure Service Operator.
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply --server-side<span style="color:#f92672">=</span>true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0/azureserviceoperator_v2.0.0.yaml
@@ -706,6 +707,12 @@ To learn more about other authentication options, see the <a href="../authentica
 </span><span style="color:#e6db74">EOF</span>
 </code></pre></div></li>
 </ol>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="metadata-too-long">Metadata too long</h3>
+<p>If you omit the <code>--server-side=true</code> flag from the <code>kubectl apply</code> command, you will see an error like the following:</p>
+<pre tabindex="0"><code>CustomResourceDefinition.apiextensions.k8s.io &quot;storageaccounts.storage.azure.com&quot; is invalid:
+metadata.annotations: Too long: must have at most 262144 bytes
+</code></pre><p>Why does this happen? ASO CRDs are a complete representation of the Azure Resource surface area, including documentation. This is tremendously useful - but also means they are quite large.</p>
 
 	
 	
