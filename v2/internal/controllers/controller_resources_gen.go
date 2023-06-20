@@ -298,7 +298,21 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{Obj: new(containerregistry_v1api20210901s.Registry)})
-	result = append(result, &registration.StorageType{Obj: new(containerservice_v1api20230201s.ManagedCluster)})
+	result = append(result, &registration.StorageType{
+		Obj: new(containerservice_v1api20230201s.ManagedCluster),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.servicePrincipalProfile.secret",
+				Func: indexContainerserviceManagedClusterSecret,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.servicePrincipalProfile.secret"}, &containerservice_v1api20230201s.ManagedClusterList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v1api20230201s.ManagedClustersAgentPool)})
 	result = append(result, &registration.StorageType{Obj: new(datafactory_v1api20180601s.Factory)})
 	result = append(result, &registration.StorageType{Obj: new(dbformariadb_v1api20180601s.Configuration)})
@@ -1873,6 +1887,21 @@ func indexContainerinstanceContainerGroupWorkspaceKey(rawObj client.Object) []st
 		return nil
 	}
 	return obj.Spec.Diagnostics.LogAnalytics.WorkspaceKey.Index()
+}
+
+// indexContainerserviceManagedClusterSecret an index function for containerservice_v1api20230201s.ManagedCluster .spec.servicePrincipalProfile.secret
+func indexContainerserviceManagedClusterSecret(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerservice_v1api20230201s.ManagedCluster)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.ServicePrincipalProfile == nil {
+		return nil
+	}
+	if obj.Spec.ServicePrincipalProfile.Secret == nil {
+		return nil
+	}
+	return obj.Spec.ServicePrincipalProfile.Secret.Index()
 }
 
 // indexDbformariadbServerAdministratorLoginPassword an index function for dbformariadb_v1api20180601s.Server .spec.properties.default.administratorLoginPassword

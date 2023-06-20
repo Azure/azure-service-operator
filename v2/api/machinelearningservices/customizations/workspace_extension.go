@@ -7,11 +7,12 @@ package customizations
 
 import (
 	"context"
+	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/machinelearning/armmachinelearning"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
-	"k8s.io/api/core/v1"
+	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
@@ -20,6 +21,8 @@ import (
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
 
@@ -29,7 +32,8 @@ func (ext *WorkspaceExtension) ExportKubernetesResources(
 	ctx context.Context,
 	obj genruntime.MetaObject,
 	armClient *genericarmclient.GenericClient,
-	log logr.Logger) ([]client.Object, error) {
+	log logr.Logger,
+) ([]client.Object, error) {
 
 	// This has to be the current hub storage version. It will need to be updated
 	// if the hub storage version changes.
@@ -140,4 +144,39 @@ func getContainerRegCreds(keysResp armmachinelearning.ListWorkspaceKeysResult) (
 		}
 	}
 	return creds, to.Value(keysResp.ContainerRegistryCredentials.Username)
+}
+
+var _ extensions.ErrorClassifier = &WorkspaceExtension{}
+
+func (ext *WorkspaceExtension) ClassifyError(
+	cloudError *genericarmclient.CloudError,
+	apiVersion string,
+	log logr.Logger,
+	next extensions.ErrorClassifierFunc,
+) (core.CloudErrorDetails, error) {
+	details, err := next(cloudError)
+	if err != nil {
+		return core.CloudErrorDetails{}, err
+	}
+
+	// Override is to treat StorageAccountIsNotProvisioned as retryable for Workspaces
+	// (as we may be waiting for the Storage Account to be provisioned)
+	if isRetryableWorkspaceError(cloudError) {
+		details.Classification = core.ErrorRetryable
+	}
+
+	return details, nil
+}
+
+func isRetryableWorkspaceError(err *genericarmclient.CloudError) bool {
+	if err == nil {
+		return false
+	}
+
+	if err.Code() == "BadRequest" && strings.Contains(err.Message(), "StorageAccountIsNotProvisioned") {
+		// This is a retryable error
+		return true
+	}
+
+	return false
 }

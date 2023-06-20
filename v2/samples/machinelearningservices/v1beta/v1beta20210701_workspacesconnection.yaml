@@ -4,7 +4,6 @@ metadata:
   name: sampleworkspacesconnection
   namespace: default
 spec:
-  location: westus3
   owner:
     name: sampleworkspaces
   authType: PAT

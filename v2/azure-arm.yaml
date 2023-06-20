@@ -884,6 +884,9 @@ objectModelConfiguration:
       ManagedClusterAgentPoolProfileProperties:
         ProximityPlacementGroupID:
           $armReference: false # This is true in the next version and we have custom conversion to make round-tripping work
+      ManagedClusterServicePrincipalProfile:
+        Secret:
+          $isSecret: true
       PrivateLinkResource:
         Id:
           $armReference: true
@@ -897,6 +900,9 @@ objectModelConfiguration:
       ManagedClusters_AgentPool:
         $exportAs: ManagedClustersAgentPool
         $supportedFrom: v2.0.0
+      ManagedClusterServicePrincipalProfile:
+        Secret:
+          $isSecret: true
       PrivateLinkResource:
         Id:
           $armReference: true
@@ -910,6 +916,9 @@ objectModelConfiguration:
       ManagedClusters_AgentPool:
         $exportAs: ManagedClustersAgentPool
         $supportedFrom: v2.0.0
+      ManagedClusterServicePrincipalProfile:
+        Secret:
+          $isSecret: true
       PrivateLinkResource:
         Id:
           $armReference: true

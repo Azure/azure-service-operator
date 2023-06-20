@@ -4,7 +4,6 @@ metadata:
   name: gatewaysubnet
   namespace: default
 spec:
-  location: westcentralus
   owner:
     name: samplevnet2
   addressPrefix: 172.16.0.0/16

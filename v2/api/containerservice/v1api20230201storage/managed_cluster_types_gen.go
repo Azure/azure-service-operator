@@ -714,9 +714,9 @@ type ManagedClusterSecurityProfile_STATUS struct {
 // Storage version of v1api20230201.ManagedClusterServicePrincipalProfile
 // Information about a service principal identity for the cluster to use for manipulating Azure APIs.
 type ManagedClusterServicePrincipalProfile struct {
-	ClientId    *string                `json:"clientId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Secret      *string                `json:"secret,omitempty"`
+	ClientId    *string                     `json:"clientId,omitempty"`
+	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	Secret      *genruntime.SecretReference `json:"secret,omitempty"`
 }
 
 // Storage version of v1api20230201.ManagedClusterServicePrincipalProfile_STATUS
@@ -724,7 +724,6 @@ type ManagedClusterServicePrincipalProfile struct {
 type ManagedClusterServicePrincipalProfile_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Secret      *string                `json:"secret,omitempty"`
 }
 
 // Storage version of v1api20230201.ManagedClusterSKU
