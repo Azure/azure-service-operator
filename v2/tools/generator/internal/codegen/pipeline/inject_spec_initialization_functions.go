@@ -166,7 +166,7 @@ func (s *specInitializationScanner) findResources() (astmodel.TypeDefinitionSet,
 		}
 
 		// Check configuration to see if this resource should be supported
-		importable, err := s.config.LookupImportable(def.Name())
+		importable, err := s.config.Importable.Lookup(def.Name())
 		if err != nil {
 			if config.IsNotConfiguredError(err) {
 				// Default to true if we have no explicit configuration

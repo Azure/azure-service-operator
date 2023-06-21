@@ -208,53 +208,53 @@ func (config *Configuration) TypeRename(name astmodel.TypeName) (string, error) 
 		return "", errors.Errorf("no configuration: no rename available for %s", name)
 	}
 
-	return config.ObjectModelConfiguration.LookupNameInNextVersion(name)
+	return config.ObjectModelConfiguration.TypeNameInNextVersion.Lookup(name)
 }
 
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.
 func (config *Configuration) ARMReference(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
-	return config.ObjectModelConfiguration.ARMReference(name, property)
+	return config.ObjectModelConfiguration.ARMReference.Lookup(name, property)
 }
 
 // VerifyARMReferencesConsumed returns an error if any configured ARM References were not consumed
 func (config *Configuration) VerifyARMReferencesConsumed() error {
-	return config.ObjectModelConfiguration.VerifyARMReferencesConsumed()
+	return config.ObjectModelConfiguration.ARMReference.VerifyConsumed()
 }
 
 // IsSecret looks up a property to determine whether it is a secret.
 func (config *Configuration) IsSecret(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
-	return config.ObjectModelConfiguration.IsSecret(name, property)
+	return config.ObjectModelConfiguration.IsSecret.Lookup(name, property)
 }
 
 // VerifyIsSecretConsumed returns an error if any configured Secret References were not consumed
 func (config *Configuration) VerifyIsSecretConsumed() error {
-	return config.ObjectModelConfiguration.VerifyIsSecretConsumed()
+	return config.ObjectModelConfiguration.IsSecret.VerifyConsumed()
 }
 
 // ResourceLifecycleOwnedByParent looks up a property to determine if represents a subresource whose lifecycle is owned
 // by the parent resource.
 func (config *Configuration) ResourceLifecycleOwnedByParent(name astmodel.TypeName, property astmodel.PropertyName) (string, error) {
-	return config.ObjectModelConfiguration.ResourceLifecycleOwnedByParent(name, property)
+	return config.ObjectModelConfiguration.ResourceLifecycleOwnedByParent.Lookup(name, property)
 }
 
 // MarkResourceLifecycleOwnedByParentUnconsumed marks all ResourceLifecycleOwnedByParent as unconsumed
 func (config *Configuration) MarkResourceLifecycleOwnedByParentUnconsumed() error {
-	return config.ObjectModelConfiguration.MarkResourceLifecycleOwnedByParentUnconsumed()
+	return config.ObjectModelConfiguration.ResourceLifecycleOwnedByParent.MarkUnconsumed()
 }
 
 // VerifyResourceLifecycleOwnedByParentConsumed returns an error if any ResourceLifecycleOwnedByParent flag is not consumed
 func (config *Configuration) VerifyResourceLifecycleOwnedByParentConsumed() error {
-	return config.ObjectModelConfiguration.VerifyResourceLifecycleOwnedByParentConsumed()
+	return config.ObjectModelConfiguration.ResourceLifecycleOwnedByParent.VerifyConsumed()
 }
 
 // ImportConfigMapMode looks up a property to determine its import configMap mode.
 func (config *Configuration) ImportConfigMapMode(name astmodel.TypeName, property astmodel.PropertyName) (ImportConfigMapMode, error) {
-	return config.ObjectModelConfiguration.ImportConfigMapMode(name, property)
+	return config.ObjectModelConfiguration.ImportConfigMapMode.Lookup(name, property)
 }
 
 // VerifyImportConfigMapModeConsumed returns an error if any configured ImportConfigMapMode values were not consumed
 func (config *Configuration) VerifyImportConfigMapModeConsumed() error {
-	return config.ObjectModelConfiguration.VerifyImportConfigMapModeConsumed()
+	return config.ObjectModelConfiguration.ImportConfigMapMode.VerifyConsumed()
 }
 
 // initialize checks for common errors and initializes structures inside the configuration

@@ -29,14 +29,74 @@ import (
 type ObjectModelConfiguration struct {
 	groups      map[string]*GroupConfiguration // nested configuration for individual groups
 	typoAdvisor *typo.Advisor
+	// Type access fields here (alphabetical, please)
+	AzureGeneratedSecrets    typeAccess[[]string]
+	Export                   typeAccess[bool]
+	ExportAs                 typeAccess[string]
+	GeneratedConfigs         typeAccess[map[string]string]
+	Importable               typeAccess[bool]
+	IsResource               typeAccess[bool]
+	ManualConfigs            typeAccess[[]string]
+	ResourceEmbeddedInParent typeAccess[string]
+	SupportedFrom            typeAccess[string]
+	TypeNameInNextVersion    typeAccess[string]
+	// Property access fields here (alphabetical, please)
+	ARMReference                   propertyAccess[bool]
+	ImportConfigMapMode            propertyAccess[ImportConfigMapMode]
+	IsSecret                       propertyAccess[bool]
+	ResourceLifecycleOwnedByParent propertyAccess[string]
+}
+
+type typeAccess[T any] struct {
+	model    *ObjectModelConfiguration
+	accessor func(*TypeConfiguration) *configurable[T]
+}
+
+type propertyAccess[T any] struct {
+	model    *ObjectModelConfiguration
+	accessor func(*PropertyConfiguration) *configurable[T]
 }
 
 // NewObjectModelConfiguration returns a new (empty) ObjectModelConfiguration
 func NewObjectModelConfiguration() *ObjectModelConfiguration {
-	return &ObjectModelConfiguration{
+	result := &ObjectModelConfiguration{
 		groups:      make(map[string]*GroupConfiguration),
 		typoAdvisor: typo.NewAdvisor(),
 	}
+
+	// Initialize type access fields here (alphabetical, please)
+	result.AzureGeneratedSecrets = makeTypeAccess[[]string](
+		result, func(c *TypeConfiguration) *configurable[[]string] { return &c.AzureGeneratedSecrets })
+	result.Export = makeTypeAccess[bool](
+		result, func(c *TypeConfiguration) *configurable[bool] { return &c.Export })
+	result.ExportAs = makeTypeAccess[string](
+		result, func(c *TypeConfiguration) *configurable[string] { return &c.ExportAs })
+	result.GeneratedConfigs = makeTypeAccess[map[string]string](
+		result, func(c *TypeConfiguration) *configurable[map[string]string] { return &c.GeneratedConfigs })
+	result.Importable = makeTypeAccess[bool](
+		result, func(c *TypeConfiguration) *configurable[bool] { return &c.Importable })
+	result.IsResource = makeTypeAccess[bool](
+		result, func(c *TypeConfiguration) *configurable[bool] { return &c.IsResource })
+	result.ManualConfigs = makeTypeAccess[[]string](
+		result, func(c *TypeConfiguration) *configurable[[]string] { return &c.ManualConfigs })
+	result.ResourceEmbeddedInParent = makeTypeAccess[string](
+		result, func(c *TypeConfiguration) *configurable[string] { return &c.ResourceEmbeddedInParent })
+	result.SupportedFrom = makeTypeAccess[string](
+		result, func(c *TypeConfiguration) *configurable[string] { return &c.SupportedFrom })
+	result.TypeNameInNextVersion = makeTypeAccess[string](
+		result, func(c *TypeConfiguration) *configurable[string] { return &c.NameInNextVersion })
+
+	// Initialize property access fields here (alphabetical, please)
+	result.ARMReference = makePropertyAccess[bool](
+		result, func(c *PropertyConfiguration) *configurable[bool] { return &c.ARMReference })
+	result.ImportConfigMapMode = makePropertyAccess[ImportConfigMapMode](
+		result, func(c *PropertyConfiguration) *configurable[ImportConfigMapMode] { return &c.ImportConfigMapMode })
+	result.IsSecret = makePropertyAccess[bool](
+		result, func(c *PropertyConfiguration) *configurable[bool] { return &c.IsSecret })
+	result.ResourceLifecycleOwnedByParent = makePropertyAccess[string](
+		result, func(c *PropertyConfiguration) *configurable[string] { return &c.ResourceLifecycleOwnedByParent })
+
+	return result
 }
 
 // IsEmpty returns true if we have no configuration at all, false if we have some groups configured.
@@ -66,422 +126,15 @@ func (omc *ObjectModelConfiguration) IsGroupConfigured(pkg astmodel.PackageRefer
 	return result
 }
 
-// LookupNameInNextVersion checks whether we have an alternative name for the specified type, returning the name if
-// found. Returns a NotConfiguredError if no rename is available.
-func (omc *ObjectModelConfiguration) LookupNameInNextVersion(name astmodel.TypeName) (string, error) {
-	var newName string
-	visitor := newSingleTypeConfigurationVisitor(
-		name,
-		func(configuration *TypeConfiguration) error {
-			n, err := configuration.NameInNextVersion.Lookup()
-			newName = n
-			return err
-		})
-	err := visitor.Visit(omc)
-	if err != nil {
-		return "", err
-	}
-
-	return newName, nil
-}
-
-// VerifyNameInNextVersionConsumed returns an error if any configured type renames were not consumed
-func (omc *ObjectModelConfiguration) VerifyNameInNextVersionConsumed() error {
-	visitor := newEveryTypeConfigurationVisitor(
-		func(configuration *TypeConfiguration) error {
-			return configuration.NameInNextVersion.VerifyConsumed()
-		})
-	return visitor.Visit(omc)
-}
-
-// LookupExport checks to see whether a specified type is configured for export, returning the value if found. Returns a
-// NotConfiguredError if no export is configured.
-func (omc *ObjectModelConfiguration) LookupExport(name astmodel.TypeName) (bool, error) {
-	var export bool
-	visitor := newSingleTypeConfigurationVisitor(
-		name,
-		func(configuration *TypeConfiguration) error {
-			ex, err := configuration.Export.Lookup()
-			export = ex
-			return err
-		})
-	err := visitor.Visit(omc)
-	if err != nil {
-		return false, err
-	}
-
-	return export, nil
-}
-
-// VerifyExportConsumed returns an error if our configured export flag was not used, nil otherwise.
-func (omc *ObjectModelConfiguration) VerifyExportConsumed() error {
-	visitor := newEveryTypeConfigurationVisitor(
-		func(configuration *TypeConfiguration) error {
-			return configuration.Export.VerifyConsumed()
-		})
-	return visitor.Visit(omc)
-}
-
-// LookupExportAs checks to see whether a specified type is configured for export with an alternative name, returning the
-// name if found. Returns a NotConfiguredError if no export is configured.
-func (omc *ObjectModelConfiguration) LookupExportAs(name astmodel.TypeName) (string, error) {
-	var exportAs string
-	typeVisitor := newSingleTypeConfigurationVisitor(
-		name,
-		func(configuration *TypeConfiguration) error {
-			ea, err := configuration.ExportAs.Lookup()
-			exportAs = ea
-			return err
-		})
-	err := typeVisitor.Visit(omc)
-	if err != nil {
-		// No need to wrap this error, it already has all the details
-		return "", err
-	}
-
-	// Add an alias so that any existing configuration can be found via the new name
+// AddTypeAlias adds a type alias for the specified type name,
+// allowing configuration related to the type to be accessed via the new name.
+func (omc *ObjectModelConfiguration) AddTypeAlias(name astmodel.TypeName, alias string) error {
 	versionVisitor := newSingleVersionConfigurationVisitor(
 		name.PackageReference,
 		func(configuration *VersionConfiguration) error {
-			return configuration.addTypeAlias(name.Name(), exportAs)
+			return configuration.addTypeAlias(name.Name(), alias)
 		})
-	err = versionVisitor.Visit(omc)
-	if err != nil {
-		// No need to wrap this error, it already has all the details
-		return "", err
-	}
-
-	return exportAs, nil
-}
-
-// VerifyExportAsConsumed returns an error if our configured export name was not used, nil otherwise.
-func (omc *ObjectModelConfiguration) VerifyExportAsConsumed() error {
-	visitor := newEveryTypeConfigurationVisitor(
-		func(configuration *TypeConfiguration) error {
-			return configuration.ExportAs.VerifyConsumed()
-		})
-	return visitor.Visit(omc)
-}
-
-// ARMReference looks up a property to determine whether it may be an ARM reference or not.
-// Returns true or false if configured, or a NotConfiguredError if not.
-func (omc *ObjectModelConfiguration) ARMReference(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
-	var result bool
-	visitor := newSinglePropertyConfigurationVisitor(
-		name,
-		property,
-		func(configuration *PropertyConfiguration) error {
-			isArmReference, err := configuration.ARMReference.Lookup()
-			result = isArmReference
-			return err
-		})
-	err := visitor.Visit(omc)
-	if err != nil {
-		return false, err
-	}
-
-	return result, nil
-}
-
-// VerifyARMReferencesConsumed returns an error if any ARM Reference configuration was not consumed
-func (omc *ObjectModelConfiguration) VerifyARMReferencesConsumed() error {
-	visitor := newEveryPropertyConfigurationVisitor(
-		func(configuration *PropertyConfiguration) error {
-			return configuration.ARMReference.VerifyConsumed()
-		})
-	return visitor.Visit(omc)
-}
-
-// AzureGeneratedSecrets looks up a type to determine if it has any Azure generated secrets
-func (omc *ObjectModelConfiguration) AzureGeneratedSecrets(name astmodel.TypeName) ([]string, error) {
-	var result []string
-	visitor := newSingleTypeConfigurationVisitor(
-		name,
-		func(configuration *TypeConfiguration) error {
-			var err error
-			result, err = configuration.AzureGeneratedSecrets.Lookup()
-			return err
-		})
-	err := visitor.Visit(omc)
-	if err != nil {
-		return nil, err
-	}
-
-	return result, nil
-}
-
-// VerifyAzureGeneratedSecretsConsumed returns an error if Azure generated secrets were not used, nil otherwise.
-func (omc *ObjectModelConfiguration) VerifyAzureGeneratedSecretsConsumed() error {
-	visitor := newEveryTypeConfigurationVisitor(
-		func(configuration *TypeConfiguration) error {
-			return configuration.AzureGeneratedSecrets.VerifyConsumed()
-		})
-	return visitor.Visit(omc)
-}
-
-// GeneratedConfigs looks up a type to determine if it has any generated configs
-func (omc *ObjectModelConfiguration) GeneratedConfigs(name astmodel.TypeName) (map[string]string, error) {
-	var result map[string]string
-	visitor := newSingleTypeConfigurationVisitor(
-		name,
-		func(configuration *TypeConfiguration) error {
-			var err error
-			result, err = configuration.GeneratedConfigs.Lookup()
-			return err
-		})
-	err := visitor.Visit(omc)
-	if err != nil {
-		return nil, err
-	}
-
-	return result, nil
-}
-
-// VerifyGeneratedConfigsConsumed returns an error if generated configs were not used, nil otherwise.
-func (omc *ObjectModelConfiguration) VerifyGeneratedConfigsConsumed() error {
-	visitor := newEveryTypeConfigurationVisitor(
-		func(configuration *TypeConfiguration) error {
-			return configuration.GeneratedConfigs.VerifyConsumed()
-		})
-	return visitor.Visit(omc)
-}
-
-// ManualConfigs looks up a type to determine if it has any manual configs
-func (omc *ObjectModelConfiguration) ManualConfigs(name astmodel.TypeName) ([]string, error) {
-	var result []string
-	visitor := newSingleTypeConfigurationVisitor(
-		name,
-		func(configuration *TypeConfiguration) error {
-			var err error
-			result, err = configuration.ManualConfigs.Lookup()
-			return err
-		})
-	err := visitor.Visit(omc)
-	if err != nil {
-		return nil, err
-	}
-
-	return result, nil
-}
-
-// VerifyManualConfigsConsumed returns an error if manual configs were not used, nil otherwise.
-func (omc *ObjectModelConfiguration) VerifyManualConfigsConsumed() error {
-	visitor := newEveryTypeConfigurationVisitor(
-		func(configuration *TypeConfiguration) error {
-			return configuration.ManualConfigs.VerifyConsumed()
-		})
-	return visitor.Visit(omc)
-}
-
-// IsSecret looks up a property to determine whether it is a secret.
-func (omc *ObjectModelConfiguration) IsSecret(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
-	var result bool
-	visitor := newSinglePropertyConfigurationVisitor(
-		name,
-		property,
-		func(configuration *PropertyConfiguration) error {
-			isSecret, err := configuration.IsSecret.Lookup()
-			result = isSecret
-			return err
-		})
-
-	err := visitor.Visit(omc)
-	if err != nil {
-		return false, err
-	}
-
-	return result, nil
-}
-
-// VerifyIsSecretConsumed returns an error if any IsSecret configuration was not consumed
-func (omc *ObjectModelConfiguration) VerifyIsSecretConsumed() error {
-	visitor := newEveryPropertyConfigurationVisitor(
-		func(configuration *PropertyConfiguration) error {
-			return configuration.IsSecret.VerifyConsumed()
-		})
-	return visitor.Visit(omc)
-}
-
-// ResourceLifecycleOwnedByParent returns the name of the parent resource if the property represents a subresource whose resource lifecycle is owned by the parent resource.
-// An empty string + error is returned if this is not configured for the property in question
-func (omc *ObjectModelConfiguration) ResourceLifecycleOwnedByParent(name astmodel.TypeName, property astmodel.PropertyName) (string, error) {
-	var result string
-	visitor := newSinglePropertyConfigurationVisitor(
-		name,
-		property,
-		func(configuration *PropertyConfiguration) error {
-			resourceLifecycleOwnedByParent, err := configuration.ResourceLifecycleOwnedByParent.Lookup()
-			result = resourceLifecycleOwnedByParent
-			return err
-		})
-
-	err := visitor.Visit(omc)
-	if err != nil {
-		return "", err
-	}
-
-	return result, nil
-}
-
-// MarkResourceLifecycleOwnedByParentUnconsumed marks all ResourceLifecycleOwnedByParent as unconsumed
-func (omc *ObjectModelConfiguration) MarkResourceLifecycleOwnedByParentUnconsumed() error {
-	visitor := newEveryPropertyConfigurationVisitor(
-		func(configuration *PropertyConfiguration) error {
-			configuration.ResourceLifecycleOwnedByParent.markUnconsumed()
-			return nil
-		})
-	return visitor.Visit(omc)
-}
-
-// VerifyResourceLifecycleOwnedByParentConsumed returns an error if any ResourceLifecycleOwnedByParent configuration
-// was not consumed
-func (omc *ObjectModelConfiguration) VerifyResourceLifecycleOwnedByParentConsumed() error {
-	visitor := newEveryPropertyConfigurationVisitor(
-		func(configuration *PropertyConfiguration) error {
-			return configuration.ResourceLifecycleOwnedByParent.VerifyConsumed()
-		})
-	return visitor.Visit(omc)
-}
-
-// LookupSupportedFrom checks to see whether a specified type has its first ASO release configured, returning either
-// that release or a NotConfiguredError.
-func (omc *ObjectModelConfiguration) LookupSupportedFrom(name astmodel.TypeName) (string, error) {
-	var result string
-	visitor := newSingleTypeConfigurationVisitor(
-		name,
-		func(configuration *TypeConfiguration) error {
-			var err error
-			result, err = configuration.SupportedFrom.Lookup()
-			return err
-		})
-	err := visitor.Visit(omc)
-	if err != nil {
-		return "", err
-	}
-
-	return result, nil
-}
-
-// VerifySupportedFromConsumed returns an error if any configured supportedFrom tag was not used, nil otherwise.
-func (omc *ObjectModelConfiguration) VerifySupportedFromConsumed() error {
-	visitor := newEveryTypeConfigurationVisitor(
-		func(configuration *TypeConfiguration) error {
-			return configuration.SupportedFrom.VerifyConsumed()
-		})
-	return visitor.Visit(omc)
-}
-
-// ImportConfigMapMode looks up a property to determine its ImportConfigMapMode.
-// Returns the ImportConfigMapMode, or a NotConfiguredError if not configured.
-func (omc *ObjectModelConfiguration) ImportConfigMapMode(name astmodel.TypeName, property astmodel.PropertyName) (ImportConfigMapMode, error) {
-	var result ImportConfigMapMode
-	visitor := newSinglePropertyConfigurationVisitor(
-		name,
-		property,
-		func(configuration *PropertyConfiguration) error {
-			mode, err := configuration.ImportConfigMapMode.Lookup()
-			result = mode
-			return err
-		})
-	err := visitor.Visit(omc)
-	if err != nil {
-		return "", err
-	}
-
-	return result, nil
-}
-
-// VerifyImportConfigMapModeConsumed returns an error if any ImportConfigMapMode configuration was not consumed
-func (omc *ObjectModelConfiguration) VerifyImportConfigMapModeConsumed() error {
-	visitor := newEveryPropertyConfigurationVisitor(
-		func(configuration *PropertyConfiguration) error {
-			return configuration.ImportConfigMapMode.VerifyConsumed()
-		})
-	return visitor.Visit(omc)
-}
-
-// LookupResourceEmbeddedInParent checks to see whether a specified type is labelled as a resource that is embedded
-// inside its parent. Returns a NotConfiguredError if no $resourceEmbeddedInParent flag is configured.
-func (omc *ObjectModelConfiguration) LookupResourceEmbeddedInParent(name astmodel.TypeName) (string, error) {
-	var embeddedInParent string
-	visitor := newSingleTypeConfigurationVisitor(
-		name,
-		func(configuration *TypeConfiguration) error {
-			embedded, err := configuration.ResourceEmbeddedInParent.Lookup()
-			embeddedInParent = embedded
-			return err
-		})
-	err := visitor.Visit(omc)
-	if err != nil {
-		return "", err
-	}
-
-	return embeddedInParent, nil
-}
-
-// VerifyResourceEmbeddedInParentConsumed returns an error if our configured $resourceEmbeddedInParent flag was not used, nil otherwise.
-func (omc *ObjectModelConfiguration) VerifyResourceEmbeddedInParentConsumed() error {
-	visitor := newEveryTypeConfigurationVisitor(
-		func(configuration *TypeConfiguration) error {
-			return configuration.ResourceEmbeddedInParent.VerifyConsumed()
-		})
-	return visitor.Visit(omc)
-}
-
-// LookupIsResource checks to see whether a specified type is labelled as a resource.
-// Returns a NotConfiguredError if no $resourceEmbeddedInParent flag is configured.
-func (omc *ObjectModelConfiguration) LookupIsResource(name astmodel.TypeName) (bool, error) {
-	var isResource bool
-	visitor := newSingleTypeConfigurationVisitor(
-		name,
-		func(configuration *TypeConfiguration) error {
-			is, err := configuration.IsResource.Lookup()
-			isResource = is
-			return err
-		})
-	err := visitor.Visit(omc)
-	if err != nil {
-		return false, err
-	}
-
-	return isResource, nil
-}
-
-// VerifyIsResourceConsumed returns an error if our configured $isResource flag was not used, nil otherwise.
-func (omc *ObjectModelConfiguration) VerifyIsResourceConsumed() error {
-	visitor := newEveryTypeConfigurationVisitor(
-		func(configuration *TypeConfiguration) error {
-			return configuration.IsResource.VerifyConsumed()
-		})
-	return visitor.Visit(omc)
-}
-
-// LookupImportable checks to see whether a specified type is labelled as importable.
-// Returns a NotConfiguredError if no $importable flag is configured.
-func (omc *ObjectModelConfiguration) LookupImportable(name astmodel.TypeName) (bool, error) {
-	var importable bool
-	visitor := newSingleTypeConfigurationVisitor(
-		name,
-		func(configuration *TypeConfiguration) error {
-			im, err := configuration.Importable.Lookup()
-			importable = im
-			return err
-		})
-	err := visitor.Visit(omc)
-	if err != nil {
-		return false, err
-	}
-
-	return importable, nil
-}
-
-// VerifyImportableConsumed returns an error if our configured $importable flag was not used, nil otherwise.
-func (omc *ObjectModelConfiguration) VerifyImportableConsumed() error {
-	visitor := newEveryTypeConfigurationVisitor(
-		func(configuration *TypeConfiguration) error {
-			return configuration.Importable.VerifyConsumed()
-		})
-	return visitor.Visit(omc)
+	return versionVisitor.Visit(omc)
 }
 
 var VersionRegex = regexp.MustCompile(`^v\d\d?$`)
@@ -730,4 +383,100 @@ func (omc *ObjectModelConfiguration) ModifyProperty(
 
 			return action(prop)
 		})
+}
+
+func makeTypeAccess[T any](
+	model *ObjectModelConfiguration,
+	accessor func(*TypeConfiguration,
+	) *configurable[T]) typeAccess[T] {
+	return typeAccess[T]{
+		model:    model,
+		accessor: accessor}
+}
+
+func (a *typeAccess[T]) Lookup(name astmodel.TypeName) (T, error) {
+	var c *configurable[T]
+	visitor := newSingleTypeConfigurationVisitor(
+		name,
+		func(configuration *TypeConfiguration) error {
+			c = a.accessor(configuration)
+			return nil
+		})
+
+	err := visitor.Visit(a.model)
+	if err != nil {
+		return *new(T), err
+	}
+
+	return c.Lookup()
+}
+
+func (a *typeAccess[T]) VerifyConsumed() error {
+	visitor := newEveryTypeConfigurationVisitor(
+		func(configuration *TypeConfiguration) error {
+			c := a.accessor(configuration)
+			return c.VerifyConsumed()
+		})
+	return visitor.Visit(a.model)
+}
+
+func (a *typeAccess[T]) MarkUnconsumed() error {
+	visitor := newEveryTypeConfigurationVisitor(
+		func(configuration *TypeConfiguration) error {
+			c := a.accessor(configuration)
+			c.MarkUnconsumed()
+			return nil
+		})
+
+	return visitor.Visit(a.model)
+}
+
+func makePropertyAccess[T any](
+	model *ObjectModelConfiguration,
+	accessor func(*PropertyConfiguration,
+	) *configurable[T]) propertyAccess[T] {
+	return propertyAccess[T]{
+		model:    model,
+		accessor: accessor}
+}
+
+func (a *propertyAccess[T]) Lookup(
+	name astmodel.TypeName,
+	property astmodel.PropertyName,
+) (T, error) {
+	var c *configurable[T]
+	visitor := newSinglePropertyConfigurationVisitor(
+		name,
+		property,
+		func(configuration *PropertyConfiguration) error {
+			c = a.accessor(configuration)
+			return nil
+		})
+
+	err := visitor.Visit(a.model)
+	if err != nil {
+		return *new(T), err
+	}
+
+	return c.Lookup()
+}
+
+func (a *propertyAccess[T]) VerifyConsumed() error {
+	visitor := newEveryPropertyConfigurationVisitor(
+		func(configuration *PropertyConfiguration) error {
+			c := a.accessor(configuration)
+			return c.VerifyConsumed()
+		})
+	return visitor.Visit(a.model)
+}
+
+func (a *propertyAccess[T]) MarkUnconsumed() error {
+	visitor := newEveryPropertyConfigurationVisitor(
+		func(configuration *PropertyConfiguration) error {
+			c := a.accessor(configuration)
+			c.MarkUnconsumed()
+			return nil
+		})
+
+	return visitor.Visit(a.model)
 }

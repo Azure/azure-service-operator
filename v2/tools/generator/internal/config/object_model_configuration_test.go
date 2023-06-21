@@ -62,7 +62,7 @@ func TestObjectModelConfiguration_TypeRename_WhenTypeFound_ReturnsExpectedResult
 			})).
 		To(Succeed())
 
-	nextName, err := omc.LookupNameInNextVersion(typeName)
+	nextName, err := omc.TypeNameInNextVersion.Lookup(typeName)
 	g.Expect(err).To(Succeed())
 	g.Expect(nextName).To(Equal("Party"))
 }
@@ -83,7 +83,7 @@ func TestObjectModelConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedErr
 		To(Succeed())
 
 	otherName := astmodel.MakeTypeName(test.Pkg2020, "Location")
-	nextName, err := omc.LookupNameInNextVersion(otherName)
+	nextName, err := omc.TypeNameInNextVersion.Lookup(otherName)
 
 	g.Expect(err).NotTo(Succeed())
 	g.Expect(nextName).To(Equal(""))
@@ -105,9 +105,9 @@ func TestObjectModelConfiguration_VerifyTypeRenamesConsumed_WhenRenameUsed_Retur
 			})).
 		To(Succeed())
 
-	_, err := omc.LookupNameInNextVersion(typeName)
+	_, err := omc.TypeNameInNextVersion.Lookup(typeName)
 	g.Expect(err).To(Succeed())
-	g.Expect(omc.VerifyNameInNextVersionConsumed()).To(Succeed())
+	g.Expect(omc.TypeNameInNextVersion.VerifyConsumed()).To(Succeed())
 }
 
 func TestObjectModelConfiguration_VerifyTypeRenamesConsumed_WhenRenameUnused_ReturnsExpectedError(t *testing.T) {
@@ -125,7 +125,7 @@ func TestObjectModelConfiguration_VerifyTypeRenamesConsumed_WhenRenameUnused_Ret
 			})).
 		To(Succeed())
 
-	g.Expect(omc.VerifyNameInNextVersionConsumed()).NotTo(Succeed())
+	g.Expect(omc.TypeNameInNextVersion.VerifyConsumed()).NotTo(Succeed())
 }
 
 /*
@@ -148,7 +148,7 @@ func TestObjectModelConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsEx
 			})).
 		To(Succeed())
 
-	isReference, err := omc.ARMReference(typeName, "Spouse")
+	isReference, err := omc.ARMReference.Lookup(typeName, "Spouse")
 	g.Expect(err).To(BeNil())
 	g.Expect(isReference).To(BeTrue())
 }
@@ -169,7 +169,7 @@ func TestObjectModelConfiguration_ARMReference_WhenFullNamePropertyFound_Returns
 			})).
 		To(Succeed())
 
-	isReference, err := omc.ARMReference(typeName, "FullName")
+	isReference, err := omc.ARMReference.Lookup(typeName, "FullName")
 	g.Expect(err).To(BeNil())
 	g.Expect(isReference).To(BeFalse())
 }
@@ -190,7 +190,7 @@ func TestObjectModelConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpec
 			})).
 		To(Succeed())
 
-	_, err := omc.ARMReference(typeName, "KnownAs")
+	_, err := omc.ARMReference.Lookup(typeName, "KnownAs")
 	g.Expect(err).NotTo(Succeed())
 	g.Expect(err.Error()).To(ContainSubstring("KnownAs"))
 }
@@ -211,10 +211,10 @@ func TestObjectModelConfiguration_VerifyARMReferencesConsumed_WhenReferenceUsed_
 			})).
 		To(Succeed())
 
-	ref, err := omc.ARMReference(typeName, "Spouse")
+	ref, err := omc.ARMReference.Lookup(typeName, "Spouse")
 	g.Expect(ref).To(BeTrue())
 	g.Expect(err).To(Succeed())
-	g.Expect(omc.VerifyARMReferencesConsumed()).To(Succeed())
+	g.Expect(omc.ARMReference.VerifyConsumed()).To(Succeed())
 }
 
 func TestObjectModelConfiguration_VerifyARMReferencesConsumed_WhenReferenceNotUsed_ReturnsExpectedError(t *testing.T) {
@@ -234,7 +234,7 @@ func TestObjectModelConfiguration_VerifyARMReferencesConsumed_WhenReferenceNotUs
 		To(Succeed())
 
 	g.Expect(
-		omc.VerifyARMReferencesConsumed()).NotTo(Succeed())
+		omc.ARMReference.VerifyConsumed()).NotTo(Succeed())
 }
 
 /*
@@ -258,12 +258,13 @@ func TestObjectModelConfiguration_LookupExportAs_AfterConsumption_CanLookupUsing
 		To(Succeed())
 
 	// Lookup the new name for the type
-	exportAs, err := omc.LookupExportAs(typeName)
+	exportAs, err := omc.ExportAs.Lookup(typeName)
 	g.Expect(err).To(BeNil())
 
 	// Lookup the name in next version using the new name of the type
+	omc.AddTypeAlias(typeName, exportAs)
 	newTypeName := typeName.WithName(exportAs)
-	nextName, err := omc.LookupNameInNextVersion(newTypeName)
+	nextName, err := omc.TypeNameInNextVersion.Lookup(newTypeName)
 	g.Expect(err).To(BeNil())
 	g.Expect(nextName).To(Equal("Party"))
 }
@@ -490,7 +491,7 @@ func TestObjectModelConfiguration_LookupSupportedFrom_WhenConfigured_ReturnsExpe
 			})).
 		To(Succeed())
 
-	supportedFrom, err := omc.LookupSupportedFrom(name)
+	supportedFrom, err := omc.SupportedFrom.Lookup(name)
 	g.Expect(err).To(Succeed())
 	g.Expect(supportedFrom).To(Equal("beta.5"))
 }
@@ -510,7 +511,7 @@ func TestObjectModelConfiguration_LookupSupportedFrom_WhenUnconfigured_ReturnsEx
 			})).
 		To(Succeed())
 
-	_, err := omc.LookupSupportedFrom(name)
+	_, err := omc.SupportedFrom.Lookup(name)
 	g.Expect(err).NotTo(Succeed())
 }
 
@@ -529,10 +530,10 @@ func TestObjectModelConfiguration_LookupSupportedFrom_WhenConsumed_ReturnsNoErro
 			})).
 		To(Succeed())
 
-	_, err := omc.LookupSupportedFrom(name)
+	_, err := omc.SupportedFrom.Lookup(name)
 	g.Expect(err).To(Succeed())
 
-	err = omc.VerifySupportedFromConsumed()
+	err = omc.SupportedFrom.VerifyConsumed()
 	g.Expect(err).To(Succeed())
 }
 
@@ -551,6 +552,6 @@ func TestObjectModelConfiguration_LookupSupportedFrom_WhenUnconsumed_ReturnsErro
 			})).
 		To(Succeed())
 
-	err := omc.VerifySupportedFromConsumed()
+	err := omc.SupportedFrom.VerifyConsumed()
 	g.Expect(err).NotTo(Succeed())
 }

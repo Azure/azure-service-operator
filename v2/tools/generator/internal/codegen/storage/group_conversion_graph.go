@@ -56,7 +56,7 @@ func (graph *GroupConversionGraph) searchForRenamedType(
 		return astmodel.EmptyTypeName, nil
 	}
 
-	rename, err := graph.configuration.LookupNameInNextVersion(name)
+	rename, err := graph.configuration.TypeNameInNextVersion.Lookup(name)
 	if config.IsNotConfiguredError(err) {
 		// We found no configured rename, nothing to do
 		return astmodel.EmptyTypeName, nil
