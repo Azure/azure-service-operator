@@ -29,6 +29,7 @@ import (
 type ObjectModelConfiguration struct {
 	groups      map[string]*GroupConfiguration // nested configuration for individual groups
 	typoAdvisor *typo.Advisor
+
 	// Type access fields here (alphabetical, please)
 	AzureGeneratedSecrets    typeAccess[[]string]
 	Export                   typeAccess[bool]
@@ -40,6 +41,7 @@ type ObjectModelConfiguration struct {
 	ResourceEmbeddedInParent typeAccess[string]
 	SupportedFrom            typeAccess[string]
 	TypeNameInNextVersion    typeAccess[string]
+
 	// Property access fields here (alphabetical, please)
 	ARMReference                   propertyAccess[bool]
 	ImportConfigMapMode            propertyAccess[ImportConfigMapMode]
@@ -385,6 +387,7 @@ func (omc *ObjectModelConfiguration) ModifyProperty(
 		})
 }
 
+// makeTypeAccess creates a new typeAccess[T] for the given model and accessor function
 func makeTypeAccess[T any](
 	model *ObjectModelConfiguration,
 	accessor func(*TypeConfiguration,
@@ -394,6 +397,7 @@ func makeTypeAccess[T any](
 		accessor: accessor}
 }
 
+// Lookup returns the configured value for the given type name
 func (a *typeAccess[T]) Lookup(name astmodel.TypeName) (T, error) {
 	var c *configurable[T]
 	visitor := newSingleTypeConfigurationVisitor(
@@ -411,6 +415,7 @@ func (a *typeAccess[T]) Lookup(name astmodel.TypeName) (T, error) {
 	return c.Lookup()
 }
 
+// VerifyConsumed ensures that all configured values have been consumed
 func (a *typeAccess[T]) VerifyConsumed() error {
 	visitor := newEveryTypeConfigurationVisitor(
 		func(configuration *TypeConfiguration) error {
@@ -420,6 +425,7 @@ func (a *typeAccess[T]) VerifyConsumed() error {
 	return visitor.Visit(a.model)
 }
 
+// MarkUnconsumed marks all configured values as unconsumed
 func (a *typeAccess[T]) MarkUnconsumed() error {
 	visitor := newEveryTypeConfigurationVisitor(
 		func(configuration *TypeConfiguration) error {
@@ -431,6 +437,7 @@ func (a *typeAccess[T]) MarkUnconsumed() error {
 	return visitor.Visit(a.model)
 }
 
+// makePropertyAccess creates a new propertyAccess[T] for the given model and accessor function
 func makePropertyAccess[T any](
 	model *ObjectModelConfiguration,
 	accessor func(*PropertyConfiguration,
@@ -440,6 +447,7 @@ func makePropertyAccess[T any](
 		accessor: accessor}
 }
 
+// Lookup returns the configured value for the given type name and property name
 func (a *propertyAccess[T]) Lookup(
 	name astmodel.TypeName,
 	property astmodel.PropertyName,
@@ -461,6 +469,7 @@ func (a *propertyAccess[T]) Lookup(
 	return c.Lookup()
 }
 
+// VerifyConsumed ensures that all configured values have been consumed
 func (a *propertyAccess[T]) VerifyConsumed() error {
 	visitor := newEveryPropertyConfigurationVisitor(
 		func(configuration *PropertyConfiguration) error {
@@ -470,6 +479,7 @@ func (a *propertyAccess[T]) VerifyConsumed() error {
 	return visitor.Visit(a.model)
 }
 
+// MarkUnconsumed marks all configured values as unconsumed
 func (a *propertyAccess[T]) MarkUnconsumed() error {
 	visitor := newEveryPropertyConfigurationVisitor(
 		func(configuration *PropertyConfiguration) error {
