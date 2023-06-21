@@ -8,6 +8,7 @@ supportedResourcesReport:
   outputFolder: apis
   # Path to documentation fragments to inject into the report
   fragmentPath: ../../docs/v2/crossplane/supported-resources
+  currentRelease: v2.1.0
 
 pipeline: crossplane
 typeFilters:

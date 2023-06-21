@@ -2,12 +2,12 @@
 title: "Installation: From YAML"
 weight: -4
 ---
-### Prerequisites
+## Prerequisites
 1. You have installed Cert Manager as per the [installation instructions](../../#installation) up to the "install from Helm" step.
 2. You have the `AZURE_SUBSCRIPTION_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_ID` and `AZURE_CLIENT_SECRET` environment variables set from the
    [installation instructions](../../#installation).
 
-### Installation
+## Installation
 
 1. Install [the latest **v2+** release](https://github.com/Azure/azure-service-operator/releases) of Azure Service Operator.
    ```bash
@@ -30,3 +30,17 @@ weight: -4
      AZURE_CLIENT_SECRET: "$AZURE_CLIENT_SECRET"
    EOF
    ```
+
+## Troubleshooting
+
+### Metadata too long
+
+If you omit the `--server-side=true` flag from the `kubectl apply` command, you will see an error like the following:
+
+``` 
+CustomResourceDefinition.apiextensions.k8s.io "storageaccounts.storage.azure.com" is invalid:
+metadata.annotations: Too long: must have at most 262144 bytes
+```
+
+Why does this happen? ASO CRDs are a complete representation of the Azure Resource surface area, including documentation. This is tremendously useful - but also means they are quite large.
+
