@@ -6,15 +6,10 @@ metadata:
 spec: 
   location: eastus
   owner:
-    name: aso-sample-rg
+    name: aso-sample-rgx
   identity:
     type: SystemAssigned
-  tags:
-    tag1: value1
   properties:
-    monitorsettings:
-      azuremonitoralertsettings:
-        alertsforalljobfailures: enabled
-    storagesettings:
-      datastoretype: vaultstore
-      type: locallyreduntant
+    storageSettings:
+      - datastoreType: VaultStore
+        type: LocallyRedundant
