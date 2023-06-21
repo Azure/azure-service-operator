@@ -130,13 +130,18 @@ func (omc *ObjectModelConfiguration) IsGroupConfigured(pkg astmodel.PackageRefer
 
 // AddTypeAlias adds a type alias for the specified type name,
 // allowing configuration related to the type to be accessed via the new name.
-func (omc *ObjectModelConfiguration) AddTypeAlias(name astmodel.TypeName, alias string) error {
+func (omc *ObjectModelConfiguration) AddTypeAlias(name astmodel.TypeName, alias string) {
 	versionVisitor := newSingleVersionConfigurationVisitor(
 		name.PackageReference,
 		func(configuration *VersionConfiguration) error {
 			return configuration.addTypeAlias(name.Name(), alias)
 		})
-	return versionVisitor.Visit(omc)
+
+	err := versionVisitor.Visit(omc)
+	if err != nil {
+		// Should never have an error in this case, but if we do make sure we know
+		panic(err)
+	}
 }
 
 var VersionRegex = regexp.MustCompile(`^v\d\d?$`)
