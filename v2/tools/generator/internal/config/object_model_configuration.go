@@ -73,7 +73,7 @@ func (omc *ObjectModelConfiguration) LookupNameInNextVersion(name astmodel.TypeN
 	visitor := newSingleTypeConfigurationVisitor(
 		name,
 		func(configuration *TypeConfiguration) error {
-			n, err := configuration.LookupNameInNextVersion()
+			n, err := configuration.NameInNextVersion.Lookup()
 			newName = n
 			return err
 		})
@@ -89,7 +89,7 @@ func (omc *ObjectModelConfiguration) LookupNameInNextVersion(name astmodel.TypeN
 func (omc *ObjectModelConfiguration) VerifyNameInNextVersionConsumed() error {
 	visitor := newEveryTypeConfigurationVisitor(
 		func(configuration *TypeConfiguration) error {
-			return configuration.VerifyNameInNextVersionConsumed()
+			return configuration.NameInNextVersion.VerifyConsumed()
 		})
 	return visitor.Visit(omc)
 }
@@ -101,7 +101,7 @@ func (omc *ObjectModelConfiguration) LookupExport(name astmodel.TypeName) (bool,
 	visitor := newSingleTypeConfigurationVisitor(
 		name,
 		func(configuration *TypeConfiguration) error {
-			ex, err := configuration.LookupExport()
+			ex, err := configuration.Export.Lookup()
 			export = ex
 			return err
 		})
@@ -117,7 +117,7 @@ func (omc *ObjectModelConfiguration) LookupExport(name astmodel.TypeName) (bool,
 func (omc *ObjectModelConfiguration) VerifyExportConsumed() error {
 	visitor := newEveryTypeConfigurationVisitor(
 		func(configuration *TypeConfiguration) error {
-			return configuration.VerifyExportConsumed()
+			return configuration.Export.VerifyConsumed()
 		})
 	return visitor.Visit(omc)
 }
@@ -129,7 +129,7 @@ func (omc *ObjectModelConfiguration) LookupExportAs(name astmodel.TypeName) (str
 	typeVisitor := newSingleTypeConfigurationVisitor(
 		name,
 		func(configuration *TypeConfiguration) error {
-			ea, err := configuration.LookupExportAs()
+			ea, err := configuration.ExportAs.Lookup()
 			exportAs = ea
 			return err
 		})
@@ -158,7 +158,7 @@ func (omc *ObjectModelConfiguration) LookupExportAs(name astmodel.TypeName) (str
 func (omc *ObjectModelConfiguration) VerifyExportAsConsumed() error {
 	visitor := newEveryTypeConfigurationVisitor(
 		func(configuration *TypeConfiguration) error {
-			return configuration.VerifyExportAsConsumed()
+			return configuration.ExportAs.VerifyConsumed()
 		})
 	return visitor.Visit(omc)
 }
@@ -199,7 +199,7 @@ func (omc *ObjectModelConfiguration) AzureGeneratedSecrets(name astmodel.TypeNam
 		name,
 		func(configuration *TypeConfiguration) error {
 			var err error
-			result, err = configuration.AzureGeneratedSecrets()
+			result, err = configuration.AzureGeneratedSecrets.Lookup()
 			return err
 		})
 	err := visitor.Visit(omc)
@@ -214,7 +214,7 @@ func (omc *ObjectModelConfiguration) AzureGeneratedSecrets(name astmodel.TypeNam
 func (omc *ObjectModelConfiguration) VerifyAzureGeneratedSecretsConsumed() error {
 	visitor := newEveryTypeConfigurationVisitor(
 		func(configuration *TypeConfiguration) error {
-			return configuration.VerifyAzureGeneratedSecretsConsumed()
+			return configuration.AzureGeneratedSecrets.VerifyConsumed()
 		})
 	return visitor.Visit(omc)
 }
@@ -226,7 +226,7 @@ func (omc *ObjectModelConfiguration) GeneratedConfigs(name astmodel.TypeName) (m
 		name,
 		func(configuration *TypeConfiguration) error {
 			var err error
-			result, err = configuration.GeneratedConfigs()
+			result, err = configuration.GeneratedConfigs.Lookup()
 			return err
 		})
 	err := visitor.Visit(omc)
@@ -241,7 +241,7 @@ func (omc *ObjectModelConfiguration) GeneratedConfigs(name astmodel.TypeName) (m
 func (omc *ObjectModelConfiguration) VerifyGeneratedConfigsConsumed() error {
 	visitor := newEveryTypeConfigurationVisitor(
 		func(configuration *TypeConfiguration) error {
-			return configuration.VerifyGeneratedConfigsConsumed()
+			return configuration.GeneratedConfigs.VerifyConsumed()
 		})
 	return visitor.Visit(omc)
 }
@@ -253,7 +253,7 @@ func (omc *ObjectModelConfiguration) ManualConfigs(name astmodel.TypeName) ([]st
 		name,
 		func(configuration *TypeConfiguration) error {
 			var err error
-			result, err = configuration.ManualConfigs()
+			result, err = configuration.ManualConfigs.Lookup()
 			return err
 		})
 	err := visitor.Visit(omc)
@@ -268,7 +268,7 @@ func (omc *ObjectModelConfiguration) ManualConfigs(name astmodel.TypeName) ([]st
 func (omc *ObjectModelConfiguration) VerifyManualConfigsConsumed() error {
 	visitor := newEveryTypeConfigurationVisitor(
 		func(configuration *TypeConfiguration) error {
-			return configuration.VerifyManualConfigsConsumed()
+			return configuration.ManualConfigs.VerifyConsumed()
 		})
 	return visitor.Visit(omc)
 }
@@ -351,7 +351,7 @@ func (omc *ObjectModelConfiguration) LookupSupportedFrom(name astmodel.TypeName)
 		name,
 		func(configuration *TypeConfiguration) error {
 			var err error
-			result, err = configuration.LookupSupportedFrom()
+			result, err = configuration.SupportedFrom.Lookup()
 			return err
 		})
 	err := visitor.Visit(omc)
@@ -366,7 +366,7 @@ func (omc *ObjectModelConfiguration) LookupSupportedFrom(name astmodel.TypeName)
 func (omc *ObjectModelConfiguration) VerifySupportedFromConsumed() error {
 	visitor := newEveryTypeConfigurationVisitor(
 		func(configuration *TypeConfiguration) error {
-			return configuration.VerifySupportedFromConsumed()
+			return configuration.SupportedFrom.VerifyConsumed()
 		})
 	return visitor.Visit(omc)
 }
@@ -407,7 +407,7 @@ func (omc *ObjectModelConfiguration) LookupResourceEmbeddedInParent(name astmode
 	visitor := newSingleTypeConfigurationVisitor(
 		name,
 		func(configuration *TypeConfiguration) error {
-			embedded, err := configuration.LookupResourceEmbeddedInParent()
+			embedded, err := configuration.ResourceEmbeddedInParent.Lookup()
 			embeddedInParent = embedded
 			return err
 		})
@@ -423,7 +423,7 @@ func (omc *ObjectModelConfiguration) LookupResourceEmbeddedInParent(name astmode
 func (omc *ObjectModelConfiguration) VerifyResourceEmbeddedInParentConsumed() error {
 	visitor := newEveryTypeConfigurationVisitor(
 		func(configuration *TypeConfiguration) error {
-			return configuration.VerifyResourceEmbeddedInParentConsumed()
+			return configuration.ResourceEmbeddedInParent.VerifyConsumed()
 		})
 	return visitor.Visit(omc)
 }
@@ -435,7 +435,7 @@ func (omc *ObjectModelConfiguration) LookupIsResource(name astmodel.TypeName) (b
 	visitor := newSingleTypeConfigurationVisitor(
 		name,
 		func(configuration *TypeConfiguration) error {
-			is, err := configuration.LookupIsResource()
+			is, err := configuration.IsResource.Lookup()
 			isResource = is
 			return err
 		})
@@ -451,7 +451,7 @@ func (omc *ObjectModelConfiguration) LookupIsResource(name astmodel.TypeName) (b
 func (omc *ObjectModelConfiguration) VerifyIsResourceConsumed() error {
 	visitor := newEveryTypeConfigurationVisitor(
 		func(configuration *TypeConfiguration) error {
-			return configuration.VerifyIsResourceConsumed()
+			return configuration.IsResource.VerifyConsumed()
 		})
 	return visitor.Visit(omc)
 }
@@ -463,7 +463,7 @@ func (omc *ObjectModelConfiguration) LookupImportable(name astmodel.TypeName) (b
 	visitor := newSingleTypeConfigurationVisitor(
 		name,
 		func(configuration *TypeConfiguration) error {
-			im, err := configuration.LookupImportable()
+			im, err := configuration.Importable.Lookup()
 			importable = im
 			return err
 		})
@@ -479,7 +479,7 @@ func (omc *ObjectModelConfiguration) LookupImportable(name astmodel.TypeName) (b
 func (omc *ObjectModelConfiguration) VerifyImportableConsumed() error {
 	visitor := newEveryTypeConfigurationVisitor(
 		func(configuration *TypeConfiguration) error {
-			return configuration.VerifyImportableConsumed()
+			return configuration.Importable.VerifyConsumed()
 		})
 	return visitor.Visit(omc)
 }

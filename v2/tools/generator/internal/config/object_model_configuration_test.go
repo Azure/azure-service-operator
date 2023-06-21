@@ -57,7 +57,7 @@ func TestObjectModelConfiguration_TypeRename_WhenTypeFound_ReturnsExpectedResult
 		omc.ModifyType(
 			typeName,
 			func(tc *TypeConfiguration) error {
-				tc.nameInNextVersion.write("Party")
+				tc.NameInNextVersion.write("Party")
 				return nil
 			})).
 		To(Succeed())
@@ -77,7 +77,7 @@ func TestObjectModelConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedErr
 		omc.ModifyType(
 			typeName,
 			func(tc *TypeConfiguration) error {
-				tc.nameInNextVersion.write("Party")
+				tc.NameInNextVersion.write("Party")
 				return nil
 			})).
 		To(Succeed())
@@ -100,7 +100,7 @@ func TestObjectModelConfiguration_VerifyTypeRenamesConsumed_WhenRenameUsed_Retur
 		omc.ModifyType(
 			typeName,
 			func(tc *TypeConfiguration) error {
-				tc.nameInNextVersion.write("Party")
+				tc.NameInNextVersion.write("Party")
 				return nil
 			})).
 		To(Succeed())
@@ -120,7 +120,7 @@ func TestObjectModelConfiguration_VerifyTypeRenamesConsumed_WhenRenameUnused_Ret
 		omc.ModifyType(
 			typeName,
 			func(tc *TypeConfiguration) error {
-				tc.nameInNextVersion.write("Party")
+				tc.NameInNextVersion.write("Party")
 				return nil
 			})).
 		To(Succeed())
@@ -251,8 +251,8 @@ func TestObjectModelConfiguration_LookupExportAs_AfterConsumption_CanLookupUsing
 		omc.ModifyType(
 			typeName,
 			func(tc *TypeConfiguration) error {
-				tc.exportAs.write("Person")
-				tc.nameInNextVersion.write("Party")
+				tc.ExportAs.write("Person")
+				tc.NameInNextVersion.write("Party")
 				return nil
 			})).
 		To(Succeed())
@@ -485,7 +485,7 @@ func TestObjectModelConfiguration_LookupSupportedFrom_WhenConfigured_ReturnsExpe
 		omc.ModifyType(
 			name,
 			func(tc *TypeConfiguration) error {
-				tc.supportedFrom.write("beta.5")
+				tc.SupportedFrom.write("beta.5")
 				return nil
 			})).
 		To(Succeed())
@@ -524,7 +524,7 @@ func TestObjectModelConfiguration_LookupSupportedFrom_WhenConsumed_ReturnsNoErro
 		omc.ModifyType(
 			name,
 			func(tc *TypeConfiguration) error {
-				tc.supportedFrom.write("beta.5")
+				tc.SupportedFrom.write("beta.5")
 				return nil
 			})).
 		To(Succeed())
@@ -546,7 +546,7 @@ func TestObjectModelConfiguration_LookupSupportedFrom_WhenUnconsumed_ReturnsErro
 		omc.ModifyType(
 			name,
 			func(tc *TypeConfiguration) error {
-				tc.supportedFrom.write("beta.5")
+				tc.SupportedFrom.write("beta.5")
 				return nil
 			})).
 		To(Succeed())

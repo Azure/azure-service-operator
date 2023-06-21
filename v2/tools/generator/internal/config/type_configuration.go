@@ -26,19 +26,20 @@ import (
 // │                          │1  1..n│                    │1  1..n│                      │1  1..n║                   ║1  1..n│                       │
 // └──────────────────────────┘       └────────────────────┘       └──────────────────────┘       ╚═══════════════════╝       └───────────────────────┘
 type TypeConfiguration struct {
-	name                     string
-	properties               map[string]*PropertyConfiguration
-	nameInNextVersion        configurable[string]
-	export                   configurable[bool]
-	exportAs                 configurable[string]
-	azureGeneratedSecrets    configurable[[]string]
-	generatedConfigs         configurable[map[string]string]
-	manualConfigs            configurable[[]string]
-	supportedFrom            configurable[string]
-	isResource               configurable[bool]
-	resourceEmbeddedInParent configurable[string]
-	importable               configurable[bool]
-	advisor                  *typo.Advisor
+	name       string
+	properties map[string]*PropertyConfiguration
+	advisor    *typo.Advisor
+	// Configurable properties here (alphabetical, please)
+	AzureGeneratedSecrets    configurable[[]string]
+	Export                   configurable[bool]
+	ExportAs                 configurable[string]
+	GeneratedConfigs         configurable[map[string]string]
+	Importable               configurable[bool]
+	IsResource               configurable[bool]
+	ManualConfigs            configurable[[]string]
+	NameInNextVersion        configurable[string]
+	ResourceEmbeddedInParent configurable[string]
+	SupportedFrom            configurable[string]
 }
 
 const (
@@ -55,253 +56,23 @@ const (
 )
 
 func NewTypeConfiguration(name string) *TypeConfiguration {
+	scope := "type " + name
 	return &TypeConfiguration{
 		name:       name,
 		properties: make(map[string]*PropertyConfiguration),
 		advisor:    typo.NewAdvisor(),
+		// Initialize configurable properties here (alphabetical, please)
+		AzureGeneratedSecrets:    makeConfigurable[[]string](azureGeneratedSecretsTag, scope),
+		Export:                   makeConfigurable[bool](exportTag, scope),
+		ExportAs:                 makeConfigurable[string](exportAsTag, scope),
+		Importable:               makeConfigurable[bool](importableTag, scope),
+		IsResource:               makeConfigurable[bool](isResourceTag, scope),
+		GeneratedConfigs:         makeConfigurable[map[string]string](generatedConfigsTag, scope),
+		ManualConfigs:            makeConfigurable[[]string](manualConfigsTag, scope),
+		NameInNextVersion:        makeConfigurable[string](nameInNextVersionTag, scope),
+		ResourceEmbeddedInParent: makeConfigurable[string](resourceEmbeddedInParentTag, scope),
+		SupportedFrom:            makeConfigurable[string](supportedFromTag, scope),
 	}
-}
-
-// LookupNameInNextVersion checks to see whether the name of this type in the next version is configured, returning
-// either that name or a NotConfiguredError.
-func (tc *TypeConfiguration) LookupNameInNextVersion() (string, error) {
-	name, ok := tc.nameInNextVersion.read()
-	if !ok {
-		msg := fmt.Sprintf(nameInNextVersionTag+" not specified for type %s", tc.name)
-		return "", NewNotConfiguredError(msg)
-	}
-
-	return name, nil
-}
-
-// VerifyNameInNextVersionConsumed returns an error if our configured rename was not used, nil otherwise.
-func (tc *TypeConfiguration) VerifyNameInNextVersionConsumed() error {
-	if tc.nameInNextVersion.isUnconsumed() {
-		v, _ := tc.nameInNextVersion.read()
-		return errors.Errorf("type %s: "+nameInNextVersionTag+": %s not consumed", tc.name, v)
-	}
-
-	return nil
-}
-
-// SetNameInNextVersion sets the configured $nameInNextVersion for this type
-func (tc *TypeConfiguration) SetNameInNextVersion(name string) {
-	tc.nameInNextVersion.write(name)
-}
-
-// LookupExport checks to see whether this type is configured for export, returning either that value or a
-// NotConfiguredError.
-func (tc *TypeConfiguration) LookupExport() (bool, error) {
-	v, ok := tc.export.read()
-	if !ok {
-		msg := fmt.Sprintf(exportTag+" not specified for type %s", tc.name)
-		return false, NewNotConfiguredError(msg)
-	}
-
-	return v, nil
-}
-
-// VerifyExportConsumed returns an error if our configured export flag was not used, nil otherwise.
-func (tc *TypeConfiguration) VerifyExportConsumed() error {
-	if tc.export.isUnconsumed() {
-		v, _ := tc.export.read()
-		return errors.Errorf("type %s: "+exportTag+": %t not consumed", tc.name, v)
-	}
-
-	return nil
-}
-
-// LookupExportAs checks to see whether this type has a custom name configured for export, returning either that name
-// or a NotConfiguredError.
-func (tc *TypeConfiguration) LookupExportAs() (string, error) {
-	v, ok := tc.exportAs.read()
-	if !ok {
-		msg := fmt.Sprintf(exportAsTag+" not specified for type %s", tc.name)
-		return "", NewNotConfiguredError(msg)
-	}
-
-	return v, nil
-}
-
-// VerifyExportAsConsumed returns an error if our configured export name was not used, nil otherwise.
-func (tc *TypeConfiguration) VerifyExportAsConsumed() error {
-	if tc.exportAs.isUnconsumed() {
-		v, _ := tc.exportAs.read()
-		return errors.Errorf("type %s: "+exportAsTag+": %s not consumed", tc.name, v)
-	}
-
-	return nil
-}
-
-// SetAzureGeneratedSecrets sets the list of Azure Generated secrets this type supports
-func (tc *TypeConfiguration) SetAzureGeneratedSecrets(secrets []string) *TypeConfiguration {
-	tc.azureGeneratedSecrets.write(secrets)
-	return tc
-}
-
-// AzureGeneratedSecrets gets the list of Azure Generated secrets this type supports
-func (tc *TypeConfiguration) AzureGeneratedSecrets() ([]string, error) {
-	v, ok := tc.azureGeneratedSecrets.read()
-	if !ok {
-		msg := fmt.Sprintf("%s not specified for type %s", azureGeneratedSecretsTag, tc.name)
-		return nil, NewNotConfiguredError(msg)
-	}
-
-	return v, nil
-}
-
-// VerifyAzureGeneratedSecretsConsumed returns an error if our configured azureGeneratedSecrets were not used,
-// nil otherwise.
-func (tc *TypeConfiguration) VerifyAzureGeneratedSecretsConsumed() error {
-	if tc.azureGeneratedSecrets.isUnconsumed() {
-		return errors.Errorf("type %s: "+azureGeneratedSecretsTag+": not consumed", tc.name)
-	}
-
-	return nil
-}
-
-// SetGeneratedConfigs sets the list of Azure Generated configmaps this type supports
-func (tc *TypeConfiguration) SetGeneratedConfigs(configMaps map[string]string) *TypeConfiguration {
-	tc.generatedConfigs.write(configMaps)
-	return tc
-}
-
-// GeneratedConfigs gets the list of Azure Generated config maps this type supports
-func (tc *TypeConfiguration) GeneratedConfigs() (map[string]string, error) {
-	v, ok := tc.generatedConfigs.read()
-	if !ok {
-		msg := fmt.Sprintf("%s not specified for type %s", generatedConfigsTag, tc.name)
-		return nil, NewNotConfiguredError(msg)
-	}
-
-	return v, nil
-}
-
-// VerifyGeneratedConfigsConsumed returns an error if our configured generatedConfigs were not used,
-// nil otherwise.
-func (tc *TypeConfiguration) VerifyGeneratedConfigsConsumed() error {
-	if tc.generatedConfigs.isUnconsumed() {
-		return errors.Errorf("type %s: "+generatedConfigsTag+": not consumed", tc.name)
-	}
-
-	return nil
-}
-
-// SetManualConfigs sets the list of manual configmaps this type supports
-func (tc *TypeConfiguration) SetManualConfigs(configMaps []string) *TypeConfiguration {
-	tc.manualConfigs.write(configMaps)
-	return tc
-}
-
-// ManualConfigs gets the list of Azure Generated config maps this type supports
-func (tc *TypeConfiguration) ManualConfigs() ([]string, error) {
-	v, ok := tc.manualConfigs.read()
-	if !ok {
-		msg := fmt.Sprintf("%s not specified for type %s", manualConfigsTag, tc.name)
-		return nil, NewNotConfiguredError(msg)
-	}
-
-	return v, nil
-}
-
-// VerifyManualConfigsConsumed returns an error if our configured azureGeneratedConfigs were not used,
-// nil otherwise.
-func (tc *TypeConfiguration) VerifyManualConfigsConsumed() error {
-	if tc.manualConfigs.isUnconsumed() {
-		return errors.Errorf("type %s: "+manualConfigsTag+": not consumed", tc.name)
-	}
-
-	return nil
-}
-
-// LookupSupportedFrom checks to see whether this type has its first ASO release configured, returning either that
-// release or a NotConfiguredError.
-func (tc *TypeConfiguration) LookupSupportedFrom() (string, error) {
-	v, ok := tc.supportedFrom.read()
-	if !ok {
-		msg := fmt.Sprintf(supportedFromTag+" not specified for type %s", tc.name)
-		return "", NewNotConfiguredError(msg)
-	}
-
-	return v, nil
-}
-
-// VerifySupportedFromConsumed returns an error if our configured supportedFrom tag was not used, nil otherwise.
-func (tc *TypeConfiguration) VerifySupportedFromConsumed() error {
-	if tc.supportedFrom.isUnconsumed() {
-		v, _ := tc.supportedFrom.read()
-		return errors.Errorf("type %s: "+supportedFromTag+": %s not consumed", tc.name, v)
-	}
-
-	return nil
-}
-
-// SetSupportedFrom sets the configured $supportedFrom for this type
-func (tc *TypeConfiguration) SetSupportedFrom(from string) {
-	tc.supportedFrom.write(from)
-}
-
-// LookupResourceEmbeddedInParent checks to see whether this type is a resource embedded in its parent
-func (tc *TypeConfiguration) LookupResourceEmbeddedInParent() (string, error) {
-	v, ok := tc.resourceEmbeddedInParent.read()
-	if !ok {
-		msg := fmt.Sprintf(resourceEmbeddedInParentTag+" not specified for type %s", tc.name)
-		return "", NewNotConfiguredError(msg)
-	}
-
-	return v, nil
-}
-
-// VerifyResourceEmbeddedInParentConsumed returns an error if our configured isResource flag was not used, nil otherwise.
-func (tc *TypeConfiguration) VerifyResourceEmbeddedInParentConsumed() error {
-	if tc.resourceEmbeddedInParent.isUnconsumed() {
-		v, _ := tc.export.read()
-		return errors.Errorf("type %s: "+resourceEmbeddedInParentTag+": %t not consumed", tc.name, v)
-	}
-
-	return nil
-}
-
-// LookupIsResource checks to see whether this type is a resource embedded in its parent
-func (tc *TypeConfiguration) LookupIsResource() (bool, error) {
-	v, ok := tc.isResource.read()
-	if !ok {
-		msg := fmt.Sprintf(isResourceTag+" not specified for type %s", tc.name)
-		return false, NewNotConfiguredError(msg)
-	}
-
-	return v, nil
-}
-
-// VerifyIsResourceConsumed returns an error if our configured isResource flag was not used, nil otherwise.
-func (tc *TypeConfiguration) VerifyIsResourceConsumed() error {
-	if tc.isResource.isUnconsumed() {
-		v, _ := tc.export.read()
-		return errors.Errorf("type %s: "+isResourceTag+": %t not consumed", tc.name, v)
-	}
-
-	return nil
-}
-
-// LookupImportable checks to see whether this resource type is importable via asoctl
-func (tc *TypeConfiguration) LookupImportable() (bool, error) {
-	v, ok := tc.importable.read()
-	if !ok {
-		msg := fmt.Sprintf(importableTag+" not specified for type %s", tc.name)
-		return false, NewNotConfiguredError(msg)
-	}
-
-	return v, nil
-}
-
-// VerifyImportable consumed returns an error if our configured importable flag was not used, nil otherwise.
-func (tc *TypeConfiguration) VerifyImportableConsumed() error {
-	if tc.importable.isUnconsumed() {
-		v, _ := tc.importable.read()
-		return errors.Errorf("type %s: "+importableTag+": %t not consumed", tc.name, v)
-	}
-
-	return nil
 }
 
 // Add includes configuration for the specified property as a part of this type configuration
@@ -413,7 +184,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 			// TODO: Check we had an even number of nodes
 
-			tc.SetGeneratedConfigs(azureGeneratedConfigs)
+			tc.GeneratedConfigs.Set(azureGeneratedConfigs)
 			continue
 		}
 
@@ -431,7 +202,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// $nameInNextVersion: <string>
 		if strings.EqualFold(lastId, nameInNextVersionTag) && c.Kind == yaml.ScalarNode {
-			tc.nameInNextVersion.write(c.Value)
+			tc.NameInNextVersion.write(c.Value)
 			continue
 		}
 
@@ -443,17 +214,17 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding %s", exportTag)
 			}
 
-			tc.export.write(export)
+			tc.Export.write(export)
 			continue
 		}
 
 		// $exportAs: <string>
 		if strings.EqualFold(lastId, exportAsTag) && c.Kind == yaml.ScalarNode {
-			tc.exportAs.write(c.Value)
+			tc.ExportAs.write(c.Value)
 			continue
 		}
 
-		// $azureGeneratedSecrets:
+		// $AzureGeneratedSecrets:
 		// - secret1
 		// - secret2
 		if strings.EqualFold(lastId, azureGeneratedSecretsTag) && c.Kind == yaml.SequenceNode {
@@ -470,7 +241,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				}
 			}
 
-			tc.SetAzureGeneratedSecrets(azureGeneratedSecrets)
+			tc.AzureGeneratedSecrets.Set(azureGeneratedSecrets)
 			continue
 		}
 
@@ -488,13 +259,13 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				}
 			}
 
-			tc.SetManualConfigs(manualAzureGeneratedConfigs)
+			tc.ManualConfigs.Set(manualAzureGeneratedConfigs)
 			continue
 		}
 
-		// $supportedFrom
+		// $SupportedFrom
 		if strings.EqualFold(lastId, supportedFromTag) && c.Kind == yaml.ScalarNode {
-			tc.supportedFrom.write(c.Value)
+			tc.SupportedFrom.write(c.Value)
 			continue
 		}
 
@@ -506,7 +277,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding %s", resourceEmbeddedInParentTag)
 			}
 
-			tc.resourceEmbeddedInParent.write(resourceEmbeddedInParent)
+			tc.ResourceEmbeddedInParent.write(resourceEmbeddedInParent)
 			continue
 		}
 
@@ -518,7 +289,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding %s", isResourceTag)
 			}
 
-			tc.isResource.write(isResource)
+			tc.IsResource.write(isResource)
 			continue
 		}
 
@@ -530,7 +301,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding %s", importableTag)
 			}
 
-			tc.importable.write(importable)
+			tc.Importable.write(importable)
 			continue
 		}
 

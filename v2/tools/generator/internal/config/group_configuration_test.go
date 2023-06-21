@@ -110,7 +110,7 @@ func TestGroupConfiguration_WhenVersionConfigurationNotConsumed_ReturnsErrorWith
 
 	// Create configuration with the wrong version
 	typeConfig := NewTypeConfiguration("Person")
-	typeConfig.SetSupportedFrom("vNext")
+	typeConfig.SupportedFrom.Set("vNext")
 
 	versionConfig := NewVersionConfiguration("2022-01-01")
 	versionConfig.addType(typeConfig.name, typeConfig)
