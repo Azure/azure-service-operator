@@ -1,8 +1,9 @@
 name: Live Azure Validation
 on:
   schedule:
-    # 13:00 UTC is a time when both US and NZ are asleep (or headed in that direction)
-    - cron: "0 13 * * *"
+    # 5:35 pm every Sunday (UTC)
+    # to ensure the docs are never too stale
+    - cron: "35 17 * * 0"
   workflow_dispatch:
 
 jobs:
