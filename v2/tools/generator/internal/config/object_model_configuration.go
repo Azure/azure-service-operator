@@ -171,7 +171,7 @@ func (omc *ObjectModelConfiguration) ARMReference(name astmodel.TypeName, proper
 		name,
 		property,
 		func(configuration *PropertyConfiguration) error {
-			isArmReference, err := configuration.ARMReference()
+			isArmReference, err := configuration.ARMReference.Lookup()
 			result = isArmReference
 			return err
 		})
@@ -187,7 +187,7 @@ func (omc *ObjectModelConfiguration) ARMReference(name astmodel.TypeName, proper
 func (omc *ObjectModelConfiguration) VerifyARMReferencesConsumed() error {
 	visitor := newEveryPropertyConfigurationVisitor(
 		func(configuration *PropertyConfiguration) error {
-			return configuration.VerifyARMReferenceConsumed()
+			return configuration.ARMReference.VerifyConsumed()
 		})
 	return visitor.Visit(omc)
 }
@@ -280,7 +280,7 @@ func (omc *ObjectModelConfiguration) IsSecret(name astmodel.TypeName, property a
 		name,
 		property,
 		func(configuration *PropertyConfiguration) error {
-			isSecret, err := configuration.IsSecret()
+			isSecret, err := configuration.IsSecret.Lookup()
 			result = isSecret
 			return err
 		})
@@ -297,7 +297,7 @@ func (omc *ObjectModelConfiguration) IsSecret(name astmodel.TypeName, property a
 func (omc *ObjectModelConfiguration) VerifyIsSecretConsumed() error {
 	visitor := newEveryPropertyConfigurationVisitor(
 		func(configuration *PropertyConfiguration) error {
-			return configuration.VerifyIsSecretConsumed()
+			return configuration.IsSecret.VerifyConsumed()
 		})
 	return visitor.Visit(omc)
 }
@@ -310,7 +310,7 @@ func (omc *ObjectModelConfiguration) ResourceLifecycleOwnedByParent(name astmode
 		name,
 		property,
 		func(configuration *PropertyConfiguration) error {
-			resourceLifecycleOwnedByParent, err := configuration.ResourceLifecycleOwnedByParent()
+			resourceLifecycleOwnedByParent, err := configuration.ResourceLifecycleOwnedByParent.Lookup()
 			result = resourceLifecycleOwnedByParent
 			return err
 		})
@@ -327,7 +327,7 @@ func (omc *ObjectModelConfiguration) ResourceLifecycleOwnedByParent(name astmode
 func (omc *ObjectModelConfiguration) MarkResourceLifecycleOwnedByParentUnconsumed() error {
 	visitor := newEveryPropertyConfigurationVisitor(
 		func(configuration *PropertyConfiguration) error {
-			configuration.ClearResourceLifecycleOwnedByParentConsumed()
+			configuration.ResourceLifecycleOwnedByParent.markUnconsumed()
 			return nil
 		})
 	return visitor.Visit(omc)
@@ -338,7 +338,7 @@ func (omc *ObjectModelConfiguration) MarkResourceLifecycleOwnedByParentUnconsume
 func (omc *ObjectModelConfiguration) VerifyResourceLifecycleOwnedByParentConsumed() error {
 	visitor := newEveryPropertyConfigurationVisitor(
 		func(configuration *PropertyConfiguration) error {
-			return configuration.VerifyResourceLifecycleOwnedByParentConsumed()
+			return configuration.ResourceLifecycleOwnedByParent.VerifyConsumed()
 		})
 	return visitor.Visit(omc)
 }
@@ -379,7 +379,7 @@ func (omc *ObjectModelConfiguration) ImportConfigMapMode(name astmodel.TypeName,
 		name,
 		property,
 		func(configuration *PropertyConfiguration) error {
-			mode, err := configuration.ImportConfigMapMode()
+			mode, err := configuration.ImportConfigMapMode.Lookup()
 			result = mode
 			return err
 		})
@@ -395,7 +395,7 @@ func (omc *ObjectModelConfiguration) ImportConfigMapMode(name astmodel.TypeName,
 func (omc *ObjectModelConfiguration) VerifyImportConfigMapModeConsumed() error {
 	visitor := newEveryPropertyConfigurationVisitor(
 		func(configuration *PropertyConfiguration) error {
-			return configuration.VerifyImportConfigMapModeConsumed()
+			return configuration.ImportConfigMapMode.VerifyConsumed()
 		})
 	return visitor.Visit(omc)
 }

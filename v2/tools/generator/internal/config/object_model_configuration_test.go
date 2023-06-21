@@ -143,7 +143,7 @@ func TestObjectModelConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsEx
 			typeName,
 			"Spouse",
 			func(pc *PropertyConfiguration) error {
-				pc.armReference.write(true)
+				pc.ARMReference.write(true)
 				return nil
 			})).
 		To(Succeed())
@@ -164,7 +164,7 @@ func TestObjectModelConfiguration_ARMReference_WhenFullNamePropertyFound_Returns
 			typeName,
 			"FullName",
 			func(pc *PropertyConfiguration) error {
-				pc.armReference.write(false)
+				pc.ARMReference.write(false)
 				return nil
 			})).
 		To(Succeed())
@@ -185,7 +185,7 @@ func TestObjectModelConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpec
 			typeName,
 			"Spouse",
 			func(pc *PropertyConfiguration) error {
-				pc.armReference.write(true)
+				pc.ARMReference.write(true)
 				return nil
 			})).
 		To(Succeed())
@@ -206,7 +206,7 @@ func TestObjectModelConfiguration_VerifyARMReferencesConsumed_WhenReferenceUsed_
 			typeName,
 			"Spouse",
 			func(pc *PropertyConfiguration) error {
-				pc.armReference.write(true)
+				pc.ARMReference.write(true)
 				return nil
 			})).
 		To(Succeed())
@@ -228,7 +228,7 @@ func TestObjectModelConfiguration_VerifyARMReferencesConsumed_WhenReferenceNotUs
 			typeName,
 			"Spouse",
 			func(pc *PropertyConfiguration) error {
-				pc.armReference.write(true)
+				pc.ARMReference.write(true)
 				return nil
 			})).
 		To(Succeed())

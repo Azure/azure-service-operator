@@ -91,7 +91,7 @@ func TestCreateFlattenedARMTypeWithResourceRef_CreatesExpectedConversions(t *tes
 			specProperties.Name(),
 			test.FamilyNameProperty.PropertyName(),
 			func(propertyConfiguration *config.PropertyConfiguration) error {
-				propertyConfiguration.SetARMReference(true)
+				propertyConfiguration.ARMReference.Set(true)
 				return nil
 			})).To(Succeed())
 
@@ -149,7 +149,7 @@ func TestCreateFlattenedARMTypeWithConfigMap_CreatesExpectedConversions(t *testi
 			specProperties.Name(),
 			test.FullNameProperty.PropertyName(),
 			func(pc *config.PropertyConfiguration) error {
-				pc.SetImportConfigMapMode(config.ImportConfigMapModeRequired)
+				pc.ImportConfigMapMode.Set(config.ImportConfigMapModeRequired)
 				return nil
 			})).
 		To(Succeed())
@@ -158,7 +158,7 @@ func TestCreateFlattenedARMTypeWithConfigMap_CreatesExpectedConversions(t *testi
 			specProperties.Name(),
 			test.FamilyNameProperty.PropertyName(),
 			func(pc *config.PropertyConfiguration) error {
-				pc.SetImportConfigMapMode(config.ImportConfigMapModeOptional)
+				pc.ImportConfigMapMode.Set(config.ImportConfigMapModeOptional)
 				return nil
 			})).
 		To(Succeed())
@@ -216,7 +216,7 @@ func TestCreateARMTypeWithConfigMap_CreatesExpectedConversions(t *testing.T) {
 			specProperties.Name(),
 			test.FullNameProperty.PropertyName(),
 			func(pc *config.PropertyConfiguration) error {
-				pc.SetImportConfigMapMode(config.ImportConfigMapModeRequired)
+				pc.ImportConfigMapMode.Set(config.ImportConfigMapModeRequired)
 				return nil
 			})).
 		To(Succeed())
@@ -225,7 +225,7 @@ func TestCreateARMTypeWithConfigMap_CreatesExpectedConversions(t *testing.T) {
 			specProperties.Name(),
 			test.FamilyNameProperty.PropertyName(),
 			func(pc *config.PropertyConfiguration) error {
-				pc.SetImportConfigMapMode(config.ImportConfigMapModeOptional)
+				pc.ImportConfigMapMode.Set(config.ImportConfigMapModeOptional)
 				return nil
 			})).
 		To(Succeed())
@@ -234,7 +234,7 @@ func TestCreateARMTypeWithConfigMap_CreatesExpectedConversions(t *testing.T) {
 			specProperties.Name(),
 			test.RestrictedNameProperty.PropertyName(),
 			func(pc *config.PropertyConfiguration) error {
-				pc.SetImportConfigMapMode(config.ImportConfigMapModeOptional)
+				pc.ImportConfigMapMode.Set(config.ImportConfigMapModeOptional)
 				return nil
 			})).
 		To(Succeed())

@@ -6,7 +6,6 @@
 package config
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -22,12 +21,13 @@ import (
 // │                          │1  1..n│                    │1  1..n│                      │1  1..n│                   │1  1..n║                       ║
 // └──────────────────────────┘       └────────────────────┘       └──────────────────────┘       └───────────────────┘       ╚═══════════════════════╝
 type PropertyConfiguration struct {
-	name                           string
-	nameInNextVersion              configurable[string] // Name this property has in the next version
-	armReference                   configurable[bool]   // Specify whether this property is an ARM reference
-	isSecret                       configurable[bool]   // Specify whether this property is a secret
-	resourceLifecycleOwnedByParent configurable[string]
-	importConfigMapMode            configurable[ImportConfigMapMode] // The config map mode
+	name string
+	// Configurable properties here (alphabetical, please)
+	ARMReference                   configurable[bool]                // Specify whether this property is an ARM reference
+	ImportConfigMapMode            configurable[ImportConfigMapMode] // The config map mode
+	IsSecret                       configurable[bool]                // Specify whether this property is a secret
+	NameInNextVersion              configurable[string]              // Name this property has in the next version
+	ResourceLifecycleOwnedByParent configurable[string]
 }
 
 type ImportConfigMapMode string
@@ -42,135 +42,21 @@ const (
 	isSecretTag                       = "$isSecret"                       // Bool specifying whether a property contains a secret
 	resourceLifecycleOwnedByParentTag = "$resourceLifecycleOwnedByParent" // String specifying whether a property represents a subresource whose lifecycle is owned by the parent resource (and what that parent resource is)
 	exportAsConfigMapPropertyNameTag  = "$exportAsConfigMapPropertyName"  // String specifying the name of the property set to export this property as a config map.
-	importConfigMapModeTag            = "$importConfigMapMode"            // string specifying the importConfigMapMode mode
+	importConfigMapModeTag            = "$importConfigMapMode"            // string specifying the ImportConfigMapMode mode
 )
 
 // NewPropertyConfiguration returns a new (empty) property configuration
 func NewPropertyConfiguration(name string) *PropertyConfiguration {
+	scope := "property " + name
 	return &PropertyConfiguration{
 		name: name,
+		// Initialize configurable properties here (alphabetical, please)
+		ARMReference:                   makeConfigurable[bool](armReferenceTag, scope),
+		ImportConfigMapMode:            makeConfigurable[ImportConfigMapMode](importConfigMapModeTag, scope),
+		IsSecret:                       makeConfigurable[bool](isSecretTag, scope),
+		NameInNextVersion:              makeConfigurable[string](nameInNextVersionTag, scope),
+		ResourceLifecycleOwnedByParent: makeConfigurable[string](resourceLifecycleOwnedByParentTag, scope),
 	}
-}
-
-// ARMReference looks up a property to determine whether it may be an ARM reference or not.
-func (pc *PropertyConfiguration) ARMReference() (bool, error) {
-	armReference, ok := pc.armReference.read()
-	if !ok {
-		msg := fmt.Sprintf(armReferenceTag+" not specified for property %s", pc.name)
-		return false, NewNotConfiguredError(msg)
-	}
-
-	return armReference, nil
-}
-
-// VerifyARMReferenceConsumed returns an error if our configuration as an ARM reference was not consumed.
-func (pc *PropertyConfiguration) VerifyARMReferenceConsumed() error {
-	if pc.armReference.isUnconsumed() {
-		v, _ := pc.armReference.read()
-		return errors.Errorf("property %s: "+armReferenceTag+": %t not consumed", pc.name, v)
-	}
-
-	return nil
-}
-
-// SetARMReference sets the ARM reference property
-func (pc *PropertyConfiguration) SetARMReference(value bool) {
-	pc.armReference.write(value)
-}
-
-// IsSecret looks up a property to determine if it's a secret
-func (pc *PropertyConfiguration) IsSecret() (bool, error) {
-	isSecret, ok := pc.isSecret.read()
-	if !ok {
-		msg := fmt.Sprintf(isSecretTag+" not specified for property %s", pc.name)
-		return false, NewNotConfiguredError(msg)
-	}
-
-	return isSecret, nil
-}
-
-// VerifyIsSecretConsumed returns an error if our configuration as a secret was not consumed.
-func (pc *PropertyConfiguration) VerifyIsSecretConsumed() error {
-	if pc.isSecret.isUnconsumed() {
-		v, _ := pc.isSecret.read()
-		return errors.Errorf("property %s: "+isSecretTag+": %t not consumed", pc.name, v)
-	}
-
-	return nil
-}
-
-// NameInNextVersion looks up a property to determine whether it is being renamed in the next version
-func (pc *PropertyConfiguration) NameInNextVersion() (string, error) {
-	name, ok := pc.nameInNextVersion.read()
-	if !ok {
-		msg := fmt.Sprintf(nameInNextVersionTag+" not specified for property %s", pc.name)
-		return "", NewNotConfiguredError(msg)
-	}
-
-	return name, nil
-}
-
-func (pc *PropertyConfiguration) VerifyRenamedInNextVersionConsumed() error {
-	if pc.nameInNextVersion.isUnconsumed() {
-		v, _ := pc.nameInNextVersion.read()
-		return errors.Errorf("property %s: "+nameInNextVersionTag+": %s not consumed", pc.name, v)
-	}
-
-	return nil
-}
-
-// ResourceLifecycleOwnedByParent looks up a property to determine what parent owns this resource lifecycle
-func (pc *PropertyConfiguration) ResourceLifecycleOwnedByParent() (string, error) {
-	resourceLifecycleOwnedByParent, ok := pc.resourceLifecycleOwnedByParent.read()
-	if !ok {
-		msg := fmt.Sprintf(resourceLifecycleOwnedByParentTag+" not specified for property %s", pc.name)
-		return "", NewNotConfiguredError(msg)
-	}
-
-	return resourceLifecycleOwnedByParent, nil
-}
-
-// ClearResourceLifecycleOwnedByParentConsumed clears the consumed bit for this flag so that it can be reused
-func (pc *PropertyConfiguration) ClearResourceLifecycleOwnedByParentConsumed() {
-	pc.resourceLifecycleOwnedByParent.markUnconsumed()
-}
-
-// VerifyResourceLifecycleOwnedByParentConsumed returns an error if our configuration has the
-// $resourceLifecycleOwnedByParent flag, and was not consumed.
-func (pc *PropertyConfiguration) VerifyResourceLifecycleOwnedByParentConsumed() error {
-	if pc.resourceLifecycleOwnedByParent.isUnconsumed() {
-		v, _ := pc.resourceLifecycleOwnedByParent.read()
-		return errors.Errorf("property %s: "+resourceLifecycleOwnedByParentTag+": %s not consumed", pc.name, v)
-	}
-
-	return nil
-}
-
-// SetImportConfigMapMode sets the import configMap mode
-func (pc *PropertyConfiguration) SetImportConfigMapMode(mode ImportConfigMapMode) *PropertyConfiguration {
-	pc.importConfigMapMode.write(mode)
-	return pc
-}
-
-// ImportConfigMapMode looks up a property to determine its ImportConfigMapMode
-func (pc *PropertyConfiguration) ImportConfigMapMode() (ImportConfigMapMode, error) {
-	mode, ok := pc.importConfigMapMode.read()
-	if !ok {
-		msg := fmt.Sprintf(importConfigMapModeTag+" not specified for property %s", pc.name)
-		return mode, NewNotConfiguredError(msg)
-	}
-
-	return mode, nil
-}
-
-// VerifyImportConfigMapModeConsumed returns an error if our configuration had the importConfigMapMode set and was not consumed.
-func (pc *PropertyConfiguration) VerifyImportConfigMapModeConsumed() error {
-	if pc.importConfigMapMode.isUnconsumed() {
-		v, _ := pc.importConfigMapMode.read()
-		return errors.Errorf("property %s: "+importConfigMapModeTag+": %s not consumed", pc.name, v)
-	}
-
-	return nil
 }
 
 // UnmarshalYAML populates our instance from the YAML.
@@ -190,7 +76,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// $nameInNextVersion: <string>
 		if strings.EqualFold(lastId, nameInNextVersionTag) && c.Kind == yaml.ScalarNode {
-			pc.nameInNextVersion.write(c.Value)
+			pc.NameInNextVersion.write(c.Value)
 			continue
 		}
 
@@ -202,7 +88,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding %s", isSecretTag)
 			}
 
-			pc.isSecret.write(isSecret)
+			pc.IsSecret.write(isSecret)
 			continue
 		}
 
@@ -214,7 +100,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding %s", resourceLifecycleOwnedByParentTag)
 			}
 
-			pc.resourceLifecycleOwnedByParent.write(resourceLifecycleOwnedByParent)
+			pc.ResourceLifecycleOwnedByParent.write(resourceLifecycleOwnedByParent)
 			continue
 		}
 
@@ -226,17 +112,17 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding %s", armReferenceTag)
 			}
 
-			pc.armReference.write(isARMRef)
+			pc.ARMReference.write(isARMRef)
 			continue
 		}
 
-		// $importConfigMapMode: <string>
+		// $ImportConfigMapMode: <string>
 		if strings.EqualFold(lastId, importConfigMapModeTag) && c.Kind == yaml.ScalarNode {
 			switch c.Value {
 			case ImportConfigMapModeOptional:
-				pc.importConfigMapMode.write(ImportConfigMapModeOptional)
+				pc.ImportConfigMapMode.write(ImportConfigMapModeOptional)
 			case ImportConfigMapModeRequired:
-				pc.importConfigMapMode.write(ImportConfigMapModeRequired)
+				pc.ImportConfigMapMode.write(ImportConfigMapModeRequired)
 			default:
 				return errors.Errorf("unknown %s value: %s.", importConfigMapModeTag, c.Value)
 			}
