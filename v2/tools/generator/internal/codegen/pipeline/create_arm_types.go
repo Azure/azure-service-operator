@@ -14,6 +14,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/armconversion"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
 )
 
@@ -22,18 +23,26 @@ const CreateARMTypesStageID = "createArmTypes"
 
 // CreateARMTypes walks the type graph and builds new types for communicating
 // with ARM
-func CreateARMTypes(idFactory astmodel.IdentifierFactory, log logr.Logger) *Stage {
+func CreateARMTypes(
+	configuration *config.ObjectModelConfiguration,
+	idFactory astmodel.IdentifierFactory,
+	log logr.Logger,
+) *Stage {
 	return NewStage(
 		CreateARMTypesStageID,
 		"Create types for interaction with ARM",
 		func(ctx context.Context, state *State) (*State, error) {
-			typeCreator := newARMTypeCreator(state.Definitions(), idFactory, log)
+			typeCreator := newARMTypeCreator(state.Definitions(), configuration, idFactory, log)
 			armTypes, err := typeCreator.createARMTypes()
 			if err != nil {
 				return nil, err
 			}
 
 			newDefs := astmodel.TypesDisjointUnion(armTypes, state.Definitions())
+
+			if err := configuration.VerifyPayloadTypeConsumed(); err != nil {
+				return nil, err
+			}
 
 			return state.WithDefinitions(newDefs), nil
 		})
@@ -47,29 +56,47 @@ func (s skipError) Error() string {
 
 var _ error = skipError{}
 
-type armPropertyTypeConversionHandler func(prop *astmodel.PropertyDefinition, isSpec bool) (*astmodel.PropertyDefinition, error)
+type armPropertyTypeConversionHandler func(
+	prop *astmodel.PropertyDefinition,
+	convContext *armPropertyTypeConversionContext,
+) (*astmodel.PropertyDefinition, error)
+
+type armPropertyTypeConversionContext struct {
+	isSpec      bool
+	payloadType config.PayloadType
+}
 
 type armTypeCreator struct {
-	definitions astmodel.TypeDefinitionSet
-	idFactory   astmodel.IdentifierFactory
-	newDefs     astmodel.TypeDefinitionSet
-	skipTypes   []func(it astmodel.TypeDefinition) bool
-	log         logr.Logger
+	definitions   astmodel.TypeDefinitionSet
+	idFactory     astmodel.IdentifierFactory
+	newDefs       astmodel.TypeDefinitionSet
+	skipTypes     []func(it astmodel.TypeDefinition) bool
+	log           logr.Logger
+	visitor       astmodel.TypeVisitor
+	configuration *config.ObjectModelConfiguration
 }
 
 func newARMTypeCreator(
 	definitions astmodel.TypeDefinitionSet,
+	configuration *config.ObjectModelConfiguration,
 	idFactory astmodel.IdentifierFactory,
 	log logr.Logger) *armTypeCreator {
-	return &armTypeCreator{
+	result := &armTypeCreator{
 		definitions: definitions,
 		idFactory:   idFactory,
 		newDefs:     make(astmodel.TypeDefinitionSet),
 		skipTypes: []func(it astmodel.TypeDefinition) bool{
 			skipUserAssignedIdentity,
 		},
-		log: log,
+		log:           log,
+		configuration: configuration,
 	}
+
+	result.visitor = astmodel.TypeVisitorBuilder{
+		VisitTypeName: result.visitARMTypeName,
+	}.Build()
+
+	return result
 }
 
 func (c *armTypeCreator) createARMTypes() (astmodel.TypeDefinitionSet, error) {
@@ -99,14 +126,17 @@ func (c *armTypeCreator) createARMTypes() (astmodel.TypeDefinitionSet, error) {
 		return ok
 	})
 
-	for _, def := range otherDefs {
+	for name, def := range otherDefs {
 		if !requiresARMType(def) {
 			continue
 		}
 
-		armDef, err := c.createARMTypeDefinition(
-			false, // not Spec type
-			def)
+		convContext, err := c.createConversionContext(name)
+		if err != nil {
+			return nil, err
+		}
+
+		armDef, err := c.createARMTypeDefinition(def, convContext)
 		if err != nil {
 			return nil, err
 		}
@@ -125,7 +155,12 @@ func (c *armTypeCreator) createARMResourceSpecDefinition(
 ) (astmodel.TypeDefinition, error) {
 	emptyDef := astmodel.TypeDefinition{}
 
-	armTypeDef, err := c.createARMTypeDefinition(true, resourceSpecDef)
+	convContext, err := c.createSpecConversionContext(resourceSpecDef.Name())
+	if err != nil {
+		return emptyDef, err
+	}
+
+	armTypeDef, err := c.createARMTypeDefinition(resourceSpecDef, convContext)
 	if err != nil {
 		return emptyDef, err
 	}
@@ -175,9 +210,12 @@ func removeFlattening(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
 	return removeFlattenFromObject(t), nil
 }
 
-func (c *armTypeCreator) createARMTypeDefinition(isSpecType bool, def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
+func (c *armTypeCreator) createARMTypeDefinition(
+	def astmodel.TypeDefinition,
+	convContext *armPropertyTypeConversionContext,
+) (astmodel.TypeDefinition, error) {
 	convertObjectPropertiesForARM := func(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
-		return c.convertObjectPropertiesForARM(t, isSpecType)
+		return c.convertObjectPropertiesForARM(t, convContext)
 	}
 
 	isOneOf := astmodel.OneOfFlag.IsOn(def.Type())
@@ -225,44 +263,14 @@ func (c *armTypeCreator) createARMTypeDefinition(isSpecType bool, def astmodel.T
 }
 
 func (c *armTypeCreator) createARMTypeIfNeeded(t astmodel.Type) (astmodel.Type, error) {
-	createArmTypeName := func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
-		// Allow json type to pass through.
-		if it == astmodel.JSONType {
-			return it, nil
-		}
-
-		def, ok := c.definitions[it]
-		if !ok {
-			return nil, errors.Errorf("failed to lookup %s", it)
-		}
-
-		if _, ok := def.Type().(*astmodel.ObjectType); ok {
-			return astmodel.CreateARMTypeName(def.Name()), nil
-		}
-
-		// We may or may not need to use an updated type name (i.e. if it's an aliased primitive type we can
-		// just keep using that alias)
-		updatedType, err := this.Visit(def.Type(), ctx)
-		if err != nil {
-			return nil, errors.Wrapf(err, "failed to update definition %s", def.Name())
-		}
-
-		if astmodel.TypeEquals(updatedType, def.Type()) {
-			return it, nil
-		}
-
-		return astmodel.CreateARMTypeName(def.Name()), nil
-	}
-
-	visitor := astmodel.TypeVisitorBuilder{
-		VisitTypeName: createArmTypeName,
-	}.Build()
-
-	return visitor.Visit(t, nil)
+	return c.visitor.Visit(t, nil)
 }
 
-func (c *armTypeCreator) createARMNameProperty(prop *astmodel.PropertyDefinition, isSpec bool) (*astmodel.PropertyDefinition, error) {
-	if isSpec && prop.HasName("Name") {
+func (c *armTypeCreator) createARMNameProperty(
+	prop *astmodel.PropertyDefinition,
+	convContext *armPropertyTypeConversionContext,
+) (*astmodel.PropertyDefinition, error) {
+	if convContext.isSpec && prop.HasName("Name") {
 		// all resource Spec Name properties must be strings on their way to ARM
 		// as nested resources will have the owner etc. added to the start:
 		return prop.WithType(astmodel.StringType), nil
@@ -271,7 +279,10 @@ func (c *armTypeCreator) createARMNameProperty(prop *astmodel.PropertyDefinition
 	return nil, nil
 }
 
-func (c *armTypeCreator) createUserAssignedIdentitiesProperty(prop *astmodel.PropertyDefinition, _ bool) (*astmodel.PropertyDefinition, error) {
+func (c *armTypeCreator) createUserAssignedIdentitiesProperty(
+	prop *astmodel.PropertyDefinition,
+	_ *armPropertyTypeConversionContext,
+) (*astmodel.PropertyDefinition, error) {
 	typeName, ok := astmodel.IsUserAssignedIdentityProperty(prop)
 	if !ok {
 		return nil, nil
@@ -302,7 +313,10 @@ func (c *armTypeCreator) createUserAssignedIdentitiesProperty(prop *astmodel.Pro
 	return newProp, nil
 }
 
-func (c *armTypeCreator) createResourceReferenceProperty(prop *astmodel.PropertyDefinition, _ bool) (*astmodel.PropertyDefinition, error) {
+func (c *armTypeCreator) createResourceReferenceProperty(
+	prop *astmodel.PropertyDefinition,
+	_ *armPropertyTypeConversionContext,
+) (*astmodel.PropertyDefinition, error) {
 	if !astmodel.IsTypeResourceReference(prop.PropertyType()) {
 		return nil, nil
 	}
@@ -335,7 +349,10 @@ func (c *armTypeCreator) createResourceReferenceProperty(prop *astmodel.Property
 	return newProp, nil
 }
 
-func (c *armTypeCreator) createSecretReferenceProperty(prop *astmodel.PropertyDefinition, _ bool) (*astmodel.PropertyDefinition, error) {
+func (c *armTypeCreator) createSecretReferenceProperty(
+	prop *astmodel.PropertyDefinition,
+	_ *armPropertyTypeConversionContext,
+) (*astmodel.PropertyDefinition, error) {
 	if !astmodel.TypeEquals(prop.PropertyType(), astmodel.SecretReferenceType) &&
 		!astmodel.TypeEquals(prop.PropertyType(), astmodel.OptionalSecretReferenceType) {
 		return nil, nil
@@ -353,7 +370,10 @@ func (c *armTypeCreator) createSecretReferenceProperty(prop *astmodel.PropertyDe
 	return prop.WithType(newType), nil
 }
 
-func (c *armTypeCreator) createConfigMapReferenceProperty(prop *astmodel.PropertyDefinition, _ bool) (*astmodel.PropertyDefinition, error) {
+func (c *armTypeCreator) createConfigMapReferenceProperty(
+	prop *astmodel.PropertyDefinition,
+	_ *armPropertyTypeConversionContext,
+) (*astmodel.PropertyDefinition, error) {
 	if !astmodel.TypeEquals(prop.PropertyType(), astmodel.ConfigMapReferenceType) &&
 		!astmodel.TypeEquals(prop.PropertyType(), astmodel.OptionalConfigMapReferenceType) {
 		return nil, nil
@@ -375,17 +395,48 @@ func (c *armTypeCreator) createConfigMapReferenceProperty(prop *astmodel.Propert
 	return prop.WithType(newType), nil
 }
 
-func (c *armTypeCreator) createARMProperty(prop *astmodel.PropertyDefinition, _ bool) (*astmodel.PropertyDefinition, error) {
+func (c *armTypeCreator) createARMProperty(
+	prop *astmodel.PropertyDefinition,
+	convContext *armPropertyTypeConversionContext,
+) (*astmodel.PropertyDefinition, error) {
 	newType, err := c.createARMTypeIfNeeded(prop.PropertyType())
 	if err != nil {
 		return nil, err
 	}
-	return prop.WithType(newType), nil
+
+	// Return a property with (potentially) a new type
+	result := prop.WithType(newType)
+
+	switch convContext.payloadType {
+	case config.OmitEmptyProperties:
+		// NOP
+
+	case config.ExplicitProperties:
+		// With PayloadType 'explicit' we remove the `omitempty` tag, because we always want to send *all* ARM properties
+		// to the server, even if they are empty.
+		// See https://github.com/Azure/azure-service-operator/issues/2914 for the problem we're solving here.
+		// See https://azure.github.io/azure-service-operator/design/adr-2023-04-patch-collections/ for how we're solving it.
+		result = result.WithoutTag("json", "omitempty")
+
+	case config.ExplicitCollections:
+		// With PayloadType 'explicitCollections' we remove the `omitempty` tag from arrays and maps, because we always
+		// want to explicitly send collections to the server, even if empty.
+		_, isMap := astmodel.AsMapType(newType)
+		_, isArray := astmodel.AsArrayType(newType)
+		if isMap || isArray {
+			result = result.WithoutTag("json", "omitempty")
+		}
+	}
+
+	return result, nil
 }
 
 // convertObjectPropertiesForARM returns the given object type with
 // any properties updated that need to be changed for ARM
-func (c *armTypeCreator) convertObjectPropertiesForARM(t *astmodel.ObjectType, isSpecType bool) (*astmodel.ObjectType, error) {
+func (c *armTypeCreator) convertObjectPropertiesForARM(
+	t *astmodel.ObjectType,
+	convContext *armPropertyTypeConversionContext,
+) (*astmodel.ObjectType, error) {
 	propertyHandlers := []armPropertyTypeConversionHandler{
 		c.createARMNameProperty,
 		c.createUserAssignedIdentitiesProperty,
@@ -399,7 +450,7 @@ func (c *armTypeCreator) convertObjectPropertiesForARM(t *astmodel.ObjectType, i
 	var errs []error
 	for _, prop := range t.Properties().Copy() {
 		for _, handler := range propertyHandlers {
-			newProp, err := handler(prop, isSpecType)
+			newProp, err := handler(prop, convContext)
 			if err != nil {
 				if errors.As(err, &skipError{}) {
 					break
@@ -424,7 +475,7 @@ func (c *armTypeCreator) convertObjectPropertiesForARM(t *astmodel.ObjectType, i
 	result = result.WithoutEmbeddedProperties() // Clear them out first, so we're starting with a clean slate
 	for _, prop := range t.EmbeddedProperties() {
 		for _, handler := range embeddedPropertyHandlers {
-			newProp, err := handler(prop, isSpecType)
+			newProp, err := handler(prop, convContext)
 			if err != nil {
 				errs = append(errs, err)
 				break // Stop calling handlers and proceed to the next property
@@ -443,6 +494,67 @@ func (c *armTypeCreator) convertObjectPropertiesForARM(t *astmodel.ObjectType, i
 
 	if len(errs) > 0 {
 		return nil, kerrors.NewAggregate(errs)
+	}
+
+	return result, nil
+}
+
+func (c *armTypeCreator) visitARMTypeName(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
+	// Allow json type to pass through.
+	if it == astmodel.JSONType {
+		return it, nil
+	}
+
+	// Look up the definition
+	def, err := c.definitions.GetDefinition(it)
+	if err != nil {
+		// Don't need to wrap, it already has everything we want in the error
+		return nil, err
+	}
+
+	// If the name references an object type, we need an updated name, create it and return
+	if _, ok := astmodel.AsObjectType(def.Type()); ok {
+		return astmodel.CreateARMTypeName(def.Name()), nil
+	}
+
+	// We may or may not need to use an updated type name (i.e. if it's an aliased primitive type we can
+	// just keep using that alias)
+	updatedType, err := this.Visit(def.Type(), ctx)
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to update definition %s", def.Name())
+	}
+
+	if astmodel.TypeEquals(updatedType, def.Type()) {
+		return it, nil
+	}
+
+	return astmodel.CreateARMTypeName(def.Name()), nil
+}
+
+func (c *armTypeCreator) createSpecConversionContext(name astmodel.TypeName) (*armPropertyTypeConversionContext, error) {
+	result, err := c.createConversionContext(name)
+	if err != nil {
+		return nil, err
+	}
+
+	result.isSpec = true
+	return result, nil
+}
+
+func (c *armTypeCreator) createConversionContext(name astmodel.TypeName) (*armPropertyTypeConversionContext, error) {
+	payloadType, err := c.configuration.LookupPayloadType(name)
+	if err != nil {
+		if config.IsNotConfiguredError(err) {
+			// Default to 'omitempty' if not configured
+			payloadType = config.OmitEmptyProperties
+		} else {
+			// otherwise we return an error
+			return nil, errors.Wrapf(err, "looking up payload type for %q", name)
+		}
+	}
+
+	result := &armPropertyTypeConversionContext{
+		payloadType: payloadType,
 	}
 
 	return result, nil

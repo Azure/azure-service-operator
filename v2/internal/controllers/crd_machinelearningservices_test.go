@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201"
-	"github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"
+	keyvault "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"
 	machinelearningservices "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701"
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
@@ -79,7 +79,7 @@ func Workspaces_WriteSecrets(tc *testcommon.KubePerTestContext, workspace *machi
 		"userStorageKey")
 }
 
-func newWorkspace(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, sa *storage.StorageAccount, kv *v1api20210401preview.Vault, location *string) *machinelearningservices.Workspace {
+func newWorkspace(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, sa *storage.StorageAccount, kv *keyvault.Vault, location *string) *machinelearningservices.Workspace {
 	identityType := machinelearningservices.Identity_Type_SystemAssigned
 
 	workspaces := &machinelearningservices.Workspace{

@@ -20,7 +20,7 @@ type StorageAccounts_TableServices_Table_STATUS_ARM struct {
 
 type TableProperties_STATUS_ARM struct {
 	// SignedIdentifiers: List of stored access policies specified on the table.
-	SignedIdentifiers []TableSignedIdentifier_STATUS_ARM `json:"signedIdentifiers,omitempty"`
+	SignedIdentifiers []TableSignedIdentifier_STATUS_ARM `json:"signedIdentifiers"`
 
 	// TableName: Table name under the specified account
 	TableName *string `json:"tableName,omitempty"`

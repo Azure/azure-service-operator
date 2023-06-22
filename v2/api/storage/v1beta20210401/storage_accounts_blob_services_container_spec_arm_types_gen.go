@@ -33,7 +33,7 @@ type ContainerProperties_ARM struct {
 	DefaultEncryptionScope         *string                             `json:"defaultEncryptionScope,omitempty"`
 	DenyEncryptionScopeOverride    *bool                               `json:"denyEncryptionScopeOverride,omitempty"`
 	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_ARM `json:"immutableStorageWithVersioning,omitempty"`
-	Metadata                       map[string]string                   `json:"metadata,omitempty"`
+	Metadata                       map[string]string                   `json:"metadata"`
 	PublicAccess                   *ContainerProperties_PublicAccess   `json:"publicAccess,omitempty"`
 }
 

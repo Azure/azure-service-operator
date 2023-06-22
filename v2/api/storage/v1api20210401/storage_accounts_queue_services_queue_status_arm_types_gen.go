@@ -24,5 +24,5 @@ type QueueProperties_STATUS_ARM struct {
 	ApproximateMessageCount *int `json:"approximateMessageCount,omitempty"`
 
 	// Metadata: A name-value pair that represents queue metadata.
-	Metadata map[string]string `json:"metadata,omitempty"`
+	Metadata map[string]string `json:"metadata"`
 }

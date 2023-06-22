@@ -49,7 +49,7 @@ type ChangeFeed_ARM struct {
 
 // Deprecated version of CorsRules. Use v1api20210401.CorsRules instead
 type CorsRules_ARM struct {
-	CorsRules []CorsRule_ARM `json:"corsRules,omitempty"`
+	CorsRules []CorsRule_ARM `json:"corsRules"`
 }
 
 // Deprecated version of DeleteRetentionPolicy. Use v1api20210401.DeleteRetentionPolicy instead
@@ -60,7 +60,7 @@ type DeleteRetentionPolicy_ARM struct {
 
 // Deprecated version of LastAccessTimeTrackingPolicy. Use v1api20210401.LastAccessTimeTrackingPolicy instead
 type LastAccessTimeTrackingPolicy_ARM struct {
-	BlobType                  []string                           `json:"blobType,omitempty"`
+	BlobType                  []string                           `json:"blobType"`
 	Enable                    *bool                              `json:"enable,omitempty"`
 	Name                      *LastAccessTimeTrackingPolicy_Name `json:"name,omitempty"`
 	TrackingGranularityInDays *int                               `json:"trackingGranularityInDays,omitempty"`
@@ -74,9 +74,9 @@ type RestorePolicyProperties_ARM struct {
 
 // Deprecated version of CorsRule. Use v1api20210401.CorsRule instead
 type CorsRule_ARM struct {
-	AllowedHeaders  []string                  `json:"allowedHeaders,omitempty"`
-	AllowedMethods  []CorsRule_AllowedMethods `json:"allowedMethods,omitempty"`
-	AllowedOrigins  []string                  `json:"allowedOrigins,omitempty"`
-	ExposedHeaders  []string                  `json:"exposedHeaders,omitempty"`
+	AllowedHeaders  []string                  `json:"allowedHeaders"`
+	AllowedMethods  []CorsRule_AllowedMethods `json:"allowedMethods"`
+	AllowedOrigins  []string                  `json:"allowedOrigins"`
+	ExposedHeaders  []string                  `json:"exposedHeaders"`
 	MaxAgeInSeconds *int                      `json:"maxAgeInSeconds,omitempty"`
 }
