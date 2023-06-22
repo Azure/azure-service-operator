@@ -6,6 +6,7 @@
 package importing
 
 import (
+	"errors"
 	"sync"
 
 	"github.com/go-logr/logr"
@@ -124,11 +125,28 @@ func (k *resourceImportReportKey) lessThan(other resourceImportReportKey) bool {
 }
 
 func (k *resourceImportReportKey) WriteToLog(log logr.Logger, count int) {
-	log.Info(
-		"Summary",
-		"Group", k.group,
-		"Kind", k.kind,
-		"Status", k.status,
-		"Count", count,
-		"Reason", k.reason)
+	switch k.status {
+	case Imported:
+		log.Info(
+			"Successful imports",
+			"Group", k.group,
+			"Kind", k.kind,
+
+			"Count", count,
+			"Reason", k.reason)
+	case Skipped:
+		log.V(1).Info(
+			"Skipped imports",
+			"Group", k.group,
+			"Kind", k.kind,
+			"Count", count,
+			"Reason", k.reason)
+	case Failed:
+		log.Error(
+			errors.New(k.reason),
+			"Failed imports",
+			"Group", k.group,
+			"Kind", k.kind,
+			"Count", count)
+	}
 }
