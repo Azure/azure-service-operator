@@ -539,8 +539,8 @@ status:
 #
 #     Valid values are:
 #     omitempty - only non-empty properties are included (default)
-#     collection - always include collections, even if empty; other properties only if specified.
-#     explicit - always include all properties, even the empty ones.
+#     explicitCollections - always include collections, even if empty; other properties only if specified.
+#     explicitProperties - always include all properties, even the empty ones.
 #
 # ==================
 #   Type modifiers
@@ -1738,7 +1738,7 @@ objectModelConfiguration:
 #        $exportAs: ServersDatabasesWorkloadGroupsWorkloadClassifier
 #        $supportedFrom: v2.0.0
   storage:
-    $payloadType: collections
+    $payloadType: explicitCollections
     2021-04-01:
       EncryptionIdentity:
         UserAssignedIdentity:
