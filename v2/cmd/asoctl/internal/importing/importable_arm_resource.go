@@ -492,7 +492,7 @@ func (i *importableARMResource) SetName(
 	specField := reflect.ValueOf(importable.GetSpec()).Elem()
 	azureNameField := specField.FieldByName("AzureName")
 	if azureNameField.IsValid() {
-	azureNameField.SetString(name)
+		azureNameField.SetString(name)
 	}
 }
 
