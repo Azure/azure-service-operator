@@ -352,14 +352,21 @@ func (*importableARMResource) classifyError(err error) (string, bool) {
 func (i *importableARMResource) createImportableObjectFromID(
 	owner *genruntime.ResourceReference,
 	armID *arm.ResourceID,
-) (genruntime.ImportableARMResource, error) {
-	gvk, err := i.groupVersionKindFromID(armID)
-	if err != nil {
+) (resource genruntime.ImportableARMResource, err error) {
+	defer func() {
+		if r := recover(); r != nil {
+			resource = nil
+			err = errors.Errorf("creating importable object for %s: %s", armID.String(), r)
+		}
+	}()
+
+	gvk, gvkErr := i.groupVersionKindFromID(armID)
+	if gvkErr != nil {
 		return nil, errors.Wrap(err, "unable to determine GVK of resource")
 	}
 
-	obj, err := i.createBlankObjectFromGVK(gvk)
-	if err != nil {
+	obj, objErr := i.createBlankObjectFromGVK(gvk)
+	if objErr != nil {
 		return nil, errors.Wrap(err, "unable to create blank resource")
 	}
 
@@ -477,11 +484,16 @@ func (i *importableARMResource) SetName(
 
 	importable.SetName(n)
 
-	// AzureName needs to be exactly as specified in the ARM URL
-	// Need to use reflection to set it
+	// AzureName needs to be exactly as specified in the ARM URL.
+	// Use reflection to set it as we don't have convenient access.
+	// Not all resources have the AzureName property - some resources
+	// have hard coded names that ASO handles directly
+	// (e.g. Microsoft.Storage/storageAccounts/tableServices always has the name 'default')
 	specField := reflect.ValueOf(importable.GetSpec()).Elem()
 	azureNameField := specField.FieldByName("AzureName")
-	azureNameField.SetString(name)
+	if azureNameField.IsValid() {
+		azureNameField.SetString(name)
+	}
 }
 
 func (i *importableARMResource) SetOwner(
