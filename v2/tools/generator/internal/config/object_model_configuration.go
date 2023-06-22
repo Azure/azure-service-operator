@@ -560,6 +560,32 @@ func (omc *ObjectModelConfiguration) FindHandCraftedTypeNames(localPath string) 
 	return result, nil
 }
 
+// LookupPayloadType checks to see whether a specified type has a configured payload type
+func (omc *ObjectModelConfiguration) LookupPayloadType(name astmodel.TypeName) (PayloadType, error) {
+	var payloadType PayloadType
+	visitor := newSingleGroupConfigurationVisitor(
+		name.PackageReference,
+		func(configuration *GroupConfiguration) error {
+			pt, err := configuration.LookupPayloadType()
+			payloadType = pt
+			return err
+		})
+	err := visitor.Visit(omc)
+	if err != nil {
+		return "", err
+	}
+
+	return payloadType, nil
+}
+
+func (omc *ObjectModelConfiguration) VerifyPayloadTypeConsumed() error {
+	visitor := newEveryGroupConfigurationVisitor(
+		func(configuration *GroupConfiguration) error {
+			return configuration.VerifyPayloadTypeConsumed()
+		})
+	return visitor.Visit(omc)
+}
+
 // addGroup includes the provided GroupConfiguration in this model configuration
 func (omc *ObjectModelConfiguration) addGroup(name string, group *GroupConfiguration) {
 	if omc.groups == nil {

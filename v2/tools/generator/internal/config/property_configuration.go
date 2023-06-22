@@ -232,7 +232,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// $importConfigMapMode: <string>
 		if strings.EqualFold(lastId, importConfigMapModeTag) && c.Kind == yaml.ScalarNode {
-			switch c.Value {
+			switch strings.ToLower(c.Value) {
 			case ImportConfigMapModeOptional:
 				pc.importConfigMapMode.write(ImportConfigMapModeOptional)
 			case ImportConfigMapModeRequired:
@@ -240,6 +240,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			default:
 				return errors.Errorf("unknown %s value: %s.", importConfigMapModeTag, c.Value)
 			}
+
 			continue
 		}
 

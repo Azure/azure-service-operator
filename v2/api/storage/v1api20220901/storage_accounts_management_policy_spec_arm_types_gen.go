@@ -41,7 +41,7 @@ type ManagementPolicyProperties_ARM struct {
 type ManagementPolicySchema_ARM struct {
 	// Rules: The Storage Account ManagementPolicies Rules. See more details in:
 	// https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
-	Rules []ManagementPolicyRule_ARM `json:"rules,omitempty"`
+	Rules []ManagementPolicyRule_ARM `json:"rules"`
 }
 
 // An object that wraps the Lifecycle rule. Each rule is uniquely defined by name.
@@ -85,14 +85,14 @@ type ManagementPolicyAction_ARM struct {
 // AND is performed on all filters.
 type ManagementPolicyFilter_ARM struct {
 	// BlobIndexMatch: An array of blob index tag based filters, there can be at most 10 tag filters
-	BlobIndexMatch []TagFilter_ARM `json:"blobIndexMatch,omitempty"`
+	BlobIndexMatch []TagFilter_ARM `json:"blobIndexMatch"`
 
 	// BlobTypes: An array of predefined enum values. Currently blockBlob supports all tiering and delete actions. Only delete
 	// actions are supported for appendBlob.
-	BlobTypes []string `json:"blobTypes,omitempty"`
+	BlobTypes []string `json:"blobTypes"`
 
 	// PrefixMatch: An array of strings for prefixes to be match.
-	PrefixMatch []string `json:"prefixMatch,omitempty"`
+	PrefixMatch []string `json:"prefixMatch"`
 }
 
 // Management policy action for base blob.

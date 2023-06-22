@@ -27,7 +27,7 @@ type ContainerProperties_STATUS_ARM struct {
 	LeaseState                     *ContainerProperties_LeaseState_STATUS     `json:"leaseState,omitempty"`
 	LeaseStatus                    *ContainerProperties_LeaseStatus_STATUS    `json:"leaseStatus,omitempty"`
 	LegalHold                      *LegalHoldProperties_STATUS_ARM            `json:"legalHold,omitempty"`
-	Metadata                       map[string]string                          `json:"metadata,omitempty"`
+	Metadata                       map[string]string                          `json:"metadata"`
 	PublicAccess                   *ContainerProperties_PublicAccess_STATUS   `json:"publicAccess,omitempty"`
 	RemainingRetentionDays         *int                                       `json:"remainingRetentionDays,omitempty"`
 	Version                        *string                                    `json:"version,omitempty"`
@@ -37,7 +37,7 @@ type ContainerProperties_STATUS_ARM struct {
 type ImmutabilityPolicyProperties_STATUS_ARM struct {
 	Etag          *string                                `json:"etag,omitempty"`
 	Properties    *ImmutabilityPolicyProperty_STATUS_ARM `json:"properties,omitempty"`
-	UpdateHistory []UpdateHistoryProperty_STATUS_ARM     `json:"updateHistory,omitempty"`
+	UpdateHistory []UpdateHistoryProperty_STATUS_ARM     `json:"updateHistory"`
 }
 
 // Deprecated version of ImmutableStorageWithVersioning_STATUS. Use v1api20210401.ImmutableStorageWithVersioning_STATUS instead
@@ -50,7 +50,7 @@ type ImmutableStorageWithVersioning_STATUS_ARM struct {
 // Deprecated version of LegalHoldProperties_STATUS. Use v1api20210401.LegalHoldProperties_STATUS instead
 type LegalHoldProperties_STATUS_ARM struct {
 	HasLegalHold *bool                    `json:"hasLegalHold,omitempty"`
-	Tags         []TagProperty_STATUS_ARM `json:"tags,omitempty"`
+	Tags         []TagProperty_STATUS_ARM `json:"tags"`
 }
 
 // Deprecated version of ImmutabilityPolicyProperty_STATUS. Use v1api20210401.ImmutabilityPolicyProperty_STATUS instead

@@ -31,7 +31,7 @@ type StorageAccount_STATUS_ARM struct {
 	Sku *Sku_STATUS_ARM `json:"sku,omitempty"`
 
 	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags map[string]string `json:"tags"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
@@ -60,7 +60,7 @@ type Identity_STATUS_ARM struct {
 	// UserAssignedIdentities: Gets or sets a list of key value pairs that describe the set of User Assigned identities that
 	// will be used with this storage account. The key is the ARM resource identifier of the identity. Only 1 User Assigned
 	// identity is permitted here.
-	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS_ARM `json:"userAssignedIdentities"`
 }
 
 // The SKU of the storage account.
@@ -157,7 +157,7 @@ type StorageAccountProperties_STATUS_ARM struct {
 	PrimaryLocation *string `json:"primaryLocation,omitempty"`
 
 	// PrivateEndpointConnections: List of private endpoint connection associated with the specified storage account
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_ARM `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_ARM `json:"privateEndpointConnections"`
 
 	// ProvisioningState: Gets the status of the storage account at the time the operation was called.
 	ProvisioningState *StorageAccountProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
@@ -327,13 +327,13 @@ type NetworkRuleSet_STATUS_ARM struct {
 	DefaultAction *NetworkRuleSet_DefaultAction_STATUS `json:"defaultAction,omitempty"`
 
 	// IpRules: Sets the IP ACL rules
-	IpRules []IPRule_STATUS_ARM `json:"ipRules,omitempty"`
+	IpRules []IPRule_STATUS_ARM `json:"ipRules"`
 
 	// ResourceAccessRules: Sets the resource access rules
-	ResourceAccessRules []ResourceAccessRule_STATUS_ARM `json:"resourceAccessRules,omitempty"`
+	ResourceAccessRules []ResourceAccessRule_STATUS_ARM `json:"resourceAccessRules"`
 
 	// VirtualNetworkRules: Sets the virtual network rules
-	VirtualNetworkRules []VirtualNetworkRule_STATUS_ARM `json:"virtualNetworkRules,omitempty"`
+	VirtualNetworkRules []VirtualNetworkRule_STATUS_ARM `json:"virtualNetworkRules"`
 }
 
 // The Private Endpoint Connection resource.
@@ -421,7 +421,7 @@ type ActiveDirectoryProperties_STATUS_ARM struct {
 // Blob restore parameters
 type BlobRestoreParameters_STATUS_ARM struct {
 	// BlobRanges: Blob ranges to restore.
-	BlobRanges []BlobRestoreRange_STATUS_ARM `json:"blobRanges,omitempty"`
+	BlobRanges []BlobRestoreRange_STATUS_ARM `json:"blobRanges"`
 
 	// TimeToRestore: Restore blob to the specified time.
 	TimeToRestore *string `json:"timeToRestore,omitempty"`

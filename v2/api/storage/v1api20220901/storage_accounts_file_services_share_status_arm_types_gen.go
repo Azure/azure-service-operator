@@ -56,7 +56,7 @@ type FileShareProperties_STATUS_ARM struct {
 	LeaseStatus *FileShareProperties_LeaseStatus_STATUS `json:"leaseStatus,omitempty"`
 
 	// Metadata: A name-value pair to associate with the share as metadata.
-	Metadata map[string]string `json:"metadata,omitempty"`
+	Metadata map[string]string `json:"metadata"`
 
 	// RemainingRetentionDays: Remaining retention days for share that was soft deleted.
 	RemainingRetentionDays *int `json:"remainingRetentionDays,omitempty"`
@@ -73,7 +73,7 @@ type FileShareProperties_STATUS_ARM struct {
 	ShareUsageBytes *int `json:"shareUsageBytes,omitempty"`
 
 	// SignedIdentifiers: List of stored access policies specified on the share.
-	SignedIdentifiers []SignedIdentifier_STATUS_ARM `json:"signedIdentifiers,omitempty"`
+	SignedIdentifiers []SignedIdentifier_STATUS_ARM `json:"signedIdentifiers"`
 
 	// SnapshotTime: Creation time of share snapshot returned in the response of list shares with expand param "snapshots".
 	SnapshotTime *string `json:"snapshotTime,omitempty"`
