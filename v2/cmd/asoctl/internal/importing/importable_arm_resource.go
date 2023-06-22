@@ -352,14 +352,21 @@ func (*importableARMResource) classifyError(err error) (string, bool) {
 func (i *importableARMResource) createImportableObjectFromID(
 	owner *genruntime.ResourceReference,
 	armID *arm.ResourceID,
-) (resource genruntime.ImportableARMResource, failure error) {
-	gvk, err := i.groupVersionKindFromID(armID)
-	if err != nil {
+) (resource genruntime.ImportableARMResource, err error) {
+	defer func() {
+		if r := recover(); r != nil {
+			resource = nil
+			err = errors.Errorf("creating importable object for %s: %s", armID.String(), r)
+		}
+	}()
+
+	gvk, gvkErr := i.groupVersionKindFromID(armID)
+	if gvkErr != nil {
 		return nil, errors.Wrap(err, "unable to determine GVK of resource")
 	}
 
-	obj, err := i.createBlankObjectFromGVK(gvk)
-	if err != nil {
+	obj, objErr := i.createBlankObjectFromGVK(gvk)
+	if objErr != nil {
 		return nil, errors.Wrap(err, "unable to create blank resource")
 	}
 
@@ -368,13 +375,6 @@ func (i *importableARMResource) createImportableObjectFromID(
 		return nil, errors.Errorf(
 			"unable to create blank resource, expected %s to identify an importable ARM object", armID)
 	}
-
-	defer func() {
-		if err := recover(); err != nil {
-			resource = nil
-			failure = errors.Errorf("Internal error: %s", err)
-		}
-	}()
 
 	if owner != nil {
 		i.SetOwner(importable, *owner)

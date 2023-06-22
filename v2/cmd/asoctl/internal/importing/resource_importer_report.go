@@ -131,9 +131,7 @@ func (k *resourceImportReportKey) WriteToLog(log logr.Logger, count int) {
 			"Successful imports",
 			"Group", k.group,
 			"Kind", k.kind,
-
-			"Count", count,
-			"Reason", k.reason)
+			"Count", count)
 	case Skipped:
 		log.V(1).Info(
 			"Skipped imports",
