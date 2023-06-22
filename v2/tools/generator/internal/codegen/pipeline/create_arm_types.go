@@ -8,14 +8,13 @@ package pipeline
 import (
 	"context"
 
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
-
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/armconversion"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
 )
 
@@ -408,21 +407,25 @@ func (c *armTypeCreator) createARMProperty(
 	// Return a property with (potentially) a new type
 	result := prop.WithType(newType)
 
-	removeOmitEmpty := false
-	if convContext.payloadType == config.PayloadTypeExplicit {
+	switch convContext.payloadType {
+	case config.OmitEmptyProperties:
+		// NOP
+
+	case config.ExplicitProperties:
 		// With PayloadType 'explicit' we remove the `omitempty` tag, because we always want to send *all* ARM properties
 		// to the server, even if they are empty.
 		// See https://github.com/Azure/azure-service-operator/issues/2914 for the problem we're solving here.
 		// See https://azure.github.io/azure-service-operator/design/adr-2023-04-patch-collections/ for how we're solving it.
-		removeOmitEmpty = true
-	} else if convContext.payloadType == config.PayloadTypeCollections {
+		result = result.WithoutTag("json", "omitempty")
+
+	case config.ExplicitCollections:
+		// With PayloadType 'explicitCollections' we remove the `omitempty` tag from arrays and maps, because we always
+		// want to explicitly send collections to the server, even if empty.
 		_, isMap := astmodel.AsMapType(newType)
 		_, isArray := astmodel.AsArrayType(newType)
-		removeOmitEmpty = isMap || isArray
-	}
-
-	if removeOmitEmpty {
-		result = result.WithoutTag("json", "omitempty")
+		if isMap || isArray {
+			result = result.WithoutTag("json", "omitempty")
+		}
 	}
 
 	return result, nil
@@ -503,9 +506,10 @@ func (c *armTypeCreator) visitARMTypeName(this *astmodel.TypeVisitor, it astmode
 	}
 
 	// Look up the definition
-	def, ok := c.definitions[it]
-	if !ok {
-		return nil, errors.Errorf("failed to lookup %s", it)
+	def, err := c.definitions.GetDefinition(it)
+	if err != nil {
+		// Don't need to wrap, it already has everything we want in the error
+		return nil, err
 	}
 
 	// If the name references an object type, we need an updated name, create it and return
@@ -542,7 +546,7 @@ func (c *armTypeCreator) createConversionContext(name astmodel.TypeName) (*armPr
 	if err != nil {
 		if config.IsNotConfiguredError(err) {
 			// Default to 'omitempty' if not configured
-			payloadType = config.PayloadTypeOmitEmpty
+			payloadType = config.OmitEmptyProperties
 		} else {
 			// otherwise we return an error
 			return nil, errors.Wrapf(err, "looking up payload type for %q", name)

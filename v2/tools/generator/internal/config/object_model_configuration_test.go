@@ -569,14 +569,14 @@ func TestObjectModelConfiguration_LookupPayloadType_WhenConfigured_ReturnsExpect
 		omc.ModifyGroup(
 			name.PackageReference,
 			func(gc *GroupConfiguration) error {
-				gc.payloadType.write(PayloadTypeExplicit)
+				gc.payloadType.write(ExplicitProperties)
 				return nil
 			})).
 		To(Succeed())
 
 	payloadType, err := omc.LookupPayloadType(name)
 	g.Expect(err).To(Succeed())
-	g.Expect(payloadType).To(Equal(PayloadTypeExplicit))
+	g.Expect(payloadType).To(Equal(ExplicitProperties))
 }
 
 func TestObjectModelConfiguration_LookupPayloadType_WhenUnconfigured_ReturnsExpectedResult(t *testing.T) {
@@ -608,7 +608,7 @@ func TestObjectModelConfiguration_VerifyPayloadTypeConsumed_WhenConsumed_Returns
 		omc.ModifyGroup(
 			name.PackageReference,
 			func(gc *GroupConfiguration) error {
-				gc.payloadType.write(PayloadTypeOmitEmpty)
+				gc.payloadType.write(OmitEmptyProperties)
 				return nil
 			})).
 		To(Succeed())
@@ -630,7 +630,7 @@ func TestObjectModelConfiguration_VerifyPayloadTypeConsumed_WhenUnconsumed_Retur
 		omc.ModifyGroup(
 			name.PackageReference,
 			func(gc *GroupConfiguration) error {
-				gc.payloadType.write(PayloadTypeExplicit)
+				gc.payloadType.write(ExplicitProperties)
 				return nil
 			})).
 		To(Succeed())

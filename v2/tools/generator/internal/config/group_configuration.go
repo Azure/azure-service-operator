@@ -37,9 +37,9 @@ type GroupConfiguration struct {
 type PayloadType string
 
 const (
-	PayloadTypeOmitEmpty   PayloadType = "omitempty"   // Omit empty properties, including collections
-	PayloadTypeCollections PayloadType = "collections" // Omit empty properties, but include collections
-	PayloadTypeExplicit    PayloadType = "explicit"    // Expclitly include all properties
+	OmitEmptyProperties PayloadType = "omitempty"           // Omit all empty properties even collections
+	ExplicitCollections PayloadType = "explicitcollections" // Always include collections, omit other empty properties
+	ExplicitProperties  PayloadType = "explicitproperties"  // Always include all properties
 )
 
 const (
@@ -206,12 +206,12 @@ func (gc *GroupConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		// $payloadType: <string>
 		if strings.EqualFold(lastId, payloadTypeTag) && c.Kind == yaml.ScalarNode {
 			switch strings.ToLower(c.Value) {
-			case string(PayloadTypeOmitEmpty):
-				gc.payloadType.write(PayloadTypeOmitEmpty)
-			case string(PayloadTypeCollections):
-				gc.payloadType.write(PayloadTypeCollections)
-			case string(PayloadTypeExplicit):
-				gc.payloadType.write(PayloadTypeExplicit)
+			case string(OmitEmptyProperties):
+				gc.payloadType.write(OmitEmptyProperties)
+			case string(ExplicitCollections):
+				gc.payloadType.write(ExplicitCollections)
+			case string(ExplicitProperties):
+				gc.payloadType.write(ExplicitProperties)
 			default:
 				return errors.Errorf("unknown %s value: %s.", payloadTypeTag, c.Value)
 			}
