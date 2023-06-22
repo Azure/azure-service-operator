@@ -484,11 +484,16 @@ func (i *importableARMResource) SetName(
 
 	importable.SetName(n)
 
-	// AzureName needs to be exactly as specified in the ARM URL
-	// Need to use reflection to set it
+	// AzureName needs to be exactly as specified in the ARM URL.
+	// Use reflection to set it as we don't have convenient access.
+	// Not all resources have the AzureName property - some resources
+	// have hard coded names that ASO handles directly
+	// (e.g. Microsoft.Storage/storageAccounts/tableServices always has the name 'default')
 	specField := reflect.ValueOf(importable.GetSpec()).Elem()
 	azureNameField := specField.FieldByName("AzureName")
+	if azureNameField.IsValid() {
 	azureNameField.SetString(name)
+	}
 }
 
 func (i *importableARMResource) SetOwner(
