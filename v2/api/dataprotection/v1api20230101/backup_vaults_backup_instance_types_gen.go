@@ -346,9 +346,6 @@ type BackupVaults_BackupInstance_Spec struct {
 	// Properties: BackupInstanceResource properties
 	Properties *BackupInstance `json:"properties,omitempty"`
 
-	// SystemData: Metadata pertaining to creation and last modification of the resource.
-	SystemData *SystemData `json:"systemData,omitempty"`
-
 	// Tags: Proxy Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
@@ -373,16 +370,6 @@ func (instance *BackupVaults_BackupInstance_Spec) ConvertToARM(resolved genrunti
 		}
 		properties := *properties_ARM.(*BackupInstance_ARM)
 		result.Properties = &properties
-	}
-
-	// Set property ‘SystemData’:
-	if instance.SystemData != nil {
-		systemData_ARM, err := (*instance.SystemData).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		systemData := *systemData_ARM.(*SystemData_ARM)
-		result.SystemData = &systemData
 	}
 
 	// Set property ‘Tags’:
@@ -422,17 +409,6 @@ func (instance *BackupVaults_BackupInstance_Spec) PopulateFromARM(owner genrunti
 		}
 		properties := properties1
 		instance.Properties = &properties
-	}
-
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		instance.SystemData = &systemData
 	}
 
 	// Set property ‘Tags’:
@@ -523,18 +499,6 @@ func (instance *BackupVaults_BackupInstance_Spec) AssignProperties_From_BackupVa
 		instance.Properties = nil
 	}
 
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignProperties_From_SystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData() to populate field SystemData")
-		}
-		instance.SystemData = &systemDatum
-	} else {
-		instance.SystemData = nil
-	}
-
 	// Tags
 	instance.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -573,18 +537,6 @@ func (instance *BackupVaults_BackupInstance_Spec) AssignProperties_To_BackupVaul
 		destination.Properties = nil
 	}
 
-	// SystemData
-	if instance.SystemData != nil {
-		var systemDatum v1api20230101s.SystemData
-		err := instance.SystemData.AssignProperties_To_SystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(instance.Tags)
 
@@ -612,18 +564,6 @@ func (instance *BackupVaults_BackupInstance_Spec) Initialize_From_BackupVaults_B
 		instance.Properties = &property
 	} else {
 		instance.Properties = nil
-	}
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.Initialize_From_SystemData_STATUS(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SystemData_STATUS() to populate field SystemData")
-		}
-		instance.SystemData = &systemDatum
-	} else {
-		instance.SystemData = nil
 	}
 
 	// Tags
@@ -1635,240 +1575,6 @@ func (instance *BackupInstance_STATUS) AssignProperties_To_BackupInstance_STATUS
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Metadata pertaining to creation and last modification of the resource.
-type SystemData struct {
-	// CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &SystemData{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (data *SystemData) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if data == nil {
-		return nil, nil
-	}
-	result := &SystemData_ARM{}
-
-	// Set property ‘CreatedAt’:
-	if data.CreatedAt != nil {
-		createdAt := *data.CreatedAt
-		result.CreatedAt = &createdAt
-	}
-
-	// Set property ‘CreatedBy’:
-	if data.CreatedBy != nil {
-		createdBy := *data.CreatedBy
-		result.CreatedBy = &createdBy
-	}
-
-	// Set property ‘CreatedByType’:
-	if data.CreatedByType != nil {
-		createdByType := *data.CreatedByType
-		result.CreatedByType = &createdByType
-	}
-
-	// Set property ‘LastModifiedAt’:
-	if data.LastModifiedAt != nil {
-		lastModifiedAt := *data.LastModifiedAt
-		result.LastModifiedAt = &lastModifiedAt
-	}
-
-	// Set property ‘LastModifiedBy’:
-	if data.LastModifiedBy != nil {
-		lastModifiedBy := *data.LastModifiedBy
-		result.LastModifiedBy = &lastModifiedBy
-	}
-
-	// Set property ‘LastModifiedByType’:
-	if data.LastModifiedByType != nil {
-		lastModifiedByType := *data.LastModifiedByType
-		result.LastModifiedByType = &lastModifiedByType
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (data *SystemData) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SystemData_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (data *SystemData) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SystemData_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_ARM, got %T", armInput)
-	}
-
-	// Set property ‘CreatedAt’:
-	if typedInput.CreatedAt != nil {
-		createdAt := *typedInput.CreatedAt
-		data.CreatedAt = &createdAt
-	}
-
-	// Set property ‘CreatedBy’:
-	if typedInput.CreatedBy != nil {
-		createdBy := *typedInput.CreatedBy
-		data.CreatedBy = &createdBy
-	}
-
-	// Set property ‘CreatedByType’:
-	if typedInput.CreatedByType != nil {
-		createdByType := *typedInput.CreatedByType
-		data.CreatedByType = &createdByType
-	}
-
-	// Set property ‘LastModifiedAt’:
-	if typedInput.LastModifiedAt != nil {
-		lastModifiedAt := *typedInput.LastModifiedAt
-		data.LastModifiedAt = &lastModifiedAt
-	}
-
-	// Set property ‘LastModifiedBy’:
-	if typedInput.LastModifiedBy != nil {
-		lastModifiedBy := *typedInput.LastModifiedBy
-		data.LastModifiedBy = &lastModifiedBy
-	}
-
-	// Set property ‘LastModifiedByType’:
-	if typedInput.LastModifiedByType != nil {
-		lastModifiedByType := *typedInput.LastModifiedByType
-		data.LastModifiedByType = &lastModifiedByType
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_SystemData populates our SystemData from the provided source SystemData
-func (data *SystemData) AssignProperties_From_SystemData(source *v1api20230101s.SystemData) error {
-
-	// CreatedAt
-	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
-
-	// CreatedBy
-	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
-
-	// CreatedByType
-	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType(*source.CreatedByType)
-		data.CreatedByType = &createdByType
-	} else {
-		data.CreatedByType = nil
-	}
-
-	// LastModifiedAt
-	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
-
-	// LastModifiedBy
-	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
-
-	// LastModifiedByType
-	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
-	} else {
-		data.LastModifiedByType = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_SystemData populates the provided destination SystemData from our SystemData
-func (data *SystemData) AssignProperties_To_SystemData(destination *v1api20230101s.SystemData) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// CreatedAt
-	destination.CreatedAt = genruntime.ClonePointerToString(data.CreatedAt)
-
-	// CreatedBy
-	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
-
-	// CreatedByType
-	if data.CreatedByType != nil {
-		createdByType := string(*data.CreatedByType)
-		destination.CreatedByType = &createdByType
-	} else {
-		destination.CreatedByType = nil
-	}
-
-	// LastModifiedAt
-	destination.LastModifiedAt = genruntime.ClonePointerToString(data.LastModifiedAt)
-
-	// LastModifiedBy
-	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
-
-	// LastModifiedByType
-	if data.LastModifiedByType != nil {
-		lastModifiedByType := string(*data.LastModifiedByType)
-		destination.LastModifiedByType = &lastModifiedByType
-	} else {
-		destination.LastModifiedByType = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SystemData_STATUS populates our SystemData from the provided source SystemData_STATUS
-func (data *SystemData) Initialize_From_SystemData_STATUS(source *SystemData_STATUS) error {
-
-	// CreatedAt
-	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
-
-	// CreatedBy
-	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
-
-	// CreatedByType
-	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType(*source.CreatedByType)
-		data.CreatedByType = &createdByType
-	} else {
-		data.CreatedByType = nil
-	}
-
-	// LastModifiedAt
-	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
-
-	// LastModifiedBy
-	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
-
-	// LastModifiedByType
-	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
-	} else {
-		data.LastModifiedByType = nil
 	}
 
 	// No error

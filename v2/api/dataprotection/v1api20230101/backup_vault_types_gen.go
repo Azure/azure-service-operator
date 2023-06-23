@@ -342,9 +342,6 @@ type BackupVault_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// ETag: Optional ETag.
-	ETag *string `json:"eTag,omitempty"`
-
 	// Identity: Input Managed Identity Details
 	Identity *DppIdentityDetails `json:"identity,omitempty"`
 
@@ -373,12 +370,6 @@ func (vault *BackupVault_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		return nil, nil
 	}
 	result := &BackupVault_Spec_ARM{}
-
-	// Set property ‘ETag’:
-	if vault.ETag != nil {
-		eTag := *vault.ETag
-		result.ETag = &eTag
-	}
 
 	// Set property ‘Identity’:
 	if vault.Identity != nil {
@@ -433,12 +424,6 @@ func (vault *BackupVault_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property ‘AzureName’:
 	vault.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘ETag’:
-	if typedInput.ETag != nil {
-		eTag := *typedInput.ETag
-		vault.ETag = &eTag
-	}
 
 	// Set property ‘Identity’:
 	if typedInput.Identity != nil {
@@ -539,9 +524,6 @@ func (vault *BackupVault_Spec) AssignProperties_From_BackupVault_Spec(source *v1
 	// AzureName
 	vault.AzureName = source.AzureName
 
-	// ETag
-	vault.ETag = genruntime.ClonePointerToString(source.ETag)
-
 	// Identity
 	if source.Identity != nil {
 		var identity DppIdentityDetails
@@ -591,9 +573,6 @@ func (vault *BackupVault_Spec) AssignProperties_To_BackupVault_Spec(destination 
 
 	// AzureName
 	destination.AzureName = vault.AzureName
-
-	// ETag
-	destination.ETag = genruntime.ClonePointerToString(vault.ETag)
 
 	// Identity
 	if vault.Identity != nil {
@@ -649,9 +628,6 @@ func (vault *BackupVault_Spec) AssignProperties_To_BackupVault_Spec(destination 
 
 // Initialize_From_BackupVaultResource_STATUS populates our BackupVault_Spec from the provided source BackupVaultResource_STATUS
 func (vault *BackupVault_Spec) Initialize_From_BackupVaultResource_STATUS(source *BackupVaultResource_STATUS) error {
-
-	// ETag
-	vault.ETag = genruntime.ClonePointerToString(source.ETag)
 
 	// Identity
 	if source.Identity != nil {

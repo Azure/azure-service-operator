@@ -145,7 +145,6 @@ func BackupVault_SpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForBackupVault_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBackupVault_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["ETag"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())

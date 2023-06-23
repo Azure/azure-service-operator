@@ -24,8 +24,7 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 	// indicates that this test function can run in parallel with other tests
 	t.Parallel()
 
-	// tc := globalTestContext.ForTest(t) initializes the test context for this test.
-	// The globalTestContext is a global object that provides the necessary context and utilities for testing.
+	// Create a test resource group and wait until the operation is completed, where the globalTestContext is a global object that provides the necessary context and utilities for testing.
 	tc := globalTestContext.ForTest(t)
 
 	// rg := tc.CreateTestResourceGroupAndWait() creates a test resource group and waits until the operation is completed.
@@ -64,7 +63,7 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 	// It is mandatory to create a backupvault before creating a backuppolicy
 
 	// Create a BackupPolicy
-	backuppolicy := &dataprotection.BackupVaultsBackupPolicy{
+	backupPolicy := &dataprotection.BackupVaultsBackupPolicy{
 		ObjectMeta: tc.MakeObjectMeta("asotestbackuppolicy"),
 		Spec: dataprotection.BackupVaults_BackupPolicy_Spec{
 			Owner: testcommon.AsOwner(backupvault),
@@ -85,14 +84,14 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourceAndWait(backuppolicy)
+	tc.CreateResourceAndWait(backupPolicy)
 
 	// Assertions and Expectations
-	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.DatasourceTypes).To(BeEquivalentTo([]string{"Microsoft.ContainerService/managedClusters"}))
-	tc.Expect(backuppolicy.Status.Properties.BackupPolicy.ObjectType).To(BeEquivalentTo(to.Ptr(dataprotection.BackupPolicy_ObjectType_BackupPolicy)))
+	tc.Expect(backupPolicy.Status.Properties.BackupPolicy.DatasourceTypes).To(BeEquivalentTo([]string{"Microsoft.ContainerService/managedClusters"}))
+	tc.Expect(backupPolicy.Status.Properties.BackupPolicy.ObjectType).To(BeEquivalentTo(to.Ptr(dataprotection.BackupPolicy_ObjectType_BackupPolicy)))
 
 	// Assertions and Expectations for BackupPolicy:AzureBackupRule
-	policyRule0 := backuppolicy.Status.Properties.BackupPolicy.PolicyRules[0].AzureBackup
+	policyRule0 := backupPolicy.Status.Properties.BackupPolicy.PolicyRules[0].AzureBackup
 
 	tc.Expect(policyRule0.Name).To(BeEquivalentTo(to.Ptr("BackupHourly")))
 	tc.Expect(policyRule0.ObjectType).To(BeEquivalentTo(to.Ptr(dataprotection.AzureBackupRule_ObjectType_AzureBackupRule)))
@@ -109,7 +108,7 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 	tc.Expect(policyRule0.Trigger.Schedule.ObjectType).To(BeEquivalentTo(to.Ptr(dataprotection.ScheduleBasedTriggerContext_ObjectType_ScheduleBasedTriggerContext)))
 
 	// Assertions and Expectations for BackupPolicy:AzureRetentionRule
-	policyRule1 := backuppolicy.Status.Properties.BackupPolicy.PolicyRules[1].AzureRetention
+	policyRule1 := backupPolicy.Status.Properties.BackupPolicy.PolicyRules[1].AzureRetention
 
 	tc.Expect(policyRule1.Name).To(BeEquivalentTo(to.Ptr("Default")))
 	tc.Expect(policyRule1.ObjectType).To(BeEquivalentTo(to.Ptr(dataprotection.AzureRetentionRule_ObjectType_AzureRetentionRule)))
@@ -123,15 +122,15 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 	tc.Expect(policyRule1.Lifecycles[0].SourceDataStore.DataStoreType).To(BeEquivalentTo(to.Ptr(dataprotection.DataStoreInfoBase_DataStoreType_OperationalStore)))
 	tc.Expect(policyRule1.Lifecycles[0].SourceDataStore.ObjectType).To(BeEquivalentTo(to.Ptr("DataStoreInfoBase")))
 
-	tc.Expect(backuppolicy.Status.Id).ToNot(BeNil())
+	tc.Expect(backupPolicy.Status.Id).ToNot(BeNil())
 
-	armId := *backuppolicy.Status.Id
+	armId := *backupPolicy.Status.Id
 
 	// Note:
 	// Patch Operations are currently not allowed on BackupPolicy
 
 	// Delete the backuppolicy
-	tc.DeleteResourceAndWait(backuppolicy)
+	tc.DeleteResourceAndWait(backupPolicy)
 
 	// Ensure that the resource group was really deleted in Azure
 	exists, _, err := tc.AzureClient.HeadByID(

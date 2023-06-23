@@ -147,7 +147,6 @@ type BackupVaults_BackupInstance_Spec struct {
 	Owner       *genruntime.KnownResourceReference `group:"dataprotection.azure.com" json:"owner,omitempty" kind:"BackupVault"`
 	Properties  *BackupInstance                    `json:"properties,omitempty"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	SystemData  *SystemData                        `json:"systemData,omitempty"`
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
@@ -231,18 +230,6 @@ type BackupInstance_STATUS struct {
 	ProtectionStatus          *ProtectionStatusDetails_STATUS `json:"protectionStatus,omitempty"`
 	ProvisioningState         *string                         `json:"provisioningState,omitempty"`
 	ValidationType            *string                         `json:"validationType,omitempty"`
-}
-
-// Storage version of v1api20230101.SystemData
-// Metadata pertaining to creation and last modification of the resource.
-type SystemData struct {
-	CreatedAt          *string                `json:"createdAt,omitempty"`
-	CreatedBy          *string                `json:"createdBy,omitempty"`
-	CreatedByType      *string                `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
-	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20230101.AuthCredentials

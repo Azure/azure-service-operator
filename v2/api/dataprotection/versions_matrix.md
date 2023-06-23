@@ -168,10 +168,7 @@
 | StorageSetting_STATUS                                         | v1api20230101 |
 | StorageSetting_Type                                           | v1api20230101 |
 | StorageSetting_Type_STATUS                                    | v1api20230101 |
-| SystemData                                                    | v1api20230101 |
-| SystemData_CreatedByType                                      | v1api20230101 |
 | SystemData_CreatedByType_STATUS                               | v1api20230101 |
-| SystemData_LastModifiedByType                                 | v1api20230101 |
 | SystemData_LastModifiedByType_STATUS                          | v1api20230101 |
 | SystemData_STATUS                                             | v1api20230101 |
 | TaggingCriteria                                               | v1api20230101 |

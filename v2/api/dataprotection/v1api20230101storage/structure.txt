@@ -4,9 +4,8 @@ github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101stora
 │   └── "2023-01-01"
 ├── BackupVault: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
-│   ├── Spec: Object (9 properties)
+│   ├── Spec: Object (8 properties)
 │   │   ├── AzureName: string
-│   │   ├── ETag: *string
 │   │   ├── Identity: *Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Type: *string
@@ -99,7 +98,7 @@ github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101stora
 │       └── Type: *string
 ├── BackupVaultsBackupInstance: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101.BackupVault
-│   ├── Spec: Object (7 properties)
+│   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
@@ -165,14 +164,6 @@ github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101stora
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── ValidationType: *string
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── SystemData: *Object (7 properties)
-│   │   │   ├── CreatedAt: *string
-│   │   │   ├── CreatedBy: *string
-│   │   │   ├── CreatedByType: *string
-│   │   │   ├── LastModifiedAt: *string
-│   │   │   ├── LastModifiedBy: *string
-│   │   │   ├── LastModifiedByType: *string
-│   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   └── Tags: map[string]string
 │   └── Status: Object (8 properties)
 │       ├── Conditions: conditions.Condition[]
@@ -326,7 +317,7 @@ github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101stora
 │       └── Type: *string
 └── BackupVaultsBackupPolicy: Resource
     ├── Owner: github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101.BackupVault
-    ├── Spec: Object (6 properties)
+    ├── Spec: Object (5 properties)
     │   ├── AzureName: string
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
@@ -425,15 +416,7 @@ github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101stora
     │   │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   └── PropertyBag: genruntime.PropertyBag
-    │   ├── PropertyBag: genruntime.PropertyBag
-    │   └── SystemData: *Object (7 properties)
-    │       ├── CreatedAt: *string
-    │       ├── CreatedBy: *string
-    │       ├── CreatedByType: *string
-    │       ├── LastModifiedAt: *string
-    │       ├── LastModifiedBy: *string
-    │       ├── LastModifiedByType: *string
-    │       └── PropertyBag: genruntime.PropertyBag
+    │   └── PropertyBag: genruntime.PropertyBag
     └── Status: Object (7 properties)
         ├── Conditions: conditions.Condition[]
         ├── Id: *string

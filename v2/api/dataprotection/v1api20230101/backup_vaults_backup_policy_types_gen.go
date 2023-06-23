@@ -345,9 +345,6 @@ type BackupVaults_BackupPolicy_Spec struct {
 
 	// Properties: BaseBackupPolicyResource properties
 	Properties *BaseBackupPolicy `json:"properties,omitempty"`
-
-	// SystemData: Metadata pertaining to creation and last modification of the resource.
-	SystemData *SystemData `json:"systemData,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &BackupVaults_BackupPolicy_Spec{}
@@ -370,16 +367,6 @@ func (policy *BackupVaults_BackupPolicy_Spec) ConvertToARM(resolved genruntime.C
 		}
 		properties := *properties_ARM.(*BaseBackupPolicy_ARM)
 		result.Properties = &properties
-	}
-
-	// Set property ‘SystemData’:
-	if policy.SystemData != nil {
-		systemData_ARM, err := (*policy.SystemData).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		systemData := *systemData_ARM.(*SystemData_ARM)
-		result.SystemData = &systemData
 	}
 	return result, nil
 }
@@ -411,17 +398,6 @@ func (policy *BackupVaults_BackupPolicy_Spec) PopulateFromARM(owner genruntime.A
 		}
 		properties := properties1
 		policy.Properties = &properties
-	}
-
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		policy.SystemData = &systemData
 	}
 
 	// No error
@@ -504,18 +480,6 @@ func (policy *BackupVaults_BackupPolicy_Spec) AssignProperties_From_BackupVaults
 		policy.Properties = nil
 	}
 
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignProperties_From_SystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData() to populate field SystemData")
-		}
-		policy.SystemData = &systemDatum
-	} else {
-		policy.SystemData = nil
-	}
-
 	// No error
 	return nil
 }
@@ -551,18 +515,6 @@ func (policy *BackupVaults_BackupPolicy_Spec) AssignProperties_To_BackupVaults_B
 		destination.Properties = nil
 	}
 
-	// SystemData
-	if policy.SystemData != nil {
-		var systemDatum v1api20230101s.SystemData
-		err := policy.SystemData.AssignProperties_To_SystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag
@@ -587,18 +539,6 @@ func (policy *BackupVaults_BackupPolicy_Spec) Initialize_From_BackupVaults_Backu
 		policy.Properties = &property
 	} else {
 		policy.Properties = nil
-	}
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.Initialize_From_SystemData_STATUS(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SystemData_STATUS() to populate field SystemData")
-		}
-		policy.SystemData = &systemDatum
-	} else {
-		policy.SystemData = nil
 	}
 
 	// No error

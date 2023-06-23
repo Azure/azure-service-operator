@@ -90,7 +90,6 @@ func AddIndependentPropertyGeneratorsForBackupVaults_BackupPolicy_Spec_ARM(gens 
 // AddRelatedPropertyGeneratorsForBackupVaults_BackupPolicy_Spec_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForBackupVaults_BackupPolicy_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(BaseBackupPolicy_ARMGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemData_ARMGenerator())
 }
 
 func Test_BaseBackupPolicy_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

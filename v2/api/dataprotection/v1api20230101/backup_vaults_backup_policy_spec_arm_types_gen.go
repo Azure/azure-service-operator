@@ -13,9 +13,6 @@ type BackupVaults_BackupPolicy_Spec_ARM struct {
 
 	// Properties: BaseBackupPolicyResource properties
 	Properties *BaseBackupPolicy_ARM `json:"properties,omitempty"`
-
-	// SystemData: Metadata pertaining to creation and last modification of the resource.
-	SystemData *SystemData_ARM `json:"systemData,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &BackupVaults_BackupPolicy_Spec_ARM{}

@@ -15,22 +15,22 @@ spec:
       resourceLocation: eastus
       resourceName: asotestakscluster
       resourceReference: 
-        armId: /subscriptions/f0c630e0-2995-4853-b056-0b3c09cb673f/resourceGroups/aso-sample-rgx/providers/Microsoft.ContainerService/managedClusters/asotestakscluster
+        armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rgx/providers/Microsoft.ContainerService/managedClusters/asotestakscluster
       resourceType: Microsoft.ContainerService/managedclusters
-      resourceUri: /subscriptions/f0c630e0-2995-4853-b056-0b3c09cb673f/resourceGroups/aso-sample-rgx/providers/Microsoft.ContainerService/managedClusters/asotestakscluster
+      resourceUri: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rgx/providers/Microsoft.ContainerService/managedClusters/asotestakscluster
     dataSourceSetInfo:
       datasourceType: Microsoft.ContainerService/managedClusters
       objectType: DatasourceSet
       resourceLocation: eastus
       resourceName: asotestakscluster
       resourceReference: 
-        armId: /subscriptions/f0c630e0-2995-4853-b056-0b3c09cb673f/resourceGroups/aso-sample-rgx/providers/Microsoft.ContainerService/managedClusters/asotestakscluster
+        armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rgx/providers/Microsoft.ContainerService/managedClusters/asotestakscluster
       resourceType: Microsoft.ContainerService/managedclusters
-      resourceUri: /subscriptions/f0c630e0-2995-4853-b056-0b3c09cb673f/resourceGroups/aso-sample-rgx/providers/Microsoft.ContainerService/managedClusters/asotestakscluster
+      resourceUri: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rgx/providers/Microsoft.ContainerService/managedClusters/asotestakscluster
     friendlyName: asotestbackupinstance
     objectType: BackupInstance
     policyInfo:
-      policyId: /subscriptions/f0c630e0-2995-4853-b056-0b3c09cb673f/resourceGroups/aso-sample-rgx/providers/Microsoft.DataProtection/BackupVaults/asotestbackupvault/backupPolicies/asotestbackuppolicy
+      policyId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rgx/providers/Microsoft.DataProtection/BackupVaults/asotestbackupvault/backupPolicies/asotestbackuppolicy
       policyParameters:
         backupDatasourceParametersList:
           - kubernetesClusterBackupDatasourceParameters:
@@ -43,6 +43,6 @@ spec:
           - azureOperationalStoreParameters:
               dataStoreType: OperationalStore
               objectType: AzureOperationalStoreParameters
-              resourceGroupId: /subscriptions/f0c630e0-2995-4853-b056-0b3c09cb673f/resourceGroups/aso-sample-rgx
-    
+              resourceGroupId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rgx
+              
 

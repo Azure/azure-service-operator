@@ -281,7 +281,6 @@ func AddIndependentPropertyGeneratorsForBackupVaults_BackupInstance_Spec(gens ma
 // AddRelatedPropertyGeneratorsForBackupVaults_BackupInstance_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForBackupVaults_BackupInstance_Spec(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(BackupInstanceGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
 }
 
 func Test_BackupVaults_BackupInstance_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -662,121 +661,6 @@ func AddRelatedPropertyGeneratorsForBackupInstance_STATUS(gens map[string]gopter
 	gens["PolicyInfo"] = gen.PtrOf(PolicyInfo_STATUSGenerator())
 	gens["ProtectionErrorDetails"] = gen.PtrOf(UserFacingError_STATUSGenerator())
 	gens["ProtectionStatus"] = gen.PtrOf(ProtectionStatusDetails_STATUSGenerator())
-}
-
-func Test_SystemData_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SystemData to SystemData via AssignProperties_To_SystemData & AssignProperties_From_SystemData returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSystemData, SystemDataGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForSystemData tests if a specific instance of SystemData can be assigned to v1api20230101storage and back losslessly
-func RunPropertyAssignmentTestForSystemData(subject SystemData) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20230101s.SystemData
-	err := copied.AssignProperties_To_SystemData(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SystemData
-	err = actual.AssignProperties_From_SystemData(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_SystemData_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SystemData via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSystemData, SystemDataGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSystemData runs a test to see if a specific instance of SystemData round trips to JSON and back losslessly
-func RunJSONSerializationTestForSystemData(subject SystemData) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual SystemData
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of SystemData instances for property testing - lazily instantiated by SystemDataGenerator()
-var systemDataGenerator gopter.Gen
-
-// SystemDataGenerator returns a generator of SystemData instances for property testing.
-func SystemDataGenerator() gopter.Gen {
-	if systemDataGenerator != nil {
-		return systemDataGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSystemData(generators)
-	systemDataGenerator = gen.Struct(reflect.TypeOf(SystemData{}), generators)
-
-	return systemDataGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSystemData is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSystemData(gens map[string]gopter.Gen) {
-	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_Application,
-		SystemData_CreatedByType_Key,
-		SystemData_CreatedByType_ManagedIdentity,
-		SystemData_CreatedByType_User))
-	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_Application,
-		SystemData_LastModifiedByType_Key,
-		SystemData_LastModifiedByType_ManagedIdentity,
-		SystemData_LastModifiedByType_User))
 }
 
 func Test_AuthCredentials_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

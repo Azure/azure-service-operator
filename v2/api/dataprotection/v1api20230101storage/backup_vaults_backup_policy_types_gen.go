@@ -147,7 +147,6 @@ type BackupVaults_BackupPolicy_Spec struct {
 	Owner       *genruntime.KnownResourceReference `group:"dataprotection.azure.com" json:"owner,omitempty" kind:"BackupVault"`
 	Properties  *BaseBackupPolicy                  `json:"properties,omitempty"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	SystemData  *SystemData                        `json:"systemData,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &BackupVaults_BackupPolicy_Spec{}

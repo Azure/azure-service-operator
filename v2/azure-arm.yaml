@@ -155,6 +155,21 @@ typeTransformers:
     property: SystemData
     remove: true
     because: This property should be marked readonly in Swagger
+  - name: BackupVault_Spec
+    group: dataprotection
+    property: Etag
+    remove: true
+    because: This property should be marked readonly in Swagger
+  - name: BackupVaults_BackupPolicy_Spec
+    group: dataprotection
+    property: SystemData
+    remove: true
+    because: This property should be marked readonly in Swagger
+  - name: BackupVaults_BackupInstance_Spec
+    group: dataprotection
+    property: SystemData
+    remove: true
+    because: This property should be marked readonly in Swagger
   - name: IotHub_Spec
     group: devices
     property: Etag

@@ -6,9 +6,6 @@ package v1api20230101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type BackupVault_Spec_ARM struct {
-	// ETag: Optional ETag.
-	ETag *string `json:"eTag,omitempty"`
-
 	// Identity: Input Managed Identity Details
 	Identity *DppIdentityDetails_ARM `json:"identity,omitempty"`
 
