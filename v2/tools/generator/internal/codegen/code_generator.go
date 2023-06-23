@@ -10,9 +10,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
+
+	"github.com/Azure/azure-service-operator/v2/internal/version"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/pipeline"
@@ -206,7 +207,7 @@ func createAllPipelineStages(
 		// pipeline.AddOperatorStatus(idFactory).UsedFor(pipeline.ARMTarget),
 
 		pipeline.AddKubernetesExporter(idFactory).UsedFor(pipeline.ARMTarget),
-		pipeline.ApplyDefaulterAndValidatorInterfaces(idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.ApplyDefaulterAndValidatorInterfaces(configuration, idFactory).UsedFor(pipeline.ARMTarget),
 
 		pipeline.AddCrossplaneOwnerProperties(idFactory).UsedFor(pipeline.CrossplaneTarget),
 		pipeline.AddCrossplaneForProvider(idFactory).UsedFor(pipeline.CrossplaneTarget),

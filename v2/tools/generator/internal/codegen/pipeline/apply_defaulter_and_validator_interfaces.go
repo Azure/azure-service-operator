@@ -14,6 +14,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/interfaces"
 )
@@ -21,7 +22,7 @@ import (
 const ApplyDefaulterAndValidatorInterfaceStageID = "applyDefaulterAndValidatorInterfaces"
 
 // ApplyDefaulterAndValidatorInterfaces add the admission.Defaulter and admission.Validator interfaces to each resource that requires them
-func ApplyDefaulterAndValidatorInterfaces(idFactory astmodel.IdentifierFactory) *Stage {
+func ApplyDefaulterAndValidatorInterfaces(configuration *config.Configuration, idFactory astmodel.IdentifierFactory) *Stage {
 	stage := NewStage(
 		ApplyDefaulterAndValidatorInterfaceStageID,
 		"Add the admission.Defaulter and admission.Validator interfaces to each resource that requires them",
@@ -30,7 +31,7 @@ func ApplyDefaulterAndValidatorInterfaces(idFactory astmodel.IdentifierFactory) 
 			updatedDefs := make(astmodel.TypeDefinitionSet)
 
 			for _, resourceDef := range astmodel.FindResourceDefinitions(defs) {
-				defaults, err := getDefaults(resourceDef, idFactory, state.Definitions())
+				defaults, err := getDefaults(configuration, resourceDef, idFactory, state.Definitions())
 				if err != nil {
 					return nil, errors.Wrap(err, "failed to get defaults")
 				}
@@ -52,6 +53,11 @@ func ApplyDefaulterAndValidatorInterfaces(idFactory astmodel.IdentifierFactory) 
 				updatedDefs.Add(resource)
 			}
 
+			err := configuration.ObjectModelConfiguration.VerifyDefaultAzureNameConsumed()
+			if err != nil {
+				return nil, err
+			}
+
 			return state.WithDefinitions(defs.OverlayWith(updatedDefs)), nil
 		})
 
@@ -60,6 +66,7 @@ func ApplyDefaulterAndValidatorInterfaces(idFactory astmodel.IdentifierFactory) 
 }
 
 func getDefaults(
+	configuration *config.Configuration,
 	resourceDef astmodel.TypeDefinition,
 	idFactory astmodel.IdentifierFactory,
 	defs astmodel.TypeDefinitionSet,
@@ -71,8 +78,18 @@ func getDefaults(
 		return nil, errors.Wrapf(err, "unable to resolve resource %s", resourceDef.Name())
 	}
 
+	defaultAzureName, err := configuration.ObjectModelConfiguration.LookupDefaultAzureName(resourceDef.Name())
+	if err != nil {
+		if config.IsNotConfiguredError(err) {
+			// Default to true if we have no explicit configuration
+			defaultAzureName = true
+		} else {
+			return nil, err
+		}
+	}
+
 	// Determine if the resource has a SetName function
-	if resolved.SpecType.HasFunctionWithName(astmodel.SetAzureNameFunc) {
+	if resolved.SpecType.HasFunctionWithName(astmodel.SetAzureNameFunc) && defaultAzureName {
 		result = append(result, functions.NewDefaultAzureNameFunction(resolved.ResourceType, idFactory))
 	}
 

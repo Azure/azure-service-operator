@@ -681,6 +681,7 @@ objectModelConfiguration:
       RoleAssignment:
         $export: true
         $supportedFrom: v2.0.0-alpha.2
+        $defaultAzureName: false
       RoleAssignmentProperties:
         RoleDefinitionId:
           $armReference: true
@@ -1145,6 +1146,7 @@ objectModelConfiguration:
       DatabaseAccounts_SqlRoleAssignment:
         $exportAs: SqlRoleAssignment
         $supportedFrom: v2.0.0-beta.3
+        $defaultAzureName: false
       SqlRoleAssignmentResource:
         PrincipalId:
           $importConfigMapMode: optional
