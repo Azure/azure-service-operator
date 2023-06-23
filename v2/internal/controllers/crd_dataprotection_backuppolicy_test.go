@@ -26,38 +26,10 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 
 	// Create a test resource group and wait until the operation is completed, where the globalTestContext is a global object that provides the necessary context and utilities for testing.
 	tc := globalTestContext.ForTest(t)
-
-	// rg := tc.CreateTestResourceGroupAndWait() creates a test resource group and waits until the operation is completed.
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	// Create a backupvault
-	backupvault := &dataprotection.BackupVault{
-		ObjectMeta: tc.MakeObjectMeta("asotestbackupvault"),
-		Spec: dataprotection.BackupVault_Spec{
-			Location: tc.AzureRegion,
-			Tags:     map[string]string{"cheese": "blue"},
-			Owner:    testcommon.AsOwner(rg),
-			Identity: &dataprotection.DppIdentityDetails{
-				Type: to.Ptr("SystemAssigned"),
-			},
-			Properties: &dataprotection.BackupVaultSpec{
-				MonitoringSettings: &dataprotection.MonitoringSettings{
-					AzureMonitorAlertSettings: &dataprotection.AzureMonitorAlertSettings{
-						AlertsForAllJobFailures: to.Ptr(dataprotection.AzureMonitorAlertSettings_AlertsForAllJobFailures_Enabled),
-					},
-				},
-				StorageSettings: []dataprotection.StorageSetting{
-					{
-						DatastoreType: to.Ptr(dataprotection.StorageSetting_DatastoreType_VaultStore),
-						Type:          to.Ptr(dataprotection.StorageSetting_Type_LocallyRedundant),
-					},
-				},
-			},
-		},
-	}
-	tc.CreateResourceAndWait(backupvault)
-
-	// backupvault := controllers_test.newBackupVault(tc, "asotestbackupvault")
+	// Create a new backupvault resource
+	backupVault := newBackupVault(tc, rg, "asotestbackupvault")
 
 	// Note:
 	// It is mandatory to create a backupvault before creating a backuppolicy
@@ -66,7 +38,7 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 	backupPolicy := &dataprotection.BackupVaultsBackupPolicy{
 		ObjectMeta: tc.MakeObjectMeta("asotestbackuppolicy"),
 		Spec: dataprotection.BackupVaults_BackupPolicy_Spec{
-			Owner: testcommon.AsOwner(backupvault),
+			Owner: testcommon.AsOwner(backupVault),
 			Properties: &dataprotection.BaseBackupPolicy{
 				BackupPolicy: &dataprotection.BackupPolicy{
 					DatasourceTypes: []string{"Microsoft.ContainerService/managedClusters"},
@@ -84,7 +56,8 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.CreateResourceAndWait(backupPolicy)
+	// Sequence of creating BackupVault and BackupPolicy is handled by ASO internally
+	tc.CreateResourcesAndWait(backupVault, backupPolicy)
 
 	// Assertions and Expectations
 	tc.Expect(backupPolicy.Status.Properties.BackupPolicy.DatasourceTypes).To(BeEquivalentTo([]string{"Microsoft.ContainerService/managedClusters"}))

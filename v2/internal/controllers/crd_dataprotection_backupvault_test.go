@@ -14,15 +14,14 @@ import (
 
 	// The dataprotection package contains types and functions related to dataprotection resources.
 	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	// The testcommon package includes common testing utilities.
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	// The to package includes utilities for converting values to pointers.
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
-func newBackupVault(tc *testcommon.KubePerTestContext, rg *testcommon.TestResourceGroup, name string) *dataprotection.BackupVault {
-	// rg := tc.CreateTestResourceGroupAndWait()
-
+func newBackupVault(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, name string) *dataprotection.BackupVault {
 	backupVault := &dataprotection.BackupVault{
 		ObjectMeta: tc.MakeObjectMeta(name),
 		Spec: dataprotection.BackupVault_Spec{
@@ -47,7 +46,6 @@ func newBackupVault(tc *testcommon.KubePerTestContext, rg *testcommon.TestResour
 			},
 		},
 	}
-	tc.CreateResourceAndWait(backupVault)
 
 	return backupVault
 }
@@ -58,10 +56,11 @@ func Test_Dataprotection_Backupvault_CRUD(t *testing.T) {
 
 	// Create a test resource group and wait until the operation is completed, where the globalTestContext is a global object that provides the necessary context and utilities for testing.
 	tc := globalTestContext.ForTest(t)
-
 	rg := tc.CreateTestResourceGroupAndWait()
-	// backupvault := newBackupVault(tc, "asotestbackupvault")
+
+	// Create a new BackupVault resource
 	backupVault := newBackupVault(tc, rg, "asotestbackupvault")
+	tc.CreateResourceAndWait(backupVault)
 
 	// Assertions and Expectations
 	tc.Expect(backupVault.Status.Location).To(Equal(tc.AzureRegion))
