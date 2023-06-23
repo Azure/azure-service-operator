@@ -33,7 +33,7 @@ What is the support model? Azure Service Operator is an officially supported Mic
 <meta itemprop="description" content="Frequently Asked Questions What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven&rsquo;t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly.
 What is the support model? Azure Service Operator is an officially supported Microsoft OSS product.">
 
-<meta itemprop="wordCount" content="1260">
+<meta itemprop="wordCount" content="1544">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="FAQ"/>
 <meta name="twitter:description" content="Frequently Asked Questions What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven&rsquo;t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly.
@@ -633,6 +633,7 @@ What is the support model? Azure Service Operator is an officially supported Mic
         <li><a href="#im-seeing-subscription-throttling-what-can-i-do">I&rsquo;m seeing Subscription throttling, what can I do?</a></li>
         <li><a href="#should-i-use-user-assigned-or-system-assigned-identity">Should I use user-assigned or system-assigned identity?</a></li>
         <li><a href="#when-using-workload-identity-how-can-i-easily-inject-the-aso-created-user-managed-identity-details-onto-the-service-account">When using Workload Identity, how can I easily inject the ASO created User Managed Identity details onto the service account?</a></li>
+        <li><a href="#what-should-i-know-about-roleassignment-naming-in-aso">What should I know about RoleAssignment naming in ASO?</a></li>
       </ul>
     </li>
   </ul>
@@ -814,7 +815,34 @@ environment variable into the pods on which the ServiceAccount is used.</p>
       <span style="color:#f92672">configMapKeyRef</span>:
         <span style="color:#f92672">key</span>: <span style="color:#ae81ff">clientId</span>
         <span style="color:#f92672">name</span>: <span style="color:#ae81ff">identity-details</span>
-</code></pre></div>
+</code></pre></div><h3 id="what-should-i-know-about-roleassignment-naming-in-aso">What should I know about RoleAssignment naming in ASO?</h3>
+<p>The <code>RoleAssignment</code> resource is required to have a name in Azure which is a UUID. Since it&rsquo;s difficult to make a
+UUID for each assignment, ASO attempts to generate a unique UUID automatically if one isn&rsquo;t specified. ASO does this
+by generating a UUID (v5) from a seed string with the following fields and setting it as the AzureName if one
+has not been specified:</p>
+<ol>
+<li>name</li>
+<li>namespace</li>
+<li>owner.name</li>
+<li>owner.namespace</li>
+<li>owner.group</li>
+<li>owner.kind</li>
+</ol>
+<p>For the most part this should just work without you needing to worry about it. If you&rsquo;re running multiple ASO clusters
+targeting different subscriptions in the same tenant you may need to be careful to avoid situations where
+two resources (one in subscription A, one in subscription B) both have the same values for the fields called out above.
+If this happens you may see an error like:</p>
+<pre tabindex="0"><code> (RoleAssignmentUpdateNotPermitted) Tenant ID, application ID, principal ID, and scope are not allowed to be updated.
+ Code: RoleAssignmentUpdateNotPermitted
+ Message: Tenant ID, application ID, principal ID, and scope are not allowed to be updated.
+</code></pre><p>If you see this error, you can work around it by manually specifying a UUID for AzureName, or deleting the
+<code>RoleAssignment</code> which hit the error and creating it again with a different name.</p>
+<p>If you&rsquo;re planning to move management of a <code>RoleAssignment</code> from one namespace to another (by setting the
+reconcile-policy: skip on the old one, deleting it, and then creating the <code>RoleAssignment</code> in a different namespace
+allowing it to adopt the existing resource in Azure) you must manually specify the AzureName
+of the <code>RoleAssignment</code> as the original UUID. Otherwise, the UUID defaulting algorithm will choose a different UUID since
+the namespace has changed.</p>
+
 	
 	
 	
