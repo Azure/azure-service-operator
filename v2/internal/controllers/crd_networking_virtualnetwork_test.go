@@ -127,3 +127,46 @@ func newVNet(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceR
 	}
 	return vnet
 }
+
+func Test_Networking_VirtualNetworkAndSubnetAdopted_SubnetsStillExist(t *testing.T) {
+	t.Parallel()
+
+	tc := globalTestContext.ForTest(t)
+
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	vnet := newVMVirtualNetwork(tc, testcommon.AsOwner(rg))
+	subnet := newVMSubnet(tc, testcommon.AsOwner(vnet))
+	originalVnet := vnet.DeepCopy()
+	originalSubnet := subnet.DeepCopy()
+
+	networkInterface := newVMNetworkInterface(tc, testcommon.AsOwner(rg), subnet)
+	secret := createVMPasswordSecretAndRef(tc)
+	vm := newVirtualMachine20201201(tc, rg, networkInterface, secret)
+	tc.CreateResourcesAndWait(vm, vnet, subnet, networkInterface)
+
+	//tc.Expect(subnet.Status.Id).ToNot(BeNil())
+	//subnetId := *subnet.Status.Id
+
+	// Annotate with skip
+	oldSubnet := subnet.DeepCopy()
+	subnet.Annotations["serviceoperator.azure.com/reconcile-policy"] = "skip"
+	// Can't use "PatchAndWait" here because it waits for generation to change but with just
+	// this annotation change the generation will not change
+	tc.Patch(oldSubnet, subnet)
+
+	oldVnet := vnet.DeepCopy()
+	vnet.Annotations["serviceoperator.azure.com/reconcile-policy"] = "skip"
+	// Can't use "PatchAndWait" here because it waits for generation to change but with just
+	// this annotation change the generation will not change
+	tc.Patch(oldVnet, vnet)
+
+	// Delete the VNET/Subnets
+	tc.DeleteResourcesAndWait(vnet, subnet)
+
+	// Now create the subnet/vnet again, this should be a no-op as it just adopts the existing resources
+	subnet = originalSubnet
+	vnet = originalVnet
+	// If we mistakenly try to delete the subnets, this Create will fail with an error saying that the subnet is in use
+	tc.CreateResourcesAndWait(vnet, subnet)
+}

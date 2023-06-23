@@ -139,19 +139,19 @@ func getGeneratedStorageTypes(
 	for _, t := range knownStorageTypes {
 		if _, ok := t.Obj.(*networkstorage.LoadBalancersInboundNatRule); ok {
 			t.Indexes = append(t.Indexes, registration.Index{
-				Key:  ".metadata.ownerReferences[0]",
+				Key:  ".spec.owner.name",
 				Func: indexOwner,
 			})
 		}
 		if _, ok := t.Obj.(*networkstorage.VirtualNetworksSubnet); ok {
 			t.Indexes = append(t.Indexes, registration.Index{
-				Key:  ".metadata.ownerReferences[0]",
+				Key:  ".spec.owner.name",
 				Func: indexOwner,
 			})
 		}
 		if _, ok := t.Obj.(*networkstorage.RouteTablesRoute); ok {
 			t.Indexes = append(t.Indexes, registration.Index{
-				Key:  ".metadata.ownerReferences[0]",
+				Key:  ".spec.owner.name",
 				Func: indexOwner,
 			})
 		}
@@ -248,7 +248,7 @@ func getControllerName(obj client.Object) (string, error) {
 	return fmt.Sprintf("%sController", typ.Name()), nil
 }
 
-func indexOwner(rawObj client.Object) []string {
+func indexOwnerByUID(rawObj client.Object) []string {
 	owners := rawObj.GetOwnerReferences()
 	if len(owners) == 0 {
 		return nil
@@ -256,6 +256,23 @@ func indexOwner(rawObj client.Object) []string {
 
 	// Only works for 1 owner now but that's fine
 	return []string{string(owners[0].UID)}
+}
+
+func indexOwner(rawObj client.Object) []string {
+	armOwnedObj, ok := rawObj.(genruntime.ARMOwnedMetaObject)
+	if !ok {
+		return nil
+	}
+
+	// TODO: If we need this behavior for a resource which has G+K variable we'll need some
+	// TODO: additional index functions. Don't need that for now though so not bothering with it
+	owner := armOwnedObj.Owner()
+	if owner == nil {
+		return nil
+	}
+
+	// Only works for 1 owner now but that's fine
+	return []string{owner.Name}
 }
 
 func GetKnownTypes() []client.Object {

@@ -66,13 +66,13 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"eastus","name":"samplesqlvnet","properties":{"addressSpace":{"addressPrefixes":["10.0.0.0/16"]}}}'
+    body: '{"location":"eastus","name":"samplesqlvnet","properties":{"addressSpace":{"addressPrefixes":["10.0.0.0/16"]},"subnets":[{"name":"samplesqlsubnet","properties":{"addressPrefix":"10.0.0.0/24","serviceEndpoints":[{"service":"Microsoft.Sql"}]}}]}}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "110"
+      - "243"
       Content-Type:
       - application/json
       Test-Request-Attempt:
@@ -81,21 +81,31 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"samplesqlvnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Network/virtualNetworks/samplesqlvnet\",\r\n
-      \ \"etag\": \"W/\\\"3e1a0664-cdf5-4f66-9887-5062f55f7d4c\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"bfb14e7f-a8b1-4faf-b988-8faac481ebf2\\\"\",\r\n  \"type\":
       \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"eastus\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"1698f393-6b2f-44a0-904e-910c8a42cece\",\r\n
+      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"fe2067a8-32fa-445d-a71a-95b1298978c8\",\r\n
       \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/16\"\r\n
-      \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
-      [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
+      \     ]\r\n    },\r\n    \"subnets\": [\r\n      {\r\n        \"name\": \"samplesqlsubnet\",\r\n
+      \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Network/virtualNetworks/samplesqlvnet/subnets/samplesqlsubnet\",\r\n
+      \       \"etag\": \"W/\\\"bfb14e7f-a8b1-4faf-b988-8faac481ebf2\\\"\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Updating\",\r\n          \"addressPrefix\":
+      \"10.0.0.0/24\",\r\n          \"serviceEndpoints\": [\r\n            {\r\n              \"provisioningState\":
+      \"Updating\",\r\n              \"service\": \"Microsoft.Sql\",\r\n              \"locations\":
+      [\r\n                \"eastus\"\r\n              ]\r\n            }\r\n          ],\r\n
+      \         \"delegations\": [],\r\n          \"privateEndpointNetworkPolicies\":
+      \"Disabled\",\r\n          \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n
+      \       },\r\n        \"type\": \"Microsoft.Network/virtualNetworks/subnets\"\r\n
+      \     }\r\n    ],\r\n    \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\":
+      false\r\n  }\r\n}"
     headers:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/eastus/operations/31a16f46-5e03-4c4f-a5fa-ac98c15a0985?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/eastus/operations/e3e7192a-cc1f-4367-a179-308a23281d9d?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "621"
+      - "1500"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -115,13 +125,46 @@ interactions:
     code: 201
     duration: ""
 - request:
-    body: '{"kind":"BlobStorage","location":"eastus","name":"asotestsqlstorage","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"tags":null}'
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/eastus/operations/e3e7192a-cc1f-4367-a179-308a23281d9d?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"kind":"BlobStorage","location":"eastus","name":"asotestsqlstorage","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"}}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "145"
+      - "133"
       Content-Type:
       - application/json
       Test-Request-Attempt:
@@ -140,7 +183,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus/asyncoperations/ef735a9a-831c-4405-99af-d580ad673dbd?monitor=true&api-version=2021-04-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus/asyncoperations/85e15937-2470-4561-b1fa-86098b6d89a7?monitor=true&api-version=2021-04-01
       Pragma:
       - no-cache
       Retry-After:
@@ -160,7 +203,41 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/eastus/operations/31a16f46-5e03-4c4f-a5fa-ac98c15a0985?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus/asyncoperations/85e15937-2470-4561-b1fa-86098b6d89a7?monitor=true&api-version=2021-04-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Content-Type:
+      - text/plain; charset=utf-8
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus/asyncoperations/85e15937-2470-4561-b1fa-86098b6d89a7?monitor=true&api-version=2021-04-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "17"
+      Server:
+      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/eastus/operations/e3e7192a-cc1f-4367-a179-308a23281d9d?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -195,19 +272,29 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"samplesqlvnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Network/virtualNetworks/samplesqlvnet\",\r\n
-      \ \"etag\": \"W/\\\"09642d27-5b83-4535-bc90-efeef756ca92\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"3a0a9f44-13ae-4fd0-9d19-c898659d1d25\\\"\",\r\n  \"type\":
       \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"eastus\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"1698f393-6b2f-44a0-904e-910c8a42cece\",\r\n
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"fe2067a8-32fa-445d-a71a-95b1298978c8\",\r\n
       \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/16\"\r\n
-      \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
-      [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
+      \     ]\r\n    },\r\n    \"subnets\": [\r\n      {\r\n        \"name\": \"samplesqlsubnet\",\r\n
+      \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Network/virtualNetworks/samplesqlvnet/subnets/samplesqlsubnet\",\r\n
+      \       \"etag\": \"W/\\\"3a0a9f44-13ae-4fd0-9d19-c898659d1d25\\\"\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\":
+      \"10.0.0.0/24\",\r\n          \"serviceEndpoints\": [\r\n            {\r\n              \"provisioningState\":
+      \"Succeeded\",\r\n              \"service\": \"Microsoft.Sql\",\r\n              \"locations\":
+      [\r\n                \"eastus\"\r\n              ]\r\n            }\r\n          ],\r\n
+      \         \"delegations\": [],\r\n          \"privateEndpointNetworkPolicies\":
+      \"Disabled\",\r\n          \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n
+      \       },\r\n        \"type\": \"Microsoft.Network/virtualNetworks/subnets\"\r\n
+      \     }\r\n    ],\r\n    \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\":
+      false\r\n  }\r\n}"
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"09642d27-5b83-4535-bc90-efeef756ca92"
+      - W/"3a0a9f44-13ae-4fd0-9d19-c898659d1d25"
       Expires:
       - "-1"
       Pragma:
@@ -228,40 +315,6 @@ interactions:
     body: ""
     form: {}
     headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus/asyncoperations/ef735a9a-831c-4405-99af-d580ad673dbd?monitor=true&api-version=2021-04-01
-    method: GET
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Content-Type:
-      - text/plain; charset=utf-8
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus/asyncoperations/ef735a9a-831c-4405-99af-d580ad673dbd?monitor=true&api-version=2021-04-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "17"
-      Server:
-      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
       Accept:
       - application/json
       Test-Request-Attempt:
@@ -270,19 +323,29 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"samplesqlvnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Network/virtualNetworks/samplesqlvnet\",\r\n
-      \ \"etag\": \"W/\\\"09642d27-5b83-4535-bc90-efeef756ca92\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"3a0a9f44-13ae-4fd0-9d19-c898659d1d25\\\"\",\r\n  \"type\":
       \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"eastus\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"1698f393-6b2f-44a0-904e-910c8a42cece\",\r\n
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"fe2067a8-32fa-445d-a71a-95b1298978c8\",\r\n
       \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/16\"\r\n
-      \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
-      [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
+      \     ]\r\n    },\r\n    \"subnets\": [\r\n      {\r\n        \"name\": \"samplesqlsubnet\",\r\n
+      \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Network/virtualNetworks/samplesqlvnet/subnets/samplesqlsubnet\",\r\n
+      \       \"etag\": \"W/\\\"3a0a9f44-13ae-4fd0-9d19-c898659d1d25\\\"\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\":
+      \"10.0.0.0/24\",\r\n          \"serviceEndpoints\": [\r\n            {\r\n              \"provisioningState\":
+      \"Succeeded\",\r\n              \"service\": \"Microsoft.Sql\",\r\n              \"locations\":
+      [\r\n                \"eastus\"\r\n              ]\r\n            }\r\n          ],\r\n
+      \         \"delegations\": [],\r\n          \"privateEndpointNetworkPolicies\":
+      \"Disabled\",\r\n          \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n
+      \       },\r\n        \"type\": \"Microsoft.Network/virtualNetworks/subnets\"\r\n
+      \     }\r\n    ],\r\n    \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\":
+      false\r\n  }\r\n}"
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"09642d27-5b83-4535-bc90-efeef756ca92"
+      - W/"3a0a9f44-13ae-4fd0-9d19-c898659d1d25"
       Expires:
       - "-1"
       Pragma:
@@ -315,9 +378,9 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"samplesqlsubnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Network/virtualNetworks/samplesqlvnet/subnets/samplesqlsubnet\",\r\n
-      \ \"etag\": \"W/\\\"4232219d-5eb6-4ad1-938f-26360ff614ab\\\"\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
-      \   \"serviceEndpoints\": [\r\n      {\r\n        \"provisioningState\": \"Updating\",\r\n
+      \ \"etag\": \"W/\\\"93272c02-ec2e-4a11-9d74-018f7bdfc1df\\\"\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
+      \   \"serviceEndpoints\": [\r\n      {\r\n        \"provisioningState\": \"Succeeded\",\r\n
       \       \"service\": \"Microsoft.Sql\",\r\n        \"locations\": [\r\n          \"eastus\"\r\n
       \       ]\r\n      }\r\n    ],\r\n    \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\":
       \"Disabled\",\r\n    \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n
@@ -326,185 +389,11 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/eastus/operations/dce1281c-488d-4f26-b94e-e5607a71bd65?api-version=2020-11-01
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "739"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "3"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 201 Created
-    code: 201
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/eastus/operations/dce1281c-488d-4f26-b94e-e5607a71bd65?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
-    headers:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/eastus/operations/2ba3f496-df94-4a22-ac01-ab8d961ab6c4?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "10"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus/asyncoperations/ef735a9a-831c-4405-99af-d580ad673dbd?monitor=true&api-version=2021-04-01
-    method: GET
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Content-Type:
-      - text/plain; charset=utf-8
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus/asyncoperations/ef735a9a-831c-4405-99af-d580ad673dbd?monitor=true&api-version=2021-04-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "3"
-      Server:
-      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus/asyncoperations/ef735a9a-831c-4405-99af-d580ad673dbd?monitor=true&api-version=2021-04-01
-    method: GET
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Content-Type:
-      - text/plain; charset=utf-8
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus/asyncoperations/ef735a9a-831c-4405-99af-d580ad673dbd?monitor=true&api-version=2021-04-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "3"
-      Server:
-      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/eastus/operations/dce1281c-488d-4f26-b94e-e5607a71bd65?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Network/virtualNetworks/samplesqlvnet/subnets/samplesqlsubnet?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"samplesqlsubnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Network/virtualNetworks/samplesqlvnet/subnets/samplesqlsubnet\",\r\n
-      \ \"etag\": \"W/\\\"b2499380-0629-4e67-bb3a-f0f657faf94b\\\"\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
-      \   \"serviceEndpoints\": [\r\n      {\r\n        \"provisioningState\": \"Succeeded\",\r\n
-      \       \"service\": \"Microsoft.Sql\",\r\n        \"locations\": [\r\n          \"eastus\"\r\n
-      \       ]\r\n      }\r\n    ],\r\n    \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\":
-      \"Disabled\",\r\n    \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n
-      \ },\r\n  \"type\": \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"b2499380-0629-4e67-bb3a-f0f657faf94b"
       Expires:
       - "-1"
       Pragma:
@@ -528,12 +417,12 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "1"
+      - "0"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Network/virtualNetworks/samplesqlvnet/subnets/samplesqlsubnet?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"name\": \"samplesqlsubnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Network/virtualNetworks/samplesqlvnet/subnets/samplesqlsubnet\",\r\n
-      \ \"etag\": \"W/\\\"b2499380-0629-4e67-bb3a-f0f657faf94b\\\"\",\r\n  \"properties\":
+      \ \"etag\": \"W/\\\"93272c02-ec2e-4a11-9d74-018f7bdfc1df\\\"\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
       \   \"serviceEndpoints\": [\r\n      {\r\n        \"provisioningState\": \"Succeeded\",\r\n
       \       \"service\": \"Microsoft.Sql\",\r\n        \"locations\": [\r\n          \"eastus\"\r\n
@@ -546,7 +435,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"b2499380-0629-4e67-bb3a-f0f657faf94b"
+      - W/"93272c02-ec2e-4a11-9d74-018f7bdfc1df"
       Expires:
       - "-1"
       Pragma:
@@ -568,42 +457,8 @@ interactions:
     form: {}
     headers:
       Test-Request-Attempt:
-      - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus/asyncoperations/ef735a9a-831c-4405-99af-d580ad673dbd?monitor=true&api-version=2021-04-01
-    method: GET
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Content-Type:
-      - text/plain; charset=utf-8
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus/asyncoperations/ef735a9a-831c-4405-99af-d580ad673dbd?monitor=true&api-version=2021-04-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "3"
-      Server:
-      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus/asyncoperations/ef735a9a-831c-4405-99af-d580ad673dbd?monitor=true&api-version=2021-04-01
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus/asyncoperations/85e15937-2470-4561-b1fa-86098b6d89a7?monitor=true&api-version=2021-04-01
     method: GET
   response:
     body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"BlobStorage","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Storage/storageAccounts/asotestsqlstorage","name":"asotestsqlstorage","type":"Microsoft.Storage/storageAccounts","location":"eastus","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"privateEndpointConnections":[],"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://asotestsqlstorage.dfs.core.windows.net/","blob":"https://asotestsqlstorage.blob.core.windows.net/","table":"https://asotestsqlstorage.table.core.windows.net/"},"primaryLocation":"eastus","statusOfPrimary":"available"}}'
@@ -689,7 +544,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "11997"
+      - "11999"
     status: 200 OK
     code: 200
     duration: ""
@@ -785,7 +640,7 @@ interactions:
       Content-Type:
       - application/json
       Etag:
-      - '"0x8DB6BCEAA886F2A"'
+      - '"0x8DB736B8CAEA952"'
       Expires:
       - "-1"
       Pragma:
@@ -808,14 +663,14 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Storage/storageAccounts/asotestsqlstorage/blobServices/default/containers/vulnerabilityassessments?api-version=2021-04-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Storage/storageAccounts/asotestsqlstorage/blobServices/default/containers/vulnerabilityassessments","name":"vulnerabilityassessments","type":"Microsoft.Storage/storageAccounts/blobServices/containers","etag":"\"0x8DB6BCEAA886F2A\"","properties":{"deleted":false,"remainingRetentionDays":0,"defaultEncryptionScope":"$account-encryption-key","denyEncryptionScopeOverride":false,"publicAccess":"None","leaseStatus":"Unlocked","leaseState":"Available","lastModifiedTime":"2001-02-03T04:05:06Z","legalHold":{"hasLegalHold":false,"tags":[]},"hasImmutabilityPolicy":false,"hasLegalHold":false}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Storage/storageAccounts/asotestsqlstorage/blobServices/default/containers/vulnerabilityassessments","name":"vulnerabilityassessments","type":"Microsoft.Storage/storageAccounts/blobServices/containers","etag":"\"0x8DB736B8CAEA952\"","properties":{"deleted":false,"remainingRetentionDays":0,"defaultEncryptionScope":"$account-encryption-key","denyEncryptionScopeOverride":false,"publicAccess":"None","leaseStatus":"Unlocked","leaseState":"Available","lastModifiedTime":"2001-02-03T04:05:06Z","legalHold":{"hasLegalHold":false,"tags":[]},"hasImmutabilityPolicy":false,"hasLegalHold":false}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json
       Etag:
-      - '"0x8DB6BCEAA886F2A"'
+      - '"0x8DB736B8CAEA952"'
       Expires:
       - "-1"
       Pragma:
@@ -842,14 +697,14 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Storage/storageAccounts/asotestsqlstorage/blobServices/default/containers/vulnerabilityassessments?api-version=2021-04-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Storage/storageAccounts/asotestsqlstorage/blobServices/default/containers/vulnerabilityassessments","name":"vulnerabilityassessments","type":"Microsoft.Storage/storageAccounts/blobServices/containers","etag":"\"0x8DB6BCEAA886F2A\"","properties":{"deleted":false,"remainingRetentionDays":0,"defaultEncryptionScope":"$account-encryption-key","denyEncryptionScopeOverride":false,"publicAccess":"None","leaseStatus":"Unlocked","leaseState":"Available","lastModifiedTime":"2001-02-03T04:05:06Z","legalHold":{"hasLegalHold":false,"tags":[]},"hasImmutabilityPolicy":false,"hasLegalHold":false}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Storage/storageAccounts/asotestsqlstorage/blobServices/default/containers/vulnerabilityassessments","name":"vulnerabilityassessments","type":"Microsoft.Storage/storageAccounts/blobServices/containers","etag":"\"0x8DB736B8CAEA952\"","properties":{"deleted":false,"remainingRetentionDays":0,"defaultEncryptionScope":"$account-encryption-key","denyEncryptionScopeOverride":false,"publicAccess":"None","leaseStatus":"Unlocked","leaseState":"Available","lastModifiedTime":"2001-02-03T04:05:06Z","legalHold":{"hasLegalHold":false,"tags":[]},"hasImmutabilityPolicy":false,"hasLegalHold":false}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json
       Etag:
-      - '"0x8DB6BCEAA886F2A"'
+      - '"0x8DB736B8CAEA952"'
       Expires:
       - "-1"
       Pragma:
@@ -883,7 +738,7 @@ interactions:
     body: '{"operation":"UpsertLogicalServer","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/c28e176c-4465-4012-bb4f-bd98688b8b43?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/249f4b5c-ed43-4130-98a5-25e6e442eadb?api-version=2021-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -893,7 +748,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/serverOperationResults/c28e176c-4465-4012-bb4f-bd98688b8b43?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/serverOperationResults/249f4b5c-ed43-4130-98a5-25e6e442eadb?api-version=2021-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -913,74 +768,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/c28e176c-4465-4012-bb4f-bd98688b8b43?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/249f4b5c-ed43-4130-98a5-25e6e442eadb?api-version=2021-11-01
     method: GET
   response:
-    body: '{"name":"c28e176c-4465-4012-bb4f-bd98688b8b43","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "1"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/c28e176c-4465-4012-bb4f-bd98688b8b43?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"name":"c28e176c-4465-4012-bb4f-bd98688b8b43","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "1"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/c28e176c-4465-4012-bb4f-bd98688b8b43?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"name":"c28e176c-4465-4012-bb4f-bd98688b8b43","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"249f4b5c-ed43-4130-98a5-25e6e442eadb","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -1008,107 +799,11 @@ interactions:
     form: {}
     headers:
       Test-Request-Attempt:
-      - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/c28e176c-4465-4012-bb4f-bd98688b8b43?api-version=2021-11-01
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/249f4b5c-ed43-4130-98a5-25e6e442eadb?api-version=2021-11-01
     method: GET
   response:
-    body: '{"name":"c28e176c-4465-4012-bb4f-bd98688b8b43","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "20"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/c28e176c-4465-4012-bb4f-bd98688b8b43?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"name":"c28e176c-4465-4012-bb4f-bd98688b8b43","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "20"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/c28e176c-4465-4012-bb4f-bd98688b8b43?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"name":"c28e176c-4465-4012-bb4f-bd98688b8b43","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "6"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/serverAzureAsyncOperation/c28e176c-4465-4012-bb4f-bd98688b8b43?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"name":"c28e176c-4465-4012-bb4f-bd98688b8b43","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"249f4b5c-ed43-4130-98a5-25e6e442eadb","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -1192,6 +887,43 @@ interactions:
       - nosniff
     status: 200 OK
     code: 200
+    duration: ""
+- request:
+    body: '{"name":"default","properties":{"recurringScans":{"isEnabled":false},"storageAccountAccessKey":"{KEY}","storageContainerPath":"https://asotestsqlstorage.blob.core.windows.net/vulnerabilityassessments"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "285"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/vulnerabilityAssessments/default?api-version=2021-11-01
+    method: PUT
+  response:
+    body: '{"error":{"code":"VulnerabilityAssessmentADSIsDisabled","message":"Advanced
+      Data Security should be enabled in order to use Vulnerability Assessment."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "152"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 400 Bad Request
+    code: 400
     duration: ""
 - request:
     body: '{"name":"default","properties":{"state":"Enabled","storageAccountAccessKey":"{KEY}","storageAccountSubscriptionId":"00000000-0000-0000-0000-000000000000","storageEndpoint":"https://asotestsqlstorage.blob.core.windows.net/"}}'
@@ -1211,7 +943,7 @@ interactions:
     body: '{"operation":"UpsertServerEngineAuditingPolicy","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Sql/locations/eastus/auditingSettingsAzureAsyncOperation/ca7dfdf8-d89b-4d5a-800f-99a3737752ab?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Sql/locations/eastus/auditingSettingsAzureAsyncOperation/17c7234c-dec2-4ac7-908e-9f7f5a3b3741?api-version=2021-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -1221,53 +953,11 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Sql/locations/eastus/auditingSettingsOperationResults/ca7dfdf8-d89b-4d5a-800f-99a3737752ab?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Sql/locations/eastus/auditingSettingsOperationResults/17c7234c-dec2-4ac7-908e-9f7f5a3b3741?api-version=2021-11-01
       Pragma:
       - no-cache
       Retry-After:
       - "60"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: '{"name":"Default","properties":{"state":"Enabled"}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "51"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/advancedThreatProtectionSettings/Default?api-version=2021-11-01
-    method: PUT
-  response:
-    body: '{"operation":"UpsertServerThreatDetectionPolicy","startTime":"2001-02-03T04:05:06Z"}'
-    headers:
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/advancedThreatProtectionAzureAsyncOperation/7534a025-fad1-4237-85fc-3f18ab760cf9?api-version=2021-11-01
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "87"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/advancedThreatProtectionOperationResults/7534a025-fad1-4237-85fc-3f18ab760cf9?api-version=2021-11-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "3"
       Server:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
@@ -1295,7 +985,7 @@ interactions:
     body: '{"operation":"UpsertServerThreatDetectionPolicy","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Sql/locations/eastus/securityAlertPoliciesAzureAsyncOperation/df5b3b4c-1345-4a05-b987-8f970e62e9cd?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Sql/locations/eastus/securityAlertPoliciesAzureAsyncOperation/bea9b1b0-9278-4008-9845-0f46e8a5eca7?api-version=2021-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -1305,7 +995,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Sql/locations/eastus/securityAlertPoliciesOperationResults/df5b3b4c-1345-4a05-b987-8f970e62e9cd?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Sql/locations/eastus/securityAlertPoliciesOperationResults/bea9b1b0-9278-4008-9845-0f46e8a5eca7?api-version=2021-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -1320,40 +1010,46 @@ interactions:
     code: 202
     duration: ""
 - request:
-    body: '{"name":"default","properties":{"recurringScans":{"isEnabled":false},"storageAccountAccessKey":"{KEY}","storageContainerPath":"https://asotestsqlstorage.blob.core.windows.net/vulnerabilityassessments"}}'
+    body: '{"location":"eastus","name":"asotestkekpcm","properties":{"collation":"SQL_Latin1_General_CP1_CI_AS"}}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "285"
+      - "102"
       Content-Type:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/vulnerabilityAssessments/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm?api-version=2021-11-01
     method: PUT
   response:
-    body: '{"properties":{"storageContainerPath":"https://asotestsqlstorage.blob.core.windows.net/vulnerabilityassessments/","recurringScans":{"isEnabled":false,"emailSubscriptionAdmins":true}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/vulnerabilityAssessments/Default","name":"Default","type":"Microsoft.Sql/servers/vulnerabilityAssessments"}'
+    body: '{"operation":"CreateLogicalDatabase","startTime":"2001-02-03T04:05:06Z"}'
     headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/a19b10f2-6c34-400d-9463-cbb94e185068?api-version=2021-11-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "427"
+      - "76"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/databaseOperationResults/a19b10f2-6c34-400d-9463-cbb94e185068?api-version=2021-11-01
       Pragma:
       - no-cache
+      Retry-After:
+      - "15"
       Server:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
-    status: 201 Created
-    code: 201
+    status: 202 Accepted
+    code: 202
     duration: ""
 - request:
     body: '{"name":"default","properties":{"connectionType":"Default"}}'
@@ -1373,17 +1069,17 @@ interactions:
     body: '{"operation":"UpdateServerConnectionPolicy","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/connectionPoliciesAzureAsyncOperation/215f8517-eafb-4c59-9116-9730cd8a3e2c?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/connectionPoliciesAzureAsyncOperation/c6a7ef28-aaf8-4893-9052-263cebe9b5c8?api-version=2021-11-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "82"
+      - "83"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/connectionPoliciesOperationResults/215f8517-eafb-4c59-9116-9730cd8a3e2c?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/connectionPoliciesOperationResults/c6a7ef28-aaf8-4893-9052-263cebe9b5c8?api-version=2021-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -1415,21 +1111,147 @@ interactions:
     body: '{"operation":"CreateLogicalServerOutboundFirewallRule","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/2324d4a1-3158-458a-b886-2ac95385ff14?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/c946a58d-ccfd-4858-9f61-b23bdbfa562a?api-version=2021-11-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "94"
+      - "93"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesOperationResults/2324d4a1-3158-458a-b886-2ac95385ff14?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesOperationResults/c946a58d-ccfd-4858-9f61-b23bdbfa562a?api-version=2021-11-01
       Pragma:
       - no-cache
       Retry-After:
       - "5"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: '{"name":"asotestulcgqg","properties":{"virtualNetworkSubnetId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Network/virtualNetworks/samplesqlvnet/subnets/samplesqlsubnet"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "233"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/virtualNetworkRules/asotestulcgqg?api-version=2021-11-01
+    method: PUT
+  response:
+    body: '{"operation":"UpsertVnetFirewallRule","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/virtualNetworkRulesAzureAsyncOperation/3c78c587-4f5d-41f4-823e-3ab9114583c9?api-version=2021-11-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "77"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/virtualNetworkRulesOperationResults/3c78c587-4f5d-41f4-823e-3ab9114583c9?api-version=2021-11-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: '{"name":"Default","properties":{"state":"Enabled"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "51"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/advancedThreatProtectionSettings/Default?api-version=2021-11-01
+    method: PUT
+  response:
+    body: '{"operation":"UpsertServerThreatDetectionPolicy","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/advancedThreatProtectionAzureAsyncOperation/9e4038f1-11bb-4708-bba5-0284924c57c4?api-version=2021-11-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "88"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/advancedThreatProtectionOperationResults/9e4038f1-11bb-4708-bba5-0284924c57c4?api-version=2021-11-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "3"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: '{"location":"eastus","name":"asotesttcwsht","properties":{"perDatabaseSettings":{"maxCapacity":100,"minCapacity":0}},"sku":{"capacity":100,"name":"StandardPool","tier":"Standard"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "180"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/elasticPools/asotesttcwsht?api-version=2021-11-01
+    method: PUT
+  response:
+    body: '{"operation":"CreateLogicalElasticPool","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/elasticPoolAzureAsyncOperation/b15ed722-1cc5-4200-84e8-18445b4a7ffe?api-version=2021-11-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "79"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/elasticPoolOperationResults/b15ed722-1cc5-4200-84e8-18445b4a7ffe?api-version=2021-11-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
       Server:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
@@ -1476,130 +1298,40 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"asotestulcgqg","properties":{"virtualNetworkSubnetId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Network/virtualNetworks/samplesqlvnet/subnets/samplesqlsubnet"}}'
+    body: '{"name":"asotestggernv","properties":{"endIPv6Address":"2001:db8:0000:0000:0000:0000:00ff:ffff","startIPv6Address":"2001:db8::"}}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "233"
+      - "129"
       Content-Type:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/virtualNetworkRules/asotestulcgqg?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/ipv6FirewallRules/asotestggernv?api-version=2021-11-01
     method: PUT
   response:
-    body: '{"operation":"UpsertVnetFirewallRule","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"properties":{"startIPv6Address":"2001:db8::","endIPv6Address":"2001:db8:0000:0000:0000:0000:00ff:ffff"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/ipv6FirewallRules/asotestggernv","name":"asotestggernv","type":"Microsoft.Sql/servers/ipv6FirewallRules"}'
     headers:
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/virtualNetworkRulesAzureAsyncOperation/d9ca714e-7105-487a-9aef-194f02bff18b?api-version=2021-11-01
       Cache-Control:
       - no-cache
-      Content-Length:
-      - "77"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/virtualNetworkRulesOperationResults/d9ca714e-7105-487a-9aef-194f02bff18b?api-version=2021-11-01
       Pragma:
       - no-cache
-      Retry-After:
-      - "15"
       Server:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: '{"location":"eastus","name":"asotestkekpcm","properties":{"collation":"SQL_Latin1_General_CP1_CI_AS"}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "102"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm?api-version=2021-11-01
-    method: PUT
-  response:
-    body: '{"operation":"CreateLogicalDatabase","startTime":"2001-02-03T04:05:06Z"}'
-    headers:
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/f72a3456-3963-4178-bac6-334ca6dbb4f7?api-version=2021-11-01
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "75"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/databaseOperationResults/f72a3456-3963-4178-bac6-334ca6dbb4f7?api-version=2021-11-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: '{"location":"eastus","name":"asotesttcwsht","properties":{"perDatabaseSettings":{"maxCapacity":100,"minCapacity":0}},"sku":{"capacity":100,"name":"StandardPool","tier":"Standard"}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "180"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/elasticPools/asotesttcwsht?api-version=2021-11-01
-    method: PUT
-  response:
-    body: '{"operation":"CreateLogicalElasticPool","startTime":"2001-02-03T04:05:06Z"}'
-    headers:
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/elasticPoolAzureAsyncOperation/f3defc96-8aef-4394-8f81-41ed7da5c7e7?api-version=2021-11-01
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "75"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/elasticPoolOperationResults/f3defc96-8aef-4394-8f81-41ed7da5c7e7?api-version=2021-11-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
+    status: 200 OK
+    code: 200
     duration: ""
 - request:
     body: ""
@@ -1637,12 +1369,44 @@ interactions:
     body: ""
     form: {}
     headers:
+      Accept:
+      - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Sql/locations/eastus/auditingSettingsAzureAsyncOperation/ca7dfdf8-d89b-4d5a-800f-99a3737752ab?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/ipv6FirewallRules/asotestggernv?api-version=2021-11-01
     method: GET
   response:
-    body: '{"name":"ca7dfdf8-d89b-4d5a-800f-99a3737752ab","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"properties":{"startIPv6Address":"2001:db8::","endIPv6Address":"2001:db8:0000:0000:0000:0000:00ff:ffff"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/ipv6FirewallRules/asotestggernv","name":"asotestggernv","type":"Microsoft.Sql/servers/ipv6FirewallRules"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Sql/locations/eastus/auditingSettingsAzureAsyncOperation/17c7234c-dec2-4ac7-908e-9f7f5a3b3741?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"name":"17c7234c-dec2-4ac7-908e-9f7f5a3b3741","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -1731,10 +1495,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/advancedThreatProtectionAzureAsyncOperation/7534a025-fad1-4237-85fc-3f18ab760cf9?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Sql/locations/eastus/securityAlertPoliciesAzureAsyncOperation/bea9b1b0-9278-4008-9845-0f46e8a5eca7?api-version=2021-11-01
     method: GET
   response:
-    body: '{"name":"7534a025-fad1-4237-85fc-3f18ab760cf9","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"bea9b1b0-9278-4008-9845-0f46e8a5eca7","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -1761,10 +1525,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/advancedThreatProtectionSettings/Default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/securityAlertPolicies/Default?api-version=2021-11-01
     method: GET
   response:
-    body: '{"properties":{"state":"Enabled","creationTime":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/advancedThreatProtectionSettings/Default","name":"Default","type":"Microsoft.Sql/servers/advancedThreatProtectionSettings"}'
+    body: '{"properties":{"state":"Enabled","disabledAlerts":[""],"emailAddresses":[""],"emailAccountAdmins":false,"storageEndpoint":"","storageAccountAccessKey":"","retentionDays":0,"creationTime":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/securityAlertPolicies/Default","name":"Default","type":"Microsoft.Sql/servers/securityAlertPolicies"}'
     headers:
       Cache-Control:
       - no-cache
@@ -1793,10 +1557,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/advancedThreatProtectionSettings/Default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/securityAlertPolicies/Default?api-version=2021-11-01
     method: GET
   response:
-    body: '{"properties":{"state":"Enabled","creationTime":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/advancedThreatProtectionSettings/Default","name":"Default","type":"Microsoft.Sql/servers/advancedThreatProtectionSettings"}'
+    body: '{"properties":{"state":"Enabled","disabledAlerts":[""],"emailAddresses":[""],"emailAccountAdmins":false,"storageEndpoint":"","storageAccountAccessKey":"","retentionDays":0,"creationTime":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/securityAlertPolicies/Default","name":"Default","type":"Microsoft.Sql/servers/securityAlertPolicies"}'
     headers:
       Cache-Control:
       - no-cache
@@ -1823,10 +1587,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Sql/locations/eastus/securityAlertPoliciesAzureAsyncOperation/df5b3b4c-1345-4a05-b987-8f970e62e9cd?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/a19b10f2-6c34-400d-9463-cbb94e185068?api-version=2021-11-01
     method: GET
   response:
-    body: '{"name":"df5b3b4c-1345-4a05-b987-8f970e62e9cd","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"a19b10f2-6c34-400d-9463-cbb94e185068","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -1836,6 +1600,8 @@ interactions:
       - "-1"
       Pragma:
       - no-cache
+      Retry-After:
+      - "15"
       Server:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
@@ -1853,72 +1619,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/vulnerabilityAssessments/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/connectionPoliciesAzureAsyncOperation/c6a7ef28-aaf8-4893-9052-263cebe9b5c8?api-version=2021-11-01
     method: GET
   response:
-    body: '{"properties":{"storageContainerPath":"https://asotestsqlstorage.blob.core.windows.net/vulnerabilityassessments/","recurringScans":{"isEnabled":false,"emailSubscriptionAdmins":true,"emails":[]}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/vulnerabilityAssessments/Default","name":"Default","type":"Microsoft.Sql/servers/vulnerabilityAssessments"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/vulnerabilityAssessments/default?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"properties":{"storageContainerPath":"https://asotestsqlstorage.blob.core.windows.net/vulnerabilityassessments/","recurringScans":{"isEnabled":false,"emailSubscriptionAdmins":true,"emails":[]}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/vulnerabilityAssessments/Default","name":"Default","type":"Microsoft.Sql/servers/vulnerabilityAssessments"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/connectionPoliciesAzureAsyncOperation/215f8517-eafb-4c59-9116-9730cd8a3e2c?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"name":"215f8517-eafb-4c59-9116-9730cd8a3e2c","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"c6a7ef28-aaf8-4893-9052-263cebe9b5c8","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -2009,10 +1713,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/2324d4a1-3158-458a-b886-2ac95385ff14?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/c946a58d-ccfd-4858-9f61-b23bdbfa562a?api-version=2021-11-01
     method: GET
   response:
-    body: '{"name":"2324d4a1-3158-458a-b886-2ac95385ff14","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"c946a58d-ccfd-4858-9f61-b23bdbfa562a","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -2041,10 +1745,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/virtualNetworkRulesAzureAsyncOperation/d9ca714e-7105-487a-9aef-194f02bff18b?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/outboundFirewallRules/server.database.windows.net?api-version=2021-11-01
     method: GET
   response:
-    body: '{"name":"d9ca714e-7105-487a-9aef-194f02bff18b","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"properties":{"provisioningState":"Ready"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/outboundFirewallRules/server.database.windows.net","name":"server.database.windows.net","type":"Microsoft.Sql/servers/outboundFirewallRules"}'
     headers:
       Cache-Control:
       - no-cache
@@ -2054,8 +1758,38 @@ interactions:
       - "-1"
       Pragma:
       - no-cache
-      Retry-After:
-      - "15"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/outboundFirewallRules/server.database.windows.net?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"properties":{"provisioningState":"Ready"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/outboundFirewallRules/server.database.windows.net","name":"server.database.windows.net","type":"Microsoft.Sql/servers/outboundFirewallRules"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
       Server:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
@@ -2072,11 +1806,11 @@ interactions:
     form: {}
     headers:
       Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/2324d4a1-3158-458a-b886-2ac95385ff14?api-version=2021-11-01
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/virtualNetworkRulesAzureAsyncOperation/3c78c587-4f5d-41f4-823e-3ab9114583c9?api-version=2021-11-01
     method: GET
   response:
-    body: '{"name":"2324d4a1-3158-458a-b886-2ac95385ff14","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"3c78c587-4f5d-41f4-823e-3ab9114583c9","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -2087,7 +1821,7 @@ interactions:
       Pragma:
       - no-cache
       Retry-After:
-      - "5"
+      - "15"
       Server:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
@@ -2118,6 +1852,38 @@ interactions:
       - "-1"
       Pragma:
       - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/a19b10f2-6c34-400d-9463-cbb94e185068?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"name":"a19b10f2-6c34-400d-9463-cbb94e185068","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
       Server:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
@@ -2167,10 +1933,40 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/f72a3456-3963-4178-bac6-334ca6dbb4f7?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/advancedThreatProtectionAzureAsyncOperation/9e4038f1-11bb-4708-bba5-0284924c57c4?api-version=2021-11-01
     method: GET
   response:
-    body: '{"name":"f72a3456-3963-4178-bac6-334ca6dbb4f7","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"9e4038f1-11bb-4708-bba5-0284924c57c4","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/elasticPoolAzureAsyncOperation/b15ed722-1cc5-4200-84e8-18445b4a7ffe?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"name":"b15ed722-1cc5-4200-84e8-18445b4a7ffe","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -2194,105 +1990,134 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"asotestggernv","properties":{"endIPv6Address":"2001:db8:0000:0000:0000:0000:00ff:ffff","startIPv6Address":"2001:db8::"}}'
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/elasticPools/asotesttcwsht?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"StandardPool","tier":"Standard","capacity":100},"kind":"pool","properties":{"state":"Ready","creationDate":"2001-02-03T04:05:06Z","maxSizeBytes":107374182400,"perDatabaseSettings":{"minCapacity":0.0,"maxCapacity":100.0},"zoneRedundant":false,"maintenanceConfigurationId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default"},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/elasticPools/asotesttcwsht","name":"asotesttcwsht","type":"Microsoft.Sql/servers/elasticPools"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/elasticPools/asotesttcwsht?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"StandardPool","tier":"Standard","capacity":100},"kind":"pool","properties":{"state":"Ready","creationDate":"2001-02-03T04:05:06Z","maxSizeBytes":107374182400,"perDatabaseSettings":{"minCapacity":0.0,"maxCapacity":100.0},"zoneRedundant":false,"maintenanceConfigurationId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default"},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/elasticPools/asotesttcwsht","name":"asotesttcwsht","type":"Microsoft.Sql/servers/elasticPools"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/a19b10f2-6c34-400d-9463-cbb94e185068?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"name":"a19b10f2-6c34-400d-9463-cbb94e185068","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"default","properties":{"recurringScans":{"isEnabled":false},"storageAccountAccessKey":"{KEY}","storageContainerPath":"https://asotestsqlstorage.blob.core.windows.net/vulnerabilityassessments"}}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "129"
+      - "285"
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/ipv6FirewallRules/asotestggernv?api-version=2021-11-01
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/vulnerabilityAssessments/default?api-version=2021-11-01
     method: PUT
   response:
-    body: '{"error":{"code":"GatewayTimeout","message":"The gateway did not receive
-      a response from ''Microsoft.Sql'' within the specified time period."}}'
+    body: '{"properties":{"storageContainerPath":"https://asotestsqlstorage.blob.core.windows.net/vulnerabilityassessments/","recurringScans":{"isEnabled":false,"emailSubscriptionAdmins":true}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/vulnerabilityAssessments/Default","name":"Default","type":"Microsoft.Sql/servers/vulnerabilityAssessments"}'
     headers:
       Cache-Control:
       - no-cache
       Content-Length:
-      - "141"
+      - "427"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Pragma:
       - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - service
-    status: 504 Gateway Timeout
-    code: 504
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/2324d4a1-3158-458a-b886-2ac95385ff14?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"name":"2324d4a1-3158-458a-b886-2ac95385ff14","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "5"
       Server:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/elasticPoolAzureAsyncOperation/f3defc96-8aef-4394-8f81-41ed7da5c7e7?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"name":"f3defc96-8aef-4394-8f81-41ed7da5c7e7","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
+    status: 201 Created
+    code: 201
     duration: ""
 - request:
     body: ""
@@ -2300,10 +2125,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Sql/locations/eastus/securityAlertPoliciesAzureAsyncOperation/df5b3b4c-1345-4a05-b987-8f970e62e9cd?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/advancedThreatProtectionAzureAsyncOperation/9e4038f1-11bb-4708-bba5-0284924c57c4?api-version=2021-11-01
     method: GET
   response:
-    body: '{"name":"df5b3b4c-1345-4a05-b987-8f970e62e9cd","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"9e4038f1-11bb-4708-bba5-0284924c57c4","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -2330,10 +2155,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/elasticPools/asotesttcwsht?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/advancedThreatProtectionSettings/Default?api-version=2021-11-01
     method: GET
   response:
-    body: '{"sku":{"name":"StandardPool","tier":"Standard","capacity":100},"kind":"pool","properties":{"state":"Ready","creationDate":"2001-02-03T04:05:06Z","maxSizeBytes":107374182400,"perDatabaseSettings":{"minCapacity":0.0,"maxCapacity":100.0},"zoneRedundant":false,"maintenanceConfigurationId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default"},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/elasticPools/asotesttcwsht","name":"asotesttcwsht","type":"Microsoft.Sql/servers/elasticPools"}'
+    body: '{"properties":{"state":"Enabled","creationTime":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/advancedThreatProtectionSettings/Default","name":"Default","type":"Microsoft.Sql/servers/advancedThreatProtectionSettings"}'
     headers:
       Cache-Control:
       - no-cache
@@ -2362,40 +2187,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/elasticPools/asotesttcwsht?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/advancedThreatProtectionSettings/Default?api-version=2021-11-01
     method: GET
   response:
-    body: '{"sku":{"name":"StandardPool","tier":"Standard","capacity":100},"kind":"pool","properties":{"state":"Ready","creationDate":"2001-02-03T04:05:06Z","maxSizeBytes":107374182400,"perDatabaseSettings":{"minCapacity":0.0,"maxCapacity":100.0},"zoneRedundant":false,"maintenanceConfigurationId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default"},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/elasticPools/asotesttcwsht","name":"asotesttcwsht","type":"Microsoft.Sql/servers/elasticPools"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Sql/locations/eastus/securityAlertPoliciesAzureAsyncOperation/df5b3b4c-1345-4a05-b987-8f970e62e9cd?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"name":"df5b3b4c-1345-4a05-b987-8f970e62e9cd","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"properties":{"state":"Enabled","creationTime":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/advancedThreatProtectionSettings/Default","name":"Default","type":"Microsoft.Sql/servers/advancedThreatProtectionSettings"}'
     headers:
       Cache-Control:
       - no-cache
@@ -2422,322 +2217,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/2324d4a1-3158-458a-b886-2ac95385ff14?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/a19b10f2-6c34-400d-9463-cbb94e185068?api-version=2021-11-01
     method: GET
   response:
-    body: '{"name":"2324d4a1-3158-458a-b886-2ac95385ff14","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "5"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/outboundFirewallRulesAzureAsyncOperation/2324d4a1-3158-458a-b886-2ac95385ff14?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"name":"2324d4a1-3158-458a-b886-2ac95385ff14","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "5"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/outboundFirewallRules/server.database.windows.net?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"properties":{"provisioningState":"Ready"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/outboundFirewallRules/server.database.windows.net","name":"server.database.windows.net","type":"Microsoft.Sql/servers/outboundFirewallRules"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Sql/locations/eastus/securityAlertPoliciesAzureAsyncOperation/df5b3b4c-1345-4a05-b987-8f970e62e9cd?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"name":"df5b3b4c-1345-4a05-b987-8f970e62e9cd","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/outboundFirewallRules/server.database.windows.net?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"properties":{"provisioningState":"Ready"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/outboundFirewallRules/server.database.windows.net","name":"server.database.windows.net","type":"Microsoft.Sql/servers/outboundFirewallRules"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/f72a3456-3963-4178-bac6-334ca6dbb4f7?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"name":"f72a3456-3963-4178-bac6-334ca6dbb4f7","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Sql/locations/eastus/securityAlertPoliciesAzureAsyncOperation/df5b3b4c-1345-4a05-b987-8f970e62e9cd?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"name":"df5b3b4c-1345-4a05-b987-8f970e62e9cd","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/f72a3456-3963-4178-bac6-334ca6dbb4f7?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"name":"f72a3456-3963-4178-bac6-334ca6dbb4f7","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/securityAlertPolicies/Default?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"properties":{"state":"Enabled","disabledAlerts":[""],"emailAddresses":[""],"emailAccountAdmins":false,"storageEndpoint":"","storageAccountAccessKey":"","retentionDays":0,"creationTime":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/securityAlertPolicies/Default","name":"Default","type":"Microsoft.Sql/servers/securityAlertPolicies"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/securityAlertPolicies/Default?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"properties":{"state":"Enabled","disabledAlerts":[""],"emailAddresses":[""],"emailAccountAdmins":false,"storageEndpoint":"","storageAccountAccessKey":"","retentionDays":0,"creationTime":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/securityAlertPolicies/Default","name":"Default","type":"Microsoft.Sql/servers/securityAlertPolicies"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/f72a3456-3963-4178-bac6-334ca6dbb4f7?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"name":"f72a3456-3963-4178-bac6-334ca6dbb4f7","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"a19b10f2-6c34-400d-9463-cbb94e185068","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -2769,7 +2252,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm?api-version=2021-11-01
     method: GET
   response:
-    body: '{"sku":{"name":"GP_Gen5","tier":"GeneralPurpose","family":"Gen5","capacity":2},"kind":"v12.0,user,vcore","properties":{"collation":"SQL_Latin1_General_CP1_CI_AS","maxSizeBytes":34359738368,"status":"Online","databaseId":"e48c98b7-0615-4419-b255-47bbd4e48505","creationDate":"2001-02-03T04:05:06Z","currentServiceObjectiveName":"GP_Gen5_2","requestedServiceObjectiveName":"GP_Gen5_2","defaultSecondaryLocation":"westus","catalogCollation":"SQL_Latin1_General_CP1_CI_AS","zoneRedundant":false,"licenseType":"LicenseIncluded","maxLogSizeBytes":193273528320,"readScale":"Disabled","currentSku":{"name":"GP_Gen5","tier":"GeneralPurpose","family":"Gen5","capacity":2},"currentBackupStorageRedundancy":"Geo","requestedBackupStorageRedundancy":"Geo","maintenanceConfigurationId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default","isLedgerOn":false,"isInfraEncryptionEnabled":false},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm","name":"asotestkekpcm","type":"Microsoft.Sql/servers/databases"}'
+    body: '{"sku":{"name":"GP_Gen5","tier":"GeneralPurpose","family":"Gen5","capacity":2},"kind":"v12.0,user,vcore","properties":{"collation":"SQL_Latin1_General_CP1_CI_AS","maxSizeBytes":34359738368,"status":"Online","databaseId":"3efb695e-ecc6-46b4-a880-f9781243e8c2","creationDate":"2001-02-03T04:05:06Z","currentServiceObjectiveName":"GP_Gen5_2","requestedServiceObjectiveName":"GP_Gen5_2","defaultSecondaryLocation":"westus","catalogCollation":"SQL_Latin1_General_CP1_CI_AS","zoneRedundant":false,"licenseType":"LicenseIncluded","maxLogSizeBytes":193273528320,"readScale":"Disabled","currentSku":{"name":"GP_Gen5","tier":"GeneralPurpose","family":"Gen5","capacity":2},"currentBackupStorageRedundancy":"Geo","requestedBackupStorageRedundancy":"Geo","maintenanceConfigurationId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default","isLedgerOn":false,"isInfraEncryptionEnabled":false},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm","name":"asotestkekpcm","type":"Microsoft.Sql/servers/databases"}'
     headers:
       Cache-Control:
       - no-cache
@@ -2801,7 +2284,69 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm?api-version=2021-11-01
     method: GET
   response:
-    body: '{"sku":{"name":"GP_Gen5","tier":"GeneralPurpose","family":"Gen5","capacity":2},"kind":"v12.0,user,vcore","properties":{"collation":"SQL_Latin1_General_CP1_CI_AS","maxSizeBytes":34359738368,"status":"Online","databaseId":"e48c98b7-0615-4419-b255-47bbd4e48505","creationDate":"2001-02-03T04:05:06Z","currentServiceObjectiveName":"GP_Gen5_2","requestedServiceObjectiveName":"GP_Gen5_2","defaultSecondaryLocation":"westus","catalogCollation":"SQL_Latin1_General_CP1_CI_AS","zoneRedundant":false,"licenseType":"LicenseIncluded","maxLogSizeBytes":193273528320,"readScale":"Disabled","currentSku":{"name":"GP_Gen5","tier":"GeneralPurpose","family":"Gen5","capacity":2},"currentBackupStorageRedundancy":"Geo","requestedBackupStorageRedundancy":"Geo","maintenanceConfigurationId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default","isLedgerOn":false,"isInfraEncryptionEnabled":false},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm","name":"asotestkekpcm","type":"Microsoft.Sql/servers/databases"}'
+    body: '{"sku":{"name":"GP_Gen5","tier":"GeneralPurpose","family":"Gen5","capacity":2},"kind":"v12.0,user,vcore","properties":{"collation":"SQL_Latin1_General_CP1_CI_AS","maxSizeBytes":34359738368,"status":"Online","databaseId":"3efb695e-ecc6-46b4-a880-f9781243e8c2","creationDate":"2001-02-03T04:05:06Z","currentServiceObjectiveName":"GP_Gen5_2","requestedServiceObjectiveName":"GP_Gen5_2","defaultSecondaryLocation":"westus","catalogCollation":"SQL_Latin1_General_CP1_CI_AS","zoneRedundant":false,"licenseType":"LicenseIncluded","maxLogSizeBytes":193273528320,"readScale":"Disabled","currentSku":{"name":"GP_Gen5","tier":"GeneralPurpose","family":"Gen5","capacity":2},"currentBackupStorageRedundancy":"Geo","requestedBackupStorageRedundancy":"Geo","maintenanceConfigurationId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default","isLedgerOn":false,"isInfraEncryptionEnabled":false},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm","name":"asotestkekpcm","type":"Microsoft.Sql/servers/databases"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/vulnerabilityAssessments/default?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"properties":{"storageContainerPath":"https://asotestsqlstorage.blob.core.windows.net/vulnerabilityassessments/","recurringScans":{"isEnabled":false,"emailSubscriptionAdmins":true,"emails":[]}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/vulnerabilityAssessments/Default","name":"Default","type":"Microsoft.Sql/servers/vulnerabilityAssessments"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/vulnerabilityAssessments/default?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"properties":{"storageContainerPath":"https://asotestsqlstorage.blob.core.windows.net/vulnerabilityassessments/","recurringScans":{"isEnabled":false,"emailSubscriptionAdmins":true,"emails":[]}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/vulnerabilityAssessments/Default","name":"Default","type":"Microsoft.Sql/servers/vulnerabilityAssessments"}'
     headers:
       Cache-Control:
       - no-cache
@@ -2840,7 +2385,7 @@ interactions:
     body: '{"operation":"UpdateLogicalDatabase","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/transparentDataEncryptionAzureAsyncOperation/c78f45ab-960e-4158-87b3-310c5842ceb1?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/transparentDataEncryptionAzureAsyncOperation/c711c936-f895-4d28-8380-07c572134b62?api-version=2021-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -2850,7 +2395,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/transparentDataEncryptionOperationResults/c78f45ab-960e-4158-87b3-310c5842ceb1?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/transparentDataEncryptionOperationResults/c711c936-f895-4d28-8380-07c572134b62?api-version=2021-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -2901,48 +2446,6 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"default","properties":{"retentionDays":7}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "51"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/backupShortTermRetentionPolicies/default?api-version=2021-11-01
-    method: PUT
-  response:
-    body: '{"operation":"UpdateLogicalDatabase","startTime":"2001-02-03T04:05:06Z"}'
-    headers:
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/shortTermRetentionPolicyAzureAsyncOperation/47390a52-b87c-44a2-977d-f2c11b886c48?api-version=2021-11-01
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "76"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/shortTermRetentionPolicyOperationResults/47390a52-b87c-44a2-977d-f2c11b886c48?api-version=2021-11-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
     body: '{"name":"default","properties":{"weeklyRetention":"P30D"}}'
     form: {}
     headers:
@@ -2960,7 +2463,7 @@ interactions:
     body: '{"operation":"UpsertDatabaseBackupArchivalPolicyV2","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/longTermRetentionPolicyAzureAsyncOperation/0069475d-1ece-4e49-8608-166dee49b40c?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/longTermRetentionPolicyAzureAsyncOperation/d5f4e895-1e70-4f21-8db2-62ae85204df6?api-version=2021-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -2970,7 +2473,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/longTermRetentionPolicyOperationResults/0069475d-1ece-4e49-8608-166dee49b40c?api-version=2021-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/longTermRetentionPolicyOperationResults/d5f4e895-1e70-4f21-8db2-62ae85204df6?api-version=2021-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -2983,6 +2486,80 @@ interactions:
       - nosniff
     status: 202 Accepted
     code: 202
+    duration: ""
+- request:
+    body: '{"name":"default","properties":{"retentionDays":7}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "51"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/backupShortTermRetentionPolicies/default?api-version=2021-11-01
+    method: PUT
+  response:
+    body: '{"operation":"UpdateLogicalDatabase","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/shortTermRetentionPolicyAzureAsyncOperation/642da239-8d81-47bc-9aa0-eba1569acf61?api-version=2021-11-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "76"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/shortTermRetentionPolicyOperationResults/642da239-8d81-47bc-9aa0-eba1569acf61?api-version=2021-11-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/vulnerabilityAssessments/default?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"properties":{"storageContainerPath":"https://asotestsqlstorage.blob.core.windows.net/vulnerabilityassessments/","recurringScans":{"isEnabled":false,"emailSubscriptionAdmins":true,"emails":[]}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/vulnerabilityAssessments/Default","name":"Default","type":"Microsoft.Sql/servers/databases/vulnerabilityAssessments"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
     duration: ""
 - request:
     body: '{"name":"Default","properties":{"state":"Enabled"}}'
@@ -3064,388 +2641,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/vulnerabilityAssessments/default?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"properties":{"storageContainerPath":"https://asotestsqlstorage.blob.core.windows.net/vulnerabilityassessments/","recurringScans":{"isEnabled":false,"emailSubscriptionAdmins":true,"emails":[]}},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/vulnerabilityAssessments/Default","name":"Default","type":"Microsoft.Sql/servers/databases/vulnerabilityAssessments"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/advancedThreatProtectionSettings/Default?api-version=2021-11-01
     method: GET
   response:
     body: '{"properties":{"state":"Enabled","creationTime":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/advancedThreatProtectionSettings/Default","name":"Default","type":"Microsoft.Sql/servers/databases/advancedThreatProtectionSettings"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/transparentDataEncryptionAzureAsyncOperation/c78f45ab-960e-4158-87b3-310c5842ceb1?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"name":"c78f45ab-960e-4158-87b3-310c5842ceb1","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/shortTermRetentionPolicyAzureAsyncOperation/47390a52-b87c-44a2-977d-f2c11b886c48?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"name":"47390a52-b87c-44a2-977d-f2c11b886c48","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/longTermRetentionPolicyAzureAsyncOperation/0069475d-1ece-4e49-8608-166dee49b40c?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"name":"0069475d-1ece-4e49-8608-166dee49b40c","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/auditingSettings/default?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"properties":{"retentionDays":0,"auditActionsAndGroups":["SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP","FAILED_DATABASE_AUTHENTICATION_GROUP","BATCH_COMPLETED_GROUP"],"isStorageSecondaryKeyInUse":false,"isAzureMonitorTargetEnabled":false,"isManagedIdentityInUse":false,"state":"Enabled","storageEndpoint":"https://asotestsqlstorage.blob.core.windows.net/","storageAccountSubscriptionId":"00000000-0000-0000-0000-000000000000"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/auditingSettings/Default","name":"Default","type":"Microsoft.Sql/servers/databases/auditingSettings"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/backupShortTermRetentionPolicies/default?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"properties":{"retentionDays":7,"diffBackupIntervalInHours":12},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/backupShortTermRetentionPolicies/default","name":"default","type":"Microsoft.Sql/servers/databases/backupShortTermRetentionPolicies"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/auditingSettings/default?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"properties":{"retentionDays":0,"auditActionsAndGroups":["SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP","FAILED_DATABASE_AUTHENTICATION_GROUP","BATCH_COMPLETED_GROUP"],"isStorageSecondaryKeyInUse":false,"isAzureMonitorTargetEnabled":false,"isManagedIdentityInUse":false,"state":"Enabled","storageEndpoint":"https://asotestsqlstorage.blob.core.windows.net/","storageAccountSubscriptionId":"00000000-0000-0000-0000-000000000000"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/auditingSettings/Default","name":"Default","type":"Microsoft.Sql/servers/databases/auditingSettings"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/backupShortTermRetentionPolicies/default?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"properties":{"retentionDays":7,"diffBackupIntervalInHours":12},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/backupShortTermRetentionPolicies/default","name":"default","type":"Microsoft.Sql/servers/databases/backupShortTermRetentionPolicies"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/transparentDataEncryptionAzureAsyncOperation/c78f45ab-960e-4158-87b3-310c5842ceb1?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"name":"c78f45ab-960e-4158-87b3-310c5842ceb1","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: '{"name":"asotestggernv","properties":{"endIPv6Address":"2001:db8:0000:0000:0000:0000:00ff:ffff","startIPv6Address":"2001:db8::"}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "129"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/ipv6FirewallRules/asotestggernv?api-version=2021-11-01
-    method: PUT
-  response:
-    body: '{"properties":{"startIPv6Address":"2001:db8::","endIPv6Address":"2001:db8:0000:0000:0000:0000:00ff:ffff"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/ipv6FirewallRules/asotestggernv","name":"asotestggernv","type":"Microsoft.Sql/servers/ipv6FirewallRules"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/ipv6FirewallRules/asotestggernv?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"properties":{"startIPv6Address":"2001:db8::","endIPv6Address":"2001:db8:0000:0000:0000:0000:00ff:ffff"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/ipv6FirewallRules/asotestggernv","name":"asotestggernv","type":"Microsoft.Sql/servers/ipv6FirewallRules"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/transparentDataEncryptionAzureAsyncOperation/c78f45ab-960e-4158-87b3-310c5842ceb1?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"name":"c78f45ab-960e-4158-87b3-310c5842ceb1","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -3539,43 +2738,11 @@ interactions:
     form: {}
     headers:
       Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/longTermRetentionPolicyAzureAsyncOperation/0069475d-1ece-4e49-8608-166dee49b40c?api-version=2021-11-01
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/transparentDataEncryptionAzureAsyncOperation/c711c936-f895-4d28-8380-07c572134b62?api-version=2021-11-01
     method: GET
   response:
-    body: '{"name":"0069475d-1ece-4e49-8608-166dee49b40c","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/transparentDataEncryptionAzureAsyncOperation/c78f45ab-960e-4158-87b3-310c5842ceb1?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"name":"c78f45ab-960e-4158-87b3-310c5842ceb1","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"c711c936-f895-4d28-8380-07c572134b62","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -3663,43 +2830,11 @@ interactions:
     form: {}
     headers:
       Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/longTermRetentionPolicyAzureAsyncOperation/0069475d-1ece-4e49-8608-166dee49b40c?api-version=2021-11-01
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/longTermRetentionPolicyAzureAsyncOperation/d5f4e895-1e70-4f21-8db2-62ae85204df6?api-version=2021-11-01
     method: GET
   response:
-    body: '{"name":"0069475d-1ece-4e49-8608-166dee49b40c","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/longTermRetentionPolicyAzureAsyncOperation/0069475d-1ece-4e49-8608-166dee49b40c?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"name":"0069475d-1ece-4e49-8608-166dee49b40c","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"d5f4e895-1e70-4f21-8db2-62ae85204df6","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -3764,6 +2899,162 @@ interactions:
     method: GET
   response:
     body: '{"properties":{"weeklyRetention":"P30D","monthlyRetention":"PT0S","yearlyRetention":"PT0S","weekOfYear":0},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/backupLongTermRetentionPolicies/default","name":"default","type":"Microsoft.Sql/servers/databases/backupLongTermRetentionPolicies"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/locations/eastus/shortTermRetentionPolicyAzureAsyncOperation/642da239-8d81-47bc-9aa0-eba1569acf61?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"name":"642da239-8d81-47bc-9aa0-eba1569acf61","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/backupShortTermRetentionPolicies/default?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"properties":{"retentionDays":7,"diffBackupIntervalInHours":12},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/backupShortTermRetentionPolicies/default","name":"default","type":"Microsoft.Sql/servers/databases/backupShortTermRetentionPolicies"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/backupShortTermRetentionPolicies/default?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"properties":{"retentionDays":7,"diffBackupIntervalInHours":12},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/backupShortTermRetentionPolicies/default","name":"default","type":"Microsoft.Sql/servers/databases/backupShortTermRetentionPolicies"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/auditingSettings/default?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"properties":{"retentionDays":0,"auditActionsAndGroups":["SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP","FAILED_DATABASE_AUTHENTICATION_GROUP","BATCH_COMPLETED_GROUP"],"isStorageSecondaryKeyInUse":false,"isAzureMonitorTargetEnabled":false,"isManagedIdentityInUse":false,"state":"Enabled","storageEndpoint":"https://asotestsqlstorage.blob.core.windows.net/","storageAccountSubscriptionId":"00000000-0000-0000-0000-000000000000"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/auditingSettings/Default","name":"Default","type":"Microsoft.Sql/servers/databases/auditingSettings"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/auditingSettings/default?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"properties":{"retentionDays":0,"auditActionsAndGroups":["SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP","FAILED_DATABASE_AUTHENTICATION_GROUP","BATCH_COMPLETED_GROUP"],"isStorageSecondaryKeyInUse":false,"isAzureMonitorTargetEnabled":false,"isManagedIdentityInUse":false,"state":"Enabled","storageEndpoint":"https://asotestsqlstorage.blob.core.windows.net/","storageAccountSubscriptionId":"00000000-0000-0000-0000-000000000000"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/auditingSettings/Default","name":"Default","type":"Microsoft.Sql/servers/databases/auditingSettings"}'
     headers:
       Cache-Control:
       - no-cache
@@ -4069,49 +3360,16 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Storage/storageAccounts/asotestsqlstorage/blobServices/default?api-version=2021-04-01
     method: DELETE
   response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-leywfp''
-      could not be found."}}'
+    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
+      operation on nested resource. Parent resource ''asotestsqlstorage'' not found."}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Length:
-      - "109"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/elasticPools/asotesttcwsht?api-version=2021-11-01
-    method: DELETE
-  response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-leywfp''
-      could not be found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "109"
+      - "158"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -4169,173 +3427,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Storage/storageAccounts/asotestsqlstorage/blobServices/default?api-version=2021-04-01
-    method: DELETE
-  response:
-    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
-      operation on nested resource. Parent resource ''asotestsqlstorage'' not found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "158"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/advancedThreatProtectionSettings/Default?api-version=2021-11-01
-    method: DELETE
-  response:
-    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
-      operation on nested resource. Parent resource ''asotestwidzfo'' not found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "154"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/connectionPolicies/default?api-version=2021-11-01
-    method: DELETE
-  response:
-    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
-      operation on nested resource. Parent resource ''asotestwidzfo'' not found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "154"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/firewallRules/asotesthozjgi?api-version=2021-11-01
-    method: DELETE
-  response:
-    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Sql/servers/asotestwidzfo''
-      under resource group ''asotest-rg-leywfp'' was not found. For more details please
-      go to https://aka.ms/ARMResourceNotFoundFix"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "224"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/securityAlertPolicies/Default?api-version=2021-11-01
-    method: DELETE
-  response:
-    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
-      operation on nested resource. Parent resource ''asotestwidzfo'' not found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "154"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/virtualNetworkRules/asotestulcgqg?api-version=2021-11-01
     method: DELETE
   response:
     body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
@@ -4402,6 +3494,106 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/virtualNetworkRules/asotestulcgqg?api-version=2021-11-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
+      operation on nested resource. Parent resource ''asotestwidzfo'' not found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "154"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/firewallRules/asotesthozjgi?api-version=2021-11-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Sql/servers/asotestwidzfo''
+      under resource group ''asotest-rg-leywfp'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "224"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/advancedThreatProtectionSettings/Default?api-version=2021-11-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
+      operation on nested resource. Parent resource ''asotestwidzfo'' not found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "154"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/outboundFirewallRules/server.database.windows.net?api-version=2021-11-01
     method: DELETE
   response:
@@ -4413,6 +3605,72 @@ interactions:
       - no-cache
       Content-Length:
       - "224"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/elasticPools/asotesttcwsht?api-version=2021-11-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-leywfp''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/securityAlertPolicies/Default?api-version=2021-11-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
+      operation on nested resource. Parent resource ''asotestwidzfo'' not found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "154"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -4469,6 +3727,39 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm?api-version=2021-11-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-leywfp''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/vulnerabilityAssessments/default?api-version=2021-11-01
     method: DELETE
   response:
@@ -4479,6 +3770,39 @@ interactions:
       - no-cache
       Content-Length:
       - "154"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Storage/storageAccounts/asotestsqlstorage/blobServices/default/containers/vulnerabilityassessments?api-version=2021-04-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
+      operation on nested resource. Parent resource ''asotestsqlstorage'' not found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "158"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -4570,74 +3894,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/backupShortTermRetentionPolicies/default?api-version=2021-11-01
-    method: DELETE
-  response:
-    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
-      operation on nested resource. Parent resource ''asotestwidzfo/asotestkekpcm''
-      not found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "168"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Storage/storageAccounts/asotestsqlstorage/blobServices/default/containers/vulnerabilityassessments?api-version=2021-04-01
-    method: DELETE
-  response:
-    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
-      operation on nested resource. Parent resource ''asotestsqlstorage'' not found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "158"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/auditingSettings/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/backupLongTermRetentionPolicies/default?api-version=2021-11-01
     method: DELETE
   response:
     body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
@@ -4705,7 +3962,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/backupLongTermRetentionPolicies/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/vulnerabilityAssessments/default?api-version=2021-11-01
     method: DELETE
   response:
     body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
@@ -4739,7 +3996,41 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/vulnerabilityAssessments/default?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/auditingSettings/default?api-version=2021-11-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
+      operation on nested resource. Parent resource ''asotestwidzfo/asotestkekpcm''
+      not found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "168"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-leywfp/providers/Microsoft.Sql/servers/asotestwidzfo/databases/asotestkekpcm/backupShortTermRetentionPolicies/default?api-version=2021-11-01
     method: DELETE
   response:
     body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested

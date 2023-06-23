@@ -48,10 +48,15 @@ func (extension *VirtualNetworkExtension) ModifyARMResource(
 	var _ conversion.Hub = typedObj
 
 	subnetGVK := getSubnetGVK(obj)
+	// We use namespace + owner name here rather than something slightly more specific like actual owner UUID
+	// in order to account for cases where the subresources + owner were just created and so the subsresources haven't
+	// actually been assigned to the owner yet. See https://github.com/Azure/azure-service-operator/issues/3077 for more
+	// details.
+	matchingOwner := client.MatchingFields{".spec.owner.name": obj.GetName()}
+	matchingNamespace := client.InNamespace(obj.GetNamespace())
 
 	subnets := &network.VirtualNetworksSubnetList{}
-	matchingFields := client.MatchingFields{".metadata.ownerReferences[0]": string(obj.GetUID())}
-	err := kubeClient.List(ctx, subnets, matchingFields)
+	err := kubeClient.List(ctx, subnets, matchingOwner, matchingNamespace)
 	if err != nil {
 		return nil, errors.Wrapf(err, "failed listing subnets owned by VNET %s/%s", obj.GetNamespace(), obj.GetName())
 	}
