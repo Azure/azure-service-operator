@@ -20,23 +20,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
-func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
-	// indicates that this test function can run in parallel with other tests
-	t.Parallel()
-
-	// Create a test resource group and wait until the operation is completed, where the globalTestContext is a global object that provides the necessary context and utilities for testing.
-	tc := globalTestContext.ForTest(t)
-	rg := tc.CreateTestResourceGroupAndWait()
-
-	// Create a new backupvault resource
-	backupVault := newBackupVault(tc, rg, "asotestbackupvault")
-
-	// Note:
-	// It is mandatory to create a backupvault before creating a backuppolicy
-
-	// Create a BackupPolicy
+func newBackupPolicy(tc *testcommon.KubePerTestContext, backupVault *dataprotection.BackupVault, name string) *dataprotection.BackupVaultsBackupPolicy {
 	backupPolicy := &dataprotection.BackupVaultsBackupPolicy{
-		ObjectMeta: tc.MakeObjectMeta("asotestbackuppolicy"),
+		ObjectMeta: tc.MakeObjectMeta(name),
 		Spec: dataprotection.BackupVaults_BackupPolicy_Spec{
 			Owner: testcommon.AsOwner(backupVault),
 			Properties: &dataprotection.BaseBackupPolicy{
@@ -55,6 +41,25 @@ func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
 			},
 		},
 	}
+	return backupPolicy
+}
+
+func Test_Dataprotection_Backuppolicy_CRUD(t *testing.T) {
+	// indicates that this test function can run in parallel with other tests
+	t.Parallel()
+
+	// Create a test resource group and wait until the operation is completed, where the globalTestContext is a global object that provides the necessary context and utilities for testing.
+	tc := globalTestContext.ForTest(t)
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	// Create a new backupvault resource
+	backupVault := newBackupVault(tc, rg, "asotestbackupvault")
+
+	// Note:
+	// It is mandatory to create a backupvault before creating a backuppolicy
+
+	// Create a BackupPolicy
+	backupPolicy := newBackupPolicy(tc, backupVault, "asotestbackuppolicy")
 
 	// Sequence of creating BackupVault and BackupPolicy is handled by ASO internally
 	tc.CreateResourcesAndWait(backupVault, backupPolicy)
