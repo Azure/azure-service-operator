@@ -979,7 +979,15 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
       - "{{.SCRIPTS_ROOT}}/gen-api-docs.sh ./api ../docs/hugo/content/reference ../docs/v2/api/template"
+
+  doc:frontmatter-check:
+    desc: Ensure all Markdown documentation has frontmatter.
+    dir: docs/hugo/content
+    cmds:
+      - "{{.SCRIPTS_ROOT}}/check_frontmatter.py"
+
   ############### Shared targets ###############
+
   cleanup-azure-resources:
     desc: Removes any resources created by the integration tests.
     deps: 
@@ -1007,11 +1015,10 @@ tasks:
     cmds:
       - "{{.SCRIPTS_ROOT}}/check_headers.py"
 
+  # Stub retained until migration of workflows complete
   frontmatter-check:
-    desc: Ensure all Markdown documentation has frontmatter.
-    dir: docs/hugo/content
     cmds:
-      - "{{.SCRIPTS_ROOT}}/check_frontmatter.py"
+      - doc:frontmatter-check
 
   specifier-check:
     desc: Check that format specifiers %v and %+v are not used
