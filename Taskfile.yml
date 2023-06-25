@@ -164,7 +164,6 @@ tasks:
     desc: Generate the {{.ASOCTL_APP}} binary.
     dir: '{{.ASOCTL_ROOT}}'
     label: asoctl:build-{{.GOOS}}-{{.GOARCH}}
-    deps: [controller:generate-crds]
     generates:
       - ../../bin/{{.ASOCTL_APP}}-{{.GOOS}}-{{.GOARCH}}
     cmds:
