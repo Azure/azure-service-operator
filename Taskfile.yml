@@ -96,7 +96,9 @@ tasks:
         sh: npm root -g
 
   basic-checks:
-    deps: [header-check, specifier-check]
+    deps: 
+      - header-check
+      - specifier-check
 
   make-release-artifacts:
     desc: Produce files required for an ASOv2 release
@@ -144,7 +146,8 @@ tasks:
   asoctl:unit-tests-cover:
     desc: Run {{.ASOCTL_APP}} unit tests and output coverage.
     dir: '{{.ASOCTL_ROOT}}'
-    deps: [controller:generate-crds]
+    deps:
+      - controller:generate-crds
     cmds:
       - defer: # want to run even on failure
           task: produce-markdown-summary
@@ -266,7 +269,8 @@ tasks:
 
   controller:lint:
     desc: Run fast lint checks.
-    deps: [controller:generate-crds]
+    deps: 
+      - controller:generate-crds
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
       # Setting GOGC to increase how much debris is tolerated before running GC
@@ -274,7 +278,8 @@ tasks:
 
   controller:verify-samples:
     desc: Verify that a sample exists for each supported resource
-    deps: [ controller:generate-crds ]
+    deps: 
+      - controller:generate-crds
     cmds:
       - "{{.SCRIPTS_ROOT}}/check_samples.py v2/"
 
@@ -347,7 +352,8 @@ tasks:
   controller:build:
     desc: Generate the {{.CONTROLLER_APP}} binary.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:generate-crds]
+    deps: 
+      - controller:generate-crds
     sources:
       # excluding the ./apis directory here
       - "go.mod"
@@ -378,21 +384,24 @@ tasks:
   controller:docker-build-and-save:
     desc: Builds the {{.CONTROLLER_APP}} Docker image and saves it using docker save.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:docker-build]
+    deps: 
+      - controller:docker-build
     cmds:
       - docker save {{.CONTROLLER_DOCKER_IMAGE}} > bin/$(echo '{{.CONTROLLER_DOCKER_IMAGE}}' | sed -e 's/:/_/g').tar
 
   controller:docker-tag-version:
     desc: Tags the {{.CONTROLLER_APP}} Docker image with the appropriate version.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:docker-build]
+    deps: 
+      - controller:docker-build
     cmds:
       - 'if [ -z "{{.DOCKER_PUSH_TARGET}}" ]; then echo "Error: DOCKER_PUSH_TARGET must be set"; exit 1; fi'
       - docker tag {{.CONTROLLER_DOCKER_IMAGE}} "{{.DOCKER_PUSH_TARGET}}/{{.CONTROLLER_DOCKER_IMAGE}}"
 
   controller:docker-push-local:
     desc: Pushes the controller container image to a local registry
-    deps: [controller:docker-build]
+    deps: 
+      - controller:docker-build
     dir: "{{.CONTROLLER_ROOT}}"
     run: always
     cmds:
@@ -404,7 +413,8 @@ tasks:
   controller:test-integration-envtest:
     desc: Run integration tests with envtest using record/replay.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:run-kustomize-for-envtest]
+    deps: 
+      - controller:run-kustomize-for-envtest
     cmds:
       # -race fails at the moment in controller-runtime
       # We run these in sequence right now because it doesn't gain us much speed to go in parallel
@@ -420,7 +430,8 @@ tasks:
   controller:test-integration-envtest-record:
     desc: Run integration tests with envtest with a longer timeout suitable for recording the tests.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:run-kustomize-for-envtest]
+    deps: 
+      - controller:run-kustomize-for-envtest
     cmds:
        - go test -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/controllers -args -live
     vars:
@@ -431,7 +442,8 @@ tasks:
   controller:test-integration-envtest-cover:
     desc: Run integration tests with envtest using record/replay and output coverage.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:run-kustomize-for-envtest]
+    deps: 
+      - controller:run-kustomize-for-envtest
     cmds:
       - defer: # want to run even on failure
           task: produce-markdown-summary
@@ -456,7 +468,9 @@ tasks:
   controller:test-integration-envtest-live:
     desc: Run integration tests with envtest against live data and output coverage.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:run-kustomize-for-envtest, cleanup-azure-resources]
+    deps:  
+      - controller:run-kustomize-for-envtest
+      - cleanup-azure-resources
     cmds:
       # -race fails at the moment in controller-runtime
       - go test -timeout {{.LIVE_TEST_TIMEOUT}} -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers -args -live
@@ -466,7 +480,8 @@ tasks:
   controller:test-integration-kind-ci:
     desc: Run live integration tests in kind and deletes the kind cluster afterwards.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:kind-create-helm-workload-identity]
+    deps:  
+      - controller:kind-create-helm-workload-identity
     cmds:
       # This timeout is purposefully low - if we find that this job is taking a long time we may need to think of other ways
       # to keep CI fast
@@ -479,7 +494,8 @@ tasks:
   controller:test-integration-kind:
     desc: Run live integration tests in kind.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:kind-create-helm-workload-identity]
+    deps: 
+      - controller:kind-create-helm-workload-identity
     cmds:
       # This timeout is purposefully low - if we find that this job is taking a long time we may need to think of other ways
       # to keep CI fast
@@ -488,7 +504,8 @@ tasks:
   controller:test-multitenant-integration-kind-ci:
     desc: Run live multitenant integration tests in kind.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:kind-create-multitenant-cluster-helm]
+    deps: 
+       - controller:kind-create-multitenant-cluster-helm
     cmds:
       # This timeout is purposefully low - if we find that this job is
       # taking a long time we may need to think of other ways to keep
@@ -503,7 +520,8 @@ tasks:
   controller:test-multitenant-integration-kind:
     desc: Run live multitenant integration tests in kind.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:kind-create-multitenant-cluster-helm]
+    deps: 
+      - controller:kind-create-multitenant-cluster-helm
     cmds:
       # This timeout is purposefully low - if we find that this job is
       # taking a long time we may need to think of other ways to keep
@@ -513,7 +531,8 @@ tasks:
   controller:test-integration-ci:
     desc: Run integration tests for CI
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:test-integration-envtest-cover]
+    deps: 
+      - controller:test-integration-envtest-cover
 
   controller:test-integration-ci-live:
     desc: Run integration tests for CI in live mode
@@ -525,7 +544,8 @@ tasks:
   controller:generate-types:
     desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CONTROLLER_APP}}.
     dir: v2
-    deps: [generator:build]
+    deps: 
+      - generator:build
     sources:
       - ./bin/{{.GENERATOR_APP}}
       - azure-arm.yaml
@@ -534,7 +554,9 @@ tasks:
 
   controller:generate-crds:
     desc: Run controller-gen to generate {{.CONTROLLER_APP}} CRD files.
-    deps: [controller:generate-types, controller:generate-genruntime-deepcopy]
+    deps: 
+      - controller:generate-types
+      - controller:generate-genruntime-deepcopy
     sources:
       - "v2/api/**/*.go" # depends on all API types
       - "v2/pkg/genruntime/**/*.go" # Also depends on the genruntime types as they're embedded into the CRDs
@@ -566,7 +588,8 @@ tasks:
 
   controller:generate-kustomize:
     desc: Run {{.GENERATOR_APP}} to generate the Kustomize file for registering CRDs.
-    deps: [controller:generate-crds]
+    deps: 
+      - controller:generate-crds
     dir: v2
     sources:
       - bin/{{.GENERATOR_APP}}
@@ -579,7 +602,8 @@ tasks:
 
   controller:run-kustomize:
     desc: Generates the CRD & configuration bundle.
-    deps: [controller:generate-kustomize]
+    deps: 
+      - controller:generate-kustomize
     dir: "v2/"
     cmds:
       - mkdir -p bin # in case it doesn't exist
@@ -588,7 +612,8 @@ tasks:
 
   controller:make-multitenant-files:
     desc: Splits the deployment yaml into cluster and tenant files for multitenant deployment
-    deps: [controller:run-kustomize]
+    deps: 
+      - controller:run-kustomize
     dir: "v2/bin"
     cmds:
       - '{{.SCRIPTS_ROOT}}/make-multitenant-cluster.sh "{{.VERSION}}" "azureserviceoperator_{{.VERSION}}.yaml"'
@@ -596,7 +621,8 @@ tasks:
 
   controller:run-kustomize-for-envtest:
     desc: Generates the CRDs for use in envtest
-    deps: [controller:generate-kustomize]
+    deps: 
+      - controller:generate-kustomize
     dir: "v2/"
     sources:
       - config/crd/**/*.yaml
@@ -610,7 +636,8 @@ tasks:
   controller:gen-helm-manifest:
     desc: Generate helm manifest using Kustomize for the release
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:generate-kustomize]
+    deps: 
+      - controller:generate-kustomize
     cmds:
       - "{{.SCRIPTS_ROOT}}/generate-helm-manifest.sh {{.KUBE_RBAC_PROXY}} {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} {{.PUBLIC_REGISTRY}} {{.LATEST_VERSION_TAG}} `pwd`/"
 
@@ -669,7 +696,8 @@ tasks:
     desc: Creates a kind cluster and local Docker registry with OIDC + workload identity enabled. Images in the local registry can be pulled in the kind cluster.
     run: always
     dir: "v2/"
-    deps: [az-login]
+    deps: 
+      - az-login
     cmds:
       - "rm -rf out/workload-identity"
       - "mkdir -p out/workload-identity"
@@ -688,7 +716,8 @@ tasks:
   controller:create-mi-for-workload-identity:
     desc: Creates a managed identity and federated identity credential for user in a kind cluster
     dir: "v2/"
-    deps: [az-login]
+    deps: 
+      - az-login
     cmds:
       - "{{.SCRIPTS_ROOT}}/make-mi-fic.sh -g {{.RESOURCE_GROUP}} -i {{.ISSUER}} -d ./out/workload-identity"
     vars:
@@ -699,14 +728,16 @@ tasks:
 
   controller:scan-image:
     desc: Builds a local image and scans the image using trivy
-    deps: [controller:docker-build]
+    deps: 
+      - controller:docker-build
     cmds:
       - "trivy image {{.CONTROLLER_DOCKER_IMAGE}}"
       - "trivy image --exit-code 1 --ignore-unfixed --severity MEDIUM,HIGH,CRITICAL {{.CONTROLLER_DOCKER_IMAGE}} || exit 1"
 
   controller:install:
     desc: Installs the controller, webhooks, and CRDs into the default kubectl cluster
-    deps: [controller:generate-kustomize]
+    deps: 
+      - controller:generate-kustomize
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
       - "{{.SCRIPTS_ROOT}}/kustomize-build.sh -k operator -v {{.VERSION}} > out/operator.yaml"
@@ -715,7 +746,8 @@ tasks:
 
   controller:bundle-crds:
     desc: Bundles CRDs...
-    deps: [controller:generate-kustomize]
+    deps: 
+      - controller:generate-kustomize
     dir: "{{.CONTROLLER_ROOT}}"
     sources:
       - config/**/*.yaml
@@ -783,7 +815,8 @@ tasks:
 
   controller:kind-create-multitenant-cluster:
     desc: Creates a local kind cluster with ASO installed in multitenant configuration.
-    deps: [controller:make-multitenant-files]
+    deps: 
+      - controller:make-multitenant-files
     cmds:
       - task: controller:kind-create
       - task: controller:install-cert-manager
@@ -893,7 +926,8 @@ tasks:
 
   crossplane:generate-crds:
     desc: Run controller-gen to generate {{.CROSSPLANE_APP}} CRD files.
-    deps: [crossplane:generate-types]
+    deps: 
+      - crossplane:generate-types
     dir: "{{.CROSSPLANE_ROOT}}"
     sources:
       - "apis/**/*_gen.go" # depends on all generated types
@@ -914,7 +948,8 @@ tasks:
   crossplane:generate-types:
     desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CROSSPLANE_APP}}.
     dir: "{{.CROSSPLANE_ROOT}}"
-    deps: [generator:build]
+    deps: 
+       - generator:build
     sources:
       - ../../v2/bin/{{.GENERATOR_APP}}
       - azure-crossplane.yaml
@@ -922,18 +957,22 @@ tasks:
       - ../../v2/bin/{{.GENERATOR_APP}} gen-types azure-crossplane.yaml
 
   crossplane:ci:
-    deps: [header-check, specifier-check, crossplane:generate-crds]
+    deps: 
+      - basic-checks
+      - crossplane:generate-crds
 
   ############### Shared targets ###############
   cleanup-azure-resources:
     desc: Removes any resources created by the integration tests.
-    deps: [az-login]
+    deps: 
+       - az-login
     cmds:
       - '{{.SCRIPTS_ROOT}}/delete-old-resourcegroups.sh -p "{{.TEST_RESOURCE_PREFIX}}"'
 
   cleanup-old-live-azure-resources:
     desc: Removes any old resources created by the integration tests (old means older than 3 hours).
-    deps: [az-login]
+    deps: 
+      - az-login
     # This finds all resource groups which match the specified pattern (asolivetest*)
     # and are older than 3 hours (10800 seconds).
     cmds:
@@ -979,7 +1018,8 @@ tasks:
 
   produce-markdown-summary:
     desc: Builds a test output summary for Github
-    deps: [build-mangle-test]
+    deps: 
+       - build-mangle-test
     cmds:
       - cmd: ./v2/tools/mangle-test-json/mangle-test-json "{{.INPUT_FILE}}" > "{{.OUTPUT_FILE}}"
 
