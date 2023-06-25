@@ -63,7 +63,6 @@ tasks:
       - generator:quick-checks
       - controller:quick-checks
       - asoctl:quick-checks
-      - crossplane:generate-crds
       - crossplane:quick-checks
     cmds:
       - task: format-code  # Run after the deps to avoid racing with generated file creation
