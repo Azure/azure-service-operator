@@ -69,13 +69,14 @@ tasks:
 
   ci:
     desc: Run all CI checks.
-    deps:
-      - generator:ci
-      - controller:ci
-      - asoctl:ci
-      - crossplane:ci
     cmds:
-     - task: verify-no-changes
+      # Run tasks in sequence to avoid racing with generated file creation,
+      # and to avoid running the generator in parallel
+      - task: generator:ci
+      - task: controller:ci
+      - task: crossplane:ci
+      - task: asoctl:ci
+      - task: verify-no-changes
 
   ci-live:
     desc: Run all CI checks with live Azure resources. Requires that auth environment variables are set.
