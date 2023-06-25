@@ -54,6 +54,10 @@ vars:
 
 tasks:
   default:
+    deps:
+      - quick-checks
+
+  quick-checks:
     desc: Perform all fast local pre-commit tasks.
     deps:
       - generator:quick-checks
