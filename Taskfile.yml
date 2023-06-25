@@ -885,12 +885,10 @@ tasks:
       - "cmctl check api --wait=2m"
       - task: controller:install-helm-wi
 
+  # Stub retained until migration of workflows complete
   controller:gen-crd-docs:
-    desc: Generates API docs for CRDs
-    deps: [controller:generate-crds]
-    dir: "{{.CONTROLLER_ROOT}}"
     cmds:
-      - "{{.SCRIPTS_ROOT}}/gen-api-docs.sh ./api ../docs/hugo/content/reference ../docs/v2/api/template"
+      - task: doc:crd-api
 
   ############### Crossplane targets ###############
   crossplane:quick-checks:
@@ -973,6 +971,14 @@ tasks:
     sources: ["**/*.dot"]
     cmds:
       - "for f in $(find . -name '*.dot'); do dot -Tpng -o${f%.dot}.png $f; done"
+
+  doc:crd-api:
+    desc: Generates API docs for CRDs
+    deps: 
+      - controller:generate-crds
+    dir: "{{.CONTROLLER_ROOT}}"
+    cmds:
+      - "{{.SCRIPTS_ROOT}}/gen-api-docs.sh ./api ../docs/hugo/content/reference ../docs/v2/api/template"
   ############### Shared targets ###############
   cleanup-azure-resources:
     desc: Removes any resources created by the integration tests.
