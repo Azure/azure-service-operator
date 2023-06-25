@@ -13,7 +13,7 @@ type StorageAccount_STATUS_ARM struct {
 	Name             *string                              `json:"name,omitempty"`
 	Properties       *StorageAccountProperties_STATUS_ARM `json:"properties,omitempty"`
 	Sku              *Sku_STATUS_ARM                      `json:"sku,omitempty"`
-	Tags             map[string]string                    `json:"tags,omitempty"`
+	Tags             map[string]string                    `json:"tags"`
 	Type             *string                              `json:"type,omitempty"`
 }
 
@@ -28,7 +28,7 @@ type Identity_STATUS_ARM struct {
 	PrincipalId            *string                                    `json:"principalId,omitempty"`
 	TenantId               *string                                    `json:"tenantId,omitempty"`
 	Type                   *Identity_Type_STATUS                      `json:"type,omitempty"`
-	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS_ARM `json:"userAssignedIdentities"`
 }
 
 // Deprecated version of Sku_STATUS. Use v1api20210401.Sku_STATUS instead
@@ -71,7 +71,7 @@ type StorageAccountProperties_STATUS_ARM struct {
 	NetworkAcls                           *NetworkRuleSet_STATUS_ARM                            `json:"networkAcls,omitempty"`
 	PrimaryEndpoints                      *Endpoints_STATUS_ARM                                 `json:"primaryEndpoints,omitempty"`
 	PrimaryLocation                       *string                                               `json:"primaryLocation,omitempty"`
-	PrivateEndpointConnections            []PrivateEndpointConnection_STATUS_ARM                `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections            []PrivateEndpointConnection_STATUS_ARM                `json:"privateEndpointConnections"`
 	ProvisioningState                     *StorageAccountProperties_ProvisioningState_STATUS    `json:"provisioningState,omitempty"`
 	RoutingPreference                     *RoutingPreference_STATUS_ARM                         `json:"routingPreference,omitempty"`
 	SasPolicy                             *SasPolicy_STATUS_ARM                                 `json:"sasPolicy,omitempty"`
@@ -161,9 +161,9 @@ type KeyPolicy_STATUS_ARM struct {
 type NetworkRuleSet_STATUS_ARM struct {
 	Bypass              *NetworkRuleSet_Bypass_STATUS        `json:"bypass,omitempty"`
 	DefaultAction       *NetworkRuleSet_DefaultAction_STATUS `json:"defaultAction,omitempty"`
-	IpRules             []IPRule_STATUS_ARM                  `json:"ipRules,omitempty"`
-	ResourceAccessRules []ResourceAccessRule_STATUS_ARM      `json:"resourceAccessRules,omitempty"`
-	VirtualNetworkRules []VirtualNetworkRule_STATUS_ARM      `json:"virtualNetworkRules,omitempty"`
+	IpRules             []IPRule_STATUS_ARM                  `json:"ipRules"`
+	ResourceAccessRules []ResourceAccessRule_STATUS_ARM      `json:"resourceAccessRules"`
+	VirtualNetworkRules []VirtualNetworkRule_STATUS_ARM      `json:"virtualNetworkRules"`
 }
 
 // Deprecated version of PrivateEndpointConnection_STATUS. Use v1api20210401.PrivateEndpointConnection_STATUS instead
@@ -224,7 +224,7 @@ type ActiveDirectoryProperties_STATUS_ARM struct {
 
 // Deprecated version of BlobRestoreParameters_STATUS. Use v1api20210401.BlobRestoreParameters_STATUS instead
 type BlobRestoreParameters_STATUS_ARM struct {
-	BlobRanges    []BlobRestoreRange_STATUS_ARM `json:"blobRanges,omitempty"`
+	BlobRanges    []BlobRestoreRange_STATUS_ARM `json:"blobRanges"`
 	TimeToRestore *string                       `json:"timeToRestore,omitempty"`
 }
 

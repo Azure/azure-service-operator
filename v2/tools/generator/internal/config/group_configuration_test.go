@@ -6,7 +6,7 @@
 package config
 
 import (
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"strings"
 	"testing"
@@ -95,7 +95,7 @@ func loadTestData(t *testing.T) []byte {
 	file := string(testName[index+1:]) + ".yaml"
 	yamlPath := filepath.Join("testdata", folder, file)
 
-	yamlBytes, err := ioutil.ReadFile(yamlPath)
+	yamlBytes, err := os.ReadFile(yamlPath)
 	if err != nil {
 		// If the file doesn't exist we fail the test
 		t.Fatalf("unable to load %s (%s)", yamlPath, err)
@@ -133,4 +133,56 @@ func TestGroupConfiguration_WhenVersionConfigurationNotConsumed_ReturnsErrorWith
 	g.Expect(err).NotTo(BeNil())                                   // We expect an error, config hasn't been used
 	g.Expect(err.Error()).To(ContainSubstring("did you mean"))     // We want to receive a tip
 	g.Expect(err.Error()).To(ContainSubstring(versionConfig.name)) // and we want the correct version to be suggested
+}
+
+/*
+ * PayloadType tests
+ */
+
+func TestGroupConfiguration_LookupPayloadType_WhenConfigured_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	groupConfig := NewGroupConfiguration("Network")
+	groupConfig.payloadType.write(ExplicitProperties)
+
+	payloadType, err := groupConfig.LookupPayloadType()
+
+	g.Expect(payloadType).To(Equal(ExplicitProperties))
+	g.Expect(err).To(Succeed())
+}
+
+func TestGroupConfiguration_LookupPayloadType_WhenNotConfigured_ReturnsExpectedError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	groupConfig := NewGroupConfiguration("Network")
+
+	name, err := groupConfig.LookupPayloadType()
+	g.Expect(name).To(Equal(PayloadType("")))
+	g.Expect(err).NotTo(Succeed())
+	g.Expect(err.Error()).To(ContainSubstring(groupConfig.name))
+	g.Expect(err.Error()).To(ContainSubstring(payloadTypeTag))
+}
+
+func TestGroupConfiguration_VerifyPayloadTypeConsumed_WhenConsumed_ReturnsNoError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	groupConfig := NewGroupConfiguration("Network")
+	groupConfig.payloadType.write(OmitEmptyProperties)
+
+	_, err := groupConfig.LookupPayloadType()
+	g.Expect(err).To(Succeed())
+	g.Expect(groupConfig.VerifyPayloadTypeConsumed()).To(Succeed())
+}
+
+func TestGroupConfiguration_VerifyPayloadTypeConsumed_WhenNotConsumed_ReturnsExpectedError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	groupConfig := NewGroupConfiguration("Network")
+	groupConfig.payloadType.write(ExplicitProperties)
+
+	err := groupConfig.VerifyPayloadTypeConsumed()
+	g.Expect(err).NotTo(BeNil())
+	g.Expect(err.Error()).To(ContainSubstring(groupConfig.name))
 }

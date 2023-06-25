@@ -80,7 +80,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wbwcis/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-cpvfdk?api-version=2018-11-30
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-wbwcis/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-cpvfdk","name":"asotest-mi-cpvfdk","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westus2","tags":{},"properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"70206bf1-4d2d-49f3-be5b-23481ae1c5c7","clientId":"07b84fa2-f656-4722-91c5-22ba2d1cd462"}}'
+    body: '{"location":"westus2","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-wbwcis/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-cpvfdk","name":"asotest-mi-cpvfdk","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"b156d719-e673-48f0-a5d1-93f7b848d29e","clientId":"d2237f4f-8142-46e8-852d-db5d32a4699c"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -116,7 +116,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wbwcis/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-cpvfdk?api-version=2018-11-30
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-wbwcis/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-cpvfdk","name":"asotest-mi-cpvfdk","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westus2","tags":{},"properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"70206bf1-4d2d-49f3-be5b-23481ae1c5c7","clientId":"07b84fa2-f656-4722-91c5-22ba2d1cd462"}}'
+    body: '{"location":"westus2","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-wbwcis/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-cpvfdk","name":"asotest-mi-cpvfdk","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"b156d719-e673-48f0-a5d1-93f7b848d29e","clientId":"d2237f4f-8142-46e8-852d-db5d32a4699c"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -146,7 +146,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wbwcis/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-cpvfdk?api-version=2018-11-30
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-wbwcis/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-cpvfdk","name":"asotest-mi-cpvfdk","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westus2","tags":{},"properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"70206bf1-4d2d-49f3-be5b-23481ae1c5c7","clientId":"07b84fa2-f656-4722-91c5-22ba2d1cd462"}}'
+    body: '{"location":"westus2","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-wbwcis/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-cpvfdk","name":"asotest-mi-cpvfdk","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"b156d719-e673-48f0-a5d1-93f7b848d29e","clientId":"d2237f4f-8142-46e8-852d-db5d32a4699c"}}'
     headers:
       Cache-Control:
       - no-cache

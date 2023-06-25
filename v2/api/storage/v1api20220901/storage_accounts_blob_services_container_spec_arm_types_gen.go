@@ -48,7 +48,7 @@ type ContainerProperties_ARM struct {
 	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_ARM `json:"immutableStorageWithVersioning,omitempty"`
 
 	// Metadata: A name-value pair to associate with the container as metadata.
-	Metadata map[string]string `json:"metadata,omitempty"`
+	Metadata map[string]string `json:"metadata"`
 
 	// PublicAccess: Specifies whether data in the container may be accessed publicly and the level of access.
 	PublicAccess *ContainerProperties_PublicAccess `json:"publicAccess,omitempty"`

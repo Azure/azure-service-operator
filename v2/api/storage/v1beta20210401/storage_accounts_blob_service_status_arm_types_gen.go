@@ -33,7 +33,7 @@ type ChangeFeed_STATUS_ARM struct {
 
 // Deprecated version of CorsRules_STATUS. Use v1api20210401.CorsRules_STATUS instead
 type CorsRules_STATUS_ARM struct {
-	CorsRules []CorsRule_STATUS_ARM `json:"corsRules,omitempty"`
+	CorsRules []CorsRule_STATUS_ARM `json:"corsRules"`
 }
 
 // Deprecated version of DeleteRetentionPolicy_STATUS. Use v1api20210401.DeleteRetentionPolicy_STATUS instead
@@ -44,7 +44,7 @@ type DeleteRetentionPolicy_STATUS_ARM struct {
 
 // Deprecated version of LastAccessTimeTrackingPolicy_STATUS. Use v1api20210401.LastAccessTimeTrackingPolicy_STATUS instead
 type LastAccessTimeTrackingPolicy_STATUS_ARM struct {
-	BlobType                  []string                                  `json:"blobType,omitempty"`
+	BlobType                  []string                                  `json:"blobType"`
 	Enable                    *bool                                     `json:"enable,omitempty"`
 	Name                      *LastAccessTimeTrackingPolicy_Name_STATUS `json:"name,omitempty"`
 	TrackingGranularityInDays *int                                      `json:"trackingGranularityInDays,omitempty"`
@@ -60,9 +60,9 @@ type RestorePolicyProperties_STATUS_ARM struct {
 
 // Deprecated version of CorsRule_STATUS. Use v1api20210401.CorsRule_STATUS instead
 type CorsRule_STATUS_ARM struct {
-	AllowedHeaders  []string                         `json:"allowedHeaders,omitempty"`
-	AllowedMethods  []CorsRule_AllowedMethods_STATUS `json:"allowedMethods,omitempty"`
-	AllowedOrigins  []string                         `json:"allowedOrigins,omitempty"`
-	ExposedHeaders  []string                         `json:"exposedHeaders,omitempty"`
+	AllowedHeaders  []string                         `json:"allowedHeaders"`
+	AllowedMethods  []CorsRule_AllowedMethods_STATUS `json:"allowedMethods"`
+	AllowedOrigins  []string                         `json:"allowedOrigins"`
+	ExposedHeaders  []string                         `json:"exposedHeaders"`
 	MaxAgeInSeconds *int                             `json:"maxAgeInSeconds,omitempty"`
 }

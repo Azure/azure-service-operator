@@ -31,7 +31,7 @@ type StorageAccount_Spec_ARM struct {
 	// Tags: Gets or sets a list of key value pairs that describe the resource. These tags can be used for viewing and grouping
 	// this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key
 	// with a length no greater than 128 characters and a value with a length no greater than 256 characters.
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags map[string]string `json:"tags"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccount_Spec_ARM{}
@@ -221,13 +221,13 @@ type NetworkRuleSet_ARM struct {
 	DefaultAction *NetworkRuleSet_DefaultAction `json:"defaultAction,omitempty"`
 
 	// IpRules: Sets the IP ACL rules
-	IpRules []IPRule_ARM `json:"ipRules,omitempty"`
+	IpRules []IPRule_ARM `json:"ipRules"`
 
 	// ResourceAccessRules: Sets the resource access rules
-	ResourceAccessRules []ResourceAccessRule_ARM `json:"resourceAccessRules,omitempty"`
+	ResourceAccessRules []ResourceAccessRule_ARM `json:"resourceAccessRules"`
 
 	// VirtualNetworkRules: Sets the virtual network rules
-	VirtualNetworkRules []VirtualNetworkRule_ARM `json:"virtualNetworkRules,omitempty"`
+	VirtualNetworkRules []VirtualNetworkRule_ARM `json:"virtualNetworkRules"`
 }
 
 // Routing preference defines the type of network, either microsoft or internet routing to be used to deliver the user

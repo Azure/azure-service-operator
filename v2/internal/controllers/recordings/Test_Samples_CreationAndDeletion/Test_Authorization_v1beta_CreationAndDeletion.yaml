@@ -80,7 +80,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kktczq/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sampleuserassignedidentity?api-version=2018-11-30
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-kktczq/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sampleuserassignedidentity","name":"sampleuserassignedidentity","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westcentralus","tags":{},"properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"41619917-f554-424c-a284-d0d39d7183e3","clientId":"980cba62-133c-4b11-a3d1-1f13f17ed922"}}'
+    body: '{"location":"westcentralus","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-kktczq/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sampleuserassignedidentity","name":"sampleuserassignedidentity","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"81fa57e6-ed07-4101-8932-7453a099b873","clientId":"8bb75972-e43b-4c1c-879b-0e265f377506"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -116,7 +116,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kktczq/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sampleuserassignedidentity?api-version=2018-11-30
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-kktczq/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sampleuserassignedidentity","name":"sampleuserassignedidentity","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westcentralus","tags":{},"properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"41619917-f554-424c-a284-d0d39d7183e3","clientId":"980cba62-133c-4b11-a3d1-1f13f17ed922"}}'
+    body: '{"location":"westcentralus","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-kktczq/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sampleuserassignedidentity","name":"sampleuserassignedidentity","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"81fa57e6-ed07-4101-8932-7453a099b873","clientId":"8bb75972-e43b-4c1c-879b-0e265f377506"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -146,7 +146,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kktczq/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sampleuserassignedidentity?api-version=2018-11-30
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-kktczq/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sampleuserassignedidentity","name":"sampleuserassignedidentity","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westcentralus","tags":{},"properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"41619917-f554-424c-a284-d0d39d7183e3","clientId":"980cba62-133c-4b11-a3d1-1f13f17ed922"}}'
+    body: '{"location":"westcentralus","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-kktczq/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sampleuserassignedidentity","name":"sampleuserassignedidentity","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"81fa57e6-ed07-4101-8932-7453a099b873","clientId":"8bb75972-e43b-4c1c-879b-0e265f377506"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -166,21 +166,21 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"fee8b6b1-fe6e-481d-8330-0e950e4e6b86","properties":{"principalId":"41619917-f554-424c-a284-d0d39d7183e3","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
+    body: '{"name":"778d7607-9bda-5093-9734-e1db04b19339","properties":{"principalId":"81fa57e6-ed07-4101-8932-7453a099b873","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "302"
+      - "275"
       Content-Type:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kktczq/providers/Microsoft.Authorization/roleAssignments/fee8b6b1-fe6e-481d-8330-0e950e4e6b86?api-version=2020-08-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kktczq/providers/Microsoft.Authorization/roleAssignments/778d7607-9bda-5093-9734-e1db04b19339?api-version=2020-08-01-preview
     method: PUT
   response:
-    body: '{"error":{"code":"PrincipalNotFound","message":"Principal 41619917f554424ca284d0d39d7183e3
+    body: '{"error":{"code":"PrincipalNotFound","message":"Principal 81fa57e6ed07410189327453a099b873
       does not exist in the directory 00000000-0000-0000-0000-000000000000. Check
       that you have the correct principal ID. If you are creating this principal and
       then immediately assigning a role, this error might be related to a replication
@@ -207,21 +207,62 @@ interactions:
     code: 400
     duration: ""
 - request:
-    body: '{"name":"fee8b6b1-fe6e-481d-8330-0e950e4e6b86","properties":{"principalId":"41619917-f554-424c-a284-d0d39d7183e3","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
+    body: '{"name":"778d7607-9bda-5093-9734-e1db04b19339","properties":{"principalId":"81fa57e6-ed07-4101-8932-7453a099b873","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "302"
+      - "275"
       Content-Type:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kktczq/providers/Microsoft.Authorization/roleAssignments/fee8b6b1-fe6e-481d-8330-0e950e4e6b86?api-version=2020-08-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kktczq/providers/Microsoft.Authorization/roleAssignments/778d7607-9bda-5093-9734-e1db04b19339?api-version=2020-08-01-preview
     method: PUT
   response:
-    body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c","principalId":"41619917-f554-424c-a284-d0d39d7183e3","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kktczq","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":null,"updatedBy":"84f47115-7605-44df-accf-7e01c55e425f","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kktczq/providers/Microsoft.Authorization/roleAssignments/fee8b6b1-fe6e-481d-8330-0e950e4e6b86","type":"Microsoft.Authorization/roleAssignments","name":"fee8b6b1-fe6e-481d-8330-0e950e4e6b86"}'
+    body: '{"error":{"code":"PrincipalNotFound","message":"Principal 81fa57e6ed07410189327453a099b873
+      does not exist in the directory 00000000-0000-0000-0000-000000000000. Check
+      that you have the correct principal ID. If you are creating this principal and
+      then immediately assigning a role, this error might be related to a replication
+      delay. In this case, set the role assignment principalType property to a value,
+      such as ServicePrincipal, User, or Group.  See https://aka.ms/docs-principaltype"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "489"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Set-Cookie:
+      - x-ms-gateway-slice=Production; path=/; secure; samesite=none; httponly
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 400 Bad Request
+    code: 400
+    duration: ""
+- request:
+    body: '{"name":"778d7607-9bda-5093-9734-e1db04b19339","properties":{"principalId":"81fa57e6-ed07-4101-8932-7453a099b873","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "275"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kktczq/providers/Microsoft.Authorization/roleAssignments/778d7607-9bda-5093-9734-e1db04b19339?api-version=2020-08-01-preview
+    method: PUT
+  response:
+    body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c","principalId":"81fa57e6-ed07-4101-8932-7453a099b873","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kktczq","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":null,"updatedBy":"84f47115-7605-44df-accf-7e01c55e425f","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kktczq/providers/Microsoft.Authorization/roleAssignments/778d7607-9bda-5093-9734-e1db04b19339","type":"Microsoft.Authorization/roleAssignments","name":"778d7607-9bda-5093-9734-e1db04b19339"}'
     headers:
       Cache-Control:
       - no-cache
@@ -248,10 +289,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kktczq/providers/Microsoft.Authorization/roleAssignments/fee8b6b1-fe6e-481d-8330-0e950e4e6b86?api-version=2020-08-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kktczq/providers/Microsoft.Authorization/roleAssignments/778d7607-9bda-5093-9734-e1db04b19339?api-version=2020-08-01-preview
     method: GET
   response:
-    body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c","principalId":"41619917-f554-424c-a284-d0d39d7183e3","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kktczq","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"84f47115-7605-44df-accf-7e01c55e425f","updatedBy":"84f47115-7605-44df-accf-7e01c55e425f","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kktczq/providers/Microsoft.Authorization/roleAssignments/fee8b6b1-fe6e-481d-8330-0e950e4e6b86","type":"Microsoft.Authorization/roleAssignments","name":"fee8b6b1-fe6e-481d-8330-0e950e4e6b86"}'
+    body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c","principalId":"81fa57e6-ed07-4101-8932-7453a099b873","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kktczq","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"84f47115-7605-44df-accf-7e01c55e425f","updatedBy":"84f47115-7605-44df-accf-7e01c55e425f","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kktczq/providers/Microsoft.Authorization/roleAssignments/778d7607-9bda-5093-9734-e1db04b19339","type":"Microsoft.Authorization/roleAssignments","name":"778d7607-9bda-5093-9734-e1db04b19339"}'
     headers:
       Cache-Control:
       - no-cache
@@ -280,10 +321,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kktczq/providers/Microsoft.Authorization/roleAssignments/fee8b6b1-fe6e-481d-8330-0e950e4e6b86?api-version=2020-08-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kktczq/providers/Microsoft.Authorization/roleAssignments/778d7607-9bda-5093-9734-e1db04b19339?api-version=2020-08-01-preview
     method: GET
   response:
-    body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c","principalId":"41619917-f554-424c-a284-d0d39d7183e3","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kktczq","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"84f47115-7605-44df-accf-7e01c55e425f","updatedBy":"84f47115-7605-44df-accf-7e01c55e425f","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kktczq/providers/Microsoft.Authorization/roleAssignments/fee8b6b1-fe6e-481d-8330-0e950e4e6b86","type":"Microsoft.Authorization/roleAssignments","name":"fee8b6b1-fe6e-481d-8330-0e950e4e6b86"}'
+    body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c","principalId":"81fa57e6-ed07-4101-8932-7453a099b873","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kktczq","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"84f47115-7605-44df-accf-7e01c55e425f","updatedBy":"84f47115-7605-44df-accf-7e01c55e425f","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kktczq/providers/Microsoft.Authorization/roleAssignments/778d7607-9bda-5093-9734-e1db04b19339","type":"Microsoft.Authorization/roleAssignments","name":"778d7607-9bda-5093-9734-e1db04b19339"}'
     headers:
       Cache-Control:
       - no-cache
@@ -523,7 +564,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kktczq/providers/Microsoft.Authorization/roleAssignments/fee8b6b1-fe6e-481d-8330-0e950e4e6b86?api-version=2020-08-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kktczq/providers/Microsoft.Authorization/roleAssignments/778d7607-9bda-5093-9734-e1db04b19339?api-version=2020-08-01-preview
     method: DELETE
   response:
     body: ""

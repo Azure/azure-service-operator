@@ -31,6 +31,7 @@ type TypeConfiguration struct {
 	advisor    *typo.Advisor
 	// Configurable properties here (alphabetical, please)
 	AzureGeneratedSecrets    configurable[[]string]
+	DefaultAzureName         configurable[bool]
 	Export                   configurable[bool]
 	ExportAs                 configurable[string]
 	GeneratedConfigs         configurable[map[string]string]
@@ -53,6 +54,7 @@ const (
 	nameInNextVersionTag        = "$nameInNextVersion"        // String specifying a type or property name change in the next version
 	supportedFromTag            = "$supportedFrom"            // Label specifying the first ASO release supporting the resource
 	resourceEmbeddedInParentTag = "$resourceEmbeddedInParent" // String specifying resource name of parent
+	defaultAzureNameTag         = "$defaultAzureName"         // Boolean indicating if the resource should automatically default AzureName
 )
 
 func NewTypeConfiguration(name string) *TypeConfiguration {
@@ -63,6 +65,7 @@ func NewTypeConfiguration(name string) *TypeConfiguration {
 		advisor:    typo.NewAdvisor(),
 		// Initialize configurable properties here (alphabetical, please)
 		AzureGeneratedSecrets:    makeConfigurable[[]string](azureGeneratedSecretsTag, scope),
+		DefaultAzureName:         makeConfigurable[bool](defaultAzureNameTag, scope),
 		Export:                   makeConfigurable[bool](exportTag, scope),
 		ExportAs:                 makeConfigurable[string](exportAsTag, scope),
 		Importable:               makeConfigurable[bool](importableTag, scope),
@@ -302,6 +305,18 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			}
 
 			tc.Importable.write(importable)
+			continue
+		}
+
+		// $defaultAzureName: <bool>
+		if strings.EqualFold(lastId, defaultAzureNameTag) && c.Kind == yaml.ScalarNode {
+			var defaultAzureName bool
+			err := c.Decode(&defaultAzureName)
+			if err != nil {
+				return errors.Wrapf(err, "decoding %s", defaultAzureNameTag)
+			}
+
+			tc.DefaultAzureName.write(defaultAzureName)
 			continue
 		}
 

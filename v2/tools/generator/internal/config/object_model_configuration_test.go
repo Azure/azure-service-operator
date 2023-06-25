@@ -555,3 +555,87 @@ func TestObjectModelConfiguration_LookupSupportedFrom_WhenUnconsumed_ReturnsErro
 	err := omc.SupportedFrom.VerifyConsumed()
 	g.Expect(err).NotTo(Succeed())
 }
+
+/*
+ * PayloadType Tests
+ */
+
+func TestObjectModelConfiguration_LookupPayloadType_WhenConfigured_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	name := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	omc := NewObjectModelConfiguration()
+	g.Expect(
+		omc.ModifyGroup(
+			name.PackageReference,
+			func(gc *GroupConfiguration) error {
+				gc.payloadType.write(ExplicitProperties)
+				return nil
+			})).
+		To(Succeed())
+
+	payloadType, err := omc.LookupPayloadType(name)
+	g.Expect(err).To(Succeed())
+	g.Expect(payloadType).To(Equal(ExplicitProperties))
+}
+
+func TestObjectModelConfiguration_LookupPayloadType_WhenUnconfigured_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	name := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	omc := NewObjectModelConfiguration()
+	g.Expect(
+		omc.ModifyGroup(
+			name.PackageReference,
+			func(_ *GroupConfiguration) error {
+				// No change, just provoking creation
+				return nil
+			})).
+		To(Succeed())
+
+	_, err := omc.LookupPayloadType(name)
+	g.Expect(err).NotTo(Succeed())
+}
+
+func TestObjectModelConfiguration_VerifyPayloadTypeConsumed_WhenConsumed_ReturnsNoError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	name := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	omc := NewObjectModelConfiguration()
+	g.Expect(
+		omc.ModifyGroup(
+			name.PackageReference,
+			func(gc *GroupConfiguration) error {
+				gc.payloadType.write(OmitEmptyProperties)
+				return nil
+			})).
+		To(Succeed())
+
+	_, err := omc.LookupPayloadType(name)
+	g.Expect(err).To(Succeed())
+
+	err = omc.VerifyPayloadTypeConsumed()
+	g.Expect(err).To(Succeed())
+}
+
+func TestObjectModelConfiguration_VerifyPayloadTypeConsumed_WhenUnconsumed_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	name := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	omc := NewObjectModelConfiguration()
+	g.Expect(
+		omc.ModifyGroup(
+			name.PackageReference,
+			func(gc *GroupConfiguration) error {
+				gc.payloadType.write(ExplicitProperties)
+				return nil
+			})).
+		To(Succeed())
+
+	err := omc.VerifyPayloadTypeConsumed()
+	g.Expect(err).NotTo(Succeed())
+}
