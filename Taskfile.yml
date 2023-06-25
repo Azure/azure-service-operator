@@ -157,7 +157,6 @@ tasks:
   asoctl:lint:
     desc: Run {{.ASOCTL_APP}} fast lint checks.
     dir: '{{.ASOCTL_ROOT}}'
-    deps: [controller:generate-crds]
     cmds:
       - golangci-lint run --verbose --fast=false --timeout 5m ./...
 
