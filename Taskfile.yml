@@ -222,13 +222,10 @@ tasks:
     cmds:
       - go build {{.VERSION_FLAGS}} -o ../../bin/{{.GENERATOR_APP}} .
 
+  # Stub retained until migration of workflows complete
   generator:diagrams:
-    desc: Regenerate all GraphViz diagrams
-    dir: "./docs/hugo/content"
-    sources: ["**/*.dot"]
     cmds:
-      - "for f in $(find . -name '*.dot'); do dot -Tpng -o${f%.dot}.png $f; done"
-
+      - task: doc:render-diagrams
 
   ############### Controller targets ###############
   controller:quick-checks:
@@ -969,6 +966,13 @@ tasks:
     env:
       NODE_PATH:
         sh: npm root -g
+
+  doc:render-diagrams:
+    desc: Render all GraphViz diagrams
+    dir: "./docs/hugo/content"
+    sources: ["**/*.dot"]
+    cmds:
+      - "for f in $(find . -name '*.dot'); do dot -Tpng -o${f%.dot}.png $f; done"
   ############### Shared targets ###############
   cleanup-azure-resources:
     desc: Removes any resources created by the integration tests.
