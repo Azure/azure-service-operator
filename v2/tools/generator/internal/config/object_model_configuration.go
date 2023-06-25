@@ -30,14 +30,19 @@ type ObjectModelConfiguration struct {
 	groups      map[string]*GroupConfiguration // nested configuration for individual groups
 	typoAdvisor *typo.Advisor
 
+	// Group access fields here (alphabetical, please)
+	PayloadType groupAccess[PayloadType]
+
 	// Type access fields here (alphabetical, please)
-	AzureGeneratedSecrets    typeAccess[[]string]
-	Export                   typeAccess[bool]
-	ExportAs                 typeAccess[string]
-	GeneratedConfigs         typeAccess[map[string]string]
-	Importable               typeAccess[bool]
-	IsResource               typeAccess[bool]
-	ManualConfigs            typeAccess[[]string]
+	AzureGeneratedSecrets typeAccess[[]string]
+	DefaultAzureName      typeAccess[bool]
+	Export                typeAccess[bool]
+	ExportAs              typeAccess[string]
+	GeneratedConfigs      typeAccess[map[string]string]
+	Importable            typeAccess[bool]
+	IsResource            typeAccess[bool]
+	ManualConfigs         typeAccess[[]string]
+
 	ResourceEmbeddedInParent typeAccess[string]
 	SupportedFrom            typeAccess[string]
 	TypeNameInNextVersion    typeAccess[string]
@@ -47,6 +52,11 @@ type ObjectModelConfiguration struct {
 	ImportConfigMapMode            propertyAccess[ImportConfigMapMode]
 	IsSecret                       propertyAccess[bool]
 	ResourceLifecycleOwnedByParent propertyAccess[string]
+}
+
+type groupAccess[T any] struct {
+	model    *ObjectModelConfiguration
+	accessor func(*GroupConfiguration) *configurable[T]
 }
 
 type typeAccess[T any] struct {
@@ -66,9 +76,15 @@ func NewObjectModelConfiguration() *ObjectModelConfiguration {
 		typoAdvisor: typo.NewAdvisor(),
 	}
 
+	// Initialize group access fields here (alphabetical, please)
+	result.PayloadType = makeGroupAccess[PayloadType](
+		result, func(c *GroupConfiguration) *configurable[PayloadType] { return &c.PayloadType })
+
 	// Initialize type access fields here (alphabetical, please)
 	result.AzureGeneratedSecrets = makeTypeAccess[[]string](
 		result, func(c *TypeConfiguration) *configurable[[]string] { return &c.AzureGeneratedSecrets })
+	result.DefaultAzureName = makeTypeAccess[bool](
+		result, func(c *TypeConfiguration) *configurable[bool] { return &c.DefaultAzureName })
 	result.Export = makeTypeAccess[bool](
 		result, func(c *TypeConfiguration) *configurable[bool] { return &c.Export })
 	result.ExportAs = makeTypeAccess[string](
@@ -144,34 +160,6 @@ func (omc *ObjectModelConfiguration) AddTypeAlias(name astmodel.TypeName, alias 
 	}
 }
 
-// LookupDefaultAzureName checks to see whether a specified type should default the Azure Name property.
-// Returns a NotConfiguredError if no $defaultAzureName flag is configured.
-func (omc *ObjectModelConfiguration) LookupDefaultAzureName(name astmodel.TypeName) (bool, error) {
-	var defaultAzureName bool
-	visitor := newSingleTypeConfigurationVisitor(
-		name,
-		func(configuration *TypeConfiguration) error {
-			defAzure, err := configuration.LookupDefaultAzureName()
-			defaultAzureName = defAzure
-			return err
-		})
-	err := visitor.Visit(omc)
-	if err != nil {
-		return false, err
-	}
-
-	return defaultAzureName, nil
-}
-
-// VerifyDefaultAzureNameConsumed returns an error if our configured $defaultAzureName flag was not used, nil otherwise.
-func (omc *ObjectModelConfiguration) VerifyDefaultAzureNameConsumed() error {
-	visitor := newEveryTypeConfigurationVisitor(
-		func(configuration *TypeConfiguration) error {
-			return configuration.VerifyDefaultAzureNameConsumed()
-		})
-	return visitor.Visit(omc)
-}
-
 var VersionRegex = regexp.MustCompile(`^v\d\d?$`)
 
 // FindHandCraftedTypeNames returns the set of typenames that are hand-crafted.
@@ -218,32 +206,6 @@ func (omc *ObjectModelConfiguration) FindHandCraftedTypeNames(localPath string) 
 	}
 
 	return result, nil
-}
-
-// LookupPayloadType checks to see whether a specified type has a configured payload type
-func (omc *ObjectModelConfiguration) LookupPayloadType(name astmodel.TypeName) (PayloadType, error) {
-	var payloadType PayloadType
-	visitor := newSingleGroupConfigurationVisitor(
-		name.PackageReference,
-		func(configuration *GroupConfiguration) error {
-			pt, err := configuration.LookupPayloadType()
-			payloadType = pt
-			return err
-		})
-	err := visitor.Visit(omc)
-	if err != nil {
-		return "", err
-	}
-
-	return payloadType, nil
-}
-
-func (omc *ObjectModelConfiguration) VerifyPayloadTypeConsumed() error {
-	visitor := newEveryGroupConfigurationVisitor(
-		func(configuration *GroupConfiguration) error {
-			return configuration.VerifyPayloadTypeConsumed()
-		})
-	return visitor.Visit(omc)
 }
 
 // addGroup includes the provided GroupConfiguration in this model configuration
@@ -446,6 +408,60 @@ func (omc *ObjectModelConfiguration) ModifyProperty(
 		})
 }
 
+/*
+ * groupAccess
+ */
+
+func makeGroupAccess[T any](
+	model *ObjectModelConfiguration,
+	accessor func(*GroupConfiguration,
+	) *configurable[T]) groupAccess[T] {
+	return groupAccess[T]{
+		model:    model,
+		accessor: accessor}
+}
+
+func (a *groupAccess[T]) Lookup(ref astmodel.PackageReference) (T, error) {
+	var c *configurable[T]
+	visitor := newSingleGroupConfigurationVisitor(
+		ref,
+		func(configuration *GroupConfiguration) error {
+			c = a.accessor(configuration)
+			return nil
+		})
+
+	err := visitor.Visit(a.model)
+	if err != nil {
+		return *new(T), err
+	}
+
+	return c.Lookup()
+}
+
+func (a *groupAccess[T]) VerifyConsumed() error {
+	visitor := newEveryGroupConfigurationVisitor(
+		func(configuration *GroupConfiguration) error {
+			c := a.accessor(configuration)
+			return c.VerifyConsumed()
+		})
+	return visitor.Visit(a.model)
+}
+
+func (a *groupAccess[T]) MarkUnconsumed() error {
+	visitor := newEveryGroupConfigurationVisitor(
+		func(configuration *GroupConfiguration) error {
+			c := a.accessor(configuration)
+			c.MarkUnconsumed()
+			return nil
+		})
+
+	return visitor.Visit(a.model)
+}
+
+/*
+ * typeAccess
+ */
+
 // makeTypeAccess creates a new typeAccess[T] for the given model and accessor function
 func makeTypeAccess[T any](
 	model *ObjectModelConfiguration,
@@ -495,6 +511,10 @@ func (a *typeAccess[T]) MarkUnconsumed() error {
 
 	return visitor.Visit(a.model)
 }
+
+/*
+ * PropertyAccess
+ */
 
 // makePropertyAccess creates a new propertyAccess[T] for the given model and accessor function
 func makePropertyAccess[T any](
