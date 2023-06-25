@@ -91,13 +91,8 @@ tasks:
       - gofmt -l -s -w .
 
   build-docs-site:
-    dir: docs/hugo
-    cmds:
-      - hugo
-      - htmltest
-    env:
-      NODE_PATH:
-        sh: npm root -g
+    cmd:
+      - task: docs:build-site
 
   basic-checks:
     deps: 
@@ -965,6 +960,18 @@ tasks:
       - basic-checks
       - crossplane:generate-crds
 
+  ############### Documentation targets ###############
+
+  doc:build-site:
+    dir: docs/hugo
+    dep:
+      - doc:frontmatter-check
+    cmds:
+      - hugo
+      - htmltest
+    env:
+      NODE_PATH:
+        sh: npm root -g
   ############### Shared targets ###############
   cleanup-azure-resources:
     desc: Removes any resources created by the integration tests.
