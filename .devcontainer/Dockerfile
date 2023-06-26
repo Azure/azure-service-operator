@@ -6,7 +6,7 @@ FROM mcr.microsoft.com/vscode/devcontainers/go:0-1.20
 # APT dependencies
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
-    && apt-get -y install --no-install-recommends bash-completion software-properties-common lsb-release graphviz \
+    && apt-get -y install --no-install-recommends bash-completion software-properties-common lsb-release graphviz zip \
     # install az-cli
     && curl -sL https://aka.ms/InstallAzureCLIDeb | bash -
 
