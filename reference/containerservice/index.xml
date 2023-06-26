@@ -11239,7 +11239,9 @@ string
 &lt;td&gt;
 &lt;code&gt;secret&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-string
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference&#34;&gt;
+genruntime.SecretReference
+&lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
@@ -11315,17 +11317,6 @@ string
 &lt;p&gt;ClientId: The ID for the service principal.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;secret&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Secret: The secret password associated with the service principal in plain text.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h3 id=&#34;containerservice.azure.com/v1api20210501.ManagedClusterServicePrincipalProfile_STATUS_ARM&#34;&gt;ManagedClusterServicePrincipalProfile_STATUS_ARM
@@ -11353,17 +11344,6 @@ string
 &lt;/td&gt;
 &lt;td&gt;
 &lt;p&gt;ClientId: The ID for the service principal.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;secret&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Secret: The secret password associated with the service principal in plain text.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -31502,7 +31482,9 @@ string
 &lt;td&gt;
 &lt;code&gt;secret&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-string
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference&#34;&gt;
+genruntime.SecretReference
+&lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
@@ -31578,17 +31560,6 @@ string
 &lt;p&gt;ClientId: The ID for the service principal.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;secret&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Secret: The secret password associated with the service principal in plain text.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h3 id=&#34;containerservice.azure.com/v1api20230201.ManagedClusterServicePrincipalProfile_STATUS_ARM&#34;&gt;ManagedClusterServicePrincipalProfile_STATUS_ARM
@@ -31616,17 +31587,6 @@ string
 &lt;/td&gt;
 &lt;td&gt;
 &lt;p&gt;ClientId: The ID for the service principal.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;secret&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Secret: The secret password associated with the service principal in plain text.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -57300,7 +57260,9 @@ string
 &lt;td&gt;
 &lt;code&gt;secret&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-string
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference&#34;&gt;
+genruntime.SecretReference
+&lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
@@ -57376,17 +57338,6 @@ string
 &lt;p&gt;ClientId: The ID for the service principal.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;secret&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Secret: The secret password associated with the service principal in plain text.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h3 id=&#34;containerservice.azure.com/v1api20230202preview.ManagedClusterServicePrincipalProfile_STATUS_ARM&#34;&gt;ManagedClusterServicePrincipalProfile_STATUS_ARM
@@ -57414,17 +57365,6 @@ string
 &lt;/td&gt;
 &lt;td&gt;
 &lt;p&gt;ClientId: The ID for the service principal.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;secret&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Secret: The secret password associated with the service principal in plain text.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -76712,7 +76652,9 @@ string
 &lt;td&gt;
 &lt;code&gt;secret&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-string
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference&#34;&gt;
+genruntime.SecretReference
+&lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
@@ -76784,16 +76726,6 @@ string
 &lt;td&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;secret&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h3 id=&#34;containerservice.azure.com/v1beta20210501.ManagedClusterServicePrincipalProfile_STATUS_ARM&#34;&gt;ManagedClusterServicePrincipalProfile_STATUS_ARM
@@ -76815,16 +76747,6 @@ string
 &lt;tr&gt;
 &lt;td&gt;
 &lt;code&gt;clientId&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;secret&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 string
 &lt;/em&gt;

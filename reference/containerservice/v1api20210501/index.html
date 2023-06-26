@@ -36,7 +36,7 @@
  Resource Types:  APIVersion (string alias)      Value Description   &#34;2021-05-01&#34;
     AgentPoolMode (string alias)  (Appears on:ManagedClusterAgentPoolProfile, ManagedClusterAgentPoolProfileProperties_ARM, ManagedClusterAgentPoolProfile_ARM, ManagedClusters_AgentPool_Spec)  A cluster must have at least one &lsquo;System&rsquo; Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools">
 
-<meta itemprop="wordCount" content="19454">
+<meta itemprop="wordCount" content="19426">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="containerservice.azure.com/v1api20210501"/>
 <meta name="twitter:description" content="containerservice.azure.com/v1api20210501  Package v1api20210501 contains API Schema definitions for the containerservice v1api20210501 API group
@@ -11893,7 +11893,9 @@ string
 <td>
 <code>secret</code><br/>
 <em>
-string
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">
+genruntime.SecretReference
+</a>
 </em>
 </td>
 <td>
@@ -11969,17 +11971,6 @@ string
 <p>ClientId: The ID for the service principal.</p>
 </td>
 </tr>
-<tr>
-<td>
-<code>secret</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Secret: The secret password associated with the service principal in plain text.</p>
-</td>
-</tr>
 </tbody>
 </table>
 <h3 id="containerservice.azure.com/v1api20210501.ManagedClusterServicePrincipalProfile_STATUS_ARM">ManagedClusterServicePrincipalProfile_STATUS_ARM
@@ -12007,17 +11998,6 @@ string
 </td>
 <td>
 <p>ClientId: The ID for the service principal.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secret</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Secret: The secret password associated with the service principal in plain text.</p>
 </td>
 </tr>
 </tbody>
