@@ -357,7 +357,7 @@ func (r *azureDeploymentReconcilerInstance) preReconciliationCheck(ctx context.C
 	}
 
 	// Run our pre-reconciliation checker
-	check, checkErr := checker(ctx, r.Obj, owner, r.KubeClient, r.ARMConnection.Client(), r.Log)
+	check, checkErr := checker(ctx, r.Obj, owner, r.ResourceResolver, r.ARMConnection.Client(), r.Log)
 	if checkErr != nil {
 		// Something went wrong running the check.
 		return extensions.PreReconcileCheckResult{}, checkErr

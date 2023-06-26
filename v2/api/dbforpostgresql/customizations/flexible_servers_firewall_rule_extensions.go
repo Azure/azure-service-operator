@@ -8,8 +8,8 @@ package customizations
 import (
 	"context"
 	"fmt"
+	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 
-	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 
 	"github.com/go-logr/logr"
@@ -25,7 +25,7 @@ func (ext *FlexibleServersFirewallRuleExtension) PreReconcileCheck(
 	_ context.Context,
 	_ genruntime.MetaObject,
 	owner genruntime.MetaObject,
-	_ kubeclient.Client,
+	_ *resolver.Resolver,
 	_ *genericarmclient.GenericClient,
 	_ logr.Logger,
 	_ extensions.PreReconcileCheckFunc,

@@ -9,7 +9,7 @@ import (
 	"context"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
-	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/go-logr/logr"
@@ -33,7 +33,7 @@ type PreReconciliationChecker interface {
 		ctx context.Context,
 		obj genruntime.MetaObject,
 		owner genruntime.MetaObject,
-		kubeClient kubeclient.Client,
+		resourceResolver *resolver.Resolver,
 		armClient *genericarmclient.GenericClient,
 		log logr.Logger,
 		next PreReconcileCheckFunc,
@@ -44,7 +44,7 @@ type PreReconcileCheckFunc func(
 	ctx context.Context,
 	obj genruntime.MetaObject,
 	owner genruntime.MetaObject,
-	kubeClient kubeclient.Client,
+	resourceResolver *resolver.Resolver,
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger,
 ) (PreReconcileCheckResult, error)
@@ -132,13 +132,13 @@ func CreatePreReconciliationChecker(
 		ctx context.Context,
 		obj genruntime.MetaObject,
 		owner genruntime.MetaObject,
-		kubeClient kubeclient.Client,
+		resourceResolver *resolver.Resolver,
 		armClient *genericarmclient.GenericClient,
 		log logr.Logger,
 	) (PreReconcileCheckResult, error) {
 		log.V(Status).Info("Extension pre-reconcile check running")
 
-		result, err := impl.PreReconcileCheck(ctx, obj, owner, kubeClient, armClient, log, alwaysReconcile)
+		result, err := impl.PreReconcileCheck(ctx, obj, owner, resourceResolver, armClient, log, alwaysReconcile)
 		if err != nil {
 			log.V(Status).Info(
 				"Extension pre-reconcile check failed",
@@ -164,7 +164,7 @@ func alwaysReconcile(
 	_ context.Context,
 	_ genruntime.MetaObject,
 	_ genruntime.MetaObject,
-	_ kubeclient.Client,
+	_ *resolver.Resolver,
 	_ *genericarmclient.GenericClient,
 	_ logr.Logger,
 ) (PreReconcileCheckResult, error) {

@@ -8,6 +8,7 @@ package customizations
 import (
 	"context"
 	"fmt"
+	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice"
@@ -21,7 +22,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
-	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
@@ -142,7 +142,7 @@ func (ext *ManagedClusterExtension) PreReconcileCheck(
 	_ context.Context,
 	obj genruntime.MetaObject,
 	_ genruntime.MetaObject,
-	_ kubeclient.Client,
+	_ *resolver.Resolver,
 	_ *genericarmclient.GenericClient,
 	_ logr.Logger,
 	_ extensions.PreReconcileCheckFunc,
