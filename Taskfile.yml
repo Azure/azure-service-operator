@@ -171,8 +171,6 @@ tasks:
       - GOOS={{.GOOS}} GOARCH={{.GOARCH}} go build {{.VERSION_FLAGS}} -o {{.EXECUTABLE}}
       - if [ "{{.ARCHIVETYPE}}" = ".zip" ]; then zip -j -r {{.ARCHIVE}} {{.EXECUTABLE}}; fi
       - if [ "{{.ARCHIVETYPE}}" = ".gz" ]; then gzip -v -c {{.EXECUTABLE}} > {{.ARCHIVE}} ; fi
-      # gzip -c ./bin/darwin-arm64/asoctl > ./asoctl.gz
-      #../../bin/{{.ASOCTL_APP}}-{{.GOOS}}-{{.GOARCH}}{{.EXT}} .
     vars:
       EXT: '{{if eq .GOOS "windows"}}.exe{{else}}{{end}}'
       ARCHIVETYPE: '{{if eq .GOOS "windows"}}.zip{{else}}.gz{{end}}'
