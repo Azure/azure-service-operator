@@ -47,8 +47,8 @@ func newAzureDeploymentReconcilerInstance(
 	log logr.Logger,
 	recorder record.EventRecorder,
 	connection Connection,
-	reconciler AzureDeploymentReconciler) *azureDeploymentReconcilerInstance {
-
+	reconciler AzureDeploymentReconciler,
+) *azureDeploymentReconcilerInstance {
 	return &azureDeploymentReconcilerInstance{
 		Obj:                              metaObj,
 		Log:                              log,
@@ -484,7 +484,7 @@ func (r *azureDeploymentReconcilerInstance) postReconciliationCheck(ctx context.
 	}
 
 	// Run our post-reconciliation checker
-	check, checkErr := checker(ctx, r.Obj, owner, r.KubeClient, r.ARMConnection.Client(), r.Log)
+	check, checkErr := checker(ctx, r.Obj, owner, r.ResourceResolver, r.ARMConnection.Client(), r.Log)
 	if checkErr != nil {
 		// Something went wrong running the check.
 		return extensions.PostReconcileCheckResult{}, checkErr
