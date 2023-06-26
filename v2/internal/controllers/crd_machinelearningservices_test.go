@@ -17,7 +17,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-// If recording this test, might need to manually purge the old KeyVault: az keyvault purge --name asotest-kv-qpxtvz
+// If recording this test, might need to manually purge the old KeyVault and Workspace:
+// az keyvault purge --name asotest-kv-qpxtvz
+// you need to do this for the workspace too (see https://aka.ms/wsoftdelete). As far as I can tell there's no way to do this via the az cli you have to do it via the portal.
 
 func Test_MachineLearning_Workspaces_CRUD(t *testing.T) {
 	t.Parallel()
@@ -25,16 +27,15 @@ func Test_MachineLearning_Workspaces_CRUD(t *testing.T) {
 	if *isLive {
 		t.Skip("can't run in live mode, as this test is creates a KeyVault which reserves the name unless manually purged")
 	}
-
 	tc := globalTestContext.ForTest(t)
 
+	tc.AzureRegion = to.Ptr("westus3")
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	sa := newStorageAccount(tc, rg)
 	kv := newVault("kv", tc, rg)
 
-	// Have to use 'eastus' location here as 'ListKeys' API is unavailable/still broken for 'westus2'
-	workspace := newWorkspace(tc, testcommon.AsOwner(rg), sa, kv, to.Ptr("eastus"))
+	workspace := newWorkspace(tc, testcommon.AsOwner(rg), sa, kv, tc.AzureRegion)
 
 	tc.CreateResourcesAndWait(workspace, sa, kv)
 

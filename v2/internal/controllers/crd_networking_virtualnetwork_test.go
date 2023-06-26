@@ -145,9 +145,6 @@ func Test_Networking_VirtualNetworkAndSubnetAdopted_SubnetsStillExist(t *testing
 	vm := newVirtualMachine20201201(tc, rg, networkInterface, secret)
 	tc.CreateResourcesAndWait(vm, vnet, subnet, networkInterface)
 
-	//tc.Expect(subnet.Status.Id).ToNot(BeNil())
-	//subnetId := *subnet.Status.Id
-
 	// Annotate with skip
 	oldSubnet := subnet.DeepCopy()
 	subnet.Annotations["serviceoperator.azure.com/reconcile-policy"] = "skip"

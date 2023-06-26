@@ -66,6 +66,40 @@ interactions:
     code: 200
     duration: ""
 - request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Network/virtualNetworks/asotest-vn-csgfji?api-version=2020-11-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/virtualNetworks/asotest-vn-csgfji''
+      under resource group ''asotest-rg-ibybct'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "240"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
     body: '{"location":"westeurope","name":"asotest-vn-csgfji","properties":{"addressSpace":{"addressPrefixes":["10.0.0.0/16"]}}}'
     form: {}
     headers:
@@ -81,10 +115,10 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-vn-csgfji\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Network/virtualNetworks/asotest-vn-csgfji\",\r\n
-      \ \"etag\": \"W/\\\"9f8751a5-3bda-4ba6-9138-4677dc0603f5\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"3b1567e4-679b-44bd-b4c2-b23ac3ad2aec\\\"\",\r\n  \"type\":
       \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westeurope\",\r\n
       \ \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\":
-      \"b341f9db-b789-4a55-96e4-71855e21877c\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\":
+      \"7aef747e-3954-4360-96b4-3a58851cebe7\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\":
       [\r\n        \"10.0.0.0/16\"\r\n      ]\r\n    },\r\n    \"subnets\": [],\r\n
       \   \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\": false\r\n
       \ }\r\n}"
@@ -92,7 +126,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westeurope/operations/bf94154c-e60f-4321-9c2c-af7089c84e53?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westeurope/operations/4cb60957-f503-48c4-81fe-0694fa69c0af?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -121,7 +155,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westeurope/operations/bf94154c-e60f-4321-9c2c-af7089c84e53?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westeurope/operations/4cb60957-f503-48c4-81fe-0694fa69c0af?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -151,15 +185,15 @@ interactions:
     form: {}
     headers:
       Test-Request-Attempt:
-      - "0"
+      - "1"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Network/virtualNetworks/asotest-vn-csgfji?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-vn-csgfji\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Network/virtualNetworks/asotest-vn-csgfji\",\r\n
-      \ \"etag\": \"W/\\\"ac704e90-017d-4ee1-b53d-a03d46ad153e\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"1826a335-693e-4a51-83e9-a2e6eb844870\\\"\",\r\n  \"type\":
       \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westeurope\",\r\n
       \ \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\":
-      \"b341f9db-b789-4a55-96e4-71855e21877c\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\":
+      \"7aef747e-3954-4360-96b4-3a58851cebe7\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\":
       [\r\n        \"10.0.0.0/16\"\r\n      ]\r\n    },\r\n    \"subnets\": [],\r\n
       \   \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\": false\r\n
       \ }\r\n}"
@@ -169,7 +203,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"ac704e90-017d-4ee1-b53d-a03d46ad153e"
+      - W/"1826a335-693e-4a51-83e9-a2e6eb844870"
       Expires:
       - "-1"
       Pragma:
@@ -193,15 +227,15 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "1"
+      - "2"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Network/virtualNetworks/asotest-vn-csgfji?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-vn-csgfji\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Network/virtualNetworks/asotest-vn-csgfji\",\r\n
-      \ \"etag\": \"W/\\\"ac704e90-017d-4ee1-b53d-a03d46ad153e\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"1826a335-693e-4a51-83e9-a2e6eb844870\\\"\",\r\n  \"type\":
       \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westeurope\",\r\n
       \ \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\":
-      \"b341f9db-b789-4a55-96e4-71855e21877c\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\":
+      \"7aef747e-3954-4360-96b4-3a58851cebe7\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\":
       [\r\n        \"10.0.0.0/16\"\r\n      ]\r\n    },\r\n    \"subnets\": [],\r\n
       \   \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\": false\r\n
       \ }\r\n}"
@@ -211,7 +245,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"ac704e90-017d-4ee1-b53d-a03d46ad153e"
+      - W/"1826a335-693e-4a51-83e9-a2e6eb844870"
       Expires:
       - "-1"
       Pragma:
@@ -244,7 +278,7 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-subnet-ellekj\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Network/virtualNetworks/asotest-vn-csgfji/subnets/asotest-subnet-ellekj\",\r\n
-      \ \"etag\": \"W/\\\"e3b92fab-cadc-4cd2-86c8-ab25834fc1bb\\\"\",\r\n  \"properties\":
+      \ \"etag\": \"W/\\\"8f6fb45b-087e-4932-87be-3e9ecd829a50\\\"\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Updating\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
       \   \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\": \"Disabled\",\r\n
       \   \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n  },\r\n  \"type\":
@@ -253,7 +287,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westeurope/operations/01d98998-cdbf-4ecd-8051-b8ba754af698?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westeurope/operations/138d5261-981a-4567-a13a-478a7b0aaee3?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -277,37 +311,6 @@ interactions:
     code: 201
     duration: ""
 - request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westeurope/operations/01d98998-cdbf-4ecd-8051-b8ba754af698?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
     body: '{"location":"westeurope","name":"asotest-nic-tzylhp","properties":{"ipConfigurations":[{"name":"ipconfig1","properties":{"privateIPAllocationMethod":"Dynamic","subnet":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Network/virtualNetworks/asotest-vn-csgfji/subnets/asotest-subnet-ellekj"}}}]}}'
     form: {}
     headers:
@@ -323,11 +326,11 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-nic-tzylhp\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Network/networkInterfaces/asotest-nic-tzylhp\",\r\n
-      \ \"etag\": \"W/\\\"d302db63-93aa-4d03-98a4-ec7a52ce2f96\\\"\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"b199bbb6-2e98-4990-b832-5dacb4a7f153\",\r\n
+      \ \"etag\": \"W/\\\"6f8dc0f8-bb4a-4392-8532-56a1afbe0312\\\"\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"a19cd353-e58a-434f-ba94-26c8707c918a\",\r\n
       \   \"ipConfigurations\": [\r\n      {\r\n        \"name\": \"ipconfig1\",\r\n
       \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Network/networkInterfaces/asotest-nic-tzylhp/ipConfigurations/ipconfig1\",\r\n
-      \       \"etag\": \"W/\\\"d302db63-93aa-4d03-98a4-ec7a52ce2f96\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"6f8dc0f8-bb4a-4392-8532-56a1afbe0312\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkInterfaces/ipConfigurations\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"privateIPAddress\":
       \"10.0.0.4\",\r\n          \"privateIPAllocationMethod\": \"Dynamic\",\r\n          \"subnet\":
@@ -335,7 +338,7 @@ interactions:
       \         },\r\n          \"primary\": true,\r\n          \"privateIPAddressVersion\":
       \"IPv4\"\r\n        }\r\n      }\r\n    ],\r\n    \"dnsSettings\": {\r\n      \"dnsServers\":
       [],\r\n      \"appliedDnsServers\": [],\r\n      \"internalDomainNameSuffix\":
-      \"1p2udm2jw3kuvfxeogcv2imhpe.ax.internal.cloudapp.net\"\r\n    },\r\n    \"enableAcceleratedNetworking\":
+      \"pz0o44suhfqehfvuhjmikhhl2h.ax.internal.cloudapp.net\"\r\n    },\r\n    \"enableAcceleratedNetworking\":
       false,\r\n    \"vnetEncryptionSupported\": false,\r\n    \"enableIPForwarding\":
       false,\r\n    \"hostedWorkloads\": [],\r\n    \"tapConfigurations\": [],\r\n
       \   \"nicType\": \"Standard\"\r\n  },\r\n  \"type\": \"Microsoft.Network/networkInterfaces\",\r\n
@@ -344,7 +347,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westeurope/operations/f5c2941a-9199-476f-a360-6d53abfb5d22?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westeurope/operations/96bd29e2-425d-48bc-a898-d66c34d20248?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -371,23 +374,15 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Network/virtualNetworks/asotest-vn-csgfji/subnets/asotest-subnet-ellekj?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westeurope/operations/138d5261-981a-4567-a13a-478a7b0aaee3?api-version=2020-11-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"asotest-subnet-ellekj\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Network/virtualNetworks/asotest-vn-csgfji/subnets/asotest-subnet-ellekj\",\r\n
-      \ \"etag\": \"W/\\\"689d72d8-0602-4cfb-9277-71bc0b953114\\\"\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
-      \   \"ipConfigurations\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Network/networkInterfaces/asotest-nic-tzylhp/ipConfigurations/ipconfig1\"\r\n
-      \     }\r\n    ],\r\n    \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\":
-      \"Disabled\",\r\n    \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n
-      \ },\r\n  \"type\": \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
+    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
-      Etag:
-      - W/"689d72d8-0602-4cfb-9277-71bc0b953114"
       Expires:
       - "-1"
       Pragma:
@@ -416,11 +411,11 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-nic-tzylhp\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Network/networkInterfaces/asotest-nic-tzylhp\",\r\n
-      \ \"etag\": \"W/\\\"d302db63-93aa-4d03-98a4-ec7a52ce2f96\\\"\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"b199bbb6-2e98-4990-b832-5dacb4a7f153\",\r\n
+      \ \"etag\": \"W/\\\"6f8dc0f8-bb4a-4392-8532-56a1afbe0312\\\"\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"a19cd353-e58a-434f-ba94-26c8707c918a\",\r\n
       \   \"ipConfigurations\": [\r\n      {\r\n        \"name\": \"ipconfig1\",\r\n
       \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Network/networkInterfaces/asotest-nic-tzylhp/ipConfigurations/ipconfig1\",\r\n
-      \       \"etag\": \"W/\\\"d302db63-93aa-4d03-98a4-ec7a52ce2f96\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"6f8dc0f8-bb4a-4392-8532-56a1afbe0312\\\"\",\r\n        \"type\":
       \"Microsoft.Network/networkInterfaces/ipConfigurations\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"privateIPAddress\":
       \"10.0.0.4\",\r\n          \"privateIPAllocationMethod\": \"Dynamic\",\r\n          \"subnet\":
@@ -428,7 +423,7 @@ interactions:
       \         },\r\n          \"primary\": true,\r\n          \"privateIPAddressVersion\":
       \"IPv4\"\r\n        }\r\n      }\r\n    ],\r\n    \"dnsSettings\": {\r\n      \"dnsServers\":
       [],\r\n      \"appliedDnsServers\": [],\r\n      \"internalDomainNameSuffix\":
-      \"1p2udm2jw3kuvfxeogcv2imhpe.ax.internal.cloudapp.net\"\r\n    },\r\n    \"enableAcceleratedNetworking\":
+      \"pz0o44suhfqehfvuhjmikhhl2h.ax.internal.cloudapp.net\"\r\n    },\r\n    \"enableAcceleratedNetworking\":
       false,\r\n    \"vnetEncryptionSupported\": false,\r\n    \"enableIPForwarding\":
       false,\r\n    \"hostedWorkloads\": [],\r\n    \"tapConfigurations\": [],\r\n
       \   \"nicType\": \"Standard\"\r\n  },\r\n  \"type\": \"Microsoft.Network/networkInterfaces\",\r\n
@@ -439,7 +434,46 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"d302db63-93aa-4d03-98a4-ec7a52ce2f96"
+      - W/"6f8dc0f8-bb4a-4392-8532-56a1afbe0312"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Network/virtualNetworks/asotest-vn-csgfji/subnets/asotest-subnet-ellekj?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-subnet-ellekj\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Network/virtualNetworks/asotest-vn-csgfji/subnets/asotest-subnet-ellekj\",\r\n
+      \ \"etag\": \"W/\\\"6e68ce28-f997-46f7-956b-9a86cb4ea4ec\\\"\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
+      \   \"ipConfigurations\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Network/networkInterfaces/asotest-nic-tzylhp/ipConfigurations/ipconfig1\"\r\n
+      \     }\r\n    ],\r\n    \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\":
+      \"Disabled\",\r\n    \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n
+      \ },\r\n  \"type\": \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"6e68ce28-f997-46f7-956b-9a86cb4ea4ec"
       Expires:
       - "-1"
       Pragma:
@@ -468,7 +502,7 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-subnet-ellekj\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Network/virtualNetworks/asotest-vn-csgfji/subnets/asotest-subnet-ellekj\",\r\n
-      \ \"etag\": \"W/\\\"689d72d8-0602-4cfb-9277-71bc0b953114\\\"\",\r\n  \"properties\":
+      \ \"etag\": \"W/\\\"6e68ce28-f997-46f7-956b-9a86cb4ea4ec\\\"\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
       \   \"ipConfigurations\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Network/networkInterfaces/asotest-nic-tzylhp/ipConfigurations/ipconfig1\"\r\n
       \     }\r\n    ],\r\n    \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\":
@@ -480,7 +514,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"689d72d8-0602-4cfb-9277-71bc0b953114"
+      - W/"6e68ce28-f997-46f7-956b-9a86cb4ea4ec"
       Expires:
       - "-1"
       Pragma:
@@ -514,11 +548,11 @@ interactions:
   response:
     body: "{\r\n  \"name\": \"asotest-vm-guihjc\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachines\",\r\n  \"location\": \"westeurope\",\r\n
-      \ \"properties\": {\r\n    \"vmId\": \"ba8b6ff8-41df-4bd0-a0dd-67107d1fa5c3\",\r\n
+      \ \"properties\": {\r\n    \"vmId\": \"3e641fbf-52f4-4483-bb64-34a80cf04988\",\r\n
       \   \"hardwareProfile\": {\r\n      \"vmSize\": \"Standard_D1_v2\"\r\n    },\r\n
       \   \"storageProfile\": {\r\n      \"imageReference\": {\r\n        \"publisher\":
       \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"18.04-LTS\",\r\n
-      \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202210140\"\r\n
+      \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202306070\"\r\n
       \     },\r\n      \"osDisk\": {\r\n        \"osType\": \"Linux\",\r\n        \"createOption\":
       \"FromImage\",\r\n        \"caching\": \"ReadWrite\",\r\n        \"managedDisk\":
       {\r\n          \"storageAccountType\": \"Standard_LRS\"\r\n        },\r\n        \"diskSizeGB\":
@@ -534,7 +568,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westeurope/operations/3e65746e-64de-4a41-a647-76403cb642c4?p=2071f890-ee58-407a-90bb-f38303a9ce4c&api-version=2020-12-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westeurope/operations/d3265742-e3be-4ac8-92fd-4a6d7c466730?p=2071f890-ee58-407a-90bb-f38303a9ce4c&api-version=2020-12-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -555,7 +589,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/PutVM3Min;239,Microsoft.Compute/PutVM30Min;1197
+      - Microsoft.Compute/PutVM3Min;239,Microsoft.Compute/PutVM30Min;1199
     status: 201 Created
     code: 201
     duration: ""
@@ -565,11 +599,11 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westeurope/operations/3e65746e-64de-4a41-a647-76403cb642c4?p=2071f890-ee58-407a-90bb-f38303a9ce4c&api-version=2020-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westeurope/operations/d3265742-e3be-4ac8-92fd-4a6d7c466730?p=2071f890-ee58-407a-90bb-f38303a9ce4c&api-version=2020-12-01
     method: GET
   response:
-    body: "{\r\n  \"startTime\": \"2022-10-17T16:30:03.4318125+00:00\",\r\n  \"status\":
-      \"InProgress\",\r\n  \"name\": \"3e65746e-64de-4a41-a647-76403cb642c4\"\r\n}"
+    body: "{\r\n  \"startTime\": \"2023-07-06T19:08:20.2368224+00:00\",\r\n  \"status\":
+      \"InProgress\",\r\n  \"name\": \"d3265742-e3be-4ac8-92fd-4a6d7c466730\"\r\n}"
     headers:
       Cache-Control:
       - no-cache
@@ -591,7 +625,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/GetOperation3Min;14997,Microsoft.Compute/GetOperation30Min;29953
+      - Microsoft.Compute/GetOperation3Min;14999,Microsoft.Compute/GetOperation30Min;29999
     status: 200 OK
     code: 200
     duration: ""
@@ -601,12 +635,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westeurope/operations/3e65746e-64de-4a41-a647-76403cb642c4?p=2071f890-ee58-407a-90bb-f38303a9ce4c&api-version=2020-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westeurope/operations/d3265742-e3be-4ac8-92fd-4a6d7c466730?p=2071f890-ee58-407a-90bb-f38303a9ce4c&api-version=2020-12-01
     method: GET
   response:
-    body: "{\r\n  \"startTime\": \"2022-10-17T16:30:03.4318125+00:00\",\r\n  \"endTime\":
-      \"2022-10-17T16:30:37.1668228+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"name\":
-      \"3e65746e-64de-4a41-a647-76403cb642c4\"\r\n}"
+    body: "{\r\n  \"startTime\": \"2023-07-06T19:08:20.2368224+00:00\",\r\n  \"endTime\":
+      \"2023-07-06T19:08:47.9086664+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"name\":
+      \"d3265742-e3be-4ac8-92fd-4a6d7c466730\"\r\n}"
     headers:
       Cache-Control:
       - no-cache
@@ -626,7 +660,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/GetOperation3Min;14997,Microsoft.Compute/GetOperation30Min;29952
+      - Microsoft.Compute/GetOperation3Min;14998,Microsoft.Compute/GetOperation30Min;29998
     status: 200 OK
     code: 200
     duration: ""
@@ -641,16 +675,16 @@ interactions:
   response:
     body: "{\r\n  \"name\": \"asotest-vm-guihjc\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachines\",\r\n  \"location\": \"westeurope\",\r\n
-      \ \"properties\": {\r\n    \"vmId\": \"ba8b6ff8-41df-4bd0-a0dd-67107d1fa5c3\",\r\n
+      \ \"properties\": {\r\n    \"vmId\": \"3e641fbf-52f4-4483-bb64-34a80cf04988\",\r\n
       \   \"hardwareProfile\": {\r\n      \"vmSize\": \"Standard_D1_v2\"\r\n    },\r\n
       \   \"storageProfile\": {\r\n      \"imageReference\": {\r\n        \"publisher\":
       \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"18.04-LTS\",\r\n
-      \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202210140\"\r\n
+      \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202306070\"\r\n
       \     },\r\n      \"osDisk\": {\r\n        \"osType\": \"Linux\",\r\n        \"name\":
-      \"asotest-vm-guihjc_OsDisk_1_0618927d4d274fcd9b63b4caccced3db\",\r\n        \"createOption\":
+      \"asotest-vm-guihjc_OsDisk_1_e6d0b06314aa42aba0b8c1c1fc93e04d\",\r\n        \"createOption\":
       \"FromImage\",\r\n        \"caching\": \"ReadWrite\",\r\n        \"managedDisk\":
       {\r\n          \"storageAccountType\": \"Standard_LRS\",\r\n          \"id\":
-      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/disks/asotest-vm-guihjc_OsDisk_1_0618927d4d274fcd9b63b4caccced3db\"\r\n
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/disks/asotest-vm-guihjc_OsDisk_1_e6d0b06314aa42aba0b8c1c1fc93e04d\"\r\n
       \       },\r\n        \"diskSizeGB\": 30\r\n      },\r\n      \"dataDisks\":
       []\r\n    },\r\n    \"osProfile\": {\r\n      \"computerName\": \"poppy\",\r\n
       \     \"adminUsername\": \"bloom\",\r\n      \"linuxConfiguration\": {\r\n        \"disablePasswordAuthentication\":
@@ -678,7 +712,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/LowCostGet3Min;3998,Microsoft.Compute/LowCostGet30Min;31987
+      - Microsoft.Compute/LowCostGet3Min;3998,Microsoft.Compute/LowCostGet30Min;31998
     status: 200 OK
     code: 200
     duration: ""
@@ -695,16 +729,16 @@ interactions:
   response:
     body: "{\r\n  \"name\": \"asotest-vm-guihjc\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachines\",\r\n  \"location\": \"westeurope\",\r\n
-      \ \"properties\": {\r\n    \"vmId\": \"ba8b6ff8-41df-4bd0-a0dd-67107d1fa5c3\",\r\n
+      \ \"properties\": {\r\n    \"vmId\": \"3e641fbf-52f4-4483-bb64-34a80cf04988\",\r\n
       \   \"hardwareProfile\": {\r\n      \"vmSize\": \"Standard_D1_v2\"\r\n    },\r\n
       \   \"storageProfile\": {\r\n      \"imageReference\": {\r\n        \"publisher\":
       \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"18.04-LTS\",\r\n
-      \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202210140\"\r\n
+      \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202306070\"\r\n
       \     },\r\n      \"osDisk\": {\r\n        \"osType\": \"Linux\",\r\n        \"name\":
-      \"asotest-vm-guihjc_OsDisk_1_0618927d4d274fcd9b63b4caccced3db\",\r\n        \"createOption\":
+      \"asotest-vm-guihjc_OsDisk_1_e6d0b06314aa42aba0b8c1c1fc93e04d\",\r\n        \"createOption\":
       \"FromImage\",\r\n        \"caching\": \"ReadWrite\",\r\n        \"managedDisk\":
       {\r\n          \"storageAccountType\": \"Standard_LRS\",\r\n          \"id\":
-      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/disks/asotest-vm-guihjc_OsDisk_1_0618927d4d274fcd9b63b4caccced3db\"\r\n
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/disks/asotest-vm-guihjc_OsDisk_1_e6d0b06314aa42aba0b8c1c1fc93e04d\"\r\n
       \       },\r\n        \"diskSizeGB\": 30\r\n      },\r\n      \"dataDisks\":
       []\r\n    },\r\n    \"osProfile\": {\r\n      \"computerName\": \"poppy\",\r\n
       \     \"adminUsername\": \"bloom\",\r\n      \"linuxConfiguration\": {\r\n        \"disablePasswordAuthentication\":
@@ -732,7 +766,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/LowCostGet3Min;3997,Microsoft.Compute/LowCostGet30Min;31986
+      - Microsoft.Compute/LowCostGet3Min;3997,Microsoft.Compute/LowCostGet30Min;31997
     status: 200 OK
     code: 200
     duration: ""
@@ -753,16 +787,16 @@ interactions:
   response:
     body: "{\r\n  \"name\": \"asotest-vm-guihjc\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachines\",\r\n  \"location\": \"westeurope\",\r\n
-      \ \"properties\": {\r\n    \"vmId\": \"ba8b6ff8-41df-4bd0-a0dd-67107d1fa5c3\",\r\n
+      \ \"properties\": {\r\n    \"vmId\": \"3e641fbf-52f4-4483-bb64-34a80cf04988\",\r\n
       \   \"hardwareProfile\": {\r\n      \"vmSize\": \"Standard_D1_v2\"\r\n    },\r\n
       \   \"storageProfile\": {\r\n      \"imageReference\": {\r\n        \"publisher\":
       \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"18.04-LTS\",\r\n
-      \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202210140\"\r\n
+      \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202306070\"\r\n
       \     },\r\n      \"osDisk\": {\r\n        \"osType\": \"Linux\",\r\n        \"name\":
-      \"asotest-vm-guihjc_OsDisk_1_0618927d4d274fcd9b63b4caccced3db\",\r\n        \"createOption\":
+      \"asotest-vm-guihjc_OsDisk_1_e6d0b06314aa42aba0b8c1c1fc93e04d\",\r\n        \"createOption\":
       \"FromImage\",\r\n        \"caching\": \"ReadWrite\",\r\n        \"managedDisk\":
       {\r\n          \"storageAccountType\": \"Standard_LRS\",\r\n          \"id\":
-      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/disks/asotest-vm-guihjc_OsDisk_1_0618927d4d274fcd9b63b4caccced3db\"\r\n
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/disks/asotest-vm-guihjc_OsDisk_1_e6d0b06314aa42aba0b8c1c1fc93e04d\"\r\n
       \       },\r\n        \"diskSizeGB\": 30\r\n      },\r\n      \"dataDisks\":
       []\r\n    },\r\n    \"osProfile\": {\r\n      \"computerName\": \"poppy\",\r\n
       \     \"adminUsername\": \"bloom\",\r\n      \"linuxConfiguration\": {\r\n        \"disablePasswordAuthentication\":
@@ -776,7 +810,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westeurope/operations/1997de63-2bfd-4563-8eb8-6c13116b8da4?p=2071f890-ee58-407a-90bb-f38303a9ce4c&api-version=2020-12-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westeurope/operations/ae445d4f-e72c-4aeb-b9e9-0dc6a62f9cd0?p=2071f890-ee58-407a-90bb-f38303a9ce4c&api-version=2020-12-01
       Cache-Control:
       - no-cache
       Content-Type:
@@ -795,7 +829,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/PutVM3Min;238,Microsoft.Compute/PutVM30Min;1196
+      - Microsoft.Compute/PutVM3Min;238,Microsoft.Compute/PutVM30Min;1198
     status: 200 OK
     code: 200
     duration: ""
@@ -805,12 +839,11 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westeurope/operations/1997de63-2bfd-4563-8eb8-6c13116b8da4?p=2071f890-ee58-407a-90bb-f38303a9ce4c&api-version=2020-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westeurope/operations/ae445d4f-e72c-4aeb-b9e9-0dc6a62f9cd0?p=2071f890-ee58-407a-90bb-f38303a9ce4c&api-version=2020-12-01
     method: GET
   response:
-    body: "{\r\n  \"startTime\": \"2022-10-17T16:30:48.0732951+00:00\",\r\n  \"endTime\":
-      \"2022-10-17T16:30:53.2452563+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"name\":
-      \"1997de63-2bfd-4563-8eb8-6c13116b8da4\"\r\n}"
+    body: "{\r\n  \"startTime\": \"2023-07-06T19:09:04.7523789+00:00\",\r\n  \"status\":
+      \"InProgress\",\r\n  \"name\": \"ae445d4f-e72c-4aeb-b9e9-0dc6a62f9cd0\"\r\n}"
     headers:
       Cache-Control:
       - no-cache
@@ -830,7 +863,76 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/GetOperation3Min;14996,Microsoft.Compute/GetOperation30Min;29951
+      - Microsoft.Compute/GetOperation3Min;14997,Microsoft.Compute/GetOperation30Min;29997
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westeurope/operations/ae445d4f-e72c-4aeb-b9e9-0dc6a62f9cd0?p=2071f890-ee58-407a-90bb-f38303a9ce4c&api-version=2020-12-01
+    method: GET
+  response:
+    body: "{\r\n  \"startTime\": \"2023-07-06T19:09:04.7523789+00:00\",\r\n  \"status\":
+      \"InProgress\",\r\n  \"name\": \"ae445d4f-e72c-4aeb-b9e9-0dc6a62f9cd0\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Resource:
+      - Microsoft.Compute/GetOperation3Min;14996,Microsoft.Compute/GetOperation30Min;29996
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westeurope/operations/ae445d4f-e72c-4aeb-b9e9-0dc6a62f9cd0?p=2071f890-ee58-407a-90bb-f38303a9ce4c&api-version=2020-12-01
+    method: GET
+  response:
+    body: "{\r\n  \"startTime\": \"2023-07-06T19:09:04.7523789+00:00\",\r\n  \"endTime\":
+      \"2023-07-06T19:09:09.2836233+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"name\":
+      \"ae445d4f-e72c-4aeb-b9e9-0dc6a62f9cd0\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Resource:
+      - Microsoft.Compute/GetOperation3Min;14995,Microsoft.Compute/GetOperation30Min;29995
     status: 200 OK
     code: 200
     duration: ""
@@ -845,16 +947,16 @@ interactions:
   response:
     body: "{\r\n  \"name\": \"asotest-vm-guihjc\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachines\",\r\n  \"location\": \"westeurope\",\r\n
-      \ \"properties\": {\r\n    \"vmId\": \"ba8b6ff8-41df-4bd0-a0dd-67107d1fa5c3\",\r\n
+      \ \"properties\": {\r\n    \"vmId\": \"3e641fbf-52f4-4483-bb64-34a80cf04988\",\r\n
       \   \"hardwareProfile\": {\r\n      \"vmSize\": \"Standard_D1_v2\"\r\n    },\r\n
       \   \"storageProfile\": {\r\n      \"imageReference\": {\r\n        \"publisher\":
       \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"18.04-LTS\",\r\n
-      \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202210140\"\r\n
+      \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202306070\"\r\n
       \     },\r\n      \"osDisk\": {\r\n        \"osType\": \"Linux\",\r\n        \"name\":
-      \"asotest-vm-guihjc_OsDisk_1_0618927d4d274fcd9b63b4caccced3db\",\r\n        \"createOption\":
+      \"asotest-vm-guihjc_OsDisk_1_e6d0b06314aa42aba0b8c1c1fc93e04d\",\r\n        \"createOption\":
       \"FromImage\",\r\n        \"caching\": \"ReadWrite\",\r\n        \"managedDisk\":
       {\r\n          \"storageAccountType\": \"Standard_LRS\",\r\n          \"id\":
-      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/disks/asotest-vm-guihjc_OsDisk_1_0618927d4d274fcd9b63b4caccced3db\"\r\n
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/disks/asotest-vm-guihjc_OsDisk_1_e6d0b06314aa42aba0b8c1c1fc93e04d\"\r\n
       \       },\r\n        \"diskSizeGB\": 30\r\n      },\r\n      \"dataDisks\":
       []\r\n    },\r\n    \"osProfile\": {\r\n      \"computerName\": \"poppy\",\r\n
       \     \"adminUsername\": \"bloom\",\r\n      \"linuxConfiguration\": {\r\n        \"disablePasswordAuthentication\":
@@ -883,7 +985,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/LowCostGet3Min;3995,Microsoft.Compute/LowCostGet30Min;31984
+      - Microsoft.Compute/LowCostGet3Min;3994,Microsoft.Compute/LowCostGet30Min;31994
     status: 200 OK
     code: 200
     duration: ""
@@ -900,16 +1002,16 @@ interactions:
   response:
     body: "{\r\n  \"name\": \"asotest-vm-guihjc\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachines\",\r\n  \"location\": \"westeurope\",\r\n
-      \ \"properties\": {\r\n    \"vmId\": \"ba8b6ff8-41df-4bd0-a0dd-67107d1fa5c3\",\r\n
+      \ \"properties\": {\r\n    \"vmId\": \"3e641fbf-52f4-4483-bb64-34a80cf04988\",\r\n
       \   \"hardwareProfile\": {\r\n      \"vmSize\": \"Standard_D1_v2\"\r\n    },\r\n
       \   \"storageProfile\": {\r\n      \"imageReference\": {\r\n        \"publisher\":
       \"Canonical\",\r\n        \"offer\": \"UbuntuServer\",\r\n        \"sku\": \"18.04-LTS\",\r\n
-      \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202210140\"\r\n
+      \       \"version\": \"latest\",\r\n        \"exactVersion\": \"18.04.202306070\"\r\n
       \     },\r\n      \"osDisk\": {\r\n        \"osType\": \"Linux\",\r\n        \"name\":
-      \"asotest-vm-guihjc_OsDisk_1_0618927d4d274fcd9b63b4caccced3db\",\r\n        \"createOption\":
+      \"asotest-vm-guihjc_OsDisk_1_e6d0b06314aa42aba0b8c1c1fc93e04d\",\r\n        \"createOption\":
       \"FromImage\",\r\n        \"caching\": \"ReadWrite\",\r\n        \"managedDisk\":
       {\r\n          \"storageAccountType\": \"Standard_LRS\",\r\n          \"id\":
-      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/disks/asotest-vm-guihjc_OsDisk_1_0618927d4d274fcd9b63b4caccced3db\"\r\n
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/disks/asotest-vm-guihjc_OsDisk_1_e6d0b06314aa42aba0b8c1c1fc93e04d\"\r\n
       \       },\r\n        \"diskSizeGB\": 30\r\n      },\r\n      \"dataDisks\":
       []\r\n    },\r\n    \"osProfile\": {\r\n      \"computerName\": \"poppy\",\r\n
       \     \"adminUsername\": \"bloom\",\r\n      \"linuxConfiguration\": {\r\n        \"disablePasswordAuthentication\":
@@ -938,7 +1040,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/LowCostGet3Min;3994,Microsoft.Compute/LowCostGet30Min;31983
+      - Microsoft.Compute/LowCostGet3Min;3993,Microsoft.Compute/LowCostGet30Min;31993
     status: 200 OK
     code: 200
     duration: ""
@@ -958,7 +1060,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westeurope/operations/98b63719-c1e2-4fc7-885d-73288855479e?p=2071f890-ee58-407a-90bb-f38303a9ce4c&api-version=2020-12-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westeurope/operations/2dc4a019-b5b7-4a9c-ba20-97929700bdce?p=2071f890-ee58-407a-90bb-f38303a9ce4c&api-version=2020-12-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -966,7 +1068,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westeurope/operations/98b63719-c1e2-4fc7-885d-73288855479e?p=2071f890-ee58-407a-90bb-f38303a9ce4c&monitor=true&api-version=2020-12-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westeurope/operations/2dc4a019-b5b7-4a9c-ba20-97929700bdce?p=2071f890-ee58-407a-90bb-f38303a9ce4c&monitor=true&api-version=2020-12-01
       Pragma:
       - no-cache
       Retry-After:
@@ -979,7 +1081,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/DeleteVM3Min;239,Microsoft.Compute/DeleteVM30Min;1198
+      - Microsoft.Compute/DeleteVM3Min;239,Microsoft.Compute/DeleteVM30Min;1199
     status: 202 Accepted
     code: 202
     duration: ""
@@ -989,11 +1091,11 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westeurope/operations/98b63719-c1e2-4fc7-885d-73288855479e?p=2071f890-ee58-407a-90bb-f38303a9ce4c&api-version=2020-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westeurope/operations/2dc4a019-b5b7-4a9c-ba20-97929700bdce?p=2071f890-ee58-407a-90bb-f38303a9ce4c&api-version=2020-12-01
     method: GET
   response:
-    body: "{\r\n  \"startTime\": \"2022-10-17T16:30:57.8078212+00:00\",\r\n  \"status\":
-      \"InProgress\",\r\n  \"name\": \"98b63719-c1e2-4fc7-885d-73288855479e\"\r\n}"
+    body: "{\r\n  \"startTime\": \"2023-07-06T19:09:19.4086124+00:00\",\r\n  \"status\":
+      \"InProgress\",\r\n  \"name\": \"2dc4a019-b5b7-4a9c-ba20-97929700bdce\"\r\n}"
     headers:
       Cache-Control:
       - no-cache
@@ -1015,7 +1117,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/GetOperation3Min;14995,Microsoft.Compute/GetOperation30Min;29950
+      - Microsoft.Compute/GetOperation3Min;14994,Microsoft.Compute/GetOperation30Min;29994
     status: 200 OK
     code: 200
     duration: ""
@@ -1025,12 +1127,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westeurope/operations/98b63719-c1e2-4fc7-885d-73288855479e?p=2071f890-ee58-407a-90bb-f38303a9ce4c&api-version=2020-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westeurope/operations/2dc4a019-b5b7-4a9c-ba20-97929700bdce?p=2071f890-ee58-407a-90bb-f38303a9ce4c&api-version=2020-12-01
     method: GET
   response:
-    body: "{\r\n  \"startTime\": \"2022-10-17T16:30:57.8078212+00:00\",\r\n  \"endTime\":
-      \"2022-10-17T16:31:29.542725+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"name\":
-      \"98b63719-c1e2-4fc7-885d-73288855479e\"\r\n}"
+    body: "{\r\n  \"startTime\": \"2023-07-06T19:09:19.4086124+00:00\",\r\n  \"endTime\":
+      \"2023-07-06T19:09:49.330436+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"name\":
+      \"2dc4a019-b5b7-4a9c-ba20-97929700bdce\"\r\n}"
     headers:
       Cache-Control:
       - no-cache
@@ -1050,7 +1152,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/GetOperation3Min;14995,Microsoft.Compute/GetOperation30Min;29949
+      - Microsoft.Compute/GetOperation3Min;14993,Microsoft.Compute/GetOperation30Min;29993
     status: 200 OK
     code: 200
     duration: ""
@@ -1065,28 +1167,26 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc?api-version=2020-12-01
     method: GET
   response:
-    body: "{\r\n  \"error\": {\r\n    \"code\": \"NotFound\",\r\n    \"message\":
-      \"The entity was not found in this Azure location.\"\r\n  }\r\n}"
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Compute/virtualMachines/asotest-vm-guihjc''
+      under resource group ''asotest-rg-ibybct'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Length:
-      - "115"
+      - "240"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Pragma:
       - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/LowCostGet3Min;3992,Microsoft.Compute/LowCostGet30Min;31981
+      X-Ms-Failure-Cause:
+      - gateway
     status: 404 Not Found
     code: 404
     duration: ""

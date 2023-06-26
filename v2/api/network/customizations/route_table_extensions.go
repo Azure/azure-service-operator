@@ -5,15 +5,15 @@ package customizations
 
 import (
 	"context"
-	"reflect"
+	"net/http"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
-	"k8s.io/apimachinery/pkg/runtime/schema"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
@@ -29,6 +29,7 @@ var _ extensions.ARMResourceModifier = &RouteTableExtension{}
 
 func (extension *RouteTableExtension) ModifyARMResource(
 	ctx context.Context,
+	armClient *genericarmclient.GenericClient,
 	armObj genruntime.ARMResource,
 	obj genruntime.ARMMetaObject,
 	kubeClient kubeclient.Client,
@@ -44,46 +45,40 @@ func (extension *RouteTableExtension) ModifyARMResource(
 	// the hub type has been changed but this extension has not been updated to match
 	var _ conversion.Hub = typedObj
 
-	routeGVK := getRouteGVK(obj)
+	resourceID, hasResourceID := genruntime.GetResourceID(obj)
+	if !hasResourceID {
+		// If we don't have an ARM ID yet, we've not been claimed so just return armObj as is
+		return armObj, nil
+	}
 
-	// We use namespace + owner name here rather than something slightly more specific like actual owner UUID
-	// in order to account for cases where the subresources + owner were just created and so the subsresources haven't
-	// actually been assigned to the owner yet. See https://github.com/Azure/azure-service-operator/issues/3077 for more
-	// details.
-	matchingOwner := client.MatchingFields{".spec.owner.name": obj.GetName()}
-	matchingNamespace := client.InNamespace(obj.GetNamespace())
-
-	routes := &network.RouteTablesRouteList{}
-	err := kubeClient.List(ctx, routes, matchingOwner, matchingNamespace)
+	apiVersion, err := genruntime.GetAPIVersion(typedObj, kubeClient.Scheme())
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed listing routes owned by RouteTable %s/%s", obj.GetNamespace(), obj.GetName())
+		return nil, errors.Wrapf(err, "error getting api version for resource %s while getting status", obj.GetName())
 	}
 
-	armRoutes := make([]genruntime.ARMResourceSpec, 0, len(routes.Items))
-	for _, route := range routes.Items {
-		route := route
-
-		var transformed genruntime.ARMResourceSpec
-		transformed, err = transformToARM(ctx, &route, routeGVK, kubeClient, resolver)
-		if err != nil {
-			return nil, errors.Wrapf(err, "failed to transform route %s/%s", route.GetNamespace(), route.GetName())
+	// Get the raw resource
+	raw := make(map[string]any)
+	_, err = armClient.GetByID(ctx, resourceID, apiVersion, &raw)
+	if err != nil {
+		// If the error is NotFound, the resource we're trying to Create doesn't exist and so no modification is needed
+		var responseError *azcore.ResponseError
+		if errors.As(err, &responseError) && responseError.StatusCode == http.StatusNotFound {
+			return armObj, nil
 		}
-		armRoutes = append(armRoutes, transformed)
+		return nil, errors.Wrapf(err, "getting resource with ID: %q", resourceID)
 	}
 
-	log.V(Info).Info("Found routes to include on RouteTable", "count", len(armRoutes), "names", genruntime.ARMSpecNames(armRoutes))
+	azureRoutes, err := getRawChildCollection(raw, "routes")
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to get routes")
+	}
 
-	err = fuzzySetResources(armObj.Spec(), armRoutes, "Routes")
+	log.V(Info).Info("Found routes to include on RouteTable", "count", len(azureRoutes), "names", genruntime.RawNames(azureRoutes))
+
+	err = setChildCollection(armObj.Spec(), azureRoutes, "Routes")
 	if err != nil {
 		return nil, errors.Wrapf(err, "failed to set routes")
 	}
 
 	return armObj, nil
-}
-
-func getRouteGVK(routeTable genruntime.ARMMetaObject) schema.GroupVersionKind {
-	gvk := genruntime.GetOriginalGVK(routeTable)
-	gvk.Kind = reflect.TypeOf(network.RouteTablesRoute{}).Name() // "RouteTableRoute"
-
-	return gvk
 }
