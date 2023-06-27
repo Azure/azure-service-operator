@@ -15,6 +15,7 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -36,7 +37,7 @@ const (
 var subRegex = regexp.MustCompile("\\/([0]+-?)+\\/")
 
 // An empty GUID, used to replace the subscriptionID and tenantID in the sample files
-var emptyGuid = "00000000-0000-0000-0000-000000000000"
+var emptyGuid = uuid.Nil.String()
 
 // exclusions slice contains RESOURCES to exclude from test
 var exclusions = []string{
