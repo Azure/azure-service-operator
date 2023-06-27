@@ -2,7 +2,7 @@ name: Live Azure Validation
 on:
   schedule:
     # 5:35 pm every Sunday (UTC)
-    # to ensure the docs are never too stale
+    # to ensure the live validation runs weekly
     - cron: "35 17 * * 0"
   workflow_dispatch:
 

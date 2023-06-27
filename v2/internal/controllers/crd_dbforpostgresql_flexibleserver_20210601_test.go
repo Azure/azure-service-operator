@@ -22,7 +22,7 @@ func Test_DBForPostgreSQL_FlexibleServer_20210601_CRUD(t *testing.T) {
 	t.Parallel()
 
 	if *isLive {
-		t.Skip("can't run in live mode, postresql flexible server takes too long to be provisioned and deletion")
+		t.Skip("can't run in live mode, postresql flexible server takes too long to be provisioned and deleted")
 	}
 
 	g := NewGomegaWithT(t)
