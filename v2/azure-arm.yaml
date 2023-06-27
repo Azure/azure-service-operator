@@ -937,11 +937,17 @@ objectModelConfiguration:
       ManagedClusters_AgentPool:
         $exportAs: ManagedClustersAgentPool
         $supportedFrom: v2.0.0
+      ManagedClusters_TrustedAccessRoleBinding:
+        $exportAs: ManagedClustersTrustedAccessRoleBinding
+        $supportedFrom: v2.0.0
       ManagedClusterServicePrincipalProfile:
         Secret:
           $isSecret: true
       PrivateLinkResource:
         Id:
+          $armReference: true
+      TrustedAccessRoleBindingProperties:
+        SourceResourceId:
           $armReference: true
   datafactory:
     2018-06-01:
