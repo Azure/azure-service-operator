@@ -20,7 +20,7 @@ spec:
   keyVaultReference:
     group: "keyvault.azure.com"
     kind:  "Vault"
-    name:  "mlworkspaces-vault"
+    name:  "aso-ml-vault"
   # Optional: Save the keys for the storage account into a Kubernetes secret
   operatorSpec:
     secrets:
