@@ -13,12 +13,12 @@ import (
 	. "github.com/onsi/gomega"
 
 	// The dataprotection package contains types and functions related to dataprotection resources.
-	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview"
 	// The testcommon package includes common testing utilities.
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	// The to package includes utilities for converting values to pointers.
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_ManagedCluster_TrustedAccess(t *testing.T) {
@@ -33,12 +33,68 @@ func Test_ManagedCluster_TrustedAccess(t *testing.T) {
 	// Creation of Backup Vault
 	backupVault := newBackupVault(tc, rg, "asotestbackupvault")
 
-	// Creation of Backup Policy
-	backupPolicy := newBackupPolicy(tc, backupVault, "asotestbackuppolicy")
-	
 	// Creation of AKS Managed Cluster
-	
+	adminUsername := "adminUser"
+	sshPublicKey, err := tc.GenerateSSHKey(2048)
+	tc.Expect(err).ToNot(HaveOccurred())
+
+	identityKind := aks.ManagedClusterIdentity_Type_SystemAssigned
+	osType := aks.OSType_Linux
+	agentPoolMode := aks.AgentPoolMode_System
+
+	cluster := &aks.ManagedCluster{
+		ObjectMeta: tc.MakeObjectMeta("mc"),
+		Spec: aks.ManagedCluster_Spec{
+			Location:  backupVault.Spec.Location,
+			Owner:     testcommon.AsOwner(rg),
+			DnsPrefix: to.Ptr("aso"),
+			AgentPoolProfiles: []aks.ManagedClusterAgentPoolProfile{
+				{
+					Name:   to.Ptr("ap1"),
+					Count:  to.Ptr(1),
+					VmSize: to.Ptr("Standard_DS2_v2"),
+					OsType: &osType,
+					Mode:   &agentPoolMode,
+				},
+			},
+			LinuxProfile: &aks.ContainerServiceLinuxProfile{
+				AdminUsername: &adminUsername,
+				Ssh: &aks.ContainerServiceSshConfiguration{
+					PublicKeys: []aks.ContainerServiceSshPublicKey{
+						{
+							KeyData: sshPublicKey,
+						},
+					},
+				},
+			},
+			Identity: &aks.ManagedClusterIdentity{
+				Type: &identityKind,
+			},
+		},
+	}
+
+	tc.CreateResourceAndWait(cluster)
+
+	// Creation of AKS Managed Cluster Trusted Access
+
+	// Resource Id is BackupVault
+	// ResourceId := "/subscriptions/f0c630e0-2995-4853-b056-0b3c09cb673f/resourceGroups/t-agrawals-2/providers/Microsoft.ContainerService/managedClusters/asotestakscluster"
+	ResourceId := "/subscriptions/f0c630e0-2995-4853-b056-0b3c09cb673f/resourceGroups/t-agrawals-2/providers/Microsoft.DataProtection/BackupVaults/" + backupVault.Name
+
+	trustedAccess := &aks.ManagedClustersTrustedAccessRoleBinding{
+		ObjectMeta: tc.MakeObjectMeta("asotest"),
+		Spec: aks.ManagedClusters_TrustedAccessRoleBinding_Spec{
+			Owner:     testcommon.AsOwner(cluster),
+			AzureName: "asotest",
+			Roles:     []string{"Microsoft.DataProtection/backupVaults/backup-operator"},
+			SourceResourceReference: &genruntime.ResourceReference{
+				ARMID: ResourceId,
+			},
+		},
+	}
+
+	tc.CreateResourceAndWait(trustedAccess)
+
+	tc.Expect(trustedAccess.Status.ProvisioningState).To(BeEquivalentTo(to.Ptr(aks.TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_Succeeded)))
 
 }
-
-// Creation of AKS Managed Cluster Trusted Access
