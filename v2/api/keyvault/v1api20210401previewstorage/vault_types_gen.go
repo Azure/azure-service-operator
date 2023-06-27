@@ -227,21 +227,22 @@ type SystemData_STATUS struct {
 // Storage version of v1api20210401preview.VaultProperties
 // Properties of the vault
 type VaultProperties struct {
-	AccessPolicies               []AccessPolicyEntry    `json:"accessPolicies,omitempty"`
-	CreateMode                   *string                `json:"createMode,omitempty"`
-	EnablePurgeProtection        *bool                  `json:"enablePurgeProtection,omitempty"`
-	EnableRbacAuthorization      *bool                  `json:"enableRbacAuthorization,omitempty"`
-	EnableSoftDelete             *bool                  `json:"enableSoftDelete,omitempty"`
-	EnabledForDeployment         *bool                  `json:"enabledForDeployment,omitempty"`
-	EnabledForDiskEncryption     *bool                  `json:"enabledForDiskEncryption,omitempty"`
-	EnabledForTemplateDeployment *bool                  `json:"enabledForTemplateDeployment,omitempty"`
-	NetworkAcls                  *NetworkRuleSet        `json:"networkAcls,omitempty"`
-	PropertyBag                  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ProvisioningState            *string                `json:"provisioningState,omitempty"`
-	Sku                          *Sku                   `json:"sku,omitempty"`
-	SoftDeleteRetentionInDays    *int                   `json:"softDeleteRetentionInDays,omitempty"`
-	TenantId                     *string                `json:"tenantId,omitempty"`
-	VaultUri                     *string                `json:"vaultUri,omitempty"`
+	AccessPolicies               []AccessPolicyEntry            `json:"accessPolicies,omitempty"`
+	CreateMode                   *string                        `json:"createMode,omitempty"`
+	EnablePurgeProtection        *bool                          `json:"enablePurgeProtection,omitempty"`
+	EnableRbacAuthorization      *bool                          `json:"enableRbacAuthorization,omitempty"`
+	EnableSoftDelete             *bool                          `json:"enableSoftDelete,omitempty"`
+	EnabledForDeployment         *bool                          `json:"enabledForDeployment,omitempty"`
+	EnabledForDiskEncryption     *bool                          `json:"enabledForDiskEncryption,omitempty"`
+	EnabledForTemplateDeployment *bool                          `json:"enabledForTemplateDeployment,omitempty"`
+	NetworkAcls                  *NetworkRuleSet                `json:"networkAcls,omitempty"`
+	PropertyBag                  genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	ProvisioningState            *string                        `json:"provisioningState,omitempty"`
+	Sku                          *Sku                           `json:"sku,omitempty"`
+	SoftDeleteRetentionInDays    *int                           `json:"softDeleteRetentionInDays,omitempty"`
+	TenantId                     *string                        `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
+	TenantIdFromConfig           *genruntime.ConfigMapReference `json:"tenantIdFromConfig,omitempty" optionalConfigMapPair:"TenantId"`
+	VaultUri                     *string                        `json:"vaultUri,omitempty"`
 }
 
 // Storage version of v1api20210401preview.VaultProperties_STATUS
