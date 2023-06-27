@@ -1099,6 +1099,35 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202pre
 │       │   ├── DisableOutboundNat: *bool
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       └── WorkloadRuntime: *string
+├── ManagedClustersTrustedAccessRoleBinding: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.ManagedCluster
+│   ├── Spec: Object (6 properties)
+│   │   ├── AzureName: Validated<string> (3 rules)
+│   │   │   ├── Rule 0: MaxLength: 24
+│   │   │   ├── Rule 1: MinLength: 1
+│   │   │   └── Rule 2: Pattern: "^([A-Za-z0-9-])+$"
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Roles: string[]
+│   │   └── SourceResourceReference: *genruntime.ResourceReference
+│   └── Status: Object (9 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── Roles: string[]
+│       ├── SourceResourceId: *string
+│       ├── SystemData: *Object (7 properties)
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *string
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   ├── LastModifiedByType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       └── Type: *string
 ├── augmentConversionForAgentPoolUpgradeSettings: Interface
 ├── augmentConversionForAgentPoolUpgradeSettings_STATUS: Interface
 ├── augmentConversionForAzureKeyVaultKms: Interface

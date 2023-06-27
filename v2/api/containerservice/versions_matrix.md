@@ -203,8 +203,11 @@
 | ManagedCluster_STATUS                                                                | v1api20210501 | v1api20230201 | v1api20230202preview | v1beta20210501 |
 | ManagedCluster_Spec                                                                  | v1api20210501 | v1api20230201 | v1api20230202preview | v1beta20210501 |
 | ManagedClustersAgentPool                                                             | v1api20210501 | v1api20230201 | v1api20230202preview | v1beta20210501 |
+| ManagedClustersTrustedAccessRoleBinding                                              |               |               | v1api20230202preview |                |
 | ManagedClusters_AgentPool_STATUS                                                     | v1api20210501 | v1api20230201 | v1api20230202preview | v1beta20210501 |
 | ManagedClusters_AgentPool_Spec                                                       | v1api20210501 | v1api20230201 | v1api20230202preview | v1beta20210501 |
+| ManagedClusters_TrustedAccessRoleBinding_STATUS                                      |               |               | v1api20230202preview |                |
+| ManagedClusters_TrustedAccessRoleBinding_Spec                                        |               |               | v1api20230202preview |                |
 | NetworkDataplane                                                                     |               |               | v1api20230202preview |                |
 | NetworkDataplane_STATUS                                                              |               |               | v1api20230202preview |                |
 | NetworkMode                                                                          |               |               | v1api20230202preview |                |
@@ -248,6 +251,9 @@
 | SystemData_CreatedByType_STATUS                                                      |               | v1api20230201 | v1api20230202preview |                |
 | SystemData_LastModifiedByType_STATUS                                                 |               | v1api20230201 | v1api20230202preview |                |
 | SystemData_STATUS                                                                    |               | v1api20230201 | v1api20230202preview |                |
+| TrustedAccessRoleBindingProperties                                                   |               |               | v1api20230202preview |                |
+| TrustedAccessRoleBindingProperties_ProvisioningState_STATUS                          |               |               | v1api20230202preview |                |
+| TrustedAccessRoleBindingProperties_STATUS                                            |               |               | v1api20230202preview |                |
 | UpgradeOverrideSettings                                                              |               |               | v1api20230202preview |                |
 | UpgradeOverrideSettings_STATUS                                                       |               |               | v1api20230202preview |                |
 | UserAssignedIdentity                                                                 | v1api20210501 | v1api20230201 | v1api20230202preview | v1beta20210501 |
