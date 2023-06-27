@@ -283,16 +283,12 @@ func (t *SamplesTester) visitStruct(this *reflecthelpers.ReflectVisitor, it refl
 
 	// Set the value of any SubscriptionID Field that's got an empty GUID as the value
 	if field := it.FieldByNameFunc(isField("subscriptionID")); field.IsValid() {
-		if field.Kind() == reflect.String && field.String() == emptyGuid {
-			field.SetString(t.azureSubscription)
-		}
+		t.assignString(field, t.azureSubscription)
 	}
 
 	// Set the value of any TenantID Field that's got an empty GUID as the value
 	if field := it.FieldByNameFunc(isField("tenantID")); field.IsValid() {
-		if field.Kind() == reflect.String && field.String() == emptyGuid {
-			field.SetString(t.azureTenant)
-		}
+		t.assignString(field, t.azureTenant)
 	}
 
 	return reflecthelpers.IdentityVisitStruct(this, it, ctx)
@@ -302,6 +298,22 @@ func (t *SamplesTester) visitStruct(this *reflecthelpers.ReflectVisitor, it refl
 func isField(field string) func(name string) bool {
 	return func(name string) bool {
 		return strings.EqualFold(name, field)
+	}
+}
+
+func (t *SamplesTester) assignString(field reflect.Value, value string) {
+	if field.Kind() == reflect.String &&
+		// Set simple string field
+		field.String() == emptyGuid {
+		field.SetString(value)
+		return
+	}
+
+	if field.Kind() == reflect.Ptr &&
+		field.Elem().Kind() == reflect.String &&
+		field.Elem().String() == emptyGuid {
+		// Set pointer to string field
+		field.Elem().SetString(value)
 	}
 }
 

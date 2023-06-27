@@ -33,3 +33,15 @@ spec:
             - "get"
           storage:
             - "get"
+      - applicationId: "1C793267-c310-d4ae-7BD5-5Af5BEF875D3"
+        objectId: "1C793267-c310-d4ae-7BD5-5Af5BEF875D3"
+        tenantId: "00000000-0000-0000-0000-000000000000"
+        permissions:
+          certificates:
+            - "get"
+          keys:
+            - "get"
+          secrets:
+            - "get"
+          storage:
+            - "get"
