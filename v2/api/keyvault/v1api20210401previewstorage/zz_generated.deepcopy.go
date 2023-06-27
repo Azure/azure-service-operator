@@ -708,6 +708,11 @@ func (in *VaultProperties) DeepCopyInto(out *VaultProperties) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.TenantIdFromConfig != nil {
+		in, out := &in.TenantIdFromConfig, &out.TenantIdFromConfig
+		*out = new(genruntime.ConfigMapReference)
+		**out = **in
+	}
 	if in.VaultUri != nil {
 		in, out := &in.VaultUri, &out.VaultUri
 		*out = new(string)
