@@ -221,8 +221,7 @@ func (t *SamplesTester) setOwnershipAndReferences(samples map[string]genruntime.
 			sample = setOwnersName(sample, ownersName)
 		}
 
-		var err error
-		sample, err = t.updateFieldsForTest(sample)
+		err := t.updateFieldsForTest(sample)
 		if err != nil {
 			return err
 		}
@@ -261,16 +260,16 @@ func IsSampleExcluded(path string, exclusions []string) bool {
 }
 
 // updateFieldsForTest uses ReflectVisitor to update ARMReferences, SubscriptionIDs, and TenantIDs.
-func (t *SamplesTester) updateFieldsForTest(obj genruntime.ARMMetaObject) (genruntime.ARMMetaObject, error) {
+func (t *SamplesTester) updateFieldsForTest(obj genruntime.ARMMetaObject) error {
 	visitor := reflecthelpers.NewReflectVisitor()
 	visitor.VisitStruct = t.visitStruct
 
 	err := visitor.Visit(obj, nil)
 	if err != nil {
-		return nil, errors.Wrapf(err, "updating fields for test")
+		return errors.Wrapf(err, "updating fields for test")
 	}
 
-	return obj, nil
+	return nil
 }
 
 // visitStruct checks and sets the SubscriptionID and ResourceGroup name for ARM references to current values
@@ -318,7 +317,7 @@ func (t *SamplesTester) assignString(field reflect.Value, value string) {
 }
 
 // visitResourceReference checks and sets the SubscriptionID and ResourceGroup name for ARM references to current values
-func (t *SamplesTester) visitResourceReference(this *reflecthelpers.ReflectVisitor, it reflect.Value, ctx any) error {
+func (t *SamplesTester) visitResourceReference(_ *reflecthelpers.ReflectVisitor, it reflect.Value, ctx any) error {
 	if !it.CanInterface() {
 		// This should be impossible given how the visitor works
 		panic("genruntime.ResourceReference field was unexpectedly nil")
