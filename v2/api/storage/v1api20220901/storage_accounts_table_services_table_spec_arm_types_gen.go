@@ -31,7 +31,7 @@ func (table *StorageAccounts_TableServices_Table_Spec_ARM) GetType() string {
 
 type TableProperties_ARM struct {
 	// SignedIdentifiers: List of stored access policies specified on the table.
-	SignedIdentifiers []TableSignedIdentifier_ARM `json:"signedIdentifiers,omitempty"`
+	SignedIdentifiers []TableSignedIdentifier_ARM `json:"signedIdentifiers"`
 }
 
 // Object to set Table Access Policy.

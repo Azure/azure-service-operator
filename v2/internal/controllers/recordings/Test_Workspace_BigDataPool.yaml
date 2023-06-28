@@ -66,13 +66,13 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"kind":"StorageV2","location":"eastus2","name":"asotestadlstorencqyow","properties":{"isHnsEnabled":true},"sku":{"name":"Standard_LRS"}}'
+    body: '{"kind":"StorageV2","location":"eastus2","name":"asotestadlstorencqyow","properties":{"isHnsEnabled":true},"sku":{"name":"Standard_LRS"},"tags":null}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "137"
+      - "149"
       Content-Type:
       - application/json
       Test-Request-Attempt:
@@ -91,7 +91,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus2/asyncoperations/703bdf30-af2e-427f-9ed4-775336e76c5e?monitor=true&api-version=2021-04-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus2/asyncoperations/1d5e5e7a-61ca-4b9c-be96-440e755e1c2f?monitor=true&api-version=2021-04-01
       Pragma:
       - no-cache
       Retry-After:
@@ -111,7 +111,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus2/asyncoperations/703bdf30-af2e-427f-9ed4-775336e76c5e?monitor=true&api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus2/asyncoperations/1d5e5e7a-61ca-4b9c-be96-440e755e1c2f?monitor=true&api-version=2021-04-01
     method: GET
   response:
     body: ""
@@ -125,7 +125,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus2/asyncoperations/703bdf30-af2e-427f-9ed4-775336e76c5e?monitor=true&api-version=2021-04-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus2/asyncoperations/1d5e5e7a-61ca-4b9c-be96-440e755e1c2f?monitor=true&api-version=2021-04-01
       Pragma:
       - no-cache
       Retry-After:
@@ -145,7 +145,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus2/asyncoperations/703bdf30-af2e-427f-9ed4-775336e76c5e?monitor=true&api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus2/asyncoperations/1d5e5e7a-61ca-4b9c-be96-440e755e1c2f?monitor=true&api-version=2021-04-01
     method: GET
   response:
     body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"StorageV2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Storage/storageAccounts/asotestadlstorencqyow","name":"asotestadlstorencqyow","type":"Microsoft.Storage/storageAccounts","location":"eastus2","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"privateEndpointConnections":[],"isHnsEnabled":true,"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://asotestadlstorencqyow.dfs.core.windows.net/","web":"https://asotestadlstorencqyow.z20.web.core.windows.net/","blob":"https://asotestadlstorencqyow.blob.core.windows.net/","queue":"https://asotestadlstorencqyow.queue.core.windows.net/","table":"https://asotestadlstorencqyow.table.core.windows.net/","file":"https://asotestadlstorencqyow.file.core.windows.net/"},"primaryLocation":"eastus2","statusOfPrimary":"available"}}'
@@ -216,10 +216,10 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod?api-version=2021-06-01
     method: PUT
   response:
-    body: '{"properties":{"defaultDataLakeStorage":{"createManagedPrivateEndpoint":false,"accountUrl":"https://asotestadlstorencqyow.dfs.core.windows.net/","filesystem":"default"},"encryption":{"doubleEncryptionEnabled":false},"provisioningState":"Provisioning","connectivityEndpoints":{"web":"https://web.azuresynapse.net?workspace=%2fsubscriptions%2f00000000-0000-0000-0000-000000000000%2fresourceGroups%2fasotest-rg-ydstgk%2fproviders%2fMicrosoft.Synapse%2fworkspaces%2fasotest-workspace-alguod","dev":"https://asotest-workspace-alguod.dev.azuresynapse.net","sqlOnDemand":"asotest-workspace-alguod-ondemand.sql.azuresynapse.net","sql":"asotest-workspace-alguod.sql.azuresynapse.net"},"managedResourceGroupName":"synapseworkspace-managedrg-12c553b0-c8d8-45f6-b76b-00542d685df5","privateEndpointConnections":[],"workspaceUID":"b46198de-b38b-4e8d-943c-5697d0e8f43c","extraProperties":{"WorkspaceType":"Normal"},"publicNetworkAccess":"Enabled","cspWorkspaceAdminProperties":{"initialWorkspaceAdminObjectId":"84f47115-7605-44df-accf-7e01c55e425f"},"trustedServiceBypassEnabled":false},"type":"Microsoft.Synapse/workspaces","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod","location":"eastus2","name":"asotest-workspace-alguod","identity":{"type":"SystemAssigned","tenantId":"00000000-0000-0000-0000-000000000000","principalId":"fd694a1d-e74e-4c3a-b4fc-f91850dd0ebd"},"tags":{"cheese":"blue"}}'
+    body: '{"properties":{"defaultDataLakeStorage":{"createManagedPrivateEndpoint":false,"accountUrl":"https://asotestadlstorencqyow.dfs.core.windows.net/","filesystem":"default"},"encryption":{"doubleEncryptionEnabled":false},"provisioningState":"Provisioning","connectivityEndpoints":{"web":"https://web.azuresynapse.net?workspace=%2fsubscriptions%2f00000000-0000-0000-0000-000000000000%2fresourceGroups%2fasotest-rg-ydstgk%2fproviders%2fMicrosoft.Synapse%2fworkspaces%2fasotest-workspace-alguod","dev":"https://asotest-workspace-alguod.dev.azuresynapse.net","sqlOnDemand":"asotest-workspace-alguod-ondemand.sql.azuresynapse.net","sql":"asotest-workspace-alguod.sql.azuresynapse.net"},"managedResourceGroupName":"synapseworkspace-managedrg-cf01110f-2426-4453-9810-2dd0a6c738eb","privateEndpointConnections":[],"workspaceUID":"cb1793b8-f56f-4e04-b370-522c5ef9444a","extraProperties":{"WorkspaceType":"Normal"},"publicNetworkAccess":"Enabled","cspWorkspaceAdminProperties":{"initialWorkspaceAdminObjectId":"b105a525-bf2e-4a42-9e58-7987042fa27f"},"trustedServiceBypassEnabled":false},"type":"Microsoft.Synapse/workspaces","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod","location":"eastus2","name":"asotest-workspace-alguod","identity":{"type":"SystemAssigned","tenantId":"00000000-0000-0000-0000-000000000000","principalId":"1d425554-9865-4461-b34e-ae4acf1b47ec"},"tags":{"cheese":"blue"}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/42ffe737-df7b-42b4-b08c-64673baa00dd?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/c93ff025-f6f4-45d9-a88f-9e7d583c5069?api-version=2021-06-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -245,7 +245,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/42ffe737-df7b-42b4-b08c-64673baa00dd?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/c93ff025-f6f4-45d9-a88f-9e7d583c5069?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"InProgress"}'
@@ -275,7 +275,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/42ffe737-df7b-42b4-b08c-64673baa00dd?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/c93ff025-f6f4-45d9-a88f-9e7d583c5069?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"InProgress"}'
@@ -305,7 +305,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/42ffe737-df7b-42b4-b08c-64673baa00dd?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/c93ff025-f6f4-45d9-a88f-9e7d583c5069?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"InProgress"}'
@@ -335,7 +335,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/42ffe737-df7b-42b4-b08c-64673baa00dd?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/c93ff025-f6f4-45d9-a88f-9e7d583c5069?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"InProgress"}'
@@ -365,7 +365,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/42ffe737-df7b-42b4-b08c-64673baa00dd?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/c93ff025-f6f4-45d9-a88f-9e7d583c5069?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"InProgress"}'
@@ -395,7 +395,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/42ffe737-df7b-42b4-b08c-64673baa00dd?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/c93ff025-f6f4-45d9-a88f-9e7d583c5069?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"InProgress"}'
@@ -425,7 +425,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "6"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/42ffe737-df7b-42b4-b08c-64673baa00dd?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/c93ff025-f6f4-45d9-a88f-9e7d583c5069?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"InProgress"}'
@@ -455,7 +455,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "7"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/42ffe737-df7b-42b4-b08c-64673baa00dd?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/c93ff025-f6f4-45d9-a88f-9e7d583c5069?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"Succeeded"}'
@@ -488,7 +488,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod?api-version=2021-06-01
     method: GET
   response:
-    body: '{"properties":{"defaultDataLakeStorage":{"createManagedPrivateEndpoint":false,"accountUrl":"https://asotestadlstorencqyow.dfs.core.windows.net/","filesystem":"default"},"encryption":{"doubleEncryptionEnabled":false},"provisioningState":"Succeeded","connectivityEndpoints":{"web":"https://web.azuresynapse.net?workspace=%2fsubscriptions%2f00000000-0000-0000-0000-000000000000%2fresourceGroups%2fasotest-rg-ydstgk%2fproviders%2fMicrosoft.Synapse%2fworkspaces%2fasotest-workspace-alguod","dev":"https://asotest-workspace-alguod.dev.azuresynapse.net","sqlOnDemand":"asotest-workspace-alguod-ondemand.sql.azuresynapse.net","sql":"asotest-workspace-alguod.sql.azuresynapse.net"},"managedResourceGroupName":"synapseworkspace-managedrg-12c553b0-c8d8-45f6-b76b-00542d685df5","sqlAdministratorLogin":"sqladminuser","privateEndpointConnections":[],"workspaceUID":"b46198de-b38b-4e8d-943c-5697d0e8f43c","extraProperties":{"WorkspaceType":"Normal","IsScopeEnabled":false},"publicNetworkAccess":"Enabled","cspWorkspaceAdminProperties":{"initialWorkspaceAdminObjectId":"84f47115-7605-44df-accf-7e01c55e425f"},"trustedServiceBypassEnabled":false},"type":"Microsoft.Synapse/workspaces","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod","location":"eastus2","name":"asotest-workspace-alguod","identity":{"type":"SystemAssigned","tenantId":"00000000-0000-0000-0000-000000000000","principalId":"fd694a1d-e74e-4c3a-b4fc-f91850dd0ebd"},"tags":{"cheese":"blue"}}'
+    body: '{"properties":{"defaultDataLakeStorage":{"createManagedPrivateEndpoint":false,"accountUrl":"https://asotestadlstorencqyow.dfs.core.windows.net/","filesystem":"default"},"encryption":{"doubleEncryptionEnabled":false},"provisioningState":"Succeeded","connectivityEndpoints":{"web":"https://web.azuresynapse.net?workspace=%2fsubscriptions%2f00000000-0000-0000-0000-000000000000%2fresourceGroups%2fasotest-rg-ydstgk%2fproviders%2fMicrosoft.Synapse%2fworkspaces%2fasotest-workspace-alguod","dev":"https://asotest-workspace-alguod.dev.azuresynapse.net","sqlOnDemand":"asotest-workspace-alguod-ondemand.sql.azuresynapse.net","sql":"asotest-workspace-alguod.sql.azuresynapse.net"},"managedResourceGroupName":"synapseworkspace-managedrg-cf01110f-2426-4453-9810-2dd0a6c738eb","sqlAdministratorLogin":"sqladminuser","privateEndpointConnections":[],"workspaceUID":"cb1793b8-f56f-4e04-b370-522c5ef9444a","extraProperties":{"WorkspaceType":"Normal","IsScopeEnabled":false},"publicNetworkAccess":"Enabled","cspWorkspaceAdminProperties":{"initialWorkspaceAdminObjectId":"b105a525-bf2e-4a42-9e58-7987042fa27f"},"trustedServiceBypassEnabled":false},"type":"Microsoft.Synapse/workspaces","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod","location":"eastus2","name":"asotest-workspace-alguod","identity":{"type":"SystemAssigned","tenantId":"00000000-0000-0000-0000-000000000000","principalId":"1d425554-9865-4461-b34e-ae4acf1b47ec"},"tags":{"cheese":"blue"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -520,7 +520,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod?api-version=2021-06-01
     method: GET
   response:
-    body: '{"properties":{"defaultDataLakeStorage":{"createManagedPrivateEndpoint":false,"accountUrl":"https://asotestadlstorencqyow.dfs.core.windows.net/","filesystem":"default"},"encryption":{"doubleEncryptionEnabled":false},"provisioningState":"Succeeded","connectivityEndpoints":{"web":"https://web.azuresynapse.net?workspace=%2fsubscriptions%2f00000000-0000-0000-0000-000000000000%2fresourceGroups%2fasotest-rg-ydstgk%2fproviders%2fMicrosoft.Synapse%2fworkspaces%2fasotest-workspace-alguod","dev":"https://asotest-workspace-alguod.dev.azuresynapse.net","sqlOnDemand":"asotest-workspace-alguod-ondemand.sql.azuresynapse.net","sql":"asotest-workspace-alguod.sql.azuresynapse.net"},"managedResourceGroupName":"synapseworkspace-managedrg-12c553b0-c8d8-45f6-b76b-00542d685df5","sqlAdministratorLogin":"sqladminuser","privateEndpointConnections":[],"workspaceUID":"b46198de-b38b-4e8d-943c-5697d0e8f43c","extraProperties":{"WorkspaceType":"Normal","IsScopeEnabled":false},"publicNetworkAccess":"Enabled","cspWorkspaceAdminProperties":{"initialWorkspaceAdminObjectId":"84f47115-7605-44df-accf-7e01c55e425f"},"trustedServiceBypassEnabled":false},"type":"Microsoft.Synapse/workspaces","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod","location":"eastus2","name":"asotest-workspace-alguod","identity":{"type":"SystemAssigned","tenantId":"00000000-0000-0000-0000-000000000000","principalId":"fd694a1d-e74e-4c3a-b4fc-f91850dd0ebd"},"tags":{"cheese":"blue"}}'
+    body: '{"properties":{"defaultDataLakeStorage":{"createManagedPrivateEndpoint":false,"accountUrl":"https://asotestadlstorencqyow.dfs.core.windows.net/","filesystem":"default"},"encryption":{"doubleEncryptionEnabled":false},"provisioningState":"Succeeded","connectivityEndpoints":{"web":"https://web.azuresynapse.net?workspace=%2fsubscriptions%2f00000000-0000-0000-0000-000000000000%2fresourceGroups%2fasotest-rg-ydstgk%2fproviders%2fMicrosoft.Synapse%2fworkspaces%2fasotest-workspace-alguod","dev":"https://asotest-workspace-alguod.dev.azuresynapse.net","sqlOnDemand":"asotest-workspace-alguod-ondemand.sql.azuresynapse.net","sql":"asotest-workspace-alguod.sql.azuresynapse.net"},"managedResourceGroupName":"synapseworkspace-managedrg-cf01110f-2426-4453-9810-2dd0a6c738eb","sqlAdministratorLogin":"sqladminuser","privateEndpointConnections":[],"workspaceUID":"cb1793b8-f56f-4e04-b370-522c5ef9444a","extraProperties":{"WorkspaceType":"Normal","IsScopeEnabled":false},"publicNetworkAccess":"Enabled","cspWorkspaceAdminProperties":{"initialWorkspaceAdminObjectId":"b105a525-bf2e-4a42-9e58-7987042fa27f"},"trustedServiceBypassEnabled":false},"type":"Microsoft.Synapse/workspaces","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod","location":"eastus2","name":"asotest-workspace-alguod","identity":{"type":"SystemAssigned","tenantId":"00000000-0000-0000-0000-000000000000","principalId":"1d425554-9865-4461-b34e-ae4acf1b47ec"},"tags":{"cheese":"blue"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -556,10 +556,10 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod?api-version=2021-06-01
     method: PUT
   response:
-    body: '{"properties":{"defaultDataLakeStorage":{"createManagedPrivateEndpoint":false,"accountUrl":"https://asotestadlstorencqyow.dfs.core.windows.net/","filesystem":"default"},"encryption":{"doubleEncryptionEnabled":false},"provisioningState":"Provisioning","connectivityEndpoints":{"web":"https://web.azuresynapse.net?workspace=%2fsubscriptions%2f00000000-0000-0000-0000-000000000000%2fresourceGroups%2fasotest-rg-ydstgk%2fproviders%2fMicrosoft.Synapse%2fworkspaces%2fasotest-workspace-alguod","dev":"https://asotest-workspace-alguod.dev.azuresynapse.net","sqlOnDemand":"asotest-workspace-alguod-ondemand.sql.azuresynapse.net","sql":"asotest-workspace-alguod.sql.azuresynapse.net"},"managedResourceGroupName":"synapseworkspace-managedrg-12c553b0-c8d8-45f6-b76b-00542d685df5","sqlAdministratorLogin":"sqladminuser","privateEndpointConnections":[],"workspaceUID":"b46198de-b38b-4e8d-943c-5697d0e8f43c","extraProperties":{"WorkspaceType":"Normal"},"publicNetworkAccess":"Enabled","cspWorkspaceAdminProperties":{"initialWorkspaceAdminObjectId":"84f47115-7605-44df-accf-7e01c55e425f"},"trustedServiceBypassEnabled":false},"type":"Microsoft.Synapse/workspaces","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod","location":"eastus2","name":"asotest-workspace-alguod","identity":{"type":"SystemAssigned","tenantId":"00000000-0000-0000-0000-000000000000","principalId":"fd694a1d-e74e-4c3a-b4fc-f91850dd0ebd"},"tags":{"cheese":"époisses"}}'
+    body: '{"properties":{"defaultDataLakeStorage":{"createManagedPrivateEndpoint":false,"accountUrl":"https://asotestadlstorencqyow.dfs.core.windows.net/","filesystem":"default"},"encryption":{"doubleEncryptionEnabled":false},"provisioningState":"Provisioning","connectivityEndpoints":{"web":"https://web.azuresynapse.net?workspace=%2fsubscriptions%2f00000000-0000-0000-0000-000000000000%2fresourceGroups%2fasotest-rg-ydstgk%2fproviders%2fMicrosoft.Synapse%2fworkspaces%2fasotest-workspace-alguod","dev":"https://asotest-workspace-alguod.dev.azuresynapse.net","sqlOnDemand":"asotest-workspace-alguod-ondemand.sql.azuresynapse.net","sql":"asotest-workspace-alguod.sql.azuresynapse.net"},"managedResourceGroupName":"synapseworkspace-managedrg-cf01110f-2426-4453-9810-2dd0a6c738eb","sqlAdministratorLogin":"sqladminuser","privateEndpointConnections":[],"workspaceUID":"cb1793b8-f56f-4e04-b370-522c5ef9444a","extraProperties":{"WorkspaceType":"Normal"},"publicNetworkAccess":"Enabled","cspWorkspaceAdminProperties":{"initialWorkspaceAdminObjectId":"b105a525-bf2e-4a42-9e58-7987042fa27f"},"trustedServiceBypassEnabled":false},"type":"Microsoft.Synapse/workspaces","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod","location":"eastus2","name":"asotest-workspace-alguod","identity":{"type":"SystemAssigned","tenantId":"00000000-0000-0000-0000-000000000000","principalId":"1d425554-9865-4461-b34e-ae4acf1b47ec"},"tags":{"cheese":"époisses"}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/407c481f-6ed7-41fe-bd53-1d78bd937f59?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/510af4e8-3780-44ed-95c9-15a99fc98650?api-version=2021-06-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -585,7 +585,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/407c481f-6ed7-41fe-bd53-1d78bd937f59?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/510af4e8-3780-44ed-95c9-15a99fc98650?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"InProgress"}'
@@ -615,7 +615,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/407c481f-6ed7-41fe-bd53-1d78bd937f59?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/510af4e8-3780-44ed-95c9-15a99fc98650?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"InProgress"}'
@@ -645,7 +645,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/407c481f-6ed7-41fe-bd53-1d78bd937f59?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/510af4e8-3780-44ed-95c9-15a99fc98650?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"InProgress"}'
@@ -675,7 +675,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/407c481f-6ed7-41fe-bd53-1d78bd937f59?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/510af4e8-3780-44ed-95c9-15a99fc98650?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"InProgress"}'
@@ -705,7 +705,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/407c481f-6ed7-41fe-bd53-1d78bd937f59?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/510af4e8-3780-44ed-95c9-15a99fc98650?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"InProgress"}'
@@ -735,7 +735,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/407c481f-6ed7-41fe-bd53-1d78bd937f59?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/510af4e8-3780-44ed-95c9-15a99fc98650?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"Succeeded"}'
@@ -768,7 +768,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod?api-version=2021-06-01
     method: GET
   response:
-    body: '{"properties":{"defaultDataLakeStorage":{"createManagedPrivateEndpoint":false,"accountUrl":"https://asotestadlstorencqyow.dfs.core.windows.net/","filesystem":"default"},"encryption":{"doubleEncryptionEnabled":false},"provisioningState":"Succeeded","connectivityEndpoints":{"web":"https://web.azuresynapse.net?workspace=%2fsubscriptions%2f00000000-0000-0000-0000-000000000000%2fresourceGroups%2fasotest-rg-ydstgk%2fproviders%2fMicrosoft.Synapse%2fworkspaces%2fasotest-workspace-alguod","dev":"https://asotest-workspace-alguod.dev.azuresynapse.net","sqlOnDemand":"asotest-workspace-alguod-ondemand.sql.azuresynapse.net","sql":"asotest-workspace-alguod.sql.azuresynapse.net"},"managedResourceGroupName":"synapseworkspace-managedrg-12c553b0-c8d8-45f6-b76b-00542d685df5","sqlAdministratorLogin":"sqladminuser","privateEndpointConnections":[],"workspaceUID":"b46198de-b38b-4e8d-943c-5697d0e8f43c","extraProperties":{"WorkspaceType":"Normal","IsScopeEnabled":false},"publicNetworkAccess":"Enabled","cspWorkspaceAdminProperties":{"initialWorkspaceAdminObjectId":"84f47115-7605-44df-accf-7e01c55e425f"},"trustedServiceBypassEnabled":false},"type":"Microsoft.Synapse/workspaces","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod","location":"eastus2","name":"asotest-workspace-alguod","identity":{"type":"SystemAssigned","tenantId":"00000000-0000-0000-0000-000000000000","principalId":"fd694a1d-e74e-4c3a-b4fc-f91850dd0ebd"},"tags":{"cheese":"époisses"}}'
+    body: '{"properties":{"defaultDataLakeStorage":{"createManagedPrivateEndpoint":false,"accountUrl":"https://asotestadlstorencqyow.dfs.core.windows.net/","filesystem":"default"},"encryption":{"doubleEncryptionEnabled":false},"provisioningState":"Succeeded","connectivityEndpoints":{"web":"https://web.azuresynapse.net?workspace=%2fsubscriptions%2f00000000-0000-0000-0000-000000000000%2fresourceGroups%2fasotest-rg-ydstgk%2fproviders%2fMicrosoft.Synapse%2fworkspaces%2fasotest-workspace-alguod","dev":"https://asotest-workspace-alguod.dev.azuresynapse.net","sqlOnDemand":"asotest-workspace-alguod-ondemand.sql.azuresynapse.net","sql":"asotest-workspace-alguod.sql.azuresynapse.net"},"managedResourceGroupName":"synapseworkspace-managedrg-cf01110f-2426-4453-9810-2dd0a6c738eb","sqlAdministratorLogin":"sqladminuser","privateEndpointConnections":[],"workspaceUID":"cb1793b8-f56f-4e04-b370-522c5ef9444a","extraProperties":{"WorkspaceType":"Normal","IsScopeEnabled":false},"publicNetworkAccess":"Enabled","cspWorkspaceAdminProperties":{"initialWorkspaceAdminObjectId":"b105a525-bf2e-4a42-9e58-7987042fa27f"},"trustedServiceBypassEnabled":false},"type":"Microsoft.Synapse/workspaces","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod","location":"eastus2","name":"asotest-workspace-alguod","identity":{"type":"SystemAssigned","tenantId":"00000000-0000-0000-0000-000000000000","principalId":"1d425554-9865-4461-b34e-ae4acf1b47ec"},"tags":{"cheese":"époisses"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -800,7 +800,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod?api-version=2021-06-01
     method: GET
   response:
-    body: '{"properties":{"defaultDataLakeStorage":{"createManagedPrivateEndpoint":false,"accountUrl":"https://asotestadlstorencqyow.dfs.core.windows.net/","filesystem":"default"},"encryption":{"doubleEncryptionEnabled":false},"provisioningState":"Succeeded","connectivityEndpoints":{"web":"https://web.azuresynapse.net?workspace=%2fsubscriptions%2f00000000-0000-0000-0000-000000000000%2fresourceGroups%2fasotest-rg-ydstgk%2fproviders%2fMicrosoft.Synapse%2fworkspaces%2fasotest-workspace-alguod","dev":"https://asotest-workspace-alguod.dev.azuresynapse.net","sqlOnDemand":"asotest-workspace-alguod-ondemand.sql.azuresynapse.net","sql":"asotest-workspace-alguod.sql.azuresynapse.net"},"managedResourceGroupName":"synapseworkspace-managedrg-12c553b0-c8d8-45f6-b76b-00542d685df5","sqlAdministratorLogin":"sqladminuser","privateEndpointConnections":[],"workspaceUID":"b46198de-b38b-4e8d-943c-5697d0e8f43c","extraProperties":{"WorkspaceType":"Normal","IsScopeEnabled":false},"publicNetworkAccess":"Enabled","cspWorkspaceAdminProperties":{"initialWorkspaceAdminObjectId":"84f47115-7605-44df-accf-7e01c55e425f"},"trustedServiceBypassEnabled":false},"type":"Microsoft.Synapse/workspaces","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod","location":"eastus2","name":"asotest-workspace-alguod","identity":{"type":"SystemAssigned","tenantId":"00000000-0000-0000-0000-000000000000","principalId":"fd694a1d-e74e-4c3a-b4fc-f91850dd0ebd"},"tags":{"cheese":"époisses"}}'
+    body: '{"properties":{"defaultDataLakeStorage":{"createManagedPrivateEndpoint":false,"accountUrl":"https://asotestadlstorencqyow.dfs.core.windows.net/","filesystem":"default"},"encryption":{"doubleEncryptionEnabled":false},"provisioningState":"Succeeded","connectivityEndpoints":{"web":"https://web.azuresynapse.net?workspace=%2fsubscriptions%2f00000000-0000-0000-0000-000000000000%2fresourceGroups%2fasotest-rg-ydstgk%2fproviders%2fMicrosoft.Synapse%2fworkspaces%2fasotest-workspace-alguod","dev":"https://asotest-workspace-alguod.dev.azuresynapse.net","sqlOnDemand":"asotest-workspace-alguod-ondemand.sql.azuresynapse.net","sql":"asotest-workspace-alguod.sql.azuresynapse.net"},"managedResourceGroupName":"synapseworkspace-managedrg-cf01110f-2426-4453-9810-2dd0a6c738eb","sqlAdministratorLogin":"sqladminuser","privateEndpointConnections":[],"workspaceUID":"cb1793b8-f56f-4e04-b370-522c5ef9444a","extraProperties":{"WorkspaceType":"Normal","IsScopeEnabled":false},"publicNetworkAccess":"Enabled","cspWorkspaceAdminProperties":{"initialWorkspaceAdminObjectId":"b105a525-bf2e-4a42-9e58-7987042fa27f"},"trustedServiceBypassEnabled":false},"type":"Microsoft.Synapse/workspaces","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod","location":"eastus2","name":"asotest-workspace-alguod","identity":{"type":"SystemAssigned","tenantId":"00000000-0000-0000-0000-000000000000","principalId":"1d425554-9865-4461-b34e-ae4acf1b47ec"},"tags":{"cheese":"époisses"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -843,17 +843,17 @@ interactions:
       Access-Control-Expose-Headers:
       - Location
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/bb53da8a-3837-491b-9efa-cf1837800d32?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/6f647087-bdd5-41e6-b0b9-e5def85b2660?api-version=2021-06-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "735"
+      - "730"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationResults/bb53da8a-3837-491b-9efa-cf1837800d32?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationResults/6f647087-bdd5-41e6-b0b9-e5def85b2660?api-version=2021-06-01
       Pragma:
       - no-cache
       Server:
@@ -871,67 +871,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/bb53da8a-3837-491b-9efa-cf1837800d32?api-version=2021-06-01
-    method: GET
-  response:
-    body: '{"status":"InProgress"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/bb53da8a-3837-491b-9efa-cf1837800d32?api-version=2021-06-01
-    method: GET
-  response:
-    body: '{"status":"InProgress"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/bb53da8a-3837-491b-9efa-cf1837800d32?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationStatuses/6f647087-bdd5-41e6-b0b9-e5def85b2660?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"Succeeded"}'
@@ -1041,7 +981,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationResults/a2adcbc4-4164-4531-869d-1a79dcd51f20?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationResults/79983faa-2aa4-4e42-b6ba-1de80e469acd?api-version=2021-06-01
       Pragma:
       - no-cache
       Server:
@@ -1059,7 +999,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationResults/a2adcbc4-4164-4531-869d-1a79dcd51f20?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationResults/79983faa-2aa4-4e42-b6ba-1de80e469acd?api-version=2021-06-01
     method: GET
   response:
     body: ""
@@ -1075,7 +1015,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationResults/a2adcbc4-4164-4531-869d-1a79dcd51f20?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationResults/79983faa-2aa4-4e42-b6ba-1de80e469acd?api-version=2021-06-01
       Pragma:
       - no-cache
       Server:
@@ -1093,7 +1033,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationResults/a2adcbc4-4164-4531-869d-1a79dcd51f20?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod/operationResults/79983faa-2aa4-4e42-b6ba-1de80e469acd?api-version=2021-06-01
     method: GET
   response:
     body: ""
@@ -1131,7 +1071,7 @@ interactions:
       Access-Control-Expose-Headers:
       - Location
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Synapse/locations/eastus2/operationStatuses/fa1b1c42-a608-4a3e-bfbe-ba5518290322?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Synapse/locations/eastus2/operationStatuses/962a68cd-fcfa-43f1-90e6-6484617d2220?api-version=2021-06-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -1139,7 +1079,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Synapse/locations/eastus2/operationResults/fa1b1c42-a608-4a3e-bfbe-ba5518290322?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Synapse/locations/eastus2/operationResults/962a68cd-fcfa-43f1-90e6-6484617d2220?api-version=2021-06-01
       Pragma:
       - no-cache
       Server:
@@ -1157,7 +1097,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Synapse/locations/eastus2/operationStatuses/fa1b1c42-a608-4a3e-bfbe-ba5518290322?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Synapse/locations/eastus2/operationStatuses/962a68cd-fcfa-43f1-90e6-6484617d2220?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"InProgress"}'
@@ -1187,7 +1127,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Synapse/locations/eastus2/operationStatuses/fa1b1c42-a608-4a3e-bfbe-ba5518290322?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Synapse/locations/eastus2/operationStatuses/962a68cd-fcfa-43f1-90e6-6484617d2220?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"InProgress"}'
@@ -1217,7 +1157,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Synapse/locations/eastus2/operationStatuses/fa1b1c42-a608-4a3e-bfbe-ba5518290322?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Synapse/locations/eastus2/operationStatuses/962a68cd-fcfa-43f1-90e6-6484617d2220?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"InProgress"}'
@@ -1247,7 +1187,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Synapse/locations/eastus2/operationStatuses/fa1b1c42-a608-4a3e-bfbe-ba5518290322?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Synapse/locations/eastus2/operationStatuses/962a68cd-fcfa-43f1-90e6-6484617d2220?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"InProgress"}'
@@ -1277,37 +1217,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Synapse/locations/eastus2/operationStatuses/fa1b1c42-a608-4a3e-bfbe-ba5518290322?api-version=2021-06-01
-    method: GET
-  response:
-    body: '{"status":"InProgress"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Synapse/locations/eastus2/operationStatuses/fa1b1c42-a608-4a3e-bfbe-ba5518290322?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Synapse/locations/eastus2/operationStatuses/962a68cd-fcfa-43f1-90e6-6484617d2220?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"Succeeded"}'
@@ -1342,26 +1252,22 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ydstgk/providers/Microsoft.Synapse/workspaces/asotest-workspace-alguod?api-version=2021-06-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Synapse/workspaces/asotest-workspace-alguod''
-      under resource group ''asotest-rg-ydstgk'' was not found. For more details please
-      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    body: ""
     headers:
       Cache-Control:
       - no-cache
       Content-Length:
-      - "242"
-      Content-Type:
-      - application/json; charset=utf-8
+      - "0"
       Expires:
       - "-1"
       Pragma:
       - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
     status: 404 Not Found
     code: 404
     duration: ""

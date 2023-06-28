@@ -14,7 +14,7 @@ type StorageAccount_Spec_ARM struct {
 	Name             string                                        `json:"name,omitempty"`
 	Properties       *StorageAccountPropertiesCreateParameters_ARM `json:"properties,omitempty"`
 	Sku              *Sku_ARM                                      `json:"sku,omitempty"`
-	Tags             map[string]string                             `json:"tags,omitempty"`
+	Tags             map[string]string                             `json:"tags"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccount_Spec_ARM{}
@@ -132,9 +132,9 @@ type KeyPolicy_ARM struct {
 type NetworkRuleSet_ARM struct {
 	Bypass              *NetworkRuleSet_Bypass        `json:"bypass,omitempty"`
 	DefaultAction       *NetworkRuleSet_DefaultAction `json:"defaultAction,omitempty"`
-	IpRules             []IPRule_ARM                  `json:"ipRules,omitempty"`
-	ResourceAccessRules []ResourceAccessRule_ARM      `json:"resourceAccessRules,omitempty"`
-	VirtualNetworkRules []VirtualNetworkRule_ARM      `json:"virtualNetworkRules,omitempty"`
+	IpRules             []IPRule_ARM                  `json:"ipRules"`
+	ResourceAccessRules []ResourceAccessRule_ARM      `json:"resourceAccessRules"`
+	VirtualNetworkRules []VirtualNetworkRule_ARM      `json:"virtualNetworkRules"`
 }
 
 // Deprecated version of RoutingPreference. Use v1api20210401.RoutingPreference instead

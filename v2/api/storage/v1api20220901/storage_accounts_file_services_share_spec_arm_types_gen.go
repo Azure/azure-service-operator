@@ -40,7 +40,7 @@ type FileShareProperties_ARM struct {
 	EnabledProtocols *FileShareProperties_EnabledProtocols `json:"enabledProtocols,omitempty"`
 
 	// Metadata: A name-value pair to associate with the share as metadata.
-	Metadata map[string]string `json:"metadata,omitempty"`
+	Metadata map[string]string `json:"metadata"`
 
 	// RootSquash: The property is for NFS share only. The default is NoRootSquash.
 	RootSquash *FileShareProperties_RootSquash `json:"rootSquash,omitempty"`
@@ -50,7 +50,7 @@ type FileShareProperties_ARM struct {
 	ShareQuota *int `json:"shareQuota,omitempty"`
 
 	// SignedIdentifiers: List of stored access policies specified on the share.
-	SignedIdentifiers []SignedIdentifier_ARM `json:"signedIdentifiers,omitempty"`
+	SignedIdentifiers []SignedIdentifier_ARM `json:"signedIdentifiers"`
 }
 
 type SignedIdentifier_ARM struct {

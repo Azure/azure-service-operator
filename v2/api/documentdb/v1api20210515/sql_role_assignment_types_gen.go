@@ -81,15 +81,8 @@ func (assignment *SqlRoleAssignment) Default() {
 	}
 }
 
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (assignment *SqlRoleAssignment) defaultAzureName() {
-	if assignment.Spec.AzureName == "" {
-		assignment.Spec.AzureName = assignment.Name
-	}
-}
-
 // defaultImpl applies the code generated defaults to the SqlRoleAssignment resource
-func (assignment *SqlRoleAssignment) defaultImpl() { assignment.defaultAzureName() }
+func (assignment *SqlRoleAssignment) defaultImpl() {}
 
 var _ genruntime.ImportableResource = &SqlRoleAssignment{}
 

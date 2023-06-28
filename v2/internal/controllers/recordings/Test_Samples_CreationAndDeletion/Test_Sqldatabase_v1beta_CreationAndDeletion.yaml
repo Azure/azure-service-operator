@@ -80,7 +80,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sampleuserassignedidentity?api-version=2018-11-30
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qvtfsg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sampleuserassignedidentity","name":"sampleuserassignedidentity","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westcentralus","tags":{},"properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"a5280cb0-2b74-466e-b151-4928864fe729","clientId":"3507fb9a-beff-4d10-a604-5fc41d8b8185"}}'
+    body: '{"location":"westcentralus","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qvtfsg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sampleuserassignedidentity","name":"sampleuserassignedidentity","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"df2a8435-df64-4803-abf7-436cc3779660","clientId":"250f3aae-ef87-463a-9384-39d2cf94bbc2"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -116,7 +116,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sampleuserassignedidentity?api-version=2018-11-30
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qvtfsg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sampleuserassignedidentity","name":"sampleuserassignedidentity","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westcentralus","tags":{},"properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"a5280cb0-2b74-466e-b151-4928864fe729","clientId":"3507fb9a-beff-4d10-a604-5fc41d8b8185"}}'
+    body: '{"location":"westcentralus","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qvtfsg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sampleuserassignedidentity","name":"sampleuserassignedidentity","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"df2a8435-df64-4803-abf7-436cc3779660","clientId":"250f3aae-ef87-463a-9384-39d2cf94bbc2"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -146,7 +146,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sampleuserassignedidentity?api-version=2018-11-30
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qvtfsg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sampleuserassignedidentity","name":"sampleuserassignedidentity","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westcentralus","tags":{},"properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"a5280cb0-2b74-466e-b151-4928864fe729","clientId":"3507fb9a-beff-4d10-a604-5fc41d8b8185"}}'
+    body: '{"location":"westcentralus","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qvtfsg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sampleuserassignedidentity","name":"sampleuserassignedidentity","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"df2a8435-df64-4803-abf7-436cc3779660","clientId":"250f3aae-ef87-463a-9384-39d2cf94bbc2"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -181,20 +181,20 @@ interactions:
     method: PUT
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta","name":"sample-sqldb-account-beta","location":"East
-      US","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Creating","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"753f6ed7-8ff8-4bba-9025-803eb27d5e73","databaseAccountOfferType":"Standard","defaultIdentity":"","networkAclBypass":"None","consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{},"writeLocations":[{"id":"sample-sqldb-account-beta-eastus","locationName":"East
+      US","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Creating","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"86aa52a8-126a-42c5-9dd1-20bd0a477e11","databaseAccountOfferType":"Standard","defaultIdentity":"","networkAclBypass":"None","consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{},"writeLocations":[{"id":"sample-sqldb-account-beta-eastus","locationName":"East
       US","provisioningState":"Creating","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"sample-sqldb-account-beta-eastus","locationName":"East
       US","provisioningState":"Creating","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"sample-sqldb-account-beta-eastus","locationName":"East
       US","provisioningState":"Creating","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"sample-sqldb-account-beta-eastus","locationName":"East
       US","failoverPriority":0}],"cors":[],"capabilities":[],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Invalid"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/3bf10175-9396-41cd-b6e8-457986645a85?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/de9dacaf-3890-413e-9234-5e8e983b26d6?api-version=2021-05-15
       Cache-Control:
       - no-store, no-cache
       Content-Type:
       - application/json
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/operationResults/3bf10175-9396-41cd-b6e8-457986645a85?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/operationResults/de9dacaf-3890-413e-9234-5e8e983b26d6?api-version=2021-05-15
       Pragma:
       - no-cache
       Server:
@@ -216,10 +216,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/3bf10175-9396-41cd-b6e8-457986645a85?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/de9dacaf-3890-413e-9234-5e8e983b26d6?api-version=2021-05-15
     method: GET
   response:
-    body: '{"status":"Dequeued"}'
+    body: '{"status":"Enqueued"}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -246,7 +246,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/3bf10175-9396-41cd-b6e8-457986645a85?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/de9dacaf-3890-413e-9234-5e8e983b26d6?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Dequeued"}'
@@ -276,7 +276,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/3bf10175-9396-41cd-b6e8-457986645a85?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/de9dacaf-3890-413e-9234-5e8e983b26d6?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Dequeued"}'
@@ -306,7 +306,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/3bf10175-9396-41cd-b6e8-457986645a85?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/de9dacaf-3890-413e-9234-5e8e983b26d6?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Dequeued"}'
@@ -336,7 +336,67 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/3bf10175-9396-41cd-b6e8-457986645a85?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/de9dacaf-3890-413e-9234-5e8e983b26d6?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"status":"Dequeued"}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "5"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/de9dacaf-3890-413e-9234-5e8e983b26d6?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"status":"Dequeued"}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "6"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/de9dacaf-3890-413e-9234-5e8e983b26d6?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Succeeded"}'
@@ -370,7 +430,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta","name":"sample-sqldb-account-beta","location":"East
-      US","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded","documentEndpoint":"https://sample-sqldb-account-beta.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"753f6ed7-8ff8-4bba-9025-803eb27d5e73","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{},"writeLocations":[{"id":"sample-sqldb-account-beta-eastus","locationName":"East
+      US","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded","documentEndpoint":"https://sample-sqldb-account-beta.documents.azure.com:443/","sqlEndpoint":"https://sample-sqldb-account-beta.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"86aa52a8-126a-42c5-9dd1-20bd0a477e11","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{},"writeLocations":[{"id":"sample-sqldb-account-beta-eastus","locationName":"East
       US","documentEndpoint":"https://sample-sqldb-account-beta-eastus.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"sample-sqldb-account-beta-eastus","locationName":"East
       US","documentEndpoint":"https://sample-sqldb-account-beta-eastus.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"sample-sqldb-account-beta-eastus","locationName":"East
       US","documentEndpoint":"https://sample-sqldb-account-beta-eastus.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"sample-sqldb-account-beta-eastus","locationName":"East
@@ -407,7 +467,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta","name":"sample-sqldb-account-beta","location":"East
-      US","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded","documentEndpoint":"https://sample-sqldb-account-beta.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"753f6ed7-8ff8-4bba-9025-803eb27d5e73","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{},"writeLocations":[{"id":"sample-sqldb-account-beta-eastus","locationName":"East
+      US","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded","documentEndpoint":"https://sample-sqldb-account-beta.documents.azure.com:443/","sqlEndpoint":"https://sample-sqldb-account-beta.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"86aa52a8-126a-42c5-9dd1-20bd0a477e11","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{},"writeLocations":[{"id":"sample-sqldb-account-beta-eastus","locationName":"East
       US","documentEndpoint":"https://sample-sqldb-account-beta-eastus.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"sample-sqldb-account-beta-eastus","locationName":"East
       US","documentEndpoint":"https://sample-sqldb-account-beta-eastus.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"sample-sqldb-account-beta-eastus","locationName":"East
       US","documentEndpoint":"https://sample-sqldb-account-beta-eastus.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"sample-sqldb-account-beta-eastus","locationName":"East
@@ -450,7 +510,7 @@ interactions:
     body: '{"status":"Enqueued"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/7c2d21c6-162b-4415-89e1-e85bc65e5a1c?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/5cb816f6-869e-446a-8329-833a31f0031b?api-version=2021-05-15
       Cache-Control:
       - no-store, no-cache
       Content-Length:
@@ -458,7 +518,7 @@ interactions:
       Content-Type:
       - application/json
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/operationResults/7c2d21c6-162b-4415-89e1-e85bc65e5a1c?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/operationResults/5cb816f6-869e-446a-8329-833a31f0031b?api-version=2021-05-15
       Pragma:
       - no-cache
       Server:
@@ -473,7 +533,7 @@ interactions:
     code: 202
     duration: ""
 - request:
-    body: '{"name":"8849e244-64ab-4943-a7ef-46e60e0d2562","properties":{"principalId":"a5280cb0-2b74-466e-b151-4928864fe729","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account/sqlRoleDefinitions/00000000-0000-0000-0000-000000000002","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account"}}'
+    body: '{"name":"2bffb017-2385-5855-9fac-9984a599e583","properties":{"principalId":"df2a8435-df64-4803-abf7-436cc3779660","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account/sqlRoleDefinitions/00000000-0000-0000-0000-000000000002","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account"}}'
     form: {}
     headers:
       Accept:
@@ -484,13 +544,13 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlRoleAssignments/8849e244-64ab-4943-a7ef-46e60e0d2562?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlRoleAssignments/2bffb017-2385-5855-9fac-9984a599e583?api-version=2021-05-15
     method: PUT
   response:
     body: '{"status":"Enqueued"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/d818e52f-b572-431a-bd6d-d6d16400e1bb?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/f690a94a-de23-4f13-97f6-5c0e356940f2?api-version=2021-05-15
       Cache-Control:
       - no-store, no-cache
       Content-Length:
@@ -498,7 +558,7 @@ interactions:
       Content-Type:
       - application/json
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlRoleAssignments/8849e244-64ab-4943-a7ef-46e60e0d2562/operationResults/d818e52f-b572-431a-bd6d-d6d16400e1bb?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlRoleAssignments/2bffb017-2385-5855-9fac-9984a599e583/operationResults/f690a94a-de23-4f13-97f6-5c0e356940f2?api-version=2021-05-15
       Pragma:
       - no-cache
       Server:
@@ -518,10 +578,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/7c2d21c6-162b-4415-89e1-e85bc65e5a1c?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/5cb816f6-869e-446a-8329-833a31f0031b?api-version=2021-05-15
     method: GET
   response:
-    body: '{"status":"Succeeded"}'
+    body: '{"status":"Enqueued"}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -548,7 +608,157 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/d818e52f-b572-431a-bd6d-d6d16400e1bb?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/f690a94a-de23-4f13-97f6-5c0e356940f2?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"status":"Enqueued"}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/5cb816f6-869e-446a-8329-833a31f0031b?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"status":"Enqueued"}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/f690a94a-de23-4f13-97f6-5c0e356940f2?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"status":"Dequeued"}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/5cb816f6-869e-446a-8329-833a31f0031b?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"status":"Dequeued"}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/f690a94a-de23-4f13-97f6-5c0e356940f2?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"status":"Dequeued"}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/5cb816f6-869e-446a-8329-833a31f0031b?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Succeeded"}'
@@ -581,7 +791,67 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta?api-version=2021-05-15
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases","name":"sample-sql-db-beta","properties":{"resource":{"id":"sample-sql-db-beta","_rid":"xL8gAA==","_self":"dbs/xL8gAA==/","_etag":"\"00002a08-0000-0100-0000-6352ccda0000\"","_colls":"colls/","_users":"users/","_ts":1666370778}}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases","name":"sample-sql-db-beta","properties":{"resource":{"id":"sample-sql-db-beta","_rid":"gzEGAA==","_self":"dbs/gzEGAA==/","_etag":"\"00009603-0000-0100-0000-6493315b0000\"","_colls":"colls/","_users":"users/","_ts":1687368027}}}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/f690a94a-de23-4f13-97f6-5c0e356940f2?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"status":"Succeeded"}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlRoleAssignments/2bffb017-2385-5855-9fac-9984a599e583?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlRoleAssignments/2bffb017-2385-5855-9fac-9984a599e583","name":"2bffb017-2385-5855-9fac-9984a599e583","properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlRoleDefinitions/00000000-0000-0000-0000-000000000002","principalId":"df2a8435-df64-4803-abf7-436cc3779660","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta"},"type":"Microsoft.DocumentDB/databaseAccounts/sqlRoleAssignments"}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -613,37 +883,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta?api-version=2021-05-15
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases","name":"sample-sql-db-beta","properties":{"resource":{"id":"sample-sql-db-beta","_rid":"xL8gAA==","_self":"dbs/xL8gAA==/","_etag":"\"00002a08-0000-0100-0000-6352ccda0000\"","_colls":"colls/","_users":"users/","_ts":1666370778}}}'
-    headers:
-      Cache-Control:
-      - no-store, no-cache
-      Content-Type:
-      - application/json
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Gatewayversion:
-      - version=2.14.0
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlRoleAssignments/8849e244-64ab-4943-a7ef-46e60e0d2562?api-version=2021-05-15
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlRoleAssignments/8849e244-64ab-4943-a7ef-46e60e0d2562","name":"8849e244-64ab-4943-a7ef-46e60e0d2562","properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlRoleDefinitions/00000000-0000-0000-0000-000000000002","principalId":"a5280cb0-2b74-466e-b151-4928864fe729","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta"},"type":"Microsoft.DocumentDB/databaseAccounts/sqlRoleAssignments"}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases","name":"sample-sql-db-beta","properties":{"resource":{"id":"sample-sql-db-beta","_rid":"gzEGAA==","_self":"dbs/gzEGAA==/","_etag":"\"00009603-0000-0100-0000-6493315b0000\"","_colls":"colls/","_users":"users/","_ts":1687368027}}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -672,10 +912,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlRoleAssignments/8849e244-64ab-4943-a7ef-46e60e0d2562?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlRoleAssignments/2bffb017-2385-5855-9fac-9984a599e583?api-version=2021-05-15
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlRoleAssignments/8849e244-64ab-4943-a7ef-46e60e0d2562","name":"8849e244-64ab-4943-a7ef-46e60e0d2562","properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlRoleDefinitions/00000000-0000-0000-0000-000000000002","principalId":"a5280cb0-2b74-466e-b151-4928864fe729","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta"},"type":"Microsoft.DocumentDB/databaseAccounts/sqlRoleAssignments"}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlRoleAssignments/2bffb017-2385-5855-9fac-9984a599e583","name":"2bffb017-2385-5855-9fac-9984a599e583","properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlRoleDefinitions/00000000-0000-0000-0000-000000000002","principalId":"df2a8435-df64-4803-abf7-436cc3779660","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta"},"type":"Microsoft.DocumentDB/databaseAccounts/sqlRoleAssignments"}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -714,7 +954,7 @@ interactions:
     body: '{"status":"Enqueued"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/35aad877-f20b-4843-b837-2a8acaa605a9?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/e7b8c925-1ae0-43ad-b0c2-02ecddb85ad8?api-version=2021-05-15
       Cache-Control:
       - no-store, no-cache
       Content-Length:
@@ -722,7 +962,7 @@ interactions:
       Content-Type:
       - application/json
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/operationResults/35aad877-f20b-4843-b837-2a8acaa605a9?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/operationResults/e7b8c925-1ae0-43ad-b0c2-02ecddb85ad8?api-version=2021-05-15
       Pragma:
       - no-cache
       Server:
@@ -754,7 +994,7 @@ interactions:
     body: '{"status":"Enqueued"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/a989356b-1629-4940-9617-a4abdb4f0db3?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/9e7a9279-039d-4433-8228-1ea5f68e9057?api-version=2021-05-15
       Cache-Control:
       - no-store, no-cache
       Content-Length:
@@ -762,7 +1002,7 @@ interactions:
       Content-Type:
       - application/json
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/throughputSettings/default/operationResults/a989356b-1629-4940-9617-a4abdb4f0db3?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/throughputSettings/default/operationResults/9e7a9279-039d-4433-8228-1ea5f68e9057?api-version=2021-05-15
       Pragma:
       - no-cache
       Server:
@@ -782,7 +1022,127 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/35aad877-f20b-4843-b837-2a8acaa605a9?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/e7b8c925-1ae0-43ad-b0c2-02ecddb85ad8?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"status":"Enqueued"}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/9e7a9279-039d-4433-8228-1ea5f68e9057?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"status":"Enqueued"}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/e7b8c925-1ae0-43ad-b0c2-02ecddb85ad8?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"status":"Dequeued"}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/9e7a9279-039d-4433-8228-1ea5f68e9057?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"status":"Dequeued"}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/9e7a9279-039d-4433-8228-1ea5f68e9057?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Succeeded"}'
@@ -811,8 +1171,100 @@ interactions:
     form: {}
     headers:
       Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/e7b8c925-1ae0-43ad-b0c2-02ecddb85ad8?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"status":"Dequeued"}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/a989356b-1629-4940-9617-a4abdb4f0db3?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/throughputSettings/default?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/throughputSettings","name":"auGv","properties":{"resource":{"throughput":400,"autoscaleSettings":{"maxThroughput":4000},"minimumThroughput":"1000"}}}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/throughputSettings/default?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/throughputSettings","name":"auGv","properties":{"resource":{"throughput":400,"autoscaleSettings":{"maxThroughput":4000},"minimumThroughput":"1000"}}}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/e7b8c925-1ae0-43ad-b0c2-02ecddb85ad8?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Succeeded"}'
@@ -845,37 +1297,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container?api-version=2021-05-15
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers","name":"sample-sql-container","properties":{"resource":{"id":"sample-sql-container","indexingPolicy":{"indexingMode":"consistent","automatic":true,"includedPaths":[{"path":"/*"}],"excludedPaths":[{"path":"/myPathToNotIndex/*"},{"path":"/\"_etag\"/?"}]},"partitionKey":{"paths":["/myPartitionKey"],"kind":"Hash"},"defaultTtl":200,"uniqueKeyPolicy":{"uniqueKeys":[]},"conflictResolutionPolicy":{"mode":"LastWriterWins","conflictResolutionPath":"/_ts","conflictResolutionProcedure":""},"geospatialConfig":{"type":"Geography"},"_rid":"xL8gAMfkzu0=","_ts":1666370900,"_self":"dbs/xL8gAA==/colls/xL8gAMfkzu0=/","_etag":"\"00003108-0000-0100-0000-6352cd540000\"","_docs":"docs/","_sprocs":"sprocs/","_triggers":"triggers/","_udfs":"udfs/","_conflicts":"conflicts/","statistics":[{"id":"0","sizeInKB":0,"documentCount":0,"sampledDistinctPartitionKeyCount":0,"partitionKeys":[]}]}}}'
-    headers:
-      Cache-Control:
-      - no-store, no-cache
-      Content-Type:
-      - application/json
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Gatewayversion:
-      - version=2.14.0
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/throughputSettings/default?api-version=2021-05-15
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/throughputSettings","name":"Kn30","properties":{"resource":{"throughput":400,"autoscaleSettings":{"maxThroughput":4000},"minimumThroughput":"1000"}}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers","name":"sample-sql-container","properties":{"resource":{"id":"sample-sql-container","indexingPolicy":{"indexingMode":"consistent","automatic":true,"includedPaths":[{"path":"/*"}],"excludedPaths":[{"path":"/myPathToNotIndex/*"},{"path":"/\"_etag\"/?"}]},"partitionKey":{"paths":["/myPartitionKey"],"kind":"Hash"},"defaultTtl":200,"uniqueKeyPolicy":{"uniqueKeys":[]},"conflictResolutionPolicy":{"mode":"LastWriterWins","conflictResolutionPath":"/_ts","conflictResolutionProcedure":""},"geospatialConfig":{"type":"Geography"},"_rid":"gzEGAPyQbq4=","_ts":1687368086,"_self":"dbs/gzEGAA==/colls/gzEGAPyQbq4=/","_etag":"\"00009d03-0000-0100-0000-649331960000\"","_docs":"docs/","_sprocs":"sprocs/","_triggers":"triggers/","_udfs":"udfs/","_conflicts":"conflicts/","statistics":[{"id":"0","sizeInKB":0,"documentCount":0,"sampledDistinctPartitionKeyCount":0,"partitionKeys":[]}]}}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -907,39 +1329,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container?api-version=2021-05-15
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers","name":"sample-sql-container","properties":{"resource":{"id":"sample-sql-container","indexingPolicy":{"indexingMode":"consistent","automatic":true,"includedPaths":[{"path":"/*"}],"excludedPaths":[{"path":"/myPathToNotIndex/*"},{"path":"/\"_etag\"/?"}]},"partitionKey":{"paths":["/myPartitionKey"],"kind":"Hash"},"defaultTtl":200,"uniqueKeyPolicy":{"uniqueKeys":[]},"conflictResolutionPolicy":{"mode":"LastWriterWins","conflictResolutionPath":"/_ts","conflictResolutionProcedure":""},"geospatialConfig":{"type":"Geography"},"_rid":"xL8gAMfkzu0=","_ts":1666370900,"_self":"dbs/xL8gAA==/colls/xL8gAMfkzu0=/","_etag":"\"00003108-0000-0100-0000-6352cd540000\"","_docs":"docs/","_sprocs":"sprocs/","_triggers":"triggers/","_udfs":"udfs/","_conflicts":"conflicts/","statistics":[{"id":"0","sizeInKB":0,"documentCount":0,"sampledDistinctPartitionKeyCount":0,"partitionKeys":[]}]}}}'
-    headers:
-      Cache-Control:
-      - no-store, no-cache
-      Content-Type:
-      - application/json
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Gatewayversion:
-      - version=2.14.0
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/throughputSettings/default?api-version=2021-05-15
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/throughputSettings","name":"Kn30","properties":{"resource":{"throughput":400,"autoscaleSettings":{"maxThroughput":4000},"minimumThroughput":"1000"}}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers","name":"sample-sql-container","properties":{"resource":{"id":"sample-sql-container","indexingPolicy":{"indexingMode":"consistent","automatic":true,"includedPaths":[{"path":"/*"}],"excludedPaths":[{"path":"/myPathToNotIndex/*"},{"path":"/\"_etag\"/?"}]},"partitionKey":{"paths":["/myPartitionKey"],"kind":"Hash"},"defaultTtl":200,"uniqueKeyPolicy":{"uniqueKeys":[]},"conflictResolutionPolicy":{"mode":"LastWriterWins","conflictResolutionPath":"/_ts","conflictResolutionProcedure":""},"geospatialConfig":{"type":"Geography"},"_rid":"gzEGAPyQbq4=","_ts":1687368086,"_self":"dbs/gzEGAA==/colls/gzEGAPyQbq4=/","_etag":"\"00009d03-0000-0100-0000-649331960000\"","_docs":"docs/","_sprocs":"sprocs/","_triggers":"triggers/","_udfs":"udfs/","_conflicts":"conflicts/","statistics":[{"id":"0","sizeInKB":0,"documentCount":0,"sampledDistinctPartitionKeyCount":0,"partitionKeys":[]}]}}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -980,7 +1370,7 @@ interactions:
     body: '{"status":"Enqueued"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/fe4228e2-6e65-4161-99fb-27c9a3552208?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/33ae1bee-9749-4c08-b930-843d0d0f7d82?api-version=2021-05-15
       Cache-Control:
       - no-store, no-cache
       Content-Length:
@@ -988,7 +1378,47 @@ interactions:
       Content-Type:
       - application/json
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/storedProcedures/sample-sql-stored-procedure/operationResults/fe4228e2-6e65-4161-99fb-27c9a3552208?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/storedProcedures/sample-sql-stored-procedure/operationResults/33ae1bee-9749-4c08-b930-843d0d0f7d82?api-version=2021-05-15
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: '{"name":"default","properties":{"resource":{"throughput":500}}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "63"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/throughputSettings/default?api-version=2021-05-15
+    method: PUT
+  response:
+    body: '{"status":"Enqueued"}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/d3e5f10b-c312-4130-aaa8-abf346f3c5d3?api-version=2021-05-15
+      Cache-Control:
+      - no-store, no-cache
+      Content-Length:
+      - "21"
+      Content-Type:
+      - application/json
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/throughputSettings/default/operationResults/d3e5f10b-c312-4130-aaa8-abf346f3c5d3?api-version=2021-05-15
       Pragma:
       - no-cache
       Server:
@@ -1023,7 +1453,7 @@ interactions:
     body: '{"status":"Enqueued"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/58eecdf7-3c16-4c8a-9bad-f047a6f6f79a?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/f83532c5-395d-446a-9b32-a027dd6dac7a?api-version=2021-05-15
       Cache-Control:
       - no-store, no-cache
       Content-Length:
@@ -1031,7 +1461,7 @@ interactions:
       Content-Type:
       - application/json
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/triggers/sample-sql-trigger/operationResults/58eecdf7-3c16-4c8a-9bad-f047a6f6f79a?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/triggers/sample-sql-trigger/operationResults/f83532c5-395d-446a-9b32-a027dd6dac7a?api-version=2021-05-15
       Pragma:
       - no-cache
       Server:
@@ -1066,7 +1496,7 @@ interactions:
     body: '{"status":"Enqueued"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/bee965e4-88ce-440a-a48b-a41dc719be02?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/0d82d864-2481-4c57-bbe4-963ea75a1cda?api-version=2021-05-15
       Cache-Control:
       - no-store, no-cache
       Content-Length:
@@ -1074,7 +1504,7 @@ interactions:
       Content-Type:
       - application/json
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/userDefinedFunctions/sample-sql-function/operationResults/bee965e4-88ce-440a-a48b-a41dc719be02?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/userDefinedFunctions/sample-sql-function/operationResults/0d82d864-2481-4c57-bbe4-963ea75a1cda?api-version=2021-05-15
       Pragma:
       - no-cache
       Server:
@@ -1089,44 +1519,34 @@ interactions:
     code: 202
     duration: ""
 - request:
-    body: '{"name":"default","properties":{"resource":{"throughput":500}}}'
+    body: ""
     form: {}
     headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "63"
-      Content-Type:
-      - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/throughputSettings/default?api-version=2021-05-15
-    method: PUT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/0d82d864-2481-4c57-bbe4-963ea75a1cda?api-version=2021-05-15
+    method: GET
   response:
     body: '{"status":"Enqueued"}'
     headers:
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/cb98e5c0-c91b-4969-b3ac-8e243aa3a249?api-version=2021-05-15
       Cache-Control:
       - no-store, no-cache
-      Content-Length:
-      - "21"
       Content-Type:
       - application/json
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/throughputSettings/default/operationResults/cb98e5c0-c91b-4969-b3ac-8e243aa3a249?api-version=2021-05-15
       Pragma:
       - no-cache
       Server:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
       X-Ms-Gatewayversion:
       - version=2.14.0
-    status: 202 Accepted
-    code: 202
+    status: 200 OK
+    code: 200
     duration: ""
 - request:
     body: ""
@@ -1134,10 +1554,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/58eecdf7-3c16-4c8a-9bad-f047a6f6f79a?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/f83532c5-395d-446a-9b32-a027dd6dac7a?api-version=2021-05-15
     method: GET
   response:
-    body: '{"status":"Succeeded"}'
+    body: '{"status":"Enqueued"}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1164,10 +1584,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/fe4228e2-6e65-4161-99fb-27c9a3552208?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/d3e5f10b-c312-4130-aaa8-abf346f3c5d3?api-version=2021-05-15
     method: GET
   response:
-    body: '{"status":"Succeeded"}'
+    body: '{"status":"Enqueued"}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1194,10 +1614,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/bee965e4-88ce-440a-a48b-a41dc719be02?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/33ae1bee-9749-4c08-b930-843d0d0f7d82?api-version=2021-05-15
     method: GET
   response:
-    body: '{"status":"Succeeded"}'
+    body: '{"status":"Enqueued"}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1223,14 +1643,11 @@ interactions:
     form: {}
     headers:
       Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/triggers/sample-sql-trigger?api-version=2021-05-15
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/0d82d864-2481-4c57-bbe4-963ea75a1cda?api-version=2021-05-15
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/triggers/sample-sql-trigger","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers","name":"sample-sql-trigger","properties":{"resource":{"body":"function
-      validateToDoItemTimestamp(){\n    var context=getContext();\n    var request=context.getRequest();\n    var
-      itemToCreate=request.getBody();\n    if(!(''timestamp'' in itemToCreate)) {\n         var
-      ts=new Date();\n         itemToCreate[''timestamp'']=ts.getTime();\n    }\n    request.setBody(itemToCreate);\n}\n","id":"sample-sql-trigger","triggerOperation":"Create","triggerType":"Pre","_rid":"xL8gAMfkzu0BAAAAAAAAcA==","_self":"dbs/xL8gAA==/colls/xL8gAMfkzu0=/triggers/xL8gAMfkzu0BAAAAAAAAcA==/","_etag":"\"1f00a9e4-0000-0100-0000-6352cdc90000\"","_ts":1666371017}}}'
+    body: '{"status":"Dequeued"}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1256,13 +1673,11 @@ interactions:
     form: {}
     headers:
       Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/storedProcedures/sample-sql-stored-procedure?api-version=2021-05-15
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/d3e5f10b-c312-4130-aaa8-abf346f3c5d3?api-version=2021-05-15
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/storedProcedures/sample-sql-stored-procedure","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures","name":"sample-sql-stored-procedure","properties":{"resource":{"body":"function
-      () {\n    var context = getContext();\n    var response = context.getResponse();\n    response.setBody(''Hello,
-      World'');\n}\n","id":"sample-sql-stored-procedure","_rid":"xL8gAMfkzu0BAAAAAAAAgA==","_self":"dbs/xL8gAA==/colls/xL8gAMfkzu0=/sprocs/xL8gAMfkzu0BAAAAAAAAgA==/","_etag":"\"1f00a6e4-0000-0100-0000-6352cdc90000\"","_ts":1666371017}}}'
+    body: '{"status":"Dequeued"}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1288,8 +1703,68 @@ interactions:
     form: {}
     headers:
       Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/cb98e5c0-c91b-4969-b3ac-8e243aa3a249?api-version=2021-05-15
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/f83532c5-395d-446a-9b32-a027dd6dac7a?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"status":"Dequeued"}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/33ae1bee-9749-4c08-b930-843d0d0f7d82?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"status":"Dequeued"}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/0d82d864-2481-4c57-bbe4-963ea75a1cda?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Succeeded"}'
@@ -1325,7 +1800,7 @@ interactions:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/userDefinedFunctions/sample-sql-function","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/userDefinedFunctions","name":"sample-sql-function","properties":{"resource":{"body":"function
       tax(income) {\n    if (income == undefined)\n        throw ''no input'';\n    if
       (income < 1000)\n        return income*0.1;\n    else if(income < 10000)\n        return
-      income*0.2;\n    else\n        return income*0.4;\n}\n","id":"sample-sql-function","_rid":"xL8gAMfkzu0BAAAAAAAAYA==","_self":"dbs/xL8gAA==/colls/xL8gAMfkzu0=/udfs/xL8gAMfkzu0BAAAAAAAAYA==/","_etag":"\"1f00a7e4-0000-0100-0000-6352cdc90000\"","_ts":1666371017}}}'
+      income*0.2;\n    else\n        return income*0.4;\n}\n","id":"sample-sql-function","_rid":"gzEGAPyQbq4BAAAAAAAAYA==","_self":"dbs/gzEGAA==/colls/gzEGAPyQbq4=/udfs/gzEGAPyQbq4BAAAAAAAAYA==/","_etag":"\"2f00b2d9-0000-0100-0000-649331cf0000\"","_ts":1687368143}}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1360,7 +1835,67 @@ interactions:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/userDefinedFunctions/sample-sql-function","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/userDefinedFunctions","name":"sample-sql-function","properties":{"resource":{"body":"function
       tax(income) {\n    if (income == undefined)\n        throw ''no input'';\n    if
       (income < 1000)\n        return income*0.1;\n    else if(income < 10000)\n        return
-      income*0.2;\n    else\n        return income*0.4;\n}\n","id":"sample-sql-function","_rid":"xL8gAMfkzu0BAAAAAAAAYA==","_self":"dbs/xL8gAA==/colls/xL8gAMfkzu0=/udfs/xL8gAMfkzu0BAAAAAAAAYA==/","_etag":"\"1f00a7e4-0000-0100-0000-6352cdc90000\"","_ts":1666371017}}}'
+      income*0.2;\n    else\n        return income*0.4;\n}\n","id":"sample-sql-function","_rid":"gzEGAPyQbq4BAAAAAAAAYA==","_self":"dbs/gzEGAA==/colls/gzEGAPyQbq4=/udfs/gzEGAPyQbq4BAAAAAAAAYA==/","_etag":"\"2f00b2d9-0000-0100-0000-649331cf0000\"","_ts":1687368143}}}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/d3e5f10b-c312-4130-aaa8-abf346f3c5d3?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"status":"Succeeded"}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/throughputSettings/default?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/throughputSettings","name":"2-9D","properties":{"resource":{"throughput":500,"minimumThroughput":"400"}}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1389,12 +1924,73 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/storedProcedures/sample-sql-stored-procedure?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/throughputSettings/default?api-version=2021-05-15
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/storedProcedures/sample-sql-stored-procedure","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures","name":"sample-sql-stored-procedure","properties":{"resource":{"body":"function
-      () {\n    var context = getContext();\n    var response = context.getResponse();\n    response.setBody(''Hello,
-      World'');\n}\n","id":"sample-sql-stored-procedure","_rid":"xL8gAMfkzu0BAAAAAAAAgA==","_self":"dbs/xL8gAA==/colls/xL8gAMfkzu0=/sprocs/xL8gAMfkzu0BAAAAAAAAgA==/","_etag":"\"1f00a6e4-0000-0100-0000-6352cdc90000\"","_ts":1666371017}}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/throughputSettings","name":"2-9D","properties":{"resource":{"throughput":500,"minimumThroughput":"400"}}}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/f83532c5-395d-446a-9b32-a027dd6dac7a?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"status":"Succeeded"}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/triggers/sample-sql-trigger?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/triggers/sample-sql-trigger","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers","name":"sample-sql-trigger","properties":{"resource":{"body":"function
+      validateToDoItemTimestamp(){\n    var context=getContext();\n    var request=context.getRequest();\n    var
+      itemToCreate=request.getBody();\n    if(!(''timestamp'' in itemToCreate)) {\n         var
+      ts=new Date();\n         itemToCreate[''timestamp'']=ts.getTime();\n    }\n    request.setBody(itemToCreate);\n}\n","id":"sample-sql-trigger","triggerOperation":"Create","triggerType":"Pre","_rid":"gzEGAPyQbq4BAAAAAAAAcA==","_self":"dbs/gzEGAA==/colls/gzEGAPyQbq4=/triggers/gzEGAPyQbq4BAAAAAAAAcA==/","_etag":"\"2f00b5d9-0000-0100-0000-649331cf0000\"","_ts":1687368143}}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1429,7 +2025,37 @@ interactions:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/triggers/sample-sql-trigger","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers","name":"sample-sql-trigger","properties":{"resource":{"body":"function
       validateToDoItemTimestamp(){\n    var context=getContext();\n    var request=context.getRequest();\n    var
       itemToCreate=request.getBody();\n    if(!(''timestamp'' in itemToCreate)) {\n         var
-      ts=new Date();\n         itemToCreate[''timestamp'']=ts.getTime();\n    }\n    request.setBody(itemToCreate);\n}\n","id":"sample-sql-trigger","triggerOperation":"Create","triggerType":"Pre","_rid":"xL8gAMfkzu0BAAAAAAAAcA==","_self":"dbs/xL8gAA==/colls/xL8gAMfkzu0=/triggers/xL8gAMfkzu0BAAAAAAAAcA==/","_etag":"\"1f00a9e4-0000-0100-0000-6352cdc90000\"","_ts":1666371017}}}'
+      ts=new Date();\n         itemToCreate[''timestamp'']=ts.getTime();\n    }\n    request.setBody(itemToCreate);\n}\n","id":"sample-sql-trigger","triggerOperation":"Create","triggerType":"Pre","_rid":"gzEGAPyQbq4BAAAAAAAAcA==","_self":"dbs/gzEGAA==/colls/gzEGAPyQbq4=/triggers/gzEGAPyQbq4BAAAAAAAAcA==/","_etag":"\"2f00b5d9-0000-0100-0000-649331cf0000\"","_ts":1687368143}}}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/33ae1bee-9749-4c08-b930-843d0d0f7d82?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"status":"Succeeded"}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1456,10 +2082,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/throughputSettings/default?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/storedProcedures/sample-sql-stored-procedure?api-version=2021-05-15
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/throughputSettings","name":"oi4d","properties":{"resource":{"throughput":500,"minimumThroughput":"400"}}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/storedProcedures/sample-sql-stored-procedure","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures","name":"sample-sql-stored-procedure","properties":{"resource":{"body":"function
+      () {\n    var context = getContext();\n    var response = context.getResponse();\n    response.setBody(''Hello,
+      World'');\n}\n","id":"sample-sql-stored-procedure","_rid":"gzEGAPyQbq4BAAAAAAAAgA==","_self":"dbs/gzEGAA==/colls/gzEGAPyQbq4=/sprocs/gzEGAPyQbq4BAAAAAAAAgA==/","_etag":"\"2f00b3d9-0000-0100-0000-649331cf0000\"","_ts":1687368143}}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1488,10 +2116,12 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/throughputSettings/default?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/storedProcedures/sample-sql-stored-procedure?api-version=2021-05-15
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/throughputSettings","name":"oi4d","properties":{"resource":{"throughput":500,"minimumThroughput":"400"}}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/storedProcedures/sample-sql-stored-procedure","type":"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures","name":"sample-sql-stored-procedure","properties":{"resource":{"body":"function
+      () {\n    var context = getContext();\n    var response = context.getResponse();\n    response.setBody(''Hello,
+      World'');\n}\n","id":"sample-sql-stored-procedure","_rid":"gzEGAPyQbq4BAAAAAAAAgA==","_self":"dbs/gzEGAA==/colls/gzEGAPyQbq4=/sprocs/gzEGAPyQbq4BAAAAAAAAgA==/","_etag":"\"2f00b3d9-0000-0100-0000-649331cf0000\"","_ts":1687368143}}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -2934,40 +3564,6 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlRoleAssignments/8849e244-64ab-4943-a7ef-46e60e0d2562?api-version=2021-05-15
-    method: DELETE
-  response:
-    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta''
-      under resource group ''asotest-rg-qvtfsg'' was not found. For more details please
-      go to https://aka.ms/ARMResourceNotFoundFix"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "252"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta?api-version=2021-05-15
     method: DELETE
   response:
@@ -3002,7 +3598,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/throughputSettings/default?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlRoleAssignments/2bffb017-2385-5855-9fac-9984a599e583?api-version=2021-05-15
     method: DELETE
   response:
     body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta''
@@ -3070,41 +3666,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/userDefinedFunctions/sample-sql-function?api-version=2021-05-15
-    method: DELETE
-  response:
-    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta''
-      under resource group ''asotest-rg-qvtfsg'' was not found. For more details please
-      go to https://aka.ms/ARMResourceNotFoundFix"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "252"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/triggers/sample-sql-trigger?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/throughputSettings/default?api-version=2021-05-15
     method: DELETE
   response:
     body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta''
@@ -3173,6 +3735,74 @@ interactions:
       Test-Request-Attempt:
       - "0"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/throughputSettings/default?api-version=2021-05-15
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta''
+      under resource group ''asotest-rg-qvtfsg'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "252"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/triggers/sample-sql-trigger?api-version=2021-05-15
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta''
+      under resource group ''asotest-rg-qvtfsg'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "252"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qvtfsg/providers/Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta/sqlDatabases/sample-sql-db-beta/containers/sample-sql-container/userDefinedFunctions/sample-sql-function?api-version=2021-05-15
     method: DELETE
   response:
     body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DocumentDB/databaseAccounts/sample-sqldb-account-beta''

@@ -20,8 +20,6 @@ interactions:
     headers:
       Cache-Control:
       - no-cache
-      Content-Length:
-      - "276"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -30,10 +28,12 @@ interactions:
       - no-cache
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-    status: 201 Created
-    code: 201
+    status: 200 OK
+    code: 200
     duration: ""
 - request:
     body: ""
@@ -50,8 +50,6 @@ interactions:
     headers:
       Cache-Control:
       - no-cache
-      Content-Length:
-      - "276"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -60,24 +58,26 @@ interactions:
       - no-cache
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
     status: 200 OK
     code: 200
     duration: ""
 - request:
-    body: '{"kind":"StorageV2","location":"eastus2","name":"asosynapsestorage","properties":{"isHnsEnabled":true},"sku":{"name":"Standard_LRS"}}'
+    body: '{"kind":"StorageV2","location":"eastus2","name":"asotestsynapse","properties":{"isHnsEnabled":true},"sku":{"name":"Standard_LRS"},"tags":null}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "133"
+      - "142"
       Content-Type:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Storage/storageAccounts/asosynapsestorage?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Storage/storageAccounts/asotestsynapse?api-version=2021-04-01
     method: PUT
   response:
     body: ""
@@ -91,7 +91,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus2/asyncoperations/dd14f0aa-8a32-4981-bf30-6556e31f7ce1?monitor=true&api-version=2021-04-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus2/asyncoperations/ed1d82ac-f521-494e-a53b-5c80f73d4064?monitor=true&api-version=2021-04-01
       Pragma:
       - no-cache
       Retry-After:
@@ -111,7 +111,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus2/asyncoperations/dd14f0aa-8a32-4981-bf30-6556e31f7ce1?monitor=true&api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus2/asyncoperations/ed1d82ac-f521-494e-a53b-5c80f73d4064?monitor=true&api-version=2021-04-01
     method: GET
   response:
     body: ""
@@ -125,7 +125,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus2/asyncoperations/dd14f0aa-8a32-4981-bf30-6556e31f7ce1?monitor=true&api-version=2021-04-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus2/asyncoperations/ed1d82ac-f521-494e-a53b-5c80f73d4064?monitor=true&api-version=2021-04-01
       Pragma:
       - no-cache
       Retry-After:
@@ -145,15 +145,13 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus2/asyncoperations/dd14f0aa-8a32-4981-bf30-6556e31f7ce1?monitor=true&api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/eastus2/asyncoperations/ed1d82ac-f521-494e-a53b-5c80f73d4064?monitor=true&api-version=2021-04-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"StorageV2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Storage/storageAccounts/asosynapsestorage","name":"asosynapsestorage","type":"Microsoft.Storage/storageAccounts","location":"eastus2","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"privateEndpointConnections":[],"isHnsEnabled":true,"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://asosynapsestorage.dfs.core.windows.net/","web":"https://asosynapsestorage.z20.web.core.windows.net/","blob":"https://asosynapsestorage.blob.core.windows.net/","queue":"https://asosynapsestorage.queue.core.windows.net/","table":"https://asosynapsestorage.table.core.windows.net/","file":"https://asosynapsestorage.file.core.windows.net/"},"primaryLocation":"eastus2","statusOfPrimary":"available"}}'
+    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"StorageV2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Storage/storageAccounts/asotestsynapse","name":"asotestsynapse","type":"Microsoft.Storage/storageAccounts","location":"eastus2","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"privateEndpointConnections":[],"isHnsEnabled":true,"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://asotestsynapse.dfs.core.windows.net/","web":"https://asotestsynapse.z20.web.core.windows.net/","blob":"https://asotestsynapse.blob.core.windows.net/","queue":"https://asotestsynapse.queue.core.windows.net/","table":"https://asotestsynapse.table.core.windows.net/","file":"https://asotestsynapse.file.core.windows.net/"},"primaryLocation":"eastus2","statusOfPrimary":"available"}}'
     headers:
       Cache-Control:
       - no-cache
-      Content-Length:
-      - "1395"
       Content-Type:
       - application/json
       Expires:
@@ -164,6 +162,8 @@ interactions:
       - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
     status: 200 OK
@@ -177,15 +177,13 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Storage/storageAccounts/asosynapsestorage?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Storage/storageAccounts/asotestsynapse?api-version=2021-04-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"StorageV2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Storage/storageAccounts/asosynapsestorage","name":"asosynapsestorage","type":"Microsoft.Storage/storageAccounts","location":"eastus2","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"privateEndpointConnections":[],"isHnsEnabled":true,"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://asosynapsestorage.dfs.core.windows.net/","web":"https://asosynapsestorage.z20.web.core.windows.net/","blob":"https://asosynapsestorage.blob.core.windows.net/","queue":"https://asosynapsestorage.queue.core.windows.net/","table":"https://asosynapsestorage.table.core.windows.net/","file":"https://asosynapsestorage.file.core.windows.net/"},"primaryLocation":"eastus2","statusOfPrimary":"available"}}'
+    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"StorageV2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Storage/storageAccounts/asotestsynapse","name":"asotestsynapse","type":"Microsoft.Storage/storageAccounts","location":"eastus2","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"privateEndpointConnections":[],"isHnsEnabled":true,"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://asotestsynapse.dfs.core.windows.net/","web":"https://asotestsynapse.z20.web.core.windows.net/","blob":"https://asotestsynapse.blob.core.windows.net/","queue":"https://asotestsynapse.queue.core.windows.net/","table":"https://asotestsynapse.table.core.windows.net/","file":"https://asotestsynapse.file.core.windows.net/"},"primaryLocation":"eastus2","statusOfPrimary":"available"}}'
     headers:
       Cache-Control:
       - no-cache
-      Content-Length:
-      - "1395"
       Content-Type:
       - application/json
       Expires:
@@ -196,19 +194,21 @@ interactions:
       - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
     status: 200 OK
     code: 200
     duration: ""
 - request:
-    body: '{"identity":{"type":"SystemAssigned"},"location":"eastus2","name":"asotestxnnivy","properties":{"defaultDataLakeStorage":{"accountUrl":"https://asosynapsestorage.dfs.core.windows.net/","filesystem":"default"}}}'
+    body: '{"identity":{"type":"SystemAssigned"},"location":"eastus2","name":"asotestxnnivy","properties":{"defaultDataLakeStorage":{"accountUrl":"https://asotestsynapse.dfs.core.windows.net/","filesystem":"default"}}}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "210"
+      - "207"
       Content-Type:
       - application/json
       Test-Request-Attempt:
@@ -216,14 +216,14 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy?api-version=2021-06-01
     method: PUT
   response:
-    body: '{"properties":{"defaultDataLakeStorage":{"createManagedPrivateEndpoint":false,"accountUrl":"https://asosynapsestorage.dfs.core.windows.net/","filesystem":"default"},"encryption":{"doubleEncryptionEnabled":false},"provisioningState":"Provisioning","connectivityEndpoints":{"web":"https://web.azuresynapse.net?workspace=%2fsubscriptions%2f00000000-0000-0000-0000-000000000000%2fresourceGroups%2fasotest-rg-nxirwm%2fproviders%2fMicrosoft.Synapse%2fworkspaces%2fasotestxnnivy","dev":"https://asotestxnnivy.dev.azuresynapse.net","sqlOnDemand":"asotestxnnivy-ondemand.sql.azuresynapse.net","sql":"asotestxnnivy.sql.azuresynapse.net"},"managedResourceGroupName":"synapseworkspace-managedrg-83f40f21-9fae-4f7b-ab79-2cdfc011b2ad","privateEndpointConnections":[],"workspaceUID":"2c4f847b-a8bc-4f09-a564-5f52576b8a23","extraProperties":{"WorkspaceType":"Normal"},"publicNetworkAccess":"Enabled","cspWorkspaceAdminProperties":{"initialWorkspaceAdminObjectId":"84f47115-7605-44df-accf-7e01c55e425f"},"trustedServiceBypassEnabled":false},"type":"Microsoft.Synapse/workspaces","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy","location":"eastus2","name":"asotestxnnivy","identity":{"type":"SystemAssigned","tenantId":"00000000-0000-0000-0000-000000000000","principalId":"847f80aa-a500-4ed5-a133-1f7d892b490e"}}'
+    body: '{"properties":{"defaultDataLakeStorage":{"createManagedPrivateEndpoint":false,"accountUrl":"https://asotestsynapse.dfs.core.windows.net/","filesystem":"default"},"encryption":{"doubleEncryptionEnabled":false},"provisioningState":"Provisioning","connectivityEndpoints":{"web":"https://web.azuresynapse.net?workspace=%2fsubscriptions%2f00000000-0000-0000-0000-000000000000%2fresourceGroups%2fasotest-rg-nxirwm%2fproviders%2fMicrosoft.Synapse%2fworkspaces%2fasotestxnnivy","dev":"https://asotestxnnivy.dev.azuresynapse.net","sqlOnDemand":"asotestxnnivy-ondemand.sql.azuresynapse.net","sql":"asotestxnnivy.sql.azuresynapse.net"},"managedResourceGroupName":"synapseworkspace-managedrg-c6bc0f14-67aa-48e6-b464-b4d4fccc8d33","privateEndpointConnections":[],"workspaceUID":"c775cc49-6067-4ec6-ac0a-c87aa5a0d3de","extraProperties":{"WorkspaceType":"Normal"},"publicNetworkAccess":"Enabled","cspWorkspaceAdminProperties":{"initialWorkspaceAdminObjectId":"bc852d4f-af2c-4d40-a567-42ab19a57e30"},"trustedServiceBypassEnabled":false},"type":"Microsoft.Synapse/workspaces","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy","location":"eastus2","name":"asotestxnnivy","identity":{"type":"SystemAssigned","tenantId":"00000000-0000-0000-0000-000000000000","principalId":"62b0c1a9-df5f-4d68-979e-55340e4a80b5"}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy/operationStatuses/3c6a36af-7af1-4c9b-97b2-3fa34805f44f?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy/operationStatuses/4f247584-e574-44f9-8933-3346554eeec8?api-version=2021-06-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "1391"
+      - "1388"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -245,15 +245,13 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy/operationStatuses/3c6a36af-7af1-4c9b-97b2-3fa34805f44f?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy/operationStatuses/4f247584-e574-44f9-8933-3346554eeec8?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"InProgress"}'
     headers:
       Cache-Control:
       - no-cache
-      Content-Length:
-      - "23"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -264,6 +262,8 @@ interactions:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
     status: 200 OK
@@ -275,15 +275,13 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy/operationStatuses/3c6a36af-7af1-4c9b-97b2-3fa34805f44f?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy/operationStatuses/4f247584-e574-44f9-8933-3346554eeec8?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"InProgress"}'
     headers:
       Cache-Control:
       - no-cache
-      Content-Length:
-      - "23"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -294,6 +292,8 @@ interactions:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
     status: 200 OK
@@ -305,15 +305,13 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy/operationStatuses/3c6a36af-7af1-4c9b-97b2-3fa34805f44f?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy/operationStatuses/4f247584-e574-44f9-8933-3346554eeec8?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"InProgress"}'
     headers:
       Cache-Control:
       - no-cache
-      Content-Length:
-      - "23"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -324,6 +322,8 @@ interactions:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
     status: 200 OK
@@ -335,15 +335,13 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy/operationStatuses/3c6a36af-7af1-4c9b-97b2-3fa34805f44f?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy/operationStatuses/4f247584-e574-44f9-8933-3346554eeec8?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"InProgress"}'
     headers:
       Cache-Control:
       - no-cache
-      Content-Length:
-      - "23"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -354,6 +352,8 @@ interactions:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
     status: 200 OK
@@ -365,15 +365,13 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy/operationStatuses/3c6a36af-7af1-4c9b-97b2-3fa34805f44f?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy/operationStatuses/4f247584-e574-44f9-8933-3346554eeec8?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"InProgress"}'
     headers:
       Cache-Control:
       - no-cache
-      Content-Length:
-      - "23"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -384,6 +382,8 @@ interactions:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
     status: 200 OK
@@ -395,15 +395,13 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy/operationStatuses/3c6a36af-7af1-4c9b-97b2-3fa34805f44f?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy/operationStatuses/4f247584-e574-44f9-8933-3346554eeec8?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"InProgress"}'
     headers:
       Cache-Control:
       - no-cache
-      Content-Length:
-      - "23"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -414,6 +412,8 @@ interactions:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
     status: 200 OK
@@ -425,7 +425,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "6"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy/operationStatuses/3c6a36af-7af1-4c9b-97b2-3fa34805f44f?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy/operationStatuses/4f247584-e574-44f9-8933-3346554eeec8?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"InProgress"}'
@@ -455,7 +455,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "7"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy/operationStatuses/3c6a36af-7af1-4c9b-97b2-3fa34805f44f?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy/operationStatuses/4f247584-e574-44f9-8933-3346554eeec8?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"Succeeded"}'
@@ -488,7 +488,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy?api-version=2021-06-01
     method: GET
   response:
-    body: '{"properties":{"defaultDataLakeStorage":{"createManagedPrivateEndpoint":false,"accountUrl":"https://asosynapsestorage.dfs.core.windows.net/","filesystem":"default"},"encryption":{"doubleEncryptionEnabled":false},"provisioningState":"Succeeded","connectivityEndpoints":{"web":"https://web.azuresynapse.net?workspace=%2fsubscriptions%2f00000000-0000-0000-0000-000000000000%2fresourceGroups%2fasotest-rg-nxirwm%2fproviders%2fMicrosoft.Synapse%2fworkspaces%2fasotestxnnivy","dev":"https://asotestxnnivy.dev.azuresynapse.net","sqlOnDemand":"asotestxnnivy-ondemand.sql.azuresynapse.net","sql":"asotestxnnivy.sql.azuresynapse.net"},"managedResourceGroupName":"synapseworkspace-managedrg-83f40f21-9fae-4f7b-ab79-2cdfc011b2ad","sqlAdministratorLogin":"sqladminuser","privateEndpointConnections":[],"workspaceUID":"2c4f847b-a8bc-4f09-a564-5f52576b8a23","extraProperties":{"WorkspaceType":"Normal","IsScopeEnabled":false},"publicNetworkAccess":"Enabled","cspWorkspaceAdminProperties":{"initialWorkspaceAdminObjectId":"84f47115-7605-44df-accf-7e01c55e425f"},"trustedServiceBypassEnabled":false},"type":"Microsoft.Synapse/workspaces","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy","location":"eastus2","name":"asotestxnnivy","identity":{"type":"SystemAssigned","tenantId":"00000000-0000-0000-0000-000000000000","principalId":"847f80aa-a500-4ed5-a133-1f7d892b490e"}}'
+    body: '{"properties":{"defaultDataLakeStorage":{"createManagedPrivateEndpoint":false,"accountUrl":"https://asotestsynapse.dfs.core.windows.net/","filesystem":"default"},"encryption":{"doubleEncryptionEnabled":false},"provisioningState":"Succeeded","connectivityEndpoints":{"web":"https://web.azuresynapse.net?workspace=%2fsubscriptions%2f00000000-0000-0000-0000-000000000000%2fresourceGroups%2fasotest-rg-nxirwm%2fproviders%2fMicrosoft.Synapse%2fworkspaces%2fasotestxnnivy","dev":"https://asotestxnnivy.dev.azuresynapse.net","sqlOnDemand":"asotestxnnivy-ondemand.sql.azuresynapse.net","sql":"asotestxnnivy.sql.azuresynapse.net"},"managedResourceGroupName":"synapseworkspace-managedrg-c6bc0f14-67aa-48e6-b464-b4d4fccc8d33","sqlAdministratorLogin":"sqladminuser","privateEndpointConnections":[],"workspaceUID":"c775cc49-6067-4ec6-ac0a-c87aa5a0d3de","extraProperties":{"WorkspaceType":"Normal","IsScopeEnabled":false},"publicNetworkAccess":"Enabled","cspWorkspaceAdminProperties":{"initialWorkspaceAdminObjectId":"bc852d4f-af2c-4d40-a567-42ab19a57e30"},"trustedServiceBypassEnabled":false},"type":"Microsoft.Synapse/workspaces","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy","location":"eastus2","name":"asotestxnnivy","identity":{"type":"SystemAssigned","tenantId":"00000000-0000-0000-0000-000000000000","principalId":"62b0c1a9-df5f-4d68-979e-55340e4a80b5"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -520,7 +520,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy?api-version=2021-06-01
     method: GET
   response:
-    body: '{"properties":{"defaultDataLakeStorage":{"createManagedPrivateEndpoint":false,"accountUrl":"https://asosynapsestorage.dfs.core.windows.net/","filesystem":"default"},"encryption":{"doubleEncryptionEnabled":false},"provisioningState":"Succeeded","connectivityEndpoints":{"web":"https://web.azuresynapse.net?workspace=%2fsubscriptions%2f00000000-0000-0000-0000-000000000000%2fresourceGroups%2fasotest-rg-nxirwm%2fproviders%2fMicrosoft.Synapse%2fworkspaces%2fasotestxnnivy","dev":"https://asotestxnnivy.dev.azuresynapse.net","sqlOnDemand":"asotestxnnivy-ondemand.sql.azuresynapse.net","sql":"asotestxnnivy.sql.azuresynapse.net"},"managedResourceGroupName":"synapseworkspace-managedrg-83f40f21-9fae-4f7b-ab79-2cdfc011b2ad","sqlAdministratorLogin":"sqladminuser","privateEndpointConnections":[],"workspaceUID":"2c4f847b-a8bc-4f09-a564-5f52576b8a23","extraProperties":{"WorkspaceType":"Normal","IsScopeEnabled":false},"publicNetworkAccess":"Enabled","cspWorkspaceAdminProperties":{"initialWorkspaceAdminObjectId":"84f47115-7605-44df-accf-7e01c55e425f"},"trustedServiceBypassEnabled":false},"type":"Microsoft.Synapse/workspaces","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy","location":"eastus2","name":"asotestxnnivy","identity":{"type":"SystemAssigned","tenantId":"00000000-0000-0000-0000-000000000000","principalId":"847f80aa-a500-4ed5-a133-1f7d892b490e"}}'
+    body: '{"properties":{"defaultDataLakeStorage":{"createManagedPrivateEndpoint":false,"accountUrl":"https://asotestsynapse.dfs.core.windows.net/","filesystem":"default"},"encryption":{"doubleEncryptionEnabled":false},"provisioningState":"Succeeded","connectivityEndpoints":{"web":"https://web.azuresynapse.net?workspace=%2fsubscriptions%2f00000000-0000-0000-0000-000000000000%2fresourceGroups%2fasotest-rg-nxirwm%2fproviders%2fMicrosoft.Synapse%2fworkspaces%2fasotestxnnivy","dev":"https://asotestxnnivy.dev.azuresynapse.net","sqlOnDemand":"asotestxnnivy-ondemand.sql.azuresynapse.net","sql":"asotestxnnivy.sql.azuresynapse.net"},"managedResourceGroupName":"synapseworkspace-managedrg-c6bc0f14-67aa-48e6-b464-b4d4fccc8d33","sqlAdministratorLogin":"sqladminuser","privateEndpointConnections":[],"workspaceUID":"c775cc49-6067-4ec6-ac0a-c87aa5a0d3de","extraProperties":{"WorkspaceType":"Normal","IsScopeEnabled":false},"publicNetworkAccess":"Enabled","cspWorkspaceAdminProperties":{"initialWorkspaceAdminObjectId":"bc852d4f-af2c-4d40-a567-42ab19a57e30"},"trustedServiceBypassEnabled":false},"type":"Microsoft.Synapse/workspaces","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy","location":"eastus2","name":"asotestxnnivy","identity":{"type":"SystemAssigned","tenantId":"00000000-0000-0000-0000-000000000000","principalId":"62b0c1a9-df5f-4d68-979e-55340e4a80b5"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -563,17 +563,17 @@ interactions:
       Access-Control-Expose-Headers:
       - Location
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy/operationStatuses/fae00347-945e-4c02-bbaf-96f55a218e2d?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy/operationStatuses/7279bb3b-d72a-4703-810f-14f6b41ec552?api-version=2021-06-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "718"
+      - "724"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy/operationResults/fae00347-945e-4c02-bbaf-96f55a218e2d?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy/operationResults/7279bb3b-d72a-4703-810f-14f6b41ec552?api-version=2021-06-01
       Pragma:
       - no-cache
       Server:
@@ -591,7 +591,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy/operationStatuses/fae00347-945e-4c02-bbaf-96f55a218e2d?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy/operationStatuses/7279bb3b-d72a-4703-810f-14f6b41ec552?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"InProgress"}'
@@ -621,37 +621,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy/operationStatuses/fae00347-945e-4c02-bbaf-96f55a218e2d?api-version=2021-06-01
-    method: GET
-  response:
-    body: '{"status":"InProgress"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy/operationStatuses/fae00347-945e-4c02-bbaf-96f55a218e2d?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Synapse/workspaces/asotestxnnivy/operationStatuses/7279bb3b-d72a-4703-810f-14f6b41ec552?api-version=2021-06-01
     method: GET
   response:
     body: '{"status":"Succeeded"}'
@@ -996,6 +966,36 @@ interactions:
       - "0"
       Expires:
       - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkROWElSV00tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "8"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkROWElSV00tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
       Pragma:
       - no-cache
       Strict-Transport-Security:
@@ -1013,7 +1013,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Storage/storageAccounts/asosynapsestorage?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxirwm/providers/Microsoft.Storage/storageAccounts/asotestsynapse?api-version=2021-04-01
     method: DELETE
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-nxirwm''

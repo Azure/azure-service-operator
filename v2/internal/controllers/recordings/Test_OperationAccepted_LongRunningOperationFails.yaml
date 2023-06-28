@@ -66,13 +66,13 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"kind":"BlobStorage","location":"westus2","name":"asoteststorjgrtdf","properties":{"accessTier":"Hot","keyPolicy":{"keyExpirationPeriodInDays":-260}},"sku":{"name":"Standard_LRS"}}'
+    body: '{"kind":"BlobStorage","location":"westus2","name":"asoteststorjgrtdf","properties":{"accessTier":"Hot","keyPolicy":{"keyExpirationPeriodInDays":-260}},"sku":{"name":"Standard_LRS"},"tags":null}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "181"
+      - "193"
       Content-Type:
       - application/json
       Test-Request-Attempt:

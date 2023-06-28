@@ -26,7 +26,7 @@ func MakeOneOfDiscriminantRequired() *Stage {
 			updatedDefs := make(astmodel.TypeDefinitionSet)
 			for _, def := range state.Definitions() {
 				isOneOf := astmodel.OneOfFlag.IsOn(def.Type())
-				isARM := astmodel.IsARMType(def.Name())
+				isARM := def.Name().IsARMType()
 				if !isOneOf || !isARM {
 					continue
 				}

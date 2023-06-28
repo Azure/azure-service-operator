@@ -4,6 +4,7 @@ metadata:
   name: asosynapsestorage
   namespace: default
 spec:
+  azureName: asotestsynapse
   location: eastus2
   owner:
     name: aso-sample-rg
