@@ -41,7 +41,7 @@ func Test_SamplesTester_UpdatesSubscriptionReferences(t *testing.T) {
 		Reference: genruntime.CreateResourceReferenceFromARMID("subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Compute/virtualMachines/vm"),
 	}
 
-	_, err := tester.updateFieldsForTest(sample)
+	err := tester.updateFieldsForTest(sample)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(sample.Reference.ARMID).To(ContainSubstring(tester.azureSubscription))
@@ -60,7 +60,7 @@ func Test_SamplesTester_UpdatesSubscriptionID(t *testing.T) {
 		SubscriptionID: emptyGuid,
 	}
 
-	_, err := tester.updateFieldsForTest(sample)
+	err := tester.updateFieldsForTest(sample)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(sample.SubscriptionID).To(Equal(tester.azureSubscription))
@@ -79,7 +79,7 @@ func Test_SamplesTester_UpdatesTenantID(t *testing.T) {
 		TenantID: emptyGuid,
 	}
 
-	_, err := tester.updateFieldsForTest(sample)
+	err := tester.updateFieldsForTest(sample)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(sample.TenantID).To(Equal(tester.azureTenant))
