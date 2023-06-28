@@ -721,21 +721,22 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 // Storage version of v1beta20210401preview.VaultProperties
 // Deprecated version of VaultProperties. Use v1api20210401preview.VaultProperties instead
 type VaultProperties struct {
-	AccessPolicies               []AccessPolicyEntry    `json:"accessPolicies,omitempty"`
-	CreateMode                   *string                `json:"createMode,omitempty"`
-	EnablePurgeProtection        *bool                  `json:"enablePurgeProtection,omitempty"`
-	EnableRbacAuthorization      *bool                  `json:"enableRbacAuthorization,omitempty"`
-	EnableSoftDelete             *bool                  `json:"enableSoftDelete,omitempty"`
-	EnabledForDeployment         *bool                  `json:"enabledForDeployment,omitempty"`
-	EnabledForDiskEncryption     *bool                  `json:"enabledForDiskEncryption,omitempty"`
-	EnabledForTemplateDeployment *bool                  `json:"enabledForTemplateDeployment,omitempty"`
-	NetworkAcls                  *NetworkRuleSet        `json:"networkAcls,omitempty"`
-	PropertyBag                  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ProvisioningState            *string                `json:"provisioningState,omitempty"`
-	Sku                          *Sku                   `json:"sku,omitempty"`
-	SoftDeleteRetentionInDays    *int                   `json:"softDeleteRetentionInDays,omitempty"`
-	TenantId                     *string                `json:"tenantId,omitempty"`
-	VaultUri                     *string                `json:"vaultUri,omitempty"`
+	AccessPolicies               []AccessPolicyEntry            `json:"accessPolicies,omitempty"`
+	CreateMode                   *string                        `json:"createMode,omitempty"`
+	EnablePurgeProtection        *bool                          `json:"enablePurgeProtection,omitempty"`
+	EnableRbacAuthorization      *bool                          `json:"enableRbacAuthorization,omitempty"`
+	EnableSoftDelete             *bool                          `json:"enableSoftDelete,omitempty"`
+	EnabledForDeployment         *bool                          `json:"enabledForDeployment,omitempty"`
+	EnabledForDiskEncryption     *bool                          `json:"enabledForDiskEncryption,omitempty"`
+	EnabledForTemplateDeployment *bool                          `json:"enabledForTemplateDeployment,omitempty"`
+	NetworkAcls                  *NetworkRuleSet                `json:"networkAcls,omitempty"`
+	PropertyBag                  genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	ProvisioningState            *string                        `json:"provisioningState,omitempty"`
+	Sku                          *Sku                           `json:"sku,omitempty"`
+	SoftDeleteRetentionInDays    *int                           `json:"softDeleteRetentionInDays,omitempty"`
+	TenantId                     *string                        `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
+	TenantIdFromConfig           *genruntime.ConfigMapReference `json:"tenantIdFromConfig,omitempty" optionalConfigMapPair:"TenantId"`
+	VaultUri                     *string                        `json:"vaultUri,omitempty"`
 }
 
 // AssignProperties_From_VaultProperties populates our VaultProperties from the provided source VaultProperties
@@ -844,6 +845,14 @@ func (properties *VaultProperties) AssignProperties_From_VaultProperties(source 
 
 	// TenantId
 	properties.TenantId = genruntime.ClonePointerToString(source.TenantId)
+
+	// TenantIdFromConfig
+	if source.TenantIdFromConfig != nil {
+		tenantIdFromConfig := source.TenantIdFromConfig.Copy()
+		properties.TenantIdFromConfig = &tenantIdFromConfig
+	} else {
+		properties.TenantIdFromConfig = nil
+	}
 
 	// VaultUri
 	properties.VaultUri = genruntime.ClonePointerToString(source.VaultUri)
@@ -974,6 +983,14 @@ func (properties *VaultProperties) AssignProperties_To_VaultProperties(destinati
 
 	// TenantId
 	destination.TenantId = genruntime.ClonePointerToString(properties.TenantId)
+
+	// TenantIdFromConfig
+	if properties.TenantIdFromConfig != nil {
+		tenantIdFromConfig := properties.TenantIdFromConfig.Copy()
+		destination.TenantIdFromConfig = &tenantIdFromConfig
+	} else {
+		destination.TenantIdFromConfig = nil
+	}
 
 	// VaultUri
 	destination.VaultUri = genruntime.ClonePointerToString(properties.VaultUri)

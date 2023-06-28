@@ -476,21 +476,25 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.properties.accessPolicies.applicationIdFromConfig",
-				Func: indexKeyvaultVaultApplicationIdFromConfig,
+				Func: indexKeyvaultVaultPropertiesAccessPoliciesApplicationIdFromConfig,
 			},
 			{
 				Key:  ".spec.properties.accessPolicies.objectIdFromConfig",
-				Func: indexKeyvaultVaultObjectIdFromConfig,
+				Func: indexKeyvaultVaultPropertiesAccessPoliciesObjectIdFromConfig,
 			},
 			{
 				Key:  ".spec.properties.accessPolicies.tenantIdFromConfig",
-				Func: indexKeyvaultVaultTenantIdFromConfig,
+				Func: indexKeyvaultVaultPropertiesAccessPoliciesTenantIdFromConfig,
+			},
+			{
+				Key:  ".spec.properties.tenantIdFromConfig",
+				Func: indexKeyvaultVaultPropertiesTenantIdFromConfig,
 			},
 		},
 		Watches: []registration.Watch{
 			{
 				Src:              &source.Kind{Type: &v1.ConfigMap{}},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.properties.accessPolicies.applicationIdFromConfig", ".spec.properties.accessPolicies.objectIdFromConfig", ".spec.properties.accessPolicies.tenantIdFromConfig"}, &keyvault_v1api20210401ps.VaultList{}),
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.properties.accessPolicies.applicationIdFromConfig", ".spec.properties.accessPolicies.objectIdFromConfig", ".spec.properties.accessPolicies.tenantIdFromConfig", ".spec.properties.tenantIdFromConfig"}, &keyvault_v1api20210401ps.VaultList{}),
 			},
 		},
 	})
@@ -2129,8 +2133,8 @@ func indexEventgridEventSubscriptionEndpointUrl(rawObj client.Object) []string {
 	return obj.Spec.Destination.WebHook.EndpointUrl.Index()
 }
 
-// indexKeyvaultVaultApplicationIdFromConfig an index function for keyvault_v1api20210401ps.Vault .spec.properties.accessPolicies.applicationIdFromConfig
-func indexKeyvaultVaultApplicationIdFromConfig(rawObj client.Object) []string {
+// indexKeyvaultVaultPropertiesAccessPoliciesApplicationIdFromConfig an index function for keyvault_v1api20210401ps.Vault .spec.properties.accessPolicies.applicationIdFromConfig
+func indexKeyvaultVaultPropertiesAccessPoliciesApplicationIdFromConfig(rawObj client.Object) []string {
 	obj, ok := rawObj.(*keyvault_v1api20210401ps.Vault)
 	if !ok {
 		return nil
@@ -2148,8 +2152,8 @@ func indexKeyvaultVaultApplicationIdFromConfig(rawObj client.Object) []string {
 	return result
 }
 
-// indexKeyvaultVaultObjectIdFromConfig an index function for keyvault_v1api20210401ps.Vault .spec.properties.accessPolicies.objectIdFromConfig
-func indexKeyvaultVaultObjectIdFromConfig(rawObj client.Object) []string {
+// indexKeyvaultVaultPropertiesAccessPoliciesObjectIdFromConfig an index function for keyvault_v1api20210401ps.Vault .spec.properties.accessPolicies.objectIdFromConfig
+func indexKeyvaultVaultPropertiesAccessPoliciesObjectIdFromConfig(rawObj client.Object) []string {
 	obj, ok := rawObj.(*keyvault_v1api20210401ps.Vault)
 	if !ok {
 		return nil
@@ -2167,8 +2171,8 @@ func indexKeyvaultVaultObjectIdFromConfig(rawObj client.Object) []string {
 	return result
 }
 
-// indexKeyvaultVaultTenantIdFromConfig an index function for keyvault_v1api20210401ps.Vault .spec.properties.accessPolicies.tenantIdFromConfig
-func indexKeyvaultVaultTenantIdFromConfig(rawObj client.Object) []string {
+// indexKeyvaultVaultPropertiesAccessPoliciesTenantIdFromConfig an index function for keyvault_v1api20210401ps.Vault .spec.properties.accessPolicies.tenantIdFromConfig
+func indexKeyvaultVaultPropertiesAccessPoliciesTenantIdFromConfig(rawObj client.Object) []string {
 	obj, ok := rawObj.(*keyvault_v1api20210401ps.Vault)
 	if !ok {
 		return nil
@@ -2184,6 +2188,21 @@ func indexKeyvaultVaultTenantIdFromConfig(rawObj client.Object) []string {
 		result = append(result, accessPolicyItem.TenantIdFromConfig.Index()...)
 	}
 	return result
+}
+
+// indexKeyvaultVaultPropertiesTenantIdFromConfig an index function for keyvault_v1api20210401ps.Vault .spec.properties.tenantIdFromConfig
+func indexKeyvaultVaultPropertiesTenantIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*keyvault_v1api20210401ps.Vault)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.TenantIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.TenantIdFromConfig.Index()
 }
 
 // indexMachinelearningservicesWorkspacesComputeAdminUserPassword an index function for machinelearningservices_v1api20210701s.WorkspacesCompute .spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword

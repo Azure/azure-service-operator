@@ -1001,10 +1001,10 @@ type VaultProperties struct {
 	Sku                       *Sku `json:"sku,omitempty"`
 	SoftDeleteRetentionInDays *int `json:"softDeleteRetentionInDays,omitempty"`
 
-	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Pattern="^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
-	TenantId *string `json:"tenantId,omitempty"`
-	VaultUri *string `json:"vaultUri,omitempty"`
+	TenantId           *string                        `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
+	TenantIdFromConfig *genruntime.ConfigMapReference `json:"tenantIdFromConfig,omitempty" optionalConfigMapPair:"TenantId"`
+	VaultUri           *string                        `json:"vaultUri,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VaultProperties{}
@@ -1102,6 +1102,14 @@ func (properties *VaultProperties) ConvertToARM(resolved genruntime.ConvertToARM
 	// Set property ‘TenantId’:
 	if properties.TenantId != nil {
 		tenantId := *properties.TenantId
+		result.TenantId = &tenantId
+	}
+	if properties.TenantIdFromConfig != nil {
+		tenantIdValue, err := resolved.ResolvedConfigMaps.Lookup(*properties.TenantIdFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property TenantId")
+		}
+		tenantId := tenantIdValue
 		result.TenantId = &tenantId
 	}
 
@@ -1216,6 +1224,8 @@ func (properties *VaultProperties) PopulateFromARM(owner genruntime.ArbitraryOwn
 		tenantId := *typedInput.TenantId
 		properties.TenantId = &tenantId
 	}
+
+	// no assignment for property ‘TenantIdFromConfig’
 
 	// Set property ‘VaultUri’:
 	if typedInput.VaultUri != nil {
@@ -1347,6 +1357,14 @@ func (properties *VaultProperties) AssignProperties_From_VaultProperties(source 
 		properties.TenantId = nil
 	}
 
+	// TenantIdFromConfig
+	if source.TenantIdFromConfig != nil {
+		tenantIdFromConfig := source.TenantIdFromConfig.Copy()
+		properties.TenantIdFromConfig = &tenantIdFromConfig
+	} else {
+		properties.TenantIdFromConfig = nil
+	}
+
 	// VaultUri
 	properties.VaultUri = genruntime.ClonePointerToString(source.VaultUri)
 
@@ -1474,6 +1492,14 @@ func (properties *VaultProperties) AssignProperties_To_VaultProperties(destinati
 		destination.TenantId = &tenantId
 	} else {
 		destination.TenantId = nil
+	}
+
+	// TenantIdFromConfig
+	if properties.TenantIdFromConfig != nil {
+		tenantIdFromConfig := properties.TenantIdFromConfig.Copy()
+		destination.TenantIdFromConfig = &tenantIdFromConfig
+	} else {
+		destination.TenantIdFromConfig = nil
 	}
 
 	// VaultUri

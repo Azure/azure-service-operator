@@ -1091,10 +1091,13 @@ type VaultProperties struct {
 	// SoftDeleteRetentionInDays: softDelete data retention days. It accepts >=7 and <=90.
 	SoftDeleteRetentionInDays *int `json:"softDeleteRetentionInDays,omitempty"`
 
-	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Pattern="^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
 	// TenantId: The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.
-	TenantId *string `json:"tenantId,omitempty"`
+	TenantId *string `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
+
+	// TenantIdFromConfig: The Azure Active Directory tenant ID that should be used for authenticating requests to the key
+	// vault.
+	TenantIdFromConfig *genruntime.ConfigMapReference `json:"tenantIdFromConfig,omitempty" optionalConfigMapPair:"TenantId"`
 
 	// VaultUri: The URI of the vault for performing operations on keys and secrets.
 	VaultUri *string `json:"vaultUri,omitempty"`
@@ -1195,6 +1198,14 @@ func (properties *VaultProperties) ConvertToARM(resolved genruntime.ConvertToARM
 	// Set property ‘TenantId’:
 	if properties.TenantId != nil {
 		tenantId := *properties.TenantId
+		result.TenantId = &tenantId
+	}
+	if properties.TenantIdFromConfig != nil {
+		tenantIdValue, err := resolved.ResolvedConfigMaps.Lookup(*properties.TenantIdFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property TenantId")
+		}
+		tenantId := tenantIdValue
 		result.TenantId = &tenantId
 	}
 
@@ -1309,6 +1320,8 @@ func (properties *VaultProperties) PopulateFromARM(owner genruntime.ArbitraryOwn
 		tenantId := *typedInput.TenantId
 		properties.TenantId = &tenantId
 	}
+
+	// no assignment for property ‘TenantIdFromConfig’
 
 	// Set property ‘VaultUri’:
 	if typedInput.VaultUri != nil {
@@ -1440,6 +1453,14 @@ func (properties *VaultProperties) AssignProperties_From_VaultProperties(source 
 		properties.TenantId = nil
 	}
 
+	// TenantIdFromConfig
+	if source.TenantIdFromConfig != nil {
+		tenantIdFromConfig := source.TenantIdFromConfig.Copy()
+		properties.TenantIdFromConfig = &tenantIdFromConfig
+	} else {
+		properties.TenantIdFromConfig = nil
+	}
+
 	// VaultUri
 	properties.VaultUri = genruntime.ClonePointerToString(source.VaultUri)
 
@@ -1567,6 +1588,14 @@ func (properties *VaultProperties) AssignProperties_To_VaultProperties(destinati
 		destination.TenantId = &tenantId
 	} else {
 		destination.TenantId = nil
+	}
+
+	// TenantIdFromConfig
+	if properties.TenantIdFromConfig != nil {
+		tenantIdFromConfig := properties.TenantIdFromConfig.Copy()
+		destination.TenantIdFromConfig = &tenantIdFromConfig
+	} else {
+		destination.TenantIdFromConfig = nil
 	}
 
 	// VaultUri
