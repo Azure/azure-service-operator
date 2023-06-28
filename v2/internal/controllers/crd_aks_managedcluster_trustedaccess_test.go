@@ -28,7 +28,7 @@ func Test_ManagedCluster_TrustedAccess(t *testing.T) {
 
 	// Create a test resource group and wait until the operation is completed, where the globalTestContext is a global object that provides the necessary context and utilities for testing.
 	tc := globalTestContext.ForTest(t)
-	rg := tc.CreateTestResourceGroupAndWait()
+	rg := tc.CreateTestResourceGroupAndWait() // rg.Spec.AzureName
 
 	// Creation of Backup Vault
 	backupVault := newBackupVault(tc, rg, "asotestbackupvault")
@@ -75,11 +75,12 @@ func Test_ManagedCluster_TrustedAccess(t *testing.T) {
 
 	tc.CreateResourceAndWait(cluster)
 
-	// Creation of AKS Managed Cluster Trusted Access
+	tc.Expect(cluster.Status.Id).ToNot(BeNil())
+	armId := *cluster.Status.Id
 
-	// Resource Id is BackupVault
-	// ResourceId := "/subscriptions/f0c630e0-2995-4853-b056-0b3c09cb673f/resourceGroups/t-agrawals-2/providers/Microsoft.ContainerService/managedClusters/asotestakscluster"
-	ResourceId := "/subscriptions/f0c630e0-2995-4853-b056-0b3c09cb673f/resourceGroups/t-agrawals-2/providers/Microsoft.DataProtection/BackupVaults/" + backupVault.Name
+	// Creation of AKS Managed Cluster Trusted Access
+	rgName := rg.Spec.AzureName
+	ResourceId := "/subscriptions/f0c630e0-2995-4853-b056-0b3c09cb673f/resourceGroups/" + rgName + "/providers/Microsoft.DataProtection/BackupVaults/" + backupVault.Name
 
 	trustedAccess := &aks.ManagedClustersTrustedAccessRoleBinding{
 		ObjectMeta: tc.MakeObjectMeta("asotest"),
@@ -97,4 +98,18 @@ func Test_ManagedCluster_TrustedAccess(t *testing.T) {
 
 	tc.Expect(trustedAccess.Status.ProvisioningState).To(BeEquivalentTo(to.Ptr(aks.TrustedAccessRoleBindingProperties_ProvisioningState_STATUS_Succeeded)))
 
+	// Deletion of AKS Managed Cluster
+	tc.DeleteResourceAndWait(cluster)
+
+	// Deletion of Trusted Access
+	tc.DeleteResourceAndWait(trustedAccess)
+
+	// Ensure that the cluster was really deleted in Azure
+	exists, retryAfter, err := tc.AzureClient.HeadByID(
+		tc.Ctx,
+		armId,
+		string(aks.APIVersion_Value))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(retryAfter).To(BeZero())
+	tc.Expect(exists).To(BeFalse())
 }
