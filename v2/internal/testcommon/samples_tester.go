@@ -318,7 +318,7 @@ func (t *SamplesTester) assignString(field reflect.Value, value string) {
 }
 
 // visitResourceReference checks and sets the SubscriptionID and ResourceGroup name for ARM references to current values
-func (t *SamplesTester) visitResourceReference(_ *reflecthelpers.ReflectVisitor, it reflect.Value, ctx any) error {
+func (t *SamplesTester) visitResourceReference(_ *reflecthelpers.ReflectVisitor, it reflect.Value, _ any) error {
 	if !it.CanInterface() {
 		// This should be impossible given how the visitor works
 		panic("genruntime.ResourceReference field was unexpectedly nil")
