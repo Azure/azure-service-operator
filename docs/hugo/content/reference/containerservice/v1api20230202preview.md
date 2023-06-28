@@ -18262,7 +18262,9 @@ string
 <td>
 <code>secret</code><br/>
 <em>
-string
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">
+genruntime.SecretReference
+</a>
 </em>
 </td>
 <td>
@@ -18338,17 +18340,6 @@ string
 <p>ClientId: The ID for the service principal.</p>
 </td>
 </tr>
-<tr>
-<td>
-<code>secret</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Secret: The secret password associated with the service principal in plain text.</p>
-</td>
-</tr>
 </tbody>
 </table>
 <h3 id="containerservice.azure.com/v1api20230202preview.ManagedClusterServicePrincipalProfile_STATUS_ARM">ManagedClusterServicePrincipalProfile_STATUS_ARM
@@ -18376,17 +18367,6 @@ string
 </td>
 <td>
 <p>ClientId: The ID for the service principal.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>secret</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Secret: The secret password associated with the service principal in plain text.</p>
 </td>
 </tr>
 </tbody>
