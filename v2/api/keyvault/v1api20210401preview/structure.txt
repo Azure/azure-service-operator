@@ -9,7 +9,7 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview
 │   │   │   └── Rule 0: Pattern: "^[a-zA-Z0-9-]{3,24}$"
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Properties: *Object (14 properties)
+│   │   ├── Properties: *Object (15 properties)
 │   │   │   ├── AccessPolicies: Object (7 properties)[]
 │   │   │   │   ├── ApplicationId: Validated<*string> (1 rule)
 │   │   │   │   │   └── Rule 0: Pattern: "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
@@ -112,6 +112,7 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview
 │   │   │   ├── SoftDeleteRetentionInDays: *int
 │   │   │   ├── TenantId: Validated<*string> (1 rule)
 │   │   │   │   └── Rule 0: Pattern: "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
+│   │   │   ├── TenantIdFromConfig: *genruntime.ConfigMapReference
 │   │   │   └── VaultUri: *string
 │   │   └── Tags: map[string]string
 │   └── Status: Object (8 properties)
