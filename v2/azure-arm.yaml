@@ -1264,6 +1264,9 @@ objectModelConfiguration:
       Vault:
         $export: true
         $supportedFrom: v2.0.0-beta.1
+      VaultProperties:
+        TenantId:
+          $importConfigMapMode: optional
       AccessPolicyEntry:
         TenantId:
           $importConfigMapMode: optional

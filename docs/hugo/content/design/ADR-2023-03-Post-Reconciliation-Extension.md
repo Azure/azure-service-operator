@@ -129,6 +129,9 @@ TBC
 
 ## Experience Report
 
-TBC
+As described in [Reconciliation Extensions]( {{< relref "ADR-2022-12-Reconciliation-Extensions" >}} ), we've found that providing a `kubeclient.Client` to the extension is not ideal, and we're replacing it with a `resolver.Resolver` that allows for easy mapping between a `genruntime.Reference` and a GVK.
 
 ## References
+
+* [ADR 2022-12: Reconciliation Extensions]( {{< relref "ADR-2022-12-Reconciliation-Extensions" >}} )
+* [#3105 - Modify Pre/Post-Reconciliation Extensions to provide a Resolver](https://github.com/Azure/azure-service-operator/pull/3105)

@@ -87,7 +87,7 @@ type VaultProperties_ARM struct {
 	SoftDeleteRetentionInDays *int `json:"softDeleteRetentionInDays,omitempty"`
 
 	// TenantId: The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.
-	TenantId *string `json:"tenantId,omitempty"`
+	TenantId *string `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
 
 	// VaultUri: The URI of the vault for performing operations on keys and secrets.
 	VaultUri *string `json:"vaultUri,omitempty"`
