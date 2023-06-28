@@ -75,7 +75,7 @@ type ContainerProperties_STATUS_ARM struct {
 	LegalHold *LegalHoldProperties_STATUS_ARM `json:"legalHold,omitempty"`
 
 	// Metadata: A name-value pair to associate with the container as metadata.
-	Metadata map[string]string `json:"metadata,omitempty"`
+	Metadata map[string]string `json:"metadata"`
 
 	// PublicAccess: Specifies whether data in the container may be accessed publicly and the level of access.
 	PublicAccess *ContainerProperties_PublicAccess_STATUS `json:"publicAccess,omitempty"`
@@ -96,7 +96,7 @@ type ImmutabilityPolicyProperties_STATUS_ARM struct {
 	Properties *ImmutabilityPolicyProperty_STATUS_ARM `json:"properties,omitempty"`
 
 	// UpdateHistory: The ImmutabilityPolicy update history of the blob container.
-	UpdateHistory []UpdateHistoryProperty_STATUS_ARM `json:"updateHistory,omitempty"`
+	UpdateHistory []UpdateHistoryProperty_STATUS_ARM `json:"updateHistory"`
 }
 
 // Object level immutability properties of the container.
@@ -122,7 +122,7 @@ type LegalHoldProperties_STATUS_ARM struct {
 	ProtectedAppendWritesHistory *ProtectedAppendWritesHistory_STATUS_ARM `json:"protectedAppendWritesHistory,omitempty"`
 
 	// Tags: The list of LegalHold tags of a blob container.
-	Tags []TagProperty_STATUS_ARM `json:"tags,omitempty"`
+	Tags []TagProperty_STATUS_ARM `json:"tags"`
 }
 
 // The properties of an ImmutabilityPolicy of a blob container.

@@ -11,7 +11,7 @@ import (
 
 // configurationVisitor is used to facilitate easy walking of the ObjectModelConfiguration hierarchy, abstracting
 // away traversal logic so that new uses of the hierarchy can concentrate on their specific functionality.
-// By default will traverse the entire configuration but may optionally be constrained to just a specific type by
+// By default, will traverse the entire configuration but may optionally be constrained to just a specific type by
 // construction with a typeName, or to a property by also providing the name of the property.
 // Only one handler should be present, as we don't do any traversal below an invoked handler (but a handler is free to
 // do independent visiting with a different instance if it chooses)

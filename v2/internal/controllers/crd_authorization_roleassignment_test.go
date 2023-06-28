@@ -54,11 +54,8 @@ func Test_Authorization_RoleAssignment_OnResourceGroup_CRUD(t *testing.T) {
 	tc.Expect(mi.Status.PrincipalId).ToNot(BeNil())
 
 	// Now assign that managed identity to a new role
-	roleAssignmentGUID, err := tc.Namer.GenerateUUID()
-	tc.Expect(err).ToNot(HaveOccurred())
-
 	roleAssignment := &authorization.RoleAssignment{
-		ObjectMeta: tc.MakeObjectMetaWithName(roleAssignmentGUID.String()),
+		ObjectMeta: tc.MakeObjectMeta("roleassignment"),
 		Spec: authorization.RoleAssignment_Spec{
 			Owner: tc.AsExtensionOwner(rg),
 			PrincipalIdFromConfig: &genruntime.ConfigMapReference{

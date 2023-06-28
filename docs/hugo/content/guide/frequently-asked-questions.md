@@ -146,3 +146,36 @@ env:
         key: clientId
         name: identity-details
 ```
+
+### What should I know about RoleAssignment naming in ASO?
+
+The `RoleAssignment` resource is required to have a name in Azure which is a UUID. Since it's difficult to make a 
+UUID for each assignment, ASO attempts to generate a unique UUID automatically if one isn't specified. ASO does this
+by generating a UUID (v5) from a seed string with the following fields and setting it as the AzureName if one 
+has not been specified:
+1. name
+2. namespace
+3. owner.name
+4. owner.namespace
+5. owner.group
+6. owner.kind
+
+For the most part this should just work without you needing to worry about it. If you're running multiple ASO clusters
+targeting different subscriptions in the same tenant you may need to be careful to avoid situations where
+two resources (one in subscription A, one in subscription B) both have the same values for the fields called out above.
+If this happens you may see an error like:
+
+```
+ (RoleAssignmentUpdateNotPermitted) Tenant ID, application ID, principal ID, and scope are not allowed to be updated.
+ Code: RoleAssignmentUpdateNotPermitted
+ Message: Tenant ID, application ID, principal ID, and scope are not allowed to be updated.
+```
+
+If you see this error, you can work around it by manually specifying a UUID for AzureName, or deleting the 
+`RoleAssignment` which hit the error and creating it again with a different name.
+
+If you're planning to move management of a `RoleAssignment` from one namespace to another (by setting the
+reconcile-policy: skip on the old one, deleting it, and then creating the `RoleAssignment` in a different namespace 
+allowing it to adopt the existing resource in Azure) you must manually specify the AzureName
+of the `RoleAssignment` as the original UUID. Otherwise, the UUID defaulting algorithm will choose a different UUID since
+the namespace has changed.

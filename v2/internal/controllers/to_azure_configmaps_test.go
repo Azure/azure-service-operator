@@ -52,12 +52,8 @@ func Test_MissingConfigMap_ReturnsError(t *testing.T) {
 	tc.Expect(mi.Status.TenantId).ToNot(BeNil())
 	tc.Expect(mi.Status.PrincipalId).ToNot(BeNil())
 
-	// Now assign that managed identity to a new role
-	roleAssignmentGUID, err := tc.Namer.GenerateUUID()
-	tc.Expect(err).ToNot(HaveOccurred())
-
 	roleAssignment := &authorization.RoleAssignment{
-		ObjectMeta: tc.MakeObjectMetaWithName(roleAssignmentGUID.String()),
+		ObjectMeta: tc.MakeObjectMeta("assignment"),
 		Spec: authorization.RoleAssignment_Spec{
 			Owner: tc.AsExtensionOwner(rg),
 			PrincipalIdFromConfig: &genruntime.ConfigMapReference{
@@ -102,10 +98,6 @@ func Test_ConfigMapUpdated_TriggersReconcile(t *testing.T) {
 	tc.Expect(mi.Status.TenantId).ToNot(BeNil())
 	tc.Expect(mi.Status.PrincipalId).ToNot(BeNil())
 
-	// Now assign that managed identity to a new role
-	roleAssignmentGUID, err := tc.Namer.GenerateUUID()
-	tc.Expect(err).ToNot(HaveOccurred())
-
 	// Now create the configMap
 	configMap := &v1.ConfigMap{
 		ObjectMeta: tc.MakeObjectMetaWithName(configMapName),
@@ -116,7 +108,7 @@ func Test_ConfigMapUpdated_TriggersReconcile(t *testing.T) {
 	tc.CreateResource(configMap)
 
 	roleAssignment := &authorization.RoleAssignment{
-		ObjectMeta: tc.MakeObjectMetaWithName(roleAssignmentGUID.String()),
+		ObjectMeta: tc.MakeObjectMeta("assignment"),
 		Spec: authorization.RoleAssignment_Spec{
 			Owner: tc.AsExtensionOwner(rg),
 			PrincipalIdFromConfig: &genruntime.ConfigMapReference{
@@ -162,11 +154,8 @@ func Test_MissingConfigMapKey_ReturnsError(t *testing.T) {
 	}
 	tc.CreateResource(configMap)
 
-	roleAssignmentGUID, err := tc.Namer.GenerateUUID()
-	tc.Expect(err).ToNot(HaveOccurred())
-
 	roleAssignment := &authorization.RoleAssignment{
-		ObjectMeta: tc.MakeObjectMetaWithName(roleAssignmentGUID.String()),
+		ObjectMeta: tc.MakeObjectMeta("assignment"),
 		Spec: authorization.RoleAssignment_Spec{
 			Owner: tc.AsExtensionOwner(rg),
 			PrincipalIdFromConfig: &genruntime.ConfigMapReference{
@@ -213,11 +202,8 @@ func Test_ConfigMapInDifferentNamespace_ConfigMapNotFound(t *testing.T) {
 	}
 	tc.CreateResource(configMap)
 
-	roleAssignmentGUID, err := tc.Namer.GenerateUUID()
-	tc.Expect(err).ToNot(HaveOccurred())
-
 	roleAssignment := &authorization.RoleAssignment{
-		ObjectMeta: tc.MakeObjectMetaWithName(roleAssignmentGUID.String()),
+		ObjectMeta: tc.MakeObjectMeta("assignment"),
 		Spec: authorization.RoleAssignment_Spec{
 			Owner: tc.AsExtensionOwner(rg),
 			PrincipalIdFromConfig: &genruntime.ConfigMapReference{

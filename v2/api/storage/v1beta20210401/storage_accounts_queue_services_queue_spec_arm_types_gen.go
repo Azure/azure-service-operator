@@ -30,5 +30,5 @@ func (queue *StorageAccounts_QueueServices_Queue_Spec_ARM) GetType() string {
 
 // Deprecated version of QueueProperties. Use v1api20210401.QueueProperties instead
 type QueueProperties_ARM struct {
-	Metadata map[string]string `json:"metadata,omitempty"`
+	Metadata map[string]string `json:"metadata"`
 }

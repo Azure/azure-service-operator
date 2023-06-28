@@ -93,15 +93,8 @@ func (assignment *RoleAssignment) Default() {
 	}
 }
 
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (assignment *RoleAssignment) defaultAzureName() {
-	if assignment.Spec.AzureName == "" {
-		assignment.Spec.AzureName = assignment.Name
-	}
-}
-
 // defaultImpl applies the code generated defaults to the RoleAssignment resource
-func (assignment *RoleAssignment) defaultImpl() { assignment.defaultAzureName() }
+func (assignment *RoleAssignment) defaultImpl() {}
 
 var _ genruntime.KubernetesResource = &RoleAssignment{}
 

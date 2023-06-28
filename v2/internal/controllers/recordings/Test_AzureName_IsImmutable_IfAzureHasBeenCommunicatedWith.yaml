@@ -66,13 +66,13 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"kind":"StorageV2","location":"westus2","name":"==--039+","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"}}'
+    body: '{"extendedLocation":null,"identity":null,"kind":"StorageV2","location":"westus2","name":"==--039+","properties":{"accessTier":"Hot","allowBlobPublicAccess":null,"allowCrossTenantReplication":null,"allowSharedKeyAccess":null,"azureFilesIdentityBasedAuthentication":null,"customDomain":null,"encryption":null,"isHnsEnabled":null,"isNfsV3Enabled":null,"keyPolicy":null,"largeFileSharesState":null,"minimumTlsVersion":null,"networkAcls":null,"routingPreference":null,"sasPolicy":null,"supportsHttpsTrafficOnly":null},"sku":{"name":"Standard_LRS","tier":null},"tags":null}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "125"
+      - "567"
       Content-Type:
       - application/json
       Test-Request-Attempt:
