@@ -36,7 +36,7 @@ An example of this is PrivateEndpoints with ConnectionState of Approved, Rejecte
 For some resources, this is not sufficient as there may be additional steps required after initial creation of the resource. We need the ability to check the status of a created resource post reconciliation and set a condition accordingly.
 An example of this is PrivateEndpoints with ConnectionState of Approved, Rejected or Pending.">
 
-<meta itemprop="wordCount" content="588">
+<meta itemprop="wordCount" content="635">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="2023-03: Post Reconciliation Extensions"/>
 <meta name="twitter:description" content="Context The current behaviour of Azure Service Operator (ASO) is to set the Ready status on a resource by default after a successful creation of a resource.
@@ -788,8 +788,12 @@ An example of this is PrivateEndpoints with ConnectionState of Approved, Rejecte
 <h2 id="consequences">Consequences</h2>
 <p>TBC</p>
 <h2 id="experience-report">Experience Report</h2>
-<p>TBC</p>
+<p>As described in <a href="/azure-service-operator/design/adr-2022-12-reconciliation-extensions/">Reconciliation Extensions</a>, we&rsquo;ve found that providing a <code>kubeclient.Client</code> to the extension is not ideal, and we&rsquo;re replacing it with a <code>resolver.Resolver</code> that allows for easy mapping between a <code>genruntime.Reference</code> and a GVK.</p>
 <h2 id="references">References</h2>
+<ul>
+<li><a href="/azure-service-operator/design/adr-2022-12-reconciliation-extensions/">ADR 2022-12: Reconciliation Extensions</a></li>
+<li><a href="https://github.com/Azure/azure-service-operator/pull/3105">#3105 - Modify Pre/Post-Reconciliation Extensions to provide a Resolver</a></li>
+</ul>
 
 	
 	

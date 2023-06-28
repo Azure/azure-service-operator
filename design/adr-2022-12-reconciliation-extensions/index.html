@@ -33,7 +33,7 @@ For some resources this doesn&rsquo;t work particularly well because the resourc
 <meta itemprop="description" content="Context The current behaviour of Azure Service Operator (ASO) is to unilaterally issue a PUT to Azure each time reconciliation of a resource is triggered.
 For some resources this doesn&rsquo;t work particularly well because the resources can be in a transient state that precludes the PUT from succeeding. The resulting error message pushes ASO into retrying the operation over and over again when it can&rsquo;t possibly succeed. Not only does this cause needless load on both the cluster and Azure, it can trigger rate limiting and other throttling mechanisms.">
 
-<meta itemprop="wordCount" content="516">
+<meta itemprop="wordCount" content="618">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="2022-12: Reconciliation Extensions"/>
 <meta name="twitter:description" content="Context The current behaviour of Azure Service Operator (ASO) is to unilaterally issue a PUT to Azure each time reconciliation of a resource is triggered.
@@ -727,10 +727,12 @@ For some resources this doesn&rsquo;t work particularly well because the resourc
 <h2 id="consequences">Consequences</h2>
 <p>TBC.</p>
 <h2 id="experience-report">Experience Report</h2>
-<p>TBC.</p>
+<p>In use, we identified that providing a <code>kubeclient.Client</code> instance for cluster operations wasn&rsquo;t particularly useful because of an impedance mismatch: the cluster API is expressed in terms of GVKs, namespaces and names, whereas the extensions often had a <code>genruntime.ResourceReference</code> in hand, and mapping between the two was awkward to do manually.</p>
+<p>We&rsquo;re addressing this by modifying the extensions to provide <code>resolver.Resolver</code> instead - this is an existing piece of the reconciler that handles resolution of GVK from a <code>genruntime.ResourceReference</code>. The object contains a <code>kubeclient.Client</code> should one be needed by an implementation of the extension.</p>
 <h2 id="references">References</h2>
 <ul>
 <li><a href="https://github.com/Azure/azure-service-operator/pull/2600">#2600 - High Level design for using GET+PUT to reconcile</a></li>
+<li><a href="https://github.com/Azure/azure-service-operator/pull/3105">#3105 - Modify Pre/Post-Reconciliation Extensions to provide a Resolver</a></li>
 </ul>
 
 	
