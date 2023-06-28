@@ -1,0 +1,18 @@
+# Sequence diagram from https://sequencediagram.org/
+
+participant "Controller" as c
+participant "v3 v3.Person" as v3
+participant "s3 v3storage.Person" as s3
+participant "hub v4storage.Person" as s4
+
+c -> v3: vs.ConvertToStorage(hub)
+activate v3
+v3 ->* s3: <<create>>
+v3 -> s3: (copy properties from v3 onto s3)
+v3 -> s3: s3.ConvertToStorage(hub)
+activate s3
+s3 ->> s4: (copy properties from s3 to hub)
+v3 <-- s3: return
+deactivate s3
+c <-- v3: return
+deactivate v3

@@ -1,0 +1,23 @@
+title Diffing Reconciliation with Extension
+
+autoactivation on
+activate Reconciler
+
+Reconciler -> Client: GET
+Reconciler <-- Client: Status
+
+Reconciler -> Extension: SelectReconcileAction()
+Extension -> Differ: SelectReconcileAction()
+Differ -> Differ: Compare Spec & Status
+Differ <-- Differ: "Match" or "No Match"
+Extension <-- Differ: "Reconcile" or "Skip"
+
+Reconciler <-- Extension: "Reconcile" or "Skip"
+
+Reconciler ->Reconciler: If "Reconcile"
+
+
+Reconciler ->Client: PUT
+Reconciler <-- Client: Status
+
+deactivate Reconciler

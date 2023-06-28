@@ -1,0 +1,47 @@
+digraph G {
+    nodesep="1"
+
+
+    subgraph cluster_api_v1 {
+        color=none
+
+        node [shape=plain, group=api, margin=0];
+        person_rsrc_api_v1 [label=<
+            <table border="0" cellborder="1" cellspacing="0">
+                <tr><td width="320px"><i>«api v1»</i><br/>Person</td></tr>
+            </table>
+        >];
+
+        person_spec_api_v1 [label=<
+            <table border="0" cellborder="1" cellspacing="0">
+                <tr><td width="320px"><i>«api v1»</i><br/>Person_Spec</td></tr>
+                <tr><td>FullName string<br/>KnownAs string<br/>FamilyName string</td></tr>
+            </table>
+        >];
+               
+        person_rsrc_api_v1 -> person_spec_api_v1 [label="Spec"]
+
+    }
+
+    subgraph cluster_api_v2 {
+        color=none
+
+        node [shape=plain, group=api, margin=0];
+        person_rsrc_api_v2 [label=<
+            <table border="0" cellborder="1" cellspacing="0">
+                <tr><td width="320px"><i>«api v2»</i><br/>Person</td></tr>
+            </table>
+        >];
+
+        person_spec_api_v2 [label=<
+            <table border="0" cellborder="1" cellspacing="0">
+                <tr><td width="320px"><i>«api v2»</i><br/>Person_Spec</td></tr>
+                <tr><td>FullName string<br/>KnownAs string<br/>FamilyName string<br/>PostalAddress Address<br/>Residential Address</td></tr>
+            </table>
+        >];
+               
+        person_rsrc_api_v2 -> person_spec_api_v2 [label="Spec"]
+
+    }
+
+}

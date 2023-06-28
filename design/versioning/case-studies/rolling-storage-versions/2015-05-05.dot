@@ -1,0 +1,40 @@
+graph G {
+    subgraph apiVersions {
+        rank=same;
+        label="API Versions";
+        labelloc=t
+
+        node [shape=ellipse, group=api];
+        v20120202;
+        v20130303;
+        v20140404preview;
+        v20140404;
+        v20150505;
+    }
+
+    node [shape=ellipse, penwidth=3];
+    v20150505storage;
+
+    subgraph storageVersions {
+        rank=same;
+        label="Storage Versions";
+        labelloc=b
+
+        node [shape=ellipse, style=dashed, penwidth=1, rankType=min, group=storage];
+        v20120202storage;
+        v20130303storage;
+        v20140404storage;
+    }
+
+    edge [arrowhead=vee, arrowtail=vee, dir=both];
+    v20120202 -- v20150505storage;
+    v20130303 -- v20150505storage;
+    v20140404preview -- v20150505storage;
+    v20140404 -- v20150505storage;
+    v20150505 -- v20150505storage;
+
+    edge [arrowtail=vee, dir=back];
+    v20150505storage -- v20120202storage;
+    v20150505storage -- v20130303storage;
+    v20150505storage -- v20140404storage;
+}

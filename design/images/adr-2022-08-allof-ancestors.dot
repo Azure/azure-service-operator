@@ -1,0 +1,60 @@
+digraph G {
+
+  rankdir = LR;
+  
+  node [
+    shape = none
+  ]
+
+  edge [
+    arrowhead = normal
+    arrowtail = normal
+    dir = back
+  ]
+
+  mltabledata [
+    label = <
+        <table border="1" cellborder="0" cellspacing="0">
+            <tr><td><i>«OneOf»</i><br/>MLTableData</td></tr>
+            <hr/>
+            <tr><td><i>«discriminator value»</i><br/>mltable</td></tr>
+            <hr/>
+            <tr><td>referencedUris</td></tr>
+        </table>
+        >
+  ]
+
+  dataversionbase [
+    label = <
+        <table border="1" cellborder="0" cellspacing="0">
+            <tr><td><i>«OneOf»</i><br/>DataVersionBase</td></tr>
+            <hr/>
+            <tr><td><i>«discriminator property</i><br/>dataType</td></tr>
+            <hr/>
+            <tr><td>dataType<br/>dataUri</td></tr>
+        </table>
+        >
+  ]
+
+  assetbase [
+    label = <
+        <table border="1" cellborder="0" cellspacing="0">
+            <tr><td><i>«AllOf»</i><br/>AssetBase</td></tr>
+            <hr/>
+            <tr><td>isAnonymous<br/>isArchived</td></tr>
+        </table>
+        >
+  ]
+ 
+  resourcebase [
+    label = <
+        <table border="1" cellborder="0" cellspacing="0">
+            <tr><td><i>«Object»</i><br/>ResourceBase</td></tr>
+            <hr/>
+            <tr><td>Description<br/>Properties<br/>Tags</td></tr>
+        </table>
+        >
+  ]
+
+  resourcebase -> assetbase -> dataversionbase -> mltabledata
+}

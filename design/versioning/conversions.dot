@@ -1,0 +1,39 @@
+graph G {
+    nodesep="1"
+
+    subgraph apiVersions {
+        rank=same;
+        label="API Versions";
+        labelloc=t
+
+        node [shape=ellipse, group=api];
+        v1;
+        v2;
+        v3;
+        v4;
+    }
+
+
+    subgraph storageVersions {
+        rank=same;
+
+        node [shape=ellipse, rankType=min, group=storage];
+        v1storage;
+        v2storage;
+        v3storage;
+
+        node [shape=ellipse, penwidth=3];
+        v4storage;
+    }
+
+    edge [arrowhead=vee, dir=forward];
+    v1 -- v1storage;
+    v2 -- v2storage;
+    v3 -- v3storage;
+    v4 -- v4storage
+
+    edge [arrowhead=vee, dir=forward];
+    v1storage -- v2storage;
+    v2storage -- v3storage;
+    v3storage -- v4storage;
+}

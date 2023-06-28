@@ -1,0 +1,22 @@
+graph G {
+    subgraph apiVersions {
+        rank=same;
+        label="API Versions";
+        labelloc=t
+
+        node [shape=ellipse, group=api];
+        v20110101;
+        v20120202;
+        v20130303;
+        v20140404preview;
+    }
+
+    node [shape=ellipse, penwidth=3];
+    v1;
+
+    edge [arrowhead=vee, arrowtail=vee, dir=both];
+    v20110101 -- v1;
+    v20120202 -- v1;
+    v20130303 -- v1;
+    v20140404preview -- v1;
+}
