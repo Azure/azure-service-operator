@@ -35,7 +35,7 @@ type ManagementPolicyProperties_ARM struct {
 
 // Deprecated version of ManagementPolicySchema. Use v1api20210401.ManagementPolicySchema instead
 type ManagementPolicySchema_ARM struct {
-	Rules []ManagementPolicyRule_ARM `json:"rules,omitempty"`
+	Rules []ManagementPolicyRule_ARM `json:"rules"`
 }
 
 // Deprecated version of ManagementPolicyRule. Use v1api20210401.ManagementPolicyRule instead
@@ -61,9 +61,9 @@ type ManagementPolicyAction_ARM struct {
 
 // Deprecated version of ManagementPolicyFilter. Use v1api20210401.ManagementPolicyFilter instead
 type ManagementPolicyFilter_ARM struct {
-	BlobIndexMatch []TagFilter_ARM `json:"blobIndexMatch,omitempty"`
-	BlobTypes      []string        `json:"blobTypes,omitempty"`
-	PrefixMatch    []string        `json:"prefixMatch,omitempty"`
+	BlobIndexMatch []TagFilter_ARM `json:"blobIndexMatch"`
+	BlobTypes      []string        `json:"blobTypes"`
+	PrefixMatch    []string        `json:"prefixMatch"`
 }
 
 // Deprecated version of ManagementPolicyBaseBlob. Use v1api20210401.ManagementPolicyBaseBlob instead

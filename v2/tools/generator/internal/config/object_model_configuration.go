@@ -484,6 +484,36 @@ func (omc *ObjectModelConfiguration) VerifyImportableConsumed() error {
 	return visitor.Visit(omc)
 }
 
+// LookupDefaultAzureName checks to see whether a specified type should default the Azure Name property.
+// Returns a NotConfiguredError if no $defaultAzureName flag is configured.
+func (omc *ObjectModelConfiguration) LookupDefaultAzureName(name astmodel.TypeName) (bool, error) {
+	var defaultAzureName bool
+	visitor := newSingleTypeConfigurationVisitor(
+		name,
+		func(configuration *TypeConfiguration) error {
+			defAzure, err := configuration.LookupDefaultAzureName()
+			defaultAzureName = defAzure
+			return err
+		})
+	err := visitor.Visit(omc)
+	if err != nil {
+		return false, err
+	}
+
+	return defaultAzureName, nil
+}
+
+// VerifyDefaultAzureNameConsumed returns an error if our configured $defaultAzureName flag was not used, nil otherwise.
+func (omc *ObjectModelConfiguration) VerifyDefaultAzureNameConsumed() error {
+	visitor := newEveryTypeConfigurationVisitor(
+		func(configuration *TypeConfiguration) error {
+			return configuration.VerifyDefaultAzureNameConsumed()
+		})
+	return visitor.Visit(omc)
+}
+
+var VersionRegex = regexp.MustCompile(`^v\d\d?$`)
+
 // FindHandCraftedTypeNames returns the set of typenames that are hand-crafted.
 // These are identified by having `v<n>` as their version.
 func (omc *ObjectModelConfiguration) FindHandCraftedTypeNames(localPath string) (astmodel.TypeNameSet, error) {
@@ -501,10 +531,9 @@ func (omc *ObjectModelConfiguration) FindHandCraftedTypeNames(localPath string) 
 
 	// Collect hand-crafted versions as we see them.
 	// They look like v<n> where n is a small number.
-	versionRegex := regexp.MustCompile(`^v\d\d?$`)
 	versionVisitor := newEveryVersionConfigurationVisitor(
 		func(verConfig *VersionConfiguration) error {
-			if versionRegex.MatchString(verConfig.name) {
+			if VersionRegex.MatchString(verConfig.name) {
 				currentPackage = astmodel.MakeLocalPackageReference(
 					localPath,
 					currentGroup,
@@ -529,6 +558,32 @@ func (omc *ObjectModelConfiguration) FindHandCraftedTypeNames(localPath string) 
 	}
 
 	return result, nil
+}
+
+// LookupPayloadType checks to see whether a specified type has a configured payload type
+func (omc *ObjectModelConfiguration) LookupPayloadType(name astmodel.TypeName) (PayloadType, error) {
+	var payloadType PayloadType
+	visitor := newSingleGroupConfigurationVisitor(
+		name.PackageReference,
+		func(configuration *GroupConfiguration) error {
+			pt, err := configuration.LookupPayloadType()
+			payloadType = pt
+			return err
+		})
+	err := visitor.Visit(omc)
+	if err != nil {
+		return "", err
+	}
+
+	return payloadType, nil
+}
+
+func (omc *ObjectModelConfiguration) VerifyPayloadTypeConsumed() error {
+	visitor := newEveryGroupConfigurationVisitor(
+		func(configuration *GroupConfiguration) error {
+			return configuration.VerifyPayloadTypeConsumed()
+		})
+	return visitor.Visit(omc)
 }
 
 // addGroup includes the provided GroupConfiguration in this model configuration

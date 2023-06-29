@@ -376,11 +376,6 @@ func CosmosDB_SQL_RoleAssignment_CRUD(tc *testcommon.KubePerTestContext, rg *res
 
 	tc.Expect(mi.Status.PrincipalId).ToNot(BeNil())
 
-	// TODO: It's not easy to generate a GUID... we should make that easier for users
-	// Now assign that managed identity to a new role
-	roleAssignmentGUID, err := tc.Namer.GenerateUUID()
-	tc.Expect(err).ToNot(HaveOccurred())
-
 	// TODO: Making this is very painful. We should make this easier for users too
 	roleDefinitionId := fmt.Sprintf(
 		"/subscriptions/%s/resourceGroups/%s/providers/Microsoft.DocumentDB/databaseAccounts/%s/sqlRoleDefinitions/00000000-0000-0000-0000-000000000002",
@@ -394,7 +389,7 @@ func CosmosDB_SQL_RoleAssignment_CRUD(tc *testcommon.KubePerTestContext, rg *res
 		acct.AzureName())
 
 	roleAssignment := &documentdb.SqlRoleAssignment{
-		ObjectMeta: tc.MakeObjectMetaWithName(roleAssignmentGUID.String()),
+		ObjectMeta: tc.MakeObjectMeta("roleassignment"),
 		Spec: documentdb.DatabaseAccounts_SqlRoleAssignment_Spec{
 			Owner: testcommon.AsOwner(acct),
 			PrincipalIdFromConfig: &genruntime.ConfigMapReference{

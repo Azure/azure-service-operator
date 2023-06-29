@@ -4,7 +4,6 @@ metadata:
   name: samplerule
   namespace: default
 spec:
-  location: westcentralus
   owner:
     name: samplensg
   protocol: Tcp

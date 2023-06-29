@@ -1,21 +1,29 @@
 apiVersion: keyvault.azure.com/v1beta20210401preview
 kind: Vault
 metadata:
-  name: mlworkspaces-vault
+  name: aso-ml-vault
   namespace: default
 spec:
   location: westus3
   owner:
     name: aso-sample-rg
   properties:
-    tenantId: "00000000-0000-0000-0000-000000000000"
+    tenantIdFromConfig:
+      name: identity-settings
+      key: tenantId
     sku:
       family: A
       name: standard
     accessPolicies:
-      - applicationId: "1C793267-c310-d4ae-7BD5-5Af5BEF875D3"
-        objectId: "1C793267-c310-d4ae-7BD5-5Af5BEF875D3"
-        tenantId: "00000000-0000-0000-0000-000000000000"
+      - applicationIdFromConfig:
+          name: identity-settings
+          key: clientId
+        objectIdFromConfig:
+          name: identity-settings
+          key: principalId
+        tenantIdFromConfig:
+          name: identity-settings
+          key: tenantId
         permissions:
           certificates:
             - "get"

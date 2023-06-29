@@ -29,7 +29,7 @@ spec:
     allowedOrigins:
       - "https://foo.com"
       - "https://bar.com"
-  networkAcls:
+  networkACLs:
     defaultAction: Deny
     publicNetwork:
       allow:

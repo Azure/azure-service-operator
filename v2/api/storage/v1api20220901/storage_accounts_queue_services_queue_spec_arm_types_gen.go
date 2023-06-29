@@ -31,5 +31,5 @@ func (queue *StorageAccounts_QueueServices_Queue_Spec_ARM) GetType() string {
 
 type QueueProperties_ARM struct {
 	// Metadata: A name-value pair that represents queue metadata.
-	Metadata map[string]string `json:"metadata,omitempty"`
+	Metadata map[string]string `json:"metadata"`
 }

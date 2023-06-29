@@ -80,7 +80,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myngbn/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-lnwfei?api-version=2018-11-30
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-myngbn/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-lnwfei","name":"asotest-mi-lnwfei","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westus2","tags":{},"properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"249737d6-b698-43c3-901f-68c71fb17d74","clientId":"33858e39-56a3-4da0-9ee5-63f577489b38"}}'
+    body: '{"location":"westus2","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-myngbn/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-lnwfei","name":"asotest-mi-lnwfei","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"00ffba35-8248-45e3-8abb-0422eccf917e","clientId":"09008236-7363-48dd-b46c-eb75bb8f1713"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -116,7 +116,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myngbn/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-lnwfei?api-version=2018-11-30
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-myngbn/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-lnwfei","name":"asotest-mi-lnwfei","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westus2","tags":{},"properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"249737d6-b698-43c3-901f-68c71fb17d74","clientId":"33858e39-56a3-4da0-9ee5-63f577489b38"}}'
+    body: '{"location":"westus2","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-myngbn/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-lnwfei","name":"asotest-mi-lnwfei","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"00ffba35-8248-45e3-8abb-0422eccf917e","clientId":"09008236-7363-48dd-b46c-eb75bb8f1713"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -146,7 +146,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myngbn/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-lnwfei?api-version=2018-11-30
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-myngbn/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-lnwfei","name":"asotest-mi-lnwfei","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westus2","tags":{},"properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"249737d6-b698-43c3-901f-68c71fb17d74","clientId":"33858e39-56a3-4da0-9ee5-63f577489b38"}}'
+    body: '{"location":"westus2","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-myngbn/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-lnwfei","name":"asotest-mi-lnwfei","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"00ffba35-8248-45e3-8abb-0422eccf917e","clientId":"09008236-7363-48dd-b46c-eb75bb8f1713"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -166,13 +166,13 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"kind":"BlobStorage","location":"westus2","name":"asoteststorsbkvnx","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"}}'
+    body: '{"kind":"BlobStorage","location":"westus2","name":"asoteststorsbkvnx","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"},"tags":null}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "134"
+      - "146"
       Content-Type:
       - application/json
       Test-Request-Attempt:
@@ -191,7 +191,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/d469caab-72cf-48b9-bfc1-0166262a9473?monitor=true&api-version=2021-04-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/00dc55b4-e717-495a-82d7-0abc2af73dd8?monitor=true&api-version=2021-04-01
       Pragma:
       - no-cache
       Retry-After:
@@ -211,7 +211,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/d469caab-72cf-48b9-bfc1-0166262a9473?monitor=true&api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/00dc55b4-e717-495a-82d7-0abc2af73dd8?monitor=true&api-version=2021-04-01
     method: GET
   response:
     body: ""
@@ -225,7 +225,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/d469caab-72cf-48b9-bfc1-0166262a9473?monitor=true&api-version=2021-04-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/00dc55b4-e717-495a-82d7-0abc2af73dd8?monitor=true&api-version=2021-04-01
       Pragma:
       - no-cache
       Retry-After:
@@ -245,7 +245,41 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/d469caab-72cf-48b9-bfc1-0166262a9473?monitor=true&api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/00dc55b4-e717-495a-82d7-0abc2af73dd8?monitor=true&api-version=2021-04-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Content-Type:
+      - text/plain; charset=utf-8
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/00dc55b4-e717-495a-82d7-0abc2af73dd8?monitor=true&api-version=2021-04-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "3"
+      Server:
+      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/00dc55b4-e717-495a-82d7-0abc2af73dd8?monitor=true&api-version=2021-04-01
     method: GET
   response:
     body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"BlobStorage","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myngbn/providers/Microsoft.Storage/storageAccounts/asoteststorsbkvnx","name":"asoteststorsbkvnx","type":"Microsoft.Storage/storageAccounts","location":"westus2","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"privateEndpointConnections":[],"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://asoteststorsbkvnx.dfs.core.windows.net/","blob":"https://asoteststorsbkvnx.blob.core.windows.net/","table":"https://asoteststorsbkvnx.table.core.windows.net/"},"primaryLocation":"westus2","statusOfPrimary":"available"}}'
@@ -302,7 +336,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"aab463b4-d1c7-43d2-ab6f-d208a9ebda45","properties":{"principalId":"249737d6-b698-43c3-901f-68c71fb17d74","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
+    body: '{"name":"aab463b4-d1c7-43d2-ab6f-d208a9ebda45","properties":{"principalId":"00ffba35-8248-45e3-8abb-0422eccf917e","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
     form: {}
     headers:
       Accept:
@@ -316,7 +350,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myngbn/providers/Microsoft.Storage/storageAccounts/asoteststorsbkvnx/providers/Microsoft.Authorization/roleAssignments/aab463b4-d1c7-43d2-ab6f-d208a9ebda45?api-version=2020-08-01-preview
     method: PUT
   response:
-    body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c","principalId":"249737d6-b698-43c3-901f-68c71fb17d74","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myngbn/providers/Microsoft.Storage/storageAccounts/asoteststorsbkvnx","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":null,"updatedBy":"84f47115-7605-44df-accf-7e01c55e425f","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myngbn/providers/Microsoft.Storage/storageAccounts/asoteststorsbkvnx/providers/Microsoft.Authorization/roleAssignments/aab463b4-d1c7-43d2-ab6f-d208a9ebda45","type":"Microsoft.Authorization/roleAssignments","name":"aab463b4-d1c7-43d2-ab6f-d208a9ebda45"}'
+    body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c","principalId":"00ffba35-8248-45e3-8abb-0422eccf917e","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myngbn/providers/Microsoft.Storage/storageAccounts/asoteststorsbkvnx","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":null,"updatedBy":"bc852d4f-af2c-4d40-a567-42ab19a57e30","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myngbn/providers/Microsoft.Storage/storageAccounts/asoteststorsbkvnx/providers/Microsoft.Authorization/roleAssignments/aab463b4-d1c7-43d2-ab6f-d208a9ebda45","type":"Microsoft.Authorization/roleAssignments","name":"aab463b4-d1c7-43d2-ab6f-d208a9ebda45"}'
     headers:
       Cache-Control:
       - no-cache
@@ -346,7 +380,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myngbn/providers/Microsoft.Storage/storageAccounts/asoteststorsbkvnx/providers/Microsoft.Authorization/roleAssignments/aab463b4-d1c7-43d2-ab6f-d208a9ebda45?api-version=2020-08-01-preview
     method: GET
   response:
-    body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c","principalId":"249737d6-b698-43c3-901f-68c71fb17d74","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myngbn/providers/Microsoft.Storage/storageAccounts/asoteststorsbkvnx","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"84f47115-7605-44df-accf-7e01c55e425f","updatedBy":"84f47115-7605-44df-accf-7e01c55e425f","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myngbn/providers/Microsoft.Storage/storageAccounts/asoteststorsbkvnx/providers/Microsoft.Authorization/roleAssignments/aab463b4-d1c7-43d2-ab6f-d208a9ebda45","type":"Microsoft.Authorization/roleAssignments","name":"aab463b4-d1c7-43d2-ab6f-d208a9ebda45"}'
+    body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c","principalId":"00ffba35-8248-45e3-8abb-0422eccf917e","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myngbn/providers/Microsoft.Storage/storageAccounts/asoteststorsbkvnx","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"bc852d4f-af2c-4d40-a567-42ab19a57e30","updatedBy":"bc852d4f-af2c-4d40-a567-42ab19a57e30","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myngbn/providers/Microsoft.Storage/storageAccounts/asoteststorsbkvnx/providers/Microsoft.Authorization/roleAssignments/aab463b4-d1c7-43d2-ab6f-d208a9ebda45","type":"Microsoft.Authorization/roleAssignments","name":"aab463b4-d1c7-43d2-ab6f-d208a9ebda45"}'
     headers:
       Cache-Control:
       - no-cache
@@ -378,7 +412,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myngbn/providers/Microsoft.Storage/storageAccounts/asoteststorsbkvnx/providers/Microsoft.Authorization/roleAssignments/aab463b4-d1c7-43d2-ab6f-d208a9ebda45?api-version=2020-08-01-preview
     method: GET
   response:
-    body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c","principalId":"249737d6-b698-43c3-901f-68c71fb17d74","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myngbn/providers/Microsoft.Storage/storageAccounts/asoteststorsbkvnx","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"84f47115-7605-44df-accf-7e01c55e425f","updatedBy":"84f47115-7605-44df-accf-7e01c55e425f","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myngbn/providers/Microsoft.Storage/storageAccounts/asoteststorsbkvnx/providers/Microsoft.Authorization/roleAssignments/aab463b4-d1c7-43d2-ab6f-d208a9ebda45","type":"Microsoft.Authorization/roleAssignments","name":"aab463b4-d1c7-43d2-ab6f-d208a9ebda45"}'
+    body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c","principalId":"00ffba35-8248-45e3-8abb-0422eccf917e","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myngbn/providers/Microsoft.Storage/storageAccounts/asoteststorsbkvnx","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"bc852d4f-af2c-4d40-a567-42ab19a57e30","updatedBy":"bc852d4f-af2c-4d40-a567-42ab19a57e30","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myngbn/providers/Microsoft.Storage/storageAccounts/asoteststorsbkvnx/providers/Microsoft.Authorization/roleAssignments/aab463b4-d1c7-43d2-ab6f-d208a9ebda45","type":"Microsoft.Authorization/roleAssignments","name":"aab463b4-d1c7-43d2-ab6f-d208a9ebda45"}'
     headers:
       Cache-Control:
       - no-cache
@@ -410,7 +444,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myngbn/providers/Microsoft.Storage/storageAccounts/asoteststorsbkvnx/providers/Microsoft.Authorization/roleAssignments/aab463b4-d1c7-43d2-ab6f-d208a9ebda45?api-version=2020-08-01-preview
     method: DELETE
   response:
-    body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c","principalId":"249737d6-b698-43c3-901f-68c71fb17d74","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myngbn/providers/Microsoft.Storage/storageAccounts/asoteststorsbkvnx","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"84f47115-7605-44df-accf-7e01c55e425f","updatedBy":"84f47115-7605-44df-accf-7e01c55e425f","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myngbn/providers/Microsoft.Storage/storageAccounts/asoteststorsbkvnx/providers/Microsoft.Authorization/roleAssignments/aab463b4-d1c7-43d2-ab6f-d208a9ebda45","type":"Microsoft.Authorization/roleAssignments","name":"aab463b4-d1c7-43d2-ab6f-d208a9ebda45"}'
+    body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c","principalId":"00ffba35-8248-45e3-8abb-0422eccf917e","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myngbn/providers/Microsoft.Storage/storageAccounts/asoteststorsbkvnx","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"bc852d4f-af2c-4d40-a567-42ab19a57e30","updatedBy":"bc852d4f-af2c-4d40-a567-42ab19a57e30","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myngbn/providers/Microsoft.Storage/storageAccounts/asoteststorsbkvnx/providers/Microsoft.Authorization/roleAssignments/aab463b4-d1c7-43d2-ab6f-d208a9ebda45","type":"Microsoft.Authorization/roleAssignments","name":"aab463b4-d1c7-43d2-ab6f-d208a9ebda45"}'
     headers:
       Cache-Control:
       - no-cache

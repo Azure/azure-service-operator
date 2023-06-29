@@ -415,7 +415,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202pre
 │   │   │       └── "Istio"
 │   │   ├── ServicePrincipalProfile: *Object (2 properties)
 │   │   │   ├── ClientId: *string
-│   │   │   └── Secret: *string
+│   │   │   └── Secret: *genruntime.SecretReference
 │   │   ├── Sku: *Object (2 properties)
 │   │   │   ├── Name: *Enum (1 value)
 │   │   │   │   └── "Base"
@@ -883,9 +883,8 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202pre
 │       │   └── Mode: *Enum (2 values)
 │       │       ├── "Disabled"
 │       │       └── "Istio"
-│       ├── ServicePrincipalProfile: *Object (2 properties)
-│       │   ├── ClientId: *string
-│       │   └── Secret: *string
+│       ├── ServicePrincipalProfile: *Object (1 property)
+│       │   └── ClientId: *string
 │       ├── Sku: *Object (2 properties)
 │       │   ├── Name: *Enum (1 value)
 │       │   │   └── "Base"
@@ -1369,9 +1368,8 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202pre
 │   │   │   └── Mode: *Enum (2 values)
 │   │   │       ├── "Disabled"
 │   │   │       └── "Istio"
-│   │   ├── ServicePrincipalProfile: *Object (2 properties)
-│   │   │   ├── ClientId: *string
-│   │   │   └── Secret: *string
+│   │   ├── ServicePrincipalProfile: *Object (1 property)
+│   │   │   └── ClientId: *string
 │   │   ├── StorageProfile: *Object (4 properties)
 │   │   │   ├── BlobCSIDriver: *Object (1 property)
 │   │   │   │   └── Enabled: *bool

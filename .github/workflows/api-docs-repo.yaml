@@ -70,6 +70,12 @@ jobs:
           container_id=${{ env.container_id }}
           docker exec "$container_id" task controller:gen-crd-docs
 
+      # After generating the API docs (above), regenerate our index files as now new CRDs can be linked to their docs
+      - name: Generate Index files
+        run: |
+          container_id=${{ env.container_id }}
+          docker exec "$container_id" task controller:generate-types
+
       # Workaround for getting "Permission denied" errors when trying to stage files
       - name: Take Ownership
         run: sudo chown -R $USER:$USER .

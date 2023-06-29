@@ -232,6 +232,7 @@ func AddIndependentPropertyGeneratorsForSearchServiceProperties_ARM(gens map[str
 
 // AddRelatedPropertyGeneratorsForSearchServiceProperties_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSearchServiceProperties_ARM(gens map[string]gopter.Gen) {
+	gens["AuthOptions"] = gen.PtrOf(DataPlaneAuthOptions_ARMGenerator())
 	gens["EncryptionWithCmk"] = gen.PtrOf(EncryptionWithCmk_ARMGenerator())
 	gens["NetworkRuleSet"] = gen.PtrOf(NetworkRuleSet_ARMGenerator())
 }
@@ -301,6 +302,67 @@ func AddIndependentPropertyGeneratorsForSku_ARM(gens map[string]gopter.Gen) {
 		Sku_Name_Standard3,
 		Sku_Name_Storage_Optimized_L1,
 		Sku_Name_Storage_Optimized_L2))
+}
+
+func Test_DataPlaneAuthOptions_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DataPlaneAuthOptions_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDataPlaneAuthOptions_ARM, DataPlaneAuthOptions_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDataPlaneAuthOptions_ARM runs a test to see if a specific instance of DataPlaneAuthOptions_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDataPlaneAuthOptions_ARM(subject DataPlaneAuthOptions_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DataPlaneAuthOptions_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DataPlaneAuthOptions_ARM instances for property testing - lazily instantiated by
+// DataPlaneAuthOptions_ARMGenerator()
+var dataPlaneAuthOptions_ARMGenerator gopter.Gen
+
+// DataPlaneAuthOptions_ARMGenerator returns a generator of DataPlaneAuthOptions_ARM instances for property testing.
+func DataPlaneAuthOptions_ARMGenerator() gopter.Gen {
+	if dataPlaneAuthOptions_ARMGenerator != nil {
+		return dataPlaneAuthOptions_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForDataPlaneAuthOptions_ARM(generators)
+	dataPlaneAuthOptions_ARMGenerator = gen.Struct(reflect.TypeOf(DataPlaneAuthOptions_ARM{}), generators)
+
+	return dataPlaneAuthOptions_ARMGenerator
+}
+
+// AddRelatedPropertyGeneratorsForDataPlaneAuthOptions_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDataPlaneAuthOptions_ARM(gens map[string]gopter.Gen) {
+	gens["AadOrApiKey"] = gen.PtrOf(DataPlaneAadOrApiKeyAuthOption_ARMGenerator())
 }
 
 func Test_EncryptionWithCmk_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -422,6 +484,67 @@ func NetworkRuleSet_ARMGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForNetworkRuleSet_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNetworkRuleSet_ARM(gens map[string]gopter.Gen) {
 	gens["IpRules"] = gen.SliceOf(IpRule_ARMGenerator())
+}
+
+func Test_DataPlaneAadOrApiKeyAuthOption_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DataPlaneAadOrApiKeyAuthOption_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDataPlaneAadOrApiKeyAuthOption_ARM, DataPlaneAadOrApiKeyAuthOption_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDataPlaneAadOrApiKeyAuthOption_ARM runs a test to see if a specific instance of DataPlaneAadOrApiKeyAuthOption_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDataPlaneAadOrApiKeyAuthOption_ARM(subject DataPlaneAadOrApiKeyAuthOption_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DataPlaneAadOrApiKeyAuthOption_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DataPlaneAadOrApiKeyAuthOption_ARM instances for property testing - lazily instantiated by
+// DataPlaneAadOrApiKeyAuthOption_ARMGenerator()
+var dataPlaneAadOrApiKeyAuthOption_ARMGenerator gopter.Gen
+
+// DataPlaneAadOrApiKeyAuthOption_ARMGenerator returns a generator of DataPlaneAadOrApiKeyAuthOption_ARM instances for property testing.
+func DataPlaneAadOrApiKeyAuthOption_ARMGenerator() gopter.Gen {
+	if dataPlaneAadOrApiKeyAuthOption_ARMGenerator != nil {
+		return dataPlaneAadOrApiKeyAuthOption_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDataPlaneAadOrApiKeyAuthOption_ARM(generators)
+	dataPlaneAadOrApiKeyAuthOption_ARMGenerator = gen.Struct(reflect.TypeOf(DataPlaneAadOrApiKeyAuthOption_ARM{}), generators)
+
+	return dataPlaneAadOrApiKeyAuthOption_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDataPlaneAadOrApiKeyAuthOption_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDataPlaneAadOrApiKeyAuthOption_ARM(gens map[string]gopter.Gen) {
+	gens["AadAuthFailureMode"] = gen.PtrOf(gen.OneConstOf(DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_Http401WithBearerChallenge, DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_Http403))
 }
 
 func Test_IpRule_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

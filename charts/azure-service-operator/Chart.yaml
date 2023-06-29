@@ -1,7 +1,7 @@
 apiVersion: v2
 name: azure-service-operator
-version: 1.11.0
-appVersion: 1.0.45297
+version: 1.12.0
+appVersion: 1.0.59040
 description: Deploy components and dependencies of azure-service-operator
 home: https://github.com/Azure/azure-service-operator
 sources:

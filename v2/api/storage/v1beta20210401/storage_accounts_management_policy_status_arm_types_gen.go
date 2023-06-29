@@ -19,7 +19,7 @@ type ManagementPolicyProperties_STATUS_ARM struct {
 
 // Deprecated version of ManagementPolicySchema_STATUS. Use v1api20210401.ManagementPolicySchema_STATUS instead
 type ManagementPolicySchema_STATUS_ARM struct {
-	Rules []ManagementPolicyRule_STATUS_ARM `json:"rules,omitempty"`
+	Rules []ManagementPolicyRule_STATUS_ARM `json:"rules"`
 }
 
 // Deprecated version of ManagementPolicyRule_STATUS. Use v1api20210401.ManagementPolicyRule_STATUS instead
@@ -45,9 +45,9 @@ type ManagementPolicyAction_STATUS_ARM struct {
 
 // Deprecated version of ManagementPolicyFilter_STATUS. Use v1api20210401.ManagementPolicyFilter_STATUS instead
 type ManagementPolicyFilter_STATUS_ARM struct {
-	BlobIndexMatch []TagFilter_STATUS_ARM `json:"blobIndexMatch,omitempty"`
-	BlobTypes      []string               `json:"blobTypes,omitempty"`
-	PrefixMatch    []string               `json:"prefixMatch,omitempty"`
+	BlobIndexMatch []TagFilter_STATUS_ARM `json:"blobIndexMatch"`
+	BlobTypes      []string               `json:"blobTypes"`
+	PrefixMatch    []string               `json:"prefixMatch"`
 }
 
 // Deprecated version of ManagementPolicyBaseBlob_STATUS. Use v1api20210401.ManagementPolicyBaseBlob_STATUS instead

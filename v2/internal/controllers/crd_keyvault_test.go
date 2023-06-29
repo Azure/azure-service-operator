@@ -25,7 +25,7 @@ func Test_KeyVault_Vault_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 	defer tc.DeleteResourcesAndWait(rg)
 
-	vault := newVault(tc, rg)
+	vault := newVault("keyvault", tc, rg)
 
 	tc.CreateResourceAndWait(vault)
 	tc.DeleteResourceAndWait(vault)
@@ -75,7 +75,7 @@ func Test_KeyVault_Vault_FromConfig_CRUD(t *testing.T) {
 		},
 	}
 
-	vault := newVault(tc, rg)
+	vault := newVault("keyvault", tc, rg)
 
 	accessPolicyFromConfig := keyvault.AccessPolicyEntry{
 		ApplicationIdFromConfig: &genruntime.ConfigMapReference{
@@ -102,16 +102,15 @@ func Test_KeyVault_Vault_FromConfig_CRUD(t *testing.T) {
 
 	tc.CreateResourcesAndWait(mi, vault)
 	tc.DeleteResourcesAndWait(vault, mi)
-
 }
 
-func newVault(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *keyvault.Vault {
+func newVault(name string, tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *keyvault.Vault {
 
 	skuFamily := keyvault.Sku_Family_A
 	skuName := keyvault.Sku_Name_Standard
 
 	return &keyvault.Vault{
-		ObjectMeta: tc.MakeObjectMeta("keyvault"),
+		ObjectMeta: tc.MakeObjectMeta(name),
 		Spec: keyvault.Vault_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),

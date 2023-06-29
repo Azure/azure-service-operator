@@ -13,7 +13,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
-	"k8s.io/api/core/v1"
+	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
@@ -87,7 +87,8 @@ func runGroupTest(tc *testcommon.KubePerTestContext, groupVersionPath string) {
 		tc.Namespace,
 		useRandomName,
 		rg.Name,
-		tc.AzureSubscription).
+		tc.AzureSubscription,
+		tc.AzureTenant).
 		LoadSamples()
 
 	tc.Expect(err).To(BeNil())

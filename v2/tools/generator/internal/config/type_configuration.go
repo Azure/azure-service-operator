@@ -38,6 +38,7 @@ type TypeConfiguration struct {
 	isResource               configurable[bool]
 	resourceEmbeddedInParent configurable[string]
 	importable               configurable[bool]
+	defaultAzureName         configurable[bool]
 	advisor                  *typo.Advisor
 }
 
@@ -52,6 +53,7 @@ const (
 	nameInNextVersionTag        = "$nameInNextVersion"        // String specifying a type or property name change in the next version
 	supportedFromTag            = "$supportedFrom"            // Label specifying the first ASO release supporting the resource
 	resourceEmbeddedInParentTag = "$resourceEmbeddedInParent" // String specifying resource name of parent
+	defaultAzureNameTag         = "$defaultAzureName"         // Boolean indicating if the resource should automatically default AzureName
 )
 
 func NewTypeConfiguration(name string) *TypeConfiguration {
@@ -304,6 +306,28 @@ func (tc *TypeConfiguration) VerifyImportableConsumed() error {
 	return nil
 }
 
+// LookupDefaultAzureName checks to see whether this type should default AzureName. If not specified, returns
+// NotConfiguredError.
+func (tc *TypeConfiguration) LookupDefaultAzureName() (bool, error) {
+	v, ok := tc.defaultAzureName.read()
+	if !ok {
+		msg := fmt.Sprintf(defaultAzureNameTag+" not specified for type %s", tc.name)
+		return false, NewNotConfiguredError(msg)
+	}
+
+	return v, nil
+}
+
+// VerifyDefaultAzureNameConsumed returns an error if our configured DefaultAzureName flag was not used, nil otherwise.
+func (tc *TypeConfiguration) VerifyDefaultAzureNameConsumed() error {
+	if tc.defaultAzureName.isUnconsumed() {
+		v, _ := tc.defaultAzureName.read()
+		return errors.Errorf("type %s: "+defaultAzureNameTag+": %t not consumed", tc.name, v)
+	}
+
+	return nil
+}
+
 // Add includes configuration for the specified property as a part of this type configuration
 func (tc *TypeConfiguration) addProperty(name string, property *PropertyConfiguration) {
 	// Indexed by lowercase name of the property to allow case-insensitive lookups
@@ -531,6 +555,18 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			}
 
 			tc.importable.write(importable)
+			continue
+		}
+
+		// $defaultAzureName: <bool>
+		if strings.EqualFold(lastId, defaultAzureNameTag) && c.Kind == yaml.ScalarNode {
+			var defaultAzureName bool
+			err := c.Decode(&defaultAzureName)
+			if err != nil {
+				return errors.Wrapf(err, "decoding %s", defaultAzureNameTag)
+			}
+
+			tc.defaultAzureName.write(defaultAzureName)
 			continue
 		}
 

@@ -10,9 +10,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
+
+	"github.com/Azure/azure-service-operator/v2/internal/version"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/pipeline"
@@ -187,7 +188,7 @@ func createAllPipelineStages(
 
 		pipeline.ReportOnTypesAndVersions(configuration).UsedFor(pipeline.ARMTarget), // TODO: For now only used for ARM
 
-		pipeline.CreateARMTypes(idFactory, log).UsedFor(pipeline.ARMTarget),
+		pipeline.CreateARMTypes(configuration.ObjectModelConfiguration, idFactory, log).UsedFor(pipeline.ARMTarget),
 		pipeline.PruneResourcesWithLifecycleOwnedByParent(configuration).UsedFor(pipeline.ARMTarget),
 		pipeline.MakeOneOfDiscriminantRequired().UsedFor(pipeline.ARMTarget),
 		pipeline.ApplyARMConversionInterface(idFactory).UsedFor(pipeline.ARMTarget),
@@ -206,7 +207,7 @@ func createAllPipelineStages(
 		// pipeline.AddOperatorStatus(idFactory).UsedFor(pipeline.ARMTarget),
 
 		pipeline.AddKubernetesExporter(idFactory).UsedFor(pipeline.ARMTarget),
-		pipeline.ApplyDefaulterAndValidatorInterfaces(idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.ApplyDefaulterAndValidatorInterfaces(configuration, idFactory).UsedFor(pipeline.ARMTarget),
 
 		pipeline.AddCrossplaneOwnerProperties(idFactory).UsedFor(pipeline.CrossplaneTarget),
 		pipeline.AddCrossplaneForProvider(idFactory).UsedFor(pipeline.CrossplaneTarget),

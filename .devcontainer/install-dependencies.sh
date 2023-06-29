@@ -219,7 +219,7 @@ fi
 
 # Ensure tooling for Hugo is available
 write-verbose "Checking for /usr/bin/postcss"
-if should-install "/usr/bin/postcss"; then 
+if ! which postcss; then 
     write-info "Installing postcss"
     npm install --global postcss postcss-cli autoprefixer
 fi

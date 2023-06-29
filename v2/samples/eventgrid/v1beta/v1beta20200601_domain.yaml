@@ -7,4 +7,4 @@ spec:
   location: westcentralus
   owner:
     name: aso-sample-rg
-  publicNetworkAcccess: Enabled
+  publicNetworkAccess: Enabled

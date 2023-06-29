@@ -66,7 +66,7 @@ type ChangeFeed_STATUS_ARM struct {
 // Sets the CORS rules. You can include up to five CorsRule elements in the request.
 type CorsRules_STATUS_ARM struct {
 	// CorsRules: The List of CORS rules. You can include up to five CorsRule elements in the request.
-	CorsRules []CorsRule_STATUS_ARM `json:"corsRules,omitempty"`
+	CorsRules []CorsRule_STATUS_ARM `json:"corsRules"`
 }
 
 // The service properties for soft delete.
@@ -83,7 +83,7 @@ type DeleteRetentionPolicy_STATUS_ARM struct {
 type LastAccessTimeTrackingPolicy_STATUS_ARM struct {
 	// BlobType: An array of predefined supported blob types. Only blockBlob is the supported value. This field is currently
 	// read only
-	BlobType []string `json:"blobType,omitempty"`
+	BlobType []string `json:"blobType"`
 
 	// Enable: When set to true last access time based tracking is enabled.
 	Enable *bool `json:"enable,omitempty"`
@@ -115,18 +115,18 @@ type RestorePolicyProperties_STATUS_ARM struct {
 type CorsRule_STATUS_ARM struct {
 	// AllowedHeaders: Required if CorsRule element is present. A list of headers allowed to be part of the cross-origin
 	// request.
-	AllowedHeaders []string `json:"allowedHeaders,omitempty"`
+	AllowedHeaders []string `json:"allowedHeaders"`
 
 	// AllowedMethods: Required if CorsRule element is present. A list of HTTP methods that are allowed to be executed by the
 	// origin.
-	AllowedMethods []CorsRule_AllowedMethods_STATUS `json:"allowedMethods,omitempty"`
+	AllowedMethods []CorsRule_AllowedMethods_STATUS `json:"allowedMethods"`
 
 	// AllowedOrigins: Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or "*"
 	// to allow all domains
-	AllowedOrigins []string `json:"allowedOrigins,omitempty"`
+	AllowedOrigins []string `json:"allowedOrigins"`
 
 	// ExposedHeaders: Required if CorsRule element is present. A list of response headers to expose to CORS clients.
-	ExposedHeaders []string `json:"exposedHeaders,omitempty"`
+	ExposedHeaders []string `json:"exposedHeaders"`
 
 	// MaxAgeInSeconds: Required if CorsRule element is present. The number of seconds that the client/browser should cache a
 	// preflight response.

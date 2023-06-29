@@ -205,6 +205,8 @@ spec:
                 required:
                 - name
                 type: object
+              subscriptionId:
+                type: string
               weekOfYear:
                 format: int32
                 type: integer
@@ -213,6 +215,7 @@ spec:
               yearlyRetention:
                 type: string
             required:
+            - edition
             - location
             - resourceGroup
             - server

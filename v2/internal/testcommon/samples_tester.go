@@ -6,19 +6,19 @@ Licensed under the MIT license.
 package testcommon
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"reflect"
 	"regexp"
 	"strings"
 
+	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/runtime/serializer"
 	"k8s.io/apimachinery/pkg/util/yaml"
 
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
@@ -35,6 +35,9 @@ const (
 
 // Regex to match '/00000000-0000-0000-0000-000000000000/' strings, to replace with the subscriptionID
 var subRegex = regexp.MustCompile("\\/([0]+-?)+\\/")
+
+// An empty GUID, used to replace the subscriptionID and tenantID in the sample files
+var emptyGuid = uuid.Nil.String()
 
 // exclusions slice contains RESOURCES to exclude from test
 var exclusions = []string{
@@ -53,13 +56,13 @@ var exclusions = []string{
 
 type SamplesTester struct {
 	noSpaceNamer      ResourceNamer
-	decoder           runtime.Decoder
 	scheme            *runtime.Scheme
 	groupVersionPath  string
 	namespace         string
 	useRandomName     bool
 	rgName            string
 	azureSubscription string
+	azureTenant       string
 }
 
 type SampleObject struct {
@@ -85,16 +88,18 @@ func NewSamplesTester(
 	namespace string,
 	useRandomName bool,
 	rgName string,
-	azureSubscription string) *SamplesTester {
+	azureSubscription string,
+	azureTenant string,
+) *SamplesTester {
 	return &SamplesTester{
 		noSpaceNamer:      noSpaceNamer,
-		decoder:           serializer.NewCodecFactory(scheme).UniversalDecoder(),
 		scheme:            scheme,
 		groupVersionPath:  groupVersionPath,
 		namespace:         namespace,
 		useRandomName:     useRandomName,
 		rgName:            rgName,
 		azureSubscription: azureSubscription,
+		azureTenant:       azureTenant,
 	}
 }
 
@@ -120,6 +125,7 @@ func (t *SamplesTester) LoadSamples() (*SampleObject, error) {
 					if t.useRandomName {
 						sample.SetName(t.noSpaceNamer.GenerateName(""))
 					}
+
 					t.handleObject(sample, samples.SamplesMap)
 				}
 			}
@@ -135,6 +141,7 @@ func (t *SamplesTester) LoadSamples() (*SampleObject, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	err = t.setOwnershipAndReferences(samples.RefsMap)
 	if err != nil {
 		return nil, err
@@ -157,7 +164,7 @@ func (t *SamplesTester) handleObject(sample genruntime.ARMMetaObject, samples ma
 func (t *SamplesTester) getObjectFromFile(path string) (genruntime.ARMMetaObject, error) {
 	jsonMap := make(map[string]interface{})
 
-	byteData, err := ioutil.ReadFile(path)
+	byteData, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}
@@ -180,9 +187,11 @@ func (t *SamplesTester) getObjectFromFile(path string) (genruntime.ARMMetaObject
 		return nil, err
 	}
 
-	err = runtime.DecodeInto(t.decoder, byteData, obj)
+	decorder := json.NewDecoder(bytes.NewReader(jsonBytes))
+	decorder.DisallowUnknownFields()
+	err = decorder.Decode(obj)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrapf(err, "while decoding %s", path)
 	}
 
 	return obj.(genruntime.ARMMetaObject), nil
@@ -213,12 +222,12 @@ func (t *SamplesTester) setOwnershipAndReferences(samples map[string]genruntime.
 			sample = setOwnersName(sample, ownersName)
 		}
 
-		var err error
-		sample, err = t.updateARMReferencesForTest(sample)
+		err := t.updateFieldsForTest(sample)
 		if err != nil {
 			return err
 		}
 	}
+
 	return nil
 }
 
@@ -251,45 +260,85 @@ func IsSampleExcluded(path string, exclusions []string) bool {
 	return false
 }
 
-// updateARMReferencesForTest uses ReflectVisitor to visit through the ARMMetaObject to find and update ARMReferences
-func (t *SamplesTester) updateARMReferencesForTest(obj genruntime.ARMMetaObject) (genruntime.ARMMetaObject, error) {
+// updateFieldsForTest uses ReflectVisitor to update ARMReferences, SubscriptionIDs, and TenantIDs.
+func (t *SamplesTester) updateFieldsForTest(obj genruntime.ARMMetaObject) error {
 	visitor := reflecthelpers.NewReflectVisitor()
-	visitor.VisitStruct = t.setARMReference
+	visitor.VisitStruct = t.visitStruct
 
 	err := visitor.Visit(obj, nil)
 	if err != nil {
-		return nil, errors.Wrapf(err, "scanning for references of type %s", reflect.TypeOf(genruntime.ResourceReference{}))
+		return errors.Wrapf(err, "updating fields for test")
 	}
 
-	return obj, nil
+	return nil
 }
 
-// setARMReference checks and sets the SubscriptionID and ResourceGroup name for ARM references to current values
-func (t *SamplesTester) setARMReference(this *reflecthelpers.ReflectVisitor, it reflect.Value, ctx interface{}) error {
+// visitStruct checks and sets the SubscriptionID and ResourceGroup name for ARM references to current values
+func (t *SamplesTester) visitStruct(this *reflecthelpers.ReflectVisitor, it reflect.Value, ctx any) error {
 
-	if it.Type() != reflect.TypeOf(genruntime.ResourceReference{}) {
-		return reflecthelpers.IdentityVisitStruct(this, it, ctx)
+	// Configure any ResourceReference we find
+	if it.Type() == reflect.TypeOf(genruntime.ResourceReference{}) {
+		return t.visitResourceReference(this, it, ctx)
 	}
 
-	if it.CanInterface() {
-		reference := it.Interface().(genruntime.ResourceReference)
-		if reference.ARMID == "" {
-			return nil
-		}
+	// Set the value of any SubscriptionID Field that's got an empty GUID as the value
+	if field := it.FieldByNameFunc(isField("subscriptionID")); field.IsValid() {
+		t.assignString(field, t.azureSubscription)
+	}
 
-		armIDField := it.FieldByName("ARMID")
-		if !armIDField.CanSet() {
-			return errors.New("cannot set 'ARMID' field of 'genruntime.ResourceReference'")
-		}
+	// Set the value of any TenantID Field that's got an empty GUID as the value
+	if field := it.FieldByNameFunc(isField("tenantID")); field.IsValid() {
+		t.assignString(field, t.azureTenant)
+	}
 
-		armIDString := armIDField.String()
-		armIDString = strings.ReplaceAll(armIDString, defaultResourceGroup, t.rgName)
-		armIDString = subRegex.ReplaceAllString(armIDString, fmt.Sprint("/", t.azureSubscription, "/"))
+	return reflecthelpers.IdentityVisitStruct(this, it, ctx)
+}
 
-		armIDField.SetString(armIDString)
-	} else {
+// isField is a helper used to find fields by case-insensitive matches
+func isField(field string) func(name string) bool {
+	return func(name string) bool {
+		return strings.EqualFold(name, field)
+	}
+}
+
+func (t *SamplesTester) assignString(field reflect.Value, value string) {
+	if field.Kind() == reflect.String &&
+		// Set simple string field
+		field.String() == emptyGuid {
+		field.SetString(value)
+		return
+	}
+
+	if field.Kind() == reflect.Ptr &&
+		field.Elem().Kind() == reflect.String &&
+		field.Elem().String() == emptyGuid {
+		// Set pointer to string field
+		field.Elem().SetString(value)
+	}
+}
+
+// visitResourceReference checks and sets the SubscriptionID and ResourceGroup name for ARM references to current values
+func (t *SamplesTester) visitResourceReference(_ *reflecthelpers.ReflectVisitor, it reflect.Value, _ any) error {
+	if !it.CanInterface() {
 		// This should be impossible given how the visitor works
-		panic(fmt.Sprintf("genruntime.ResourceReference field was unexpectedly nil"))
+		panic("genruntime.ResourceReference field was unexpectedly nil")
 	}
+
+	reference := it.Interface().(genruntime.ResourceReference)
+	if reference.ARMID == "" {
+		return nil
+	}
+
+	armIDField := it.FieldByName("ARMID")
+	if !armIDField.CanSet() {
+		return errors.New("cannot set 'ARMID' field of 'genruntime.ResourceReference'")
+	}
+
+	armIDString := armIDField.String()
+	armIDString = strings.ReplaceAll(armIDString, defaultResourceGroup, t.rgName)
+	armIDString = subRegex.ReplaceAllString(armIDString, fmt.Sprint("/", t.azureSubscription, "/"))
+
+	armIDField.SetString(armIDString)
+
 	return nil
 }

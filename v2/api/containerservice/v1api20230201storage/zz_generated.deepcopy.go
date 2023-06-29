@@ -3679,7 +3679,7 @@ func (in *ManagedClusterServicePrincipalProfile) DeepCopyInto(out *ManagedCluste
 	}
 	if in.Secret != nil {
 		in, out := &in.Secret, &out.Secret
-		*out = new(string)
+		*out = new(genruntime.SecretReference)
 		**out = **in
 	}
 }
@@ -3708,11 +3708,6 @@ func (in *ManagedClusterServicePrincipalProfile_STATUS) DeepCopyInto(out *Manage
 		for key, val := range *in {
 			(*out)[key] = val
 		}
-	}
-	if in.Secret != nil {
-		in, out := &in.Secret, &out.Secret
-		*out = new(string)
-		**out = **in
 	}
 }
 
