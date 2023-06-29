@@ -980,18 +980,9 @@ objectModelConfiguration:
       BackupVault: 
         $export: true 
         $supportedFrom: v2.2.0 
-      BackupVaults_BackupInstance: 
-        $exportAs: BackupVaultsBackupInstance 
-        $supportedFrom: v2.2.0 
       BackupVaults_BackupPolicy: 
         $exportAs: BackupVaultsBackupPolicy 
         $supportedFrom: v2.2.0 
-      DatasourceSet: 
-        ResourceID: 
-          $armReference: true 
-      Datasource: 
-        ResourceID: 
-          $armReference: true
   dbformariadb:
     2018-06-01:
       Server:

@@ -319,7 +319,6 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v1api20230201s.ManagedClustersAgentPool)})
 	result = append(result, &registration.StorageType{Obj: new(datafactory_v1api20180601s.Factory)})
 	result = append(result, &registration.StorageType{Obj: new(dataprotection_v1api20230101s.BackupVault)})
-	result = append(result, &registration.StorageType{Obj: new(dataprotection_v1api20230101s.BackupVaultsBackupInstance)})
 	result = append(result, &registration.StorageType{Obj: new(dataprotection_v1api20230101s.BackupVaultsBackupPolicy)})
 	result = append(result, &registration.StorageType{Obj: new(dbformariadb_v1api20180601s.Configuration)})
 	result = append(result, &registration.StorageType{Obj: new(dbformariadb_v1api20180601s.Database)})
@@ -921,16 +920,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(containerservice_v20210501s.ManagedCluster), new(containerservice_v20210501s.ManagedClustersAgentPool))
 	result = append(result, new(datafactory_v1api20180601.Factory))
 	result = append(result, new(datafactory_v1api20180601s.Factory))
-	result = append(
-		result,
-		new(dataprotection_v1api20230101.BackupVault),
-		new(dataprotection_v1api20230101.BackupVaultsBackupInstance),
-		new(dataprotection_v1api20230101.BackupVaultsBackupPolicy))
-	result = append(
-		result,
-		new(dataprotection_v1api20230101s.BackupVault),
-		new(dataprotection_v1api20230101s.BackupVaultsBackupInstance),
-		new(dataprotection_v1api20230101s.BackupVaultsBackupPolicy))
+	result = append(result, new(dataprotection_v1api20230101.BackupVault), new(dataprotection_v1api20230101.BackupVaultsBackupPolicy))
+	result = append(result, new(dataprotection_v1api20230101s.BackupVault), new(dataprotection_v1api20230101s.BackupVaultsBackupPolicy))
 	result = append(
 		result,
 		new(dbformariadb_v1api20180601.Configuration),
@@ -1662,7 +1653,6 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &containerservice_customizations.ManagedClustersAgentPoolExtension{})
 	result = append(result, &datafactory_customizations.FactoryExtension{})
 	result = append(result, &dataprotection_customizations.BackupVaultExtension{})
-	result = append(result, &dataprotection_customizations.BackupVaultsBackupInstanceExtension{})
 	result = append(result, &dataprotection_customizations.BackupVaultsBackupPolicyExtension{})
 	result = append(result, &dbformariadb_customizations.ConfigurationExtension{})
 	result = append(result, &dbformariadb_customizations.DatabaseExtension{})
