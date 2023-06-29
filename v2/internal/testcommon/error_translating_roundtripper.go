@@ -81,13 +81,20 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 	matchingBodies := w.findMatchingBodies(req)
 
 	if len(matchingBodies) == 0 {
+		var discriminator string
+		if header := req.Header.Get(COUNT_HEADER); header != "" {
+			discriminator = fmt.Sprintf(" (attempt: %s)", header)
+		} else if header := req.Header.Get(HASH_HEADER); header != "" {
+			discriminator = fmt.Sprintf(" (hash: %s)", header)
+		}
+
 		return nil, conditions.NewReadyConditionImpactingError(
-			errors.Errorf("cannot find go-vcr recording for request from test %q (cassette: %q) (no responses recorded for this method/URL): %s %s (attempt: %s)\n\n",
+			errors.Errorf("cannot find go-vcr recording for request from test %q (cassette: %q) (no responses recorded for this method/URL): %s %s %s\n\n",
 				w.t.Name(),
 				w.cassetteName,
 				req.Method,
 				req.URL.String(),
-				req.Header.Get(COUNT_HEADER)),
+				discriminator),
 			conditions.ConditionSeverityError,
 			conditions.ReasonReconciliationFailedPermanently)
 	}
