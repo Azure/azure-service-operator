@@ -10,7 +10,7 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401previewsto
 │   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Properties: *Object (15 properties)
+│   │   ├── Properties: *Object (16 properties)
 │   │   │   ├── AccessPolicies: Object (8 properties)[]
 │   │   │   │   ├── ApplicationId: *string
 │   │   │   │   ├── ApplicationIdFromConfig: *genruntime.ConfigMapReference
@@ -51,6 +51,7 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401previewsto
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── SoftDeleteRetentionInDays: *int
 │   │   │   ├── TenantId: *string
+│   │   │   ├── TenantIdFromConfig: *genruntime.ConfigMapReference
 │   │   │   └── VaultUri: *string
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── Tags: map[string]string

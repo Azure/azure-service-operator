@@ -44,7 +44,7 @@ type VaultProperties_ARM struct {
 	ProvisioningState            *VaultProperties_ProvisioningState `json:"provisioningState,omitempty"`
 	Sku                          *Sku_ARM                           `json:"sku,omitempty"`
 	SoftDeleteRetentionInDays    *int                               `json:"softDeleteRetentionInDays,omitempty"`
-	TenantId                     *string                            `json:"tenantId,omitempty"`
+	TenantId                     *string                            `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
 	VaultUri                     *string                            `json:"vaultUri,omitempty"`
 }
 
