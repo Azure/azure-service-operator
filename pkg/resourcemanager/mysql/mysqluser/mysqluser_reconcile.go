@@ -268,7 +268,7 @@ func (s *MySqlUserManager) Delete(ctx context.Context, obj runtime.Object, opts 
 	// Once the user has been dropped, also delete their secrets.
 	s.DeleteSecrets(ctx, instance, mysqlUserSecretClient)
 
-	instance.Status.Message = fmt.Sprintf("Delete MySqlUser succeeded")
+	instance.Status.Message = "Delete MySqlUser succeeded"
 
 	return false, nil
 }

@@ -47,7 +47,7 @@ var testEnv *envtest.Environment
 var tc TestContext
 
 func setup() error {
-	log.Println(fmt.Sprintf("Starting common controller test setup"))
+	log.Println("Starting common controller test setup")
 
 	// Go ahead and assume that we're deployed in the default namespace for
 	// the purpose of these tests
@@ -223,13 +223,13 @@ func setup() error {
 		return err
 	}
 
-	log.Println(fmt.Sprintf("finished common controller test setup"))
+	log.Println("finished common controller test setup")
 
 	return nil
 }
 
 func teardown() error {
-	log.Println(fmt.Sprintf("Started common controller test teardown"))
+	log.Println("Started common controller test teardown")
 
 	finish := time.Now().Add(tc.timeout)
 	for {
@@ -254,7 +254,7 @@ func teardown() error {
 		return err
 	}
 
-	log.Println(fmt.Sprintf("Finished common controller test teardown"))
+	log.Println("Finished common controller test teardown")
 	return nil
 }
 

@@ -188,7 +188,7 @@ func (m *MySQLAADUserManager) Delete(ctx context.Context, obj runtime.Object, op
 		return false, err
 	}
 
-	instance.Status.Message = fmt.Sprintf("Delete MySqlUser succeeded")
+	instance.Status.Message = "Delete MySqlUser succeeded"
 
 	return false, nil
 }

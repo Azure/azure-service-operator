@@ -394,7 +394,7 @@ func (s *AzureSqlUserManager) Delete(ctx context.Context, obj runtime.Object, op
 	// Once the user has been dropped, also delete their secrets.
 	s.DeleteSecrets(ctx, instance, sqlUserSecretClient)
 
-	instance.Status.Message = fmt.Sprintf("Delete AzureSqlUser succeeded")
+	instance.Status.Message = "Delete AzureSqlUser succeeded"
 
 	//successfully delete
 	return false, nil

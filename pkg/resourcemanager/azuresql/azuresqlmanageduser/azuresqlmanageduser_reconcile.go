@@ -213,7 +213,7 @@ func (s *AzureSqlManagedUserManager) Delete(ctx context.Context, obj runtime.Obj
 	// Best case deletion of secrets
 	s.DeleteSecrets(ctx, instance, secretClient)
 
-	instance.Status.Message = fmt.Sprintf("Delete AzureSqlManagedUser succeeded")
+	instance.Status.Message = "Delete AzureSqlManagedUser succeeded"
 
 	return false, nil
 }

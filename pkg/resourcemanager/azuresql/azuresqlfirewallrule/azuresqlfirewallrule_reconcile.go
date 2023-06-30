@@ -101,7 +101,7 @@ func (fw *AzureSqlFirewallRuleManager) Delete(ctx context.Context, obj runtime.O
 		instance.Status.Message = fmt.Sprintf("AzureSqlFirewallRule Delete failed with %s", err.Error())
 		return true, err
 	}
-	instance.Status.Message = fmt.Sprintf("Delete AzureSqlFirewallRule succeeded")
+	instance.Status.Message = "Delete AzureSqlFirewallRule succeeded"
 	return false, nil
 }
 

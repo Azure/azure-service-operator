@@ -303,7 +303,7 @@ func (m *PostgreSqlUserManager) Delete(ctx context.Context, obj runtime.Object, 
 	// Once the user has been dropped, also delete their secrets.
 	m.DeleteSecrets(ctx, instance, psqlUserSecretClient)
 
-	instance.Status.Message = fmt.Sprintf("Delete PostgreSqlUser succeeded")
+	instance.Status.Message = "Delete PostgreSqlUser succeeded"
 
 	// no err, no requeue, reconcile will stop
 	return false, nil

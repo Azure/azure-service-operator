@@ -4,7 +4,6 @@
 package kube
 
 import (
-	"fmt"
 	"log"
 	"path/filepath"
 	"testing"
@@ -45,7 +44,7 @@ var _ = BeforeSuite(func() {
 		o.Development = true
 	})
 	logf.SetLogger(zaplogger)
-	log.Println(fmt.Sprintf("Starting common controller test setup"))
+	log.Println("Starting common controller test setup")
 
 	By("bootstrapping test environment")
 	testEnv = &envtest.Environment{
@@ -72,11 +71,11 @@ var _ = BeforeSuite(func() {
 })
 
 var _ = AfterSuite(func() {
-	log.Println(fmt.Sprintf("Started common controller test teardown"))
+	log.Println("Started common controller test teardown")
 	//clean up the resources created for test
 	By("tearing down the test environment")
 
 	err := testEnv.Stop()
 	Expect(err).ToNot(HaveOccurred())
-	log.Println(fmt.Sprintf("Finished common controller test teardown"))
+	log.Println("Finished common controller test teardown")
 })

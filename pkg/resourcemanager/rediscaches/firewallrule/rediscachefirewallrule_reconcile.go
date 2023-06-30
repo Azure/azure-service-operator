@@ -107,7 +107,7 @@ func (fw *AzureRedisCacheFirewallRuleManager) Delete(ctx context.Context, obj ru
 		return false, err
 	}
 	// successful return
-	instance.Status.Message = fmt.Sprintf("Delete AzureSqlFailoverGroup succeeded")
+	instance.Status.Message = "Delete AzureSqlFailoverGroup succeeded"
 	return false, err
 }
 

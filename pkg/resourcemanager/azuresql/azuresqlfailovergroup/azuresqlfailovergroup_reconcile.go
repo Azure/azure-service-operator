@@ -202,7 +202,7 @@ func (fg *AzureSqlFailoverGroupManager) Delete(ctx context.Context, obj runtime.
 		return false, err
 	}
 
-	instance.Status.Message = fmt.Sprintf("Delete AzureSqlFailoverGroup succeeded")
+	instance.Status.Message = "Delete AzureSqlFailoverGroup succeeded"
 	// Best case deletion of secret
 	secretClient.Delete(ctx, secretKey)
 	return false, nil
