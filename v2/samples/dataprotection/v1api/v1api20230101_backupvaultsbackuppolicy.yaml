@@ -1,0 +1,49 @@
+apiVersion: dataprotection.azure.com/v1api20230101
+kind: BackupVaultsBackupPolicy
+metadata:
+  name: asotestbackuppolicy
+  namespace: default
+spec:
+  owner:
+    name: asotestbackupvault
+  properties:
+    backupPolicy:
+      datasourceTypes:
+        - Microsoft.ContainerService/managedClusters
+      objectType: BackupPolicy
+      policyRules:
+        - azureBackupRule:
+            backupParameters:
+              azureBackupParams:
+                backupType: Incremental
+                objectType: AzureBackupParams
+            dataStore:
+              dataStoreType: OperationalStore
+              objectType: DataStoreInfoBase
+            name: BackupHourly
+            objectType: AzureBackupRule
+            trigger:
+              scheduleBasedTriggerContext:
+                objectType: ScheduleBasedTriggerContext
+                schedule:
+                  timeZone: UTC
+                  repeatingTimeIntervals:
+                    - 'R/2023-06-07T10:26:32+00:00/PT4H'
+                taggingCriteria:
+                  - isDefault: true
+                    taggingPriority: 99
+                    tagInfo:
+                      tagName: Default
+        - azureRetentionRule:
+            name: Default
+            objectType: AzureRetentionRule
+            isDefault: true
+            lifecycles:
+              - deleteAfter:
+                  absoluteDeleteOption:
+                    duration: P9D
+                    objectType: AbsoluteDeleteOption
+                sourceDataStore:
+                  dataStoreType: OperationalStore
+                  objectType: DataStoreInfoBase
+
