@@ -8,9 +8,7 @@ spec:
   owner:
     name: aso-sample-rg
   properties:
-    tenantIdFromConfig:
-      name: identity-settings
-      key: tenantId
+    tenantId: "00000000-0000-0000-0000-000000000000"
     sku:
       family: A
       name: standard
