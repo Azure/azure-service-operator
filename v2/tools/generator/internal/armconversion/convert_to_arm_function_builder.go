@@ -511,28 +511,28 @@ func (builder *convertToARMBuilder) convertUserAssignedIdentitiesCollection(
 ) ([]dst.Stmt, error) {
 	destinationType, isDestinationMap := params.DestinationType.(*astmodel.MapType)
 	if !isDestinationMap {
-		return nil
+		return nil, nil
 	}
 
 	sourceType, isSourceArray := params.SourceType.(*astmodel.ArrayType)
 	if !isSourceArray {
-		return nil
+		return nil, nil
 	}
 
 	typeName, ok := astmodel.AsTypeName(sourceType.Element())
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	if typeName.Name() != astmodel.UserAssignedIdentitiesTypeName {
-		return nil
+		return nil, nil
 	}
 
 	uaiDef := conversionBuilder.CodeGenerationContext.MustGetDefinition(typeName)
 
 	uaiType, ok := astmodel.AsObjectType(uaiDef.Type())
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	// There should be a single "Reference" property
@@ -600,12 +600,12 @@ func (builder *convertToARMBuilder) convertReferenceProperty(
 ) ([]dst.Stmt, error) {
 	isString := astmodel.TypeEquals(params.DestinationType, astmodel.StringType)
 	if !isString {
-		return nil
+		return nil, nil
 	}
 
 	isReference := astmodel.TypeEquals(params.SourceType, astmodel.ResourceReferenceType)
 	if !isReference {
-		return nil
+		return nil, nil
 	}
 
 	// Don't need to worry about conflicting names here since the property name was unique to begin with
@@ -639,12 +639,12 @@ func (builder *convertToARMBuilder) convertSecretProperty(
 ) ([]dst.Stmt, error) {
 	isString := astmodel.TypeEquals(params.DestinationType, astmodel.StringType)
 	if !isString {
-		return nil
+		return nil, nil
 	}
 
 	isSecretReference := astmodel.TypeEquals(params.SourceType, astmodel.SecretReferenceType)
 	if !isSecretReference {
-		return nil
+		return nil, nil
 	}
 
 	errorsPackage := builder.codeGenerationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
@@ -683,12 +683,12 @@ func (builder *convertToARMBuilder) convertConfigMapProperty(
 ) ([]dst.Stmt, error) {
 	isString := astmodel.TypeEquals(params.DestinationType, astmodel.StringType)
 	if !isString {
-		return nil
+		return nil, nil
 	}
 
 	isConfigMapReference := astmodel.TypeEquals(params.SourceType, astmodel.ConfigMapReferenceType)
 	if !isConfigMapReference {
-		return nil
+		return nil, nil
 	}
 
 	errorsPackage := builder.codeGenerationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
@@ -727,17 +727,17 @@ func (builder *convertToARMBuilder) convertComplexTypeNameProperty(
 ) ([]dst.Stmt, error) {
 	destinationType, ok := params.DestinationType.(astmodel.TypeName)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	sourceType, ok := params.SourceType.(astmodel.TypeName)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	// This is for handling type names that aren't equal
 	if astmodel.TypeEquals(sourceType, destinationType) {
-		return nil
+		return nil, nil
 	}
 
 	var results []dst.Stmt
@@ -770,7 +770,7 @@ func (builder *convertToARMBuilder) convertComplexTypeNameProperty(
 
 	results = append(results, params.AssignmentHandlerOrDefault()(params.GetDestination(), finalAssignmentExpr))
 
-	return results
+	return results, nil
 }
 
 func callToARMFunction(source dst.Expr, destination dst.Expr, methodName string) []dst.Stmt {

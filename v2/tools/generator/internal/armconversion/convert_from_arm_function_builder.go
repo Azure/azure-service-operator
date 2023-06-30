@@ -423,7 +423,7 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 
 	// we were unable to generate an inner conversion, so we cannot generate the overall conversion
 	if len(stmts) == 0 {
-		return nil
+		return nil, nil
 	}
 
 	if generateNilCheck {
@@ -442,7 +442,7 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 		},
 	}
 
-	return append(result, stmts...)
+	return append(result, stmts...), nil
 }
 
 func (builder *convertFromARMBuilder) propertiesWithSameNameHandler(
@@ -486,17 +486,17 @@ func (builder *convertFromARMBuilder) convertComplexTypeNameProperty(
 ) ([]dst.Stmt, error) {
 	destinationType, ok := params.DestinationType.(astmodel.TypeName)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	sourceType, ok := params.SourceType.(astmodel.TypeName)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	// This is for handling type names that aren't equal
 	if astmodel.TypeEquals(sourceType, destinationType) {
-		return nil
+		return nil, nil
 	}
 
 	propertyLocalVar := builder.typeConversionBuilder.CreateLocal(params.Locals, "", params.NameHint)
@@ -544,5 +544,5 @@ func (builder *convertFromARMBuilder) convertComplexTypeNameProperty(
 			params.AssignmentHandler(params.GetDestination(), dst.NewIdent(propertyLocalVar)))
 	}
 
-	return results
+	return results, nil
 }

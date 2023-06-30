@@ -163,7 +163,7 @@ func (builder *ConversionFunctionBuilder) BuildConversion(params ConversionParam
 	for _, conversion := range builder.conversions {
 		result := conversion(builder, params)
 		if len(result) > 0 {
-			return result
+			return result, nil
 		}
 	}
 
@@ -187,12 +187,12 @@ func IdentityConvertComplexOptionalProperty(
 ) ([]dst.Stmt, error) {
 	destinationType, ok := params.DestinationType.(*OptionalType)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	sourceType, ok := params.SourceType.(*OptionalType)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	locals := params.Locals.Clone()
@@ -237,12 +237,12 @@ func IdentityConvertComplexArrayProperty(
 ) ([]dst.Stmt, error) {
 	destinationType, ok := params.DestinationType.(*ArrayType)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	sourceType, ok := params.SourceType.(*ArrayType)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	var results []dst.Stmt
@@ -295,7 +295,7 @@ func IdentityConvertComplexArrayProperty(
 		results = append(results, params.AssignmentHandler(params.GetDestination(), dst.Clone(destination).(dst.Expr)))
 	}
 
-	return results
+	return results, nil
 }
 
 // IdentityConvertComplexMapProperty handles conversion for map properties with complex values.
@@ -315,12 +315,12 @@ func IdentityConvertComplexMapProperty(
 ) ([]dst.Stmt, error) {
 	destinationType, ok := params.DestinationType.(*MapType)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	sourceType, ok := params.SourceType.(*MapType)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	if _, ok := destinationType.KeyType().(*PrimitiveType); !ok {
@@ -393,7 +393,7 @@ func IdentityConvertComplexMapProperty(
 		result.Body.List = append(result.Body.List, params.AssignmentHandler(params.GetDestination(), dst.Clone(destination).(dst.Expr)))
 	}
 
-	return []dst.Stmt{result}
+	return []dst.Stmt{result}, nil
 }
 
 // IdentityAssignTypeName handles conversion for TypeName's that are the same
@@ -408,17 +408,17 @@ func IdentityAssignTypeName(
 ) ([]dst.Stmt, error) {
 	destinationType, ok := params.DestinationType.(TypeName)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	sourceType, ok := params.SourceType.(TypeName)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	// Can only apply basic assignment for typeNames that are the same
 	if !TypeEquals(sourceType, destinationType) {
-		return nil
+		return nil, nil
 	}
 
 	return astbuilder.Statements(
@@ -435,11 +435,11 @@ func IdentityAssignPrimitiveType(
 	params ConversionParameters,
 ) ([]dst.Stmt, error) {
 	if _, ok := params.DestinationType.(*PrimitiveType); !ok {
-		return nil
+		return nil, nil
 	}
 
 	if _, ok := params.SourceType.(*PrimitiveType); !ok {
-		return nil
+		return nil, nil
 	}
 
 	return astbuilder.Statements(
@@ -462,7 +462,7 @@ func AssignToOptional(
 ) ([]dst.Stmt, error) {
 	optDest, ok := params.DestinationType.(*OptionalType)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	if TypeEquals(optDest.Element(), params.SourceType) {
@@ -518,7 +518,7 @@ func AssignFromOptional(
 ) ([]dst.Stmt, error) {
 	optSrc, ok := params.SourceType.(*OptionalType)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	if TypeEquals(optSrc.Element(), params.DestinationType) {
@@ -546,7 +546,7 @@ func AssignFromOptional(
 		})
 
 	if len(conversion) == 0 {
-		return nil // unable to build inner conversion
+		return nil, nil // unable to build inner conversion
 	}
 
 	var result []dst.Stmt
@@ -567,7 +567,7 @@ func IdentityAssignValidatedTypeDestination(
 ) ([]dst.Stmt, error) {
 	validatedType, ok := params.DestinationType.(*ValidatedType)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	// pass through to underlying type
@@ -582,7 +582,7 @@ func IdentityAssignValidatedTypeSource(
 ) ([]dst.Stmt, error) {
 	validatedType, ok := params.SourceType.(*ValidatedType)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	// pass through to underlying type
@@ -599,7 +599,7 @@ func IdentityDeepCopyJSON(
 	params ConversionParameters,
 ) ([]dst.Stmt, error) {
 	if !TypeEquals(params.DestinationType, JSONType) {
-		return nil
+		return nil, nil
 	}
 
 	newSource := astbuilder.Dereference(
