@@ -112,7 +112,7 @@ func (params ConversionParameters) copy() ConversionParameters {
 	return result
 }
 
-type ConversionHandler func(builder *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt
+type ConversionHandler func(builder *ConversionFunctionBuilder, params ConversionParameters) ([]dst.Stmt, error)
 
 // TODO: There feels like overlap between this and the Storage Conversion Factories? Need further thinking to combine them?
 // ConversionFunctionBuilder is used to build a function converting between two similar types.
@@ -159,7 +159,7 @@ func (builder *ConversionFunctionBuilder) PrependConversionHandlers(conversionHa
 }
 
 // BuildConversion creates a conversion between the source and destination defined by params.
-func (builder *ConversionFunctionBuilder) BuildConversion(params ConversionParameters) []dst.Stmt {
+func (builder *ConversionFunctionBuilder) BuildConversion(params ConversionParameters) ([]dst.Stmt, error) {
 	for _, conversion := range builder.conversions {
 		result := conversion(builder, params)
 		if len(result) > 0 {
@@ -181,7 +181,10 @@ func (builder *ConversionFunctionBuilder) BuildConversion(params ConversionParam
 //		<code for producing result from destinationType.Element()>
 //		<destination> = &<result>
 //	}
-func IdentityConvertComplexOptionalProperty(builder *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
+func IdentityConvertComplexOptionalProperty(
+	builder *ConversionFunctionBuilder,
+	params ConversionParameters,
+) ([]dst.Stmt, error) {
 	destinationType, ok := params.DestinationType.(*OptionalType)
 	if !ok {
 		return nil
@@ -228,7 +231,10 @@ func IdentityConvertComplexOptionalProperty(builder *ConversionFunctionBuilder, 
 //		<code for producing result from destinationType.Element()>
 //		<destination> = append(<destination>, <result>)
 //	}
-func IdentityConvertComplexArrayProperty(builder *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
+func IdentityConvertComplexArrayProperty(
+	builder *ConversionFunctionBuilder,
+	params ConversionParameters,
+) ([]dst.Stmt, error) {
 	destinationType, ok := params.DestinationType.(*ArrayType)
 	if !ok {
 		return nil
@@ -303,7 +309,10 @@ func IdentityConvertComplexArrayProperty(builder *ConversionFunctionBuilder, par
 //			<destination>[key] = <result>
 //		}
 //	}
-func IdentityConvertComplexMapProperty(builder *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
+func IdentityConvertComplexMapProperty(
+	builder *ConversionFunctionBuilder,
+	params ConversionParameters,
+) ([]dst.Stmt, error) {
 	destinationType, ok := params.DestinationType.(*MapType)
 	if !ok {
 		return nil
@@ -393,7 +402,10 @@ func IdentityConvertComplexMapProperty(builder *ConversionFunctionBuilder, param
 // This function generates code that looks like this:
 //
 //	<destination> <assignmentHandler> <source>
-func IdentityAssignTypeName(_ *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
+func IdentityAssignTypeName(
+	_ *ConversionFunctionBuilder,
+	params ConversionParameters,
+) ([]dst.Stmt, error) {
 	destinationType, ok := params.DestinationType.(TypeName)
 	if !ok {
 		return nil
@@ -417,7 +429,10 @@ func IdentityAssignTypeName(_ *ConversionFunctionBuilder, params ConversionParam
 // IdentityAssignPrimitiveType just assigns source to destination directly, no conversion needed.
 // This function generates code that looks like this:
 // <destination> <assignmentHandler> <source>
-func IdentityAssignPrimitiveType(_ *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
+func IdentityAssignPrimitiveType(
+	_ *ConversionFunctionBuilder,
+	params ConversionParameters,
+) ([]dst.Stmt, error) {
 	if _, ok := params.DestinationType.(*PrimitiveType); !ok {
 		return nil
 	}
@@ -438,7 +453,10 @@ func IdentityAssignPrimitiveType(_ *ConversionFunctionBuilder, params Conversion
 // or:
 // <destination>Temp := convert(<source>)
 // <destination> <assignmentHandler> &<destination>Temp
-func AssignToOptional(builder *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
+func AssignToOptional(
+	builder *ConversionFunctionBuilder,
+	params ConversionParameters,
+) ([]dst.Stmt, error) {
 	optDest, ok := params.DestinationType.(*OptionalType)
 	if !ok {
 		return nil
@@ -489,7 +507,10 @@ func AssignToOptional(builder *ConversionFunctionBuilder, params ConversionParam
 //	    <destination>Temp := convert(*<source>)
 //	    <destination> <assignmentHandler> <destination>Temp
 //	}
-func AssignFromOptional(builder *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
+func AssignFromOptional(
+	builder *ConversionFunctionBuilder,
+	params ConversionParameters,
+) ([]dst.Stmt, error) {
 	optSrc, ok := params.SourceType.(*OptionalType)
 	if !ok {
 		return nil
@@ -537,7 +558,10 @@ func AssignFromOptional(builder *ConversionFunctionBuilder, params ConversionPar
 }
 
 // IdentityAssignValidatedTypeDestination generates an assignment to the underlying validated type Element
-func IdentityAssignValidatedTypeDestination(builder *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
+func IdentityAssignValidatedTypeDestination(
+	builder *ConversionFunctionBuilder,
+	params ConversionParameters,
+) ([]dst.Stmt, error) {
 	validatedType, ok := params.DestinationType.(*ValidatedType)
 	if !ok {
 		return nil
@@ -549,7 +573,10 @@ func IdentityAssignValidatedTypeDestination(builder *ConversionFunctionBuilder, 
 }
 
 // IdentityAssignValidatedTypeSource generates an assignment to the underlying validated type Element
-func IdentityAssignValidatedTypeSource(builder *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
+func IdentityAssignValidatedTypeSource(
+	builder *ConversionFunctionBuilder,
+	params ConversionParameters,
+) ([]dst.Stmt, error) {
 	validatedType, ok := params.SourceType.(*ValidatedType)
 	if !ok {
 		return nil
@@ -564,7 +591,10 @@ func IdentityAssignValidatedTypeSource(builder *ConversionFunctionBuilder, param
 // It generates code that looks like:
 //
 //	<destination> = *<source>.DeepCopy()
-func IdentityDeepCopyJSON(_ *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
+func IdentityDeepCopyJSON(
+	_ *ConversionFunctionBuilder,
+	params ConversionParameters,
+) ([]dst.Stmt, error) {
 	if !TypeEquals(params.DestinationType, JSONType) {
 		return nil
 	}

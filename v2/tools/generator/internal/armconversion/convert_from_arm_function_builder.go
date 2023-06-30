@@ -337,7 +337,10 @@ func (builder *convertFromARMBuilder) flattenedPropertyHandler(
 	panic(fmt.Sprintf("couldn’t find source ARM property ‘%s’ that k8s property ‘%s’ was flattened from", toProp.FlattenedFrom()[0], toProp.PropertyName()))
 }
 
-func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.PropertyDefinition, fromProp *astmodel.PropertyDefinition) []dst.Stmt {
+func (builder *convertFromARMBuilder) buildFlattenedAssignment(
+	toProp *astmodel.PropertyDefinition,
+	fromProp *astmodel.PropertyDefinition,
+) ([]dst.Stmt, error) {
 	if len(toProp.FlattenedFrom()) > 2 {
 		// this doesn't appear to happen anywhere in the JSON schemas currently
 
@@ -477,7 +480,10 @@ func (builder *convertFromARMBuilder) propertiesWithSameNameHandler(
 //		return err
 //	}
 //	<destination> = <nameHint>
-func (builder *convertFromARMBuilder) convertComplexTypeNameProperty(_ *astmodel.ConversionFunctionBuilder, params astmodel.ConversionParameters) []dst.Stmt {
+func (builder *convertFromARMBuilder) convertComplexTypeNameProperty(
+	_ *astmodel.ConversionFunctionBuilder,
+	params astmodel.ConversionParameters,
+) ([]dst.Stmt, error) {
 	destinationType, ok := params.DestinationType.(astmodel.TypeName)
 	if !ok {
 		return nil

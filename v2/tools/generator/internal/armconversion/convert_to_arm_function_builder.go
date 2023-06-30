@@ -505,7 +505,10 @@ func (builder *convertToARMBuilder) propertiesWithSameNameHandler(
 //		result.UserAssignedIdentities[key] = UserAssignedIdentityDetails_ARM{}
 //	}
 //	return result, nil
-func (builder *convertToARMBuilder) convertUserAssignedIdentitiesCollection(conversionBuilder *astmodel.ConversionFunctionBuilder, params astmodel.ConversionParameters) []dst.Stmt {
+func (builder *convertToARMBuilder) convertUserAssignedIdentitiesCollection(
+	conversionBuilder *astmodel.ConversionFunctionBuilder,
+	params astmodel.ConversionParameters,
+) ([]dst.Stmt, error) {
 	destinationType, isDestinationMap := params.DestinationType.(*astmodel.MapType)
 	if !isDestinationMap {
 		return nil
@@ -591,7 +594,10 @@ func (builder *convertToARMBuilder) convertUserAssignedIdentitiesCollection(conv
 //		return nil, err
 //	}
 //	<destination> = <namehint>ARMID
-func (builder *convertToARMBuilder) convertReferenceProperty(_ *astmodel.ConversionFunctionBuilder, params astmodel.ConversionParameters) []dst.Stmt {
+func (builder *convertToARMBuilder) convertReferenceProperty(
+	_ *astmodel.ConversionFunctionBuilder,
+	params astmodel.ConversionParameters,
+) ([]dst.Stmt, error) {
 	isString := astmodel.TypeEquals(params.DestinationType, astmodel.StringType)
 	if !isString {
 		return nil
@@ -627,7 +633,10 @@ func (builder *convertToARMBuilder) convertReferenceProperty(_ *astmodel.Convers
 //		return nil, errors.Wrap(err, "looking up secret for <source>")
 //	}
 //	<destination> = <namehint>Secret
-func (builder *convertToARMBuilder) convertSecretProperty(_ *astmodel.ConversionFunctionBuilder, params astmodel.ConversionParameters) []dst.Stmt {
+func (builder *convertToARMBuilder) convertSecretProperty(
+	_ *astmodel.ConversionFunctionBuilder,
+	params astmodel.ConversionParameters,
+) ([]dst.Stmt, error) {
 	isString := astmodel.TypeEquals(params.DestinationType, astmodel.StringType)
 	if !isString {
 		return nil
@@ -668,7 +677,10 @@ func (builder *convertToARMBuilder) convertSecretProperty(_ *astmodel.Conversion
 //		return nil, errors.Wrap(err, "looking up config map value for <source>")
 //	}
 //	<destination> = <namehint>Value
-func (builder *convertToARMBuilder) convertConfigMapProperty(_ *astmodel.ConversionFunctionBuilder, params astmodel.ConversionParameters) []dst.Stmt {
+func (builder *convertToARMBuilder) convertConfigMapProperty(
+	_ *astmodel.ConversionFunctionBuilder,
+	params astmodel.ConversionParameters,
+) ([]dst.Stmt, error) {
 	isString := astmodel.TypeEquals(params.DestinationType, astmodel.StringType)
 	if !isString {
 		return nil
@@ -709,7 +721,10 @@ func (builder *convertToARMBuilder) convertConfigMapProperty(_ *astmodel.Convers
 //		return nil, err
 //	}
 //	<destination> = <nameHint>.(*FooARM)
-func (builder *convertToARMBuilder) convertComplexTypeNameProperty(conversionBuilder *astmodel.ConversionFunctionBuilder, params astmodel.ConversionParameters) []dst.Stmt {
+func (builder *convertToARMBuilder) convertComplexTypeNameProperty(
+	conversionBuilder *astmodel.ConversionFunctionBuilder,
+	params astmodel.ConversionParameters,
+) ([]dst.Stmt, error) {
 	destinationType, ok := params.DestinationType.(astmodel.TypeName)
 	if !ok {
 		return nil
