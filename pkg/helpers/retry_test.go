@@ -14,7 +14,7 @@ func TestRetryTimeout(t *testing.T) {
 	_ = Retry(5*time.Second, 1*time.Second, func() error {
 		return fmt.Errorf("test")
 	})
-	stop := time.Now().Sub(start)
+	stop := time.Since(start)
 	if stop < 5*time.Second {
 		t.Errorf("retry ended too soon: %s", stop)
 	}
@@ -24,7 +24,7 @@ func TestRetryStopErr(t *testing.T) {
 	_ = Retry(5*time.Second, 1*time.Second, func() error {
 		return NewStop(fmt.Errorf("test"))
 	})
-	stop := time.Now().Sub(start)
+	stop := time.Since(start)
 	if stop > 1*time.Second {
 		t.Errorf("retry with stop should not take so long: %s", stop)
 	}
