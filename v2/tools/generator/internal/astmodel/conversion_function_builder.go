@@ -421,9 +421,10 @@ func IdentityAssignTypeName(
 		return nil
 	}
 
-	return []dst.Stmt{
-		params.AssignmentHandlerOrDefault()(params.GetDestination(), params.GetSource()),
-	}
+	return astbuilder.Statements(
+		params.AssignmentHandlerOrDefault()(
+			params.GetDestination(),
+			params.GetSource())), nil
 }
 
 // IdentityAssignPrimitiveType just assigns source to destination directly, no conversion needed.
@@ -441,9 +442,11 @@ func IdentityAssignPrimitiveType(
 		return nil
 	}
 
-	return []dst.Stmt{
-		params.AssignmentHandlerOrDefault()(params.GetDestination(), params.GetSource()),
-	}
+	return astbuilder.Statements(
+		params.AssignmentHandlerOrDefault()(
+			params.GetDestination(),
+			params.GetSource())), nil
+
 }
 
 // AssignToOptional assigns address of source to destination.
@@ -463,9 +466,11 @@ func AssignToOptional(
 	}
 
 	if TypeEquals(optDest.Element(), params.SourceType) {
-		return []dst.Stmt{
-			params.AssignmentHandlerOrDefault()(params.GetDestination(), astbuilder.AddrOf(params.GetSource())),
-		}
+		return astbuilder.Statements(
+			params.AssignmentHandlerOrDefault()(
+				params.GetDestination(),
+				astbuilder.AddrOf(params.GetSource()))), nil
+
 	}
 
 	// a more complex conversion is needed
@@ -517,11 +522,10 @@ func AssignFromOptional(
 	}
 
 	if TypeEquals(optSrc.Element(), params.DestinationType) {
-		return []dst.Stmt{
+		return astbuilder.Statements(
 			astbuilder.IfNotNil(params.GetSource(),
 				params.AssignmentHandlerOrDefault()(params.GetDestination(), astbuilder.Dereference(params.GetSource())),
-			),
-		}
+			)), nil
 	}
 
 	// a more complex conversion is needed
@@ -550,11 +554,10 @@ func AssignFromOptional(
 	result = append(result, conversion...)
 	result = append(result, params.AssignmentHandlerOrDefault()(params.GetDestination(), dst.NewIdent(tmpLocal)))
 
-	return []dst.Stmt{
+	return astbuilder.Statements(
 		astbuilder.IfNotNil(
 			params.GetSource(),
-			result...),
-	}
+			result...)), nil
 }
 
 // IdentityAssignValidatedTypeDestination generates an assignment to the underlying validated type Element
@@ -605,9 +608,8 @@ func IdentityDeepCopyJSON(
 			Args: []dst.Expr{},
 		})
 
-	return []dst.Stmt{
-		params.AssignmentHandlerOrDefault()(params.GetDestination(), newSource),
-	}
+	return astbuilder.Statements(
+		params.AssignmentHandlerOrDefault()(params.GetDestination(), newSource)), nil
 }
 
 // AssignmentHandlerDefine is an assignment handler for definitions, using :=

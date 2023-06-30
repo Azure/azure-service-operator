@@ -622,7 +622,7 @@ func (builder *convertToARMBuilder) convertReferenceProperty(
 
 	result := params.AssignmentHandlerOrDefault()(params.Destination, dst.NewIdent(localVarName))
 
-	return []dst.Stmt{armIDLookup, returnIfNotNil, result}
+	return astbuilder.Statements(armIDLookup, returnIfNotNil, result), nil
 }
 
 // convertSecretProperty handles conversion of secret properties.
@@ -666,7 +666,7 @@ func (builder *convertToARMBuilder) convertSecretProperty(
 
 	result := params.AssignmentHandlerOrDefault()(params.Destination, dst.NewIdent(localVarName))
 
-	return []dst.Stmt{secretLookup, returnIfNotNil, result}
+	return astbuilder.Statements(secretLookup, returnIfNotNil, result), nil
 }
 
 // convertConfigMapProperty handles conversion of configMap properties.
@@ -710,7 +710,7 @@ func (builder *convertToARMBuilder) convertConfigMapProperty(
 
 	result := params.AssignmentHandlerOrDefault()(params.Destination, dst.NewIdent(localVarName))
 
-	return []dst.Stmt{configMapLookup, returnIfNotNil, result}
+	return astbuilder.Statements(configMapLookup, returnIfNotNil, result), nil
 }
 
 // convertComplexTypeNameProperty handles conversion of complex TypeName properties.
