@@ -49,7 +49,7 @@ if [[ "$CHECK_ESTABLISHED" -eq 1 ]]; then
   echo "Waiting for CRDs established..."
   # This has to be a timeout wrapping kubectl wait as we're racing with CRDs being added, and kubectl wait will fail if nothing matches the -l filter
   export -f wait_for_crds_established
-  timeout 2m bash -c wait_for_crds_established
+  timeout 1m bash -c wait_for_crds_established
 fi
 
 echo "Waiting for pod ready..."
@@ -58,7 +58,7 @@ kubectl wait --for=condition=ready --timeout=3m pod -n azureserviceoperator-syst
 echo "Waiting for CRD cabundle..."
 export -f all_crds_have_cabundle
 export -f wait_for_crds_cabundle
-timeout 4m bash -c wait_for_crds_cabundle
+timeout 2m bash -c wait_for_crds_cabundle
 
 echo "The operator is ready"
 exit 0
