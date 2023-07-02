@@ -31,7 +31,7 @@ jobs:
       - name: Update ASO v1 diagram
         uses: githubocto/repo-visualizer@main
         with:
-          excluded_paths: "ignore,.github,v2"
+          excluded_paths: "ignore,.github,v2,docs"
           output_file: "docs/hugo/content/contributing/aso-v1-structure.svg"
           commit_message: "Updating visualization for ASO v1"
           should_push: false
