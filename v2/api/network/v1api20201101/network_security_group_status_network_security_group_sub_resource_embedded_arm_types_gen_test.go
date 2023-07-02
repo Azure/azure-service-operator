@@ -177,7 +177,6 @@ func AddRelatedPropertyGeneratorsForNetworkSecurityGroupPropertiesFormat_STATUS_
 	gens["DefaultSecurityRules"] = gen.SliceOf(SecurityRule_STATUS_ARMGenerator())
 	gens["FlowLogs"] = gen.SliceOf(FlowLog_STATUS_ARMGenerator())
 	gens["NetworkInterfaces"] = gen.SliceOf(NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARMGenerator())
-	gens["SecurityRules"] = gen.SliceOf(SecurityRule_STATUS_ARMGenerator())
 	gens["Subnets"] = gen.SliceOf(Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARMGenerator())
 }
 

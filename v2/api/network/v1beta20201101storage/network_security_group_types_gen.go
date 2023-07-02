@@ -234,9 +234,10 @@ type NetworkSecurityGroup_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
+	Owner         *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag   genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	SecurityRules []SecurityRule                     `json:"securityRules,omitempty"`
+	Tags          map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &NetworkSecurityGroup_Spec{}
@@ -311,6 +312,24 @@ func (group *NetworkSecurityGroup_Spec) AssignProperties_From_NetworkSecurityGro
 		group.Owner = nil
 	}
 
+	// SecurityRules
+	if source.SecurityRules != nil {
+		securityRuleList := make([]SecurityRule, len(source.SecurityRules))
+		for securityRuleIndex, securityRuleItem := range source.SecurityRules {
+			// Shadow the loop variable to avoid aliasing
+			securityRuleItem := securityRuleItem
+			var securityRule SecurityRule
+			err := securityRule.AssignProperties_From_SecurityRule(&securityRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_SecurityRule() to populate field SecurityRules")
+			}
+			securityRuleList[securityRuleIndex] = securityRule
+		}
+		group.SecurityRules = securityRuleList
+	} else {
+		group.SecurityRules = nil
+	}
+
 	// Tags
 	group.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -356,6 +375,24 @@ func (group *NetworkSecurityGroup_Spec) AssignProperties_To_NetworkSecurityGroup
 		destination.Owner = nil
 	}
 
+	// SecurityRules
+	if group.SecurityRules != nil {
+		securityRuleList := make([]v1api20201101s.SecurityRule, len(group.SecurityRules))
+		for securityRuleIndex, securityRuleItem := range group.SecurityRules {
+			// Shadow the loop variable to avoid aliasing
+			securityRuleItem := securityRuleItem
+			var securityRule v1api20201101s.SecurityRule
+			err := securityRuleItem.AssignProperties_To_SecurityRule(&securityRule)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_SecurityRule() to populate field SecurityRules")
+			}
+			securityRuleList[securityRuleIndex] = securityRule
+		}
+		destination.SecurityRules = securityRuleList
+	} else {
+		destination.SecurityRules = nil
+	}
+
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(group.Tags)
 
@@ -393,7 +430,6 @@ type NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded struct
 	PropertyBag          genruntime.PropertyBag                                             `json:"$propertyBag,omitempty"`
 	ProvisioningState    *string                                                            `json:"provisioningState,omitempty"`
 	ResourceGuid         *string                                                            `json:"resourceGuid,omitempty"`
-	SecurityRules        []SecurityRule_STATUS                                              `json:"securityRules,omitempty"`
 	Subnets              []Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded           `json:"subnets,omitempty"`
 	Tags                 map[string]string                                                  `json:"tags,omitempty"`
 	Type                 *string                                                            `json:"type,omitempty"`
@@ -529,24 +565,6 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 	// ResourceGuid
 	embedded.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
 
-	// SecurityRules
-	if source.SecurityRules != nil {
-		securityRuleList := make([]SecurityRule_STATUS, len(source.SecurityRules))
-		for securityRuleIndex, securityRuleItem := range source.SecurityRules {
-			// Shadow the loop variable to avoid aliasing
-			securityRuleItem := securityRuleItem
-			var securityRule SecurityRule_STATUS
-			err := securityRule.AssignProperties_From_SecurityRule_STATUS(&securityRuleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SecurityRule_STATUS() to populate field SecurityRules")
-			}
-			securityRuleList[securityRuleIndex] = securityRule
-		}
-		embedded.SecurityRules = securityRuleList
-	} else {
-		embedded.SecurityRules = nil
-	}
-
 	// Subnets
 	if source.Subnets != nil {
 		subnetList := make([]Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded, len(source.Subnets))
@@ -670,24 +688,6 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 
 	// ResourceGuid
 	destination.ResourceGuid = genruntime.ClonePointerToString(embedded.ResourceGuid)
-
-	// SecurityRules
-	if embedded.SecurityRules != nil {
-		securityRuleList := make([]v1api20201101s.SecurityRule_STATUS, len(embedded.SecurityRules))
-		for securityRuleIndex, securityRuleItem := range embedded.SecurityRules {
-			// Shadow the loop variable to avoid aliasing
-			securityRuleItem := securityRuleItem
-			var securityRule v1api20201101s.SecurityRule_STATUS
-			err := securityRuleItem.AssignProperties_To_SecurityRule_STATUS(&securityRule)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SecurityRule_STATUS() to populate field SecurityRules")
-			}
-			securityRuleList[securityRuleIndex] = securityRule
-		}
-		destination.SecurityRules = securityRuleList
-	} else {
-		destination.SecurityRules = nil
-	}
 
 	// Subnets
 	if embedded.Subnets != nil {
@@ -869,6 +869,241 @@ func (embedded *NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 	return nil
 }
 
+// Storage version of v1beta20201101.SecurityRule
+// Deprecated version of SecurityRule. Use v1api20201101.SecurityRule instead
+type SecurityRule struct {
+	Access                               *string                                                                 `json:"access,omitempty"`
+	Description                          *string                                                                 `json:"description,omitempty"`
+	DestinationAddressPrefix             *string                                                                 `json:"destinationAddressPrefix,omitempty"`
+	DestinationAddressPrefixes           []string                                                                `json:"destinationAddressPrefixes,omitempty"`
+	DestinationApplicationSecurityGroups []ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded `json:"destinationApplicationSecurityGroups,omitempty"`
+	DestinationPortRange                 *string                                                                 `json:"destinationPortRange,omitempty"`
+	DestinationPortRanges                []string                                                                `json:"destinationPortRanges,omitempty"`
+	Direction                            *string                                                                 `json:"direction,omitempty"`
+	Name                                 *string                                                                 `json:"name,omitempty"`
+	Priority                             *int                                                                    `json:"priority,omitempty"`
+	PropertyBag                          genruntime.PropertyBag                                                  `json:"$propertyBag,omitempty"`
+	Protocol                             *string                                                                 `json:"protocol,omitempty"`
+	SourceAddressPrefix                  *string                                                                 `json:"sourceAddressPrefix,omitempty"`
+	SourceAddressPrefixes                []string                                                                `json:"sourceAddressPrefixes,omitempty"`
+	SourceApplicationSecurityGroups      []ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded `json:"sourceApplicationSecurityGroups,omitempty"`
+	SourcePortRange                      *string                                                                 `json:"sourcePortRange,omitempty"`
+	SourcePortRanges                     []string                                                                `json:"sourcePortRanges,omitempty"`
+	Type                                 *string                                                                 `json:"type,omitempty"`
+}
+
+// AssignProperties_From_SecurityRule populates our SecurityRule from the provided source SecurityRule
+func (rule *SecurityRule) AssignProperties_From_SecurityRule(source *v1api20201101s.SecurityRule) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Access
+	rule.Access = genruntime.ClonePointerToString(source.Access)
+
+	// Description
+	rule.Description = genruntime.ClonePointerToString(source.Description)
+
+	// DestinationAddressPrefix
+	rule.DestinationAddressPrefix = genruntime.ClonePointerToString(source.DestinationAddressPrefix)
+
+	// DestinationAddressPrefixes
+	rule.DestinationAddressPrefixes = genruntime.CloneSliceOfString(source.DestinationAddressPrefixes)
+
+	// DestinationApplicationSecurityGroups
+	if source.DestinationApplicationSecurityGroups != nil {
+		destinationApplicationSecurityGroupList := make([]ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded, len(source.DestinationApplicationSecurityGroups))
+		for destinationApplicationSecurityGroupIndex, destinationApplicationSecurityGroupItem := range source.DestinationApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			destinationApplicationSecurityGroupItem := destinationApplicationSecurityGroupItem
+			var destinationApplicationSecurityGroup ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded
+			err := destinationApplicationSecurityGroup.AssignProperties_From_ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded(&destinationApplicationSecurityGroupItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded() to populate field DestinationApplicationSecurityGroups")
+			}
+			destinationApplicationSecurityGroupList[destinationApplicationSecurityGroupIndex] = destinationApplicationSecurityGroup
+		}
+		rule.DestinationApplicationSecurityGroups = destinationApplicationSecurityGroupList
+	} else {
+		rule.DestinationApplicationSecurityGroups = nil
+	}
+
+	// DestinationPortRange
+	rule.DestinationPortRange = genruntime.ClonePointerToString(source.DestinationPortRange)
+
+	// DestinationPortRanges
+	rule.DestinationPortRanges = genruntime.CloneSliceOfString(source.DestinationPortRanges)
+
+	// Direction
+	rule.Direction = genruntime.ClonePointerToString(source.Direction)
+
+	// Name
+	rule.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Priority
+	rule.Priority = genruntime.ClonePointerToInt(source.Priority)
+
+	// Protocol
+	rule.Protocol = genruntime.ClonePointerToString(source.Protocol)
+
+	// SourceAddressPrefix
+	rule.SourceAddressPrefix = genruntime.ClonePointerToString(source.SourceAddressPrefix)
+
+	// SourceAddressPrefixes
+	rule.SourceAddressPrefixes = genruntime.CloneSliceOfString(source.SourceAddressPrefixes)
+
+	// SourceApplicationSecurityGroups
+	if source.SourceApplicationSecurityGroups != nil {
+		sourceApplicationSecurityGroupList := make([]ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded, len(source.SourceApplicationSecurityGroups))
+		for sourceApplicationSecurityGroupIndex, sourceApplicationSecurityGroupItem := range source.SourceApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			sourceApplicationSecurityGroupItem := sourceApplicationSecurityGroupItem
+			var sourceApplicationSecurityGroup ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded
+			err := sourceApplicationSecurityGroup.AssignProperties_From_ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded(&sourceApplicationSecurityGroupItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded() to populate field SourceApplicationSecurityGroups")
+			}
+			sourceApplicationSecurityGroupList[sourceApplicationSecurityGroupIndex] = sourceApplicationSecurityGroup
+		}
+		rule.SourceApplicationSecurityGroups = sourceApplicationSecurityGroupList
+	} else {
+		rule.SourceApplicationSecurityGroups = nil
+	}
+
+	// SourcePortRange
+	rule.SourcePortRange = genruntime.ClonePointerToString(source.SourcePortRange)
+
+	// SourcePortRanges
+	rule.SourcePortRanges = genruntime.CloneSliceOfString(source.SourcePortRanges)
+
+	// Type
+	rule.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rule.PropertyBag = propertyBag
+	} else {
+		rule.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSecurityRule interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForSecurityRule); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SecurityRule populates the provided destination SecurityRule from our SecurityRule
+func (rule *SecurityRule) AssignProperties_To_SecurityRule(destination *v1api20201101s.SecurityRule) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
+
+	// Access
+	destination.Access = genruntime.ClonePointerToString(rule.Access)
+
+	// Description
+	destination.Description = genruntime.ClonePointerToString(rule.Description)
+
+	// DestinationAddressPrefix
+	destination.DestinationAddressPrefix = genruntime.ClonePointerToString(rule.DestinationAddressPrefix)
+
+	// DestinationAddressPrefixes
+	destination.DestinationAddressPrefixes = genruntime.CloneSliceOfString(rule.DestinationAddressPrefixes)
+
+	// DestinationApplicationSecurityGroups
+	if rule.DestinationApplicationSecurityGroups != nil {
+		destinationApplicationSecurityGroupList := make([]v1api20201101s.ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded, len(rule.DestinationApplicationSecurityGroups))
+		for destinationApplicationSecurityGroupIndex, destinationApplicationSecurityGroupItem := range rule.DestinationApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			destinationApplicationSecurityGroupItem := destinationApplicationSecurityGroupItem
+			var destinationApplicationSecurityGroup v1api20201101s.ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded
+			err := destinationApplicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded(&destinationApplicationSecurityGroup)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded() to populate field DestinationApplicationSecurityGroups")
+			}
+			destinationApplicationSecurityGroupList[destinationApplicationSecurityGroupIndex] = destinationApplicationSecurityGroup
+		}
+		destination.DestinationApplicationSecurityGroups = destinationApplicationSecurityGroupList
+	} else {
+		destination.DestinationApplicationSecurityGroups = nil
+	}
+
+	// DestinationPortRange
+	destination.DestinationPortRange = genruntime.ClonePointerToString(rule.DestinationPortRange)
+
+	// DestinationPortRanges
+	destination.DestinationPortRanges = genruntime.CloneSliceOfString(rule.DestinationPortRanges)
+
+	// Direction
+	destination.Direction = genruntime.ClonePointerToString(rule.Direction)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(rule.Name)
+
+	// Priority
+	destination.Priority = genruntime.ClonePointerToInt(rule.Priority)
+
+	// Protocol
+	destination.Protocol = genruntime.ClonePointerToString(rule.Protocol)
+
+	// SourceAddressPrefix
+	destination.SourceAddressPrefix = genruntime.ClonePointerToString(rule.SourceAddressPrefix)
+
+	// SourceAddressPrefixes
+	destination.SourceAddressPrefixes = genruntime.CloneSliceOfString(rule.SourceAddressPrefixes)
+
+	// SourceApplicationSecurityGroups
+	if rule.SourceApplicationSecurityGroups != nil {
+		sourceApplicationSecurityGroupList := make([]v1api20201101s.ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded, len(rule.SourceApplicationSecurityGroups))
+		for sourceApplicationSecurityGroupIndex, sourceApplicationSecurityGroupItem := range rule.SourceApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			sourceApplicationSecurityGroupItem := sourceApplicationSecurityGroupItem
+			var sourceApplicationSecurityGroup v1api20201101s.ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded
+			err := sourceApplicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded(&sourceApplicationSecurityGroup)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded() to populate field SourceApplicationSecurityGroups")
+			}
+			sourceApplicationSecurityGroupList[sourceApplicationSecurityGroupIndex] = sourceApplicationSecurityGroup
+		}
+		destination.SourceApplicationSecurityGroups = sourceApplicationSecurityGroupList
+	} else {
+		destination.SourceApplicationSecurityGroups = nil
+	}
+
+	// SourcePortRange
+	destination.SourcePortRange = genruntime.ClonePointerToString(rule.SourcePortRange)
+
+	// SourcePortRanges
+	destination.SourcePortRanges = genruntime.CloneSliceOfString(rule.SourcePortRanges)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(rule.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSecurityRule interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForSecurityRule); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201101.SecurityRule_STATUS
 // Deprecated version of SecurityRule_STATUS. Use v1api20201101.SecurityRule_STATUS instead
 type SecurityRule_STATUS struct {
@@ -995,6 +1230,79 @@ func (embedded *Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded) AssignPr
 	return nil
 }
 
+// Storage version of v1beta20201101.ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded
+// Deprecated version of ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded. Use v1api20201101.ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded instead
+type ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded struct {
+	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+}
+
+// AssignProperties_From_ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded populates our ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded from the provided source ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded
+func (embedded *ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded) AssignProperties_From_ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded(source *v1api20201101s.ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		embedded.Reference = &reference
+	} else {
+		embedded.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		embedded.PropertyBag = propertyBag
+	} else {
+		embedded.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded interface (if implemented) to customize the conversion
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded populates the provided destination ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded from our ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded
+func (embedded *ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded) AssignProperties_To_ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded(destination *v1api20201101s.ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
+
+	// Reference
+	if embedded.Reference != nil {
+		reference := embedded.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded interface (if implemented) to customize the conversion
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 type augmentConversionForFlowLog_STATUS interface {
 	AssignPropertiesFrom(src *v1api20201101s.FlowLog_STATUS) error
 	AssignPropertiesTo(dst *v1api20201101s.FlowLog_STATUS) error
@@ -1005,6 +1313,11 @@ type augmentConversionForNetworkInterface_STATUS_NetworkSecurityGroup_SubResourc
 	AssignPropertiesTo(dst *v1api20201101s.NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded) error
 }
 
+type augmentConversionForSecurityRule interface {
+	AssignPropertiesFrom(src *v1api20201101s.SecurityRule) error
+	AssignPropertiesTo(dst *v1api20201101s.SecurityRule) error
+}
+
 type augmentConversionForSecurityRule_STATUS interface {
 	AssignPropertiesFrom(src *v1api20201101s.SecurityRule_STATUS) error
 	AssignPropertiesTo(dst *v1api20201101s.SecurityRule_STATUS) error
@@ -1013,6 +1326,11 @@ type augmentConversionForSecurityRule_STATUS interface {
 type augmentConversionForSubnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded interface {
 	AssignPropertiesFrom(src *v1api20201101s.Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded) error
 	AssignPropertiesTo(dst *v1api20201101s.Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded) error
+}
+
+type augmentConversionForApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded interface {
+	AssignPropertiesFrom(src *v1api20201101s.ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded) error
+	AssignPropertiesTo(dst *v1api20201101s.ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded) error
 }
 
 func init() {

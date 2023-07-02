@@ -7,9 +7,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of NetworkSecurityGroup_Spec. Use v1api20201101.NetworkSecurityGroup_Spec instead
 type NetworkSecurityGroup_Spec_ARM struct {
-	Location *string           `json:"location,omitempty"`
-	Name     string            `json:"name,omitempty"`
-	Tags     map[string]string `json:"tags,omitempty"`
+	Location   *string                                   `json:"location,omitempty"`
+	Name       string                                    `json:"name,omitempty"`
+	Properties *NetworkSecurityGroupPropertiesFormat_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                         `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &NetworkSecurityGroup_Spec_ARM{}
@@ -27,4 +28,40 @@ func (group *NetworkSecurityGroup_Spec_ARM) GetName() string {
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/networkSecurityGroups"
 func (group *NetworkSecurityGroup_Spec_ARM) GetType() string {
 	return "Microsoft.Network/networkSecurityGroups"
+}
+
+// Deprecated version of NetworkSecurityGroupPropertiesFormat. Use v1api20201101.NetworkSecurityGroupPropertiesFormat instead
+type NetworkSecurityGroupPropertiesFormat_ARM struct {
+	SecurityRules []SecurityRule_ARM `json:"securityRules,omitempty"`
+}
+
+// Deprecated version of SecurityRule. Use v1api20201101.SecurityRule instead
+type SecurityRule_ARM struct {
+	Name       *string                                                                    `json:"name,omitempty"`
+	Properties *SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM `json:"properties,omitempty"`
+	Type       *string                                                                    `json:"type,omitempty"`
+}
+
+// Deprecated version of SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded. Use v1api20201101.SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded instead
+type SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM struct {
+	Access                               *SecurityRuleAccess                                                         `json:"access,omitempty"`
+	Description                          *string                                                                     `json:"description,omitempty"`
+	DestinationAddressPrefix             *string                                                                     `json:"destinationAddressPrefix,omitempty"`
+	DestinationAddressPrefixes           []string                                                                    `json:"destinationAddressPrefixes,omitempty"`
+	DestinationApplicationSecurityGroups []ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded_ARM `json:"destinationApplicationSecurityGroups,omitempty"`
+	DestinationPortRange                 *string                                                                     `json:"destinationPortRange,omitempty"`
+	DestinationPortRanges                []string                                                                    `json:"destinationPortRanges,omitempty"`
+	Direction                            *SecurityRuleDirection                                                      `json:"direction,omitempty"`
+	Priority                             *int                                                                        `json:"priority,omitempty"`
+	Protocol                             *SecurityRulePropertiesFormat_Protocol                                      `json:"protocol,omitempty"`
+	SourceAddressPrefix                  *string                                                                     `json:"sourceAddressPrefix,omitempty"`
+	SourceAddressPrefixes                []string                                                                    `json:"sourceAddressPrefixes,omitempty"`
+	SourceApplicationSecurityGroups      []ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded_ARM `json:"sourceApplicationSecurityGroups,omitempty"`
+	SourcePortRange                      *string                                                                     `json:"sourcePortRange,omitempty"`
+	SourcePortRanges                     []string                                                                    `json:"sourcePortRanges,omitempty"`
+}
+
+// Deprecated version of ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded. Use v1api20201101.ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded instead
+type ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded_ARM struct {
+	Id *string `json:"id,omitempty"`
 }

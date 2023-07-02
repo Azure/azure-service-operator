@@ -341,6 +341,11 @@ typeTransformers:
     property: Subnets
     remove: true
     because: This is an embedded resource
+  - group: network
+    name: NetworkSecurityGroupPropertiesFormat_Status  # This type is subsequently flattened into NetworkSecurityGroup_Status
+    property: SecurityRules
+    remove: true
+    because: This is an embedded resource
 
   # Deal with resources that have tags or location included but shouldn't have (proxy resources, etc).
   # See https://github.com/Azure/azure-resource-manager-schemas/issues/1850
@@ -1445,6 +1450,8 @@ objectModelConfiguration:
       NetworkSecurityGroups_SecurityRule:
         $exportAs: NetworkSecurityGroupsSecurityRule
         $supportedFrom: v2.0.0-alpha.1
+      SecurityRule:
+        $resourceEmbeddedInParent: NetworkSecurityGroup
       OutboundRule:
         $resourceEmbeddedInParent: LoadBalancer  # Not a real resource, can GET but not PUT
       OutboundRule_STATUS:

@@ -392,7 +392,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) ConvertToARM(resolved genru
 		rule.SourceApplicationSecurityGroups != nil ||
 		rule.SourcePortRange != nil ||
 		rule.SourcePortRanges != nil {
-		result.Properties = &SecurityRulePropertiesFormat_ARM{}
+		result.Properties = &SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM{}
 	}
 	if rule.Access != nil {
 		access := *rule.Access

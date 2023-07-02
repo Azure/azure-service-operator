@@ -21,7 +21,6 @@ type NetworkSecurityGroupPropertiesFormat_STATUS_ARM struct {
 	NetworkInterfaces    []NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM `json:"networkInterfaces,omitempty"`
 	ProvisioningState    *ProvisioningState_STATUS                                              `json:"provisioningState,omitempty"`
 	ResourceGuid         *string                                                                `json:"resourceGuid,omitempty"`
-	SecurityRules        []SecurityRule_STATUS_ARM                                              `json:"securityRules,omitempty"`
 	Subnets              []Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM           `json:"subnets,omitempty"`
 }
 

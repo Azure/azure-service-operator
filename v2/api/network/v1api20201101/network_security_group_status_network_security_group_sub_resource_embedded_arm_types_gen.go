@@ -44,9 +44,6 @@ type NetworkSecurityGroupPropertiesFormat_STATUS_ARM struct {
 	// ResourceGuid: The resource GUID property of the network security group resource.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
 
-	// SecurityRules: A collection of security rules of the network security group.
-	SecurityRules []SecurityRule_STATUS_ARM `json:"securityRules,omitempty"`
-
 	// Subnets: A collection of references to subnets.
 	Subnets []Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM `json:"subnets,omitempty"`
 }

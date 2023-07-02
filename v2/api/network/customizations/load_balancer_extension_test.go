@@ -43,7 +43,7 @@ func Test_FuzzySetLoadBalancers(t *testing.T) {
 		},
 	}
 
-	err := fuzzySetInboundNatRules(lb, []genruntime.ARMResourceSpec{rule})
+	err := fuzzySetResources(lb, []genruntime.ARMResourceSpec{rule}, "InboundNatRules")
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(lb.Location).To(Equal(to.Ptr("westus")))
 	g.Expect(lb.Properties).ToNot(BeNil())
