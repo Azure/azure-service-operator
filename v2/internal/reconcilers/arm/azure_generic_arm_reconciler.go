@@ -183,5 +183,5 @@ func (r *AzureDeploymentReconciler) UpdateStatus(
 		return err
 	}
 
-	return instance.skipReconcile(ctx)
+	return instance.handleCreateOrUpdateSuccess(ctx, WatchResource)
 }

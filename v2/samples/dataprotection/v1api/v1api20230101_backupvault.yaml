@@ -1,0 +1,15 @@
+apiVersion: dataprotection.azure.com/v1api20230101
+kind: BackupVault
+metadata:
+  name: asotestbackupvault
+  namespace: default
+spec: 
+  location: eastus
+  owner:
+    name: aso-sample-rgx
+  identity:
+    type: SystemAssigned
+  properties:
+    storageSettings:
+      - datastoreType: VaultStore
+        type: LocallyRedundant
