@@ -198,6 +198,7 @@ func AKS_ManagedCluster_TrustedAccessRoleBinding_20230102Preview_CRUD(
 		Spec: aks.ManagedClusters_TrustedAccessRoleBinding_Spec{
 			Owner: testcommon.AsOwner(cluster),
 			Roles: []string{
+				// Microsoft.MachineLearningServices/workspaces/mlworkload
 				workspace.GetType() + "/mlworkload",
 			},
 			SourceResourceReference: tc.MakeReferenceFromResource(workspace),
@@ -213,9 +214,11 @@ func AKS_ManagedCluster_TrustedAccessRoleBinding_20230102Preview_CRUD(
 	// Perform a simple patch
 	old := roleBinding.DeepCopy()
 	roleBinding.Spec.Roles = []string{
+		// Microsoft.MachineLearningServices/workspaces/inference-v1
 		workspace.GetType() + "/inference-v1",
 	}
 
 	tc.PatchResourceAndWait(old, roleBinding)
 	tc.Expect(roleBinding.Status.Roles).To(HaveLen(1))
+	tc.Expect(roleBinding.Status.Roles[0]).To(Equal(roleBinding.Spec.Roles[0]))
 }

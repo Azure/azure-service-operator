@@ -9,6 +9,6 @@ spec:
   roles: 
       - Microsoft.MachineLearningServices/workspaces/mlworkload
   sourceResourceReference:
-      group: "machinelearningservices.azure.com"
-      kind:  "Workspace"
-      name:  "sampleworkspaces"
+      group: machinelearningservices.azure.com
+      kind:  Workspace
+      name:  sampleworkspaces

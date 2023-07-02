@@ -14,10 +14,10 @@ spec:
   identity:
     type: SystemAssigned
   storageAccountReference:
-    group: "storage.azure.com"
-    kind:  "StorageAccount"
-    name:  "asoworkspacestorageacct"
+    group: storage.azure.com
+    kind:  StorageAccount
+    name:  asoworkspacestorageacct
   keyVaultReference:
-    group: "keyvault.azure.com"
-    kind:  "Vault"
-    name:  "mlworkspaces-vault"
+    group: keyvault.azure.com
+    kind:  Vault
+    name:  mlworkspaces-vault

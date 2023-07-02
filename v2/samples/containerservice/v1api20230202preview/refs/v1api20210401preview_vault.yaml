@@ -8,20 +8,20 @@ spec:
   owner:
     name: aso-sample-rg
   properties:
-    tenantId: "00000000-0000-0000-0000-000000000000"
+    tenantId: 00000000-0000-0000-0000-000000000000
     sku:
       family: A
       name: standard
     accessPolicies:
-      - applicationId: "1C793267-c310-d4ae-7BD5-5Af5BEF875D3"
-        objectId: "1C793267-c310-d4ae-7BD5-5Af5BEF875D3"
-        tenantId: "00000000-0000-0000-0000-000000000000"
+      - applicationId: 1C793267-c310-d4ae-7BD5-5Af5BEF875D3
+        objectId: 1C793267-c310-d4ae-7BD5-5Af5BEF875D3
+        tenantId: 00000000-0000-0000-0000-000000000000
         permissions:
           certificates:
-            - "get"
+            - get
           keys:
-            - "get"
+            - get
           secrets:
-            - "get"
+            - get
           storage:
-            - "get"
+            - get
