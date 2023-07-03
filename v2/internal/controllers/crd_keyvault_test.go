@@ -36,6 +36,10 @@ func Test_KeyVault_Vault_FromConfig_CRUD(t *testing.T) {
 
 	t.Parallel()
 
+	if *isLive {
+		t.Skip("can't run in live mode, as KeyVault reserves the name unless manually purged")
+	}
+
 	tc := globalTestContext.ForTest(t)
 
 	rg := tc.CreateTestResourceGroupAndWait()
