@@ -118,6 +118,7 @@ type ConversionHandler func(builder *ConversionFunctionBuilder, params Conversio
 // TODO: There feels like overlap between this and the Storage Conversion Factories? Need further thinking to combine them?
 // ConversionFunctionBuilder is used to build a function converting between two similar types.
 // It has a set of built-in conversions and can be configured with additional conversions.
+
 type ConversionFunctionBuilder struct {
 	// TODO: Better way to let you fuss with this? How can you pick out what I've already put in here to overwrite it?
 	conversions []ConversionHandler

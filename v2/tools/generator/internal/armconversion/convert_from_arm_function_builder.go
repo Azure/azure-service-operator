@@ -56,11 +56,12 @@ func newConvertFromARMFunctionBuilder(
 	result.locals.Add(result.receiverIdent)
 
 	// It's a bit awkward that there are two levels of "handler" here, but they serve different purposes:
-	// The top level propertyConversionHandlers is about determining which properties are involved: given a property on the destination type it
-	// determines which property (if any) on the source type will be converted to the destination.
+	// The top level propertyConversionHandlers is about determining which properties are involved: given a property on
+	// the destination type it determines which property (if any) on the source type will be converted to the
+	// destination.
 	// The "inner" handler (typeConversionBuilder) is about determining how to convert between two types: given a
-	// source type and a destination type, figure out how to make the assignment work. It has no knowledge of broader object structure
-	// or other properties.
+	// source type and a destination type, figure out how to make the assignment work. It has no knowledge of broader
+	// object structure or other properties.
 	result.typeConversionBuilder.AddConversionHandlers(result.convertComplexTypeNameProperty)
 	result.propertyConversionHandlers = []propertyConversionHandler{
 		// Handlers for specific properties come first
@@ -378,7 +379,7 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 
 	allDefs := builder.codeGenerationContext.GetAllReachableDefinitions()
 
-	// the from shape here must be:
+	// the 'from' shape here must be:
 	// 1. maybe a typename, pointing to…
 	// 2. maybe optional, wrapping …
 	// 3. maybe a typename, pointing to…
