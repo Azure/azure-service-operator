@@ -1,14 +1,15 @@
 name: Live Azure Validation
 on:
   schedule:
-    # 13:00 UTC is a time when both US and NZ are asleep (or headed in that direction)
-    - cron: "0 13 * * *"
+    # 5:35 pm every Sunday (UTC)
+    # to ensure the live validation runs weekly
+    - cron: "35 17 * * 0"
   workflow_dispatch:
 
 jobs:
   test-generator:
     concurrency: live-resources # only permit one run at a time
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
