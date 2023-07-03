@@ -8,7 +8,6 @@ package customizations
 import (
 	"context"
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"strings"
 
 	"github.com/go-logr/logr"
@@ -16,7 +15,9 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	containerservice "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201storage"
+
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
+	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"

@@ -6,14 +6,15 @@ package customizations
 import (
 	"context"
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
+
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
+	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )

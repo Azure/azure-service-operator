@@ -8,7 +8,6 @@ package customizations
 import (
 	"context"
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"strings"
 
 	"github.com/go-logr/logr"
@@ -18,8 +17,10 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601storage"
-	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
+	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

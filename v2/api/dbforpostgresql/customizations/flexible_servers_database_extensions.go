@@ -8,16 +8,16 @@ package customizations
 import (
 	"context"
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/internal/resolver"
-
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 
 	"github.com/go-logr/logr"
 
 	api "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601"
 	hub "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601storage"
+
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
+	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
 
 var _ extensions.PreReconciliationChecker = &FlexibleServersDatabaseExtension{}
