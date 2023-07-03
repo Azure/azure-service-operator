@@ -132,13 +132,7 @@ func Test_SQL_Server_CRUD(t *testing.T) {
 
 	armId := *server.Status.Id
 	tc.DeleteResourceAndWait(server)
-
-	exists, _, err := tc.AzureClient.HeadByID(
-		tc.Ctx,
-		armId,
-		string(sql.APIVersion_Value))
-	tc.Expect(err).ToNot(HaveOccurred())
-	tc.Expect(exists).To(BeFalse())
+	tc.ExpectResourceIsDeletedInAzure(armId, string(sql.APIVersion_Value))
 }
 
 func SQL_Server_ConnectionPolicy_CRUD(tc *testcommon.KubePerTestContext, server *sql.Server) {
@@ -240,12 +234,7 @@ func SQL_Server_FirewallRules_CRUD(tc *testcommon.KubePerTestContext, server *sq
 	armId := *firewall.Status.Id
 
 	tc.DeleteResourceAndWait(firewall)
-	exists, _, err := tc.AzureClient.HeadByID(
-		tc.Ctx,
-		armId,
-		string(sql.APIVersion_Value))
-	tc.Expect(err).ToNot(HaveOccurred())
-	tc.Expect(exists).To(BeFalse())
+	tc.ExpectResourceIsDeletedInAzure(armId, string(sql.APIVersion_Value))
 }
 
 func SQL_Server_IPV6_FirewallRules_CRUD(tc *testcommon.KubePerTestContext, server *sql.Server) {
@@ -264,12 +253,7 @@ func SQL_Server_IPV6_FirewallRules_CRUD(tc *testcommon.KubePerTestContext, serve
 	armId := *firewall.Status.Id
 
 	tc.DeleteResourceAndWait(firewall)
-	exists, _, err := tc.AzureClient.HeadByID(
-		tc.Ctx,
-		armId,
-		string(sql.APIVersion_Value))
-	tc.Expect(err).ToNot(HaveOccurred())
-	tc.Expect(exists).To(BeFalse())
+	tc.ExpectResourceIsDeletedInAzure(armId, string(sql.APIVersion_Value))
 }
 
 func SQL_Server_AuditingSetting_CRUD(tc *testcommon.KubePerTestContext, server *sql.Server, storageDetails vulnStorageAccountDetails) {
@@ -404,12 +388,7 @@ func SQL_Server_ElasticPool_CRUD(tc *testcommon.KubePerTestContext, server *sql.
 	armId := *elasticPool.Status.Id
 
 	tc.DeleteResourceAndWait(elasticPool)
-	exists, _, err := tc.AzureClient.HeadByID(
-		tc.Ctx,
-		armId,
-		string(sql.APIVersion_Value))
-	tc.Expect(err).ToNot(HaveOccurred())
-	tc.Expect(exists).To(BeFalse())
+	tc.ExpectResourceIsDeletedInAzure(armId, string(sql.APIVersion_Value))
 }
 
 // See https://github.com/Azure/azure-quickstart-templates/blob/master/quickstarts/microsoft.web/asev2-appservice-sql-vpngw/azuredeploy.json
@@ -430,12 +409,7 @@ func SQL_Server_VirtualNetworkRule_CRUD(tc *testcommon.KubePerTestContext, serve
 	armId := *vnetRule.Status.Id
 
 	tc.DeleteResourceAndWait(vnetRule)
-	exists, _, err := tc.AzureClient.HeadByID(
-		tc.Ctx,
-		armId,
-		string(sql.APIVersion_Value))
-	tc.Expect(err).ToNot(HaveOccurred())
-	tc.Expect(exists).To(BeFalse())
+	tc.ExpectResourceIsDeletedInAzure(armId, string(sql.APIVersion_Value))
 }
 
 // See https://github.com/Azure/azure-quickstart-templates/blob/master/quickstarts/microsoft.sql/sql-database-transparent-encryption-create/azuredeploy.json
@@ -496,12 +470,7 @@ func SQL_Databases_CRUD(tc *testcommon.KubePerTestContext, server *sql.Server, s
 	)
 
 	tc.DeleteResourceAndWait(db)
-	exists, _, err := tc.AzureClient.HeadByID(
-		tc.Ctx,
-		armId,
-		string(sql.APIVersion_Value))
-	tc.Expect(err).ToNot(HaveOccurred())
-	tc.Expect(exists).To(BeFalse())
+	tc.ExpectResourceIsDeletedInAzure(armId, string(sql.APIVersion_Value))
 }
 
 func SQL_BackupLongTermRetention_CRUD(tc *testcommon.KubePerTestContext, db *sql.ServersDatabase) {
