@@ -317,6 +317,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v1api20230201s.ManagedClustersAgentPool)})
+	result = append(result, &registration.StorageType{Obj: new(containerservice_v1api20230202ps.TrustedAccessRoleBinding)})
 	result = append(result, &registration.StorageType{Obj: new(datafactory_v1api20180601s.Factory)})
 	result = append(result, &registration.StorageType{Obj: new(dataprotection_v1api20230101s.BackupVault)})
 	result = append(result, &registration.StorageType{Obj: new(dataprotection_v1api20230101s.BackupVaultsBackupPolicy)})
@@ -914,8 +915,16 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(containerservice_v1api20210501s.ManagedCluster), new(containerservice_v1api20210501s.ManagedClustersAgentPool))
 	result = append(result, new(containerservice_v1api20230201.ManagedCluster), new(containerservice_v1api20230201.ManagedClustersAgentPool))
 	result = append(result, new(containerservice_v1api20230201s.ManagedCluster), new(containerservice_v1api20230201s.ManagedClustersAgentPool))
-	result = append(result, new(containerservice_v1api20230202p.ManagedCluster), new(containerservice_v1api20230202p.ManagedClustersAgentPool))
-	result = append(result, new(containerservice_v1api20230202ps.ManagedCluster), new(containerservice_v1api20230202ps.ManagedClustersAgentPool))
+	result = append(
+		result,
+		new(containerservice_v1api20230202p.ManagedCluster),
+		new(containerservice_v1api20230202p.ManagedClustersAgentPool),
+		new(containerservice_v1api20230202p.TrustedAccessRoleBinding))
+	result = append(
+		result,
+		new(containerservice_v1api20230202ps.ManagedCluster),
+		new(containerservice_v1api20230202ps.ManagedClustersAgentPool),
+		new(containerservice_v1api20230202ps.TrustedAccessRoleBinding))
 	result = append(result, new(containerservice_v20210501.ManagedCluster), new(containerservice_v20210501.ManagedClustersAgentPool))
 	result = append(result, new(containerservice_v20210501s.ManagedCluster), new(containerservice_v20210501s.ManagedClustersAgentPool))
 	result = append(result, new(datafactory_v1api20180601.Factory))
@@ -1651,6 +1660,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &containerregistry_customizations.RegistryExtension{})
 	result = append(result, &containerservice_customizations.ManagedClusterExtension{})
 	result = append(result, &containerservice_customizations.ManagedClustersAgentPoolExtension{})
+	result = append(result, &containerservice_customizations.TrustedAccessRoleBindingExtension{})
 	result = append(result, &datafactory_customizations.FactoryExtension{})
 	result = append(result, &dataprotection_customizations.BackupVaultExtension{})
 	result = append(result, &dataprotection_customizations.BackupVaultsBackupPolicyExtension{})
