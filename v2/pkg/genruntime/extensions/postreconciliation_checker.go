@@ -7,13 +7,13 @@ package extensions
 
 import (
 	"context"
+	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
-	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
@@ -35,7 +35,7 @@ type PostReconciliationChecker interface {
 		ctx context.Context,
 		obj genruntime.MetaObject,
 		owner genruntime.MetaObject,
-		kubeClient kubeclient.Client,
+		resourceResolver *resolver.Resolver,
 		armClient *genericarmclient.GenericClient,
 		log logr.Logger,
 		next PostReconcileCheckFunc,
@@ -46,7 +46,7 @@ type PostReconcileCheckFunc func(
 	ctx context.Context,
 	obj genruntime.MetaObject,
 	owner genruntime.MetaObject,
-	kubeClient kubeclient.Client,
+	resourceResolver *resolver.Resolver,
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger,
 ) (PostReconcileCheckResult, error)
@@ -123,13 +123,13 @@ func CreatePostReconciliationChecker(
 		ctx context.Context,
 		obj genruntime.MetaObject,
 		owner genruntime.MetaObject,
-		kubeClient kubeclient.Client,
+		resourceResolver *resolver.Resolver,
 		armClient *genericarmclient.GenericClient,
 		log logr.Logger,
 	) (PostReconcileCheckResult, error) {
 		log.V(Status).Info("Extension post-reconcile check running")
 
-		result, err := impl.PostReconcileCheck(ctx, obj, owner, kubeClient, armClient, log, alwaysSucceed)
+		result, err := impl.PostReconcileCheck(ctx, obj, owner, resourceResolver, armClient, log, alwaysSucceed)
 		if err != nil {
 			log.V(Status).Info(
 				"Extension post-reconcile check failed",
@@ -152,7 +152,7 @@ func alwaysSucceed(
 	_ context.Context,
 	_ genruntime.MetaObject,
 	_ genruntime.MetaObject,
-	_ kubeclient.Client,
+	_ *resolver.Resolver,
 	_ *genericarmclient.GenericClient,
 	_ logr.Logger,
 ) (PostReconcileCheckResult, error) {

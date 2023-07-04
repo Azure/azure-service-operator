@@ -25,14 +25,14 @@ import (
 func Test_SubscriptionAndAlias_CRUD(t *testing.T) {
 	t.Parallel()
 
+	if *isLive == true {
+		t.Skip("Can't run in live mode as our tenant doesn't support subscription creation")
+	}
+
 	tc := globalTestContext.ForTest(t)
 
 	if tc.AzureBillingInvoiceID == "" {
 		t.Fatalf("%q enviornment variable must be set", testcommon.TestBillingIDVar)
-	}
-
-	if *isLive == true {
-		t.Skip("Can't run in live mode as our tenant doesn't support subscription creation")
 	}
 
 	// TODO: Once ManagedIdentity is registered in our sub, we can use this instead of the hardcoded identity below

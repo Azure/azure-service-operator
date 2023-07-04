@@ -1,0 +1,23 @@
+apiVersion: machinelearningservices.azure.com/v1api20210701
+kind: Workspace
+metadata:
+  name: sampleworkspaces
+  namespace: default
+spec:
+  location: westus3
+  owner:
+    name: aso-sample-rg
+  sku:
+    name: Standard_S1
+    tier: Basic
+  allowPublicAccessWhenBehindVnet: false
+  identity:
+    type: SystemAssigned
+  storageAccountReference:
+    group: storage.azure.com
+    kind:  StorageAccount
+    name:  asoworkspacestorageacct
+  keyVaultReference:
+    group: keyvault.azure.com
+    kind:  Vault
+    name:  mlworkspaces-vault

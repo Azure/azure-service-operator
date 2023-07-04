@@ -2505,6 +2505,18 @@ string
 </tr>
 <tr>
 <td>
+<code>tenantIdFromConfig</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">
+genruntime.ConfigMapReference
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
 <code>vaultUri</code><br/>
 <em>
 string
