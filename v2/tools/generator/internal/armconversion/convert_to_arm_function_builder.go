@@ -132,10 +132,11 @@ func (builder *convertToARMBuilder) functionBodyStatements() []dst.Stmt {
 
 func (builder *convertToARMBuilder) namePropertyHandler(
 	toProp *astmodel.PropertyDefinition,
-	_ *astmodel.ObjectType) ([]dst.Stmt, bool) {
+	_ *astmodel.ObjectType,
+) (propertyConversionHandlerResult, error) {
 
 	if toProp.PropertyName() != "Name" || builder.typeKind != TypeKindSpec {
-		return nil, false
+		return notHandled, nil
 	}
 
 	// we do not read from AzureName() but instead use
@@ -147,24 +148,26 @@ func (builder *convertToARMBuilder) namePropertyHandler(
 		token.ASSIGN,
 		astbuilder.Selector(dst.NewIdent(resolvedParameterString), "Name"))
 
-	return []dst.Stmt{result}, true
+	return handleWith(result), nil
 }
 
 func (builder *convertToARMBuilder) operatorSpecPropertyHandler(
 	toProp *astmodel.PropertyDefinition,
-	_ *astmodel.ObjectType) ([]dst.Stmt, bool) {
+	_ *astmodel.ObjectType,
+) (propertyConversionHandlerResult, error) {
 
 	if toProp.PropertyName() != astmodel.OperatorSpecProperty || builder.typeKind != TypeKindSpec {
-		return nil, false
+		return notHandled, nil
 	}
 
 	// Do nothing with this property, it exists for the operator only and is not sent to Azure
-	return nil, true
+	return handledWithNOP, nil
 }
 
 func (builder *convertToARMBuilder) configMapReferencePropertyHandler(
 	toProp *astmodel.PropertyDefinition,
-	fromType *astmodel.ObjectType) ([]dst.Stmt, bool) {
+	fromType *astmodel.ObjectType,
+) (propertyConversionHandlerResult, error) {
 
 	// This is just an optimization to avoid scanning excess properties collections
 	_, isString := astmodel.AsPrimitiveType(toProp.PropertyType())
@@ -174,17 +177,17 @@ func (builder *convertToARMBuilder) configMapReferencePropertyHandler(
 	//isMapString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewMapType(astmodel.StringType, astmodel.StringType))
 
 	if !isString {
-		return nil, false
+		return notHandled, nil
 	}
 
 	fromProps := fromType.FindAllPropertiesWithTagValue(astmodel.OptionalConfigMapPairTag, string(toProp.PropertyName()))
 	if len(fromProps) == 0 {
-		return nil, false
+		return notHandled, nil
 	}
 
 	if len(fromProps) != 2 {
 		// We expect exactly 2 paired properties
-		return nil, false
+		return notHandled, nil
 	}
 
 	// Figure out which property is which type. There should be 1 string and 1 genruntime.ConfigMapReference
@@ -202,11 +205,11 @@ func (builder *convertToARMBuilder) configMapReferencePropertyHandler(
 	// of the FindAllPropertiesWithTagValue above
 	optionalType, isOptional := astmodel.AsOptionalType(strProp.PropertyType())
 	if !isOptional || !astmodel.TypeEquals(optionalType, astmodel.OptionalStringType) {
-		return nil, false
+		return notHandled, nil
 	}
 	if !astmodel.TypeEquals(refProp.PropertyType(), astmodel.NewOptionalType(astmodel.ConfigMapReferenceType)) {
 		// We expect the other type to be a string
-		return nil, false
+		return notHandled, nil
 	}
 
 	strPropSource := astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(strProp.PropertyName()))
@@ -237,23 +240,24 @@ func (builder *convertToARMBuilder) configMapReferencePropertyHandler(
 		},
 	)
 
-	return astbuilder.Statements(
+	return handleWith(
 		strStmts,
 		refStmts,
-	), true
+	), nil
 }
 
 func (builder *convertToARMBuilder) userAssignedIdentitiesPropertyHandler(
 	toProp *astmodel.PropertyDefinition,
-	fromType *astmodel.ObjectType) ([]dst.Stmt, bool) {
+	fromType *astmodel.ObjectType,
+) (propertyConversionHandlerResult, error) {
 
 	if _, ok := astmodel.IsUserAssignedIdentityProperty(toProp); !ok {
-		return nil, false
+		return notHandled, nil
 	}
 
 	fromProp, ok := fromType.Property(toProp.PropertyName())
 	if !ok {
-		return nil, false
+		return notHandled, nil
 	}
 
 	source := &dst.SelectorExpr{
@@ -281,7 +285,8 @@ func (builder *convertToARMBuilder) userAssignedIdentitiesPropertyHandler(
 
 func (builder *convertToARMBuilder) referencePropertyHandler(
 	toProp *astmodel.PropertyDefinition,
-	fromType *astmodel.ObjectType) ([]dst.Stmt, bool) {
+	fromType *astmodel.ObjectType,
+) (propertyConversionHandlerResult, error) {
 
 	// This is just an optimization to avoid scanning excess properties collections
 	isString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.StringType)
@@ -290,14 +295,14 @@ func (builder *convertToARMBuilder) referencePropertyHandler(
 	isMapString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewMapType(astmodel.StringType, astmodel.StringType))
 
 	if !isString && !isOptionalString && !isSliceString && !isMapString {
-		return nil, false
+		return notHandled, nil
 	}
 
 	// Find the property which is referring to our toProp in its ARMReferenceTag. If we can't find it, that means
 	// there's not one and this handler doesn't apply
 	fromProp, foundReference := fromType.FindPropertyWithTagValue(astmodel.ARMReferenceTag, string(toProp.PropertyName()))
 	if !foundReference {
-		return nil, false
+		return notHandled, nil
 	}
 
 	source := &dst.SelectorExpr{
@@ -336,7 +341,8 @@ func (builder *convertToARMBuilder) referencePropertyHandler(
 // to the type being converted.
 func (builder *convertToARMBuilder) flattenedPropertyHandler(
 	toProp *astmodel.PropertyDefinition,
-	fromType *astmodel.ObjectType) ([]dst.Stmt, bool) {
+	fromType *astmodel.ObjectType,
+) (propertyConversionHandlerResult, error) {
 
 	toPropName := toProp.PropertyName()
 
@@ -350,7 +356,7 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 
 	// there are none to copy; exit
 	if len(fromProps) == 0 {
-		return nil, false
+		return notHandled, nil
 	}
 
 	allDefs := builder.codeGenerationContext.GetAllReachableDefinitions()
@@ -427,7 +433,7 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 		result = append(result, stmts...)
 	}
 
-	return result, true
+	return handleWith(result), nil
 }
 
 // buildToPropInitializer builds an initializer for a given “to” property
@@ -469,11 +475,12 @@ func (builder *convertToARMBuilder) buildToPropInitializer(
 
 func (builder *convertToARMBuilder) propertiesWithSameNameHandler(
 	toProp *astmodel.PropertyDefinition,
-	fromType *astmodel.ObjectType) ([]dst.Stmt, bool) {
+	fromType *astmodel.ObjectType,
+) (propertyConversionHandlerResult, error) {
 
 	fromProp, ok := fromType.Property(toProp.PropertyName())
 	if !ok {
-		return nil, false
+		return notHandled, nil
 	}
 
 	source := astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(fromProp.PropertyName()))

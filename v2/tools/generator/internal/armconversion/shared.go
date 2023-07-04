@@ -12,6 +12,7 @@ import (
 
 	"github.com/dave/dst"
 
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
 )
@@ -46,10 +47,16 @@ func (builder conversionBuilder) propertyConversionHandler(
 	toProp *astmodel.PropertyDefinition,
 	fromType *astmodel.ObjectType,
 ) []dst.Stmt {
+	var err error
 	for _, conversionHandler := range builder.propertyConversionHandlers {
-		stmts, matched := conversionHandler(toProp, fromType)
-		if matched || toProp.HasTagValue(ConversionTag, NoARMConversionValue) {
-			return stmts
+		conversion, convErr := conversionHandler(toProp, fromType)
+		if convErr != nil {
+			err = convErr
+			break
+		}
+
+		if conversion.matched || toProp.HasTagValue(ConversionTag, NoARMConversionValue) {
+			return conversion.statements
 		}
 	}
 
@@ -60,15 +67,46 @@ func (builder conversionBuilder) propertyConversionHandler(
 	builder.armType.WriteDebugDescription(&armDescription, nil)
 
 	message := fmt.Sprintf(
-		"No property found for %q in method %s()\nFrom: %s\nTo: %s",
+		"no property found for %q in method %s()\nFrom: %s\nTo: %s",
 		toProp.PropertyName(),
 		builder.methodName,
 		kubeDescription.String(),
 		armDescription.String())
+
+	if err != nil {
+		message += "\n" + err.Error()
+	}
+
 	panic(message)
 }
 
-type propertyConversionHandler = func(toProp *astmodel.PropertyDefinition, fromType *astmodel.ObjectType) ([]dst.Stmt, bool)
+type propertyConversionHandler = func(
+	toProp *astmodel.PropertyDefinition,
+	fromType *astmodel.ObjectType,
+) (propertyConversionHandlerResult, error)
+
+type propertyConversionHandlerResult struct {
+	statements []dst.Stmt
+	matched    bool
+}
+
+// notHandled is a result to use when a handler declines to handle the requested conversion
+var notHandled = propertyConversionHandlerResult{
+	matched: false,
+}
+
+// emptyPropertyconversion is a result to use when a handler wants to return an empty set of statements for a conversion
+var handledWithNOP = propertyConversionHandlerResult{
+	matched: true,
+}
+
+// handleWith is a result to use when a handler wants to return a set of statements for a conversion
+func handleWith(statements ...any) propertyConversionHandlerResult {
+	return propertyConversionHandlerResult{
+		statements: astbuilder.Statements(statements...),
+		matched:    true,
+	}
+}
 
 var (
 	once              sync.Once
