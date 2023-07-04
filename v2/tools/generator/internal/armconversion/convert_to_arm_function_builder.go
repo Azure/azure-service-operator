@@ -7,6 +7,7 @@ package armconversion
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 	"go/token"
 
 	"github.com/dave/dst"
@@ -370,7 +371,10 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 	// (1.) resolve the outer typename
 	toPropType, err := allDefs.FullyResolve(toProp.PropertyType())
 	if err != nil {
-		panic(err)
+		return notHandled,
+			errors.Wrapf(err,
+				"unable to resolve type %s",
+				toProp.PropertyType().String())
 	}
 
 	needToInitializeToProp := false // we need to init the target if it is optional
@@ -382,7 +386,10 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 		toPropTypeName = optType.Element().(astmodel.TypeName)
 		toPropType, err = allDefs.FullyResolve(optType.Element())
 		if err != nil {
-			panic(err)
+			return notHandled,
+				errors.Wrapf(err,
+					"unable to resolve type %s",
+					optType.Element().String())
 		}
 	}
 
@@ -409,7 +416,11 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 
 		toSubProp, ok := toPropObjType.Property(toSubPropName)
 		if !ok {
-			panic(fmt.Sprintf("unable to find expected property %s inside property %s", fromProp.PropertyName(), toPropName))
+			return notHandled,
+				errors.Errorf(
+					"unable to find expected property %s inside property %s",
+					fromProp.PropertyName(),
+					toPropName)
 		}
 
 		// generate conversion
@@ -545,7 +556,8 @@ func (builder *convertToARMBuilder) convertUserAssignedIdentitiesCollection(
 	// There should be a single "Reference" property
 	refProperty, ok := uaiType.Property("Reference")
 	if !ok {
-		panic(fmt.Sprintf("Found UserAssignedIdentity type without Reference property"))
+		return nil,
+			errors.New("found UserAssignedIdentity type without Reference property")
 	}
 
 	locals := params.Locals.Clone()

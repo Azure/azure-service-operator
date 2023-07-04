@@ -163,7 +163,7 @@ func (builder *convertFromARMBuilder) namePropertyHandler(
 	// Check to make sure that the ARM object has a "Name" property (which matches our "AzureName")
 	fromProp, ok := fromType.Property("Name")
 	if !ok {
-		panic("ARM resource missing property 'Name'")
+		return notHandled, errors.New("ARM resource missing property 'Name'")
 	}
 
 	// Invoke SetAzureName(ExtractKubernetesResourceNameFromARMName(this.Name)):
@@ -257,7 +257,11 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 		var armDescription strings.Builder
 		builder.armType.WriteDebugDescription(&armDescription, nil)
 
-		panic(fmt.Sprintf("Owner property was not of type TypeName. Kube: %s, ARM: %s", kubeDescription.String(), armDescription.String()))
+		return notHandled,
+			errors.Errorf(
+				"owner property was not of type TypeName. Kube: %s, ARM: %s",
+				kubeDescription.String(),
+				armDescription.String())
 	}
 
 	var convertedOwner dst.Expr
@@ -268,7 +272,10 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 	} else if ownerNameType == astmodel.ArbitraryOwnerReference {
 		convertedOwner = astbuilder.AddrOf(dst.NewIdent(ownerParameter))
 	} else {
-		panic(fmt.Sprintf("found Owner property on spec with unexpected TypeName %s", ownerNameType.String()))
+		return notHandled,
+			errors.Errorf(
+				"found Owner property on spec with unexpected TypeName %s",
+				ownerNameType.String())
 	}
 
 	setOwner := astbuilder.QualifiedAssignment(
@@ -334,7 +341,11 @@ func (builder *convertFromARMBuilder) flattenedPropertyHandler(
 		}
 	}
 
-	panic(fmt.Sprintf("couldn’t find source ARM property ‘%s’ that k8s property ‘%s’ was flattened from", toProp.FlattenedFrom()[0], toProp.PropertyName()))
+	return notHandled,
+		errors.Errorf(
+			"couldn’t find source ARM property ‘%s’ that k8s property ‘%s’ was flattened from",
+			toProp.FlattenedFrom()[0],
+			toProp.PropertyName())
 }
 
 func (builder *convertFromARMBuilder) buildFlattenedAssignment(
@@ -349,10 +360,12 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 			props = append(props, string(ff))
 		}
 
-		panic(fmt.Sprintf("need to implement multiple levels of flattening: property ‘%s’ on %s was flattened from ‘%s’",
-			toProp.PropertyName(),
-			builder.receiverIdent,
-			strings.Join(props, ".")))
+		return notHandled,
+			errors.Errorf(
+				"need to implement multiple levels of flattening: property ‘%s’ on %s was flattened from ‘%s’",
+				toProp.PropertyName(),
+				builder.receiverIdent,
+				strings.Join(props, "."))
 	}
 
 	allDefs := builder.codeGenerationContext.GetAllReachableDefinitions()
@@ -366,7 +379,11 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 	// (1.) resolve any outer typename
 	fromPropType, err := allDefs.FullyResolve(fromProp.PropertyType())
 	if err != nil {
-		panic(err)
+		return notHandled,
+			errors.Wrapf(
+				err,
+				"failed to resolve type for property %s",
+				fromProp.PropertyName())
 	}
 
 	var fromPropObjType *astmodel.ObjectType
@@ -378,7 +395,11 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 		// (3.) resolve any inner typename
 		elementType, err := allDefs.FullyResolve(fromPropOptType.Element())
 		if err != nil {
-			panic(err)
+			return notHandled,
+				errors.Wrapf(
+					err,
+					"failed to resolve type for property %s",
+					fromProp.PropertyName())
 		}
 
 		// (4.) resolve the inner object type
@@ -390,9 +411,11 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 
 	if !objOk {
 		// see pipeline_flatten_properties.go:flattenPropType which will only flatten from (optional) object types
-		panic(fmt.Sprintf("property ‘%s’ marked as flattened from non-object type %T, which shouldn’t be possible",
-			toProp.PropertyName(),
-			fromPropType))
+		return notHandled,
+			errors.Errorf(
+				"property ‘%s’ marked as flattened from non-object type %T, which shouldn’t be possible",
+				toProp.PropertyName(),
+				fromPropType)
 	}
 
 	// *** Now generate the code! ***
@@ -400,7 +423,11 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 	originalPropName := toPropFlattenedFrom[len(toPropFlattenedFrom)-1]
 	nestedProp, ok := fromPropObjType.Property(originalPropName)
 	if !ok {
-		panic("couldn't find source of flattened property")
+		return notHandled,
+			errors.Errorf(
+				"couldn't find source of flattened property ‘%s’ on %s",
+				toProp.PropertyName(),
+				builder.receiverIdent)
 	}
 
 	// need to make a clone of builder.locals if we are going to nest in an if statement
