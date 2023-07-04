@@ -218,7 +218,7 @@ func (builder *convertToARMBuilder) configMapReferencePropertyHandler(
 
 	destination := astbuilder.Selector(dst.NewIdent(builder.resultIdent), string(toProp.PropertyName()))
 
-	strStmts := builder.typeConversionBuilder.BuildConversion(
+	strStmts, err := builder.typeConversionBuilder.BuildConversion(
 		astmodel.ConversionParameters{
 			Source:            strPropSource,
 			SourceType:        strProp.PropertyType(),
@@ -229,7 +229,14 @@ func (builder *convertToARMBuilder) configMapReferencePropertyHandler(
 			Locals:            builder.locals,
 		},
 	)
-	refStmts := builder.typeConversionBuilder.BuildConversion(
+	if err != nil {
+		return notHandled,
+			errors.Wrapf(err,
+				"unable to build conversion for property %s",
+				strProp.PropertyName())
+	}
+
+	refStmts, err := builder.typeConversionBuilder.BuildConversion(
 		astmodel.ConversionParameters{
 			Source:            refPropSource,
 			SourceType:        refProp.PropertyType(),
@@ -240,6 +247,12 @@ func (builder *convertToARMBuilder) configMapReferencePropertyHandler(
 			Locals:            builder.locals,
 		},
 	)
+	if err != nil {
+		return notHandled,
+			errors.Wrapf(err,
+				"unable to build conversion for property %s",
+				refProp.PropertyName())
+	}
 
 	return handleWith(
 		strStmts,
@@ -271,7 +284,7 @@ func (builder *convertToARMBuilder) userAssignedIdentitiesPropertyHandler(
 		Sel: dst.NewIdent(string(toProp.PropertyName())),
 	}
 
-	return builder.typeConversionBuilder.BuildConversion(
+	conversion, err := builder.typeConversionBuilder.BuildConversion(
 		astmodel.ConversionParameters{
 			Source:            source,
 			SourceType:        fromProp.PropertyType(),
@@ -281,7 +294,15 @@ func (builder *convertToARMBuilder) userAssignedIdentitiesPropertyHandler(
 			ConversionContext: nil,
 			Locals:            builder.locals,
 		},
-	), true
+	)
+	if err != nil {
+		return notHandled,
+			errors.Wrapf(err,
+				"unable to build conversion for property %s",
+				fromProp.PropertyName())
+	}
+
+	return handleWith(conversion), nil
 }
 
 func (builder *convertToARMBuilder) referencePropertyHandler(
@@ -316,7 +337,7 @@ func (builder *convertToARMBuilder) referencePropertyHandler(
 		Sel: dst.NewIdent(string(toProp.PropertyName())),
 	}
 
-	return builder.typeConversionBuilder.BuildConversion(
+	conversion, err := builder.typeConversionBuilder.BuildConversion(
 		astmodel.ConversionParameters{
 			Source:            source,
 			SourceType:        fromProp.PropertyType(),
@@ -326,7 +347,15 @@ func (builder *convertToARMBuilder) referencePropertyHandler(
 			ConversionContext: nil,
 			Locals:            builder.locals,
 		},
-	), true
+	)
+	if err != nil {
+		return notHandled,
+			errors.Wrapf(err,
+				"unable to build conversion for property %s",
+				fromProp.PropertyName())
+	}
+
+	return handleWith(conversion), nil
 }
 
 // flattenedPropertyHandler generates conversions for properties that
@@ -424,7 +453,7 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 		}
 
 		// generate conversion
-		stmts := builder.typeConversionBuilder.BuildConversion(
+		conversion, err := builder.typeConversionBuilder.BuildConversion(
 			astmodel.ConversionParameters{
 				Source:            astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(fromProp.PropertyName())),
 				SourceType:        fromProp.PropertyType(),
@@ -435,13 +464,19 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 				AssignmentHandler: nil,
 				Locals:            builder.locals,
 			})
-
-		// we were unable to generate an inner conversion, so we cannot generate the overall conversion
-		if len(stmts) == 0 {
-			return nil, false
+		if err != nil {
+			return notHandled,
+				errors.Wrapf(err,
+					"unable to build conversion for property %s",
+					fromProp.PropertyName())
 		}
 
-		result = append(result, stmts...)
+		// we were unable to generate an inner conversion, so we cannot generate the overall conversion
+		if len(conversion) == 0 {
+			return notHandled, nil
+		}
+
+		result = append(result, conversion...)
 	}
 
 	return handleWith(result), nil
@@ -497,7 +532,7 @@ func (builder *convertToARMBuilder) propertiesWithSameNameHandler(
 	source := astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(fromProp.PropertyName()))
 	destination := astbuilder.Selector(dst.NewIdent(builder.resultIdent), string(toProp.PropertyName()))
 
-	return builder.typeConversionBuilder.BuildConversion(
+	conversion, err := builder.typeConversionBuilder.BuildConversion(
 		astmodel.ConversionParameters{
 			Source:            source,
 			SourceType:        fromProp.PropertyType(),
@@ -507,7 +542,15 @@ func (builder *convertToARMBuilder) propertiesWithSameNameHandler(
 			ConversionContext: nil,
 			Locals:            builder.locals,
 		},
-	), true
+	)
+	if err != nil {
+		return notHandled,
+			errors.Wrapf(err,
+				"unable to build conversion for property %s",
+				fromProp.PropertyName())
+	}
+
+	return handleWith(conversion), nil
 }
 
 // convertUserAssignedIdentitiesCollection handles conversion the special UserAssignedIdentities property.
@@ -577,7 +620,7 @@ func (builder *convertToARMBuilder) convertUserAssignedIdentitiesCollection(
 	refSelector := astbuilder.Selector(dst.NewIdent(itemIdent), "Reference")
 
 	// Rely on existing conversion handler for ResourceReference type
-	conversionStmts := conversionBuilder.BuildConversion(
+	conversion, err := conversionBuilder.BuildConversion(
 		astmodel.ConversionParameters{
 			Source:            refSelector,
 			SourceType:        refProperty.PropertyType(),
@@ -588,21 +631,26 @@ func (builder *convertToARMBuilder) convertUserAssignedIdentitiesCollection(
 			AssignmentHandler: astmodel.AssignmentHandlerDefine,
 			Locals:            locals,
 		})
+	if err != nil {
+		return nil,
+			errors.Wrapf(err,
+				"unable to build conversion for property %s",
+				refProperty.PropertyName())
+	}
+
 	valueBuilder := astbuilder.NewCompositeLiteralBuilder(valueTypeAst).WithoutNewLines()
 
-	conversionStmts = append(
-		conversionStmts,
+	conversion = append(
+		conversion,
 		astbuilder.InsertMap(params.Destination, dst.NewIdent(key), valueBuilder.Build()))
 
 	// Loop over the slice
 	loop := astbuilder.IterateOverSlice(
 		itemIdent,
 		params.Source,
-		conversionStmts...)
+		conversion...)
 
-	return []dst.Stmt{
-		makeMapStatement,
-		loop}
+	return astbuilder.Statements(makeMapStatement, loop), nil
 }
 
 // convertReferenceProperty handles conversion of reference properties.

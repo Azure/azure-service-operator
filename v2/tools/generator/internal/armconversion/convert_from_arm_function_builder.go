@@ -337,7 +337,15 @@ func (builder *convertFromARMBuilder) flattenedPropertyHandler(
 
 	for _, fromProp := range fromType.Properties().Copy() {
 		if toProp.WasFlattenedFrom(fromProp.PropertyName()) {
-			return builder.buildFlattenedAssignment(toProp, fromProp), true
+			result, err := builder.buildFlattenedAssignment(toProp, fromProp)
+			if err != nil {
+				return notHandled,
+					errors.Wrapf(err,
+						"failed to build flattened assignment for property %s",
+						toProp.PropertyName())
+			}
+
+			return result, nil
 		}
 	}
 
@@ -436,7 +444,7 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 		locals = locals.Clone()
 	}
 
-	stmts := builder.typeConversionBuilder.BuildConversion(
+	stmts, err := builder.typeConversionBuilder.BuildConversion(
 		astmodel.ConversionParameters{
 			Source:            astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName()), string(originalPropName)),
 			SourceType:        nestedProp.PropertyType(),
@@ -447,6 +455,13 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 			AssignmentHandler: nil,
 			Locals:            locals,
 		})
+	if err != nil {
+		return notHandled,
+			errors.Wrapf(
+				err,
+				"failed to generate conversion for flattened property %s",
+				toProp.PropertyName())
+	}
 
 	// we were unable to generate an inner conversion, so we cannot generate the overall conversion
 	if len(stmts) == 0 {
@@ -481,7 +496,7 @@ func (builder *convertFromARMBuilder) propertiesWithSameNameHandler(
 		return notHandled, nil
 	}
 
-	return builder.typeConversionBuilder.BuildConversion(
+	conversion, err := builder.typeConversionBuilder.BuildConversion(
 		astmodel.ConversionParameters{
 			Source:            astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName())),
 			SourceType:        fromProp.PropertyType(),
@@ -491,7 +506,16 @@ func (builder *convertFromARMBuilder) propertiesWithSameNameHandler(
 			ConversionContext: nil,
 			AssignmentHandler: nil,
 			Locals:            builder.locals,
-		}), true
+		})
+	if err != nil {
+		return notHandled,
+			errors.Wrapf(
+				err,
+				"failed to generate conversion for property %s",
+				toProp.PropertyName())
+	}
+
+	return handleWith(conversion), nil
 }
 
 //////////////////////////////////////////////////////////////////////////////////

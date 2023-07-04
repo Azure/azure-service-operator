@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 	"go/token"
 	"strings"
 
@@ -161,7 +162,11 @@ func (builder *ConversionFunctionBuilder) PrependConversionHandlers(conversionHa
 // BuildConversion creates a conversion between the source and destination defined by params.
 func (builder *ConversionFunctionBuilder) BuildConversion(params ConversionParameters) ([]dst.Stmt, error) {
 	for _, conversion := range builder.conversions {
-		result := conversion(builder, params)
+		result, err := conversion(builder, params)
+		if err != nil {
+			return nil, err
+		}
+
 		if len(result) > 0 {
 			return result, nil
 		}
@@ -198,7 +203,7 @@ func IdentityConvertComplexOptionalProperty(
 	locals := params.Locals.Clone()
 	tempVarIdent := locals.CreateLocal(params.NameHint)
 
-	innerStatements := builder.BuildConversion(
+	conversion, err := builder.BuildConversion(
 		ConversionParameters{
 			Source:            astbuilder.Dereference(params.GetSource()),
 			SourceType:        sourceType.Element(),
@@ -209,19 +214,22 @@ func IdentityConvertComplexOptionalProperty(
 			AssignmentHandler: AssignmentHandlerDefine,
 			Locals:            locals,
 		})
+	if err != nil {
+		return nil, errors.Wrap(err, "unable to build conversion for optional element")
+	}
 
 	// Tack on the final assignment
-	innerStatements = append(
-		innerStatements,
+	conversion = append(
+		conversion,
 		astbuilder.SimpleAssignment(
 			params.GetDestination(),
 			astbuilder.AddrOf(dst.NewIdent(tempVarIdent))))
 
 	result := astbuilder.IfNotNil(
 		params.GetSource(),
-		innerStatements...)
+		conversion...)
 
-	return astbuilder.Statements(result)
+	return astbuilder.Statements(result), nil
 }
 
 // IdentityConvertComplexArrayProperty handles conversion for array properties with complex elements
@@ -267,24 +275,27 @@ func IdentityConvertComplexArrayProperty(
 				""))
 	}
 
+	conversion, err := builder.BuildConversion(
+		ConversionParameters{
+			Source:            dst.NewIdent(itemIdent),
+			SourceType:        sourceType.Element(),
+			Destination:       dst.Clone(destination).(dst.Expr),
+			DestinationType:   destinationType.Element(),
+			NameHint:          itemIdent,
+			ConversionContext: append(params.ConversionContext, destinationType),
+			AssignmentHandler: astbuilder.AppendItemToSlice,
+			Locals:            locals,
+		})
+	if err != nil {
+		return nil, errors.Wrap(err, "unable to build conversion for array element")
+	}
+
 	result := &dst.RangeStmt{
 		Key:   dst.NewIdent("_"),
 		Value: dst.NewIdent(itemIdent),
 		X:     params.GetSource(),
 		Tok:   token.DEFINE,
-		Body: &dst.BlockStmt{
-			List: builder.BuildConversion(
-				ConversionParameters{
-					Source:            dst.NewIdent(itemIdent),
-					SourceType:        sourceType.Element(),
-					Destination:       dst.Clone(destination).(dst.Expr),
-					DestinationType:   destinationType.Element(),
-					NameHint:          itemIdent,
-					ConversionContext: append(params.ConversionContext, destinationType),
-					AssignmentHandler: astbuilder.AppendItemToSlice,
-					Locals:            locals,
-				}),
-		},
+		Body:  astbuilder.StatementBlock(conversion...),
 	}
 	results = append(results, result)
 
@@ -361,24 +372,28 @@ func IdentityConvertComplexMapProperty(
 		makeMapToken,
 		astbuilder.MakeMapWithCapacity(keyTypeAst, valueTypeAst,
 			astbuilder.CallFunc("len", params.GetSource())))
+
+	conversion, err := builder.BuildConversion(
+		ConversionParameters{
+			Source:            dst.NewIdent(valueIdent),
+			SourceType:        sourceType.ValueType(),
+			Destination:       dst.Clone(destination).(dst.Expr),
+			DestinationType:   destinationType.ValueType(),
+			NameHint:          nameHint,
+			ConversionContext: append(params.ConversionContext, destinationType),
+			AssignmentHandler: handler,
+			Locals:            locals,
+		})
+	if err != nil {
+		return nil, errors.Wrap(err, "unable to build conversion for map value")
+	}
+
 	rangeStatement := &dst.RangeStmt{
 		Key:   dst.NewIdent(keyIdent),
 		Value: dst.NewIdent(valueIdent),
 		X:     params.GetSource(),
 		Tok:   token.DEFINE,
-		Body: &dst.BlockStmt{
-			List: builder.BuildConversion(
-				ConversionParameters{
-					Source:            dst.NewIdent(valueIdent),
-					SourceType:        sourceType.ValueType(),
-					Destination:       dst.Clone(destination).(dst.Expr),
-					DestinationType:   destinationType.ValueType(),
-					NameHint:          nameHint,
-					ConversionContext: append(params.ConversionContext, destinationType),
-					AssignmentHandler: handler,
-					Locals:            locals,
-				}),
-		},
+		Body:  astbuilder.StatementBlock(conversion...),
 	}
 
 	result := astbuilder.IfNotNil(
@@ -477,7 +492,7 @@ func AssignToOptional(
 	dstType := optDest.Element()
 	tmpLocal := builder.CreateLocal(params.Locals, "temp", params.NameHint)
 
-	conversion := builder.BuildConversion(
+	conversion, err := builder.BuildConversion(
 		ConversionParameters{
 			Source:            params.Source,
 			SourceType:        params.SourceType,
@@ -488,15 +503,20 @@ func AssignToOptional(
 			AssignmentHandler: nil,
 			Locals:            params.Locals,
 		})
+	if err != nil {
+		return nil, errors.Wrap(err, "unable to build inner conversion to optional")
+	}
 
 	if len(conversion) == 0 {
-		return nil // unable to build inner conversion
+		return nil, nil // unable to build inner conversion
 	}
 
 	return astbuilder.Statements(
 		astbuilder.LocalVariableDeclaration(tmpLocal, dstType.AsType(builder.CodeGenerationContext), ""),
 		conversion,
-		params.AssignmentHandlerOrDefault()(params.GetDestination(), astbuilder.AddrOf(dst.NewIdent(tmpLocal))))
+		params.AssignmentHandlerOrDefault()(
+			params.GetDestination(),
+			astbuilder.AddrOf(dst.NewIdent(tmpLocal)))), nil
 }
 
 // AssignFromOptional assigns address of source to destination.
@@ -533,7 +553,7 @@ func AssignFromOptional(
 	locals := params.Locals.Clone()
 	tmpLocal := builder.CreateLocal(locals, "temp", params.NameHint)
 
-	conversion := builder.BuildConversion(
+	conversion, err := builder.BuildConversion(
 		ConversionParameters{
 			Source:            astbuilder.Dereference(params.GetSource()),
 			SourceType:        srcType,
@@ -544,6 +564,9 @@ func AssignFromOptional(
 			AssignmentHandler: nil,
 			Locals:            locals,
 		})
+	if err != nil {
+		return nil, errors.Wrap(err, "unable to build inner conversion from optional")
+	}
 
 	if len(conversion) == 0 {
 		return nil, nil // unable to build inner conversion
