@@ -81,12 +81,17 @@ func newConvertFromARMFunctionBuilder(
 	return result
 }
 
-func (builder *convertFromARMBuilder) functionDeclaration() *dst.FuncDecl {
+func (builder *convertFromARMBuilder) functionDeclaration() (*dst.FuncDecl, error) {
+	body, err := builder.functionBodyStatements()
+	if err != nil {
+		return nil, err
+	}
+
 	fn := &astbuilder.FuncDetails{
 		Name:          builder.methodName,
 		ReceiverIdent: builder.receiverIdent,
 		ReceiverType:  astbuilder.PointerTo(builder.receiverTypeExpr),
-		Body:          builder.functionBodyStatements(),
+		Body:          body,
 	}
 
 	fn.AddComments("populates a Kubernetes CRD object from an Azure ARM object")
@@ -96,14 +101,17 @@ func (builder *convertFromARMBuilder) functionDeclaration() *dst.FuncDecl {
 
 	fn.AddParameter(builder.inputIdent, dst.NewIdent("interface{}"))
 	fn.AddReturns("error")
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
-func (builder *convertFromARMBuilder) functionBodyStatements() []dst.Stmt {
-	conversionStmts := generateTypeConversionAssignments(
+func (builder *convertFromARMBuilder) functionBodyStatements() ([]dst.Stmt, error) {
+	conversionStmts, err := generateTypeConversionAssignments(
 		builder.armType,
 		builder.kubeType,
 		builder.propertyConversionHandler)
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to generate conversion statements for %s", builder.methodName)
+	}
 
 	// We remove empty statements here as they may have been used to store comments or other
 	// notes about properties which were not transformed. We want to keep these statements in the
@@ -116,7 +124,7 @@ func (builder *convertFromARMBuilder) functionBodyStatements() []dst.Stmt {
 	return astbuilder.Statements(
 		assertStmts,
 		conversionStmts,
-		astbuilder.ReturnNoError())
+		astbuilder.ReturnNoError()), nil
 }
 
 func (builder *convertFromARMBuilder) assertInputTypeIsARM(needsResult bool) []dst.Stmt {

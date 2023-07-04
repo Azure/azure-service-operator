@@ -79,42 +79,43 @@ func newConvertToARMFunctionBuilder(
 	return result
 }
 
-func (builder *convertToARMBuilder) functionDeclaration() *dst.FuncDecl {
+func (builder *convertToARMBuilder) functionDeclaration() (*dst.FuncDecl, error) {
+	body, err := builder.functionBodyStatements()
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to generate body for %s", builder.methodName)
+	}
+
 	fn := &astbuilder.FuncDetails{
 		Name:          builder.methodName,
 		ReceiverIdent: builder.receiverIdent,
 		ReceiverType:  astbuilder.PointerTo(builder.receiverTypeExpr),
-		Body:          builder.functionBodyStatements(),
+		Body:          body,
 	}
 
 	fn.AddParameter(resolvedParameterString, astmodel.ConvertToARMResolvedDetailsType.AsType(builder.codeGenerationContext))
 	fn.AddReturns("interface{}", "error")
 	fn.AddComments("converts from a Kubernetes CRD object to an ARM object")
 
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
-func (builder *convertToARMBuilder) functionBodyStatements() []dst.Stmt {
-	var result []dst.Stmt
-
+func (builder *convertToARMBuilder) functionBodyStatements() ([]dst.Stmt, error) {
 	// If we are passed a nil receiver just return nil - this is a bit weird
 	// but saves us some nil-checks
-	result = append(
-		result,
-		astbuilder.ReturnIfNil(dst.NewIdent(builder.receiverIdent), astbuilder.Nil(), astbuilder.Nil()))
+	returnIfNil := astbuilder.ReturnIfNil(dst.NewIdent(builder.receiverIdent), astbuilder.Nil(), astbuilder.Nil())
 
 	decl := astbuilder.ShortDeclaration(
 		builder.resultIdent,
 		astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(dst.NewIdent(builder.armTypeIdent)).Build()))
-	result = append(result, decl)
 
 	// Each ARM object property needs to be filled out
-	result = append(
-		result,
-		generateTypeConversionAssignments(
-			builder.kubeType,
-			builder.armType,
-			builder.propertyConversionHandler)...)
+	conversions, err := generateTypeConversionAssignments(
+		builder.kubeType,
+		builder.armType,
+		builder.propertyConversionHandler)
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to generate property conversions for %s", builder.methodName)
+	}
 
 	returnStatement := &dst.ReturnStmt{
 		Results: []dst.Expr{
@@ -122,9 +123,12 @@ func (builder *convertToARMBuilder) functionBodyStatements() []dst.Stmt {
 			astbuilder.Nil(),
 		},
 	}
-	result = append(result, returnStatement)
 
-	return result
+	return astbuilder.Statements(
+		returnIfNil,
+		decl,
+		conversions,
+		returnStatement), nil
 }
 
 //////////////////////

@@ -65,24 +65,42 @@ func (c *ARMConversionFunction) References() astmodel.TypeNameSet {
 }
 
 // AsFunc returns the function as a Go AST
-func (c *ConvertToARMFunction) AsFunc(codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
+func (c *ConvertToARMFunction) AsFunc(
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+) *dst.FuncDecl {
 	builder := newConvertToARMFunctionBuilder(
 		&c.ARMConversionFunction,
 		codeGenerationContext,
 		receiver,
 		c.Name())
 
-	return builder.functionDeclaration()
+	decl, err := builder.functionDeclaration()
+	if err != nil {
+		// TODO: This will become an error return when we refactor the conversion functions for issue #2971
+		panic(err)
+	}
+
+	return decl
 }
 
-func (c *PopulateFromARMFunction) AsFunc(codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
+func (c *PopulateFromARMFunction) AsFunc(
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+) *dst.FuncDecl {
 	builder := newConvertFromARMFunctionBuilder(
 		&c.ARMConversionFunction,
 		codeGenerationContext,
 		receiver,
 		c.Name())
 
-	return builder.functionDeclaration()
+	decl, err := builder.functionDeclaration()
+	if err != nil {
+		// TODO: This will become an error return when we refactor the conversion functions for issue #2971
+		panic(err)
+	}
+
+	return decl
 }
 
 // Equals determines if this function is equal to the passed in function
