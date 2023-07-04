@@ -820,11 +820,7 @@ func (builder *convertToARMBuilder) convertComplexTypeNameProperty(
 
 	if !destinationType.PackageReference.Equals(conversionBuilder.CodeGenerationContext.CurrentPackage()) {
 		// needs to be qualified
-		packageName, err := conversionBuilder.CodeGenerationContext.GetImportedPackageName(destinationType.PackageReference)
-		if err != nil {
-			panic(err)
-		}
-
+		packageName := conversionBuilder.CodeGenerationContext.MustGetImportedPackageName(destinationType.PackageReference)
 		typeAssertExpr.Type = astbuilder.Dereference(astbuilder.Selector(dst.NewIdent(packageName), destinationType.Name()))
 	}
 

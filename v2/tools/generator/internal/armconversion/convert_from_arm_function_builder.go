@@ -556,11 +556,7 @@ func (builder *convertFromARMBuilder) convertComplexTypeNameProperty(
 	newVariable := astbuilder.NewVariable(propertyLocalVar, destinationType.Name())
 	if !destinationType.PackageReference.Equals(builder.codeGenerationContext.CurrentPackage()) {
 		// struct name has to be qualified
-		packageName, err := builder.codeGenerationContext.GetImportedPackageName(destinationType.PackageReference)
-		if err != nil {
-			panic(err)
-		}
-
+		packageName := builder.codeGenerationContext.MustGetImportedPackageName(destinationType.PackageReference)
 		newVariable = astbuilder.NewVariableQualified(
 			propertyLocalVar,
 			packageName,
