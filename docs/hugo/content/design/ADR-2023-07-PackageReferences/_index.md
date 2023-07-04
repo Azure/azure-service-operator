@@ -1,5 +1,5 @@
 ---
-title: Package References
+title: 2023-07 Package References
 ---
 
 ## Context
@@ -12,8 +12,7 @@ As this interface is implemented, we'll need to revisit all the code that consum
 
 Ideally, everything would just work. However, our existing object model in this area is a little complex:
 
-{{ $current := .Resources.GetMatch "current.png" }}
-<img src="{{ $current.RelPermalink }}" width="{{ $current.Width }}" height="{{ $current.Height }}">
+{{< figure src="current.png" >}}
 
 <!-- yuml.me class diagram
 
@@ -47,8 +46,7 @@ As a part of adding `SubPackageReference`, we should slightly rework the domain 
 
 Not only will this be easier to understand, but it should streamline some parts of our existing codebase by removing the need to check for illegal states.
 
-{{ $proposed := .Resources.GetMatch "proposed.png" }}
-<img src="{{ $proposed.RelPermalink }}" width="{{ $proposed.Width }}" height="{{ $proposed.Height }}">
+{{< figure src="proposed.png" >}}
 
 <!-- yuml.me class diagram
 
