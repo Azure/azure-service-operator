@@ -30,7 +30,7 @@
 <meta itemprop="name" content="asoctl">
 <meta itemprop="description" content="Azure Service Operator Controller">
 
-<meta itemprop="wordCount" content="890">
+<meta itemprop="wordCount" content="930">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="asoctl"/>
 <meta name="twitter:description" content="Azure Service Operator Controller"/>
@@ -720,7 +720,7 @@ Available Commands:
       <a class="nav-link active"
           id="tabs-00-01-tab" data-toggle="tab" href="#tabs-00-01" role="tab"
           aria-controls="tabs-00-01" aria-selected="false">
-        Linux
+        Linux (incl WSL)
       </a>
     </li><li class="nav-item">
       <a class="nav-link"
@@ -744,31 +744,36 @@ Available Commands:
     </div>
     <div class="tab-body tab-pane fade show active"
         id="tabs-00-01" role="tabpanel" aria-labelled-by="tabs-00-01-tab">
-        <p>AMD64:</p>
-<p><code>curl -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-linux-amd64 -o asoctl</code></p>
-<p>ARM64:</p>
-<p><code>curl -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-linux-arm64 -o asoctl</code></p>
-<p>Install:</p>
-<p><code>sudo install -o root -g root -m 0755 asoctl /usr/local/bin/asoctl</code></p>
-
+        <p>Download for AMD64:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ curl -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-linux-amd64.gz -o asoctl.gz
+$ gunzip asoctl.gz
+</code></pre></div><p>Download for ARM64:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ curl -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-linux-arm64.gz -o asoctl.gz
+$ gunzip asoctl.gz
+</code></pre></div><p>Install:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sudo install -o root -g root -m <span style="color:#ae81ff">0755</span> asoctl /usr/local/bin/asoctl<span style="color:#e6db74">`</span>
+</code></pre></div>
     </div>
     <div class="tab-body tab-pane fade"
         id="tabs-00-02" role="tabpanel" aria-labelled-by="tabs-00-02-tab">
-        <p>AMD64:</p>
-<p><code>curl -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-darwin-amd64 -o asoctl</code></p>
-<p>ARM64:</p>
-<p><code>curl -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-darwin-arm64 -o asoctl</code></p>
-<p>Make the binary executable:</p>
-<p><code>chmod +x ./asoctl</code></p>
-<p>Move the binary to your PATH:</p>
-<p><code>sudo mv ./asoctl /usr/local/bin/asoctl</code></p>
-
+        <p>Download for AMD64:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ curl -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-darwin-amd64.gz -o asoctl.gz
+$ gunzip asoctl.gz
+</code></pre></div><p>Download for ARM64:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ curl -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-darwin-arm64.gz -o asoctl.gz
+$ gunzip asoctl.gz
+</code></pre></div><p>Make the binary executable:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ chmod +x ./asoctl
+</code></pre></div><p>Move the binary to your PATH:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sudo mv ./asoctl /usr/local/bin/asoctl
+</code></pre></div>
     </div>
     <div class="tab-body tab-pane fade"
         id="tabs-00-03" role="tabpanel" aria-labelled-by="tabs-00-03-tab">
-        <p>Download the latest release to your current directory:</p>
-<p><code>curl.exe -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-windows-amd64.exe -o asoctl.exe</code></p>
-<p>Append that directory to your <code>PATH</code> if desired.</p>
+        <p>Using a PowerShell command prompt, download the latest release to your current directory:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Powershell" data-lang="Powershell">$ curl.exe -L https<span style="color:#960050;background-color:#1e0010">:</span>//github.com/Azure/azure-service-operator/releases/latest/download/asoctl-windows-amd64.zip -o asoctl.zip
+$ Expand-Archive asoctl.zip . -Force
+</code></pre></div><p>Append that directory to your <code>PATH</code> if desired.</p>
 
     </div>
 </div>
