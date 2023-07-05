@@ -22,6 +22,7 @@ import (
 
 // Attention: A lot of code in this file is very similar to the logic in load_balancer_extension.go, route_table_extensions.go and virtual_network_extensions.go.
 // The two should be kept in sync as much as possible.
+// NOTE: This wouldn't work without adding indexes in 'getGeneratedStorageTypes' method in controller_resources.go
 
 var _ extensions.ARMResourceModifier = &NetworkSecurityGroupExtension{}
 
@@ -73,8 +74,8 @@ func (extension *NetworkSecurityGroupExtension) ModifyARMResource(
 	return armObj, nil
 }
 
-func getNetworkSecurityGroupsSecurityRuleGVK(lb genruntime.ARMMetaObject) schema.GroupVersionKind {
-	gvk := genruntime.GetOriginalGVK(lb)
+func getNetworkSecurityGroupsSecurityRuleGVK(nsg genruntime.ARMMetaObject) schema.GroupVersionKind {
+	gvk := genruntime.GetOriginalGVK(nsg)
 	gvk.Kind = reflect.TypeOf(network.NetworkSecurityGroupsSecurityRule{}).Name() // "NetworkSecurityGroupsSecurityRule"
 
 	return gvk

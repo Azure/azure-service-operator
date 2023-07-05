@@ -26,6 +26,7 @@ import (
 
 // Attention: A lot of code in this file is very similar to the logic in network_security_group_extension.go, load_balancer_extensions.go and route_table_extensions.go.
 // The two should be kept in sync as much as possible.
+// NOTE: This wouldn't work without adding indexes in 'getGeneratedStorageTypes' method in controller_resources.goould be kept in sync as much as possible.
 
 var _ extensions.ARMResourceModifier = &VirtualNetworkExtension{}
 
