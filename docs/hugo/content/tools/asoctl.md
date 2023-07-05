@@ -28,45 +28,66 @@ Available Commands:
 
 {{< tabpane text=true left=true >}}
 {{% tab header="**OS**:" disabled=true /%}}
-{{% tab header="Linux" %}}
+{{% tab header="Linux (incl WSL)" %}}
 
-AMD64:
+Download for AMD64:
 
-`curl -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-linux-amd64 -o asoctl`
+``` bash
+$ curl -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-linux-amd64.gz -o asoctl.gz
+$ gunzip asoctl.gz
+```
 
-ARM64:
+Download for ARM64:
 
-`curl -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-linux-arm64 -o asoctl`
+``` bash
+$ curl -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-linux-arm64.gz -o asoctl.gz
+$ gunzip asoctl.gz
+```
 
 Install:
 
-`sudo install -o root -g root -m 0755 asoctl /usr/local/bin/asoctl`
+``` bash
+$ sudo install -o root -g root -m 0755 asoctl /usr/local/bin/asoctl`
+```
 
 {{% /tab %}}
 {{% tab header="macOS" %}}
 
-AMD64:
+Download for AMD64:
 
-`curl -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-darwin-amd64 -o asoctl`
+``` bash
+$ curl -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-darwin-amd64.gz -o asoctl.gz
+$ gunzip asoctl.gz
+```
 
-ARM64:
+Download for ARM64:
 
-`curl -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-darwin-arm64 -o asoctl`
+``` bash
+$ curl -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-darwin-arm64.gz -o asoctl.gz
+$ gunzip asoctl.gz
+```
 
 Make the binary executable:
 
-`chmod +x ./asoctl`
+``` bash
+$ chmod +x ./asoctl
+```
 
 Move the binary to your PATH:
 
-`sudo mv ./asoctl /usr/local/bin/asoctl`
+``` bash
+$ sudo mv ./asoctl /usr/local/bin/asoctl
+```
 
 {{% /tab %}}
 {{% tab header="Windows" %}}
 
-Download the latest release to your current directory:
+Using a PowerShell command prompt, download the latest release to your current directory:
 
-`curl.exe -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-windows-amd64.exe -o asoctl.exe`
+``` Powershell
+$ curl.exe -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-windows-amd64.zip -o asoctl.zip
+$ Expand-Archive asoctl.zip . -Force
+```
 
 Append that directory to your `PATH` if desired.
 
