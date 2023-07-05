@@ -12,8 +12,9 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
+
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
-	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
@@ -24,7 +25,7 @@ func (extension *PrivateEndpointExtension) PostReconcileCheck(
 	_ context.Context,
 	obj genruntime.MetaObject,
 	_ genruntime.MetaObject,
-	_ kubeclient.Client,
+	_ *resolver.Resolver,
 	_ *genericarmclient.GenericClient,
 	_ logr.Logger,
 	_ extensions.PostReconcileCheckFunc) (extensions.PostReconcileCheckResult, error) {

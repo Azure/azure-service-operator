@@ -195,6 +195,15 @@ These resource versions are deprecated and will be removed in an upcoming ASO re
 
 ## ContainerService
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+
+| Resource                                                                                                                                                                                             | ARM Version        | CRD Version          | Supported From | Sample                                                                                                                                                                |
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|----------------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [TrustedAccessRoleBinding](https://azure.github.io/azure-service-operator/reference/containerservice/v1api20230202preview/#containerservice.azure.com/v1api20230202preview.TrustedAccessRoleBinding) | 2023-02-02-preview | v1api20230202preview | v2.2.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20230202preview/v1api20230202preview_trustedaccessrolebinding.yaml) |
+
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
@@ -228,6 +237,18 @@ These resource(s) are available for use in the current release of ASO. Different
 | Resource                                                                                                                                   | ARM Version | CRD Version   | Supported From | Sample                                                                                                                    |
 |--------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|---------------------------------------------------------------------------------------------------------------------------|
 | [Factory](https://azure.github.io/azure-service-operator/reference/datafactory/v1api20180601/#datafactory.azure.com/v1api20180601.Factory) | 2018-06-01  | v1api20180601 | v2.1.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/datafactory/v1api/v1api20180601_factory.yaml) |
+
+## DataProtection
+
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+
+| Resource                                                                                                                                                                           | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                        |
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| [BackupVault](https://azure.github.io/azure-service-operator/reference/dataprotection/v1api20230101/#dataprotection.azure.com/v1api20230101.BackupVault)                           | 2023-01-01  | v1api20230101 | v2.2.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dataprotection/v1api/v1api20230101_backupvault.yaml)              |
+| [BackupVaultsBackupPolicy](https://azure.github.io/azure-service-operator/reference/dataprotection/v1api20230101/#dataprotection.azure.com/v1api20230101.BackupVaultsBackupPolicy) | 2023-01-01  | v1api20230101 | v2.2.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dataprotection/v1api/v1api20230101_backupvaultsbackuppolicy.yaml) |
 
 ## DBforMariaDB
 

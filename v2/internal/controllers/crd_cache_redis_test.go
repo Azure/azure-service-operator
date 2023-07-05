@@ -22,6 +22,10 @@ import (
 func Test_Cache_Redis_CRUD(t *testing.T) {
 	t.Parallel()
 
+	if *isLive {
+		t.Skip("can't run in live mode, redis server takes too long to be provisioned and deletion")
+	}
+
 	tc := globalTestContext.ForTest(t)
 
 	rg := tc.CreateTestResourceGroupAndWait()

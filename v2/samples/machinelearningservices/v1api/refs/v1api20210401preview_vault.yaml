@@ -13,8 +13,8 @@ spec:
       family: A
       name: standard
     accessPolicies:
-      - applicationId: "1C793267-c310-d4ae-7BD5-5Af5BEF875D3"
-        objectId: "1C793267-c310-d4ae-7BD5-5Af5BEF875D3"
+      - applicationId: "c8d42d17-0044-4119-99f9-9207b705c9df"
+        objectId: "2735f286-1d85-49bc-bfec-c5994ede7e7f"
         tenantId: "00000000-0000-0000-0000-000000000000"
         permissions:
           certificates:

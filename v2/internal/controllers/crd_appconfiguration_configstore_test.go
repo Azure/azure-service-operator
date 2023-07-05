@@ -22,8 +22,10 @@ import (
 func Test_AppConfiguration_ConfigurationStore_CRUD(t *testing.T) {
 	t.Parallel()
 
-	createModeDefault := appconfig.ConfigurationStoreProperties_CreateMode_Default
-	publicNetworkAccessDisabled := appconfig.ConfigurationStoreProperties_PublicNetworkAccess_Disabled
+	if *isLive {
+		t.Skip("can't run in live mode, as ConfigurationStore retains the name after deletion which results in conflicts")
+	}
+
 	publicNetworkAccessEnabled := appconfig.ConfigurationStoreProperties_PublicNetworkAccess_Enabled
 
 	tc := globalTestContext.ForTest(t)
@@ -33,13 +35,13 @@ func Test_AppConfiguration_ConfigurationStore_CRUD(t *testing.T) {
 		TypeMeta:   metav1.TypeMeta{},
 		ObjectMeta: tc.MakeObjectMeta("confstore"),
 		Spec: appconfig.ConfigurationStore_Spec{
-			CreateMode: &createModeDefault,
+			CreateMode: to.Ptr(appconfig.ConfigurationStoreProperties_CreateMode_Default),
 			Location:   tc.AzureRegion,
 			Owner:      testcommon.AsOwner(rg),
 			Sku: &appconfig.Sku{
 				Name: to.Ptr("standard"),
 			},
-			PublicNetworkAccess: &publicNetworkAccessDisabled,
+			PublicNetworkAccess: to.Ptr(appconfig.ConfigurationStoreProperties_PublicNetworkAccess_Disabled),
 		},
 		Status: appconfig.ConfigurationStore_STATUS{},
 	}

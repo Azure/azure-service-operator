@@ -150,6 +150,26 @@ typeTransformers:
     because: AccessKeys is only set on response to PUT/CREATE, but we fill out Status via GET so this field is always empty. It also contains secrets we wouldn't want to expose in status anyway.
 
   # Properties that should have been marked as ReadOnly in the Swagger
+  - name: BackupVault_Spec
+    group: dataprotection
+    property: SystemData
+    remove: true
+    because: This property should be marked readonly in Swagger
+  - name: BackupVault_Spec
+    group: dataprotection
+    property: Etag
+    remove: true
+    because: This property should be marked readonly in Swagger
+  - name: BackupVaults_BackupPolicy_Spec
+    group: dataprotection
+    property: SystemData
+    remove: true
+    because: This property should be marked readonly in Swagger
+  - name: BackupVaults_BackupInstance_Spec
+    group: dataprotection
+    property: SystemData
+    remove: true
+    because: This property should be marked readonly in Swagger
   - name: IotHub_Spec
     group: devices
     property: Etag
@@ -941,6 +961,12 @@ objectModelConfiguration:
       ManagedClusterServicePrincipalProfile:
         Secret:
           $isSecret: true
+      ManagedClusters_TrustedAccessRoleBinding:
+        $exportAs: TrustedAccessRoleBinding
+        $supportedFrom: v2.2.0
+      TrustedAccessRoleBindingProperties:
+        SourceResourceId:
+          $armReference: true
       PrivateLinkResource:
         Id:
           $armReference: true
@@ -955,6 +981,14 @@ objectModelConfiguration:
       Factory:
         $export: true
         $supportedFrom: v2.1.0
+  dataprotection: 
+    2023-01-01: 
+      BackupVault: 
+        $export: true 
+        $supportedFrom: v2.2.0 
+      BackupVaults_BackupPolicy: 
+        $exportAs: BackupVaultsBackupPolicy 
+        $supportedFrom: v2.2.0 
   dbformariadb:
     2018-06-01:
       Server:
@@ -1227,6 +1261,9 @@ objectModelConfiguration:
       Vault:
         $export: true
         $supportedFrom: v2.0.0-beta.1
+      VaultProperties:
+        TenantId:
+          $importConfigMapMode: optional
       AccessPolicyEntry:
         TenantId:
           $importConfigMapMode: optional

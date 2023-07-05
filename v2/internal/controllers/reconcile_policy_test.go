@@ -14,7 +14,9 @@ import (
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_ReconcilePolicy_SkipReconcileAddedAlongWithTagsChange_ReconcileIsSkipped(t *testing.T) {
@@ -123,6 +125,76 @@ func Test_ReconcilePolicy_SkippedParentDeleted_ChildIssuesDeleteToAzure(t *testi
 		string(storage.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
+}
+
+func Test_ReconcilePolicySkip_CreatesSecretAndConfigMap(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
+
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	// Create a storage account
+	accessTier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
+	kind := storage.StorageAccount_Kind_Spec_StorageV2
+	sku := storage.SkuName_Standard_LRS
+	acct := &storage.StorageAccount{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
+		Spec: storage.StorageAccount_Spec{
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(rg),
+			Kind:     &kind,
+			Sku: &storage.Sku{
+				Name: &sku,
+			},
+			AccessTier: &accessTier,
+		},
+	}
+
+	origAcct := acct.DeepCopy()
+	tc.CreateResourceAndWait(acct)
+
+	// Now annotate the resource with reconcile-policy: skip and delete it (which will leave it in Azure)
+	old := acct.DeepCopy()
+	acct.Annotations = make(map[string]string)
+	acct.Annotations["serviceoperator.azure.com/reconcile-policy"] = "skip"
+	tc.Patch(old, acct)
+	// Delete it
+	tc.DeleteResourceAndWait(acct)
+
+	// Create it again but this time adopt it and also set operatorSpec to export a configMap
+	secretName := "storagekeys"
+	secretKey := "key1"
+	configMapName := "storageconfig"
+	blobEndpointKey := "blobEndpoint"
+	origAcct.Annotations = make(map[string]string)
+	origAcct.Annotations["serviceoperator.azure.com/reconcile-policy"] = "skip"
+	origAcct.Spec.OperatorSpec = &storage.StorageAccountOperatorSpec{
+		ConfigMaps: &storage.StorageAccountOperatorConfigMaps{
+			BlobEndpoint: &genruntime.ConfigMapDestination{
+				Name: configMapName,
+				Key:  blobEndpointKey,
+			},
+		},
+		Secrets: &storage.StorageAccountOperatorSecrets{
+			Key1: &genruntime.SecretDestination{
+				Name: secretName,
+				Key:  secretKey,
+			},
+		},
+	}
+
+	acct = origAcct.DeepCopy()
+
+	tc.CreateResourcesAndWait(acct)
+
+	// The configmap and secret should also be exported
+	tc.ExpectConfigMapHasKeys(configMapName, blobEndpointKey)
+	tc.ExpectSecretHasKeys(secretName, secretKey)
+
+	// Now un-skip things so that deletion happens correctly
+	old = acct.DeepCopy()
+	delete(acct.Annotations, "serviceoperator.azure.com/reconcile-policy")
+	tc.Patch(old, acct)
 }
 
 func testDeleteSkipped(t *testing.T, policy string) {

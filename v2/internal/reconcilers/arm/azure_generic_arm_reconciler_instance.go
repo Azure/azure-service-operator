@@ -47,8 +47,8 @@ func newAzureDeploymentReconcilerInstance(
 	log logr.Logger,
 	recorder record.EventRecorder,
 	connection Connection,
-	reconciler AzureDeploymentReconciler) *azureDeploymentReconcilerInstance {
-
+	reconciler AzureDeploymentReconciler,
+) *azureDeploymentReconcilerInstance {
 	return &azureDeploymentReconcilerInstance{
 		Obj:                              metaObj,
 		Log:                              log,
@@ -235,7 +235,7 @@ func (r *azureDeploymentReconcilerInstance) MonitorDelete(ctx context.Context) (
 	poller := r.ARMConnection.Client().ResumeDeletePoller(pollerID)
 	err := poller.Resume(ctx, r.ARMConnection.Client(), pollerResumeToken)
 	if err != nil {
-		return ctrl.Result{}, r.handleDeletePollerFailed(err)
+		return ctrl.Result{}, r.handleDeleteFailed(err)
 	}
 	if poller.Poller.Done() {
 		// The resource was deleted
@@ -311,7 +311,7 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 	spec := armResource.Spec()
 	pollerResp, err := r.ARMConnection.Client().BeginCreateOrUpdateByID(ctx, armResource.GetID(), spec.GetAPIVersion(), spec)
 	if err != nil {
-		return ctrl.Result{}, r.handleCreatePollerFailed(err)
+		return ctrl.Result{}, r.handleCreateOrUpdateFailed(err)
 	}
 
 	r.Log.V(Status).Info("Successfully sent resource to Azure", "id", armResource.GetID())
@@ -320,7 +320,7 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 	// If we are done here it means the deployment succeeded immediately. It can't have failed because if it did
 	// we would have taken the error path above.
 	if pollerResp.Poller.Done() {
-		return r.handleCreatePollerSuccess(ctx)
+		return ctrl.Result{}, r.handleCreateOrUpdateSuccess(ctx, ManageResource)
 	}
 
 	resumeToken, err := pollerResp.Poller.ResumeToken()
@@ -357,7 +357,7 @@ func (r *azureDeploymentReconcilerInstance) preReconciliationCheck(ctx context.C
 	}
 
 	// Run our pre-reconciliation checker
-	check, checkErr := checker(ctx, r.Obj, owner, r.KubeClient, r.ARMConnection.Client(), r.Log)
+	check, checkErr := checker(ctx, r.Obj, owner, r.ResourceResolver, r.ARMConnection.Client(), r.Log)
 	if checkErr != nil {
 		// Something went wrong running the check.
 		return extensions.PreReconcileCheckResult{}, checkErr
@@ -379,9 +379,9 @@ func checkSubscription(resourceID string, clientSubID string) error {
 	return nil
 }
 
-func (r *azureDeploymentReconcilerInstance) handleCreatePollerFailed(err error) error {
+func (r *azureDeploymentReconcilerInstance) handleCreateOrUpdateFailed(err error) error {
 	r.Log.V(Debug).Info(
-		"Resource creation failure",
+		"Resource creation/update failure",
 		"resourceID", genruntime.GetResourceIDOrDefault(r.Obj),
 		"error", err.Error())
 
@@ -391,7 +391,7 @@ func (r *azureDeploymentReconcilerInstance) handleCreatePollerFailed(err error) 
 	return err
 }
 
-func (r *azureDeploymentReconcilerInstance) handleDeletePollerFailed(err error) error {
+func (r *azureDeploymentReconcilerInstance) handleDeleteFailed(err error) error {
 	r.Log.V(Debug).Info(
 		"Resource deletion failure",
 		"resourceID", genruntime.GetResourceIDOrDefault(r.Obj),
@@ -403,30 +403,33 @@ func (r *azureDeploymentReconcilerInstance) handleDeletePollerFailed(err error) 
 	return err
 }
 
-func (r *azureDeploymentReconcilerInstance) skipReconcile(ctx context.Context) error {
-	err := r.updateStatus(ctx)
-	if err != nil {
-		if genericarmclient.IsNotFoundError(err) {
-			err = conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonAzureResourceNotFound)
-		}
-		return err
-	}
-	return nil
-}
+type CreateOrUpdateSuccessMode string
 
-func (r *azureDeploymentReconcilerInstance) handleCreatePollerSuccess(ctx context.Context) (ctrl.Result, error) {
+const (
+	WatchResource  = CreateOrUpdateSuccessMode("watch")
+	ManageResource = CreateOrUpdateSuccessMode("manage")
+)
+
+func (r *azureDeploymentReconcilerInstance) handleCreateOrUpdateSuccess(ctx context.Context, mode CreateOrUpdateSuccessMode) error {
 	r.Log.V(Status).Info(
-		"Resource successfully created",
+		"Resource successfully created/updated",
 		"resourceID", genruntime.GetResourceIDOrDefault(r.Obj))
 
 	err := r.updateStatus(ctx)
 	if err != nil {
-		if genericarmclient.IsNotFoundError(err) {
-			// If we're getting NotFound here there must be an RP bug, as poller said success. If that happens we want
-			// to make sure that we don't get stuck, so we clear the poller URL.
-			ClearPollerResumeToken(r.Obj)
+		if mode == WatchResource {
+			if genericarmclient.IsNotFoundError(err) {
+				err = conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonAzureResourceNotFound)
+			}
+			return err
+		} else {
+			if genericarmclient.IsNotFoundError(err) {
+				// If we're getting NotFound here there must be an RP bug, as poller said success. If that happens we want
+				// to make sure that we don't get stuck, so we clear the poller URL.
+				ClearPollerResumeToken(r.Obj)
+			}
+			return errors.Wrapf(err, "error updating status")
 		}
-		return ctrl.Result{}, errors.Wrapf(err, "error updating status")
 	}
 
 	check, err := r.postReconciliationCheck(ctx)
@@ -439,14 +442,14 @@ func (r *azureDeploymentReconcilerInstance) handleCreatePollerSuccess(ctx contex
 				conditions.ReasonFailed)
 		}
 
-		return ctrl.Result{}, impactingError
+		return impactingError
 	}
 
 	// If post reconcile check is failed, we return ReadyConditionImpactingError here to update the Ready
 	// condition is updated so the user can see why we're not setting ready condition now.
 	if check.ReconciliationFailed() {
 		r.Log.V(Status).Info("Extension post-reconcile check failure", "message", check.Message())
-		return ctrl.Result{}, check.CreateConditionError()
+		return check.CreateConditionError()
 	}
 
 	err = r.saveAssociatedKubernetesResources(ctx)
@@ -455,17 +458,17 @@ func (r *azureDeploymentReconcilerInstance) handleCreatePollerSuccess(ctx contex
 			err = conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonAdditionalKubernetesObjWriteFailure)
 		}
 
-		return ctrl.Result{}, err
+		return err
 	}
 
 	onSuccess := extensions.CreateSuccessfulCreationHandler(r.Extension, r.Log)
 	err = onSuccess(r.Obj)
 	if err != nil {
-		return ctrl.Result{}, err
+		return err
 	}
 
 	ClearPollerResumeToken(r.Obj)
-	return ctrl.Result{}, nil
+	return nil
 }
 
 func (r *azureDeploymentReconcilerInstance) postReconciliationCheck(ctx context.Context) (extensions.PostReconcileCheckResult, error) {
@@ -484,7 +487,7 @@ func (r *azureDeploymentReconcilerInstance) postReconciliationCheck(ctx context.
 	}
 
 	// Run our post-reconciliation checker
-	check, checkErr := checker(ctx, r.Obj, owner, r.KubeClient, r.ARMConnection.Client(), r.Log)
+	check, checkErr := checker(ctx, r.Obj, owner, r.ResourceResolver, r.ARMConnection.Client(), r.Log)
 	if checkErr != nil {
 		// Something went wrong running the check.
 		return extensions.PostReconcileCheckResult{}, checkErr
@@ -506,11 +509,11 @@ func (r *azureDeploymentReconcilerInstance) MonitorResourceCreation(ctx context.
 	poller := r.ARMConnection.Client().ResumeCreatePoller(pollerID)
 	err := poller.Resume(ctx, r.ARMConnection.Client(), pollerResumeToken)
 	if err != nil {
-		return ctrl.Result{}, r.handleCreatePollerFailed(err)
+		return ctrl.Result{}, r.handleCreateOrUpdateFailed(err)
 	}
 
 	if poller.Poller.Done() {
-		return r.handleCreatePollerSuccess(ctx)
+		return ctrl.Result{}, r.handleCreateOrUpdateSuccess(ctx, ManageResource)
 	}
 
 	// Requeue to check again later
