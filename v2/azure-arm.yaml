@@ -939,6 +939,8 @@ objectModelConfiguration:
         $azureGeneratedSecrets:
           - AdminCredentials
           - UserCredentials
+        $generatedConfigs:
+          OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
       ManagedClusters_AgentPool:
         $exportAs: ManagedClustersAgentPool
         $supportedFrom: v2.0.0
@@ -955,6 +957,8 @@ objectModelConfiguration:
         $azureGeneratedSecrets:
           - AdminCredentials
           - UserCredentials
+        $generatedConfigs:
+          OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
       ManagedClusters_AgentPool:
         $exportAs: ManagedClustersAgentPool
         $supportedFrom: v2.0.0
