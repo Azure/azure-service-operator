@@ -145,17 +145,19 @@ type UserAssignedIdentities_FederatedIdentityCredential_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	Issuer          *string `json:"issuer,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
+	AzureName        string                         `json:"azureName,omitempty"`
+	Issuer           *string                        `json:"issuer,omitempty" optionalConfigMapPair:"Issuer"`
+	IssuerFromConfig *genruntime.ConfigMapReference `json:"issuerFromConfig,omitempty" optionalConfigMapPair:"Issuer"`
+	OriginalVersion  string                         `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a managedidentity.azure.com/UserAssignedIdentity resource
-	Owner       *genruntime.KnownResourceReference `group:"managedidentity.azure.com" json:"owner,omitempty" kind:"UserAssignedIdentity"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Subject     *string                            `json:"subject,omitempty"`
+	Owner             *genruntime.KnownResourceReference `group:"managedidentity.azure.com" json:"owner,omitempty" kind:"UserAssignedIdentity"`
+	PropertyBag       genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Subject           *string                            `json:"subject,omitempty" optionalConfigMapPair:"Subject"`
+	SubjectFromConfig *genruntime.ConfigMapReference     `json:"subjectFromConfig,omitempty" optionalConfigMapPair:"Subject"`
 }
 
 var _ genruntime.ConvertibleSpec = &UserAssignedIdentities_FederatedIdentityCredential_Spec{}

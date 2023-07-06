@@ -31,6 +31,6 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM) G
 // Deprecated version of FederatedIdentityCredentialProperties. Use v1api20220131preview.FederatedIdentityCredentialProperties instead
 type FederatedIdentityCredentialProperties_ARM struct {
 	Audiences []string `json:"audiences,omitempty"`
-	Issuer    *string  `json:"issuer,omitempty"`
-	Subject   *string  `json:"subject,omitempty"`
+	Issuer    *string  `json:"issuer,omitempty" optionalConfigMapPair:"Issuer"`
+	Subject   *string  `json:"subject,omitempty" optionalConfigMapPair:"Subject"`
 }
