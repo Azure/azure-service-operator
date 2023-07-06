@@ -8,6 +8,7 @@ package app
 import (
 	"context"
 	"fmt"
+	"github.com/Azure/azure-service-operator/v2/api"
 	"math/rand"
 	"os"
 	"regexp"
@@ -66,11 +67,17 @@ func SetupPreUpgradeCheck(ctx context.Context) error {
 		return errors.Wrap(err, "failed to list CRDs")
 	}
 
+	scheme := api.CreateScheme()
 	crdRegexp := regexp.MustCompile(`.*\.azure\.com`)
 	var errs []error
 	for _, crd := range list.Items {
 		crd := crd
 		if !crdRegexp.MatchString(crd.Name) {
+			continue
+		}
+
+		if !scheme.Recognizes(crd.GroupVersionKind()) {
+			// Not one of our resources
 			continue
 		}
 
