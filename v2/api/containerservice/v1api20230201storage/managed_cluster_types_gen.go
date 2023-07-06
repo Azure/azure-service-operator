@@ -4,11 +4,16 @@
 package v1api20230201storage
 
 import (
+	"context"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 // +kubebuilder:rbac:groups=containerservice.azure.com,resources=managedclusters,verbs=get;list;watch;create;update;patch;delete
@@ -42,6 +47,25 @@ func (cluster *ManagedCluster) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (cluster *ManagedCluster) SetConditions(conditions conditions.Conditions) {
 	cluster.Status.Conditions = conditions
+}
+
+var _ genruntime.KubernetesExporter = &ManagedCluster{}
+
+// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
+func (cluster *ManagedCluster) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+	collector := configmaps.NewCollector(cluster.Namespace)
+	if cluster.Spec.OperatorSpec != nil && cluster.Spec.OperatorSpec.ConfigMaps != nil {
+		if cluster.Status.OidcIssuerProfile != nil {
+			if cluster.Status.OidcIssuerProfile.IssuerURL != nil {
+				collector.AddValue(cluster.Spec.OperatorSpec.ConfigMaps.OIDCIssuerProfile, *cluster.Status.OidcIssuerProfile.IssuerURL)
+			}
+		}
+	}
+	result, err := collector.Values()
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.SliceToClientObjectSlice(result), nil
 }
 
 var _ genruntime.KubernetesResource = &ManagedCluster{}
@@ -621,8 +645,9 @@ type ManagedClusterOIDCIssuerProfile_STATUS struct {
 // Storage version of v1api20230201.ManagedClusterOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type ManagedClusterOperatorSpec struct {
-	PropertyBag genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
-	Secrets     *ManagedClusterOperatorSecrets `json:"secrets,omitempty"`
+	ConfigMaps  *ManagedClusterOperatorConfigMaps `json:"configMaps,omitempty"`
+	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	Secrets     *ManagedClusterOperatorSecrets    `json:"secrets,omitempty"`
 }
 
 // Storage version of v1api20230201.ManagedClusterPodIdentityProfile
@@ -968,6 +993,12 @@ type ManagedClusterNATGatewayProfile_STATUS struct {
 	IdleTimeoutInMinutes     *int                                           `json:"idleTimeoutInMinutes,omitempty"`
 	ManagedOutboundIPProfile *ManagedClusterManagedOutboundIPProfile_STATUS `json:"managedOutboundIPProfile,omitempty"`
 	PropertyBag              genruntime.PropertyBag                         `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1api20230201.ManagedClusterOperatorConfigMaps
+type ManagedClusterOperatorConfigMaps struct {
+	OIDCIssuerProfile *genruntime.ConfigMapDestination `json:"oidcIssuerProfile,omitempty"`
+	PropertyBag       genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20230201.ManagedClusterOperatorSecrets

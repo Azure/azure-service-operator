@@ -5320,6 +5320,13 @@ func (operator *ManagedClusterOperatorSpec) AssignProperties_From_ManagedCluster
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
+	// ConfigMaps
+	if source.ConfigMaps != nil {
+		propertyBag.Add("ConfigMaps", *source.ConfigMaps)
+	} else {
+		propertyBag.Remove("ConfigMaps")
+	}
+
 	// Secrets
 	if source.Secrets != nil {
 		var secret ManagedClusterOperatorSecrets
@@ -5356,6 +5363,19 @@ func (operator *ManagedClusterOperatorSpec) AssignProperties_From_ManagedCluster
 func (operator *ManagedClusterOperatorSpec) AssignProperties_To_ManagedClusterOperatorSpec(destination *v1api20230201s.ManagedClusterOperatorSpec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMaps
+	if propertyBag.Contains("ConfigMaps") {
+		var configMap v1api20230201s.ManagedClusterOperatorConfigMaps
+		err := propertyBag.Pull("ConfigMaps", &configMap)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'ConfigMaps' from propertyBag")
+		}
+
+		destination.ConfigMaps = &configMap
+	} else {
+		destination.ConfigMaps = nil
+	}
 
 	// Secrets
 	if operator.Secrets != nil {
