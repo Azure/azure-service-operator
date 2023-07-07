@@ -68,7 +68,7 @@ func TestGolden_ReportAllResourceVersions(t *testing.T) {
 	// utility function used to configure a which ASO version from which a resource was supported
 	supportedFrom := func(from string) func(tc *config.TypeConfiguration) error {
 		return func(tc *config.TypeConfiguration) error {
-			tc.SetSupportedFrom(from)
+			tc.SupportedFrom.Set(from)
 			return nil
 		}
 	}

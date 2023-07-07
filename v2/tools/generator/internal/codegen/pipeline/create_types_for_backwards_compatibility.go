@@ -113,7 +113,7 @@ func findResourcesRequiringCompatibilityVersion(
 	for name, def := range resources {
 
 		// Find out when we started supporting this resource
-		from, err := configuration.LookupSupportedFrom(name)
+		from, err := configuration.SupportedFrom.Lookup(name)
 		if err != nil {
 			if config.IsNotConfiguredError(err) {
 				// $supportedFrom is not configured, skip this resource
