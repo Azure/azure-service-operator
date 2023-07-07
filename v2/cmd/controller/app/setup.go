@@ -8,7 +8,6 @@ package app
 import (
 	"context"
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/api"
 	"math/rand"
 	"os"
 	"regexp"
@@ -35,13 +34,15 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
+	armreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
+
+	"github.com/Azure/azure-service-operator/v2/api"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/crdmanagement"
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
-	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
-	armreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/generic"
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
