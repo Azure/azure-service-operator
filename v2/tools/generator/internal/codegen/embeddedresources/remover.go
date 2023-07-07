@@ -347,7 +347,7 @@ func findResourcesEmbeddedInParent(configuration *config.Configuration, defs ast
 			continue
 		}
 
-		parentResource, err := configuration.ObjectModelConfiguration.LookupResourceEmbeddedInParent(name)
+		parentResource, err := configuration.ObjectModelConfiguration.ResourceEmbeddedInParent.Lookup(name)
 		if err != nil {
 			if config.IsNotConfiguredError(err) {
 				// $isResource is not configured, skip this object
@@ -380,7 +380,7 @@ func findResourcesEmbeddedInParent(configuration *config.Configuration, defs ast
 	}
 
 	// Ensure that all the $isResource properties were used
-	err = configuration.ObjectModelConfiguration.VerifyResourceEmbeddedInParentConsumed()
+	err = configuration.ObjectModelConfiguration.ResourceEmbeddedInParent.VerifyConsumed()
 	if err != nil {
 		return nil, err
 	}

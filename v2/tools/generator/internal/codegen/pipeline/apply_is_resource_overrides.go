@@ -27,7 +27,7 @@ func ApplyIsResourceOverrides(configuration *config.Configuration) *Stage {
 					continue
 				}
 
-				isResource, err := configuration.ObjectModelConfiguration.LookupIsResource(name)
+				isResource, err := configuration.ObjectModelConfiguration.IsResource.Lookup(name)
 				if err != nil {
 					if config.IsNotConfiguredError(err) {
 						// $isResource is not configured, skip this object
@@ -51,7 +51,7 @@ func ApplyIsResourceOverrides(configuration *config.Configuration) *Stage {
 			}
 
 			// Ensure that all the $isResource properties were used
-			err = configuration.ObjectModelConfiguration.VerifyIsResourceConsumed()
+			err = configuration.ObjectModelConfiguration.IsResource.VerifyConsumed()
 			if err != nil {
 				return nil, err
 			}

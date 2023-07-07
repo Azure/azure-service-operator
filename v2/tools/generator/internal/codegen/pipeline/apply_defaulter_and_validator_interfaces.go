@@ -53,7 +53,7 @@ func ApplyDefaulterAndValidatorInterfaces(configuration *config.Configuration, i
 				updatedDefs.Add(resource)
 			}
 
-			err := configuration.ObjectModelConfiguration.VerifyDefaultAzureNameConsumed()
+			err := configuration.ObjectModelConfiguration.DefaultAzureName.VerifyConsumed()
 			if err != nil {
 				return nil, err
 			}
@@ -78,7 +78,7 @@ func getDefaults(
 		return nil, errors.Wrapf(err, "unable to resolve resource %s", resourceDef.Name())
 	}
 
-	defaultAzureName, err := configuration.ObjectModelConfiguration.LookupDefaultAzureName(resourceDef.Name())
+	defaultAzureName, err := configuration.ObjectModelConfiguration.DefaultAzureName.Lookup(resourceDef.Name())
 	if err != nil {
 		if config.IsNotConfiguredError(err) {
 			// Default to true if we have no explicit configuration
@@ -160,7 +160,7 @@ func getValidations(
 }
 
 // Note: This isn't defined in the functions package because it has a dependency on getResourceSecretsType which
-// doesn't make a lot of sense to put into astmodel. Functions can't import code from pipelines though so we just
+// doesn't make a lot of sense to put into astmodel. Functions can't import code from pipelines though, so we just
 // define this function here.
 
 func NewValidateSecretDestinationsFunction(resource *astmodel.ResourceType, idFactory astmodel.IdentifierFactory) *functions.ResourceFunction {

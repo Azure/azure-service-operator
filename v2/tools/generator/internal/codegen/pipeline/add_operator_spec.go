@@ -42,15 +42,15 @@ func AddOperatorSpec(configuration *config.Configuration, idFactory astmodel.Ide
 			// confirm that all the Azure generated secrets were used. Note that this also indirectly confirms that
 			// this property was only used on resources, since that's the only place we try to check it from. If it's
 			// set on anything else it will be labeled unconsumed.
-			err := configuration.ObjectModelConfiguration.VerifyAzureGeneratedSecretsConsumed()
+			err := configuration.ObjectModelConfiguration.AzureGeneratedSecrets.VerifyConsumed()
 			if err != nil {
 				return nil, err
 			}
-			err = configuration.ObjectModelConfiguration.VerifyGeneratedConfigsConsumed()
+			err = configuration.ObjectModelConfiguration.GeneratedConfigs.VerifyConsumed()
 			if err != nil {
 				return nil, err
 			}
-			err = configuration.ObjectModelConfiguration.VerifyManualConfigsConsumed()
+			err = configuration.ObjectModelConfiguration.ManualConfigs.VerifyConsumed()
 			if err != nil {
 				return nil, err
 			}
@@ -73,7 +73,7 @@ func createOperatorSpecIfNeeded(
 	}
 
 	hasSecrets := false
-	secrets, err := configuration.ObjectModelConfiguration.AzureGeneratedSecrets(resolved.ResourceDef.Name())
+	secrets, err := configuration.ObjectModelConfiguration.AzureGeneratedSecrets.Lookup(resolved.ResourceDef.Name())
 	if err == nil {
 		hasSecrets = true
 	} else if err != nil {
@@ -257,7 +257,7 @@ func getConfigMapProperties(
 	configuration *config.Configuration,
 	resource astmodel.TypeDefinition) ([]string, ExportedProperties, error) {
 
-	configMapPaths, err := configuration.ObjectModelConfiguration.GeneratedConfigs(resource.Name())
+	configMapPaths, err := configuration.ObjectModelConfiguration.GeneratedConfigs.Lookup(resource.Name())
 	if err != nil {
 		// If error is just that there's no configured secrets, proceed
 		if !config.IsNotConfiguredError(err) {
@@ -265,7 +265,7 @@ func getConfigMapProperties(
 		}
 	}
 
-	additionalConfigMaps, err := configuration.ObjectModelConfiguration.ManualConfigs(resource.Name())
+	additionalConfigMaps, err := configuration.ObjectModelConfiguration.ManualConfigs.Lookup(resource.Name())
 	if err != nil {
 		// If error is just that there's no configured secrets, proceed
 		if !config.IsNotConfiguredError(err) {

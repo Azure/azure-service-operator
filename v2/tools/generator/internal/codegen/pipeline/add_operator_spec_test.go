@@ -34,7 +34,7 @@ func TestGolden_AddOperatorSpec_AddsSpecWithConfiguredSecrets(t *testing.T) {
 		omc.ModifyType(
 			resource.Name(),
 			func(tc *config.TypeConfiguration) error {
-				tc.SetAzureGeneratedSecrets([]string{"key1"})
+				tc.AzureGeneratedSecrets.Set([]string{"key1"})
 				return nil
 			})).
 		To(Succeed())
@@ -71,10 +71,9 @@ func TestAddOperatorSpec_AddsSpecWithConfiguredConfigMaps(t *testing.T) {
 		omc.ModifyType(
 			resource.Name(),
 			func(typ *config.TypeConfiguration) error {
-				typ.SetGeneratedConfigs(
-					map[string]string{
-						"statusProp": "$.Status.Status",
-					})
+				typ.GeneratedConfigs.Set(map[string]string{
+					"statusProp": "$.Status.Status",
+				})
 				return nil
 			},
 		)).
@@ -112,7 +111,7 @@ func TestAddOperatorSpec_AddsSpecWithManualConfigMaps(t *testing.T) {
 		omc.ModifyType(
 			resource.Name(),
 			func(tc *config.TypeConfiguration) error {
-				tc.SetManualConfigs([]string{"config1"})
+				tc.ManualConfigs.Set([]string{"config1"})
 				return nil
 			})).
 		To(Succeed())

@@ -33,7 +33,7 @@ func TestConfigurable_WhenConfiguredValue_ReportsUnconsumed(t *testing.T) {
 	g := NewGomegaWithT(t)
 	const expected = true
 	var s configurable[bool]
-	s.write(expected)
+	s.Set(expected)
 	g.Expect(s.isUnconsumed()).To(BeTrue())
 }
 
@@ -42,7 +42,7 @@ func TestConfigurable_WhenConfiguredValue_ReadMarksAsConsumed(t *testing.T) {
 	g := NewGomegaWithT(t)
 	const expected = true
 	var s configurable[bool]
-	s.write(expected)
+	s.Set(expected)
 
 	actual, ok := s.read()
 	g.Expect(actual).To(Equal(expected))
@@ -50,12 +50,12 @@ func TestConfigurable_WhenConfiguredValue_ReadMarksAsConsumed(t *testing.T) {
 	g.Expect(s.isUnconsumed()).To(BeFalse())
 }
 
-func TestConfigurable_WhenValueWritten_MarkedAsUnconsumed(t *testing.T) {
+func TestConfigurable_WhenValueSet_MarkedAsUnconsumed(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	const v = true
 	var s configurable[bool]
-	s.write(v)
+	s.Set(v)
 
 	g.Expect(s.isUnconsumed()).To(BeTrue())
 }
