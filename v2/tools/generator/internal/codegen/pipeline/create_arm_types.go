@@ -40,7 +40,7 @@ func CreateARMTypes(
 
 			newDefs := astmodel.TypesDisjointUnion(armTypes, state.Definitions())
 
-			if err := configuration.VerifyPayloadTypeConsumed(); err != nil {
+			if err := configuration.PayloadType.VerifyConsumed(); err != nil {
 				return nil, err
 			}
 
@@ -542,7 +542,7 @@ func (c *armTypeCreator) createSpecConversionContext(name astmodel.TypeName) (*a
 }
 
 func (c *armTypeCreator) createConversionContext(name astmodel.TypeName) (*armPropertyTypeConversionContext, error) {
-	payloadType, err := c.configuration.LookupPayloadType(name)
+	payloadType, err := c.configuration.PayloadType.Lookup(name.PackageReference)
 	if err != nil {
 		if config.IsNotConfiguredError(err) {
 			// Default to 'omitempty' if not configured

@@ -132,7 +132,7 @@ func (c *PropertyConversionContext) TypeRename(name astmodel.TypeName) (string, 
 		return "", config.NewNotConfiguredError("No configuration available")
 	}
 
-	return c.configuration.LookupNameInNextVersion(name)
+	return c.configuration.TypeNameInNextVersion.Lookup(name)
 }
 
 // FindNextType returns the next type in the storage conversion graph, if any.

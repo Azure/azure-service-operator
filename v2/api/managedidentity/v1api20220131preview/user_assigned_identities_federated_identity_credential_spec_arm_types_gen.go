@@ -35,8 +35,8 @@ type FederatedIdentityCredentialProperties_ARM struct {
 	Audiences []string `json:"audiences,omitempty"`
 
 	// Issuer: The URL of the issuer to be trusted.
-	Issuer *string `json:"issuer,omitempty"`
+	Issuer *string `json:"issuer,omitempty" optionalConfigMapPair:"Issuer"`
 
 	// Subject: The identifier of the external identity.
-	Subject *string `json:"subject,omitempty"`
+	Subject *string `json:"subject,omitempty" optionalConfigMapPair:"Subject"`
 }

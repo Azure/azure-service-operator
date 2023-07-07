@@ -28,10 +28,11 @@ import (
 // │                          │1  1..n║                    ║1  1..n│                      │1  1..n│                   │1  1..n│                       │
 // └──────────────────────────┘       ╚════════════════════╝       └──────────────────────┘       └───────────────────┘       └───────────────────────┘
 type GroupConfiguration struct {
-	name        string
-	versions    map[string]*VersionConfiguration
-	advisor     *typo.Advisor
-	payloadType configurable[PayloadType]
+	name     string
+	versions map[string]*VersionConfiguration
+	advisor  *typo.Advisor
+	// Configurable properties here (alphabetical, please)
+	PayloadType configurable[PayloadType]
 }
 
 type PayloadType string
@@ -48,32 +49,14 @@ const (
 
 // NewGroupConfiguration returns a new (empty) GroupConfiguration
 func NewGroupConfiguration(name string) *GroupConfiguration {
+	scope := "group " + name
 	return &GroupConfiguration{
 		name:     name,
 		versions: make(map[string]*VersionConfiguration),
 		advisor:  typo.NewAdvisor(),
+		// Initialize configurable properties here (alphabetical, please)
+		PayloadType: makeConfigurable[PayloadType](payloadTypeTag, scope),
 	}
-}
-
-// LookupPayloadType returns the configured payload type for this group, or an error if not configured
-func (gc *GroupConfiguration) LookupPayloadType() (PayloadType, error) {
-	pt, ok := gc.payloadType.read()
-	if !ok {
-		msg := fmt.Sprintf(payloadTypeTag+" not specified for group %s", gc.name)
-		return "", NewNotConfiguredError(msg)
-	}
-
-	return pt, nil
-}
-
-// VerifyPayloadTypeConsumed returns an error if the payload type has not been consumed
-func (gc *GroupConfiguration) VerifyPayloadTypeConsumed() error {
-	if gc.payloadType.isUnconsumed() {
-		v, _ := gc.payloadType.read()
-		return errors.Errorf("group %s: "+payloadTypeTag+": %s not consumed", gc.name, v)
-	}
-
-	return nil
 }
 
 // Add includes configuration for the specified version as a part of this group configuration
@@ -207,11 +190,11 @@ func (gc *GroupConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		if strings.EqualFold(lastId, payloadTypeTag) && c.Kind == yaml.ScalarNode {
 			switch strings.ToLower(c.Value) {
 			case string(OmitEmptyProperties):
-				gc.payloadType.write(OmitEmptyProperties)
+				gc.PayloadType.Set(OmitEmptyProperties)
 			case string(ExplicitCollections):
-				gc.payloadType.write(ExplicitCollections)
+				gc.PayloadType.Set(ExplicitCollections)
 			case string(ExplicitProperties):
-				gc.payloadType.write(ExplicitProperties)
+				gc.PayloadType.Set(ExplicitProperties)
 			default:
 				return errors.Errorf("unknown %s value: %s.", payloadTypeTag, c.Value)
 			}

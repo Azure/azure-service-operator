@@ -110,7 +110,7 @@ func TestGroupConfiguration_WhenVersionConfigurationNotConsumed_ReturnsErrorWith
 
 	// Create configuration with the wrong version
 	typeConfig := NewTypeConfiguration("Person")
-	typeConfig.SetSupportedFrom("vNext")
+	typeConfig.SupportedFrom.Set("vNext")
 
 	versionConfig := NewVersionConfiguration("2022-01-01")
 	versionConfig.addType(typeConfig.name, typeConfig)
@@ -126,10 +126,10 @@ func TestGroupConfiguration_WhenVersionConfigurationNotConsumed_ReturnsErrorWith
 		test.MakeLocalPackageReference(groupConfig.name, "2021-01-01"),
 		"Person")
 
-	_, err := omConfig.LookupSupportedFrom(tn)
+	_, err := omConfig.SupportedFrom.Lookup(tn)
 	g.Expect(err).NotTo(BeNil()) // We expect this error
 
-	err = omConfig.VerifySupportedFromConsumed()
+	err = omConfig.SupportedFrom.VerifyConsumed()
 	g.Expect(err).NotTo(BeNil())                                   // We expect an error, config hasn't been used
 	g.Expect(err.Error()).To(ContainSubstring("did you mean"))     // We want to receive a tip
 	g.Expect(err.Error()).To(ContainSubstring(versionConfig.name)) // and we want the correct version to be suggested
@@ -143,9 +143,9 @@ func TestGroupConfiguration_LookupPayloadType_WhenConfigured_ReturnsExpectedResu
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	groupConfig := NewGroupConfiguration("Network")
-	groupConfig.payloadType.write(ExplicitProperties)
+	groupConfig.PayloadType.Set(ExplicitProperties)
 
-	payloadType, err := groupConfig.LookupPayloadType()
+	payloadType, err := groupConfig.PayloadType.Lookup()
 
 	g.Expect(payloadType).To(Equal(ExplicitProperties))
 	g.Expect(err).To(Succeed())
@@ -156,7 +156,7 @@ func TestGroupConfiguration_LookupPayloadType_WhenNotConfigured_ReturnsExpectedE
 	g := NewGomegaWithT(t)
 	groupConfig := NewGroupConfiguration("Network")
 
-	name, err := groupConfig.LookupPayloadType()
+	name, err := groupConfig.PayloadType.Lookup()
 	g.Expect(name).To(Equal(PayloadType("")))
 	g.Expect(err).NotTo(Succeed())
 	g.Expect(err.Error()).To(ContainSubstring(groupConfig.name))
@@ -168,11 +168,11 @@ func TestGroupConfiguration_VerifyPayloadTypeConsumed_WhenConsumed_ReturnsNoErro
 	g := NewGomegaWithT(t)
 
 	groupConfig := NewGroupConfiguration("Network")
-	groupConfig.payloadType.write(OmitEmptyProperties)
+	groupConfig.PayloadType.Set(OmitEmptyProperties)
 
-	_, err := groupConfig.LookupPayloadType()
+	_, err := groupConfig.PayloadType.Lookup()
 	g.Expect(err).To(Succeed())
-	g.Expect(groupConfig.VerifyPayloadTypeConsumed()).To(Succeed())
+	g.Expect(groupConfig.PayloadType.VerifyConsumed()).To(Succeed())
 }
 
 func TestGroupConfiguration_VerifyPayloadTypeConsumed_WhenNotConsumed_ReturnsExpectedError(t *testing.T) {
@@ -180,9 +180,9 @@ func TestGroupConfiguration_VerifyPayloadTypeConsumed_WhenNotConsumed_ReturnsExp
 	g := NewGomegaWithT(t)
 
 	groupConfig := NewGroupConfiguration("Network")
-	groupConfig.payloadType.write(ExplicitProperties)
+	groupConfig.PayloadType.Set(ExplicitProperties)
 
-	err := groupConfig.VerifyPayloadTypeConsumed()
+	err := groupConfig.PayloadType.VerifyConsumed()
 	g.Expect(err).NotTo(BeNil())
 	g.Expect(err.Error()).To(ContainSubstring(groupConfig.name))
 }
