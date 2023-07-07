@@ -40,13 +40,54 @@ The presence of the extra interface `LocalLikePackageReference`, of predicates l
 
 In particular, this model allows a number of illegal (or impossible) states to be captured - such as a TypeDefinition for a type in an external package, or a StoragePackageReference that's a variant of an ExternalPackage. We have code throughout ASO to check for and panic if these are ever used.
 
-## Decision
+### Option 1
 
-As a part of adding `SubPackageReference`, we should slightly rework the domain model to make illegal states impossible to represent.
+We could just add `SubPackageReference` as a new implementation of `PackageReference`, and leave the existing model as-is. This would be the simplest option, but it would leave the existing model in place, and would leave the existing codebase with the same issues it has today.
+
+* PRO: Simplest option
+* PRO: Least amount of work
+* CON: Leaves existing model in place with existing issues
+
+### Option 2
+
+Add `SubPackageReference` as a new implementation of `PackageReference`, and pare down the methods on `PackageReference` to just those that make sense across all implementations (e.g. removing `GroupVersion()` and `TryGroupVersion()`). Enhance and make more extensive use of `LocalLikePackageReference`.
+
+<!-- yuml.me class diagram
+
+[<<interface>>;PackageReference]
+
+[PackageReference]<>--[LocalPackageReference]
+[PackageReference]<>--[StoragePackageReference]
+[PackageReference]<>--[ExternalPackageReference]
+
+[TypeName;Name string]--packageReference >[PackageReference]
+
+[TypeDefinition]--name >[TypeName]
+[TypeDefinition]--theType >[Type]
+
+[Type]<>--[TypeName]
+
+[<<interface>>;LocalLikePackageReference]<>--[LocalPackageReference]
+[LocalLikePackageReference]<>--[StoragePackageReference]
+
+[StoragePackageReference]-inner >[PackageReference]
+
+[PackageReference]<>--[SubPackageReference]
+[SubPackageReference]-parent >[PackageReference]
+
+-->
+
+* PRO: Somewhat tidies up the existing model
+* CON: Still allows illegal states to be represented
+* CON: Requires a type downcast in every case where we need to now use `LocalLikePackageReference` instead of `PackageReference`
+
+### Option 3
+
+As a part of adding `SubPackageReference`, we might slightly rework the domain model to make illegal states impossible to represent.
 
 Not only will this be easier to understand, but it should streamline some parts of our existing codebase by removing the need to check for illegal states.
 
-{{< figure src="proposed.png" >}}
+{{< figure src="option-3.png" >}}
 
 <!-- yuml.me class diagram
 
@@ -75,6 +116,13 @@ We only ever need an `ExternalPackageReference` when naming a type that we impor
 Breaking the implementation link between `ExternalPackageReference` and `PackageReference` means it's no longer possible for a `TypeDefinition` to be destined for an external package; nor is it possible for a StoragePackageReference to be based on the same. 
 
 The new implementation `SubPackageReference` declares a `parent` package for nesting.
+
+* PRO: Makes illegal states impossible to represent
+* PRO: Removes need for type downcasts
+* PRO: Removes need for checks for illegal states
+* PRO: Makes the model easier to understand
+* CON: Requires slightly more rework of the existing model
+
 
 ## Status
 
