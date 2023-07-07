@@ -63,6 +63,9 @@ func Test_AKS_ManagedCluster_20230202Preview_CRUD(t *testing.T) {
 			Identity: &aks.ManagedClusterIdentity{
 				Type: &identityKind,
 			},
+			OidcIssuerProfile: &aks.ManagedClusterOIDCIssuerProfile{
+				Enabled: to.Ptr(true),
+			},
 		},
 	}
 
@@ -159,9 +162,6 @@ func AKS_ManagedCluster_AgentPool_20230102Preview_CRUD(tc *testcommon.KubePerTes
 func AKS_ManagedCluster_Kubeconfig_20230102Preview_OperatorSpec(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {
 	old := cluster.DeepCopy()
 	secret := "kubeconfig"
-	cluster.Spec.OidcIssuerProfile = &aks.ManagedClusterOIDCIssuerProfile{
-		Enabled: to.Ptr(true),
-	}
 	cluster.Spec.OperatorSpec = &aks.ManagedClusterOperatorSpec{
 		ConfigMaps: &aks.ManagedClusterOperatorConfigMaps{
 			OIDCIssuerProfile: &genruntime.ConfigMapDestination{Name: "oidc", Key: "issuer"},
