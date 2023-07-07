@@ -48,12 +48,13 @@ func (c *configurable[T]) VerifyConsumed() error {
 
 // MarkUnconsumed resets the consumption flag so that the value can be reused
 func (c *configurable[T]) MarkUnconsumed() {
-	c.markUnconsumed()
+	c.consumed = false
 }
 
-// Set sets the value configured (used in tests)
+// Set writes the value configured and marks it as unconsumed
 func (c *configurable[T]) Set(v T) {
-	c.write(v)
+	c.value = &v
+	c.consumed = false
 }
 
 // Read returns the value configured and true, if configured; otherwise returns default(T) and false.
@@ -67,18 +68,7 @@ func (c *configurable[T]) read() (T, bool) {
 	return *new(T), false
 }
 
-// Write sets the value configured and marks it as unconsumed
-func (c *configurable[T]) write(v T) {
-	c.value = &v
-	c.consumed = false
-}
-
 // isUnconsumed returns true if we have a configured value that hasn't been consumed
 func (c *configurable[T]) isUnconsumed() bool {
 	return c.value != nil && !c.consumed
-}
-
-// markUnconsumed marks this as unconsumed
-func (c *configurable[T]) markUnconsumed() {
-	c.consumed = false
 }

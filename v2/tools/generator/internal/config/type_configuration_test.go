@@ -75,7 +75,7 @@ func TestTypeConfiguration_TypeRename_WhenRenameConfigured_ReturnsExpectedResult
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	typeConfig := NewTypeConfiguration("Person")
-	typeConfig.NameInNextVersion.write("Address")
+	typeConfig.NameInNextVersion.Set("Address")
 
 	name, err := typeConfig.NameInNextVersion.Lookup()
 
@@ -100,7 +100,7 @@ func TestTypeConfiguration_VerifyTypeRenameConsumed_WhenRenameUsed_ReturnsNoErro
 	g := NewGomegaWithT(t)
 
 	typeConfig := NewTypeConfiguration("Person")
-	typeConfig.NameInNextVersion.write("Party")
+	typeConfig.NameInNextVersion.Set("Party")
 
 	_, err := typeConfig.NameInNextVersion.Lookup()
 	g.Expect(err).To(Succeed())
@@ -112,7 +112,7 @@ func TestTypeConfiguration_VerifyTypeRenameConsumed_WhenRenameUnused_ReturnsExpe
 	g := NewGomegaWithT(t)
 
 	typeConfig := NewTypeConfiguration("Person")
-	typeConfig.NameInNextVersion.write("Party")
+	typeConfig.NameInNextVersion.Set("Party")
 
 	err := typeConfig.NameInNextVersion.VerifyConsumed()
 	g.Expect(err).NotTo(BeNil())
@@ -127,7 +127,7 @@ func TestTypeConfiguration_LookupSupportedFrom_WhenConfigured_ReturnsExpectedRes
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	typeConfig := NewTypeConfiguration("Person")
-	typeConfig.SupportedFrom.write("beta.0")
+	typeConfig.SupportedFrom.Set("beta.0")
 
 	from, err := typeConfig.SupportedFrom.Lookup()
 
@@ -152,7 +152,7 @@ func TestTypeConfiguration_VerifySupportedFromConsumed_WhenConsumed_ReturnsNoErr
 	g := NewGomegaWithT(t)
 
 	typeConfig := NewTypeConfiguration("Person")
-	typeConfig.SupportedFrom.write("beta.0")
+	typeConfig.SupportedFrom.Set("beta.0")
 
 	_, err := typeConfig.SupportedFrom.Lookup()
 	g.Expect(err).To(Succeed())
@@ -164,7 +164,7 @@ func TestTypeConfiguration_VerifySupportedFromConsumed_WhenNotConsumed_ReturnsEx
 	g := NewGomegaWithT(t)
 
 	typeConfig := NewTypeConfiguration("Person")
-	typeConfig.SupportedFrom.write("beta.0")
+	typeConfig.SupportedFrom.Set("beta.0")
 
 	err := typeConfig.SupportedFrom.VerifyConsumed()
 	g.Expect(err).NotTo(BeNil())

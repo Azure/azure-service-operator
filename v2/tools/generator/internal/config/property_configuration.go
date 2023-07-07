@@ -76,7 +76,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// $nameInNextVersion: <string>
 		if strings.EqualFold(lastId, nameInNextVersionTag) && c.Kind == yaml.ScalarNode {
-			pc.NameInNextVersion.write(c.Value)
+			pc.NameInNextVersion.Set(c.Value)
 			continue
 		}
 
@@ -88,7 +88,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding %s", isSecretTag)
 			}
 
-			pc.IsSecret.write(isSecret)
+			pc.IsSecret.Set(isSecret)
 			continue
 		}
 
@@ -100,7 +100,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding %s", resourceLifecycleOwnedByParentTag)
 			}
 
-			pc.ResourceLifecycleOwnedByParent.write(resourceLifecycleOwnedByParent)
+			pc.ResourceLifecycleOwnedByParent.Set(resourceLifecycleOwnedByParent)
 			continue
 		}
 
@@ -112,7 +112,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding %s", armReferenceTag)
 			}
 
-			pc.ARMReference.write(isARMRef)
+			pc.ARMReference.Set(isARMRef)
 			continue
 		}
 
@@ -120,9 +120,9 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		if strings.EqualFold(lastId, importConfigMapModeTag) && c.Kind == yaml.ScalarNode {
 			switch strings.ToLower(c.Value) {
 			case ImportConfigMapModeOptional:
-				pc.ImportConfigMapMode.write(ImportConfigMapModeOptional)
+				pc.ImportConfigMapMode.Set(ImportConfigMapModeOptional)
 			case ImportConfigMapModeRequired:
-				pc.ImportConfigMapMode.write(ImportConfigMapModeRequired)
+				pc.ImportConfigMapMode.Set(ImportConfigMapModeRequired)
 			default:
 				return errors.Errorf("unknown %s value: %s.", importConfigMapModeTag, c.Value)
 			}

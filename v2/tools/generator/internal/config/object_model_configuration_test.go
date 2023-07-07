@@ -57,7 +57,7 @@ func TestObjectModelConfiguration_TypeRename_WhenTypeFound_ReturnsExpectedResult
 		omc.ModifyType(
 			typeName,
 			func(tc *TypeConfiguration) error {
-				tc.NameInNextVersion.write("Party")
+				tc.NameInNextVersion.Set("Party")
 				return nil
 			})).
 		To(Succeed())
@@ -77,7 +77,7 @@ func TestObjectModelConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedErr
 		omc.ModifyType(
 			typeName,
 			func(tc *TypeConfiguration) error {
-				tc.NameInNextVersion.write("Party")
+				tc.NameInNextVersion.Set("Party")
 				return nil
 			})).
 		To(Succeed())
@@ -100,7 +100,7 @@ func TestObjectModelConfiguration_VerifyTypeRenamesConsumed_WhenRenameUsed_Retur
 		omc.ModifyType(
 			typeName,
 			func(tc *TypeConfiguration) error {
-				tc.NameInNextVersion.write("Party")
+				tc.NameInNextVersion.Set("Party")
 				return nil
 			})).
 		To(Succeed())
@@ -120,7 +120,7 @@ func TestObjectModelConfiguration_VerifyTypeRenamesConsumed_WhenRenameUnused_Ret
 		omc.ModifyType(
 			typeName,
 			func(tc *TypeConfiguration) error {
-				tc.NameInNextVersion.write("Party")
+				tc.NameInNextVersion.Set("Party")
 				return nil
 			})).
 		To(Succeed())
@@ -143,7 +143,7 @@ func TestObjectModelConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsEx
 			typeName,
 			"Spouse",
 			func(pc *PropertyConfiguration) error {
-				pc.ARMReference.write(true)
+				pc.ARMReference.Set(true)
 				return nil
 			})).
 		To(Succeed())
@@ -164,7 +164,7 @@ func TestObjectModelConfiguration_ARMReference_WhenFullNamePropertyFound_Returns
 			typeName,
 			"FullName",
 			func(pc *PropertyConfiguration) error {
-				pc.ARMReference.write(false)
+				pc.ARMReference.Set(false)
 				return nil
 			})).
 		To(Succeed())
@@ -185,7 +185,7 @@ func TestObjectModelConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpec
 			typeName,
 			"Spouse",
 			func(pc *PropertyConfiguration) error {
-				pc.ARMReference.write(true)
+				pc.ARMReference.Set(true)
 				return nil
 			})).
 		To(Succeed())
@@ -206,7 +206,7 @@ func TestObjectModelConfiguration_VerifyARMReferencesConsumed_WhenReferenceUsed_
 			typeName,
 			"Spouse",
 			func(pc *PropertyConfiguration) error {
-				pc.ARMReference.write(true)
+				pc.ARMReference.Set(true)
 				return nil
 			})).
 		To(Succeed())
@@ -228,7 +228,7 @@ func TestObjectModelConfiguration_VerifyARMReferencesConsumed_WhenReferenceNotUs
 			typeName,
 			"Spouse",
 			func(pc *PropertyConfiguration) error {
-				pc.ARMReference.write(true)
+				pc.ARMReference.Set(true)
 				return nil
 			})).
 		To(Succeed())
@@ -251,8 +251,8 @@ func TestObjectModelConfiguration_LookupExportAs_AfterConsumption_CanLookupUsing
 		omc.ModifyType(
 			typeName,
 			func(tc *TypeConfiguration) error {
-				tc.ExportAs.write("Person")
-				tc.NameInNextVersion.write("Party")
+				tc.ExportAs.Set("Person")
+				tc.NameInNextVersion.Set("Party")
 				return nil
 			})).
 		To(Succeed())
@@ -486,7 +486,7 @@ func TestObjectModelConfiguration_LookupSupportedFrom_WhenConfigured_ReturnsExpe
 		omc.ModifyType(
 			name,
 			func(tc *TypeConfiguration) error {
-				tc.SupportedFrom.write("beta.5")
+				tc.SupportedFrom.Set("beta.5")
 				return nil
 			})).
 		To(Succeed())
@@ -525,7 +525,7 @@ func TestObjectModelConfiguration_LookupSupportedFrom_WhenConsumed_ReturnsNoErro
 		omc.ModifyType(
 			name,
 			func(tc *TypeConfiguration) error {
-				tc.SupportedFrom.write("beta.5")
+				tc.SupportedFrom.Set("beta.5")
 				return nil
 			})).
 		To(Succeed())
@@ -547,7 +547,7 @@ func TestObjectModelConfiguration_LookupSupportedFrom_WhenUnconsumed_ReturnsErro
 		omc.ModifyType(
 			name,
 			func(tc *TypeConfiguration) error {
-				tc.SupportedFrom.write("beta.5")
+				tc.SupportedFrom.Set("beta.5")
 				return nil
 			})).
 		To(Succeed())
@@ -570,7 +570,7 @@ func TestObjectModelConfiguration_LookupPayloadType_WhenConfigured_ReturnsExpect
 		omc.ModifyGroup(
 			name.PackageReference,
 			func(gc *GroupConfiguration) error {
-				gc.PayloadType.write(ExplicitProperties)
+				gc.PayloadType.Set(ExplicitProperties)
 				return nil
 			})).
 		To(Succeed())
@@ -609,7 +609,7 @@ func TestObjectModelConfiguration_VerifyPayloadTypeConsumed_WhenConsumed_Returns
 		omc.ModifyGroup(
 			name.PackageReference,
 			func(gc *GroupConfiguration) error {
-				gc.PayloadType.write(OmitEmptyProperties)
+				gc.PayloadType.Set(OmitEmptyProperties)
 				return nil
 			})).
 		To(Succeed())
@@ -631,7 +631,7 @@ func TestObjectModelConfiguration_VerifyPayloadTypeConsumed_WhenUnconsumed_Retur
 		omc.ModifyGroup(
 			name.PackageReference,
 			func(gc *GroupConfiguration) error {
-				gc.PayloadType.write(ExplicitProperties)
+				gc.PayloadType.Set(ExplicitProperties)
 				return nil
 			})).
 		To(Succeed())

@@ -205,7 +205,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// $nameInNextVersion: <string>
 		if strings.EqualFold(lastId, nameInNextVersionTag) && c.Kind == yaml.ScalarNode {
-			tc.NameInNextVersion.write(c.Value)
+			tc.NameInNextVersion.Set(c.Value)
 			continue
 		}
 
@@ -217,13 +217,13 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding %s", exportTag)
 			}
 
-			tc.Export.write(export)
+			tc.Export.Set(export)
 			continue
 		}
 
 		// $exportAs: <string>
 		if strings.EqualFold(lastId, exportAsTag) && c.Kind == yaml.ScalarNode {
-			tc.ExportAs.write(c.Value)
+			tc.ExportAs.Set(c.Value)
 			continue
 		}
 
@@ -268,7 +268,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// $SupportedFrom
 		if strings.EqualFold(lastId, supportedFromTag) && c.Kind == yaml.ScalarNode {
-			tc.SupportedFrom.write(c.Value)
+			tc.SupportedFrom.Set(c.Value)
 			continue
 		}
 
@@ -280,7 +280,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding %s", resourceEmbeddedInParentTag)
 			}
 
-			tc.ResourceEmbeddedInParent.write(resourceEmbeddedInParent)
+			tc.ResourceEmbeddedInParent.Set(resourceEmbeddedInParent)
 			continue
 		}
 
@@ -292,7 +292,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding %s", isResourceTag)
 			}
 
-			tc.IsResource.write(isResource)
+			tc.IsResource.Set(isResource)
 			continue
 		}
 
@@ -304,7 +304,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding %s", importableTag)
 			}
 
-			tc.Importable.write(importable)
+			tc.Importable.Set(importable)
 			continue
 		}
 
@@ -316,7 +316,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding %s", defaultAzureNameTag)
 			}
 
-			tc.DefaultAzureName.write(defaultAzureName)
+			tc.DefaultAzureName.Set(defaultAzureName)
 			continue
 		}
 

@@ -190,11 +190,11 @@ func (gc *GroupConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		if strings.EqualFold(lastId, payloadTypeTag) && c.Kind == yaml.ScalarNode {
 			switch strings.ToLower(c.Value) {
 			case string(OmitEmptyProperties):
-				gc.PayloadType.write(OmitEmptyProperties)
+				gc.PayloadType.Set(OmitEmptyProperties)
 			case string(ExplicitCollections):
-				gc.PayloadType.write(ExplicitCollections)
+				gc.PayloadType.Set(ExplicitCollections)
 			case string(ExplicitProperties):
-				gc.PayloadType.write(ExplicitProperties)
+				gc.PayloadType.Set(ExplicitProperties)
 			default:
 				return errors.Errorf("unknown %s value: %s.", payloadTypeTag, c.Value)
 			}

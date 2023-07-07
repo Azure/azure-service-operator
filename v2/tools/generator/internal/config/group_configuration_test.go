@@ -143,7 +143,7 @@ func TestGroupConfiguration_LookupPayloadType_WhenConfigured_ReturnsExpectedResu
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	groupConfig := NewGroupConfiguration("Network")
-	groupConfig.PayloadType.write(ExplicitProperties)
+	groupConfig.PayloadType.Set(ExplicitProperties)
 
 	payloadType, err := groupConfig.PayloadType.Lookup()
 
@@ -168,7 +168,7 @@ func TestGroupConfiguration_VerifyPayloadTypeConsumed_WhenConsumed_ReturnsNoErro
 	g := NewGomegaWithT(t)
 
 	groupConfig := NewGroupConfiguration("Network")
-	groupConfig.PayloadType.write(OmitEmptyProperties)
+	groupConfig.PayloadType.Set(OmitEmptyProperties)
 
 	_, err := groupConfig.PayloadType.Lookup()
 	g.Expect(err).To(Succeed())
@@ -180,7 +180,7 @@ func TestGroupConfiguration_VerifyPayloadTypeConsumed_WhenNotConsumed_ReturnsExp
 	g := NewGomegaWithT(t)
 
 	groupConfig := NewGroupConfiguration("Network")
-	groupConfig.PayloadType.write(ExplicitProperties)
+	groupConfig.PayloadType.Set(ExplicitProperties)
 
 	err := groupConfig.PayloadType.VerifyConsumed()
 	g.Expect(err).NotTo(BeNil())
