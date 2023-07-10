@@ -100,6 +100,19 @@ string
 </tr>
 <tr>
 <td>
+<code>issuerFromConfig</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">
+genruntime.ConfigMapReference
+</a>
+</em>
+</td>
+<td>
+<p>IssuerFromConfig: The URL of the issuer to be trusted.</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
@@ -122,6 +135,19 @@ string
 </td>
 <td>
 <p>Subject: The identifier of the external identity.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subjectFromConfig</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">
+genruntime.ConfigMapReference
+</a>
+</em>
+</td>
+<td>
+<p>SubjectFromConfig: The identifier of the external identity.</p>
 </td>
 </tr>
 </table>
@@ -452,6 +478,19 @@ string
 </tr>
 <tr>
 <td>
+<code>issuerFromConfig</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">
+genruntime.ConfigMapReference
+</a>
+</em>
+</td>
+<td>
+<p>IssuerFromConfig: The URL of the issuer to be trusted.</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
@@ -474,6 +513,19 @@ string
 </td>
 <td>
 <p>Subject: The identifier of the external identity.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subjectFromConfig</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">
+genruntime.ConfigMapReference
+</a>
+</em>
+</td>
+<td>
+<p>SubjectFromConfig: The identifier of the external identity.</p>
 </td>
 </tr>
 </tbody>
