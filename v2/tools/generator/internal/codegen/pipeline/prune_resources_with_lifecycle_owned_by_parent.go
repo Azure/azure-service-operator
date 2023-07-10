@@ -10,6 +10,7 @@ import (
 
 	"github.com/pkg/errors"
 
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/armconversion"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
@@ -32,7 +33,7 @@ func PruneResourcesWithLifecycleOwnedByParent(configuration *config.Configuratio
 				return nil, err
 			}
 
-			visitor := newMisbehavingEmbeddedTypeVisitor(configuration)
+			visitor, pruner := newMisbehavingEmbeddedTypeVisitor(configuration)
 
 			// TODO: This is a hack placed here to protect future releases from include VNET but not
 			// TODO: the corresponding Subnet. Each networking APIVersion that supports VNET must also
@@ -57,6 +58,11 @@ func PruneResourcesWithLifecycleOwnedByParent(configuration *config.Configuratio
 				result.Add(updatedDef)
 			}
 
+			result, err = checkPrunedEmptyProperties(result, pruner.emptyPrunedProperties)
+			if err != nil {
+				return nil, err
+			}
+
 			err = configuration.VerifyResourceLifecycleOwnedByParentConsumed()
 			if err != nil {
 				return nil, err
@@ -69,11 +75,37 @@ func PruneResourcesWithLifecycleOwnedByParent(configuration *config.Configuratio
 	return stage
 }
 
-type misbehavingEmbeddedTypePruner struct {
-	configuration *config.Configuration
+func checkPrunedEmptyProperties(defs astmodel.TypeDefinitionSet, emptyPrunedProps []astmodel.TypeName) (astmodel.TypeDefinitionSet, error) {
+	emptyObjectVisitor := astmodel.TypeVisitorBuilder{
+		VisitObjectType: tagEmptyObjectHandler,
+	}.Build()
+
+	for _, emptyPrunedProp := range emptyPrunedProps {
+		// we need to add the noConversion tag on ARM type for the empty pruned property to avoid failures in ConvertToARM function.
+		armDef, err := GetARMTypeDefinition(defs, emptyPrunedProp)
+		if err != nil {
+			return nil, err
+		}
+
+		tempResult := make(astmodel.TypeDefinitionSet)
+		for _, def := range defs {
+			updatedDef, err := emptyObjectVisitor.VisitDefinition(def, armDef.Name())
+			if err != nil {
+				return nil, errors.Wrapf(err, "failed to visit definition %s", def.Name())
+			}
+			tempResult.Add(updatedDef)
+		}
+		defs = tempResult
+	}
+	return defs, nil
 }
 
-func newMisbehavingEmbeddedTypeVisitor(configuration *config.Configuration) astmodel.TypeVisitor {
+type misbehavingEmbeddedTypePruner struct {
+	configuration         *config.Configuration
+	emptyPrunedProperties []astmodel.TypeName
+}
+
+func newMisbehavingEmbeddedTypeVisitor(configuration *config.Configuration) (astmodel.TypeVisitor, *misbehavingEmbeddedTypePruner) {
 	pruner := &misbehavingEmbeddedTypePruner{
 		configuration: configuration,
 	}
@@ -81,7 +113,27 @@ func newMisbehavingEmbeddedTypeVisitor(configuration *config.Configuration) astm
 	visitor := astmodel.TypeVisitorBuilder{
 		VisitObjectType: pruner.pruneMisbehavingEmbeddedResourceProperties,
 	}
-	return visitor.Build()
+	return visitor.Build(), pruner
+}
+
+// tagEmptyObjectHandler finds the empty properties in an Object and adds the ConversionTag:NoARMConversionValue to the property.
+func tagEmptyObjectHandler(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
+	typeName := ctx.(astmodel.TypeName)
+
+	prop, ok := it.Properties().Find(func(prop *astmodel.PropertyDefinition) bool {
+		name, ok := astmodel.ExtractTypeName(prop.PropertyType())
+		if !ok {
+			return false
+		}
+		return name.Name() == typeName.Name()
+	})
+
+	if ok {
+		prop = prop.WithTag(armconversion.ConversionTag, armconversion.NoARMConversionValue)
+		it = it.WithProperty(prop)
+	}
+
+	return astmodel.IdentityVisitOfObjectType(this, it, ctx)
 }
 
 func (m *misbehavingEmbeddedTypePruner) pruneMisbehavingEmbeddedResourceProperties(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
@@ -97,6 +149,9 @@ func (m *misbehavingEmbeddedTypePruner) pruneMisbehavingEmbeddedResourceProperti
 		}
 
 		it = it.WithoutProperty(prop.PropertyName())
+		if it.Properties().Len() == 0 {
+			m.emptyPrunedProperties = append(m.emptyPrunedProperties, typeName)
+		}
 	}
 
 	return astmodel.IdentityVisitOfObjectType(this, it, ctx)
