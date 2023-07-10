@@ -36,7 +36,7 @@ If upgrading to v2.0.0-beta.4, carefully review v2.0.0-beta.4 Breaking Changes, 
 Caution If upgrading to v2.0.0, carefully review v2.0.0 Breaking Changes, especially the section on using asoctl clean crds.
 If upgrading to v2.0.0-beta.4, carefully review v2.0.0-beta.4 Breaking Changes, you may need to make some minor changes to your resources.">
 
-<meta itemprop="wordCount" content="913">
+<meta itemprop="wordCount" content="942">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Upgrading"/>
 <meta name="twitter:description" content="Before you upgrade Ensure that you have carefully reviewed the upgrade instructions included in the release notes for the release you are upgrading to. If you are upgrading multiple versions, check the release notes for each version.
@@ -635,12 +635,7 @@ If upgrading to v2.0.0-beta.4, carefully review v2.0.0-beta.4 Breaking Changes, 
       </ul>
     </li>
     <li><a href="#recommended-upgrade-pattern">Recommended upgrade pattern</a></li>
-    <li><a href="#upgrading">Upgrading</a>
-      <ul>
-        <li><a href="#kubectl-apply">kubectl apply</a></li>
-        <li><a href="#helm">Helm</a></li>
-      </ul>
-    </li>
+    <li><a href="#upgrading">Upgrading</a></li>
     <li><a href="#supported-versions">Supported Versions</a></li>
     <li><a href="#downgrading">Downgrading</a>
       <ul>
@@ -743,19 +738,49 @@ If upgrading to v2.0.0-beta.4, carefully review v2.0.0-beta.4 Breaking Changes, 
 <p>We recommend that you upgrade ASO using the same tool you installed it with.</p>
 <p><strong>Note:</strong> The instructions below all assume you&rsquo;re upgrading from the previous version (N-1) to the latest version (vN). Please follow
 the <a href="#recommended-upgrade-pattern">Recommended upgrade pattern</a> for upgrading multiple versions.</p>
-<h3 id="kubectl-apply">kubectl apply</h3>
-<p>The operator can be upgraded simply by running the same command you used to install it:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply --server-side<span style="color:#f92672">=</span>true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0/azureserviceoperator_v2.0.0.yaml
-</code></pre></div><h3 id="helm">Helm</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
+
+
+
+<ul class="nav nav-tabs" id="tabs-3" role="tablist">
+  <li class="nav-item">
+      <a class="nav-link active"
+          id="tabs-03-00-tab" data-toggle="tab" href="#tabs-03-00" role="tab"
+          aria-controls="tabs-03-00" aria-selected="false">
+        Helm
+      </a>
+    </li><li class="nav-item">
+      <a class="nav-link"
+          id="tabs-03-01-tab" data-toggle="tab" href="#tabs-03-01" role="tab"
+          aria-controls="tabs-03-01" aria-selected="false">
+        YAML
+      </a>
+    </li>
+</ul>
+
+<div class="tab-content" id="tabs-3-content">
+    <div class="tab-body tab-pane fade show active"
+        id="tabs-03-00" role="tabpanel" aria-labelled-by="tabs-03-00-tab">
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
 helm repo update
-helm upgrade --devel --version v2.0.0 aso2 aso2/azure-service-operator <span style="color:#ae81ff">\ </span>
+helm upgrade --version v2.0.0 aso2 aso2/azure-service-operator <span style="color:#ae81ff">\ </span>
         --namespace<span style="color:#f92672">=</span>azureserviceoperator-system <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>        --set azureSubscriptionID<span style="color:#f92672">=</span>$AZURE_SUBSCRIPTION_ID <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>        --set azureTenantID<span style="color:#f92672">=</span>$AZURE_TENANT_ID <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>        --set azureClientID<span style="color:#f92672">=</span>$AZURE_CLIENT_ID <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>        --set azureClientSecret<span style="color:#f92672">=</span>$AZURE_CLIENT_SECRET
-</code></pre></div><h2 id="supported-versions">Supported Versions</h2>
+</code></pre></div><p>Add <code>--crdPattern</code> if you want to install any of the new resources included in the new release.</p>
+
+    </div>
+    <div class="tab-body tab-pane fade"
+        id="tabs-03-01" role="tabpanel" aria-labelled-by="tabs-03-01-tab">
+        <p>The operator can be upgraded simply by running the same command you used to install it:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply --server-side<span style="color:#f92672">=</span>true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0/azureserviceoperator_v2.0.0.yaml
+</code></pre></div><p>Don&rsquo;t skip the <code>--server-side=true</code> flag, as it&rsquo;s required for the upgrade to work correctly.</p>
+
+    </div>
+</div>
+
+<h2 id="supported-versions">Supported Versions</h2>
 <p>We provide best effort support via GitHub for ASO, focusing on the latest version and the previous version. If you&rsquo;re running an older version, we may ask you to upgrade to the latest release before we can help you.</p>
 <h2 id="downgrading">Downgrading</h2>
 <p>If you encounter an issue after an upgrade of ASO that can&rsquo;t be addressed by any other means, you may want to downgrade to the prior version. This isn&rsquo;t an officially supported scenario, we recommend rolling forward to a newer version if at all possible, but we&rsquo;ll try to provide some guidance here.</p>
