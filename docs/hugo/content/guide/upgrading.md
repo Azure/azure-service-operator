@@ -35,7 +35,24 @@ We recommend that you upgrade ASO using the same tool you installed it with.
 **Note:** The instructions below all assume you're upgrading from the previous version (N-1) to the latest version (vN). Please follow 
 the [Recommended upgrade pattern](#recommended-upgrade-pattern) for upgrading multiple versions. 
 
-### kubectl apply
+{{< tabpane text=true left=true >}}
+{{% tab header="Helm" %}}
+
+```bash
+helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
+helm repo update
+helm upgrade --version v2.0.0 aso2 aso2/azure-service-operator \ 
+        --namespace=azureserviceoperator-system \
+        --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
+        --set azureTenantID=$AZURE_TENANT_ID \
+        --set azureClientID=$AZURE_CLIENT_ID \
+        --set azureClientSecret=$AZURE_CLIENT_SECRET
+```
+
+Add `--crdPattern` if you want to install any of the new resources included in the new release. 
+
+{{% /tab %}}
+{{% tab header="YAML" %}}
 
 The operator can be upgraded simply by running the same command you used to install it: 
 
@@ -43,18 +60,11 @@ The operator can be upgraded simply by running the same command you used to inst
 kubectl apply --server-side=true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0/azureserviceoperator_v2.0.0.yaml
 ```
 
-### Helm
+Don't skip the `--server-side=true` flag, as it's required for the upgrade to work correctly.
 
-```bash
-helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
-helm repo update
-helm upgrade --devel --version v2.0.0 aso2 aso2/azure-service-operator \ 
-        --namespace=azureserviceoperator-system \
-        --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
-        --set azureTenantID=$AZURE_TENANT_ID \
-        --set azureClientID=$AZURE_CLIENT_ID \
-        --set azureClientSecret=$AZURE_CLIENT_SECRET
-```
+{{% /tab %}}
+{{< /tabpane >}}
+
 
 ## Supported Versions
 
