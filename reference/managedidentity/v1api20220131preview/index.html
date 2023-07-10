@@ -36,7 +36,7 @@
  Resource Types:  APIVersion (string alias)      Value Description   &#34;2022-01-31-preview&#34;
     FederatedIdentityCredential   Generator information: - Generated from: /msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/ManagedIdentity.json - ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ManagedIdentity/&#x200b;userAssignedIdentities/&#x200b;{resourceName}/&#x200b;federatedIdentityCredentials/&#x200b;{federatedIdentityCredentialResourceName}     Field Description      metadata  Kubernetes meta/v1.ObjectMeta     Refer to the Kubernetes API documentation for the fields of the metadata field.">
 
-<meta itemprop="wordCount" content="519">
+<meta itemprop="wordCount" content="559">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="managedidentity.azure.com/v1api20220131preview"/>
 <meta name="twitter:description" content="managedidentity.azure.com/v1api20220131preview  Package v1api20220131preview contains API Schema definitions for the managedidentity v1api20220131preview API group
@@ -783,6 +783,19 @@ string
 </tr>
 <tr>
 <td>
+<code>issuerFromConfig</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">
+genruntime.ConfigMapReference
+</a>
+</em>
+</td>
+<td>
+<p>IssuerFromConfig: The URL of the issuer to be trusted.</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
@@ -805,6 +818,19 @@ string
 </td>
 <td>
 <p>Subject: The identifier of the external identity.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subjectFromConfig</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">
+genruntime.ConfigMapReference
+</a>
+</em>
+</td>
+<td>
+<p>SubjectFromConfig: The identifier of the external identity.</p>
 </td>
 </tr>
 </table>
@@ -1135,6 +1161,19 @@ string
 </tr>
 <tr>
 <td>
+<code>issuerFromConfig</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">
+genruntime.ConfigMapReference
+</a>
+</em>
+</td>
+<td>
+<p>IssuerFromConfig: The URL of the issuer to be trusted.</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>owner</code><br/>
 <em>
 <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
@@ -1157,6 +1196,19 @@ string
 </td>
 <td>
 <p>Subject: The identifier of the external identity.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>subjectFromConfig</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">
+genruntime.ConfigMapReference
+</a>
+</em>
+</td>
+<td>
+<p>SubjectFromConfig: The identifier of the external identity.</p>
 </td>
 </tr>
 </tbody>
