@@ -4,11 +4,11 @@ title: 2023-07 Package References
 
 ## Context
 
-We at one point discussed the idea of pushing the spec and status types down into dedicated subpackages, given the resources themselves greater promenance. More recently, we've discussed pushing the ARM types (as an implementation detail) into a dedicated subpackage, in order to provide more structure to the generated code, and to reduce namespace pollution for users who choose to consume our object structure.
+We at one point discussed the idea of pushing the spec and status types down into dedicated subpackages, given the resources themselves greater promenance. More recently, we've discussed pushing the ARM types (as an implementation detail) into a dedicated subpackage, in order to provide more structure to the generated code, and to reduce namespace pollution for users who choose to directly consume our object structure.
 
 Doing this would require introduction of a new implementation of the `PackageReference` interface, let's call it `SubPackageReference` for this discussion.
 
-As this interface is implemented, we'll need to revisit all the code that consumes package references to make sure that it works as expected with the new subclass.
+As this interface is implemented, we'll need to revisit all the code that consumes `PackageReference` to make sure that it works as expected with the new subclass.
 
 Ideally, everything would just work. However, our existing object model in this area is a little complex:
 
@@ -38,15 +38,18 @@ Ideally, everything would just work. However, our existing object model in this 
 
 The presence of the extra interface `LocalLikePackageReference`, of predicates like `IsExternalPackageReference()`, and of method implementations on `ExternalPackageReference` that panic, point to ways this object model doesn't properly capture our needs.
 
-In particular, this model allows a number of illegal (or impossible) states to be captured - such as a TypeDefinition for a type in an external package, or a StoragePackageReference that's a variant of an ExternalPackage. We have code throughout ASO to check for and panic if these are ever used.
+In particular, this model allows a number of illegal (or impossible) states to be captured - such as a TypeDefinition for a type in an external package, or a StoragePackageReference that's a variant of an ExternalPackage. 
+
+To protect against inadvertent propagation of these illegal states, we have a number of checks throughout the codebase that check for these illegal states and panic if they're ever encountered. This is not ideal, as it's easy to miss a check, and it's not immediately obvious why the check is needed in the first place.
 
 ### Option 1
 
 We could just add `SubPackageReference` as a new implementation of `PackageReference`, and leave the existing model as-is. This would be the simplest option, but it would leave the existing model in place, and would leave the existing codebase with the same issues it has today.
 
-* PRO: Simplest option
-* PRO: Least amount of work
-* CON: Leaves existing model in place with existing issues
+* PRO: Simplest option.
+* PRO: Least amount of work.
+* CON: Leaves existing model in place with existing issues.
+* CON: Still requires us to check all uses of `PackageReference`.
 
 ### Option 2
 
@@ -77,9 +80,9 @@ Add `SubPackageReference` as a new implementation of `PackageReference`, and par
 
 -->
 
-* PRO: Somewhat tidies up the existing model
-* CON: Still allows illegal states to be represented
-* CON: Requires a type downcast in every case where we need to now use `LocalLikePackageReference` instead of `PackageReference`
+* PRO: Somewhat tidies up the existing model.
+* CON: Still allows illegal states to be represented.
+* CON: Requires a type downcast in every case where we need to now use `LocalLikePackageReference` instead of `PackageReference`.
 
 ### Option 3
 
@@ -117,20 +120,20 @@ Breaking the implementation link between `ExternalPackageReference` and `Package
 
 The new implementation `SubPackageReference` declares a `parent` package for nesting.
 
-* PRO: Makes illegal states impossible to represent
-* PRO: Removes need for type downcasts
-* PRO: Removes need for checks for illegal states
-* PRO: Makes the model easier to understand
-* CON: Requires slightly more rework of the existing model
+* PRO: Makes illegal states impossible to represent.
+* PRO: Removes need for type downcasts.
+* PRO: Removes need for checks for illegal states.
+* PRO: Makes the model easier to understand.
+* CON: Requires slightly more rework of existing code.
 
 
 ## Status
 
-TBC
+Option #3 proposed.
 
 ## Consequences
 
-TBC
+TBC.
 
 ## Experience Report
 
