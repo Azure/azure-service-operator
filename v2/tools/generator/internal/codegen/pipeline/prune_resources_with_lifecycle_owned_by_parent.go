@@ -77,7 +77,7 @@ func PruneResourcesWithLifecycleOwnedByParent(configuration *config.Configuratio
 
 func checkPrunedEmptyProperties(defs astmodel.TypeDefinitionSet, emptyPrunedProps []astmodel.TypeName) (astmodel.TypeDefinitionSet, error) {
 	emptyObjectVisitor := astmodel.TypeVisitorBuilder{
-		VisitObjectType: tagEmptyObjectHandler,
+		VisitObjectType: tagEmptyObjectARMProperty,
 	}.Build()
 
 	for _, emptyPrunedProp := range emptyPrunedProps {
@@ -116,8 +116,8 @@ func newMisbehavingEmbeddedTypeVisitor(configuration *config.Configuration) (ast
 	return visitor.Build(), pruner
 }
 
-// tagEmptyObjectHandler finds the empty properties in an Object and adds the ConversionTag:NoARMConversionValue to the property.
-func tagEmptyObjectHandler(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
+// tagEmptyObjectARMProperty finds the empty properties in an Object and adds the ConversionTag:NoARMConversionValue property tag.
+func tagEmptyObjectARMProperty(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 	typeName := ctx.(astmodel.TypeName)
 
 	prop, ok := it.Properties().Find(func(prop *astmodel.PropertyDefinition) bool {
