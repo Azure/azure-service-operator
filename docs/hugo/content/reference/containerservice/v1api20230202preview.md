@@ -23643,6 +23643,299 @@ ManagedClusterAgentPoolProfileProperties_ARM
 </tr>
 </tbody>
 </table>
+<h3 id="containerservice.azure.com/v1api20230202preview.ManagedClusters_TrustedAccessRoleBinding_STATUS">ManagedClusters_TrustedAccessRoleBinding_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230202preview.TrustedAccessRoleBinding">TrustedAccessRoleBinding</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. Ex -
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>provisioningState</code><br/>
+<em>
+<a href="#containerservice.azure.com/v1api20230202preview.TrustedAccessRoleBindingProperties_ProvisioningState_STATUS">
+TrustedAccessRoleBindingProperties_ProvisioningState_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>ProvisioningState: The current provisioning state of trusted access role binding.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>roles</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>Roles: A list of roles to bind, each item is a resource type qualified role name. For example:
+&lsquo;Microsoft.MachineLearningServices/workspaces/reader&rsquo;.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sourceResourceId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>SourceResourceId: The ARM resource ID of source resource that trusted access is configured for.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#containerservice.azure.com/v1api20230202preview.SystemData_STATUS">
+SystemData_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerservice.azure.com/v1api20230202preview.ManagedClusters_TrustedAccessRoleBinding_STATUS_ARM">ManagedClusters_TrustedAccessRoleBinding_STATUS_ARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Id: Fully qualified resource ID for the resource. Ex -
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: The name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#containerservice.azure.com/v1api20230202preview.TrustedAccessRoleBindingProperties_STATUS_ARM">
+TrustedAccessRoleBindingProperties_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Properties for trusted access role binding</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#containerservice.azure.com/v1api20230202preview.SystemData_STATUS_ARM">
+SystemData_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+<p>SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerservice.azure.com/v1api20230202preview.ManagedClusters_TrustedAccessRoleBinding_Spec">ManagedClusters_TrustedAccessRoleBinding_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230202preview.TrustedAccessRoleBinding">TrustedAccessRoleBinding</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a containerservice.azure.com/ManagedCluster resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>roles</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>Roles: A list of roles to bind, each item is a resource type qualified role name. For example:
+&lsquo;Microsoft.MachineLearningServices/workspaces/reader&rsquo;.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sourceResourceReference</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>SourceResourceReference: The ARM resource ID of source resource that trusted access is configured for.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerservice.azure.com/v1api20230202preview.ManagedClusters_TrustedAccessRoleBinding_Spec_ARM">ManagedClusters_TrustedAccessRoleBinding_Spec_ARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#containerservice.azure.com/v1api20230202preview.TrustedAccessRoleBindingProperties_ARM">
+TrustedAccessRoleBindingProperties_ARM
+</a>
+</em>
+</td>
+<td>
+<p>Properties: Properties for trusted access role binding</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="containerservice.azure.com/v1api20230202preview.NetworkDataplane">NetworkDataplane
 (<code>string</code> alias)</h3>
 <p>
@@ -26558,7 +26851,7 @@ int
 <h3 id="containerservice.azure.com/v1api20230202preview.SystemData_STATUS">SystemData_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230202preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230202preview.ManagedCluster_STATUS">ManagedCluster_STATUS</a>, <a href="#containerservice.azure.com/v1api20230202preview.ManagedClusters_TrustedAccessRoleBinding_STATUS">ManagedClusters_TrustedAccessRoleBinding_STATUS</a>)
 </p>
 <div>
 <p>Metadata pertaining to creation and last modification of the resource.</p>
@@ -26646,7 +26939,7 @@ SystemData_LastModifiedByType_STATUS
 <h3 id="containerservice.azure.com/v1api20230202preview.SystemData_STATUS_ARM">SystemData_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230202preview.ManagedCluster_STATUS_ARM">ManagedCluster_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230202preview.ManagedCluster_STATUS_ARM">ManagedCluster_STATUS_ARM</a>, <a href="#containerservice.azure.com/v1api20230202preview.ManagedClusters_TrustedAccessRoleBinding_STATUS_ARM">ManagedClusters_TrustedAccessRoleBinding_STATUS_ARM</a>)
 </p>
 <div>
 <p>Metadata pertaining to creation and last modification of the resource.</p>
@@ -26727,6 +27020,237 @@ SystemData_LastModifiedByType_STATUS
 </td>
 <td>
 <p>LastModifiedByType: The type of identity that last modified the resource.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerservice.azure.com/v1api20230202preview.TrustedAccessRoleBinding">TrustedAccessRoleBinding
+</h3>
+<div>
+<p>Generator information:
+- Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-02-02-preview/managedClusters.json
+- ARM URI: /&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ContainerService/&#x200b;managedClusters/&#x200b;{resourceName}/&#x200b;trustedAccessRoleBindings/&#x200b;{trustedAccessRoleBindingName}</&#x200b;p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#containerservice.azure.com/v1api20230202preview.ManagedClusters_TrustedAccessRoleBinding_Spec">
+ManagedClusters_TrustedAccessRoleBinding_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a containerservice.azure.com/ManagedCluster resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>roles</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>Roles: A list of roles to bind, each item is a resource type qualified role name. For example:
+&lsquo;Microsoft.MachineLearningServices/workspaces/reader&rsquo;.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sourceResourceReference</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>SourceResourceReference: The ARM resource ID of source resource that trusted access is configured for.</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#containerservice.azure.com/v1api20230202preview.ManagedClusters_TrustedAccessRoleBinding_STATUS">
+ManagedClusters_TrustedAccessRoleBinding_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerservice.azure.com/v1api20230202preview.TrustedAccessRoleBindingProperties_ARM">TrustedAccessRoleBindingProperties_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230202preview.ManagedClusters_TrustedAccessRoleBinding_Spec_ARM">ManagedClusters_TrustedAccessRoleBinding_Spec_ARM</a>)
+</p>
+<div>
+<p>Properties for trusted access role binding</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>roles</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>Roles: A list of roles to bind, each item is a resource type qualified role name. For example:
+&lsquo;Microsoft.MachineLearningServices/workspaces/reader&rsquo;.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sourceResourceId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="containerservice.azure.com/v1api20230202preview.TrustedAccessRoleBindingProperties_ProvisioningState_STATUS">TrustedAccessRoleBindingProperties_ProvisioningState_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230202preview.ManagedClusters_TrustedAccessRoleBinding_STATUS">ManagedClusters_TrustedAccessRoleBinding_STATUS</a>, <a href="#containerservice.azure.com/v1api20230202preview.TrustedAccessRoleBindingProperties_STATUS_ARM">TrustedAccessRoleBindingProperties_STATUS_ARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Canceled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Deleting&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Failed&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Updating&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="containerservice.azure.com/v1api20230202preview.TrustedAccessRoleBindingProperties_STATUS_ARM">TrustedAccessRoleBindingProperties_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230202preview.ManagedClusters_TrustedAccessRoleBinding_STATUS_ARM">ManagedClusters_TrustedAccessRoleBinding_STATUS_ARM</a>)
+</p>
+<div>
+<p>Properties for trusted access role binding</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>provisioningState</code><br/>
+<em>
+<a href="#containerservice.azure.com/v1api20230202preview.TrustedAccessRoleBindingProperties_ProvisioningState_STATUS">
+TrustedAccessRoleBindingProperties_ProvisioningState_STATUS
+</a>
+</em>
+</td>
+<td>
+<p>ProvisioningState: The current provisioning state of trusted access role binding.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>roles</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+<p>Roles: A list of roles to bind, each item is a resource type qualified role name. For example:
+&lsquo;Microsoft.MachineLearningServices/workspaces/reader&rsquo;.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sourceResourceId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>SourceResourceId: The ARM resource ID of source resource that trusted access is configured for.</p>
 </td>
 </tr>
 </tbody>
