@@ -9,7 +9,7 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 type NetworkSecurityGroup_Spec_ARM struct {
 	Location   *string                                   `json:"location,omitempty"`
 	Name       string                                    `json:"name,omitempty"`
-	Properties *NetworkSecurityGroupPropertiesFormat_ARM `json:"properties,omitempty"`
+	Properties *NetworkSecurityGroupPropertiesFormat_ARM `conversion:"noarmconversion" json:"properties,omitempty"`
 	Tags       map[string]string                         `json:"tags,omitempty"`
 }
 
@@ -37,6 +37,7 @@ type NetworkSecurityGroupPropertiesFormat_ARM struct {
 
 // Deprecated version of SecurityRule. Use v1api20201101.SecurityRule instead
 type SecurityRule_ARM struct {
+	Id         *string                                                                    `json:"id,omitempty"`
 	Name       *string                                                                    `json:"name,omitempty"`
 	Properties *SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM `json:"properties,omitempty"`
 	Type       *string                                                                    `json:"type,omitempty"`

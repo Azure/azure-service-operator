@@ -471,35 +471,12 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage
 │           └── PropertyBag: genruntime.PropertyBag
 ├── NetworkSecurityGroup: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
-│   ├── Spec: Object (7 properties)
+│   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── SecurityRules: Object (18 properties)[]
-│   │   │   ├── Access: *string
-│   │   │   ├── Description: *string
-│   │   │   ├── DestinationAddressPrefix: *string
-│   │   │   ├── DestinationAddressPrefixes: string[]
-│   │   │   ├── DestinationApplicationSecurityGroups: Object (2 properties)[]
-│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   ├── DestinationPortRange: *string
-│   │   │   ├── DestinationPortRanges: string[]
-│   │   │   ├── Direction: *string
-│   │   │   ├── Name: *string
-│   │   │   ├── Priority: *int
-│   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   ├── Protocol: *string
-│   │   │   ├── SourceAddressPrefix: *string
-│   │   │   ├── SourceAddressPrefixes: string[]
-│   │   │   ├── SourceApplicationSecurityGroups: Object (2 properties)[]
-│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   ├── SourcePortRange: *string
-│   │   │   ├── SourcePortRanges: string[]
-│   │   │   └── Type: *string
 │   │   └── Tags: map[string]string
 │   └── Status: Object (14 properties)
 │       ├── Conditions: conditions.Condition[]

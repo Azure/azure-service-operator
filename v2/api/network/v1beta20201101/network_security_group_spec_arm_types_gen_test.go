@@ -221,6 +221,7 @@ func SecurityRule_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSecurityRule_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSecurityRule_ARM(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }

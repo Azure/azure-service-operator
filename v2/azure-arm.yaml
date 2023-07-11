@@ -1494,8 +1494,9 @@ objectModelConfiguration:
       NetworkSecurityGroups_SecurityRule:
         $exportAs: NetworkSecurityGroupsSecurityRule
         $supportedFrom: v2.0.0-alpha.1
-      SecurityRule:
-        $resourceEmbeddedInParent: NetworkSecurityGroup
+      NetworkSecurityGroupPropertiesFormat:
+        SecurityRules:
+          $resourceLifecycleOwnedByParent: NetworkSecurityGroup
       OutboundRule:
         $resourceEmbeddedInParent: LoadBalancer  # Not a real resource, can GET but not PUT
       OutboundRule_STATUS:

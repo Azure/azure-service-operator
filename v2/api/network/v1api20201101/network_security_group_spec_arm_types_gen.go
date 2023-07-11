@@ -11,7 +11,7 @@ type NetworkSecurityGroup_Spec_ARM struct {
 	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties of the network security group.
-	Properties *NetworkSecurityGroupPropertiesFormat_ARM `json:"properties,omitempty"`
+	Properties *NetworkSecurityGroupPropertiesFormat_ARM `conversion:"noarmconversion" json:"properties,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -42,6 +42,8 @@ type NetworkSecurityGroupPropertiesFormat_ARM struct {
 
 // Network security rule.
 type SecurityRule_ARM struct {
+	Id *string `json:"id,omitempty"`
+
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
