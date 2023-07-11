@@ -4,16 +4,21 @@
 package v1api20230202preview
 
 import (
+	"context"
 	"fmt"
 	v1api20230202ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202previewstorage"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -104,6 +109,25 @@ func (cluster *ManagedCluster) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the ManagedCluster resource
 func (cluster *ManagedCluster) defaultImpl() { cluster.defaultAzureName() }
+
+var _ genruntime.KubernetesExporter = &ManagedCluster{}
+
+// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
+func (cluster *ManagedCluster) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+	collector := configmaps.NewCollector(cluster.Namespace)
+	if cluster.Spec.OperatorSpec != nil && cluster.Spec.OperatorSpec.ConfigMaps != nil {
+		if cluster.Status.OidcIssuerProfile != nil {
+			if cluster.Status.OidcIssuerProfile.IssuerURL != nil {
+				collector.AddValue(cluster.Spec.OperatorSpec.ConfigMaps.OIDCIssuerProfile, *cluster.Status.OidcIssuerProfile.IssuerURL)
+			}
+		}
+	}
+	result, err := collector.Values()
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.SliceToClientObjectSlice(result), nil
+}
 
 var _ genruntime.KubernetesResource = &ManagedCluster{}
 
@@ -228,7 +252,7 @@ func (cluster *ManagedCluster) ValidateUpdate(old runtime.Object) error {
 
 // createValidations validates the creation of the resource
 func (cluster *ManagedCluster) createValidations() []func() error {
-	return []func() error{cluster.validateResourceReferences, cluster.validateSecretDestinations}
+	return []func() error{cluster.validateResourceReferences, cluster.validateSecretDestinations, cluster.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -246,7 +270,24 @@ func (cluster *ManagedCluster) updateValidations() []func(old runtime.Object) er
 		func(old runtime.Object) error {
 			return cluster.validateSecretDestinations()
 		},
+		func(old runtime.Object) error {
+			return cluster.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations's
+func (cluster *ManagedCluster) validateConfigMapDestinations() error {
+	if cluster.Spec.OperatorSpec == nil {
+		return nil
+	}
+	if cluster.Spec.OperatorSpec.ConfigMaps == nil {
+		return nil
+	}
+	toValidate := []*genruntime.ConfigMapDestination{
+		cluster.Spec.OperatorSpec.ConfigMaps.OIDCIssuerProfile,
+	}
+	return genruntime.ValidateConfigMapDestinations(toValidate)
 }
 
 // validateResourceReferences validates all resource references
@@ -11326,12 +11367,27 @@ func (profile *ManagedClusterOIDCIssuerProfile_STATUS) AssignProperties_To_Manag
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type ManagedClusterOperatorSpec struct {
+	// ConfigMaps: configures where to place operator written ConfigMaps.
+	ConfigMaps *ManagedClusterOperatorConfigMaps `json:"configMaps,omitempty"`
+
 	// Secrets: configures where to place Azure generated secrets.
 	Secrets *ManagedClusterOperatorSecrets `json:"secrets,omitempty"`
 }
 
 // AssignProperties_From_ManagedClusterOperatorSpec populates our ManagedClusterOperatorSpec from the provided source ManagedClusterOperatorSpec
 func (operator *ManagedClusterOperatorSpec) AssignProperties_From_ManagedClusterOperatorSpec(source *v1api20230202ps.ManagedClusterOperatorSpec) error {
+
+	// ConfigMaps
+	if source.ConfigMaps != nil {
+		var configMap ManagedClusterOperatorConfigMaps
+		err := configMap.AssignProperties_From_ManagedClusterOperatorConfigMaps(source.ConfigMaps)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		operator.ConfigMaps = &configMap
+	} else {
+		operator.ConfigMaps = nil
+	}
 
 	// Secrets
 	if source.Secrets != nil {
@@ -11353,6 +11409,18 @@ func (operator *ManagedClusterOperatorSpec) AssignProperties_From_ManagedCluster
 func (operator *ManagedClusterOperatorSpec) AssignProperties_To_ManagedClusterOperatorSpec(destination *v1api20230202ps.ManagedClusterOperatorSpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMaps
+	if operator.ConfigMaps != nil {
+		var configMap v1api20230202ps.ManagedClusterOperatorConfigMaps
+		err := operator.ConfigMaps.AssignProperties_To_ManagedClusterOperatorConfigMaps(&configMap)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		destination.ConfigMaps = &configMap
+	} else {
+		destination.ConfigMaps = nil
+	}
 
 	// Secrets
 	if operator.Secrets != nil {
@@ -18280,6 +18348,51 @@ const (
 	ManagedClusterNodeResourceGroupProfile_RestrictionLevel_STATUS_ReadOnly     = ManagedClusterNodeResourceGroupProfile_RestrictionLevel_STATUS("ReadOnly")
 	ManagedClusterNodeResourceGroupProfile_RestrictionLevel_STATUS_Unrestricted = ManagedClusterNodeResourceGroupProfile_RestrictionLevel_STATUS("Unrestricted")
 )
+
+type ManagedClusterOperatorConfigMaps struct {
+	// OIDCIssuerProfile: indicates where the OIDCIssuerProfile config map should be placed. If omitted, no config map will be
+	// created.
+	OIDCIssuerProfile *genruntime.ConfigMapDestination `json:"oidcIssuerProfile,omitempty"`
+}
+
+// AssignProperties_From_ManagedClusterOperatorConfigMaps populates our ManagedClusterOperatorConfigMaps from the provided source ManagedClusterOperatorConfigMaps
+func (maps *ManagedClusterOperatorConfigMaps) AssignProperties_From_ManagedClusterOperatorConfigMaps(source *v1api20230202ps.ManagedClusterOperatorConfigMaps) error {
+
+	// OIDCIssuerProfile
+	if source.OIDCIssuerProfile != nil {
+		oidcIssuerProfile := source.OIDCIssuerProfile.Copy()
+		maps.OIDCIssuerProfile = &oidcIssuerProfile
+	} else {
+		maps.OIDCIssuerProfile = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagedClusterOperatorConfigMaps populates the provided destination ManagedClusterOperatorConfigMaps from our ManagedClusterOperatorConfigMaps
+func (maps *ManagedClusterOperatorConfigMaps) AssignProperties_To_ManagedClusterOperatorConfigMaps(destination *v1api20230202ps.ManagedClusterOperatorConfigMaps) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// OIDCIssuerProfile
+	if maps.OIDCIssuerProfile != nil {
+		oidcIssuerProfile := maps.OIDCIssuerProfile.Copy()
+		destination.OIDCIssuerProfile = &oidcIssuerProfile
+	} else {
+		destination.OIDCIssuerProfile = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
 
 type ManagedClusterOperatorSecrets struct {
 	// AdminCredentials: indicates where the AdminCredentials secret should be placed. If omitted, the secret will not be
