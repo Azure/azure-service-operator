@@ -33,7 +33,7 @@ func PruneResourcesWithLifecycleOwnedByParent(configuration *config.Configuratio
 				return nil, err
 			}
 
-			visitor, pruner := newMisbehavingEmbeddedTypeVisitor(configuration)
+			pruner := newMisbehavingEmbeddedTypeVisitor(configuration)
 
 			// TODO: This is a hack placed here to protect future releases from include VNET but not
 			// TODO: the corresponding Subnet. Each networking APIVersion that supports VNET must also
@@ -51,7 +51,7 @@ func PruneResourcesWithLifecycleOwnedByParent(configuration *config.Configuratio
 
 			for _, def := range state.Definitions() {
 				var updatedDef astmodel.TypeDefinition
-				updatedDef, err = visitor.VisitDefinition(def, def.Name())
+				updatedDef, err = pruner.visitor.VisitDefinition(def, def.Name())
 				if err != nil {
 					return nil, errors.Wrapf(err, "failed to visit definition %s", def.Name())
 				}
@@ -102,9 +102,10 @@ func flagPrunedEmptyProperties(defs astmodel.TypeDefinitionSet, emptyPrunedProps
 type misbehavingEmbeddedTypePruner struct {
 	configuration         *config.Configuration
 	emptyPrunedProperties astmodel.TypeNameSet
+	visitor               astmodel.TypeVisitor
 }
 
-func newMisbehavingEmbeddedTypeVisitor(configuration *config.Configuration) (astmodel.TypeVisitor, *misbehavingEmbeddedTypePruner) {
+func newMisbehavingEmbeddedTypeVisitor(configuration *config.Configuration) *misbehavingEmbeddedTypePruner {
 	pruner := &misbehavingEmbeddedTypePruner{
 		configuration:         configuration,
 		emptyPrunedProperties: astmodel.NewTypeNameSet(),
@@ -112,8 +113,10 @@ func newMisbehavingEmbeddedTypeVisitor(configuration *config.Configuration) (ast
 
 	visitor := astmodel.TypeVisitorBuilder{
 		VisitObjectType: pruner.pruneMisbehavingEmbeddedResourceProperties,
-	}
-	return visitor.Build(), pruner
+	}.Build()
+
+	pruner.visitor = visitor
+	return pruner
 }
 
 // tagEmptyObjectARMProperty finds the empty properties in an Object and adds the ConversionTag:NoARMConversionValue property tag.
