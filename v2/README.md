@@ -82,14 +82,14 @@ ASO supports more than 150 different Azure resources, with more added every rele
    AZURE_CLIENT_SECRET=<your-client-secret> # This is the password from the service principal we created.
    ```
 
-3. Install [the latest **v2+** Helm chart](https://github.com/Azure/azure-service-operator/tree/main/charts):
+3. Install [the latest **v2+** Helm chart](https://github.com/Azure/azure-service-operator/tree/main/v2/charts):
    
    ```
    helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
    ```
 
    ```
-   helm upgrade --install --devel aso2 aso2/azure-service-operator \
+   helm upgrade --install aso2 aso2/azure-service-operator \
         --create-namespace \
         --namespace=azureserviceoperator-system \
         --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \

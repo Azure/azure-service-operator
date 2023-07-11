@@ -235,6 +235,11 @@ func (in *UserAssignedIdentities_FederatedIdentityCredential_Spec) DeepCopyInto(
 		*out = new(string)
 		**out = **in
 	}
+	if in.IssuerFromConfig != nil {
+		in, out := &in.IssuerFromConfig, &out.IssuerFromConfig
+		*out = new(genruntime.ConfigMapReference)
+		**out = **in
+	}
 	if in.Owner != nil {
 		in, out := &in.Owner, &out.Owner
 		*out = new(genruntime.KnownResourceReference)
@@ -243,6 +248,11 @@ func (in *UserAssignedIdentities_FederatedIdentityCredential_Spec) DeepCopyInto(
 	if in.Subject != nil {
 		in, out := &in.Subject, &out.Subject
 		*out = new(string)
+		**out = **in
+	}
+	if in.SubjectFromConfig != nil {
+		in, out := &in.SubjectFromConfig, &out.SubjectFromConfig
+		*out = new(genruntime.ConfigMapReference)
 		**out = **in
 	}
 }

@@ -317,6 +317,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v1api20230201s.ManagedClustersAgentPool)})
+	result = append(result, &registration.StorageType{Obj: new(containerservice_v1api20230202ps.TrustedAccessRoleBinding)})
 	result = append(result, &registration.StorageType{Obj: new(datafactory_v1api20180601s.Factory)})
 	result = append(result, &registration.StorageType{Obj: new(dataprotection_v1api20230101s.BackupVault)})
 	result = append(result, &registration.StorageType{Obj: new(dataprotection_v1api20230101s.BackupVaultsBackupPolicy)})
@@ -540,7 +541,25 @@ func getKnownStorageTypes() []*registration.StorageType {
 	})
 	result = append(result, &registration.StorageType{Obj: new(machinelearningservices_v1api20210701s.WorkspacesConnection)})
 	result = append(result, &registration.StorageType{Obj: new(managedidentity_v1api20181130s.UserAssignedIdentity)})
-	result = append(result, &registration.StorageType{Obj: new(managedidentity_v1api20220131ps.FederatedIdentityCredential)})
+	result = append(result, &registration.StorageType{
+		Obj: new(managedidentity_v1api20220131ps.FederatedIdentityCredential),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.issuerFromConfig",
+				Func: indexManagedidentityFederatedIdentityCredentialIssuerFromConfig,
+			},
+			{
+				Key:  ".spec.subjectFromConfig",
+				Func: indexManagedidentityFederatedIdentityCredentialSubjectFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Src:              &source.Kind{Type: &v1.ConfigMap{}},
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.issuerFromConfig", ".spec.subjectFromConfig"}, &managedidentity_v1api20220131ps.FederatedIdentityCredentialList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20180501s.DnsZone)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20180501s.DnsZonesAAAARecord)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20180501s.DnsZonesARecord)})
@@ -914,8 +933,16 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(containerservice_v1api20210501s.ManagedCluster), new(containerservice_v1api20210501s.ManagedClustersAgentPool))
 	result = append(result, new(containerservice_v1api20230201.ManagedCluster), new(containerservice_v1api20230201.ManagedClustersAgentPool))
 	result = append(result, new(containerservice_v1api20230201s.ManagedCluster), new(containerservice_v1api20230201s.ManagedClustersAgentPool))
-	result = append(result, new(containerservice_v1api20230202p.ManagedCluster), new(containerservice_v1api20230202p.ManagedClustersAgentPool))
-	result = append(result, new(containerservice_v1api20230202ps.ManagedCluster), new(containerservice_v1api20230202ps.ManagedClustersAgentPool))
+	result = append(
+		result,
+		new(containerservice_v1api20230202p.ManagedCluster),
+		new(containerservice_v1api20230202p.ManagedClustersAgentPool),
+		new(containerservice_v1api20230202p.TrustedAccessRoleBinding))
+	result = append(
+		result,
+		new(containerservice_v1api20230202ps.ManagedCluster),
+		new(containerservice_v1api20230202ps.ManagedClustersAgentPool),
+		new(containerservice_v1api20230202ps.TrustedAccessRoleBinding))
 	result = append(result, new(containerservice_v20210501.ManagedCluster), new(containerservice_v20210501.ManagedClustersAgentPool))
 	result = append(result, new(containerservice_v20210501s.ManagedCluster), new(containerservice_v20210501s.ManagedClustersAgentPool))
 	result = append(result, new(datafactory_v1api20180601.Factory))
@@ -1651,6 +1678,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &containerregistry_customizations.RegistryExtension{})
 	result = append(result, &containerservice_customizations.ManagedClusterExtension{})
 	result = append(result, &containerservice_customizations.ManagedClustersAgentPoolExtension{})
+	result = append(result, &containerservice_customizations.TrustedAccessRoleBindingExtension{})
 	result = append(result, &datafactory_customizations.FactoryExtension{})
 	result = append(result, &dataprotection_customizations.BackupVaultExtension{})
 	result = append(result, &dataprotection_customizations.BackupVaultsBackupPolicyExtension{})
@@ -2342,6 +2370,30 @@ func indexMachinelearningservicesWorkspacesComputeVirtualMachinePassword(rawObj 
 		return nil
 	}
 	return obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount.Password.Index()
+}
+
+// indexManagedidentityFederatedIdentityCredentialIssuerFromConfig an index function for managedidentity_v1api20220131ps.FederatedIdentityCredential .spec.issuerFromConfig
+func indexManagedidentityFederatedIdentityCredentialIssuerFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*managedidentity_v1api20220131ps.FederatedIdentityCredential)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.IssuerFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.IssuerFromConfig.Index()
+}
+
+// indexManagedidentityFederatedIdentityCredentialSubjectFromConfig an index function for managedidentity_v1api20220131ps.FederatedIdentityCredential .spec.subjectFromConfig
+func indexManagedidentityFederatedIdentityCredentialSubjectFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*managedidentity_v1api20220131ps.FederatedIdentityCredential)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.SubjectFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.SubjectFromConfig.Index()
 }
 
 // indexNetworkDnsForwardingRuleSetsForwardingRuleIpAddressFromConfig an index function for network_v1api20220701s.DnsForwardingRuleSetsForwardingRule .spec.targetDnsServers.ipAddressFromConfig

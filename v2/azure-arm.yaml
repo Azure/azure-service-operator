@@ -580,7 +580,7 @@ status:
 #
 # $generatedConfigs: <map of string -> string>
 #     The key of the map is the name of the property to export, the value of the map is a json-path like expression
-#     to the property to export. Currently only $.<prop>.<prop> snytax is supported.
+#     to the property to export. Currently only $.<prop>.<prop> syntax is supported.
 #     Only valid for resources.
 #     Example:
 #         $generatedConfigs:
@@ -944,6 +944,8 @@ objectModelConfiguration:
         $azureGeneratedSecrets:
           - AdminCredentials
           - UserCredentials
+        $generatedConfigs:
+          OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
       ManagedClusters_AgentPool:
         $exportAs: ManagedClustersAgentPool
         $supportedFrom: v2.0.0
@@ -960,12 +962,20 @@ objectModelConfiguration:
         $azureGeneratedSecrets:
           - AdminCredentials
           - UserCredentials
+        $generatedConfigs:
+          OIDCIssuerProfile: $.Status.OidcIssuerProfile.IssuerURL
       ManagedClusters_AgentPool:
         $exportAs: ManagedClustersAgentPool
         $supportedFrom: v2.0.0
       ManagedClusterServicePrincipalProfile:
         Secret:
           $isSecret: true
+      ManagedClusters_TrustedAccessRoleBinding:
+        $exportAs: TrustedAccessRoleBinding
+        $supportedFrom: v2.2.0
+      TrustedAccessRoleBindingProperties:
+        SourceResourceId:
+          $armReference: true
       PrivateLinkResource:
         Id:
           $armReference: true
@@ -1287,6 +1297,12 @@ objectModelConfiguration:
       UserAssignedIdentities_FederatedIdentityCredential:
         $exportAs: FederatedIdentityCredential
         $supportedFrom: v2.0.0-beta.3
+      FederatedIdentityCredentialProperties:
+        Issuer:
+          $importConfigMapMode: optional
+        Subject:
+          $importConfigMapMode: optional
+
   machinelearningservices:
     2021-07-01:
       AksNetworkingConfiguration:

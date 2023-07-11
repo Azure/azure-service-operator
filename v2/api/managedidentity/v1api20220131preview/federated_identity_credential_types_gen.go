@@ -225,7 +225,7 @@ func (credential *FederatedIdentityCredential) ValidateUpdate(old runtime.Object
 
 // createValidations validates the creation of the resource
 func (credential *FederatedIdentityCredential) createValidations() []func() error {
-	return []func() error{credential.validateResourceReferences}
+	return []func() error{credential.validateResourceReferences, credential.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -239,7 +239,20 @@ func (credential *FederatedIdentityCredential) updateValidations() []func(old ru
 		func(old runtime.Object) error {
 			return credential.validateResourceReferences()
 		},
-		credential.validateWriteOnceProperties}
+		credential.validateWriteOnceProperties,
+		func(old runtime.Object) error {
+			return credential.validateOptionalConfigMapReferences()
+		},
+	}
+}
+
+// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
+func (credential *FederatedIdentityCredential) validateOptionalConfigMapReferences() error {
+	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&credential.Spec)
+	if err != nil {
+		return err
+	}
+	return genruntime.ValidateOptionalConfigMapReferences(refs)
 }
 
 // validateResourceReferences validates all resource references
@@ -346,9 +359,11 @@ type UserAssignedIdentities_FederatedIdentityCredential_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// +kubebuilder:validation:Required
 	// Issuer: The URL of the issuer to be trusted.
-	Issuer *string `json:"issuer,omitempty"`
+	Issuer *string `json:"issuer,omitempty" optionalConfigMapPair:"Issuer"`
+
+	// IssuerFromConfig: The URL of the issuer to be trusted.
+	IssuerFromConfig *genruntime.ConfigMapReference `json:"issuerFromConfig,omitempty" optionalConfigMapPair:"Issuer"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -356,9 +371,11 @@ type UserAssignedIdentities_FederatedIdentityCredential_Spec struct {
 	// reference to a managedidentity.azure.com/UserAssignedIdentity resource
 	Owner *genruntime.KnownResourceReference `group:"managedidentity.azure.com" json:"owner,omitempty" kind:"UserAssignedIdentity"`
 
-	// +kubebuilder:validation:Required
 	// Subject: The identifier of the external identity.
-	Subject *string `json:"subject,omitempty"`
+	Subject *string `json:"subject,omitempty" optionalConfigMapPair:"Subject"`
+
+	// SubjectFromConfig: The identifier of the external identity.
+	SubjectFromConfig *genruntime.ConfigMapReference `json:"subjectFromConfig,omitempty" optionalConfigMapPair:"Subject"`
 }
 
 var _ genruntime.ARMTransformer = &UserAssignedIdentities_FederatedIdentityCredential_Spec{}
@@ -376,7 +393,9 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Conve
 	// Set property ‘Properties’:
 	if credential.Audiences != nil ||
 		credential.Issuer != nil ||
-		credential.Subject != nil {
+		credential.IssuerFromConfig != nil ||
+		credential.Subject != nil ||
+		credential.SubjectFromConfig != nil {
 		result.Properties = &FederatedIdentityCredentialProperties_ARM{}
 	}
 	for _, item := range credential.Audiences {
@@ -386,8 +405,24 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Conve
 		issuer := *credential.Issuer
 		result.Properties.Issuer = &issuer
 	}
+	if credential.IssuerFromConfig != nil {
+		issuerValue, err := resolved.ResolvedConfigMaps.Lookup(*credential.IssuerFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property Issuer")
+		}
+		issuer := issuerValue
+		result.Properties.Issuer = &issuer
+	}
 	if credential.Subject != nil {
 		subject := *credential.Subject
+		result.Properties.Subject = &subject
+	}
+	if credential.SubjectFromConfig != nil {
+		subjectValue, err := resolved.ResolvedConfigMaps.Lookup(*credential.SubjectFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property Subject")
+		}
+		subject := subjectValue
 		result.Properties.Subject = &subject
 	}
 	return result, nil
@@ -425,6 +460,8 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Popul
 		}
 	}
 
+	// no assignment for property ‘IssuerFromConfig’
+
 	// Set property ‘Owner’:
 	credential.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
@@ -436,6 +473,8 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Popul
 			credential.Subject = &subject
 		}
 	}
+
+	// no assignment for property ‘SubjectFromConfig’
 
 	// No error
 	return nil
@@ -503,6 +542,14 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Assig
 	// Issuer
 	credential.Issuer = genruntime.ClonePointerToString(source.Issuer)
 
+	// IssuerFromConfig
+	if source.IssuerFromConfig != nil {
+		issuerFromConfig := source.IssuerFromConfig.Copy()
+		credential.IssuerFromConfig = &issuerFromConfig
+	} else {
+		credential.IssuerFromConfig = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -513,6 +560,14 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Assig
 
 	// Subject
 	credential.Subject = genruntime.ClonePointerToString(source.Subject)
+
+	// SubjectFromConfig
+	if source.SubjectFromConfig != nil {
+		subjectFromConfig := source.SubjectFromConfig.Copy()
+		credential.SubjectFromConfig = &subjectFromConfig
+	} else {
+		credential.SubjectFromConfig = nil
+	}
 
 	// No error
 	return nil
@@ -532,6 +587,14 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Assig
 	// Issuer
 	destination.Issuer = genruntime.ClonePointerToString(credential.Issuer)
 
+	// IssuerFromConfig
+	if credential.IssuerFromConfig != nil {
+		issuerFromConfig := credential.IssuerFromConfig.Copy()
+		destination.IssuerFromConfig = &issuerFromConfig
+	} else {
+		destination.IssuerFromConfig = nil
+	}
+
 	// OriginalVersion
 	destination.OriginalVersion = credential.OriginalVersion()
 
@@ -545,6 +608,14 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Assig
 
 	// Subject
 	destination.Subject = genruntime.ClonePointerToString(credential.Subject)
+
+	// SubjectFromConfig
+	if credential.SubjectFromConfig != nil {
+		subjectFromConfig := credential.SubjectFromConfig.Copy()
+		destination.SubjectFromConfig = &subjectFromConfig
+	} else {
+		destination.SubjectFromConfig = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

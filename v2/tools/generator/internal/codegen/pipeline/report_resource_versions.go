@@ -59,7 +59,7 @@ func ReportResourceVersions(configuration *config.Configuration) *Stage {
 				return nil, kerrors.NewAggregate(errs)
 			}
 
-			err = configuration.ObjectModelConfiguration.VerifySupportedFromConsumed()
+			err = configuration.ObjectModelConfiguration.SupportedFrom.VerifyConsumed()
 			return state, err
 		})
 }
@@ -604,7 +604,7 @@ func (report *ResourceVersionsReport) generateSampleLink(name astmodel.TypeName,
 }
 
 func (report *ResourceVersionsReport) supportedFrom(typeName astmodel.TypeName) string {
-	supportedFrom, err := report.objectModelConfiguration.LookupSupportedFrom(typeName)
+	supportedFrom, err := report.objectModelConfiguration.SupportedFrom.Lookup(typeName)
 	if err != nil {
 		return "" // Leave it blank
 	}
