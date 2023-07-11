@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"reflect"
+	"strings"
 
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
@@ -23,8 +24,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
 
-// Attention: A lot of code in this file is very similar to the logic in load_balancer_extensions.go and route_table_extensions.go.
+// Attention: A lot of code in this file is very similar to the logic in network_security_group_extension.go, load_balancer_extensions.go and route_table_extensions.go.
 // The two should be kept in sync as much as possible.
+// NOTE: This wouldn't work without adding indexes in 'getGeneratedStorageTypes' method in controller_resources.goould be kept in sync as much as possible.
 
 var _ extensions.ARMResourceModifier = &VirtualNetworkExtension{}
 
@@ -68,7 +70,7 @@ func (extension *VirtualNetworkExtension) ModifyARMResource(
 
 	log.V(Info).Info("Found subnets to include on VNET", "count", len(armSubnets), "names", genruntime.ARMSpecNames(armSubnets))
 
-	err = fuzzySetSubnets(armObj.Spec(), armSubnets)
+	err = fuzzySetResources(armObj.Spec(), armSubnets, "Subnets")
 	if err != nil {
 		return nil, errors.Wrapf(err, "failed to set subnets")
 	}
@@ -118,15 +120,15 @@ func transformToARM(
 	return typedARMSpec, nil
 }
 
-// TODO: When we move to Swagger as the source of truth, the type for vnet.properties.subnets and subnet.properties
+// TODO: When we move to Swagger as the source of truth, the type for ownerResource.properties.propertyField and resource.properties
 // TODO: may be the same, so we can do away with the JSON serialization part of this assignment.
-// fuzzySetSubnets assigns a collection of subnets to the subnets property of the vnet. Since there are
+// fuzzySetResources assigns a collection of subnets to the resources property of the ownerResource. Since there are
 // many possible ARM API versions and we don't know which one we're using, we cannot do this statically.
-// To make matters even more horrible, the type used in the vnet.properties.subnets property is not the same
-// type as used for subnet.properties (although structurally they are basically the same). To overcome this
-// we JSON serialize the subnet and deserialize it into the vnet.properties.subnets field.
-func fuzzySetSubnets(vnet genruntime.ARMResourceSpec, subnets []genruntime.ARMResourceSpec) (err error) {
-	if len(subnets) == 0 {
+// To make matters even more horrible, the type used in the ownerResource.properties.propertyField property is not the same
+// type as used for resource.properties (although structurally they are basically the same). To overcome this
+// we JSON serialize the resource and deserialize it into the ownerResource.properties.propertyField field.
+func fuzzySetResources(ownerResource genruntime.ARMResourceSpec, resources []genruntime.ARMResourceSpec, propertyField string) (err error) {
+	if len(resources) == 0 {
 		// Nothing to do
 		return nil
 	}
@@ -138,15 +140,15 @@ func fuzzySetSubnets(vnet genruntime.ARMResourceSpec, subnets []genruntime.ARMRe
 	}()
 
 	// Here be dragons
-	vnetValue := reflect.ValueOf(vnet)
-	vnetValue = reflect.Indirect(vnetValue)
-	if (vnetValue == reflect.Value{}) {
-		return errors.Errorf("cannot assign to nil vnet")
+	ownerValue := reflect.ValueOf(ownerResource)
+	ownerValue = reflect.Indirect(ownerValue)
+	if (ownerValue == reflect.Value{}) {
+		return errors.Errorf("cannot assign to nil %s", strings.ToLower(ownerResource.GetType()))
 	}
 
-	propertiesField := vnetValue.FieldByName("Properties")
+	propertiesField := ownerValue.FieldByName("Properties")
 	if (propertiesField == reflect.Value{}) {
-		return errors.Errorf("couldn't find properties field on vnet")
+		return errors.Errorf("couldn't find properties field on %s", strings.ToLower(ownerResource.GetType()))
 	}
 
 	propertiesValue := reflect.Indirect(propertiesField)
@@ -157,55 +159,55 @@ func fuzzySetSubnets(vnet genruntime.ARMResourceSpec, subnets []genruntime.ARMRe
 		propertiesValue = reflect.Indirect(temp)
 	}
 
-	subnetsField := propertiesValue.FieldByName("Subnets")
-	if (subnetsField == reflect.Value{}) {
-		return errors.Errorf("couldn't find subnets field on vnet")
+	resourcePropertyField := propertiesValue.FieldByName(propertyField)
+	if (resourcePropertyField == reflect.Value{}) {
+		return errors.Errorf("couldn't find %s field on %s", propertyField, strings.ToLower(ownerResource.GetType()))
 	}
 
-	if subnetsField.Type().Kind() != reflect.Slice {
-		return errors.Errorf("subnets field on vnet was not of kind Slice")
+	if resourcePropertyField.Type().Kind() != reflect.Slice {
+		return errors.Errorf("%s field on %s was not of kind Slice", propertyField, strings.ToLower(ownerResource.GetType()))
 	}
 
-	elemType := subnetsField.Type().Elem()
-	subnetSlice := reflect.MakeSlice(subnetsField.Type(), 0, 0)
+	elemType := resourcePropertyField.Type().Elem()
+	resourceSlice := reflect.MakeSlice(resourcePropertyField.Type(), 0, 0)
 
-	for _, subnet := range subnets {
-		embeddedSubnet := reflect.New(elemType)
-		err := fuzzySetSubnet(subnet, embeddedSubnet)
+	for _, resource := range resources {
+		embeddedResource := reflect.New(elemType)
+		err := fuzzySetResource(resource, embeddedResource)
 		if err != nil {
 			return err
 		}
 
-		subnetSlice = reflect.Append(subnetSlice, reflect.Indirect(embeddedSubnet))
+		resourceSlice = reflect.Append(resourceSlice, reflect.Indirect(embeddedResource))
 	}
 
-	// Now do the assignment
-	subnetsField.Set(subnetSlice)
+	// Now do the assignment. We do it differently here, as we need to make sure to retain current/updated/deleted resource present on the ownerResource.
+	resourcePropertyField.Set(reflect.AppendSlice(resourcePropertyField, resourceSlice))
 
 	return nil
 }
 
-func fuzzySetSubnet(subnet genruntime.ARMResourceSpec, embeddedSubnet reflect.Value) error {
-	subnetJSON, err := json.Marshal(subnet)
+func fuzzySetResource(resource genruntime.ARMResourceSpec, embeddedResource reflect.Value) error {
+	resourceJSON, err := json.Marshal(resource)
 	if err != nil {
-		return errors.Wrapf(err, "failed to marshal subnet json")
+		return errors.Wrapf(err, "failed to marshal %s json", strings.ToLower(resource.GetType()))
 	}
 
-	err = json.Unmarshal(subnetJSON, embeddedSubnet.Interface())
+	err = json.Unmarshal(resourceJSON, embeddedResource.Interface())
 	if err != nil {
-		return errors.Wrapf(err, "failed to unmarshal subnet JSON")
+		return errors.Wrapf(err, "failed to unmarshal %s JSON", strings.ToLower(resource.GetType()))
 	}
 
 	// Safety check that these are actually the same:
 	// We can't use reflect.DeepEqual because the types are not the same.
-	embeddedSubnetJSON, err := json.Marshal(embeddedSubnet.Interface())
+	embeddedResourceJSON, err := json.Marshal(embeddedResource.Interface())
 	if err != nil {
-		return errors.Wrap(err, "unable to check that embedded subnet is the same as subnet")
+		return errors.Wrapf(err, "unable to check that embedded resource is the same as %s", strings.ToLower(resource.GetType()))
 	}
 
-	err = fuzzyEqualityComparison(embeddedSubnetJSON, subnetJSON)
+	err = fuzzyEqualityComparison(embeddedResourceJSON, resourceJSON)
 	if err != nil {
-		return errors.Wrap(err, "failed during comparison for embeddedSubnetJSON and subnetJSON")
+		return errors.Wrapf(err, "failed during comparison for embedded %sJSON and %sJSON", strings.ToLower(resource.GetType()), strings.ToLower(resource.GetType()))
 	}
 
 	return nil

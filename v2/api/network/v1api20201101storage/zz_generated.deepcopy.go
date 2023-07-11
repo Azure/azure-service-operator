@@ -3561,13 +3561,6 @@ func (in *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) 
 		*out = new(string)
 		**out = **in
 	}
-	if in.SecurityRules != nil {
-		in, out := &in.SecurityRules, &out.SecurityRules
-		*out = make([]SecurityRule_STATUS, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
 	if in.Subnets != nil {
 		in, out := &in.Subnets, &out.Subnets
 		*out = make([]Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded, len(*in))

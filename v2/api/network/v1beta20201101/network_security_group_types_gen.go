@@ -363,6 +363,8 @@ func (group *NetworkSecurityGroup_Spec) ConvertToARM(resolved genruntime.Convert
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
+	// no assignment for property ‘Properties’
+
 	// Set property ‘Tags’:
 	if group.Tags != nil {
 		result.Tags = make(map[string]string, len(group.Tags))
@@ -540,7 +542,6 @@ type NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded struct
 	NetworkInterfaces    []NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded `json:"networkInterfaces,omitempty"`
 	ProvisioningState    *ProvisioningState_STATUS                                          `json:"provisioningState,omitempty"`
 	ResourceGuid         *string                                                            `json:"resourceGuid,omitempty"`
-	SecurityRules        []SecurityRule_STATUS                                              `json:"securityRules,omitempty"`
 	Subnets              []Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded           `json:"subnets,omitempty"`
 	Tags                 map[string]string                                                  `json:"tags,omitempty"`
 	Type                 *string                                                            `json:"type,omitempty"`
@@ -693,19 +694,6 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 		}
 	}
 
-	// Set property ‘SecurityRules’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.SecurityRules {
-			var item1 SecurityRule_STATUS
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			embedded.SecurityRules = append(embedded.SecurityRules, item1)
-		}
-	}
-
 	// Set property ‘Subnets’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -820,24 +808,6 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 	// ResourceGuid
 	embedded.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
 
-	// SecurityRules
-	if source.SecurityRules != nil {
-		securityRuleList := make([]SecurityRule_STATUS, len(source.SecurityRules))
-		for securityRuleIndex, securityRuleItem := range source.SecurityRules {
-			// Shadow the loop variable to avoid aliasing
-			securityRuleItem := securityRuleItem
-			var securityRule SecurityRule_STATUS
-			err := securityRule.AssignProperties_From_SecurityRule_STATUS(&securityRuleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SecurityRule_STATUS() to populate field SecurityRules")
-			}
-			securityRuleList[securityRuleIndex] = securityRule
-		}
-		embedded.SecurityRules = securityRuleList
-	} else {
-		embedded.SecurityRules = nil
-	}
-
 	// Subnets
 	if source.Subnets != nil {
 		subnetList := make([]Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded, len(source.Subnets))
@@ -950,24 +920,6 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 
 	// ResourceGuid
 	destination.ResourceGuid = genruntime.ClonePointerToString(embedded.ResourceGuid)
-
-	// SecurityRules
-	if embedded.SecurityRules != nil {
-		securityRuleList := make([]v20201101s.SecurityRule_STATUS, len(embedded.SecurityRules))
-		for securityRuleIndex, securityRuleItem := range embedded.SecurityRules {
-			// Shadow the loop variable to avoid aliasing
-			securityRuleItem := securityRuleItem
-			var securityRule v20201101s.SecurityRule_STATUS
-			err := securityRuleItem.AssignProperties_To_SecurityRule_STATUS(&securityRule)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SecurityRule_STATUS() to populate field SecurityRules")
-			}
-			securityRuleList[securityRuleIndex] = securityRule
-		}
-		destination.SecurityRules = securityRuleList
-	} else {
-		destination.SecurityRules = nil
-	}
 
 	// Subnets
 	if embedded.Subnets != nil {

@@ -184,7 +184,6 @@ type NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded struct
 	PropertyBag          genruntime.PropertyBag                                             `json:"$propertyBag,omitempty"`
 	ProvisioningState    *string                                                            `json:"provisioningState,omitempty"`
 	ResourceGuid         *string                                                            `json:"resourceGuid,omitempty"`
-	SecurityRules        []SecurityRule_STATUS                                              `json:"securityRules,omitempty"`
 	Subnets              []Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded           `json:"subnets,omitempty"`
 	Tags                 map[string]string                                                  `json:"tags,omitempty"`
 	Type                 *string                                                            `json:"type,omitempty"`

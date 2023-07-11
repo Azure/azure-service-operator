@@ -478,7 +478,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── Tags: map[string]string
-│   └── Status: Object (15 properties)
+│   └── Status: Object (14 properties)
 │       ├── Conditions: conditions.Condition[]
 │       ├── DefaultSecurityRules: Object (2 properties)[]
 │       │   ├── Id: *string
@@ -496,9 +496,6 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage
 │       ├── PropertyBag: genruntime.PropertyBag
 │       ├── ProvisioningState: *string
 │       ├── ResourceGuid: *string
-│       ├── SecurityRules: Object (2 properties)[]
-│       │   ├── Id: *string
-│       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── Subnets: Object (2 properties)[]
 │       │   ├── Id: *string
 │       │   └── PropertyBag: genruntime.PropertyBag

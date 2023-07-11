@@ -10,7 +10,7 @@ type NetworkSecurityGroups_SecurityRule_Spec_ARM struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Properties of the security rule.
-	Properties *SecurityRulePropertiesFormat_ARM `json:"properties,omitempty"`
+	Properties *SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &NetworkSecurityGroups_SecurityRule_Spec_ARM{}
@@ -31,7 +31,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec_ARM) GetType() string {
 }
 
 // Security rule resource.
-type SecurityRulePropertiesFormat_ARM struct {
+type SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM struct {
 	// Access: The network traffic is allowed or denied.
 	Access *SecurityRuleAccess `json:"access,omitempty"`
 

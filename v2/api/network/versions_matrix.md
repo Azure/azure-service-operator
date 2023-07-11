@@ -16,6 +16,7 @@
 | ApplicationGatewaySubResource                                                           |               |               |               |               | v1api20220701 |                |                |
 | ApplicationGatewaySubResource_STATUS                                                    |               |               |               |               | v1api20220701 |                |                |
 | ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded                       |               |               |               | v1api20201101 |               |                | v1beta20201101 |
+| ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded                   |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded     |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded                        |               |               |               |               | v1api20220701 |                |                |
 | ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded                    |               |               |               | v1api20201101 |               |                | v1beta20201101 |
@@ -221,6 +222,7 @@
 | NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded                          |               |               |               |               | v1api20220701 |                |                |
 | NetworkInterface_Spec                                                                   |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | NetworkSecurityGroup                                                                    |               |               |               | v1api20201101 |               |                | v1beta20201101 |
+| NetworkSecurityGroupPropertiesFormat                                                    |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | NetworkSecurityGroupPropertiesFormat_STATUS                                             |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded                           |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | NetworkSecurityGroupSpec_VirtualNetwork_SubResourceEmbedded                             |               |               |               | v1api20201101 |               |                | v1beta20201101 |
@@ -379,11 +381,13 @@
 | RouteTablesRoute                                                                        |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | RouteTables_Route_STATUS                                                                |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | RouteTables_Route_Spec                                                                  |               |               |               | v1api20201101 |               |                | v1beta20201101 |
+| SecurityRule                                                                            |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | SecurityRuleAccess                                                                      |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | SecurityRuleAccess_STATUS                                                               |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | SecurityRuleDirection                                                                   |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | SecurityRuleDirection_STATUS                                                            |               |               |               | v1api20201101 |               |                | v1beta20201101 |
-| SecurityRulePropertiesFormat                                                            |               |               |               | v1api20201101 |               |                | v1beta20201101 |
+| SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded                   |               |               |               | v1api20201101 |               |                | v1beta20201101 |
+| SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded     |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | SecurityRulePropertiesFormat_Protocol                                                   |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | SecurityRulePropertiesFormat_Protocol_STATUS                                            |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | SecurityRulePropertiesFormat_STATUS                                                     |               |               |               | v1api20201101 |               |                | v1beta20201101 |
