@@ -4,13 +4,18 @@
 package v1api20230202previewstorage
 
 import (
+	"context"
 	"fmt"
 	v1api20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201storage"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
 
@@ -63,6 +68,25 @@ func (cluster *ManagedCluster) ConvertTo(hub conversion.Hub) error {
 	}
 
 	return cluster.AssignProperties_To_ManagedCluster(destination)
+}
+
+var _ genruntime.KubernetesExporter = &ManagedCluster{}
+
+// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
+func (cluster *ManagedCluster) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+	collector := configmaps.NewCollector(cluster.Namespace)
+	if cluster.Spec.OperatorSpec != nil && cluster.Spec.OperatorSpec.ConfigMaps != nil {
+		if cluster.Status.OidcIssuerProfile != nil {
+			if cluster.Status.OidcIssuerProfile.IssuerURL != nil {
+				collector.AddValue(cluster.Spec.OperatorSpec.ConfigMaps.OIDCIssuerProfile, *cluster.Status.OidcIssuerProfile.IssuerURL)
+			}
+		}
+	}
+	result, err := collector.Values()
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.SliceToClientObjectSlice(result), nil
 }
 
 var _ genruntime.KubernetesResource = &ManagedCluster{}
@@ -6228,14 +6252,27 @@ func (profile *ManagedClusterOIDCIssuerProfile_STATUS) AssignProperties_To_Manag
 // Storage version of v1api20230202preview.ManagedClusterOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type ManagedClusterOperatorSpec struct {
-	PropertyBag genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
-	Secrets     *ManagedClusterOperatorSecrets `json:"secrets,omitempty"`
+	ConfigMaps  *ManagedClusterOperatorConfigMaps `json:"configMaps,omitempty"`
+	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	Secrets     *ManagedClusterOperatorSecrets    `json:"secrets,omitempty"`
 }
 
 // AssignProperties_From_ManagedClusterOperatorSpec populates our ManagedClusterOperatorSpec from the provided source ManagedClusterOperatorSpec
 func (operator *ManagedClusterOperatorSpec) AssignProperties_From_ManagedClusterOperatorSpec(source *v1api20230201s.ManagedClusterOperatorSpec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMaps
+	if source.ConfigMaps != nil {
+		var configMap ManagedClusterOperatorConfigMaps
+		err := configMap.AssignProperties_From_ManagedClusterOperatorConfigMaps(source.ConfigMaps)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		operator.ConfigMaps = &configMap
+	} else {
+		operator.ConfigMaps = nil
+	}
 
 	// Secrets
 	if source.Secrets != nil {
@@ -6273,6 +6310,18 @@ func (operator *ManagedClusterOperatorSpec) AssignProperties_From_ManagedCluster
 func (operator *ManagedClusterOperatorSpec) AssignProperties_To_ManagedClusterOperatorSpec(destination *v1api20230201s.ManagedClusterOperatorSpec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMaps
+	if operator.ConfigMaps != nil {
+		var configMap v1api20230201s.ManagedClusterOperatorConfigMaps
+		err := operator.ConfigMaps.AssignProperties_To_ManagedClusterOperatorConfigMaps(&configMap)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		destination.ConfigMaps = &configMap
+	} else {
+		destination.ConfigMaps = nil
+	}
 
 	// Secrets
 	if operator.Secrets != nil {
@@ -10597,6 +10646,78 @@ func (profile *ManagedClusterNATGatewayProfile_STATUS) AssignProperties_To_Manag
 	return nil
 }
 
+// Storage version of v1api20230202preview.ManagedClusterOperatorConfigMaps
+type ManagedClusterOperatorConfigMaps struct {
+	OIDCIssuerProfile *genruntime.ConfigMapDestination `json:"oidcIssuerProfile,omitempty"`
+	PropertyBag       genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_ManagedClusterOperatorConfigMaps populates our ManagedClusterOperatorConfigMaps from the provided source ManagedClusterOperatorConfigMaps
+func (maps *ManagedClusterOperatorConfigMaps) AssignProperties_From_ManagedClusterOperatorConfigMaps(source *v1api20230201s.ManagedClusterOperatorConfigMaps) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// OIDCIssuerProfile
+	if source.OIDCIssuerProfile != nil {
+		oidcIssuerProfile := source.OIDCIssuerProfile.Copy()
+		maps.OIDCIssuerProfile = &oidcIssuerProfile
+	} else {
+		maps.OIDCIssuerProfile = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		maps.PropertyBag = propertyBag
+	} else {
+		maps.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterOperatorConfigMaps interface (if implemented) to customize the conversion
+	var mapsAsAny any = maps
+	if augmentedMaps, ok := mapsAsAny.(augmentConversionForManagedClusterOperatorConfigMaps); ok {
+		err := augmentedMaps.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagedClusterOperatorConfigMaps populates the provided destination ManagedClusterOperatorConfigMaps from our ManagedClusterOperatorConfigMaps
+func (maps *ManagedClusterOperatorConfigMaps) AssignProperties_To_ManagedClusterOperatorConfigMaps(destination *v1api20230201s.ManagedClusterOperatorConfigMaps) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(maps.PropertyBag)
+
+	// OIDCIssuerProfile
+	if maps.OIDCIssuerProfile != nil {
+		oidcIssuerProfile := maps.OIDCIssuerProfile.Copy()
+		destination.OIDCIssuerProfile = &oidcIssuerProfile
+	} else {
+		destination.OIDCIssuerProfile = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterOperatorConfigMaps interface (if implemented) to customize the conversion
+	var mapsAsAny any = maps
+	if augmentedMaps, ok := mapsAsAny.(augmentConversionForManagedClusterOperatorConfigMaps); ok {
+		err := augmentedMaps.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20230202preview.ManagedClusterOperatorSecrets
 type ManagedClusterOperatorSecrets struct {
 	AdminCredentials *genruntime.SecretDestination `json:"adminCredentials,omitempty"`
@@ -12683,6 +12804,11 @@ type augmentConversionForManagedClusterNATGatewayProfile interface {
 type augmentConversionForManagedClusterNATGatewayProfile_STATUS interface {
 	AssignPropertiesFrom(src *v1api20230201s.ManagedClusterNATGatewayProfile_STATUS) error
 	AssignPropertiesTo(dst *v1api20230201s.ManagedClusterNATGatewayProfile_STATUS) error
+}
+
+type augmentConversionForManagedClusterOperatorConfigMaps interface {
+	AssignPropertiesFrom(src *v1api20230201s.ManagedClusterOperatorConfigMaps) error
+	AssignPropertiesTo(dst *v1api20230201s.ManagedClusterOperatorConfigMaps) error
 }
 
 type augmentConversionForManagedClusterOperatorSecrets interface {

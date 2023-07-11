@@ -63,6 +63,9 @@ func Test_AKS_ManagedCluster_20230202Preview_CRUD(t *testing.T) {
 			Identity: &aks.ManagedClusterIdentity{
 				Type: &identityKind,
 			},
+			OidcIssuerProfile: &aks.ManagedClusterOIDCIssuerProfile{
+				Enabled: to.Ptr(true),
+			},
 		},
 	}
 
@@ -89,9 +92,9 @@ func Test_AKS_ManagedCluster_20230202Preview_CRUD(t *testing.T) {
 	// Run sub tests
 	tc.RunSubtests(
 		testcommon.Subtest{
-			Name: "AKS KubeConfig secret CRUD",
+			Name: "AKS KubeConfig secret & configmap CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				AKS_ManagedCluster_Kubeconfig_20230102Preview_Secrets(tc, cluster)
+				AKS_ManagedCluster_Kubeconfig_20230102Preview_OperatorSpec(tc, cluster)
 			},
 		},
 		testcommon.Subtest{
@@ -156,10 +159,13 @@ func AKS_ManagedCluster_AgentPool_20230102Preview_CRUD(tc *testcommon.KubePerTes
 	tc.Expect(agentPool.Status.NodeLabels).To(HaveKey("mylabel"))
 }
 
-func AKS_ManagedCluster_Kubeconfig_20230102Preview_Secrets(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {
+func AKS_ManagedCluster_Kubeconfig_20230102Preview_OperatorSpec(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {
 	old := cluster.DeepCopy()
 	secret := "kubeconfig"
 	cluster.Spec.OperatorSpec = &aks.ManagedClusterOperatorSpec{
+		ConfigMaps: &aks.ManagedClusterOperatorConfigMaps{
+			OIDCIssuerProfile: &genruntime.ConfigMapDestination{Name: "oidc", Key: "issuer"},
+		},
 		Secrets: &aks.ManagedClusterOperatorSecrets{
 			AdminCredentials: &genruntime.SecretDestination{Name: secret, Key: "admin"},
 			UserCredentials:  &genruntime.SecretDestination{Name: secret, Key: "user"},
@@ -168,6 +174,7 @@ func AKS_ManagedCluster_Kubeconfig_20230102Preview_Secrets(tc *testcommon.KubePe
 
 	tc.PatchResourceAndWait(old, cluster)
 	tc.ExpectSecretHasKeys(secret, "admin", "user")
+	tc.ExpectConfigMapHasKeysAndValues("oidc", "issuer", *cluster.Status.OidcIssuerProfile.IssuerURL)
 }
 
 func AKS_ManagedCluster_TrustedAccessRoleBinding_20230102Preview_CRUD(

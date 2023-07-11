@@ -37,13 +37,18 @@ const (
 	TypeKindStatus
 )
 
+const (
+	ConversionTag        = "conversion"
+	NoARMConversionValue = "noarmconversion"
+)
+
 func (builder conversionBuilder) propertyConversionHandler(
 	toProp *astmodel.PropertyDefinition,
 	fromType *astmodel.ObjectType,
 ) []dst.Stmt {
 	for _, conversionHandler := range builder.propertyConversionHandlers {
 		stmts, matched := conversionHandler(toProp, fromType)
-		if matched {
+		if matched || toProp.HasTagValue(ConversionTag, NoARMConversionValue) {
 			return stmts
 		}
 	}

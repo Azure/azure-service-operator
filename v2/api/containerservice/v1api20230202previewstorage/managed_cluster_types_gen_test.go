@@ -3993,6 +3993,7 @@ func ManagedClusterOperatorSpecGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForManagedClusterOperatorSpec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedClusterOperatorSpec(gens map[string]gopter.Gen) {
+	gens["ConfigMaps"] = gen.PtrOf(ManagedClusterOperatorConfigMapsGenerator())
 	gens["Secrets"] = gen.PtrOf(ManagedClusterOperatorSecretsGenerator())
 }
 
@@ -8212,6 +8213,103 @@ func AddIndependentPropertyGeneratorsForManagedClusterNATGatewayProfile_STATUS(g
 func AddRelatedPropertyGeneratorsForManagedClusterNATGatewayProfile_STATUS(gens map[string]gopter.Gen) {
 	gens["EffectiveOutboundIPs"] = gen.SliceOf(ResourceReference_STATUSGenerator())
 	gens["ManagedOutboundIPProfile"] = gen.PtrOf(ManagedClusterManagedOutboundIPProfile_STATUSGenerator())
+}
+
+func Test_ManagedClusterOperatorConfigMaps_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ManagedClusterOperatorConfigMaps to ManagedClusterOperatorConfigMaps via AssignProperties_To_ManagedClusterOperatorConfigMaps & AssignProperties_From_ManagedClusterOperatorConfigMaps returns original",
+		prop.ForAll(RunPropertyAssignmentTestForManagedClusterOperatorConfigMaps, ManagedClusterOperatorConfigMapsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForManagedClusterOperatorConfigMaps tests if a specific instance of ManagedClusterOperatorConfigMaps can be assigned to v1api20230201storage and back losslessly
+func RunPropertyAssignmentTestForManagedClusterOperatorConfigMaps(subject ManagedClusterOperatorConfigMaps) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20230201s.ManagedClusterOperatorConfigMaps
+	err := copied.AssignProperties_To_ManagedClusterOperatorConfigMaps(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ManagedClusterOperatorConfigMaps
+	err = actual.AssignProperties_From_ManagedClusterOperatorConfigMaps(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ManagedClusterOperatorConfigMaps_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedClusterOperatorConfigMaps via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterOperatorConfigMaps, ManagedClusterOperatorConfigMapsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterOperatorConfigMaps runs a test to see if a specific instance of ManagedClusterOperatorConfigMaps round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterOperatorConfigMaps(subject ManagedClusterOperatorConfigMaps) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedClusterOperatorConfigMaps
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedClusterOperatorConfigMaps instances for property testing - lazily instantiated by
+// ManagedClusterOperatorConfigMapsGenerator()
+var managedClusterOperatorConfigMapsGenerator gopter.Gen
+
+// ManagedClusterOperatorConfigMapsGenerator returns a generator of ManagedClusterOperatorConfigMaps instances for property testing.
+func ManagedClusterOperatorConfigMapsGenerator() gopter.Gen {
+	if managedClusterOperatorConfigMapsGenerator != nil {
+		return managedClusterOperatorConfigMapsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	managedClusterOperatorConfigMapsGenerator = gen.Struct(reflect.TypeOf(ManagedClusterOperatorConfigMaps{}), generators)
+
+	return managedClusterOperatorConfigMapsGenerator
 }
 
 func Test_ManagedClusterOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

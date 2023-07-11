@@ -291,7 +291,10 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202pre
 │   │   ├── OidcIssuerProfile: *Object (2 properties)
 │   │   │   ├── Enabled: *bool
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── OperatorSpec: *Object (3 properties)
+│   │   │   ├── ConfigMaps: *Object (2 properties)
+│   │   │   │   ├── OIDCIssuerProfile: *genruntime.ConfigMapDestination
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Secrets: *Object (3 properties)
 │   │   │       ├── AdminCredentials: *genruntime.SecretDestination
@@ -1184,6 +1187,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202pre
 ├── augmentConversionForManagedClusterNATGatewayProfile_STATUS: Interface
 ├── augmentConversionForManagedClusterOIDCIssuerProfile: Interface
 ├── augmentConversionForManagedClusterOIDCIssuerProfile_STATUS: Interface
+├── augmentConversionForManagedClusterOperatorConfigMaps: Interface
 ├── augmentConversionForManagedClusterOperatorSecrets: Interface
 ├── augmentConversionForManagedClusterOperatorSpec: Interface
 ├── augmentConversionForManagedClusterPodIdentity: Interface
