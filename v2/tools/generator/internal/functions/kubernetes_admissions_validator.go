@@ -222,7 +222,7 @@ func (v *ValidatorBuilder) validateDelete(k *ResourceFunction, codeGenerationCon
 //	}
 //	var warnings admission.Warnings
 //	for _, validation := range validations {
-//		warning, err := validation(old)
+//		warning, err := validation()
 //		if warning != nil {
 //		warnings = append(warnings, warning...)
 //		}
