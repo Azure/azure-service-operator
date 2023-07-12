@@ -173,89 +173,101 @@ func (site *Site) SetStatus(status genruntime.ConvertibleStatus) error {
 var _ admission.Validator = &Site{}
 
 // ValidateCreate validates the creation of the resource
-func (site *Site) ValidateCreate() error {
+func (site *Site) ValidateCreate() (admission.Warnings, error) {
 	validations := site.createValidations()
 	var temp any = site
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (site *Site) ValidateDelete() error {
+func (site *Site) ValidateDelete() (admission.Warnings, error) {
 	validations := site.deleteValidations()
 	var temp any = site
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateUpdate validates an update of the resource
-func (site *Site) ValidateUpdate(old runtime.Object) error {
+func (site *Site) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := site.updateValidations()
 	var temp any = site
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation(old)
+		warning, err := validation(old)
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // createValidations validates the creation of the resource
-func (site *Site) createValidations() []func() error {
-	return []func() error{site.validateResourceReferences}
+func (site *Site) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){site.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (site *Site) deleteValidations() []func() error {
+func (site *Site) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (site *Site) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (site *Site) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return site.validateResourceReferences()
 		},
 		site.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
-func (site *Site) validateResourceReferences() error {
+func (site *Site) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&site.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (site *Site) validateWriteOnceProperties(old runtime.Object) error {
+func (site *Site) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*Site)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, site)

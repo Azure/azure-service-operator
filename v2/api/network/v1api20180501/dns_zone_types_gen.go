@@ -173,89 +173,101 @@ func (zone *DnsZone) SetStatus(status genruntime.ConvertibleStatus) error {
 var _ admission.Validator = &DnsZone{}
 
 // ValidateCreate validates the creation of the resource
-func (zone *DnsZone) ValidateCreate() error {
+func (zone *DnsZone) ValidateCreate() (admission.Warnings, error) {
 	validations := zone.createValidations()
 	var temp any = zone
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (zone *DnsZone) ValidateDelete() error {
+func (zone *DnsZone) ValidateDelete() (admission.Warnings, error) {
 	validations := zone.deleteValidations()
 	var temp any = zone
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateUpdate validates an update of the resource
-func (zone *DnsZone) ValidateUpdate(old runtime.Object) error {
+func (zone *DnsZone) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := zone.updateValidations()
 	var temp any = zone
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation(old)
+		warning, err := validation(old)
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // createValidations validates the creation of the resource
-func (zone *DnsZone) createValidations() []func() error {
-	return []func() error{zone.validateResourceReferences}
+func (zone *DnsZone) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){zone.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (zone *DnsZone) deleteValidations() []func() error {
+func (zone *DnsZone) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (zone *DnsZone) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (zone *DnsZone) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return zone.validateResourceReferences()
 		},
 		zone.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
-func (zone *DnsZone) validateResourceReferences() error {
+func (zone *DnsZone) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&zone.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (zone *DnsZone) validateWriteOnceProperties(old runtime.Object) error {
+func (zone *DnsZone) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*DnsZone)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, zone)

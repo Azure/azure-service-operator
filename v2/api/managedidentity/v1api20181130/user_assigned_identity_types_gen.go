@@ -205,86 +205,98 @@ func (identity *UserAssignedIdentity) SetStatus(status genruntime.ConvertibleSta
 var _ admission.Validator = &UserAssignedIdentity{}
 
 // ValidateCreate validates the creation of the resource
-func (identity *UserAssignedIdentity) ValidateCreate() error {
+func (identity *UserAssignedIdentity) ValidateCreate() (admission.Warnings, error) {
 	validations := identity.createValidations()
 	var temp any = identity
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (identity *UserAssignedIdentity) ValidateDelete() error {
+func (identity *UserAssignedIdentity) ValidateDelete() (admission.Warnings, error) {
 	validations := identity.deleteValidations()
 	var temp any = identity
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateUpdate validates an update of the resource
-func (identity *UserAssignedIdentity) ValidateUpdate(old runtime.Object) error {
+func (identity *UserAssignedIdentity) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := identity.updateValidations()
 	var temp any = identity
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation(old)
+		warning, err := validation(old)
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // createValidations validates the creation of the resource
-func (identity *UserAssignedIdentity) createValidations() []func() error {
-	return []func() error{identity.validateResourceReferences, identity.validateConfigMapDestinations}
+func (identity *UserAssignedIdentity) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){identity.validateResourceReferences, identity.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
-func (identity *UserAssignedIdentity) deleteValidations() []func() error {
+func (identity *UserAssignedIdentity) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (identity *UserAssignedIdentity) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (identity *UserAssignedIdentity) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return identity.validateResourceReferences()
 		},
 		identity.validateWriteOnceProperties,
-		func(old runtime.Object) error {
+		func(old runtime.Object) (admission.Warnings, error) {
 			return identity.validateConfigMapDestinations()
 		},
 	}
 }
 
 // validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations's
-func (identity *UserAssignedIdentity) validateConfigMapDestinations() error {
+func (identity *UserAssignedIdentity) validateConfigMapDestinations() (admission.Warnings, error) {
 	if identity.Spec.OperatorSpec == nil {
-		return nil
+		return nil, nil
 	}
 	if identity.Spec.OperatorSpec.ConfigMaps == nil {
-		return nil
+		return nil, nil
 	}
 	toValidate := []*genruntime.ConfigMapDestination{
 		identity.Spec.OperatorSpec.ConfigMaps.ClientId,
@@ -295,19 +307,19 @@ func (identity *UserAssignedIdentity) validateConfigMapDestinations() error {
 }
 
 // validateResourceReferences validates all resource references
-func (identity *UserAssignedIdentity) validateResourceReferences() error {
+func (identity *UserAssignedIdentity) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&identity.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (identity *UserAssignedIdentity) validateWriteOnceProperties(old runtime.Object) error {
+func (identity *UserAssignedIdentity) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*UserAssignedIdentity)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, identity)

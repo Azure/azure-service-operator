@@ -174,89 +174,101 @@ func (snapshot *Snapshot) SetStatus(status genruntime.ConvertibleStatus) error {
 var _ admission.Validator = &Snapshot{}
 
 // ValidateCreate validates the creation of the resource
-func (snapshot *Snapshot) ValidateCreate() error {
+func (snapshot *Snapshot) ValidateCreate() (admission.Warnings, error) {
 	validations := snapshot.createValidations()
 	var temp any = snapshot
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (snapshot *Snapshot) ValidateDelete() error {
+func (snapshot *Snapshot) ValidateDelete() (admission.Warnings, error) {
 	validations := snapshot.deleteValidations()
 	var temp any = snapshot
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateUpdate validates an update of the resource
-func (snapshot *Snapshot) ValidateUpdate(old runtime.Object) error {
+func (snapshot *Snapshot) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := snapshot.updateValidations()
 	var temp any = snapshot
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation(old)
+		warning, err := validation(old)
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // createValidations validates the creation of the resource
-func (snapshot *Snapshot) createValidations() []func() error {
-	return []func() error{snapshot.validateResourceReferences}
+func (snapshot *Snapshot) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){snapshot.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (snapshot *Snapshot) deleteValidations() []func() error {
+func (snapshot *Snapshot) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (snapshot *Snapshot) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (snapshot *Snapshot) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return snapshot.validateResourceReferences()
 		},
 		snapshot.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
-func (snapshot *Snapshot) validateResourceReferences() error {
+func (snapshot *Snapshot) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&snapshot.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (snapshot *Snapshot) validateWriteOnceProperties(old runtime.Object) error {
+func (snapshot *Snapshot) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*Snapshot)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, snapshot)

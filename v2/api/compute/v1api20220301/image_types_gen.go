@@ -173,89 +173,101 @@ func (image *Image) SetStatus(status genruntime.ConvertibleStatus) error {
 var _ admission.Validator = &Image{}
 
 // ValidateCreate validates the creation of the resource
-func (image *Image) ValidateCreate() error {
+func (image *Image) ValidateCreate() (admission.Warnings, error) {
 	validations := image.createValidations()
 	var temp any = image
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (image *Image) ValidateDelete() error {
+func (image *Image) ValidateDelete() (admission.Warnings, error) {
 	validations := image.deleteValidations()
 	var temp any = image
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateUpdate validates an update of the resource
-func (image *Image) ValidateUpdate(old runtime.Object) error {
+func (image *Image) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := image.updateValidations()
 	var temp any = image
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation(old)
+		warning, err := validation(old)
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // createValidations validates the creation of the resource
-func (image *Image) createValidations() []func() error {
-	return []func() error{image.validateResourceReferences}
+func (image *Image) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){image.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (image *Image) deleteValidations() []func() error {
+func (image *Image) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (image *Image) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (image *Image) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return image.validateResourceReferences()
 		},
 		image.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
-func (image *Image) validateResourceReferences() error {
+func (image *Image) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&image.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (image *Image) validateWriteOnceProperties(old runtime.Object) error {
+func (image *Image) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*Image)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, image)

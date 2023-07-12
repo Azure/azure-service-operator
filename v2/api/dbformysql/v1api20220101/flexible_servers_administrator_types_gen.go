@@ -166,102 +166,114 @@ func (administrator *FlexibleServersAdministrator) SetStatus(status genruntime.C
 var _ admission.Validator = &FlexibleServersAdministrator{}
 
 // ValidateCreate validates the creation of the resource
-func (administrator *FlexibleServersAdministrator) ValidateCreate() error {
+func (administrator *FlexibleServersAdministrator) ValidateCreate() (admission.Warnings, error) {
 	validations := administrator.createValidations()
 	var temp any = administrator
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (administrator *FlexibleServersAdministrator) ValidateDelete() error {
+func (administrator *FlexibleServersAdministrator) ValidateDelete() (admission.Warnings, error) {
 	validations := administrator.deleteValidations()
 	var temp any = administrator
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateUpdate validates an update of the resource
-func (administrator *FlexibleServersAdministrator) ValidateUpdate(old runtime.Object) error {
+func (administrator *FlexibleServersAdministrator) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := administrator.updateValidations()
 	var temp any = administrator
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation(old)
+		warning, err := validation(old)
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // createValidations validates the creation of the resource
-func (administrator *FlexibleServersAdministrator) createValidations() []func() error {
-	return []func() error{administrator.validateResourceReferences, administrator.validateOptionalConfigMapReferences}
+func (administrator *FlexibleServersAdministrator) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){administrator.validateResourceReferences, administrator.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (administrator *FlexibleServersAdministrator) deleteValidations() []func() error {
+func (administrator *FlexibleServersAdministrator) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (administrator *FlexibleServersAdministrator) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (administrator *FlexibleServersAdministrator) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return administrator.validateResourceReferences()
 		},
 		administrator.validateWriteOnceProperties,
-		func(old runtime.Object) error {
+		func(old runtime.Object) (admission.Warnings, error) {
 			return administrator.validateOptionalConfigMapReferences()
 		},
 	}
 }
 
 // validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
-func (administrator *FlexibleServersAdministrator) validateOptionalConfigMapReferences() error {
+func (administrator *FlexibleServersAdministrator) validateOptionalConfigMapReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&administrator.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateOptionalConfigMapReferences(refs)
 }
 
 // validateResourceReferences validates all resource references
-func (administrator *FlexibleServersAdministrator) validateResourceReferences() error {
+func (administrator *FlexibleServersAdministrator) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&administrator.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (administrator *FlexibleServersAdministrator) validateWriteOnceProperties(old runtime.Object) error {
+func (administrator *FlexibleServersAdministrator) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*FlexibleServersAdministrator)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, administrator)

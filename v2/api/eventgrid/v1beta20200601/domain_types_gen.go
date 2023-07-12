@@ -174,89 +174,101 @@ func (domain *Domain) SetStatus(status genruntime.ConvertibleStatus) error {
 var _ admission.Validator = &Domain{}
 
 // ValidateCreate validates the creation of the resource
-func (domain *Domain) ValidateCreate() error {
+func (domain *Domain) ValidateCreate() (admission.Warnings, error) {
 	validations := domain.createValidations()
 	var temp any = domain
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (domain *Domain) ValidateDelete() error {
+func (domain *Domain) ValidateDelete() (admission.Warnings, error) {
 	validations := domain.deleteValidations()
 	var temp any = domain
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateUpdate validates an update of the resource
-func (domain *Domain) ValidateUpdate(old runtime.Object) error {
+func (domain *Domain) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := domain.updateValidations()
 	var temp any = domain
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation(old)
+		warning, err := validation(old)
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // createValidations validates the creation of the resource
-func (domain *Domain) createValidations() []func() error {
-	return []func() error{domain.validateResourceReferences}
+func (domain *Domain) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){domain.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (domain *Domain) deleteValidations() []func() error {
+func (domain *Domain) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (domain *Domain) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (domain *Domain) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return domain.validateResourceReferences()
 		},
 		domain.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
-func (domain *Domain) validateResourceReferences() error {
+func (domain *Domain) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&domain.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (domain *Domain) validateWriteOnceProperties(old runtime.Object) error {
+func (domain *Domain) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*Domain)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, domain)

@@ -166,89 +166,101 @@ func (authentication *ServersAzureADOnlyAuthentication) SetStatus(status genrunt
 var _ admission.Validator = &ServersAzureADOnlyAuthentication{}
 
 // ValidateCreate validates the creation of the resource
-func (authentication *ServersAzureADOnlyAuthentication) ValidateCreate() error {
+func (authentication *ServersAzureADOnlyAuthentication) ValidateCreate() (admission.Warnings, error) {
 	validations := authentication.createValidations()
 	var temp any = authentication
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (authentication *ServersAzureADOnlyAuthentication) ValidateDelete() error {
+func (authentication *ServersAzureADOnlyAuthentication) ValidateDelete() (admission.Warnings, error) {
 	validations := authentication.deleteValidations()
 	var temp any = authentication
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateUpdate validates an update of the resource
-func (authentication *ServersAzureADOnlyAuthentication) ValidateUpdate(old runtime.Object) error {
+func (authentication *ServersAzureADOnlyAuthentication) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := authentication.updateValidations()
 	var temp any = authentication
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation(old)
+		warning, err := validation(old)
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // createValidations validates the creation of the resource
-func (authentication *ServersAzureADOnlyAuthentication) createValidations() []func() error {
-	return []func() error{authentication.validateResourceReferences}
+func (authentication *ServersAzureADOnlyAuthentication) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){authentication.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (authentication *ServersAzureADOnlyAuthentication) deleteValidations() []func() error {
+func (authentication *ServersAzureADOnlyAuthentication) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (authentication *ServersAzureADOnlyAuthentication) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (authentication *ServersAzureADOnlyAuthentication) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return authentication.validateResourceReferences()
 		},
 		authentication.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
-func (authentication *ServersAzureADOnlyAuthentication) validateResourceReferences() error {
+func (authentication *ServersAzureADOnlyAuthentication) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&authentication.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (authentication *ServersAzureADOnlyAuthentication) validateWriteOnceProperties(old runtime.Object) error {
+func (authentication *ServersAzureADOnlyAuthentication) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*ServersAzureADOnlyAuthentication)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, authentication)

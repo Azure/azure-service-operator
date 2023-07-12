@@ -173,89 +173,101 @@ func (balancer *LoadBalancer) SetStatus(status genruntime.ConvertibleStatus) err
 var _ admission.Validator = &LoadBalancer{}
 
 // ValidateCreate validates the creation of the resource
-func (balancer *LoadBalancer) ValidateCreate() error {
+func (balancer *LoadBalancer) ValidateCreate() (admission.Warnings, error) {
 	validations := balancer.createValidations()
 	var temp any = balancer
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (balancer *LoadBalancer) ValidateDelete() error {
+func (balancer *LoadBalancer) ValidateDelete() (admission.Warnings, error) {
 	validations := balancer.deleteValidations()
 	var temp any = balancer
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateUpdate validates an update of the resource
-func (balancer *LoadBalancer) ValidateUpdate(old runtime.Object) error {
+func (balancer *LoadBalancer) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := balancer.updateValidations()
 	var temp any = balancer
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation(old)
+		warning, err := validation(old)
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // createValidations validates the creation of the resource
-func (balancer *LoadBalancer) createValidations() []func() error {
-	return []func() error{balancer.validateResourceReferences}
+func (balancer *LoadBalancer) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){balancer.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (balancer *LoadBalancer) deleteValidations() []func() error {
+func (balancer *LoadBalancer) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (balancer *LoadBalancer) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (balancer *LoadBalancer) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return balancer.validateResourceReferences()
 		},
 		balancer.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
-func (balancer *LoadBalancer) validateResourceReferences() error {
+func (balancer *LoadBalancer) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&balancer.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (balancer *LoadBalancer) validateWriteOnceProperties(old runtime.Object) error {
+func (balancer *LoadBalancer) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*LoadBalancer)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, balancer)

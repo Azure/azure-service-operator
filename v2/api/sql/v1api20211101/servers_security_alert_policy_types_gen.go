@@ -166,89 +166,101 @@ func (policy *ServersSecurityAlertPolicy) SetStatus(status genruntime.Convertibl
 var _ admission.Validator = &ServersSecurityAlertPolicy{}
 
 // ValidateCreate validates the creation of the resource
-func (policy *ServersSecurityAlertPolicy) ValidateCreate() error {
+func (policy *ServersSecurityAlertPolicy) ValidateCreate() (admission.Warnings, error) {
 	validations := policy.createValidations()
 	var temp any = policy
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (policy *ServersSecurityAlertPolicy) ValidateDelete() error {
+func (policy *ServersSecurityAlertPolicy) ValidateDelete() (admission.Warnings, error) {
 	validations := policy.deleteValidations()
 	var temp any = policy
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateUpdate validates an update of the resource
-func (policy *ServersSecurityAlertPolicy) ValidateUpdate(old runtime.Object) error {
+func (policy *ServersSecurityAlertPolicy) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := policy.updateValidations()
 	var temp any = policy
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation(old)
+		warning, err := validation(old)
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // createValidations validates the creation of the resource
-func (policy *ServersSecurityAlertPolicy) createValidations() []func() error {
-	return []func() error{policy.validateResourceReferences}
+func (policy *ServersSecurityAlertPolicy) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){policy.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (policy *ServersSecurityAlertPolicy) deleteValidations() []func() error {
+func (policy *ServersSecurityAlertPolicy) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (policy *ServersSecurityAlertPolicy) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (policy *ServersSecurityAlertPolicy) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return policy.validateResourceReferences()
 		},
 		policy.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
-func (policy *ServersSecurityAlertPolicy) validateResourceReferences() error {
+func (policy *ServersSecurityAlertPolicy) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&policy.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (policy *ServersSecurityAlertPolicy) validateWriteOnceProperties(old runtime.Object) error {
+func (policy *ServersSecurityAlertPolicy) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*ServersSecurityAlertPolicy)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, policy)

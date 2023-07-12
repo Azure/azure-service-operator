@@ -173,89 +173,101 @@ func (enterprise *RedisEnterprise) SetStatus(status genruntime.ConvertibleStatus
 var _ admission.Validator = &RedisEnterprise{}
 
 // ValidateCreate validates the creation of the resource
-func (enterprise *RedisEnterprise) ValidateCreate() error {
+func (enterprise *RedisEnterprise) ValidateCreate() (admission.Warnings, error) {
 	validations := enterprise.createValidations()
 	var temp any = enterprise
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (enterprise *RedisEnterprise) ValidateDelete() error {
+func (enterprise *RedisEnterprise) ValidateDelete() (admission.Warnings, error) {
 	validations := enterprise.deleteValidations()
 	var temp any = enterprise
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateUpdate validates an update of the resource
-func (enterprise *RedisEnterprise) ValidateUpdate(old runtime.Object) error {
+func (enterprise *RedisEnterprise) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := enterprise.updateValidations()
 	var temp any = enterprise
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation(old)
+		warning, err := validation(old)
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // createValidations validates the creation of the resource
-func (enterprise *RedisEnterprise) createValidations() []func() error {
-	return []func() error{enterprise.validateResourceReferences}
+func (enterprise *RedisEnterprise) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){enterprise.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (enterprise *RedisEnterprise) deleteValidations() []func() error {
+func (enterprise *RedisEnterprise) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (enterprise *RedisEnterprise) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (enterprise *RedisEnterprise) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return enterprise.validateResourceReferences()
 		},
 		enterprise.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
-func (enterprise *RedisEnterprise) validateResourceReferences() error {
+func (enterprise *RedisEnterprise) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&enterprise.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (enterprise *RedisEnterprise) validateWriteOnceProperties(old runtime.Object) error {
+func (enterprise *RedisEnterprise) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*RedisEnterprise)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, enterprise)

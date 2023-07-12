@@ -166,89 +166,101 @@ func (service *StorageAccountsBlobService) SetStatus(status genruntime.Convertib
 var _ admission.Validator = &StorageAccountsBlobService{}
 
 // ValidateCreate validates the creation of the resource
-func (service *StorageAccountsBlobService) ValidateCreate() error {
+func (service *StorageAccountsBlobService) ValidateCreate() (admission.Warnings, error) {
 	validations := service.createValidations()
 	var temp any = service
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (service *StorageAccountsBlobService) ValidateDelete() error {
+func (service *StorageAccountsBlobService) ValidateDelete() (admission.Warnings, error) {
 	validations := service.deleteValidations()
 	var temp any = service
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateUpdate validates an update of the resource
-func (service *StorageAccountsBlobService) ValidateUpdate(old runtime.Object) error {
+func (service *StorageAccountsBlobService) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := service.updateValidations()
 	var temp any = service
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation(old)
+		warning, err := validation(old)
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // createValidations validates the creation of the resource
-func (service *StorageAccountsBlobService) createValidations() []func() error {
-	return []func() error{service.validateResourceReferences}
+func (service *StorageAccountsBlobService) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){service.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (service *StorageAccountsBlobService) deleteValidations() []func() error {
+func (service *StorageAccountsBlobService) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (service *StorageAccountsBlobService) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (service *StorageAccountsBlobService) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return service.validateResourceReferences()
 		},
 		service.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
-func (service *StorageAccountsBlobService) validateResourceReferences() error {
+func (service *StorageAccountsBlobService) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&service.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (service *StorageAccountsBlobService) validateWriteOnceProperties(old runtime.Object) error {
+func (service *StorageAccountsBlobService) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*StorageAccountsBlobService)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, service)

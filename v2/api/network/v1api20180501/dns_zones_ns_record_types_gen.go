@@ -173,89 +173,101 @@ func (record *DnsZonesNSRecord) SetStatus(status genruntime.ConvertibleStatus) e
 var _ admission.Validator = &DnsZonesNSRecord{}
 
 // ValidateCreate validates the creation of the resource
-func (record *DnsZonesNSRecord) ValidateCreate() error {
+func (record *DnsZonesNSRecord) ValidateCreate() (admission.Warnings, error) {
 	validations := record.createValidations()
 	var temp any = record
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (record *DnsZonesNSRecord) ValidateDelete() error {
+func (record *DnsZonesNSRecord) ValidateDelete() (admission.Warnings, error) {
 	validations := record.deleteValidations()
 	var temp any = record
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateUpdate validates an update of the resource
-func (record *DnsZonesNSRecord) ValidateUpdate(old runtime.Object) error {
+func (record *DnsZonesNSRecord) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := record.updateValidations()
 	var temp any = record
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation(old)
+		warning, err := validation(old)
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // createValidations validates the creation of the resource
-func (record *DnsZonesNSRecord) createValidations() []func() error {
-	return []func() error{record.validateResourceReferences}
+func (record *DnsZonesNSRecord) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){record.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (record *DnsZonesNSRecord) deleteValidations() []func() error {
+func (record *DnsZonesNSRecord) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (record *DnsZonesNSRecord) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (record *DnsZonesNSRecord) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return record.validateResourceReferences()
 		},
 		record.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
-func (record *DnsZonesNSRecord) validateResourceReferences() error {
+func (record *DnsZonesNSRecord) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&record.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (record *DnsZonesNSRecord) validateWriteOnceProperties(old runtime.Object) error {
+func (record *DnsZonesNSRecord) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*DnsZonesNSRecord)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, record)

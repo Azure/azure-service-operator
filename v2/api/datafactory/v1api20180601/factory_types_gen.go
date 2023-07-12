@@ -174,89 +174,101 @@ func (factory *Factory) SetStatus(status genruntime.ConvertibleStatus) error {
 var _ admission.Validator = &Factory{}
 
 // ValidateCreate validates the creation of the resource
-func (factory *Factory) ValidateCreate() error {
+func (factory *Factory) ValidateCreate() (admission.Warnings, error) {
 	validations := factory.createValidations()
 	var temp any = factory
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (factory *Factory) ValidateDelete() error {
+func (factory *Factory) ValidateDelete() (admission.Warnings, error) {
 	validations := factory.deleteValidations()
 	var temp any = factory
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateUpdate validates an update of the resource
-func (factory *Factory) ValidateUpdate(old runtime.Object) error {
+func (factory *Factory) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := factory.updateValidations()
 	var temp any = factory
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation(old)
+		warning, err := validation(old)
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // createValidations validates the creation of the resource
-func (factory *Factory) createValidations() []func() error {
-	return []func() error{factory.validateResourceReferences}
+func (factory *Factory) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){factory.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (factory *Factory) deleteValidations() []func() error {
+func (factory *Factory) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (factory *Factory) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (factory *Factory) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return factory.validateResourceReferences()
 		},
 		factory.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
-func (factory *Factory) validateResourceReferences() error {
+func (factory *Factory) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&factory.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (factory *Factory) validateWriteOnceProperties(old runtime.Object) error {
+func (factory *Factory) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*Factory)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, factory)

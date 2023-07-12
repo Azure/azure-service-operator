@@ -166,89 +166,101 @@ func (setting *ServersAuditingSetting) SetStatus(status genruntime.ConvertibleSt
 var _ admission.Validator = &ServersAuditingSetting{}
 
 // ValidateCreate validates the creation of the resource
-func (setting *ServersAuditingSetting) ValidateCreate() error {
+func (setting *ServersAuditingSetting) ValidateCreate() (admission.Warnings, error) {
 	validations := setting.createValidations()
 	var temp any = setting
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (setting *ServersAuditingSetting) ValidateDelete() error {
+func (setting *ServersAuditingSetting) ValidateDelete() (admission.Warnings, error) {
 	validations := setting.deleteValidations()
 	var temp any = setting
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation()
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // ValidateUpdate validates an update of the resource
-func (setting *ServersAuditingSetting) ValidateUpdate(old runtime.Object) error {
+func (setting *ServersAuditingSetting) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := setting.updateValidations()
 	var temp any = setting
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
 	var errs []error
+	var warnings admission.Warnings
 	for _, validation := range validations {
-		err := validation(old)
+		warning, err := validation(old)
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
 		if err != nil {
 			errs = append(errs, err)
 		}
 	}
-	return kerrors.NewAggregate(errs)
+	return warnings, kerrors.NewAggregate(errs)
 }
 
 // createValidations validates the creation of the resource
-func (setting *ServersAuditingSetting) createValidations() []func() error {
-	return []func() error{setting.validateResourceReferences}
+func (setting *ServersAuditingSetting) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){setting.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (setting *ServersAuditingSetting) deleteValidations() []func() error {
+func (setting *ServersAuditingSetting) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (setting *ServersAuditingSetting) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (setting *ServersAuditingSetting) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return setting.validateResourceReferences()
 		},
 		setting.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
-func (setting *ServersAuditingSetting) validateResourceReferences() error {
+func (setting *ServersAuditingSetting) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&setting.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (setting *ServersAuditingSetting) validateWriteOnceProperties(old runtime.Object) error {
+func (setting *ServersAuditingSetting) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*ServersAuditingSetting)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, setting)
