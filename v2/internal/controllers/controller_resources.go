@@ -9,7 +9,6 @@ import (
 	"context"
 	"fmt"
 	"reflect"
-	"time"
 
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
@@ -25,7 +24,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/handler"
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
-	"sigs.k8s.io/controller-runtime/pkg/source"
 
 	mysqlv1 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1"
 	mysqlbeta "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta1"
@@ -89,7 +87,7 @@ func GetKnownStorageTypes(
 			},
 			Watches: []registration.Watch{
 				{
-					Src:              &source.Kind{Type: &corev1.Secret{}},
+					Type:             &corev1.Secret{},
 					MakeEventHandler: watchSecretsFactory([]string{".spec.localUser.password"}, &mysqlv1.UserList{}),
 				},
 			},
@@ -113,7 +111,7 @@ func GetKnownStorageTypes(
 			},
 			Watches: []registration.Watch{
 				{
-					Src:              &source.Kind{Type: &corev1.Secret{}},
+					Type:             &corev1.Secret{},
 					MakeEventHandler: watchSecretsFactory([]string{".spec.localUser.password"}, &postgresqlv1.UserList{}),
 				},
 			},
@@ -326,7 +324,7 @@ func watchConfigMapsFactory(keys []string, objList client.ObjectList) registrati
 func watchEntity(c client.Client, log logr.Logger, keys []string, objList client.ObjectList, entity client.Object) handler.MapFunc {
 	listType := reflect.TypeOf(objList).Elem()
 
-	return func(o client.Object) []reconcile.Request {
+	return func(ctx context.Context, o client.Object) []reconcile.Request {
 		// Safety check that we're looking at the right kind of entity
 		if reflect.TypeOf(o) != reflect.TypeOf(entity) {
 			log.V(Status).Info(
@@ -337,12 +335,6 @@ func watchEntity(c client.Client, log logr.Logger, keys []string, objList client
 				"expected", fmt.Sprintf("%T", entity))
 			return nil
 		}
-
-		// This should be fast since the list of items it's going through should always be cached
-		// locally with the shared informer.
-		// Unfortunately we don't have a ctx we can use here, see https://github.com/kubernetes-sigs/controller-runtime/issues/1628
-		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-		defer cancel()
 
 		var allMatches []client.Object
 

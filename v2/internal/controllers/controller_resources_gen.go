@@ -209,7 +209,6 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	clientgoscheme "k8s.io/client-go/kubernetes/scheme"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	"sigs.k8s.io/controller-runtime/pkg/source"
 )
 
 // getKnownStorageTypes returns the list of storage types which can be reconciled.
@@ -226,7 +225,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Src:              &source.Kind{Type: &v1.ConfigMap{}},
+				Type:             &v1.ConfigMap{},
 				MakeEventHandler: watchConfigMapsFactory([]string{".spec.principalIdFromConfig"}, &authorization_v1api20200801ps.RoleAssignmentList{}),
 			},
 		},
@@ -253,7 +252,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Src:              &source.Kind{Type: &v1.Secret{}},
+				Type:             &v1.Secret{},
 				MakeEventHandler: watchSecretsFactory([]string{".spec.osProfile.adminPassword"}, &compute_v1api20220301s.VirtualMachineList{}),
 			},
 		},
@@ -268,7 +267,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Src:              &source.Kind{Type: &v1.Secret{}},
+				Type:             &v1.Secret{},
 				MakeEventHandler: watchSecretsFactory([]string{".spec.virtualMachineProfile.osProfile.adminPassword"}, &compute_v1api20220301s.VirtualMachineScaleSetList{}),
 			},
 		},
@@ -295,7 +294,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Src:              &source.Kind{Type: &v1.Secret{}},
+				Type:             &v1.Secret{},
 				MakeEventHandler: watchSecretsFactory([]string{".spec.containers.environmentVariables.secureValue", ".spec.diagnostics.logAnalytics.workspaceKey", ".spec.imageRegistryCredentials.password", ".spec.initContainers.environmentVariables.secureValue"}, &containerinstance_v1api20211001s.ContainerGroupList{}),
 			},
 		},
@@ -311,7 +310,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Src:              &source.Kind{Type: &v1.Secret{}},
+				Type:             &v1.Secret{},
 				MakeEventHandler: watchSecretsFactory([]string{".spec.servicePrincipalProfile.secret"}, &containerservice_v1api20230201s.ManagedClusterList{}),
 			},
 		},
@@ -333,7 +332,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Src:              &source.Kind{Type: &v1.Secret{}},
+				Type:             &v1.Secret{},
 				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.default.administratorLoginPassword"}, &dbformariadb_v1api20180601s.ServerList{}),
 			},
 		},
@@ -348,7 +347,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Src:              &source.Kind{Type: &v1.Secret{}},
+				Type:             &v1.Secret{},
 				MakeEventHandler: watchSecretsFactory([]string{".spec.administratorLoginPassword"}, &dbformysql_v1api20210501s.FlexibleServerList{}),
 			},
 		},
@@ -369,7 +368,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Src:              &source.Kind{Type: &v1.ConfigMap{}},
+				Type:             &v1.ConfigMap{},
 				MakeEventHandler: watchConfigMapsFactory([]string{".spec.sidFromConfig", ".spec.tenantIdFromConfig"}, &dbformysql_v1api20220101s.FlexibleServersAdministratorList{}),
 			},
 		},
@@ -385,7 +384,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Src:              &source.Kind{Type: &v1.Secret{}},
+				Type:             &v1.Secret{},
 				MakeEventHandler: watchSecretsFactory([]string{".spec.administratorLoginPassword"}, &dbforpostgresql_v1api20210601s.FlexibleServerList{}),
 			},
 		},
@@ -419,7 +418,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Src:              &source.Kind{Type: &v1.Secret{}},
+				Type:             &v1.Secret{},
 				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.routing.endpoints.eventHubs.connectionString", ".spec.properties.routing.endpoints.serviceBusQueues.connectionString", ".spec.properties.routing.endpoints.serviceBusTopics.connectionString", ".spec.properties.routing.endpoints.storageContainers.connectionString", ".spec.properties.storageEndpoints.connectionString"}, &devices_v1api20210702s.IotHubList{}),
 			},
 		},
@@ -446,7 +445,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Src:              &source.Kind{Type: &v1.ConfigMap{}},
+				Type:             &v1.ConfigMap{},
 				MakeEventHandler: watchConfigMapsFactory([]string{".spec.principalIdFromConfig"}, &documentdb_v1api20210515s.SqlRoleAssignmentList{}),
 			},
 		},
@@ -463,7 +462,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Src:              &source.Kind{Type: &v1.Secret{}},
+				Type:             &v1.Secret{},
 				MakeEventHandler: watchSecretsFactory([]string{".spec.destination.webHook.endpointUrl"}, &eventgrid_v1api20200601s.EventSubscriptionList{}),
 			},
 		},
@@ -498,7 +497,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Src:              &source.Kind{Type: &v1.ConfigMap{}},
+				Type:             &v1.ConfigMap{},
 				MakeEventHandler: watchConfigMapsFactory([]string{".spec.properties.accessPolicies.applicationIdFromConfig", ".spec.properties.accessPolicies.objectIdFromConfig", ".spec.properties.accessPolicies.tenantIdFromConfig", ".spec.properties.tenantIdFromConfig"}, &keyvault_v1api20210401ps.VaultList{}),
 			},
 		},
@@ -534,7 +533,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Src:              &source.Kind{Type: &v1.Secret{}},
+				Type:             &v1.Secret{},
 				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword", ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserSshPublicKey", ".spec.properties.hdInsight.properties.administratorAccount.password", ".spec.properties.kubernetes.properties.relayConnectionString", ".spec.properties.kubernetes.properties.serviceBusConnectionString", ".spec.properties.virtualMachine.properties.administratorAccount.password"}, &machinelearningservices_v1api20210701s.WorkspacesComputeList{}),
 			},
 		},
@@ -555,7 +554,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Src:              &source.Kind{Type: &v1.ConfigMap{}},
+				Type:             &v1.ConfigMap{},
 				MakeEventHandler: watchConfigMapsFactory([]string{".spec.issuerFromConfig", ".spec.subjectFromConfig"}, &managedidentity_v1api20220131ps.FederatedIdentityCredentialList{}),
 			},
 		},
@@ -602,7 +601,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Src:              &source.Kind{Type: &v1.ConfigMap{}},
+				Type:             &v1.ConfigMap{},
 				MakeEventHandler: watchConfigMapsFactory([]string{".spec.targetDnsServers.ipAddressFromConfig"}, &network_v1api20220701s.DnsForwardingRuleSetsForwardingRuleList{}),
 			},
 		},
@@ -636,7 +635,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Src:              &source.Kind{Type: &v1.Secret{}},
+				Type:             &v1.Secret{},
 				MakeEventHandler: watchSecretsFactory([]string{".spec.administratorLoginPassword"}, &sql_v1api20211101s.ServerList{}),
 			},
 		},
@@ -655,7 +654,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Src:              &source.Kind{Type: &v1.ConfigMap{}},
+				Type:             &v1.ConfigMap{},
 				MakeEventHandler: watchConfigMapsFactory([]string{".spec.sidFromConfig", ".spec.tenantIdFromConfig"}, &sql_v1api20211101s.ServersAdministratorList{}),
 			},
 		},
@@ -671,7 +670,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Src:              &source.Kind{Type: &v1.Secret{}},
+				Type:             &v1.Secret{},
 				MakeEventHandler: watchSecretsFactory([]string{".spec.storageAccountAccessKey"}, &sql_v1api20211101s.ServersAuditingSettingList{}),
 			},
 		},
@@ -690,7 +689,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Src:              &source.Kind{Type: &v1.Secret{}},
+				Type:             &v1.Secret{},
 				MakeEventHandler: watchSecretsFactory([]string{".spec.storageAccountAccessKey"}, &sql_v1api20211101s.ServersDatabasesAuditingSettingList{}),
 			},
 		},
@@ -707,7 +706,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Src:              &source.Kind{Type: &v1.Secret{}},
+				Type:             &v1.Secret{},
 				MakeEventHandler: watchSecretsFactory([]string{".spec.storageAccountAccessKey"}, &sql_v1api20211101s.ServersDatabasesSecurityAlertPolicyList{}),
 			},
 		},
@@ -731,11 +730,11 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Src:              &source.Kind{Type: &v1.Secret{}},
+				Type:             &v1.Secret{},
 				MakeEventHandler: watchSecretsFactory([]string{".spec.storageAccountAccessKey", ".spec.storageContainerSasKey"}, &sql_v1api20211101s.ServersDatabasesVulnerabilityAssessmentList{}),
 			},
 			{
-				Src:              &source.Kind{Type: &v1.ConfigMap{}},
+				Type:             &v1.ConfigMap{},
 				MakeEventHandler: watchConfigMapsFactory([]string{".spec.storageContainerPathFromConfig"}, &sql_v1api20211101s.ServersDatabasesVulnerabilityAssessmentList{}),
 			},
 		},
@@ -755,7 +754,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Src:              &source.Kind{Type: &v1.Secret{}},
+				Type:             &v1.Secret{},
 				MakeEventHandler: watchSecretsFactory([]string{".spec.storageAccountAccessKey"}, &sql_v1api20211101s.ServersSecurityAlertPolicyList{}),
 			},
 		},
@@ -779,11 +778,11 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Src:              &source.Kind{Type: &v1.Secret{}},
+				Type:             &v1.Secret{},
 				MakeEventHandler: watchSecretsFactory([]string{".spec.storageAccountAccessKey", ".spec.storageContainerSasKey"}, &sql_v1api20211101s.ServersVulnerabilityAssessmentList{}),
 			},
 			{
-				Src:              &source.Kind{Type: &v1.ConfigMap{}},
+				Type:             &v1.ConfigMap{},
 				MakeEventHandler: watchConfigMapsFactory([]string{".spec.storageContainerPathFromConfig"}, &sql_v1api20211101s.ServersVulnerabilityAssessmentList{}),
 			},
 		},
@@ -813,11 +812,11 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Src:              &source.Kind{Type: &v1.Secret{}},
+				Type:             &v1.Secret{},
 				MakeEventHandler: watchSecretsFactory([]string{".spec.sqlAdministratorLoginPassword"}, &synapse_v1api20210601s.WorkspaceList{}),
 			},
 			{
-				Src:              &source.Kind{Type: &v1.ConfigMap{}},
+				Type:             &v1.ConfigMap{},
 				MakeEventHandler: watchConfigMapsFactory([]string{".spec.defaultDataLakeStorage.accountUrlFromConfig"}, &synapse_v1api20210601s.WorkspaceList{}),
 			},
 		},
@@ -834,7 +833,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 		Watches: []registration.Watch{
 			{
-				Src:              &source.Kind{Type: &v1.Secret{}},
+				Type:             &v1.Secret{},
 				MakeEventHandler: watchSecretsFactory([]string{".spec.siteConfig.azureStorageAccounts.accessKey"}, &web_v1api20220301s.SiteList{}),
 			},
 		},

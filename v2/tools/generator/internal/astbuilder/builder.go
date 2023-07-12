@@ -255,6 +255,38 @@ func ReturnIfExpr(cond dst.Expr, returns ...dst.Expr) *dst.IfStmt {
 	}
 }
 
+// CheckIfNotNilAndSingleStatement checks if the ident is non-nil, and if it is executes the provided statement.
+//
+//	if <ident> != nil {
+//		<stmt>
+//	}
+func CheckIfNotNilAndSingleStatement(stmt dst.Stmt, ident string) dst.Stmt {
+	return &dst.IfStmt{
+		Cond: NotNil(dst.NewIdent(ident)),
+		Body: &dst.BlockStmt{
+			List: []dst.Stmt{
+				stmt,
+			},
+		},
+	}
+}
+
+// CheckIfNilAndSingleStatement checks if the ident is nil, and if it is not executes the provided statement.
+//
+//	if <ident> == nil {
+//		<stmt>
+//	}
+func CheckIfNilAndSingleStatement(stmt dst.Stmt, ident string) dst.Stmt {
+	return &dst.IfStmt{
+		Cond: AreEqual(dst.NewIdent(ident), Nil()),
+		Body: &dst.BlockStmt{
+			List: []dst.Stmt{
+				stmt,
+			},
+		},
+	}
+}
+
 // FormatError produces a call to fmt.Errorf with the given format string and args
 //
 //	fmt.Errorf(<formatString>, <args>)

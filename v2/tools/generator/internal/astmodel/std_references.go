@@ -43,7 +43,6 @@ var (
 	ControllerRuntimeConversion = MakeExternalPackageReference("sigs.k8s.io/controller-runtime/pkg/conversion")
 	ControllerSchemeReference   = MakeExternalPackageReference("sigs.k8s.io/controller-runtime/pkg/scheme")
 	ControllerRuntimeClient     = MakeExternalPackageReference("sigs.k8s.io/controller-runtime/pkg/client")
-	ControllerRuntimeSource     = MakeExternalPackageReference("sigs.k8s.io/controller-runtime/pkg/source")
 	GitHubErrorsReference       = MakeExternalPackageReference("github.com/pkg/errors")
 
 	// References to libraries used for testing
@@ -110,12 +109,11 @@ var (
 	ObjectMetaType       = MakeTypeName(MetaV1Reference, "ObjectMeta")
 
 	// Type names - Controller Runtime
-	ConvertibleInterface            = MakeTypeName(ControllerRuntimeConversion, "Convertible")
-	HubInterface                    = MakeTypeName(ControllerRuntimeConversion, "Hub")
-	ControllerRuntimeObjectType     = MakeTypeName(ControllerRuntimeClient, "Object")
-	ControllerRuntimeSourceKindType = MakeTypeName(ControllerRuntimeSource, "Kind")
-	DefaulterInterfaceName          = MakeTypeName(ControllerRuntimeAdmission, "Defaulter")
-	ValidatorInterfaceName          = MakeTypeName(ControllerRuntimeAdmission, "Validator")
+	ConvertibleInterface        = MakeTypeName(ControllerRuntimeConversion, "Convertible")
+	HubInterface                = MakeTypeName(ControllerRuntimeConversion, "Hub")
+	ControllerRuntimeObjectType = MakeTypeName(ControllerRuntimeClient, "Object")
+	DefaulterInterfaceName      = MakeTypeName(ControllerRuntimeAdmission, "Defaulter")
+	ValidatorInterfaceName      = MakeTypeName(ControllerRuntimeAdmission, "Validator")
 
 	// Type names - Core types
 	SecretType    = MakeTypeName(CoreV1Reference, "Secret")

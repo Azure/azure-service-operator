@@ -140,7 +140,6 @@ func (r *ResourceRegistrationFile) generateImports() *astmodel.PackageImportSet 
 	requiredImports.AddImport(astmodel.NewPackageImport(astmodel.ClientGoSchemeReference).WithName("clientgoscheme"))
 	requiredImports.AddImport(astmodel.NewPackageImport(astmodel.APIMachineryRuntimeReference))
 	requiredImports.AddImport(astmodel.NewPackageImport(astmodel.ControllerRuntimeClient))
-	requiredImports.AddImport(astmodel.NewPackageImport(astmodel.ControllerRuntimeSource))
 	requiredImports.AddImport(astmodel.NewPackageImport(astmodel.GenRuntimeRegistrationReference))
 	requiredImports.AddImport(astmodel.NewPackageImport(astmodel.CoreV1Reference))
 
@@ -250,7 +249,7 @@ func createGetKnownTypesFunc(codeGenerationContext *astmodel.CodeGenerationConte
 //			},
 //			Watches: []registration.Watch{
 //				{
-//					Src: <source> (usually corev1.Secret{}),
+//					Type: &corev1.Secret{},
 //				},
 //			},
 //		})
@@ -304,7 +303,7 @@ func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(
 		// Register additional watches (if needed):
 		// Watches: []registration.Watch{
 		//		registration.Watch{
-		//			Src: <event source>,
+		//			Type: <field type>,
 		//			MakeEventHandler: <func>,
 		//		}
 		//	}
@@ -505,7 +504,7 @@ func (r *ResourceRegistrationFile) makeWatchesExpr(typeName astmodel.TypeName, c
 // makeSimpleWatchesExpr generates code for a Watches expression:
 //
 //	{
-//		Src:              &source.Kind{Type: &<fieldType>{}},
+//		Type:              &&<fieldType>{},
 //		MakeEventHandler: <watchHelperFuncName>([]string{<typeNameKeys[typeName]>}, &<typeName>{}),
 //	}
 func (r *ResourceRegistrationFile) makeSimpleWatchesExpr(
@@ -526,16 +525,10 @@ func (r *ResourceRegistrationFile) makeSimpleWatchesExpr(
 	newWatchBuilder := astbuilder.NewCompositeLiteralBuilder(astmodel.WatchRegistrationType.AsType(codeGenerationContext))
 	sort.Strings(keys)
 
-	builder := astbuilder.NewCompositeLiteralBuilder(
-		astmodel.ControllerRuntimeSourceKindType.AsType(codeGenerationContext)).WithoutNewLines()
-	builder.AddField(
-		"Type",
-		astbuilder.AddrOf(
-			&dst.CompositeLit{
-				Type: fieldType.AsType(codeGenerationContext),
-			}))
-	source := builder.Build()
-	newWatchBuilder.AddField("Src", astbuilder.AddrOf(source))
+	objectType := astbuilder.AddrOf(&dst.CompositeLit{
+		Type: fieldType.AsType(codeGenerationContext),
+	})
+	newWatchBuilder.AddField("Type", objectType)
 
 	keyParams := make([]dst.Expr, 0, len(keys))
 	for _, key := range keys {

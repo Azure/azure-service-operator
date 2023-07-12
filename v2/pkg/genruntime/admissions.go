@@ -9,17 +9,18 @@ import (
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // Validator is similar to controller-runtime/pkg/webhook/admission Validator. Implementing this interface
 // allows you to hook into the code generated validations and add custom handcrafted validations.
 type Validator interface {
 	// CreateValidations returns validation functions that should be run on create.
-	CreateValidations() []func() error
+	CreateValidations() []func() (admission.Warnings, error)
 	// UpdateValidations returns validation functions that should be run on update.
-	UpdateValidations() []func(old runtime.Object) error
+	UpdateValidations() []func(old runtime.Object) (admission.Warnings, error)
 	// DeleteValidations returns validation functions that should be run on delete.
-	DeleteValidations() []func() error
+	DeleteValidations() []func() (admission.Warnings, error)
 }
 
 // Defaulter is similar to controller-runtime/pkg/webhook/admission Defaulter. Implementing this interface
@@ -30,11 +31,11 @@ type Defaulter interface {
 }
 
 // ValidateWriteOnceProperties function validates the update on WriteOnce properties.
-func ValidateWriteOnceProperties(oldObj ARMMetaObject, newObj ARMMetaObject) error {
+func ValidateWriteOnceProperties(oldObj ARMMetaObject, newObj ARMMetaObject) (admission.Warnings, error) {
 	var errs []error
 
 	if !IsResourceCreatedSuccessfully(newObj) {
-		return nil
+		return nil, nil
 	}
 
 	if oldObj.AzureName() != newObj.AzureName() {
@@ -55,7 +56,7 @@ func ValidateWriteOnceProperties(oldObj ARMMetaObject, newObj ARMMetaObject) err
 		errs = append(errs, errors.Errorf("removing 'Owner' is not allowed for '%s : %s", oldObj.GetObjectKind().GroupVersionKind(), oldObj.GetName()))
 	}
 
-	return kerrors.NewAggregate(errs)
+	return nil, kerrors.NewAggregate(errs)
 }
 
 func IsResourceCreatedSuccessfully(obj ARMMetaObject) bool {

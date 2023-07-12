@@ -182,6 +182,9 @@ func validateSecretDestinations(k *functions.ResourceFunction, codeGenerationCon
 		ReceiverType:  astbuilder.PointerTo(receiverType),
 		Returns: []*dst.Field{
 			{
+				Type: astbuilder.QualifiedTypeName(astmodel.ControllerRuntimeAdmission.PackageName(), "Warnings"),
+			},
+			{
 				Type: dst.NewIdent("error"),
 			},
 		},
@@ -216,6 +219,9 @@ func validateConfigMapDestinations(k *functions.ResourceFunction, codeGeneration
 		ReceiverIdent: receiverIdent,
 		ReceiverType:  astbuilder.PointerTo(receiverType),
 		Returns: []*dst.Field{
+			{
+				Type: astbuilder.QualifiedTypeName(astmodel.ControllerRuntimeAdmission.PackageName(), "Warnings"),
+			},
 			{
 				Type: dst.NewIdent("error"),
 			},
@@ -267,16 +273,16 @@ func validateOperatorSpecSliceBody(
 
 	specSelector := astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec")
 	// if <receiver>.Spec.OperatorSpec == nil {
-	//     return nil
+	//     return nil, nil
 	// }
 	operatorSpecSelector := astbuilder.Selector(specSelector, astmodel.OperatorSpecProperty)
-	body = append(body, astbuilder.ReturnIfNil(operatorSpecSelector, astbuilder.Nil()))
+	body = append(body, astbuilder.ReturnIfNil(operatorSpecSelector, astbuilder.Nil(), astbuilder.Nil()))
 
 	// if <receiver>.Spec.OperatorSpec.<operatorSpecProperty> == nil {
-	//     return nil
+	//     return nil, nil
 	// }
 	specPropertySelector := astbuilder.Selector(operatorSpecSelector, operatorSpecProperty)
-	body = append(body, astbuilder.ReturnIfNil(specPropertySelector, astbuilder.Nil()))
+	body = append(body, astbuilder.ReturnIfNil(specPropertySelector, astbuilder.Nil(), astbuilder.Nil()))
 
 	// secrets := []<validateType>{
 	//     account.Spec.OperatorSpec.Secrets.PrimaryReadonlyMasterKey,

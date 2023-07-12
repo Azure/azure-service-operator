@@ -154,6 +154,9 @@ func (v *ValidatorBuilder) validateCreate(k *ResourceFunction, codeGenerationCon
 		ReceiverType:  astbuilder.PointerTo(receiverType),
 		Returns: []*dst.Field{
 			{
+				Type: astbuilder.QualifiedTypeName(astmodel.ControllerRuntimeAdmission.PackageName(), "Warnings"),
+			},
+			{
 				Type: dst.NewIdent("error"),
 			},
 		},
@@ -195,6 +198,9 @@ func (v *ValidatorBuilder) validateDelete(k *ResourceFunction, codeGenerationCon
 		ReceiverType:  astbuilder.PointerTo(receiverType),
 		Returns: []*dst.Field{
 			{
+				Type: astbuilder.QualifiedTypeName(astmodel.ControllerRuntimeAdmission.PackageName(), "Warnings"),
+			},
+			{
 				Type: dst.NewIdent("error"),
 			},
 		},
@@ -214,9 +220,12 @@ func (v *ValidatorBuilder) validateDelete(k *ResourceFunction, codeGenerationCon
 //	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 //		validations = append(validations, runtimeValidator.CreateValidations()...)
 //	}
-//	var errs []error
+//	var warnings admission.Warnings
 //	for _, validation := range validations {
-//		err := validation()
+//		warning, err := validation(old)
+//		if warning != nil {
+//		warnings = append(warnings, warning...)
+//		}
 //		if err != nil {
 //			errs = append(errs, err)
 //		}
@@ -235,6 +244,7 @@ func (v *ValidatorBuilder) validateBody(codeGenerationContext *astmodel.CodeGene
 	tempVarIdent := "temp"
 	runtimeValidatorIdent := "runtimeValidator"
 	errsIdent := "errs"
+	warningsIdent := "warnings"
 
 	var args []dst.Expr
 	if funcParamIdent != "" {
@@ -250,7 +260,8 @@ func (v *ValidatorBuilder) validateBody(codeGenerationContext *astmodel.CodeGene
 		Tok:   token.DEFINE,
 		Body: &dst.BlockStmt{
 			List: []dst.Stmt{
-				astbuilder.ShortDeclaration("err", astbuilder.CallFunc(validationIdent, args...)),
+				astbuilder.SimpleAssignmentWithErr(dst.NewIdent("warning"), token.DEFINE, astbuilder.CallFunc(validationIdent, args...)),
+				astbuilder.CheckIfNotNilAndSingleStatement(astbuilder.AppendSliceToSlice(dst.NewIdent(warningsIdent), dst.NewIdent("warning")), "warning"),
 				astbuilder.CheckErrorAndSingleStatement(astbuilder.AppendItemToSlice(dst.NewIdent(errsIdent), dst.NewIdent("err"))),
 			},
 		},
@@ -274,8 +285,9 @@ func (v *ValidatorBuilder) validateBody(codeGenerationContext *astmodel.CodeGene
 			// Not using astbuilder.AppendList here as we want to tack on a "..." at the end
 			astbuilder.SimpleAssignment(dst.NewIdent(validationsIdent), appendFuncCall)),
 		astbuilder.LocalVariableDeclaration(errsIdent, &dst.ArrayType{Elt: dst.NewIdent("error")}, ""),
+		astbuilder.LocalVariableDeclaration(warningsIdent, astbuilder.QualifiedTypeName(astmodel.ControllerRuntimeAdmission.PackageName(), "Warnings"), ""),
 		validationLoop,
-		astbuilder.Returns(astbuilder.CallQualifiedFunc(kErrors, "NewAggregate", dst.NewIdent(errsIdent))),
+		astbuilder.Returns(dst.NewIdent(warningsIdent), astbuilder.CallQualifiedFunc(kErrors, "NewAggregate", dst.NewIdent(errsIdent))),
 	}
 
 	return body
@@ -328,8 +340,8 @@ func (v *ValidatorBuilder) makeLocalValidationFuncDetails(kind ValidationKind, c
 //
 // or in the case of update functions (that may not need the old parameter):
 //
-//	return []func(old runtime.Object) error{
-//		func(old runtime.Object) error {
+//	return []func(old runtime.Object) (admission.Warnings, error) {
+//		func(old runtime.Object) (admission.Warnings, error) {
 //			return <receiver>.<validationFunc1>
 //		},
 //		<receiver>.<validationFunc2>,
@@ -423,6 +435,9 @@ func getValidationFuncType(kind ValidationKind, codeGenerationContext *astmodel.
 			Results: &dst.FieldList{
 				List: []*dst.Field{
 					{
+						Type: astbuilder.QualifiedTypeName(astmodel.ControllerRuntimeAdmission.PackageName(), "Warnings"),
+					},
+					{
 						Type: dst.NewIdent("error"),
 					},
 				},
@@ -433,6 +448,9 @@ func getValidationFuncType(kind ValidationKind, codeGenerationContext *astmodel.
 	return &dst.FuncType{
 		Results: &dst.FieldList{
 			List: []*dst.Field{
+				{
+					Type: astbuilder.QualifiedTypeName(astmodel.ControllerRuntimeAdmission.PackageName(), "Warnings"),
+				},
 				{
 					Type: dst.NewIdent("error"),
 				},
