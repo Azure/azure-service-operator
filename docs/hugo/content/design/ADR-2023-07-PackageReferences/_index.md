@@ -141,5 +141,7 @@ TBC
 
 ## References
 
-TBC
+* [#1588](https://github.com/Azure/azure-service-operator/issues/1588) - Improve file layout for generated types
+
+* [#3116](https://github.com/Azure/azure-service-operator/issues/3116) - Refactor ARM types to have only a single copy shared for both Spec/StatusTBC
 
