@@ -50,16 +50,10 @@ func validateResourceReferences(k *ResourceFunction, codeGenerationContext *astm
 		ReceiverIdent: receiverIdent,
 		ReceiverType:  astbuilder.PointerTo(receiverType),
 		Body:          validateResourceReferencesBody(codeGenerationContext, receiverIdent),
-		Returns: []*dst.Field{
-			{
-				Type: astbuilder.QualifiedTypeName(astmodel.ControllerRuntimeAdmission.PackageName(), "Warnings"),
-			},
-			{
-				Type: dst.NewIdent("error"),
-			},
-		},
 	}
 
+	fn.AddReturn(astbuilder.QualifiedTypeName(astmodel.ControllerRuntimeAdmission.PackageName(), "Warnings"))
+	fn.AddReturn(dst.NewIdent("error"))
 	fn.AddComments("validates all resource references")
 	return fn.DefineFunc()
 }
@@ -109,17 +103,11 @@ func validateWriteOncePropertiesFunction(resourceFn *ResourceFunction, codeGener
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
 		ReceiverType:  astbuilder.PointerTo(receiverType),
-		Returns: []*dst.Field{
-			{
-				Type: astbuilder.QualifiedTypeName(astmodel.ControllerRuntimeAdmission.PackageName(), "Warnings"),
-			},
-			{
-				Type: dst.NewIdent("error"),
-			},
-		},
-		Body: validateWriteOncePropertiesFunctionBody(receiver, codeGenerationContext, receiverIdent),
+		Body:          validateWriteOncePropertiesFunctionBody(receiver, codeGenerationContext, receiverIdent),
 	}
 
+	fn.AddReturn(astbuilder.QualifiedTypeName(astmodel.ControllerRuntimeAdmission.PackageName(), "Warnings"))
+	fn.AddReturn(dst.NewIdent("error"))
 	fn.AddParameter("old", astbuilder.QualifiedTypeName(runtimePackage, "Object"))
 	fn.AddComments("validates all WriteOnce properties")
 
@@ -165,17 +153,11 @@ func validateOptionalConfigMapReferences(k *ResourceFunction, codeGenerationCont
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
 		ReceiverType:  astbuilder.PointerTo(receiverType),
-		Returns: []*dst.Field{
-			{
-				Type: astbuilder.QualifiedTypeName(astmodel.ControllerRuntimeAdmission.PackageName(), "Warnings"),
-			},
-			{
-				Type: dst.NewIdent("error"),
-			},
-		},
-		Body: validateOptionalConfigMapReferencesBody(codeGenerationContext, receiverIdent),
+		Body:          validateOptionalConfigMapReferencesBody(codeGenerationContext, receiverIdent),
 	}
 
+	fn.AddReturn(astbuilder.QualifiedTypeName(astmodel.ControllerRuntimeAdmission.PackageName(), "Warnings"))
+	fn.AddReturn(dst.NewIdent("error"))
 	fn.AddComments("validates all optional configmap reference pairs to ensure that at most 1 is set")
 	return fn.DefineFunc()
 }

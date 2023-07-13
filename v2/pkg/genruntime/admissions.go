@@ -59,6 +59,51 @@ func ValidateWriteOnceProperties(oldObj ARMMetaObject, newObj ARMMetaObject) (ad
 	return nil, kerrors.NewAggregate(errs)
 }
 
+func ValidateCreate(validations []func() (admission.Warnings, error)) (admission.Warnings, error) {
+	var errs []error
+	var warnings admission.Warnings
+	for _, validation := range validations {
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
+		if err != nil {
+			errs = append(errs, err)
+		}
+	}
+	return warnings, kerrors.NewAggregate(errs)
+}
+
+func ValidateDelete(validations []func() (admission.Warnings, error)) (admission.Warnings, error) {
+	var errs []error
+	var warnings admission.Warnings
+	for _, validation := range validations {
+		warning, err := validation()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
+		if err != nil {
+			errs = append(errs, err)
+		}
+	}
+	return warnings, kerrors.NewAggregate(errs)
+}
+
+func ValidateUpdate(old runtime.Object, validations []func(old runtime.Object) (admission.Warnings, error)) (admission.Warnings, error) {
+	var errs []error
+	var warnings admission.Warnings
+	for _, validation := range validations {
+		warning, err := validation(old)
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
+		if err != nil {
+			errs = append(errs, err)
+		}
+	}
+	return warnings, kerrors.NewAggregate(errs)
+}
+
 func IsResourceCreatedSuccessfully(obj ARMMetaObject) bool {
 	return GetResourceIDOrDefault(obj) != ""
 }

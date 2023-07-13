@@ -255,35 +255,27 @@ func ReturnIfExpr(cond dst.Expr, returns ...dst.Expr) *dst.IfStmt {
 	}
 }
 
-// CheckIfNotNilAndSingleStatement checks if the ident is non-nil, and if it is executes the provided statement.
+// CheckIfNotNilAndAddStatements checks if the ident is non-nil, and if it is executes the provided statements.
 //
 //	if <ident> != nil {
 //		<stmt>
 //	}
-func CheckIfNotNilAndSingleStatement(stmt dst.Stmt, ident string) dst.Stmt {
+func CheckIfNotNilAndAddStatements(ident string, stmts ...dst.Stmt) dst.Stmt {
 	return &dst.IfStmt{
 		Cond: NotNil(dst.NewIdent(ident)),
-		Body: &dst.BlockStmt{
-			List: []dst.Stmt{
-				stmt,
-			},
-		},
+		Body: StatementBlock(stmts...),
 	}
 }
 
-// CheckIfNilAndSingleStatement checks if the ident is nil, and if it is not executes the provided statement.
+// CheckIfNilAndAddStatements checks if the ident is nil, and if it is not executes the provided statements.
 //
 //	if <ident> == nil {
 //		<stmt>
 //	}
-func CheckIfNilAndSingleStatement(stmt dst.Stmt, ident string) dst.Stmt {
+func CheckIfNilAndAddStatements(ident string, stmts ...dst.Stmt) dst.Stmt {
 	return &dst.IfStmt{
 		Cond: AreEqual(dst.NewIdent(ident), Nil()),
-		Body: &dst.BlockStmt{
-			List: []dst.Stmt{
-				stmt,
-			},
-		},
+		Body: StatementBlock(stmts...),
 	}
 }
 
