@@ -125,7 +125,7 @@ func docCommentWrap(lines []string, width int) []string {
 func WordWrap(text string, width int) []string {
 	var result []string
 
-	if width == 0 {
+	if width == 0 && text == "" {
 		return []string{}
 	}
 

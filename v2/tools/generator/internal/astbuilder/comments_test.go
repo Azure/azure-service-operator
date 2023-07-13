@@ -72,7 +72,7 @@ func TestWordWrap(t *testing.T) {
 		{"this is a simple line of text", 20, []string{"this is a simple ", "line of text"}},
 		{"this is a simple line of text", 21, []string{"this is a simple line ", "of text"}},
 		{"", 0, []string{}},
-		{"this is a sample text", 0, []string{}},
+		{"this is a sample text", 0, []string{"this ", "is ", "a ", "sample ", "text"}},
 	}
 
 	for _, c := range cases {
