@@ -14,7 +14,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -181,18 +180,7 @@ func (server *FlexibleServer) ValidateCreate() (admission.Warnings, error) {
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
-	var errs []error
-	var warnings admission.Warnings
-	for _, validation := range validations {
-		warning, err := validation()
-		if warning != nil {
-			warnings = append(warnings, warning...)
-		}
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return warnings, kerrors.NewAggregate(errs)
+	return genruntime.ValidateCreate(validations)
 }
 
 // ValidateDelete validates the deletion of the resource
@@ -202,18 +190,7 @@ func (server *FlexibleServer) ValidateDelete() (admission.Warnings, error) {
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
-	var errs []error
-	var warnings admission.Warnings
-	for _, validation := range validations {
-		warning, err := validation()
-		if warning != nil {
-			warnings = append(warnings, warning...)
-		}
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return warnings, kerrors.NewAggregate(errs)
+	return genruntime.ValidateDelete(validations)
 }
 
 // ValidateUpdate validates an update of the resource
@@ -223,18 +200,7 @@ func (server *FlexibleServer) ValidateUpdate(old runtime.Object) (admission.Warn
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
-	var errs []error
-	var warnings admission.Warnings
-	for _, validation := range validations {
-		warning, err := validation(old)
-		if warning != nil {
-			warnings = append(warnings, warning...)
-		}
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return warnings, kerrors.NewAggregate(errs)
+	return genruntime.ValidateUpdate(old, validations)
 }
 
 // createValidations validates the creation of the resource
