@@ -155,6 +155,12 @@ func getGeneratedStorageTypes(
 				Func: indexOwner,
 			})
 		}
+		if _, ok := t.Obj.(*networkstorage.NetworkSecurityGroupsSecurityRule); ok {
+			t.Indexes = append(t.Indexes, registration.Index{
+				Key:  ".metadata.ownerReferences[0]",
+				Func: indexOwner,
+			})
+		}
 	}
 
 	err := resourceResolver.IndexStorageTypes(mgr.GetScheme(), knownStorageTypes)

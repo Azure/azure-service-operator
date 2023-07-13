@@ -7,8 +7,8 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of NetworkSecurityGroups_SecurityRule_Spec. Use v1api20201101.NetworkSecurityGroups_SecurityRule_Spec instead
 type NetworkSecurityGroups_SecurityRule_Spec_ARM struct {
-	Name       string                            `json:"name,omitempty"`
-	Properties *SecurityRulePropertiesFormat_ARM `json:"properties,omitempty"`
+	Name       string                                                                                   `json:"name,omitempty"`
+	Properties *SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &NetworkSecurityGroups_SecurityRule_Spec_ARM{}
@@ -28,8 +28,8 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec_ARM) GetType() string {
 	return "Microsoft.Network/networkSecurityGroups/securityRules"
 }
 
-// Deprecated version of SecurityRulePropertiesFormat. Use v1api20201101.SecurityRulePropertiesFormat instead
-type SecurityRulePropertiesFormat_ARM struct {
+// Deprecated version of SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded. Use v1api20201101.SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded instead
+type SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM struct {
 	Access                               *SecurityRuleAccess                                                                       `json:"access,omitempty"`
 	Description                          *string                                                                                   `json:"description,omitempty"`
 	DestinationAddressPrefix             *string                                                                                   `json:"destinationAddressPrefix,omitempty"`

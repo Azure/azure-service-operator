@@ -40,7 +40,7 @@ func Test_FuzzySetSubnets(t *testing.T) {
 		},
 	}
 
-	err := fuzzySetSubnets(vnet, []genruntime.ARMResourceSpec{subnet})
+	err := fuzzySetResources(vnet, []genruntime.ARMResourceSpec{subnet}, "Subnets")
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(vnet.Location).To(Equal(to.Ptr("westus")))
 	g.Expect(vnet.Properties).ToNot(BeNil())
@@ -66,7 +66,7 @@ func Test_FuzzySetSubnet(t *testing.T) {
 		arbitraries.ForAll(
 			func(subnet *network.VirtualNetworks_Subnet_Spec_ARM) (bool, error) {
 				val := reflect.New(embeddedType)
-				err := fuzzySetSubnet(subnet, val)
+				err := fuzzySetResource(subnet, val)
 
 				// This ensures that the self-check that fuzzySetSubnet does did not fail
 				return err == nil, err
