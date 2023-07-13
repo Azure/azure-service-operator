@@ -66,54 +66,38 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"westus2","name":"asotest-publicip-ssmcsj","properties":{"publicIPAllocationMethod":"Static"},"sku":{"name":"Standard"}}'
+    body: ""
     form: {}
     headers:
       Accept:
       - application/json
-      Content-Length:
-      - "132"
-      Content-Type:
-      - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-ssmcsj?api-version=2020-11-01
-    method: PUT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/virtualNetworks/asotest-vn-kcnvju?api-version=2020-11-01
+    method: GET
   response:
-    body: "{\r\n  \"name\": \"asotest-publicip-ssmcsj\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-ssmcsj\",\r\n
-      \ \"etag\": \"W/\\\"ca0656a5-fb43-4712-9bd0-d9c3beea5243\\\"\",\r\n  \"location\":
-      \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n
-      \   \"resourceGuid\": \"191387b9-9377-425c-a45f-489d2ccefa3f\",\r\n    \"publicIPAddressVersion\":
-      \"IPv4\",\r\n    \"publicIPAllocationMethod\": \"Static\",\r\n    \"idleTimeoutInMinutes\":
-      4,\r\n    \"ipTags\": []\r\n  },\r\n  \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n
-      \ \"sku\": {\r\n    \"name\": \"Standard\",\r\n    \"tier\": \"Regional\"\r\n
-      \ }\r\n}"
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/virtualNetworks/asotest-vn-kcnvju''
+      under resource group ''asotest-rg-uueexg'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
     headers:
-      Azure-Asyncnotification:
-      - Enabled
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/4658c1a0-8c06-4f92-ba86-6577eaaaabc5?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "664"
+      - "240"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Pragma:
       - no-cache
-      Retry-After:
-      - "1"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
-    status: 201 Created
-    code: 201
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
     duration: ""
 - request:
     body: '{"location":"westus2","name":"asotest-vn-kcnvju","properties":{"addressSpace":{"addressPrefixes":["10.0.0.0/8"]}}}'
@@ -131,9 +115,9 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-vn-kcnvju\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/virtualNetworks/asotest-vn-kcnvju\",\r\n
-      \ \"etag\": \"W/\\\"ef645f73-d721-4a07-8cda-fe220ade8c12\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"0473f72f-908d-4f0c-9bac-37728faabf34\\\"\",\r\n  \"type\":
       \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"e315d028-faab-49ef-9039-1846462d43e6\",\r\n
+      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"d64ee3f3-4af8-4ecd-a963-b132af04f7a2\",\r\n
       \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/8\"\r\n
       \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
       [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
@@ -141,7 +125,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/a51789ed-8b69-4192-9697-dce8fde19ab4?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/d7a85a1d-81ee-4c94-91b1-e89b70d2866c?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -165,12 +149,62 @@ interactions:
     code: 201
     duration: ""
 - request:
+    body: '{"location":"westus2","name":"asotest-publicip-ssmcsj","properties":{"publicIPAllocationMethod":"Static"},"sku":{"name":"Standard"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "132"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-ssmcsj?api-version=2020-11-01
+    method: PUT
+  response:
+    body: "{\r\n  \"name\": \"asotest-publicip-ssmcsj\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-ssmcsj\",\r\n
+      \ \"etag\": \"W/\\\"1a020e33-a52b-409e-a435-5a2fabbdf9b6\\\"\",\r\n  \"location\":
+      \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n
+      \   \"resourceGuid\": \"c509ad51-852e-40a3-99bf-52a92169559e\",\r\n    \"publicIPAddressVersion\":
+      \"IPv4\",\r\n    \"publicIPAllocationMethod\": \"Static\",\r\n    \"idleTimeoutInMinutes\":
+      4,\r\n    \"ipTags\": []\r\n  },\r\n  \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n
+      \ \"sku\": {\r\n    \"name\": \"Standard\",\r\n    \"tier\": \"Regional\"\r\n
+      \ }\r\n}"
+    headers:
+      Azure-Asyncnotification:
+      - Enabled
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/c777b112-a2d1-4d60-9d5a-c320e752f779?api-version=2020-11-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "664"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "1"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
     body: ""
     form: {}
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/a51789ed-8b69-4192-9697-dce8fde19ab4?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/d7a85a1d-81ee-4c94-91b1-e89b70d2866c?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -201,7 +235,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/4658c1a0-8c06-4f92-ba86-6577eaaaabc5?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/c777b112-a2d1-4d60-9d5a-c320e752f779?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -231,14 +265,14 @@ interactions:
     form: {}
     headers:
       Test-Request-Attempt:
-      - "0"
+      - "1"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/virtualNetworks/asotest-vn-kcnvju?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-vn-kcnvju\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/virtualNetworks/asotest-vn-kcnvju\",\r\n
-      \ \"etag\": \"W/\\\"0e3edc28-fa36-446e-b3ab-79fc5571feff\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"b2b5b92b-272b-46bd-b43b-1fdaf8d21316\\\"\",\r\n  \"type\":
       \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"e315d028-faab-49ef-9039-1846462d43e6\",\r\n
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"d64ee3f3-4af8-4ecd-a963-b132af04f7a2\",\r\n
       \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/8\"\r\n
       \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
       [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
@@ -248,7 +282,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"0e3edc28-fa36-446e-b3ab-79fc5571feff"
+      - W/"b2b5b92b-272b-46bd-b43b-1fdaf8d21316"
       Expires:
       - "-1"
       Pragma:
@@ -275,10 +309,10 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-publicip-ssmcsj\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-ssmcsj\",\r\n
-      \ \"etag\": \"W/\\\"cd2d8637-1452-4711-bbc1-8ed59ef4b5ca\\\"\",\r\n  \"location\":
+      \ \"etag\": \"W/\\\"e0e7a92d-4aa1-4804-b2d3-f759432e22f4\\\"\",\r\n  \"location\":
       \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n
-      \   \"resourceGuid\": \"191387b9-9377-425c-a45f-489d2ccefa3f\",\r\n    \"ipAddress\":
-      \"20.230.216.47\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \   \"resourceGuid\": \"c509ad51-852e-40a3-99bf-52a92169559e\",\r\n    \"ipAddress\":
+      \"20.230.193.244\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
       \"Static\",\r\n    \"idleTimeoutInMinutes\": 4,\r\n    \"ipTags\": []\r\n  },\r\n
       \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
       \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
@@ -288,48 +322,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"cd2d8637-1452-4711-bbc1-8ed59ef4b5ca"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/virtualNetworks/asotest-vn-kcnvju?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"asotest-vn-kcnvju\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/virtualNetworks/asotest-vn-kcnvju\",\r\n
-      \ \"etag\": \"W/\\\"0e3edc28-fa36-446e-b3ab-79fc5571feff\\\"\",\r\n  \"type\":
-      \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"e315d028-faab-49ef-9039-1846462d43e6\",\r\n
-      \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/8\"\r\n
-      \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
-      [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"0e3edc28-fa36-446e-b3ab-79fc5571feff"
+      - W/"e0e7a92d-4aa1-4804-b2d3-f759432e22f4"
       Expires:
       - "-1"
       Pragma:
@@ -358,10 +351,10 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-publicip-ssmcsj\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-ssmcsj\",\r\n
-      \ \"etag\": \"W/\\\"cd2d8637-1452-4711-bbc1-8ed59ef4b5ca\\\"\",\r\n  \"location\":
+      \ \"etag\": \"W/\\\"e0e7a92d-4aa1-4804-b2d3-f759432e22f4\\\"\",\r\n  \"location\":
       \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n
-      \   \"resourceGuid\": \"191387b9-9377-425c-a45f-489d2ccefa3f\",\r\n    \"ipAddress\":
-      \"20.230.216.47\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \   \"resourceGuid\": \"c509ad51-852e-40a3-99bf-52a92169559e\",\r\n    \"ipAddress\":
+      \"20.230.193.244\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
       \"Static\",\r\n    \"idleTimeoutInMinutes\": 4,\r\n    \"ipTags\": []\r\n  },\r\n
       \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
       \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
@@ -371,7 +364,48 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"cd2d8637-1452-4711-bbc1-8ed59ef4b5ca"
+      - W/"e0e7a92d-4aa1-4804-b2d3-f759432e22f4"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/virtualNetworks/asotest-vn-kcnvju?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-vn-kcnvju\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/virtualNetworks/asotest-vn-kcnvju\",\r\n
+      \ \"etag\": \"W/\\\"b2b5b92b-272b-46bd-b43b-1fdaf8d21316\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"d64ee3f3-4af8-4ecd-a963-b132af04f7a2\",\r\n
+      \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/8\"\r\n
+      \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
+      [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"b2b5b92b-272b-46bd-b43b-1fdaf8d21316"
       Expires:
       - "-1"
       Pragma:
@@ -404,7 +438,7 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"AzureBastionSubnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/virtualNetworks/asotest-vn-kcnvju/subnets/AzureBastionSubnet\",\r\n
-      \ \"etag\": \"W/\\\"027ae57f-94ec-4aa1-bb35-0fe3ec29b04a\\\"\",\r\n  \"properties\":
+      \ \"etag\": \"W/\\\"782de8bf-9070-4419-98fe-fdf0a00d4c6c\\\"\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Updating\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
       \   \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\": \"Disabled\",\r\n
       \   \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n  },\r\n  \"type\":
@@ -413,7 +447,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/0d649782-45af-4a67-8dec-b52a39595aae?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2c5d009d-453b-4e33-84e0-3a4f79a139b4?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -437,37 +471,6 @@ interactions:
     code: 201
     duration: ""
 - request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/0d649782-45af-4a67-8dec-b52a39595aae?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
     body: '{"location":"westus2","name":"asotest-bastion-qxburn","properties":{"ipConfigurations":[{"name":"IpConf","properties":{"publicIPAddress":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-ssmcsj"},"subnet":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/virtualNetworks/asotest-vn-kcnvju/subnets/AzureBastionSubnet"}}}]}}'
     form: {}
     headers:
@@ -483,12 +486,12 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-bastion-qxburn\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/bastionHosts/asotest-bastion-qxburn\",\r\n
-      \ \"etag\": \"W/\\\"b2348c64-c948-4730-85cf-f90830525798\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"32fc952b-4a3f-4dbb-9c8e-26b317823c4d\\\"\",\r\n  \"type\":
       \"Microsoft.Network/bastionHosts\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Updating\",\r\n    \"scaleUnits\": 2,\r\n
       \   \"ipConfigurations\": [\r\n      {\r\n        \"name\": \"IpConf\",\r\n
       \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/bastionHosts/asotest-bastion-qxburn/bastionHostIpConfigurations/IpConf\",\r\n
-      \       \"etag\": \"W/\\\"b2348c64-c948-4730-85cf-f90830525798\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"32fc952b-4a3f-4dbb-9c8e-26b317823c4d\\\"\",\r\n        \"type\":
       \"Microsoft.Network/bastionHosts/bastionHostIpConfigurations\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"privateIPAllocationMethod\":
       \"Dynamic\",\r\n          \"publicIPAddress\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-ssmcsj\"\r\n
@@ -499,7 +502,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/600d2c1c-93ec-480a-9e4f-aa3519bd081e?api-version=2022-07-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/20d16b3d-982e-4375-94ee-ae836e8ca136?api-version=2022-07-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -528,64 +531,15 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/virtualNetworks/asotest-vn-kcnvju/subnets/AzureBastionSubnet?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2c5d009d-453b-4e33-84e0-3a4f79a139b4?api-version=2020-11-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"AzureBastionSubnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/virtualNetworks/asotest-vn-kcnvju/subnets/AzureBastionSubnet\",\r\n
-      \ \"etag\": \"W/\\\"9dd676b9-08a5-4048-9574-d9aeb11356c2\\\"\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
-      \   \"ipConfigurations\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/bastionHosts/asotest-bastion-qxburn/bastionHostIpConfigurations/IpConf\"\r\n
-      \     }\r\n    ],\r\n    \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\":
-      \"Disabled\",\r\n    \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n
-      \ },\r\n  \"type\": \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
+    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
-      Etag:
-      - W/"9dd676b9-08a5-4048-9574-d9aeb11356c2"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/virtualNetworks/asotest-vn-kcnvju/subnets/AzureBastionSubnet?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"AzureBastionSubnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/virtualNetworks/asotest-vn-kcnvju/subnets/AzureBastionSubnet\",\r\n
-      \ \"etag\": \"W/\\\"9dd676b9-08a5-4048-9574-d9aeb11356c2\\\"\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
-      \   \"ipConfigurations\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/bastionHosts/asotest-bastion-qxburn/bastionHostIpConfigurations/IpConf\"\r\n
-      \     }\r\n    ],\r\n    \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\":
-      \"Disabled\",\r\n    \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n
-      \ },\r\n  \"type\": \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"9dd676b9-08a5-4048-9574-d9aeb11356c2"
       Expires:
       - "-1"
       Pragma:
@@ -608,7 +562,46 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/600d2c1c-93ec-480a-9e4f-aa3519bd081e?api-version=2022-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/virtualNetworks/asotest-vn-kcnvju/subnets/AzureBastionSubnet?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"AzureBastionSubnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/virtualNetworks/asotest-vn-kcnvju/subnets/AzureBastionSubnet\",\r\n
+      \ \"etag\": \"W/\\\"6ce75a3f-170a-4d5d-9ef2-4acd9656a73f\\\"\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
+      \   \"ipConfigurations\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/bastionHosts/asotest-bastion-qxburn/bastionHostIpConfigurations/IpConf\"\r\n
+      \     }\r\n    ],\r\n    \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\":
+      \"Disabled\",\r\n    \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n
+      \ },\r\n  \"type\": \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"6ce75a3f-170a-4d5d-9ef2-4acd9656a73f"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/20d16b3d-982e-4375-94ee-ae836e8ca136?api-version=2022-07-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"InProgress\"\r\n}"
@@ -639,9 +632,50 @@ interactions:
     body: ""
     form: {}
     headers:
+      Accept:
+      - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/600d2c1c-93ec-480a-9e4f-aa3519bd081e?api-version=2022-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/virtualNetworks/asotest-vn-kcnvju/subnets/AzureBastionSubnet?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"AzureBastionSubnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/virtualNetworks/asotest-vn-kcnvju/subnets/AzureBastionSubnet\",\r\n
+      \ \"etag\": \"W/\\\"6ce75a3f-170a-4d5d-9ef2-4acd9656a73f\\\"\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
+      \   \"ipConfigurations\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/bastionHosts/asotest-bastion-qxburn/bastionHostIpConfigurations/IpConf\"\r\n
+      \     }\r\n    ],\r\n    \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\":
+      \"Disabled\",\r\n    \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n
+      \ },\r\n  \"type\": \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"6ce75a3f-170a-4d5d-9ef2-4acd9656a73f"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/20d16b3d-982e-4375-94ee-ae836e8ca136?api-version=2022-07-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"InProgress\"\r\n}"
@@ -674,7 +708,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/600d2c1c-93ec-480a-9e4f-aa3519bd081e?api-version=2022-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/20d16b3d-982e-4375-94ee-ae836e8ca136?api-version=2022-07-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"InProgress\"\r\n}"
@@ -707,7 +741,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/600d2c1c-93ec-480a-9e4f-aa3519bd081e?api-version=2022-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/20d16b3d-982e-4375-94ee-ae836e8ca136?api-version=2022-07-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"InProgress\"\r\n}"
@@ -740,7 +774,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/600d2c1c-93ec-480a-9e4f-aa3519bd081e?api-version=2022-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/20d16b3d-982e-4375-94ee-ae836e8ca136?api-version=2022-07-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"InProgress\"\r\n}"
@@ -773,7 +807,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/600d2c1c-93ec-480a-9e4f-aa3519bd081e?api-version=2022-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/20d16b3d-982e-4375-94ee-ae836e8ca136?api-version=2022-07-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"InProgress\"\r\n}"
@@ -806,7 +840,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "6"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/600d2c1c-93ec-480a-9e4f-aa3519bd081e?api-version=2022-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/20d16b3d-982e-4375-94ee-ae836e8ca136?api-version=2022-07-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"InProgress\"\r\n}"
@@ -839,7 +873,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "7"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/600d2c1c-93ec-480a-9e4f-aa3519bd081e?api-version=2022-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/20d16b3d-982e-4375-94ee-ae836e8ca136?api-version=2022-07-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -874,12 +908,12 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-bastion-qxburn\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/bastionHosts/asotest-bastion-qxburn\",\r\n
-      \ \"etag\": \"W/\\\"29c7d959-1785-4529-86bc-0dc532d681d7\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"46236f74-b086-4542-9387-6e41b7c904ae\\\"\",\r\n  \"type\":
       \"Microsoft.Network/bastionHosts\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"dnsName\": \"bst-f6eddd51-c9c6-4dfd-8580-2e731b04d0e2.bastion.azure.com\",\r\n
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"dnsName\": \"bst-e089b012-1206-496d-b0e4-c3d39a88d941.bastion.azure.com\",\r\n
       \   \"scaleUnits\": 2,\r\n    \"ipConfigurations\": [\r\n      {\r\n        \"name\":
       \"IpConf\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/bastionHosts/asotest-bastion-qxburn/bastionHostIpConfigurations/IpConf\",\r\n
-      \       \"etag\": \"W/\\\"29c7d959-1785-4529-86bc-0dc532d681d7\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"46236f74-b086-4542-9387-6e41b7c904ae\\\"\",\r\n        \"type\":
       \"Microsoft.Network/bastionHosts/bastionHostIpConfigurations\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"privateIPAllocationMethod\":
       \"Dynamic\",\r\n          \"publicIPAddress\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-ssmcsj\"\r\n
@@ -892,7 +926,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"29c7d959-1785-4529-86bc-0dc532d681d7"
+      - W/"46236f74-b086-4542-9387-6e41b7c904ae"
       Expires:
       - "-1"
       Pragma:
@@ -921,12 +955,12 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-bastion-qxburn\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/bastionHosts/asotest-bastion-qxburn\",\r\n
-      \ \"etag\": \"W/\\\"29c7d959-1785-4529-86bc-0dc532d681d7\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"46236f74-b086-4542-9387-6e41b7c904ae\\\"\",\r\n  \"type\":
       \"Microsoft.Network/bastionHosts\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"dnsName\": \"bst-f6eddd51-c9c6-4dfd-8580-2e731b04d0e2.bastion.azure.com\",\r\n
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"dnsName\": \"bst-e089b012-1206-496d-b0e4-c3d39a88d941.bastion.azure.com\",\r\n
       \   \"scaleUnits\": 2,\r\n    \"ipConfigurations\": [\r\n      {\r\n        \"name\":
       \"IpConf\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/bastionHosts/asotest-bastion-qxburn/bastionHostIpConfigurations/IpConf\",\r\n
-      \       \"etag\": \"W/\\\"29c7d959-1785-4529-86bc-0dc532d681d7\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"46236f74-b086-4542-9387-6e41b7c904ae\\\"\",\r\n        \"type\":
       \"Microsoft.Network/bastionHosts/bastionHostIpConfigurations\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"privateIPAllocationMethod\":
       \"Dynamic\",\r\n          \"publicIPAddress\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-uueexg/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-ssmcsj\"\r\n
@@ -939,7 +973,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"29c7d959-1785-4529-86bc-0dc532d681d7"
+      - W/"46236f74-b086-4542-9387-6e41b7c904ae"
       Expires:
       - "-1"
       Pragma:
@@ -972,7 +1006,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/b342e466-1109-46c4-a198-3c112a03954d?api-version=2022-07-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/e057a24a-e58a-42b8-b268-aa3af422d15c?api-version=2022-07-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -980,7 +1014,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/b342e466-1109-46c4-a198-3c112a03954d?api-version=2022-07-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/e057a24a-e58a-42b8-b268-aa3af422d15c?api-version=2022-07-01
       Pragma:
       - no-cache
       Retry-After:
@@ -1001,7 +1035,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/b342e466-1109-46c4-a198-3c112a03954d?api-version=2022-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/e057a24a-e58a-42b8-b268-aa3af422d15c?api-version=2022-07-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"InProgress\"\r\n}"
@@ -1034,7 +1068,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/b342e466-1109-46c4-a198-3c112a03954d?api-version=2022-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/e057a24a-e58a-42b8-b268-aa3af422d15c?api-version=2022-07-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"InProgress\"\r\n}"
@@ -1067,7 +1101,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/b342e466-1109-46c4-a198-3c112a03954d?api-version=2022-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/e057a24a-e58a-42b8-b268-aa3af422d15c?api-version=2022-07-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"InProgress\"\r\n}"
@@ -1100,7 +1134,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/b342e466-1109-46c4-a198-3c112a03954d?api-version=2022-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/e057a24a-e58a-42b8-b268-aa3af422d15c?api-version=2022-07-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"InProgress\"\r\n}"
@@ -1133,7 +1167,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/b342e466-1109-46c4-a198-3c112a03954d?api-version=2022-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/e057a24a-e58a-42b8-b268-aa3af422d15c?api-version=2022-07-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"InProgress\"\r\n}"
@@ -1166,7 +1200,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/b342e466-1109-46c4-a198-3c112a03954d?api-version=2022-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/e057a24a-e58a-42b8-b268-aa3af422d15c?api-version=2022-07-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"InProgress\"\r\n}"
@@ -1199,7 +1233,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "6"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/b342e466-1109-46c4-a198-3c112a03954d?api-version=2022-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/e057a24a-e58a-42b8-b268-aa3af422d15c?api-version=2022-07-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"InProgress\"\r\n}"
@@ -1232,40 +1266,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "7"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/b342e466-1109-46c4-a198-3c112a03954d?api-version=2022-07-01
-    method: GET
-  response:
-    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "100"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "8"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/b342e466-1109-46c4-a198-3c112a03954d?api-version=2022-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/e057a24a-e58a-42b8-b268-aa3af422d15c?api-version=2022-07-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -1306,7 +1307,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/98670f03-08ce-467a-90e6-c2c939bc968d?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/33f40019-8c56-4e0a-87f0-5bf595f1be6d?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -1314,7 +1315,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/98670f03-08ce-467a-90e6-c2c939bc968d?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/33f40019-8c56-4e0a-87f0-5bf595f1be6d?api-version=2020-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -1335,40 +1336,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/98670f03-08ce-467a-90e6-c2c939bc968d?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "10"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/98670f03-08ce-467a-90e6-c2c939bc968d?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/33f40019-8c56-4e0a-87f0-5bf595f1be6d?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"

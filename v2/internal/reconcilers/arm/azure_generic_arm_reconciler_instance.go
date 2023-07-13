@@ -721,7 +721,7 @@ func (r *azureDeploymentReconcilerInstance) ConvertResourceToARMResource(ctx con
 	}
 
 	// Run any resource-specific extensions
-	modifier := extensions.CreateARMResourceModifier(r.Extension, r.KubeClient, r.ResourceResolver, r.Log)
+	modifier := extensions.CreateARMResourceModifier(r.Extension, r.ARMConnection.Client(), r.KubeClient, r.ResourceResolver, r.Log)
 	return modifier(ctx, metaObject, result)
 }
 
