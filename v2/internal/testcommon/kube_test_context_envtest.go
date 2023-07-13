@@ -110,7 +110,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 		CertDir:          environment.WebhookInstallOptions.LocalServingCertDir,
 		Port:             environment.WebhookInstallOptions.LocalServingPort,
 		EventBroadcaster: record.NewBroadcasterForTests(1 * time.Second),
-		NewClient: func(_ cache.Cache, config *rest.Config, options client.Options, _ ...client.Object) (client.Client, error) {
+		NewClient: func(config *rest.Config, options client.Options) (client.Client, error) {
 			// We bypass the caching client for tests, see https://github.com/kubernetes-sigs/controller-runtime/issues/343 and
 			// https://github.com/kubernetes-sigs/controller-runtime/issues/1464 for details. Specifically:
 			// https://github.com/kubernetes-sigs/controller-runtime/issues/343#issuecomment-469435686 which states:

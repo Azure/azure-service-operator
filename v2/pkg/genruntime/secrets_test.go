@@ -77,7 +77,7 @@ func Test_ValidateSecretDestination_ListWithCollisionsFailsValidation(t *testing
 		{Name: "n3", Key: "key1"},
 		{Name: "n1", Key: "key1"},
 	}
-	err := genruntime.ValidateSecretDestinations(destinations)
+	_, err := genruntime.ValidateSecretDestinations(destinations)
 	g.Expect(err).ToNot(BeNil())
 	g.Expect(err.Error()).To(Equal("cannot write more than one secret to destination Name: \"n1\", Key: \"key1\""))
 }
