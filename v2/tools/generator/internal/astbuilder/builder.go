@@ -255,30 +255,6 @@ func ReturnIfExpr(cond dst.Expr, returns ...dst.Expr) *dst.IfStmt {
 	}
 }
 
-// CheckIfNotNilAndAddStatements checks if the ident is non-nil, and if it is executes the provided statements.
-//
-//	if <ident> != nil {
-//		<stmt>
-//	}
-func CheckIfNotNilAndAddStatements(ident string, stmts ...dst.Stmt) dst.Stmt {
-	return &dst.IfStmt{
-		Cond: NotNil(dst.NewIdent(ident)),
-		Body: StatementBlock(stmts...),
-	}
-}
-
-// CheckIfNilAndAddStatements checks if the ident is nil, and if it is not executes the provided statements.
-//
-//	if <ident> == nil {
-//		<stmt>
-//	}
-func CheckIfNilAndAddStatements(ident string, stmts ...dst.Stmt) dst.Stmt {
-	return &dst.IfStmt{
-		Cond: AreEqual(dst.NewIdent(ident), Nil()),
-		Body: StatementBlock(stmts...),
-	}
-}
-
 // FormatError produces a call to fmt.Errorf with the given format string and args
 //
 //	fmt.Errorf(<formatString>, <args>)
