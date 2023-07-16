@@ -5,19 +5,17 @@ package customizations
 import (
 	"context"
 	"encoding/json"
-	"fmt"
+	"net/http"
 	"reflect"
-	"strings"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
-	"k8s.io/apimachinery/pkg/runtime/schema"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
-	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -32,6 +30,7 @@ var _ extensions.ARMResourceModifier = &VirtualNetworkExtension{}
 
 func (extension *VirtualNetworkExtension) ModifyARMResource(
 	ctx context.Context,
+	armClient *genericarmclient.GenericClient,
 	armObj genruntime.ARMResource,
 	obj genruntime.ARMMetaObject,
 	kubeClient kubeclient.Client,
@@ -47,30 +46,37 @@ func (extension *VirtualNetworkExtension) ModifyARMResource(
 	// the hub type has been changed but this extension has not been updated to match
 	var _ conversion.Hub = typedObj
 
-	subnetGVK := getSubnetGVK(obj)
+	resourceID, hasResourceID := genruntime.GetResourceID(obj)
+	if !hasResourceID {
+		// If we don't have an ARM ID yet, we've not been claimed so just return armObj as is
+		return armObj, nil
+	}
 
-	subnets := &network.VirtualNetworksSubnetList{}
-	matchingFields := client.MatchingFields{".metadata.ownerReferences[0]": string(obj.GetUID())}
-	err := kubeClient.List(ctx, subnets, matchingFields)
+	apiVersion, err := genruntime.GetAPIVersion(typedObj, kubeClient.Scheme())
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed listing subnets owned by VNET %s/%s", obj.GetNamespace(), obj.GetName())
+		return nil, errors.Wrapf(err, "error getting api version for resource %s while getting status", obj.GetName())
 	}
 
-	armSubnets := make([]genruntime.ARMResourceSpec, 0, len(subnets.Items))
-	for _, subnet := range subnets.Items {
-		subnet := subnet
-
-		var transformed genruntime.ARMResourceSpec
-		transformed, err = transformToARM(ctx, &subnet, subnetGVK, kubeClient, resolver)
-		if err != nil {
-			return nil, errors.Wrapf(err, "failed to transform subnet %s/%s", subnet.GetNamespace(), subnet.GetName())
+	// Get the raw resource
+	raw := make(map[string]any)
+	_, err = armClient.GetByID(ctx, resourceID, apiVersion, &raw)
+	if err != nil {
+		// If the error is NotFound, the resource we're trying to Create doesn't exist and so no modification is needed
+		var responseError *azcore.ResponseError
+		if errors.As(err, &responseError) && responseError.StatusCode == http.StatusNotFound {
+			return armObj, nil
 		}
-		armSubnets = append(armSubnets, transformed)
+		return nil, errors.Wrapf(err, "getting resource with ID: %q", resourceID)
 	}
 
-	log.V(Info).Info("Found subnets to include on VNET", "count", len(armSubnets), "names", genruntime.ARMSpecNames(armSubnets))
+	azureSubnets, err := getRawChildCollection(raw, "subnets")
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to get subnets")
+	}
 
-	err = fuzzySetResources(armObj.Spec(), armSubnets, "Subnets")
+	log.V(Info).Info("Found subnets to include on VNET", "count", len(azureSubnets), "names", genruntime.RawNames(azureSubnets))
+
+	err = setChildCollection(armObj.Spec(), azureSubnets, "Subnets")
 	if err != nil {
 		return nil, errors.Wrapf(err, "failed to set subnets")
 	}
@@ -78,61 +84,7 @@ func (extension *VirtualNetworkExtension) ModifyARMResource(
 	return armObj, nil
 }
 
-func getSubnetGVK(vnet genruntime.ARMMetaObject) schema.GroupVersionKind {
-	gvk := genruntime.GetOriginalGVK(vnet)
-	gvk.Kind = reflect.TypeOf(network.VirtualNetworksSubnet{}).Name() // "VirtualNetworksSubnet"
-
-	return gvk
-}
-
-func transformToARM(
-	ctx context.Context,
-	obj genruntime.ARMMetaObject,
-	gvk schema.GroupVersionKind,
-	kubeClient kubeclient.Client,
-	resolver *resolver.Resolver,
-) (genruntime.ARMResourceSpec, error) {
-	spec, err := genruntime.GetVersionedSpecFromGVK(obj, kubeClient.Scheme(), gvk)
-	if err != nil {
-		return nil, errors.Wrapf(err, "unable to get spec from %s/%s", obj.GetNamespace(), obj.GetName())
-	}
-
-	armTransformer, ok := spec.(genruntime.ARMTransformer)
-	if !ok {
-		return nil, errors.Errorf("spec was of type %T which doesn't implement genruntime.ArmTransformer", spec)
-	}
-
-	_, resolvedDetails, err := resolver.ResolveAll(ctx, obj)
-	if err != nil {
-		return nil, reconcilers.ClassifyResolverError(err)
-	}
-
-	armSpec, err := armTransformer.ConvertToARM(resolvedDetails)
-	if err != nil {
-		return nil, errors.Wrapf(err, "transforming resource %s to ARM", obj.GetName())
-	}
-
-	typedARMSpec, ok := armSpec.(genruntime.ARMResourceSpec)
-	if !ok {
-		return nil, errors.Errorf("casting armSpec of type %T to genruntime.ARMResourceSpec", armSpec)
-	}
-
-	return typedARMSpec, nil
-}
-
-// TODO: When we move to Swagger as the source of truth, the type for ownerResource.properties.propertyField and resource.properties
-// TODO: may be the same, so we can do away with the JSON serialization part of this assignment.
-// fuzzySetResources assigns a collection of subnets to the resources property of the ownerResource. Since there are
-// many possible ARM API versions and we don't know which one we're using, we cannot do this statically.
-// To make matters even more horrible, the type used in the ownerResource.properties.propertyField property is not the same
-// type as used for resource.properties (although structurally they are basically the same). To overcome this
-// we JSON serialize the resource and deserialize it into the ownerResource.properties.propertyField field.
-func fuzzySetResources(ownerResource genruntime.ARMResourceSpec, resources []genruntime.ARMResourceSpec, propertyField string) (err error) {
-	if len(resources) == 0 {
-		// Nothing to do
-		return nil
-	}
-
+func getChildCollectionField(parent any, childFieldName string) (ret reflect.Value, err error) {
 	defer func() {
 		if x := recover(); x != nil {
 			err = errors.Errorf("caught panic: %s", x)
@@ -140,95 +92,104 @@ func fuzzySetResources(ownerResource genruntime.ARMResourceSpec, resources []gen
 	}()
 
 	// Here be dragons
-	ownerValue := reflect.ValueOf(ownerResource)
-	ownerValue = reflect.Indirect(ownerValue)
-	if (ownerValue == reflect.Value{}) {
-		return errors.Errorf("cannot assign to nil %s", strings.ToLower(ownerResource.GetType()))
+	parentValue := reflect.ValueOf(parent)
+	parentValue = reflect.Indirect(parentValue)
+	if !parentValue.IsValid() {
+		return reflect.Value{}, errors.Errorf("cannot assign to nil parent")
 	}
 
-	propertiesField := ownerValue.FieldByName("Properties")
-	if (propertiesField == reflect.Value{}) {
-		return errors.Errorf("couldn't find properties field on %s", strings.ToLower(ownerResource.GetType()))
+	propertiesField := parentValue.FieldByName("Properties")
+	if !propertiesField.IsValid() {
+		return reflect.Value{}, errors.Errorf("couldn't find properties field")
 	}
 
 	propertiesValue := reflect.Indirect(propertiesField)
-	if (propertiesValue == reflect.Value{}) {
+	if !propertiesValue.IsValid() {
 		// If the properties field is nil, we must construct an entirely new properties and assign it here
 		temp := reflect.New(propertiesField.Type().Elem())
 		propertiesField.Set(temp)
 		propertiesValue = reflect.Indirect(temp)
 	}
 
-	resourcePropertyField := propertiesValue.FieldByName(propertyField)
-	if (resourcePropertyField == reflect.Value{}) {
-		return errors.Errorf("couldn't find %s field on %s", propertyField, strings.ToLower(ownerResource.GetType()))
+	childField := propertiesValue.FieldByName(childFieldName)
+	if !childField.IsValid() {
+		return reflect.Value{}, errors.Errorf("couldn't find %q field", childFieldName)
 	}
 
-	if resourcePropertyField.Type().Kind() != reflect.Slice {
-		return errors.Errorf("%s field on %s was not of kind Slice", propertyField, strings.ToLower(ownerResource.GetType()))
+	if childField.Type().Kind() != reflect.Slice {
+		return reflect.Value{}, errors.Errorf("%q field was not of kind Slice", childFieldName)
 	}
 
-	elemType := resourcePropertyField.Type().Elem()
-	resourceSlice := reflect.MakeSlice(resourcePropertyField.Type(), 0, 0)
+	return childField, nil
+}
 
-	for _, resource := range resources {
+func getRawChildCollection(parent map[string]any, childJSONName string) ([]any, error) {
+	props, ok := parent["properties"]
+	if !ok {
+		return nil, errors.Errorf("couldn't find properties field")
+	}
+
+	propsMap, ok := props.(map[string]any)
+	if !ok {
+		return nil, errors.Errorf("properties field wasn't a map")
+	}
+
+	childField, ok := propsMap[childJSONName]
+	if !ok {
+		return nil, errors.Errorf("couldn't find %q field", childJSONName)
+	}
+
+	childSlice, ok := childField.([]any)
+	if !ok {
+		return nil, errors.Errorf("%q field wasn't a slice", childJSONName)
+	}
+
+	return childSlice, nil
+}
+
+func setChildCollection(parent genruntime.ARMResourceSpec, childCollectionFromAzure []any, childFieldName string) (err error) {
+	defer func() {
+		if x := recover(); x != nil {
+			err = errors.Errorf("caught panic: %s", x)
+		}
+	}()
+
+	childField, err := getChildCollectionField(parent, childFieldName)
+	if err != nil {
+		return err
+	}
+
+	elemType := childField.Type().Elem()
+	childSlice := reflect.MakeSlice(childField.Type(), 0, 0)
+
+	for _, child := range childCollectionFromAzure {
 		embeddedResource := reflect.New(elemType)
-		err := fuzzySetResource(resource, embeddedResource)
+		err = fuzzySetResource(child, embeddedResource)
 		if err != nil {
 			return err
 		}
 
-		resourceSlice = reflect.Append(resourceSlice, reflect.Indirect(embeddedResource))
+		childSlice = reflect.Append(childSlice, reflect.Indirect(embeddedResource))
 	}
 
-	// Now do the assignment. We do it differently here, as we need to make sure to retain current/updated/deleted resource present on the ownerResource.
-	resourcePropertyField.Set(reflect.AppendSlice(resourcePropertyField, resourceSlice))
+	childField.Set(childSlice)
 
 	return nil
 }
 
-func fuzzySetResource(resource genruntime.ARMResourceSpec, embeddedResource reflect.Value) error {
+func fuzzySetResource(resource any, embeddedResource reflect.Value) error {
 	resourceJSON, err := json.Marshal(resource)
 	if err != nil {
-		return errors.Wrapf(err, "failed to marshal %s json", strings.ToLower(resource.GetType()))
+		return errors.Wrap(err, "failed to marshal resource JSON")
 	}
 
 	err = json.Unmarshal(resourceJSON, embeddedResource.Interface())
 	if err != nil {
-		return errors.Wrapf(err, "failed to unmarshal %s JSON", strings.ToLower(resource.GetType()))
+		return errors.Wrap(err, "failed to unmarshal resource JSON")
 	}
 
-	// Safety check that these are actually the same:
-	// We can't use reflect.DeepEqual because the types are not the same.
-	embeddedResourceJSON, err := json.Marshal(embeddedResource.Interface())
-	if err != nil {
-		return errors.Wrapf(err, "unable to check that embedded resource is the same as %s", strings.ToLower(resource.GetType()))
-	}
-
-	err = fuzzyEqualityComparison(embeddedResourceJSON, resourceJSON)
-	if err != nil {
-		return errors.Wrapf(err, "failed during comparison for embedded %sJSON and %sJSON", strings.ToLower(resource.GetType()), strings.ToLower(resource.GetType()))
-	}
-
-	return nil
-}
-
-func fuzzyEqualityComparison(embeddedResourceJSON, resourceJSON []byte) error {
-	var embeddedResourceJSONMap map[string]interface{}
-	err := json.Unmarshal(embeddedResourceJSON, &embeddedResourceJSONMap)
-	if err != nil {
-		return errors.Wrap(err, fmt.Sprintf("unable to unmarshal (%s)", embeddedResourceJSONMap))
-	}
-
-	var resourceJSONMap map[string]interface{}
-	err = json.Unmarshal(resourceJSON, &resourceJSONMap)
-	if err != nil {
-		return errors.Wrap(err, fmt.Sprintf("unable to unmarshal (%s)", resourceJSONMap))
-	}
-
-	if !reflect.DeepEqual(embeddedResourceJSONMap, resourceJSONMap) {
-		return errors.Errorf(" (%s) != (%s)", string(embeddedResourceJSON), string(resourceJSON))
-	}
+	// TODO: Can't do a trivial fuzzyEqualityComparison here because we don't know which fields are readonly
+	// TODO: and which are not. This results in mismatches like dropping etag and other fields.
 
 	return nil
 }

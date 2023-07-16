@@ -81,9 +81,9 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-publicip-mcdjgt\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-mcdjgt\",\r\n
-      \ \"etag\": \"W/\\\"9fa29ba6-9265-40ab-b1e7-178fd702a9b9\\\"\",\r\n  \"location\":
+      \ \"etag\": \"W/\\\"e09f7a1c-365a-4c9b-901e-27c022c84b4b\\\"\",\r\n  \"location\":
       \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n
-      \   \"resourceGuid\": \"ffdfa24b-560b-427b-9fea-8df27daf9857\",\r\n    \"publicIPAddressVersion\":
+      \   \"resourceGuid\": \"d9e05266-d05b-4942-9933-ba3315a3cb6f\",\r\n    \"publicIPAddressVersion\":
       \"IPv4\",\r\n    \"publicIPAllocationMethod\": \"Static\",\r\n    \"idleTimeoutInMinutes\":
       4,\r\n    \"ipTags\": []\r\n  },\r\n  \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n
       \ \"sku\": {\r\n    \"name\": \"Standard\",\r\n    \"tier\": \"Regional\"\r\n
@@ -92,7 +92,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/80cc205b-1518-4478-9f38-2598fc8cfa2d?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/8e5fff6c-2d97-4704-8550-581bf9c5a28a?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -121,7 +121,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/80cc205b-1518-4478-9f38-2598fc8cfa2d?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/8e5fff6c-2d97-4704-8550-581bf9c5a28a?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -156,10 +156,10 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-publicip-mcdjgt\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-mcdjgt\",\r\n
-      \ \"etag\": \"W/\\\"472f7891-39dc-4989-b267-10d085cffc3e\\\"\",\r\n  \"location\":
+      \ \"etag\": \"W/\\\"9291f412-c2e0-4f47-b050-3ff88f833594\\\"\",\r\n  \"location\":
       \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n
-      \   \"resourceGuid\": \"ffdfa24b-560b-427b-9fea-8df27daf9857\",\r\n    \"ipAddress\":
-      \"4.154.115.18\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \   \"resourceGuid\": \"d9e05266-d05b-4942-9933-ba3315a3cb6f\",\r\n    \"ipAddress\":
+      \"20.236.58.100\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
       \"Static\",\r\n    \"idleTimeoutInMinutes\": 4,\r\n    \"ipTags\": []\r\n  },\r\n
       \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
       \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
@@ -169,7 +169,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"472f7891-39dc-4989-b267-10d085cffc3e"
+      - W/"9291f412-c2e0-4f47-b050-3ff88f833594"
       Expires:
       - "-1"
       Pragma:
@@ -198,10 +198,10 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-publicip-mcdjgt\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-mcdjgt\",\r\n
-      \ \"etag\": \"W/\\\"472f7891-39dc-4989-b267-10d085cffc3e\\\"\",\r\n  \"location\":
+      \ \"etag\": \"W/\\\"9291f412-c2e0-4f47-b050-3ff88f833594\\\"\",\r\n  \"location\":
       \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n
-      \   \"resourceGuid\": \"ffdfa24b-560b-427b-9fea-8df27daf9857\",\r\n    \"ipAddress\":
-      \"4.154.115.18\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \   \"resourceGuid\": \"d9e05266-d05b-4942-9933-ba3315a3cb6f\",\r\n    \"ipAddress\":
+      \"20.236.58.100\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
       \"Static\",\r\n    \"idleTimeoutInMinutes\": 4,\r\n    \"ipTags\": []\r\n  },\r\n
       \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
       \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
@@ -211,7 +211,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"472f7891-39dc-4989-b267-10d085cffc3e"
+      - W/"9291f412-c2e0-4f47-b050-3ff88f833594"
       Expires:
       - "-1"
       Pragma:
@@ -229,6 +229,40 @@ interactions:
     code: 200
     duration: ""
 - request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm?api-version=2020-11-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm''
+      under resource group ''asotest-rg-pkgwpu'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "248"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
     body: '{"location":"westus2","name":"asotest-loadbalancer-rjcndm","properties":{"frontendIPConfigurations":[{"name":"LoadBalancerFrontend","properties":{"publicIPAddress":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-mcdjgt"}}}],"inboundNatPools":[{"name":"MyFancyNatPool","properties":{"backendPort":22,"frontendIPConfiguration":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm/frontendIPConfigurations/LoadBalancerFrontend"},"frontendPortRangeEnd":51000,"frontendPortRangeStart":50000,"protocol":"Tcp"}}]},"sku":{"name":"Standard"}}'
     form: {}
     headers:
@@ -244,12 +278,12 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-loadbalancer-rjcndm\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm\",\r\n
-      \ \"etag\": \"W/\\\"3d591fcb-ae9e-429d-be9d-68fbd47f74f9\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"be6dda92-5c5b-4867-894c-2d271a96d94d\\\"\",\r\n  \"type\":
       \"Microsoft.Network/loadBalancers\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"9a7a3b7a-8b0d-42c7-9770-51ec056fec08\",\r\n
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"a54785bf-72a4-4c89-ae93-fef560df2b53\",\r\n
       \   \"frontendIPConfigurations\": [\r\n      {\r\n        \"name\": \"LoadBalancerFrontend\",\r\n
       \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm/frontendIPConfigurations/LoadBalancerFrontend\",\r\n
-      \       \"etag\": \"W/\\\"3d591fcb-ae9e-429d-be9d-68fbd47f74f9\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"be6dda92-5c5b-4867-894c-2d271a96d94d\\\"\",\r\n        \"type\":
       \"Microsoft.Network/loadBalancers/frontendIPConfigurations\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"privateIPAllocationMethod\":
       \"Dynamic\",\r\n          \"publicIPAddress\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-mcdjgt\"\r\n
@@ -259,7 +293,7 @@ interactions:
       [],\r\n    \"loadBalancingRules\": [],\r\n    \"probes\": [],\r\n    \"inboundNatRules\":
       [],\r\n    \"outboundRules\": [],\r\n    \"inboundNatPools\": [\r\n      {\r\n
       \       \"name\": \"MyFancyNatPool\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm/inboundNatPools/MyFancyNatPool\",\r\n
-      \       \"etag\": \"W/\\\"3d591fcb-ae9e-429d-be9d-68fbd47f74f9\\\"\",\r\n        \"properties\":
+      \       \"etag\": \"W/\\\"be6dda92-5c5b-4867-894c-2d271a96d94d\\\"\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"frontendPortRangeStart\":
       50000,\r\n          \"frontendPortRangeEnd\": 51000,\r\n          \"backendPort\":
       22,\r\n          \"protocol\": \"Tcp\",\r\n          \"idleTimeoutInMinutes\":
@@ -273,7 +307,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/4aa64be8-f2ec-48eb-b822-4d47da79d588?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/bd5951ba-f9d2-4092-8190-ae96d3086cd7?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -301,17 +335,17 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "0"
+      - "1"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-loadbalancer-rjcndm\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm\",\r\n
-      \ \"etag\": \"W/\\\"3d591fcb-ae9e-429d-be9d-68fbd47f74f9\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"be6dda92-5c5b-4867-894c-2d271a96d94d\\\"\",\r\n  \"type\":
       \"Microsoft.Network/loadBalancers\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"9a7a3b7a-8b0d-42c7-9770-51ec056fec08\",\r\n
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"a54785bf-72a4-4c89-ae93-fef560df2b53\",\r\n
       \   \"frontendIPConfigurations\": [\r\n      {\r\n        \"name\": \"LoadBalancerFrontend\",\r\n
       \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm/frontendIPConfigurations/LoadBalancerFrontend\",\r\n
-      \       \"etag\": \"W/\\\"3d591fcb-ae9e-429d-be9d-68fbd47f74f9\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"be6dda92-5c5b-4867-894c-2d271a96d94d\\\"\",\r\n        \"type\":
       \"Microsoft.Network/loadBalancers/frontendIPConfigurations\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"privateIPAllocationMethod\":
       \"Dynamic\",\r\n          \"publicIPAddress\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-mcdjgt\"\r\n
@@ -321,7 +355,7 @@ interactions:
       [],\r\n    \"loadBalancingRules\": [],\r\n    \"probes\": [],\r\n    \"inboundNatRules\":
       [],\r\n    \"outboundRules\": [],\r\n    \"inboundNatPools\": [\r\n      {\r\n
       \       \"name\": \"MyFancyNatPool\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm/inboundNatPools/MyFancyNatPool\",\r\n
-      \       \"etag\": \"W/\\\"3d591fcb-ae9e-429d-be9d-68fbd47f74f9\\\"\",\r\n        \"properties\":
+      \       \"etag\": \"W/\\\"be6dda92-5c5b-4867-894c-2d271a96d94d\\\"\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"frontendPortRangeStart\":
       50000,\r\n          \"frontendPortRangeEnd\": 51000,\r\n          \"backendPort\":
       22,\r\n          \"protocol\": \"Tcp\",\r\n          \"idleTimeoutInMinutes\":
@@ -337,7 +371,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"3d591fcb-ae9e-429d-be9d-68fbd47f74f9"
+      - W/"be6dda92-5c5b-4867-894c-2d271a96d94d"
       Expires:
       - "-1"
       Pragma:
@@ -370,7 +404,7 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-rule-oncemv\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm/inboundNatRules/asotest-rule-oncemv\",\r\n
-      \ \"etag\": \"W/\\\"05df25ad-7987-4f16-b12c-9c117782e413\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"8d7f5d17-19e8-44d9-9714-8551ca467e49\\\"\",\r\n  \"type\":
       \"Microsoft.Network/loadBalancers/inboundNatRules\",\r\n  \"properties\": {\r\n
       \   \"provisioningState\": \"Succeeded\",\r\n    \"frontendIPConfiguration\":
       {\r\n      \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm/frontendIPConfigurations/LoadBalancerFrontend\"\r\n
@@ -382,7 +416,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/d2c9ee95-4ac5-4797-a310-6d3c82c73b11?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/adbb4069-0327-4eae-ac6a-5d801d33c562?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -415,7 +449,7 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-rule-oncemv\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm/inboundNatRules/asotest-rule-oncemv\",\r\n
-      \ \"etag\": \"W/\\\"05df25ad-7987-4f16-b12c-9c117782e413\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"8d7f5d17-19e8-44d9-9714-8551ca467e49\\\"\",\r\n  \"type\":
       \"Microsoft.Network/loadBalancers/inboundNatRules\",\r\n  \"properties\": {\r\n
       \   \"provisioningState\": \"Succeeded\",\r\n    \"frontendIPConfiguration\":
       {\r\n      \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm/frontendIPConfigurations/LoadBalancerFrontend\"\r\n
@@ -429,7 +463,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"05df25ad-7987-4f16-b12c-9c117782e413"
+      - W/"8d7f5d17-19e8-44d9-9714-8551ca467e49"
       Expires:
       - "-1"
       Pragma:
@@ -462,7 +496,7 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-rule-oncemv\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm/inboundNatRules/asotest-rule-oncemv\",\r\n
-      \ \"etag\": \"W/\\\"7c38f80a-1ac9-4390-8d1e-134daecef6b8\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"14a8549e-f3a3-4f90-bc75-b33054d7a04f\\\"\",\r\n  \"type\":
       \"Microsoft.Network/loadBalancers/inboundNatRules\",\r\n  \"properties\": {\r\n
       \   \"provisioningState\": \"Succeeded\",\r\n    \"frontendIPConfiguration\":
       {\r\n      \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm/frontendIPConfigurations/LoadBalancerFrontend\"\r\n
@@ -474,7 +508,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/97c0bd19-1747-4cd0-82d6-89124aedac77?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/e7cc9434-6939-4662-9e54-0d31ea4d9b29?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Type:
@@ -507,7 +541,7 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-rule-oncemv\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm/inboundNatRules/asotest-rule-oncemv\",\r\n
-      \ \"etag\": \"W/\\\"7c38f80a-1ac9-4390-8d1e-134daecef6b8\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"14a8549e-f3a3-4f90-bc75-b33054d7a04f\\\"\",\r\n  \"type\":
       \"Microsoft.Network/loadBalancers/inboundNatRules\",\r\n  \"properties\": {\r\n
       \   \"provisioningState\": \"Succeeded\",\r\n    \"frontendIPConfiguration\":
       {\r\n      \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm/frontendIPConfigurations/LoadBalancerFrontend\"\r\n
@@ -521,7 +555,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"7c38f80a-1ac9-4390-8d1e-134daecef6b8"
+      - W/"14a8549e-f3a3-4f90-bc75-b33054d7a04f"
       Expires:
       - "-1"
       Pragma:
@@ -554,7 +588,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/a5a3b293-7fa9-447c-9f20-c9d5d5e37f77?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/04dde098-cae1-49b7-810b-0def174e5af5?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -562,7 +596,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/a5a3b293-7fa9-447c-9f20-c9d5d5e37f77?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/04dde098-cae1-49b7-810b-0def174e5af5?api-version=2020-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -583,7 +617,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/a5a3b293-7fa9-447c-9f20-c9d5d5e37f77?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/04dde098-cae1-49b7-810b-0def174e5af5?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -624,7 +658,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/5242e139-da53-4a98-b1a6-76910317c254?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/97c9ecd6-f9d6-4bfd-9a8c-a81bf2da2e41?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -632,7 +666,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/5242e139-da53-4a98-b1a6-76910317c254?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/97c9ecd6-f9d6-4bfd-9a8c-a81bf2da2e41?api-version=2020-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -653,73 +687,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/5242e139-da53-4a98-b1a6-76910317c254?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "10"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/5242e139-da53-4a98-b1a6-76910317c254?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "20"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/5242e139-da53-4a98-b1a6-76910317c254?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/97c9ecd6-f9d6-4bfd-9a8c-a81bf2da2e41?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -751,7 +719,7 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "1"
+      - "2"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm?api-version=2020-11-01
     method: GET
   response:
