@@ -160,7 +160,7 @@ func (v *ValidatorBuilder) validateCreate(k *ResourceFunction, codeGenerationCon
 			""),
 	}
 
-	fn.AddReturn(astbuilder.QualifiedTypeName(astmodel.ControllerRuntimeAdmission.PackageName(), "Warnings"))
+	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
 	fn.AddReturn(dst.NewIdent("error"))
 	fn.AddComments("validates the creation of the resource")
 	return fn.DefineFunc()
@@ -210,7 +210,7 @@ func (v *ValidatorBuilder) validateDelete(k *ResourceFunction, codeGenerationCon
 			""),
 	}
 
-	fn.AddReturn(astbuilder.QualifiedTypeName(astmodel.ControllerRuntimeAdmission.PackageName(), "Warnings"))
+	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
 	fn.AddReturn(dst.NewIdent("error"))
 	fn.AddComments("validates the deletion of the resource")
 	return fn.DefineFunc()
@@ -394,7 +394,7 @@ func getValidationFuncType(kind ValidationKind, codeGenerationContext *astmodel.
 
 	result := []*dst.Field{
 		{
-			Type: astbuilder.QualifiedTypeName(astmodel.ControllerRuntimeAdmission.PackageName(), "Warnings"),
+			Type: astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"),
 		},
 		{
 			Type: dst.NewIdent("error"),

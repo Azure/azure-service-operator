@@ -75,15 +75,15 @@ func (c *noCacheClient) RESTMapper() meta.RESTMapper {
 }
 
 func (c *noCacheClient) SubResource(subResource string) client.SubResourceClient {
-	return c.SubResource(subResource)
+	return c.client.SubResource(subResource)
 }
 
 func (c *noCacheClient) GroupVersionKindFor(obj runtime.Object) (schema.GroupVersionKind, error) {
-	return c.GroupVersionKindFor(obj)
+	return c.client.GroupVersionKindFor(obj)
 }
 
 func (c *noCacheClient) IsObjectNamespaced(obj runtime.Object) (bool, error) {
-	return c.IsObjectNamespaced(obj)
+	return c.client.IsObjectNamespaced(obj)
 }
 
 type index map[string]client.IndexerFunc

@@ -85,15 +85,15 @@ func (d *directClient) RESTMapper() meta.RESTMapper {
 }
 
 func (d *directClient) SubResource(subResource string) client.SubResourceClient {
-	return d.SubResource(subResource)
+	return d.inner.SubResource(subResource)
 }
 
 func (d *directClient) GroupVersionKindFor(obj runtime.Object) (schema.GroupVersionKind, error) {
-	return d.GroupVersionKindFor(obj)
+	return d.inner.GroupVersionKindFor(obj)
 }
 
 func (d *directClient) IsObjectNamespaced(obj runtime.Object) (bool, error) {
-	return d.IsObjectNamespaced(obj)
+	return d.inner.IsObjectNamespaced(obj)
 }
 
 var _ client.Client = &directClient{}

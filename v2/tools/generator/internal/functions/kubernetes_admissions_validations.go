@@ -52,7 +52,7 @@ func validateResourceReferences(k *ResourceFunction, codeGenerationContext *astm
 		Body:          validateResourceReferencesBody(codeGenerationContext, receiverIdent),
 	}
 
-	fn.AddReturn(astbuilder.QualifiedTypeName(astmodel.ControllerRuntimeAdmission.PackageName(), "Warnings"))
+	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
 	fn.AddReturn(dst.NewIdent("error"))
 	fn.AddComments("validates all resource references")
 	return fn.DefineFunc()
@@ -106,7 +106,7 @@ func validateWriteOncePropertiesFunction(resourceFn *ResourceFunction, codeGener
 		Body:          validateWriteOncePropertiesFunctionBody(receiver, codeGenerationContext, receiverIdent),
 	}
 
-	fn.AddReturn(astbuilder.QualifiedTypeName(astmodel.ControllerRuntimeAdmission.PackageName(), "Warnings"))
+	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
 	fn.AddReturn(dst.NewIdent("error"))
 	fn.AddParameter("old", astbuilder.QualifiedTypeName(runtimePackage, "Object"))
 	fn.AddComments("validates all WriteOnce properties")
@@ -156,7 +156,7 @@ func validateOptionalConfigMapReferences(k *ResourceFunction, codeGenerationCont
 		Body:          validateOptionalConfigMapReferencesBody(codeGenerationContext, receiverIdent),
 	}
 
-	fn.AddReturn(astbuilder.QualifiedTypeName(astmodel.ControllerRuntimeAdmission.PackageName(), "Warnings"))
+	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
 	fn.AddReturn(dst.NewIdent("error"))
 	fn.AddComments("validates all optional configmap reference pairs to ensure that at most 1 is set")
 	return fn.DefineFunc()

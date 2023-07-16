@@ -189,7 +189,7 @@ func validateSecretDestinations(k *functions.ResourceFunction, codeGenerationCon
 			"ValidateSecretDestinations"),
 	}
 
-	fn.AddReturn(astbuilder.QualifiedTypeName(astmodel.ControllerRuntimeAdmission.PackageName(), "Warnings"))
+	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
 	fn.AddReturn(dst.NewIdent("error"))
 	fn.AddComments("validates there are no colliding genruntime.SecretDestination's")
 	return fn.DefineFunc()
@@ -221,7 +221,7 @@ func validateConfigMapDestinations(k *functions.ResourceFunction, codeGeneration
 			"ValidateConfigMapDestinations"),
 	}
 
-	fn.AddReturn(astbuilder.QualifiedTypeName(astmodel.ControllerRuntimeAdmission.PackageName(), "Warnings"))
+	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
 	fn.AddReturn(dst.NewIdent("error"))
 	fn.AddComments("validates there are no colliding genruntime.ConfigMapDestinations's")
 	return fn.DefineFunc()
