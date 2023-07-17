@@ -38,6 +38,7 @@ func TestDocumentationCommentFormatting(t *testing.T) {
 		{"**foo**\nbar", []string{"foo", "bar"}},
 		{"foo\n**bar**", []string{"foo", "bar"}},
 		{"foo\n**bar**\nbaz", []string{"foo", "bar", "baz"}},
+		{"", []string{}},
 		// Expect long lines to be wrapped
 		{
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -70,6 +71,8 @@ func TestWordWrap(t *testing.T) {
 		{"this is a simple line of text", 16, []string{"this is a simple ", "line of text"}},
 		{"this is a simple line of text", 20, []string{"this is a simple ", "line of text"}},
 		{"this is a simple line of text", 21, []string{"this is a simple line ", "of text"}},
+		{"", 0, []string{}},
+		{"this is a sample text", 0, []string{"this ", "is ", "a ", "sample ", "text"}},
 	}
 
 	for _, c := range cases {
