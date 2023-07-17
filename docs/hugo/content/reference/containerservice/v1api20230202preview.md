@@ -13658,6 +13658,37 @@ string
 </tr>
 </tbody>
 </table>
+<h3 id="containerservice.azure.com/v1api20230202preview.ManagedClusterOperatorConfigMaps">ManagedClusterOperatorConfigMaps
+</h3>
+<p>
+(<em>Appears on:</em><a href="#containerservice.azure.com/v1api20230202preview.ManagedClusterOperatorSpec">ManagedClusterOperatorSpec</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>oidcIssuerProfile</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapDestination">
+genruntime.ConfigMapDestination
+</a>
+</em>
+</td>
+<td>
+<p>OIDCIssuerProfile: indicates where the OIDCIssuerProfile config map should be placed. If omitted, no config map will be
+created.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="containerservice.azure.com/v1api20230202preview.ManagedClusterOperatorSecrets">ManagedClusterOperatorSecrets
 </h3>
 <p>
@@ -13719,6 +13750,19 @@ retrieved from Azure.</p>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<code>configMaps</code><br/>
+<em>
+<a href="#containerservice.azure.com/v1api20230202preview.ManagedClusterOperatorConfigMaps">
+ManagedClusterOperatorConfigMaps
+</a>
+</em>
+</td>
+<td>
+<p>ConfigMaps: configures where to place operator written ConfigMaps.</p>
+</td>
+</tr>
 <tr>
 <td>
 <code>secrets</code><br/>

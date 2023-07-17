@@ -66,53 +66,72 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"westus2","name":"asotest-vn-cydhjo","properties":{"addressSpace":{"addressPrefixes":["10.0.0.0/16"]}}}'
+    body: ""
     form: {}
     headers:
       Accept:
       - application/json
-      Content-Length:
-      - "115"
-      Content-Type:
-      - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-cydhjo?api-version=2020-11-01
-    method: PUT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-houphb?api-version=2020-11-01
+    method: GET
   response:
-    body: "{\r\n  \"name\": \"asotest-vn-cydhjo\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-cydhjo\",\r\n
-      \ \"etag\": \"W/\\\"c62b867f-1869-4dd1-b9b2-4a8462297867\\\"\",\r\n  \"type\":
-      \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"f987c7af-ef19-4fa2-b191-2bc640d94813\",\r\n
-      \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/16\"\r\n
-      \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
-      [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/virtualNetworks/asotest-vn-houphb''
+      under resource group ''asotest-rg-cxpjch'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
     headers:
-      Azure-Asyncnotification:
-      - Enabled
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/973afa0e-dad3-41b8-b1d1-dac182f24da6?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "630"
+      - "240"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Pragma:
       - no-cache
-      Retry-After:
-      - "3"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
-    status: 201 Created
-    code: 201
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-cydhjo?api-version=2020-11-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/virtualNetworks/asotest-vn-cydhjo''
+      under resource group ''asotest-rg-cxpjch'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "240"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
     duration: ""
 - request:
     body: '{"location":"westus2","name":"asotest-vn-houphb","properties":{"addressSpace":{"addressPrefixes":["10.1.0.0/16"]}}}'
@@ -130,9 +149,9 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-vn-houphb\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-houphb\",\r\n
-      \ \"etag\": \"W/\\\"78fce130-60b9-4fc1-af64-886ee6347e31\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"ed7c5612-8837-4db1-8914-3826f12cdcb8\\\"\",\r\n  \"type\":
       \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"3664eafd-2604-4d7b-98a7-bc846db0a8f2\",\r\n
+      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"cafebea2-d3e6-4968-8f53-0f258c79d317\",\r\n
       \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.1.0.0/16\"\r\n
       \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
       [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
@@ -140,7 +159,56 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/44ba743f-eec6-4eb9-a681-1da003efdd29?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/47e107b8-3daf-46ec-9981-063f8c6894ee?api-version=2020-11-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "630"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "3"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: '{"location":"westus2","name":"asotest-vn-cydhjo","properties":{"addressSpace":{"addressPrefixes":["10.0.0.0/16"]}}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "115"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-cydhjo?api-version=2020-11-01
+    method: PUT
+  response:
+    body: "{\r\n  \"name\": \"asotest-vn-cydhjo\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-cydhjo\",\r\n
+      \ \"etag\": \"W/\\\"b00ae744-6cc9-4d7a-ad39-cd429babffe5\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"8d790fdd-e6a2-4c57-a705-10905530fbb7\",\r\n
+      \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/16\"\r\n
+      \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
+      [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
+    headers:
+      Azure-Asyncnotification:
+      - Enabled
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/feba9d4c-3f88-412e-a963-fcd72ee78583?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -169,7 +237,40 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/973afa0e-dad3-41b8-b1d1-dac182f24da6?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/47e107b8-3daf-46ec-9981-063f8c6894ee?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/feba9d4c-3f88-412e-a963-fcd72ee78583?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -199,8 +300,88 @@ interactions:
     form: {}
     headers:
       Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/44ba743f-eec6-4eb9-a681-1da003efdd29?api-version=2020-11-01
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-cydhjo?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-vn-cydhjo\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-cydhjo\",\r\n
+      \ \"etag\": \"W/\\\"781fd323-9fce-4b77-87cc-d8602ac99e11\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"8d790fdd-e6a2-4c57-a705-10905530fbb7\",\r\n
+      \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/16\"\r\n
+      \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
+      [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"781fd323-9fce-4b77-87cc-d8602ac99e11"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-cydhjo?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-vn-cydhjo\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-cydhjo\",\r\n
+      \ \"etag\": \"W/\\\"781fd323-9fce-4b77-87cc-d8602ac99e11\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"8d790fdd-e6a2-4c57-a705-10905530fbb7\",\r\n
+      \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/16\"\r\n
+      \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
+      [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"781fd323-9fce-4b77-87cc-d8602ac99e11"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/47e107b8-3daf-46ec-9981-063f8c6894ee?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -230,53 +411,14 @@ interactions:
     form: {}
     headers:
       Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-cydhjo?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"asotest-vn-cydhjo\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-cydhjo\",\r\n
-      \ \"etag\": \"W/\\\"f77f1299-fbe1-4405-aace-ec900ad7b205\\\"\",\r\n  \"type\":
-      \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"f987c7af-ef19-4fa2-b191-2bc640d94813\",\r\n
-      \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/16\"\r\n
-      \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
-      [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"f77f1299-fbe1-4405-aace-ec900ad7b205"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
+      - "1"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-houphb?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-vn-houphb\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-houphb\",\r\n
-      \ \"etag\": \"W/\\\"909ca3a9-a818-403e-9de2-76ad955e9a87\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"5fa4c1a9-d766-4c14-98fd-aae4be6aa195\\\"\",\r\n  \"type\":
       \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"3664eafd-2604-4d7b-98a7-bc846db0a8f2\",\r\n
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"cafebea2-d3e6-4968-8f53-0f258c79d317\",\r\n
       \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.1.0.0/16\"\r\n
       \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
       [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
@@ -286,7 +428,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"909ca3a9-a818-403e-9de2-76ad955e9a87"
+      - W/"5fa4c1a9-d766-4c14-98fd-aae4be6aa195"
       Expires:
       - "-1"
       Pragma:
@@ -310,55 +452,14 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-cydhjo?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"asotest-vn-cydhjo\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-cydhjo\",\r\n
-      \ \"etag\": \"W/\\\"f77f1299-fbe1-4405-aace-ec900ad7b205\\\"\",\r\n  \"type\":
-      \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"f987c7af-ef19-4fa2-b191-2bc640d94813\",\r\n
-      \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/16\"\r\n
-      \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
-      [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"f77f1299-fbe1-4405-aace-ec900ad7b205"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
+      - "2"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-houphb?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-vn-houphb\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-houphb\",\r\n
-      \ \"etag\": \"W/\\\"909ca3a9-a818-403e-9de2-76ad955e9a87\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"5fa4c1a9-d766-4c14-98fd-aae4be6aa195\\\"\",\r\n  \"type\":
       \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"3664eafd-2604-4d7b-98a7-bc846db0a8f2\",\r\n
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"cafebea2-d3e6-4968-8f53-0f258c79d317\",\r\n
       \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.1.0.0/16\"\r\n
       \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
       [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
@@ -368,7 +469,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"909ca3a9-a818-403e-9de2-76ad955e9a87"
+      - W/"5fa4c1a9-d766-4c14-98fd-aae4be6aa195"
       Expires:
       - "-1"
       Pragma:
@@ -401,8 +502,8 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-vgateway-welibk\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-cydhjo/virtualNetworkPeerings/asotest-vgateway-welibk\",\r\n
-      \ \"etag\": \"W/\\\"56098d2a-9cdd-48e1-8a83-f1ea9ef337ff\\\"\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"cfe32d52-c91d-02d9-2936-97422d69e0e1\",\r\n
+      \ \"etag\": \"W/\\\"d3fec11a-fbf1-4775-a3b1-a1839b59df47\\\"\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"4787b17f-3544-053f-2856-1fb5d94928a0\",\r\n
       \   \"peeringState\": \"Initiated\",\r\n    \"remoteVirtualNetwork\": {\r\n
       \     \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-houphb\"\r\n
       \   },\r\n    \"allowVirtualNetworkAccess\": true,\r\n    \"allowForwardedTraffic\":
@@ -414,7 +515,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/590cbd2f-043f-4468-93d3-c85d98e6373e?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/ed1c6077-3698-43d1-8e3c-372caf1cd68e?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -443,7 +544,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/590cbd2f-043f-4468-93d3-c85d98e6373e?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/ed1c6077-3698-43d1-8e3c-372caf1cd68e?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -478,8 +579,8 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-vgateway-welibk\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-cydhjo/virtualNetworkPeerings/asotest-vgateway-welibk\",\r\n
-      \ \"etag\": \"W/\\\"153f537f-4b26-49bf-b4f3-efa773c93896\\\"\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"cfe32d52-c91d-02d9-2936-97422d69e0e1\",\r\n
+      \ \"etag\": \"W/\\\"6a9817cc-75e3-42c9-b105-ae94e73b6339\\\"\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"4787b17f-3544-053f-2856-1fb5d94928a0\",\r\n
       \   \"peeringState\": \"Initiated\",\r\n    \"remoteVirtualNetwork\": {\r\n
       \     \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-houphb\"\r\n
       \   },\r\n    \"allowVirtualNetworkAccess\": true,\r\n    \"allowForwardedTraffic\":
@@ -493,7 +594,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"153f537f-4b26-49bf-b4f3-efa773c93896"
+      - W/"6a9817cc-75e3-42c9-b105-ae94e73b6339"
       Expires:
       - "-1"
       Pragma:
@@ -522,8 +623,8 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-vgateway-welibk\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-cydhjo/virtualNetworkPeerings/asotest-vgateway-welibk\",\r\n
-      \ \"etag\": \"W/\\\"153f537f-4b26-49bf-b4f3-efa773c93896\\\"\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"cfe32d52-c91d-02d9-2936-97422d69e0e1\",\r\n
+      \ \"etag\": \"W/\\\"6a9817cc-75e3-42c9-b105-ae94e73b6339\\\"\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"4787b17f-3544-053f-2856-1fb5d94928a0\",\r\n
       \   \"peeringState\": \"Initiated\",\r\n    \"remoteVirtualNetwork\": {\r\n
       \     \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-houphb\"\r\n
       \   },\r\n    \"allowVirtualNetworkAccess\": true,\r\n    \"allowForwardedTraffic\":
@@ -537,7 +638,60 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"153f537f-4b26-49bf-b4f3-efa773c93896"
+      - W/"6a9817cc-75e3-42c9-b105-ae94e73b6339"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-cydhjo?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-vn-cydhjo\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-cydhjo\",\r\n
+      \ \"etag\": \"W/\\\"6a9817cc-75e3-42c9-b105-ae94e73b6339\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"8d790fdd-e6a2-4c57-a705-10905530fbb7\",\r\n
+      \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/16\"\r\n
+      \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
+      [\r\n      {\r\n        \"name\": \"asotest-vgateway-welibk\",\r\n        \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-cydhjo/virtualNetworkPeerings/asotest-vgateway-welibk\",\r\n
+      \       \"etag\": \"W/\\\"6a9817cc-75e3-42c9-b105-ae94e73b6339\\\"\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"resourceGuid\":
+      \"4787b17f-3544-053f-2856-1fb5d94928a0\",\r\n          \"peeringState\": \"Initiated\",\r\n
+      \         \"remoteVirtualNetwork\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-houphb\"\r\n
+      \         },\r\n          \"allowVirtualNetworkAccess\": true,\r\n          \"allowForwardedTraffic\":
+      false,\r\n          \"allowGatewayTransit\": false,\r\n          \"useRemoteGateways\":
+      false,\r\n          \"doNotVerifyRemoteGateways\": false,\r\n          \"remoteAddressSpace\":
+      {\r\n            \"addressPrefixes\": [\r\n              \"10.1.0.0/16\"\r\n
+      \           ]\r\n          },\r\n          \"routeServiceVips\": {}\r\n        },\r\n
+      \       \"type\": \"Microsoft.Network/virtualNetworks/virtualNetworkPeerings\"\r\n
+      \     }\r\n    ],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"6a9817cc-75e3-42c9-b105-ae94e73b6339"
       Expires:
       - "-1"
       Pragma:
@@ -571,17 +725,17 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-vn-cydhjo\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-cydhjo\",\r\n
-      \ \"etag\": \"W/\\\"89a17fb8-a633-436a-b7b1-7b704512ee82\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"ff93383a-2e83-441f-a9e6-0863f5385724\\\"\",\r\n  \"type\":
       \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"tags\":
       {\r\n    \"taters\": \"boil 'em, mash 'em, stick 'em in a stew\"\r\n  },\r\n
       \ \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\":
-      \"f987c7af-ef19-4fa2-b191-2bc640d94813\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\":
+      \"8d790fdd-e6a2-4c57-a705-10905530fbb7\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\":
       [\r\n        \"10.0.0.0/16\"\r\n      ]\r\n    },\r\n    \"subnets\": [],\r\n
       \   \"virtualNetworkPeerings\": [\r\n      {\r\n        \"name\": \"asotest-vgateway-welibk\",\r\n
       \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-cydhjo/virtualNetworkPeerings/asotest-vgateway-welibk\",\r\n
-      \       \"etag\": \"W/\\\"89a17fb8-a633-436a-b7b1-7b704512ee82\\\"\",\r\n        \"properties\":
+      \       \"etag\": \"W/\\\"ff93383a-2e83-441f-a9e6-0863f5385724\\\"\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"resourceGuid\":
-      \"cfe32d52-c91d-02d9-2936-97422d69e0e1\",\r\n          \"peeringState\": \"Initiated\",\r\n
+      \"4787b17f-3544-053f-2856-1fb5d94928a0\",\r\n          \"peeringState\": \"Initiated\",\r\n
       \         \"remoteVirtualNetwork\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-houphb\"\r\n
       \         },\r\n          \"allowVirtualNetworkAccess\": true,\r\n          \"allowForwardedTraffic\":
       false,\r\n          \"allowGatewayTransit\": false,\r\n          \"useRemoteGateways\":
@@ -594,7 +748,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/cfd3b19d-b621-42d5-b7a6-a9f167702801?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/738796b2-79c0-4d2d-8c27-765c620fe350?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Type:
@@ -622,22 +776,22 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "2"
+      - "4"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-cydhjo?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-vn-cydhjo\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-cydhjo\",\r\n
-      \ \"etag\": \"W/\\\"89a17fb8-a633-436a-b7b1-7b704512ee82\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"ff93383a-2e83-441f-a9e6-0863f5385724\\\"\",\r\n  \"type\":
       \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"tags\":
       {\r\n    \"taters\": \"boil 'em, mash 'em, stick 'em in a stew\"\r\n  },\r\n
       \ \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\":
-      \"f987c7af-ef19-4fa2-b191-2bc640d94813\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\":
+      \"8d790fdd-e6a2-4c57-a705-10905530fbb7\",\r\n    \"addressSpace\": {\r\n      \"addressPrefixes\":
       [\r\n        \"10.0.0.0/16\"\r\n      ]\r\n    },\r\n    \"subnets\": [],\r\n
       \   \"virtualNetworkPeerings\": [\r\n      {\r\n        \"name\": \"asotest-vgateway-welibk\",\r\n
       \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-cydhjo/virtualNetworkPeerings/asotest-vgateway-welibk\",\r\n
-      \       \"etag\": \"W/\\\"89a17fb8-a633-436a-b7b1-7b704512ee82\\\"\",\r\n        \"properties\":
+      \       \"etag\": \"W/\\\"ff93383a-2e83-441f-a9e6-0863f5385724\\\"\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"resourceGuid\":
-      \"cfe32d52-c91d-02d9-2936-97422d69e0e1\",\r\n          \"peeringState\": \"Initiated\",\r\n
+      \"4787b17f-3544-053f-2856-1fb5d94928a0\",\r\n          \"peeringState\": \"Initiated\",\r\n
       \         \"remoteVirtualNetwork\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-houphb\"\r\n
       \         },\r\n          \"allowVirtualNetworkAccess\": true,\r\n          \"allowForwardedTraffic\":
       false,\r\n          \"allowGatewayTransit\": false,\r\n          \"useRemoteGateways\":
@@ -652,7 +806,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"89a17fb8-a633-436a-b7b1-7b704512ee82"
+      - W/"ff93383a-2e83-441f-a9e6-0863f5385724"
       Expires:
       - "-1"
       Pragma:
@@ -681,8 +835,8 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-vgateway-welibk\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-cydhjo/virtualNetworkPeerings/asotest-vgateway-welibk\",\r\n
-      \ \"etag\": \"W/\\\"89a17fb8-a633-436a-b7b1-7b704512ee82\\\"\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"cfe32d52-c91d-02d9-2936-97422d69e0e1\",\r\n
+      \ \"etag\": \"W/\\\"ff93383a-2e83-441f-a9e6-0863f5385724\\\"\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"4787b17f-3544-053f-2856-1fb5d94928a0\",\r\n
       \   \"peeringState\": \"Initiated\",\r\n    \"remoteVirtualNetwork\": {\r\n
       \     \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cxpjch/providers/Microsoft.Network/virtualNetworks/asotest-vn-houphb\"\r\n
       \   },\r\n    \"allowVirtualNetworkAccess\": true,\r\n    \"allowForwardedTraffic\":
@@ -696,7 +850,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"89a17fb8-a633-436a-b7b1-7b704512ee82"
+      - W/"ff93383a-2e83-441f-a9e6-0863f5385724"
       Expires:
       - "-1"
       Pragma:
