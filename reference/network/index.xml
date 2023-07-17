@@ -19482,6 +19482,34 @@ string
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
+&lt;h3 id=&#34;network.azure.com/v1api20201101.ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded_ARM&#34;&gt;ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM&#34;&gt;SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;An application security group in a resource group.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 &lt;h3 id=&#34;network.azure.com/v1api20201101.ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded&#34;&gt;ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
 &lt;/h3&gt;
 &lt;p&gt;
@@ -19516,7 +19544,7 @@ genruntime.ResourceReference
 &lt;h3 id=&#34;network.azure.com/v1api20201101.ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM&#34;&gt;ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM
 &lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_ARM&#34;&gt;SecurityRulePropertiesFormat_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM&#34;&gt;SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;An application security group in a resource group.&lt;/p&gt;
@@ -31248,6 +31276,37 @@ NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
+&lt;h3 id=&#34;network.azure.com/v1api20201101.NetworkSecurityGroupPropertiesFormat_ARM&#34;&gt;NetworkSecurityGroupPropertiesFormat_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.NetworkSecurityGroup_Spec_ARM&#34;&gt;NetworkSecurityGroup_Spec_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Network Security Group resource.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;securityRules&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1api20201101.SecurityRule_ARM&#34;&gt;
+[]SecurityRule_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;SecurityRules: A collection of security rules of the network security group.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 &lt;h3 id=&#34;network.azure.com/v1api20201101.NetworkSecurityGroupPropertiesFormat_STATUS_ARM&#34;&gt;NetworkSecurityGroupPropertiesFormat_STATUS_ARM
 &lt;/h3&gt;
 &lt;p&gt;
@@ -31325,19 +31384,6 @@ string
 &lt;/td&gt;
 &lt;td&gt;
 &lt;p&gt;ResourceGuid: The resource GUID property of the network security group resource.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;securityRules&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#network.azure.com/v1api20201101.SecurityRule_STATUS_ARM&#34;&gt;
-[]SecurityRule_STATUS_ARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;SecurityRules: A collection of security rules of the network security group.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -31697,19 +31743,6 @@ string
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
-&lt;code&gt;securityRules&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#network.azure.com/v1api20201101.SecurityRule_STATUS&#34;&gt;
-[]SecurityRule_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;SecurityRules: A collection of security rules of the network security group.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
 &lt;code&gt;subnets&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#network.azure.com/v1api20201101.Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded&#34;&gt;
@@ -31994,6 +32027,19 @@ string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1api20201101.NetworkSecurityGroupPropertiesFormat_ARM&#34;&gt;
+NetworkSecurityGroupPropertiesFormat_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Properties: Properties of the network security group.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -32867,8 +32913,8 @@ string
 &lt;td&gt;
 &lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_ARM&#34;&gt;
-SecurityRulePropertiesFormat_ARM
+&lt;a href=&#34;#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM&#34;&gt;
+SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -38320,7 +38366,7 @@ string
 &lt;h3 id=&#34;network.azure.com/v1api20201101.SecurityRuleAccess&#34;&gt;SecurityRuleAccess
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.NetworkSecurityGroups_SecurityRule_Spec&#34;&gt;NetworkSecurityGroups_SecurityRule_Spec&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_ARM&#34;&gt;SecurityRulePropertiesFormat_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.NetworkSecurityGroups_SecurityRule_Spec&#34;&gt;NetworkSecurityGroups_SecurityRule_Spec&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM&#34;&gt;SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM&#34;&gt;SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Whether network traffic is allowed or denied.&lt;/p&gt;
@@ -38362,7 +38408,7 @@ string
 &lt;h3 id=&#34;network.azure.com/v1api20201101.SecurityRuleDirection&#34;&gt;SecurityRuleDirection
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.NetworkSecurityGroups_SecurityRule_Spec&#34;&gt;NetworkSecurityGroups_SecurityRule_Spec&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_ARM&#34;&gt;SecurityRulePropertiesFormat_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.NetworkSecurityGroups_SecurityRule_Spec&#34;&gt;NetworkSecurityGroups_SecurityRule_Spec&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM&#34;&gt;SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM&#34;&gt;SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.&lt;/p&gt;
@@ -38401,7 +38447,206 @@ string
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;&lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;network.azure.com/v1api20201101.SecurityRulePropertiesFormat_ARM&#34;&gt;SecurityRulePropertiesFormat_ARM
+&lt;h3 id=&#34;network.azure.com/v1api20201101.SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM&#34;&gt;SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.SecurityRule_ARM&#34;&gt;SecurityRule_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Security rule resource.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;access&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1api20201101.SecurityRuleAccess&#34;&gt;
+SecurityRuleAccess
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Access: The network traffic is allowed or denied.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;description&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Description: A description for this rule. Restricted to 140 chars.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;destinationAddressPrefix&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;DestinationAddressPrefix: The destination address prefix. CIDR or destination IP range. Asterisk &amp;lsquo;*&amp;rsquo; can also be used to
+match all source IPs. Default tags such as &amp;lsquo;VirtualNetwork&amp;rsquo;, &amp;lsquo;AzureLoadBalancer&amp;rsquo; and &amp;lsquo;Internet&amp;rsquo; can also be used.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;destinationAddressPrefixes&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+[]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;DestinationAddressPrefixes: The destination address prefixes. CIDR or destination IP ranges.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;destinationApplicationSecurityGroups&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1api20201101.ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded_ARM&#34;&gt;
+[]ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;DestinationApplicationSecurityGroups: The application security group specified as destination.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;destinationPortRange&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;DestinationPortRange: The destination port or range. Integer or range between 0 and 65535. Asterisk &amp;lsquo;*&amp;rsquo; can also be used
+to match all ports.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;destinationPortRanges&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+[]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;DestinationPortRanges: The destination port ranges.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;direction&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1api20201101.SecurityRuleDirection&#34;&gt;
+SecurityRuleDirection
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Direction: The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;priority&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Priority: The priority of the rule. The value can be between 100 and 4096. The priority number must be unique for each
+rule in the collection. The lower the priority number, the higher the priority of the rule.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;protocol&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_Protocol&#34;&gt;
+SecurityRulePropertiesFormat_Protocol
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Protocol: Network protocol this rule applies to.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;sourceAddressPrefix&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;SourceAddressPrefix: The CIDR or source IP range. Asterisk &amp;lsquo;*&amp;rsquo; can also be used to match all source IPs. Default tags
+such as &amp;lsquo;VirtualNetwork&amp;rsquo;, &amp;lsquo;AzureLoadBalancer&amp;rsquo; and &amp;lsquo;Internet&amp;rsquo; can also be used. If this is an ingress rule, specifies
+where network traffic originates from.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;sourceAddressPrefixes&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+[]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;SourceAddressPrefixes: The CIDR or source IP ranges.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;sourceApplicationSecurityGroups&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1api20201101.ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded_ARM&#34;&gt;
+[]ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;SourceApplicationSecurityGroups: The application security group specified as source.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;sourcePortRange&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;SourcePortRange: The source port or range. Integer or range between 0 and 65535. Asterisk &amp;lsquo;*&amp;rsquo; can also be used to match
+all ports.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;sourcePortRanges&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+[]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;SourcePortRanges: The source port ranges.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.azure.com/v1api20201101.SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM&#34;&gt;SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM
 &lt;/h3&gt;
 &lt;p&gt;
 (&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.NetworkSecurityGroups_SecurityRule_Spec_ARM&#34;&gt;NetworkSecurityGroups_SecurityRule_Spec_ARM&lt;/a&gt;)
@@ -38603,7 +38848,7 @@ all ports.&lt;/p&gt;
 &lt;h3 id=&#34;network.azure.com/v1api20201101.SecurityRulePropertiesFormat_Protocol&#34;&gt;SecurityRulePropertiesFormat_Protocol
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.NetworkSecurityGroups_SecurityRule_Spec&#34;&gt;NetworkSecurityGroups_SecurityRule_Spec&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_ARM&#34;&gt;SecurityRulePropertiesFormat_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.NetworkSecurityGroups_SecurityRule_Spec&#34;&gt;NetworkSecurityGroups_SecurityRule_Spec&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM&#34;&gt;SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM&#34;&gt;SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -38864,6 +39109,69 @@ all ports.&lt;/p&gt;
 &lt;/td&gt;
 &lt;td&gt;
 &lt;p&gt;SourcePortRanges: The source port ranges.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.azure.com/v1api20201101.SecurityRule_ARM&#34;&gt;SecurityRule_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1api20201101.NetworkSecurityGroupPropertiesFormat_ARM&#34;&gt;NetworkSecurityGroupPropertiesFormat_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Network security rule.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1api20201101.SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM&#34;&gt;
+SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Properties: Properties of the security rule.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Type: The type of the resource.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -62722,6 +63030,34 @@ string
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
+&lt;h3 id=&#34;network.azure.com/v1beta20201101.ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded_ARM&#34;&gt;ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1beta20201101.SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM&#34;&gt;SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Deprecated version of ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded. Use v1api20201101.ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded instead&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 &lt;h3 id=&#34;network.azure.com/v1beta20201101.ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded&#34;&gt;ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded
 &lt;/h3&gt;
 &lt;p&gt;
@@ -62755,7 +63091,7 @@ genruntime.ResourceReference
 &lt;h3 id=&#34;network.azure.com/v1beta20201101.ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM&#34;&gt;ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM
 &lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1beta20201101.SecurityRulePropertiesFormat_ARM&#34;&gt;SecurityRulePropertiesFormat_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1beta20201101.SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM&#34;&gt;SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Deprecated version of ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded. Use v1api20201101.ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded instead&lt;/p&gt;
@@ -72925,6 +73261,36 @@ NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
+&lt;h3 id=&#34;network.azure.com/v1beta20201101.NetworkSecurityGroupPropertiesFormat_ARM&#34;&gt;NetworkSecurityGroupPropertiesFormat_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1beta20201101.NetworkSecurityGroup_Spec_ARM&#34;&gt;NetworkSecurityGroup_Spec_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Deprecated version of NetworkSecurityGroupPropertiesFormat. Use v1api20201101.NetworkSecurityGroupPropertiesFormat instead&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;securityRules&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1beta20201101.SecurityRule_ARM&#34;&gt;
+[]SecurityRule_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 &lt;h3 id=&#34;network.azure.com/v1beta20201101.NetworkSecurityGroupPropertiesFormat_STATUS_ARM&#34;&gt;NetworkSecurityGroupPropertiesFormat_STATUS_ARM
 &lt;/h3&gt;
 &lt;p&gt;
@@ -72994,18 +73360,6 @@ ProvisioningState_STATUS
 &lt;code&gt;resourceGuid&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;securityRules&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#network.azure.com/v1beta20201101.SecurityRule_STATUS_ARM&#34;&gt;
-[]SecurityRule_STATUS_ARM
-&lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
@@ -73354,18 +73708,6 @@ string
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
-&lt;code&gt;securityRules&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#network.azure.com/v1beta20201101.SecurityRule_STATUS&#34;&gt;
-[]SecurityRule_STATUS
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
 &lt;code&gt;subnets&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#network.azure.com/v1beta20201101.Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded&#34;&gt;
@@ -73633,6 +73975,18 @@ string
 &lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1beta20201101.NetworkSecurityGroupPropertiesFormat_ARM&#34;&gt;
+NetworkSecurityGroupPropertiesFormat_ARM
+&lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
@@ -74435,8 +74789,8 @@ string
 &lt;td&gt;
 &lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#network.azure.com/v1beta20201101.SecurityRulePropertiesFormat_ARM&#34;&gt;
-SecurityRulePropertiesFormat_ARM
+&lt;a href=&#34;#network.azure.com/v1beta20201101.SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM&#34;&gt;
+SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -79545,7 +79899,7 @@ string
 &lt;h3 id=&#34;network.azure.com/v1beta20201101.SecurityRuleAccess&#34;&gt;SecurityRuleAccess
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1beta20201101.NetworkSecurityGroups_SecurityRule_Spec&#34;&gt;NetworkSecurityGroups_SecurityRule_Spec&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1beta20201101.SecurityRulePropertiesFormat_ARM&#34;&gt;SecurityRulePropertiesFormat_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1beta20201101.NetworkSecurityGroups_SecurityRule_Spec&#34;&gt;NetworkSecurityGroups_SecurityRule_Spec&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1beta20201101.SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM&#34;&gt;SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1beta20201101.SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM&#34;&gt;SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Deprecated version of SecurityRuleAccess. Use v1api20201101.SecurityRuleAccess instead&lt;/p&gt;
@@ -79587,7 +79941,7 @@ string
 &lt;h3 id=&#34;network.azure.com/v1beta20201101.SecurityRuleDirection&#34;&gt;SecurityRuleDirection
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1beta20201101.NetworkSecurityGroups_SecurityRule_Spec&#34;&gt;NetworkSecurityGroups_SecurityRule_Spec&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1beta20201101.SecurityRulePropertiesFormat_ARM&#34;&gt;SecurityRulePropertiesFormat_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1beta20201101.NetworkSecurityGroups_SecurityRule_Spec&#34;&gt;NetworkSecurityGroups_SecurityRule_Spec&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1beta20201101.SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM&#34;&gt;SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1beta20201101.SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM&#34;&gt;SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Deprecated version of SecurityRuleDirection. Use v1api20201101.SecurityRuleDirection instead&lt;/p&gt;
@@ -79626,13 +79980,191 @@ string
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;&lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;network.azure.com/v1beta20201101.SecurityRulePropertiesFormat_ARM&#34;&gt;SecurityRulePropertiesFormat_ARM
+&lt;h3 id=&#34;network.azure.com/v1beta20201101.SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM&#34;&gt;SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1beta20201101.SecurityRule_ARM&#34;&gt;SecurityRule_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Deprecated version of SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded. Use v1api20201101.SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded instead&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;access&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1beta20201101.SecurityRuleAccess&#34;&gt;
+SecurityRuleAccess
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;description&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;destinationAddressPrefix&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;destinationAddressPrefixes&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+[]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;destinationApplicationSecurityGroups&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1beta20201101.ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded_ARM&#34;&gt;
+[]ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;destinationPortRange&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;destinationPortRanges&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+[]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;direction&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1beta20201101.SecurityRuleDirection&#34;&gt;
+SecurityRuleDirection
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;priority&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;protocol&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1beta20201101.SecurityRulePropertiesFormat_Protocol&#34;&gt;
+SecurityRulePropertiesFormat_Protocol
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;sourceAddressPrefix&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;sourceAddressPrefixes&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+[]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;sourceApplicationSecurityGroups&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1beta20201101.ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded_ARM&#34;&gt;
+[]ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;sourcePortRange&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;sourcePortRanges&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+[]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.azure.com/v1beta20201101.SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM&#34;&gt;SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM
 &lt;/h3&gt;
 &lt;p&gt;
 (&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1beta20201101.NetworkSecurityGroups_SecurityRule_Spec_ARM&#34;&gt;NetworkSecurityGroups_SecurityRule_Spec_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
-&lt;p&gt;Deprecated version of SecurityRulePropertiesFormat. Use v1api20201101.SecurityRulePropertiesFormat instead&lt;/p&gt;
+&lt;p&gt;Deprecated version of SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded. Use v1api20201101.SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded instead&lt;/p&gt;
 &lt;/div&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -79807,7 +80339,7 @@ string
 &lt;h3 id=&#34;network.azure.com/v1beta20201101.SecurityRulePropertiesFormat_Protocol&#34;&gt;SecurityRulePropertiesFormat_Protocol
 (&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1beta20201101.NetworkSecurityGroups_SecurityRule_Spec&#34;&gt;NetworkSecurityGroups_SecurityRule_Spec&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1beta20201101.SecurityRulePropertiesFormat_ARM&#34;&gt;SecurityRulePropertiesFormat_ARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1beta20201101.NetworkSecurityGroups_SecurityRule_Spec&#34;&gt;NetworkSecurityGroups_SecurityRule_Spec&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1beta20201101.SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM&#34;&gt;SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM&lt;/a&gt;, &lt;a href=&#34;#network.azure.com/v1beta20201101.SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM&#34;&gt;SecurityRulePropertiesFormat_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;p&gt;Deprecated version of SecurityRulePropertiesFormat_Protocol. Use v1api20201101.SecurityRulePropertiesFormat_Protocol
@@ -80047,6 +80579,66 @@ string
 &lt;code&gt;sourcePortRanges&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 []string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network.azure.com/v1beta20201101.SecurityRule_ARM&#34;&gt;SecurityRule_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#network.azure.com/v1beta20201101.NetworkSecurityGroupPropertiesFormat_ARM&#34;&gt;NetworkSecurityGroupPropertiesFormat_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Deprecated version of SecurityRule. Use v1api20201101.SecurityRule instead&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#network.azure.com/v1beta20201101.SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM&#34;&gt;
+SecurityRulePropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
