@@ -248,17 +248,24 @@ func (gr *GenericReconciler) delete(ctx context.Context, log logr.Logger, metaOb
 
 // NewRateLimiter creates a new workqueue.Ratelimiter for use controlling the speed of reconciliation.
 // It throttles individual requests exponentially and also controls for multiple requests.
-func NewRateLimiter(minBackoff time.Duration, maxBackoff time.Duration) workqueue.RateLimiter {
-	return workqueue.NewMaxOfRateLimiter(
+func NewRateLimiter(minBackoff time.Duration, maxBackoff time.Duration, limitBurst bool) workqueue.RateLimiter {
+	limiters := []workqueue.RateLimiter{
 		workqueue.NewItemExponentialFailureRateLimiter(minBackoff, maxBackoff),
-		// TODO: We could have an azure global (or per subscription) bucket rate limiter to prevent running into subscription
-		// TODO: level throttling. For now though just stay with the default that client-go uses.
-		// Setting the limiter to 1 every 3 seconds & a burst of 40
-		// Based on ARM limits of 1200 puts per hour (20 per minute),
-		&workqueue.BucketRateLimiter{
-			Limiter: rate.NewLimiter(rate.Limit(0.2), 20),
-		},
-	)
+	}
+
+	if limitBurst {
+		limiters = append(
+			limiters,
+			// TODO: We could have an azure global (or per subscription) bucket rate limiter to prevent running into subscription
+			// TODO: level throttling. For now though just stay with the default that client-go uses.
+			// Setting the limiter to 1 every 3 seconds & a burst of 40
+			// Based on ARM limits of 1200 puts per hour (20 per minute),
+			&workqueue.BucketRateLimiter{
+				Limiter: rate.NewLimiter(rate.Limit(0.2), 20),
+			})
+	}
+
+	return workqueue.NewMaxOfRateLimiter(limiters...)
 }
 
 func (gr *GenericReconciler) WriteReadyConditionError(ctx context.Context, log logr.Logger, obj genruntime.MetaObject, err *conditions.ReadyConditionImpactingError) error {
