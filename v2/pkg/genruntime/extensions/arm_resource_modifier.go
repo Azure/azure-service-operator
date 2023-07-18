@@ -11,6 +11,7 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
@@ -23,11 +24,13 @@ type ARMResourceModifier interface {
 	// is then serialized and sent to ARM in the body of a PUT request.
 	ModifyARMResource(
 		ctx context.Context,
+		armClient *genericarmclient.GenericClient,
 		armObj genruntime.ARMResource,
 		obj genruntime.ARMMetaObject,
 		kubeClient kubeclient.Client,
 		resolver *resolver.Resolver,
-		log logr.Logger) (genruntime.ARMResource, error)
+		log logr.Logger,
+	) (genruntime.ARMResource, error)
 }
 
 type ARMResourceModifierFunc = func(ctx context.Context, obj genruntime.ARMMetaObject, armObj genruntime.ARMResource) (genruntime.ARMResource, error)
@@ -36,6 +39,7 @@ type ARMResourceModifierFunc = func(ctx context.Context, obj genruntime.ARMMetaO
 // not been implemented for the resource in question, the default behavior is to return the provided genruntime.ARMResource unmodified.
 func CreateARMResourceModifier(
 	host genruntime.ResourceExtension,
+	armClient *genericarmclient.GenericClient,
 	kubeClient kubeclient.Client,
 	resolver *resolver.Resolver,
 	log logr.Logger) ARMResourceModifierFunc {
@@ -50,7 +54,7 @@ func CreateARMResourceModifier(
 	return func(ctx context.Context, obj genruntime.ARMMetaObject, armObj genruntime.ARMResource) (genruntime.ARMResource, error) {
 		log.V(Info).Info("Modifying ARM payload")
 
-		armResource, err := impl.ModifyARMResource(ctx, armObj, obj, kubeClient, resolver, log)
+		armResource, err := impl.ModifyARMResource(ctx, armClient, armObj, obj, kubeClient, resolver, log)
 		if err != nil {
 			log.V(Status).Info("Failed to modify ARM resource payload", "error", err.Error())
 			return nil, errors.Wrap(err, "failed to modify ARM payload")

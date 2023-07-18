@@ -318,7 +318,7 @@ func (gr *GenericReconciler) CommitUpdate(ctx context.Context, log logr.Logger, 
 func (gr *GenericReconciler) handleSkipReconcile(ctx context.Context, log logr.Logger, obj genruntime.MetaObject) error {
 	reconcilePolicy := reconcilers.GetReconcilePolicy(obj, log) // TODO: Pull this whole method up here
 	log.V(Status).Info(
-		"Skipping creation of resource due to policy",
+		"Skipping creation/update of resource due to policy",
 		reconcilers.ReconcilePolicyAnnotation, reconcilePolicy)
 
 	err := gr.Reconciler.UpdateStatus(ctx, log, gr.Recorder, obj)

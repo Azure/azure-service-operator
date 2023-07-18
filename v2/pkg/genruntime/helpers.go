@@ -74,3 +74,31 @@ func ARMSpecNames(specs []ARMResourceSpec) []string {
 
 	return result
 }
+
+// ARMSpecNames returns a slice of names from the given ARMResourceSpec slice.
+func RawNames(specs []any) []string {
+	result := make([]string, len(specs))
+	for ix := range specs {
+		m, ok := specs[ix].(map[string]any)
+		if !ok {
+			result[ix] = "<UNKNOWN>"
+			continue
+		}
+
+		name, ok := m["name"]
+		if !ok {
+			result[ix] = "<UNKNOWN>"
+			continue
+		}
+
+		nameStr, ok := name.(string)
+		if !ok {
+			result[ix] = "<UNKNOWN>"
+			continue
+		}
+
+		result[ix] = nameStr
+	}
+
+	return result
+}

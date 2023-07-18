@@ -20,7 +20,6 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
-	ctrlconversion "sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/handler"
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
@@ -28,7 +27,6 @@ import (
 	mysqlv1 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1"
 	mysqlbeta "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta1"
 	postgresqlv1 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1"
-	networkstorage "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
@@ -128,39 +126,6 @@ func getGeneratedStorageTypes(
 	options generic.Options) ([]*registration.StorageType, error) {
 	knownStorageTypes := getKnownStorageTypes()
 
-	// Verify we're using the hub version of VirtualNetworksSubnet in the loop below
-	var _ ctrlconversion.Hub = &networkstorage.VirtualNetworksSubnet{}
-	var _ ctrlconversion.Hub = &networkstorage.LoadBalancersInboundNatRule{}
-	var _ ctrlconversion.Hub = &networkstorage.RouteTablesRoute{}
-
-	// TODO: Modifying this list would be easier if it were a map
-	for _, t := range knownStorageTypes {
-		if _, ok := t.Obj.(*networkstorage.LoadBalancersInboundNatRule); ok {
-			t.Indexes = append(t.Indexes, registration.Index{
-				Key:  ".metadata.ownerReferences[0]",
-				Func: indexOwner,
-			})
-		}
-		if _, ok := t.Obj.(*networkstorage.VirtualNetworksSubnet); ok {
-			t.Indexes = append(t.Indexes, registration.Index{
-				Key:  ".metadata.ownerReferences[0]",
-				Func: indexOwner,
-			})
-		}
-		if _, ok := t.Obj.(*networkstorage.RouteTablesRoute); ok {
-			t.Indexes = append(t.Indexes, registration.Index{
-				Key:  ".metadata.ownerReferences[0]",
-				Func: indexOwner,
-			})
-		}
-		if _, ok := t.Obj.(*networkstorage.NetworkSecurityGroupsSecurityRule); ok {
-			t.Indexes = append(t.Indexes, registration.Index{
-				Key:  ".metadata.ownerReferences[0]",
-				Func: indexOwner,
-			})
-		}
-	}
-
 	err := resourceResolver.IndexStorageTypes(mgr.GetScheme(), knownStorageTypes)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed add storage types to resource resolver")
@@ -244,16 +209,6 @@ func getControllerName(obj client.Object) (string, error) {
 
 	typ := v.Type()
 	return fmt.Sprintf("%sController", typ.Name()), nil
-}
-
-func indexOwner(rawObj client.Object) []string {
-	owners := rawObj.GetOwnerReferences()
-	if len(owners) == 0 {
-		return nil
-	}
-
-	// Only works for 1 owner now but that's fine
-	return []string{string(owners[0].UID)}
 }
 
 func GetKnownTypes() []client.Object {

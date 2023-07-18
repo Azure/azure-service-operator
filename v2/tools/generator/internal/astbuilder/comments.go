@@ -87,6 +87,9 @@ func AddComment(commentList *dst.Decorations, comment string) {
 
 // formatComment splits the supplied comment string up ready for use as a documentation comment
 func formatComment(comment string, width int) []string {
+	if comment == "" {
+		return []string{}
+	}
 	// Remove markdown bolding
 	text := strings.ReplaceAll(comment, "**", "")
 
@@ -121,6 +124,10 @@ func docCommentWrap(lines []string, width int) []string {
 // WordWrap applies word wrapping to the specified string, returning a slice containing the lines.
 func WordWrap(text string, width int) []string {
 	var result []string
+
+	if width == 0 && text == "" {
+		return []string{}
+	}
 
 	start := 0
 	for start < len(text) {
