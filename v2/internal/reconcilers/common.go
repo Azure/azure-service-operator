@@ -40,6 +40,7 @@ func LogObj(log logr.Logger, level int, note string, obj genruntime.MetaObject) 
 			"uid", obj.GetUID(),
 			"ownerReferences", obj.GetOwnerReferences(),
 			"creationTimestamp", obj.GetCreationTimestamp(),
+			"deletionTimestamp", obj.GetDeletionTimestamp(),
 			"finalizers", obj.GetFinalizers(),
 			"annotations", ourAnnotations,
 			// Use fmt here to ensure the output uses the String() method, which log.Info doesn't seem to do by default
