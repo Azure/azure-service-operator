@@ -13,7 +13,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -174,89 +173,68 @@ func (address *PublicIPAddress) SetStatus(status genruntime.ConvertibleStatus) e
 var _ admission.Validator = &PublicIPAddress{}
 
 // ValidateCreate validates the creation of the resource
-func (address *PublicIPAddress) ValidateCreate() error {
+func (address *PublicIPAddress) ValidateCreate() (admission.Warnings, error) {
 	validations := address.createValidations()
 	var temp any = address
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateCreate(validations)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (address *PublicIPAddress) ValidateDelete() error {
+func (address *PublicIPAddress) ValidateDelete() (admission.Warnings, error) {
 	validations := address.deleteValidations()
 	var temp any = address
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateDelete(validations)
 }
 
 // ValidateUpdate validates an update of the resource
-func (address *PublicIPAddress) ValidateUpdate(old runtime.Object) error {
+func (address *PublicIPAddress) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := address.updateValidations()
 	var temp any = address
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation(old)
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateUpdate(old, validations)
 }
 
 // createValidations validates the creation of the resource
-func (address *PublicIPAddress) createValidations() []func() error {
-	return []func() error{address.validateResourceReferences}
+func (address *PublicIPAddress) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){address.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (address *PublicIPAddress) deleteValidations() []func() error {
+func (address *PublicIPAddress) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (address *PublicIPAddress) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (address *PublicIPAddress) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return address.validateResourceReferences()
 		},
 		address.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
-func (address *PublicIPAddress) validateResourceReferences() error {
+func (address *PublicIPAddress) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&address.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (address *PublicIPAddress) validateWriteOnceProperties(old runtime.Object) error {
+func (address *PublicIPAddress) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*PublicIPAddress)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, address)

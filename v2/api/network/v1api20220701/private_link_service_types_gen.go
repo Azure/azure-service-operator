@@ -17,7 +17,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
@@ -195,86 +194,65 @@ func (service *PrivateLinkService) SetStatus(status genruntime.ConvertibleStatus
 var _ admission.Validator = &PrivateLinkService{}
 
 // ValidateCreate validates the creation of the resource
-func (service *PrivateLinkService) ValidateCreate() error {
+func (service *PrivateLinkService) ValidateCreate() (admission.Warnings, error) {
 	validations := service.createValidations()
 	var temp any = service
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateCreate(validations)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (service *PrivateLinkService) ValidateDelete() error {
+func (service *PrivateLinkService) ValidateDelete() (admission.Warnings, error) {
 	validations := service.deleteValidations()
 	var temp any = service
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateDelete(validations)
 }
 
 // ValidateUpdate validates an update of the resource
-func (service *PrivateLinkService) ValidateUpdate(old runtime.Object) error {
+func (service *PrivateLinkService) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := service.updateValidations()
 	var temp any = service
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation(old)
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateUpdate(old, validations)
 }
 
 // createValidations validates the creation of the resource
-func (service *PrivateLinkService) createValidations() []func() error {
-	return []func() error{service.validateResourceReferences, service.validateConfigMapDestinations}
+func (service *PrivateLinkService) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){service.validateResourceReferences, service.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
-func (service *PrivateLinkService) deleteValidations() []func() error {
+func (service *PrivateLinkService) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (service *PrivateLinkService) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (service *PrivateLinkService) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return service.validateResourceReferences()
 		},
 		service.validateWriteOnceProperties,
-		func(old runtime.Object) error {
+		func(old runtime.Object) (admission.Warnings, error) {
 			return service.validateConfigMapDestinations()
 		},
 	}
 }
 
 // validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations's
-func (service *PrivateLinkService) validateConfigMapDestinations() error {
+func (service *PrivateLinkService) validateConfigMapDestinations() (admission.Warnings, error) {
 	if service.Spec.OperatorSpec == nil {
-		return nil
+		return nil, nil
 	}
 	if service.Spec.OperatorSpec.ConfigMaps == nil {
-		return nil
+		return nil, nil
 	}
 	toValidate := []*genruntime.ConfigMapDestination{
 		service.Spec.OperatorSpec.ConfigMaps.Alias,
@@ -283,19 +261,19 @@ func (service *PrivateLinkService) validateConfigMapDestinations() error {
 }
 
 // validateResourceReferences validates all resource references
-func (service *PrivateLinkService) validateResourceReferences() error {
+func (service *PrivateLinkService) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&service.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (service *PrivateLinkService) validateWriteOnceProperties(old runtime.Object) error {
+func (service *PrivateLinkService) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*PrivateLinkService)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, service)

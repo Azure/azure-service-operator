@@ -13,7 +13,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -165,102 +164,81 @@ func (assignment *RoleAssignment) SetStatus(status genruntime.ConvertibleStatus)
 var _ admission.Validator = &RoleAssignment{}
 
 // ValidateCreate validates the creation of the resource
-func (assignment *RoleAssignment) ValidateCreate() error {
+func (assignment *RoleAssignment) ValidateCreate() (admission.Warnings, error) {
 	validations := assignment.createValidations()
 	var temp any = assignment
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateCreate(validations)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (assignment *RoleAssignment) ValidateDelete() error {
+func (assignment *RoleAssignment) ValidateDelete() (admission.Warnings, error) {
 	validations := assignment.deleteValidations()
 	var temp any = assignment
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateDelete(validations)
 }
 
 // ValidateUpdate validates an update of the resource
-func (assignment *RoleAssignment) ValidateUpdate(old runtime.Object) error {
+func (assignment *RoleAssignment) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := assignment.updateValidations()
 	var temp any = assignment
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation(old)
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateUpdate(old, validations)
 }
 
 // createValidations validates the creation of the resource
-func (assignment *RoleAssignment) createValidations() []func() error {
-	return []func() error{assignment.validateResourceReferences, assignment.validateOptionalConfigMapReferences}
+func (assignment *RoleAssignment) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){assignment.validateResourceReferences, assignment.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (assignment *RoleAssignment) deleteValidations() []func() error {
+func (assignment *RoleAssignment) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (assignment *RoleAssignment) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (assignment *RoleAssignment) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return assignment.validateResourceReferences()
 		},
 		assignment.validateWriteOnceProperties,
-		func(old runtime.Object) error {
+		func(old runtime.Object) (admission.Warnings, error) {
 			return assignment.validateOptionalConfigMapReferences()
 		},
 	}
 }
 
 // validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
-func (assignment *RoleAssignment) validateOptionalConfigMapReferences() error {
+func (assignment *RoleAssignment) validateOptionalConfigMapReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&assignment.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateOptionalConfigMapReferences(refs)
 }
 
 // validateResourceReferences validates all resource references
-func (assignment *RoleAssignment) validateResourceReferences() error {
+func (assignment *RoleAssignment) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&assignment.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (assignment *RoleAssignment) validateWriteOnceProperties(old runtime.Object) error {
+func (assignment *RoleAssignment) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*RoleAssignment)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, assignment)

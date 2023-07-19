@@ -17,7 +17,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
@@ -232,89 +231,68 @@ func (account *StorageAccount) SetStatus(status genruntime.ConvertibleStatus) er
 var _ admission.Validator = &StorageAccount{}
 
 // ValidateCreate validates the creation of the resource
-func (account *StorageAccount) ValidateCreate() error {
+func (account *StorageAccount) ValidateCreate() (admission.Warnings, error) {
 	validations := account.createValidations()
 	var temp any = account
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateCreate(validations)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (account *StorageAccount) ValidateDelete() error {
+func (account *StorageAccount) ValidateDelete() (admission.Warnings, error) {
 	validations := account.deleteValidations()
 	var temp any = account
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateDelete(validations)
 }
 
 // ValidateUpdate validates an update of the resource
-func (account *StorageAccount) ValidateUpdate(old runtime.Object) error {
+func (account *StorageAccount) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := account.updateValidations()
 	var temp any = account
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation(old)
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateUpdate(old, validations)
 }
 
 // createValidations validates the creation of the resource
-func (account *StorageAccount) createValidations() []func() error {
-	return []func() error{account.validateResourceReferences, account.validateSecretDestinations, account.validateConfigMapDestinations}
+func (account *StorageAccount) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){account.validateResourceReferences, account.validateSecretDestinations, account.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
-func (account *StorageAccount) deleteValidations() []func() error {
+func (account *StorageAccount) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (account *StorageAccount) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (account *StorageAccount) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return account.validateResourceReferences()
 		},
 		account.validateWriteOnceProperties,
-		func(old runtime.Object) error {
+		func(old runtime.Object) (admission.Warnings, error) {
 			return account.validateSecretDestinations()
 		},
-		func(old runtime.Object) error {
+		func(old runtime.Object) (admission.Warnings, error) {
 			return account.validateConfigMapDestinations()
 		},
 	}
 }
 
 // validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations's
-func (account *StorageAccount) validateConfigMapDestinations() error {
+func (account *StorageAccount) validateConfigMapDestinations() (admission.Warnings, error) {
 	if account.Spec.OperatorSpec == nil {
-		return nil
+		return nil, nil
 	}
 	if account.Spec.OperatorSpec.ConfigMaps == nil {
-		return nil
+		return nil, nil
 	}
 	toValidate := []*genruntime.ConfigMapDestination{
 		account.Spec.OperatorSpec.ConfigMaps.BlobEndpoint,
@@ -328,21 +306,21 @@ func (account *StorageAccount) validateConfigMapDestinations() error {
 }
 
 // validateResourceReferences validates all resource references
-func (account *StorageAccount) validateResourceReferences() error {
+func (account *StorageAccount) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&account.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (account *StorageAccount) validateSecretDestinations() error {
+func (account *StorageAccount) validateSecretDestinations() (admission.Warnings, error) {
 	if account.Spec.OperatorSpec == nil {
-		return nil
+		return nil, nil
 	}
 	if account.Spec.OperatorSpec.Secrets == nil {
-		return nil
+		return nil, nil
 	}
 	toValidate := []*genruntime.SecretDestination{
 		account.Spec.OperatorSpec.Secrets.BlobEndpoint,
@@ -358,10 +336,10 @@ func (account *StorageAccount) validateSecretDestinations() error {
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (account *StorageAccount) validateWriteOnceProperties(old runtime.Object) error {
+func (account *StorageAccount) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*StorageAccount)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, account)

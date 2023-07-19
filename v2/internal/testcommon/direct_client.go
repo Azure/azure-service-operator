@@ -10,6 +10,7 @@ import (
 
 	"k8s.io/apimachinery/pkg/api/meta"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/rest"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
@@ -81,6 +82,18 @@ func (d *directClient) Scheme() *runtime.Scheme {
 
 func (d *directClient) RESTMapper() meta.RESTMapper {
 	return d.inner.RESTMapper()
+}
+
+func (d *directClient) SubResource(subResource string) client.SubResourceClient {
+	return d.inner.SubResource(subResource)
+}
+
+func (d *directClient) GroupVersionKindFor(obj runtime.Object) (schema.GroupVersionKind, error) {
+	return d.inner.GroupVersionKindFor(obj)
+}
+
+func (d *directClient) IsObjectNamespaced(obj runtime.Object) (bool, error) {
+	return d.inner.IsObjectNamespaced(obj)
 }
 
 var _ client.Client = &directClient{}

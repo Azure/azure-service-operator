@@ -60,7 +60,7 @@ func Test_ResourceReference_Validate(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			err := tt.ref.Validate()
+			_, err := tt.ref.Validate()
 			if tt.errSubstring != "" {
 				g.Expect(err).To(HaveOccurred())
 				g.Expect(err.Error()).To(ContainSubstring(tt.errSubstring))

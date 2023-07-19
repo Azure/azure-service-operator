@@ -180,11 +180,6 @@ func validateSecretDestinations(k *functions.ResourceFunction, codeGenerationCon
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
 		ReceiverType:  astbuilder.PointerTo(receiverType),
-		Returns: []*dst.Field{
-			{
-				Type: dst.NewIdent("error"),
-			},
-		},
 		Body: validateOperatorSpecSliceBody(
 			codeGenerationContext,
 			k.Resource(),
@@ -194,6 +189,8 @@ func validateSecretDestinations(k *functions.ResourceFunction, codeGenerationCon
 			"ValidateSecretDestinations"),
 	}
 
+	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
+	fn.AddReturn(dst.NewIdent("error"))
 	fn.AddComments("validates there are no colliding genruntime.SecretDestination's")
 	return fn.DefineFunc()
 }
@@ -215,11 +212,6 @@ func validateConfigMapDestinations(k *functions.ResourceFunction, codeGeneration
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
 		ReceiverType:  astbuilder.PointerTo(receiverType),
-		Returns: []*dst.Field{
-			{
-				Type: dst.NewIdent("error"),
-			},
-		},
 		Body: validateOperatorSpecSliceBody(
 			codeGenerationContext,
 			k.Resource(),
@@ -229,6 +221,8 @@ func validateConfigMapDestinations(k *functions.ResourceFunction, codeGeneration
 			"ValidateConfigMapDestinations"),
 	}
 
+	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
+	fn.AddReturn(dst.NewIdent("error"))
 	fn.AddComments("validates there are no colliding genruntime.ConfigMapDestinations's")
 	return fn.DefineFunc()
 }
@@ -267,16 +261,16 @@ func validateOperatorSpecSliceBody(
 
 	specSelector := astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec")
 	// if <receiver>.Spec.OperatorSpec == nil {
-	//     return nil
+	//     return nil, nil
 	// }
 	operatorSpecSelector := astbuilder.Selector(specSelector, astmodel.OperatorSpecProperty)
-	body = append(body, astbuilder.ReturnIfNil(operatorSpecSelector, astbuilder.Nil()))
+	body = append(body, astbuilder.ReturnIfNil(operatorSpecSelector, astbuilder.Nil(), astbuilder.Nil()))
 
 	// if <receiver>.Spec.OperatorSpec.<operatorSpecProperty> == nil {
-	//     return nil
+	//     return nil, nil
 	// }
 	specPropertySelector := astbuilder.Selector(operatorSpecSelector, operatorSpecProperty)
-	body = append(body, astbuilder.ReturnIfNil(specPropertySelector, astbuilder.Nil()))
+	body = append(body, astbuilder.ReturnIfNil(specPropertySelector, astbuilder.Nil(), astbuilder.Nil()))
 
 	// secrets := []<validateType>{
 	//     account.Spec.OperatorSpec.Secrets.PrimaryReadonlyMasterKey,

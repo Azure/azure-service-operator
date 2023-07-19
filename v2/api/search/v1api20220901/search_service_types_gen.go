@@ -14,7 +14,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -174,95 +173,74 @@ func (service *SearchService) SetStatus(status genruntime.ConvertibleStatus) err
 var _ admission.Validator = &SearchService{}
 
 // ValidateCreate validates the creation of the resource
-func (service *SearchService) ValidateCreate() error {
+func (service *SearchService) ValidateCreate() (admission.Warnings, error) {
 	validations := service.createValidations()
 	var temp any = service
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateCreate(validations)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (service *SearchService) ValidateDelete() error {
+func (service *SearchService) ValidateDelete() (admission.Warnings, error) {
 	validations := service.deleteValidations()
 	var temp any = service
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateDelete(validations)
 }
 
 // ValidateUpdate validates an update of the resource
-func (service *SearchService) ValidateUpdate(old runtime.Object) error {
+func (service *SearchService) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := service.updateValidations()
 	var temp any = service
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation(old)
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateUpdate(old, validations)
 }
 
 // createValidations validates the creation of the resource
-func (service *SearchService) createValidations() []func() error {
-	return []func() error{service.validateResourceReferences, service.validateSecretDestinations}
+func (service *SearchService) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){service.validateResourceReferences, service.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
-func (service *SearchService) deleteValidations() []func() error {
+func (service *SearchService) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (service *SearchService) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (service *SearchService) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return service.validateResourceReferences()
 		},
 		service.validateWriteOnceProperties,
-		func(old runtime.Object) error {
+		func(old runtime.Object) (admission.Warnings, error) {
 			return service.validateSecretDestinations()
 		},
 	}
 }
 
 // validateResourceReferences validates all resource references
-func (service *SearchService) validateResourceReferences() error {
+func (service *SearchService) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&service.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (service *SearchService) validateSecretDestinations() error {
+func (service *SearchService) validateSecretDestinations() (admission.Warnings, error) {
 	if service.Spec.OperatorSpec == nil {
-		return nil
+		return nil, nil
 	}
 	if service.Spec.OperatorSpec.Secrets == nil {
-		return nil
+		return nil, nil
 	}
 	toValidate := []*genruntime.SecretDestination{
 		service.Spec.OperatorSpec.Secrets.AdminPrimaryKey,
@@ -273,10 +251,10 @@ func (service *SearchService) validateSecretDestinations() error {
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (service *SearchService) validateWriteOnceProperties(old runtime.Object) error {
+func (service *SearchService) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*SearchService)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, service)
