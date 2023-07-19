@@ -285,6 +285,12 @@ func (report *ResourceVersionsReport) WriteAllResourcesReportToBuffer(
 		info := report.groupInfo(grp, items)
 		buffer.WriteString(fmt.Sprintf("## %s\n\n", info.Title))
 
+		// Include our group fragment
+		err := report.writeFragment("group-header", info, buffer)
+		if err != nil {
+			return errors.Wrapf(err, "writing group-header fragment for group %s", info.Group)
+		}
+
 		// Include a custom fragment for this group if we have one
 		err = report.writeFragment(grp, info, buffer)
 		if err != nil {
@@ -326,6 +332,11 @@ func (report *ResourceVersionsReport) WriteGroupResourcesReportToBuffer(
 	} else {
 		buffer.WriteString(report.defaultGroupResourcesFrontMatter(info.Title))
 	}
+
+	// Include our group fragment
+	err := report.writeFragment("group-header", info, buffer)
+	if err != nil {
+		return errors.Wrapf(err, "writing group-header fragment for group %s", group)
 	}
 
 	// Include a fragment for this group if we have one
