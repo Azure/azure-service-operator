@@ -1,0 +1,2 @@
+To install the CRDs for these resources, your ASO configuration must include `{{ .Group }}.azure.com/*` as a part of the crdPattern parameter. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+
