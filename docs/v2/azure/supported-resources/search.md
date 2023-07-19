@@ -1,1 +1,2 @@
 The `authOptions` and `operatorSpec` properties on [`SearchService`](https://azure.github.io/azure-service-operator/reference/search/v1api20220901/#search.azure.com/v1api20220901.SearchService) are not supported in ASO v2.1.0; they'll be included in the next release.
+
