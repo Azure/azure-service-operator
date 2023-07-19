@@ -65,7 +65,10 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		return ctrl.Result{}, nil
 	}
 
-	originalObj := metaObj.DeepCopyObject().(genruntime.MetaObject)
+	originalObj := metaObj
+	// Ensure that we're always operating on a copy and not on the value returned from the client directly.
+	// This is important as it avoids us modifying the cached object.
+	metaObj = metaObj.DeepCopyObject().(genruntime.MetaObject)
 
 	log := gr.LoggerFactory(metaObj).WithValues("name", req.Name, "namespace", req.Namespace)
 	reconcilers.LogObj(log, Verbose, "Reconcile invoked", metaObj)
@@ -126,6 +129,7 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		// but since we don't trigger updates on all changes (some annotations are ignored) we also MIGHT NOT get a fresh event
 		// and get stuck. The solution is to let the GET at the top of the controller check for the not-found case and requeue
 		// on everything else.
+		log.Error(err, "Failed to commit object to etcd")
 		return ctrl.Result{}, kubeclient.IgnoreNotFound(err)
 	}
 
@@ -182,7 +186,10 @@ func (gr *GenericReconciler) claimResource(ctx context.Context, log logr.Logger,
 	log.V(Info).Info("adding finalizer")
 	controllerutil.AddFinalizer(metaObj, genruntime.ReconcilerFinalizer)
 
-	err = gr.KubeClient.CommitObject(ctx, metaObj)
+	// Passing nil for original here as we know we've made a change and original is only used to determine if the obj
+	// has changed to avoid excess commits. In this case, we always need to commit at this stage as adding the finalizer
+	// must be persisted to etcd before proceeding.
+	err = gr.CommitUpdate(ctx, log, nil, metaObj)
 	if err != nil {
 		log.Error(err, "Error adding finalizer")
 		return kubeclient.IgnoreNotFound(err)

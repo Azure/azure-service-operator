@@ -36,7 +36,7 @@ func Test_MissingCrossResourceReference_ReturnsError(t *testing.T) {
 	// We expect the ready condition to include details of the error
 	tc.Expect(vm.Status.Conditions[0].Reason).To(Equal("ReferenceNotFound"))
 	tc.Expect(vm.Status.Conditions[0].Message).To(
-		Equal(fmt.Sprintf("failed resolving ARM IDs for references: %s/%s does not exist (NetworkInterface.network.azure.com \"%s\" not found)",
+		Equal(fmt.Sprintf("failed resolving ARM IDs for references: %s/%s does not exist (networkinterfaces.network.azure.com \"%s\" not found)",
 			tc.Namespace,
 			networkInterface.Name,
 			networkInterface.Name)))
