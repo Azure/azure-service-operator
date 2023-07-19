@@ -13,7 +13,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -173,89 +172,68 @@ func (vault *BackupVault) SetStatus(status genruntime.ConvertibleStatus) error {
 var _ admission.Validator = &BackupVault{}
 
 // ValidateCreate validates the creation of the resource
-func (vault *BackupVault) ValidateCreate() error {
+func (vault *BackupVault) ValidateCreate() (admission.Warnings, error) {
 	validations := vault.createValidations()
 	var temp any = vault
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateCreate(validations)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (vault *BackupVault) ValidateDelete() error {
+func (vault *BackupVault) ValidateDelete() (admission.Warnings, error) {
 	validations := vault.deleteValidations()
 	var temp any = vault
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateDelete(validations)
 }
 
 // ValidateUpdate validates an update of the resource
-func (vault *BackupVault) ValidateUpdate(old runtime.Object) error {
+func (vault *BackupVault) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := vault.updateValidations()
 	var temp any = vault
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation(old)
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateUpdate(old, validations)
 }
 
 // createValidations validates the creation of the resource
-func (vault *BackupVault) createValidations() []func() error {
-	return []func() error{vault.validateResourceReferences}
+func (vault *BackupVault) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){vault.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (vault *BackupVault) deleteValidations() []func() error {
+func (vault *BackupVault) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (vault *BackupVault) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (vault *BackupVault) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return vault.validateResourceReferences()
 		},
 		vault.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
-func (vault *BackupVault) validateResourceReferences() error {
+func (vault *BackupVault) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&vault.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (vault *BackupVault) validateWriteOnceProperties(old runtime.Object) error {
+func (vault *BackupVault) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*BackupVault)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, vault)

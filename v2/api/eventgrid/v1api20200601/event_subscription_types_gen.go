@@ -13,7 +13,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -172,89 +171,68 @@ func (subscription *EventSubscription) SetStatus(status genruntime.ConvertibleSt
 var _ admission.Validator = &EventSubscription{}
 
 // ValidateCreate validates the creation of the resource
-func (subscription *EventSubscription) ValidateCreate() error {
+func (subscription *EventSubscription) ValidateCreate() (admission.Warnings, error) {
 	validations := subscription.createValidations()
 	var temp any = subscription
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateCreate(validations)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (subscription *EventSubscription) ValidateDelete() error {
+func (subscription *EventSubscription) ValidateDelete() (admission.Warnings, error) {
 	validations := subscription.deleteValidations()
 	var temp any = subscription
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateDelete(validations)
 }
 
 // ValidateUpdate validates an update of the resource
-func (subscription *EventSubscription) ValidateUpdate(old runtime.Object) error {
+func (subscription *EventSubscription) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := subscription.updateValidations()
 	var temp any = subscription
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation(old)
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateUpdate(old, validations)
 }
 
 // createValidations validates the creation of the resource
-func (subscription *EventSubscription) createValidations() []func() error {
-	return []func() error{subscription.validateResourceReferences}
+func (subscription *EventSubscription) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){subscription.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (subscription *EventSubscription) deleteValidations() []func() error {
+func (subscription *EventSubscription) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (subscription *EventSubscription) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (subscription *EventSubscription) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return subscription.validateResourceReferences()
 		},
 		subscription.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
-func (subscription *EventSubscription) validateResourceReferences() error {
+func (subscription *EventSubscription) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&subscription.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (subscription *EventSubscription) validateWriteOnceProperties(old runtime.Object) error {
+func (subscription *EventSubscription) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*EventSubscription)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, subscription)

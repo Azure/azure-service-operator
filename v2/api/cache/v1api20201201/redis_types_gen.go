@@ -13,7 +13,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -173,95 +172,74 @@ func (redis *Redis) SetStatus(status genruntime.ConvertibleStatus) error {
 var _ admission.Validator = &Redis{}
 
 // ValidateCreate validates the creation of the resource
-func (redis *Redis) ValidateCreate() error {
+func (redis *Redis) ValidateCreate() (admission.Warnings, error) {
 	validations := redis.createValidations()
 	var temp any = redis
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateCreate(validations)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (redis *Redis) ValidateDelete() error {
+func (redis *Redis) ValidateDelete() (admission.Warnings, error) {
 	validations := redis.deleteValidations()
 	var temp any = redis
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateDelete(validations)
 }
 
 // ValidateUpdate validates an update of the resource
-func (redis *Redis) ValidateUpdate(old runtime.Object) error {
+func (redis *Redis) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := redis.updateValidations()
 	var temp any = redis
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation(old)
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateUpdate(old, validations)
 }
 
 // createValidations validates the creation of the resource
-func (redis *Redis) createValidations() []func() error {
-	return []func() error{redis.validateResourceReferences, redis.validateSecretDestinations}
+func (redis *Redis) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){redis.validateResourceReferences, redis.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
-func (redis *Redis) deleteValidations() []func() error {
+func (redis *Redis) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (redis *Redis) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (redis *Redis) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return redis.validateResourceReferences()
 		},
 		redis.validateWriteOnceProperties,
-		func(old runtime.Object) error {
+		func(old runtime.Object) (admission.Warnings, error) {
 			return redis.validateSecretDestinations()
 		},
 	}
 }
 
 // validateResourceReferences validates all resource references
-func (redis *Redis) validateResourceReferences() error {
+func (redis *Redis) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&redis.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (redis *Redis) validateSecretDestinations() error {
+func (redis *Redis) validateSecretDestinations() (admission.Warnings, error) {
 	if redis.Spec.OperatorSpec == nil {
-		return nil
+		return nil, nil
 	}
 	if redis.Spec.OperatorSpec.Secrets == nil {
-		return nil
+		return nil, nil
 	}
 	toValidate := []*genruntime.SecretDestination{
 		redis.Spec.OperatorSpec.Secrets.HostName,
@@ -274,10 +252,10 @@ func (redis *Redis) validateSecretDestinations() error {
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (redis *Redis) validateWriteOnceProperties(old runtime.Object) error {
+func (redis *Redis) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*Redis)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, redis)

@@ -79,6 +79,18 @@ func (c *clientHelper) RESTMapper() meta.RESTMapper {
 	return c.client.RESTMapper()
 }
 
+func (c *clientHelper) SubResource(subResource string) client.SubResourceClient {
+	return c.client.SubResource(subResource)
+}
+
+func (c *clientHelper) GroupVersionKindFor(obj runtime.Object) (schema.GroupVersionKind, error) {
+	return c.client.GroupVersionKindFor(obj)
+}
+
+func (c *clientHelper) IsObjectNamespaced(obj runtime.Object) (bool, error) {
+	return c.client.IsObjectNamespaced(obj)
+}
+
 func (c *clientHelper) GetObject(ctx context.Context, namespacedName types.NamespacedName, gvk schema.GroupVersionKind) (client.Object, error) {
 	obj, err := c.Scheme().New(gvk)
 	if err != nil {

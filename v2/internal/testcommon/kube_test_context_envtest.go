@@ -31,6 +31,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
+	ctrllog "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
@@ -110,7 +111,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 		CertDir:          environment.WebhookInstallOptions.LocalServingCertDir,
 		Port:             environment.WebhookInstallOptions.LocalServingPort,
 		EventBroadcaster: record.NewBroadcasterForTests(1 * time.Second),
-		NewClient: func(_ cache.Cache, config *rest.Config, options client.Options, _ ...client.Object) (client.Client, error) {
+		NewClient: func(config *rest.Config, options client.Options) (client.Client, error) {
 			// We bypass the caching client for tests, see https://github.com/kubernetes-sigs/controller-runtime/issues/343 and
 			// https://github.com/kubernetes-sigs/controller-runtime/issues/1464 for details. Specifically:
 			// https://github.com/kubernetes-sigs/controller-runtime/issues/343#issuecomment-469435686 which states:
@@ -121,7 +122,14 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 
 			// It's possible that if we do https://github.com/Azure/azure-service-operator/issues/1891, we can go back
 			// to using the default (cached) client, as the main problem with using it is that it can introduce inconsistency
-			// in test request counts that cause intermittent test failures.
+			// in test request counts that cause intermittent test failures. Cache related failures usually manifest as
+			// errors when committing to etcd such as:
+			// "the object has been modified; please apply your changes to the latest version and try again"
+			// This generally means that the controller was served an older resourceVersion of a resource (from cache), which
+			// causes issues with our recording tests.
+
+			// Force Cache off for our client
+			options.Cache = &client.CacheOptions{}
 			return NewTestClient(config, options)
 		},
 		MetricsBindAddress: "0", // disable serving metrics, or else we get conflicts listening on same port 8080
@@ -131,6 +139,11 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 		stopEnvironment()
 		return nil, errors.Wrapf(err, "creating controller-runtime manager")
 	}
+
+	// TODO: Uncomment the below if we want controller-runtime logs in the tests.
+	// By default we've disabled controller runtime logs because they're very verbose and usually not useful.
+	//ctrl.SetLogger(klogr.New())
+	ctrl.SetLogger(logr.New(ctrllog.NullLogSink{}))
 
 	loggerFactory := func(obj metav1.Object) logr.Logger {
 		result := namespaceResources.Lookup(obj.GetNamespace())
@@ -176,7 +189,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 			MaxConcurrentReconciles: 5,
 
 			// Use appropriate backoff for mode.
-			RateLimiter: generic.NewRateLimiter(minBackoff, maxBackoff),
+			RateLimiter: generic.NewRateLimiter(minBackoff, maxBackoff, false),
 
 			LogConstructor: func(request *reconcile.Request) logr.Logger {
 				return ctrl.Log

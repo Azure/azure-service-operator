@@ -17,7 +17,9 @@ func Test_ValidateSecretDestination_EmptyListValidates(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	g.Expect(genruntime.ValidateSecretDestinations(nil)).To(Succeed())
+	warnings, err := genruntime.ValidateSecretDestinations(nil)
+	g.Expect(warnings).To(BeNil())
+	g.Expect(err).To(BeNil())
 }
 
 func Test_ValidateSecretDestination_ListWithNilElementsValidates(t *testing.T) {
@@ -28,7 +30,10 @@ func Test_ValidateSecretDestination_ListWithNilElementsValidates(t *testing.T) {
 		nil,
 		nil,
 	}
-	g.Expect(genruntime.ValidateSecretDestinations(destinations)).To(Succeed())
+
+	warnings, err := genruntime.ValidateSecretDestinations(destinations)
+	g.Expect(warnings).To(BeNil())
+	g.Expect(err).To(BeNil())
 }
 
 func Test_ValidateSecretDestination_LengthOneListValidates(t *testing.T) {
@@ -38,7 +43,10 @@ func Test_ValidateSecretDestination_LengthOneListValidates(t *testing.T) {
 	destinations := []*genruntime.SecretDestination{
 		{Name: "n1", Key: "key1"},
 	}
-	g.Expect(genruntime.ValidateSecretDestinations(destinations)).To(Succeed())
+
+	warnings, err := genruntime.ValidateSecretDestinations(destinations)
+	g.Expect(warnings).To(BeNil())
+	g.Expect(err).To(BeNil())
 }
 
 func Test_ValidateSecretDestination_ListWithoutCollisionsValidates(t *testing.T) {
@@ -51,7 +59,10 @@ func Test_ValidateSecretDestination_ListWithoutCollisionsValidates(t *testing.T)
 		{Name: "n1", Key: "key3"},
 		{Name: "n1", Key: "key4"},
 	}
-	g.Expect(genruntime.ValidateSecretDestinations(destinations)).To(Succeed())
+
+	warnings, err := genruntime.ValidateSecretDestinations(destinations)
+	g.Expect(warnings).To(BeNil())
+	g.Expect(err).To(BeNil())
 }
 
 func Test_ValidateSecretDestination_ListWithDifferentCasesValidates(t *testing.T) {
@@ -64,7 +75,10 @@ func Test_ValidateSecretDestination_ListWithDifferentCasesValidates(t *testing.T
 		{Name: "n1", Key: "key3"},
 		{Name: "n1", Key: "key4"},
 	}
-	g.Expect(genruntime.ValidateSecretDestinations(destinations)).To(Succeed())
+
+	warnings, err := genruntime.ValidateSecretDestinations(destinations)
+	g.Expect(warnings).To(BeNil())
+	g.Expect(err).To(BeNil())
 }
 
 func Test_ValidateSecretDestination_ListWithCollisionsFailsValidation(t *testing.T) {
@@ -77,7 +91,7 @@ func Test_ValidateSecretDestination_ListWithCollisionsFailsValidation(t *testing
 		{Name: "n3", Key: "key1"},
 		{Name: "n1", Key: "key1"},
 	}
-	err := genruntime.ValidateSecretDestinations(destinations)
+	_, err := genruntime.ValidateSecretDestinations(destinations)
 	g.Expect(err).ToNot(BeNil())
 	g.Expect(err.Error()).To(Equal("cannot write more than one secret to destination Name: \"n1\", Key: \"key1\""))
 }

@@ -13,7 +13,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -173,89 +172,68 @@ func (host *BastionHost) SetStatus(status genruntime.ConvertibleStatus) error {
 var _ admission.Validator = &BastionHost{}
 
 // ValidateCreate validates the creation of the resource
-func (host *BastionHost) ValidateCreate() error {
+func (host *BastionHost) ValidateCreate() (admission.Warnings, error) {
 	validations := host.createValidations()
 	var temp any = host
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateCreate(validations)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (host *BastionHost) ValidateDelete() error {
+func (host *BastionHost) ValidateDelete() (admission.Warnings, error) {
 	validations := host.deleteValidations()
 	var temp any = host
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateDelete(validations)
 }
 
 // ValidateUpdate validates an update of the resource
-func (host *BastionHost) ValidateUpdate(old runtime.Object) error {
+func (host *BastionHost) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := host.updateValidations()
 	var temp any = host
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation(old)
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateUpdate(old, validations)
 }
 
 // createValidations validates the creation of the resource
-func (host *BastionHost) createValidations() []func() error {
-	return []func() error{host.validateResourceReferences}
+func (host *BastionHost) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){host.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (host *BastionHost) deleteValidations() []func() error {
+func (host *BastionHost) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (host *BastionHost) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (host *BastionHost) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return host.validateResourceReferences()
 		},
 		host.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
-func (host *BastionHost) validateResourceReferences() error {
+func (host *BastionHost) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&host.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (host *BastionHost) validateWriteOnceProperties(old runtime.Object) error {
+func (host *BastionHost) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*BastionHost)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, host)

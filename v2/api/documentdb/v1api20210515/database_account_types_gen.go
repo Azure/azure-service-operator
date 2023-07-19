@@ -13,7 +13,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -173,95 +172,74 @@ func (account *DatabaseAccount) SetStatus(status genruntime.ConvertibleStatus) e
 var _ admission.Validator = &DatabaseAccount{}
 
 // ValidateCreate validates the creation of the resource
-func (account *DatabaseAccount) ValidateCreate() error {
+func (account *DatabaseAccount) ValidateCreate() (admission.Warnings, error) {
 	validations := account.createValidations()
 	var temp any = account
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateCreate(validations)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (account *DatabaseAccount) ValidateDelete() error {
+func (account *DatabaseAccount) ValidateDelete() (admission.Warnings, error) {
 	validations := account.deleteValidations()
 	var temp any = account
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateDelete(validations)
 }
 
 // ValidateUpdate validates an update of the resource
-func (account *DatabaseAccount) ValidateUpdate(old runtime.Object) error {
+func (account *DatabaseAccount) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := account.updateValidations()
 	var temp any = account
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation(old)
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateUpdate(old, validations)
 }
 
 // createValidations validates the creation of the resource
-func (account *DatabaseAccount) createValidations() []func() error {
-	return []func() error{account.validateResourceReferences, account.validateSecretDestinations}
+func (account *DatabaseAccount) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){account.validateResourceReferences, account.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
-func (account *DatabaseAccount) deleteValidations() []func() error {
+func (account *DatabaseAccount) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (account *DatabaseAccount) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (account *DatabaseAccount) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return account.validateResourceReferences()
 		},
 		account.validateWriteOnceProperties,
-		func(old runtime.Object) error {
+		func(old runtime.Object) (admission.Warnings, error) {
 			return account.validateSecretDestinations()
 		},
 	}
 }
 
 // validateResourceReferences validates all resource references
-func (account *DatabaseAccount) validateResourceReferences() error {
+func (account *DatabaseAccount) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&account.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (account *DatabaseAccount) validateSecretDestinations() error {
+func (account *DatabaseAccount) validateSecretDestinations() (admission.Warnings, error) {
 	if account.Spec.OperatorSpec == nil {
-		return nil
+		return nil, nil
 	}
 	if account.Spec.OperatorSpec.Secrets == nil {
-		return nil
+		return nil, nil
 	}
 	toValidate := []*genruntime.SecretDestination{
 		account.Spec.OperatorSpec.Secrets.DocumentEndpoint,
@@ -274,10 +252,10 @@ func (account *DatabaseAccount) validateSecretDestinations() error {
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (account *DatabaseAccount) validateWriteOnceProperties(old runtime.Object) error {
+func (account *DatabaseAccount) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*DatabaseAccount)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, account)

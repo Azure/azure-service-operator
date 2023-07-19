@@ -65,7 +65,10 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		return ctrl.Result{}, nil
 	}
 
-	originalObj := metaObj.DeepCopyObject().(genruntime.MetaObject)
+	originalObj := metaObj
+	// Ensure that we're always operating on a copy and not on the value returned from the client directly.
+	// This is important as it avoids us modifying the cached object.
+	metaObj = metaObj.DeepCopyObject().(genruntime.MetaObject)
 
 	log := gr.LoggerFactory(metaObj).WithValues("name", req.Name, "namespace", req.Namespace)
 	reconcilers.LogObj(log, Verbose, "Reconcile invoked", metaObj)
@@ -126,6 +129,7 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		// but since we don't trigger updates on all changes (some annotations are ignored) we also MIGHT NOT get a fresh event
 		// and get stuck. The solution is to let the GET at the top of the controller check for the not-found case and requeue
 		// on everything else.
+		log.Error(err, "Failed to commit object to etcd")
 		return ctrl.Result{}, kubeclient.IgnoreNotFound(err)
 	}
 
@@ -182,7 +186,10 @@ func (gr *GenericReconciler) claimResource(ctx context.Context, log logr.Logger,
 	log.V(Info).Info("adding finalizer")
 	controllerutil.AddFinalizer(metaObj, genruntime.ReconcilerFinalizer)
 
-	err = gr.KubeClient.CommitObject(ctx, metaObj)
+	// Passing nil for original here as we know we've made a change and original is only used to determine if the obj
+	// has changed to avoid excess commits. In this case, we always need to commit at this stage as adding the finalizer
+	// must be persisted to etcd before proceeding.
+	err = gr.CommitUpdate(ctx, log, nil, metaObj)
 	if err != nil {
 		log.Error(err, "Error adding finalizer")
 		return kubeclient.IgnoreNotFound(err)
@@ -248,17 +255,24 @@ func (gr *GenericReconciler) delete(ctx context.Context, log logr.Logger, metaOb
 
 // NewRateLimiter creates a new workqueue.Ratelimiter for use controlling the speed of reconciliation.
 // It throttles individual requests exponentially and also controls for multiple requests.
-func NewRateLimiter(minBackoff time.Duration, maxBackoff time.Duration) workqueue.RateLimiter {
-	return workqueue.NewMaxOfRateLimiter(
+func NewRateLimiter(minBackoff time.Duration, maxBackoff time.Duration, limitBurst bool) workqueue.RateLimiter {
+	limiters := []workqueue.RateLimiter{
 		workqueue.NewItemExponentialFailureRateLimiter(minBackoff, maxBackoff),
-		// TODO: We could have an azure global (or per subscription) bucket rate limiter to prevent running into subscription
-		// TODO: level throttling. For now though just stay with the default that client-go uses.
-		// Setting the limiter to 1 every 3 seconds & a burst of 40
-		// Based on ARM limits of 1200 puts per hour (20 per minute),
-		&workqueue.BucketRateLimiter{
-			Limiter: rate.NewLimiter(rate.Limit(0.2), 20),
-		},
-	)
+	}
+
+	if limitBurst {
+		limiters = append(
+			limiters,
+			// TODO: We could have an azure global (or per subscription) bucket rate limiter to prevent running into subscription
+			// TODO: level throttling. For now though just stay with the default that client-go uses.
+			// Setting the limiter to 1 every 3 seconds & a burst of 40
+			// Based on ARM limits of 1200 puts per hour (20 per minute),
+			&workqueue.BucketRateLimiter{
+				Limiter: rate.NewLimiter(rate.Limit(0.2), 20),
+			})
+	}
+
+	return workqueue.NewMaxOfRateLimiter(limiters...)
 }
 
 func (gr *GenericReconciler) WriteReadyConditionError(ctx context.Context, log logr.Logger, obj genruntime.MetaObject, err *conditions.ReadyConditionImpactingError) error {

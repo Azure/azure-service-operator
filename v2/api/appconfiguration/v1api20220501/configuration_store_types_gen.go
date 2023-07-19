@@ -13,7 +13,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -173,95 +172,74 @@ func (store *ConfigurationStore) SetStatus(status genruntime.ConvertibleStatus) 
 var _ admission.Validator = &ConfigurationStore{}
 
 // ValidateCreate validates the creation of the resource
-func (store *ConfigurationStore) ValidateCreate() error {
+func (store *ConfigurationStore) ValidateCreate() (admission.Warnings, error) {
 	validations := store.createValidations()
 	var temp any = store
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateCreate(validations)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (store *ConfigurationStore) ValidateDelete() error {
+func (store *ConfigurationStore) ValidateDelete() (admission.Warnings, error) {
 	validations := store.deleteValidations()
 	var temp any = store
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateDelete(validations)
 }
 
 // ValidateUpdate validates an update of the resource
-func (store *ConfigurationStore) ValidateUpdate(old runtime.Object) error {
+func (store *ConfigurationStore) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := store.updateValidations()
 	var temp any = store
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation(old)
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateUpdate(old, validations)
 }
 
 // createValidations validates the creation of the resource
-func (store *ConfigurationStore) createValidations() []func() error {
-	return []func() error{store.validateResourceReferences, store.validateSecretDestinations}
+func (store *ConfigurationStore) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){store.validateResourceReferences, store.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
-func (store *ConfigurationStore) deleteValidations() []func() error {
+func (store *ConfigurationStore) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (store *ConfigurationStore) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (store *ConfigurationStore) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return store.validateResourceReferences()
 		},
 		store.validateWriteOnceProperties,
-		func(old runtime.Object) error {
+		func(old runtime.Object) (admission.Warnings, error) {
 			return store.validateSecretDestinations()
 		},
 	}
 }
 
 // validateResourceReferences validates all resource references
-func (store *ConfigurationStore) validateResourceReferences() error {
+func (store *ConfigurationStore) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&store.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (store *ConfigurationStore) validateSecretDestinations() error {
+func (store *ConfigurationStore) validateSecretDestinations() (admission.Warnings, error) {
 	if store.Spec.OperatorSpec == nil {
-		return nil
+		return nil, nil
 	}
 	if store.Spec.OperatorSpec.Secrets == nil {
-		return nil
+		return nil, nil
 	}
 	toValidate := []*genruntime.SecretDestination{
 		store.Spec.OperatorSpec.Secrets.PrimaryConnectionString,
@@ -281,10 +259,10 @@ func (store *ConfigurationStore) validateSecretDestinations() error {
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (store *ConfigurationStore) validateWriteOnceProperties(old runtime.Object) error {
+func (store *ConfigurationStore) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*ConfigurationStore)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, store)

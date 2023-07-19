@@ -9,6 +9,7 @@ import (
 	"fmt"
 
 	"github.com/pkg/errors"
+	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 )
@@ -108,7 +109,7 @@ func makeKeyPairFromSecret(dest *SecretDestination) keyPair {
 
 // ValidateSecretDestinations checks that no two destinations are writing to the same secret/key, as that could cause
 // those secrets to overwrite one another.
-func ValidateSecretDestinations(destinations []*SecretDestination) error {
+func ValidateSecretDestinations(destinations []*SecretDestination) (admission.Warnings, error) {
 	// Map of secret -> keys
 	locations := set.Make[keyPair]()
 
@@ -119,11 +120,11 @@ func ValidateSecretDestinations(destinations []*SecretDestination) error {
 
 		pair := makeKeyPairFromSecret(dest)
 		if locations.Contains(pair) {
-			return errors.Errorf("cannot write more than one secret to destination %s", dest.String())
+			return nil, errors.Errorf("cannot write more than one secret to destination %s", dest.String())
 		}
 
 		locations.Add(pair)
 	}
 
-	return nil
+	return nil, nil
 }

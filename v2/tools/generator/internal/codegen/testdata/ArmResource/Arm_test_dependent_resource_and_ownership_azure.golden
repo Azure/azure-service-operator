@@ -13,7 +13,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -127,89 +126,68 @@ func (a *A) Owner() *genruntime.ResourceReference {
 var _ admission.Validator = &A{}
 
 // ValidateCreate validates the creation of the resource
-func (a *A) ValidateCreate() error {
+func (a *A) ValidateCreate() (admission.Warnings, error) {
 	validations := a.createValidations()
 	var temp any = a
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateCreate(validations)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (a *A) ValidateDelete() error {
+func (a *A) ValidateDelete() (admission.Warnings, error) {
 	validations := a.deleteValidations()
 	var temp any = a
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateDelete(validations)
 }
 
 // ValidateUpdate validates an update of the resource
-func (a *A) ValidateUpdate(old runtime.Object) error {
+func (a *A) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := a.updateValidations()
 	var temp any = a
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation(old)
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateUpdate(old, validations)
 }
 
 // createValidations validates the creation of the resource
-func (a *A) createValidations() []func() error {
-	return []func() error{a.validateResourceReferences}
+func (a *A) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){a.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (a *A) deleteValidations() []func() error {
+func (a *A) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (a *A) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (a *A) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return a.validateResourceReferences()
 		},
 		a.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
-func (a *A) validateResourceReferences() error {
+func (a *A) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&a.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (a *A) validateWriteOnceProperties(old runtime.Object) error {
+func (a *A) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*A)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, a)
@@ -400,89 +378,68 @@ func (b *B) Owner() *genruntime.ResourceReference {
 var _ admission.Validator = &B{}
 
 // ValidateCreate validates the creation of the resource
-func (b *B) ValidateCreate() error {
+func (b *B) ValidateCreate() (admission.Warnings, error) {
 	validations := b.createValidations()
 	var temp any = b
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateCreate(validations)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (b *B) ValidateDelete() error {
+func (b *B) ValidateDelete() (admission.Warnings, error) {
 	validations := b.deleteValidations()
 	var temp any = b
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateDelete(validations)
 }
 
 // ValidateUpdate validates an update of the resource
-func (b *B) ValidateUpdate(old runtime.Object) error {
+func (b *B) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := b.updateValidations()
 	var temp any = b
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation(old)
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateUpdate(old, validations)
 }
 
 // createValidations validates the creation of the resource
-func (b *B) createValidations() []func() error {
-	return []func() error{b.validateResourceReferences}
+func (b *B) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){b.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (b *B) deleteValidations() []func() error {
+func (b *B) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (b *B) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (b *B) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return b.validateResourceReferences()
 		},
 		b.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
-func (b *B) validateResourceReferences() error {
+func (b *B) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&b.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (b *B) validateWriteOnceProperties(old runtime.Object) error {
+func (b *B) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*B)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, b)
@@ -673,89 +630,68 @@ func (c *C) Owner() *genruntime.ResourceReference {
 var _ admission.Validator = &C{}
 
 // ValidateCreate validates the creation of the resource
-func (c *C) ValidateCreate() error {
+func (c *C) ValidateCreate() (admission.Warnings, error) {
 	validations := c.createValidations()
 	var temp any = c
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateCreate(validations)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (c *C) ValidateDelete() error {
+func (c *C) ValidateDelete() (admission.Warnings, error) {
 	validations := c.deleteValidations()
 	var temp any = c
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateDelete(validations)
 }
 
 // ValidateUpdate validates an update of the resource
-func (c *C) ValidateUpdate(old runtime.Object) error {
+func (c *C) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := c.updateValidations()
 	var temp any = c
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation(old)
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateUpdate(old, validations)
 }
 
 // createValidations validates the creation of the resource
-func (c *C) createValidations() []func() error {
-	return []func() error{c.validateResourceReferences}
+func (c *C) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){c.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (c *C) deleteValidations() []func() error {
+func (c *C) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (c *C) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (c *C) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return c.validateResourceReferences()
 		},
 		c.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
-func (c *C) validateResourceReferences() error {
+func (c *C) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&c.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (c *C) validateWriteOnceProperties(old runtime.Object) error {
+func (c *C) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*C)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, c)
@@ -946,89 +882,68 @@ func (d *D) Owner() *genruntime.ResourceReference {
 var _ admission.Validator = &D{}
 
 // ValidateCreate validates the creation of the resource
-func (d *D) ValidateCreate() error {
+func (d *D) ValidateCreate() (admission.Warnings, error) {
 	validations := d.createValidations()
 	var temp any = d
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateCreate(validations)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (d *D) ValidateDelete() error {
+func (d *D) ValidateDelete() (admission.Warnings, error) {
 	validations := d.deleteValidations()
 	var temp any = d
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateDelete(validations)
 }
 
 // ValidateUpdate validates an update of the resource
-func (d *D) ValidateUpdate(old runtime.Object) error {
+func (d *D) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := d.updateValidations()
 	var temp any = d
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation(old)
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateUpdate(old, validations)
 }
 
 // createValidations validates the creation of the resource
-func (d *D) createValidations() []func() error {
-	return []func() error{d.validateResourceReferences}
+func (d *D) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){d.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (d *D) deleteValidations() []func() error {
+func (d *D) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (d *D) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (d *D) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return d.validateResourceReferences()
 		},
 		d.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
-func (d *D) validateResourceReferences() error {
+func (d *D) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&d.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (d *D) validateWriteOnceProperties(old runtime.Object) error {
+func (d *D) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*D)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, d)

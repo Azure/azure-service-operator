@@ -7,7 +7,6 @@ package functions
 
 import (
 	"fmt"
-	"go/token"
 	"strings"
 
 	"github.com/dave/dst"
@@ -152,14 +151,17 @@ func (v *ValidatorBuilder) validateCreate(k *ResourceFunction, codeGenerationCon
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
 		ReceiverType:  astbuilder.PointerTo(receiverType),
-		Returns: []*dst.Field{
-			{
-				Type: dst.NewIdent("error"),
-			},
-		},
-		Body: v.validateBody(codeGenerationContext, receiverIdent, "createValidations", "CreateValidations", ""),
+		Body: v.validateBody(
+			codeGenerationContext,
+			receiverIdent,
+			"createValidations",
+			"CreateValidations",
+			"ValidateCreate",
+			""),
 	}
 
+	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
+	fn.AddReturn(dst.NewIdent("error"))
 	fn.AddComments("validates the creation of the resource")
 	return fn.DefineFunc()
 }
@@ -177,7 +179,13 @@ func (v *ValidatorBuilder) validateUpdate(k *ResourceFunction, codeGenerationCon
 		ReceiverIdent: receiverIdent,
 		ReceiverType:  astbuilder.PointerTo(receiverType),
 		Returns:       retType.Results.List,
-		Body:          v.validateBody(codeGenerationContext, receiverIdent, "updateValidations", "UpdateValidations", "old"),
+		Body: v.validateBody(
+			codeGenerationContext,
+			receiverIdent,
+			"updateValidations",
+			"UpdateValidations",
+			"ValidateUpdate",
+			"old"),
 	}
 
 	fn.AddComments("validates an update of the resource")
@@ -193,14 +201,17 @@ func (v *ValidatorBuilder) validateDelete(k *ResourceFunction, codeGenerationCon
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
 		ReceiverType:  astbuilder.PointerTo(receiverType),
-		Returns: []*dst.Field{
-			{
-				Type: dst.NewIdent("error"),
-			},
-		},
-		Body: v.validateBody(codeGenerationContext, receiverIdent, "deleteValidations", "DeleteValidations", ""),
+		Body: v.validateBody(
+			codeGenerationContext,
+			receiverIdent,
+			"deleteValidations",
+			"DeleteValidations",
+			"ValidateDelete",
+			""),
 	}
 
+	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
+	fn.AddReturn(dst.NewIdent("error"))
 	fn.AddComments("validates the deletion of the resource")
 	return fn.DefineFunc()
 }
@@ -214,47 +225,25 @@ func (v *ValidatorBuilder) validateDelete(k *ResourceFunction, codeGenerationCon
 //	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 //		validations = append(validations, runtimeValidator.CreateValidations()...)
 //	}
-//	var errs []error
-//	for _, validation := range validations {
-//		err := validation()
-//		if err != nil {
-//			errs = append(errs, err)
-//		}
-//	}
-//	return kerrors.NewAggregate(errs)
-func (v *ValidatorBuilder) validateBody(codeGenerationContext *astmodel.CodeGenerationContext, receiverIdent string, implFunctionName string, overrideFunctionName string, funcParamIdent string) []dst.Stmt {
-	kErrors, err := codeGenerationContext.GetImportedPackageName(astmodel.APIMachineryErrorsReference)
-	if err != nil {
-		panic(err)
-	}
-
+//	return genruntime.<validationFunctionName>(validations)
+func (v *ValidatorBuilder) validateBody(
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiverIdent string,
+	implFunctionName string,
+	overrideFunctionName string,
+	validationFunctionName string,
+	funcParamIdent string) []dst.Stmt {
 	overrideInterfaceType := astmodel.GenRuntimeValidatorInterfaceName.AsType(codeGenerationContext)
 
 	validationsIdent := "validations"
-	validationIdent := "validation"
 	tempVarIdent := "temp"
 	runtimeValidatorIdent := "runtimeValidator"
-	errsIdent := "errs"
 
 	var args []dst.Expr
 	if funcParamIdent != "" {
 		args = append(args, dst.NewIdent(funcParamIdent))
 	}
-
-	// TODO: This loop (and possibly some of the other body stuff below) could be done in a generic method written in
-	// TODO: genruntime -- thoughts?
-	validationLoop := &dst.RangeStmt{
-		Key:   dst.NewIdent("_"),
-		Value: dst.NewIdent(validationIdent),
-		X:     dst.NewIdent(validationsIdent),
-		Tok:   token.DEFINE,
-		Body: &dst.BlockStmt{
-			List: []dst.Stmt{
-				astbuilder.ShortDeclaration("err", astbuilder.CallFunc(validationIdent, args...)),
-				astbuilder.CheckErrorAndSingleStatement(astbuilder.AppendItemToSlice(dst.NewIdent(errsIdent), dst.NewIdent("err"))),
-			},
-		},
-	}
+	args = append(args, dst.NewIdent(validationsIdent))
 
 	hack := astbuilder.CallQualifiedFunc(runtimeValidatorIdent, overrideFunctionName)
 	hack.Ellipsis = true
@@ -273,9 +262,7 @@ func (v *ValidatorBuilder) validateBody(codeGenerationContext *astmodel.CodeGene
 			runtimeValidatorIdent,
 			// Not using astbuilder.AppendList here as we want to tack on a "..." at the end
 			astbuilder.SimpleAssignment(dst.NewIdent(validationsIdent), appendFuncCall)),
-		astbuilder.LocalVariableDeclaration(errsIdent, &dst.ArrayType{Elt: dst.NewIdent("error")}, ""),
-		validationLoop,
-		astbuilder.Returns(astbuilder.CallQualifiedFunc(kErrors, "NewAggregate", dst.NewIdent(errsIdent))),
+		astbuilder.Returns(astbuilder.CallQualifiedFunc(astmodel.GenRuntimeReference.PackageName(), validationFunctionName, args...)),
 	}
 
 	return body
@@ -328,8 +315,8 @@ func (v *ValidatorBuilder) makeLocalValidationFuncDetails(kind ValidationKind, c
 //
 // or in the case of update functions (that may not need the old parameter):
 //
-//	return []func(old runtime.Object) error{
-//		func(old runtime.Object) error {
+//	return []func(old runtime.Object) (admission.Warnings, error) {
+//		func(old runtime.Object) (admission.Warnings, error) {
 //			return <receiver>.<validationFunc1>
 //		},
 //		<receiver>.<validationFunc2>,
@@ -405,6 +392,15 @@ func getValidationFuncType(kind ValidationKind, codeGenerationContext *astmodel.
 		panic(err)
 	}
 
+	result := []*dst.Field{
+		{
+			Type: astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"),
+		},
+		{
+			Type: dst.NewIdent("error"),
+		},
+	}
+
 	if kind == ValidationKindUpdate {
 		return &dst.FuncType{
 			Params: &dst.FieldList{
@@ -421,22 +417,14 @@ func getValidationFuncType(kind ValidationKind, codeGenerationContext *astmodel.
 				},
 			},
 			Results: &dst.FieldList{
-				List: []*dst.Field{
-					{
-						Type: dst.NewIdent("error"),
-					},
-				},
+				List: result,
 			},
 		}
 	}
 
 	return &dst.FuncType{
 		Results: &dst.FieldList{
-			List: []*dst.Field{
-				{
-					Type: dst.NewIdent("error"),
-				},
-			},
+			List: result,
 		},
 	}
 }

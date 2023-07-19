@@ -14,7 +14,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -174,89 +173,68 @@ func (group *ContainerGroup) SetStatus(status genruntime.ConvertibleStatus) erro
 var _ admission.Validator = &ContainerGroup{}
 
 // ValidateCreate validates the creation of the resource
-func (group *ContainerGroup) ValidateCreate() error {
+func (group *ContainerGroup) ValidateCreate() (admission.Warnings, error) {
 	validations := group.createValidations()
 	var temp any = group
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateCreate(validations)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (group *ContainerGroup) ValidateDelete() error {
+func (group *ContainerGroup) ValidateDelete() (admission.Warnings, error) {
 	validations := group.deleteValidations()
 	var temp any = group
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateDelete(validations)
 }
 
 // ValidateUpdate validates an update of the resource
-func (group *ContainerGroup) ValidateUpdate(old runtime.Object) error {
+func (group *ContainerGroup) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := group.updateValidations()
 	var temp any = group
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation(old)
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateUpdate(old, validations)
 }
 
 // createValidations validates the creation of the resource
-func (group *ContainerGroup) createValidations() []func() error {
-	return []func() error{group.validateResourceReferences}
+func (group *ContainerGroup) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){group.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (group *ContainerGroup) deleteValidations() []func() error {
+func (group *ContainerGroup) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (group *ContainerGroup) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (group *ContainerGroup) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return group.validateResourceReferences()
 		},
 		group.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
-func (group *ContainerGroup) validateResourceReferences() error {
+func (group *ContainerGroup) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&group.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (group *ContainerGroup) validateWriteOnceProperties(old runtime.Object) error {
+func (group *ContainerGroup) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*ContainerGroup)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, group)
