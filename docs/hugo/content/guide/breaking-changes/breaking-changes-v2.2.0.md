@@ -8,7 +8,7 @@ weight: 80
   We always try to avoid breaking changes, but in this case, allowing raw passwords in the spec is a security problem and as such we've
   decided to make a break to correct this issue.
 
-**Action required:** If the `ContainerService/ManagedClusters` resource is installed in your cluster and the `ManagedClusterServicePrincipalProfile.Secret` property is set on your `ManagedCluster` resource, below steps should be performed before upgrading:
+**Action required:** If the `ContainerService/ManagedClusters` resource is used in your cluster and the `ManagedClusterServicePrincipalProfile.Secret` property is set, do the following before upgrading ASO:
 
 1. Annotate the resource with `serviceoperator.azure.com/reconcile-policy: skip` to prevent ASO from trying to reconcile the resource while you are upgrading.
 2. Download the current YAML for the resource using `kubectl` if you don't have it elsewhere.
