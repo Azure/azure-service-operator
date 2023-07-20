@@ -126,10 +126,38 @@ The new implementation `SubPackageReference` declares a `parent` package for nes
 * PRO: Makes the model easier to understand.
 * CON: Requires slightly more rework of existing code.
 
+### Option 4
+
+As for Option 4, but we also rename types to better reflect the new semantics. Given the introduction of `ExternalPackageReference`, maybe we use `InternalPackageReference`:
+
+{{< figure src="option-4.png" >}}
+
+<!-- yuml.me class diagram
+
+[<<interface>>;InternalPackageReference]
+[InternalPackageReference]<>--[ResourcePackageReference]
+[InternalPackageReference]<>--[StoragePackageReference]
+[InternalPackageReference]<>--[SubPackageReference]
+
+[InternalTypeName;Name string]--packageReference >[InternalPackageReference]
+
+[TypeDefinition]--name >[InternalTypeName]
+[TypeDefinition]--theType >[Type]
+
+[Type]<>--[InternalTypeName]
+[Type]<>--[ExternalTypeName]
+
+[StoragePackageReference]-inner >[InternalPackageReference]
+[SubPackageReference]-parent >[InternalPackageReference]
+
+[ExternalTypeName;Name string]--packageReference >[ExternalPackageReference]
+
+-->
+
 
 ## Status
 
-Option #3 proposed.
+Option #4 proposed.
 
 ## Consequences
 
