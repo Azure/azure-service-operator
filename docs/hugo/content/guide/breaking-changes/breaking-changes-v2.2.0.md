@@ -21,7 +21,7 @@ weight: 80
 
 ## Removed un-used Status properties
 
-The below fields are never returned from the service and end up being an empty string always. The changes here do not affect the users, hence **no action is required**. 
+These fields are never returned from the service and end up being an empty string always. The changes here do not affect the users, hence **no action is required**. 
 * MachineLearningServices:
   * UserAccountCredentials_STATUS.AdminUserPassword
   * UserAccountCredentials_STATUS.AdminUserSshPublicKey
