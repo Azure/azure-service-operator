@@ -126,6 +126,8 @@
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v210-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.1.0/" title="v2.1.0 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v210"><span class="">v2.1.0</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v220-li">
+  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.2.0/" title="v2.2.0 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v220"><span class="">v2.2.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0/" title="v2.0.0 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200"><span class="">v2.0.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4-li">
@@ -624,7 +626,7 @@
     </li>
     <li><a href="#released-breaking-changes">Released Breaking Changes</a>
       <ul>
-        <li><a href="#upcoming-breaking-changes-1">Upcoming breaking changes</a></li>
+        <li><a href="#v220">v2.2.0</a></li>
         <li><a href="#v210">v2.1.0</a></li>
         <li><a href="#v200">v2.0.0</a></li>
         <li><a href="#v200-beta4">v2.0.0-beta.4</a></li>
@@ -700,10 +702,13 @@
 We recommend you start using <code>v1api</code> prefixed versions now.</p>
 <p>You can easily swap from a <code>v1beta</code> version to a <code>v1api</code> version by just replacing <code>v1beta</code> with <code>v1api</code> in your CRD YAML, the resource shapes are the same.</p>
 <h2 id="released-breaking-changes">Released Breaking Changes</h2>
-<h3 id="upcoming-breaking-changes-1">Upcoming breaking changes</h3>
+<h3 id="v220">v2.2.0</h3>
+<p>Breaking changes are:</p>
 <ul>
-<li>AKS ManagedClusterServicePrincipalProfile.Secret will change from <code>string</code> to <code>genruntime.SecretReference</code></li>
+<li>ManagedClusters ManagedClusterServicePrincipalProfile.Secret field is now marked as a SecretReference</li>
+<li>Remove un-used Status properties</li>
 </ul>
+<p>For more information see <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.2.0/">v2.2.0 Breaking Changes</a>.</p>
 <h3 id="v210">v2.1.0</h3>
 <p>Breaking changes are:</p>
 <ul>
@@ -766,6 +771,14 @@ We recommend you start using <code>v1api</code> prefixed versions now.</p>
             <div class="entry">
                 <h5>
                     <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.1.0/">v2.1.0 Breaking Changes</a>
+                </h5>
+                <p></p>
+            </div>
+        
+            
+            <div class="entry">
+                <h5>
+                    <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.2.0/">v2.2.0 Breaking Changes</a>
                 </h5>
                 <p></p>
             </div>

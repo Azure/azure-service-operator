@@ -51,6 +51,51 @@ text in CRs. We will be making a breaking change in 2.2.0 to resolve this issue.
     </item>
     
     <item>
+      <title>Guide: v2.2.0 Breaking Changes</title>
+      <link>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.2.0/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.2.0/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;managedclusters-managedclusterserviceprincipalprofilesecret-field-is-now-marked-as-a-secretreference&#34;&gt;ManagedClusters ManagedClusterServicePrincipalProfile.Secret field is now marked as a SecretReference&lt;/h2&gt;
+&lt;p&gt;We always try to avoid breaking changes, but in this case, allowing raw passwords in the spec is a security problem and as such we&amp;rsquo;ve
+decided to make a break to correct this issue.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Action required:&lt;/strong&gt; If the &lt;code&gt;ContainerService/ManagedClusters&lt;/code&gt; resource is used in your cluster and the &lt;code&gt;ManagedClusterServicePrincipalProfile.Secret&lt;/code&gt; property is set, do the following before upgrading ASO:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Annotate the resource with &lt;code&gt;serviceoperator.azure.com/reconcile-policy: skip&lt;/code&gt; to prevent ASO from trying to reconcile the resource while you are upgrading.&lt;/li&gt;
+&lt;li&gt;Download the current YAML for the resource using &lt;code&gt;kubectl&lt;/code&gt; if you don&amp;rsquo;t have it elsewhere.&lt;/li&gt;
+&lt;li&gt;Create a kubernetes secret containing the value for &lt;code&gt;ManagedClusterServicePrincipalProfile.Secret&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Edit downloaded YAML in step 2, and add a secret key and name reference. Example &lt;a href=&#34;https://github.com/Azure/azure-service-operator/blob/main/v2/samples/compute/v1api/v1api20201201_virtualmachine.yaml#L18&#34;&gt;here&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Delete the resource from your cluster using &lt;code&gt;kubectl delete&lt;/code&gt;. Your Azure resource will be left untouched because of the &lt;code&gt;reconcile-policy&lt;/code&gt; annotation you added above.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://azure.github.io/azure-service-operator/azure-service-operator/guide/upgrading/&#34;&gt;Upgrade ASO&lt;/a&gt; in your cluster.&lt;/li&gt;
+&lt;li&gt;Apply the updated YAML to your cluster using &lt;code&gt;kubectl apply&lt;/code&gt;. If any errors occur, address them.&lt;/li&gt;
+&lt;li&gt;If the &lt;code&gt;reconcile-policy&lt;/code&gt; annotation is still present, remove it from the resource.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;removed-un-used-status-properties&#34;&gt;Removed un-used Status properties&lt;/h2&gt;
+&lt;p&gt;These fields are never returned from the service and end up being an empty string always. The changes here do not affect the users, hence &lt;strong&gt;no action is required&lt;/strong&gt;.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;MachineLearningServices:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;UserAccountCredentials_STATUS.AdminUserPassword&lt;/li&gt;
+&lt;li&gt;UserAccountCredentials_STATUS.AdminUserSshPublicKey&lt;/li&gt;
+&lt;li&gt;VirtualMachineSshCredentials_STATUS.Password&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Synapse:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Workspace_STATUS.SqlAdministratorLoginPassword&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Guide: v2.0.0 Breaking Changes</title>
       <link>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
