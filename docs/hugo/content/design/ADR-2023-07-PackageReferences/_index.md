@@ -68,6 +68,7 @@ Add `SubPackageReference` as a new implementation of `PackageReference`, and par
 [TypeDefinition]--name >[TypeName]
 [TypeDefinition]--theType >[Type]
 
+[<<interface>>;Type]
 [Type]<>--[TypeName]
 
 [<<interface>>;LocalLikePackageReference]<>--[LocalPackageReference]
@@ -77,6 +78,7 @@ Add `SubPackageReference` as a new implementation of `PackageReference`, and par
 
 [PackageReference]<>--[SubPackageReference]
 [SubPackageReference]-parent >[PackageReference]
+[LocalLikePackageReference]<>--[SubPackageReference]
 
 -->
 
@@ -104,6 +106,7 @@ Not only will this be easier to understand, but it should streamline some parts 
 [TypeDefinition]--name >[TypeName]
 [TypeDefinition]--theType >[Type]
 
+[<<interface>>;Type]
 [Type]<>--[TypeName]
 [Type]<>--[ExternalTypeName]
 
@@ -111,6 +114,10 @@ Not only will this be easier to understand, but it should streamline some parts 
 [SubPackageReference]-parent >[PackageReference]
 
 [ExternalTypeName;Name string]--packageReference >[ExternalPackageReference]
+
+[<<interface>>;TypeNamer]
+[TypeNamer]<>--[TypeName]
+[TypeNamer]<>--[ExternalTypeName]
 
 -->
 
@@ -138,26 +145,29 @@ As for Option 4, but we also rename types to better reflect the new semantics. G
 [InternalPackageReference]<>--[ResourcePackageReference]
 [InternalPackageReference]<>--[StoragePackageReference]
 [InternalPackageReference]<>--[SubPackageReference]
-
 [InternalTypeName;Name string]--packageReference >[InternalPackageReference]
-
 [TypeDefinition]--name >[InternalTypeName]
 [TypeDefinition]--theType >[Type]
 
+[<<interface>>;Type]
 [Type]<>--[InternalTypeName]
 [Type]<>--[ExternalTypeName]
-
 [StoragePackageReference]-inner >[InternalPackageReference]
 [SubPackageReference]-parent >[InternalPackageReference]
-
 [ExternalTypeName;Name string]--packageReference >[ExternalPackageReference]
+
+[<<interface>>;TypeName]
+[TypeName]<>--[InternalTypeName]
+[TypeName]<>--[ExternalTypeName]
 
 -->
 
 
 ## Status
 
-Option #4 proposed.
+Option #4 confirmed.
+
+We're concerned that the amount of work required might be more than anticipated and recommend that implementation be done in small increments. In this way, we'll end up within something akin to Option 2 if things don't go smoothly.
 
 ## Consequences
 
