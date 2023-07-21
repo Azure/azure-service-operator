@@ -5,14 +5,6 @@ no_list: true
 ---
 To install the CRDs for these resources, your ASO configuration must include `containerservice.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
-### Next Release
-
-Development of these new resources is complete and they will be available in the next release of ASO.
-
-| Resource                                                                                                                                                                                             | ARM Version        | CRD Version          | Supported From | Sample                                                                                                                                                                |
-|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|----------------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [TrustedAccessRoleBinding](https://azure.github.io/azure-service-operator/reference/containerservice/v1api20230202preview/#containerservice.azure.com/v1api20230202preview.TrustedAccessRoleBinding) | 2023-02-02-preview | v1api20230202preview | v2.2.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20230202preview/v1api20230202preview_trustedaccessrolebinding.yaml) |
-
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
@@ -25,6 +17,7 @@ These resource(s) are available for use in the current release of ASO. Different
 | [ManagedClustersAgentPool](https://azure.github.io/azure-service-operator/reference/containerservice/v1api20230202preview/#containerservice.azure.com/v1api20230202preview.ManagedClustersAgentPool) | 2023-02-02-preview | v1api20230202preview | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20230202preview/v1api20230202preview_managedclustersagentpool.yaml) |
 | [ManagedClustersAgentPool](https://azure.github.io/azure-service-operator/reference/containerservice/v1api20230201/#containerservice.azure.com/v1api20230201.ManagedClustersAgentPool)               | 2023-02-01         | v1api20230201        | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20230201/v1api20230201_managedclustersagentpool.yaml)               |
 | [ManagedClustersAgentPool](https://azure.github.io/azure-service-operator/reference/containerservice/v1api20210501/#containerservice.azure.com/v1api20210501.ManagedClustersAgentPool)               | 2021-05-01         | v1api20210501        | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20210501/v1api20210501_managedclustersagentpool.yaml)               |
+| [TrustedAccessRoleBinding](https://azure.github.io/azure-service-operator/reference/containerservice/v1api20230202preview/#containerservice.azure.com/v1api20230202preview.TrustedAccessRoleBinding) | 2023-02-02-preview | v1api20230202preview | v2.2.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20230202preview/v1api20230202preview_trustedaccessrolebinding.yaml) |
 
 ### Deprecated
 
