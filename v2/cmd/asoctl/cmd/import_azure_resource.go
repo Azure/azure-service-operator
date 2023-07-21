@@ -88,7 +88,12 @@ func importAzureResource(ctx context.Context, armIDs []string, options importAzu
 	}()
 
 	if err != nil {
-		return errors.Wrap(err, "failed to import resources")
+		if result.Count() == 0 {
+			return errors.Wrap(err, "failed to import any resources")
+		}
+
+		log.Error(err, "Failed to import some resources.")
+		log.Info("Will still save those resources that were imported successfully.")
 	}
 
 	if result.Count() == 0 {

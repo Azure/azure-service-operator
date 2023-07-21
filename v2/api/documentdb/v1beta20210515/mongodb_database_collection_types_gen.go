@@ -13,7 +13,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -174,89 +173,68 @@ func (collection *MongodbDatabaseCollection) SetStatus(status genruntime.Convert
 var _ admission.Validator = &MongodbDatabaseCollection{}
 
 // ValidateCreate validates the creation of the resource
-func (collection *MongodbDatabaseCollection) ValidateCreate() error {
+func (collection *MongodbDatabaseCollection) ValidateCreate() (admission.Warnings, error) {
 	validations := collection.createValidations()
 	var temp any = collection
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateCreate(validations)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (collection *MongodbDatabaseCollection) ValidateDelete() error {
+func (collection *MongodbDatabaseCollection) ValidateDelete() (admission.Warnings, error) {
 	validations := collection.deleteValidations()
 	var temp any = collection
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateDelete(validations)
 }
 
 // ValidateUpdate validates an update of the resource
-func (collection *MongodbDatabaseCollection) ValidateUpdate(old runtime.Object) error {
+func (collection *MongodbDatabaseCollection) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := collection.updateValidations()
 	var temp any = collection
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation(old)
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateUpdate(old, validations)
 }
 
 // createValidations validates the creation of the resource
-func (collection *MongodbDatabaseCollection) createValidations() []func() error {
-	return []func() error{collection.validateResourceReferences}
+func (collection *MongodbDatabaseCollection) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){collection.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (collection *MongodbDatabaseCollection) deleteValidations() []func() error {
+func (collection *MongodbDatabaseCollection) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (collection *MongodbDatabaseCollection) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (collection *MongodbDatabaseCollection) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return collection.validateResourceReferences()
 		},
 		collection.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
-func (collection *MongodbDatabaseCollection) validateResourceReferences() error {
+func (collection *MongodbDatabaseCollection) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&collection.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (collection *MongodbDatabaseCollection) validateWriteOnceProperties(old runtime.Object) error {
+func (collection *MongodbDatabaseCollection) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*MongodbDatabaseCollection)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, collection)

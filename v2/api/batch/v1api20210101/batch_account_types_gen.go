@@ -13,7 +13,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -173,89 +172,68 @@ func (account *BatchAccount) SetStatus(status genruntime.ConvertibleStatus) erro
 var _ admission.Validator = &BatchAccount{}
 
 // ValidateCreate validates the creation of the resource
-func (account *BatchAccount) ValidateCreate() error {
+func (account *BatchAccount) ValidateCreate() (admission.Warnings, error) {
 	validations := account.createValidations()
 	var temp any = account
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateCreate(validations)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (account *BatchAccount) ValidateDelete() error {
+func (account *BatchAccount) ValidateDelete() (admission.Warnings, error) {
 	validations := account.deleteValidations()
 	var temp any = account
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateDelete(validations)
 }
 
 // ValidateUpdate validates an update of the resource
-func (account *BatchAccount) ValidateUpdate(old runtime.Object) error {
+func (account *BatchAccount) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := account.updateValidations()
 	var temp any = account
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation(old)
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateUpdate(old, validations)
 }
 
 // createValidations validates the creation of the resource
-func (account *BatchAccount) createValidations() []func() error {
-	return []func() error{account.validateResourceReferences}
+func (account *BatchAccount) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){account.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (account *BatchAccount) deleteValidations() []func() error {
+func (account *BatchAccount) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (account *BatchAccount) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (account *BatchAccount) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return account.validateResourceReferences()
 		},
 		account.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
-func (account *BatchAccount) validateResourceReferences() error {
+func (account *BatchAccount) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&account.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (account *BatchAccount) validateWriteOnceProperties(old runtime.Object) error {
+func (account *BatchAccount) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*BatchAccount)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, account)

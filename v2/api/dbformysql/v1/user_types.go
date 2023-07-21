@@ -90,70 +90,49 @@ func (user *User) Owner() *genruntime.ResourceReference {
 var _ admission.Validator = &User{}
 
 // ValidateCreate validates the creation of the resource
-func (user *User) ValidateCreate() error {
+func (user *User) ValidateCreate() (admission.Warnings, error) {
 	validations := user.createValidations()
 	var temp interface{} = user
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateCreate(validations)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (user *User) ValidateDelete() error {
+func (user *User) ValidateDelete() (admission.Warnings, error) {
 	validations := user.deleteValidations()
 	var temp interface{} = user
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateDelete(validations)
 }
 
 // ValidateUpdate validates an update of the resource
-func (user *User) ValidateUpdate(old runtime.Object) error {
+func (user *User) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := user.updateValidations()
 	var temp interface{} = user
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation(old)
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateUpdate(old, validations)
 }
 
 // createValidations validates the creation of the resource
-func (user *User) createValidations() []func() error {
-	return []func() error{user.validateIsLocalOrAAD}
+func (user *User) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){user.validateIsLocalOrAAD}
 }
 
 // deleteValidations validates the deletion of the resource
-func (user *User) deleteValidations() []func() error {
+func (user *User) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (user *User) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (user *User) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return user.validateIsLocalOrAAD()
 		},
 		user.validateUserTypeNotChanged,
@@ -164,19 +143,19 @@ func (user *User) updateValidations() []func(old runtime.Object) error {
 
 // validateWriteOncePropertiesNotChanged function validates the update on WriteOnce properties.
 // TODO: Note this should be kept in sync with admissions.ValidateWriteOnceProperties
-func (user *User) validateWriteOncePropertiesNotChanged(oldObj runtime.Object) error {
+func (user *User) validateWriteOncePropertiesNotChanged(oldObj runtime.Object) (admission.Warnings, error) {
 	var errs []error
 
 	oldUser, ok := oldObj.(*User)
 	if !ok {
 		// This shouldn't happen, but if it does, don't block things
-		return nil
+		return nil, nil
 	}
 
 	// If we don't have a finalizer yet, it's OK to change things
 	hasFinalizer := controllerutil.ContainsFinalizer(oldUser, genruntime.ReconcilerFinalizer)
 	if !hasFinalizer {
-		return nil
+		return nil, nil
 	}
 
 	if oldUser.Spec.AzureName != user.Spec.AzureName {
@@ -209,60 +188,60 @@ func (user *User) validateWriteOncePropertiesNotChanged(oldObj runtime.Object) e
 		errs = append(errs, err)
 	}
 
-	return kerrors.NewAggregate(errs)
+	return nil, kerrors.NewAggregate(errs)
 }
 
-func (user *User) validateUserAADAliasNotChanged(oldObj runtime.Object) error {
+func (user *User) validateUserAADAliasNotChanged(oldObj runtime.Object) (admission.Warnings, error) {
 	oldUser, ok := oldObj.(*User)
 	if !ok {
 		// This shouldn't happen, but if it does don't block things
-		return nil
+		return nil, nil
 	}
 
 	if oldUser.Spec.AADUser == nil || user.Spec.AADUser == nil {
-		return nil
+		return nil, nil
 	}
 
 	oldAlias := oldUser.Spec.AADUser.Alias
 	newAlias := user.Spec.AADUser.Alias
 
 	if oldAlias != newAlias {
-		return errors.Errorf("cannot change AAD user 'alias' from %q to %q", oldAlias, newAlias)
+		return nil, errors.Errorf("cannot change AAD user 'alias' from %q to %q", oldAlias, newAlias)
 	}
 
-	return nil
+	return nil, nil
 }
 
-func (user *User) validateUserTypeNotChanged(oldObj runtime.Object) error {
+func (user *User) validateUserTypeNotChanged(oldObj runtime.Object) (admission.Warnings, error) {
 	oldUser, ok := oldObj.(*User)
 	if !ok {
 		// This shouldn't happen, but if it does don't block things
-		return nil
+		return nil, nil
 	}
 
 	// Prevent change from AAD -> Local
 	if oldUser.Spec.AADUser != nil && user.Spec.AADUser == nil {
-		return errors.Errorf("cannot change from AAD User to local user")
+		return nil, errors.Errorf("cannot change from AAD User to local user")
 	}
 
 	// Prevent change from Local -> AAD
 	if oldUser.Spec.LocalUser != nil && user.Spec.LocalUser == nil {
-		return errors.Errorf("cannot change from local user to AAD user")
+		return nil, errors.Errorf("cannot change from local user to AAD user")
 	}
 
-	return nil
+	return nil, nil
 }
 
-func (user *User) validateIsLocalOrAAD() error {
+func (user *User) validateIsLocalOrAAD() (admission.Warnings, error) {
 	if user.Spec.LocalUser == nil && user.Spec.AADUser == nil {
-		return errors.Errorf("exactly one of spec.localuser or spec.aadUser must be set")
+		return nil, errors.Errorf("exactly one of spec.localuser or spec.aadUser must be set")
 	}
 
 	if user.Spec.LocalUser != nil && user.Spec.AADUser != nil {
-		return errors.Errorf("exactly one of spec.localuser or spec.aadUser must be set")
+		return nil, errors.Errorf("exactly one of spec.localuser or spec.aadUser must be set")
 	}
 
-	return nil
+	return nil, nil
 }
 
 var _ conversion.Hub = &User{}

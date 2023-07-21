@@ -13,6 +13,7 @@ import (
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 )
@@ -105,20 +106,20 @@ func (ref ResourceReference) String() string {
 
 // TODO: We wouldn't need this if controller-gen supported DUs or OneOf better, see: https://github.com/kubernetes-sigs/controller-tools/issues/461
 // Validate validates the ResourceReference to ensure that it is structurally valid.
-func (ref ResourceReference) Validate() error {
+func (ref ResourceReference) Validate() (admission.Warnings, error) {
 	if ref.ARMID == "" && ref.Name == "" && ref.Group == "" && ref.Kind == "" {
-		return errors.Errorf("at least one of ['ARMID'] or ['Group', 'Kind', 'Namespace', 'Name'] must be set for ResourceReference")
+		return nil, errors.Errorf("at least one of ['ARMID'] or ['Group', 'Kind', 'Namespace', 'Name'] must be set for ResourceReference")
 	}
 
 	if ref.ARMID != "" && !ref.IsDirectARMReference() {
-		return errors.Errorf("the 'ARMID' field is mutually exclusive with 'Group', 'Kind', 'Namespace', and 'Name' for ResourceReference: %s", ref.String())
+		return nil, errors.Errorf("the 'ARMID' field is mutually exclusive with 'Group', 'Kind', 'Namespace', and 'Name' for ResourceReference: %s", ref.String())
 	}
 
 	if ref.ARMID == "" && !ref.IsKubernetesReference() {
-		return errors.Errorf("when referencing a Kubernetes resource, 'Group', 'Kind', 'Namespace', and 'Name' must all be specified for ResourceReference: %s", ref.String())
+		return nil, errors.Errorf("when referencing a Kubernetes resource, 'Group', 'Kind', 'Namespace', and 'Name' must all be specified for ResourceReference: %s", ref.String())
 	}
 
-	return nil
+	return nil, nil
 }
 
 // AsNamespacedRef creates a NamespacedResourceReference from this reference.
@@ -179,13 +180,20 @@ func (ref ResourceReference) Copy() ResourceReference {
 }
 
 // ValidateResourceReferences calls Validate on each ResourceReference
-func ValidateResourceReferences(refs set.Set[ResourceReference]) error {
+func ValidateResourceReferences(refs set.Set[ResourceReference]) (admission.Warnings, error) {
 	errs := make([]error, 0, len(refs))
+	var warnings admission.Warnings
 	for ref := range refs {
-		errs = append(errs, ref.Validate())
+		warning, err := ref.Validate()
+		if warning != nil {
+			warnings = append(warnings, warning...)
+		}
+		if err != nil {
+			errs = append(errs, err)
+		}
 	}
 
-	return kerrors.NewAggregate(errs)
+	return nil, kerrors.NewAggregate(errs)
 }
 
 // NamespacedResourceReference is a resource reference with namespace information included

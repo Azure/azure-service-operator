@@ -376,7 +376,7 @@ func makeControllerOptions(log logr.Logger, cfg config.Values) generic.Options {
 				return log.WithValues("namespace", req.Namespace, "name", req.Name)
 			},
 			// These rate limits are used for happy-path backoffs (for example polling async operation IDs for PUT/DELETE)
-			RateLimiter: generic.NewRateLimiter(1*time.Second, 1*time.Minute),
+			RateLimiter: generic.NewRateLimiter(1*time.Second, 1*time.Minute, true),
 		},
 		RequeueIntervalCalculator: interval.NewCalculator(
 			// These rate limits are primarily for ReadyConditionImpactingError's

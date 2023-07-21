@@ -52,8 +52,9 @@ func validateResourceReferences(k *ResourceFunction, codeGenerationContext *astm
 		Body:          validateResourceReferencesBody(codeGenerationContext, receiverIdent),
 	}
 
+	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
+	fn.AddReturn(dst.NewIdent("error"))
 	fn.AddComments("validates all resource references")
-	fn.AddReturns("error")
 	return fn.DefineFunc()
 }
 
@@ -79,7 +80,7 @@ func validateResourceReferencesBody(codeGenerationContext *astmodel.CodeGenerati
 				reflectHelpers,
 				"FindResourceReferences",
 				astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec")))))
-	body = append(body, astbuilder.CheckErrorAndReturn())
+	body = append(body, astbuilder.CheckErrorAndReturn(astbuilder.Nil()))
 	body = append(
 		body,
 		astbuilder.Returns(
@@ -102,14 +103,11 @@ func validateWriteOncePropertiesFunction(resourceFn *ResourceFunction, codeGener
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
 		ReceiverType:  astbuilder.PointerTo(receiverType),
-		Returns: []*dst.Field{
-			{
-				Type: dst.NewIdent("error"),
-			},
-		},
-		Body: validateWriteOncePropertiesFunctionBody(receiver, codeGenerationContext, receiverIdent),
+		Body:          validateWriteOncePropertiesFunctionBody(receiver, codeGenerationContext, receiverIdent),
 	}
 
+	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
+	fn.AddReturn(dst.NewIdent("error"))
 	fn.AddParameter("old", astbuilder.QualifiedTypeName(runtimePackage, "Object"))
 	fn.AddComments("validates all WriteOnce properties")
 
@@ -131,7 +129,7 @@ func validateWriteOncePropertiesFunctionBody(receiver astmodel.TypeName, codeGen
 	obj := dst.NewIdent("oldObj")
 
 	cast := astbuilder.TypeAssert(obj, dst.NewIdent("old"), astbuilder.PointerTo(receiver.AsType(codeGenerationContext)))
-	checkAssert := astbuilder.ReturnIfNotOk(astbuilder.Nil())
+	checkAssert := astbuilder.ReturnIfNotOk(astbuilder.Nil(), astbuilder.Nil())
 
 	returnStmt := astbuilder.Returns(
 		astbuilder.CallQualifiedFunc(
@@ -155,14 +153,11 @@ func validateOptionalConfigMapReferences(k *ResourceFunction, codeGenerationCont
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
 		ReceiverType:  astbuilder.PointerTo(receiverType),
-		Returns: []*dst.Field{
-			{
-				Type: dst.NewIdent("error"),
-			},
-		},
-		Body: validateOptionalConfigMapReferencesBody(codeGenerationContext, receiverIdent),
+		Body:          validateOptionalConfigMapReferencesBody(codeGenerationContext, receiverIdent),
 	}
 
+	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
+	fn.AddReturn(dst.NewIdent("error"))
 	fn.AddComments("validates all optional configmap reference pairs to ensure that at most 1 is set")
 	return fn.DefineFunc()
 }
@@ -171,7 +166,7 @@ func validateOptionalConfigMapReferences(k *ResourceFunction, codeGenerationCont
 //
 //	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&<resource>.Spec)
 //	if err != nil {
-//		return err
+//		return nil, err
 //	}
 //	return genruntime.ValidateOptionalConfigMapReferences(refs)
 func validateOptionalConfigMapReferencesBody(codeGenerationContext *astmodel.CodeGenerationContext, receiverIdent string) []dst.Stmt {
@@ -189,7 +184,7 @@ func validateOptionalConfigMapReferencesBody(codeGenerationContext *astmodel.Cod
 				reflectHelpers,
 				"FindOptionalConfigMapReferences",
 				astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec")))))
-	body = append(body, astbuilder.CheckErrorAndReturn())
+	body = append(body, astbuilder.CheckErrorAndReturn(astbuilder.Nil()))
 	body = append(
 		body,
 		astbuilder.Returns(

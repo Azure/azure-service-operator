@@ -13,7 +13,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -173,89 +172,68 @@ func (table *RouteTable) SetStatus(status genruntime.ConvertibleStatus) error {
 var _ admission.Validator = &RouteTable{}
 
 // ValidateCreate validates the creation of the resource
-func (table *RouteTable) ValidateCreate() error {
+func (table *RouteTable) ValidateCreate() (admission.Warnings, error) {
 	validations := table.createValidations()
 	var temp any = table
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateCreate(validations)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (table *RouteTable) ValidateDelete() error {
+func (table *RouteTable) ValidateDelete() (admission.Warnings, error) {
 	validations := table.deleteValidations()
 	var temp any = table
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateDelete(validations)
 }
 
 // ValidateUpdate validates an update of the resource
-func (table *RouteTable) ValidateUpdate(old runtime.Object) error {
+func (table *RouteTable) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := table.updateValidations()
 	var temp any = table
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation(old)
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateUpdate(old, validations)
 }
 
 // createValidations validates the creation of the resource
-func (table *RouteTable) createValidations() []func() error {
-	return []func() error{table.validateResourceReferences}
+func (table *RouteTable) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){table.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (table *RouteTable) deleteValidations() []func() error {
+func (table *RouteTable) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (table *RouteTable) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (table *RouteTable) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return table.validateResourceReferences()
 		},
 		table.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
-func (table *RouteTable) validateResourceReferences() error {
+func (table *RouteTable) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&table.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (table *RouteTable) validateWriteOnceProperties(old runtime.Object) error {
+func (table *RouteTable) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*RouteTable)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, table)

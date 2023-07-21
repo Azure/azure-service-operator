@@ -105,16 +105,7 @@ tasks:
     deps:
       - controller:run-kustomize
       - controller:make-multitenant-files
-      - task: asoctl:build
-        vars: {GOOS: "linux", GOARCH: "amd64"}
-      - task: asoctl:build
-        vars: {GOOS: "linux", GOARCH: "arm64"}
-      - task: asoctl:build
-        vars: {GOOS: "darwin", GOARCH: "amd64"}
-      - task: asoctl:build
-        vars: {GOOS: "darwin", GOARCH: "arm64"}
-      - task: asoctl:build
-        vars: {GOOS: "windows", GOARCH: "amd64"}
+      - asoctl:make-release-artifacts
     cmds:
       - rm -rf out/release
       - mkdir -p out/release
@@ -172,13 +163,32 @@ tasks:
       - if [ "{{.ARCHIVETYPE}}" = ".zip" ]; then zip -j -r {{.ARCHIVE}} {{.EXECUTABLE}}; fi
       - if [ "{{.ARCHIVETYPE}}" = ".gz" ]; then gzip -v -c {{.EXECUTABLE}} > {{.ARCHIVE}} ; fi
     vars:
+      GOOS: '{{default OS .GOOS}}'
       EXT: '{{if eq .GOOS "windows"}}.exe{{else}}{{end}}'
       ARCHIVETYPE: '{{if eq .GOOS "windows"}}.zip{{else}}.gz{{end}}'
-      GOOS: '{{default OS .GOOS}}'
       GOARCH: '{{default ARCH .GOARCH}}'
       EXECUTABLE: ./bin/{{.GOOS}}-{{.GOARCH}}/{{.ASOCTL_APP}}{{.EXT}}
       ARCHIVE: ../../bin/{{.ASOCTL_APP}}-{{.GOOS}}-{{.GOARCH}}{{.ARCHIVETYPE}}
 
+  asoctl:make-release-artifacts:
+    desc: Produce asoctl files required for an ASOv2 release
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps:
+        # Regenerating the deepcopy files deletes and regenerates them, 
+        # so we have to ensure this runs before we do any asoctl builds
+      - controller:run-kustomize
+    cmds:
+      - task: asoctl:build
+        vars: {GOOS: "linux", GOARCH: "amd64"}
+      - task: asoctl:build
+        vars: {GOOS: "linux", GOARCH: "arm64"}
+      - task: asoctl:build
+        vars: {GOOS: "darwin", GOARCH: "amd64"}
+      - task: asoctl:build
+        vars: {GOOS: "darwin", GOARCH: "arm64"}
+      - task: asoctl:build
+        vars: {GOOS: "windows", GOARCH: "amd64"}
+  
   ############### Generator targets ###############
 
   generator:quick-checks:
@@ -417,9 +427,9 @@ tasks:
     cmds:
       # -race fails at the moment in controller-runtime
       # We run these in sequence right now because it doesn't gain us much speed to go in parallel
-      - go test -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/controllers
-      - go test -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./pkg/genruntime/test
-      - go test -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/genericarmclient
+      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/controllers
+      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./pkg/genruntime/test
+      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/genericarmclient
     vars:
       VERBOSE:
         sh: if [ $TEST_FILTER ];  then echo "-v"; fi

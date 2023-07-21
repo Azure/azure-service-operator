@@ -13,7 +13,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -173,89 +172,68 @@ func (rule *ServersVirtualNetworkRule) SetStatus(status genruntime.ConvertibleSt
 var _ admission.Validator = &ServersVirtualNetworkRule{}
 
 // ValidateCreate validates the creation of the resource
-func (rule *ServersVirtualNetworkRule) ValidateCreate() error {
+func (rule *ServersVirtualNetworkRule) ValidateCreate() (admission.Warnings, error) {
 	validations := rule.createValidations()
 	var temp any = rule
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateCreate(validations)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (rule *ServersVirtualNetworkRule) ValidateDelete() error {
+func (rule *ServersVirtualNetworkRule) ValidateDelete() (admission.Warnings, error) {
 	validations := rule.deleteValidations()
 	var temp any = rule
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateDelete(validations)
 }
 
 // ValidateUpdate validates an update of the resource
-func (rule *ServersVirtualNetworkRule) ValidateUpdate(old runtime.Object) error {
+func (rule *ServersVirtualNetworkRule) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := rule.updateValidations()
 	var temp any = rule
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation(old)
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateUpdate(old, validations)
 }
 
 // createValidations validates the creation of the resource
-func (rule *ServersVirtualNetworkRule) createValidations() []func() error {
-	return []func() error{rule.validateResourceReferences}
+func (rule *ServersVirtualNetworkRule) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){rule.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (rule *ServersVirtualNetworkRule) deleteValidations() []func() error {
+func (rule *ServersVirtualNetworkRule) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (rule *ServersVirtualNetworkRule) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (rule *ServersVirtualNetworkRule) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return rule.validateResourceReferences()
 		},
 		rule.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
-func (rule *ServersVirtualNetworkRule) validateResourceReferences() error {
+func (rule *ServersVirtualNetworkRule) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&rule.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (rule *ServersVirtualNetworkRule) validateWriteOnceProperties(old runtime.Object) error {
+func (rule *ServersVirtualNetworkRule) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*ServersVirtualNetworkRule)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, rule)

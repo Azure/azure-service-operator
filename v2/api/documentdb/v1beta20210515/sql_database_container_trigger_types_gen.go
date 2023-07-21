@@ -13,7 +13,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -174,89 +173,68 @@ func (trigger *SqlDatabaseContainerTrigger) SetStatus(status genruntime.Converti
 var _ admission.Validator = &SqlDatabaseContainerTrigger{}
 
 // ValidateCreate validates the creation of the resource
-func (trigger *SqlDatabaseContainerTrigger) ValidateCreate() error {
+func (trigger *SqlDatabaseContainerTrigger) ValidateCreate() (admission.Warnings, error) {
 	validations := trigger.createValidations()
 	var temp any = trigger
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateCreate(validations)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (trigger *SqlDatabaseContainerTrigger) ValidateDelete() error {
+func (trigger *SqlDatabaseContainerTrigger) ValidateDelete() (admission.Warnings, error) {
 	validations := trigger.deleteValidations()
 	var temp any = trigger
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateDelete(validations)
 }
 
 // ValidateUpdate validates an update of the resource
-func (trigger *SqlDatabaseContainerTrigger) ValidateUpdate(old runtime.Object) error {
+func (trigger *SqlDatabaseContainerTrigger) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := trigger.updateValidations()
 	var temp any = trigger
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation(old)
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateUpdate(old, validations)
 }
 
 // createValidations validates the creation of the resource
-func (trigger *SqlDatabaseContainerTrigger) createValidations() []func() error {
-	return []func() error{trigger.validateResourceReferences}
+func (trigger *SqlDatabaseContainerTrigger) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){trigger.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (trigger *SqlDatabaseContainerTrigger) deleteValidations() []func() error {
+func (trigger *SqlDatabaseContainerTrigger) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (trigger *SqlDatabaseContainerTrigger) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (trigger *SqlDatabaseContainerTrigger) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return trigger.validateResourceReferences()
 		},
 		trigger.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
-func (trigger *SqlDatabaseContainerTrigger) validateResourceReferences() error {
+func (trigger *SqlDatabaseContainerTrigger) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&trigger.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (trigger *SqlDatabaseContainerTrigger) validateWriteOnceProperties(old runtime.Object) error {
+func (trigger *SqlDatabaseContainerTrigger) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*SqlDatabaseContainerTrigger)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, trigger)

@@ -10,7 +10,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/handler"
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
-	"sigs.k8s.io/controller-runtime/pkg/source"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
@@ -27,7 +26,7 @@ type EventHandlerFactory func(client client.Client, log logr.Logger) handler.Eve
 // Watch describes a watch registration.
 // See controller-runtime builder.Watches() for more details.
 type Watch struct {
-	Src              source.Source
+	Type             client.Object
 	MakeEventHandler EventHandlerFactory
 }
 

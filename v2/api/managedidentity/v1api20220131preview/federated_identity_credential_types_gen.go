@@ -13,7 +13,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -173,102 +172,81 @@ func (credential *FederatedIdentityCredential) SetStatus(status genruntime.Conve
 var _ admission.Validator = &FederatedIdentityCredential{}
 
 // ValidateCreate validates the creation of the resource
-func (credential *FederatedIdentityCredential) ValidateCreate() error {
+func (credential *FederatedIdentityCredential) ValidateCreate() (admission.Warnings, error) {
 	validations := credential.createValidations()
 	var temp any = credential
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateCreate(validations)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (credential *FederatedIdentityCredential) ValidateDelete() error {
+func (credential *FederatedIdentityCredential) ValidateDelete() (admission.Warnings, error) {
 	validations := credential.deleteValidations()
 	var temp any = credential
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateDelete(validations)
 }
 
 // ValidateUpdate validates an update of the resource
-func (credential *FederatedIdentityCredential) ValidateUpdate(old runtime.Object) error {
+func (credential *FederatedIdentityCredential) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := credential.updateValidations()
 	var temp any = credential
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
-	var errs []error
-	for _, validation := range validations {
-		err := validation(old)
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-	return kerrors.NewAggregate(errs)
+	return genruntime.ValidateUpdate(old, validations)
 }
 
 // createValidations validates the creation of the resource
-func (credential *FederatedIdentityCredential) createValidations() []func() error {
-	return []func() error{credential.validateResourceReferences, credential.validateOptionalConfigMapReferences}
+func (credential *FederatedIdentityCredential) createValidations() []func() (admission.Warnings, error) {
+	return []func() (admission.Warnings, error){credential.validateResourceReferences, credential.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (credential *FederatedIdentityCredential) deleteValidations() []func() error {
+func (credential *FederatedIdentityCredential) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (credential *FederatedIdentityCredential) updateValidations() []func(old runtime.Object) error {
-	return []func(old runtime.Object) error{
-		func(old runtime.Object) error {
+func (credential *FederatedIdentityCredential) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+	return []func(old runtime.Object) (admission.Warnings, error){
+		func(old runtime.Object) (admission.Warnings, error) {
 			return credential.validateResourceReferences()
 		},
 		credential.validateWriteOnceProperties,
-		func(old runtime.Object) error {
+		func(old runtime.Object) (admission.Warnings, error) {
 			return credential.validateOptionalConfigMapReferences()
 		},
 	}
 }
 
 // validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
-func (credential *FederatedIdentityCredential) validateOptionalConfigMapReferences() error {
+func (credential *FederatedIdentityCredential) validateOptionalConfigMapReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&credential.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateOptionalConfigMapReferences(refs)
 }
 
 // validateResourceReferences validates all resource references
-func (credential *FederatedIdentityCredential) validateResourceReferences() error {
+func (credential *FederatedIdentityCredential) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&credential.Spec)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (credential *FederatedIdentityCredential) validateWriteOnceProperties(old runtime.Object) error {
+func (credential *FederatedIdentityCredential) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
 	oldObj, ok := old.(*FederatedIdentityCredential)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	return genruntime.ValidateWriteOnceProperties(oldObj, credential)

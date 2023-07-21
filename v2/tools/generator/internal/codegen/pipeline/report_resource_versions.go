@@ -8,6 +8,8 @@ package pipeline
 import (
 	"context"
 	"fmt"
+	"html/template"
+	"io"
 	"io/fs"
 	"net/url"
 	"os"
@@ -69,19 +71,25 @@ type ResourceVersionsReport struct {
 	objectModelConfiguration *config.ObjectModelConfiguration
 	rootUrl                  string
 	samplesPath              string
-	availableFragments       map[string]string                              // A collection of the fragments to use in the report
-	groups                   set.Set[string]                                // A set of all our groups
-	items                    map[string]set.Set[ResourceVersionsReportItem] // For each group, the set of all available items
-	typoAdvisor              *typo.Advisor                                  // Advisor used to troubleshoot unused fragments
-	titleCase                cases.Caser                                    // Helper for title casing
-	localPath                string                                         // Prefix to use for local packages
+	availableFragments       map[string]string                                      // A collection of the fragments to use in the report
+	groups                   set.Set[string]                                        // A set of all our groups
+	items                    map[string]set.Set[ResourceVersionsReportResourceItem] // For each group, the set of all available items
+	typoAdvisor              *typo.Advisor                                          // Advisor used to troubleshoot unused fragments
+	titleCase                cases.Caser                                            // Helper for title casing
+	localPath                string                                                 // Prefix to use for local packages
 }
 
-type ResourceVersionsReportItem struct {
+type ResourceVersionsReportResourceItem struct {
 	name          astmodel.TypeName
 	armType       string
 	armVersion    string
 	supportedFrom string
+}
+
+type ResourceVersionsReportGroupInfo struct {
+	Group    string
+	Provider string
+	Title    string
 }
 
 func NewResourceVersionsReport(
@@ -95,7 +103,7 @@ func NewResourceVersionsReport(
 		samplesPath:              cfg.FullSamplesPath(),
 		availableFragments:       make(map[string]string),
 		groups:                   set.Make[string](),
-		items:                    make(map[string]set.Set[ResourceVersionsReportItem]),
+		items:                    make(map[string]set.Set[ResourceVersionsReportResourceItem]),
 		typoAdvisor:              typo.NewAdvisor(),
 		titleCase:                cases.Title(language.English),
 		localPath:                cfg.LocalPathPrefix(),
@@ -185,13 +193,13 @@ func (report *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinit
 	return nil
 }
 
-func (report *ResourceVersionsReport) addItem(item ResourceVersionsReportItem) {
+func (report *ResourceVersionsReport) addItem(item ResourceVersionsReportResourceItem) {
 	grp, _ := item.name.PackageReference.GroupVersion()
 	report.groups.Add(grp)
 
 	items, ok := report.items[grp]
 	if !ok {
-		items = set.Make[ResourceVersionsReportItem]()
+		items = set.Make[ResourceVersionsReportResourceItem]()
 		report.items[grp] = items
 	}
 
@@ -262,9 +270,9 @@ func (report *ResourceVersionsReport) WriteAllResourcesReportToBuffer(
 	}
 
 	// Include file header if found
-	if fragment, ok := report.findFragment("header"); ok {
-		buffer.WriteString(fragment)
-		buffer.WriteString("\n\n")
+	err := report.writeFragment("all-resources-header", nil, buffer)
+	if err != nil {
+		return errors.Wrapf(err, "writing all-resources-header fragment")
 	}
 
 	// Sort groups into alphabetical order
@@ -274,16 +282,23 @@ func (report *ResourceVersionsReport) WriteAllResourcesReportToBuffer(
 	for _, grp := range groups {
 		items := report.items[grp]
 
-		title := report.groupTitle(grp, items)
-		buffer.WriteString(fmt.Sprintf("## %s\n\n", title))
+		info := report.groupInfo(grp, items)
+		buffer.WriteString(fmt.Sprintf("## %s\n\n", info.Title))
 
-		// Include a fragment for this group if we have one
-		if fragment, ok := report.findFragment(grp); ok {
-			buffer.WriteString(fragment)
-			buffer.WriteString("\n\n")
+		// Include our group fragment
+		err := report.writeFragment("group-header", info, buffer)
+		if err != nil {
+			return errors.Wrapf(err, "writing group-header fragment for group %s", info.Group)
 		}
 
-		err := report.writeGroupSections(grp, items, buffer)
+		// Include a custom fragment for this group if we have one
+		err = report.writeFragment(grp, info, buffer)
+		if err != nil {
+			errs = append(errs, err) // Don't need to wrap, will already specify the group
+			continue
+		}
+
+		err = report.writeGroupSections(info, items, buffer)
 		if err != nil {
 			errs = append(errs, err) // Don't need to wrap, will already specify the group
 		}
@@ -309,25 +324,35 @@ func (report *ResourceVersionsReport) WriteGroupResourcesReportToBuffer(
 	buffer *strings.Builder,
 ) error {
 	items := report.items[group]
-	title := report.groupTitle(group, items)
+	info := report.groupInfo(group, items)
 
 	// Reuse existing front-matter if available, else generate a default one
 	if frontMatter != "" {
 		buffer.WriteString(frontMatter)
 	} else {
-		buffer.WriteString(report.defaultGroupResourcesFrontMatter(title))
+		buffer.WriteString(report.defaultGroupResourcesFrontMatter(info.Title))
+	}
+
+	// Include our group fragment
+	err := report.writeFragment("group-header", info, buffer)
+	if err != nil {
+		return errors.Wrapf(err, "writing group-header fragment for group %s", group)
 	}
 
 	// Include a fragment for this group if we have one
-	if fragment, ok := report.findFragment(group); ok {
-		buffer.WriteString(fragment)
-		buffer.WriteString("\n\n")
+	err = report.writeFragment(group, info, buffer)
+	if err != nil {
+		return errors.Wrapf(err, "writing fragment for group %s", group)
 	}
 
-	return report.writeGroupSections(group, items, buffer)
+	return report.writeGroupSections(info, items, buffer)
 }
 
-func (report *ResourceVersionsReport) writeGroupSections(group string, kinds set.Set[ResourceVersionsReportItem], buffer *strings.Builder) error {
+func (report *ResourceVersionsReport) writeGroupSections(
+	group *ResourceVersionsReportGroupInfo,
+	kinds set.Set[ResourceVersionsReportResourceItem],
+	buffer *strings.Builder,
+) error {
 	// By default, we treat everything as released
 	releasedResources := kinds
 
@@ -350,8 +375,8 @@ func (report *ResourceVersionsReport) writeGroupSections(group string, kinds set
 		return errors.Wrapf(err, "writing prerelease resources for group %s", group)
 	}
 
-	// Prerelease may have no usage, but consume its fragment anyway to avoid unconsumed fragment errors
-	report.findFragment("prerelease")
+	// Prerelease may have no usage, but we don't want that to trigger an error
+	report.typoAdvisor.AddTerm("prerelease")
 
 	err = report.writeSection(
 		group,
@@ -373,14 +398,14 @@ func (report *ResourceVersionsReport) writeGroupSections(group string, kinds set
 		return errors.Wrapf(err, "writing deprecated resources for group %s", group)
 	}
 
-	// Deprecated fragment may have no usage, but consume its fragment anyway to avoid unconsumed fragment errors
-	report.findFragment("deprecated")
+	// Deprecated fragment may have no usage, but we don't want that to trigger an error
+	report.typoAdvisor.AddTerm("deprecated")
 
 	return nil
 }
 
 // isUnreleasedResource returns true if the type definition is for an unreleased resource
-func (report *ResourceVersionsReport) isUnreleasedResource(item ResourceVersionsReportItem) bool {
+func (report *ResourceVersionsReport) isUnreleasedResource(item ResourceVersionsReportResourceItem) bool {
 	currentRelease := report.reportConfiguration.CurrentRelease
 	if item.supportedFrom == currentRelease {
 		return false
@@ -391,7 +416,7 @@ func (report *ResourceVersionsReport) isUnreleasedResource(item ResourceVersions
 }
 
 // isDeprecatedResource returns true if the type definition is for a deprecated resource
-func (report *ResourceVersionsReport) isDeprecatedResource(item ResourceVersionsReportItem) bool {
+func (report *ResourceVersionsReport) isDeprecatedResource(item ResourceVersionsReportResourceItem) bool {
 	_, ver := item.name.PackageReference.GroupVersion()
 
 	// Handcrafted versions are never deprecated
@@ -406,10 +431,10 @@ func (report *ResourceVersionsReport) isDeprecatedResource(item ResourceVersions
 
 // writeSection writes a section to the buffer, consisting of a header, description, and a table listing resources.
 func (report *ResourceVersionsReport) writeSection(
-	group string,
+	info *ResourceVersionsReportGroupInfo,
 	id string,
 	heading string,
-	items set.Set[ResourceVersionsReportItem],
+	items set.Set[ResourceVersionsReportResourceItem],
 	buffer *strings.Builder,
 ) error {
 	// Skip if nothing to do
@@ -420,19 +445,20 @@ func (report *ResourceVersionsReport) writeSection(
 	buffer.WriteString(heading)
 	buffer.WriteString("\n\n")
 
-	// Find description, using a group-specific one if available
-	description, ok := report.findFragment(fmt.Sprintf("%s-%s", group, id))
-	if !ok {
-		description, ok = report.findFragment(id)
-	}
-	if ok {
-		buffer.WriteString(description)
-		buffer.WriteString("\n\n")
+	// Write a generic description, then a specific one
+	err := report.writeFragment(fmt.Sprintf("%s-%s", info.Group, id), nil, buffer)
+	if err != nil {
+		return errors.Wrapf(err, "writing fragment for group %s", info.Group)
 	}
 
-	table, err := report.createTable(group, items)
+	err = report.writeFragment(id, nil, buffer)
 	if err != nil {
-		return errors.Wrapf(err, "creating table for group %s", group)
+		return errors.Wrapf(err, "writing fragment for group %s", info.Group)
+	}
+
+	table, err := report.createTable(info, items)
+	if err != nil {
+		return errors.Wrapf(err, "creating table for group %s", info.Group)
 	}
 
 	table.WriteTo(buffer)
@@ -441,7 +467,10 @@ func (report *ResourceVersionsReport) writeSection(
 	return nil
 }
 
-func (report *ResourceVersionsReport) createTable(group string, items set.Set[ResourceVersionsReportItem]) (*reporting.MarkdownTable, error) {
+func (report *ResourceVersionsReport) createTable(
+	info *ResourceVersionsReportGroupInfo,
+	items set.Set[ResourceVersionsReportResourceItem],
+) (*reporting.MarkdownTable, error) {
 	const (
 		name          = "Resource"
 		armVersion    = "ARM Version"
@@ -469,7 +498,7 @@ func (report *ResourceVersionsReport) createTable(group string, items set.Set[Re
 		return astmodel.ComparePathAndVersion(right.PackageReference.PackagePath(), left.PackageReference.PackagePath())
 	})
 
-	sampleLinks, err := report.FindSampleLinks(group)
+	sampleLinks, err := report.FindSampleLinks(info.Group)
 	if err != nil {
 		return nil, err
 	}
@@ -544,8 +573,8 @@ func (report *ResourceVersionsReport) createItem(
 	name astmodel.TypeName,
 	armType string,
 	armVersion string,
-) ResourceVersionsReportItem {
-	return ResourceVersionsReportItem{
+) ResourceVersionsReportResourceItem {
+	return ResourceVersionsReportResourceItem{
 		name:          name,
 		armType:       armType,
 		armVersion:    armVersion,
@@ -675,16 +704,43 @@ func (report *ResourceVersionsReport) defaultGroupResourcesFrontMatter(title str
 	return buffer.String()
 }
 
-// findFragment will find the named fragment and return it if it exists.
-func (report *ResourceVersionsReport) findFragment(name string) (string, bool) {
+// writeFragment will find the named fragment and write the rendered result to the buffer if it exists.
+func (report *ResourceVersionsReport) writeFragment(name string, data any, buffer io.Writer) error {
 	report.typoAdvisor.AddTerm(name)
 
+	// Look up the fragement
 	fragment, ok := report.availableFragments[name]
-	return fragment, ok
+	if !ok {
+		return nil
+	}
+
+	// Create a template based on the fragment
+	tmpl, err := template.New(name).Parse(fragment)
+	if err != nil {
+		return errors.Wrapf(err, "unable to parse template for %s", name)
+	}
+
+	// Render the template
+	err = tmpl.Execute(buffer, data)
+	if err != nil {
+		return errors.Wrapf(err, "unable to render template for %s", name)
+	}
+
+	return nil
 }
 
 // groupTitle returns the title to use for the given group, based on the first resource found in that group
-func (report *ResourceVersionsReport) groupTitle(group string, items set.Set[ResourceVersionsReportItem]) string {
+func (report *ResourceVersionsReport) groupInfo(
+	group string,
+	items set.Set[ResourceVersionsReportResourceItem],
+) *ResourceVersionsReportGroupInfo {
+	caser := cases.Title(language.English)
+	result := &ResourceVersionsReportGroupInfo{
+		Group:    group,
+		Title:    caser.String(group),
+		Provider: caser.String(group),
+	}
+
 	for item := range items {
 		if item.armType == "" {
 			// Didn't find a resource, keep looking
@@ -698,13 +754,13 @@ func (report *ResourceVersionsReport) groupTitle(group string, items set.Set[Res
 			continue
 		}
 
-		// Remove the "Microsoft." prefix
-		result := strings.TrimPrefix(parts[0], "Microsoft.")
+		// Store the provider name
+		result.Provider = parts[0]
 
-		if len(result) > 0 {
-			return result
-		}
+		// Remove the "Microsoft." prefix to make the title
+		result.Title = strings.TrimPrefix(result.Provider, "Microsoft.")
+		break
 	}
 
-	return report.titleCase.String(group)
+	return result
 }
