@@ -39,7 +39,7 @@ Set the following additional environment variables:
 ```bash
 export MI_RESOURCE_GROUP="my-rg"  # The resource group containing the managed identity that will be used by ASO
 export MI_NAME="my-mi"            # The name of the managed identity that will be used by ASO
-export APPLICATION_OBJECT_ID=$(az resource show --id /subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/${MI_RESOURCE_GROUP}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/${MI_NAME} --query "properties.principalId" -o tsv | tr -d '[:space:]')`
+export APPLICATION_OBJECT_ID=$(az resource show --id /subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/${MI_RESOURCE_GROUP}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/${MI_NAME} --query "properties.principalId" -o tsv | tr -d '[:space:]')
 ```
 
 Create the Federated Identity Credential registering your service account with AAD:
@@ -174,7 +174,7 @@ kind: ResourceGroup
 metadata:
   name: aso-sample-rg
   namespace: default
-  annotation:
+  annotations:
     serviceoperator.azure.com/credential-from: my-resource-secret
 spec:
   location: westcentralus
