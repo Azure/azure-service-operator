@@ -20,6 +20,10 @@ import (
 func Test_AKS_ManagedCluster_20230202Preview_CRUD(t *testing.T) {
 	t.Parallel()
 
+	if *isLive {
+		t.Skip("can't run in live mode, as this test is creates a KeyVault which reserves the name unless manually purged")
+	}
+
 	tc := globalTestContext.ForTest(t)
 
 	rg := tc.CreateTestResourceGroupAndWait()
