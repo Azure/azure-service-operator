@@ -20,6 +20,8 @@ import (
 func Test_AKS_ManagedCluster_20230202Preview_CRUD(t *testing.T) {
 	t.Parallel()
 
+	// TODO: We can uncomment this once we support AutoPurge or CreateOrRecover mode for KeyVault.
+	// TODO: See https://github.com/Azure/azure-service-operator/issues/1415
 	if *isLive {
 		t.Skip("can't run in live mode, as this test is creates a KeyVault which reserves the name unless manually purged")
 	}
