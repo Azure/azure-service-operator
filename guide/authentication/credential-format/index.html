@@ -781,7 +781,7 @@ export SERVICE_ACCOUNT_ISSUER<span style="color:#f92672">=</span><span style="co
         <p>Set the following additional environment variables:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export MI_RESOURCE_GROUP<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;my-rg&#34;</span>  <span style="color:#75715e"># The resource group containing the managed identity that will be used by ASO</span>
 export MI_NAME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;my-mi&#34;</span>            <span style="color:#75715e"># The name of the managed identity that will be used by ASO</span>
-export APPLICATION_OBJECT_ID<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>az resource show --id /subscriptions/<span style="color:#e6db74">${</span>AZURE_SUBSCRIPTION_ID<span style="color:#e6db74">}</span>/resourceGroups/<span style="color:#e6db74">${</span>MI_RESOURCE_GROUP<span style="color:#e6db74">}</span>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/<span style="color:#e6db74">${</span>MI_NAME<span style="color:#e6db74">}</span> --query <span style="color:#e6db74">&#34;properties.principalId&#34;</span> -o tsv | tr -d <span style="color:#e6db74">&#39;[:space:]&#39;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74">`</span>
+export APPLICATION_OBJECT_ID<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>az resource show --id /subscriptions/<span style="color:#e6db74">${</span>AZURE_SUBSCRIPTION_ID<span style="color:#e6db74">}</span>/resourceGroups/<span style="color:#e6db74">${</span>MI_RESOURCE_GROUP<span style="color:#e6db74">}</span>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/<span style="color:#e6db74">${</span>MI_NAME<span style="color:#e6db74">}</span> --query <span style="color:#e6db74">&#34;properties.principalId&#34;</span> -o tsv | tr -d <span style="color:#e6db74">&#39;[:space:]&#39;</span><span style="color:#66d9ef">)</span>
 </code></pre></div><p>Create the Federated Identity Credential registering your service account with AAD:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF &gt; body.json
 </span><span style="color:#e6db74">{
@@ -929,7 +929,7 @@ issuer URL and the backing Service Principal or Managed Identity. See <a href="#
 </span><span style="color:#e6db74">metadata:
 </span><span style="color:#e6db74">  name: aso-sample-rg
 </span><span style="color:#e6db74">  namespace: default
-</span><span style="color:#e6db74">  annotation:
+</span><span style="color:#e6db74">  annotations:
 </span><span style="color:#e6db74">    serviceoperator.azure.com/credential-from: my-resource-secret
 </span><span style="color:#e6db74">spec:
 </span><span style="color:#e6db74">  location: westcentralus
