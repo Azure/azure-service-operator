@@ -8,7 +8,7 @@ package astmodel
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"strings"
 	"text/template"
@@ -266,7 +266,7 @@ func emitTemplateFile(pkgDef *PackageDefinition, template *template.Template, fi
 		return err
 	}
 
-	err = ioutil.WriteFile(fileRef, buf.Bytes(), 0o600)
+	err = os.WriteFile(fileRef, buf.Bytes(), 0o600)
 	if err != nil {
 		return errors.Wrapf(err, "error writing file %q", fileRef)
 	}
