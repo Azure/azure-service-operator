@@ -20,6 +20,12 @@ func Test_KeyVault_Vault_CRUD(t *testing.T) {
 
 	t.Parallel()
 
+	// TODO: We can include this once we support AutoPurge or CreateOrRecover mode for KeyVault.
+	// TODO: See https://github.com/Azure/azure-service-operator/issues/1415
+	if *isLive {
+		t.Skip("can't run in live mode, as KeyVault reserves the name unless manually purged")
+	}
+
 	tc := globalTestContext.ForTest(t)
 
 	rg := tc.CreateTestResourceGroupAndWait()
@@ -36,6 +42,8 @@ func Test_KeyVault_Vault_FromConfig_CRUD(t *testing.T) {
 
 	t.Parallel()
 
+	// TODO: We can include this once we support AutoPurge or CreateOrRecover mode for KeyVault.
+	// TODO: See https://github.com/Azure/azure-service-operator/issues/1415
 	if *isLive {
 		t.Skip("can't run in live mode, as KeyVault reserves the name unless manually purged")
 	}
