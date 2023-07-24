@@ -39,6 +39,11 @@ func (s StoragePackageReference) PackagePath() string {
 	return url
 }
 
+// ImportPath returns the path to use when importing this package
+func (s StoragePackageReference) ImportPath() string {
+	return s.inner.ImportPath() + StoragePackageSuffix
+}
+
 func (s StoragePackageReference) Version() string {
 	return s.inner.Version() + StoragePackageSuffix
 }

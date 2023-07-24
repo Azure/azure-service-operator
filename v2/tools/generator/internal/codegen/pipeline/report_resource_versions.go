@@ -495,7 +495,7 @@ func (report *ResourceVersionsReport) createTable(
 		}
 
 		// Reversed parameters because we want more recent versions listed first
-		return astmodel.ComparePathAndVersion(right.PackageReference().PackagePath(), left.PackageReference().PackagePath())
+		return astmodel.ComparePathAndVersion(right.PackageReference().ImportPath(), left.PackageReference().ImportPath())
 	})
 
 	sampleLinks, err := report.FindSampleLinks(info.Group)

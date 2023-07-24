@@ -35,6 +35,11 @@ func (pr ExternalPackageReference) PackagePath() string {
 	return pr.packagePath
 }
 
+// ImportPath returns the path to use when importing this package
+func (pr ExternalPackageReference) ImportPath() string {
+	return pr.packagePath
+}
+
 // Equals returns true if the passed package reference references the same package, false otherwise
 func (pr ExternalPackageReference) Equals(ref PackageReference) bool {
 	if other, ok := ref.(ExternalPackageReference); ok {

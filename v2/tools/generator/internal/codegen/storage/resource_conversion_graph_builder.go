@@ -56,8 +56,8 @@ func (b *ResourceConversionGraphBuilder) Build() (*ResourceConversionGraph, erro
 
 	sort.Slice(toProcess, func(i, j int) bool {
 		return astmodel.ComparePathAndVersion(
-			toProcess[i].PackageReference().PackagePath(),
-			toProcess[j].PackageReference().PackagePath())
+			toProcess[i].PackageReference().ImportPath(),
+			toProcess[j].PackageReference().ImportPath())
 	})
 
 	for _, s := range stages {

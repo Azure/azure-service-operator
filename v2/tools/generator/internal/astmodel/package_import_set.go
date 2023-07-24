@@ -181,7 +181,7 @@ func (set *PackageImportSet) orderImports(i PackageImport, j PackageImport) bool
 		}
 	}
 
-	return i.packageReference.PackagePath() < j.packageReference.PackagePath()
+	return i.packageReference.ImportPath() < j.packageReference.ImportPath()
 }
 
 func (set *PackageImportSet) createMapByGroup() map[string][]PackageImport {
