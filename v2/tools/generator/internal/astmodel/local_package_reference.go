@@ -73,6 +73,12 @@ func (pr LocalPackageReference) ImportPath() string {
 	return path.Join(pr.localPathPrefix, pr.group, pr.version)
 }
 
+// FolderPath returns the path to this package on disk.
+// rootFolder is the root folder for all our packages; if omitted, a relative path will be returned
+func (pr LocalPackageReference) FolderPath() string {
+	return path.Join(pr.group, pr.version)
+}
+
 // Equals returns true if the passed package reference references the same package, false otherwise
 func (pr LocalPackageReference) Equals(ref PackageReference) bool {
 	if ref == nil {

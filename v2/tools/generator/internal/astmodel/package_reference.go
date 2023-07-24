@@ -41,6 +41,9 @@ type PackageReference interface {
 
 	// ImportPath returns the path to use when importing this package
 	ImportPath() string
+
+	// FolderPath returns the relative path to this package on disk.
+	FolderPath() string
 }
 
 // LocalLikePackageReference describes a package reference that points to a local package (either a storage package

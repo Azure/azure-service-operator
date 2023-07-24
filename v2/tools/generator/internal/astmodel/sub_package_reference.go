@@ -48,6 +48,11 @@ func (s SubPackageReference) ImportPath() string {
 	return path.Join(s.parent.ImportPath(), s.name)
 }
 
+// FolderPath returns the path to this package on disk.
+func (s SubPackageReference) FolderPath() string {
+	return path.Join(s.parent.FolderPath(), s.name)
+}
+
 // Equals returns true if the passed package reference is a sub-package reference with the same name and an equal
 // parent.
 func (s SubPackageReference) Equals(ref PackageReference) bool {
