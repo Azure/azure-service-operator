@@ -69,3 +69,8 @@ func (pr ExternalPackageReference) ImportAlias(style PackageImportStyle) string 
 	msg := fmt.Sprintf("cannot create import alias for external package reference %s", pr.packagePath)
 	panic(msg)
 }
+
+// Group triggers a panic because external references don't have a group
+func (pr ExternalPackageReference) Group() string {
+	panic(fmt.Sprintf("external package reference %s doesn't have a group", pr))
+}

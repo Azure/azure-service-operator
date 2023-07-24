@@ -35,6 +35,9 @@ type PackageReference interface {
 	GroupVersion() (string, string)
 	// ImportAlias returns the import alias to use for this package reference
 	ImportAlias(style PackageImportStyle) string
+
+	// Group returns the group to which this package belongs
+	Group() string
 }
 
 // LocalLikePackageReference describes a package reference that points to a local package (either a storage package
