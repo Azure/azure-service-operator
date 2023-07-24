@@ -59,11 +59,10 @@ func CreatePackagesForDefinitions(definitions astmodel.TypeDefinitionSet) (map[a
 	for _, def := range definitions {
 		name := def.Name()
 		ref := name.PackageReference()
-		group, version := ref.GroupVersion()
 		if pkg, ok := packages[ref]; ok {
 			pkg.AddDefinition(def)
 		} else {
-			pkg = astmodel.NewPackageDefinition(group, version)
+			pkg = astmodel.NewPackageDefinition(ref)
 			pkg.AddDefinition(def)
 			packages[ref] = pkg
 		}

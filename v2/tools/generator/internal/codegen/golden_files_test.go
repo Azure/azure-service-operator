@@ -268,8 +268,7 @@ func exportPackagesTestPipelineStage(t *testing.T, testName string) *pipeline.St
 				ref := def.Name().PackageReference()
 				pkg, ok := pkgs[ref]
 				if !ok {
-					g, v := ref.GroupVersion()
-					pkg = astmodel.NewPackageDefinition(g, v)
+					pkg = astmodel.NewPackageDefinition(ref)
 					pkgs[ref] = pkg
 
 					if !astmodel.IsStoragePackageReference(ref) {
