@@ -93,7 +93,7 @@ func (s StoragePackageReference) TryGroupVersion() (string, string, bool) {
 	return g, v + StoragePackageSuffix, true
 }
 
-// MustGroupVersion returns the group and version of this storage reference.
+// GroupVersion returns the group and version of this storage reference.
 func (s StoragePackageReference) GroupVersion() (string, string) {
 	g, v := s.inner.GroupVersion()
 	return g, v + StoragePackageSuffix

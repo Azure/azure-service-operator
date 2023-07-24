@@ -36,10 +36,10 @@ type PackageReference interface {
 	// ImportAlias returns the import alias to use for this package reference
 	ImportAlias(style PackageImportStyle) string
 
-	// Group returns the group to which this package belongs
+	// Group returns the group to which this package belongs.
 	Group() string
 
-	// ImportPath returns the path to use when importing this package
+	// ImportPath returns the path to use when importing this package.
 	ImportPath() string
 
 	// FolderPath returns the relative path to this package on disk.
