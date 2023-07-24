@@ -7,9 +7,10 @@ package armconversion
 
 import (
 	"fmt"
-	"github.com/pkg/errors"
 	"go/token"
 	"strings"
+
+	"github.com/pkg/errors"
 
 	"github.com/dave/dst"
 
@@ -410,7 +411,8 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 	if fromPropOptType, ok := fromPropType.(*astmodel.OptionalType); ok {
 		generateNilCheck = true
 		// (3.) resolve any inner typename
-		elementType, err := allDefs.FullyResolve(fromPropOptType.Element())
+		var elementType astmodel.Type
+		elementType, err = allDefs.FullyResolve(fromPropOptType.Element())
 		if err != nil {
 			return notHandled,
 				errors.Wrapf(
