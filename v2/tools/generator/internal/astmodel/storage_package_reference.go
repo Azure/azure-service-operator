@@ -92,3 +92,18 @@ func (s StoragePackageReference) GroupVersion() (string, string) {
 func (s StoragePackageReference) Local() LocalPackageReference {
 	return s.inner
 }
+
+// ImportAlias returns the import alias to use for this package reference
+func (s StoragePackageReference) ImportAlias(style PackageImportStyle) string {
+	base := s.inner.ImportAlias(style)
+	switch style {
+	case VersionOnly:
+		return base + "s"
+	case GroupOnly:
+		return base
+	case GroupAndVersion:
+		return base + "s"
+	default:
+		panic(fmt.Sprintf("didn't expect PackageImportStyle %q", style))
+	}
+}

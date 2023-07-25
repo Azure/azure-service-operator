@@ -98,3 +98,44 @@ func TestStoragePackageReferenceIsPreview(t *testing.T) {
 		})
 	}
 }
+
+func Test_StoragePackageReference_ImportAlias_ReturnsExpectedAlias(t *testing.T) {
+	t.Parallel()
+
+	cases := []struct {
+		name             string
+		group            string
+		generatorVersion string
+		apiVersion       string
+		style            PackageImportStyle
+		expected         string
+	}{
+		// Current generator version
+		{"GeneratorVersionOnly", "storage", GeneratorVersion, "20200901", VersionOnly, "v20200901s"},
+		{"GeneratorGroupOnly", "storage", GeneratorVersion, "20200901", GroupOnly, "storage"},
+		{"GeneratorGroupAndVersion", "storage", GeneratorVersion, "20200901", GroupAndVersion, "storage_v20200901s"},
+		{"GeneratorPreviewVersionOnly", "storage", GeneratorVersion, "20200901preview", VersionOnly, "v20200901ps"},
+		{"GeneratorPreviewGroupOnly", "storage", GeneratorVersion, "20200901preview", GroupOnly, "storage"},
+		{"GeneratorPreviewGroupAndVersion", "storage", GeneratorVersion, "20200901preview", GroupAndVersion, "storage_v20200901ps"},
+		// Hard coded to v1api
+		{"v1apiVersionOnly", "storage", "v1api", "20200901", VersionOnly, "v20200901s"},
+		{"v1apiGroupOnly", "storage", "v1api", "20200901", GroupOnly, "storage"},
+		{"v1apiGroupAndVersion", "storage", "v1api", "20200901", GroupAndVersion, "storage_v20200901s"},
+		// Hard coded to v1beta
+		{"v1betaVersionOnly", "storage", "v1beta", "20200901", VersionOnly, "v1beta20200901s"},
+		{"v1betaGroupOnly", "storage", "v1beta", "20200901", GroupOnly, "storage"},
+		{"v1betaGroupAndVersion", "storage", "v1beta", "20200901", GroupAndVersion, "storage_v1beta20200901s"},
+	}
+
+	for _, c := range cases {
+		c := c
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			lpr := MakeLocalPackageReference("v", c.group, c.generatorVersion, c.apiVersion)
+			ref := MakeStoragePackageReference(lpr)
+			g.Expect(ref.ImportAlias(c.style)).To(Equal(c.expected))
+		})
+	}
+}
