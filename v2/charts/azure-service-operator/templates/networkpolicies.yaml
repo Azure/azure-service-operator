@@ -1,0 +1,40 @@
+{{- if .Values.networkPolicies.enable }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: azure-service-operator-allow-ingress
+  namespace: {{ .Release.namespace }}
+spec:
+  ingress:
+  - from:
+    - ipBlock:
+        cidr: 0.0.0.0/0
+  podSelector:
+    matchLabels:
+      control-plane: controller-manager
+  policyTypes:
+  - Ingress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: azure-service-operator-allow-egress
+  namespace: {{ .Release.namespace }}
+spec:
+  egress:
+  - ports:
+    # Required for communication with the Azure API
+    - port: 443
+      protocol: TCP
+    # Required for communication with the Kubernetes API
+    - port: {{ .Values.networkPolicies.kubernetesApiPort }}
+      protocol: TCP
+    to:
+    - ipBlock:
+        cidr: 0.0.0.0/0
+  podSelector:
+    matchLabels:
+      control-plane: controller-manager
+  policyTypes:
+  - Egress
+{{- end }}
