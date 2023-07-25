@@ -120,8 +120,8 @@ func (gc *GroupConfiguration) visitVersions(visitor *configurationVisitor) error
 // findVersion uses the provided PackageReference to work out which nested VersionConfiguration should be used
 func (gc *GroupConfiguration) findVersion(ref astmodel.PackageReference) (*VersionConfiguration, error) {
 	switch r := ref.(type) {
-	case astmodel.StoragePackageReference:
-		return gc.findVersion(r.Local())
+	case astmodel.DerivedPackageReference:
+		return gc.findVersion(r.Base())
 	case astmodel.LocalPackageReference:
 		return gc.findVersionForLocalPackageReference(r)
 	}
