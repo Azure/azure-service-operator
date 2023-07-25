@@ -33,6 +33,8 @@ type PackageReference interface {
 	TryGroupVersion() (string, string, bool)
 	// GroupVersion returns the group and version of this reference, triggering a panic if they aren't available
 	GroupVersion() (string, string)
+	// ImportAlias returns the import alias to use for this package reference
+	ImportAlias(style PackageImportStyle) string
 }
 
 // LocalLikePackageReference describes a package reference that points to a local package (either a storage package
