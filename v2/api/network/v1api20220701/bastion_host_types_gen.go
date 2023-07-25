@@ -5,7 +5,7 @@ package v1api20220701
 
 import (
 	"fmt"
-	v1api20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
+	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &BastionHost{}
 
 // ConvertFrom populates our BastionHost from the provided hub BastionHost
 func (host *BastionHost) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20220701s.BastionHost)
+	source, ok := hub.(*v20220701s.BastionHost)
 	if !ok {
 		return fmt.Errorf("expected network/v1api20220701storage/BastionHost but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (host *BastionHost) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub BastionHost from our BastionHost
 func (host *BastionHost) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20220701s.BastionHost)
+	destination, ok := hub.(*v20220701s.BastionHost)
 	if !ok {
 		return fmt.Errorf("expected network/v1api20220701storage/BastionHost but received %T instead", hub)
 	}
@@ -240,7 +240,7 @@ func (host *BastionHost) validateWriteOnceProperties(old runtime.Object) (admiss
 }
 
 // AssignProperties_From_BastionHost populates our BastionHost from the provided source BastionHost
-func (host *BastionHost) AssignProperties_From_BastionHost(source *v1api20220701s.BastionHost) error {
+func (host *BastionHost) AssignProperties_From_BastionHost(source *v20220701s.BastionHost) error {
 
 	// ObjectMeta
 	host.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -266,13 +266,13 @@ func (host *BastionHost) AssignProperties_From_BastionHost(source *v1api20220701
 }
 
 // AssignProperties_To_BastionHost populates the provided destination BastionHost from our BastionHost
-func (host *BastionHost) AssignProperties_To_BastionHost(destination *v1api20220701s.BastionHost) error {
+func (host *BastionHost) AssignProperties_To_BastionHost(destination *v20220701s.BastionHost) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *host.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20220701s.BastionHost_Spec
+	var spec v20220701s.BastionHost_Spec
 	err := host.Spec.AssignProperties_To_BastionHost_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_BastionHost_Spec() to populate field Spec")
@@ -280,7 +280,7 @@ func (host *BastionHost) AssignProperties_To_BastionHost(destination *v1api20220
 	destination.Spec = spec
 
 	// Status
-	var status v1api20220701s.BastionHost_STATUS
+	var status v20220701s.BastionHost_STATUS
 	err = host.Status.AssignProperties_To_BastionHost_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_BastionHost_STATUS() to populate field Status")
@@ -574,14 +574,14 @@ var _ genruntime.ConvertibleSpec = &BastionHost_Spec{}
 
 // ConvertSpecFrom populates our BastionHost_Spec from the provided source
 func (host *BastionHost_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20220701s.BastionHost_Spec)
+	src, ok := source.(*v20220701s.BastionHost_Spec)
 	if ok {
 		// Populate our instance from source
 		return host.AssignProperties_From_BastionHost_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20220701s.BastionHost_Spec{}
+	src = &v20220701s.BastionHost_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -598,14 +598,14 @@ func (host *BastionHost_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec)
 
 // ConvertSpecTo populates the provided destination from our BastionHost_Spec
 func (host *BastionHost_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20220701s.BastionHost_Spec)
+	dst, ok := destination.(*v20220701s.BastionHost_Spec)
 	if ok {
 		// Populate destination from our instance
 		return host.AssignProperties_To_BastionHost_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20220701s.BastionHost_Spec{}
+	dst = &v20220701s.BastionHost_Spec{}
 	err := host.AssignProperties_To_BastionHost_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -621,7 +621,7 @@ func (host *BastionHost_Spec) ConvertSpecTo(destination genruntime.ConvertibleSp
 }
 
 // AssignProperties_From_BastionHost_Spec populates our BastionHost_Spec from the provided source BastionHost_Spec
-func (host *BastionHost_Spec) AssignProperties_From_BastionHost_Spec(source *v1api20220701s.BastionHost_Spec) error {
+func (host *BastionHost_Spec) AssignProperties_From_BastionHost_Spec(source *v20220701s.BastionHost_Spec) error {
 
 	// AzureName
 	host.AzureName = source.AzureName
@@ -726,7 +726,7 @@ func (host *BastionHost_Spec) AssignProperties_From_BastionHost_Spec(source *v1a
 }
 
 // AssignProperties_To_BastionHost_Spec populates the provided destination BastionHost_Spec from our BastionHost_Spec
-func (host *BastionHost_Spec) AssignProperties_To_BastionHost_Spec(destination *v1api20220701s.BastionHost_Spec) error {
+func (host *BastionHost_Spec) AssignProperties_To_BastionHost_Spec(destination *v20220701s.BastionHost_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -778,11 +778,11 @@ func (host *BastionHost_Spec) AssignProperties_To_BastionHost_Spec(destination *
 
 	// IpConfigurations
 	if host.IpConfigurations != nil {
-		ipConfigurationList := make([]v1api20220701s.BastionHostIPConfiguration, len(host.IpConfigurations))
+		ipConfigurationList := make([]v20220701s.BastionHostIPConfiguration, len(host.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range host.IpConfigurations {
 			// Shadow the loop variable to avoid aliasing
 			ipConfigurationItem := ipConfigurationItem
-			var ipConfiguration v1api20220701s.BastionHostIPConfiguration
+			var ipConfiguration v20220701s.BastionHostIPConfiguration
 			err := ipConfigurationItem.AssignProperties_To_BastionHostIPConfiguration(&ipConfiguration)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_BastionHostIPConfiguration() to populate field IpConfigurations")
@@ -818,7 +818,7 @@ func (host *BastionHost_Spec) AssignProperties_To_BastionHost_Spec(destination *
 
 	// Sku
 	if host.Sku != nil {
-		var sku v1api20220701s.Sku
+		var sku v20220701s.Sku
 		err := host.Sku.AssignProperties_To_Sku(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
@@ -1002,14 +1002,14 @@ var _ genruntime.ConvertibleStatus = &BastionHost_STATUS{}
 
 // ConvertStatusFrom populates our BastionHost_STATUS from the provided source
 func (host *BastionHost_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20220701s.BastionHost_STATUS)
+	src, ok := source.(*v20220701s.BastionHost_STATUS)
 	if ok {
 		// Populate our instance from source
 		return host.AssignProperties_From_BastionHost_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20220701s.BastionHost_STATUS{}
+	src = &v20220701s.BastionHost_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1026,14 +1026,14 @@ func (host *BastionHost_STATUS) ConvertStatusFrom(source genruntime.ConvertibleS
 
 // ConvertStatusTo populates the provided destination from our BastionHost_STATUS
 func (host *BastionHost_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20220701s.BastionHost_STATUS)
+	dst, ok := destination.(*v20220701s.BastionHost_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return host.AssignProperties_To_BastionHost_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20220701s.BastionHost_STATUS{}
+	dst = &v20220701s.BastionHost_STATUS{}
 	err := host.AssignProperties_To_BastionHost_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1203,7 +1203,7 @@ func (host *BastionHost_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 }
 
 // AssignProperties_From_BastionHost_STATUS populates our BastionHost_STATUS from the provided source BastionHost_STATUS
-func (host *BastionHost_STATUS) AssignProperties_From_BastionHost_STATUS(source *v1api20220701s.BastionHost_STATUS) error {
+func (host *BastionHost_STATUS) AssignProperties_From_BastionHost_STATUS(source *v20220701s.BastionHost_STATUS) error {
 
 	// Conditions
 	host.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -1315,7 +1315,7 @@ func (host *BastionHost_STATUS) AssignProperties_From_BastionHost_STATUS(source 
 }
 
 // AssignProperties_To_BastionHost_STATUS populates the provided destination BastionHost_STATUS from our BastionHost_STATUS
-func (host *BastionHost_STATUS) AssignProperties_To_BastionHost_STATUS(destination *v1api20220701s.BastionHost_STATUS) error {
+func (host *BastionHost_STATUS) AssignProperties_To_BastionHost_STATUS(destination *v20220701s.BastionHost_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1373,11 +1373,11 @@ func (host *BastionHost_STATUS) AssignProperties_To_BastionHost_STATUS(destinati
 
 	// IpConfigurations
 	if host.IpConfigurations != nil {
-		ipConfigurationList := make([]v1api20220701s.BastionHostIPConfiguration_STATUS, len(host.IpConfigurations))
+		ipConfigurationList := make([]v20220701s.BastionHostIPConfiguration_STATUS, len(host.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range host.IpConfigurations {
 			// Shadow the loop variable to avoid aliasing
 			ipConfigurationItem := ipConfigurationItem
-			var ipConfiguration v1api20220701s.BastionHostIPConfiguration_STATUS
+			var ipConfiguration v20220701s.BastionHostIPConfiguration_STATUS
 			err := ipConfigurationItem.AssignProperties_To_BastionHostIPConfiguration_STATUS(&ipConfiguration)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_BastionHostIPConfiguration_STATUS() to populate field IpConfigurations")
@@ -1408,7 +1408,7 @@ func (host *BastionHost_STATUS) AssignProperties_To_BastionHost_STATUS(destinati
 
 	// Sku
 	if host.Sku != nil {
-		var sku v1api20220701s.Sku_STATUS
+		var sku v20220701s.Sku_STATUS
 		err := host.Sku.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
@@ -1556,7 +1556,7 @@ func (configuration *BastionHostIPConfiguration) PopulateFromARM(owner genruntim
 }
 
 // AssignProperties_From_BastionHostIPConfiguration populates our BastionHostIPConfiguration from the provided source BastionHostIPConfiguration
-func (configuration *BastionHostIPConfiguration) AssignProperties_From_BastionHostIPConfiguration(source *v1api20220701s.BastionHostIPConfiguration) error {
+func (configuration *BastionHostIPConfiguration) AssignProperties_From_BastionHostIPConfiguration(source *v20220701s.BastionHostIPConfiguration) error {
 
 	// Name
 	configuration.Name = genruntime.ClonePointerToString(source.Name)
@@ -1598,7 +1598,7 @@ func (configuration *BastionHostIPConfiguration) AssignProperties_From_BastionHo
 }
 
 // AssignProperties_To_BastionHostIPConfiguration populates the provided destination BastionHostIPConfiguration from our BastionHostIPConfiguration
-func (configuration *BastionHostIPConfiguration) AssignProperties_To_BastionHostIPConfiguration(destination *v1api20220701s.BastionHostIPConfiguration) error {
+func (configuration *BastionHostIPConfiguration) AssignProperties_To_BastionHostIPConfiguration(destination *v20220701s.BastionHostIPConfiguration) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1615,7 +1615,7 @@ func (configuration *BastionHostIPConfiguration) AssignProperties_To_BastionHost
 
 	// PublicIPAddress
 	if configuration.PublicIPAddress != nil {
-		var publicIPAddress v1api20220701s.BastionHostSubResource
+		var publicIPAddress v20220701s.BastionHostSubResource
 		err := configuration.PublicIPAddress.AssignProperties_To_BastionHostSubResource(&publicIPAddress)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_BastionHostSubResource() to populate field PublicIPAddress")
@@ -1627,7 +1627,7 @@ func (configuration *BastionHostIPConfiguration) AssignProperties_To_BastionHost
 
 	// Subnet
 	if configuration.Subnet != nil {
-		var subnet v1api20220701s.BastionHostSubResource
+		var subnet v20220701s.BastionHostSubResource
 		err := configuration.Subnet.AssignProperties_To_BastionHostSubResource(&subnet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_BastionHostSubResource() to populate field Subnet")
@@ -1686,7 +1686,7 @@ func (configuration *BastionHostIPConfiguration_STATUS) PopulateFromARM(owner ge
 }
 
 // AssignProperties_From_BastionHostIPConfiguration_STATUS populates our BastionHostIPConfiguration_STATUS from the provided source BastionHostIPConfiguration_STATUS
-func (configuration *BastionHostIPConfiguration_STATUS) AssignProperties_From_BastionHostIPConfiguration_STATUS(source *v1api20220701s.BastionHostIPConfiguration_STATUS) error {
+func (configuration *BastionHostIPConfiguration_STATUS) AssignProperties_From_BastionHostIPConfiguration_STATUS(source *v20220701s.BastionHostIPConfiguration_STATUS) error {
 
 	// Id
 	configuration.Id = genruntime.ClonePointerToString(source.Id)
@@ -1696,7 +1696,7 @@ func (configuration *BastionHostIPConfiguration_STATUS) AssignProperties_From_Ba
 }
 
 // AssignProperties_To_BastionHostIPConfiguration_STATUS populates the provided destination BastionHostIPConfiguration_STATUS from our BastionHostIPConfiguration_STATUS
-func (configuration *BastionHostIPConfiguration_STATUS) AssignProperties_To_BastionHostIPConfiguration_STATUS(destination *v1api20220701s.BastionHostIPConfiguration_STATUS) error {
+func (configuration *BastionHostIPConfiguration_STATUS) AssignProperties_To_BastionHostIPConfiguration_STATUS(destination *v20220701s.BastionHostIPConfiguration_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1770,7 +1770,7 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 }
 
 // AssignProperties_From_Sku populates our Sku from the provided source Sku
-func (sku *Sku) AssignProperties_From_Sku(source *v1api20220701s.Sku) error {
+func (sku *Sku) AssignProperties_From_Sku(source *v20220701s.Sku) error {
 
 	// Name
 	if source.Name != nil {
@@ -1785,7 +1785,7 @@ func (sku *Sku) AssignProperties_From_Sku(source *v1api20220701s.Sku) error {
 }
 
 // AssignProperties_To_Sku populates the provided destination Sku from our Sku
-func (sku *Sku) AssignProperties_To_Sku(destination *v1api20220701s.Sku) error {
+func (sku *Sku) AssignProperties_To_Sku(destination *v20220701s.Sku) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1854,7 +1854,7 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 }
 
 // AssignProperties_From_Sku_STATUS populates our Sku_STATUS from the provided source Sku_STATUS
-func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v1api20220701s.Sku_STATUS) error {
+func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20220701s.Sku_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -1869,7 +1869,7 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v1api20220701s.S
 }
 
 // AssignProperties_To_Sku_STATUS populates the provided destination Sku_STATUS from our Sku_STATUS
-func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v1api20220701s.Sku_STATUS) error {
+func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20220701s.Sku_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1938,7 +1938,7 @@ func (resource *BastionHostSubResource) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_BastionHostSubResource populates our BastionHostSubResource from the provided source BastionHostSubResource
-func (resource *BastionHostSubResource) AssignProperties_From_BastionHostSubResource(source *v1api20220701s.BastionHostSubResource) error {
+func (resource *BastionHostSubResource) AssignProperties_From_BastionHostSubResource(source *v20220701s.BastionHostSubResource) error {
 
 	// Reference
 	if source.Reference != nil {
@@ -1953,7 +1953,7 @@ func (resource *BastionHostSubResource) AssignProperties_From_BastionHostSubReso
 }
 
 // AssignProperties_To_BastionHostSubResource populates the provided destination BastionHostSubResource from our BastionHostSubResource
-func (resource *BastionHostSubResource) AssignProperties_To_BastionHostSubResource(destination *v1api20220701s.BastionHostSubResource) error {
+func (resource *BastionHostSubResource) AssignProperties_To_BastionHostSubResource(destination *v20220701s.BastionHostSubResource) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -5,7 +5,7 @@ package v1beta20210101previewstorage
 
 import (
 	"encoding/json"
-	v1api20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
+	v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForNamespacesTopicsSubscription(subject Namespaces
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20210101ps.NamespacesTopicsSubscription
+	var hub v20210101ps.NamespacesTopicsSubscription
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForNamespacesTopicsSubscription(subject Namespaces
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210101ps.NamespacesTopicsSubscription
+	var other v20210101ps.NamespacesTopicsSubscription
 	err := copied.AssignProperties_To_NamespacesTopicsSubscription(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForNamespaces_Topics_Subscription_Spec(subject Nam
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210101ps.Namespaces_Topics_Subscription_Spec
+	var other v20210101ps.Namespaces_Topics_Subscription_Spec
 	err := copied.AssignProperties_To_Namespaces_Topics_Subscription_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -297,7 +297,7 @@ func RunPropertyAssignmentTestForNamespaces_Topics_Subscription_STATUS(subject N
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210101ps.Namespaces_Topics_Subscription_STATUS
+	var other v20210101ps.Namespaces_Topics_Subscription_STATUS
 	err := copied.AssignProperties_To_Namespaces_Topics_Subscription_STATUS(&other)
 	if err != nil {
 		return err.Error()

@@ -5,7 +5,7 @@ package v1api20180601
 
 import (
 	"fmt"
-	v1api20180601s "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601storage"
+	v20180601s "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -50,7 +50,7 @@ var _ conversion.Convertible = &Factory{}
 
 // ConvertFrom populates our Factory from the provided hub Factory
 func (factory *Factory) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20180601s.Factory)
+	source, ok := hub.(*v20180601s.Factory)
 	if !ok {
 		return fmt.Errorf("expected datafactory/v1api20180601storage/Factory but received %T instead", hub)
 	}
@@ -60,7 +60,7 @@ func (factory *Factory) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub Factory from our Factory
 func (factory *Factory) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20180601s.Factory)
+	destination, ok := hub.(*v20180601s.Factory)
 	if !ok {
 		return fmt.Errorf("expected datafactory/v1api20180601storage/Factory but received %T instead", hub)
 	}
@@ -241,7 +241,7 @@ func (factory *Factory) validateWriteOnceProperties(old runtime.Object) (admissi
 }
 
 // AssignProperties_From_Factory populates our Factory from the provided source Factory
-func (factory *Factory) AssignProperties_From_Factory(source *v1api20180601s.Factory) error {
+func (factory *Factory) AssignProperties_From_Factory(source *v20180601s.Factory) error {
 
 	// ObjectMeta
 	factory.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -267,13 +267,13 @@ func (factory *Factory) AssignProperties_From_Factory(source *v1api20180601s.Fac
 }
 
 // AssignProperties_To_Factory populates the provided destination Factory from our Factory
-func (factory *Factory) AssignProperties_To_Factory(destination *v1api20180601s.Factory) error {
+func (factory *Factory) AssignProperties_To_Factory(destination *v20180601s.Factory) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *factory.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20180601s.Factory_Spec
+	var spec v20180601s.Factory_Spec
 	err := factory.Spec.AssignProperties_To_Factory_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Factory_Spec() to populate field Spec")
@@ -281,7 +281,7 @@ func (factory *Factory) AssignProperties_To_Factory(destination *v1api20180601s.
 	destination.Spec = spec
 
 	// Status
-	var status v1api20180601s.Factory_STATUS
+	var status v20180601s.Factory_STATUS
 	err = factory.Status.AssignProperties_To_Factory_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Factory_STATUS() to populate field Status")
@@ -576,14 +576,14 @@ var _ genruntime.ConvertibleSpec = &Factory_Spec{}
 
 // ConvertSpecFrom populates our Factory_Spec from the provided source
 func (factory *Factory_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20180601s.Factory_Spec)
+	src, ok := source.(*v20180601s.Factory_Spec)
 	if ok {
 		// Populate our instance from source
 		return factory.AssignProperties_From_Factory_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20180601s.Factory_Spec{}
+	src = &v20180601s.Factory_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -600,14 +600,14 @@ func (factory *Factory_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) 
 
 // ConvertSpecTo populates the provided destination from our Factory_Spec
 func (factory *Factory_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20180601s.Factory_Spec)
+	dst, ok := destination.(*v20180601s.Factory_Spec)
 	if ok {
 		// Populate destination from our instance
 		return factory.AssignProperties_To_Factory_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20180601s.Factory_Spec{}
+	dst = &v20180601s.Factory_Spec{}
 	err := factory.AssignProperties_To_Factory_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -623,7 +623,7 @@ func (factory *Factory_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpe
 }
 
 // AssignProperties_From_Factory_Spec populates our Factory_Spec from the provided source Factory_Spec
-func (factory *Factory_Spec) AssignProperties_From_Factory_Spec(source *v1api20180601s.Factory_Spec) error {
+func (factory *Factory_Spec) AssignProperties_From_Factory_Spec(source *v20180601s.Factory_Spec) error {
 
 	// AdditionalProperties
 	if source.AdditionalProperties != nil {
@@ -734,7 +734,7 @@ func (factory *Factory_Spec) AssignProperties_From_Factory_Spec(source *v1api201
 }
 
 // AssignProperties_To_Factory_Spec populates the provided destination Factory_Spec from our Factory_Spec
-func (factory *Factory_Spec) AssignProperties_To_Factory_Spec(destination *v1api20180601s.Factory_Spec) error {
+func (factory *Factory_Spec) AssignProperties_To_Factory_Spec(destination *v20180601s.Factory_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -756,7 +756,7 @@ func (factory *Factory_Spec) AssignProperties_To_Factory_Spec(destination *v1api
 
 	// Encryption
 	if factory.Encryption != nil {
-		var encryption v1api20180601s.EncryptionConfiguration
+		var encryption v20180601s.EncryptionConfiguration
 		err := factory.Encryption.AssignProperties_To_EncryptionConfiguration(&encryption)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EncryptionConfiguration() to populate field Encryption")
@@ -768,11 +768,11 @@ func (factory *Factory_Spec) AssignProperties_To_Factory_Spec(destination *v1api
 
 	// GlobalParameters
 	if factory.GlobalParameters != nil {
-		globalParameterMap := make(map[string]v1api20180601s.GlobalParameterSpecification, len(factory.GlobalParameters))
+		globalParameterMap := make(map[string]v20180601s.GlobalParameterSpecification, len(factory.GlobalParameters))
 		for globalParameterKey, globalParameterValue := range factory.GlobalParameters {
 			// Shadow the loop variable to avoid aliasing
 			globalParameterValue := globalParameterValue
-			var globalParameter v1api20180601s.GlobalParameterSpecification
+			var globalParameter v20180601s.GlobalParameterSpecification
 			err := globalParameterValue.AssignProperties_To_GlobalParameterSpecification(&globalParameter)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_GlobalParameterSpecification() to populate field GlobalParameters")
@@ -786,7 +786,7 @@ func (factory *Factory_Spec) AssignProperties_To_Factory_Spec(destination *v1api
 
 	// Identity
 	if factory.Identity != nil {
-		var identity v1api20180601s.FactoryIdentity
+		var identity v20180601s.FactoryIdentity
 		err := factory.Identity.AssignProperties_To_FactoryIdentity(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_FactoryIdentity() to populate field Identity")
@@ -820,7 +820,7 @@ func (factory *Factory_Spec) AssignProperties_To_Factory_Spec(destination *v1api
 
 	// PurviewConfiguration
 	if factory.PurviewConfiguration != nil {
-		var purviewConfiguration v1api20180601s.PurviewConfiguration
+		var purviewConfiguration v20180601s.PurviewConfiguration
 		err := factory.PurviewConfiguration.AssignProperties_To_PurviewConfiguration(&purviewConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PurviewConfiguration() to populate field PurviewConfiguration")
@@ -832,7 +832,7 @@ func (factory *Factory_Spec) AssignProperties_To_Factory_Spec(destination *v1api
 
 	// RepoConfiguration
 	if factory.RepoConfiguration != nil {
-		var repoConfiguration v1api20180601s.FactoryRepoConfiguration
+		var repoConfiguration v20180601s.FactoryRepoConfiguration
 		err := factory.RepoConfiguration.AssignProperties_To_FactoryRepoConfiguration(&repoConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_FactoryRepoConfiguration() to populate field RepoConfiguration")
@@ -1021,14 +1021,14 @@ var _ genruntime.ConvertibleStatus = &Factory_STATUS{}
 
 // ConvertStatusFrom populates our Factory_STATUS from the provided source
 func (factory *Factory_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20180601s.Factory_STATUS)
+	src, ok := source.(*v20180601s.Factory_STATUS)
 	if ok {
 		// Populate our instance from source
 		return factory.AssignProperties_From_Factory_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20180601s.Factory_STATUS{}
+	src = &v20180601s.Factory_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1045,14 +1045,14 @@ func (factory *Factory_STATUS) ConvertStatusFrom(source genruntime.ConvertibleSt
 
 // ConvertStatusTo populates the provided destination from our Factory_STATUS
 func (factory *Factory_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20180601s.Factory_STATUS)
+	dst, ok := destination.(*v20180601s.Factory_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return factory.AssignProperties_To_Factory_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20180601s.Factory_STATUS{}
+	dst = &v20180601s.Factory_STATUS{}
 	err := factory.AssignProperties_To_Factory_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1239,7 +1239,7 @@ func (factory *Factory_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_Factory_STATUS populates our Factory_STATUS from the provided source Factory_STATUS
-func (factory *Factory_STATUS) AssignProperties_From_Factory_STATUS(source *v1api20180601s.Factory_STATUS) error {
+func (factory *Factory_STATUS) AssignProperties_From_Factory_STATUS(source *v20180601s.Factory_STATUS) error {
 
 	// AdditionalProperties
 	if source.AdditionalProperties != nil {
@@ -1363,7 +1363,7 @@ func (factory *Factory_STATUS) AssignProperties_From_Factory_STATUS(source *v1ap
 }
 
 // AssignProperties_To_Factory_STATUS populates the provided destination Factory_STATUS from our Factory_STATUS
-func (factory *Factory_STATUS) AssignProperties_To_Factory_STATUS(destination *v1api20180601s.Factory_STATUS) error {
+func (factory *Factory_STATUS) AssignProperties_To_Factory_STATUS(destination *v20180601s.Factory_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1391,7 +1391,7 @@ func (factory *Factory_STATUS) AssignProperties_To_Factory_STATUS(destination *v
 
 	// Encryption
 	if factory.Encryption != nil {
-		var encryption v1api20180601s.EncryptionConfiguration_STATUS
+		var encryption v20180601s.EncryptionConfiguration_STATUS
 		err := factory.Encryption.AssignProperties_To_EncryptionConfiguration_STATUS(&encryption)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EncryptionConfiguration_STATUS() to populate field Encryption")
@@ -1403,11 +1403,11 @@ func (factory *Factory_STATUS) AssignProperties_To_Factory_STATUS(destination *v
 
 	// GlobalParameters
 	if factory.GlobalParameters != nil {
-		globalParameterMap := make(map[string]v1api20180601s.GlobalParameterSpecification_STATUS, len(factory.GlobalParameters))
+		globalParameterMap := make(map[string]v20180601s.GlobalParameterSpecification_STATUS, len(factory.GlobalParameters))
 		for globalParameterKey, globalParameterValue := range factory.GlobalParameters {
 			// Shadow the loop variable to avoid aliasing
 			globalParameterValue := globalParameterValue
-			var globalParameter v1api20180601s.GlobalParameterSpecification_STATUS
+			var globalParameter v20180601s.GlobalParameterSpecification_STATUS
 			err := globalParameterValue.AssignProperties_To_GlobalParameterSpecification_STATUS(&globalParameter)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_GlobalParameterSpecification_STATUS() to populate field GlobalParameters")
@@ -1424,7 +1424,7 @@ func (factory *Factory_STATUS) AssignProperties_To_Factory_STATUS(destination *v
 
 	// Identity
 	if factory.Identity != nil {
-		var identity v1api20180601s.FactoryIdentity_STATUS
+		var identity v20180601s.FactoryIdentity_STATUS
 		err := factory.Identity.AssignProperties_To_FactoryIdentity_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_FactoryIdentity_STATUS() to populate field Identity")
@@ -1453,7 +1453,7 @@ func (factory *Factory_STATUS) AssignProperties_To_Factory_STATUS(destination *v
 
 	// PurviewConfiguration
 	if factory.PurviewConfiguration != nil {
-		var purviewConfiguration v1api20180601s.PurviewConfiguration_STATUS
+		var purviewConfiguration v20180601s.PurviewConfiguration_STATUS
 		err := factory.PurviewConfiguration.AssignProperties_To_PurviewConfiguration_STATUS(&purviewConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PurviewConfiguration_STATUS() to populate field PurviewConfiguration")
@@ -1465,7 +1465,7 @@ func (factory *Factory_STATUS) AssignProperties_To_Factory_STATUS(destination *v
 
 	// RepoConfiguration
 	if factory.RepoConfiguration != nil {
-		var repoConfiguration v1api20180601s.FactoryRepoConfiguration_STATUS
+		var repoConfiguration v20180601s.FactoryRepoConfiguration_STATUS
 		err := factory.RepoConfiguration.AssignProperties_To_FactoryRepoConfiguration_STATUS(&repoConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_FactoryRepoConfiguration_STATUS() to populate field RepoConfiguration")
@@ -1598,7 +1598,7 @@ func (configuration *EncryptionConfiguration) PopulateFromARM(owner genruntime.A
 }
 
 // AssignProperties_From_EncryptionConfiguration populates our EncryptionConfiguration from the provided source EncryptionConfiguration
-func (configuration *EncryptionConfiguration) AssignProperties_From_EncryptionConfiguration(source *v1api20180601s.EncryptionConfiguration) error {
+func (configuration *EncryptionConfiguration) AssignProperties_From_EncryptionConfiguration(source *v20180601s.EncryptionConfiguration) error {
 
 	// Identity
 	if source.Identity != nil {
@@ -1626,13 +1626,13 @@ func (configuration *EncryptionConfiguration) AssignProperties_From_EncryptionCo
 }
 
 // AssignProperties_To_EncryptionConfiguration populates the provided destination EncryptionConfiguration from our EncryptionConfiguration
-func (configuration *EncryptionConfiguration) AssignProperties_To_EncryptionConfiguration(destination *v1api20180601s.EncryptionConfiguration) error {
+func (configuration *EncryptionConfiguration) AssignProperties_To_EncryptionConfiguration(destination *v20180601s.EncryptionConfiguration) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Identity
 	if configuration.Identity != nil {
-		var identity v1api20180601s.CMKIdentityDefinition
+		var identity v20180601s.CMKIdentityDefinition
 		err := configuration.Identity.AssignProperties_To_CMKIdentityDefinition(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CMKIdentityDefinition() to populate field Identity")
@@ -1754,7 +1754,7 @@ func (configuration *EncryptionConfiguration_STATUS) PopulateFromARM(owner genru
 }
 
 // AssignProperties_From_EncryptionConfiguration_STATUS populates our EncryptionConfiguration_STATUS from the provided source EncryptionConfiguration_STATUS
-func (configuration *EncryptionConfiguration_STATUS) AssignProperties_From_EncryptionConfiguration_STATUS(source *v1api20180601s.EncryptionConfiguration_STATUS) error {
+func (configuration *EncryptionConfiguration_STATUS) AssignProperties_From_EncryptionConfiguration_STATUS(source *v20180601s.EncryptionConfiguration_STATUS) error {
 
 	// Identity
 	if source.Identity != nil {
@@ -1782,13 +1782,13 @@ func (configuration *EncryptionConfiguration_STATUS) AssignProperties_From_Encry
 }
 
 // AssignProperties_To_EncryptionConfiguration_STATUS populates the provided destination EncryptionConfiguration_STATUS from our EncryptionConfiguration_STATUS
-func (configuration *EncryptionConfiguration_STATUS) AssignProperties_To_EncryptionConfiguration_STATUS(destination *v1api20180601s.EncryptionConfiguration_STATUS) error {
+func (configuration *EncryptionConfiguration_STATUS) AssignProperties_To_EncryptionConfiguration_STATUS(destination *v20180601s.EncryptionConfiguration_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Identity
 	if configuration.Identity != nil {
-		var identity v1api20180601s.CMKIdentityDefinition_STATUS
+		var identity v20180601s.CMKIdentityDefinition_STATUS
 		err := configuration.Identity.AssignProperties_To_CMKIdentityDefinition_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CMKIdentityDefinition_STATUS() to populate field Identity")
@@ -1881,7 +1881,7 @@ func (identity *FactoryIdentity) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_FactoryIdentity populates our FactoryIdentity from the provided source FactoryIdentity
-func (identity *FactoryIdentity) AssignProperties_From_FactoryIdentity(source *v1api20180601s.FactoryIdentity) error {
+func (identity *FactoryIdentity) AssignProperties_From_FactoryIdentity(source *v20180601s.FactoryIdentity) error {
 
 	// Type
 	if source.Type != nil {
@@ -1914,7 +1914,7 @@ func (identity *FactoryIdentity) AssignProperties_From_FactoryIdentity(source *v
 }
 
 // AssignProperties_To_FactoryIdentity populates the provided destination FactoryIdentity from our FactoryIdentity
-func (identity *FactoryIdentity) AssignProperties_To_FactoryIdentity(destination *v1api20180601s.FactoryIdentity) error {
+func (identity *FactoryIdentity) AssignProperties_To_FactoryIdentity(destination *v20180601s.FactoryIdentity) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1928,11 +1928,11 @@ func (identity *FactoryIdentity) AssignProperties_To_FactoryIdentity(destination
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]v1api20180601s.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
+		userAssignedIdentityList := make([]v20180601s.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityItem := userAssignedIdentityItem
-			var userAssignedIdentity v1api20180601s.UserAssignedIdentityDetails
+			var userAssignedIdentity v20180601s.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
@@ -2042,7 +2042,7 @@ func (identity *FactoryIdentity_STATUS) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_FactoryIdentity_STATUS populates our FactoryIdentity_STATUS from the provided source FactoryIdentity_STATUS
-func (identity *FactoryIdentity_STATUS) AssignProperties_From_FactoryIdentity_STATUS(source *v1api20180601s.FactoryIdentity_STATUS) error {
+func (identity *FactoryIdentity_STATUS) AssignProperties_From_FactoryIdentity_STATUS(source *v20180601s.FactoryIdentity_STATUS) error {
 
 	// PrincipalId
 	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
@@ -2076,7 +2076,7 @@ func (identity *FactoryIdentity_STATUS) AssignProperties_From_FactoryIdentity_ST
 }
 
 // AssignProperties_To_FactoryIdentity_STATUS populates the provided destination FactoryIdentity_STATUS from our FactoryIdentity_STATUS
-func (identity *FactoryIdentity_STATUS) AssignProperties_To_FactoryIdentity_STATUS(destination *v1api20180601s.FactoryIdentity_STATUS) error {
+func (identity *FactoryIdentity_STATUS) AssignProperties_To_FactoryIdentity_STATUS(destination *v20180601s.FactoryIdentity_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2211,7 +2211,7 @@ func (configuration *FactoryRepoConfiguration) PopulateFromARM(owner genruntime.
 }
 
 // AssignProperties_From_FactoryRepoConfiguration populates our FactoryRepoConfiguration from the provided source FactoryRepoConfiguration
-func (configuration *FactoryRepoConfiguration) AssignProperties_From_FactoryRepoConfiguration(source *v1api20180601s.FactoryRepoConfiguration) error {
+func (configuration *FactoryRepoConfiguration) AssignProperties_From_FactoryRepoConfiguration(source *v20180601s.FactoryRepoConfiguration) error {
 
 	// FactoryGitHub
 	if source.FactoryGitHub != nil {
@@ -2242,13 +2242,13 @@ func (configuration *FactoryRepoConfiguration) AssignProperties_From_FactoryRepo
 }
 
 // AssignProperties_To_FactoryRepoConfiguration populates the provided destination FactoryRepoConfiguration from our FactoryRepoConfiguration
-func (configuration *FactoryRepoConfiguration) AssignProperties_To_FactoryRepoConfiguration(destination *v1api20180601s.FactoryRepoConfiguration) error {
+func (configuration *FactoryRepoConfiguration) AssignProperties_To_FactoryRepoConfiguration(destination *v20180601s.FactoryRepoConfiguration) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// FactoryGitHub
 	if configuration.FactoryGitHub != nil {
-		var factoryGitHub v1api20180601s.FactoryGitHubConfiguration
+		var factoryGitHub v20180601s.FactoryGitHubConfiguration
 		err := configuration.FactoryGitHub.AssignProperties_To_FactoryGitHubConfiguration(&factoryGitHub)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_FactoryGitHubConfiguration() to populate field FactoryGitHub")
@@ -2260,7 +2260,7 @@ func (configuration *FactoryRepoConfiguration) AssignProperties_To_FactoryRepoCo
 
 	// FactoryVSTS
 	if configuration.FactoryVSTS != nil {
-		var factoryVSTS v1api20180601s.FactoryVSTSConfiguration
+		var factoryVSTS v20180601s.FactoryVSTSConfiguration
 		err := configuration.FactoryVSTS.AssignProperties_To_FactoryVSTSConfiguration(&factoryVSTS)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_FactoryVSTSConfiguration() to populate field FactoryVSTS")
@@ -2361,7 +2361,7 @@ func (configuration *FactoryRepoConfiguration_STATUS) PopulateFromARM(owner genr
 }
 
 // AssignProperties_From_FactoryRepoConfiguration_STATUS populates our FactoryRepoConfiguration_STATUS from the provided source FactoryRepoConfiguration_STATUS
-func (configuration *FactoryRepoConfiguration_STATUS) AssignProperties_From_FactoryRepoConfiguration_STATUS(source *v1api20180601s.FactoryRepoConfiguration_STATUS) error {
+func (configuration *FactoryRepoConfiguration_STATUS) AssignProperties_From_FactoryRepoConfiguration_STATUS(source *v20180601s.FactoryRepoConfiguration_STATUS) error {
 
 	// FactoryGitHub
 	if source.FactoryGitHub != nil {
@@ -2392,13 +2392,13 @@ func (configuration *FactoryRepoConfiguration_STATUS) AssignProperties_From_Fact
 }
 
 // AssignProperties_To_FactoryRepoConfiguration_STATUS populates the provided destination FactoryRepoConfiguration_STATUS from our FactoryRepoConfiguration_STATUS
-func (configuration *FactoryRepoConfiguration_STATUS) AssignProperties_To_FactoryRepoConfiguration_STATUS(destination *v1api20180601s.FactoryRepoConfiguration_STATUS) error {
+func (configuration *FactoryRepoConfiguration_STATUS) AssignProperties_To_FactoryRepoConfiguration_STATUS(destination *v20180601s.FactoryRepoConfiguration_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// FactoryGitHub
 	if configuration.FactoryGitHub != nil {
-		var factoryGitHub v1api20180601s.FactoryGitHubConfiguration_STATUS
+		var factoryGitHub v20180601s.FactoryGitHubConfiguration_STATUS
 		err := configuration.FactoryGitHub.AssignProperties_To_FactoryGitHubConfiguration_STATUS(&factoryGitHub)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_FactoryGitHubConfiguration_STATUS() to populate field FactoryGitHub")
@@ -2410,7 +2410,7 @@ func (configuration *FactoryRepoConfiguration_STATUS) AssignProperties_To_Factor
 
 	// FactoryVSTS
 	if configuration.FactoryVSTS != nil {
-		var factoryVSTS v1api20180601s.FactoryVSTSConfiguration_STATUS
+		var factoryVSTS v20180601s.FactoryVSTSConfiguration_STATUS
 		err := configuration.FactoryVSTS.AssignProperties_To_FactoryVSTSConfiguration_STATUS(&factoryVSTS)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_FactoryVSTSConfiguration_STATUS() to populate field FactoryVSTS")
@@ -2498,7 +2498,7 @@ func (specification *GlobalParameterSpecification) PopulateFromARM(owner genrunt
 }
 
 // AssignProperties_From_GlobalParameterSpecification populates our GlobalParameterSpecification from the provided source GlobalParameterSpecification
-func (specification *GlobalParameterSpecification) AssignProperties_From_GlobalParameterSpecification(source *v1api20180601s.GlobalParameterSpecification) error {
+func (specification *GlobalParameterSpecification) AssignProperties_From_GlobalParameterSpecification(source *v20180601s.GlobalParameterSpecification) error {
 
 	// Type
 	if source.Type != nil {
@@ -2526,7 +2526,7 @@ func (specification *GlobalParameterSpecification) AssignProperties_From_GlobalP
 }
 
 // AssignProperties_To_GlobalParameterSpecification populates the provided destination GlobalParameterSpecification from our GlobalParameterSpecification
-func (specification *GlobalParameterSpecification) AssignProperties_To_GlobalParameterSpecification(destination *v1api20180601s.GlobalParameterSpecification) error {
+func (specification *GlobalParameterSpecification) AssignProperties_To_GlobalParameterSpecification(destination *v20180601s.GlobalParameterSpecification) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2632,7 +2632,7 @@ func (specification *GlobalParameterSpecification_STATUS) PopulateFromARM(owner 
 }
 
 // AssignProperties_From_GlobalParameterSpecification_STATUS populates our GlobalParameterSpecification_STATUS from the provided source GlobalParameterSpecification_STATUS
-func (specification *GlobalParameterSpecification_STATUS) AssignProperties_From_GlobalParameterSpecification_STATUS(source *v1api20180601s.GlobalParameterSpecification_STATUS) error {
+func (specification *GlobalParameterSpecification_STATUS) AssignProperties_From_GlobalParameterSpecification_STATUS(source *v20180601s.GlobalParameterSpecification_STATUS) error {
 
 	// Type
 	if source.Type != nil {
@@ -2660,7 +2660,7 @@ func (specification *GlobalParameterSpecification_STATUS) AssignProperties_From_
 }
 
 // AssignProperties_To_GlobalParameterSpecification_STATUS populates the provided destination GlobalParameterSpecification_STATUS from our GlobalParameterSpecification_STATUS
-func (specification *GlobalParameterSpecification_STATUS) AssignProperties_To_GlobalParameterSpecification_STATUS(destination *v1api20180601s.GlobalParameterSpecification_STATUS) error {
+func (specification *GlobalParameterSpecification_STATUS) AssignProperties_To_GlobalParameterSpecification_STATUS(destination *v20180601s.GlobalParameterSpecification_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2742,7 +2742,7 @@ func (configuration *PurviewConfiguration) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_PurviewConfiguration populates our PurviewConfiguration from the provided source PurviewConfiguration
-func (configuration *PurviewConfiguration) AssignProperties_From_PurviewConfiguration(source *v1api20180601s.PurviewConfiguration) error {
+func (configuration *PurviewConfiguration) AssignProperties_From_PurviewConfiguration(source *v20180601s.PurviewConfiguration) error {
 
 	// PurviewResourceReference
 	if source.PurviewResourceReference != nil {
@@ -2757,7 +2757,7 @@ func (configuration *PurviewConfiguration) AssignProperties_From_PurviewConfigur
 }
 
 // AssignProperties_To_PurviewConfiguration populates the provided destination PurviewConfiguration from our PurviewConfiguration
-func (configuration *PurviewConfiguration) AssignProperties_To_PurviewConfiguration(destination *v1api20180601s.PurviewConfiguration) error {
+func (configuration *PurviewConfiguration) AssignProperties_To_PurviewConfiguration(destination *v20180601s.PurviewConfiguration) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2826,7 +2826,7 @@ func (configuration *PurviewConfiguration_STATUS) PopulateFromARM(owner genrunti
 }
 
 // AssignProperties_From_PurviewConfiguration_STATUS populates our PurviewConfiguration_STATUS from the provided source PurviewConfiguration_STATUS
-func (configuration *PurviewConfiguration_STATUS) AssignProperties_From_PurviewConfiguration_STATUS(source *v1api20180601s.PurviewConfiguration_STATUS) error {
+func (configuration *PurviewConfiguration_STATUS) AssignProperties_From_PurviewConfiguration_STATUS(source *v20180601s.PurviewConfiguration_STATUS) error {
 
 	// PurviewResourceId
 	configuration.PurviewResourceId = genruntime.ClonePointerToString(source.PurviewResourceId)
@@ -2836,7 +2836,7 @@ func (configuration *PurviewConfiguration_STATUS) AssignProperties_From_PurviewC
 }
 
 // AssignProperties_To_PurviewConfiguration_STATUS populates the provided destination PurviewConfiguration_STATUS from our PurviewConfiguration_STATUS
-func (configuration *PurviewConfiguration_STATUS) AssignProperties_To_PurviewConfiguration_STATUS(destination *v1api20180601s.PurviewConfiguration_STATUS) error {
+func (configuration *PurviewConfiguration_STATUS) AssignProperties_To_PurviewConfiguration_STATUS(destination *v20180601s.PurviewConfiguration_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2900,7 +2900,7 @@ func (definition *CMKIdentityDefinition) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_CMKIdentityDefinition populates our CMKIdentityDefinition from the provided source CMKIdentityDefinition
-func (definition *CMKIdentityDefinition) AssignProperties_From_CMKIdentityDefinition(source *v1api20180601s.CMKIdentityDefinition) error {
+func (definition *CMKIdentityDefinition) AssignProperties_From_CMKIdentityDefinition(source *v20180601s.CMKIdentityDefinition) error {
 
 	// UserAssignedIdentityReference
 	if source.UserAssignedIdentityReference != nil {
@@ -2915,7 +2915,7 @@ func (definition *CMKIdentityDefinition) AssignProperties_From_CMKIdentityDefini
 }
 
 // AssignProperties_To_CMKIdentityDefinition populates the provided destination CMKIdentityDefinition from our CMKIdentityDefinition
-func (definition *CMKIdentityDefinition) AssignProperties_To_CMKIdentityDefinition(destination *v1api20180601s.CMKIdentityDefinition) error {
+func (definition *CMKIdentityDefinition) AssignProperties_To_CMKIdentityDefinition(destination *v20180601s.CMKIdentityDefinition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2976,7 +2976,7 @@ func (definition *CMKIdentityDefinition_STATUS) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_CMKIdentityDefinition_STATUS populates our CMKIdentityDefinition_STATUS from the provided source CMKIdentityDefinition_STATUS
-func (definition *CMKIdentityDefinition_STATUS) AssignProperties_From_CMKIdentityDefinition_STATUS(source *v1api20180601s.CMKIdentityDefinition_STATUS) error {
+func (definition *CMKIdentityDefinition_STATUS) AssignProperties_From_CMKIdentityDefinition_STATUS(source *v20180601s.CMKIdentityDefinition_STATUS) error {
 
 	// UserAssignedIdentity
 	definition.UserAssignedIdentity = genruntime.ClonePointerToString(source.UserAssignedIdentity)
@@ -2986,7 +2986,7 @@ func (definition *CMKIdentityDefinition_STATUS) AssignProperties_From_CMKIdentit
 }
 
 // AssignProperties_To_CMKIdentityDefinition_STATUS populates the provided destination CMKIdentityDefinition_STATUS from our CMKIdentityDefinition_STATUS
-func (definition *CMKIdentityDefinition_STATUS) AssignProperties_To_CMKIdentityDefinition_STATUS(destination *v1api20180601s.CMKIdentityDefinition_STATUS) error {
+func (definition *CMKIdentityDefinition_STATUS) AssignProperties_To_CMKIdentityDefinition_STATUS(destination *v20180601s.CMKIdentityDefinition_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3194,7 +3194,7 @@ func (configuration *FactoryGitHubConfiguration) PopulateFromARM(owner genruntim
 }
 
 // AssignProperties_From_FactoryGitHubConfiguration populates our FactoryGitHubConfiguration from the provided source FactoryGitHubConfiguration
-func (configuration *FactoryGitHubConfiguration) AssignProperties_From_FactoryGitHubConfiguration(source *v1api20180601s.FactoryGitHubConfiguration) error {
+func (configuration *FactoryGitHubConfiguration) AssignProperties_From_FactoryGitHubConfiguration(source *v20180601s.FactoryGitHubConfiguration) error {
 
 	// AccountName
 	configuration.AccountName = genruntime.ClonePointerToString(source.AccountName)
@@ -3250,7 +3250,7 @@ func (configuration *FactoryGitHubConfiguration) AssignProperties_From_FactoryGi
 }
 
 // AssignProperties_To_FactoryGitHubConfiguration populates the provided destination FactoryGitHubConfiguration from our FactoryGitHubConfiguration
-func (configuration *FactoryGitHubConfiguration) AssignProperties_To_FactoryGitHubConfiguration(destination *v1api20180601s.FactoryGitHubConfiguration) error {
+func (configuration *FactoryGitHubConfiguration) AssignProperties_To_FactoryGitHubConfiguration(destination *v20180601s.FactoryGitHubConfiguration) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3262,7 +3262,7 @@ func (configuration *FactoryGitHubConfiguration) AssignProperties_To_FactoryGitH
 
 	// ClientSecret
 	if configuration.ClientSecret != nil {
-		var clientSecret v1api20180601s.GitHubClientSecret
+		var clientSecret v20180601s.GitHubClientSecret
 		err := configuration.ClientSecret.AssignProperties_To_GitHubClientSecret(&clientSecret)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_GitHubClientSecret() to populate field ClientSecret")
@@ -3483,7 +3483,7 @@ func (configuration *FactoryGitHubConfiguration_STATUS) PopulateFromARM(owner ge
 }
 
 // AssignProperties_From_FactoryGitHubConfiguration_STATUS populates our FactoryGitHubConfiguration_STATUS from the provided source FactoryGitHubConfiguration_STATUS
-func (configuration *FactoryGitHubConfiguration_STATUS) AssignProperties_From_FactoryGitHubConfiguration_STATUS(source *v1api20180601s.FactoryGitHubConfiguration_STATUS) error {
+func (configuration *FactoryGitHubConfiguration_STATUS) AssignProperties_From_FactoryGitHubConfiguration_STATUS(source *v20180601s.FactoryGitHubConfiguration_STATUS) error {
 
 	// AccountName
 	configuration.AccountName = genruntime.ClonePointerToString(source.AccountName)
@@ -3539,7 +3539,7 @@ func (configuration *FactoryGitHubConfiguration_STATUS) AssignProperties_From_Fa
 }
 
 // AssignProperties_To_FactoryGitHubConfiguration_STATUS populates the provided destination FactoryGitHubConfiguration_STATUS from our FactoryGitHubConfiguration_STATUS
-func (configuration *FactoryGitHubConfiguration_STATUS) AssignProperties_To_FactoryGitHubConfiguration_STATUS(destination *v1api20180601s.FactoryGitHubConfiguration_STATUS) error {
+func (configuration *FactoryGitHubConfiguration_STATUS) AssignProperties_To_FactoryGitHubConfiguration_STATUS(destination *v20180601s.FactoryGitHubConfiguration_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3551,7 +3551,7 @@ func (configuration *FactoryGitHubConfiguration_STATUS) AssignProperties_To_Fact
 
 	// ClientSecret
 	if configuration.ClientSecret != nil {
-		var clientSecret v1api20180601s.GitHubClientSecret_STATUS
+		var clientSecret v20180601s.GitHubClientSecret_STATUS
 		err := configuration.ClientSecret.AssignProperties_To_GitHubClientSecret_STATUS(&clientSecret)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_GitHubClientSecret_STATUS() to populate field ClientSecret")
@@ -3770,7 +3770,7 @@ func (configuration *FactoryVSTSConfiguration) PopulateFromARM(owner genruntime.
 }
 
 // AssignProperties_From_FactoryVSTSConfiguration populates our FactoryVSTSConfiguration from the provided source FactoryVSTSConfiguration
-func (configuration *FactoryVSTSConfiguration) AssignProperties_From_FactoryVSTSConfiguration(source *v1api20180601s.FactoryVSTSConfiguration) error {
+func (configuration *FactoryVSTSConfiguration) AssignProperties_From_FactoryVSTSConfiguration(source *v20180601s.FactoryVSTSConfiguration) error {
 
 	// AccountName
 	configuration.AccountName = genruntime.ClonePointerToString(source.AccountName)
@@ -3814,7 +3814,7 @@ func (configuration *FactoryVSTSConfiguration) AssignProperties_From_FactoryVSTS
 }
 
 // AssignProperties_To_FactoryVSTSConfiguration populates the provided destination FactoryVSTSConfiguration from our FactoryVSTSConfiguration
-func (configuration *FactoryVSTSConfiguration) AssignProperties_To_FactoryVSTSConfiguration(destination *v1api20180601s.FactoryVSTSConfiguration) error {
+func (configuration *FactoryVSTSConfiguration) AssignProperties_To_FactoryVSTSConfiguration(destination *v20180601s.FactoryVSTSConfiguration) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4009,7 +4009,7 @@ func (configuration *FactoryVSTSConfiguration_STATUS) PopulateFromARM(owner genr
 }
 
 // AssignProperties_From_FactoryVSTSConfiguration_STATUS populates our FactoryVSTSConfiguration_STATUS from the provided source FactoryVSTSConfiguration_STATUS
-func (configuration *FactoryVSTSConfiguration_STATUS) AssignProperties_From_FactoryVSTSConfiguration_STATUS(source *v1api20180601s.FactoryVSTSConfiguration_STATUS) error {
+func (configuration *FactoryVSTSConfiguration_STATUS) AssignProperties_From_FactoryVSTSConfiguration_STATUS(source *v20180601s.FactoryVSTSConfiguration_STATUS) error {
 
 	// AccountName
 	configuration.AccountName = genruntime.ClonePointerToString(source.AccountName)
@@ -4053,7 +4053,7 @@ func (configuration *FactoryVSTSConfiguration_STATUS) AssignProperties_From_Fact
 }
 
 // AssignProperties_To_FactoryVSTSConfiguration_STATUS populates the provided destination FactoryVSTSConfiguration_STATUS from our FactoryVSTSConfiguration_STATUS
-func (configuration *FactoryVSTSConfiguration_STATUS) AssignProperties_To_FactoryVSTSConfiguration_STATUS(destination *v1api20180601s.FactoryVSTSConfiguration_STATUS) error {
+func (configuration *FactoryVSTSConfiguration_STATUS) AssignProperties_To_FactoryVSTSConfiguration_STATUS(destination *v20180601s.FactoryVSTSConfiguration_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4134,7 +4134,7 @@ type UserAssignedIdentityDetails struct {
 }
 
 // AssignProperties_From_UserAssignedIdentityDetails populates our UserAssignedIdentityDetails from the provided source UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v1api20180601s.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v20180601s.UserAssignedIdentityDetails) error {
 
 	// Reference
 	details.Reference = source.Reference.Copy()
@@ -4144,7 +4144,7 @@ func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedId
 }
 
 // AssignProperties_To_UserAssignedIdentityDetails populates the provided destination UserAssignedIdentityDetails from our UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v1api20180601s.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v20180601s.UserAssignedIdentityDetails) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4241,7 +4241,7 @@ func (secret *GitHubClientSecret) PopulateFromARM(owner genruntime.ArbitraryOwne
 }
 
 // AssignProperties_From_GitHubClientSecret populates our GitHubClientSecret from the provided source GitHubClientSecret
-func (secret *GitHubClientSecret) AssignProperties_From_GitHubClientSecret(source *v1api20180601s.GitHubClientSecret) error {
+func (secret *GitHubClientSecret) AssignProperties_From_GitHubClientSecret(source *v20180601s.GitHubClientSecret) error {
 
 	// ByoaSecretAkvUrl
 	secret.ByoaSecretAkvUrl = genruntime.ClonePointerToString(source.ByoaSecretAkvUrl)
@@ -4254,7 +4254,7 @@ func (secret *GitHubClientSecret) AssignProperties_From_GitHubClientSecret(sourc
 }
 
 // AssignProperties_To_GitHubClientSecret populates the provided destination GitHubClientSecret from our GitHubClientSecret
-func (secret *GitHubClientSecret) AssignProperties_To_GitHubClientSecret(destination *v1api20180601s.GitHubClientSecret) error {
+func (secret *GitHubClientSecret) AssignProperties_To_GitHubClientSecret(destination *v20180601s.GitHubClientSecret) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4328,7 +4328,7 @@ func (secret *GitHubClientSecret_STATUS) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_GitHubClientSecret_STATUS populates our GitHubClientSecret_STATUS from the provided source GitHubClientSecret_STATUS
-func (secret *GitHubClientSecret_STATUS) AssignProperties_From_GitHubClientSecret_STATUS(source *v1api20180601s.GitHubClientSecret_STATUS) error {
+func (secret *GitHubClientSecret_STATUS) AssignProperties_From_GitHubClientSecret_STATUS(source *v20180601s.GitHubClientSecret_STATUS) error {
 
 	// ByoaSecretAkvUrl
 	secret.ByoaSecretAkvUrl = genruntime.ClonePointerToString(source.ByoaSecretAkvUrl)
@@ -4341,7 +4341,7 @@ func (secret *GitHubClientSecret_STATUS) AssignProperties_From_GitHubClientSecre
 }
 
 // AssignProperties_To_GitHubClientSecret_STATUS populates the provided destination GitHubClientSecret_STATUS from our GitHubClientSecret_STATUS
-func (secret *GitHubClientSecret_STATUS) AssignProperties_To_GitHubClientSecret_STATUS(destination *v1api20180601s.GitHubClientSecret_STATUS) error {
+func (secret *GitHubClientSecret_STATUS) AssignProperties_To_GitHubClientSecret_STATUS(destination *v20180601s.GitHubClientSecret_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

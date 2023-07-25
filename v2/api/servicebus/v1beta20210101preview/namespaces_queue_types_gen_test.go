@@ -5,8 +5,8 @@ package v1beta20210101preview
 
 import (
 	"encoding/json"
-	v1api20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
-	v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previewstorage"
+	v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
+	v1beta20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previewstorage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -37,7 +37,7 @@ func RunResourceConversionTestForNamespacesQueue(subject NamespacesQueue) string
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20210101ps.NamespacesQueue
+	var hub v20210101ps.NamespacesQueue
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -79,7 +79,7 @@ func RunPropertyAssignmentTestForNamespacesQueue(subject NamespacesQueue) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210101ps.NamespacesQueue
+	var other v1beta20210101ps.NamespacesQueue
 	err := copied.AssignProperties_To_NamespacesQueue(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForNamespaces_Queue_Spec(subject Namespaces_Queue_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210101ps.Namespaces_Queue_Spec
+	var other v1beta20210101ps.Namespaces_Queue_Spec
 	err := copied.AssignProperties_To_Namespaces_Queue_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -299,7 +299,7 @@ func RunPropertyAssignmentTestForNamespaces_Queue_STATUS(subject Namespaces_Queu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210101ps.Namespaces_Queue_STATUS
+	var other v1beta20210101ps.Namespaces_Queue_STATUS
 	err := copied.AssignProperties_To_Namespaces_Queue_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -448,7 +448,7 @@ func RunPropertyAssignmentTestForMessageCountDetails_STATUS(subject MessageCount
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210101ps.MessageCountDetails_STATUS
+	var other v1beta20210101ps.MessageCountDetails_STATUS
 	err := copied.AssignProperties_To_MessageCountDetails_STATUS(&other)
 	if err != nil {
 		return err.Error()

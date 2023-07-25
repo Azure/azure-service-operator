@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
-	v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &ServersElasticPool{}
 
 // ConvertFrom populates our ServersElasticPool from the provided hub ServersElasticPool
 func (pool *ServersElasticPool) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20211101s.ServersElasticPool)
+	source, ok := hub.(*v20211101s.ServersElasticPool)
 	if !ok {
 		return fmt.Errorf("expected sql/v1api20211101storage/ServersElasticPool but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (pool *ServersElasticPool) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub ServersElasticPool from our ServersElasticPool
 func (pool *ServersElasticPool) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20211101s.ServersElasticPool)
+	destination, ok := hub.(*v20211101s.ServersElasticPool)
 	if !ok {
 		return fmt.Errorf("expected sql/v1api20211101storage/ServersElasticPool but received %T instead", hub)
 	}
@@ -240,7 +240,7 @@ func (pool *ServersElasticPool) validateWriteOnceProperties(old runtime.Object) 
 }
 
 // AssignProperties_From_ServersElasticPool populates our ServersElasticPool from the provided source ServersElasticPool
-func (pool *ServersElasticPool) AssignProperties_From_ServersElasticPool(source *v1api20211101s.ServersElasticPool) error {
+func (pool *ServersElasticPool) AssignProperties_From_ServersElasticPool(source *v20211101s.ServersElasticPool) error {
 
 	// ObjectMeta
 	pool.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -266,13 +266,13 @@ func (pool *ServersElasticPool) AssignProperties_From_ServersElasticPool(source 
 }
 
 // AssignProperties_To_ServersElasticPool populates the provided destination ServersElasticPool from our ServersElasticPool
-func (pool *ServersElasticPool) AssignProperties_To_ServersElasticPool(destination *v1api20211101s.ServersElasticPool) error {
+func (pool *ServersElasticPool) AssignProperties_To_ServersElasticPool(destination *v20211101s.ServersElasticPool) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *pool.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20211101s.Servers_ElasticPool_Spec
+	var spec v20211101s.Servers_ElasticPool_Spec
 	err := pool.Spec.AssignProperties_To_Servers_ElasticPool_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Servers_ElasticPool_Spec() to populate field Spec")
@@ -280,7 +280,7 @@ func (pool *ServersElasticPool) AssignProperties_To_ServersElasticPool(destinati
 	destination.Spec = spec
 
 	// Status
-	var status v1api20211101s.Servers_ElasticPool_STATUS
+	var status v20211101s.Servers_ElasticPool_STATUS
 	err = pool.Status.AssignProperties_To_Servers_ElasticPool_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Servers_ElasticPool_STATUS() to populate field Status")
@@ -562,14 +562,14 @@ var _ genruntime.ConvertibleSpec = &Servers_ElasticPool_Spec{}
 
 // ConvertSpecFrom populates our Servers_ElasticPool_Spec from the provided source
 func (pool *Servers_ElasticPool_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20211101s.Servers_ElasticPool_Spec)
+	src, ok := source.(*v20211101s.Servers_ElasticPool_Spec)
 	if ok {
 		// Populate our instance from source
 		return pool.AssignProperties_From_Servers_ElasticPool_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20211101s.Servers_ElasticPool_Spec{}
+	src = &v20211101s.Servers_ElasticPool_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -586,14 +586,14 @@ func (pool *Servers_ElasticPool_Spec) ConvertSpecFrom(source genruntime.Converti
 
 // ConvertSpecTo populates the provided destination from our Servers_ElasticPool_Spec
 func (pool *Servers_ElasticPool_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20211101s.Servers_ElasticPool_Spec)
+	dst, ok := destination.(*v20211101s.Servers_ElasticPool_Spec)
 	if ok {
 		// Populate destination from our instance
 		return pool.AssignProperties_To_Servers_ElasticPool_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20211101s.Servers_ElasticPool_Spec{}
+	dst = &v20211101s.Servers_ElasticPool_Spec{}
 	err := pool.AssignProperties_To_Servers_ElasticPool_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -609,7 +609,7 @@ func (pool *Servers_ElasticPool_Spec) ConvertSpecTo(destination genruntime.Conve
 }
 
 // AssignProperties_From_Servers_ElasticPool_Spec populates our Servers_ElasticPool_Spec from the provided source Servers_ElasticPool_Spec
-func (pool *Servers_ElasticPool_Spec) AssignProperties_From_Servers_ElasticPool_Spec(source *v1api20211101s.Servers_ElasticPool_Spec) error {
+func (pool *Servers_ElasticPool_Spec) AssignProperties_From_Servers_ElasticPool_Spec(source *v20211101s.Servers_ElasticPool_Spec) error {
 
 	// AzureName
 	pool.AzureName = source.AzureName
@@ -690,7 +690,7 @@ func (pool *Servers_ElasticPool_Spec) AssignProperties_From_Servers_ElasticPool_
 }
 
 // AssignProperties_To_Servers_ElasticPool_Spec populates the provided destination Servers_ElasticPool_Spec from our Servers_ElasticPool_Spec
-func (pool *Servers_ElasticPool_Spec) AssignProperties_To_Servers_ElasticPool_Spec(destination *v1api20211101s.Servers_ElasticPool_Spec) error {
+func (pool *Servers_ElasticPool_Spec) AssignProperties_To_Servers_ElasticPool_Spec(destination *v20211101s.Servers_ElasticPool_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -738,7 +738,7 @@ func (pool *Servers_ElasticPool_Spec) AssignProperties_To_Servers_ElasticPool_Sp
 
 	// PerDatabaseSettings
 	if pool.PerDatabaseSettings != nil {
-		var perDatabaseSetting v1api20211101s.ElasticPoolPerDatabaseSettings
+		var perDatabaseSetting v20211101s.ElasticPoolPerDatabaseSettings
 		err := pool.PerDatabaseSettings.AssignProperties_To_ElasticPoolPerDatabaseSettings(&perDatabaseSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ElasticPoolPerDatabaseSettings() to populate field PerDatabaseSettings")
@@ -750,7 +750,7 @@ func (pool *Servers_ElasticPool_Spec) AssignProperties_To_Servers_ElasticPool_Sp
 
 	// Sku
 	if pool.Sku != nil {
-		var sku v1api20211101s.Sku
+		var sku v20211101s.Sku
 		err := pool.Sku.AssignProperties_To_Sku(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
@@ -926,14 +926,14 @@ var _ genruntime.ConvertibleStatus = &Servers_ElasticPool_STATUS{}
 
 // ConvertStatusFrom populates our Servers_ElasticPool_STATUS from the provided source
 func (pool *Servers_ElasticPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20211101s.Servers_ElasticPool_STATUS)
+	src, ok := source.(*v20211101s.Servers_ElasticPool_STATUS)
 	if ok {
 		// Populate our instance from source
 		return pool.AssignProperties_From_Servers_ElasticPool_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20211101s.Servers_ElasticPool_STATUS{}
+	src = &v20211101s.Servers_ElasticPool_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -950,14 +950,14 @@ func (pool *Servers_ElasticPool_STATUS) ConvertStatusFrom(source genruntime.Conv
 
 // ConvertStatusTo populates the provided destination from our Servers_ElasticPool_STATUS
 func (pool *Servers_ElasticPool_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20211101s.Servers_ElasticPool_STATUS)
+	dst, ok := destination.(*v20211101s.Servers_ElasticPool_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return pool.AssignProperties_To_Servers_ElasticPool_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20211101s.Servers_ElasticPool_STATUS{}
+	dst = &v20211101s.Servers_ElasticPool_STATUS{}
 	err := pool.AssignProperties_To_Servers_ElasticPool_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1128,7 +1128,7 @@ func (pool *Servers_ElasticPool_STATUS) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_Servers_ElasticPool_STATUS populates our Servers_ElasticPool_STATUS from the provided source Servers_ElasticPool_STATUS
-func (pool *Servers_ElasticPool_STATUS) AssignProperties_From_Servers_ElasticPool_STATUS(source *v1api20211101s.Servers_ElasticPool_STATUS) error {
+func (pool *Servers_ElasticPool_STATUS) AssignProperties_From_Servers_ElasticPool_STATUS(source *v20211101s.Servers_ElasticPool_STATUS) error {
 
 	// Conditions
 	pool.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -1224,7 +1224,7 @@ func (pool *Servers_ElasticPool_STATUS) AssignProperties_From_Servers_ElasticPoo
 }
 
 // AssignProperties_To_Servers_ElasticPool_STATUS populates the provided destination Servers_ElasticPool_STATUS from our Servers_ElasticPool_STATUS
-func (pool *Servers_ElasticPool_STATUS) AssignProperties_To_Servers_ElasticPool_STATUS(destination *v1api20211101s.Servers_ElasticPool_STATUS) error {
+func (pool *Servers_ElasticPool_STATUS) AssignProperties_To_Servers_ElasticPool_STATUS(destination *v20211101s.Servers_ElasticPool_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1273,7 +1273,7 @@ func (pool *Servers_ElasticPool_STATUS) AssignProperties_To_Servers_ElasticPool_
 
 	// PerDatabaseSettings
 	if pool.PerDatabaseSettings != nil {
-		var perDatabaseSetting v1api20211101s.ElasticPoolPerDatabaseSettings_STATUS
+		var perDatabaseSetting v20211101s.ElasticPoolPerDatabaseSettings_STATUS
 		err := pool.PerDatabaseSettings.AssignProperties_To_ElasticPoolPerDatabaseSettings_STATUS(&perDatabaseSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ElasticPoolPerDatabaseSettings_STATUS() to populate field PerDatabaseSettings")
@@ -1285,7 +1285,7 @@ func (pool *Servers_ElasticPool_STATUS) AssignProperties_To_Servers_ElasticPool_
 
 	// Sku
 	if pool.Sku != nil {
-		var sku v1api20211101s.Sku_STATUS
+		var sku v20211101s.Sku_STATUS
 		err := pool.Sku.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
@@ -1389,7 +1389,7 @@ func (settings *ElasticPoolPerDatabaseSettings) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_ElasticPoolPerDatabaseSettings populates our ElasticPoolPerDatabaseSettings from the provided source ElasticPoolPerDatabaseSettings
-func (settings *ElasticPoolPerDatabaseSettings) AssignProperties_From_ElasticPoolPerDatabaseSettings(source *v1api20211101s.ElasticPoolPerDatabaseSettings) error {
+func (settings *ElasticPoolPerDatabaseSettings) AssignProperties_From_ElasticPoolPerDatabaseSettings(source *v20211101s.ElasticPoolPerDatabaseSettings) error {
 
 	// MaxCapacity
 	if source.MaxCapacity != nil {
@@ -1412,7 +1412,7 @@ func (settings *ElasticPoolPerDatabaseSettings) AssignProperties_From_ElasticPoo
 }
 
 // AssignProperties_To_ElasticPoolPerDatabaseSettings populates the provided destination ElasticPoolPerDatabaseSettings from our ElasticPoolPerDatabaseSettings
-func (settings *ElasticPoolPerDatabaseSettings) AssignProperties_To_ElasticPoolPerDatabaseSettings(destination *v1api20211101s.ElasticPoolPerDatabaseSettings) error {
+func (settings *ElasticPoolPerDatabaseSettings) AssignProperties_To_ElasticPoolPerDatabaseSettings(destination *v20211101s.ElasticPoolPerDatabaseSettings) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1506,7 +1506,7 @@ func (settings *ElasticPoolPerDatabaseSettings_STATUS) PopulateFromARM(owner gen
 }
 
 // AssignProperties_From_ElasticPoolPerDatabaseSettings_STATUS populates our ElasticPoolPerDatabaseSettings_STATUS from the provided source ElasticPoolPerDatabaseSettings_STATUS
-func (settings *ElasticPoolPerDatabaseSettings_STATUS) AssignProperties_From_ElasticPoolPerDatabaseSettings_STATUS(source *v1api20211101s.ElasticPoolPerDatabaseSettings_STATUS) error {
+func (settings *ElasticPoolPerDatabaseSettings_STATUS) AssignProperties_From_ElasticPoolPerDatabaseSettings_STATUS(source *v20211101s.ElasticPoolPerDatabaseSettings_STATUS) error {
 
 	// MaxCapacity
 	if source.MaxCapacity != nil {
@@ -1529,7 +1529,7 @@ func (settings *ElasticPoolPerDatabaseSettings_STATUS) AssignProperties_From_Ela
 }
 
 // AssignProperties_To_ElasticPoolPerDatabaseSettings_STATUS populates the provided destination ElasticPoolPerDatabaseSettings_STATUS from our ElasticPoolPerDatabaseSettings_STATUS
-func (settings *ElasticPoolPerDatabaseSettings_STATUS) AssignProperties_To_ElasticPoolPerDatabaseSettings_STATUS(destination *v1api20211101s.ElasticPoolPerDatabaseSettings_STATUS) error {
+func (settings *ElasticPoolPerDatabaseSettings_STATUS) AssignProperties_To_ElasticPoolPerDatabaseSettings_STATUS(destination *v20211101s.ElasticPoolPerDatabaseSettings_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

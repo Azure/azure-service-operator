@@ -5,7 +5,7 @@ package v1api20210601
 
 import (
 	"encoding/json"
-	v1api20210601s "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601storage"
+	v20210601s "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForWorkspacesBigDataPool(subject WorkspacesBigData
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20210601s.WorkspacesBigDataPool
+	var hub v20210601s.WorkspacesBigDataPool
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForWorkspacesBigDataPool(subject WorkspacesBigData
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210601s.WorkspacesBigDataPool
+	var other v20210601s.WorkspacesBigDataPool
 	err := copied.AssignProperties_To_WorkspacesBigDataPool(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForWorkspaces_BigDataPool_Spec(subject Workspaces_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210601s.Workspaces_BigDataPool_Spec
+	var other v20210601s.Workspaces_BigDataPool_Spec
 	err := copied.AssignProperties_To_Workspaces_BigDataPool_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -327,7 +327,7 @@ func RunPropertyAssignmentTestForWorkspaces_BigDataPool_STATUS(subject Workspace
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210601s.Workspaces_BigDataPool_STATUS
+	var other v20210601s.Workspaces_BigDataPool_STATUS
 	err := copied.AssignProperties_To_Workspaces_BigDataPool_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -477,7 +477,7 @@ func RunPropertyAssignmentTestForAutoPauseProperties(subject AutoPauseProperties
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210601s.AutoPauseProperties
+	var other v20210601s.AutoPauseProperties
 	err := copied.AssignProperties_To_AutoPauseProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -581,7 +581,7 @@ func RunPropertyAssignmentTestForAutoPauseProperties_STATUS(subject AutoPausePro
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210601s.AutoPauseProperties_STATUS
+	var other v20210601s.AutoPauseProperties_STATUS
 	err := copied.AssignProperties_To_AutoPauseProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -685,7 +685,7 @@ func RunPropertyAssignmentTestForAutoScaleProperties(subject AutoScaleProperties
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210601s.AutoScaleProperties
+	var other v20210601s.AutoScaleProperties
 	err := copied.AssignProperties_To_AutoScaleProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -790,7 +790,7 @@ func RunPropertyAssignmentTestForAutoScaleProperties_STATUS(subject AutoScalePro
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210601s.AutoScaleProperties_STATUS
+	var other v20210601s.AutoScaleProperties_STATUS
 	err := copied.AssignProperties_To_AutoScaleProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -895,7 +895,7 @@ func RunPropertyAssignmentTestForDynamicExecutorAllocation(subject DynamicExecut
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210601s.DynamicExecutorAllocation
+	var other v20210601s.DynamicExecutorAllocation
 	err := copied.AssignProperties_To_DynamicExecutorAllocation(&other)
 	if err != nil {
 		return err.Error()
@@ -1000,7 +1000,7 @@ func RunPropertyAssignmentTestForDynamicExecutorAllocation_STATUS(subject Dynami
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210601s.DynamicExecutorAllocation_STATUS
+	var other v20210601s.DynamicExecutorAllocation_STATUS
 	err := copied.AssignProperties_To_DynamicExecutorAllocation_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1105,7 +1105,7 @@ func RunPropertyAssignmentTestForLibraryInfo(subject LibraryInfo) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210601s.LibraryInfo
+	var other v20210601s.LibraryInfo
 	err := copied.AssignProperties_To_LibraryInfo(&other)
 	if err != nil {
 		return err.Error()
@@ -1210,7 +1210,7 @@ func RunPropertyAssignmentTestForLibraryInfo_STATUS(subject LibraryInfo_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210601s.LibraryInfo_STATUS
+	var other v20210601s.LibraryInfo_STATUS
 	err := copied.AssignProperties_To_LibraryInfo_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1318,7 +1318,7 @@ func RunPropertyAssignmentTestForLibraryRequirements(subject LibraryRequirements
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210601s.LibraryRequirements
+	var other v20210601s.LibraryRequirements
 	err := copied.AssignProperties_To_LibraryRequirements(&other)
 	if err != nil {
 		return err.Error()
@@ -1422,7 +1422,7 @@ func RunPropertyAssignmentTestForLibraryRequirements_STATUS(subject LibraryRequi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210601s.LibraryRequirements_STATUS
+	var other v20210601s.LibraryRequirements_STATUS
 	err := copied.AssignProperties_To_LibraryRequirements_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1527,7 +1527,7 @@ func RunPropertyAssignmentTestForSparkConfigProperties(subject SparkConfigProper
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210601s.SparkConfigProperties
+	var other v20210601s.SparkConfigProperties
 	err := copied.AssignProperties_To_SparkConfigProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -1632,7 +1632,7 @@ func RunPropertyAssignmentTestForSparkConfigProperties_STATUS(subject SparkConfi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210601s.SparkConfigProperties_STATUS
+	var other v20210601s.SparkConfigProperties_STATUS
 	err := copied.AssignProperties_To_SparkConfigProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()

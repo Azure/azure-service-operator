@@ -5,7 +5,7 @@ package v1api20180601
 
 import (
 	"fmt"
-	v1api20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601storage"
+	v20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &Server{}
 
 // ConvertFrom populates our Server from the provided hub Server
 func (server *Server) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20180601s.Server)
+	source, ok := hub.(*v20180601s.Server)
 	if !ok {
 		return fmt.Errorf("expected dbformariadb/v1api20180601storage/Server but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (server *Server) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub Server from our Server
 func (server *Server) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20180601s.Server)
+	destination, ok := hub.(*v20180601s.Server)
 	if !ok {
 		return fmt.Errorf("expected dbformariadb/v1api20180601storage/Server but received %T instead", hub)
 	}
@@ -258,7 +258,7 @@ func (server *Server) validateWriteOnceProperties(old runtime.Object) (admission
 }
 
 // AssignProperties_From_Server populates our Server from the provided source Server
-func (server *Server) AssignProperties_From_Server(source *v1api20180601s.Server) error {
+func (server *Server) AssignProperties_From_Server(source *v20180601s.Server) error {
 
 	// ObjectMeta
 	server.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -284,13 +284,13 @@ func (server *Server) AssignProperties_From_Server(source *v1api20180601s.Server
 }
 
 // AssignProperties_To_Server populates the provided destination Server from our Server
-func (server *Server) AssignProperties_To_Server(destination *v1api20180601s.Server) error {
+func (server *Server) AssignProperties_To_Server(destination *v20180601s.Server) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *server.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20180601s.Server_Spec
+	var spec v20180601s.Server_Spec
 	err := server.Spec.AssignProperties_To_Server_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Server_Spec() to populate field Spec")
@@ -298,7 +298,7 @@ func (server *Server) AssignProperties_To_Server(destination *v1api20180601s.Ser
 	destination.Spec = spec
 
 	// Status
-	var status v1api20180601s.Server_STATUS
+	var status v20180601s.Server_STATUS
 	err = server.Status.AssignProperties_To_Server_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Server_STATUS() to populate field Status")
@@ -470,14 +470,14 @@ var _ genruntime.ConvertibleSpec = &Server_Spec{}
 
 // ConvertSpecFrom populates our Server_Spec from the provided source
 func (server *Server_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20180601s.Server_Spec)
+	src, ok := source.(*v20180601s.Server_Spec)
 	if ok {
 		// Populate our instance from source
 		return server.AssignProperties_From_Server_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20180601s.Server_Spec{}
+	src = &v20180601s.Server_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -494,14 +494,14 @@ func (server *Server_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) er
 
 // ConvertSpecTo populates the provided destination from our Server_Spec
 func (server *Server_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20180601s.Server_Spec)
+	dst, ok := destination.(*v20180601s.Server_Spec)
 	if ok {
 		// Populate destination from our instance
 		return server.AssignProperties_To_Server_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20180601s.Server_Spec{}
+	dst = &v20180601s.Server_Spec{}
 	err := server.AssignProperties_To_Server_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -517,7 +517,7 @@ func (server *Server_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec)
 }
 
 // AssignProperties_From_Server_Spec populates our Server_Spec from the provided source Server_Spec
-func (server *Server_Spec) AssignProperties_From_Server_Spec(source *v1api20180601s.Server_Spec) error {
+func (server *Server_Spec) AssignProperties_From_Server_Spec(source *v20180601s.Server_Spec) error {
 
 	// AzureName
 	server.AzureName = source.AzureName
@@ -577,7 +577,7 @@ func (server *Server_Spec) AssignProperties_From_Server_Spec(source *v1api201806
 }
 
 // AssignProperties_To_Server_Spec populates the provided destination Server_Spec from our Server_Spec
-func (server *Server_Spec) AssignProperties_To_Server_Spec(destination *v1api20180601s.Server_Spec) error {
+func (server *Server_Spec) AssignProperties_To_Server_Spec(destination *v20180601s.Server_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -589,7 +589,7 @@ func (server *Server_Spec) AssignProperties_To_Server_Spec(destination *v1api201
 
 	// OperatorSpec
 	if server.OperatorSpec != nil {
-		var operatorSpec v1api20180601s.ServerOperatorSpec
+		var operatorSpec v20180601s.ServerOperatorSpec
 		err := server.OperatorSpec.AssignProperties_To_ServerOperatorSpec(&operatorSpec)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ServerOperatorSpec() to populate field OperatorSpec")
@@ -612,7 +612,7 @@ func (server *Server_Spec) AssignProperties_To_Server_Spec(destination *v1api201
 
 	// Properties
 	if server.Properties != nil {
-		var property v1api20180601s.ServerPropertiesForCreate
+		var property v20180601s.ServerPropertiesForCreate
 		err := server.Properties.AssignProperties_To_ServerPropertiesForCreate(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForCreate() to populate field Properties")
@@ -624,7 +624,7 @@ func (server *Server_Spec) AssignProperties_To_Server_Spec(destination *v1api201
 
 	// Sku
 	if server.Sku != nil {
-		var sku v1api20180601s.Sku
+		var sku v20180601s.Sku
 		err := server.Sku.AssignProperties_To_Sku(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
@@ -751,14 +751,14 @@ var _ genruntime.ConvertibleStatus = &Server_STATUS{}
 
 // ConvertStatusFrom populates our Server_STATUS from the provided source
 func (server *Server_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20180601s.Server_STATUS)
+	src, ok := source.(*v20180601s.Server_STATUS)
 	if ok {
 		// Populate our instance from source
 		return server.AssignProperties_From_Server_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20180601s.Server_STATUS{}
+	src = &v20180601s.Server_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -775,14 +775,14 @@ func (server *Server_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStat
 
 // ConvertStatusTo populates the provided destination from our Server_STATUS
 func (server *Server_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20180601s.Server_STATUS)
+	dst, ok := destination.(*v20180601s.Server_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return server.AssignProperties_To_Server_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20180601s.Server_STATUS{}
+	dst = &v20180601s.Server_STATUS{}
 	err := server.AssignProperties_To_Server_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -987,7 +987,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 }
 
 // AssignProperties_From_Server_STATUS populates our Server_STATUS from the provided source Server_STATUS
-func (server *Server_STATUS) AssignProperties_From_Server_STATUS(source *v1api20180601s.Server_STATUS) error {
+func (server *Server_STATUS) AssignProperties_From_Server_STATUS(source *v20180601s.Server_STATUS) error {
 
 	// AdministratorLogin
 	server.AdministratorLogin = genruntime.ClonePointerToString(source.AdministratorLogin)
@@ -1112,7 +1112,7 @@ func (server *Server_STATUS) AssignProperties_From_Server_STATUS(source *v1api20
 }
 
 // AssignProperties_To_Server_STATUS populates the provided destination Server_STATUS from our Server_STATUS
-func (server *Server_STATUS) AssignProperties_To_Server_STATUS(destination *v1api20180601s.Server_STATUS) error {
+func (server *Server_STATUS) AssignProperties_To_Server_STATUS(destination *v20180601s.Server_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1150,11 +1150,11 @@ func (server *Server_STATUS) AssignProperties_To_Server_STATUS(destination *v1ap
 
 	// PrivateEndpointConnections
 	if server.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v1api20180601s.ServerPrivateEndpointConnection_STATUS, len(server.PrivateEndpointConnections))
+		privateEndpointConnectionList := make([]v20180601s.ServerPrivateEndpointConnection_STATUS, len(server.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range server.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v1api20180601s.ServerPrivateEndpointConnection_STATUS
+			var privateEndpointConnection v20180601s.ServerPrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_ServerPrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ServerPrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
@@ -1182,7 +1182,7 @@ func (server *Server_STATUS) AssignProperties_To_Server_STATUS(destination *v1ap
 
 	// Sku
 	if server.Sku != nil {
-		var sku v1api20180601s.Sku_STATUS
+		var sku v20180601s.Sku_STATUS
 		err := server.Sku.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
@@ -1202,7 +1202,7 @@ func (server *Server_STATUS) AssignProperties_To_Server_STATUS(destination *v1ap
 
 	// StorageProfile
 	if server.StorageProfile != nil {
-		var storageProfile v1api20180601s.StorageProfile_STATUS
+		var storageProfile v20180601s.StorageProfile_STATUS
 		err := server.StorageProfile.AssignProperties_To_StorageProfile_STATUS(&storageProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_StorageProfile_STATUS() to populate field StorageProfile")
@@ -1271,7 +1271,7 @@ type ServerOperatorSpec struct {
 }
 
 // AssignProperties_From_ServerOperatorSpec populates our ServerOperatorSpec from the provided source ServerOperatorSpec
-func (operator *ServerOperatorSpec) AssignProperties_From_ServerOperatorSpec(source *v1api20180601s.ServerOperatorSpec) error {
+func (operator *ServerOperatorSpec) AssignProperties_From_ServerOperatorSpec(source *v20180601s.ServerOperatorSpec) error {
 
 	// Secrets
 	if source.Secrets != nil {
@@ -1290,13 +1290,13 @@ func (operator *ServerOperatorSpec) AssignProperties_From_ServerOperatorSpec(sou
 }
 
 // AssignProperties_To_ServerOperatorSpec populates the provided destination ServerOperatorSpec from our ServerOperatorSpec
-func (operator *ServerOperatorSpec) AssignProperties_To_ServerOperatorSpec(destination *v1api20180601s.ServerOperatorSpec) error {
+func (operator *ServerOperatorSpec) AssignProperties_To_ServerOperatorSpec(destination *v20180601s.ServerOperatorSpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Secrets
 	if operator.Secrets != nil {
-		var secret v1api20180601s.ServerOperatorSecrets
+		var secret v20180601s.ServerOperatorSecrets
 		err := operator.Secrets.AssignProperties_To_ServerOperatorSecrets(&secret)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ServerOperatorSecrets() to populate field Secrets")
@@ -1362,7 +1362,7 @@ func (connection *ServerPrivateEndpointConnection_STATUS) PopulateFromARM(owner 
 }
 
 // AssignProperties_From_ServerPrivateEndpointConnection_STATUS populates our ServerPrivateEndpointConnection_STATUS from the provided source ServerPrivateEndpointConnection_STATUS
-func (connection *ServerPrivateEndpointConnection_STATUS) AssignProperties_From_ServerPrivateEndpointConnection_STATUS(source *v1api20180601s.ServerPrivateEndpointConnection_STATUS) error {
+func (connection *ServerPrivateEndpointConnection_STATUS) AssignProperties_From_ServerPrivateEndpointConnection_STATUS(source *v20180601s.ServerPrivateEndpointConnection_STATUS) error {
 
 	// Id
 	connection.Id = genruntime.ClonePointerToString(source.Id)
@@ -1384,7 +1384,7 @@ func (connection *ServerPrivateEndpointConnection_STATUS) AssignProperties_From_
 }
 
 // AssignProperties_To_ServerPrivateEndpointConnection_STATUS populates the provided destination ServerPrivateEndpointConnection_STATUS from our ServerPrivateEndpointConnection_STATUS
-func (connection *ServerPrivateEndpointConnection_STATUS) AssignProperties_To_ServerPrivateEndpointConnection_STATUS(destination *v1api20180601s.ServerPrivateEndpointConnection_STATUS) error {
+func (connection *ServerPrivateEndpointConnection_STATUS) AssignProperties_To_ServerPrivateEndpointConnection_STATUS(destination *v20180601s.ServerPrivateEndpointConnection_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1393,7 +1393,7 @@ func (connection *ServerPrivateEndpointConnection_STATUS) AssignProperties_To_Se
 
 	// Properties
 	if connection.Properties != nil {
-		var property v1api20180601s.ServerPrivateEndpointConnectionProperties_STATUS
+		var property v20180601s.ServerPrivateEndpointConnectionProperties_STATUS
 		err := connection.Properties.AssignProperties_To_ServerPrivateEndpointConnectionProperties_STATUS(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ServerPrivateEndpointConnectionProperties_STATUS() to populate field Properties")
@@ -1548,7 +1548,7 @@ func (create *ServerPropertiesForCreate) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_ServerPropertiesForCreate populates our ServerPropertiesForCreate from the provided source ServerPropertiesForCreate
-func (create *ServerPropertiesForCreate) AssignProperties_From_ServerPropertiesForCreate(source *v1api20180601s.ServerPropertiesForCreate) error {
+func (create *ServerPropertiesForCreate) AssignProperties_From_ServerPropertiesForCreate(source *v20180601s.ServerPropertiesForCreate) error {
 
 	// Default
 	if source.Default != nil {
@@ -1603,13 +1603,13 @@ func (create *ServerPropertiesForCreate) AssignProperties_From_ServerPropertiesF
 }
 
 // AssignProperties_To_ServerPropertiesForCreate populates the provided destination ServerPropertiesForCreate from our ServerPropertiesForCreate
-func (create *ServerPropertiesForCreate) AssignProperties_To_ServerPropertiesForCreate(destination *v1api20180601s.ServerPropertiesForCreate) error {
+func (create *ServerPropertiesForCreate) AssignProperties_To_ServerPropertiesForCreate(destination *v20180601s.ServerPropertiesForCreate) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Default
 	if create.Default != nil {
-		var def v1api20180601s.ServerPropertiesForDefaultCreate
+		var def v20180601s.ServerPropertiesForDefaultCreate
 		err := create.Default.AssignProperties_To_ServerPropertiesForDefaultCreate(&def)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForDefaultCreate() to populate field Default")
@@ -1621,7 +1621,7 @@ func (create *ServerPropertiesForCreate) AssignProperties_To_ServerPropertiesFor
 
 	// GeoRestore
 	if create.GeoRestore != nil {
-		var geoRestore v1api20180601s.ServerPropertiesForGeoRestore
+		var geoRestore v20180601s.ServerPropertiesForGeoRestore
 		err := create.GeoRestore.AssignProperties_To_ServerPropertiesForGeoRestore(&geoRestore)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForGeoRestore() to populate field GeoRestore")
@@ -1633,7 +1633,7 @@ func (create *ServerPropertiesForCreate) AssignProperties_To_ServerPropertiesFor
 
 	// PointInTimeRestore
 	if create.PointInTimeRestore != nil {
-		var pointInTimeRestore v1api20180601s.ServerPropertiesForRestore
+		var pointInTimeRestore v20180601s.ServerPropertiesForRestore
 		err := create.PointInTimeRestore.AssignProperties_To_ServerPropertiesForRestore(&pointInTimeRestore)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForRestore() to populate field PointInTimeRestore")
@@ -1645,7 +1645,7 @@ func (create *ServerPropertiesForCreate) AssignProperties_To_ServerPropertiesFor
 
 	// Replica
 	if create.Replica != nil {
-		var replica v1api20180601s.ServerPropertiesForReplica
+		var replica v20180601s.ServerPropertiesForReplica
 		err := create.Replica.AssignProperties_To_ServerPropertiesForReplica(&replica)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForReplica() to populate field Replica")
@@ -1782,7 +1782,7 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 }
 
 // AssignProperties_From_Sku populates our Sku from the provided source Sku
-func (sku *Sku) AssignProperties_From_Sku(source *v1api20180601s.Sku) error {
+func (sku *Sku) AssignProperties_From_Sku(source *v20180601s.Sku) error {
 
 	// Capacity
 	if source.Capacity != nil {
@@ -1814,7 +1814,7 @@ func (sku *Sku) AssignProperties_From_Sku(source *v1api20180601s.Sku) error {
 }
 
 // AssignProperties_To_Sku populates the provided destination Sku from our Sku
-func (sku *Sku) AssignProperties_To_Sku(destination *v1api20180601s.Sku) error {
+func (sku *Sku) AssignProperties_To_Sku(destination *v20180601s.Sku) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1953,7 +1953,7 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 }
 
 // AssignProperties_From_Sku_STATUS populates our Sku_STATUS from the provided source Sku_STATUS
-func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v1api20180601s.Sku_STATUS) error {
+func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20180601s.Sku_STATUS) error {
 
 	// Capacity
 	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
@@ -1980,7 +1980,7 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v1api20180601s.S
 }
 
 // AssignProperties_To_Sku_STATUS populates the provided destination Sku_STATUS from our Sku_STATUS
-func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v1api20180601s.Sku_STATUS) error {
+func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20180601s.Sku_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2081,7 +2081,7 @@ func (profile *StorageProfile_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 }
 
 // AssignProperties_From_StorageProfile_STATUS populates our StorageProfile_STATUS from the provided source StorageProfile_STATUS
-func (profile *StorageProfile_STATUS) AssignProperties_From_StorageProfile_STATUS(source *v1api20180601s.StorageProfile_STATUS) error {
+func (profile *StorageProfile_STATUS) AssignProperties_From_StorageProfile_STATUS(source *v20180601s.StorageProfile_STATUS) error {
 
 	// BackupRetentionDays
 	profile.BackupRetentionDays = genruntime.ClonePointerToInt(source.BackupRetentionDays)
@@ -2110,7 +2110,7 @@ func (profile *StorageProfile_STATUS) AssignProperties_From_StorageProfile_STATU
 }
 
 // AssignProperties_To_StorageProfile_STATUS populates the provided destination StorageProfile_STATUS from our StorageProfile_STATUS
-func (profile *StorageProfile_STATUS) AssignProperties_To_StorageProfile_STATUS(destination *v1api20180601s.StorageProfile_STATUS) error {
+func (profile *StorageProfile_STATUS) AssignProperties_To_StorageProfile_STATUS(destination *v20180601s.StorageProfile_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2154,7 +2154,7 @@ type ServerOperatorSecrets struct {
 }
 
 // AssignProperties_From_ServerOperatorSecrets populates our ServerOperatorSecrets from the provided source ServerOperatorSecrets
-func (secrets *ServerOperatorSecrets) AssignProperties_From_ServerOperatorSecrets(source *v1api20180601s.ServerOperatorSecrets) error {
+func (secrets *ServerOperatorSecrets) AssignProperties_From_ServerOperatorSecrets(source *v20180601s.ServerOperatorSecrets) error {
 
 	// FullyQualifiedDomainName
 	if source.FullyQualifiedDomainName != nil {
@@ -2169,7 +2169,7 @@ func (secrets *ServerOperatorSecrets) AssignProperties_From_ServerOperatorSecret
 }
 
 // AssignProperties_To_ServerOperatorSecrets populates the provided destination ServerOperatorSecrets from our ServerOperatorSecrets
-func (secrets *ServerOperatorSecrets) AssignProperties_To_ServerOperatorSecrets(destination *v1api20180601s.ServerOperatorSecrets) error {
+func (secrets *ServerOperatorSecrets) AssignProperties_To_ServerOperatorSecrets(destination *v20180601s.ServerOperatorSecrets) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2251,7 +2251,7 @@ func (properties *ServerPrivateEndpointConnectionProperties_STATUS) PopulateFrom
 }
 
 // AssignProperties_From_ServerPrivateEndpointConnectionProperties_STATUS populates our ServerPrivateEndpointConnectionProperties_STATUS from the provided source ServerPrivateEndpointConnectionProperties_STATUS
-func (properties *ServerPrivateEndpointConnectionProperties_STATUS) AssignProperties_From_ServerPrivateEndpointConnectionProperties_STATUS(source *v1api20180601s.ServerPrivateEndpointConnectionProperties_STATUS) error {
+func (properties *ServerPrivateEndpointConnectionProperties_STATUS) AssignProperties_From_ServerPrivateEndpointConnectionProperties_STATUS(source *v20180601s.ServerPrivateEndpointConnectionProperties_STATUS) error {
 
 	// PrivateEndpoint
 	if source.PrivateEndpoint != nil {
@@ -2290,13 +2290,13 @@ func (properties *ServerPrivateEndpointConnectionProperties_STATUS) AssignProper
 }
 
 // AssignProperties_To_ServerPrivateEndpointConnectionProperties_STATUS populates the provided destination ServerPrivateEndpointConnectionProperties_STATUS from our ServerPrivateEndpointConnectionProperties_STATUS
-func (properties *ServerPrivateEndpointConnectionProperties_STATUS) AssignProperties_To_ServerPrivateEndpointConnectionProperties_STATUS(destination *v1api20180601s.ServerPrivateEndpointConnectionProperties_STATUS) error {
+func (properties *ServerPrivateEndpointConnectionProperties_STATUS) AssignProperties_To_ServerPrivateEndpointConnectionProperties_STATUS(destination *v20180601s.ServerPrivateEndpointConnectionProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// PrivateEndpoint
 	if properties.PrivateEndpoint != nil {
-		var privateEndpoint v1api20180601s.PrivateEndpointProperty_STATUS
+		var privateEndpoint v20180601s.PrivateEndpointProperty_STATUS
 		err := properties.PrivateEndpoint.AssignProperties_To_PrivateEndpointProperty_STATUS(&privateEndpoint)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointProperty_STATUS() to populate field PrivateEndpoint")
@@ -2308,7 +2308,7 @@ func (properties *ServerPrivateEndpointConnectionProperties_STATUS) AssignProper
 
 	// PrivateLinkServiceConnectionState
 	if properties.PrivateLinkServiceConnectionState != nil {
-		var privateLinkServiceConnectionState v1api20180601s.ServerPrivateLinkServiceConnectionStateProperty_STATUS
+		var privateLinkServiceConnectionState v20180601s.ServerPrivateLinkServiceConnectionStateProperty_STATUS
 		err := properties.PrivateLinkServiceConnectionState.AssignProperties_To_ServerPrivateLinkServiceConnectionStateProperty_STATUS(&privateLinkServiceConnectionState)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ServerPrivateLinkServiceConnectionStateProperty_STATUS() to populate field PrivateLinkServiceConnectionState")
@@ -2494,7 +2494,7 @@ func (create *ServerPropertiesForDefaultCreate) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_ServerPropertiesForDefaultCreate populates our ServerPropertiesForDefaultCreate from the provided source ServerPropertiesForDefaultCreate
-func (create *ServerPropertiesForDefaultCreate) AssignProperties_From_ServerPropertiesForDefaultCreate(source *v1api20180601s.ServerPropertiesForDefaultCreate) error {
+func (create *ServerPropertiesForDefaultCreate) AssignProperties_From_ServerPropertiesForDefaultCreate(source *v20180601s.ServerPropertiesForDefaultCreate) error {
 
 	// AdministratorLogin
 	create.AdministratorLogin = genruntime.ClonePointerToString(source.AdministratorLogin)
@@ -2563,7 +2563,7 @@ func (create *ServerPropertiesForDefaultCreate) AssignProperties_From_ServerProp
 }
 
 // AssignProperties_To_ServerPropertiesForDefaultCreate populates the provided destination ServerPropertiesForDefaultCreate from our ServerPropertiesForDefaultCreate
-func (create *ServerPropertiesForDefaultCreate) AssignProperties_To_ServerPropertiesForDefaultCreate(destination *v1api20180601s.ServerPropertiesForDefaultCreate) error {
+func (create *ServerPropertiesForDefaultCreate) AssignProperties_To_ServerPropertiesForDefaultCreate(destination *v20180601s.ServerPropertiesForDefaultCreate) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2608,7 +2608,7 @@ func (create *ServerPropertiesForDefaultCreate) AssignProperties_To_ServerProper
 
 	// StorageProfile
 	if create.StorageProfile != nil {
-		var storageProfile v1api20180601s.StorageProfile
+		var storageProfile v20180601s.StorageProfile
 		err := create.StorageProfile.AssignProperties_To_StorageProfile(&storageProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_StorageProfile() to populate field StorageProfile")
@@ -2780,7 +2780,7 @@ func (restore *ServerPropertiesForGeoRestore) PopulateFromARM(owner genruntime.A
 }
 
 // AssignProperties_From_ServerPropertiesForGeoRestore populates our ServerPropertiesForGeoRestore from the provided source ServerPropertiesForGeoRestore
-func (restore *ServerPropertiesForGeoRestore) AssignProperties_From_ServerPropertiesForGeoRestore(source *v1api20180601s.ServerPropertiesForGeoRestore) error {
+func (restore *ServerPropertiesForGeoRestore) AssignProperties_From_ServerPropertiesForGeoRestore(source *v20180601s.ServerPropertiesForGeoRestore) error {
 
 	// CreateMode
 	if source.CreateMode != nil {
@@ -2842,7 +2842,7 @@ func (restore *ServerPropertiesForGeoRestore) AssignProperties_From_ServerProper
 }
 
 // AssignProperties_To_ServerPropertiesForGeoRestore populates the provided destination ServerPropertiesForGeoRestore from our ServerPropertiesForGeoRestore
-func (restore *ServerPropertiesForGeoRestore) AssignProperties_To_ServerPropertiesForGeoRestore(destination *v1api20180601s.ServerPropertiesForGeoRestore) error {
+func (restore *ServerPropertiesForGeoRestore) AssignProperties_To_ServerPropertiesForGeoRestore(destination *v20180601s.ServerPropertiesForGeoRestore) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2883,7 +2883,7 @@ func (restore *ServerPropertiesForGeoRestore) AssignProperties_To_ServerProperti
 
 	// StorageProfile
 	if restore.StorageProfile != nil {
-		var storageProfile v1api20180601s.StorageProfile
+		var storageProfile v20180601s.StorageProfile
 		err := restore.StorageProfile.AssignProperties_To_StorageProfile(&storageProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_StorageProfile() to populate field StorageProfile")
@@ -3055,7 +3055,7 @@ func (replica *ServerPropertiesForReplica) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_ServerPropertiesForReplica populates our ServerPropertiesForReplica from the provided source ServerPropertiesForReplica
-func (replica *ServerPropertiesForReplica) AssignProperties_From_ServerPropertiesForReplica(source *v1api20180601s.ServerPropertiesForReplica) error {
+func (replica *ServerPropertiesForReplica) AssignProperties_From_ServerPropertiesForReplica(source *v20180601s.ServerPropertiesForReplica) error {
 
 	// CreateMode
 	if source.CreateMode != nil {
@@ -3117,7 +3117,7 @@ func (replica *ServerPropertiesForReplica) AssignProperties_From_ServerPropertie
 }
 
 // AssignProperties_To_ServerPropertiesForReplica populates the provided destination ServerPropertiesForReplica from our ServerPropertiesForReplica
-func (replica *ServerPropertiesForReplica) AssignProperties_To_ServerPropertiesForReplica(destination *v1api20180601s.ServerPropertiesForReplica) error {
+func (replica *ServerPropertiesForReplica) AssignProperties_To_ServerPropertiesForReplica(destination *v20180601s.ServerPropertiesForReplica) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3158,7 +3158,7 @@ func (replica *ServerPropertiesForReplica) AssignProperties_To_ServerPropertiesF
 
 	// StorageProfile
 	if replica.StorageProfile != nil {
-		var storageProfile v1api20180601s.StorageProfile
+		var storageProfile v20180601s.StorageProfile
 		err := replica.StorageProfile.AssignProperties_To_StorageProfile(&storageProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_StorageProfile() to populate field StorageProfile")
@@ -3346,7 +3346,7 @@ func (restore *ServerPropertiesForRestore) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_ServerPropertiesForRestore populates our ServerPropertiesForRestore from the provided source ServerPropertiesForRestore
-func (restore *ServerPropertiesForRestore) AssignProperties_From_ServerPropertiesForRestore(source *v1api20180601s.ServerPropertiesForRestore) error {
+func (restore *ServerPropertiesForRestore) AssignProperties_From_ServerPropertiesForRestore(source *v20180601s.ServerPropertiesForRestore) error {
 
 	// CreateMode
 	if source.CreateMode != nil {
@@ -3411,7 +3411,7 @@ func (restore *ServerPropertiesForRestore) AssignProperties_From_ServerPropertie
 }
 
 // AssignProperties_To_ServerPropertiesForRestore populates the provided destination ServerPropertiesForRestore from our ServerPropertiesForRestore
-func (restore *ServerPropertiesForRestore) AssignProperties_To_ServerPropertiesForRestore(destination *v1api20180601s.ServerPropertiesForRestore) error {
+func (restore *ServerPropertiesForRestore) AssignProperties_To_ServerPropertiesForRestore(destination *v20180601s.ServerPropertiesForRestore) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3455,7 +3455,7 @@ func (restore *ServerPropertiesForRestore) AssignProperties_To_ServerPropertiesF
 
 	// StorageProfile
 	if restore.StorageProfile != nil {
-		var storageProfile v1api20180601s.StorageProfile
+		var storageProfile v20180601s.StorageProfile
 		err := restore.StorageProfile.AssignProperties_To_StorageProfile(&storageProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_StorageProfile() to populate field StorageProfile")
@@ -3528,7 +3528,7 @@ func (property *PrivateEndpointProperty_STATUS) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_PrivateEndpointProperty_STATUS populates our PrivateEndpointProperty_STATUS from the provided source PrivateEndpointProperty_STATUS
-func (property *PrivateEndpointProperty_STATUS) AssignProperties_From_PrivateEndpointProperty_STATUS(source *v1api20180601s.PrivateEndpointProperty_STATUS) error {
+func (property *PrivateEndpointProperty_STATUS) AssignProperties_From_PrivateEndpointProperty_STATUS(source *v20180601s.PrivateEndpointProperty_STATUS) error {
 
 	// Id
 	property.Id = genruntime.ClonePointerToString(source.Id)
@@ -3538,7 +3538,7 @@ func (property *PrivateEndpointProperty_STATUS) AssignProperties_From_PrivateEnd
 }
 
 // AssignProperties_To_PrivateEndpointProperty_STATUS populates the provided destination PrivateEndpointProperty_STATUS from our PrivateEndpointProperty_STATUS
-func (property *PrivateEndpointProperty_STATUS) AssignProperties_To_PrivateEndpointProperty_STATUS(destination *v1api20180601s.PrivateEndpointProperty_STATUS) error {
+func (property *PrivateEndpointProperty_STATUS) AssignProperties_To_PrivateEndpointProperty_STATUS(destination *v20180601s.PrivateEndpointProperty_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3614,7 +3614,7 @@ func (property *ServerPrivateLinkServiceConnectionStateProperty_STATUS) Populate
 }
 
 // AssignProperties_From_ServerPrivateLinkServiceConnectionStateProperty_STATUS populates our ServerPrivateLinkServiceConnectionStateProperty_STATUS from the provided source ServerPrivateLinkServiceConnectionStateProperty_STATUS
-func (property *ServerPrivateLinkServiceConnectionStateProperty_STATUS) AssignProperties_From_ServerPrivateLinkServiceConnectionStateProperty_STATUS(source *v1api20180601s.ServerPrivateLinkServiceConnectionStateProperty_STATUS) error {
+func (property *ServerPrivateLinkServiceConnectionStateProperty_STATUS) AssignProperties_From_ServerPrivateLinkServiceConnectionStateProperty_STATUS(source *v20180601s.ServerPrivateLinkServiceConnectionStateProperty_STATUS) error {
 
 	// ActionsRequired
 	if source.ActionsRequired != nil {
@@ -3640,7 +3640,7 @@ func (property *ServerPrivateLinkServiceConnectionStateProperty_STATUS) AssignPr
 }
 
 // AssignProperties_To_ServerPrivateLinkServiceConnectionStateProperty_STATUS populates the provided destination ServerPrivateLinkServiceConnectionStateProperty_STATUS from our ServerPrivateLinkServiceConnectionStateProperty_STATUS
-func (property *ServerPrivateLinkServiceConnectionStateProperty_STATUS) AssignProperties_To_ServerPrivateLinkServiceConnectionStateProperty_STATUS(destination *v1api20180601s.ServerPrivateLinkServiceConnectionStateProperty_STATUS) error {
+func (property *ServerPrivateLinkServiceConnectionStateProperty_STATUS) AssignProperties_To_ServerPrivateLinkServiceConnectionStateProperty_STATUS(destination *v20180601s.ServerPrivateLinkServiceConnectionStateProperty_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3765,7 +3765,7 @@ func (profile *StorageProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_StorageProfile populates our StorageProfile from the provided source StorageProfile
-func (profile *StorageProfile) AssignProperties_From_StorageProfile(source *v1api20180601s.StorageProfile) error {
+func (profile *StorageProfile) AssignProperties_From_StorageProfile(source *v20180601s.StorageProfile) error {
 
 	// BackupRetentionDays
 	profile.BackupRetentionDays = genruntime.ClonePointerToInt(source.BackupRetentionDays)
@@ -3794,7 +3794,7 @@ func (profile *StorageProfile) AssignProperties_From_StorageProfile(source *v1ap
 }
 
 // AssignProperties_To_StorageProfile populates the provided destination StorageProfile from our StorageProfile
-func (profile *StorageProfile) AssignProperties_To_StorageProfile(destination *v1api20180601s.StorageProfile) error {
+func (profile *StorageProfile) AssignProperties_To_StorageProfile(destination *v20180601s.StorageProfile) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

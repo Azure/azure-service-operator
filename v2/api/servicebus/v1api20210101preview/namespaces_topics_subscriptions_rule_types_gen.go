@@ -5,7 +5,7 @@ package v1api20210101preview
 
 import (
 	"fmt"
-	v1api20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
+	v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &NamespacesTopicsSubscriptionsRule{}
 
 // ConvertFrom populates our NamespacesTopicsSubscriptionsRule from the provided hub NamespacesTopicsSubscriptionsRule
 func (rule *NamespacesTopicsSubscriptionsRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20210101ps.NamespacesTopicsSubscriptionsRule)
+	source, ok := hub.(*v20210101ps.NamespacesTopicsSubscriptionsRule)
 	if !ok {
 		return fmt.Errorf("expected servicebus/v1api20210101previewstorage/NamespacesTopicsSubscriptionsRule but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (rule *NamespacesTopicsSubscriptionsRule) ConvertFrom(hub conversion.Hub) e
 
 // ConvertTo populates the provided hub NamespacesTopicsSubscriptionsRule from our NamespacesTopicsSubscriptionsRule
 func (rule *NamespacesTopicsSubscriptionsRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20210101ps.NamespacesTopicsSubscriptionsRule)
+	destination, ok := hub.(*v20210101ps.NamespacesTopicsSubscriptionsRule)
 	if !ok {
 		return fmt.Errorf("expected servicebus/v1api20210101previewstorage/NamespacesTopicsSubscriptionsRule but received %T instead", hub)
 	}
@@ -240,7 +240,7 @@ func (rule *NamespacesTopicsSubscriptionsRule) validateWriteOnceProperties(old r
 }
 
 // AssignProperties_From_NamespacesTopicsSubscriptionsRule populates our NamespacesTopicsSubscriptionsRule from the provided source NamespacesTopicsSubscriptionsRule
-func (rule *NamespacesTopicsSubscriptionsRule) AssignProperties_From_NamespacesTopicsSubscriptionsRule(source *v1api20210101ps.NamespacesTopicsSubscriptionsRule) error {
+func (rule *NamespacesTopicsSubscriptionsRule) AssignProperties_From_NamespacesTopicsSubscriptionsRule(source *v20210101ps.NamespacesTopicsSubscriptionsRule) error {
 
 	// ObjectMeta
 	rule.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -266,13 +266,13 @@ func (rule *NamespacesTopicsSubscriptionsRule) AssignProperties_From_NamespacesT
 }
 
 // AssignProperties_To_NamespacesTopicsSubscriptionsRule populates the provided destination NamespacesTopicsSubscriptionsRule from our NamespacesTopicsSubscriptionsRule
-func (rule *NamespacesTopicsSubscriptionsRule) AssignProperties_To_NamespacesTopicsSubscriptionsRule(destination *v1api20210101ps.NamespacesTopicsSubscriptionsRule) error {
+func (rule *NamespacesTopicsSubscriptionsRule) AssignProperties_To_NamespacesTopicsSubscriptionsRule(destination *v20210101ps.NamespacesTopicsSubscriptionsRule) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *rule.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec
+	var spec v20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec
 	err := rule.Spec.AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_Spec() to populate field Spec")
@@ -280,7 +280,7 @@ func (rule *NamespacesTopicsSubscriptionsRule) AssignProperties_To_NamespacesTop
 	destination.Spec = spec
 
 	// Status
-	var status v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS
+	var status v20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS
 	err = rule.Status.AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_STATUS() to populate field Status")
@@ -464,14 +464,14 @@ var _ genruntime.ConvertibleSpec = &Namespaces_Topics_Subscriptions_Rule_Spec{}
 
 // ConvertSpecFrom populates our Namespaces_Topics_Subscriptions_Rule_Spec from the provided source
 func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec)
+	src, ok := source.(*v20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec)
 	if ok {
 		// Populate our instance from source
 		return rule.AssignProperties_From_Namespaces_Topics_Subscriptions_Rule_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec{}
+	src = &v20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -488,14 +488,14 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) ConvertSpecFrom(source ge
 
 // ConvertSpecTo populates the provided destination from our Namespaces_Topics_Subscriptions_Rule_Spec
 func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec)
+	dst, ok := destination.(*v20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec)
 	if ok {
 		// Populate destination from our instance
 		return rule.AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec{}
+	dst = &v20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec{}
 	err := rule.AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -511,7 +511,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) ConvertSpecTo(destination
 }
 
 // AssignProperties_From_Namespaces_Topics_Subscriptions_Rule_Spec populates our Namespaces_Topics_Subscriptions_Rule_Spec from the provided source Namespaces_Topics_Subscriptions_Rule_Spec
-func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) AssignProperties_From_Namespaces_Topics_Subscriptions_Rule_Spec(source *v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec) error {
+func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) AssignProperties_From_Namespaces_Topics_Subscriptions_Rule_Spec(source *v20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec) error {
 
 	// Action
 	if source.Action != nil {
@@ -573,13 +573,13 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) AssignProperties_From_Nam
 }
 
 // AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_Spec populates the provided destination Namespaces_Topics_Subscriptions_Rule_Spec from our Namespaces_Topics_Subscriptions_Rule_Spec
-func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_Spec(destination *v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec) error {
+func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_Spec(destination *v20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Action
 	if rule.Action != nil {
-		var action v1api20210101ps.Action
+		var action v20210101ps.Action
 		err := rule.Action.AssignProperties_To_Action(&action)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Action() to populate field Action")
@@ -594,7 +594,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) AssignProperties_To_Names
 
 	// CorrelationFilter
 	if rule.CorrelationFilter != nil {
-		var correlationFilter v1api20210101ps.CorrelationFilter
+		var correlationFilter v20210101ps.CorrelationFilter
 		err := rule.CorrelationFilter.AssignProperties_To_CorrelationFilter(&correlationFilter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CorrelationFilter() to populate field CorrelationFilter")
@@ -625,7 +625,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) AssignProperties_To_Names
 
 	// SqlFilter
 	if rule.SqlFilter != nil {
-		var sqlFilter v1api20210101ps.SqlFilter
+		var sqlFilter v20210101ps.SqlFilter
 		err := rule.SqlFilter.AssignProperties_To_SqlFilter(&sqlFilter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SqlFilter() to populate field SqlFilter")
@@ -741,14 +741,14 @@ var _ genruntime.ConvertibleStatus = &Namespaces_Topics_Subscriptions_Rule_STATU
 
 // ConvertStatusFrom populates our Namespaces_Topics_Subscriptions_Rule_STATUS from the provided source
 func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS)
+	src, ok := source.(*v20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS)
 	if ok {
 		// Populate our instance from source
 		return rule.AssignProperties_From_Namespaces_Topics_Subscriptions_Rule_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS{}
+	src = &v20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -765,14 +765,14 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) ConvertStatusFrom(sourc
 
 // ConvertStatusTo populates the provided destination from our Namespaces_Topics_Subscriptions_Rule_STATUS
 func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS)
+	dst, ok := destination.(*v20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return rule.AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS{}
+	dst = &v20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS{}
 	err := rule.AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -888,7 +888,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) PopulateFromARM(owner g
 }
 
 // AssignProperties_From_Namespaces_Topics_Subscriptions_Rule_STATUS populates our Namespaces_Topics_Subscriptions_Rule_STATUS from the provided source Namespaces_Topics_Subscriptions_Rule_STATUS
-func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) AssignProperties_From_Namespaces_Topics_Subscriptions_Rule_STATUS(source *v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS) error {
+func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) AssignProperties_From_Namespaces_Topics_Subscriptions_Rule_STATUS(source *v20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS) error {
 
 	// Action
 	if source.Action != nil {
@@ -963,13 +963,13 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) AssignProperties_From_N
 }
 
 // AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_STATUS populates the provided destination Namespaces_Topics_Subscriptions_Rule_STATUS from our Namespaces_Topics_Subscriptions_Rule_STATUS
-func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_STATUS(destination *v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS) error {
+func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_STATUS(destination *v20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Action
 	if rule.Action != nil {
-		var action v1api20210101ps.Action_STATUS
+		var action v20210101ps.Action_STATUS
 		err := rule.Action.AssignProperties_To_Action_STATUS(&action)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Action_STATUS() to populate field Action")
@@ -984,7 +984,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) AssignProperties_To_Nam
 
 	// CorrelationFilter
 	if rule.CorrelationFilter != nil {
-		var correlationFilter v1api20210101ps.CorrelationFilter_STATUS
+		var correlationFilter v20210101ps.CorrelationFilter_STATUS
 		err := rule.CorrelationFilter.AssignProperties_To_CorrelationFilter_STATUS(&correlationFilter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CorrelationFilter_STATUS() to populate field CorrelationFilter")
@@ -1010,7 +1010,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) AssignProperties_To_Nam
 
 	// SqlFilter
 	if rule.SqlFilter != nil {
-		var sqlFilter v1api20210101ps.SqlFilter_STATUS
+		var sqlFilter v20210101ps.SqlFilter_STATUS
 		err := rule.SqlFilter.AssignProperties_To_SqlFilter_STATUS(&sqlFilter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SqlFilter_STATUS() to populate field SqlFilter")
@@ -1022,7 +1022,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) AssignProperties_To_Nam
 
 	// SystemData
 	if rule.SystemData != nil {
-		var systemDatum v1api20210101ps.SystemData_STATUS
+		var systemDatum v20210101ps.SystemData_STATUS
 		err := rule.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
@@ -1124,7 +1124,7 @@ func (action *Action) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 }
 
 // AssignProperties_From_Action populates our Action from the provided source Action
-func (action *Action) AssignProperties_From_Action(source *v1api20210101ps.Action) error {
+func (action *Action) AssignProperties_From_Action(source *v20210101ps.Action) error {
 
 	// CompatibilityLevel
 	action.CompatibilityLevel = genruntime.ClonePointerToInt(source.CompatibilityLevel)
@@ -1145,7 +1145,7 @@ func (action *Action) AssignProperties_From_Action(source *v1api20210101ps.Actio
 }
 
 // AssignProperties_To_Action populates the provided destination Action from our Action
-func (action *Action) AssignProperties_To_Action(destination *v1api20210101ps.Action) error {
+func (action *Action) AssignProperties_To_Action(destination *v20210101ps.Action) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1246,7 +1246,7 @@ func (action *Action_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 }
 
 // AssignProperties_From_Action_STATUS populates our Action_STATUS from the provided source Action_STATUS
-func (action *Action_STATUS) AssignProperties_From_Action_STATUS(source *v1api20210101ps.Action_STATUS) error {
+func (action *Action_STATUS) AssignProperties_From_Action_STATUS(source *v20210101ps.Action_STATUS) error {
 
 	// CompatibilityLevel
 	action.CompatibilityLevel = genruntime.ClonePointerToInt(source.CompatibilityLevel)
@@ -1267,7 +1267,7 @@ func (action *Action_STATUS) AssignProperties_From_Action_STATUS(source *v1api20
 }
 
 // AssignProperties_To_Action_STATUS populates the provided destination Action_STATUS from our Action_STATUS
-func (action *Action_STATUS) AssignProperties_To_Action_STATUS(destination *v1api20210101ps.Action_STATUS) error {
+func (action *Action_STATUS) AssignProperties_To_Action_STATUS(destination *v20210101ps.Action_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1481,7 +1481,7 @@ func (filter *CorrelationFilter) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_CorrelationFilter populates our CorrelationFilter from the provided source CorrelationFilter
-func (filter *CorrelationFilter) AssignProperties_From_CorrelationFilter(source *v1api20210101ps.CorrelationFilter) error {
+func (filter *CorrelationFilter) AssignProperties_From_CorrelationFilter(source *v20210101ps.CorrelationFilter) error {
 
 	// ContentType
 	filter.ContentType = genruntime.ClonePointerToString(source.ContentType)
@@ -1523,7 +1523,7 @@ func (filter *CorrelationFilter) AssignProperties_From_CorrelationFilter(source 
 }
 
 // AssignProperties_To_CorrelationFilter populates the provided destination CorrelationFilter from our CorrelationFilter
-func (filter *CorrelationFilter) AssignProperties_To_CorrelationFilter(destination *v1api20210101ps.CorrelationFilter) error {
+func (filter *CorrelationFilter) AssignProperties_To_CorrelationFilter(destination *v20210101ps.CorrelationFilter) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1729,7 +1729,7 @@ func (filter *CorrelationFilter_STATUS) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_CorrelationFilter_STATUS populates our CorrelationFilter_STATUS from the provided source CorrelationFilter_STATUS
-func (filter *CorrelationFilter_STATUS) AssignProperties_From_CorrelationFilter_STATUS(source *v1api20210101ps.CorrelationFilter_STATUS) error {
+func (filter *CorrelationFilter_STATUS) AssignProperties_From_CorrelationFilter_STATUS(source *v20210101ps.CorrelationFilter_STATUS) error {
 
 	// ContentType
 	filter.ContentType = genruntime.ClonePointerToString(source.ContentType)
@@ -1771,7 +1771,7 @@ func (filter *CorrelationFilter_STATUS) AssignProperties_From_CorrelationFilter_
 }
 
 // AssignProperties_To_CorrelationFilter_STATUS populates the provided destination CorrelationFilter_STATUS from our CorrelationFilter_STATUS
-func (filter *CorrelationFilter_STATUS) AssignProperties_To_CorrelationFilter_STATUS(destination *v1api20210101ps.CorrelationFilter_STATUS) error {
+func (filter *CorrelationFilter_STATUS) AssignProperties_To_CorrelationFilter_STATUS(destination *v20210101ps.CorrelationFilter_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1917,7 +1917,7 @@ func (filter *SqlFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 }
 
 // AssignProperties_From_SqlFilter populates our SqlFilter from the provided source SqlFilter
-func (filter *SqlFilter) AssignProperties_From_SqlFilter(source *v1api20210101ps.SqlFilter) error {
+func (filter *SqlFilter) AssignProperties_From_SqlFilter(source *v20210101ps.SqlFilter) error {
 
 	// CompatibilityLevel
 	if source.CompatibilityLevel != nil {
@@ -1943,7 +1943,7 @@ func (filter *SqlFilter) AssignProperties_From_SqlFilter(source *v1api20210101ps
 }
 
 // AssignProperties_To_SqlFilter populates the provided destination SqlFilter from our SqlFilter
-func (filter *SqlFilter) AssignProperties_To_SqlFilter(destination *v1api20210101ps.SqlFilter) error {
+func (filter *SqlFilter) AssignProperties_To_SqlFilter(destination *v20210101ps.SqlFilter) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2053,7 +2053,7 @@ func (filter *SqlFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 }
 
 // AssignProperties_From_SqlFilter_STATUS populates our SqlFilter_STATUS from the provided source SqlFilter_STATUS
-func (filter *SqlFilter_STATUS) AssignProperties_From_SqlFilter_STATUS(source *v1api20210101ps.SqlFilter_STATUS) error {
+func (filter *SqlFilter_STATUS) AssignProperties_From_SqlFilter_STATUS(source *v20210101ps.SqlFilter_STATUS) error {
 
 	// CompatibilityLevel
 	filter.CompatibilityLevel = genruntime.ClonePointerToInt(source.CompatibilityLevel)
@@ -2074,7 +2074,7 @@ func (filter *SqlFilter_STATUS) AssignProperties_From_SqlFilter_STATUS(source *v
 }
 
 // AssignProperties_To_SqlFilter_STATUS populates the provided destination SqlFilter_STATUS from our SqlFilter_STATUS
-func (filter *SqlFilter_STATUS) AssignProperties_To_SqlFilter_STATUS(destination *v1api20210101ps.SqlFilter_STATUS) error {
+func (filter *SqlFilter_STATUS) AssignProperties_To_SqlFilter_STATUS(destination *v20210101ps.SqlFilter_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

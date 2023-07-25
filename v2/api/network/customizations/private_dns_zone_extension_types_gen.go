@@ -4,10 +4,10 @@
 package customizations
 
 import (
-	v1api20180901 "github.com/Azure/azure-service-operator/v2/api/network/v1api20180901"
-	v1api20180901s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180901storage"
-	v20180901 "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901"
-	v20180901s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901storage"
+	v20180901 "github.com/Azure/azure-service-operator/v2/api/network/v1api20180901"
+	v20180901s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180901storage"
+	v1beta20180901 "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901"
+	v1beta20180901s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -17,8 +17,8 @@ type PrivateDnsZoneExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *PrivateDnsZoneExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1api20180901.PrivateDnsZone{},
-		&v1api20180901s.PrivateDnsZone{},
 		&v20180901.PrivateDnsZone{},
-		&v20180901s.PrivateDnsZone{}}
+		&v20180901s.PrivateDnsZone{},
+		&v1beta20180901.PrivateDnsZone{},
+		&v1beta20180901s.PrivateDnsZone{}}
 }

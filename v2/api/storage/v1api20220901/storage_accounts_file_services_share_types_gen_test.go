@@ -5,7 +5,7 @@ package v1api20220901
 
 import (
 	"encoding/json"
-	v1api20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForStorageAccountsFileServicesShare(subject Storag
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20220901s.StorageAccountsFileServicesShare
+	var hub v20220901s.StorageAccountsFileServicesShare
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForStorageAccountsFileServicesShare(subject Storag
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220901s.StorageAccountsFileServicesShare
+	var other v20220901s.StorageAccountsFileServicesShare
 	err := copied.AssignProperties_To_StorageAccountsFileServicesShare(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForStorageAccounts_FileServices_Share_Spec(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220901s.StorageAccounts_FileServices_Share_Spec
+	var other v20220901s.StorageAccounts_FileServices_Share_Spec
 	err := copied.AssignProperties_To_StorageAccounts_FileServices_Share_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -308,7 +308,7 @@ func RunPropertyAssignmentTestForStorageAccounts_FileServices_Share_STATUS(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220901s.StorageAccounts_FileServices_Share_STATUS
+	var other v20220901s.StorageAccounts_FileServices_Share_STATUS
 	err := copied.AssignProperties_To_StorageAccounts_FileServices_Share_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -454,7 +454,7 @@ func RunPropertyAssignmentTestForSignedIdentifier(subject SignedIdentifier) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220901s.SignedIdentifier
+	var other v20220901s.SignedIdentifier
 	err := copied.AssignProperties_To_SignedIdentifier(&other)
 	if err != nil {
 		return err.Error()
@@ -556,7 +556,7 @@ func RunPropertyAssignmentTestForSignedIdentifier_STATUS(subject SignedIdentifie
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220901s.SignedIdentifier_STATUS
+	var other v20220901s.SignedIdentifier_STATUS
 	err := copied.AssignProperties_To_SignedIdentifier_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -673,7 +673,7 @@ func RunPropertyAssignmentTestForAccessPolicy(subject AccessPolicy) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220901s.AccessPolicy
+	var other v20220901s.AccessPolicy
 	err := copied.AssignProperties_To_AccessPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -777,7 +777,7 @@ func RunPropertyAssignmentTestForAccessPolicy_STATUS(subject AccessPolicy_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220901s.AccessPolicy_STATUS
+	var other v20220901s.AccessPolicy_STATUS
 	err := copied.AssignProperties_To_AccessPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()

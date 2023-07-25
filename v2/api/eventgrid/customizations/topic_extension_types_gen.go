@@ -4,10 +4,10 @@
 package customizations
 
 import (
-	v1api20200601 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601"
-	v1api20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601storage"
-	v20200601 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601"
-	v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage"
+	v20200601 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601storage"
+	v1beta20200601 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601"
+	v1beta20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -17,8 +17,8 @@ type TopicExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *TopicExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1api20200601.Topic{},
-		&v1api20200601s.Topic{},
 		&v20200601.Topic{},
-		&v20200601s.Topic{}}
+		&v20200601s.Topic{},
+		&v1beta20200601.Topic{},
+		&v1beta20200601s.Topic{}}
 }

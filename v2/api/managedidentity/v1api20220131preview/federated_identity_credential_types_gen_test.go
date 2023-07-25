@@ -5,7 +5,7 @@ package v1api20220131preview
 
 import (
 	"encoding/json"
-	v1api20220131ps "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20220131previewstorage"
+	v20220131ps "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20220131previewstorage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForFederatedIdentityCredential(subject FederatedId
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20220131ps.FederatedIdentityCredential
+	var hub v20220131ps.FederatedIdentityCredential
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForFederatedIdentityCredential(subject FederatedId
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220131ps.FederatedIdentityCredential
+	var other v20220131ps.FederatedIdentityCredential
 	err := copied.AssignProperties_To_FederatedIdentityCredential(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentities_FederatedIdentityCredent
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec
+	var other v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec
 	err := copied.AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -288,7 +288,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentities_FederatedIdentityCredent
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS
+	var other v20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS
 	err := copied.AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_STATUS(&other)
 	if err != nil {
 		return err.Error()

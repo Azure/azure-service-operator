@@ -5,7 +5,7 @@ package v1api20201201
 
 import (
 	"encoding/json"
-	v1api20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201storage"
+	v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForRedis(subject Redis) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20201201s.Redis
+	var hub v20201201s.Redis
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForRedis(subject Redis) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201201s.Redis
+	var other v20201201s.Redis
 	err := copied.AssignProperties_To_Redis(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForRedis_Spec(subject Redis_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201201s.Redis_Spec
+	var other v20201201s.Redis_Spec
 	err := copied.AssignProperties_To_Redis_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -311,7 +311,7 @@ func RunPropertyAssignmentTestForRedis_STATUS(subject Redis_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201201s.Redis_STATUS
+	var other v20201201s.Redis_STATUS
 	err := copied.AssignProperties_To_Redis_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -462,7 +462,7 @@ func RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS(subject Privat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201201s.PrivateEndpointConnection_STATUS
+	var other v20201201s.PrivateEndpointConnection_STATUS
 	err := copied.AssignProperties_To_PrivateEndpointConnection_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -565,7 +565,7 @@ func RunPropertyAssignmentTestForRedisCreateProperties_RedisConfiguration(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201201s.RedisCreateProperties_RedisConfiguration
+	var other v20201201s.RedisCreateProperties_RedisConfiguration
 	err := copied.AssignProperties_To_RedisCreateProperties_RedisConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -680,7 +680,7 @@ func RunPropertyAssignmentTestForRedisInstanceDetails_STATUS(subject RedisInstan
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201201s.RedisInstanceDetails_STATUS
+	var other v20201201s.RedisInstanceDetails_STATUS
 	err := copied.AssignProperties_To_RedisInstanceDetails_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -788,7 +788,7 @@ func RunPropertyAssignmentTestForRedisLinkedServer_STATUS(subject RedisLinkedSer
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201201s.RedisLinkedServer_STATUS
+	var other v20201201s.RedisLinkedServer_STATUS
 	err := copied.AssignProperties_To_RedisLinkedServer_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -891,7 +891,7 @@ func RunPropertyAssignmentTestForRedisOperatorSpec(subject RedisOperatorSpec) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201201s.RedisOperatorSpec
+	var other v20201201s.RedisOperatorSpec
 	err := copied.AssignProperties_To_RedisOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -993,7 +993,7 @@ func RunPropertyAssignmentTestForRedisProperties_RedisConfiguration_STATUS(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201201s.RedisProperties_RedisConfiguration_STATUS
+	var other v20201201s.RedisProperties_RedisConfiguration_STATUS
 	err := copied.AssignProperties_To_RedisProperties_RedisConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1110,7 +1110,7 @@ func RunPropertyAssignmentTestForSku(subject Sku) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201201s.Sku
+	var other v20201201s.Sku
 	err := copied.AssignProperties_To_Sku(&other)
 	if err != nil {
 		return err.Error()
@@ -1214,7 +1214,7 @@ func RunPropertyAssignmentTestForSku_STATUS(subject Sku_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201201s.Sku_STATUS
+	var other v20201201s.Sku_STATUS
 	err := copied.AssignProperties_To_Sku_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1318,7 +1318,7 @@ func RunPropertyAssignmentTestForRedisOperatorSecrets(subject RedisOperatorSecre
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201201s.RedisOperatorSecrets
+	var other v20201201s.RedisOperatorSecrets
 	err := copied.AssignProperties_To_RedisOperatorSecrets(&other)
 	if err != nil {
 		return err.Error()

@@ -5,7 +5,7 @@ package v1beta20210701storage
 
 import (
 	"encoding/json"
-	v1api20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701storage"
+	v20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForWorkspace(subject Workspace) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20210701s.Workspace
+	var hub v20210701s.Workspace
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForWorkspace(subject Workspace) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210701s.Workspace
+	var other v20210701s.Workspace
 	err := copied.AssignProperties_To_Workspace(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForWorkspace_Spec(subject Workspace_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210701s.Workspace_Spec
+	var other v20210701s.Workspace_Spec
 	err := copied.AssignProperties_To_Workspace_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -313,7 +313,7 @@ func RunPropertyAssignmentTestForWorkspace_STATUS(subject Workspace_STATUS) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210701s.Workspace_STATUS
+	var other v20210701s.Workspace_STATUS
 	err := copied.AssignProperties_To_Workspace_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -459,7 +459,7 @@ func RunPropertyAssignmentTestForEncryptionProperty(subject EncryptionProperty) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210701s.EncryptionProperty
+	var other v20210701s.EncryptionProperty
 	err := copied.AssignProperties_To_EncryptionProperty(&other)
 	if err != nil {
 		return err.Error()
@@ -576,7 +576,7 @@ func RunPropertyAssignmentTestForEncryptionProperty_STATUS(subject EncryptionPro
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210701s.EncryptionProperty_STATUS
+	var other v20210701s.EncryptionProperty_STATUS
 	err := copied.AssignProperties_To_EncryptionProperty_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -694,7 +694,7 @@ func RunPropertyAssignmentTestForIdentity(subject Identity) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210701s.Identity
+	var other v20210701s.Identity
 	err := copied.AssignProperties_To_Identity(&other)
 	if err != nil {
 		return err.Error()
@@ -810,7 +810,7 @@ func RunPropertyAssignmentTestForIdentity_STATUS(subject Identity_STATUS) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210701s.Identity_STATUS
+	var other v20210701s.Identity_STATUS
 	err := copied.AssignProperties_To_Identity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -928,7 +928,7 @@ func RunPropertyAssignmentTestForNotebookResourceInfo_STATUS(subject NotebookRes
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210701s.NotebookResourceInfo_STATUS
+	var other v20210701s.NotebookResourceInfo_STATUS
 	err := copied.AssignProperties_To_NotebookResourceInfo_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1046,7 +1046,7 @@ func RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS(subject Privat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210701s.PrivateEndpointConnection_STATUS
+	var other v20210701s.PrivateEndpointConnection_STATUS
 	err := copied.AssignProperties_To_PrivateEndpointConnection_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1149,7 +1149,7 @@ func RunPropertyAssignmentTestForServiceManagedResourcesSettings(subject Service
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210701s.ServiceManagedResourcesSettings
+	var other v20210701s.ServiceManagedResourcesSettings
 	err := copied.AssignProperties_To_ServiceManagedResourcesSettings(&other)
 	if err != nil {
 		return err.Error()
@@ -1252,7 +1252,7 @@ func RunPropertyAssignmentTestForServiceManagedResourcesSettings_STATUS(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210701s.ServiceManagedResourcesSettings_STATUS
+	var other v20210701s.ServiceManagedResourcesSettings_STATUS
 	err := copied.AssignProperties_To_ServiceManagedResourcesSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1355,7 +1355,7 @@ func RunPropertyAssignmentTestForSharedPrivateLinkResource(subject SharedPrivate
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210701s.SharedPrivateLinkResource
+	var other v20210701s.SharedPrivateLinkResource
 	err := copied.AssignProperties_To_SharedPrivateLinkResource(&other)
 	if err != nil {
 		return err.Error()
@@ -1461,7 +1461,7 @@ func RunPropertyAssignmentTestForSharedPrivateLinkResource_STATUS(subject Shared
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210701s.SharedPrivateLinkResource_STATUS
+	var other v20210701s.SharedPrivateLinkResource_STATUS
 	err := copied.AssignProperties_To_SharedPrivateLinkResource_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1568,7 +1568,7 @@ func RunPropertyAssignmentTestForSku(subject Sku) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210701s.Sku
+	var other v20210701s.Sku
 	err := copied.AssignProperties_To_Sku(&other)
 	if err != nil {
 		return err.Error()
@@ -1671,7 +1671,7 @@ func RunPropertyAssignmentTestForSku_STATUS(subject Sku_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210701s.Sku_STATUS
+	var other v20210701s.Sku_STATUS
 	err := copied.AssignProperties_To_Sku_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1774,7 +1774,7 @@ func RunPropertyAssignmentTestForSystemData(subject SystemData) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210701s.SystemData
+	var other v20210701s.SystemData
 	err := copied.AssignProperties_To_SystemData(&other)
 	if err != nil {
 		return err.Error()
@@ -1881,7 +1881,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210701s.SystemData_STATUS
+	var other v20210701s.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1988,7 +1988,7 @@ func RunPropertyAssignmentTestForWorkspaceOperatorSpec(subject WorkspaceOperator
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210701s.WorkspaceOperatorSpec
+	var other v20210701s.WorkspaceOperatorSpec
 	err := copied.AssignProperties_To_WorkspaceOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -2091,7 +2091,7 @@ func RunPropertyAssignmentTestForCosmosDbSettings(subject CosmosDbSettings) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210701s.CosmosDbSettings
+	var other v20210701s.CosmosDbSettings
 	err := copied.AssignProperties_To_CosmosDbSettings(&other)
 	if err != nil {
 		return err.Error()
@@ -2193,7 +2193,7 @@ func RunPropertyAssignmentTestForCosmosDbSettings_STATUS(subject CosmosDbSetting
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210701s.CosmosDbSettings_STATUS
+	var other v20210701s.CosmosDbSettings_STATUS
 	err := copied.AssignProperties_To_CosmosDbSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2296,7 +2296,7 @@ func RunPropertyAssignmentTestForIdentityForCmk(subject IdentityForCmk) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210701s.IdentityForCmk
+	var other v20210701s.IdentityForCmk
 	err := copied.AssignProperties_To_IdentityForCmk(&other)
 	if err != nil {
 		return err.Error()
@@ -2398,7 +2398,7 @@ func RunPropertyAssignmentTestForIdentityForCmk_STATUS(subject IdentityForCmk_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210701s.IdentityForCmk_STATUS
+	var other v20210701s.IdentityForCmk_STATUS
 	err := copied.AssignProperties_To_IdentityForCmk_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2501,7 +2501,7 @@ func RunPropertyAssignmentTestForKeyVaultProperties(subject KeyVaultProperties) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210701s.KeyVaultProperties
+	var other v20210701s.KeyVaultProperties
 	err := copied.AssignProperties_To_KeyVaultProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -2605,7 +2605,7 @@ func RunPropertyAssignmentTestForKeyVaultProperties_STATUS(subject KeyVaultPrope
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210701s.KeyVaultProperties_STATUS
+	var other v20210701s.KeyVaultProperties_STATUS
 	err := copied.AssignProperties_To_KeyVaultProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2710,7 +2710,7 @@ func RunPropertyAssignmentTestForNotebookPreparationError_STATUS(subject Noteboo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210701s.NotebookPreparationError_STATUS
+	var other v20210701s.NotebookPreparationError_STATUS
 	err := copied.AssignProperties_To_NotebookPreparationError_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2814,7 +2814,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentity_STATUS(subject UserAssigne
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210701s.UserAssignedIdentity_STATUS
+	var other v20210701s.UserAssignedIdentity_STATUS
 	err := copied.AssignProperties_To_UserAssignedIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2919,7 +2919,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentityDetails(subject UserAssigne
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210701s.UserAssignedIdentityDetails
+	var other v20210701s.UserAssignedIdentityDetails
 	err := copied.AssignProperties_To_UserAssignedIdentityDetails(&other)
 	if err != nil {
 		return err.Error()
@@ -3016,7 +3016,7 @@ func RunPropertyAssignmentTestForWorkspaceOperatorSecrets(subject WorkspaceOpera
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210701s.WorkspaceOperatorSecrets
+	var other v20210701s.WorkspaceOperatorSecrets
 	err := copied.AssignProperties_To_WorkspaceOperatorSecrets(&other)
 	if err != nil {
 		return err.Error()

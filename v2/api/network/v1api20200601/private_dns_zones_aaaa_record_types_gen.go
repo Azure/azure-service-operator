@@ -5,7 +5,7 @@ package v1api20200601
 
 import (
 	"fmt"
-	v1api20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601storage"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &PrivateDnsZonesAAAARecord{}
 
 // ConvertFrom populates our PrivateDnsZonesAAAARecord from the provided hub PrivateDnsZonesAAAARecord
 func (record *PrivateDnsZonesAAAARecord) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20200601s.PrivateDnsZonesAAAARecord)
+	source, ok := hub.(*v20200601s.PrivateDnsZonesAAAARecord)
 	if !ok {
 		return fmt.Errorf("expected network/v1api20200601storage/PrivateDnsZonesAAAARecord but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (record *PrivateDnsZonesAAAARecord) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub PrivateDnsZonesAAAARecord from our PrivateDnsZonesAAAARecord
 func (record *PrivateDnsZonesAAAARecord) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20200601s.PrivateDnsZonesAAAARecord)
+	destination, ok := hub.(*v20200601s.PrivateDnsZonesAAAARecord)
 	if !ok {
 		return fmt.Errorf("expected network/v1api20200601storage/PrivateDnsZonesAAAARecord but received %T instead", hub)
 	}
@@ -240,7 +240,7 @@ func (record *PrivateDnsZonesAAAARecord) validateWriteOnceProperties(old runtime
 }
 
 // AssignProperties_From_PrivateDnsZonesAAAARecord populates our PrivateDnsZonesAAAARecord from the provided source PrivateDnsZonesAAAARecord
-func (record *PrivateDnsZonesAAAARecord) AssignProperties_From_PrivateDnsZonesAAAARecord(source *v1api20200601s.PrivateDnsZonesAAAARecord) error {
+func (record *PrivateDnsZonesAAAARecord) AssignProperties_From_PrivateDnsZonesAAAARecord(source *v20200601s.PrivateDnsZonesAAAARecord) error {
 
 	// ObjectMeta
 	record.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -266,13 +266,13 @@ func (record *PrivateDnsZonesAAAARecord) AssignProperties_From_PrivateDnsZonesAA
 }
 
 // AssignProperties_To_PrivateDnsZonesAAAARecord populates the provided destination PrivateDnsZonesAAAARecord from our PrivateDnsZonesAAAARecord
-func (record *PrivateDnsZonesAAAARecord) AssignProperties_To_PrivateDnsZonesAAAARecord(destination *v1api20200601s.PrivateDnsZonesAAAARecord) error {
+func (record *PrivateDnsZonesAAAARecord) AssignProperties_To_PrivateDnsZonesAAAARecord(destination *v20200601s.PrivateDnsZonesAAAARecord) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *record.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20200601s.PrivateDnsZones_AAAA_Spec
+	var spec v20200601s.PrivateDnsZones_AAAA_Spec
 	err := record.Spec.AssignProperties_To_PrivateDnsZones_AAAA_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_PrivateDnsZones_AAAA_Spec() to populate field Spec")
@@ -280,7 +280,7 @@ func (record *PrivateDnsZonesAAAARecord) AssignProperties_To_PrivateDnsZonesAAAA
 	destination.Spec = spec
 
 	// Status
-	var status v1api20200601s.PrivateDnsZones_AAAA_STATUS
+	var status v20200601s.PrivateDnsZones_AAAA_STATUS
 	err = record.Status.AssignProperties_To_PrivateDnsZones_AAAA_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_PrivateDnsZones_AAAA_STATUS() to populate field Status")
@@ -620,14 +620,14 @@ var _ genruntime.ConvertibleSpec = &PrivateDnsZones_AAAA_Spec{}
 
 // ConvertSpecFrom populates our PrivateDnsZones_AAAA_Spec from the provided source
 func (aaaa *PrivateDnsZones_AAAA_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20200601s.PrivateDnsZones_AAAA_Spec)
+	src, ok := source.(*v20200601s.PrivateDnsZones_AAAA_Spec)
 	if ok {
 		// Populate our instance from source
 		return aaaa.AssignProperties_From_PrivateDnsZones_AAAA_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20200601s.PrivateDnsZones_AAAA_Spec{}
+	src = &v20200601s.PrivateDnsZones_AAAA_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -644,14 +644,14 @@ func (aaaa *PrivateDnsZones_AAAA_Spec) ConvertSpecFrom(source genruntime.Convert
 
 // ConvertSpecTo populates the provided destination from our PrivateDnsZones_AAAA_Spec
 func (aaaa *PrivateDnsZones_AAAA_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20200601s.PrivateDnsZones_AAAA_Spec)
+	dst, ok := destination.(*v20200601s.PrivateDnsZones_AAAA_Spec)
 	if ok {
 		// Populate destination from our instance
 		return aaaa.AssignProperties_To_PrivateDnsZones_AAAA_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20200601s.PrivateDnsZones_AAAA_Spec{}
+	dst = &v20200601s.PrivateDnsZones_AAAA_Spec{}
 	err := aaaa.AssignProperties_To_PrivateDnsZones_AAAA_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -667,7 +667,7 @@ func (aaaa *PrivateDnsZones_AAAA_Spec) ConvertSpecTo(destination genruntime.Conv
 }
 
 // AssignProperties_From_PrivateDnsZones_AAAA_Spec populates our PrivateDnsZones_AAAA_Spec from the provided source PrivateDnsZones_AAAA_Spec
-func (aaaa *PrivateDnsZones_AAAA_Spec) AssignProperties_From_PrivateDnsZones_AAAA_Spec(source *v1api20200601s.PrivateDnsZones_AAAA_Spec) error {
+func (aaaa *PrivateDnsZones_AAAA_Spec) AssignProperties_From_PrivateDnsZones_AAAA_Spec(source *v20200601s.PrivateDnsZones_AAAA_Spec) error {
 
 	// ARecords
 	if source.ARecords != nil {
@@ -826,17 +826,17 @@ func (aaaa *PrivateDnsZones_AAAA_Spec) AssignProperties_From_PrivateDnsZones_AAA
 }
 
 // AssignProperties_To_PrivateDnsZones_AAAA_Spec populates the provided destination PrivateDnsZones_AAAA_Spec from our PrivateDnsZones_AAAA_Spec
-func (aaaa *PrivateDnsZones_AAAA_Spec) AssignProperties_To_PrivateDnsZones_AAAA_Spec(destination *v1api20200601s.PrivateDnsZones_AAAA_Spec) error {
+func (aaaa *PrivateDnsZones_AAAA_Spec) AssignProperties_To_PrivateDnsZones_AAAA_Spec(destination *v20200601s.PrivateDnsZones_AAAA_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ARecords
 	if aaaa.ARecords != nil {
-		aRecordList := make([]v1api20200601s.ARecord, len(aaaa.ARecords))
+		aRecordList := make([]v20200601s.ARecord, len(aaaa.ARecords))
 		for aRecordIndex, aRecordItem := range aaaa.ARecords {
 			// Shadow the loop variable to avoid aliasing
 			aRecordItem := aRecordItem
-			var aRecord v1api20200601s.ARecord
+			var aRecord v20200601s.ARecord
 			err := aRecordItem.AssignProperties_To_ARecord(&aRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ARecord() to populate field ARecords")
@@ -850,11 +850,11 @@ func (aaaa *PrivateDnsZones_AAAA_Spec) AssignProperties_To_PrivateDnsZones_AAAA_
 
 	// AaaaRecords
 	if aaaa.AaaaRecords != nil {
-		aaaaRecordList := make([]v1api20200601s.AaaaRecord, len(aaaa.AaaaRecords))
+		aaaaRecordList := make([]v20200601s.AaaaRecord, len(aaaa.AaaaRecords))
 		for aaaaRecordIndex, aaaaRecordItem := range aaaa.AaaaRecords {
 			// Shadow the loop variable to avoid aliasing
 			aaaaRecordItem := aaaaRecordItem
-			var aaaaRecord v1api20200601s.AaaaRecord
+			var aaaaRecord v20200601s.AaaaRecord
 			err := aaaaRecordItem.AssignProperties_To_AaaaRecord(&aaaaRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_AaaaRecord() to populate field AaaaRecords")
@@ -871,7 +871,7 @@ func (aaaa *PrivateDnsZones_AAAA_Spec) AssignProperties_To_PrivateDnsZones_AAAA_
 
 	// CnameRecord
 	if aaaa.CnameRecord != nil {
-		var cnameRecord v1api20200601s.CnameRecord
+		var cnameRecord v20200601s.CnameRecord
 		err := aaaa.CnameRecord.AssignProperties_To_CnameRecord(&cnameRecord)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CnameRecord() to populate field CnameRecord")
@@ -889,11 +889,11 @@ func (aaaa *PrivateDnsZones_AAAA_Spec) AssignProperties_To_PrivateDnsZones_AAAA_
 
 	// MxRecords
 	if aaaa.MxRecords != nil {
-		mxRecordList := make([]v1api20200601s.MxRecord, len(aaaa.MxRecords))
+		mxRecordList := make([]v20200601s.MxRecord, len(aaaa.MxRecords))
 		for mxRecordIndex, mxRecordItem := range aaaa.MxRecords {
 			// Shadow the loop variable to avoid aliasing
 			mxRecordItem := mxRecordItem
-			var mxRecord v1api20200601s.MxRecord
+			var mxRecord v20200601s.MxRecord
 			err := mxRecordItem.AssignProperties_To_MxRecord(&mxRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_MxRecord() to populate field MxRecords")
@@ -918,11 +918,11 @@ func (aaaa *PrivateDnsZones_AAAA_Spec) AssignProperties_To_PrivateDnsZones_AAAA_
 
 	// PtrRecords
 	if aaaa.PtrRecords != nil {
-		ptrRecordList := make([]v1api20200601s.PtrRecord, len(aaaa.PtrRecords))
+		ptrRecordList := make([]v20200601s.PtrRecord, len(aaaa.PtrRecords))
 		for ptrRecordIndex, ptrRecordItem := range aaaa.PtrRecords {
 			// Shadow the loop variable to avoid aliasing
 			ptrRecordItem := ptrRecordItem
-			var ptrRecord v1api20200601s.PtrRecord
+			var ptrRecord v20200601s.PtrRecord
 			err := ptrRecordItem.AssignProperties_To_PtrRecord(&ptrRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PtrRecord() to populate field PtrRecords")
@@ -936,7 +936,7 @@ func (aaaa *PrivateDnsZones_AAAA_Spec) AssignProperties_To_PrivateDnsZones_AAAA_
 
 	// SoaRecord
 	if aaaa.SoaRecord != nil {
-		var soaRecord v1api20200601s.SoaRecord
+		var soaRecord v20200601s.SoaRecord
 		err := aaaa.SoaRecord.AssignProperties_To_SoaRecord(&soaRecord)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SoaRecord() to populate field SoaRecord")
@@ -948,11 +948,11 @@ func (aaaa *PrivateDnsZones_AAAA_Spec) AssignProperties_To_PrivateDnsZones_AAAA_
 
 	// SrvRecords
 	if aaaa.SrvRecords != nil {
-		srvRecordList := make([]v1api20200601s.SrvRecord, len(aaaa.SrvRecords))
+		srvRecordList := make([]v20200601s.SrvRecord, len(aaaa.SrvRecords))
 		for srvRecordIndex, srvRecordItem := range aaaa.SrvRecords {
 			// Shadow the loop variable to avoid aliasing
 			srvRecordItem := srvRecordItem
-			var srvRecord v1api20200601s.SrvRecord
+			var srvRecord v20200601s.SrvRecord
 			err := srvRecordItem.AssignProperties_To_SrvRecord(&srvRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SrvRecord() to populate field SrvRecords")
@@ -969,11 +969,11 @@ func (aaaa *PrivateDnsZones_AAAA_Spec) AssignProperties_To_PrivateDnsZones_AAAA_
 
 	// TxtRecords
 	if aaaa.TxtRecords != nil {
-		txtRecordList := make([]v1api20200601s.TxtRecord, len(aaaa.TxtRecords))
+		txtRecordList := make([]v20200601s.TxtRecord, len(aaaa.TxtRecords))
 		for txtRecordIndex, txtRecordItem := range aaaa.TxtRecords {
 			// Shadow the loop variable to avoid aliasing
 			txtRecordItem := txtRecordItem
-			var txtRecord v1api20200601s.TxtRecord
+			var txtRecord v20200601s.TxtRecord
 			err := txtRecordItem.AssignProperties_To_TxtRecord(&txtRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_TxtRecord() to populate field TxtRecords")
@@ -1210,14 +1210,14 @@ var _ genruntime.ConvertibleStatus = &PrivateDnsZones_AAAA_STATUS{}
 
 // ConvertStatusFrom populates our PrivateDnsZones_AAAA_STATUS from the provided source
 func (aaaa *PrivateDnsZones_AAAA_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20200601s.PrivateDnsZones_AAAA_STATUS)
+	src, ok := source.(*v20200601s.PrivateDnsZones_AAAA_STATUS)
 	if ok {
 		// Populate our instance from source
 		return aaaa.AssignProperties_From_PrivateDnsZones_AAAA_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20200601s.PrivateDnsZones_AAAA_STATUS{}
+	src = &v20200601s.PrivateDnsZones_AAAA_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1234,14 +1234,14 @@ func (aaaa *PrivateDnsZones_AAAA_STATUS) ConvertStatusFrom(source genruntime.Con
 
 // ConvertStatusTo populates the provided destination from our PrivateDnsZones_AAAA_STATUS
 func (aaaa *PrivateDnsZones_AAAA_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20200601s.PrivateDnsZones_AAAA_STATUS)
+	dst, ok := destination.(*v20200601s.PrivateDnsZones_AAAA_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return aaaa.AssignProperties_To_PrivateDnsZones_AAAA_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20200601s.PrivateDnsZones_AAAA_STATUS{}
+	dst = &v20200601s.PrivateDnsZones_AAAA_STATUS{}
 	err := aaaa.AssignProperties_To_PrivateDnsZones_AAAA_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1445,7 +1445,7 @@ func (aaaa *PrivateDnsZones_AAAA_STATUS) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_PrivateDnsZones_AAAA_STATUS populates our PrivateDnsZones_AAAA_STATUS from the provided source PrivateDnsZones_AAAA_STATUS
-func (aaaa *PrivateDnsZones_AAAA_STATUS) AssignProperties_From_PrivateDnsZones_AAAA_STATUS(source *v1api20200601s.PrivateDnsZones_AAAA_STATUS) error {
+func (aaaa *PrivateDnsZones_AAAA_STATUS) AssignProperties_From_PrivateDnsZones_AAAA_STATUS(source *v20200601s.PrivateDnsZones_AAAA_STATUS) error {
 
 	// ARecords
 	if source.ARecords != nil {
@@ -1616,17 +1616,17 @@ func (aaaa *PrivateDnsZones_AAAA_STATUS) AssignProperties_From_PrivateDnsZones_A
 }
 
 // AssignProperties_To_PrivateDnsZones_AAAA_STATUS populates the provided destination PrivateDnsZones_AAAA_STATUS from our PrivateDnsZones_AAAA_STATUS
-func (aaaa *PrivateDnsZones_AAAA_STATUS) AssignProperties_To_PrivateDnsZones_AAAA_STATUS(destination *v1api20200601s.PrivateDnsZones_AAAA_STATUS) error {
+func (aaaa *PrivateDnsZones_AAAA_STATUS) AssignProperties_To_PrivateDnsZones_AAAA_STATUS(destination *v20200601s.PrivateDnsZones_AAAA_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ARecords
 	if aaaa.ARecords != nil {
-		aRecordList := make([]v1api20200601s.ARecord_STATUS, len(aaaa.ARecords))
+		aRecordList := make([]v20200601s.ARecord_STATUS, len(aaaa.ARecords))
 		for aRecordIndex, aRecordItem := range aaaa.ARecords {
 			// Shadow the loop variable to avoid aliasing
 			aRecordItem := aRecordItem
-			var aRecord v1api20200601s.ARecord_STATUS
+			var aRecord v20200601s.ARecord_STATUS
 			err := aRecordItem.AssignProperties_To_ARecord_STATUS(&aRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ARecord_STATUS() to populate field ARecords")
@@ -1640,11 +1640,11 @@ func (aaaa *PrivateDnsZones_AAAA_STATUS) AssignProperties_To_PrivateDnsZones_AAA
 
 	// AaaaRecords
 	if aaaa.AaaaRecords != nil {
-		aaaaRecordList := make([]v1api20200601s.AaaaRecord_STATUS, len(aaaa.AaaaRecords))
+		aaaaRecordList := make([]v20200601s.AaaaRecord_STATUS, len(aaaa.AaaaRecords))
 		for aaaaRecordIndex, aaaaRecordItem := range aaaa.AaaaRecords {
 			// Shadow the loop variable to avoid aliasing
 			aaaaRecordItem := aaaaRecordItem
-			var aaaaRecord v1api20200601s.AaaaRecord_STATUS
+			var aaaaRecord v20200601s.AaaaRecord_STATUS
 			err := aaaaRecordItem.AssignProperties_To_AaaaRecord_STATUS(&aaaaRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_AaaaRecord_STATUS() to populate field AaaaRecords")
@@ -1658,7 +1658,7 @@ func (aaaa *PrivateDnsZones_AAAA_STATUS) AssignProperties_To_PrivateDnsZones_AAA
 
 	// CnameRecord
 	if aaaa.CnameRecord != nil {
-		var cnameRecord v1api20200601s.CnameRecord_STATUS
+		var cnameRecord v20200601s.CnameRecord_STATUS
 		err := aaaa.CnameRecord.AssignProperties_To_CnameRecord_STATUS(&cnameRecord)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CnameRecord_STATUS() to populate field CnameRecord")
@@ -1693,11 +1693,11 @@ func (aaaa *PrivateDnsZones_AAAA_STATUS) AssignProperties_To_PrivateDnsZones_AAA
 
 	// MxRecords
 	if aaaa.MxRecords != nil {
-		mxRecordList := make([]v1api20200601s.MxRecord_STATUS, len(aaaa.MxRecords))
+		mxRecordList := make([]v20200601s.MxRecord_STATUS, len(aaaa.MxRecords))
 		for mxRecordIndex, mxRecordItem := range aaaa.MxRecords {
 			// Shadow the loop variable to avoid aliasing
 			mxRecordItem := mxRecordItem
-			var mxRecord v1api20200601s.MxRecord_STATUS
+			var mxRecord v20200601s.MxRecord_STATUS
 			err := mxRecordItem.AssignProperties_To_MxRecord_STATUS(&mxRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_MxRecord_STATUS() to populate field MxRecords")
@@ -1714,11 +1714,11 @@ func (aaaa *PrivateDnsZones_AAAA_STATUS) AssignProperties_To_PrivateDnsZones_AAA
 
 	// PtrRecords
 	if aaaa.PtrRecords != nil {
-		ptrRecordList := make([]v1api20200601s.PtrRecord_STATUS, len(aaaa.PtrRecords))
+		ptrRecordList := make([]v20200601s.PtrRecord_STATUS, len(aaaa.PtrRecords))
 		for ptrRecordIndex, ptrRecordItem := range aaaa.PtrRecords {
 			// Shadow the loop variable to avoid aliasing
 			ptrRecordItem := ptrRecordItem
-			var ptrRecord v1api20200601s.PtrRecord_STATUS
+			var ptrRecord v20200601s.PtrRecord_STATUS
 			err := ptrRecordItem.AssignProperties_To_PtrRecord_STATUS(&ptrRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PtrRecord_STATUS() to populate field PtrRecords")
@@ -1732,7 +1732,7 @@ func (aaaa *PrivateDnsZones_AAAA_STATUS) AssignProperties_To_PrivateDnsZones_AAA
 
 	// SoaRecord
 	if aaaa.SoaRecord != nil {
-		var soaRecord v1api20200601s.SoaRecord_STATUS
+		var soaRecord v20200601s.SoaRecord_STATUS
 		err := aaaa.SoaRecord.AssignProperties_To_SoaRecord_STATUS(&soaRecord)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SoaRecord_STATUS() to populate field SoaRecord")
@@ -1744,11 +1744,11 @@ func (aaaa *PrivateDnsZones_AAAA_STATUS) AssignProperties_To_PrivateDnsZones_AAA
 
 	// SrvRecords
 	if aaaa.SrvRecords != nil {
-		srvRecordList := make([]v1api20200601s.SrvRecord_STATUS, len(aaaa.SrvRecords))
+		srvRecordList := make([]v20200601s.SrvRecord_STATUS, len(aaaa.SrvRecords))
 		for srvRecordIndex, srvRecordItem := range aaaa.SrvRecords {
 			// Shadow the loop variable to avoid aliasing
 			srvRecordItem := srvRecordItem
-			var srvRecord v1api20200601s.SrvRecord_STATUS
+			var srvRecord v20200601s.SrvRecord_STATUS
 			err := srvRecordItem.AssignProperties_To_SrvRecord_STATUS(&srvRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SrvRecord_STATUS() to populate field SrvRecords")
@@ -1765,11 +1765,11 @@ func (aaaa *PrivateDnsZones_AAAA_STATUS) AssignProperties_To_PrivateDnsZones_AAA
 
 	// TxtRecords
 	if aaaa.TxtRecords != nil {
-		txtRecordList := make([]v1api20200601s.TxtRecord_STATUS, len(aaaa.TxtRecords))
+		txtRecordList := make([]v20200601s.TxtRecord_STATUS, len(aaaa.TxtRecords))
 		for txtRecordIndex, txtRecordItem := range aaaa.TxtRecords {
 			// Shadow the loop variable to avoid aliasing
 			txtRecordItem := txtRecordItem
-			var txtRecord v1api20200601s.TxtRecord_STATUS
+			var txtRecord v20200601s.TxtRecord_STATUS
 			err := txtRecordItem.AssignProperties_To_TxtRecord_STATUS(&txtRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_TxtRecord_STATUS() to populate field TxtRecords")
@@ -1841,7 +1841,7 @@ func (record *AaaaRecord) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 }
 
 // AssignProperties_From_AaaaRecord populates our AaaaRecord from the provided source AaaaRecord
-func (record *AaaaRecord) AssignProperties_From_AaaaRecord(source *v1api20200601s.AaaaRecord) error {
+func (record *AaaaRecord) AssignProperties_From_AaaaRecord(source *v20200601s.AaaaRecord) error {
 
 	// Ipv6Address
 	record.Ipv6Address = genruntime.ClonePointerToString(source.Ipv6Address)
@@ -1851,7 +1851,7 @@ func (record *AaaaRecord) AssignProperties_From_AaaaRecord(source *v1api20200601
 }
 
 // AssignProperties_To_AaaaRecord populates the provided destination AaaaRecord from our AaaaRecord
-func (record *AaaaRecord) AssignProperties_To_AaaaRecord(destination *v1api20200601s.AaaaRecord) error {
+func (record *AaaaRecord) AssignProperties_To_AaaaRecord(destination *v20200601s.AaaaRecord) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1910,7 +1910,7 @@ func (record *AaaaRecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_AaaaRecord_STATUS populates our AaaaRecord_STATUS from the provided source AaaaRecord_STATUS
-func (record *AaaaRecord_STATUS) AssignProperties_From_AaaaRecord_STATUS(source *v1api20200601s.AaaaRecord_STATUS) error {
+func (record *AaaaRecord_STATUS) AssignProperties_From_AaaaRecord_STATUS(source *v20200601s.AaaaRecord_STATUS) error {
 
 	// Ipv6Address
 	record.Ipv6Address = genruntime.ClonePointerToString(source.Ipv6Address)
@@ -1920,7 +1920,7 @@ func (record *AaaaRecord_STATUS) AssignProperties_From_AaaaRecord_STATUS(source 
 }
 
 // AssignProperties_To_AaaaRecord_STATUS populates the provided destination AaaaRecord_STATUS from our AaaaRecord_STATUS
-func (record *AaaaRecord_STATUS) AssignProperties_To_AaaaRecord_STATUS(destination *v1api20200601s.AaaaRecord_STATUS) error {
+func (record *AaaaRecord_STATUS) AssignProperties_To_AaaaRecord_STATUS(destination *v20200601s.AaaaRecord_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1984,7 +1984,7 @@ func (record *ARecord) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 }
 
 // AssignProperties_From_ARecord populates our ARecord from the provided source ARecord
-func (record *ARecord) AssignProperties_From_ARecord(source *v1api20200601s.ARecord) error {
+func (record *ARecord) AssignProperties_From_ARecord(source *v20200601s.ARecord) error {
 
 	// Ipv4Address
 	record.Ipv4Address = genruntime.ClonePointerToString(source.Ipv4Address)
@@ -1994,7 +1994,7 @@ func (record *ARecord) AssignProperties_From_ARecord(source *v1api20200601s.ARec
 }
 
 // AssignProperties_To_ARecord populates the provided destination ARecord from our ARecord
-func (record *ARecord) AssignProperties_To_ARecord(destination *v1api20200601s.ARecord) error {
+func (record *ARecord) AssignProperties_To_ARecord(destination *v20200601s.ARecord) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2053,7 +2053,7 @@ func (record *ARecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 }
 
 // AssignProperties_From_ARecord_STATUS populates our ARecord_STATUS from the provided source ARecord_STATUS
-func (record *ARecord_STATUS) AssignProperties_From_ARecord_STATUS(source *v1api20200601s.ARecord_STATUS) error {
+func (record *ARecord_STATUS) AssignProperties_From_ARecord_STATUS(source *v20200601s.ARecord_STATUS) error {
 
 	// Ipv4Address
 	record.Ipv4Address = genruntime.ClonePointerToString(source.Ipv4Address)
@@ -2063,7 +2063,7 @@ func (record *ARecord_STATUS) AssignProperties_From_ARecord_STATUS(source *v1api
 }
 
 // AssignProperties_To_ARecord_STATUS populates the provided destination ARecord_STATUS from our ARecord_STATUS
-func (record *ARecord_STATUS) AssignProperties_To_ARecord_STATUS(destination *v1api20200601s.ARecord_STATUS) error {
+func (record *ARecord_STATUS) AssignProperties_To_ARecord_STATUS(destination *v20200601s.ARecord_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2127,7 +2127,7 @@ func (record *CnameRecord) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 }
 
 // AssignProperties_From_CnameRecord populates our CnameRecord from the provided source CnameRecord
-func (record *CnameRecord) AssignProperties_From_CnameRecord(source *v1api20200601s.CnameRecord) error {
+func (record *CnameRecord) AssignProperties_From_CnameRecord(source *v20200601s.CnameRecord) error {
 
 	// Cname
 	record.Cname = genruntime.ClonePointerToString(source.Cname)
@@ -2137,7 +2137,7 @@ func (record *CnameRecord) AssignProperties_From_CnameRecord(source *v1api202006
 }
 
 // AssignProperties_To_CnameRecord populates the provided destination CnameRecord from our CnameRecord
-func (record *CnameRecord) AssignProperties_To_CnameRecord(destination *v1api20200601s.CnameRecord) error {
+func (record *CnameRecord) AssignProperties_To_CnameRecord(destination *v20200601s.CnameRecord) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2196,7 +2196,7 @@ func (record *CnameRecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 }
 
 // AssignProperties_From_CnameRecord_STATUS populates our CnameRecord_STATUS from the provided source CnameRecord_STATUS
-func (record *CnameRecord_STATUS) AssignProperties_From_CnameRecord_STATUS(source *v1api20200601s.CnameRecord_STATUS) error {
+func (record *CnameRecord_STATUS) AssignProperties_From_CnameRecord_STATUS(source *v20200601s.CnameRecord_STATUS) error {
 
 	// Cname
 	record.Cname = genruntime.ClonePointerToString(source.Cname)
@@ -2206,7 +2206,7 @@ func (record *CnameRecord_STATUS) AssignProperties_From_CnameRecord_STATUS(sourc
 }
 
 // AssignProperties_To_CnameRecord_STATUS populates the provided destination CnameRecord_STATUS from our CnameRecord_STATUS
-func (record *CnameRecord_STATUS) AssignProperties_To_CnameRecord_STATUS(destination *v1api20200601s.CnameRecord_STATUS) error {
+func (record *CnameRecord_STATUS) AssignProperties_To_CnameRecord_STATUS(destination *v20200601s.CnameRecord_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2285,7 +2285,7 @@ func (record *MxRecord) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 }
 
 // AssignProperties_From_MxRecord populates our MxRecord from the provided source MxRecord
-func (record *MxRecord) AssignProperties_From_MxRecord(source *v1api20200601s.MxRecord) error {
+func (record *MxRecord) AssignProperties_From_MxRecord(source *v20200601s.MxRecord) error {
 
 	// Exchange
 	record.Exchange = genruntime.ClonePointerToString(source.Exchange)
@@ -2298,7 +2298,7 @@ func (record *MxRecord) AssignProperties_From_MxRecord(source *v1api20200601s.Mx
 }
 
 // AssignProperties_To_MxRecord populates the provided destination MxRecord from our MxRecord
-func (record *MxRecord) AssignProperties_To_MxRecord(destination *v1api20200601s.MxRecord) error {
+func (record *MxRecord) AssignProperties_To_MxRecord(destination *v20200601s.MxRecord) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2372,7 +2372,7 @@ func (record *MxRecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_MxRecord_STATUS populates our MxRecord_STATUS from the provided source MxRecord_STATUS
-func (record *MxRecord_STATUS) AssignProperties_From_MxRecord_STATUS(source *v1api20200601s.MxRecord_STATUS) error {
+func (record *MxRecord_STATUS) AssignProperties_From_MxRecord_STATUS(source *v20200601s.MxRecord_STATUS) error {
 
 	// Exchange
 	record.Exchange = genruntime.ClonePointerToString(source.Exchange)
@@ -2385,7 +2385,7 @@ func (record *MxRecord_STATUS) AssignProperties_From_MxRecord_STATUS(source *v1a
 }
 
 // AssignProperties_To_MxRecord_STATUS populates the provided destination MxRecord_STATUS from our MxRecord_STATUS
-func (record *MxRecord_STATUS) AssignProperties_To_MxRecord_STATUS(destination *v1api20200601s.MxRecord_STATUS) error {
+func (record *MxRecord_STATUS) AssignProperties_To_MxRecord_STATUS(destination *v20200601s.MxRecord_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2452,7 +2452,7 @@ func (record *PtrRecord) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 }
 
 // AssignProperties_From_PtrRecord populates our PtrRecord from the provided source PtrRecord
-func (record *PtrRecord) AssignProperties_From_PtrRecord(source *v1api20200601s.PtrRecord) error {
+func (record *PtrRecord) AssignProperties_From_PtrRecord(source *v20200601s.PtrRecord) error {
 
 	// Ptrdname
 	record.Ptrdname = genruntime.ClonePointerToString(source.Ptrdname)
@@ -2462,7 +2462,7 @@ func (record *PtrRecord) AssignProperties_From_PtrRecord(source *v1api20200601s.
 }
 
 // AssignProperties_To_PtrRecord populates the provided destination PtrRecord from our PtrRecord
-func (record *PtrRecord) AssignProperties_To_PtrRecord(destination *v1api20200601s.PtrRecord) error {
+func (record *PtrRecord) AssignProperties_To_PtrRecord(destination *v20200601s.PtrRecord) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2521,7 +2521,7 @@ func (record *PtrRecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 }
 
 // AssignProperties_From_PtrRecord_STATUS populates our PtrRecord_STATUS from the provided source PtrRecord_STATUS
-func (record *PtrRecord_STATUS) AssignProperties_From_PtrRecord_STATUS(source *v1api20200601s.PtrRecord_STATUS) error {
+func (record *PtrRecord_STATUS) AssignProperties_From_PtrRecord_STATUS(source *v20200601s.PtrRecord_STATUS) error {
 
 	// Ptrdname
 	record.Ptrdname = genruntime.ClonePointerToString(source.Ptrdname)
@@ -2531,7 +2531,7 @@ func (record *PtrRecord_STATUS) AssignProperties_From_PtrRecord_STATUS(source *v
 }
 
 // AssignProperties_To_PtrRecord_STATUS populates the provided destination PtrRecord_STATUS from our PtrRecord_STATUS
-func (record *PtrRecord_STATUS) AssignProperties_To_PtrRecord_STATUS(destination *v1api20200601s.PtrRecord_STATUS) error {
+func (record *PtrRecord_STATUS) AssignProperties_To_PtrRecord_STATUS(destination *v20200601s.PtrRecord_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2685,7 +2685,7 @@ func (record *SoaRecord) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 }
 
 // AssignProperties_From_SoaRecord populates our SoaRecord from the provided source SoaRecord
-func (record *SoaRecord) AssignProperties_From_SoaRecord(source *v1api20200601s.SoaRecord) error {
+func (record *SoaRecord) AssignProperties_From_SoaRecord(source *v20200601s.SoaRecord) error {
 
 	// Email
 	record.Email = genruntime.ClonePointerToString(source.Email)
@@ -2713,7 +2713,7 @@ func (record *SoaRecord) AssignProperties_From_SoaRecord(source *v1api20200601s.
 }
 
 // AssignProperties_To_SoaRecord populates the provided destination SoaRecord from our SoaRecord
-func (record *SoaRecord) AssignProperties_To_SoaRecord(destination *v1api20200601s.SoaRecord) error {
+func (record *SoaRecord) AssignProperties_To_SoaRecord(destination *v20200601s.SoaRecord) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2862,7 +2862,7 @@ func (record *SoaRecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 }
 
 // AssignProperties_From_SoaRecord_STATUS populates our SoaRecord_STATUS from the provided source SoaRecord_STATUS
-func (record *SoaRecord_STATUS) AssignProperties_From_SoaRecord_STATUS(source *v1api20200601s.SoaRecord_STATUS) error {
+func (record *SoaRecord_STATUS) AssignProperties_From_SoaRecord_STATUS(source *v20200601s.SoaRecord_STATUS) error {
 
 	// Email
 	record.Email = genruntime.ClonePointerToString(source.Email)
@@ -2890,7 +2890,7 @@ func (record *SoaRecord_STATUS) AssignProperties_From_SoaRecord_STATUS(source *v
 }
 
 // AssignProperties_To_SoaRecord_STATUS populates the provided destination SoaRecord_STATUS from our SoaRecord_STATUS
-func (record *SoaRecord_STATUS) AssignProperties_To_SoaRecord_STATUS(destination *v1api20200601s.SoaRecord_STATUS) error {
+func (record *SoaRecord_STATUS) AssignProperties_To_SoaRecord_STATUS(destination *v20200601s.SoaRecord_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3017,7 +3017,7 @@ func (record *SrvRecord) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 }
 
 // AssignProperties_From_SrvRecord populates our SrvRecord from the provided source SrvRecord
-func (record *SrvRecord) AssignProperties_From_SrvRecord(source *v1api20200601s.SrvRecord) error {
+func (record *SrvRecord) AssignProperties_From_SrvRecord(source *v20200601s.SrvRecord) error {
 
 	// Port
 	record.Port = genruntime.ClonePointerToInt(source.Port)
@@ -3036,7 +3036,7 @@ func (record *SrvRecord) AssignProperties_From_SrvRecord(source *v1api20200601s.
 }
 
 // AssignProperties_To_SrvRecord populates the provided destination SrvRecord from our SrvRecord
-func (record *SrvRecord) AssignProperties_To_SrvRecord(destination *v1api20200601s.SrvRecord) error {
+func (record *SrvRecord) AssignProperties_To_SrvRecord(destination *v20200601s.SrvRecord) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3140,7 +3140,7 @@ func (record *SrvRecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 }
 
 // AssignProperties_From_SrvRecord_STATUS populates our SrvRecord_STATUS from the provided source SrvRecord_STATUS
-func (record *SrvRecord_STATUS) AssignProperties_From_SrvRecord_STATUS(source *v1api20200601s.SrvRecord_STATUS) error {
+func (record *SrvRecord_STATUS) AssignProperties_From_SrvRecord_STATUS(source *v20200601s.SrvRecord_STATUS) error {
 
 	// Port
 	record.Port = genruntime.ClonePointerToInt(source.Port)
@@ -3159,7 +3159,7 @@ func (record *SrvRecord_STATUS) AssignProperties_From_SrvRecord_STATUS(source *v
 }
 
 // AssignProperties_To_SrvRecord_STATUS populates the provided destination SrvRecord_STATUS from our SrvRecord_STATUS
-func (record *SrvRecord_STATUS) AssignProperties_To_SrvRecord_STATUS(destination *v1api20200601s.SrvRecord_STATUS) error {
+func (record *SrvRecord_STATUS) AssignProperties_To_SrvRecord_STATUS(destination *v20200601s.SrvRecord_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3230,7 +3230,7 @@ func (record *TxtRecord) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 }
 
 // AssignProperties_From_TxtRecord populates our TxtRecord from the provided source TxtRecord
-func (record *TxtRecord) AssignProperties_From_TxtRecord(source *v1api20200601s.TxtRecord) error {
+func (record *TxtRecord) AssignProperties_From_TxtRecord(source *v20200601s.TxtRecord) error {
 
 	// Value
 	record.Value = genruntime.CloneSliceOfString(source.Value)
@@ -3240,7 +3240,7 @@ func (record *TxtRecord) AssignProperties_From_TxtRecord(source *v1api20200601s.
 }
 
 // AssignProperties_To_TxtRecord populates the provided destination TxtRecord from our TxtRecord
-func (record *TxtRecord) AssignProperties_To_TxtRecord(destination *v1api20200601s.TxtRecord) error {
+func (record *TxtRecord) AssignProperties_To_TxtRecord(destination *v20200601s.TxtRecord) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3298,7 +3298,7 @@ func (record *TxtRecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 }
 
 // AssignProperties_From_TxtRecord_STATUS populates our TxtRecord_STATUS from the provided source TxtRecord_STATUS
-func (record *TxtRecord_STATUS) AssignProperties_From_TxtRecord_STATUS(source *v1api20200601s.TxtRecord_STATUS) error {
+func (record *TxtRecord_STATUS) AssignProperties_From_TxtRecord_STATUS(source *v20200601s.TxtRecord_STATUS) error {
 
 	// Value
 	record.Value = genruntime.CloneSliceOfString(source.Value)
@@ -3308,7 +3308,7 @@ func (record *TxtRecord_STATUS) AssignProperties_From_TxtRecord_STATUS(source *v
 }
 
 // AssignProperties_To_TxtRecord_STATUS populates the provided destination TxtRecord_STATUS from our TxtRecord_STATUS
-func (record *TxtRecord_STATUS) AssignProperties_To_TxtRecord_STATUS(destination *v1api20200601s.TxtRecord_STATUS) error {
+func (record *TxtRecord_STATUS) AssignProperties_To_TxtRecord_STATUS(destination *v20200601s.TxtRecord_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -5,7 +5,7 @@ package v1api20220701
 
 import (
 	"encoding/json"
-	v1api20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
+	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForDnsForwardingRuleSetsForwardingRule(subject Dns
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20220701s.DnsForwardingRuleSetsForwardingRule
+	var hub v20220701s.DnsForwardingRuleSetsForwardingRule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForDnsForwardingRuleSetsForwardingRule(subject Dns
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.DnsForwardingRuleSetsForwardingRule
+	var other v20220701s.DnsForwardingRuleSetsForwardingRule
 	err := copied.AssignProperties_To_DnsForwardingRuleSetsForwardingRule(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForDnsForwardingRulesets_ForwardingRule_Spec(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.DnsForwardingRulesets_ForwardingRule_Spec
+	var other v20220701s.DnsForwardingRulesets_ForwardingRule_Spec
 	err := copied.AssignProperties_To_DnsForwardingRulesets_ForwardingRule_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -302,7 +302,7 @@ func RunPropertyAssignmentTestForDnsForwardingRulesets_ForwardingRule_STATUS(sub
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.DnsForwardingRulesets_ForwardingRule_STATUS
+	var other v20220701s.DnsForwardingRulesets_ForwardingRule_STATUS
 	err := copied.AssignProperties_To_DnsForwardingRulesets_ForwardingRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -433,7 +433,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.SystemData_STATUS
+	var other v20220701s.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -548,7 +548,7 @@ func RunPropertyAssignmentTestForTargetDnsServer(subject TargetDnsServer) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.TargetDnsServer
+	var other v20220701s.TargetDnsServer
 	err := copied.AssignProperties_To_TargetDnsServer(&other)
 	if err != nil {
 		return err.Error()
@@ -651,7 +651,7 @@ func RunPropertyAssignmentTestForTargetDnsServer_STATUS(subject TargetDnsServer_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.TargetDnsServer_STATUS
+	var other v20220701s.TargetDnsServer_STATUS
 	err := copied.AssignProperties_To_TargetDnsServer_STATUS(&other)
 	if err != nil {
 		return err.Error()

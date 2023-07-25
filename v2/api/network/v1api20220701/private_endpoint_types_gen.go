@@ -5,7 +5,7 @@ package v1api20220701
 
 import (
 	"fmt"
-	v1api20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
+	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &PrivateEndpoint{}
 
 // ConvertFrom populates our PrivateEndpoint from the provided hub PrivateEndpoint
 func (endpoint *PrivateEndpoint) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20220701s.PrivateEndpoint)
+	source, ok := hub.(*v20220701s.PrivateEndpoint)
 	if !ok {
 		return fmt.Errorf("expected network/v1api20220701storage/PrivateEndpoint but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (endpoint *PrivateEndpoint) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub PrivateEndpoint from our PrivateEndpoint
 func (endpoint *PrivateEndpoint) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20220701s.PrivateEndpoint)
+	destination, ok := hub.(*v20220701s.PrivateEndpoint)
 	if !ok {
 		return fmt.Errorf("expected network/v1api20220701storage/PrivateEndpoint but received %T instead", hub)
 	}
@@ -240,7 +240,7 @@ func (endpoint *PrivateEndpoint) validateWriteOnceProperties(old runtime.Object)
 }
 
 // AssignProperties_From_PrivateEndpoint populates our PrivateEndpoint from the provided source PrivateEndpoint
-func (endpoint *PrivateEndpoint) AssignProperties_From_PrivateEndpoint(source *v1api20220701s.PrivateEndpoint) error {
+func (endpoint *PrivateEndpoint) AssignProperties_From_PrivateEndpoint(source *v20220701s.PrivateEndpoint) error {
 
 	// ObjectMeta
 	endpoint.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -266,13 +266,13 @@ func (endpoint *PrivateEndpoint) AssignProperties_From_PrivateEndpoint(source *v
 }
 
 // AssignProperties_To_PrivateEndpoint populates the provided destination PrivateEndpoint from our PrivateEndpoint
-func (endpoint *PrivateEndpoint) AssignProperties_To_PrivateEndpoint(destination *v1api20220701s.PrivateEndpoint) error {
+func (endpoint *PrivateEndpoint) AssignProperties_To_PrivateEndpoint(destination *v20220701s.PrivateEndpoint) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *endpoint.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20220701s.PrivateEndpoint_Spec
+	var spec v20220701s.PrivateEndpoint_Spec
 	err := endpoint.Spec.AssignProperties_To_PrivateEndpoint_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpoint_Spec() to populate field Spec")
@@ -280,7 +280,7 @@ func (endpoint *PrivateEndpoint) AssignProperties_To_PrivateEndpoint(destination
 	destination.Spec = spec
 
 	// Status
-	var status v1api20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded
+	var status v20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded
 	err = endpoint.Status.AssignProperties_To_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field Status")
@@ -565,14 +565,14 @@ var _ genruntime.ConvertibleSpec = &PrivateEndpoint_Spec{}
 
 // ConvertSpecFrom populates our PrivateEndpoint_Spec from the provided source
 func (endpoint *PrivateEndpoint_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20220701s.PrivateEndpoint_Spec)
+	src, ok := source.(*v20220701s.PrivateEndpoint_Spec)
 	if ok {
 		// Populate our instance from source
 		return endpoint.AssignProperties_From_PrivateEndpoint_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20220701s.PrivateEndpoint_Spec{}
+	src = &v20220701s.PrivateEndpoint_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -589,14 +589,14 @@ func (endpoint *PrivateEndpoint_Spec) ConvertSpecFrom(source genruntime.Converti
 
 // ConvertSpecTo populates the provided destination from our PrivateEndpoint_Spec
 func (endpoint *PrivateEndpoint_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20220701s.PrivateEndpoint_Spec)
+	dst, ok := destination.(*v20220701s.PrivateEndpoint_Spec)
 	if ok {
 		// Populate destination from our instance
 		return endpoint.AssignProperties_To_PrivateEndpoint_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20220701s.PrivateEndpoint_Spec{}
+	dst = &v20220701s.PrivateEndpoint_Spec{}
 	err := endpoint.AssignProperties_To_PrivateEndpoint_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -612,7 +612,7 @@ func (endpoint *PrivateEndpoint_Spec) ConvertSpecTo(destination genruntime.Conve
 }
 
 // AssignProperties_From_PrivateEndpoint_Spec populates our PrivateEndpoint_Spec from the provided source PrivateEndpoint_Spec
-func (endpoint *PrivateEndpoint_Spec) AssignProperties_From_PrivateEndpoint_Spec(source *v1api20220701s.PrivateEndpoint_Spec) error {
+func (endpoint *PrivateEndpoint_Spec) AssignProperties_From_PrivateEndpoint_Spec(source *v20220701s.PrivateEndpoint_Spec) error {
 
 	// ApplicationSecurityGroups
 	if source.ApplicationSecurityGroups != nil {
@@ -735,17 +735,17 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_From_PrivateEndpoint_Spec
 }
 
 // AssignProperties_To_PrivateEndpoint_Spec populates the provided destination PrivateEndpoint_Spec from our PrivateEndpoint_Spec
-func (endpoint *PrivateEndpoint_Spec) AssignProperties_To_PrivateEndpoint_Spec(destination *v1api20220701s.PrivateEndpoint_Spec) error {
+func (endpoint *PrivateEndpoint_Spec) AssignProperties_To_PrivateEndpoint_Spec(destination *v20220701s.PrivateEndpoint_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ApplicationSecurityGroups
 	if endpoint.ApplicationSecurityGroups != nil {
-		applicationSecurityGroupList := make([]v1api20220701s.ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded, len(endpoint.ApplicationSecurityGroups))
+		applicationSecurityGroupList := make([]v20220701s.ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded, len(endpoint.ApplicationSecurityGroups))
 		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range endpoint.ApplicationSecurityGroups {
 			// Shadow the loop variable to avoid aliasing
 			applicationSecurityGroupItem := applicationSecurityGroupItem
-			var applicationSecurityGroup v1api20220701s.ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
+			var applicationSecurityGroup v20220701s.ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
 			err := applicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded(&applicationSecurityGroup)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
@@ -765,7 +765,7 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_To_PrivateEndpoint_Spec(d
 
 	// ExtendedLocation
 	if endpoint.ExtendedLocation != nil {
-		var extendedLocation v1api20220701s.ExtendedLocation
+		var extendedLocation v20220701s.ExtendedLocation
 		err := endpoint.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
@@ -777,11 +777,11 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_To_PrivateEndpoint_Spec(d
 
 	// IpConfigurations
 	if endpoint.IpConfigurations != nil {
-		ipConfigurationList := make([]v1api20220701s.PrivateEndpointIPConfiguration, len(endpoint.IpConfigurations))
+		ipConfigurationList := make([]v20220701s.PrivateEndpointIPConfiguration, len(endpoint.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range endpoint.IpConfigurations {
 			// Shadow the loop variable to avoid aliasing
 			ipConfigurationItem := ipConfigurationItem
-			var ipConfiguration v1api20220701s.PrivateEndpointIPConfiguration
+			var ipConfiguration v20220701s.PrivateEndpointIPConfiguration
 			err := ipConfigurationItem.AssignProperties_To_PrivateEndpointIPConfiguration(&ipConfiguration)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointIPConfiguration() to populate field IpConfigurations")
@@ -798,11 +798,11 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_To_PrivateEndpoint_Spec(d
 
 	// ManualPrivateLinkServiceConnections
 	if endpoint.ManualPrivateLinkServiceConnections != nil {
-		manualPrivateLinkServiceConnectionList := make([]v1api20220701s.PrivateLinkServiceConnection, len(endpoint.ManualPrivateLinkServiceConnections))
+		manualPrivateLinkServiceConnectionList := make([]v20220701s.PrivateLinkServiceConnection, len(endpoint.ManualPrivateLinkServiceConnections))
 		for manualPrivateLinkServiceConnectionIndex, manualPrivateLinkServiceConnectionItem := range endpoint.ManualPrivateLinkServiceConnections {
 			// Shadow the loop variable to avoid aliasing
 			manualPrivateLinkServiceConnectionItem := manualPrivateLinkServiceConnectionItem
-			var manualPrivateLinkServiceConnection v1api20220701s.PrivateLinkServiceConnection
+			var manualPrivateLinkServiceConnection v20220701s.PrivateLinkServiceConnection
 			err := manualPrivateLinkServiceConnectionItem.AssignProperties_To_PrivateLinkServiceConnection(&manualPrivateLinkServiceConnection)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnection() to populate field ManualPrivateLinkServiceConnections")
@@ -827,11 +827,11 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_To_PrivateEndpoint_Spec(d
 
 	// PrivateLinkServiceConnections
 	if endpoint.PrivateLinkServiceConnections != nil {
-		privateLinkServiceConnectionList := make([]v1api20220701s.PrivateLinkServiceConnection, len(endpoint.PrivateLinkServiceConnections))
+		privateLinkServiceConnectionList := make([]v20220701s.PrivateLinkServiceConnection, len(endpoint.PrivateLinkServiceConnections))
 		for privateLinkServiceConnectionIndex, privateLinkServiceConnectionItem := range endpoint.PrivateLinkServiceConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateLinkServiceConnectionItem := privateLinkServiceConnectionItem
-			var privateLinkServiceConnection v1api20220701s.PrivateLinkServiceConnection
+			var privateLinkServiceConnection v20220701s.PrivateLinkServiceConnection
 			err := privateLinkServiceConnectionItem.AssignProperties_To_PrivateLinkServiceConnection(&privateLinkServiceConnection)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnection() to populate field PrivateLinkServiceConnections")
@@ -845,7 +845,7 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_To_PrivateEndpoint_Spec(d
 
 	// Subnet
 	if endpoint.Subnet != nil {
-		var subnet v1api20220701s.Subnet_PrivateEndpoint_SubResourceEmbedded
+		var subnet v20220701s.Subnet_PrivateEndpoint_SubResourceEmbedded
 		err := endpoint.Subnet.AssignProperties_To_Subnet_PrivateEndpoint_SubResourceEmbedded(&subnet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Subnet_PrivateEndpoint_SubResourceEmbedded() to populate field Subnet")
@@ -1049,14 +1049,14 @@ var _ genruntime.ConvertibleStatus = &PrivateEndpoint_STATUS_PrivateEndpoint_Sub
 
 // ConvertStatusFrom populates our PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded from the provided source
 func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded)
+	src, ok := source.(*v20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded)
 	if ok {
 		// Populate our instance from source
 		return embedded.AssignProperties_From_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded{}
+	src = &v20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1073,14 +1073,14 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Conv
 
 // ConvertStatusTo populates the provided destination from our PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded
 func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded)
+	dst, ok := destination.(*v20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded)
 	if ok {
 		// Populate destination from our instance
 		return embedded.AssignProperties_To_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded{}
+	dst = &v20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded{}
 	err := embedded.AssignProperties_To_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1275,7 +1275,7 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Popu
 }
 
 // AssignProperties_From_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded populates our PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded from the provided source PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded
-func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_From_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(source *v1api20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
+func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_From_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(source *v20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
 
 	// ApplicationSecurityGroups
 	if source.ApplicationSecurityGroups != nil {
@@ -1446,17 +1446,17 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 }
 
 // AssignProperties_To_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded populates the provided destination PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded from our PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded
-func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_To_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(destination *v1api20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
+func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_To_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(destination *v20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ApplicationSecurityGroups
 	if embedded.ApplicationSecurityGroups != nil {
-		applicationSecurityGroupList := make([]v1api20220701s.ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded, len(embedded.ApplicationSecurityGroups))
+		applicationSecurityGroupList := make([]v20220701s.ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded, len(embedded.ApplicationSecurityGroups))
 		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range embedded.ApplicationSecurityGroups {
 			// Shadow the loop variable to avoid aliasing
 			applicationSecurityGroupItem := applicationSecurityGroupItem
-			var applicationSecurityGroup v1api20220701s.ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded
+			var applicationSecurityGroup v20220701s.ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded
 			err := applicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(&applicationSecurityGroup)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
@@ -1473,11 +1473,11 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 
 	// CustomDnsConfigs
 	if embedded.CustomDnsConfigs != nil {
-		customDnsConfigList := make([]v1api20220701s.CustomDnsConfigPropertiesFormat_STATUS, len(embedded.CustomDnsConfigs))
+		customDnsConfigList := make([]v20220701s.CustomDnsConfigPropertiesFormat_STATUS, len(embedded.CustomDnsConfigs))
 		for customDnsConfigIndex, customDnsConfigItem := range embedded.CustomDnsConfigs {
 			// Shadow the loop variable to avoid aliasing
 			customDnsConfigItem := customDnsConfigItem
-			var customDnsConfig v1api20220701s.CustomDnsConfigPropertiesFormat_STATUS
+			var customDnsConfig v20220701s.CustomDnsConfigPropertiesFormat_STATUS
 			err := customDnsConfigItem.AssignProperties_To_CustomDnsConfigPropertiesFormat_STATUS(&customDnsConfig)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_CustomDnsConfigPropertiesFormat_STATUS() to populate field CustomDnsConfigs")
@@ -1497,7 +1497,7 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 
 	// ExtendedLocation
 	if embedded.ExtendedLocation != nil {
-		var extendedLocation v1api20220701s.ExtendedLocation_STATUS
+		var extendedLocation v20220701s.ExtendedLocation_STATUS
 		err := embedded.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
@@ -1512,11 +1512,11 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 
 	// IpConfigurations
 	if embedded.IpConfigurations != nil {
-		ipConfigurationList := make([]v1api20220701s.PrivateEndpointIPConfiguration_STATUS, len(embedded.IpConfigurations))
+		ipConfigurationList := make([]v20220701s.PrivateEndpointIPConfiguration_STATUS, len(embedded.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range embedded.IpConfigurations {
 			// Shadow the loop variable to avoid aliasing
 			ipConfigurationItem := ipConfigurationItem
-			var ipConfiguration v1api20220701s.PrivateEndpointIPConfiguration_STATUS
+			var ipConfiguration v20220701s.PrivateEndpointIPConfiguration_STATUS
 			err := ipConfigurationItem.AssignProperties_To_PrivateEndpointIPConfiguration_STATUS(&ipConfiguration)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointIPConfiguration_STATUS() to populate field IpConfigurations")
@@ -1533,11 +1533,11 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 
 	// ManualPrivateLinkServiceConnections
 	if embedded.ManualPrivateLinkServiceConnections != nil {
-		manualPrivateLinkServiceConnectionList := make([]v1api20220701s.PrivateLinkServiceConnection_STATUS, len(embedded.ManualPrivateLinkServiceConnections))
+		manualPrivateLinkServiceConnectionList := make([]v20220701s.PrivateLinkServiceConnection_STATUS, len(embedded.ManualPrivateLinkServiceConnections))
 		for manualPrivateLinkServiceConnectionIndex, manualPrivateLinkServiceConnectionItem := range embedded.ManualPrivateLinkServiceConnections {
 			// Shadow the loop variable to avoid aliasing
 			manualPrivateLinkServiceConnectionItem := manualPrivateLinkServiceConnectionItem
-			var manualPrivateLinkServiceConnection v1api20220701s.PrivateLinkServiceConnection_STATUS
+			var manualPrivateLinkServiceConnection v20220701s.PrivateLinkServiceConnection_STATUS
 			err := manualPrivateLinkServiceConnectionItem.AssignProperties_To_PrivateLinkServiceConnection_STATUS(&manualPrivateLinkServiceConnection)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnection_STATUS() to populate field ManualPrivateLinkServiceConnections")
@@ -1554,11 +1554,11 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 
 	// NetworkInterfaces
 	if embedded.NetworkInterfaces != nil {
-		networkInterfaceList := make([]v1api20220701s.NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded, len(embedded.NetworkInterfaces))
+		networkInterfaceList := make([]v20220701s.NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded, len(embedded.NetworkInterfaces))
 		for networkInterfaceIndex, networkInterfaceItem := range embedded.NetworkInterfaces {
 			// Shadow the loop variable to avoid aliasing
 			networkInterfaceItem := networkInterfaceItem
-			var networkInterface v1api20220701s.NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded
+			var networkInterface v20220701s.NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded
 			err := networkInterfaceItem.AssignProperties_To_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded(&networkInterface)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field NetworkInterfaces")
@@ -1572,11 +1572,11 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 
 	// PrivateLinkServiceConnections
 	if embedded.PrivateLinkServiceConnections != nil {
-		privateLinkServiceConnectionList := make([]v1api20220701s.PrivateLinkServiceConnection_STATUS, len(embedded.PrivateLinkServiceConnections))
+		privateLinkServiceConnectionList := make([]v20220701s.PrivateLinkServiceConnection_STATUS, len(embedded.PrivateLinkServiceConnections))
 		for privateLinkServiceConnectionIndex, privateLinkServiceConnectionItem := range embedded.PrivateLinkServiceConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateLinkServiceConnectionItem := privateLinkServiceConnectionItem
-			var privateLinkServiceConnection v1api20220701s.PrivateLinkServiceConnection_STATUS
+			var privateLinkServiceConnection v20220701s.PrivateLinkServiceConnection_STATUS
 			err := privateLinkServiceConnectionItem.AssignProperties_To_PrivateLinkServiceConnection_STATUS(&privateLinkServiceConnection)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnection_STATUS() to populate field PrivateLinkServiceConnections")
@@ -1598,7 +1598,7 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 
 	// Subnet
 	if embedded.Subnet != nil {
-		var subnet v1api20220701s.Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded
+		var subnet v20220701s.Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded
 		err := embedded.Subnet.AssignProperties_To_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded(&subnet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field Subnet")
@@ -1656,7 +1656,7 @@ func (embedded *ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbed
 }
 
 // AssignProperties_From_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded populates our ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded from the provided source ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded
-func (embedded *ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_From_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(source *v1api20220701s.ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
+func (embedded *ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_From_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(source *v20220701s.ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
@@ -1666,7 +1666,7 @@ func (embedded *ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbed
 }
 
 // AssignProperties_To_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded populates the provided destination ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded from our ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded
-func (embedded *ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_To_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(destination *v1api20220701s.ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
+func (embedded *ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_To_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(destination *v20220701s.ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1730,7 +1730,7 @@ func (embedded *ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
 }
 
 // AssignProperties_From_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded populates our ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded from the provided source ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
-func (embedded *ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded) AssignProperties_From_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded(source *v1api20220701s.ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded) error {
+func (embedded *ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded) AssignProperties_From_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded(source *v20220701s.ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded) error {
 
 	// Reference
 	if source.Reference != nil {
@@ -1745,7 +1745,7 @@ func (embedded *ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
 }
 
 // AssignProperties_To_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded populates the provided destination ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded from our ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
-func (embedded *ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded) AssignProperties_To_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded(destination *v1api20220701s.ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded) error {
+func (embedded *ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded) AssignProperties_To_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded(destination *v20220701s.ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1822,7 +1822,7 @@ func (format *CustomDnsConfigPropertiesFormat_STATUS) PopulateFromARM(owner genr
 }
 
 // AssignProperties_From_CustomDnsConfigPropertiesFormat_STATUS populates our CustomDnsConfigPropertiesFormat_STATUS from the provided source CustomDnsConfigPropertiesFormat_STATUS
-func (format *CustomDnsConfigPropertiesFormat_STATUS) AssignProperties_From_CustomDnsConfigPropertiesFormat_STATUS(source *v1api20220701s.CustomDnsConfigPropertiesFormat_STATUS) error {
+func (format *CustomDnsConfigPropertiesFormat_STATUS) AssignProperties_From_CustomDnsConfigPropertiesFormat_STATUS(source *v20220701s.CustomDnsConfigPropertiesFormat_STATUS) error {
 
 	// Fqdn
 	format.Fqdn = genruntime.ClonePointerToString(source.Fqdn)
@@ -1835,7 +1835,7 @@ func (format *CustomDnsConfigPropertiesFormat_STATUS) AssignProperties_From_Cust
 }
 
 // AssignProperties_To_CustomDnsConfigPropertiesFormat_STATUS populates the provided destination CustomDnsConfigPropertiesFormat_STATUS from our CustomDnsConfigPropertiesFormat_STATUS
-func (format *CustomDnsConfigPropertiesFormat_STATUS) AssignProperties_To_CustomDnsConfigPropertiesFormat_STATUS(destination *v1api20220701s.CustomDnsConfigPropertiesFormat_STATUS) error {
+func (format *CustomDnsConfigPropertiesFormat_STATUS) AssignProperties_To_CustomDnsConfigPropertiesFormat_STATUS(destination *v20220701s.CustomDnsConfigPropertiesFormat_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1917,7 +1917,7 @@ func (location *ExtendedLocation) PopulateFromARM(owner genruntime.ArbitraryOwne
 }
 
 // AssignProperties_From_ExtendedLocation populates our ExtendedLocation from the provided source ExtendedLocation
-func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source *v1api20220701s.ExtendedLocation) error {
+func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source *v20220701s.ExtendedLocation) error {
 
 	// Name
 	location.Name = genruntime.ClonePointerToString(source.Name)
@@ -1935,7 +1935,7 @@ func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source 
 }
 
 // AssignProperties_To_ExtendedLocation populates the provided destination ExtendedLocation from our ExtendedLocation
-func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destination *v1api20220701s.ExtendedLocation) error {
+func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destination *v20220701s.ExtendedLocation) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2019,7 +2019,7 @@ func (location *ExtendedLocation_STATUS) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_ExtendedLocation_STATUS populates our ExtendedLocation_STATUS from the provided source ExtendedLocation_STATUS
-func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_STATUS(source *v1api20220701s.ExtendedLocation_STATUS) error {
+func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_STATUS(source *v20220701s.ExtendedLocation_STATUS) error {
 
 	// Name
 	location.Name = genruntime.ClonePointerToString(source.Name)
@@ -2037,7 +2037,7 @@ func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_
 }
 
 // AssignProperties_To_ExtendedLocation_STATUS populates the provided destination ExtendedLocation_STATUS from our ExtendedLocation_STATUS
-func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_STATUS(destination *v1api20220701s.ExtendedLocation_STATUS) error {
+func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_STATUS(destination *v20220701s.ExtendedLocation_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2094,7 +2094,7 @@ func (embedded *NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded) Pop
 }
 
 // AssignProperties_From_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded populates our NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded from the provided source NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded
-func (embedded *NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_From_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded(source *v1api20220701s.NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
+func (embedded *NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_From_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded(source *v20220701s.NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
@@ -2104,7 +2104,7 @@ func (embedded *NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded) Ass
 }
 
 // AssignProperties_To_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded populates the provided destination NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded from our NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded
-func (embedded *NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_To_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded(destination *v1api20220701s.NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
+func (embedded *NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_To_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded(destination *v20220701s.NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2223,7 +2223,7 @@ func (configuration *PrivateEndpointIPConfiguration) PopulateFromARM(owner genru
 }
 
 // AssignProperties_From_PrivateEndpointIPConfiguration populates our PrivateEndpointIPConfiguration from the provided source PrivateEndpointIPConfiguration
-func (configuration *PrivateEndpointIPConfiguration) AssignProperties_From_PrivateEndpointIPConfiguration(source *v1api20220701s.PrivateEndpointIPConfiguration) error {
+func (configuration *PrivateEndpointIPConfiguration) AssignProperties_From_PrivateEndpointIPConfiguration(source *v20220701s.PrivateEndpointIPConfiguration) error {
 
 	// GroupId
 	configuration.GroupId = genruntime.ClonePointerToString(source.GroupId)
@@ -2242,7 +2242,7 @@ func (configuration *PrivateEndpointIPConfiguration) AssignProperties_From_Priva
 }
 
 // AssignProperties_To_PrivateEndpointIPConfiguration populates the provided destination PrivateEndpointIPConfiguration from our PrivateEndpointIPConfiguration
-func (configuration *PrivateEndpointIPConfiguration) AssignProperties_To_PrivateEndpointIPConfiguration(destination *v1api20220701s.PrivateEndpointIPConfiguration) error {
+func (configuration *PrivateEndpointIPConfiguration) AssignProperties_To_PrivateEndpointIPConfiguration(destination *v20220701s.PrivateEndpointIPConfiguration) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2373,7 +2373,7 @@ func (configuration *PrivateEndpointIPConfiguration_STATUS) PopulateFromARM(owne
 }
 
 // AssignProperties_From_PrivateEndpointIPConfiguration_STATUS populates our PrivateEndpointIPConfiguration_STATUS from the provided source PrivateEndpointIPConfiguration_STATUS
-func (configuration *PrivateEndpointIPConfiguration_STATUS) AssignProperties_From_PrivateEndpointIPConfiguration_STATUS(source *v1api20220701s.PrivateEndpointIPConfiguration_STATUS) error {
+func (configuration *PrivateEndpointIPConfiguration_STATUS) AssignProperties_From_PrivateEndpointIPConfiguration_STATUS(source *v20220701s.PrivateEndpointIPConfiguration_STATUS) error {
 
 	// Etag
 	configuration.Etag = genruntime.ClonePointerToString(source.Etag)
@@ -2398,7 +2398,7 @@ func (configuration *PrivateEndpointIPConfiguration_STATUS) AssignProperties_Fro
 }
 
 // AssignProperties_To_PrivateEndpointIPConfiguration_STATUS populates the provided destination PrivateEndpointIPConfiguration_STATUS from our PrivateEndpointIPConfiguration_STATUS
-func (configuration *PrivateEndpointIPConfiguration_STATUS) AssignProperties_To_PrivateEndpointIPConfiguration_STATUS(destination *v1api20220701s.PrivateEndpointIPConfiguration_STATUS) error {
+func (configuration *PrivateEndpointIPConfiguration_STATUS) AssignProperties_To_PrivateEndpointIPConfiguration_STATUS(destination *v20220701s.PrivateEndpointIPConfiguration_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2555,7 +2555,7 @@ func (connection *PrivateLinkServiceConnection) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_PrivateLinkServiceConnection populates our PrivateLinkServiceConnection from the provided source PrivateLinkServiceConnection
-func (connection *PrivateLinkServiceConnection) AssignProperties_From_PrivateLinkServiceConnection(source *v1api20220701s.PrivateLinkServiceConnection) error {
+func (connection *PrivateLinkServiceConnection) AssignProperties_From_PrivateLinkServiceConnection(source *v20220701s.PrivateLinkServiceConnection) error {
 
 	// GroupIds
 	connection.GroupIds = genruntime.CloneSliceOfString(source.GroupIds)
@@ -2591,7 +2591,7 @@ func (connection *PrivateLinkServiceConnection) AssignProperties_From_PrivateLin
 }
 
 // AssignProperties_To_PrivateLinkServiceConnection populates the provided destination PrivateLinkServiceConnection from our PrivateLinkServiceConnection
-func (connection *PrivateLinkServiceConnection) AssignProperties_To_PrivateLinkServiceConnection(destination *v1api20220701s.PrivateLinkServiceConnection) error {
+func (connection *PrivateLinkServiceConnection) AssignProperties_To_PrivateLinkServiceConnection(destination *v20220701s.PrivateLinkServiceConnection) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2603,7 +2603,7 @@ func (connection *PrivateLinkServiceConnection) AssignProperties_To_PrivateLinkS
 
 	// PrivateLinkServiceConnectionState
 	if connection.PrivateLinkServiceConnectionState != nil {
-		var privateLinkServiceConnectionState v1api20220701s.PrivateLinkServiceConnectionState
+		var privateLinkServiceConnectionState v20220701s.PrivateLinkServiceConnectionState
 		err := connection.PrivateLinkServiceConnectionState.AssignProperties_To_PrivateLinkServiceConnectionState(&privateLinkServiceConnectionState)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnectionState() to populate field PrivateLinkServiceConnectionState")
@@ -2795,7 +2795,7 @@ func (connection *PrivateLinkServiceConnection_STATUS) PopulateFromARM(owner gen
 }
 
 // AssignProperties_From_PrivateLinkServiceConnection_STATUS populates our PrivateLinkServiceConnection_STATUS from the provided source PrivateLinkServiceConnection_STATUS
-func (connection *PrivateLinkServiceConnection_STATUS) AssignProperties_From_PrivateLinkServiceConnection_STATUS(source *v1api20220701s.PrivateLinkServiceConnection_STATUS) error {
+func (connection *PrivateLinkServiceConnection_STATUS) AssignProperties_From_PrivateLinkServiceConnection_STATUS(source *v20220701s.PrivateLinkServiceConnection_STATUS) error {
 
 	// Etag
 	connection.Etag = genruntime.ClonePointerToString(source.Etag)
@@ -2843,7 +2843,7 @@ func (connection *PrivateLinkServiceConnection_STATUS) AssignProperties_From_Pri
 }
 
 // AssignProperties_To_PrivateLinkServiceConnection_STATUS populates the provided destination PrivateLinkServiceConnection_STATUS from our PrivateLinkServiceConnection_STATUS
-func (connection *PrivateLinkServiceConnection_STATUS) AssignProperties_To_PrivateLinkServiceConnection_STATUS(destination *v1api20220701s.PrivateLinkServiceConnection_STATUS) error {
+func (connection *PrivateLinkServiceConnection_STATUS) AssignProperties_To_PrivateLinkServiceConnection_STATUS(destination *v20220701s.PrivateLinkServiceConnection_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2861,7 +2861,7 @@ func (connection *PrivateLinkServiceConnection_STATUS) AssignProperties_To_Priva
 
 	// PrivateLinkServiceConnectionState
 	if connection.PrivateLinkServiceConnectionState != nil {
-		var privateLinkServiceConnectionState v1api20220701s.PrivateLinkServiceConnectionState_STATUS
+		var privateLinkServiceConnectionState v20220701s.PrivateLinkServiceConnectionState_STATUS
 		err := connection.PrivateLinkServiceConnectionState.AssignProperties_To_PrivateLinkServiceConnectionState_STATUS(&privateLinkServiceConnectionState)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnectionState_STATUS() to populate field PrivateLinkServiceConnectionState")
@@ -2945,7 +2945,7 @@ func (embedded *Subnet_PrivateEndpoint_SubResourceEmbedded) PopulateFromARM(owne
 }
 
 // AssignProperties_From_Subnet_PrivateEndpoint_SubResourceEmbedded populates our Subnet_PrivateEndpoint_SubResourceEmbedded from the provided source Subnet_PrivateEndpoint_SubResourceEmbedded
-func (embedded *Subnet_PrivateEndpoint_SubResourceEmbedded) AssignProperties_From_Subnet_PrivateEndpoint_SubResourceEmbedded(source *v1api20220701s.Subnet_PrivateEndpoint_SubResourceEmbedded) error {
+func (embedded *Subnet_PrivateEndpoint_SubResourceEmbedded) AssignProperties_From_Subnet_PrivateEndpoint_SubResourceEmbedded(source *v20220701s.Subnet_PrivateEndpoint_SubResourceEmbedded) error {
 
 	// Reference
 	if source.Reference != nil {
@@ -2960,7 +2960,7 @@ func (embedded *Subnet_PrivateEndpoint_SubResourceEmbedded) AssignProperties_Fro
 }
 
 // AssignProperties_To_Subnet_PrivateEndpoint_SubResourceEmbedded populates the provided destination Subnet_PrivateEndpoint_SubResourceEmbedded from our Subnet_PrivateEndpoint_SubResourceEmbedded
-func (embedded *Subnet_PrivateEndpoint_SubResourceEmbedded) AssignProperties_To_Subnet_PrivateEndpoint_SubResourceEmbedded(destination *v1api20220701s.Subnet_PrivateEndpoint_SubResourceEmbedded) error {
+func (embedded *Subnet_PrivateEndpoint_SubResourceEmbedded) AssignProperties_To_Subnet_PrivateEndpoint_SubResourceEmbedded(destination *v20220701s.Subnet_PrivateEndpoint_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3029,7 +3029,7 @@ func (embedded *Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded) PopulateFromA
 }
 
 // AssignProperties_From_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded populates our Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded from the provided source Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded
-func (embedded *Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_From_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded(source *v1api20220701s.Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
+func (embedded *Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_From_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded(source *v20220701s.Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
@@ -3039,7 +3039,7 @@ func (embedded *Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignPropert
 }
 
 // AssignProperties_To_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded populates the provided destination Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded from our Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded
-func (embedded *Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_To_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded(destination *v1api20220701s.Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
+func (embedded *Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded) AssignProperties_To_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded(destination *v20220701s.Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3133,7 +3133,7 @@ func (state *PrivateLinkServiceConnectionState) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_PrivateLinkServiceConnectionState populates our PrivateLinkServiceConnectionState from the provided source PrivateLinkServiceConnectionState
-func (state *PrivateLinkServiceConnectionState) AssignProperties_From_PrivateLinkServiceConnectionState(source *v1api20220701s.PrivateLinkServiceConnectionState) error {
+func (state *PrivateLinkServiceConnectionState) AssignProperties_From_PrivateLinkServiceConnectionState(source *v20220701s.PrivateLinkServiceConnectionState) error {
 
 	// ActionsRequired
 	state.ActionsRequired = genruntime.ClonePointerToString(source.ActionsRequired)
@@ -3149,7 +3149,7 @@ func (state *PrivateLinkServiceConnectionState) AssignProperties_From_PrivateLin
 }
 
 // AssignProperties_To_PrivateLinkServiceConnectionState populates the provided destination PrivateLinkServiceConnectionState from our PrivateLinkServiceConnectionState
-func (state *PrivateLinkServiceConnectionState) AssignProperties_To_PrivateLinkServiceConnectionState(destination *v1api20220701s.PrivateLinkServiceConnectionState) error {
+func (state *PrivateLinkServiceConnectionState) AssignProperties_To_PrivateLinkServiceConnectionState(destination *v20220701s.PrivateLinkServiceConnectionState) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3238,7 +3238,7 @@ func (state *PrivateLinkServiceConnectionState_STATUS) PopulateFromARM(owner gen
 }
 
 // AssignProperties_From_PrivateLinkServiceConnectionState_STATUS populates our PrivateLinkServiceConnectionState_STATUS from the provided source PrivateLinkServiceConnectionState_STATUS
-func (state *PrivateLinkServiceConnectionState_STATUS) AssignProperties_From_PrivateLinkServiceConnectionState_STATUS(source *v1api20220701s.PrivateLinkServiceConnectionState_STATUS) error {
+func (state *PrivateLinkServiceConnectionState_STATUS) AssignProperties_From_PrivateLinkServiceConnectionState_STATUS(source *v20220701s.PrivateLinkServiceConnectionState_STATUS) error {
 
 	// ActionsRequired
 	state.ActionsRequired = genruntime.ClonePointerToString(source.ActionsRequired)
@@ -3254,7 +3254,7 @@ func (state *PrivateLinkServiceConnectionState_STATUS) AssignProperties_From_Pri
 }
 
 // AssignProperties_To_PrivateLinkServiceConnectionState_STATUS populates the provided destination PrivateLinkServiceConnectionState_STATUS from our PrivateLinkServiceConnectionState_STATUS
-func (state *PrivateLinkServiceConnectionState_STATUS) AssignProperties_To_PrivateLinkServiceConnectionState_STATUS(destination *v1api20220701s.PrivateLinkServiceConnectionState_STATUS) error {
+func (state *PrivateLinkServiceConnectionState_STATUS) AssignProperties_To_PrivateLinkServiceConnectionState_STATUS(destination *v20220701s.PrivateLinkServiceConnectionState_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -5,7 +5,7 @@ package v1beta20210101storage
 
 import (
 	"fmt"
-	v1api20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101storage"
+	v20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -45,7 +45,7 @@ var _ conversion.Convertible = &BatchAccount{}
 
 // ConvertFrom populates our BatchAccount from the provided hub BatchAccount
 func (account *BatchAccount) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20210101s.BatchAccount)
+	source, ok := hub.(*v20210101s.BatchAccount)
 	if !ok {
 		return fmt.Errorf("expected batch/v1api20210101storage/BatchAccount but received %T instead", hub)
 	}
@@ -55,7 +55,7 @@ func (account *BatchAccount) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub BatchAccount from our BatchAccount
 func (account *BatchAccount) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20210101s.BatchAccount)
+	destination, ok := hub.(*v20210101s.BatchAccount)
 	if !ok {
 		return fmt.Errorf("expected batch/v1api20210101storage/BatchAccount but received %T instead", hub)
 	}
@@ -130,7 +130,7 @@ func (account *BatchAccount) SetStatus(status genruntime.ConvertibleStatus) erro
 }
 
 // AssignProperties_From_BatchAccount populates our BatchAccount from the provided source BatchAccount
-func (account *BatchAccount) AssignProperties_From_BatchAccount(source *v1api20210101s.BatchAccount) error {
+func (account *BatchAccount) AssignProperties_From_BatchAccount(source *v20210101s.BatchAccount) error {
 
 	// ObjectMeta
 	account.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -165,13 +165,13 @@ func (account *BatchAccount) AssignProperties_From_BatchAccount(source *v1api202
 }
 
 // AssignProperties_To_BatchAccount populates the provided destination BatchAccount from our BatchAccount
-func (account *BatchAccount) AssignProperties_To_BatchAccount(destination *v1api20210101s.BatchAccount) error {
+func (account *BatchAccount) AssignProperties_To_BatchAccount(destination *v20210101s.BatchAccount) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *account.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20210101s.BatchAccount_Spec
+	var spec v20210101s.BatchAccount_Spec
 	err := account.Spec.AssignProperties_To_BatchAccount_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_BatchAccount_Spec() to populate field Spec")
@@ -179,7 +179,7 @@ func (account *BatchAccount) AssignProperties_To_BatchAccount(destination *v1api
 	destination.Spec = spec
 
 	// Status
-	var status v1api20210101s.BatchAccount_STATUS
+	var status v20210101s.BatchAccount_STATUS
 	err = account.Status.AssignProperties_To_BatchAccount_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_BatchAccount_STATUS() to populate field Status")
@@ -225,8 +225,8 @@ type APIVersion string
 const APIVersion_Value = APIVersion("2021-01-01")
 
 type augmentConversionForBatchAccount interface {
-	AssignPropertiesFrom(src *v1api20210101s.BatchAccount) error
-	AssignPropertiesTo(dst *v1api20210101s.BatchAccount) error
+	AssignPropertiesFrom(src *v20210101s.BatchAccount) error
+	AssignPropertiesTo(dst *v20210101s.BatchAccount) error
 }
 
 // Storage version of v1beta20210101.BatchAccount_Spec
@@ -260,14 +260,14 @@ var _ genruntime.ConvertibleSpec = &BatchAccount_Spec{}
 
 // ConvertSpecFrom populates our BatchAccount_Spec from the provided source
 func (account *BatchAccount_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20210101s.BatchAccount_Spec)
+	src, ok := source.(*v20210101s.BatchAccount_Spec)
 	if ok {
 		// Populate our instance from source
 		return account.AssignProperties_From_BatchAccount_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20210101s.BatchAccount_Spec{}
+	src = &v20210101s.BatchAccount_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -284,14 +284,14 @@ func (account *BatchAccount_Spec) ConvertSpecFrom(source genruntime.ConvertibleS
 
 // ConvertSpecTo populates the provided destination from our BatchAccount_Spec
 func (account *BatchAccount_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20210101s.BatchAccount_Spec)
+	dst, ok := destination.(*v20210101s.BatchAccount_Spec)
 	if ok {
 		// Populate destination from our instance
 		return account.AssignProperties_To_BatchAccount_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20210101s.BatchAccount_Spec{}
+	dst = &v20210101s.BatchAccount_Spec{}
 	err := account.AssignProperties_To_BatchAccount_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -307,7 +307,7 @@ func (account *BatchAccount_Spec) ConvertSpecTo(destination genruntime.Convertib
 }
 
 // AssignProperties_From_BatchAccount_Spec populates our BatchAccount_Spec from the provided source BatchAccount_Spec
-func (account *BatchAccount_Spec) AssignProperties_From_BatchAccount_Spec(source *v1api20210101s.BatchAccount_Spec) error {
+func (account *BatchAccount_Spec) AssignProperties_From_BatchAccount_Spec(source *v20210101s.BatchAccount_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -406,13 +406,13 @@ func (account *BatchAccount_Spec) AssignProperties_From_BatchAccount_Spec(source
 }
 
 // AssignProperties_To_BatchAccount_Spec populates the provided destination BatchAccount_Spec from our BatchAccount_Spec
-func (account *BatchAccount_Spec) AssignProperties_To_BatchAccount_Spec(destination *v1api20210101s.BatchAccount_Spec) error {
+func (account *BatchAccount_Spec) AssignProperties_To_BatchAccount_Spec(destination *v20210101s.BatchAccount_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(account.PropertyBag)
 
 	// AutoStorage
 	if account.AutoStorage != nil {
-		var autoStorage v1api20210101s.AutoStorageBaseProperties
+		var autoStorage v20210101s.AutoStorageBaseProperties
 		err := account.AutoStorage.AssignProperties_To_AutoStorageBaseProperties(&autoStorage)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AutoStorageBaseProperties() to populate field AutoStorage")
@@ -427,7 +427,7 @@ func (account *BatchAccount_Spec) AssignProperties_To_BatchAccount_Spec(destinat
 
 	// Encryption
 	if account.Encryption != nil {
-		var encryption v1api20210101s.EncryptionProperties
+		var encryption v20210101s.EncryptionProperties
 		err := account.Encryption.AssignProperties_To_EncryptionProperties(&encryption)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EncryptionProperties() to populate field Encryption")
@@ -439,7 +439,7 @@ func (account *BatchAccount_Spec) AssignProperties_To_BatchAccount_Spec(destinat
 
 	// Identity
 	if account.Identity != nil {
-		var identity v1api20210101s.BatchAccountIdentity
+		var identity v20210101s.BatchAccountIdentity
 		err := account.Identity.AssignProperties_To_BatchAccountIdentity(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_BatchAccountIdentity() to populate field Identity")
@@ -451,7 +451,7 @@ func (account *BatchAccount_Spec) AssignProperties_To_BatchAccount_Spec(destinat
 
 	// KeyVaultReference
 	if account.KeyVaultReference != nil {
-		var keyVaultReference v1api20210101s.KeyVaultReference
+		var keyVaultReference v20210101s.KeyVaultReference
 		err := account.KeyVaultReference.AssignProperties_To_KeyVaultReference(&keyVaultReference)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultReference() to populate field KeyVaultReference")
@@ -535,14 +535,14 @@ var _ genruntime.ConvertibleStatus = &BatchAccount_STATUS{}
 
 // ConvertStatusFrom populates our BatchAccount_STATUS from the provided source
 func (account *BatchAccount_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20210101s.BatchAccount_STATUS)
+	src, ok := source.(*v20210101s.BatchAccount_STATUS)
 	if ok {
 		// Populate our instance from source
 		return account.AssignProperties_From_BatchAccount_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20210101s.BatchAccount_STATUS{}
+	src = &v20210101s.BatchAccount_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -559,14 +559,14 @@ func (account *BatchAccount_STATUS) ConvertStatusFrom(source genruntime.Converti
 
 // ConvertStatusTo populates the provided destination from our BatchAccount_STATUS
 func (account *BatchAccount_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20210101s.BatchAccount_STATUS)
+	dst, ok := destination.(*v20210101s.BatchAccount_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return account.AssignProperties_To_BatchAccount_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20210101s.BatchAccount_STATUS{}
+	dst = &v20210101s.BatchAccount_STATUS{}
 	err := account.AssignProperties_To_BatchAccount_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -582,7 +582,7 @@ func (account *BatchAccount_STATUS) ConvertStatusTo(destination genruntime.Conve
 }
 
 // AssignProperties_From_BatchAccount_STATUS populates our BatchAccount_STATUS from the provided source BatchAccount_STATUS
-func (account *BatchAccount_STATUS) AssignProperties_From_BatchAccount_STATUS(source *v1api20210101s.BatchAccount_STATUS) error {
+func (account *BatchAccount_STATUS) AssignProperties_From_BatchAccount_STATUS(source *v20210101s.BatchAccount_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -741,7 +741,7 @@ func (account *BatchAccount_STATUS) AssignProperties_From_BatchAccount_STATUS(so
 }
 
 // AssignProperties_To_BatchAccount_STATUS populates the provided destination BatchAccount_STATUS from our BatchAccount_STATUS
-func (account *BatchAccount_STATUS) AssignProperties_To_BatchAccount_STATUS(destination *v1api20210101s.BatchAccount_STATUS) error {
+func (account *BatchAccount_STATUS) AssignProperties_To_BatchAccount_STATUS(destination *v20210101s.BatchAccount_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(account.PropertyBag)
 
@@ -753,7 +753,7 @@ func (account *BatchAccount_STATUS) AssignProperties_To_BatchAccount_STATUS(dest
 
 	// AutoStorage
 	if account.AutoStorage != nil {
-		var autoStorage v1api20210101s.AutoStorageProperties_STATUS
+		var autoStorage v20210101s.AutoStorageProperties_STATUS
 		err := account.AutoStorage.AssignProperties_To_AutoStorageProperties_STATUS(&autoStorage)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AutoStorageProperties_STATUS() to populate field AutoStorage")
@@ -771,11 +771,11 @@ func (account *BatchAccount_STATUS) AssignProperties_To_BatchAccount_STATUS(dest
 
 	// DedicatedCoreQuotaPerVMFamily
 	if account.DedicatedCoreQuotaPerVMFamily != nil {
-		dedicatedCoreQuotaPerVMFamilyList := make([]v1api20210101s.VirtualMachineFamilyCoreQuota_STATUS, len(account.DedicatedCoreQuotaPerVMFamily))
+		dedicatedCoreQuotaPerVMFamilyList := make([]v20210101s.VirtualMachineFamilyCoreQuota_STATUS, len(account.DedicatedCoreQuotaPerVMFamily))
 		for dedicatedCoreQuotaPerVMFamilyIndex, dedicatedCoreQuotaPerVMFamilyItem := range account.DedicatedCoreQuotaPerVMFamily {
 			// Shadow the loop variable to avoid aliasing
 			dedicatedCoreQuotaPerVMFamilyItem := dedicatedCoreQuotaPerVMFamilyItem
-			var dedicatedCoreQuotaPerVMFamily v1api20210101s.VirtualMachineFamilyCoreQuota_STATUS
+			var dedicatedCoreQuotaPerVMFamily v20210101s.VirtualMachineFamilyCoreQuota_STATUS
 			err := dedicatedCoreQuotaPerVMFamilyItem.AssignProperties_To_VirtualMachineFamilyCoreQuota_STATUS(&dedicatedCoreQuotaPerVMFamily)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineFamilyCoreQuota_STATUS() to populate field DedicatedCoreQuotaPerVMFamily")
@@ -797,7 +797,7 @@ func (account *BatchAccount_STATUS) AssignProperties_To_BatchAccount_STATUS(dest
 
 	// Encryption
 	if account.Encryption != nil {
-		var encryption v1api20210101s.EncryptionProperties_STATUS
+		var encryption v20210101s.EncryptionProperties_STATUS
 		err := account.Encryption.AssignProperties_To_EncryptionProperties_STATUS(&encryption)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EncryptionProperties_STATUS() to populate field Encryption")
@@ -812,7 +812,7 @@ func (account *BatchAccount_STATUS) AssignProperties_To_BatchAccount_STATUS(dest
 
 	// Identity
 	if account.Identity != nil {
-		var identity v1api20210101s.BatchAccountIdentity_STATUS
+		var identity v20210101s.BatchAccountIdentity_STATUS
 		err := account.Identity.AssignProperties_To_BatchAccountIdentity_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_BatchAccountIdentity_STATUS() to populate field Identity")
@@ -824,7 +824,7 @@ func (account *BatchAccount_STATUS) AssignProperties_To_BatchAccount_STATUS(dest
 
 	// KeyVaultReference
 	if account.KeyVaultReference != nil {
-		var keyVaultReference v1api20210101s.KeyVaultReference_STATUS
+		var keyVaultReference v20210101s.KeyVaultReference_STATUS
 		err := account.KeyVaultReference.AssignProperties_To_KeyVaultReference_STATUS(&keyVaultReference)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultReference_STATUS() to populate field KeyVaultReference")
@@ -851,11 +851,11 @@ func (account *BatchAccount_STATUS) AssignProperties_To_BatchAccount_STATUS(dest
 
 	// PrivateEndpointConnections
 	if account.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v1api20210101s.PrivateEndpointConnection_STATUS, len(account.PrivateEndpointConnections))
+		privateEndpointConnectionList := make([]v20210101s.PrivateEndpointConnection_STATUS, len(account.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range account.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v1api20210101s.PrivateEndpointConnection_STATUS
+			var privateEndpointConnection v20210101s.PrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
@@ -900,13 +900,13 @@ func (account *BatchAccount_STATUS) AssignProperties_To_BatchAccount_STATUS(dest
 }
 
 type augmentConversionForBatchAccount_Spec interface {
-	AssignPropertiesFrom(src *v1api20210101s.BatchAccount_Spec) error
-	AssignPropertiesTo(dst *v1api20210101s.BatchAccount_Spec) error
+	AssignPropertiesFrom(src *v20210101s.BatchAccount_Spec) error
+	AssignPropertiesTo(dst *v20210101s.BatchAccount_Spec) error
 }
 
 type augmentConversionForBatchAccount_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210101s.BatchAccount_STATUS) error
-	AssignPropertiesTo(dst *v1api20210101s.BatchAccount_STATUS) error
+	AssignPropertiesFrom(src *v20210101s.BatchAccount_STATUS) error
+	AssignPropertiesTo(dst *v20210101s.BatchAccount_STATUS) error
 }
 
 // Storage version of v1beta20210101.AutoStorageBaseProperties
@@ -919,7 +919,7 @@ type AutoStorageBaseProperties struct {
 }
 
 // AssignProperties_From_AutoStorageBaseProperties populates our AutoStorageBaseProperties from the provided source AutoStorageBaseProperties
-func (properties *AutoStorageBaseProperties) AssignProperties_From_AutoStorageBaseProperties(source *v1api20210101s.AutoStorageBaseProperties) error {
+func (properties *AutoStorageBaseProperties) AssignProperties_From_AutoStorageBaseProperties(source *v20210101s.AutoStorageBaseProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -952,7 +952,7 @@ func (properties *AutoStorageBaseProperties) AssignProperties_From_AutoStorageBa
 }
 
 // AssignProperties_To_AutoStorageBaseProperties populates the provided destination AutoStorageBaseProperties from our AutoStorageBaseProperties
-func (properties *AutoStorageBaseProperties) AssignProperties_To_AutoStorageBaseProperties(destination *v1api20210101s.AutoStorageBaseProperties) error {
+func (properties *AutoStorageBaseProperties) AssignProperties_To_AutoStorageBaseProperties(destination *v20210101s.AutoStorageBaseProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -993,7 +993,7 @@ type AutoStorageProperties_STATUS struct {
 }
 
 // AssignProperties_From_AutoStorageProperties_STATUS populates our AutoStorageProperties_STATUS from the provided source AutoStorageProperties_STATUS
-func (properties *AutoStorageProperties_STATUS) AssignProperties_From_AutoStorageProperties_STATUS(source *v1api20210101s.AutoStorageProperties_STATUS) error {
+func (properties *AutoStorageProperties_STATUS) AssignProperties_From_AutoStorageProperties_STATUS(source *v20210101s.AutoStorageProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1024,7 +1024,7 @@ func (properties *AutoStorageProperties_STATUS) AssignProperties_From_AutoStorag
 }
 
 // AssignProperties_To_AutoStorageProperties_STATUS populates the provided destination AutoStorageProperties_STATUS from our AutoStorageProperties_STATUS
-func (properties *AutoStorageProperties_STATUS) AssignProperties_To_AutoStorageProperties_STATUS(destination *v1api20210101s.AutoStorageProperties_STATUS) error {
+func (properties *AutoStorageProperties_STATUS) AssignProperties_To_AutoStorageProperties_STATUS(destination *v20210101s.AutoStorageProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -1063,7 +1063,7 @@ type BatchAccountIdentity struct {
 }
 
 // AssignProperties_From_BatchAccountIdentity populates our BatchAccountIdentity from the provided source BatchAccountIdentity
-func (identity *BatchAccountIdentity) AssignProperties_From_BatchAccountIdentity(source *v1api20210101s.BatchAccountIdentity) error {
+func (identity *BatchAccountIdentity) AssignProperties_From_BatchAccountIdentity(source *v20210101s.BatchAccountIdentity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1109,7 +1109,7 @@ func (identity *BatchAccountIdentity) AssignProperties_From_BatchAccountIdentity
 }
 
 // AssignProperties_To_BatchAccountIdentity populates the provided destination BatchAccountIdentity from our BatchAccountIdentity
-func (identity *BatchAccountIdentity) AssignProperties_To_BatchAccountIdentity(destination *v1api20210101s.BatchAccountIdentity) error {
+func (identity *BatchAccountIdentity) AssignProperties_To_BatchAccountIdentity(destination *v20210101s.BatchAccountIdentity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
 
@@ -1118,11 +1118,11 @@ func (identity *BatchAccountIdentity) AssignProperties_To_BatchAccountIdentity(d
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]v1api20210101s.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
+		userAssignedIdentityList := make([]v20210101s.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityItem := userAssignedIdentityItem
-			var userAssignedIdentity v1api20210101s.UserAssignedIdentityDetails
+			var userAssignedIdentity v20210101s.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
@@ -1165,7 +1165,7 @@ type BatchAccountIdentity_STATUS struct {
 }
 
 // AssignProperties_From_BatchAccountIdentity_STATUS populates our BatchAccountIdentity_STATUS from the provided source BatchAccountIdentity_STATUS
-func (identity *BatchAccountIdentity_STATUS) AssignProperties_From_BatchAccountIdentity_STATUS(source *v1api20210101s.BatchAccountIdentity_STATUS) error {
+func (identity *BatchAccountIdentity_STATUS) AssignProperties_From_BatchAccountIdentity_STATUS(source *v20210101s.BatchAccountIdentity_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1217,7 +1217,7 @@ func (identity *BatchAccountIdentity_STATUS) AssignProperties_From_BatchAccountI
 }
 
 // AssignProperties_To_BatchAccountIdentity_STATUS populates the provided destination BatchAccountIdentity_STATUS from our BatchAccountIdentity_STATUS
-func (identity *BatchAccountIdentity_STATUS) AssignProperties_To_BatchAccountIdentity_STATUS(destination *v1api20210101s.BatchAccountIdentity_STATUS) error {
+func (identity *BatchAccountIdentity_STATUS) AssignProperties_To_BatchAccountIdentity_STATUS(destination *v20210101s.BatchAccountIdentity_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
 
@@ -1232,11 +1232,11 @@ func (identity *BatchAccountIdentity_STATUS) AssignProperties_To_BatchAccountIde
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v1api20210101s.BatchAccountIdentity_UserAssignedIdentities_STATUS, len(identity.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]v20210101s.BatchAccountIdentity_UserAssignedIdentities_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity v1api20210101s.BatchAccountIdentity_UserAssignedIdentities_STATUS
+			var userAssignedIdentity v20210101s.BatchAccountIdentity_UserAssignedIdentities_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_BatchAccountIdentity_UserAssignedIdentities_STATUS(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_BatchAccountIdentity_UserAssignedIdentities_STATUS() to populate field UserAssignedIdentities")
@@ -1277,7 +1277,7 @@ type EncryptionProperties struct {
 }
 
 // AssignProperties_From_EncryptionProperties populates our EncryptionProperties from the provided source EncryptionProperties
-func (properties *EncryptionProperties) AssignProperties_From_EncryptionProperties(source *v1api20210101s.EncryptionProperties) error {
+func (properties *EncryptionProperties) AssignProperties_From_EncryptionProperties(source *v20210101s.EncryptionProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1317,7 +1317,7 @@ func (properties *EncryptionProperties) AssignProperties_From_EncryptionProperti
 }
 
 // AssignProperties_To_EncryptionProperties populates the provided destination EncryptionProperties from our EncryptionProperties
-func (properties *EncryptionProperties) AssignProperties_To_EncryptionProperties(destination *v1api20210101s.EncryptionProperties) error {
+func (properties *EncryptionProperties) AssignProperties_To_EncryptionProperties(destination *v20210101s.EncryptionProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -1326,7 +1326,7 @@ func (properties *EncryptionProperties) AssignProperties_To_EncryptionProperties
 
 	// KeyVaultProperties
 	if properties.KeyVaultProperties != nil {
-		var keyVaultProperty v1api20210101s.KeyVaultProperties
+		var keyVaultProperty v20210101s.KeyVaultProperties
 		err := properties.KeyVaultProperties.AssignProperties_To_KeyVaultProperties(&keyVaultProperty)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultProperties() to populate field KeyVaultProperties")
@@ -1365,7 +1365,7 @@ type EncryptionProperties_STATUS struct {
 }
 
 // AssignProperties_From_EncryptionProperties_STATUS populates our EncryptionProperties_STATUS from the provided source EncryptionProperties_STATUS
-func (properties *EncryptionProperties_STATUS) AssignProperties_From_EncryptionProperties_STATUS(source *v1api20210101s.EncryptionProperties_STATUS) error {
+func (properties *EncryptionProperties_STATUS) AssignProperties_From_EncryptionProperties_STATUS(source *v20210101s.EncryptionProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1405,7 +1405,7 @@ func (properties *EncryptionProperties_STATUS) AssignProperties_From_EncryptionP
 }
 
 // AssignProperties_To_EncryptionProperties_STATUS populates the provided destination EncryptionProperties_STATUS from our EncryptionProperties_STATUS
-func (properties *EncryptionProperties_STATUS) AssignProperties_To_EncryptionProperties_STATUS(destination *v1api20210101s.EncryptionProperties_STATUS) error {
+func (properties *EncryptionProperties_STATUS) AssignProperties_To_EncryptionProperties_STATUS(destination *v20210101s.EncryptionProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -1414,7 +1414,7 @@ func (properties *EncryptionProperties_STATUS) AssignProperties_To_EncryptionPro
 
 	// KeyVaultProperties
 	if properties.KeyVaultProperties != nil {
-		var keyVaultProperty v1api20210101s.KeyVaultProperties_STATUS
+		var keyVaultProperty v20210101s.KeyVaultProperties_STATUS
 		err := properties.KeyVaultProperties.AssignProperties_To_KeyVaultProperties_STATUS(&keyVaultProperty)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultProperties_STATUS() to populate field KeyVaultProperties")
@@ -1455,7 +1455,7 @@ type KeyVaultReference struct {
 }
 
 // AssignProperties_From_KeyVaultReference populates our KeyVaultReference from the provided source KeyVaultReference
-func (reference *KeyVaultReference) AssignProperties_From_KeyVaultReference(source *v1api20210101s.KeyVaultReference) error {
+func (reference *KeyVaultReference) AssignProperties_From_KeyVaultReference(source *v20210101s.KeyVaultReference) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1491,7 +1491,7 @@ func (reference *KeyVaultReference) AssignProperties_From_KeyVaultReference(sour
 }
 
 // AssignProperties_To_KeyVaultReference populates the provided destination KeyVaultReference from our KeyVaultReference
-func (reference *KeyVaultReference) AssignProperties_To_KeyVaultReference(destination *v1api20210101s.KeyVaultReference) error {
+func (reference *KeyVaultReference) AssignProperties_To_KeyVaultReference(destination *v20210101s.KeyVaultReference) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(reference.PropertyBag)
 
@@ -1535,7 +1535,7 @@ type KeyVaultReference_STATUS struct {
 }
 
 // AssignProperties_From_KeyVaultReference_STATUS populates our KeyVaultReference_STATUS from the provided source KeyVaultReference_STATUS
-func (reference *KeyVaultReference_STATUS) AssignProperties_From_KeyVaultReference_STATUS(source *v1api20210101s.KeyVaultReference_STATUS) error {
+func (reference *KeyVaultReference_STATUS) AssignProperties_From_KeyVaultReference_STATUS(source *v20210101s.KeyVaultReference_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1566,7 +1566,7 @@ func (reference *KeyVaultReference_STATUS) AssignProperties_From_KeyVaultReferen
 }
 
 // AssignProperties_To_KeyVaultReference_STATUS populates the provided destination KeyVaultReference_STATUS from our KeyVaultReference_STATUS
-func (reference *KeyVaultReference_STATUS) AssignProperties_To_KeyVaultReference_STATUS(destination *v1api20210101s.KeyVaultReference_STATUS) error {
+func (reference *KeyVaultReference_STATUS) AssignProperties_To_KeyVaultReference_STATUS(destination *v20210101s.KeyVaultReference_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(reference.PropertyBag)
 
@@ -1604,7 +1604,7 @@ type PrivateEndpointConnection_STATUS struct {
 }
 
 // AssignProperties_From_PrivateEndpointConnection_STATUS populates our PrivateEndpointConnection_STATUS from the provided source PrivateEndpointConnection_STATUS
-func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_PrivateEndpointConnection_STATUS(source *v1api20210101s.PrivateEndpointConnection_STATUS) error {
+func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_PrivateEndpointConnection_STATUS(source *v20210101s.PrivateEndpointConnection_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1632,7 +1632,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_Privat
 }
 
 // AssignProperties_To_PrivateEndpointConnection_STATUS populates the provided destination PrivateEndpointConnection_STATUS from our PrivateEndpointConnection_STATUS
-func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateEndpointConnection_STATUS(destination *v1api20210101s.PrivateEndpointConnection_STATUS) error {
+func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateEndpointConnection_STATUS(destination *v20210101s.PrivateEndpointConnection_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(connection.PropertyBag)
 
@@ -1668,7 +1668,7 @@ type VirtualMachineFamilyCoreQuota_STATUS struct {
 }
 
 // AssignProperties_From_VirtualMachineFamilyCoreQuota_STATUS populates our VirtualMachineFamilyCoreQuota_STATUS from the provided source VirtualMachineFamilyCoreQuota_STATUS
-func (quota *VirtualMachineFamilyCoreQuota_STATUS) AssignProperties_From_VirtualMachineFamilyCoreQuota_STATUS(source *v1api20210101s.VirtualMachineFamilyCoreQuota_STATUS) error {
+func (quota *VirtualMachineFamilyCoreQuota_STATUS) AssignProperties_From_VirtualMachineFamilyCoreQuota_STATUS(source *v20210101s.VirtualMachineFamilyCoreQuota_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1699,7 +1699,7 @@ func (quota *VirtualMachineFamilyCoreQuota_STATUS) AssignProperties_From_Virtual
 }
 
 // AssignProperties_To_VirtualMachineFamilyCoreQuota_STATUS populates the provided destination VirtualMachineFamilyCoreQuota_STATUS from our VirtualMachineFamilyCoreQuota_STATUS
-func (quota *VirtualMachineFamilyCoreQuota_STATUS) AssignProperties_To_VirtualMachineFamilyCoreQuota_STATUS(destination *v1api20210101s.VirtualMachineFamilyCoreQuota_STATUS) error {
+func (quota *VirtualMachineFamilyCoreQuota_STATUS) AssignProperties_To_VirtualMachineFamilyCoreQuota_STATUS(destination *v20210101s.VirtualMachineFamilyCoreQuota_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(quota.PropertyBag)
 
@@ -1730,53 +1730,53 @@ func (quota *VirtualMachineFamilyCoreQuota_STATUS) AssignProperties_To_VirtualMa
 }
 
 type augmentConversionForAutoStorageBaseProperties interface {
-	AssignPropertiesFrom(src *v1api20210101s.AutoStorageBaseProperties) error
-	AssignPropertiesTo(dst *v1api20210101s.AutoStorageBaseProperties) error
+	AssignPropertiesFrom(src *v20210101s.AutoStorageBaseProperties) error
+	AssignPropertiesTo(dst *v20210101s.AutoStorageBaseProperties) error
 }
 
 type augmentConversionForAutoStorageProperties_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210101s.AutoStorageProperties_STATUS) error
-	AssignPropertiesTo(dst *v1api20210101s.AutoStorageProperties_STATUS) error
+	AssignPropertiesFrom(src *v20210101s.AutoStorageProperties_STATUS) error
+	AssignPropertiesTo(dst *v20210101s.AutoStorageProperties_STATUS) error
 }
 
 type augmentConversionForBatchAccountIdentity interface {
-	AssignPropertiesFrom(src *v1api20210101s.BatchAccountIdentity) error
-	AssignPropertiesTo(dst *v1api20210101s.BatchAccountIdentity) error
+	AssignPropertiesFrom(src *v20210101s.BatchAccountIdentity) error
+	AssignPropertiesTo(dst *v20210101s.BatchAccountIdentity) error
 }
 
 type augmentConversionForBatchAccountIdentity_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210101s.BatchAccountIdentity_STATUS) error
-	AssignPropertiesTo(dst *v1api20210101s.BatchAccountIdentity_STATUS) error
+	AssignPropertiesFrom(src *v20210101s.BatchAccountIdentity_STATUS) error
+	AssignPropertiesTo(dst *v20210101s.BatchAccountIdentity_STATUS) error
 }
 
 type augmentConversionForEncryptionProperties interface {
-	AssignPropertiesFrom(src *v1api20210101s.EncryptionProperties) error
-	AssignPropertiesTo(dst *v1api20210101s.EncryptionProperties) error
+	AssignPropertiesFrom(src *v20210101s.EncryptionProperties) error
+	AssignPropertiesTo(dst *v20210101s.EncryptionProperties) error
 }
 
 type augmentConversionForEncryptionProperties_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210101s.EncryptionProperties_STATUS) error
-	AssignPropertiesTo(dst *v1api20210101s.EncryptionProperties_STATUS) error
+	AssignPropertiesFrom(src *v20210101s.EncryptionProperties_STATUS) error
+	AssignPropertiesTo(dst *v20210101s.EncryptionProperties_STATUS) error
 }
 
 type augmentConversionForKeyVaultReference interface {
-	AssignPropertiesFrom(src *v1api20210101s.KeyVaultReference) error
-	AssignPropertiesTo(dst *v1api20210101s.KeyVaultReference) error
+	AssignPropertiesFrom(src *v20210101s.KeyVaultReference) error
+	AssignPropertiesTo(dst *v20210101s.KeyVaultReference) error
 }
 
 type augmentConversionForKeyVaultReference_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210101s.KeyVaultReference_STATUS) error
-	AssignPropertiesTo(dst *v1api20210101s.KeyVaultReference_STATUS) error
+	AssignPropertiesFrom(src *v20210101s.KeyVaultReference_STATUS) error
+	AssignPropertiesTo(dst *v20210101s.KeyVaultReference_STATUS) error
 }
 
 type augmentConversionForPrivateEndpointConnection_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210101s.PrivateEndpointConnection_STATUS) error
-	AssignPropertiesTo(dst *v1api20210101s.PrivateEndpointConnection_STATUS) error
+	AssignPropertiesFrom(src *v20210101s.PrivateEndpointConnection_STATUS) error
+	AssignPropertiesTo(dst *v20210101s.PrivateEndpointConnection_STATUS) error
 }
 
 type augmentConversionForVirtualMachineFamilyCoreQuota_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210101s.VirtualMachineFamilyCoreQuota_STATUS) error
-	AssignPropertiesTo(dst *v1api20210101s.VirtualMachineFamilyCoreQuota_STATUS) error
+	AssignPropertiesFrom(src *v20210101s.VirtualMachineFamilyCoreQuota_STATUS) error
+	AssignPropertiesTo(dst *v20210101s.VirtualMachineFamilyCoreQuota_STATUS) error
 }
 
 // Storage version of v1beta20210101.BatchAccountIdentity_UserAssignedIdentities_STATUS
@@ -1788,7 +1788,7 @@ type BatchAccountIdentity_UserAssignedIdentities_STATUS struct {
 }
 
 // AssignProperties_From_BatchAccountIdentity_UserAssignedIdentities_STATUS populates our BatchAccountIdentity_UserAssignedIdentities_STATUS from the provided source BatchAccountIdentity_UserAssignedIdentities_STATUS
-func (identities *BatchAccountIdentity_UserAssignedIdentities_STATUS) AssignProperties_From_BatchAccountIdentity_UserAssignedIdentities_STATUS(source *v1api20210101s.BatchAccountIdentity_UserAssignedIdentities_STATUS) error {
+func (identities *BatchAccountIdentity_UserAssignedIdentities_STATUS) AssignProperties_From_BatchAccountIdentity_UserAssignedIdentities_STATUS(source *v20210101s.BatchAccountIdentity_UserAssignedIdentities_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1819,7 +1819,7 @@ func (identities *BatchAccountIdentity_UserAssignedIdentities_STATUS) AssignProp
 }
 
 // AssignProperties_To_BatchAccountIdentity_UserAssignedIdentities_STATUS populates the provided destination BatchAccountIdentity_UserAssignedIdentities_STATUS from our BatchAccountIdentity_UserAssignedIdentities_STATUS
-func (identities *BatchAccountIdentity_UserAssignedIdentities_STATUS) AssignProperties_To_BatchAccountIdentity_UserAssignedIdentities_STATUS(destination *v1api20210101s.BatchAccountIdentity_UserAssignedIdentities_STATUS) error {
+func (identities *BatchAccountIdentity_UserAssignedIdentities_STATUS) AssignProperties_To_BatchAccountIdentity_UserAssignedIdentities_STATUS(destination *v20210101s.BatchAccountIdentity_UserAssignedIdentities_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identities.PropertyBag)
 
@@ -1857,7 +1857,7 @@ type KeyVaultProperties struct {
 }
 
 // AssignProperties_From_KeyVaultProperties populates our KeyVaultProperties from the provided source KeyVaultProperties
-func (properties *KeyVaultProperties) AssignProperties_From_KeyVaultProperties(source *v1api20210101s.KeyVaultProperties) error {
+func (properties *KeyVaultProperties) AssignProperties_From_KeyVaultProperties(source *v20210101s.KeyVaultProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1885,7 +1885,7 @@ func (properties *KeyVaultProperties) AssignProperties_From_KeyVaultProperties(s
 }
 
 // AssignProperties_To_KeyVaultProperties populates the provided destination KeyVaultProperties from our KeyVaultProperties
-func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(destination *v1api20210101s.KeyVaultProperties) error {
+func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(destination *v20210101s.KeyVaultProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -1920,7 +1920,7 @@ type KeyVaultProperties_STATUS struct {
 }
 
 // AssignProperties_From_KeyVaultProperties_STATUS populates our KeyVaultProperties_STATUS from the provided source KeyVaultProperties_STATUS
-func (properties *KeyVaultProperties_STATUS) AssignProperties_From_KeyVaultProperties_STATUS(source *v1api20210101s.KeyVaultProperties_STATUS) error {
+func (properties *KeyVaultProperties_STATUS) AssignProperties_From_KeyVaultProperties_STATUS(source *v20210101s.KeyVaultProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1948,7 +1948,7 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_From_KeyVaultPrope
 }
 
 // AssignProperties_To_KeyVaultProperties_STATUS populates the provided destination KeyVaultProperties_STATUS from our KeyVaultProperties_STATUS
-func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultProperties_STATUS(destination *v1api20210101s.KeyVaultProperties_STATUS) error {
+func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultProperties_STATUS(destination *v20210101s.KeyVaultProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -1983,7 +1983,7 @@ type UserAssignedIdentityDetails struct {
 }
 
 // AssignProperties_From_UserAssignedIdentityDetails populates our UserAssignedIdentityDetails from the provided source UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v1api20210101s.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v20210101s.UserAssignedIdentityDetails) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2011,7 +2011,7 @@ func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedId
 }
 
 // AssignProperties_To_UserAssignedIdentityDetails populates the provided destination UserAssignedIdentityDetails from our UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v1api20210101s.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v20210101s.UserAssignedIdentityDetails) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(details.PropertyBag)
 
@@ -2039,23 +2039,23 @@ func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIden
 }
 
 type augmentConversionForBatchAccountIdentity_UserAssignedIdentities_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210101s.BatchAccountIdentity_UserAssignedIdentities_STATUS) error
-	AssignPropertiesTo(dst *v1api20210101s.BatchAccountIdentity_UserAssignedIdentities_STATUS) error
+	AssignPropertiesFrom(src *v20210101s.BatchAccountIdentity_UserAssignedIdentities_STATUS) error
+	AssignPropertiesTo(dst *v20210101s.BatchAccountIdentity_UserAssignedIdentities_STATUS) error
 }
 
 type augmentConversionForKeyVaultProperties interface {
-	AssignPropertiesFrom(src *v1api20210101s.KeyVaultProperties) error
-	AssignPropertiesTo(dst *v1api20210101s.KeyVaultProperties) error
+	AssignPropertiesFrom(src *v20210101s.KeyVaultProperties) error
+	AssignPropertiesTo(dst *v20210101s.KeyVaultProperties) error
 }
 
 type augmentConversionForKeyVaultProperties_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210101s.KeyVaultProperties_STATUS) error
-	AssignPropertiesTo(dst *v1api20210101s.KeyVaultProperties_STATUS) error
+	AssignPropertiesFrom(src *v20210101s.KeyVaultProperties_STATUS) error
+	AssignPropertiesTo(dst *v20210101s.KeyVaultProperties_STATUS) error
 }
 
 type augmentConversionForUserAssignedIdentityDetails interface {
-	AssignPropertiesFrom(src *v1api20210101s.UserAssignedIdentityDetails) error
-	AssignPropertiesTo(dst *v1api20210101s.UserAssignedIdentityDetails) error
+	AssignPropertiesFrom(src *v20210101s.UserAssignedIdentityDetails) error
+	AssignPropertiesTo(dst *v20210101s.UserAssignedIdentityDetails) error
 }
 
 func init() {

@@ -5,7 +5,7 @@ package v1beta20180601
 
 import (
 	"fmt"
-	v20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storage"
+	v1beta20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -48,7 +48,7 @@ var _ conversion.Convertible = &Database{}
 // ConvertFrom populates our Database from the provided hub Database
 func (database *Database) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var source v20180601s.Database
+	var source v1beta20180601s.Database
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
@@ -66,7 +66,7 @@ func (database *Database) ConvertFrom(hub conversion.Hub) error {
 // ConvertTo populates the provided hub Database from our Database
 func (database *Database) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var destination v20180601s.Database
+	var destination v1beta20180601s.Database
 	err := database.AssignProperties_To_Database(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from database")
@@ -241,7 +241,7 @@ func (database *Database) validateWriteOnceProperties(old runtime.Object) (admis
 }
 
 // AssignProperties_From_Database populates our Database from the provided source Database
-func (database *Database) AssignProperties_From_Database(source *v20180601s.Database) error {
+func (database *Database) AssignProperties_From_Database(source *v1beta20180601s.Database) error {
 
 	// ObjectMeta
 	database.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -267,13 +267,13 @@ func (database *Database) AssignProperties_From_Database(source *v20180601s.Data
 }
 
 // AssignProperties_To_Database populates the provided destination Database from our Database
-func (database *Database) AssignProperties_To_Database(destination *v20180601s.Database) error {
+func (database *Database) AssignProperties_To_Database(destination *v1beta20180601s.Database) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *database.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20180601s.Servers_Database_Spec
+	var spec v1beta20180601s.Servers_Database_Spec
 	err := database.Spec.AssignProperties_To_Servers_Database_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Servers_Database_Spec() to populate field Spec")
@@ -281,7 +281,7 @@ func (database *Database) AssignProperties_To_Database(destination *v20180601s.D
 	destination.Spec = spec
 
 	// Status
-	var status v20180601s.Servers_Database_STATUS
+	var status v1beta20180601s.Servers_Database_STATUS
 	err = database.Status.AssignProperties_To_Servers_Database_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Servers_Database_STATUS() to populate field Status")
@@ -394,14 +394,14 @@ var _ genruntime.ConvertibleSpec = &Servers_Database_Spec{}
 
 // ConvertSpecFrom populates our Servers_Database_Spec from the provided source
 func (database *Servers_Database_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20180601s.Servers_Database_Spec)
+	src, ok := source.(*v1beta20180601s.Servers_Database_Spec)
 	if ok {
 		// Populate our instance from source
 		return database.AssignProperties_From_Servers_Database_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20180601s.Servers_Database_Spec{}
+	src = &v1beta20180601s.Servers_Database_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -418,14 +418,14 @@ func (database *Servers_Database_Spec) ConvertSpecFrom(source genruntime.Convert
 
 // ConvertSpecTo populates the provided destination from our Servers_Database_Spec
 func (database *Servers_Database_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20180601s.Servers_Database_Spec)
+	dst, ok := destination.(*v1beta20180601s.Servers_Database_Spec)
 	if ok {
 		// Populate destination from our instance
 		return database.AssignProperties_To_Servers_Database_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20180601s.Servers_Database_Spec{}
+	dst = &v1beta20180601s.Servers_Database_Spec{}
 	err := database.AssignProperties_To_Servers_Database_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -441,7 +441,7 @@ func (database *Servers_Database_Spec) ConvertSpecTo(destination genruntime.Conv
 }
 
 // AssignProperties_From_Servers_Database_Spec populates our Servers_Database_Spec from the provided source Servers_Database_Spec
-func (database *Servers_Database_Spec) AssignProperties_From_Servers_Database_Spec(source *v20180601s.Servers_Database_Spec) error {
+func (database *Servers_Database_Spec) AssignProperties_From_Servers_Database_Spec(source *v1beta20180601s.Servers_Database_Spec) error {
 
 	// AzureName
 	database.AzureName = source.AzureName
@@ -465,7 +465,7 @@ func (database *Servers_Database_Spec) AssignProperties_From_Servers_Database_Sp
 }
 
 // AssignProperties_To_Servers_Database_Spec populates the provided destination Servers_Database_Spec from our Servers_Database_Spec
-func (database *Servers_Database_Spec) AssignProperties_To_Servers_Database_Spec(destination *v20180601s.Servers_Database_Spec) error {
+func (database *Servers_Database_Spec) AssignProperties_To_Servers_Database_Spec(destination *v1beta20180601s.Servers_Database_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -524,14 +524,14 @@ var _ genruntime.ConvertibleStatus = &Servers_Database_STATUS{}
 
 // ConvertStatusFrom populates our Servers_Database_STATUS from the provided source
 func (database *Servers_Database_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20180601s.Servers_Database_STATUS)
+	src, ok := source.(*v1beta20180601s.Servers_Database_STATUS)
 	if ok {
 		// Populate our instance from source
 		return database.AssignProperties_From_Servers_Database_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20180601s.Servers_Database_STATUS{}
+	src = &v1beta20180601s.Servers_Database_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -548,14 +548,14 @@ func (database *Servers_Database_STATUS) ConvertStatusFrom(source genruntime.Con
 
 // ConvertStatusTo populates the provided destination from our Servers_Database_STATUS
 func (database *Servers_Database_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20180601s.Servers_Database_STATUS)
+	dst, ok := destination.(*v1beta20180601s.Servers_Database_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return database.AssignProperties_To_Servers_Database_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20180601s.Servers_Database_STATUS{}
+	dst = &v1beta20180601s.Servers_Database_STATUS{}
 	err := database.AssignProperties_To_Servers_Database_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -627,7 +627,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_Servers_Database_STATUS populates our Servers_Database_STATUS from the provided source Servers_Database_STATUS
-func (database *Servers_Database_STATUS) AssignProperties_From_Servers_Database_STATUS(source *v20180601s.Servers_Database_STATUS) error {
+func (database *Servers_Database_STATUS) AssignProperties_From_Servers_Database_STATUS(source *v1beta20180601s.Servers_Database_STATUS) error {
 
 	// Charset
 	database.Charset = genruntime.ClonePointerToString(source.Charset)
@@ -652,7 +652,7 @@ func (database *Servers_Database_STATUS) AssignProperties_From_Servers_Database_
 }
 
 // AssignProperties_To_Servers_Database_STATUS populates the provided destination Servers_Database_STATUS from our Servers_Database_STATUS
-func (database *Servers_Database_STATUS) AssignProperties_To_Servers_Database_STATUS(destination *v20180601s.Servers_Database_STATUS) error {
+func (database *Servers_Database_STATUS) AssignProperties_To_Servers_Database_STATUS(destination *v1beta20180601s.Servers_Database_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

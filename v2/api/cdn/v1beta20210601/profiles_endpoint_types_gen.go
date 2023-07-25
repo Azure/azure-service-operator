@@ -5,7 +5,7 @@ package v1beta20210601
 
 import (
 	"fmt"
-	v20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage"
+	v1beta20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -48,7 +48,7 @@ var _ conversion.Convertible = &ProfilesEndpoint{}
 // ConvertFrom populates our ProfilesEndpoint from the provided hub ProfilesEndpoint
 func (endpoint *ProfilesEndpoint) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var source v20210601s.ProfilesEndpoint
+	var source v1beta20210601s.ProfilesEndpoint
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
@@ -66,7 +66,7 @@ func (endpoint *ProfilesEndpoint) ConvertFrom(hub conversion.Hub) error {
 // ConvertTo populates the provided hub ProfilesEndpoint from our ProfilesEndpoint
 func (endpoint *ProfilesEndpoint) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var destination v20210601s.ProfilesEndpoint
+	var destination v1beta20210601s.ProfilesEndpoint
 	err := endpoint.AssignProperties_To_ProfilesEndpoint(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from endpoint")
@@ -241,7 +241,7 @@ func (endpoint *ProfilesEndpoint) validateWriteOnceProperties(old runtime.Object
 }
 
 // AssignProperties_From_ProfilesEndpoint populates our ProfilesEndpoint from the provided source ProfilesEndpoint
-func (endpoint *ProfilesEndpoint) AssignProperties_From_ProfilesEndpoint(source *v20210601s.ProfilesEndpoint) error {
+func (endpoint *ProfilesEndpoint) AssignProperties_From_ProfilesEndpoint(source *v1beta20210601s.ProfilesEndpoint) error {
 
 	// ObjectMeta
 	endpoint.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -267,13 +267,13 @@ func (endpoint *ProfilesEndpoint) AssignProperties_From_ProfilesEndpoint(source 
 }
 
 // AssignProperties_To_ProfilesEndpoint populates the provided destination ProfilesEndpoint from our ProfilesEndpoint
-func (endpoint *ProfilesEndpoint) AssignProperties_To_ProfilesEndpoint(destination *v20210601s.ProfilesEndpoint) error {
+func (endpoint *ProfilesEndpoint) AssignProperties_To_ProfilesEndpoint(destination *v1beta20210601s.ProfilesEndpoint) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *endpoint.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210601s.Profiles_Endpoint_Spec
+	var spec v1beta20210601s.Profiles_Endpoint_Spec
 	err := endpoint.Spec.AssignProperties_To_Profiles_Endpoint_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Profiles_Endpoint_Spec() to populate field Spec")
@@ -281,7 +281,7 @@ func (endpoint *ProfilesEndpoint) AssignProperties_To_ProfilesEndpoint(destinati
 	destination.Spec = spec
 
 	// Status
-	var status v20210601s.Profiles_Endpoint_STATUS
+	var status v1beta20210601s.Profiles_Endpoint_STATUS
 	err = endpoint.Status.AssignProperties_To_Profiles_Endpoint_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Profiles_Endpoint_STATUS() to populate field Status")
@@ -692,14 +692,14 @@ var _ genruntime.ConvertibleSpec = &Profiles_Endpoint_Spec{}
 
 // ConvertSpecFrom populates our Profiles_Endpoint_Spec from the provided source
 func (endpoint *Profiles_Endpoint_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210601s.Profiles_Endpoint_Spec)
+	src, ok := source.(*v1beta20210601s.Profiles_Endpoint_Spec)
 	if ok {
 		// Populate our instance from source
 		return endpoint.AssignProperties_From_Profiles_Endpoint_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210601s.Profiles_Endpoint_Spec{}
+	src = &v1beta20210601s.Profiles_Endpoint_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -716,14 +716,14 @@ func (endpoint *Profiles_Endpoint_Spec) ConvertSpecFrom(source genruntime.Conver
 
 // ConvertSpecTo populates the provided destination from our Profiles_Endpoint_Spec
 func (endpoint *Profiles_Endpoint_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210601s.Profiles_Endpoint_Spec)
+	dst, ok := destination.(*v1beta20210601s.Profiles_Endpoint_Spec)
 	if ok {
 		// Populate destination from our instance
 		return endpoint.AssignProperties_To_Profiles_Endpoint_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210601s.Profiles_Endpoint_Spec{}
+	dst = &v1beta20210601s.Profiles_Endpoint_Spec{}
 	err := endpoint.AssignProperties_To_Profiles_Endpoint_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -739,7 +739,7 @@ func (endpoint *Profiles_Endpoint_Spec) ConvertSpecTo(destination genruntime.Con
 }
 
 // AssignProperties_From_Profiles_Endpoint_Spec populates our Profiles_Endpoint_Spec from the provided source Profiles_Endpoint_Spec
-func (endpoint *Profiles_Endpoint_Spec) AssignProperties_From_Profiles_Endpoint_Spec(source *v20210601s.Profiles_Endpoint_Spec) error {
+func (endpoint *Profiles_Endpoint_Spec) AssignProperties_From_Profiles_Endpoint_Spec(source *v1beta20210601s.Profiles_Endpoint_Spec) error {
 
 	// AzureName
 	endpoint.AzureName = source.AzureName
@@ -923,7 +923,7 @@ func (endpoint *Profiles_Endpoint_Spec) AssignProperties_From_Profiles_Endpoint_
 }
 
 // AssignProperties_To_Profiles_Endpoint_Spec populates the provided destination Profiles_Endpoint_Spec from our Profiles_Endpoint_Spec
-func (endpoint *Profiles_Endpoint_Spec) AssignProperties_To_Profiles_Endpoint_Spec(destination *v20210601s.Profiles_Endpoint_Spec) error {
+func (endpoint *Profiles_Endpoint_Spec) AssignProperties_To_Profiles_Endpoint_Spec(destination *v1beta20210601s.Profiles_Endpoint_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -935,7 +935,7 @@ func (endpoint *Profiles_Endpoint_Spec) AssignProperties_To_Profiles_Endpoint_Sp
 
 	// DefaultOriginGroup
 	if endpoint.DefaultOriginGroup != nil {
-		var defaultOriginGroup v20210601s.ResourceReference
+		var defaultOriginGroup v1beta20210601s.ResourceReference
 		err := endpoint.DefaultOriginGroup.AssignProperties_To_ResourceReference(&defaultOriginGroup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field DefaultOriginGroup")
@@ -947,7 +947,7 @@ func (endpoint *Profiles_Endpoint_Spec) AssignProperties_To_Profiles_Endpoint_Sp
 
 	// DeliveryPolicy
 	if endpoint.DeliveryPolicy != nil {
-		var deliveryPolicy v20210601s.EndpointProperties_DeliveryPolicy
+		var deliveryPolicy v1beta20210601s.EndpointProperties_DeliveryPolicy
 		err := endpoint.DeliveryPolicy.AssignProperties_To_EndpointProperties_DeliveryPolicy(&deliveryPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EndpointProperties_DeliveryPolicy() to populate field DeliveryPolicy")
@@ -959,11 +959,11 @@ func (endpoint *Profiles_Endpoint_Spec) AssignProperties_To_Profiles_Endpoint_Sp
 
 	// GeoFilters
 	if endpoint.GeoFilters != nil {
-		geoFilterList := make([]v20210601s.GeoFilter, len(endpoint.GeoFilters))
+		geoFilterList := make([]v1beta20210601s.GeoFilter, len(endpoint.GeoFilters))
 		for geoFilterIndex, geoFilterItem := range endpoint.GeoFilters {
 			// Shadow the loop variable to avoid aliasing
 			geoFilterItem := geoFilterItem
-			var geoFilter v20210601s.GeoFilter
+			var geoFilter v1beta20210601s.GeoFilter
 			err := geoFilterItem.AssignProperties_To_GeoFilter(&geoFilter)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_GeoFilter() to populate field GeoFilters")
@@ -1012,11 +1012,11 @@ func (endpoint *Profiles_Endpoint_Spec) AssignProperties_To_Profiles_Endpoint_Sp
 
 	// OriginGroups
 	if endpoint.OriginGroups != nil {
-		originGroupList := make([]v20210601s.DeepCreatedOriginGroup, len(endpoint.OriginGroups))
+		originGroupList := make([]v1beta20210601s.DeepCreatedOriginGroup, len(endpoint.OriginGroups))
 		for originGroupIndex, originGroupItem := range endpoint.OriginGroups {
 			// Shadow the loop variable to avoid aliasing
 			originGroupItem := originGroupItem
-			var originGroup v20210601s.DeepCreatedOriginGroup
+			var originGroup v1beta20210601s.DeepCreatedOriginGroup
 			err := originGroupItem.AssignProperties_To_DeepCreatedOriginGroup(&originGroup)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_DeepCreatedOriginGroup() to populate field OriginGroups")
@@ -1039,11 +1039,11 @@ func (endpoint *Profiles_Endpoint_Spec) AssignProperties_To_Profiles_Endpoint_Sp
 
 	// Origins
 	if endpoint.Origins != nil {
-		originList := make([]v20210601s.DeepCreatedOrigin, len(endpoint.Origins))
+		originList := make([]v1beta20210601s.DeepCreatedOrigin, len(endpoint.Origins))
 		for originIndex, originItem := range endpoint.Origins {
 			// Shadow the loop variable to avoid aliasing
 			originItem := originItem
-			var origin v20210601s.DeepCreatedOrigin
+			var origin v1beta20210601s.DeepCreatedOrigin
 			err := originItem.AssignProperties_To_DeepCreatedOrigin(&origin)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_DeepCreatedOrigin() to populate field Origins")
@@ -1079,11 +1079,11 @@ func (endpoint *Profiles_Endpoint_Spec) AssignProperties_To_Profiles_Endpoint_Sp
 
 	// UrlSigningKeys
 	if endpoint.UrlSigningKeys != nil {
-		urlSigningKeyList := make([]v20210601s.UrlSigningKey, len(endpoint.UrlSigningKeys))
+		urlSigningKeyList := make([]v1beta20210601s.UrlSigningKey, len(endpoint.UrlSigningKeys))
 		for urlSigningKeyIndex, urlSigningKeyItem := range endpoint.UrlSigningKeys {
 			// Shadow the loop variable to avoid aliasing
 			urlSigningKeyItem := urlSigningKeyItem
-			var urlSigningKey v20210601s.UrlSigningKey
+			var urlSigningKey v1beta20210601s.UrlSigningKey
 			err := urlSigningKeyItem.AssignProperties_To_UrlSigningKey(&urlSigningKey)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UrlSigningKey() to populate field UrlSigningKeys")
@@ -1097,7 +1097,7 @@ func (endpoint *Profiles_Endpoint_Spec) AssignProperties_To_Profiles_Endpoint_Sp
 
 	// WebApplicationFirewallPolicyLink
 	if endpoint.WebApplicationFirewallPolicyLink != nil {
-		var webApplicationFirewallPolicyLink v20210601s.EndpointProperties_WebApplicationFirewallPolicyLink
+		var webApplicationFirewallPolicyLink v1beta20210601s.EndpointProperties_WebApplicationFirewallPolicyLink
 		err := endpoint.WebApplicationFirewallPolicyLink.AssignProperties_To_EndpointProperties_WebApplicationFirewallPolicyLink(&webApplicationFirewallPolicyLink)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EndpointProperties_WebApplicationFirewallPolicyLink() to populate field WebApplicationFirewallPolicyLink")
@@ -1164,14 +1164,14 @@ var _ genruntime.ConvertibleStatus = &Profiles_Endpoint_STATUS{}
 
 // ConvertStatusFrom populates our Profiles_Endpoint_STATUS from the provided source
 func (endpoint *Profiles_Endpoint_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210601s.Profiles_Endpoint_STATUS)
+	src, ok := source.(*v1beta20210601s.Profiles_Endpoint_STATUS)
 	if ok {
 		// Populate our instance from source
 		return endpoint.AssignProperties_From_Profiles_Endpoint_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210601s.Profiles_Endpoint_STATUS{}
+	src = &v1beta20210601s.Profiles_Endpoint_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1188,14 +1188,14 @@ func (endpoint *Profiles_Endpoint_STATUS) ConvertStatusFrom(source genruntime.Co
 
 // ConvertStatusTo populates the provided destination from our Profiles_Endpoint_STATUS
 func (endpoint *Profiles_Endpoint_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210601s.Profiles_Endpoint_STATUS)
+	dst, ok := destination.(*v1beta20210601s.Profiles_Endpoint_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return endpoint.AssignProperties_To_Profiles_Endpoint_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210601s.Profiles_Endpoint_STATUS{}
+	dst = &v1beta20210601s.Profiles_Endpoint_STATUS{}
 	err := endpoint.AssignProperties_To_Profiles_Endpoint_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1488,7 +1488,7 @@ func (endpoint *Profiles_Endpoint_STATUS) PopulateFromARM(owner genruntime.Arbit
 }
 
 // AssignProperties_From_Profiles_Endpoint_STATUS populates our Profiles_Endpoint_STATUS from the provided source Profiles_Endpoint_STATUS
-func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_From_Profiles_Endpoint_STATUS(source *v20210601s.Profiles_Endpoint_STATUS) error {
+func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_From_Profiles_Endpoint_STATUS(source *v1beta20210601s.Profiles_Endpoint_STATUS) error {
 
 	// Conditions
 	endpoint.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -1722,7 +1722,7 @@ func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_From_Profiles_Endpoin
 }
 
 // AssignProperties_To_Profiles_Endpoint_STATUS populates the provided destination Profiles_Endpoint_STATUS from our Profiles_Endpoint_STATUS
-func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_To_Profiles_Endpoint_STATUS(destination *v20210601s.Profiles_Endpoint_STATUS) error {
+func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_To_Profiles_Endpoint_STATUS(destination *v1beta20210601s.Profiles_Endpoint_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1734,11 +1734,11 @@ func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_To_Profiles_Endpoint_
 
 	// CustomDomains
 	if endpoint.CustomDomains != nil {
-		customDomainList := make([]v20210601s.DeepCreatedCustomDomain_STATUS, len(endpoint.CustomDomains))
+		customDomainList := make([]v1beta20210601s.DeepCreatedCustomDomain_STATUS, len(endpoint.CustomDomains))
 		for customDomainIndex, customDomainItem := range endpoint.CustomDomains {
 			// Shadow the loop variable to avoid aliasing
 			customDomainItem := customDomainItem
-			var customDomain v20210601s.DeepCreatedCustomDomain_STATUS
+			var customDomain v1beta20210601s.DeepCreatedCustomDomain_STATUS
 			err := customDomainItem.AssignProperties_To_DeepCreatedCustomDomain_STATUS(&customDomain)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_DeepCreatedCustomDomain_STATUS() to populate field CustomDomains")
@@ -1752,7 +1752,7 @@ func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_To_Profiles_Endpoint_
 
 	// DefaultOriginGroup
 	if endpoint.DefaultOriginGroup != nil {
-		var defaultOriginGroup v20210601s.ResourceReference_STATUS
+		var defaultOriginGroup v1beta20210601s.ResourceReference_STATUS
 		err := endpoint.DefaultOriginGroup.AssignProperties_To_ResourceReference_STATUS(&defaultOriginGroup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field DefaultOriginGroup")
@@ -1764,7 +1764,7 @@ func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_To_Profiles_Endpoint_
 
 	// DeliveryPolicy
 	if endpoint.DeliveryPolicy != nil {
-		var deliveryPolicy v20210601s.EndpointProperties_DeliveryPolicy_STATUS
+		var deliveryPolicy v1beta20210601s.EndpointProperties_DeliveryPolicy_STATUS
 		err := endpoint.DeliveryPolicy.AssignProperties_To_EndpointProperties_DeliveryPolicy_STATUS(&deliveryPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EndpointProperties_DeliveryPolicy_STATUS() to populate field DeliveryPolicy")
@@ -1776,11 +1776,11 @@ func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_To_Profiles_Endpoint_
 
 	// GeoFilters
 	if endpoint.GeoFilters != nil {
-		geoFilterList := make([]v20210601s.GeoFilter_STATUS, len(endpoint.GeoFilters))
+		geoFilterList := make([]v1beta20210601s.GeoFilter_STATUS, len(endpoint.GeoFilters))
 		for geoFilterIndex, geoFilterItem := range endpoint.GeoFilters {
 			// Shadow the loop variable to avoid aliasing
 			geoFilterItem := geoFilterItem
-			var geoFilter v20210601s.GeoFilter_STATUS
+			var geoFilter v1beta20210601s.GeoFilter_STATUS
 			err := geoFilterItem.AssignProperties_To_GeoFilter_STATUS(&geoFilter)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_GeoFilter_STATUS() to populate field GeoFilters")
@@ -1838,11 +1838,11 @@ func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_To_Profiles_Endpoint_
 
 	// OriginGroups
 	if endpoint.OriginGroups != nil {
-		originGroupList := make([]v20210601s.DeepCreatedOriginGroup_STATUS, len(endpoint.OriginGroups))
+		originGroupList := make([]v1beta20210601s.DeepCreatedOriginGroup_STATUS, len(endpoint.OriginGroups))
 		for originGroupIndex, originGroupItem := range endpoint.OriginGroups {
 			// Shadow the loop variable to avoid aliasing
 			originGroupItem := originGroupItem
-			var originGroup v20210601s.DeepCreatedOriginGroup_STATUS
+			var originGroup v1beta20210601s.DeepCreatedOriginGroup_STATUS
 			err := originGroupItem.AssignProperties_To_DeepCreatedOriginGroup_STATUS(&originGroup)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_DeepCreatedOriginGroup_STATUS() to populate field OriginGroups")
@@ -1862,11 +1862,11 @@ func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_To_Profiles_Endpoint_
 
 	// Origins
 	if endpoint.Origins != nil {
-		originList := make([]v20210601s.DeepCreatedOrigin_STATUS, len(endpoint.Origins))
+		originList := make([]v1beta20210601s.DeepCreatedOrigin_STATUS, len(endpoint.Origins))
 		for originIndex, originItem := range endpoint.Origins {
 			// Shadow the loop variable to avoid aliasing
 			originItem := originItem
-			var origin v20210601s.DeepCreatedOrigin_STATUS
+			var origin v1beta20210601s.DeepCreatedOrigin_STATUS
 			err := originItem.AssignProperties_To_DeepCreatedOrigin_STATUS(&origin)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_DeepCreatedOrigin_STATUS() to populate field Origins")
@@ -1907,7 +1907,7 @@ func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_To_Profiles_Endpoint_
 
 	// SystemData
 	if endpoint.SystemData != nil {
-		var systemDatum v20210601s.SystemData_STATUS
+		var systemDatum v1beta20210601s.SystemData_STATUS
 		err := endpoint.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
@@ -1925,11 +1925,11 @@ func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_To_Profiles_Endpoint_
 
 	// UrlSigningKeys
 	if endpoint.UrlSigningKeys != nil {
-		urlSigningKeyList := make([]v20210601s.UrlSigningKey_STATUS, len(endpoint.UrlSigningKeys))
+		urlSigningKeyList := make([]v1beta20210601s.UrlSigningKey_STATUS, len(endpoint.UrlSigningKeys))
 		for urlSigningKeyIndex, urlSigningKeyItem := range endpoint.UrlSigningKeys {
 			// Shadow the loop variable to avoid aliasing
 			urlSigningKeyItem := urlSigningKeyItem
-			var urlSigningKey v20210601s.UrlSigningKey_STATUS
+			var urlSigningKey v1beta20210601s.UrlSigningKey_STATUS
 			err := urlSigningKeyItem.AssignProperties_To_UrlSigningKey_STATUS(&urlSigningKey)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UrlSigningKey_STATUS() to populate field UrlSigningKeys")
@@ -1943,7 +1943,7 @@ func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_To_Profiles_Endpoint_
 
 	// WebApplicationFirewallPolicyLink
 	if endpoint.WebApplicationFirewallPolicyLink != nil {
-		var webApplicationFirewallPolicyLink v20210601s.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS
+		var webApplicationFirewallPolicyLink v1beta20210601s.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS
 		err := endpoint.WebApplicationFirewallPolicyLink.AssignProperties_To_EndpointProperties_WebApplicationFirewallPolicyLink_STATUS(&webApplicationFirewallPolicyLink)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EndpointProperties_WebApplicationFirewallPolicyLink_STATUS() to populate field WebApplicationFirewallPolicyLink")
@@ -2014,7 +2014,7 @@ func (domain *DeepCreatedCustomDomain_STATUS) PopulateFromARM(owner genruntime.A
 }
 
 // AssignProperties_From_DeepCreatedCustomDomain_STATUS populates our DeepCreatedCustomDomain_STATUS from the provided source DeepCreatedCustomDomain_STATUS
-func (domain *DeepCreatedCustomDomain_STATUS) AssignProperties_From_DeepCreatedCustomDomain_STATUS(source *v20210601s.DeepCreatedCustomDomain_STATUS) error {
+func (domain *DeepCreatedCustomDomain_STATUS) AssignProperties_From_DeepCreatedCustomDomain_STATUS(source *v1beta20210601s.DeepCreatedCustomDomain_STATUS) error {
 
 	// HostName
 	domain.HostName = genruntime.ClonePointerToString(source.HostName)
@@ -2030,7 +2030,7 @@ func (domain *DeepCreatedCustomDomain_STATUS) AssignProperties_From_DeepCreatedC
 }
 
 // AssignProperties_To_DeepCreatedCustomDomain_STATUS populates the provided destination DeepCreatedCustomDomain_STATUS from our DeepCreatedCustomDomain_STATUS
-func (domain *DeepCreatedCustomDomain_STATUS) AssignProperties_To_DeepCreatedCustomDomain_STATUS(destination *v20210601s.DeepCreatedCustomDomain_STATUS) error {
+func (domain *DeepCreatedCustomDomain_STATUS) AssignProperties_To_DeepCreatedCustomDomain_STATUS(destination *v1beta20210601s.DeepCreatedCustomDomain_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2278,7 +2278,7 @@ func (origin *DeepCreatedOrigin) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_DeepCreatedOrigin populates our DeepCreatedOrigin from the provided source DeepCreatedOrigin
-func (origin *DeepCreatedOrigin) AssignProperties_From_DeepCreatedOrigin(source *v20210601s.DeepCreatedOrigin) error {
+func (origin *DeepCreatedOrigin) AssignProperties_From_DeepCreatedOrigin(source *v1beta20210601s.DeepCreatedOrigin) error {
 
 	// Enabled
 	if source.Enabled != nil {
@@ -2356,7 +2356,7 @@ func (origin *DeepCreatedOrigin) AssignProperties_From_DeepCreatedOrigin(source 
 }
 
 // AssignProperties_To_DeepCreatedOrigin populates the provided destination DeepCreatedOrigin from our DeepCreatedOrigin
-func (origin *DeepCreatedOrigin) AssignProperties_To_DeepCreatedOrigin(destination *v20210601s.DeepCreatedOrigin) error {
+func (origin *DeepCreatedOrigin) AssignProperties_To_DeepCreatedOrigin(destination *v1beta20210601s.DeepCreatedOrigin) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2592,7 +2592,7 @@ func (origin *DeepCreatedOrigin_STATUS) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_DeepCreatedOrigin_STATUS populates our DeepCreatedOrigin_STATUS from the provided source DeepCreatedOrigin_STATUS
-func (origin *DeepCreatedOrigin_STATUS) AssignProperties_From_DeepCreatedOrigin_STATUS(source *v20210601s.DeepCreatedOrigin_STATUS) error {
+func (origin *DeepCreatedOrigin_STATUS) AssignProperties_From_DeepCreatedOrigin_STATUS(source *v1beta20210601s.DeepCreatedOrigin_STATUS) error {
 
 	// Enabled
 	if source.Enabled != nil {
@@ -2648,7 +2648,7 @@ func (origin *DeepCreatedOrigin_STATUS) AssignProperties_From_DeepCreatedOrigin_
 }
 
 // AssignProperties_To_DeepCreatedOrigin_STATUS populates the provided destination DeepCreatedOrigin_STATUS from our DeepCreatedOrigin_STATUS
-func (origin *DeepCreatedOrigin_STATUS) AssignProperties_To_DeepCreatedOrigin_STATUS(destination *v20210601s.DeepCreatedOrigin_STATUS) error {
+func (origin *DeepCreatedOrigin_STATUS) AssignProperties_To_DeepCreatedOrigin_STATUS(destination *v1beta20210601s.DeepCreatedOrigin_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2853,7 +2853,7 @@ func (group *DeepCreatedOriginGroup) PopulateFromARM(owner genruntime.ArbitraryO
 }
 
 // AssignProperties_From_DeepCreatedOriginGroup populates our DeepCreatedOriginGroup from the provided source DeepCreatedOriginGroup
-func (group *DeepCreatedOriginGroup) AssignProperties_From_DeepCreatedOriginGroup(source *v20210601s.DeepCreatedOriginGroup) error {
+func (group *DeepCreatedOriginGroup) AssignProperties_From_DeepCreatedOriginGroup(source *v1beta20210601s.DeepCreatedOriginGroup) error {
 
 	// HealthProbeSettings
 	if source.HealthProbeSettings != nil {
@@ -2913,13 +2913,13 @@ func (group *DeepCreatedOriginGroup) AssignProperties_From_DeepCreatedOriginGrou
 }
 
 // AssignProperties_To_DeepCreatedOriginGroup populates the provided destination DeepCreatedOriginGroup from our DeepCreatedOriginGroup
-func (group *DeepCreatedOriginGroup) AssignProperties_To_DeepCreatedOriginGroup(destination *v20210601s.DeepCreatedOriginGroup) error {
+func (group *DeepCreatedOriginGroup) AssignProperties_To_DeepCreatedOriginGroup(destination *v1beta20210601s.DeepCreatedOriginGroup) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// HealthProbeSettings
 	if group.HealthProbeSettings != nil {
-		var healthProbeSetting v20210601s.HealthProbeParameters
+		var healthProbeSetting v1beta20210601s.HealthProbeParameters
 		err := group.HealthProbeSettings.AssignProperties_To_HealthProbeParameters(&healthProbeSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HealthProbeParameters() to populate field HealthProbeSettings")
@@ -2934,11 +2934,11 @@ func (group *DeepCreatedOriginGroup) AssignProperties_To_DeepCreatedOriginGroup(
 
 	// Origins
 	if group.Origins != nil {
-		originList := make([]v20210601s.ResourceReference, len(group.Origins))
+		originList := make([]v1beta20210601s.ResourceReference, len(group.Origins))
 		for originIndex, originItem := range group.Origins {
 			// Shadow the loop variable to avoid aliasing
 			originItem := originItem
-			var origin v20210601s.ResourceReference
+			var origin v1beta20210601s.ResourceReference
 			err := originItem.AssignProperties_To_ResourceReference(&origin)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field Origins")
@@ -2952,7 +2952,7 @@ func (group *DeepCreatedOriginGroup) AssignProperties_To_DeepCreatedOriginGroup(
 
 	// ResponseBasedOriginErrorDetectionSettings
 	if group.ResponseBasedOriginErrorDetectionSettings != nil {
-		var responseBasedOriginErrorDetectionSetting v20210601s.ResponseBasedOriginErrorDetectionParameters
+		var responseBasedOriginErrorDetectionSetting v1beta20210601s.ResponseBasedOriginErrorDetectionParameters
 		err := group.ResponseBasedOriginErrorDetectionSettings.AssignProperties_To_ResponseBasedOriginErrorDetectionParameters(&responseBasedOriginErrorDetectionSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResponseBasedOriginErrorDetectionParameters() to populate field ResponseBasedOriginErrorDetectionSettings")
@@ -3065,7 +3065,7 @@ func (group *DeepCreatedOriginGroup_STATUS) PopulateFromARM(owner genruntime.Arb
 }
 
 // AssignProperties_From_DeepCreatedOriginGroup_STATUS populates our DeepCreatedOriginGroup_STATUS from the provided source DeepCreatedOriginGroup_STATUS
-func (group *DeepCreatedOriginGroup_STATUS) AssignProperties_From_DeepCreatedOriginGroup_STATUS(source *v20210601s.DeepCreatedOriginGroup_STATUS) error {
+func (group *DeepCreatedOriginGroup_STATUS) AssignProperties_From_DeepCreatedOriginGroup_STATUS(source *v1beta20210601s.DeepCreatedOriginGroup_STATUS) error {
 
 	// HealthProbeSettings
 	if source.HealthProbeSettings != nil {
@@ -3120,13 +3120,13 @@ func (group *DeepCreatedOriginGroup_STATUS) AssignProperties_From_DeepCreatedOri
 }
 
 // AssignProperties_To_DeepCreatedOriginGroup_STATUS populates the provided destination DeepCreatedOriginGroup_STATUS from our DeepCreatedOriginGroup_STATUS
-func (group *DeepCreatedOriginGroup_STATUS) AssignProperties_To_DeepCreatedOriginGroup_STATUS(destination *v20210601s.DeepCreatedOriginGroup_STATUS) error {
+func (group *DeepCreatedOriginGroup_STATUS) AssignProperties_To_DeepCreatedOriginGroup_STATUS(destination *v1beta20210601s.DeepCreatedOriginGroup_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// HealthProbeSettings
 	if group.HealthProbeSettings != nil {
-		var healthProbeSetting v20210601s.HealthProbeParameters_STATUS
+		var healthProbeSetting v1beta20210601s.HealthProbeParameters_STATUS
 		err := group.HealthProbeSettings.AssignProperties_To_HealthProbeParameters_STATUS(&healthProbeSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HealthProbeParameters_STATUS() to populate field HealthProbeSettings")
@@ -3141,11 +3141,11 @@ func (group *DeepCreatedOriginGroup_STATUS) AssignProperties_To_DeepCreatedOrigi
 
 	// Origins
 	if group.Origins != nil {
-		originList := make([]v20210601s.ResourceReference_STATUS, len(group.Origins))
+		originList := make([]v1beta20210601s.ResourceReference_STATUS, len(group.Origins))
 		for originIndex, originItem := range group.Origins {
 			// Shadow the loop variable to avoid aliasing
 			originItem := originItem
-			var origin v20210601s.ResourceReference_STATUS
+			var origin v1beta20210601s.ResourceReference_STATUS
 			err := originItem.AssignProperties_To_ResourceReference_STATUS(&origin)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field Origins")
@@ -3159,7 +3159,7 @@ func (group *DeepCreatedOriginGroup_STATUS) AssignProperties_To_DeepCreatedOrigi
 
 	// ResponseBasedOriginErrorDetectionSettings
 	if group.ResponseBasedOriginErrorDetectionSettings != nil {
-		var responseBasedOriginErrorDetectionSetting v20210601s.ResponseBasedOriginErrorDetectionParameters_STATUS
+		var responseBasedOriginErrorDetectionSetting v1beta20210601s.ResponseBasedOriginErrorDetectionParameters_STATUS
 		err := group.ResponseBasedOriginErrorDetectionSettings.AssignProperties_To_ResponseBasedOriginErrorDetectionParameters_STATUS(&responseBasedOriginErrorDetectionSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResponseBasedOriginErrorDetectionParameters_STATUS() to populate field ResponseBasedOriginErrorDetectionSettings")
@@ -3250,7 +3250,7 @@ func (policy *EndpointProperties_DeliveryPolicy) PopulateFromARM(owner genruntim
 }
 
 // AssignProperties_From_EndpointProperties_DeliveryPolicy populates our EndpointProperties_DeliveryPolicy from the provided source EndpointProperties_DeliveryPolicy
-func (policy *EndpointProperties_DeliveryPolicy) AssignProperties_From_EndpointProperties_DeliveryPolicy(source *v20210601s.EndpointProperties_DeliveryPolicy) error {
+func (policy *EndpointProperties_DeliveryPolicy) AssignProperties_From_EndpointProperties_DeliveryPolicy(source *v1beta20210601s.EndpointProperties_DeliveryPolicy) error {
 
 	// Description
 	policy.Description = genruntime.ClonePointerToString(source.Description)
@@ -3278,7 +3278,7 @@ func (policy *EndpointProperties_DeliveryPolicy) AssignProperties_From_EndpointP
 }
 
 // AssignProperties_To_EndpointProperties_DeliveryPolicy populates the provided destination EndpointProperties_DeliveryPolicy from our EndpointProperties_DeliveryPolicy
-func (policy *EndpointProperties_DeliveryPolicy) AssignProperties_To_EndpointProperties_DeliveryPolicy(destination *v20210601s.EndpointProperties_DeliveryPolicy) error {
+func (policy *EndpointProperties_DeliveryPolicy) AssignProperties_To_EndpointProperties_DeliveryPolicy(destination *v1beta20210601s.EndpointProperties_DeliveryPolicy) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3287,11 +3287,11 @@ func (policy *EndpointProperties_DeliveryPolicy) AssignProperties_To_EndpointPro
 
 	// Rules
 	if policy.Rules != nil {
-		ruleList := make([]v20210601s.DeliveryRule, len(policy.Rules))
+		ruleList := make([]v1beta20210601s.DeliveryRule, len(policy.Rules))
 		for ruleIndex, ruleItem := range policy.Rules {
 			// Shadow the loop variable to avoid aliasing
 			ruleItem := ruleItem
-			var rule v20210601s.DeliveryRule
+			var rule v1beta20210601s.DeliveryRule
 			err := ruleItem.AssignProperties_To_DeliveryRule(&rule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_DeliveryRule() to populate field Rules")
@@ -3355,7 +3355,7 @@ func (policy *EndpointProperties_DeliveryPolicy_STATUS) PopulateFromARM(owner ge
 }
 
 // AssignProperties_From_EndpointProperties_DeliveryPolicy_STATUS populates our EndpointProperties_DeliveryPolicy_STATUS from the provided source EndpointProperties_DeliveryPolicy_STATUS
-func (policy *EndpointProperties_DeliveryPolicy_STATUS) AssignProperties_From_EndpointProperties_DeliveryPolicy_STATUS(source *v20210601s.EndpointProperties_DeliveryPolicy_STATUS) error {
+func (policy *EndpointProperties_DeliveryPolicy_STATUS) AssignProperties_From_EndpointProperties_DeliveryPolicy_STATUS(source *v1beta20210601s.EndpointProperties_DeliveryPolicy_STATUS) error {
 
 	// Description
 	policy.Description = genruntime.ClonePointerToString(source.Description)
@@ -3383,7 +3383,7 @@ func (policy *EndpointProperties_DeliveryPolicy_STATUS) AssignProperties_From_En
 }
 
 // AssignProperties_To_EndpointProperties_DeliveryPolicy_STATUS populates the provided destination EndpointProperties_DeliveryPolicy_STATUS from our EndpointProperties_DeliveryPolicy_STATUS
-func (policy *EndpointProperties_DeliveryPolicy_STATUS) AssignProperties_To_EndpointProperties_DeliveryPolicy_STATUS(destination *v20210601s.EndpointProperties_DeliveryPolicy_STATUS) error {
+func (policy *EndpointProperties_DeliveryPolicy_STATUS) AssignProperties_To_EndpointProperties_DeliveryPolicy_STATUS(destination *v1beta20210601s.EndpointProperties_DeliveryPolicy_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3392,11 +3392,11 @@ func (policy *EndpointProperties_DeliveryPolicy_STATUS) AssignProperties_To_Endp
 
 	// Rules
 	if policy.Rules != nil {
-		ruleList := make([]v20210601s.DeliveryRule_STATUS, len(policy.Rules))
+		ruleList := make([]v1beta20210601s.DeliveryRule_STATUS, len(policy.Rules))
 		for ruleIndex, ruleItem := range policy.Rules {
 			// Shadow the loop variable to avoid aliasing
 			ruleItem := ruleItem
-			var rule v20210601s.DeliveryRule_STATUS
+			var rule v1beta20210601s.DeliveryRule_STATUS
 			err := ruleItem.AssignProperties_To_DeliveryRule_STATUS(&rule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_DeliveryRule_STATUS() to populate field Rules")
@@ -3489,7 +3489,7 @@ func (link *EndpointProperties_WebApplicationFirewallPolicyLink) PopulateFromARM
 }
 
 // AssignProperties_From_EndpointProperties_WebApplicationFirewallPolicyLink populates our EndpointProperties_WebApplicationFirewallPolicyLink from the provided source EndpointProperties_WebApplicationFirewallPolicyLink
-func (link *EndpointProperties_WebApplicationFirewallPolicyLink) AssignProperties_From_EndpointProperties_WebApplicationFirewallPolicyLink(source *v20210601s.EndpointProperties_WebApplicationFirewallPolicyLink) error {
+func (link *EndpointProperties_WebApplicationFirewallPolicyLink) AssignProperties_From_EndpointProperties_WebApplicationFirewallPolicyLink(source *v1beta20210601s.EndpointProperties_WebApplicationFirewallPolicyLink) error {
 
 	// Reference
 	if source.Reference != nil {
@@ -3504,7 +3504,7 @@ func (link *EndpointProperties_WebApplicationFirewallPolicyLink) AssignPropertie
 }
 
 // AssignProperties_To_EndpointProperties_WebApplicationFirewallPolicyLink populates the provided destination EndpointProperties_WebApplicationFirewallPolicyLink from our EndpointProperties_WebApplicationFirewallPolicyLink
-func (link *EndpointProperties_WebApplicationFirewallPolicyLink) AssignProperties_To_EndpointProperties_WebApplicationFirewallPolicyLink(destination *v20210601s.EndpointProperties_WebApplicationFirewallPolicyLink) error {
+func (link *EndpointProperties_WebApplicationFirewallPolicyLink) AssignProperties_To_EndpointProperties_WebApplicationFirewallPolicyLink(destination *v1beta20210601s.EndpointProperties_WebApplicationFirewallPolicyLink) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3557,7 +3557,7 @@ func (link *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) Populate
 }
 
 // AssignProperties_From_EndpointProperties_WebApplicationFirewallPolicyLink_STATUS populates our EndpointProperties_WebApplicationFirewallPolicyLink_STATUS from the provided source EndpointProperties_WebApplicationFirewallPolicyLink_STATUS
-func (link *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) AssignProperties_From_EndpointProperties_WebApplicationFirewallPolicyLink_STATUS(source *v20210601s.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) error {
+func (link *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) AssignProperties_From_EndpointProperties_WebApplicationFirewallPolicyLink_STATUS(source *v1beta20210601s.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) error {
 
 	// Id
 	link.Id = genruntime.ClonePointerToString(source.Id)
@@ -3567,7 +3567,7 @@ func (link *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) AssignPr
 }
 
 // AssignProperties_To_EndpointProperties_WebApplicationFirewallPolicyLink_STATUS populates the provided destination EndpointProperties_WebApplicationFirewallPolicyLink_STATUS from our EndpointProperties_WebApplicationFirewallPolicyLink_STATUS
-func (link *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) AssignProperties_To_EndpointProperties_WebApplicationFirewallPolicyLink_STATUS(destination *v20210601s.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) error {
+func (link *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) AssignProperties_To_EndpointProperties_WebApplicationFirewallPolicyLink_STATUS(destination *v1beta20210601s.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3659,7 +3659,7 @@ func (filter *GeoFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 }
 
 // AssignProperties_From_GeoFilter populates our GeoFilter from the provided source GeoFilter
-func (filter *GeoFilter) AssignProperties_From_GeoFilter(source *v20210601s.GeoFilter) error {
+func (filter *GeoFilter) AssignProperties_From_GeoFilter(source *v1beta20210601s.GeoFilter) error {
 
 	// Action
 	if source.Action != nil {
@@ -3680,7 +3680,7 @@ func (filter *GeoFilter) AssignProperties_From_GeoFilter(source *v20210601s.GeoF
 }
 
 // AssignProperties_To_GeoFilter populates the provided destination GeoFilter from our GeoFilter
-func (filter *GeoFilter) AssignProperties_To_GeoFilter(destination *v20210601s.GeoFilter) error {
+func (filter *GeoFilter) AssignProperties_To_GeoFilter(destination *v1beta20210601s.GeoFilter) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3752,7 +3752,7 @@ func (filter *GeoFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 }
 
 // AssignProperties_From_GeoFilter_STATUS populates our GeoFilter_STATUS from the provided source GeoFilter_STATUS
-func (filter *GeoFilter_STATUS) AssignProperties_From_GeoFilter_STATUS(source *v20210601s.GeoFilter_STATUS) error {
+func (filter *GeoFilter_STATUS) AssignProperties_From_GeoFilter_STATUS(source *v1beta20210601s.GeoFilter_STATUS) error {
 
 	// Action
 	if source.Action != nil {
@@ -3773,7 +3773,7 @@ func (filter *GeoFilter_STATUS) AssignProperties_From_GeoFilter_STATUS(source *v
 }
 
 // AssignProperties_To_GeoFilter_STATUS populates the provided destination GeoFilter_STATUS from our GeoFilter_STATUS
-func (filter *GeoFilter_STATUS) AssignProperties_To_GeoFilter_STATUS(destination *v20210601s.GeoFilter_STATUS) error {
+func (filter *GeoFilter_STATUS) AssignProperties_To_GeoFilter_STATUS(destination *v1beta20210601s.GeoFilter_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3891,7 +3891,7 @@ func (reference *ResourceReference) PopulateFromARM(owner genruntime.ArbitraryOw
 }
 
 // AssignProperties_From_ResourceReference populates our ResourceReference from the provided source ResourceReference
-func (reference *ResourceReference) AssignProperties_From_ResourceReference(source *v20210601s.ResourceReference) error {
+func (reference *ResourceReference) AssignProperties_From_ResourceReference(source *v1beta20210601s.ResourceReference) error {
 
 	// Reference
 	if source.Reference != nil {
@@ -3906,7 +3906,7 @@ func (reference *ResourceReference) AssignProperties_From_ResourceReference(sour
 }
 
 // AssignProperties_To_ResourceReference populates the provided destination ResourceReference from our ResourceReference
-func (reference *ResourceReference) AssignProperties_To_ResourceReference(destination *v20210601s.ResourceReference) error {
+func (reference *ResourceReference) AssignProperties_To_ResourceReference(destination *v1beta20210601s.ResourceReference) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3959,7 +3959,7 @@ func (reference *ResourceReference_STATUS) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_ResourceReference_STATUS populates our ResourceReference_STATUS from the provided source ResourceReference_STATUS
-func (reference *ResourceReference_STATUS) AssignProperties_From_ResourceReference_STATUS(source *v20210601s.ResourceReference_STATUS) error {
+func (reference *ResourceReference_STATUS) AssignProperties_From_ResourceReference_STATUS(source *v1beta20210601s.ResourceReference_STATUS) error {
 
 	// Id
 	reference.Id = genruntime.ClonePointerToString(source.Id)
@@ -3969,7 +3969,7 @@ func (reference *ResourceReference_STATUS) AssignProperties_From_ResourceReferen
 }
 
 // AssignProperties_To_ResourceReference_STATUS populates the provided destination ResourceReference_STATUS from our ResourceReference_STATUS
-func (reference *ResourceReference_STATUS) AssignProperties_To_ResourceReference_STATUS(destination *v20210601s.ResourceReference_STATUS) error {
+func (reference *ResourceReference_STATUS) AssignProperties_To_ResourceReference_STATUS(destination *v1beta20210601s.ResourceReference_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4057,7 +4057,7 @@ func (signingKey *UrlSigningKey) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_UrlSigningKey populates our UrlSigningKey from the provided source UrlSigningKey
-func (signingKey *UrlSigningKey) AssignProperties_From_UrlSigningKey(source *v20210601s.UrlSigningKey) error {
+func (signingKey *UrlSigningKey) AssignProperties_From_UrlSigningKey(source *v1beta20210601s.UrlSigningKey) error {
 
 	// KeyId
 	signingKey.KeyId = genruntime.ClonePointerToString(source.KeyId)
@@ -4079,7 +4079,7 @@ func (signingKey *UrlSigningKey) AssignProperties_From_UrlSigningKey(source *v20
 }
 
 // AssignProperties_To_UrlSigningKey populates the provided destination UrlSigningKey from our UrlSigningKey
-func (signingKey *UrlSigningKey) AssignProperties_To_UrlSigningKey(destination *v20210601s.UrlSigningKey) error {
+func (signingKey *UrlSigningKey) AssignProperties_To_UrlSigningKey(destination *v1beta20210601s.UrlSigningKey) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4088,7 +4088,7 @@ func (signingKey *UrlSigningKey) AssignProperties_To_UrlSigningKey(destination *
 
 	// KeySourceParameters
 	if signingKey.KeySourceParameters != nil {
-		var keySourceParameter v20210601s.KeyVaultSigningKeyParameters
+		var keySourceParameter v1beta20210601s.KeyVaultSigningKeyParameters
 		err := signingKey.KeySourceParameters.AssignProperties_To_KeyVaultSigningKeyParameters(&keySourceParameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultSigningKeyParameters() to populate field KeySourceParameters")
@@ -4151,7 +4151,7 @@ func (signingKey *UrlSigningKey_STATUS) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_UrlSigningKey_STATUS populates our UrlSigningKey_STATUS from the provided source UrlSigningKey_STATUS
-func (signingKey *UrlSigningKey_STATUS) AssignProperties_From_UrlSigningKey_STATUS(source *v20210601s.UrlSigningKey_STATUS) error {
+func (signingKey *UrlSigningKey_STATUS) AssignProperties_From_UrlSigningKey_STATUS(source *v1beta20210601s.UrlSigningKey_STATUS) error {
 
 	// KeyId
 	signingKey.KeyId = genruntime.ClonePointerToString(source.KeyId)
@@ -4173,7 +4173,7 @@ func (signingKey *UrlSigningKey_STATUS) AssignProperties_From_UrlSigningKey_STAT
 }
 
 // AssignProperties_To_UrlSigningKey_STATUS populates the provided destination UrlSigningKey_STATUS from our UrlSigningKey_STATUS
-func (signingKey *UrlSigningKey_STATUS) AssignProperties_To_UrlSigningKey_STATUS(destination *v20210601s.UrlSigningKey_STATUS) error {
+func (signingKey *UrlSigningKey_STATUS) AssignProperties_To_UrlSigningKey_STATUS(destination *v1beta20210601s.UrlSigningKey_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4182,7 +4182,7 @@ func (signingKey *UrlSigningKey_STATUS) AssignProperties_To_UrlSigningKey_STATUS
 
 	// KeySourceParameters
 	if signingKey.KeySourceParameters != nil {
-		var keySourceParameter v20210601s.KeyVaultSigningKeyParameters_STATUS
+		var keySourceParameter v1beta20210601s.KeyVaultSigningKeyParameters_STATUS
 		err := signingKey.KeySourceParameters.AssignProperties_To_KeyVaultSigningKeyParameters_STATUS(&keySourceParameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultSigningKeyParameters_STATUS() to populate field KeySourceParameters")
@@ -4304,7 +4304,7 @@ func (rule *DeliveryRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 }
 
 // AssignProperties_From_DeliveryRule populates our DeliveryRule from the provided source DeliveryRule
-func (rule *DeliveryRule) AssignProperties_From_DeliveryRule(source *v20210601s.DeliveryRule) error {
+func (rule *DeliveryRule) AssignProperties_From_DeliveryRule(source *v1beta20210601s.DeliveryRule) error {
 
 	// Actions
 	if source.Actions != nil {
@@ -4353,17 +4353,17 @@ func (rule *DeliveryRule) AssignProperties_From_DeliveryRule(source *v20210601s.
 }
 
 // AssignProperties_To_DeliveryRule populates the provided destination DeliveryRule from our DeliveryRule
-func (rule *DeliveryRule) AssignProperties_To_DeliveryRule(destination *v20210601s.DeliveryRule) error {
+func (rule *DeliveryRule) AssignProperties_To_DeliveryRule(destination *v1beta20210601s.DeliveryRule) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Actions
 	if rule.Actions != nil {
-		actionList := make([]v20210601s.DeliveryRuleAction, len(rule.Actions))
+		actionList := make([]v1beta20210601s.DeliveryRuleAction, len(rule.Actions))
 		for actionIndex, actionItem := range rule.Actions {
 			// Shadow the loop variable to avoid aliasing
 			actionItem := actionItem
-			var action v20210601s.DeliveryRuleAction
+			var action v1beta20210601s.DeliveryRuleAction
 			err := actionItem.AssignProperties_To_DeliveryRuleAction(&action)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleAction() to populate field Actions")
@@ -4377,11 +4377,11 @@ func (rule *DeliveryRule) AssignProperties_To_DeliveryRule(destination *v2021060
 
 	// Conditions
 	if rule.Conditions != nil {
-		conditionList := make([]v20210601s.DeliveryRuleCondition, len(rule.Conditions))
+		conditionList := make([]v1beta20210601s.DeliveryRuleCondition, len(rule.Conditions))
 		for conditionIndex, conditionItem := range rule.Conditions {
 			// Shadow the loop variable to avoid aliasing
 			conditionItem := conditionItem
-			var condition v20210601s.DeliveryRuleCondition
+			var condition v1beta20210601s.DeliveryRuleCondition
 			err := conditionItem.AssignProperties_To_DeliveryRuleCondition(&condition)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCondition() to populate field Conditions")
@@ -4461,7 +4461,7 @@ func (rule *DeliveryRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_DeliveryRule_STATUS populates our DeliveryRule_STATUS from the provided source DeliveryRule_STATUS
-func (rule *DeliveryRule_STATUS) AssignProperties_From_DeliveryRule_STATUS(source *v20210601s.DeliveryRule_STATUS) error {
+func (rule *DeliveryRule_STATUS) AssignProperties_From_DeliveryRule_STATUS(source *v1beta20210601s.DeliveryRule_STATUS) error {
 
 	// Actions
 	if source.Actions != nil {
@@ -4510,17 +4510,17 @@ func (rule *DeliveryRule_STATUS) AssignProperties_From_DeliveryRule_STATUS(sourc
 }
 
 // AssignProperties_To_DeliveryRule_STATUS populates the provided destination DeliveryRule_STATUS from our DeliveryRule_STATUS
-func (rule *DeliveryRule_STATUS) AssignProperties_To_DeliveryRule_STATUS(destination *v20210601s.DeliveryRule_STATUS) error {
+func (rule *DeliveryRule_STATUS) AssignProperties_To_DeliveryRule_STATUS(destination *v1beta20210601s.DeliveryRule_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Actions
 	if rule.Actions != nil {
-		actionList := make([]v20210601s.DeliveryRuleAction_STATUS, len(rule.Actions))
+		actionList := make([]v1beta20210601s.DeliveryRuleAction_STATUS, len(rule.Actions))
 		for actionIndex, actionItem := range rule.Actions {
 			// Shadow the loop variable to avoid aliasing
 			actionItem := actionItem
-			var action v20210601s.DeliveryRuleAction_STATUS
+			var action v1beta20210601s.DeliveryRuleAction_STATUS
 			err := actionItem.AssignProperties_To_DeliveryRuleAction_STATUS(&action)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleAction_STATUS() to populate field Actions")
@@ -4534,11 +4534,11 @@ func (rule *DeliveryRule_STATUS) AssignProperties_To_DeliveryRule_STATUS(destina
 
 	// Conditions
 	if rule.Conditions != nil {
-		conditionList := make([]v20210601s.DeliveryRuleCondition_STATUS, len(rule.Conditions))
+		conditionList := make([]v1beta20210601s.DeliveryRuleCondition_STATUS, len(rule.Conditions))
 		for conditionIndex, conditionItem := range rule.Conditions {
 			// Shadow the loop variable to avoid aliasing
 			conditionItem := conditionItem
-			var condition v20210601s.DeliveryRuleCondition_STATUS
+			var condition v1beta20210601s.DeliveryRuleCondition_STATUS
 			err := conditionItem.AssignProperties_To_DeliveryRuleCondition_STATUS(&condition)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCondition_STATUS() to populate field Conditions")
@@ -4670,7 +4670,7 @@ func (parameters *HealthProbeParameters) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_HealthProbeParameters populates our HealthProbeParameters from the provided source HealthProbeParameters
-func (parameters *HealthProbeParameters) AssignProperties_From_HealthProbeParameters(source *v20210601s.HealthProbeParameters) error {
+func (parameters *HealthProbeParameters) AssignProperties_From_HealthProbeParameters(source *v1beta20210601s.HealthProbeParameters) error {
 
 	// ProbeIntervalInSeconds
 	if source.ProbeIntervalInSeconds != nil {
@@ -4704,7 +4704,7 @@ func (parameters *HealthProbeParameters) AssignProperties_From_HealthProbeParame
 }
 
 // AssignProperties_To_HealthProbeParameters populates the provided destination HealthProbeParameters from our HealthProbeParameters
-func (parameters *HealthProbeParameters) AssignProperties_To_HealthProbeParameters(destination *v20210601s.HealthProbeParameters) error {
+func (parameters *HealthProbeParameters) AssignProperties_To_HealthProbeParameters(destination *v1beta20210601s.HealthProbeParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4797,7 +4797,7 @@ func (parameters *HealthProbeParameters_STATUS) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_HealthProbeParameters_STATUS populates our HealthProbeParameters_STATUS from the provided source HealthProbeParameters_STATUS
-func (parameters *HealthProbeParameters_STATUS) AssignProperties_From_HealthProbeParameters_STATUS(source *v20210601s.HealthProbeParameters_STATUS) error {
+func (parameters *HealthProbeParameters_STATUS) AssignProperties_From_HealthProbeParameters_STATUS(source *v1beta20210601s.HealthProbeParameters_STATUS) error {
 
 	// ProbeIntervalInSeconds
 	parameters.ProbeIntervalInSeconds = genruntime.ClonePointerToInt(source.ProbeIntervalInSeconds)
@@ -4826,7 +4826,7 @@ func (parameters *HealthProbeParameters_STATUS) AssignProperties_From_HealthProb
 }
 
 // AssignProperties_To_HealthProbeParameters_STATUS populates the provided destination HealthProbeParameters_STATUS from our HealthProbeParameters_STATUS
-func (parameters *HealthProbeParameters_STATUS) AssignProperties_To_HealthProbeParameters_STATUS(destination *v20210601s.HealthProbeParameters_STATUS) error {
+func (parameters *HealthProbeParameters_STATUS) AssignProperties_To_HealthProbeParameters_STATUS(destination *v1beta20210601s.HealthProbeParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4984,7 +4984,7 @@ func (parameters *KeyVaultSigningKeyParameters) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_KeyVaultSigningKeyParameters populates our KeyVaultSigningKeyParameters from the provided source KeyVaultSigningKeyParameters
-func (parameters *KeyVaultSigningKeyParameters) AssignProperties_From_KeyVaultSigningKeyParameters(source *v20210601s.KeyVaultSigningKeyParameters) error {
+func (parameters *KeyVaultSigningKeyParameters) AssignProperties_From_KeyVaultSigningKeyParameters(source *v1beta20210601s.KeyVaultSigningKeyParameters) error {
 
 	// ResourceGroupName
 	parameters.ResourceGroupName = genruntime.ClonePointerToString(source.ResourceGroupName)
@@ -5014,7 +5014,7 @@ func (parameters *KeyVaultSigningKeyParameters) AssignProperties_From_KeyVaultSi
 }
 
 // AssignProperties_To_KeyVaultSigningKeyParameters populates the provided destination KeyVaultSigningKeyParameters from our KeyVaultSigningKeyParameters
-func (parameters *KeyVaultSigningKeyParameters) AssignProperties_To_KeyVaultSigningKeyParameters(destination *v20210601s.KeyVaultSigningKeyParameters) error {
+func (parameters *KeyVaultSigningKeyParameters) AssignProperties_To_KeyVaultSigningKeyParameters(destination *v1beta20210601s.KeyVaultSigningKeyParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5117,7 +5117,7 @@ func (parameters *KeyVaultSigningKeyParameters_STATUS) PopulateFromARM(owner gen
 }
 
 // AssignProperties_From_KeyVaultSigningKeyParameters_STATUS populates our KeyVaultSigningKeyParameters_STATUS from the provided source KeyVaultSigningKeyParameters_STATUS
-func (parameters *KeyVaultSigningKeyParameters_STATUS) AssignProperties_From_KeyVaultSigningKeyParameters_STATUS(source *v20210601s.KeyVaultSigningKeyParameters_STATUS) error {
+func (parameters *KeyVaultSigningKeyParameters_STATUS) AssignProperties_From_KeyVaultSigningKeyParameters_STATUS(source *v1beta20210601s.KeyVaultSigningKeyParameters_STATUS) error {
 
 	// ResourceGroupName
 	parameters.ResourceGroupName = genruntime.ClonePointerToString(source.ResourceGroupName)
@@ -5147,7 +5147,7 @@ func (parameters *KeyVaultSigningKeyParameters_STATUS) AssignProperties_From_Key
 }
 
 // AssignProperties_To_KeyVaultSigningKeyParameters_STATUS populates the provided destination KeyVaultSigningKeyParameters_STATUS from our KeyVaultSigningKeyParameters_STATUS
-func (parameters *KeyVaultSigningKeyParameters_STATUS) AssignProperties_To_KeyVaultSigningKeyParameters_STATUS(destination *v20210601s.KeyVaultSigningKeyParameters_STATUS) error {
+func (parameters *KeyVaultSigningKeyParameters_STATUS) AssignProperties_To_KeyVaultSigningKeyParameters_STATUS(destination *v1beta20210601s.KeyVaultSigningKeyParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5277,7 +5277,7 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) PopulateFromARM(o
 }
 
 // AssignProperties_From_ResponseBasedOriginErrorDetectionParameters populates our ResponseBasedOriginErrorDetectionParameters from the provided source ResponseBasedOriginErrorDetectionParameters
-func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignProperties_From_ResponseBasedOriginErrorDetectionParameters(source *v20210601s.ResponseBasedOriginErrorDetectionParameters) error {
+func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignProperties_From_ResponseBasedOriginErrorDetectionParameters(source *v1beta20210601s.ResponseBasedOriginErrorDetectionParameters) error {
 
 	// HttpErrorRanges
 	if source.HttpErrorRanges != nil {
@@ -5318,17 +5318,17 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignProperties_
 }
 
 // AssignProperties_To_ResponseBasedOriginErrorDetectionParameters populates the provided destination ResponseBasedOriginErrorDetectionParameters from our ResponseBasedOriginErrorDetectionParameters
-func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignProperties_To_ResponseBasedOriginErrorDetectionParameters(destination *v20210601s.ResponseBasedOriginErrorDetectionParameters) error {
+func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignProperties_To_ResponseBasedOriginErrorDetectionParameters(destination *v1beta20210601s.ResponseBasedOriginErrorDetectionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// HttpErrorRanges
 	if parameters.HttpErrorRanges != nil {
-		httpErrorRangeList := make([]v20210601s.HttpErrorRangeParameters, len(parameters.HttpErrorRanges))
+		httpErrorRangeList := make([]v1beta20210601s.HttpErrorRangeParameters, len(parameters.HttpErrorRanges))
 		for httpErrorRangeIndex, httpErrorRangeItem := range parameters.HttpErrorRanges {
 			// Shadow the loop variable to avoid aliasing
 			httpErrorRangeItem := httpErrorRangeItem
-			var httpErrorRange v20210601s.HttpErrorRangeParameters
+			var httpErrorRange v1beta20210601s.HttpErrorRangeParameters
 			err := httpErrorRangeItem.AssignProperties_To_HttpErrorRangeParameters(&httpErrorRange)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_HttpErrorRangeParameters() to populate field HttpErrorRanges")
@@ -5415,7 +5415,7 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) PopulateFr
 }
 
 // AssignProperties_From_ResponseBasedOriginErrorDetectionParameters_STATUS populates our ResponseBasedOriginErrorDetectionParameters_STATUS from the provided source ResponseBasedOriginErrorDetectionParameters_STATUS
-func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignProperties_From_ResponseBasedOriginErrorDetectionParameters_STATUS(source *v20210601s.ResponseBasedOriginErrorDetectionParameters_STATUS) error {
+func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignProperties_From_ResponseBasedOriginErrorDetectionParameters_STATUS(source *v1beta20210601s.ResponseBasedOriginErrorDetectionParameters_STATUS) error {
 
 	// HttpErrorRanges
 	if source.HttpErrorRanges != nil {
@@ -5451,17 +5451,17 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignProp
 }
 
 // AssignProperties_To_ResponseBasedOriginErrorDetectionParameters_STATUS populates the provided destination ResponseBasedOriginErrorDetectionParameters_STATUS from our ResponseBasedOriginErrorDetectionParameters_STATUS
-func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignProperties_To_ResponseBasedOriginErrorDetectionParameters_STATUS(destination *v20210601s.ResponseBasedOriginErrorDetectionParameters_STATUS) error {
+func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignProperties_To_ResponseBasedOriginErrorDetectionParameters_STATUS(destination *v1beta20210601s.ResponseBasedOriginErrorDetectionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// HttpErrorRanges
 	if parameters.HttpErrorRanges != nil {
-		httpErrorRangeList := make([]v20210601s.HttpErrorRangeParameters_STATUS, len(parameters.HttpErrorRanges))
+		httpErrorRangeList := make([]v1beta20210601s.HttpErrorRangeParameters_STATUS, len(parameters.HttpErrorRanges))
 		for httpErrorRangeIndex, httpErrorRangeItem := range parameters.HttpErrorRanges {
 			// Shadow the loop variable to avoid aliasing
 			httpErrorRangeItem := httpErrorRangeItem
-			var httpErrorRange v20210601s.HttpErrorRangeParameters_STATUS
+			var httpErrorRange v1beta20210601s.HttpErrorRangeParameters_STATUS
 			err := httpErrorRangeItem.AssignProperties_To_HttpErrorRangeParameters_STATUS(&httpErrorRange)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_HttpErrorRangeParameters_STATUS() to populate field HttpErrorRanges")
@@ -5725,7 +5725,7 @@ func (action *DeliveryRuleAction) PopulateFromARM(owner genruntime.ArbitraryOwne
 }
 
 // AssignProperties_From_DeliveryRuleAction populates our DeliveryRuleAction from the provided source DeliveryRuleAction
-func (action *DeliveryRuleAction) AssignProperties_From_DeliveryRuleAction(source *v20210601s.DeliveryRuleAction) error {
+func (action *DeliveryRuleAction) AssignProperties_From_DeliveryRuleAction(source *v1beta20210601s.DeliveryRuleAction) error {
 
 	// CacheExpiration
 	if source.CacheExpiration != nil {
@@ -5840,13 +5840,13 @@ func (action *DeliveryRuleAction) AssignProperties_From_DeliveryRuleAction(sourc
 }
 
 // AssignProperties_To_DeliveryRuleAction populates the provided destination DeliveryRuleAction from our DeliveryRuleAction
-func (action *DeliveryRuleAction) AssignProperties_To_DeliveryRuleAction(destination *v20210601s.DeliveryRuleAction) error {
+func (action *DeliveryRuleAction) AssignProperties_To_DeliveryRuleAction(destination *v1beta20210601s.DeliveryRuleAction) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CacheExpiration
 	if action.CacheExpiration != nil {
-		var cacheExpiration v20210601s.DeliveryRuleCacheExpirationAction
+		var cacheExpiration v1beta20210601s.DeliveryRuleCacheExpirationAction
 		err := action.CacheExpiration.AssignProperties_To_DeliveryRuleCacheExpirationAction(&cacheExpiration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCacheExpirationAction() to populate field CacheExpiration")
@@ -5858,7 +5858,7 @@ func (action *DeliveryRuleAction) AssignProperties_To_DeliveryRuleAction(destina
 
 	// CacheKeyQueryString
 	if action.CacheKeyQueryString != nil {
-		var cacheKeyQueryString v20210601s.DeliveryRuleCacheKeyQueryStringAction
+		var cacheKeyQueryString v1beta20210601s.DeliveryRuleCacheKeyQueryStringAction
 		err := action.CacheKeyQueryString.AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction(&cacheKeyQueryString)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction() to populate field CacheKeyQueryString")
@@ -5870,7 +5870,7 @@ func (action *DeliveryRuleAction) AssignProperties_To_DeliveryRuleAction(destina
 
 	// ModifyRequestHeader
 	if action.ModifyRequestHeader != nil {
-		var modifyRequestHeader v20210601s.DeliveryRuleRequestHeaderAction
+		var modifyRequestHeader v1beta20210601s.DeliveryRuleRequestHeaderAction
 		err := action.ModifyRequestHeader.AssignProperties_To_DeliveryRuleRequestHeaderAction(&modifyRequestHeader)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestHeaderAction() to populate field ModifyRequestHeader")
@@ -5882,7 +5882,7 @@ func (action *DeliveryRuleAction) AssignProperties_To_DeliveryRuleAction(destina
 
 	// ModifyResponseHeader
 	if action.ModifyResponseHeader != nil {
-		var modifyResponseHeader v20210601s.DeliveryRuleResponseHeaderAction
+		var modifyResponseHeader v1beta20210601s.DeliveryRuleResponseHeaderAction
 		err := action.ModifyResponseHeader.AssignProperties_To_DeliveryRuleResponseHeaderAction(&modifyResponseHeader)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleResponseHeaderAction() to populate field ModifyResponseHeader")
@@ -5894,7 +5894,7 @@ func (action *DeliveryRuleAction) AssignProperties_To_DeliveryRuleAction(destina
 
 	// OriginGroupOverride
 	if action.OriginGroupOverride != nil {
-		var originGroupOverride v20210601s.OriginGroupOverrideAction
+		var originGroupOverride v1beta20210601s.OriginGroupOverrideAction
 		err := action.OriginGroupOverride.AssignProperties_To_OriginGroupOverrideAction(&originGroupOverride)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_OriginGroupOverrideAction() to populate field OriginGroupOverride")
@@ -5906,7 +5906,7 @@ func (action *DeliveryRuleAction) AssignProperties_To_DeliveryRuleAction(destina
 
 	// RouteConfigurationOverride
 	if action.RouteConfigurationOverride != nil {
-		var routeConfigurationOverride v20210601s.DeliveryRuleRouteConfigurationOverrideAction
+		var routeConfigurationOverride v1beta20210601s.DeliveryRuleRouteConfigurationOverrideAction
 		err := action.RouteConfigurationOverride.AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction(&routeConfigurationOverride)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction() to populate field RouteConfigurationOverride")
@@ -5918,7 +5918,7 @@ func (action *DeliveryRuleAction) AssignProperties_To_DeliveryRuleAction(destina
 
 	// UrlRedirect
 	if action.UrlRedirect != nil {
-		var urlRedirect v20210601s.UrlRedirectAction
+		var urlRedirect v1beta20210601s.UrlRedirectAction
 		err := action.UrlRedirect.AssignProperties_To_UrlRedirectAction(&urlRedirect)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlRedirectAction() to populate field UrlRedirect")
@@ -5930,7 +5930,7 @@ func (action *DeliveryRuleAction) AssignProperties_To_DeliveryRuleAction(destina
 
 	// UrlRewrite
 	if action.UrlRewrite != nil {
-		var urlRewrite v20210601s.UrlRewriteAction
+		var urlRewrite v1beta20210601s.UrlRewriteAction
 		err := action.UrlRewrite.AssignProperties_To_UrlRewriteAction(&urlRewrite)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlRewriteAction() to populate field UrlRewrite")
@@ -5942,7 +5942,7 @@ func (action *DeliveryRuleAction) AssignProperties_To_DeliveryRuleAction(destina
 
 	// UrlSigning
 	if action.UrlSigning != nil {
-		var urlSigning v20210601s.UrlSigningAction
+		var urlSigning v1beta20210601s.UrlSigningAction
 		err := action.UrlSigning.AssignProperties_To_UrlSigningAction(&urlSigning)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlSigningAction() to populate field UrlSigning")
@@ -6094,7 +6094,7 @@ func (action *DeliveryRuleAction_STATUS) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_DeliveryRuleAction_STATUS populates our DeliveryRuleAction_STATUS from the provided source DeliveryRuleAction_STATUS
-func (action *DeliveryRuleAction_STATUS) AssignProperties_From_DeliveryRuleAction_STATUS(source *v20210601s.DeliveryRuleAction_STATUS) error {
+func (action *DeliveryRuleAction_STATUS) AssignProperties_From_DeliveryRuleAction_STATUS(source *v1beta20210601s.DeliveryRuleAction_STATUS) error {
 
 	// CacheExpiration
 	if source.CacheExpiration != nil {
@@ -6209,13 +6209,13 @@ func (action *DeliveryRuleAction_STATUS) AssignProperties_From_DeliveryRuleActio
 }
 
 // AssignProperties_To_DeliveryRuleAction_STATUS populates the provided destination DeliveryRuleAction_STATUS from our DeliveryRuleAction_STATUS
-func (action *DeliveryRuleAction_STATUS) AssignProperties_To_DeliveryRuleAction_STATUS(destination *v20210601s.DeliveryRuleAction_STATUS) error {
+func (action *DeliveryRuleAction_STATUS) AssignProperties_To_DeliveryRuleAction_STATUS(destination *v1beta20210601s.DeliveryRuleAction_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CacheExpiration
 	if action.CacheExpiration != nil {
-		var cacheExpiration v20210601s.DeliveryRuleCacheExpirationAction_STATUS
+		var cacheExpiration v1beta20210601s.DeliveryRuleCacheExpirationAction_STATUS
 		err := action.CacheExpiration.AssignProperties_To_DeliveryRuleCacheExpirationAction_STATUS(&cacheExpiration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCacheExpirationAction_STATUS() to populate field CacheExpiration")
@@ -6227,7 +6227,7 @@ func (action *DeliveryRuleAction_STATUS) AssignProperties_To_DeliveryRuleAction_
 
 	// CacheKeyQueryString
 	if action.CacheKeyQueryString != nil {
-		var cacheKeyQueryString v20210601s.DeliveryRuleCacheKeyQueryStringAction_STATUS
+		var cacheKeyQueryString v1beta20210601s.DeliveryRuleCacheKeyQueryStringAction_STATUS
 		err := action.CacheKeyQueryString.AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction_STATUS(&cacheKeyQueryString)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction_STATUS() to populate field CacheKeyQueryString")
@@ -6239,7 +6239,7 @@ func (action *DeliveryRuleAction_STATUS) AssignProperties_To_DeliveryRuleAction_
 
 	// ModifyRequestHeader
 	if action.ModifyRequestHeader != nil {
-		var modifyRequestHeader v20210601s.DeliveryRuleRequestHeaderAction_STATUS
+		var modifyRequestHeader v1beta20210601s.DeliveryRuleRequestHeaderAction_STATUS
 		err := action.ModifyRequestHeader.AssignProperties_To_DeliveryRuleRequestHeaderAction_STATUS(&modifyRequestHeader)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestHeaderAction_STATUS() to populate field ModifyRequestHeader")
@@ -6251,7 +6251,7 @@ func (action *DeliveryRuleAction_STATUS) AssignProperties_To_DeliveryRuleAction_
 
 	// ModifyResponseHeader
 	if action.ModifyResponseHeader != nil {
-		var modifyResponseHeader v20210601s.DeliveryRuleResponseHeaderAction_STATUS
+		var modifyResponseHeader v1beta20210601s.DeliveryRuleResponseHeaderAction_STATUS
 		err := action.ModifyResponseHeader.AssignProperties_To_DeliveryRuleResponseHeaderAction_STATUS(&modifyResponseHeader)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleResponseHeaderAction_STATUS() to populate field ModifyResponseHeader")
@@ -6263,7 +6263,7 @@ func (action *DeliveryRuleAction_STATUS) AssignProperties_To_DeliveryRuleAction_
 
 	// OriginGroupOverride
 	if action.OriginGroupOverride != nil {
-		var originGroupOverride v20210601s.OriginGroupOverrideAction_STATUS
+		var originGroupOverride v1beta20210601s.OriginGroupOverrideAction_STATUS
 		err := action.OriginGroupOverride.AssignProperties_To_OriginGroupOverrideAction_STATUS(&originGroupOverride)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_OriginGroupOverrideAction_STATUS() to populate field OriginGroupOverride")
@@ -6275,7 +6275,7 @@ func (action *DeliveryRuleAction_STATUS) AssignProperties_To_DeliveryRuleAction_
 
 	// RouteConfigurationOverride
 	if action.RouteConfigurationOverride != nil {
-		var routeConfigurationOverride v20210601s.DeliveryRuleRouteConfigurationOverrideAction_STATUS
+		var routeConfigurationOverride v1beta20210601s.DeliveryRuleRouteConfigurationOverrideAction_STATUS
 		err := action.RouteConfigurationOverride.AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction_STATUS(&routeConfigurationOverride)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction_STATUS() to populate field RouteConfigurationOverride")
@@ -6287,7 +6287,7 @@ func (action *DeliveryRuleAction_STATUS) AssignProperties_To_DeliveryRuleAction_
 
 	// UrlRedirect
 	if action.UrlRedirect != nil {
-		var urlRedirect v20210601s.UrlRedirectAction_STATUS
+		var urlRedirect v1beta20210601s.UrlRedirectAction_STATUS
 		err := action.UrlRedirect.AssignProperties_To_UrlRedirectAction_STATUS(&urlRedirect)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlRedirectAction_STATUS() to populate field UrlRedirect")
@@ -6299,7 +6299,7 @@ func (action *DeliveryRuleAction_STATUS) AssignProperties_To_DeliveryRuleAction_
 
 	// UrlRewrite
 	if action.UrlRewrite != nil {
-		var urlRewrite v20210601s.UrlRewriteAction_STATUS
+		var urlRewrite v1beta20210601s.UrlRewriteAction_STATUS
 		err := action.UrlRewrite.AssignProperties_To_UrlRewriteAction_STATUS(&urlRewrite)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlRewriteAction_STATUS() to populate field UrlRewrite")
@@ -6311,7 +6311,7 @@ func (action *DeliveryRuleAction_STATUS) AssignProperties_To_DeliveryRuleAction_
 
 	// UrlSigning
 	if action.UrlSigning != nil {
-		var urlSigning v20210601s.UrlSigningAction_STATUS
+		var urlSigning v1beta20210601s.UrlSigningAction_STATUS
 		err := action.UrlSigning.AssignProperties_To_UrlSigningAction_STATUS(&urlSigning)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlSigningAction_STATUS() to populate field UrlSigning")
@@ -6782,7 +6782,7 @@ func (condition *DeliveryRuleCondition) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_DeliveryRuleCondition populates our DeliveryRuleCondition from the provided source DeliveryRuleCondition
-func (condition *DeliveryRuleCondition) AssignProperties_From_DeliveryRuleCondition(source *v20210601s.DeliveryRuleCondition) error {
+func (condition *DeliveryRuleCondition) AssignProperties_From_DeliveryRuleCondition(source *v1beta20210601s.DeliveryRuleCondition) error {
 
 	// ClientPort
 	if source.ClientPort != nil {
@@ -7017,13 +7017,13 @@ func (condition *DeliveryRuleCondition) AssignProperties_From_DeliveryRuleCondit
 }
 
 // AssignProperties_To_DeliveryRuleCondition populates the provided destination DeliveryRuleCondition from our DeliveryRuleCondition
-func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleCondition(destination *v20210601s.DeliveryRuleCondition) error {
+func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleCondition(destination *v1beta20210601s.DeliveryRuleCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ClientPort
 	if condition.ClientPort != nil {
-		var clientPort v20210601s.DeliveryRuleClientPortCondition
+		var clientPort v1beta20210601s.DeliveryRuleClientPortCondition
 		err := condition.ClientPort.AssignProperties_To_DeliveryRuleClientPortCondition(&clientPort)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleClientPortCondition() to populate field ClientPort")
@@ -7035,7 +7035,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// Cookies
 	if condition.Cookies != nil {
-		var cookie v20210601s.DeliveryRuleCookiesCondition
+		var cookie v1beta20210601s.DeliveryRuleCookiesCondition
 		err := condition.Cookies.AssignProperties_To_DeliveryRuleCookiesCondition(&cookie)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCookiesCondition() to populate field Cookies")
@@ -7047,7 +7047,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// HostName
 	if condition.HostName != nil {
-		var hostName v20210601s.DeliveryRuleHostNameCondition
+		var hostName v1beta20210601s.DeliveryRuleHostNameCondition
 		err := condition.HostName.AssignProperties_To_DeliveryRuleHostNameCondition(&hostName)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleHostNameCondition() to populate field HostName")
@@ -7059,7 +7059,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// HttpVersion
 	if condition.HttpVersion != nil {
-		var httpVersion v20210601s.DeliveryRuleHttpVersionCondition
+		var httpVersion v1beta20210601s.DeliveryRuleHttpVersionCondition
 		err := condition.HttpVersion.AssignProperties_To_DeliveryRuleHttpVersionCondition(&httpVersion)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleHttpVersionCondition() to populate field HttpVersion")
@@ -7071,7 +7071,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// IsDevice
 	if condition.IsDevice != nil {
-		var isDevice v20210601s.DeliveryRuleIsDeviceCondition
+		var isDevice v1beta20210601s.DeliveryRuleIsDeviceCondition
 		err := condition.IsDevice.AssignProperties_To_DeliveryRuleIsDeviceCondition(&isDevice)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleIsDeviceCondition() to populate field IsDevice")
@@ -7083,7 +7083,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// PostArgs
 	if condition.PostArgs != nil {
-		var postArg v20210601s.DeliveryRulePostArgsCondition
+		var postArg v1beta20210601s.DeliveryRulePostArgsCondition
 		err := condition.PostArgs.AssignProperties_To_DeliveryRulePostArgsCondition(&postArg)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRulePostArgsCondition() to populate field PostArgs")
@@ -7095,7 +7095,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// QueryString
 	if condition.QueryString != nil {
-		var queryString v20210601s.DeliveryRuleQueryStringCondition
+		var queryString v1beta20210601s.DeliveryRuleQueryStringCondition
 		err := condition.QueryString.AssignProperties_To_DeliveryRuleQueryStringCondition(&queryString)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleQueryStringCondition() to populate field QueryString")
@@ -7107,7 +7107,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// RemoteAddress
 	if condition.RemoteAddress != nil {
-		var remoteAddress v20210601s.DeliveryRuleRemoteAddressCondition
+		var remoteAddress v1beta20210601s.DeliveryRuleRemoteAddressCondition
 		err := condition.RemoteAddress.AssignProperties_To_DeliveryRuleRemoteAddressCondition(&remoteAddress)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRemoteAddressCondition() to populate field RemoteAddress")
@@ -7119,7 +7119,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// RequestBody
 	if condition.RequestBody != nil {
-		var requestBody v20210601s.DeliveryRuleRequestBodyCondition
+		var requestBody v1beta20210601s.DeliveryRuleRequestBodyCondition
 		err := condition.RequestBody.AssignProperties_To_DeliveryRuleRequestBodyCondition(&requestBody)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestBodyCondition() to populate field RequestBody")
@@ -7131,7 +7131,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// RequestHeader
 	if condition.RequestHeader != nil {
-		var requestHeader v20210601s.DeliveryRuleRequestHeaderCondition
+		var requestHeader v1beta20210601s.DeliveryRuleRequestHeaderCondition
 		err := condition.RequestHeader.AssignProperties_To_DeliveryRuleRequestHeaderCondition(&requestHeader)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestHeaderCondition() to populate field RequestHeader")
@@ -7143,7 +7143,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// RequestMethod
 	if condition.RequestMethod != nil {
-		var requestMethod v20210601s.DeliveryRuleRequestMethodCondition
+		var requestMethod v1beta20210601s.DeliveryRuleRequestMethodCondition
 		err := condition.RequestMethod.AssignProperties_To_DeliveryRuleRequestMethodCondition(&requestMethod)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestMethodCondition() to populate field RequestMethod")
@@ -7155,7 +7155,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// RequestScheme
 	if condition.RequestScheme != nil {
-		var requestScheme v20210601s.DeliveryRuleRequestSchemeCondition
+		var requestScheme v1beta20210601s.DeliveryRuleRequestSchemeCondition
 		err := condition.RequestScheme.AssignProperties_To_DeliveryRuleRequestSchemeCondition(&requestScheme)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestSchemeCondition() to populate field RequestScheme")
@@ -7167,7 +7167,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// RequestUri
 	if condition.RequestUri != nil {
-		var requestUri v20210601s.DeliveryRuleRequestUriCondition
+		var requestUri v1beta20210601s.DeliveryRuleRequestUriCondition
 		err := condition.RequestUri.AssignProperties_To_DeliveryRuleRequestUriCondition(&requestUri)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestUriCondition() to populate field RequestUri")
@@ -7179,7 +7179,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// ServerPort
 	if condition.ServerPort != nil {
-		var serverPort v20210601s.DeliveryRuleServerPortCondition
+		var serverPort v1beta20210601s.DeliveryRuleServerPortCondition
 		err := condition.ServerPort.AssignProperties_To_DeliveryRuleServerPortCondition(&serverPort)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleServerPortCondition() to populate field ServerPort")
@@ -7191,7 +7191,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// SocketAddr
 	if condition.SocketAddr != nil {
-		var socketAddr v20210601s.DeliveryRuleSocketAddrCondition
+		var socketAddr v1beta20210601s.DeliveryRuleSocketAddrCondition
 		err := condition.SocketAddr.AssignProperties_To_DeliveryRuleSocketAddrCondition(&socketAddr)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleSocketAddrCondition() to populate field SocketAddr")
@@ -7203,7 +7203,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// SslProtocol
 	if condition.SslProtocol != nil {
-		var sslProtocol v20210601s.DeliveryRuleSslProtocolCondition
+		var sslProtocol v1beta20210601s.DeliveryRuleSslProtocolCondition
 		err := condition.SslProtocol.AssignProperties_To_DeliveryRuleSslProtocolCondition(&sslProtocol)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleSslProtocolCondition() to populate field SslProtocol")
@@ -7215,7 +7215,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// UrlFileExtension
 	if condition.UrlFileExtension != nil {
-		var urlFileExtension v20210601s.DeliveryRuleUrlFileExtensionCondition
+		var urlFileExtension v1beta20210601s.DeliveryRuleUrlFileExtensionCondition
 		err := condition.UrlFileExtension.AssignProperties_To_DeliveryRuleUrlFileExtensionCondition(&urlFileExtension)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleUrlFileExtensionCondition() to populate field UrlFileExtension")
@@ -7227,7 +7227,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// UrlFileName
 	if condition.UrlFileName != nil {
-		var urlFileName v20210601s.DeliveryRuleUrlFileNameCondition
+		var urlFileName v1beta20210601s.DeliveryRuleUrlFileNameCondition
 		err := condition.UrlFileName.AssignProperties_To_DeliveryRuleUrlFileNameCondition(&urlFileName)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleUrlFileNameCondition() to populate field UrlFileName")
@@ -7239,7 +7239,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// UrlPath
 	if condition.UrlPath != nil {
-		var urlPath v20210601s.DeliveryRuleUrlPathCondition
+		var urlPath v1beta20210601s.DeliveryRuleUrlPathCondition
 		err := condition.UrlPath.AssignProperties_To_DeliveryRuleUrlPathCondition(&urlPath)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleUrlPathCondition() to populate field UrlPath")
@@ -7511,7 +7511,7 @@ func (condition *DeliveryRuleCondition_STATUS) PopulateFromARM(owner genruntime.
 }
 
 // AssignProperties_From_DeliveryRuleCondition_STATUS populates our DeliveryRuleCondition_STATUS from the provided source DeliveryRuleCondition_STATUS
-func (condition *DeliveryRuleCondition_STATUS) AssignProperties_From_DeliveryRuleCondition_STATUS(source *v20210601s.DeliveryRuleCondition_STATUS) error {
+func (condition *DeliveryRuleCondition_STATUS) AssignProperties_From_DeliveryRuleCondition_STATUS(source *v1beta20210601s.DeliveryRuleCondition_STATUS) error {
 
 	// ClientPort
 	if source.ClientPort != nil {
@@ -7746,13 +7746,13 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_From_DeliveryRul
 }
 
 // AssignProperties_To_DeliveryRuleCondition_STATUS populates the provided destination DeliveryRuleCondition_STATUS from our DeliveryRuleCondition_STATUS
-func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleCondition_STATUS(destination *v20210601s.DeliveryRuleCondition_STATUS) error {
+func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleCondition_STATUS(destination *v1beta20210601s.DeliveryRuleCondition_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ClientPort
 	if condition.ClientPort != nil {
-		var clientPort v20210601s.DeliveryRuleClientPortCondition_STATUS
+		var clientPort v1beta20210601s.DeliveryRuleClientPortCondition_STATUS
 		err := condition.ClientPort.AssignProperties_To_DeliveryRuleClientPortCondition_STATUS(&clientPort)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleClientPortCondition_STATUS() to populate field ClientPort")
@@ -7764,7 +7764,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// Cookies
 	if condition.Cookies != nil {
-		var cookie v20210601s.DeliveryRuleCookiesCondition_STATUS
+		var cookie v1beta20210601s.DeliveryRuleCookiesCondition_STATUS
 		err := condition.Cookies.AssignProperties_To_DeliveryRuleCookiesCondition_STATUS(&cookie)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCookiesCondition_STATUS() to populate field Cookies")
@@ -7776,7 +7776,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// HostName
 	if condition.HostName != nil {
-		var hostName v20210601s.DeliveryRuleHostNameCondition_STATUS
+		var hostName v1beta20210601s.DeliveryRuleHostNameCondition_STATUS
 		err := condition.HostName.AssignProperties_To_DeliveryRuleHostNameCondition_STATUS(&hostName)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleHostNameCondition_STATUS() to populate field HostName")
@@ -7788,7 +7788,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// HttpVersion
 	if condition.HttpVersion != nil {
-		var httpVersion v20210601s.DeliveryRuleHttpVersionCondition_STATUS
+		var httpVersion v1beta20210601s.DeliveryRuleHttpVersionCondition_STATUS
 		err := condition.HttpVersion.AssignProperties_To_DeliveryRuleHttpVersionCondition_STATUS(&httpVersion)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleHttpVersionCondition_STATUS() to populate field HttpVersion")
@@ -7800,7 +7800,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// IsDevice
 	if condition.IsDevice != nil {
-		var isDevice v20210601s.DeliveryRuleIsDeviceCondition_STATUS
+		var isDevice v1beta20210601s.DeliveryRuleIsDeviceCondition_STATUS
 		err := condition.IsDevice.AssignProperties_To_DeliveryRuleIsDeviceCondition_STATUS(&isDevice)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleIsDeviceCondition_STATUS() to populate field IsDevice")
@@ -7812,7 +7812,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// PostArgs
 	if condition.PostArgs != nil {
-		var postArg v20210601s.DeliveryRulePostArgsCondition_STATUS
+		var postArg v1beta20210601s.DeliveryRulePostArgsCondition_STATUS
 		err := condition.PostArgs.AssignProperties_To_DeliveryRulePostArgsCondition_STATUS(&postArg)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRulePostArgsCondition_STATUS() to populate field PostArgs")
@@ -7824,7 +7824,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// QueryString
 	if condition.QueryString != nil {
-		var queryString v20210601s.DeliveryRuleQueryStringCondition_STATUS
+		var queryString v1beta20210601s.DeliveryRuleQueryStringCondition_STATUS
 		err := condition.QueryString.AssignProperties_To_DeliveryRuleQueryStringCondition_STATUS(&queryString)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleQueryStringCondition_STATUS() to populate field QueryString")
@@ -7836,7 +7836,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// RemoteAddress
 	if condition.RemoteAddress != nil {
-		var remoteAddress v20210601s.DeliveryRuleRemoteAddressCondition_STATUS
+		var remoteAddress v1beta20210601s.DeliveryRuleRemoteAddressCondition_STATUS
 		err := condition.RemoteAddress.AssignProperties_To_DeliveryRuleRemoteAddressCondition_STATUS(&remoteAddress)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRemoteAddressCondition_STATUS() to populate field RemoteAddress")
@@ -7848,7 +7848,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// RequestBody
 	if condition.RequestBody != nil {
-		var requestBody v20210601s.DeliveryRuleRequestBodyCondition_STATUS
+		var requestBody v1beta20210601s.DeliveryRuleRequestBodyCondition_STATUS
 		err := condition.RequestBody.AssignProperties_To_DeliveryRuleRequestBodyCondition_STATUS(&requestBody)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestBodyCondition_STATUS() to populate field RequestBody")
@@ -7860,7 +7860,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// RequestHeader
 	if condition.RequestHeader != nil {
-		var requestHeader v20210601s.DeliveryRuleRequestHeaderCondition_STATUS
+		var requestHeader v1beta20210601s.DeliveryRuleRequestHeaderCondition_STATUS
 		err := condition.RequestHeader.AssignProperties_To_DeliveryRuleRequestHeaderCondition_STATUS(&requestHeader)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestHeaderCondition_STATUS() to populate field RequestHeader")
@@ -7872,7 +7872,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// RequestMethod
 	if condition.RequestMethod != nil {
-		var requestMethod v20210601s.DeliveryRuleRequestMethodCondition_STATUS
+		var requestMethod v1beta20210601s.DeliveryRuleRequestMethodCondition_STATUS
 		err := condition.RequestMethod.AssignProperties_To_DeliveryRuleRequestMethodCondition_STATUS(&requestMethod)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestMethodCondition_STATUS() to populate field RequestMethod")
@@ -7884,7 +7884,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// RequestScheme
 	if condition.RequestScheme != nil {
-		var requestScheme v20210601s.DeliveryRuleRequestSchemeCondition_STATUS
+		var requestScheme v1beta20210601s.DeliveryRuleRequestSchemeCondition_STATUS
 		err := condition.RequestScheme.AssignProperties_To_DeliveryRuleRequestSchemeCondition_STATUS(&requestScheme)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestSchemeCondition_STATUS() to populate field RequestScheme")
@@ -7896,7 +7896,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// RequestUri
 	if condition.RequestUri != nil {
-		var requestUri v20210601s.DeliveryRuleRequestUriCondition_STATUS
+		var requestUri v1beta20210601s.DeliveryRuleRequestUriCondition_STATUS
 		err := condition.RequestUri.AssignProperties_To_DeliveryRuleRequestUriCondition_STATUS(&requestUri)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestUriCondition_STATUS() to populate field RequestUri")
@@ -7908,7 +7908,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// ServerPort
 	if condition.ServerPort != nil {
-		var serverPort v20210601s.DeliveryRuleServerPortCondition_STATUS
+		var serverPort v1beta20210601s.DeliveryRuleServerPortCondition_STATUS
 		err := condition.ServerPort.AssignProperties_To_DeliveryRuleServerPortCondition_STATUS(&serverPort)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleServerPortCondition_STATUS() to populate field ServerPort")
@@ -7920,7 +7920,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// SocketAddr
 	if condition.SocketAddr != nil {
-		var socketAddr v20210601s.DeliveryRuleSocketAddrCondition_STATUS
+		var socketAddr v1beta20210601s.DeliveryRuleSocketAddrCondition_STATUS
 		err := condition.SocketAddr.AssignProperties_To_DeliveryRuleSocketAddrCondition_STATUS(&socketAddr)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleSocketAddrCondition_STATUS() to populate field SocketAddr")
@@ -7932,7 +7932,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// SslProtocol
 	if condition.SslProtocol != nil {
-		var sslProtocol v20210601s.DeliveryRuleSslProtocolCondition_STATUS
+		var sslProtocol v1beta20210601s.DeliveryRuleSslProtocolCondition_STATUS
 		err := condition.SslProtocol.AssignProperties_To_DeliveryRuleSslProtocolCondition_STATUS(&sslProtocol)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleSslProtocolCondition_STATUS() to populate field SslProtocol")
@@ -7944,7 +7944,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// UrlFileExtension
 	if condition.UrlFileExtension != nil {
-		var urlFileExtension v20210601s.DeliveryRuleUrlFileExtensionCondition_STATUS
+		var urlFileExtension v1beta20210601s.DeliveryRuleUrlFileExtensionCondition_STATUS
 		err := condition.UrlFileExtension.AssignProperties_To_DeliveryRuleUrlFileExtensionCondition_STATUS(&urlFileExtension)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleUrlFileExtensionCondition_STATUS() to populate field UrlFileExtension")
@@ -7956,7 +7956,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// UrlFileName
 	if condition.UrlFileName != nil {
-		var urlFileName v20210601s.DeliveryRuleUrlFileNameCondition_STATUS
+		var urlFileName v1beta20210601s.DeliveryRuleUrlFileNameCondition_STATUS
 		err := condition.UrlFileName.AssignProperties_To_DeliveryRuleUrlFileNameCondition_STATUS(&urlFileName)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleUrlFileNameCondition_STATUS() to populate field UrlFileName")
@@ -7968,7 +7968,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// UrlPath
 	if condition.UrlPath != nil {
-		var urlPath v20210601s.DeliveryRuleUrlPathCondition_STATUS
+		var urlPath v1beta20210601s.DeliveryRuleUrlPathCondition_STATUS
 		err := condition.UrlPath.AssignProperties_To_DeliveryRuleUrlPathCondition_STATUS(&urlPath)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleUrlPathCondition_STATUS() to populate field UrlPath")
@@ -8093,7 +8093,7 @@ func (parameters *HttpErrorRangeParameters) PopulateFromARM(owner genruntime.Arb
 }
 
 // AssignProperties_From_HttpErrorRangeParameters populates our HttpErrorRangeParameters from the provided source HttpErrorRangeParameters
-func (parameters *HttpErrorRangeParameters) AssignProperties_From_HttpErrorRangeParameters(source *v20210601s.HttpErrorRangeParameters) error {
+func (parameters *HttpErrorRangeParameters) AssignProperties_From_HttpErrorRangeParameters(source *v1beta20210601s.HttpErrorRangeParameters) error {
 
 	// Begin
 	if source.Begin != nil {
@@ -8116,7 +8116,7 @@ func (parameters *HttpErrorRangeParameters) AssignProperties_From_HttpErrorRange
 }
 
 // AssignProperties_To_HttpErrorRangeParameters populates the provided destination HttpErrorRangeParameters from our HttpErrorRangeParameters
-func (parameters *HttpErrorRangeParameters) AssignProperties_To_HttpErrorRangeParameters(destination *v20210601s.HttpErrorRangeParameters) error {
+func (parameters *HttpErrorRangeParameters) AssignProperties_To_HttpErrorRangeParameters(destination *v1beta20210601s.HttpErrorRangeParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8184,7 +8184,7 @@ func (parameters *HttpErrorRangeParameters_STATUS) PopulateFromARM(owner genrunt
 }
 
 // AssignProperties_From_HttpErrorRangeParameters_STATUS populates our HttpErrorRangeParameters_STATUS from the provided source HttpErrorRangeParameters_STATUS
-func (parameters *HttpErrorRangeParameters_STATUS) AssignProperties_From_HttpErrorRangeParameters_STATUS(source *v20210601s.HttpErrorRangeParameters_STATUS) error {
+func (parameters *HttpErrorRangeParameters_STATUS) AssignProperties_From_HttpErrorRangeParameters_STATUS(source *v1beta20210601s.HttpErrorRangeParameters_STATUS) error {
 
 	// Begin
 	parameters.Begin = genruntime.ClonePointerToInt(source.Begin)
@@ -8197,7 +8197,7 @@ func (parameters *HttpErrorRangeParameters_STATUS) AssignProperties_From_HttpErr
 }
 
 // AssignProperties_To_HttpErrorRangeParameters_STATUS populates the provided destination HttpErrorRangeParameters_STATUS from our HttpErrorRangeParameters_STATUS
-func (parameters *HttpErrorRangeParameters_STATUS) AssignProperties_To_HttpErrorRangeParameters_STATUS(destination *v20210601s.HttpErrorRangeParameters_STATUS) error {
+func (parameters *HttpErrorRangeParameters_STATUS) AssignProperties_To_HttpErrorRangeParameters_STATUS(destination *v1beta20210601s.HttpErrorRangeParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8318,7 +8318,7 @@ func (action *DeliveryRuleCacheExpirationAction) PopulateFromARM(owner genruntim
 }
 
 // AssignProperties_From_DeliveryRuleCacheExpirationAction populates our DeliveryRuleCacheExpirationAction from the provided source DeliveryRuleCacheExpirationAction
-func (action *DeliveryRuleCacheExpirationAction) AssignProperties_From_DeliveryRuleCacheExpirationAction(source *v20210601s.DeliveryRuleCacheExpirationAction) error {
+func (action *DeliveryRuleCacheExpirationAction) AssignProperties_From_DeliveryRuleCacheExpirationAction(source *v1beta20210601s.DeliveryRuleCacheExpirationAction) error {
 
 	// Name
 	if source.Name != nil {
@@ -8345,7 +8345,7 @@ func (action *DeliveryRuleCacheExpirationAction) AssignProperties_From_DeliveryR
 }
 
 // AssignProperties_To_DeliveryRuleCacheExpirationAction populates the provided destination DeliveryRuleCacheExpirationAction from our DeliveryRuleCacheExpirationAction
-func (action *DeliveryRuleCacheExpirationAction) AssignProperties_To_DeliveryRuleCacheExpirationAction(destination *v20210601s.DeliveryRuleCacheExpirationAction) error {
+func (action *DeliveryRuleCacheExpirationAction) AssignProperties_To_DeliveryRuleCacheExpirationAction(destination *v1beta20210601s.DeliveryRuleCacheExpirationAction) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8359,7 +8359,7 @@ func (action *DeliveryRuleCacheExpirationAction) AssignProperties_To_DeliveryRul
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v20210601s.CacheExpirationActionParameters
+		var parameter v1beta20210601s.CacheExpirationActionParameters
 		err := action.Parameters.AssignProperties_To_CacheExpirationActionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CacheExpirationActionParameters() to populate field Parameters")
@@ -8419,7 +8419,7 @@ func (action *DeliveryRuleCacheExpirationAction_STATUS) PopulateFromARM(owner ge
 }
 
 // AssignProperties_From_DeliveryRuleCacheExpirationAction_STATUS populates our DeliveryRuleCacheExpirationAction_STATUS from the provided source DeliveryRuleCacheExpirationAction_STATUS
-func (action *DeliveryRuleCacheExpirationAction_STATUS) AssignProperties_From_DeliveryRuleCacheExpirationAction_STATUS(source *v20210601s.DeliveryRuleCacheExpirationAction_STATUS) error {
+func (action *DeliveryRuleCacheExpirationAction_STATUS) AssignProperties_From_DeliveryRuleCacheExpirationAction_STATUS(source *v1beta20210601s.DeliveryRuleCacheExpirationAction_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -8446,7 +8446,7 @@ func (action *DeliveryRuleCacheExpirationAction_STATUS) AssignProperties_From_De
 }
 
 // AssignProperties_To_DeliveryRuleCacheExpirationAction_STATUS populates the provided destination DeliveryRuleCacheExpirationAction_STATUS from our DeliveryRuleCacheExpirationAction_STATUS
-func (action *DeliveryRuleCacheExpirationAction_STATUS) AssignProperties_To_DeliveryRuleCacheExpirationAction_STATUS(destination *v20210601s.DeliveryRuleCacheExpirationAction_STATUS) error {
+func (action *DeliveryRuleCacheExpirationAction_STATUS) AssignProperties_To_DeliveryRuleCacheExpirationAction_STATUS(destination *v1beta20210601s.DeliveryRuleCacheExpirationAction_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8460,7 +8460,7 @@ func (action *DeliveryRuleCacheExpirationAction_STATUS) AssignProperties_To_Deli
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v20210601s.CacheExpirationActionParameters_STATUS
+		var parameter v1beta20210601s.CacheExpirationActionParameters_STATUS
 		err := action.Parameters.AssignProperties_To_CacheExpirationActionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CacheExpirationActionParameters_STATUS() to populate field Parameters")
@@ -8547,7 +8547,7 @@ func (action *DeliveryRuleCacheKeyQueryStringAction) PopulateFromARM(owner genru
 }
 
 // AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction populates our DeliveryRuleCacheKeyQueryStringAction from the provided source DeliveryRuleCacheKeyQueryStringAction
-func (action *DeliveryRuleCacheKeyQueryStringAction) AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction(source *v20210601s.DeliveryRuleCacheKeyQueryStringAction) error {
+func (action *DeliveryRuleCacheKeyQueryStringAction) AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction(source *v1beta20210601s.DeliveryRuleCacheKeyQueryStringAction) error {
 
 	// Name
 	if source.Name != nil {
@@ -8574,7 +8574,7 @@ func (action *DeliveryRuleCacheKeyQueryStringAction) AssignProperties_From_Deliv
 }
 
 // AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction populates the provided destination DeliveryRuleCacheKeyQueryStringAction from our DeliveryRuleCacheKeyQueryStringAction
-func (action *DeliveryRuleCacheKeyQueryStringAction) AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction(destination *v20210601s.DeliveryRuleCacheKeyQueryStringAction) error {
+func (action *DeliveryRuleCacheKeyQueryStringAction) AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction(destination *v1beta20210601s.DeliveryRuleCacheKeyQueryStringAction) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8588,7 +8588,7 @@ func (action *DeliveryRuleCacheKeyQueryStringAction) AssignProperties_To_Deliver
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v20210601s.CacheKeyQueryStringActionParameters
+		var parameter v1beta20210601s.CacheKeyQueryStringActionParameters
 		err := action.Parameters.AssignProperties_To_CacheKeyQueryStringActionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CacheKeyQueryStringActionParameters() to populate field Parameters")
@@ -8648,7 +8648,7 @@ func (action *DeliveryRuleCacheKeyQueryStringAction_STATUS) PopulateFromARM(owne
 }
 
 // AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction_STATUS populates our DeliveryRuleCacheKeyQueryStringAction_STATUS from the provided source DeliveryRuleCacheKeyQueryStringAction_STATUS
-func (action *DeliveryRuleCacheKeyQueryStringAction_STATUS) AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction_STATUS(source *v20210601s.DeliveryRuleCacheKeyQueryStringAction_STATUS) error {
+func (action *DeliveryRuleCacheKeyQueryStringAction_STATUS) AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction_STATUS(source *v1beta20210601s.DeliveryRuleCacheKeyQueryStringAction_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -8675,7 +8675,7 @@ func (action *DeliveryRuleCacheKeyQueryStringAction_STATUS) AssignProperties_Fro
 }
 
 // AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction_STATUS populates the provided destination DeliveryRuleCacheKeyQueryStringAction_STATUS from our DeliveryRuleCacheKeyQueryStringAction_STATUS
-func (action *DeliveryRuleCacheKeyQueryStringAction_STATUS) AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction_STATUS(destination *v20210601s.DeliveryRuleCacheKeyQueryStringAction_STATUS) error {
+func (action *DeliveryRuleCacheKeyQueryStringAction_STATUS) AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction_STATUS(destination *v1beta20210601s.DeliveryRuleCacheKeyQueryStringAction_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8689,7 +8689,7 @@ func (action *DeliveryRuleCacheKeyQueryStringAction_STATUS) AssignProperties_To_
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v20210601s.CacheKeyQueryStringActionParameters_STATUS
+		var parameter v1beta20210601s.CacheKeyQueryStringActionParameters_STATUS
 		err := action.Parameters.AssignProperties_To_CacheKeyQueryStringActionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CacheKeyQueryStringActionParameters_STATUS() to populate field Parameters")
@@ -8776,7 +8776,7 @@ func (condition *DeliveryRuleClientPortCondition) PopulateFromARM(owner genrunti
 }
 
 // AssignProperties_From_DeliveryRuleClientPortCondition populates our DeliveryRuleClientPortCondition from the provided source DeliveryRuleClientPortCondition
-func (condition *DeliveryRuleClientPortCondition) AssignProperties_From_DeliveryRuleClientPortCondition(source *v20210601s.DeliveryRuleClientPortCondition) error {
+func (condition *DeliveryRuleClientPortCondition) AssignProperties_From_DeliveryRuleClientPortCondition(source *v1beta20210601s.DeliveryRuleClientPortCondition) error {
 
 	// Name
 	if source.Name != nil {
@@ -8803,7 +8803,7 @@ func (condition *DeliveryRuleClientPortCondition) AssignProperties_From_Delivery
 }
 
 // AssignProperties_To_DeliveryRuleClientPortCondition populates the provided destination DeliveryRuleClientPortCondition from our DeliveryRuleClientPortCondition
-func (condition *DeliveryRuleClientPortCondition) AssignProperties_To_DeliveryRuleClientPortCondition(destination *v20210601s.DeliveryRuleClientPortCondition) error {
+func (condition *DeliveryRuleClientPortCondition) AssignProperties_To_DeliveryRuleClientPortCondition(destination *v1beta20210601s.DeliveryRuleClientPortCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8817,7 +8817,7 @@ func (condition *DeliveryRuleClientPortCondition) AssignProperties_To_DeliveryRu
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.ClientPortMatchConditionParameters
+		var parameter v1beta20210601s.ClientPortMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_ClientPortMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ClientPortMatchConditionParameters() to populate field Parameters")
@@ -8877,7 +8877,7 @@ func (condition *DeliveryRuleClientPortCondition_STATUS) PopulateFromARM(owner g
 }
 
 // AssignProperties_From_DeliveryRuleClientPortCondition_STATUS populates our DeliveryRuleClientPortCondition_STATUS from the provided source DeliveryRuleClientPortCondition_STATUS
-func (condition *DeliveryRuleClientPortCondition_STATUS) AssignProperties_From_DeliveryRuleClientPortCondition_STATUS(source *v20210601s.DeliveryRuleClientPortCondition_STATUS) error {
+func (condition *DeliveryRuleClientPortCondition_STATUS) AssignProperties_From_DeliveryRuleClientPortCondition_STATUS(source *v1beta20210601s.DeliveryRuleClientPortCondition_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -8904,7 +8904,7 @@ func (condition *DeliveryRuleClientPortCondition_STATUS) AssignProperties_From_D
 }
 
 // AssignProperties_To_DeliveryRuleClientPortCondition_STATUS populates the provided destination DeliveryRuleClientPortCondition_STATUS from our DeliveryRuleClientPortCondition_STATUS
-func (condition *DeliveryRuleClientPortCondition_STATUS) AssignProperties_To_DeliveryRuleClientPortCondition_STATUS(destination *v20210601s.DeliveryRuleClientPortCondition_STATUS) error {
+func (condition *DeliveryRuleClientPortCondition_STATUS) AssignProperties_To_DeliveryRuleClientPortCondition_STATUS(destination *v1beta20210601s.DeliveryRuleClientPortCondition_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8918,7 +8918,7 @@ func (condition *DeliveryRuleClientPortCondition_STATUS) AssignProperties_To_Del
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.ClientPortMatchConditionParameters_STATUS
+		var parameter v1beta20210601s.ClientPortMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_ClientPortMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ClientPortMatchConditionParameters_STATUS() to populate field Parameters")
@@ -9005,7 +9005,7 @@ func (condition *DeliveryRuleCookiesCondition) PopulateFromARM(owner genruntime.
 }
 
 // AssignProperties_From_DeliveryRuleCookiesCondition populates our DeliveryRuleCookiesCondition from the provided source DeliveryRuleCookiesCondition
-func (condition *DeliveryRuleCookiesCondition) AssignProperties_From_DeliveryRuleCookiesCondition(source *v20210601s.DeliveryRuleCookiesCondition) error {
+func (condition *DeliveryRuleCookiesCondition) AssignProperties_From_DeliveryRuleCookiesCondition(source *v1beta20210601s.DeliveryRuleCookiesCondition) error {
 
 	// Name
 	if source.Name != nil {
@@ -9032,7 +9032,7 @@ func (condition *DeliveryRuleCookiesCondition) AssignProperties_From_DeliveryRul
 }
 
 // AssignProperties_To_DeliveryRuleCookiesCondition populates the provided destination DeliveryRuleCookiesCondition from our DeliveryRuleCookiesCondition
-func (condition *DeliveryRuleCookiesCondition) AssignProperties_To_DeliveryRuleCookiesCondition(destination *v20210601s.DeliveryRuleCookiesCondition) error {
+func (condition *DeliveryRuleCookiesCondition) AssignProperties_To_DeliveryRuleCookiesCondition(destination *v1beta20210601s.DeliveryRuleCookiesCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9046,7 +9046,7 @@ func (condition *DeliveryRuleCookiesCondition) AssignProperties_To_DeliveryRuleC
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.CookiesMatchConditionParameters
+		var parameter v1beta20210601s.CookiesMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_CookiesMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CookiesMatchConditionParameters() to populate field Parameters")
@@ -9106,7 +9106,7 @@ func (condition *DeliveryRuleCookiesCondition_STATUS) PopulateFromARM(owner genr
 }
 
 // AssignProperties_From_DeliveryRuleCookiesCondition_STATUS populates our DeliveryRuleCookiesCondition_STATUS from the provided source DeliveryRuleCookiesCondition_STATUS
-func (condition *DeliveryRuleCookiesCondition_STATUS) AssignProperties_From_DeliveryRuleCookiesCondition_STATUS(source *v20210601s.DeliveryRuleCookiesCondition_STATUS) error {
+func (condition *DeliveryRuleCookiesCondition_STATUS) AssignProperties_From_DeliveryRuleCookiesCondition_STATUS(source *v1beta20210601s.DeliveryRuleCookiesCondition_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -9133,7 +9133,7 @@ func (condition *DeliveryRuleCookiesCondition_STATUS) AssignProperties_From_Deli
 }
 
 // AssignProperties_To_DeliveryRuleCookiesCondition_STATUS populates the provided destination DeliveryRuleCookiesCondition_STATUS from our DeliveryRuleCookiesCondition_STATUS
-func (condition *DeliveryRuleCookiesCondition_STATUS) AssignProperties_To_DeliveryRuleCookiesCondition_STATUS(destination *v20210601s.DeliveryRuleCookiesCondition_STATUS) error {
+func (condition *DeliveryRuleCookiesCondition_STATUS) AssignProperties_To_DeliveryRuleCookiesCondition_STATUS(destination *v1beta20210601s.DeliveryRuleCookiesCondition_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9147,7 +9147,7 @@ func (condition *DeliveryRuleCookiesCondition_STATUS) AssignProperties_To_Delive
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.CookiesMatchConditionParameters_STATUS
+		var parameter v1beta20210601s.CookiesMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_CookiesMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CookiesMatchConditionParameters_STATUS() to populate field Parameters")
@@ -9234,7 +9234,7 @@ func (condition *DeliveryRuleHostNameCondition) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_DeliveryRuleHostNameCondition populates our DeliveryRuleHostNameCondition from the provided source DeliveryRuleHostNameCondition
-func (condition *DeliveryRuleHostNameCondition) AssignProperties_From_DeliveryRuleHostNameCondition(source *v20210601s.DeliveryRuleHostNameCondition) error {
+func (condition *DeliveryRuleHostNameCondition) AssignProperties_From_DeliveryRuleHostNameCondition(source *v1beta20210601s.DeliveryRuleHostNameCondition) error {
 
 	// Name
 	if source.Name != nil {
@@ -9261,7 +9261,7 @@ func (condition *DeliveryRuleHostNameCondition) AssignProperties_From_DeliveryRu
 }
 
 // AssignProperties_To_DeliveryRuleHostNameCondition populates the provided destination DeliveryRuleHostNameCondition from our DeliveryRuleHostNameCondition
-func (condition *DeliveryRuleHostNameCondition) AssignProperties_To_DeliveryRuleHostNameCondition(destination *v20210601s.DeliveryRuleHostNameCondition) error {
+func (condition *DeliveryRuleHostNameCondition) AssignProperties_To_DeliveryRuleHostNameCondition(destination *v1beta20210601s.DeliveryRuleHostNameCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9275,7 +9275,7 @@ func (condition *DeliveryRuleHostNameCondition) AssignProperties_To_DeliveryRule
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.HostNameMatchConditionParameters
+		var parameter v1beta20210601s.HostNameMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_HostNameMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HostNameMatchConditionParameters() to populate field Parameters")
@@ -9335,7 +9335,7 @@ func (condition *DeliveryRuleHostNameCondition_STATUS) PopulateFromARM(owner gen
 }
 
 // AssignProperties_From_DeliveryRuleHostNameCondition_STATUS populates our DeliveryRuleHostNameCondition_STATUS from the provided source DeliveryRuleHostNameCondition_STATUS
-func (condition *DeliveryRuleHostNameCondition_STATUS) AssignProperties_From_DeliveryRuleHostNameCondition_STATUS(source *v20210601s.DeliveryRuleHostNameCondition_STATUS) error {
+func (condition *DeliveryRuleHostNameCondition_STATUS) AssignProperties_From_DeliveryRuleHostNameCondition_STATUS(source *v1beta20210601s.DeliveryRuleHostNameCondition_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -9362,7 +9362,7 @@ func (condition *DeliveryRuleHostNameCondition_STATUS) AssignProperties_From_Del
 }
 
 // AssignProperties_To_DeliveryRuleHostNameCondition_STATUS populates the provided destination DeliveryRuleHostNameCondition_STATUS from our DeliveryRuleHostNameCondition_STATUS
-func (condition *DeliveryRuleHostNameCondition_STATUS) AssignProperties_To_DeliveryRuleHostNameCondition_STATUS(destination *v20210601s.DeliveryRuleHostNameCondition_STATUS) error {
+func (condition *DeliveryRuleHostNameCondition_STATUS) AssignProperties_To_DeliveryRuleHostNameCondition_STATUS(destination *v1beta20210601s.DeliveryRuleHostNameCondition_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9376,7 +9376,7 @@ func (condition *DeliveryRuleHostNameCondition_STATUS) AssignProperties_To_Deliv
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.HostNameMatchConditionParameters_STATUS
+		var parameter v1beta20210601s.HostNameMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_HostNameMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HostNameMatchConditionParameters_STATUS() to populate field Parameters")
@@ -9463,7 +9463,7 @@ func (condition *DeliveryRuleHttpVersionCondition) PopulateFromARM(owner genrunt
 }
 
 // AssignProperties_From_DeliveryRuleHttpVersionCondition populates our DeliveryRuleHttpVersionCondition from the provided source DeliveryRuleHttpVersionCondition
-func (condition *DeliveryRuleHttpVersionCondition) AssignProperties_From_DeliveryRuleHttpVersionCondition(source *v20210601s.DeliveryRuleHttpVersionCondition) error {
+func (condition *DeliveryRuleHttpVersionCondition) AssignProperties_From_DeliveryRuleHttpVersionCondition(source *v1beta20210601s.DeliveryRuleHttpVersionCondition) error {
 
 	// Name
 	if source.Name != nil {
@@ -9490,7 +9490,7 @@ func (condition *DeliveryRuleHttpVersionCondition) AssignProperties_From_Deliver
 }
 
 // AssignProperties_To_DeliveryRuleHttpVersionCondition populates the provided destination DeliveryRuleHttpVersionCondition from our DeliveryRuleHttpVersionCondition
-func (condition *DeliveryRuleHttpVersionCondition) AssignProperties_To_DeliveryRuleHttpVersionCondition(destination *v20210601s.DeliveryRuleHttpVersionCondition) error {
+func (condition *DeliveryRuleHttpVersionCondition) AssignProperties_To_DeliveryRuleHttpVersionCondition(destination *v1beta20210601s.DeliveryRuleHttpVersionCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9504,7 +9504,7 @@ func (condition *DeliveryRuleHttpVersionCondition) AssignProperties_To_DeliveryR
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.HttpVersionMatchConditionParameters
+		var parameter v1beta20210601s.HttpVersionMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_HttpVersionMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HttpVersionMatchConditionParameters() to populate field Parameters")
@@ -9564,7 +9564,7 @@ func (condition *DeliveryRuleHttpVersionCondition_STATUS) PopulateFromARM(owner 
 }
 
 // AssignProperties_From_DeliveryRuleHttpVersionCondition_STATUS populates our DeliveryRuleHttpVersionCondition_STATUS from the provided source DeliveryRuleHttpVersionCondition_STATUS
-func (condition *DeliveryRuleHttpVersionCondition_STATUS) AssignProperties_From_DeliveryRuleHttpVersionCondition_STATUS(source *v20210601s.DeliveryRuleHttpVersionCondition_STATUS) error {
+func (condition *DeliveryRuleHttpVersionCondition_STATUS) AssignProperties_From_DeliveryRuleHttpVersionCondition_STATUS(source *v1beta20210601s.DeliveryRuleHttpVersionCondition_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -9591,7 +9591,7 @@ func (condition *DeliveryRuleHttpVersionCondition_STATUS) AssignProperties_From_
 }
 
 // AssignProperties_To_DeliveryRuleHttpVersionCondition_STATUS populates the provided destination DeliveryRuleHttpVersionCondition_STATUS from our DeliveryRuleHttpVersionCondition_STATUS
-func (condition *DeliveryRuleHttpVersionCondition_STATUS) AssignProperties_To_DeliveryRuleHttpVersionCondition_STATUS(destination *v20210601s.DeliveryRuleHttpVersionCondition_STATUS) error {
+func (condition *DeliveryRuleHttpVersionCondition_STATUS) AssignProperties_To_DeliveryRuleHttpVersionCondition_STATUS(destination *v1beta20210601s.DeliveryRuleHttpVersionCondition_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9605,7 +9605,7 @@ func (condition *DeliveryRuleHttpVersionCondition_STATUS) AssignProperties_To_De
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.HttpVersionMatchConditionParameters_STATUS
+		var parameter v1beta20210601s.HttpVersionMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_HttpVersionMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HttpVersionMatchConditionParameters_STATUS() to populate field Parameters")
@@ -9692,7 +9692,7 @@ func (condition *DeliveryRuleIsDeviceCondition) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_DeliveryRuleIsDeviceCondition populates our DeliveryRuleIsDeviceCondition from the provided source DeliveryRuleIsDeviceCondition
-func (condition *DeliveryRuleIsDeviceCondition) AssignProperties_From_DeliveryRuleIsDeviceCondition(source *v20210601s.DeliveryRuleIsDeviceCondition) error {
+func (condition *DeliveryRuleIsDeviceCondition) AssignProperties_From_DeliveryRuleIsDeviceCondition(source *v1beta20210601s.DeliveryRuleIsDeviceCondition) error {
 
 	// Name
 	if source.Name != nil {
@@ -9719,7 +9719,7 @@ func (condition *DeliveryRuleIsDeviceCondition) AssignProperties_From_DeliveryRu
 }
 
 // AssignProperties_To_DeliveryRuleIsDeviceCondition populates the provided destination DeliveryRuleIsDeviceCondition from our DeliveryRuleIsDeviceCondition
-func (condition *DeliveryRuleIsDeviceCondition) AssignProperties_To_DeliveryRuleIsDeviceCondition(destination *v20210601s.DeliveryRuleIsDeviceCondition) error {
+func (condition *DeliveryRuleIsDeviceCondition) AssignProperties_To_DeliveryRuleIsDeviceCondition(destination *v1beta20210601s.DeliveryRuleIsDeviceCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9733,7 +9733,7 @@ func (condition *DeliveryRuleIsDeviceCondition) AssignProperties_To_DeliveryRule
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.IsDeviceMatchConditionParameters
+		var parameter v1beta20210601s.IsDeviceMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_IsDeviceMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IsDeviceMatchConditionParameters() to populate field Parameters")
@@ -9793,7 +9793,7 @@ func (condition *DeliveryRuleIsDeviceCondition_STATUS) PopulateFromARM(owner gen
 }
 
 // AssignProperties_From_DeliveryRuleIsDeviceCondition_STATUS populates our DeliveryRuleIsDeviceCondition_STATUS from the provided source DeliveryRuleIsDeviceCondition_STATUS
-func (condition *DeliveryRuleIsDeviceCondition_STATUS) AssignProperties_From_DeliveryRuleIsDeviceCondition_STATUS(source *v20210601s.DeliveryRuleIsDeviceCondition_STATUS) error {
+func (condition *DeliveryRuleIsDeviceCondition_STATUS) AssignProperties_From_DeliveryRuleIsDeviceCondition_STATUS(source *v1beta20210601s.DeliveryRuleIsDeviceCondition_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -9820,7 +9820,7 @@ func (condition *DeliveryRuleIsDeviceCondition_STATUS) AssignProperties_From_Del
 }
 
 // AssignProperties_To_DeliveryRuleIsDeviceCondition_STATUS populates the provided destination DeliveryRuleIsDeviceCondition_STATUS from our DeliveryRuleIsDeviceCondition_STATUS
-func (condition *DeliveryRuleIsDeviceCondition_STATUS) AssignProperties_To_DeliveryRuleIsDeviceCondition_STATUS(destination *v20210601s.DeliveryRuleIsDeviceCondition_STATUS) error {
+func (condition *DeliveryRuleIsDeviceCondition_STATUS) AssignProperties_To_DeliveryRuleIsDeviceCondition_STATUS(destination *v1beta20210601s.DeliveryRuleIsDeviceCondition_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9834,7 +9834,7 @@ func (condition *DeliveryRuleIsDeviceCondition_STATUS) AssignProperties_To_Deliv
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.IsDeviceMatchConditionParameters_STATUS
+		var parameter v1beta20210601s.IsDeviceMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_IsDeviceMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IsDeviceMatchConditionParameters_STATUS() to populate field Parameters")
@@ -9921,7 +9921,7 @@ func (condition *DeliveryRulePostArgsCondition) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_DeliveryRulePostArgsCondition populates our DeliveryRulePostArgsCondition from the provided source DeliveryRulePostArgsCondition
-func (condition *DeliveryRulePostArgsCondition) AssignProperties_From_DeliveryRulePostArgsCondition(source *v20210601s.DeliveryRulePostArgsCondition) error {
+func (condition *DeliveryRulePostArgsCondition) AssignProperties_From_DeliveryRulePostArgsCondition(source *v1beta20210601s.DeliveryRulePostArgsCondition) error {
 
 	// Name
 	if source.Name != nil {
@@ -9948,7 +9948,7 @@ func (condition *DeliveryRulePostArgsCondition) AssignProperties_From_DeliveryRu
 }
 
 // AssignProperties_To_DeliveryRulePostArgsCondition populates the provided destination DeliveryRulePostArgsCondition from our DeliveryRulePostArgsCondition
-func (condition *DeliveryRulePostArgsCondition) AssignProperties_To_DeliveryRulePostArgsCondition(destination *v20210601s.DeliveryRulePostArgsCondition) error {
+func (condition *DeliveryRulePostArgsCondition) AssignProperties_To_DeliveryRulePostArgsCondition(destination *v1beta20210601s.DeliveryRulePostArgsCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9962,7 +9962,7 @@ func (condition *DeliveryRulePostArgsCondition) AssignProperties_To_DeliveryRule
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.PostArgsMatchConditionParameters
+		var parameter v1beta20210601s.PostArgsMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_PostArgsMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PostArgsMatchConditionParameters() to populate field Parameters")
@@ -10022,7 +10022,7 @@ func (condition *DeliveryRulePostArgsCondition_STATUS) PopulateFromARM(owner gen
 }
 
 // AssignProperties_From_DeliveryRulePostArgsCondition_STATUS populates our DeliveryRulePostArgsCondition_STATUS from the provided source DeliveryRulePostArgsCondition_STATUS
-func (condition *DeliveryRulePostArgsCondition_STATUS) AssignProperties_From_DeliveryRulePostArgsCondition_STATUS(source *v20210601s.DeliveryRulePostArgsCondition_STATUS) error {
+func (condition *DeliveryRulePostArgsCondition_STATUS) AssignProperties_From_DeliveryRulePostArgsCondition_STATUS(source *v1beta20210601s.DeliveryRulePostArgsCondition_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -10049,7 +10049,7 @@ func (condition *DeliveryRulePostArgsCondition_STATUS) AssignProperties_From_Del
 }
 
 // AssignProperties_To_DeliveryRulePostArgsCondition_STATUS populates the provided destination DeliveryRulePostArgsCondition_STATUS from our DeliveryRulePostArgsCondition_STATUS
-func (condition *DeliveryRulePostArgsCondition_STATUS) AssignProperties_To_DeliveryRulePostArgsCondition_STATUS(destination *v20210601s.DeliveryRulePostArgsCondition_STATUS) error {
+func (condition *DeliveryRulePostArgsCondition_STATUS) AssignProperties_To_DeliveryRulePostArgsCondition_STATUS(destination *v1beta20210601s.DeliveryRulePostArgsCondition_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10063,7 +10063,7 @@ func (condition *DeliveryRulePostArgsCondition_STATUS) AssignProperties_To_Deliv
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.PostArgsMatchConditionParameters_STATUS
+		var parameter v1beta20210601s.PostArgsMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_PostArgsMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PostArgsMatchConditionParameters_STATUS() to populate field Parameters")
@@ -10150,7 +10150,7 @@ func (condition *DeliveryRuleQueryStringCondition) PopulateFromARM(owner genrunt
 }
 
 // AssignProperties_From_DeliveryRuleQueryStringCondition populates our DeliveryRuleQueryStringCondition from the provided source DeliveryRuleQueryStringCondition
-func (condition *DeliveryRuleQueryStringCondition) AssignProperties_From_DeliveryRuleQueryStringCondition(source *v20210601s.DeliveryRuleQueryStringCondition) error {
+func (condition *DeliveryRuleQueryStringCondition) AssignProperties_From_DeliveryRuleQueryStringCondition(source *v1beta20210601s.DeliveryRuleQueryStringCondition) error {
 
 	// Name
 	if source.Name != nil {
@@ -10177,7 +10177,7 @@ func (condition *DeliveryRuleQueryStringCondition) AssignProperties_From_Deliver
 }
 
 // AssignProperties_To_DeliveryRuleQueryStringCondition populates the provided destination DeliveryRuleQueryStringCondition from our DeliveryRuleQueryStringCondition
-func (condition *DeliveryRuleQueryStringCondition) AssignProperties_To_DeliveryRuleQueryStringCondition(destination *v20210601s.DeliveryRuleQueryStringCondition) error {
+func (condition *DeliveryRuleQueryStringCondition) AssignProperties_To_DeliveryRuleQueryStringCondition(destination *v1beta20210601s.DeliveryRuleQueryStringCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10191,7 +10191,7 @@ func (condition *DeliveryRuleQueryStringCondition) AssignProperties_To_DeliveryR
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.QueryStringMatchConditionParameters
+		var parameter v1beta20210601s.QueryStringMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_QueryStringMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_QueryStringMatchConditionParameters() to populate field Parameters")
@@ -10251,7 +10251,7 @@ func (condition *DeliveryRuleQueryStringCondition_STATUS) PopulateFromARM(owner 
 }
 
 // AssignProperties_From_DeliveryRuleQueryStringCondition_STATUS populates our DeliveryRuleQueryStringCondition_STATUS from the provided source DeliveryRuleQueryStringCondition_STATUS
-func (condition *DeliveryRuleQueryStringCondition_STATUS) AssignProperties_From_DeliveryRuleQueryStringCondition_STATUS(source *v20210601s.DeliveryRuleQueryStringCondition_STATUS) error {
+func (condition *DeliveryRuleQueryStringCondition_STATUS) AssignProperties_From_DeliveryRuleQueryStringCondition_STATUS(source *v1beta20210601s.DeliveryRuleQueryStringCondition_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -10278,7 +10278,7 @@ func (condition *DeliveryRuleQueryStringCondition_STATUS) AssignProperties_From_
 }
 
 // AssignProperties_To_DeliveryRuleQueryStringCondition_STATUS populates the provided destination DeliveryRuleQueryStringCondition_STATUS from our DeliveryRuleQueryStringCondition_STATUS
-func (condition *DeliveryRuleQueryStringCondition_STATUS) AssignProperties_To_DeliveryRuleQueryStringCondition_STATUS(destination *v20210601s.DeliveryRuleQueryStringCondition_STATUS) error {
+func (condition *DeliveryRuleQueryStringCondition_STATUS) AssignProperties_To_DeliveryRuleQueryStringCondition_STATUS(destination *v1beta20210601s.DeliveryRuleQueryStringCondition_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10292,7 +10292,7 @@ func (condition *DeliveryRuleQueryStringCondition_STATUS) AssignProperties_To_De
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.QueryStringMatchConditionParameters_STATUS
+		var parameter v1beta20210601s.QueryStringMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_QueryStringMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_QueryStringMatchConditionParameters_STATUS() to populate field Parameters")
@@ -10379,7 +10379,7 @@ func (condition *DeliveryRuleRemoteAddressCondition) PopulateFromARM(owner genru
 }
 
 // AssignProperties_From_DeliveryRuleRemoteAddressCondition populates our DeliveryRuleRemoteAddressCondition from the provided source DeliveryRuleRemoteAddressCondition
-func (condition *DeliveryRuleRemoteAddressCondition) AssignProperties_From_DeliveryRuleRemoteAddressCondition(source *v20210601s.DeliveryRuleRemoteAddressCondition) error {
+func (condition *DeliveryRuleRemoteAddressCondition) AssignProperties_From_DeliveryRuleRemoteAddressCondition(source *v1beta20210601s.DeliveryRuleRemoteAddressCondition) error {
 
 	// Name
 	if source.Name != nil {
@@ -10406,7 +10406,7 @@ func (condition *DeliveryRuleRemoteAddressCondition) AssignProperties_From_Deliv
 }
 
 // AssignProperties_To_DeliveryRuleRemoteAddressCondition populates the provided destination DeliveryRuleRemoteAddressCondition from our DeliveryRuleRemoteAddressCondition
-func (condition *DeliveryRuleRemoteAddressCondition) AssignProperties_To_DeliveryRuleRemoteAddressCondition(destination *v20210601s.DeliveryRuleRemoteAddressCondition) error {
+func (condition *DeliveryRuleRemoteAddressCondition) AssignProperties_To_DeliveryRuleRemoteAddressCondition(destination *v1beta20210601s.DeliveryRuleRemoteAddressCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10420,7 +10420,7 @@ func (condition *DeliveryRuleRemoteAddressCondition) AssignProperties_To_Deliver
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.RemoteAddressMatchConditionParameters
+		var parameter v1beta20210601s.RemoteAddressMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_RemoteAddressMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RemoteAddressMatchConditionParameters() to populate field Parameters")
@@ -10480,7 +10480,7 @@ func (condition *DeliveryRuleRemoteAddressCondition_STATUS) PopulateFromARM(owne
 }
 
 // AssignProperties_From_DeliveryRuleRemoteAddressCondition_STATUS populates our DeliveryRuleRemoteAddressCondition_STATUS from the provided source DeliveryRuleRemoteAddressCondition_STATUS
-func (condition *DeliveryRuleRemoteAddressCondition_STATUS) AssignProperties_From_DeliveryRuleRemoteAddressCondition_STATUS(source *v20210601s.DeliveryRuleRemoteAddressCondition_STATUS) error {
+func (condition *DeliveryRuleRemoteAddressCondition_STATUS) AssignProperties_From_DeliveryRuleRemoteAddressCondition_STATUS(source *v1beta20210601s.DeliveryRuleRemoteAddressCondition_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -10507,7 +10507,7 @@ func (condition *DeliveryRuleRemoteAddressCondition_STATUS) AssignProperties_Fro
 }
 
 // AssignProperties_To_DeliveryRuleRemoteAddressCondition_STATUS populates the provided destination DeliveryRuleRemoteAddressCondition_STATUS from our DeliveryRuleRemoteAddressCondition_STATUS
-func (condition *DeliveryRuleRemoteAddressCondition_STATUS) AssignProperties_To_DeliveryRuleRemoteAddressCondition_STATUS(destination *v20210601s.DeliveryRuleRemoteAddressCondition_STATUS) error {
+func (condition *DeliveryRuleRemoteAddressCondition_STATUS) AssignProperties_To_DeliveryRuleRemoteAddressCondition_STATUS(destination *v1beta20210601s.DeliveryRuleRemoteAddressCondition_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10521,7 +10521,7 @@ func (condition *DeliveryRuleRemoteAddressCondition_STATUS) AssignProperties_To_
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.RemoteAddressMatchConditionParameters_STATUS
+		var parameter v1beta20210601s.RemoteAddressMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_RemoteAddressMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RemoteAddressMatchConditionParameters_STATUS() to populate field Parameters")
@@ -10608,7 +10608,7 @@ func (condition *DeliveryRuleRequestBodyCondition) PopulateFromARM(owner genrunt
 }
 
 // AssignProperties_From_DeliveryRuleRequestBodyCondition populates our DeliveryRuleRequestBodyCondition from the provided source DeliveryRuleRequestBodyCondition
-func (condition *DeliveryRuleRequestBodyCondition) AssignProperties_From_DeliveryRuleRequestBodyCondition(source *v20210601s.DeliveryRuleRequestBodyCondition) error {
+func (condition *DeliveryRuleRequestBodyCondition) AssignProperties_From_DeliveryRuleRequestBodyCondition(source *v1beta20210601s.DeliveryRuleRequestBodyCondition) error {
 
 	// Name
 	if source.Name != nil {
@@ -10635,7 +10635,7 @@ func (condition *DeliveryRuleRequestBodyCondition) AssignProperties_From_Deliver
 }
 
 // AssignProperties_To_DeliveryRuleRequestBodyCondition populates the provided destination DeliveryRuleRequestBodyCondition from our DeliveryRuleRequestBodyCondition
-func (condition *DeliveryRuleRequestBodyCondition) AssignProperties_To_DeliveryRuleRequestBodyCondition(destination *v20210601s.DeliveryRuleRequestBodyCondition) error {
+func (condition *DeliveryRuleRequestBodyCondition) AssignProperties_To_DeliveryRuleRequestBodyCondition(destination *v1beta20210601s.DeliveryRuleRequestBodyCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10649,7 +10649,7 @@ func (condition *DeliveryRuleRequestBodyCondition) AssignProperties_To_DeliveryR
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.RequestBodyMatchConditionParameters
+		var parameter v1beta20210601s.RequestBodyMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_RequestBodyMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RequestBodyMatchConditionParameters() to populate field Parameters")
@@ -10709,7 +10709,7 @@ func (condition *DeliveryRuleRequestBodyCondition_STATUS) PopulateFromARM(owner 
 }
 
 // AssignProperties_From_DeliveryRuleRequestBodyCondition_STATUS populates our DeliveryRuleRequestBodyCondition_STATUS from the provided source DeliveryRuleRequestBodyCondition_STATUS
-func (condition *DeliveryRuleRequestBodyCondition_STATUS) AssignProperties_From_DeliveryRuleRequestBodyCondition_STATUS(source *v20210601s.DeliveryRuleRequestBodyCondition_STATUS) error {
+func (condition *DeliveryRuleRequestBodyCondition_STATUS) AssignProperties_From_DeliveryRuleRequestBodyCondition_STATUS(source *v1beta20210601s.DeliveryRuleRequestBodyCondition_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -10736,7 +10736,7 @@ func (condition *DeliveryRuleRequestBodyCondition_STATUS) AssignProperties_From_
 }
 
 // AssignProperties_To_DeliveryRuleRequestBodyCondition_STATUS populates the provided destination DeliveryRuleRequestBodyCondition_STATUS from our DeliveryRuleRequestBodyCondition_STATUS
-func (condition *DeliveryRuleRequestBodyCondition_STATUS) AssignProperties_To_DeliveryRuleRequestBodyCondition_STATUS(destination *v20210601s.DeliveryRuleRequestBodyCondition_STATUS) error {
+func (condition *DeliveryRuleRequestBodyCondition_STATUS) AssignProperties_To_DeliveryRuleRequestBodyCondition_STATUS(destination *v1beta20210601s.DeliveryRuleRequestBodyCondition_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10750,7 +10750,7 @@ func (condition *DeliveryRuleRequestBodyCondition_STATUS) AssignProperties_To_De
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.RequestBodyMatchConditionParameters_STATUS
+		var parameter v1beta20210601s.RequestBodyMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_RequestBodyMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RequestBodyMatchConditionParameters_STATUS() to populate field Parameters")
@@ -10837,7 +10837,7 @@ func (action *DeliveryRuleRequestHeaderAction) PopulateFromARM(owner genruntime.
 }
 
 // AssignProperties_From_DeliveryRuleRequestHeaderAction populates our DeliveryRuleRequestHeaderAction from the provided source DeliveryRuleRequestHeaderAction
-func (action *DeliveryRuleRequestHeaderAction) AssignProperties_From_DeliveryRuleRequestHeaderAction(source *v20210601s.DeliveryRuleRequestHeaderAction) error {
+func (action *DeliveryRuleRequestHeaderAction) AssignProperties_From_DeliveryRuleRequestHeaderAction(source *v1beta20210601s.DeliveryRuleRequestHeaderAction) error {
 
 	// Name
 	if source.Name != nil {
@@ -10864,7 +10864,7 @@ func (action *DeliveryRuleRequestHeaderAction) AssignProperties_From_DeliveryRul
 }
 
 // AssignProperties_To_DeliveryRuleRequestHeaderAction populates the provided destination DeliveryRuleRequestHeaderAction from our DeliveryRuleRequestHeaderAction
-func (action *DeliveryRuleRequestHeaderAction) AssignProperties_To_DeliveryRuleRequestHeaderAction(destination *v20210601s.DeliveryRuleRequestHeaderAction) error {
+func (action *DeliveryRuleRequestHeaderAction) AssignProperties_To_DeliveryRuleRequestHeaderAction(destination *v1beta20210601s.DeliveryRuleRequestHeaderAction) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10878,7 +10878,7 @@ func (action *DeliveryRuleRequestHeaderAction) AssignProperties_To_DeliveryRuleR
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v20210601s.HeaderActionParameters
+		var parameter v1beta20210601s.HeaderActionParameters
 		err := action.Parameters.AssignProperties_To_HeaderActionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HeaderActionParameters() to populate field Parameters")
@@ -10938,7 +10938,7 @@ func (action *DeliveryRuleRequestHeaderAction_STATUS) PopulateFromARM(owner genr
 }
 
 // AssignProperties_From_DeliveryRuleRequestHeaderAction_STATUS populates our DeliveryRuleRequestHeaderAction_STATUS from the provided source DeliveryRuleRequestHeaderAction_STATUS
-func (action *DeliveryRuleRequestHeaderAction_STATUS) AssignProperties_From_DeliveryRuleRequestHeaderAction_STATUS(source *v20210601s.DeliveryRuleRequestHeaderAction_STATUS) error {
+func (action *DeliveryRuleRequestHeaderAction_STATUS) AssignProperties_From_DeliveryRuleRequestHeaderAction_STATUS(source *v1beta20210601s.DeliveryRuleRequestHeaderAction_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -10965,7 +10965,7 @@ func (action *DeliveryRuleRequestHeaderAction_STATUS) AssignProperties_From_Deli
 }
 
 // AssignProperties_To_DeliveryRuleRequestHeaderAction_STATUS populates the provided destination DeliveryRuleRequestHeaderAction_STATUS from our DeliveryRuleRequestHeaderAction_STATUS
-func (action *DeliveryRuleRequestHeaderAction_STATUS) AssignProperties_To_DeliveryRuleRequestHeaderAction_STATUS(destination *v20210601s.DeliveryRuleRequestHeaderAction_STATUS) error {
+func (action *DeliveryRuleRequestHeaderAction_STATUS) AssignProperties_To_DeliveryRuleRequestHeaderAction_STATUS(destination *v1beta20210601s.DeliveryRuleRequestHeaderAction_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10979,7 +10979,7 @@ func (action *DeliveryRuleRequestHeaderAction_STATUS) AssignProperties_To_Delive
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v20210601s.HeaderActionParameters_STATUS
+		var parameter v1beta20210601s.HeaderActionParameters_STATUS
 		err := action.Parameters.AssignProperties_To_HeaderActionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HeaderActionParameters_STATUS() to populate field Parameters")
@@ -11066,7 +11066,7 @@ func (condition *DeliveryRuleRequestHeaderCondition) PopulateFromARM(owner genru
 }
 
 // AssignProperties_From_DeliveryRuleRequestHeaderCondition populates our DeliveryRuleRequestHeaderCondition from the provided source DeliveryRuleRequestHeaderCondition
-func (condition *DeliveryRuleRequestHeaderCondition) AssignProperties_From_DeliveryRuleRequestHeaderCondition(source *v20210601s.DeliveryRuleRequestHeaderCondition) error {
+func (condition *DeliveryRuleRequestHeaderCondition) AssignProperties_From_DeliveryRuleRequestHeaderCondition(source *v1beta20210601s.DeliveryRuleRequestHeaderCondition) error {
 
 	// Name
 	if source.Name != nil {
@@ -11093,7 +11093,7 @@ func (condition *DeliveryRuleRequestHeaderCondition) AssignProperties_From_Deliv
 }
 
 // AssignProperties_To_DeliveryRuleRequestHeaderCondition populates the provided destination DeliveryRuleRequestHeaderCondition from our DeliveryRuleRequestHeaderCondition
-func (condition *DeliveryRuleRequestHeaderCondition) AssignProperties_To_DeliveryRuleRequestHeaderCondition(destination *v20210601s.DeliveryRuleRequestHeaderCondition) error {
+func (condition *DeliveryRuleRequestHeaderCondition) AssignProperties_To_DeliveryRuleRequestHeaderCondition(destination *v1beta20210601s.DeliveryRuleRequestHeaderCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11107,7 +11107,7 @@ func (condition *DeliveryRuleRequestHeaderCondition) AssignProperties_To_Deliver
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.RequestHeaderMatchConditionParameters
+		var parameter v1beta20210601s.RequestHeaderMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_RequestHeaderMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RequestHeaderMatchConditionParameters() to populate field Parameters")
@@ -11167,7 +11167,7 @@ func (condition *DeliveryRuleRequestHeaderCondition_STATUS) PopulateFromARM(owne
 }
 
 // AssignProperties_From_DeliveryRuleRequestHeaderCondition_STATUS populates our DeliveryRuleRequestHeaderCondition_STATUS from the provided source DeliveryRuleRequestHeaderCondition_STATUS
-func (condition *DeliveryRuleRequestHeaderCondition_STATUS) AssignProperties_From_DeliveryRuleRequestHeaderCondition_STATUS(source *v20210601s.DeliveryRuleRequestHeaderCondition_STATUS) error {
+func (condition *DeliveryRuleRequestHeaderCondition_STATUS) AssignProperties_From_DeliveryRuleRequestHeaderCondition_STATUS(source *v1beta20210601s.DeliveryRuleRequestHeaderCondition_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -11194,7 +11194,7 @@ func (condition *DeliveryRuleRequestHeaderCondition_STATUS) AssignProperties_Fro
 }
 
 // AssignProperties_To_DeliveryRuleRequestHeaderCondition_STATUS populates the provided destination DeliveryRuleRequestHeaderCondition_STATUS from our DeliveryRuleRequestHeaderCondition_STATUS
-func (condition *DeliveryRuleRequestHeaderCondition_STATUS) AssignProperties_To_DeliveryRuleRequestHeaderCondition_STATUS(destination *v20210601s.DeliveryRuleRequestHeaderCondition_STATUS) error {
+func (condition *DeliveryRuleRequestHeaderCondition_STATUS) AssignProperties_To_DeliveryRuleRequestHeaderCondition_STATUS(destination *v1beta20210601s.DeliveryRuleRequestHeaderCondition_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11208,7 +11208,7 @@ func (condition *DeliveryRuleRequestHeaderCondition_STATUS) AssignProperties_To_
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.RequestHeaderMatchConditionParameters_STATUS
+		var parameter v1beta20210601s.RequestHeaderMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_RequestHeaderMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RequestHeaderMatchConditionParameters_STATUS() to populate field Parameters")
@@ -11295,7 +11295,7 @@ func (condition *DeliveryRuleRequestMethodCondition) PopulateFromARM(owner genru
 }
 
 // AssignProperties_From_DeliveryRuleRequestMethodCondition populates our DeliveryRuleRequestMethodCondition from the provided source DeliveryRuleRequestMethodCondition
-func (condition *DeliveryRuleRequestMethodCondition) AssignProperties_From_DeliveryRuleRequestMethodCondition(source *v20210601s.DeliveryRuleRequestMethodCondition) error {
+func (condition *DeliveryRuleRequestMethodCondition) AssignProperties_From_DeliveryRuleRequestMethodCondition(source *v1beta20210601s.DeliveryRuleRequestMethodCondition) error {
 
 	// Name
 	if source.Name != nil {
@@ -11322,7 +11322,7 @@ func (condition *DeliveryRuleRequestMethodCondition) AssignProperties_From_Deliv
 }
 
 // AssignProperties_To_DeliveryRuleRequestMethodCondition populates the provided destination DeliveryRuleRequestMethodCondition from our DeliveryRuleRequestMethodCondition
-func (condition *DeliveryRuleRequestMethodCondition) AssignProperties_To_DeliveryRuleRequestMethodCondition(destination *v20210601s.DeliveryRuleRequestMethodCondition) error {
+func (condition *DeliveryRuleRequestMethodCondition) AssignProperties_To_DeliveryRuleRequestMethodCondition(destination *v1beta20210601s.DeliveryRuleRequestMethodCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11336,7 +11336,7 @@ func (condition *DeliveryRuleRequestMethodCondition) AssignProperties_To_Deliver
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.RequestMethodMatchConditionParameters
+		var parameter v1beta20210601s.RequestMethodMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_RequestMethodMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RequestMethodMatchConditionParameters() to populate field Parameters")
@@ -11396,7 +11396,7 @@ func (condition *DeliveryRuleRequestMethodCondition_STATUS) PopulateFromARM(owne
 }
 
 // AssignProperties_From_DeliveryRuleRequestMethodCondition_STATUS populates our DeliveryRuleRequestMethodCondition_STATUS from the provided source DeliveryRuleRequestMethodCondition_STATUS
-func (condition *DeliveryRuleRequestMethodCondition_STATUS) AssignProperties_From_DeliveryRuleRequestMethodCondition_STATUS(source *v20210601s.DeliveryRuleRequestMethodCondition_STATUS) error {
+func (condition *DeliveryRuleRequestMethodCondition_STATUS) AssignProperties_From_DeliveryRuleRequestMethodCondition_STATUS(source *v1beta20210601s.DeliveryRuleRequestMethodCondition_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -11423,7 +11423,7 @@ func (condition *DeliveryRuleRequestMethodCondition_STATUS) AssignProperties_Fro
 }
 
 // AssignProperties_To_DeliveryRuleRequestMethodCondition_STATUS populates the provided destination DeliveryRuleRequestMethodCondition_STATUS from our DeliveryRuleRequestMethodCondition_STATUS
-func (condition *DeliveryRuleRequestMethodCondition_STATUS) AssignProperties_To_DeliveryRuleRequestMethodCondition_STATUS(destination *v20210601s.DeliveryRuleRequestMethodCondition_STATUS) error {
+func (condition *DeliveryRuleRequestMethodCondition_STATUS) AssignProperties_To_DeliveryRuleRequestMethodCondition_STATUS(destination *v1beta20210601s.DeliveryRuleRequestMethodCondition_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11437,7 +11437,7 @@ func (condition *DeliveryRuleRequestMethodCondition_STATUS) AssignProperties_To_
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.RequestMethodMatchConditionParameters_STATUS
+		var parameter v1beta20210601s.RequestMethodMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_RequestMethodMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RequestMethodMatchConditionParameters_STATUS() to populate field Parameters")
@@ -11524,7 +11524,7 @@ func (condition *DeliveryRuleRequestSchemeCondition) PopulateFromARM(owner genru
 }
 
 // AssignProperties_From_DeliveryRuleRequestSchemeCondition populates our DeliveryRuleRequestSchemeCondition from the provided source DeliveryRuleRequestSchemeCondition
-func (condition *DeliveryRuleRequestSchemeCondition) AssignProperties_From_DeliveryRuleRequestSchemeCondition(source *v20210601s.DeliveryRuleRequestSchemeCondition) error {
+func (condition *DeliveryRuleRequestSchemeCondition) AssignProperties_From_DeliveryRuleRequestSchemeCondition(source *v1beta20210601s.DeliveryRuleRequestSchemeCondition) error {
 
 	// Name
 	if source.Name != nil {
@@ -11551,7 +11551,7 @@ func (condition *DeliveryRuleRequestSchemeCondition) AssignProperties_From_Deliv
 }
 
 // AssignProperties_To_DeliveryRuleRequestSchemeCondition populates the provided destination DeliveryRuleRequestSchemeCondition from our DeliveryRuleRequestSchemeCondition
-func (condition *DeliveryRuleRequestSchemeCondition) AssignProperties_To_DeliveryRuleRequestSchemeCondition(destination *v20210601s.DeliveryRuleRequestSchemeCondition) error {
+func (condition *DeliveryRuleRequestSchemeCondition) AssignProperties_To_DeliveryRuleRequestSchemeCondition(destination *v1beta20210601s.DeliveryRuleRequestSchemeCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11565,7 +11565,7 @@ func (condition *DeliveryRuleRequestSchemeCondition) AssignProperties_To_Deliver
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.RequestSchemeMatchConditionParameters
+		var parameter v1beta20210601s.RequestSchemeMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_RequestSchemeMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RequestSchemeMatchConditionParameters() to populate field Parameters")
@@ -11625,7 +11625,7 @@ func (condition *DeliveryRuleRequestSchemeCondition_STATUS) PopulateFromARM(owne
 }
 
 // AssignProperties_From_DeliveryRuleRequestSchemeCondition_STATUS populates our DeliveryRuleRequestSchemeCondition_STATUS from the provided source DeliveryRuleRequestSchemeCondition_STATUS
-func (condition *DeliveryRuleRequestSchemeCondition_STATUS) AssignProperties_From_DeliveryRuleRequestSchemeCondition_STATUS(source *v20210601s.DeliveryRuleRequestSchemeCondition_STATUS) error {
+func (condition *DeliveryRuleRequestSchemeCondition_STATUS) AssignProperties_From_DeliveryRuleRequestSchemeCondition_STATUS(source *v1beta20210601s.DeliveryRuleRequestSchemeCondition_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -11652,7 +11652,7 @@ func (condition *DeliveryRuleRequestSchemeCondition_STATUS) AssignProperties_Fro
 }
 
 // AssignProperties_To_DeliveryRuleRequestSchemeCondition_STATUS populates the provided destination DeliveryRuleRequestSchemeCondition_STATUS from our DeliveryRuleRequestSchemeCondition_STATUS
-func (condition *DeliveryRuleRequestSchemeCondition_STATUS) AssignProperties_To_DeliveryRuleRequestSchemeCondition_STATUS(destination *v20210601s.DeliveryRuleRequestSchemeCondition_STATUS) error {
+func (condition *DeliveryRuleRequestSchemeCondition_STATUS) AssignProperties_To_DeliveryRuleRequestSchemeCondition_STATUS(destination *v1beta20210601s.DeliveryRuleRequestSchemeCondition_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11666,7 +11666,7 @@ func (condition *DeliveryRuleRequestSchemeCondition_STATUS) AssignProperties_To_
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.RequestSchemeMatchConditionParameters_STATUS
+		var parameter v1beta20210601s.RequestSchemeMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_RequestSchemeMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RequestSchemeMatchConditionParameters_STATUS() to populate field Parameters")
@@ -11753,7 +11753,7 @@ func (condition *DeliveryRuleRequestUriCondition) PopulateFromARM(owner genrunti
 }
 
 // AssignProperties_From_DeliveryRuleRequestUriCondition populates our DeliveryRuleRequestUriCondition from the provided source DeliveryRuleRequestUriCondition
-func (condition *DeliveryRuleRequestUriCondition) AssignProperties_From_DeliveryRuleRequestUriCondition(source *v20210601s.DeliveryRuleRequestUriCondition) error {
+func (condition *DeliveryRuleRequestUriCondition) AssignProperties_From_DeliveryRuleRequestUriCondition(source *v1beta20210601s.DeliveryRuleRequestUriCondition) error {
 
 	// Name
 	if source.Name != nil {
@@ -11780,7 +11780,7 @@ func (condition *DeliveryRuleRequestUriCondition) AssignProperties_From_Delivery
 }
 
 // AssignProperties_To_DeliveryRuleRequestUriCondition populates the provided destination DeliveryRuleRequestUriCondition from our DeliveryRuleRequestUriCondition
-func (condition *DeliveryRuleRequestUriCondition) AssignProperties_To_DeliveryRuleRequestUriCondition(destination *v20210601s.DeliveryRuleRequestUriCondition) error {
+func (condition *DeliveryRuleRequestUriCondition) AssignProperties_To_DeliveryRuleRequestUriCondition(destination *v1beta20210601s.DeliveryRuleRequestUriCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11794,7 +11794,7 @@ func (condition *DeliveryRuleRequestUriCondition) AssignProperties_To_DeliveryRu
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.RequestUriMatchConditionParameters
+		var parameter v1beta20210601s.RequestUriMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_RequestUriMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RequestUriMatchConditionParameters() to populate field Parameters")
@@ -11854,7 +11854,7 @@ func (condition *DeliveryRuleRequestUriCondition_STATUS) PopulateFromARM(owner g
 }
 
 // AssignProperties_From_DeliveryRuleRequestUriCondition_STATUS populates our DeliveryRuleRequestUriCondition_STATUS from the provided source DeliveryRuleRequestUriCondition_STATUS
-func (condition *DeliveryRuleRequestUriCondition_STATUS) AssignProperties_From_DeliveryRuleRequestUriCondition_STATUS(source *v20210601s.DeliveryRuleRequestUriCondition_STATUS) error {
+func (condition *DeliveryRuleRequestUriCondition_STATUS) AssignProperties_From_DeliveryRuleRequestUriCondition_STATUS(source *v1beta20210601s.DeliveryRuleRequestUriCondition_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -11881,7 +11881,7 @@ func (condition *DeliveryRuleRequestUriCondition_STATUS) AssignProperties_From_D
 }
 
 // AssignProperties_To_DeliveryRuleRequestUriCondition_STATUS populates the provided destination DeliveryRuleRequestUriCondition_STATUS from our DeliveryRuleRequestUriCondition_STATUS
-func (condition *DeliveryRuleRequestUriCondition_STATUS) AssignProperties_To_DeliveryRuleRequestUriCondition_STATUS(destination *v20210601s.DeliveryRuleRequestUriCondition_STATUS) error {
+func (condition *DeliveryRuleRequestUriCondition_STATUS) AssignProperties_To_DeliveryRuleRequestUriCondition_STATUS(destination *v1beta20210601s.DeliveryRuleRequestUriCondition_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11895,7 +11895,7 @@ func (condition *DeliveryRuleRequestUriCondition_STATUS) AssignProperties_To_Del
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.RequestUriMatchConditionParameters_STATUS
+		var parameter v1beta20210601s.RequestUriMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_RequestUriMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RequestUriMatchConditionParameters_STATUS() to populate field Parameters")
@@ -11982,7 +11982,7 @@ func (action *DeliveryRuleResponseHeaderAction) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_DeliveryRuleResponseHeaderAction populates our DeliveryRuleResponseHeaderAction from the provided source DeliveryRuleResponseHeaderAction
-func (action *DeliveryRuleResponseHeaderAction) AssignProperties_From_DeliveryRuleResponseHeaderAction(source *v20210601s.DeliveryRuleResponseHeaderAction) error {
+func (action *DeliveryRuleResponseHeaderAction) AssignProperties_From_DeliveryRuleResponseHeaderAction(source *v1beta20210601s.DeliveryRuleResponseHeaderAction) error {
 
 	// Name
 	if source.Name != nil {
@@ -12009,7 +12009,7 @@ func (action *DeliveryRuleResponseHeaderAction) AssignProperties_From_DeliveryRu
 }
 
 // AssignProperties_To_DeliveryRuleResponseHeaderAction populates the provided destination DeliveryRuleResponseHeaderAction from our DeliveryRuleResponseHeaderAction
-func (action *DeliveryRuleResponseHeaderAction) AssignProperties_To_DeliveryRuleResponseHeaderAction(destination *v20210601s.DeliveryRuleResponseHeaderAction) error {
+func (action *DeliveryRuleResponseHeaderAction) AssignProperties_To_DeliveryRuleResponseHeaderAction(destination *v1beta20210601s.DeliveryRuleResponseHeaderAction) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -12023,7 +12023,7 @@ func (action *DeliveryRuleResponseHeaderAction) AssignProperties_To_DeliveryRule
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v20210601s.HeaderActionParameters
+		var parameter v1beta20210601s.HeaderActionParameters
 		err := action.Parameters.AssignProperties_To_HeaderActionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HeaderActionParameters() to populate field Parameters")
@@ -12083,7 +12083,7 @@ func (action *DeliveryRuleResponseHeaderAction_STATUS) PopulateFromARM(owner gen
 }
 
 // AssignProperties_From_DeliveryRuleResponseHeaderAction_STATUS populates our DeliveryRuleResponseHeaderAction_STATUS from the provided source DeliveryRuleResponseHeaderAction_STATUS
-func (action *DeliveryRuleResponseHeaderAction_STATUS) AssignProperties_From_DeliveryRuleResponseHeaderAction_STATUS(source *v20210601s.DeliveryRuleResponseHeaderAction_STATUS) error {
+func (action *DeliveryRuleResponseHeaderAction_STATUS) AssignProperties_From_DeliveryRuleResponseHeaderAction_STATUS(source *v1beta20210601s.DeliveryRuleResponseHeaderAction_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -12110,7 +12110,7 @@ func (action *DeliveryRuleResponseHeaderAction_STATUS) AssignProperties_From_Del
 }
 
 // AssignProperties_To_DeliveryRuleResponseHeaderAction_STATUS populates the provided destination DeliveryRuleResponseHeaderAction_STATUS from our DeliveryRuleResponseHeaderAction_STATUS
-func (action *DeliveryRuleResponseHeaderAction_STATUS) AssignProperties_To_DeliveryRuleResponseHeaderAction_STATUS(destination *v20210601s.DeliveryRuleResponseHeaderAction_STATUS) error {
+func (action *DeliveryRuleResponseHeaderAction_STATUS) AssignProperties_To_DeliveryRuleResponseHeaderAction_STATUS(destination *v1beta20210601s.DeliveryRuleResponseHeaderAction_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -12124,7 +12124,7 @@ func (action *DeliveryRuleResponseHeaderAction_STATUS) AssignProperties_To_Deliv
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v20210601s.HeaderActionParameters_STATUS
+		var parameter v1beta20210601s.HeaderActionParameters_STATUS
 		err := action.Parameters.AssignProperties_To_HeaderActionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HeaderActionParameters_STATUS() to populate field Parameters")
@@ -12211,7 +12211,7 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction) PopulateFromARM(owne
 }
 
 // AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction populates our DeliveryRuleRouteConfigurationOverrideAction from the provided source DeliveryRuleRouteConfigurationOverrideAction
-func (action *DeliveryRuleRouteConfigurationOverrideAction) AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction(source *v20210601s.DeliveryRuleRouteConfigurationOverrideAction) error {
+func (action *DeliveryRuleRouteConfigurationOverrideAction) AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction(source *v1beta20210601s.DeliveryRuleRouteConfigurationOverrideAction) error {
 
 	// Name
 	if source.Name != nil {
@@ -12238,7 +12238,7 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction) AssignProperties_Fro
 }
 
 // AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction populates the provided destination DeliveryRuleRouteConfigurationOverrideAction from our DeliveryRuleRouteConfigurationOverrideAction
-func (action *DeliveryRuleRouteConfigurationOverrideAction) AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction(destination *v20210601s.DeliveryRuleRouteConfigurationOverrideAction) error {
+func (action *DeliveryRuleRouteConfigurationOverrideAction) AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction(destination *v1beta20210601s.DeliveryRuleRouteConfigurationOverrideAction) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -12252,7 +12252,7 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction) AssignProperties_To_
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v20210601s.RouteConfigurationOverrideActionParameters
+		var parameter v1beta20210601s.RouteConfigurationOverrideActionParameters
 		err := action.Parameters.AssignProperties_To_RouteConfigurationOverrideActionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RouteConfigurationOverrideActionParameters() to populate field Parameters")
@@ -12312,7 +12312,7 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction_STATUS) PopulateFromA
 }
 
 // AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction_STATUS populates our DeliveryRuleRouteConfigurationOverrideAction_STATUS from the provided source DeliveryRuleRouteConfigurationOverrideAction_STATUS
-func (action *DeliveryRuleRouteConfigurationOverrideAction_STATUS) AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction_STATUS(source *v20210601s.DeliveryRuleRouteConfigurationOverrideAction_STATUS) error {
+func (action *DeliveryRuleRouteConfigurationOverrideAction_STATUS) AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction_STATUS(source *v1beta20210601s.DeliveryRuleRouteConfigurationOverrideAction_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -12339,7 +12339,7 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction_STATUS) AssignPropert
 }
 
 // AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction_STATUS populates the provided destination DeliveryRuleRouteConfigurationOverrideAction_STATUS from our DeliveryRuleRouteConfigurationOverrideAction_STATUS
-func (action *DeliveryRuleRouteConfigurationOverrideAction_STATUS) AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction_STATUS(destination *v20210601s.DeliveryRuleRouteConfigurationOverrideAction_STATUS) error {
+func (action *DeliveryRuleRouteConfigurationOverrideAction_STATUS) AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction_STATUS(destination *v1beta20210601s.DeliveryRuleRouteConfigurationOverrideAction_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -12353,7 +12353,7 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction_STATUS) AssignPropert
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v20210601s.RouteConfigurationOverrideActionParameters_STATUS
+		var parameter v1beta20210601s.RouteConfigurationOverrideActionParameters_STATUS
 		err := action.Parameters.AssignProperties_To_RouteConfigurationOverrideActionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RouteConfigurationOverrideActionParameters_STATUS() to populate field Parameters")
@@ -12440,7 +12440,7 @@ func (condition *DeliveryRuleServerPortCondition) PopulateFromARM(owner genrunti
 }
 
 // AssignProperties_From_DeliveryRuleServerPortCondition populates our DeliveryRuleServerPortCondition from the provided source DeliveryRuleServerPortCondition
-func (condition *DeliveryRuleServerPortCondition) AssignProperties_From_DeliveryRuleServerPortCondition(source *v20210601s.DeliveryRuleServerPortCondition) error {
+func (condition *DeliveryRuleServerPortCondition) AssignProperties_From_DeliveryRuleServerPortCondition(source *v1beta20210601s.DeliveryRuleServerPortCondition) error {
 
 	// Name
 	if source.Name != nil {
@@ -12467,7 +12467,7 @@ func (condition *DeliveryRuleServerPortCondition) AssignProperties_From_Delivery
 }
 
 // AssignProperties_To_DeliveryRuleServerPortCondition populates the provided destination DeliveryRuleServerPortCondition from our DeliveryRuleServerPortCondition
-func (condition *DeliveryRuleServerPortCondition) AssignProperties_To_DeliveryRuleServerPortCondition(destination *v20210601s.DeliveryRuleServerPortCondition) error {
+func (condition *DeliveryRuleServerPortCondition) AssignProperties_To_DeliveryRuleServerPortCondition(destination *v1beta20210601s.DeliveryRuleServerPortCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -12481,7 +12481,7 @@ func (condition *DeliveryRuleServerPortCondition) AssignProperties_To_DeliveryRu
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.ServerPortMatchConditionParameters
+		var parameter v1beta20210601s.ServerPortMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_ServerPortMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ServerPortMatchConditionParameters() to populate field Parameters")
@@ -12541,7 +12541,7 @@ func (condition *DeliveryRuleServerPortCondition_STATUS) PopulateFromARM(owner g
 }
 
 // AssignProperties_From_DeliveryRuleServerPortCondition_STATUS populates our DeliveryRuleServerPortCondition_STATUS from the provided source DeliveryRuleServerPortCondition_STATUS
-func (condition *DeliveryRuleServerPortCondition_STATUS) AssignProperties_From_DeliveryRuleServerPortCondition_STATUS(source *v20210601s.DeliveryRuleServerPortCondition_STATUS) error {
+func (condition *DeliveryRuleServerPortCondition_STATUS) AssignProperties_From_DeliveryRuleServerPortCondition_STATUS(source *v1beta20210601s.DeliveryRuleServerPortCondition_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -12568,7 +12568,7 @@ func (condition *DeliveryRuleServerPortCondition_STATUS) AssignProperties_From_D
 }
 
 // AssignProperties_To_DeliveryRuleServerPortCondition_STATUS populates the provided destination DeliveryRuleServerPortCondition_STATUS from our DeliveryRuleServerPortCondition_STATUS
-func (condition *DeliveryRuleServerPortCondition_STATUS) AssignProperties_To_DeliveryRuleServerPortCondition_STATUS(destination *v20210601s.DeliveryRuleServerPortCondition_STATUS) error {
+func (condition *DeliveryRuleServerPortCondition_STATUS) AssignProperties_To_DeliveryRuleServerPortCondition_STATUS(destination *v1beta20210601s.DeliveryRuleServerPortCondition_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -12582,7 +12582,7 @@ func (condition *DeliveryRuleServerPortCondition_STATUS) AssignProperties_To_Del
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.ServerPortMatchConditionParameters_STATUS
+		var parameter v1beta20210601s.ServerPortMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_ServerPortMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ServerPortMatchConditionParameters_STATUS() to populate field Parameters")
@@ -12669,7 +12669,7 @@ func (condition *DeliveryRuleSocketAddrCondition) PopulateFromARM(owner genrunti
 }
 
 // AssignProperties_From_DeliveryRuleSocketAddrCondition populates our DeliveryRuleSocketAddrCondition from the provided source DeliveryRuleSocketAddrCondition
-func (condition *DeliveryRuleSocketAddrCondition) AssignProperties_From_DeliveryRuleSocketAddrCondition(source *v20210601s.DeliveryRuleSocketAddrCondition) error {
+func (condition *DeliveryRuleSocketAddrCondition) AssignProperties_From_DeliveryRuleSocketAddrCondition(source *v1beta20210601s.DeliveryRuleSocketAddrCondition) error {
 
 	// Name
 	if source.Name != nil {
@@ -12696,7 +12696,7 @@ func (condition *DeliveryRuleSocketAddrCondition) AssignProperties_From_Delivery
 }
 
 // AssignProperties_To_DeliveryRuleSocketAddrCondition populates the provided destination DeliveryRuleSocketAddrCondition from our DeliveryRuleSocketAddrCondition
-func (condition *DeliveryRuleSocketAddrCondition) AssignProperties_To_DeliveryRuleSocketAddrCondition(destination *v20210601s.DeliveryRuleSocketAddrCondition) error {
+func (condition *DeliveryRuleSocketAddrCondition) AssignProperties_To_DeliveryRuleSocketAddrCondition(destination *v1beta20210601s.DeliveryRuleSocketAddrCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -12710,7 +12710,7 @@ func (condition *DeliveryRuleSocketAddrCondition) AssignProperties_To_DeliveryRu
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.SocketAddrMatchConditionParameters
+		var parameter v1beta20210601s.SocketAddrMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_SocketAddrMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SocketAddrMatchConditionParameters() to populate field Parameters")
@@ -12770,7 +12770,7 @@ func (condition *DeliveryRuleSocketAddrCondition_STATUS) PopulateFromARM(owner g
 }
 
 // AssignProperties_From_DeliveryRuleSocketAddrCondition_STATUS populates our DeliveryRuleSocketAddrCondition_STATUS from the provided source DeliveryRuleSocketAddrCondition_STATUS
-func (condition *DeliveryRuleSocketAddrCondition_STATUS) AssignProperties_From_DeliveryRuleSocketAddrCondition_STATUS(source *v20210601s.DeliveryRuleSocketAddrCondition_STATUS) error {
+func (condition *DeliveryRuleSocketAddrCondition_STATUS) AssignProperties_From_DeliveryRuleSocketAddrCondition_STATUS(source *v1beta20210601s.DeliveryRuleSocketAddrCondition_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -12797,7 +12797,7 @@ func (condition *DeliveryRuleSocketAddrCondition_STATUS) AssignProperties_From_D
 }
 
 // AssignProperties_To_DeliveryRuleSocketAddrCondition_STATUS populates the provided destination DeliveryRuleSocketAddrCondition_STATUS from our DeliveryRuleSocketAddrCondition_STATUS
-func (condition *DeliveryRuleSocketAddrCondition_STATUS) AssignProperties_To_DeliveryRuleSocketAddrCondition_STATUS(destination *v20210601s.DeliveryRuleSocketAddrCondition_STATUS) error {
+func (condition *DeliveryRuleSocketAddrCondition_STATUS) AssignProperties_To_DeliveryRuleSocketAddrCondition_STATUS(destination *v1beta20210601s.DeliveryRuleSocketAddrCondition_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -12811,7 +12811,7 @@ func (condition *DeliveryRuleSocketAddrCondition_STATUS) AssignProperties_To_Del
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.SocketAddrMatchConditionParameters_STATUS
+		var parameter v1beta20210601s.SocketAddrMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_SocketAddrMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SocketAddrMatchConditionParameters_STATUS() to populate field Parameters")
@@ -12898,7 +12898,7 @@ func (condition *DeliveryRuleSslProtocolCondition) PopulateFromARM(owner genrunt
 }
 
 // AssignProperties_From_DeliveryRuleSslProtocolCondition populates our DeliveryRuleSslProtocolCondition from the provided source DeliveryRuleSslProtocolCondition
-func (condition *DeliveryRuleSslProtocolCondition) AssignProperties_From_DeliveryRuleSslProtocolCondition(source *v20210601s.DeliveryRuleSslProtocolCondition) error {
+func (condition *DeliveryRuleSslProtocolCondition) AssignProperties_From_DeliveryRuleSslProtocolCondition(source *v1beta20210601s.DeliveryRuleSslProtocolCondition) error {
 
 	// Name
 	if source.Name != nil {
@@ -12925,7 +12925,7 @@ func (condition *DeliveryRuleSslProtocolCondition) AssignProperties_From_Deliver
 }
 
 // AssignProperties_To_DeliveryRuleSslProtocolCondition populates the provided destination DeliveryRuleSslProtocolCondition from our DeliveryRuleSslProtocolCondition
-func (condition *DeliveryRuleSslProtocolCondition) AssignProperties_To_DeliveryRuleSslProtocolCondition(destination *v20210601s.DeliveryRuleSslProtocolCondition) error {
+func (condition *DeliveryRuleSslProtocolCondition) AssignProperties_To_DeliveryRuleSslProtocolCondition(destination *v1beta20210601s.DeliveryRuleSslProtocolCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -12939,7 +12939,7 @@ func (condition *DeliveryRuleSslProtocolCondition) AssignProperties_To_DeliveryR
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.SslProtocolMatchConditionParameters
+		var parameter v1beta20210601s.SslProtocolMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_SslProtocolMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SslProtocolMatchConditionParameters() to populate field Parameters")
@@ -12999,7 +12999,7 @@ func (condition *DeliveryRuleSslProtocolCondition_STATUS) PopulateFromARM(owner 
 }
 
 // AssignProperties_From_DeliveryRuleSslProtocolCondition_STATUS populates our DeliveryRuleSslProtocolCondition_STATUS from the provided source DeliveryRuleSslProtocolCondition_STATUS
-func (condition *DeliveryRuleSslProtocolCondition_STATUS) AssignProperties_From_DeliveryRuleSslProtocolCondition_STATUS(source *v20210601s.DeliveryRuleSslProtocolCondition_STATUS) error {
+func (condition *DeliveryRuleSslProtocolCondition_STATUS) AssignProperties_From_DeliveryRuleSslProtocolCondition_STATUS(source *v1beta20210601s.DeliveryRuleSslProtocolCondition_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -13026,7 +13026,7 @@ func (condition *DeliveryRuleSslProtocolCondition_STATUS) AssignProperties_From_
 }
 
 // AssignProperties_To_DeliveryRuleSslProtocolCondition_STATUS populates the provided destination DeliveryRuleSslProtocolCondition_STATUS from our DeliveryRuleSslProtocolCondition_STATUS
-func (condition *DeliveryRuleSslProtocolCondition_STATUS) AssignProperties_To_DeliveryRuleSslProtocolCondition_STATUS(destination *v20210601s.DeliveryRuleSslProtocolCondition_STATUS) error {
+func (condition *DeliveryRuleSslProtocolCondition_STATUS) AssignProperties_To_DeliveryRuleSslProtocolCondition_STATUS(destination *v1beta20210601s.DeliveryRuleSslProtocolCondition_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13040,7 +13040,7 @@ func (condition *DeliveryRuleSslProtocolCondition_STATUS) AssignProperties_To_De
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.SslProtocolMatchConditionParameters_STATUS
+		var parameter v1beta20210601s.SslProtocolMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_SslProtocolMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SslProtocolMatchConditionParameters_STATUS() to populate field Parameters")
@@ -13127,7 +13127,7 @@ func (condition *DeliveryRuleUrlFileExtensionCondition) PopulateFromARM(owner ge
 }
 
 // AssignProperties_From_DeliveryRuleUrlFileExtensionCondition populates our DeliveryRuleUrlFileExtensionCondition from the provided source DeliveryRuleUrlFileExtensionCondition
-func (condition *DeliveryRuleUrlFileExtensionCondition) AssignProperties_From_DeliveryRuleUrlFileExtensionCondition(source *v20210601s.DeliveryRuleUrlFileExtensionCondition) error {
+func (condition *DeliveryRuleUrlFileExtensionCondition) AssignProperties_From_DeliveryRuleUrlFileExtensionCondition(source *v1beta20210601s.DeliveryRuleUrlFileExtensionCondition) error {
 
 	// Name
 	if source.Name != nil {
@@ -13154,7 +13154,7 @@ func (condition *DeliveryRuleUrlFileExtensionCondition) AssignProperties_From_De
 }
 
 // AssignProperties_To_DeliveryRuleUrlFileExtensionCondition populates the provided destination DeliveryRuleUrlFileExtensionCondition from our DeliveryRuleUrlFileExtensionCondition
-func (condition *DeliveryRuleUrlFileExtensionCondition) AssignProperties_To_DeliveryRuleUrlFileExtensionCondition(destination *v20210601s.DeliveryRuleUrlFileExtensionCondition) error {
+func (condition *DeliveryRuleUrlFileExtensionCondition) AssignProperties_To_DeliveryRuleUrlFileExtensionCondition(destination *v1beta20210601s.DeliveryRuleUrlFileExtensionCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13168,7 +13168,7 @@ func (condition *DeliveryRuleUrlFileExtensionCondition) AssignProperties_To_Deli
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.UrlFileExtensionMatchConditionParameters
+		var parameter v1beta20210601s.UrlFileExtensionMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_UrlFileExtensionMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlFileExtensionMatchConditionParameters() to populate field Parameters")
@@ -13228,7 +13228,7 @@ func (condition *DeliveryRuleUrlFileExtensionCondition_STATUS) PopulateFromARM(o
 }
 
 // AssignProperties_From_DeliveryRuleUrlFileExtensionCondition_STATUS populates our DeliveryRuleUrlFileExtensionCondition_STATUS from the provided source DeliveryRuleUrlFileExtensionCondition_STATUS
-func (condition *DeliveryRuleUrlFileExtensionCondition_STATUS) AssignProperties_From_DeliveryRuleUrlFileExtensionCondition_STATUS(source *v20210601s.DeliveryRuleUrlFileExtensionCondition_STATUS) error {
+func (condition *DeliveryRuleUrlFileExtensionCondition_STATUS) AssignProperties_From_DeliveryRuleUrlFileExtensionCondition_STATUS(source *v1beta20210601s.DeliveryRuleUrlFileExtensionCondition_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -13255,7 +13255,7 @@ func (condition *DeliveryRuleUrlFileExtensionCondition_STATUS) AssignProperties_
 }
 
 // AssignProperties_To_DeliveryRuleUrlFileExtensionCondition_STATUS populates the provided destination DeliveryRuleUrlFileExtensionCondition_STATUS from our DeliveryRuleUrlFileExtensionCondition_STATUS
-func (condition *DeliveryRuleUrlFileExtensionCondition_STATUS) AssignProperties_To_DeliveryRuleUrlFileExtensionCondition_STATUS(destination *v20210601s.DeliveryRuleUrlFileExtensionCondition_STATUS) error {
+func (condition *DeliveryRuleUrlFileExtensionCondition_STATUS) AssignProperties_To_DeliveryRuleUrlFileExtensionCondition_STATUS(destination *v1beta20210601s.DeliveryRuleUrlFileExtensionCondition_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13269,7 +13269,7 @@ func (condition *DeliveryRuleUrlFileExtensionCondition_STATUS) AssignProperties_
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.UrlFileExtensionMatchConditionParameters_STATUS
+		var parameter v1beta20210601s.UrlFileExtensionMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_UrlFileExtensionMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlFileExtensionMatchConditionParameters_STATUS() to populate field Parameters")
@@ -13356,7 +13356,7 @@ func (condition *DeliveryRuleUrlFileNameCondition) PopulateFromARM(owner genrunt
 }
 
 // AssignProperties_From_DeliveryRuleUrlFileNameCondition populates our DeliveryRuleUrlFileNameCondition from the provided source DeliveryRuleUrlFileNameCondition
-func (condition *DeliveryRuleUrlFileNameCondition) AssignProperties_From_DeliveryRuleUrlFileNameCondition(source *v20210601s.DeliveryRuleUrlFileNameCondition) error {
+func (condition *DeliveryRuleUrlFileNameCondition) AssignProperties_From_DeliveryRuleUrlFileNameCondition(source *v1beta20210601s.DeliveryRuleUrlFileNameCondition) error {
 
 	// Name
 	if source.Name != nil {
@@ -13383,7 +13383,7 @@ func (condition *DeliveryRuleUrlFileNameCondition) AssignProperties_From_Deliver
 }
 
 // AssignProperties_To_DeliveryRuleUrlFileNameCondition populates the provided destination DeliveryRuleUrlFileNameCondition from our DeliveryRuleUrlFileNameCondition
-func (condition *DeliveryRuleUrlFileNameCondition) AssignProperties_To_DeliveryRuleUrlFileNameCondition(destination *v20210601s.DeliveryRuleUrlFileNameCondition) error {
+func (condition *DeliveryRuleUrlFileNameCondition) AssignProperties_To_DeliveryRuleUrlFileNameCondition(destination *v1beta20210601s.DeliveryRuleUrlFileNameCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13397,7 +13397,7 @@ func (condition *DeliveryRuleUrlFileNameCondition) AssignProperties_To_DeliveryR
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.UrlFileNameMatchConditionParameters
+		var parameter v1beta20210601s.UrlFileNameMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_UrlFileNameMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlFileNameMatchConditionParameters() to populate field Parameters")
@@ -13457,7 +13457,7 @@ func (condition *DeliveryRuleUrlFileNameCondition_STATUS) PopulateFromARM(owner 
 }
 
 // AssignProperties_From_DeliveryRuleUrlFileNameCondition_STATUS populates our DeliveryRuleUrlFileNameCondition_STATUS from the provided source DeliveryRuleUrlFileNameCondition_STATUS
-func (condition *DeliveryRuleUrlFileNameCondition_STATUS) AssignProperties_From_DeliveryRuleUrlFileNameCondition_STATUS(source *v20210601s.DeliveryRuleUrlFileNameCondition_STATUS) error {
+func (condition *DeliveryRuleUrlFileNameCondition_STATUS) AssignProperties_From_DeliveryRuleUrlFileNameCondition_STATUS(source *v1beta20210601s.DeliveryRuleUrlFileNameCondition_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -13484,7 +13484,7 @@ func (condition *DeliveryRuleUrlFileNameCondition_STATUS) AssignProperties_From_
 }
 
 // AssignProperties_To_DeliveryRuleUrlFileNameCondition_STATUS populates the provided destination DeliveryRuleUrlFileNameCondition_STATUS from our DeliveryRuleUrlFileNameCondition_STATUS
-func (condition *DeliveryRuleUrlFileNameCondition_STATUS) AssignProperties_To_DeliveryRuleUrlFileNameCondition_STATUS(destination *v20210601s.DeliveryRuleUrlFileNameCondition_STATUS) error {
+func (condition *DeliveryRuleUrlFileNameCondition_STATUS) AssignProperties_To_DeliveryRuleUrlFileNameCondition_STATUS(destination *v1beta20210601s.DeliveryRuleUrlFileNameCondition_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13498,7 +13498,7 @@ func (condition *DeliveryRuleUrlFileNameCondition_STATUS) AssignProperties_To_De
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.UrlFileNameMatchConditionParameters_STATUS
+		var parameter v1beta20210601s.UrlFileNameMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_UrlFileNameMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlFileNameMatchConditionParameters_STATUS() to populate field Parameters")
@@ -13585,7 +13585,7 @@ func (condition *DeliveryRuleUrlPathCondition) PopulateFromARM(owner genruntime.
 }
 
 // AssignProperties_From_DeliveryRuleUrlPathCondition populates our DeliveryRuleUrlPathCondition from the provided source DeliveryRuleUrlPathCondition
-func (condition *DeliveryRuleUrlPathCondition) AssignProperties_From_DeliveryRuleUrlPathCondition(source *v20210601s.DeliveryRuleUrlPathCondition) error {
+func (condition *DeliveryRuleUrlPathCondition) AssignProperties_From_DeliveryRuleUrlPathCondition(source *v1beta20210601s.DeliveryRuleUrlPathCondition) error {
 
 	// Name
 	if source.Name != nil {
@@ -13612,7 +13612,7 @@ func (condition *DeliveryRuleUrlPathCondition) AssignProperties_From_DeliveryRul
 }
 
 // AssignProperties_To_DeliveryRuleUrlPathCondition populates the provided destination DeliveryRuleUrlPathCondition from our DeliveryRuleUrlPathCondition
-func (condition *DeliveryRuleUrlPathCondition) AssignProperties_To_DeliveryRuleUrlPathCondition(destination *v20210601s.DeliveryRuleUrlPathCondition) error {
+func (condition *DeliveryRuleUrlPathCondition) AssignProperties_To_DeliveryRuleUrlPathCondition(destination *v1beta20210601s.DeliveryRuleUrlPathCondition) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13626,7 +13626,7 @@ func (condition *DeliveryRuleUrlPathCondition) AssignProperties_To_DeliveryRuleU
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.UrlPathMatchConditionParameters
+		var parameter v1beta20210601s.UrlPathMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_UrlPathMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlPathMatchConditionParameters() to populate field Parameters")
@@ -13686,7 +13686,7 @@ func (condition *DeliveryRuleUrlPathCondition_STATUS) PopulateFromARM(owner genr
 }
 
 // AssignProperties_From_DeliveryRuleUrlPathCondition_STATUS populates our DeliveryRuleUrlPathCondition_STATUS from the provided source DeliveryRuleUrlPathCondition_STATUS
-func (condition *DeliveryRuleUrlPathCondition_STATUS) AssignProperties_From_DeliveryRuleUrlPathCondition_STATUS(source *v20210601s.DeliveryRuleUrlPathCondition_STATUS) error {
+func (condition *DeliveryRuleUrlPathCondition_STATUS) AssignProperties_From_DeliveryRuleUrlPathCondition_STATUS(source *v1beta20210601s.DeliveryRuleUrlPathCondition_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -13713,7 +13713,7 @@ func (condition *DeliveryRuleUrlPathCondition_STATUS) AssignProperties_From_Deli
 }
 
 // AssignProperties_To_DeliveryRuleUrlPathCondition_STATUS populates the provided destination DeliveryRuleUrlPathCondition_STATUS from our DeliveryRuleUrlPathCondition_STATUS
-func (condition *DeliveryRuleUrlPathCondition_STATUS) AssignProperties_To_DeliveryRuleUrlPathCondition_STATUS(destination *v20210601s.DeliveryRuleUrlPathCondition_STATUS) error {
+func (condition *DeliveryRuleUrlPathCondition_STATUS) AssignProperties_To_DeliveryRuleUrlPathCondition_STATUS(destination *v1beta20210601s.DeliveryRuleUrlPathCondition_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13727,7 +13727,7 @@ func (condition *DeliveryRuleUrlPathCondition_STATUS) AssignProperties_To_Delive
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v20210601s.UrlPathMatchConditionParameters_STATUS
+		var parameter v1beta20210601s.UrlPathMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_UrlPathMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlPathMatchConditionParameters_STATUS() to populate field Parameters")
@@ -13814,7 +13814,7 @@ func (action *OriginGroupOverrideAction) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_OriginGroupOverrideAction populates our OriginGroupOverrideAction from the provided source OriginGroupOverrideAction
-func (action *OriginGroupOverrideAction) AssignProperties_From_OriginGroupOverrideAction(source *v20210601s.OriginGroupOverrideAction) error {
+func (action *OriginGroupOverrideAction) AssignProperties_From_OriginGroupOverrideAction(source *v1beta20210601s.OriginGroupOverrideAction) error {
 
 	// Name
 	if source.Name != nil {
@@ -13841,7 +13841,7 @@ func (action *OriginGroupOverrideAction) AssignProperties_From_OriginGroupOverri
 }
 
 // AssignProperties_To_OriginGroupOverrideAction populates the provided destination OriginGroupOverrideAction from our OriginGroupOverrideAction
-func (action *OriginGroupOverrideAction) AssignProperties_To_OriginGroupOverrideAction(destination *v20210601s.OriginGroupOverrideAction) error {
+func (action *OriginGroupOverrideAction) AssignProperties_To_OriginGroupOverrideAction(destination *v1beta20210601s.OriginGroupOverrideAction) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13855,7 +13855,7 @@ func (action *OriginGroupOverrideAction) AssignProperties_To_OriginGroupOverride
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v20210601s.OriginGroupOverrideActionParameters
+		var parameter v1beta20210601s.OriginGroupOverrideActionParameters
 		err := action.Parameters.AssignProperties_To_OriginGroupOverrideActionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_OriginGroupOverrideActionParameters() to populate field Parameters")
@@ -13915,7 +13915,7 @@ func (action *OriginGroupOverrideAction_STATUS) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_OriginGroupOverrideAction_STATUS populates our OriginGroupOverrideAction_STATUS from the provided source OriginGroupOverrideAction_STATUS
-func (action *OriginGroupOverrideAction_STATUS) AssignProperties_From_OriginGroupOverrideAction_STATUS(source *v20210601s.OriginGroupOverrideAction_STATUS) error {
+func (action *OriginGroupOverrideAction_STATUS) AssignProperties_From_OriginGroupOverrideAction_STATUS(source *v1beta20210601s.OriginGroupOverrideAction_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -13942,7 +13942,7 @@ func (action *OriginGroupOverrideAction_STATUS) AssignProperties_From_OriginGrou
 }
 
 // AssignProperties_To_OriginGroupOverrideAction_STATUS populates the provided destination OriginGroupOverrideAction_STATUS from our OriginGroupOverrideAction_STATUS
-func (action *OriginGroupOverrideAction_STATUS) AssignProperties_To_OriginGroupOverrideAction_STATUS(destination *v20210601s.OriginGroupOverrideAction_STATUS) error {
+func (action *OriginGroupOverrideAction_STATUS) AssignProperties_To_OriginGroupOverrideAction_STATUS(destination *v1beta20210601s.OriginGroupOverrideAction_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -13956,7 +13956,7 @@ func (action *OriginGroupOverrideAction_STATUS) AssignProperties_To_OriginGroupO
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v20210601s.OriginGroupOverrideActionParameters_STATUS
+		var parameter v1beta20210601s.OriginGroupOverrideActionParameters_STATUS
 		err := action.Parameters.AssignProperties_To_OriginGroupOverrideActionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_OriginGroupOverrideActionParameters_STATUS() to populate field Parameters")
@@ -14043,7 +14043,7 @@ func (action *UrlRedirectAction) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_UrlRedirectAction populates our UrlRedirectAction from the provided source UrlRedirectAction
-func (action *UrlRedirectAction) AssignProperties_From_UrlRedirectAction(source *v20210601s.UrlRedirectAction) error {
+func (action *UrlRedirectAction) AssignProperties_From_UrlRedirectAction(source *v1beta20210601s.UrlRedirectAction) error {
 
 	// Name
 	if source.Name != nil {
@@ -14070,7 +14070,7 @@ func (action *UrlRedirectAction) AssignProperties_From_UrlRedirectAction(source 
 }
 
 // AssignProperties_To_UrlRedirectAction populates the provided destination UrlRedirectAction from our UrlRedirectAction
-func (action *UrlRedirectAction) AssignProperties_To_UrlRedirectAction(destination *v20210601s.UrlRedirectAction) error {
+func (action *UrlRedirectAction) AssignProperties_To_UrlRedirectAction(destination *v1beta20210601s.UrlRedirectAction) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -14084,7 +14084,7 @@ func (action *UrlRedirectAction) AssignProperties_To_UrlRedirectAction(destinati
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v20210601s.UrlRedirectActionParameters
+		var parameter v1beta20210601s.UrlRedirectActionParameters
 		err := action.Parameters.AssignProperties_To_UrlRedirectActionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlRedirectActionParameters() to populate field Parameters")
@@ -14144,7 +14144,7 @@ func (action *UrlRedirectAction_STATUS) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_UrlRedirectAction_STATUS populates our UrlRedirectAction_STATUS from the provided source UrlRedirectAction_STATUS
-func (action *UrlRedirectAction_STATUS) AssignProperties_From_UrlRedirectAction_STATUS(source *v20210601s.UrlRedirectAction_STATUS) error {
+func (action *UrlRedirectAction_STATUS) AssignProperties_From_UrlRedirectAction_STATUS(source *v1beta20210601s.UrlRedirectAction_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -14171,7 +14171,7 @@ func (action *UrlRedirectAction_STATUS) AssignProperties_From_UrlRedirectAction_
 }
 
 // AssignProperties_To_UrlRedirectAction_STATUS populates the provided destination UrlRedirectAction_STATUS from our UrlRedirectAction_STATUS
-func (action *UrlRedirectAction_STATUS) AssignProperties_To_UrlRedirectAction_STATUS(destination *v20210601s.UrlRedirectAction_STATUS) error {
+func (action *UrlRedirectAction_STATUS) AssignProperties_To_UrlRedirectAction_STATUS(destination *v1beta20210601s.UrlRedirectAction_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -14185,7 +14185,7 @@ func (action *UrlRedirectAction_STATUS) AssignProperties_To_UrlRedirectAction_ST
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v20210601s.UrlRedirectActionParameters_STATUS
+		var parameter v1beta20210601s.UrlRedirectActionParameters_STATUS
 		err := action.Parameters.AssignProperties_To_UrlRedirectActionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlRedirectActionParameters_STATUS() to populate field Parameters")
@@ -14272,7 +14272,7 @@ func (action *UrlRewriteAction) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 }
 
 // AssignProperties_From_UrlRewriteAction populates our UrlRewriteAction from the provided source UrlRewriteAction
-func (action *UrlRewriteAction) AssignProperties_From_UrlRewriteAction(source *v20210601s.UrlRewriteAction) error {
+func (action *UrlRewriteAction) AssignProperties_From_UrlRewriteAction(source *v1beta20210601s.UrlRewriteAction) error {
 
 	// Name
 	if source.Name != nil {
@@ -14299,7 +14299,7 @@ func (action *UrlRewriteAction) AssignProperties_From_UrlRewriteAction(source *v
 }
 
 // AssignProperties_To_UrlRewriteAction populates the provided destination UrlRewriteAction from our UrlRewriteAction
-func (action *UrlRewriteAction) AssignProperties_To_UrlRewriteAction(destination *v20210601s.UrlRewriteAction) error {
+func (action *UrlRewriteAction) AssignProperties_To_UrlRewriteAction(destination *v1beta20210601s.UrlRewriteAction) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -14313,7 +14313,7 @@ func (action *UrlRewriteAction) AssignProperties_To_UrlRewriteAction(destination
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v20210601s.UrlRewriteActionParameters
+		var parameter v1beta20210601s.UrlRewriteActionParameters
 		err := action.Parameters.AssignProperties_To_UrlRewriteActionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlRewriteActionParameters() to populate field Parameters")
@@ -14373,7 +14373,7 @@ func (action *UrlRewriteAction_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 }
 
 // AssignProperties_From_UrlRewriteAction_STATUS populates our UrlRewriteAction_STATUS from the provided source UrlRewriteAction_STATUS
-func (action *UrlRewriteAction_STATUS) AssignProperties_From_UrlRewriteAction_STATUS(source *v20210601s.UrlRewriteAction_STATUS) error {
+func (action *UrlRewriteAction_STATUS) AssignProperties_From_UrlRewriteAction_STATUS(source *v1beta20210601s.UrlRewriteAction_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -14400,7 +14400,7 @@ func (action *UrlRewriteAction_STATUS) AssignProperties_From_UrlRewriteAction_ST
 }
 
 // AssignProperties_To_UrlRewriteAction_STATUS populates the provided destination UrlRewriteAction_STATUS from our UrlRewriteAction_STATUS
-func (action *UrlRewriteAction_STATUS) AssignProperties_To_UrlRewriteAction_STATUS(destination *v20210601s.UrlRewriteAction_STATUS) error {
+func (action *UrlRewriteAction_STATUS) AssignProperties_To_UrlRewriteAction_STATUS(destination *v1beta20210601s.UrlRewriteAction_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -14414,7 +14414,7 @@ func (action *UrlRewriteAction_STATUS) AssignProperties_To_UrlRewriteAction_STAT
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v20210601s.UrlRewriteActionParameters_STATUS
+		var parameter v1beta20210601s.UrlRewriteActionParameters_STATUS
 		err := action.Parameters.AssignProperties_To_UrlRewriteActionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlRewriteActionParameters_STATUS() to populate field Parameters")
@@ -14501,7 +14501,7 @@ func (action *UrlSigningAction) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 }
 
 // AssignProperties_From_UrlSigningAction populates our UrlSigningAction from the provided source UrlSigningAction
-func (action *UrlSigningAction) AssignProperties_From_UrlSigningAction(source *v20210601s.UrlSigningAction) error {
+func (action *UrlSigningAction) AssignProperties_From_UrlSigningAction(source *v1beta20210601s.UrlSigningAction) error {
 
 	// Name
 	if source.Name != nil {
@@ -14528,7 +14528,7 @@ func (action *UrlSigningAction) AssignProperties_From_UrlSigningAction(source *v
 }
 
 // AssignProperties_To_UrlSigningAction populates the provided destination UrlSigningAction from our UrlSigningAction
-func (action *UrlSigningAction) AssignProperties_To_UrlSigningAction(destination *v20210601s.UrlSigningAction) error {
+func (action *UrlSigningAction) AssignProperties_To_UrlSigningAction(destination *v1beta20210601s.UrlSigningAction) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -14542,7 +14542,7 @@ func (action *UrlSigningAction) AssignProperties_To_UrlSigningAction(destination
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v20210601s.UrlSigningActionParameters
+		var parameter v1beta20210601s.UrlSigningActionParameters
 		err := action.Parameters.AssignProperties_To_UrlSigningActionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlSigningActionParameters() to populate field Parameters")
@@ -14602,7 +14602,7 @@ func (action *UrlSigningAction_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 }
 
 // AssignProperties_From_UrlSigningAction_STATUS populates our UrlSigningAction_STATUS from the provided source UrlSigningAction_STATUS
-func (action *UrlSigningAction_STATUS) AssignProperties_From_UrlSigningAction_STATUS(source *v20210601s.UrlSigningAction_STATUS) error {
+func (action *UrlSigningAction_STATUS) AssignProperties_From_UrlSigningAction_STATUS(source *v1beta20210601s.UrlSigningAction_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -14629,7 +14629,7 @@ func (action *UrlSigningAction_STATUS) AssignProperties_From_UrlSigningAction_ST
 }
 
 // AssignProperties_To_UrlSigningAction_STATUS populates the provided destination UrlSigningAction_STATUS from our UrlSigningAction_STATUS
-func (action *UrlSigningAction_STATUS) AssignProperties_To_UrlSigningAction_STATUS(destination *v20210601s.UrlSigningAction_STATUS) error {
+func (action *UrlSigningAction_STATUS) AssignProperties_To_UrlSigningAction_STATUS(destination *v1beta20210601s.UrlSigningAction_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -14643,7 +14643,7 @@ func (action *UrlSigningAction_STATUS) AssignProperties_To_UrlSigningAction_STAT
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v20210601s.UrlSigningActionParameters_STATUS
+		var parameter v1beta20210601s.UrlSigningActionParameters_STATUS
 		err := action.Parameters.AssignProperties_To_UrlSigningActionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlSigningActionParameters_STATUS() to populate field Parameters")
@@ -14753,7 +14753,7 @@ func (parameters *CacheExpirationActionParameters) PopulateFromARM(owner genrunt
 }
 
 // AssignProperties_From_CacheExpirationActionParameters populates our CacheExpirationActionParameters from the provided source CacheExpirationActionParameters
-func (parameters *CacheExpirationActionParameters) AssignProperties_From_CacheExpirationActionParameters(source *v20210601s.CacheExpirationActionParameters) error {
+func (parameters *CacheExpirationActionParameters) AssignProperties_From_CacheExpirationActionParameters(source *v1beta20210601s.CacheExpirationActionParameters) error {
 
 	// CacheBehavior
 	if source.CacheBehavior != nil {
@@ -14787,7 +14787,7 @@ func (parameters *CacheExpirationActionParameters) AssignProperties_From_CacheEx
 }
 
 // AssignProperties_To_CacheExpirationActionParameters populates the provided destination CacheExpirationActionParameters from our CacheExpirationActionParameters
-func (parameters *CacheExpirationActionParameters) AssignProperties_To_CacheExpirationActionParameters(destination *v20210601s.CacheExpirationActionParameters) error {
+func (parameters *CacheExpirationActionParameters) AssignProperties_To_CacheExpirationActionParameters(destination *v1beta20210601s.CacheExpirationActionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -14880,7 +14880,7 @@ func (parameters *CacheExpirationActionParameters_STATUS) PopulateFromARM(owner 
 }
 
 // AssignProperties_From_CacheExpirationActionParameters_STATUS populates our CacheExpirationActionParameters_STATUS from the provided source CacheExpirationActionParameters_STATUS
-func (parameters *CacheExpirationActionParameters_STATUS) AssignProperties_From_CacheExpirationActionParameters_STATUS(source *v20210601s.CacheExpirationActionParameters_STATUS) error {
+func (parameters *CacheExpirationActionParameters_STATUS) AssignProperties_From_CacheExpirationActionParameters_STATUS(source *v1beta20210601s.CacheExpirationActionParameters_STATUS) error {
 
 	// CacheBehavior
 	if source.CacheBehavior != nil {
@@ -14914,7 +14914,7 @@ func (parameters *CacheExpirationActionParameters_STATUS) AssignProperties_From_
 }
 
 // AssignProperties_To_CacheExpirationActionParameters_STATUS populates the provided destination CacheExpirationActionParameters_STATUS from our CacheExpirationActionParameters_STATUS
-func (parameters *CacheExpirationActionParameters_STATUS) AssignProperties_To_CacheExpirationActionParameters_STATUS(destination *v20210601s.CacheExpirationActionParameters_STATUS) error {
+func (parameters *CacheExpirationActionParameters_STATUS) AssignProperties_To_CacheExpirationActionParameters_STATUS(destination *v1beta20210601s.CacheExpirationActionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -15031,7 +15031,7 @@ func (parameters *CacheKeyQueryStringActionParameters) PopulateFromARM(owner gen
 }
 
 // AssignProperties_From_CacheKeyQueryStringActionParameters populates our CacheKeyQueryStringActionParameters from the provided source CacheKeyQueryStringActionParameters
-func (parameters *CacheKeyQueryStringActionParameters) AssignProperties_From_CacheKeyQueryStringActionParameters(source *v20210601s.CacheKeyQueryStringActionParameters) error {
+func (parameters *CacheKeyQueryStringActionParameters) AssignProperties_From_CacheKeyQueryStringActionParameters(source *v1beta20210601s.CacheKeyQueryStringActionParameters) error {
 
 	// QueryParameters
 	parameters.QueryParameters = genruntime.ClonePointerToString(source.QueryParameters)
@@ -15057,7 +15057,7 @@ func (parameters *CacheKeyQueryStringActionParameters) AssignProperties_From_Cac
 }
 
 // AssignProperties_To_CacheKeyQueryStringActionParameters populates the provided destination CacheKeyQueryStringActionParameters from our CacheKeyQueryStringActionParameters
-func (parameters *CacheKeyQueryStringActionParameters) AssignProperties_To_CacheKeyQueryStringActionParameters(destination *v20210601s.CacheKeyQueryStringActionParameters) error {
+func (parameters *CacheKeyQueryStringActionParameters) AssignProperties_To_CacheKeyQueryStringActionParameters(destination *v1beta20210601s.CacheKeyQueryStringActionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -15135,7 +15135,7 @@ func (parameters *CacheKeyQueryStringActionParameters_STATUS) PopulateFromARM(ow
 }
 
 // AssignProperties_From_CacheKeyQueryStringActionParameters_STATUS populates our CacheKeyQueryStringActionParameters_STATUS from the provided source CacheKeyQueryStringActionParameters_STATUS
-func (parameters *CacheKeyQueryStringActionParameters_STATUS) AssignProperties_From_CacheKeyQueryStringActionParameters_STATUS(source *v20210601s.CacheKeyQueryStringActionParameters_STATUS) error {
+func (parameters *CacheKeyQueryStringActionParameters_STATUS) AssignProperties_From_CacheKeyQueryStringActionParameters_STATUS(source *v1beta20210601s.CacheKeyQueryStringActionParameters_STATUS) error {
 
 	// QueryParameters
 	parameters.QueryParameters = genruntime.ClonePointerToString(source.QueryParameters)
@@ -15161,7 +15161,7 @@ func (parameters *CacheKeyQueryStringActionParameters_STATUS) AssignProperties_F
 }
 
 // AssignProperties_To_CacheKeyQueryStringActionParameters_STATUS populates the provided destination CacheKeyQueryStringActionParameters_STATUS from our CacheKeyQueryStringActionParameters_STATUS
-func (parameters *CacheKeyQueryStringActionParameters_STATUS) AssignProperties_To_CacheKeyQueryStringActionParameters_STATUS(destination *v20210601s.CacheKeyQueryStringActionParameters_STATUS) error {
+func (parameters *CacheKeyQueryStringActionParameters_STATUS) AssignProperties_To_CacheKeyQueryStringActionParameters_STATUS(destination *v1beta20210601s.CacheKeyQueryStringActionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -15292,7 +15292,7 @@ func (parameters *ClientPortMatchConditionParameters) PopulateFromARM(owner genr
 }
 
 // AssignProperties_From_ClientPortMatchConditionParameters populates our ClientPortMatchConditionParameters from the provided source ClientPortMatchConditionParameters
-func (parameters *ClientPortMatchConditionParameters) AssignProperties_From_ClientPortMatchConditionParameters(source *v20210601s.ClientPortMatchConditionParameters) error {
+func (parameters *ClientPortMatchConditionParameters) AssignProperties_From_ClientPortMatchConditionParameters(source *v1beta20210601s.ClientPortMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -15339,7 +15339,7 @@ func (parameters *ClientPortMatchConditionParameters) AssignProperties_From_Clie
 }
 
 // AssignProperties_To_ClientPortMatchConditionParameters populates the provided destination ClientPortMatchConditionParameters from our ClientPortMatchConditionParameters
-func (parameters *ClientPortMatchConditionParameters) AssignProperties_To_ClientPortMatchConditionParameters(destination *v20210601s.ClientPortMatchConditionParameters) error {
+func (parameters *ClientPortMatchConditionParameters) AssignProperties_To_ClientPortMatchConditionParameters(destination *v1beta20210601s.ClientPortMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -15450,7 +15450,7 @@ func (parameters *ClientPortMatchConditionParameters_STATUS) PopulateFromARM(own
 }
 
 // AssignProperties_From_ClientPortMatchConditionParameters_STATUS populates our ClientPortMatchConditionParameters_STATUS from the provided source ClientPortMatchConditionParameters_STATUS
-func (parameters *ClientPortMatchConditionParameters_STATUS) AssignProperties_From_ClientPortMatchConditionParameters_STATUS(source *v20210601s.ClientPortMatchConditionParameters_STATUS) error {
+func (parameters *ClientPortMatchConditionParameters_STATUS) AssignProperties_From_ClientPortMatchConditionParameters_STATUS(source *v1beta20210601s.ClientPortMatchConditionParameters_STATUS) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -15497,7 +15497,7 @@ func (parameters *ClientPortMatchConditionParameters_STATUS) AssignProperties_Fr
 }
 
 // AssignProperties_To_ClientPortMatchConditionParameters_STATUS populates the provided destination ClientPortMatchConditionParameters_STATUS from our ClientPortMatchConditionParameters_STATUS
-func (parameters *ClientPortMatchConditionParameters_STATUS) AssignProperties_To_ClientPortMatchConditionParameters_STATUS(destination *v20210601s.ClientPortMatchConditionParameters_STATUS) error {
+func (parameters *ClientPortMatchConditionParameters_STATUS) AssignProperties_To_ClientPortMatchConditionParameters_STATUS(destination *v1beta20210601s.ClientPortMatchConditionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -15662,7 +15662,7 @@ func (parameters *CookiesMatchConditionParameters) PopulateFromARM(owner genrunt
 }
 
 // AssignProperties_From_CookiesMatchConditionParameters populates our CookiesMatchConditionParameters from the provided source CookiesMatchConditionParameters
-func (parameters *CookiesMatchConditionParameters) AssignProperties_From_CookiesMatchConditionParameters(source *v20210601s.CookiesMatchConditionParameters) error {
+func (parameters *CookiesMatchConditionParameters) AssignProperties_From_CookiesMatchConditionParameters(source *v1beta20210601s.CookiesMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -15712,7 +15712,7 @@ func (parameters *CookiesMatchConditionParameters) AssignProperties_From_Cookies
 }
 
 // AssignProperties_To_CookiesMatchConditionParameters populates the provided destination CookiesMatchConditionParameters from our CookiesMatchConditionParameters
-func (parameters *CookiesMatchConditionParameters) AssignProperties_To_CookiesMatchConditionParameters(destination *v20210601s.CookiesMatchConditionParameters) error {
+func (parameters *CookiesMatchConditionParameters) AssignProperties_To_CookiesMatchConditionParameters(destination *v1beta20210601s.CookiesMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -15833,7 +15833,7 @@ func (parameters *CookiesMatchConditionParameters_STATUS) PopulateFromARM(owner 
 }
 
 // AssignProperties_From_CookiesMatchConditionParameters_STATUS populates our CookiesMatchConditionParameters_STATUS from the provided source CookiesMatchConditionParameters_STATUS
-func (parameters *CookiesMatchConditionParameters_STATUS) AssignProperties_From_CookiesMatchConditionParameters_STATUS(source *v20210601s.CookiesMatchConditionParameters_STATUS) error {
+func (parameters *CookiesMatchConditionParameters_STATUS) AssignProperties_From_CookiesMatchConditionParameters_STATUS(source *v1beta20210601s.CookiesMatchConditionParameters_STATUS) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -15883,7 +15883,7 @@ func (parameters *CookiesMatchConditionParameters_STATUS) AssignProperties_From_
 }
 
 // AssignProperties_To_CookiesMatchConditionParameters_STATUS populates the provided destination CookiesMatchConditionParameters_STATUS from our CookiesMatchConditionParameters_STATUS
-func (parameters *CookiesMatchConditionParameters_STATUS) AssignProperties_To_CookiesMatchConditionParameters_STATUS(destination *v20210601s.CookiesMatchConditionParameters_STATUS) error {
+func (parameters *CookiesMatchConditionParameters_STATUS) AssignProperties_To_CookiesMatchConditionParameters_STATUS(destination *v1beta20210601s.CookiesMatchConditionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -16337,7 +16337,7 @@ func (parameters *HeaderActionParameters) PopulateFromARM(owner genruntime.Arbit
 }
 
 // AssignProperties_From_HeaderActionParameters populates our HeaderActionParameters from the provided source HeaderActionParameters
-func (parameters *HeaderActionParameters) AssignProperties_From_HeaderActionParameters(source *v20210601s.HeaderActionParameters) error {
+func (parameters *HeaderActionParameters) AssignProperties_From_HeaderActionParameters(source *v1beta20210601s.HeaderActionParameters) error {
 
 	// HeaderAction
 	if source.HeaderAction != nil {
@@ -16366,7 +16366,7 @@ func (parameters *HeaderActionParameters) AssignProperties_From_HeaderActionPara
 }
 
 // AssignProperties_To_HeaderActionParameters populates the provided destination HeaderActionParameters from our HeaderActionParameters
-func (parameters *HeaderActionParameters) AssignProperties_To_HeaderActionParameters(destination *v20210601s.HeaderActionParameters) error {
+func (parameters *HeaderActionParameters) AssignProperties_To_HeaderActionParameters(destination *v1beta20210601s.HeaderActionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -16454,7 +16454,7 @@ func (parameters *HeaderActionParameters_STATUS) PopulateFromARM(owner genruntim
 }
 
 // AssignProperties_From_HeaderActionParameters_STATUS populates our HeaderActionParameters_STATUS from the provided source HeaderActionParameters_STATUS
-func (parameters *HeaderActionParameters_STATUS) AssignProperties_From_HeaderActionParameters_STATUS(source *v20210601s.HeaderActionParameters_STATUS) error {
+func (parameters *HeaderActionParameters_STATUS) AssignProperties_From_HeaderActionParameters_STATUS(source *v1beta20210601s.HeaderActionParameters_STATUS) error {
 
 	// HeaderAction
 	if source.HeaderAction != nil {
@@ -16483,7 +16483,7 @@ func (parameters *HeaderActionParameters_STATUS) AssignProperties_From_HeaderAct
 }
 
 // AssignProperties_To_HeaderActionParameters_STATUS populates the provided destination HeaderActionParameters_STATUS from our HeaderActionParameters_STATUS
-func (parameters *HeaderActionParameters_STATUS) AssignProperties_To_HeaderActionParameters_STATUS(destination *v20210601s.HeaderActionParameters_STATUS) error {
+func (parameters *HeaderActionParameters_STATUS) AssignProperties_To_HeaderActionParameters_STATUS(destination *v1beta20210601s.HeaderActionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -16617,7 +16617,7 @@ func (parameters *HostNameMatchConditionParameters) PopulateFromARM(owner genrun
 }
 
 // AssignProperties_From_HostNameMatchConditionParameters populates our HostNameMatchConditionParameters from the provided source HostNameMatchConditionParameters
-func (parameters *HostNameMatchConditionParameters) AssignProperties_From_HostNameMatchConditionParameters(source *v20210601s.HostNameMatchConditionParameters) error {
+func (parameters *HostNameMatchConditionParameters) AssignProperties_From_HostNameMatchConditionParameters(source *v1beta20210601s.HostNameMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -16664,7 +16664,7 @@ func (parameters *HostNameMatchConditionParameters) AssignProperties_From_HostNa
 }
 
 // AssignProperties_To_HostNameMatchConditionParameters populates the provided destination HostNameMatchConditionParameters from our HostNameMatchConditionParameters
-func (parameters *HostNameMatchConditionParameters) AssignProperties_To_HostNameMatchConditionParameters(destination *v20210601s.HostNameMatchConditionParameters) error {
+func (parameters *HostNameMatchConditionParameters) AssignProperties_To_HostNameMatchConditionParameters(destination *v1beta20210601s.HostNameMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -16775,7 +16775,7 @@ func (parameters *HostNameMatchConditionParameters_STATUS) PopulateFromARM(owner
 }
 
 // AssignProperties_From_HostNameMatchConditionParameters_STATUS populates our HostNameMatchConditionParameters_STATUS from the provided source HostNameMatchConditionParameters_STATUS
-func (parameters *HostNameMatchConditionParameters_STATUS) AssignProperties_From_HostNameMatchConditionParameters_STATUS(source *v20210601s.HostNameMatchConditionParameters_STATUS) error {
+func (parameters *HostNameMatchConditionParameters_STATUS) AssignProperties_From_HostNameMatchConditionParameters_STATUS(source *v1beta20210601s.HostNameMatchConditionParameters_STATUS) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -16822,7 +16822,7 @@ func (parameters *HostNameMatchConditionParameters_STATUS) AssignProperties_From
 }
 
 // AssignProperties_To_HostNameMatchConditionParameters_STATUS populates the provided destination HostNameMatchConditionParameters_STATUS from our HostNameMatchConditionParameters_STATUS
-func (parameters *HostNameMatchConditionParameters_STATUS) AssignProperties_To_HostNameMatchConditionParameters_STATUS(destination *v20210601s.HostNameMatchConditionParameters_STATUS) error {
+func (parameters *HostNameMatchConditionParameters_STATUS) AssignProperties_To_HostNameMatchConditionParameters_STATUS(destination *v1beta20210601s.HostNameMatchConditionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -16974,7 +16974,7 @@ func (parameters *HttpVersionMatchConditionParameters) PopulateFromARM(owner gen
 }
 
 // AssignProperties_From_HttpVersionMatchConditionParameters populates our HttpVersionMatchConditionParameters from the provided source HttpVersionMatchConditionParameters
-func (parameters *HttpVersionMatchConditionParameters) AssignProperties_From_HttpVersionMatchConditionParameters(source *v20210601s.HttpVersionMatchConditionParameters) error {
+func (parameters *HttpVersionMatchConditionParameters) AssignProperties_From_HttpVersionMatchConditionParameters(source *v1beta20210601s.HttpVersionMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -17021,7 +17021,7 @@ func (parameters *HttpVersionMatchConditionParameters) AssignProperties_From_Htt
 }
 
 // AssignProperties_To_HttpVersionMatchConditionParameters populates the provided destination HttpVersionMatchConditionParameters from our HttpVersionMatchConditionParameters
-func (parameters *HttpVersionMatchConditionParameters) AssignProperties_To_HttpVersionMatchConditionParameters(destination *v20210601s.HttpVersionMatchConditionParameters) error {
+func (parameters *HttpVersionMatchConditionParameters) AssignProperties_To_HttpVersionMatchConditionParameters(destination *v1beta20210601s.HttpVersionMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -17132,7 +17132,7 @@ func (parameters *HttpVersionMatchConditionParameters_STATUS) PopulateFromARM(ow
 }
 
 // AssignProperties_From_HttpVersionMatchConditionParameters_STATUS populates our HttpVersionMatchConditionParameters_STATUS from the provided source HttpVersionMatchConditionParameters_STATUS
-func (parameters *HttpVersionMatchConditionParameters_STATUS) AssignProperties_From_HttpVersionMatchConditionParameters_STATUS(source *v20210601s.HttpVersionMatchConditionParameters_STATUS) error {
+func (parameters *HttpVersionMatchConditionParameters_STATUS) AssignProperties_From_HttpVersionMatchConditionParameters_STATUS(source *v1beta20210601s.HttpVersionMatchConditionParameters_STATUS) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -17179,7 +17179,7 @@ func (parameters *HttpVersionMatchConditionParameters_STATUS) AssignProperties_F
 }
 
 // AssignProperties_To_HttpVersionMatchConditionParameters_STATUS populates the provided destination HttpVersionMatchConditionParameters_STATUS from our HttpVersionMatchConditionParameters_STATUS
-func (parameters *HttpVersionMatchConditionParameters_STATUS) AssignProperties_To_HttpVersionMatchConditionParameters_STATUS(destination *v20210601s.HttpVersionMatchConditionParameters_STATUS) error {
+func (parameters *HttpVersionMatchConditionParameters_STATUS) AssignProperties_To_HttpVersionMatchConditionParameters_STATUS(destination *v1beta20210601s.HttpVersionMatchConditionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -17331,7 +17331,7 @@ func (parameters *IsDeviceMatchConditionParameters) PopulateFromARM(owner genrun
 }
 
 // AssignProperties_From_IsDeviceMatchConditionParameters populates our IsDeviceMatchConditionParameters from the provided source IsDeviceMatchConditionParameters
-func (parameters *IsDeviceMatchConditionParameters) AssignProperties_From_IsDeviceMatchConditionParameters(source *v20210601s.IsDeviceMatchConditionParameters) error {
+func (parameters *IsDeviceMatchConditionParameters) AssignProperties_From_IsDeviceMatchConditionParameters(source *v1beta20210601s.IsDeviceMatchConditionParameters) error {
 
 	// MatchValues
 	if source.MatchValues != nil {
@@ -17388,7 +17388,7 @@ func (parameters *IsDeviceMatchConditionParameters) AssignProperties_From_IsDevi
 }
 
 // AssignProperties_To_IsDeviceMatchConditionParameters populates the provided destination IsDeviceMatchConditionParameters from our IsDeviceMatchConditionParameters
-func (parameters *IsDeviceMatchConditionParameters) AssignProperties_To_IsDeviceMatchConditionParameters(destination *v20210601s.IsDeviceMatchConditionParameters) error {
+func (parameters *IsDeviceMatchConditionParameters) AssignProperties_To_IsDeviceMatchConditionParameters(destination *v1beta20210601s.IsDeviceMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -17509,7 +17509,7 @@ func (parameters *IsDeviceMatchConditionParameters_STATUS) PopulateFromARM(owner
 }
 
 // AssignProperties_From_IsDeviceMatchConditionParameters_STATUS populates our IsDeviceMatchConditionParameters_STATUS from the provided source IsDeviceMatchConditionParameters_STATUS
-func (parameters *IsDeviceMatchConditionParameters_STATUS) AssignProperties_From_IsDeviceMatchConditionParameters_STATUS(source *v20210601s.IsDeviceMatchConditionParameters_STATUS) error {
+func (parameters *IsDeviceMatchConditionParameters_STATUS) AssignProperties_From_IsDeviceMatchConditionParameters_STATUS(source *v1beta20210601s.IsDeviceMatchConditionParameters_STATUS) error {
 
 	// MatchValues
 	if source.MatchValues != nil {
@@ -17566,7 +17566,7 @@ func (parameters *IsDeviceMatchConditionParameters_STATUS) AssignProperties_From
 }
 
 // AssignProperties_To_IsDeviceMatchConditionParameters_STATUS populates the provided destination IsDeviceMatchConditionParameters_STATUS from our IsDeviceMatchConditionParameters_STATUS
-func (parameters *IsDeviceMatchConditionParameters_STATUS) AssignProperties_To_IsDeviceMatchConditionParameters_STATUS(destination *v20210601s.IsDeviceMatchConditionParameters_STATUS) error {
+func (parameters *IsDeviceMatchConditionParameters_STATUS) AssignProperties_To_IsDeviceMatchConditionParameters_STATUS(destination *v1beta20210601s.IsDeviceMatchConditionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -17713,7 +17713,7 @@ func (parameters *OriginGroupOverrideActionParameters) PopulateFromARM(owner gen
 }
 
 // AssignProperties_From_OriginGroupOverrideActionParameters populates our OriginGroupOverrideActionParameters from the provided source OriginGroupOverrideActionParameters
-func (parameters *OriginGroupOverrideActionParameters) AssignProperties_From_OriginGroupOverrideActionParameters(source *v20210601s.OriginGroupOverrideActionParameters) error {
+func (parameters *OriginGroupOverrideActionParameters) AssignProperties_From_OriginGroupOverrideActionParameters(source *v1beta20210601s.OriginGroupOverrideActionParameters) error {
 
 	// OriginGroup
 	if source.OriginGroup != nil {
@@ -17740,13 +17740,13 @@ func (parameters *OriginGroupOverrideActionParameters) AssignProperties_From_Ori
 }
 
 // AssignProperties_To_OriginGroupOverrideActionParameters populates the provided destination OriginGroupOverrideActionParameters from our OriginGroupOverrideActionParameters
-func (parameters *OriginGroupOverrideActionParameters) AssignProperties_To_OriginGroupOverrideActionParameters(destination *v20210601s.OriginGroupOverrideActionParameters) error {
+func (parameters *OriginGroupOverrideActionParameters) AssignProperties_To_OriginGroupOverrideActionParameters(destination *v1beta20210601s.OriginGroupOverrideActionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// OriginGroup
 	if parameters.OriginGroup != nil {
-		var originGroup v20210601s.ResourceReference
+		var originGroup v1beta20210601s.ResourceReference
 		err := parameters.OriginGroup.AssignProperties_To_ResourceReference(&originGroup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field OriginGroup")
@@ -17817,7 +17817,7 @@ func (parameters *OriginGroupOverrideActionParameters_STATUS) PopulateFromARM(ow
 }
 
 // AssignProperties_From_OriginGroupOverrideActionParameters_STATUS populates our OriginGroupOverrideActionParameters_STATUS from the provided source OriginGroupOverrideActionParameters_STATUS
-func (parameters *OriginGroupOverrideActionParameters_STATUS) AssignProperties_From_OriginGroupOverrideActionParameters_STATUS(source *v20210601s.OriginGroupOverrideActionParameters_STATUS) error {
+func (parameters *OriginGroupOverrideActionParameters_STATUS) AssignProperties_From_OriginGroupOverrideActionParameters_STATUS(source *v1beta20210601s.OriginGroupOverrideActionParameters_STATUS) error {
 
 	// OriginGroup
 	if source.OriginGroup != nil {
@@ -17844,13 +17844,13 @@ func (parameters *OriginGroupOverrideActionParameters_STATUS) AssignProperties_F
 }
 
 // AssignProperties_To_OriginGroupOverrideActionParameters_STATUS populates the provided destination OriginGroupOverrideActionParameters_STATUS from our OriginGroupOverrideActionParameters_STATUS
-func (parameters *OriginGroupOverrideActionParameters_STATUS) AssignProperties_To_OriginGroupOverrideActionParameters_STATUS(destination *v20210601s.OriginGroupOverrideActionParameters_STATUS) error {
+func (parameters *OriginGroupOverrideActionParameters_STATUS) AssignProperties_To_OriginGroupOverrideActionParameters_STATUS(destination *v1beta20210601s.OriginGroupOverrideActionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// OriginGroup
 	if parameters.OriginGroup != nil {
-		var originGroup v20210601s.ResourceReference_STATUS
+		var originGroup v1beta20210601s.ResourceReference_STATUS
 		err := parameters.OriginGroup.AssignProperties_To_ResourceReference_STATUS(&originGroup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field OriginGroup")
@@ -17989,7 +17989,7 @@ func (parameters *PostArgsMatchConditionParameters) PopulateFromARM(owner genrun
 }
 
 // AssignProperties_From_PostArgsMatchConditionParameters populates our PostArgsMatchConditionParameters from the provided source PostArgsMatchConditionParameters
-func (parameters *PostArgsMatchConditionParameters) AssignProperties_From_PostArgsMatchConditionParameters(source *v20210601s.PostArgsMatchConditionParameters) error {
+func (parameters *PostArgsMatchConditionParameters) AssignProperties_From_PostArgsMatchConditionParameters(source *v1beta20210601s.PostArgsMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -18039,7 +18039,7 @@ func (parameters *PostArgsMatchConditionParameters) AssignProperties_From_PostAr
 }
 
 // AssignProperties_To_PostArgsMatchConditionParameters populates the provided destination PostArgsMatchConditionParameters from our PostArgsMatchConditionParameters
-func (parameters *PostArgsMatchConditionParameters) AssignProperties_To_PostArgsMatchConditionParameters(destination *v20210601s.PostArgsMatchConditionParameters) error {
+func (parameters *PostArgsMatchConditionParameters) AssignProperties_To_PostArgsMatchConditionParameters(destination *v1beta20210601s.PostArgsMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -18160,7 +18160,7 @@ func (parameters *PostArgsMatchConditionParameters_STATUS) PopulateFromARM(owner
 }
 
 // AssignProperties_From_PostArgsMatchConditionParameters_STATUS populates our PostArgsMatchConditionParameters_STATUS from the provided source PostArgsMatchConditionParameters_STATUS
-func (parameters *PostArgsMatchConditionParameters_STATUS) AssignProperties_From_PostArgsMatchConditionParameters_STATUS(source *v20210601s.PostArgsMatchConditionParameters_STATUS) error {
+func (parameters *PostArgsMatchConditionParameters_STATUS) AssignProperties_From_PostArgsMatchConditionParameters_STATUS(source *v1beta20210601s.PostArgsMatchConditionParameters_STATUS) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -18210,7 +18210,7 @@ func (parameters *PostArgsMatchConditionParameters_STATUS) AssignProperties_From
 }
 
 // AssignProperties_To_PostArgsMatchConditionParameters_STATUS populates the provided destination PostArgsMatchConditionParameters_STATUS from our PostArgsMatchConditionParameters_STATUS
-func (parameters *PostArgsMatchConditionParameters_STATUS) AssignProperties_To_PostArgsMatchConditionParameters_STATUS(destination *v20210601s.PostArgsMatchConditionParameters_STATUS) error {
+func (parameters *PostArgsMatchConditionParameters_STATUS) AssignProperties_To_PostArgsMatchConditionParameters_STATUS(destination *v1beta20210601s.PostArgsMatchConditionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -18365,7 +18365,7 @@ func (parameters *QueryStringMatchConditionParameters) PopulateFromARM(owner gen
 }
 
 // AssignProperties_From_QueryStringMatchConditionParameters populates our QueryStringMatchConditionParameters from the provided source QueryStringMatchConditionParameters
-func (parameters *QueryStringMatchConditionParameters) AssignProperties_From_QueryStringMatchConditionParameters(source *v20210601s.QueryStringMatchConditionParameters) error {
+func (parameters *QueryStringMatchConditionParameters) AssignProperties_From_QueryStringMatchConditionParameters(source *v1beta20210601s.QueryStringMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -18412,7 +18412,7 @@ func (parameters *QueryStringMatchConditionParameters) AssignProperties_From_Que
 }
 
 // AssignProperties_To_QueryStringMatchConditionParameters populates the provided destination QueryStringMatchConditionParameters from our QueryStringMatchConditionParameters
-func (parameters *QueryStringMatchConditionParameters) AssignProperties_To_QueryStringMatchConditionParameters(destination *v20210601s.QueryStringMatchConditionParameters) error {
+func (parameters *QueryStringMatchConditionParameters) AssignProperties_To_QueryStringMatchConditionParameters(destination *v1beta20210601s.QueryStringMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -18523,7 +18523,7 @@ func (parameters *QueryStringMatchConditionParameters_STATUS) PopulateFromARM(ow
 }
 
 // AssignProperties_From_QueryStringMatchConditionParameters_STATUS populates our QueryStringMatchConditionParameters_STATUS from the provided source QueryStringMatchConditionParameters_STATUS
-func (parameters *QueryStringMatchConditionParameters_STATUS) AssignProperties_From_QueryStringMatchConditionParameters_STATUS(source *v20210601s.QueryStringMatchConditionParameters_STATUS) error {
+func (parameters *QueryStringMatchConditionParameters_STATUS) AssignProperties_From_QueryStringMatchConditionParameters_STATUS(source *v1beta20210601s.QueryStringMatchConditionParameters_STATUS) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -18570,7 +18570,7 @@ func (parameters *QueryStringMatchConditionParameters_STATUS) AssignProperties_F
 }
 
 // AssignProperties_To_QueryStringMatchConditionParameters_STATUS populates the provided destination QueryStringMatchConditionParameters_STATUS from our QueryStringMatchConditionParameters_STATUS
-func (parameters *QueryStringMatchConditionParameters_STATUS) AssignProperties_To_QueryStringMatchConditionParameters_STATUS(destination *v20210601s.QueryStringMatchConditionParameters_STATUS) error {
+func (parameters *QueryStringMatchConditionParameters_STATUS) AssignProperties_To_QueryStringMatchConditionParameters_STATUS(destination *v1beta20210601s.QueryStringMatchConditionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -18722,7 +18722,7 @@ func (parameters *RemoteAddressMatchConditionParameters) PopulateFromARM(owner g
 }
 
 // AssignProperties_From_RemoteAddressMatchConditionParameters populates our RemoteAddressMatchConditionParameters from the provided source RemoteAddressMatchConditionParameters
-func (parameters *RemoteAddressMatchConditionParameters) AssignProperties_From_RemoteAddressMatchConditionParameters(source *v20210601s.RemoteAddressMatchConditionParameters) error {
+func (parameters *RemoteAddressMatchConditionParameters) AssignProperties_From_RemoteAddressMatchConditionParameters(source *v1beta20210601s.RemoteAddressMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -18769,7 +18769,7 @@ func (parameters *RemoteAddressMatchConditionParameters) AssignProperties_From_R
 }
 
 // AssignProperties_To_RemoteAddressMatchConditionParameters populates the provided destination RemoteAddressMatchConditionParameters from our RemoteAddressMatchConditionParameters
-func (parameters *RemoteAddressMatchConditionParameters) AssignProperties_To_RemoteAddressMatchConditionParameters(destination *v20210601s.RemoteAddressMatchConditionParameters) error {
+func (parameters *RemoteAddressMatchConditionParameters) AssignProperties_To_RemoteAddressMatchConditionParameters(destination *v1beta20210601s.RemoteAddressMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -18880,7 +18880,7 @@ func (parameters *RemoteAddressMatchConditionParameters_STATUS) PopulateFromARM(
 }
 
 // AssignProperties_From_RemoteAddressMatchConditionParameters_STATUS populates our RemoteAddressMatchConditionParameters_STATUS from the provided source RemoteAddressMatchConditionParameters_STATUS
-func (parameters *RemoteAddressMatchConditionParameters_STATUS) AssignProperties_From_RemoteAddressMatchConditionParameters_STATUS(source *v20210601s.RemoteAddressMatchConditionParameters_STATUS) error {
+func (parameters *RemoteAddressMatchConditionParameters_STATUS) AssignProperties_From_RemoteAddressMatchConditionParameters_STATUS(source *v1beta20210601s.RemoteAddressMatchConditionParameters_STATUS) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -18927,7 +18927,7 @@ func (parameters *RemoteAddressMatchConditionParameters_STATUS) AssignProperties
 }
 
 // AssignProperties_To_RemoteAddressMatchConditionParameters_STATUS populates the provided destination RemoteAddressMatchConditionParameters_STATUS from our RemoteAddressMatchConditionParameters_STATUS
-func (parameters *RemoteAddressMatchConditionParameters_STATUS) AssignProperties_To_RemoteAddressMatchConditionParameters_STATUS(destination *v20210601s.RemoteAddressMatchConditionParameters_STATUS) error {
+func (parameters *RemoteAddressMatchConditionParameters_STATUS) AssignProperties_To_RemoteAddressMatchConditionParameters_STATUS(destination *v1beta20210601s.RemoteAddressMatchConditionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -19079,7 +19079,7 @@ func (parameters *RequestBodyMatchConditionParameters) PopulateFromARM(owner gen
 }
 
 // AssignProperties_From_RequestBodyMatchConditionParameters populates our RequestBodyMatchConditionParameters from the provided source RequestBodyMatchConditionParameters
-func (parameters *RequestBodyMatchConditionParameters) AssignProperties_From_RequestBodyMatchConditionParameters(source *v20210601s.RequestBodyMatchConditionParameters) error {
+func (parameters *RequestBodyMatchConditionParameters) AssignProperties_From_RequestBodyMatchConditionParameters(source *v1beta20210601s.RequestBodyMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -19126,7 +19126,7 @@ func (parameters *RequestBodyMatchConditionParameters) AssignProperties_From_Req
 }
 
 // AssignProperties_To_RequestBodyMatchConditionParameters populates the provided destination RequestBodyMatchConditionParameters from our RequestBodyMatchConditionParameters
-func (parameters *RequestBodyMatchConditionParameters) AssignProperties_To_RequestBodyMatchConditionParameters(destination *v20210601s.RequestBodyMatchConditionParameters) error {
+func (parameters *RequestBodyMatchConditionParameters) AssignProperties_To_RequestBodyMatchConditionParameters(destination *v1beta20210601s.RequestBodyMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -19237,7 +19237,7 @@ func (parameters *RequestBodyMatchConditionParameters_STATUS) PopulateFromARM(ow
 }
 
 // AssignProperties_From_RequestBodyMatchConditionParameters_STATUS populates our RequestBodyMatchConditionParameters_STATUS from the provided source RequestBodyMatchConditionParameters_STATUS
-func (parameters *RequestBodyMatchConditionParameters_STATUS) AssignProperties_From_RequestBodyMatchConditionParameters_STATUS(source *v20210601s.RequestBodyMatchConditionParameters_STATUS) error {
+func (parameters *RequestBodyMatchConditionParameters_STATUS) AssignProperties_From_RequestBodyMatchConditionParameters_STATUS(source *v1beta20210601s.RequestBodyMatchConditionParameters_STATUS) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -19284,7 +19284,7 @@ func (parameters *RequestBodyMatchConditionParameters_STATUS) AssignProperties_F
 }
 
 // AssignProperties_To_RequestBodyMatchConditionParameters_STATUS populates the provided destination RequestBodyMatchConditionParameters_STATUS from our RequestBodyMatchConditionParameters_STATUS
-func (parameters *RequestBodyMatchConditionParameters_STATUS) AssignProperties_To_RequestBodyMatchConditionParameters_STATUS(destination *v20210601s.RequestBodyMatchConditionParameters_STATUS) error {
+func (parameters *RequestBodyMatchConditionParameters_STATUS) AssignProperties_To_RequestBodyMatchConditionParameters_STATUS(destination *v1beta20210601s.RequestBodyMatchConditionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -19449,7 +19449,7 @@ func (parameters *RequestHeaderMatchConditionParameters) PopulateFromARM(owner g
 }
 
 // AssignProperties_From_RequestHeaderMatchConditionParameters populates our RequestHeaderMatchConditionParameters from the provided source RequestHeaderMatchConditionParameters
-func (parameters *RequestHeaderMatchConditionParameters) AssignProperties_From_RequestHeaderMatchConditionParameters(source *v20210601s.RequestHeaderMatchConditionParameters) error {
+func (parameters *RequestHeaderMatchConditionParameters) AssignProperties_From_RequestHeaderMatchConditionParameters(source *v1beta20210601s.RequestHeaderMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -19499,7 +19499,7 @@ func (parameters *RequestHeaderMatchConditionParameters) AssignProperties_From_R
 }
 
 // AssignProperties_To_RequestHeaderMatchConditionParameters populates the provided destination RequestHeaderMatchConditionParameters from our RequestHeaderMatchConditionParameters
-func (parameters *RequestHeaderMatchConditionParameters) AssignProperties_To_RequestHeaderMatchConditionParameters(destination *v20210601s.RequestHeaderMatchConditionParameters) error {
+func (parameters *RequestHeaderMatchConditionParameters) AssignProperties_To_RequestHeaderMatchConditionParameters(destination *v1beta20210601s.RequestHeaderMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -19620,7 +19620,7 @@ func (parameters *RequestHeaderMatchConditionParameters_STATUS) PopulateFromARM(
 }
 
 // AssignProperties_From_RequestHeaderMatchConditionParameters_STATUS populates our RequestHeaderMatchConditionParameters_STATUS from the provided source RequestHeaderMatchConditionParameters_STATUS
-func (parameters *RequestHeaderMatchConditionParameters_STATUS) AssignProperties_From_RequestHeaderMatchConditionParameters_STATUS(source *v20210601s.RequestHeaderMatchConditionParameters_STATUS) error {
+func (parameters *RequestHeaderMatchConditionParameters_STATUS) AssignProperties_From_RequestHeaderMatchConditionParameters_STATUS(source *v1beta20210601s.RequestHeaderMatchConditionParameters_STATUS) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -19670,7 +19670,7 @@ func (parameters *RequestHeaderMatchConditionParameters_STATUS) AssignProperties
 }
 
 // AssignProperties_To_RequestHeaderMatchConditionParameters_STATUS populates the provided destination RequestHeaderMatchConditionParameters_STATUS from our RequestHeaderMatchConditionParameters_STATUS
-func (parameters *RequestHeaderMatchConditionParameters_STATUS) AssignProperties_To_RequestHeaderMatchConditionParameters_STATUS(destination *v20210601s.RequestHeaderMatchConditionParameters_STATUS) error {
+func (parameters *RequestHeaderMatchConditionParameters_STATUS) AssignProperties_To_RequestHeaderMatchConditionParameters_STATUS(destination *v1beta20210601s.RequestHeaderMatchConditionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -19825,7 +19825,7 @@ func (parameters *RequestMethodMatchConditionParameters) PopulateFromARM(owner g
 }
 
 // AssignProperties_From_RequestMethodMatchConditionParameters populates our RequestMethodMatchConditionParameters from the provided source RequestMethodMatchConditionParameters
-func (parameters *RequestMethodMatchConditionParameters) AssignProperties_From_RequestMethodMatchConditionParameters(source *v20210601s.RequestMethodMatchConditionParameters) error {
+func (parameters *RequestMethodMatchConditionParameters) AssignProperties_From_RequestMethodMatchConditionParameters(source *v1beta20210601s.RequestMethodMatchConditionParameters) error {
 
 	// MatchValues
 	if source.MatchValues != nil {
@@ -19882,7 +19882,7 @@ func (parameters *RequestMethodMatchConditionParameters) AssignProperties_From_R
 }
 
 // AssignProperties_To_RequestMethodMatchConditionParameters populates the provided destination RequestMethodMatchConditionParameters from our RequestMethodMatchConditionParameters
-func (parameters *RequestMethodMatchConditionParameters) AssignProperties_To_RequestMethodMatchConditionParameters(destination *v20210601s.RequestMethodMatchConditionParameters) error {
+func (parameters *RequestMethodMatchConditionParameters) AssignProperties_To_RequestMethodMatchConditionParameters(destination *v1beta20210601s.RequestMethodMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -20003,7 +20003,7 @@ func (parameters *RequestMethodMatchConditionParameters_STATUS) PopulateFromARM(
 }
 
 // AssignProperties_From_RequestMethodMatchConditionParameters_STATUS populates our RequestMethodMatchConditionParameters_STATUS from the provided source RequestMethodMatchConditionParameters_STATUS
-func (parameters *RequestMethodMatchConditionParameters_STATUS) AssignProperties_From_RequestMethodMatchConditionParameters_STATUS(source *v20210601s.RequestMethodMatchConditionParameters_STATUS) error {
+func (parameters *RequestMethodMatchConditionParameters_STATUS) AssignProperties_From_RequestMethodMatchConditionParameters_STATUS(source *v1beta20210601s.RequestMethodMatchConditionParameters_STATUS) error {
 
 	// MatchValues
 	if source.MatchValues != nil {
@@ -20060,7 +20060,7 @@ func (parameters *RequestMethodMatchConditionParameters_STATUS) AssignProperties
 }
 
 // AssignProperties_To_RequestMethodMatchConditionParameters_STATUS populates the provided destination RequestMethodMatchConditionParameters_STATUS from our RequestMethodMatchConditionParameters_STATUS
-func (parameters *RequestMethodMatchConditionParameters_STATUS) AssignProperties_To_RequestMethodMatchConditionParameters_STATUS(destination *v20210601s.RequestMethodMatchConditionParameters_STATUS) error {
+func (parameters *RequestMethodMatchConditionParameters_STATUS) AssignProperties_To_RequestMethodMatchConditionParameters_STATUS(destination *v1beta20210601s.RequestMethodMatchConditionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -20222,7 +20222,7 @@ func (parameters *RequestSchemeMatchConditionParameters) PopulateFromARM(owner g
 }
 
 // AssignProperties_From_RequestSchemeMatchConditionParameters populates our RequestSchemeMatchConditionParameters from the provided source RequestSchemeMatchConditionParameters
-func (parameters *RequestSchemeMatchConditionParameters) AssignProperties_From_RequestSchemeMatchConditionParameters(source *v20210601s.RequestSchemeMatchConditionParameters) error {
+func (parameters *RequestSchemeMatchConditionParameters) AssignProperties_From_RequestSchemeMatchConditionParameters(source *v1beta20210601s.RequestSchemeMatchConditionParameters) error {
 
 	// MatchValues
 	if source.MatchValues != nil {
@@ -20279,7 +20279,7 @@ func (parameters *RequestSchemeMatchConditionParameters) AssignProperties_From_R
 }
 
 // AssignProperties_To_RequestSchemeMatchConditionParameters populates the provided destination RequestSchemeMatchConditionParameters from our RequestSchemeMatchConditionParameters
-func (parameters *RequestSchemeMatchConditionParameters) AssignProperties_To_RequestSchemeMatchConditionParameters(destination *v20210601s.RequestSchemeMatchConditionParameters) error {
+func (parameters *RequestSchemeMatchConditionParameters) AssignProperties_To_RequestSchemeMatchConditionParameters(destination *v1beta20210601s.RequestSchemeMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -20400,7 +20400,7 @@ func (parameters *RequestSchemeMatchConditionParameters_STATUS) PopulateFromARM(
 }
 
 // AssignProperties_From_RequestSchemeMatchConditionParameters_STATUS populates our RequestSchemeMatchConditionParameters_STATUS from the provided source RequestSchemeMatchConditionParameters_STATUS
-func (parameters *RequestSchemeMatchConditionParameters_STATUS) AssignProperties_From_RequestSchemeMatchConditionParameters_STATUS(source *v20210601s.RequestSchemeMatchConditionParameters_STATUS) error {
+func (parameters *RequestSchemeMatchConditionParameters_STATUS) AssignProperties_From_RequestSchemeMatchConditionParameters_STATUS(source *v1beta20210601s.RequestSchemeMatchConditionParameters_STATUS) error {
 
 	// MatchValues
 	if source.MatchValues != nil {
@@ -20457,7 +20457,7 @@ func (parameters *RequestSchemeMatchConditionParameters_STATUS) AssignProperties
 }
 
 // AssignProperties_To_RequestSchemeMatchConditionParameters_STATUS populates the provided destination RequestSchemeMatchConditionParameters_STATUS from our RequestSchemeMatchConditionParameters_STATUS
-func (parameters *RequestSchemeMatchConditionParameters_STATUS) AssignProperties_To_RequestSchemeMatchConditionParameters_STATUS(destination *v20210601s.RequestSchemeMatchConditionParameters_STATUS) error {
+func (parameters *RequestSchemeMatchConditionParameters_STATUS) AssignProperties_To_RequestSchemeMatchConditionParameters_STATUS(destination *v1beta20210601s.RequestSchemeMatchConditionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -20619,7 +20619,7 @@ func (parameters *RequestUriMatchConditionParameters) PopulateFromARM(owner genr
 }
 
 // AssignProperties_From_RequestUriMatchConditionParameters populates our RequestUriMatchConditionParameters from the provided source RequestUriMatchConditionParameters
-func (parameters *RequestUriMatchConditionParameters) AssignProperties_From_RequestUriMatchConditionParameters(source *v20210601s.RequestUriMatchConditionParameters) error {
+func (parameters *RequestUriMatchConditionParameters) AssignProperties_From_RequestUriMatchConditionParameters(source *v1beta20210601s.RequestUriMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -20666,7 +20666,7 @@ func (parameters *RequestUriMatchConditionParameters) AssignProperties_From_Requ
 }
 
 // AssignProperties_To_RequestUriMatchConditionParameters populates the provided destination RequestUriMatchConditionParameters from our RequestUriMatchConditionParameters
-func (parameters *RequestUriMatchConditionParameters) AssignProperties_To_RequestUriMatchConditionParameters(destination *v20210601s.RequestUriMatchConditionParameters) error {
+func (parameters *RequestUriMatchConditionParameters) AssignProperties_To_RequestUriMatchConditionParameters(destination *v1beta20210601s.RequestUriMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -20777,7 +20777,7 @@ func (parameters *RequestUriMatchConditionParameters_STATUS) PopulateFromARM(own
 }
 
 // AssignProperties_From_RequestUriMatchConditionParameters_STATUS populates our RequestUriMatchConditionParameters_STATUS from the provided source RequestUriMatchConditionParameters_STATUS
-func (parameters *RequestUriMatchConditionParameters_STATUS) AssignProperties_From_RequestUriMatchConditionParameters_STATUS(source *v20210601s.RequestUriMatchConditionParameters_STATUS) error {
+func (parameters *RequestUriMatchConditionParameters_STATUS) AssignProperties_From_RequestUriMatchConditionParameters_STATUS(source *v1beta20210601s.RequestUriMatchConditionParameters_STATUS) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -20824,7 +20824,7 @@ func (parameters *RequestUriMatchConditionParameters_STATUS) AssignProperties_Fr
 }
 
 // AssignProperties_To_RequestUriMatchConditionParameters_STATUS populates the provided destination RequestUriMatchConditionParameters_STATUS from our RequestUriMatchConditionParameters_STATUS
-func (parameters *RequestUriMatchConditionParameters_STATUS) AssignProperties_To_RequestUriMatchConditionParameters_STATUS(destination *v20210601s.RequestUriMatchConditionParameters_STATUS) error {
+func (parameters *RequestUriMatchConditionParameters_STATUS) AssignProperties_To_RequestUriMatchConditionParameters_STATUS(destination *v1beta20210601s.RequestUriMatchConditionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -20970,7 +20970,7 @@ func (parameters *RouteConfigurationOverrideActionParameters) PopulateFromARM(ow
 }
 
 // AssignProperties_From_RouteConfigurationOverrideActionParameters populates our RouteConfigurationOverrideActionParameters from the provided source RouteConfigurationOverrideActionParameters
-func (parameters *RouteConfigurationOverrideActionParameters) AssignProperties_From_RouteConfigurationOverrideActionParameters(source *v20210601s.RouteConfigurationOverrideActionParameters) error {
+func (parameters *RouteConfigurationOverrideActionParameters) AssignProperties_From_RouteConfigurationOverrideActionParameters(source *v1beta20210601s.RouteConfigurationOverrideActionParameters) error {
 
 	// CacheConfiguration
 	if source.CacheConfiguration != nil {
@@ -21009,13 +21009,13 @@ func (parameters *RouteConfigurationOverrideActionParameters) AssignProperties_F
 }
 
 // AssignProperties_To_RouteConfigurationOverrideActionParameters populates the provided destination RouteConfigurationOverrideActionParameters from our RouteConfigurationOverrideActionParameters
-func (parameters *RouteConfigurationOverrideActionParameters) AssignProperties_To_RouteConfigurationOverrideActionParameters(destination *v20210601s.RouteConfigurationOverrideActionParameters) error {
+func (parameters *RouteConfigurationOverrideActionParameters) AssignProperties_To_RouteConfigurationOverrideActionParameters(destination *v1beta20210601s.RouteConfigurationOverrideActionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CacheConfiguration
 	if parameters.CacheConfiguration != nil {
-		var cacheConfiguration v20210601s.CacheConfiguration
+		var cacheConfiguration v1beta20210601s.CacheConfiguration
 		err := parameters.CacheConfiguration.AssignProperties_To_CacheConfiguration(&cacheConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CacheConfiguration() to populate field CacheConfiguration")
@@ -21027,7 +21027,7 @@ func (parameters *RouteConfigurationOverrideActionParameters) AssignProperties_T
 
 	// OriginGroupOverride
 	if parameters.OriginGroupOverride != nil {
-		var originGroupOverride v20210601s.OriginGroupOverride
+		var originGroupOverride v1beta20210601s.OriginGroupOverride
 		err := parameters.OriginGroupOverride.AssignProperties_To_OriginGroupOverride(&originGroupOverride)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_OriginGroupOverride() to populate field OriginGroupOverride")
@@ -21110,7 +21110,7 @@ func (parameters *RouteConfigurationOverrideActionParameters_STATUS) PopulateFro
 }
 
 // AssignProperties_From_RouteConfigurationOverrideActionParameters_STATUS populates our RouteConfigurationOverrideActionParameters_STATUS from the provided source RouteConfigurationOverrideActionParameters_STATUS
-func (parameters *RouteConfigurationOverrideActionParameters_STATUS) AssignProperties_From_RouteConfigurationOverrideActionParameters_STATUS(source *v20210601s.RouteConfigurationOverrideActionParameters_STATUS) error {
+func (parameters *RouteConfigurationOverrideActionParameters_STATUS) AssignProperties_From_RouteConfigurationOverrideActionParameters_STATUS(source *v1beta20210601s.RouteConfigurationOverrideActionParameters_STATUS) error {
 
 	// CacheConfiguration
 	if source.CacheConfiguration != nil {
@@ -21149,13 +21149,13 @@ func (parameters *RouteConfigurationOverrideActionParameters_STATUS) AssignPrope
 }
 
 // AssignProperties_To_RouteConfigurationOverrideActionParameters_STATUS populates the provided destination RouteConfigurationOverrideActionParameters_STATUS from our RouteConfigurationOverrideActionParameters_STATUS
-func (parameters *RouteConfigurationOverrideActionParameters_STATUS) AssignProperties_To_RouteConfigurationOverrideActionParameters_STATUS(destination *v20210601s.RouteConfigurationOverrideActionParameters_STATUS) error {
+func (parameters *RouteConfigurationOverrideActionParameters_STATUS) AssignProperties_To_RouteConfigurationOverrideActionParameters_STATUS(destination *v1beta20210601s.RouteConfigurationOverrideActionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CacheConfiguration
 	if parameters.CacheConfiguration != nil {
-		var cacheConfiguration v20210601s.CacheConfiguration_STATUS
+		var cacheConfiguration v1beta20210601s.CacheConfiguration_STATUS
 		err := parameters.CacheConfiguration.AssignProperties_To_CacheConfiguration_STATUS(&cacheConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CacheConfiguration_STATUS() to populate field CacheConfiguration")
@@ -21167,7 +21167,7 @@ func (parameters *RouteConfigurationOverrideActionParameters_STATUS) AssignPrope
 
 	// OriginGroupOverride
 	if parameters.OriginGroupOverride != nil {
-		var originGroupOverride v20210601s.OriginGroupOverride_STATUS
+		var originGroupOverride v1beta20210601s.OriginGroupOverride_STATUS
 		err := parameters.OriginGroupOverride.AssignProperties_To_OriginGroupOverride_STATUS(&originGroupOverride)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_OriginGroupOverride_STATUS() to populate field OriginGroupOverride")
@@ -21293,7 +21293,7 @@ func (parameters *ServerPortMatchConditionParameters) PopulateFromARM(owner genr
 }
 
 // AssignProperties_From_ServerPortMatchConditionParameters populates our ServerPortMatchConditionParameters from the provided source ServerPortMatchConditionParameters
-func (parameters *ServerPortMatchConditionParameters) AssignProperties_From_ServerPortMatchConditionParameters(source *v20210601s.ServerPortMatchConditionParameters) error {
+func (parameters *ServerPortMatchConditionParameters) AssignProperties_From_ServerPortMatchConditionParameters(source *v1beta20210601s.ServerPortMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -21340,7 +21340,7 @@ func (parameters *ServerPortMatchConditionParameters) AssignProperties_From_Serv
 }
 
 // AssignProperties_To_ServerPortMatchConditionParameters populates the provided destination ServerPortMatchConditionParameters from our ServerPortMatchConditionParameters
-func (parameters *ServerPortMatchConditionParameters) AssignProperties_To_ServerPortMatchConditionParameters(destination *v20210601s.ServerPortMatchConditionParameters) error {
+func (parameters *ServerPortMatchConditionParameters) AssignProperties_To_ServerPortMatchConditionParameters(destination *v1beta20210601s.ServerPortMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -21451,7 +21451,7 @@ func (parameters *ServerPortMatchConditionParameters_STATUS) PopulateFromARM(own
 }
 
 // AssignProperties_From_ServerPortMatchConditionParameters_STATUS populates our ServerPortMatchConditionParameters_STATUS from the provided source ServerPortMatchConditionParameters_STATUS
-func (parameters *ServerPortMatchConditionParameters_STATUS) AssignProperties_From_ServerPortMatchConditionParameters_STATUS(source *v20210601s.ServerPortMatchConditionParameters_STATUS) error {
+func (parameters *ServerPortMatchConditionParameters_STATUS) AssignProperties_From_ServerPortMatchConditionParameters_STATUS(source *v1beta20210601s.ServerPortMatchConditionParameters_STATUS) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -21498,7 +21498,7 @@ func (parameters *ServerPortMatchConditionParameters_STATUS) AssignProperties_Fr
 }
 
 // AssignProperties_To_ServerPortMatchConditionParameters_STATUS populates the provided destination ServerPortMatchConditionParameters_STATUS from our ServerPortMatchConditionParameters_STATUS
-func (parameters *ServerPortMatchConditionParameters_STATUS) AssignProperties_To_ServerPortMatchConditionParameters_STATUS(destination *v20210601s.ServerPortMatchConditionParameters_STATUS) error {
+func (parameters *ServerPortMatchConditionParameters_STATUS) AssignProperties_To_ServerPortMatchConditionParameters_STATUS(destination *v1beta20210601s.ServerPortMatchConditionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -21650,7 +21650,7 @@ func (parameters *SocketAddrMatchConditionParameters) PopulateFromARM(owner genr
 }
 
 // AssignProperties_From_SocketAddrMatchConditionParameters populates our SocketAddrMatchConditionParameters from the provided source SocketAddrMatchConditionParameters
-func (parameters *SocketAddrMatchConditionParameters) AssignProperties_From_SocketAddrMatchConditionParameters(source *v20210601s.SocketAddrMatchConditionParameters) error {
+func (parameters *SocketAddrMatchConditionParameters) AssignProperties_From_SocketAddrMatchConditionParameters(source *v1beta20210601s.SocketAddrMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -21697,7 +21697,7 @@ func (parameters *SocketAddrMatchConditionParameters) AssignProperties_From_Sock
 }
 
 // AssignProperties_To_SocketAddrMatchConditionParameters populates the provided destination SocketAddrMatchConditionParameters from our SocketAddrMatchConditionParameters
-func (parameters *SocketAddrMatchConditionParameters) AssignProperties_To_SocketAddrMatchConditionParameters(destination *v20210601s.SocketAddrMatchConditionParameters) error {
+func (parameters *SocketAddrMatchConditionParameters) AssignProperties_To_SocketAddrMatchConditionParameters(destination *v1beta20210601s.SocketAddrMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -21808,7 +21808,7 @@ func (parameters *SocketAddrMatchConditionParameters_STATUS) PopulateFromARM(own
 }
 
 // AssignProperties_From_SocketAddrMatchConditionParameters_STATUS populates our SocketAddrMatchConditionParameters_STATUS from the provided source SocketAddrMatchConditionParameters_STATUS
-func (parameters *SocketAddrMatchConditionParameters_STATUS) AssignProperties_From_SocketAddrMatchConditionParameters_STATUS(source *v20210601s.SocketAddrMatchConditionParameters_STATUS) error {
+func (parameters *SocketAddrMatchConditionParameters_STATUS) AssignProperties_From_SocketAddrMatchConditionParameters_STATUS(source *v1beta20210601s.SocketAddrMatchConditionParameters_STATUS) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -21855,7 +21855,7 @@ func (parameters *SocketAddrMatchConditionParameters_STATUS) AssignProperties_Fr
 }
 
 // AssignProperties_To_SocketAddrMatchConditionParameters_STATUS populates the provided destination SocketAddrMatchConditionParameters_STATUS from our SocketAddrMatchConditionParameters_STATUS
-func (parameters *SocketAddrMatchConditionParameters_STATUS) AssignProperties_To_SocketAddrMatchConditionParameters_STATUS(destination *v20210601s.SocketAddrMatchConditionParameters_STATUS) error {
+func (parameters *SocketAddrMatchConditionParameters_STATUS) AssignProperties_To_SocketAddrMatchConditionParameters_STATUS(destination *v1beta20210601s.SocketAddrMatchConditionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -22007,7 +22007,7 @@ func (parameters *SslProtocolMatchConditionParameters) PopulateFromARM(owner gen
 }
 
 // AssignProperties_From_SslProtocolMatchConditionParameters populates our SslProtocolMatchConditionParameters from the provided source SslProtocolMatchConditionParameters
-func (parameters *SslProtocolMatchConditionParameters) AssignProperties_From_SslProtocolMatchConditionParameters(source *v20210601s.SslProtocolMatchConditionParameters) error {
+func (parameters *SslProtocolMatchConditionParameters) AssignProperties_From_SslProtocolMatchConditionParameters(source *v1beta20210601s.SslProtocolMatchConditionParameters) error {
 
 	// MatchValues
 	if source.MatchValues != nil {
@@ -22064,7 +22064,7 @@ func (parameters *SslProtocolMatchConditionParameters) AssignProperties_From_Ssl
 }
 
 // AssignProperties_To_SslProtocolMatchConditionParameters populates the provided destination SslProtocolMatchConditionParameters from our SslProtocolMatchConditionParameters
-func (parameters *SslProtocolMatchConditionParameters) AssignProperties_To_SslProtocolMatchConditionParameters(destination *v20210601s.SslProtocolMatchConditionParameters) error {
+func (parameters *SslProtocolMatchConditionParameters) AssignProperties_To_SslProtocolMatchConditionParameters(destination *v1beta20210601s.SslProtocolMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -22185,7 +22185,7 @@ func (parameters *SslProtocolMatchConditionParameters_STATUS) PopulateFromARM(ow
 }
 
 // AssignProperties_From_SslProtocolMatchConditionParameters_STATUS populates our SslProtocolMatchConditionParameters_STATUS from the provided source SslProtocolMatchConditionParameters_STATUS
-func (parameters *SslProtocolMatchConditionParameters_STATUS) AssignProperties_From_SslProtocolMatchConditionParameters_STATUS(source *v20210601s.SslProtocolMatchConditionParameters_STATUS) error {
+func (parameters *SslProtocolMatchConditionParameters_STATUS) AssignProperties_From_SslProtocolMatchConditionParameters_STATUS(source *v1beta20210601s.SslProtocolMatchConditionParameters_STATUS) error {
 
 	// MatchValues
 	if source.MatchValues != nil {
@@ -22242,7 +22242,7 @@ func (parameters *SslProtocolMatchConditionParameters_STATUS) AssignProperties_F
 }
 
 // AssignProperties_To_SslProtocolMatchConditionParameters_STATUS populates the provided destination SslProtocolMatchConditionParameters_STATUS from our SslProtocolMatchConditionParameters_STATUS
-func (parameters *SslProtocolMatchConditionParameters_STATUS) AssignProperties_To_SslProtocolMatchConditionParameters_STATUS(destination *v20210601s.SslProtocolMatchConditionParameters_STATUS) error {
+func (parameters *SslProtocolMatchConditionParameters_STATUS) AssignProperties_To_SslProtocolMatchConditionParameters_STATUS(destination *v1beta20210601s.SslProtocolMatchConditionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -22404,7 +22404,7 @@ func (parameters *UrlFileExtensionMatchConditionParameters) PopulateFromARM(owne
 }
 
 // AssignProperties_From_UrlFileExtensionMatchConditionParameters populates our UrlFileExtensionMatchConditionParameters from the provided source UrlFileExtensionMatchConditionParameters
-func (parameters *UrlFileExtensionMatchConditionParameters) AssignProperties_From_UrlFileExtensionMatchConditionParameters(source *v20210601s.UrlFileExtensionMatchConditionParameters) error {
+func (parameters *UrlFileExtensionMatchConditionParameters) AssignProperties_From_UrlFileExtensionMatchConditionParameters(source *v1beta20210601s.UrlFileExtensionMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -22451,7 +22451,7 @@ func (parameters *UrlFileExtensionMatchConditionParameters) AssignProperties_Fro
 }
 
 // AssignProperties_To_UrlFileExtensionMatchConditionParameters populates the provided destination UrlFileExtensionMatchConditionParameters from our UrlFileExtensionMatchConditionParameters
-func (parameters *UrlFileExtensionMatchConditionParameters) AssignProperties_To_UrlFileExtensionMatchConditionParameters(destination *v20210601s.UrlFileExtensionMatchConditionParameters) error {
+func (parameters *UrlFileExtensionMatchConditionParameters) AssignProperties_To_UrlFileExtensionMatchConditionParameters(destination *v1beta20210601s.UrlFileExtensionMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -22562,7 +22562,7 @@ func (parameters *UrlFileExtensionMatchConditionParameters_STATUS) PopulateFromA
 }
 
 // AssignProperties_From_UrlFileExtensionMatchConditionParameters_STATUS populates our UrlFileExtensionMatchConditionParameters_STATUS from the provided source UrlFileExtensionMatchConditionParameters_STATUS
-func (parameters *UrlFileExtensionMatchConditionParameters_STATUS) AssignProperties_From_UrlFileExtensionMatchConditionParameters_STATUS(source *v20210601s.UrlFileExtensionMatchConditionParameters_STATUS) error {
+func (parameters *UrlFileExtensionMatchConditionParameters_STATUS) AssignProperties_From_UrlFileExtensionMatchConditionParameters_STATUS(source *v1beta20210601s.UrlFileExtensionMatchConditionParameters_STATUS) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -22609,7 +22609,7 @@ func (parameters *UrlFileExtensionMatchConditionParameters_STATUS) AssignPropert
 }
 
 // AssignProperties_To_UrlFileExtensionMatchConditionParameters_STATUS populates the provided destination UrlFileExtensionMatchConditionParameters_STATUS from our UrlFileExtensionMatchConditionParameters_STATUS
-func (parameters *UrlFileExtensionMatchConditionParameters_STATUS) AssignProperties_To_UrlFileExtensionMatchConditionParameters_STATUS(destination *v20210601s.UrlFileExtensionMatchConditionParameters_STATUS) error {
+func (parameters *UrlFileExtensionMatchConditionParameters_STATUS) AssignProperties_To_UrlFileExtensionMatchConditionParameters_STATUS(destination *v1beta20210601s.UrlFileExtensionMatchConditionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -22761,7 +22761,7 @@ func (parameters *UrlFileNameMatchConditionParameters) PopulateFromARM(owner gen
 }
 
 // AssignProperties_From_UrlFileNameMatchConditionParameters populates our UrlFileNameMatchConditionParameters from the provided source UrlFileNameMatchConditionParameters
-func (parameters *UrlFileNameMatchConditionParameters) AssignProperties_From_UrlFileNameMatchConditionParameters(source *v20210601s.UrlFileNameMatchConditionParameters) error {
+func (parameters *UrlFileNameMatchConditionParameters) AssignProperties_From_UrlFileNameMatchConditionParameters(source *v1beta20210601s.UrlFileNameMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -22808,7 +22808,7 @@ func (parameters *UrlFileNameMatchConditionParameters) AssignProperties_From_Url
 }
 
 // AssignProperties_To_UrlFileNameMatchConditionParameters populates the provided destination UrlFileNameMatchConditionParameters from our UrlFileNameMatchConditionParameters
-func (parameters *UrlFileNameMatchConditionParameters) AssignProperties_To_UrlFileNameMatchConditionParameters(destination *v20210601s.UrlFileNameMatchConditionParameters) error {
+func (parameters *UrlFileNameMatchConditionParameters) AssignProperties_To_UrlFileNameMatchConditionParameters(destination *v1beta20210601s.UrlFileNameMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -22919,7 +22919,7 @@ func (parameters *UrlFileNameMatchConditionParameters_STATUS) PopulateFromARM(ow
 }
 
 // AssignProperties_From_UrlFileNameMatchConditionParameters_STATUS populates our UrlFileNameMatchConditionParameters_STATUS from the provided source UrlFileNameMatchConditionParameters_STATUS
-func (parameters *UrlFileNameMatchConditionParameters_STATUS) AssignProperties_From_UrlFileNameMatchConditionParameters_STATUS(source *v20210601s.UrlFileNameMatchConditionParameters_STATUS) error {
+func (parameters *UrlFileNameMatchConditionParameters_STATUS) AssignProperties_From_UrlFileNameMatchConditionParameters_STATUS(source *v1beta20210601s.UrlFileNameMatchConditionParameters_STATUS) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -22966,7 +22966,7 @@ func (parameters *UrlFileNameMatchConditionParameters_STATUS) AssignProperties_F
 }
 
 // AssignProperties_To_UrlFileNameMatchConditionParameters_STATUS populates the provided destination UrlFileNameMatchConditionParameters_STATUS from our UrlFileNameMatchConditionParameters_STATUS
-func (parameters *UrlFileNameMatchConditionParameters_STATUS) AssignProperties_To_UrlFileNameMatchConditionParameters_STATUS(destination *v20210601s.UrlFileNameMatchConditionParameters_STATUS) error {
+func (parameters *UrlFileNameMatchConditionParameters_STATUS) AssignProperties_To_UrlFileNameMatchConditionParameters_STATUS(destination *v1beta20210601s.UrlFileNameMatchConditionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -23118,7 +23118,7 @@ func (parameters *UrlPathMatchConditionParameters) PopulateFromARM(owner genrunt
 }
 
 // AssignProperties_From_UrlPathMatchConditionParameters populates our UrlPathMatchConditionParameters from the provided source UrlPathMatchConditionParameters
-func (parameters *UrlPathMatchConditionParameters) AssignProperties_From_UrlPathMatchConditionParameters(source *v20210601s.UrlPathMatchConditionParameters) error {
+func (parameters *UrlPathMatchConditionParameters) AssignProperties_From_UrlPathMatchConditionParameters(source *v1beta20210601s.UrlPathMatchConditionParameters) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -23165,7 +23165,7 @@ func (parameters *UrlPathMatchConditionParameters) AssignProperties_From_UrlPath
 }
 
 // AssignProperties_To_UrlPathMatchConditionParameters populates the provided destination UrlPathMatchConditionParameters from our UrlPathMatchConditionParameters
-func (parameters *UrlPathMatchConditionParameters) AssignProperties_To_UrlPathMatchConditionParameters(destination *v20210601s.UrlPathMatchConditionParameters) error {
+func (parameters *UrlPathMatchConditionParameters) AssignProperties_To_UrlPathMatchConditionParameters(destination *v1beta20210601s.UrlPathMatchConditionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -23276,7 +23276,7 @@ func (parameters *UrlPathMatchConditionParameters_STATUS) PopulateFromARM(owner 
 }
 
 // AssignProperties_From_UrlPathMatchConditionParameters_STATUS populates our UrlPathMatchConditionParameters_STATUS from the provided source UrlPathMatchConditionParameters_STATUS
-func (parameters *UrlPathMatchConditionParameters_STATUS) AssignProperties_From_UrlPathMatchConditionParameters_STATUS(source *v20210601s.UrlPathMatchConditionParameters_STATUS) error {
+func (parameters *UrlPathMatchConditionParameters_STATUS) AssignProperties_From_UrlPathMatchConditionParameters_STATUS(source *v1beta20210601s.UrlPathMatchConditionParameters_STATUS) error {
 
 	// MatchValues
 	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
@@ -23323,7 +23323,7 @@ func (parameters *UrlPathMatchConditionParameters_STATUS) AssignProperties_From_
 }
 
 // AssignProperties_To_UrlPathMatchConditionParameters_STATUS populates the provided destination UrlPathMatchConditionParameters_STATUS from our UrlPathMatchConditionParameters_STATUS
-func (parameters *UrlPathMatchConditionParameters_STATUS) AssignProperties_To_UrlPathMatchConditionParameters_STATUS(destination *v20210601s.UrlPathMatchConditionParameters_STATUS) error {
+func (parameters *UrlPathMatchConditionParameters_STATUS) AssignProperties_To_UrlPathMatchConditionParameters_STATUS(destination *v1beta20210601s.UrlPathMatchConditionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -23516,7 +23516,7 @@ func (parameters *UrlRedirectActionParameters) PopulateFromARM(owner genruntime.
 }
 
 // AssignProperties_From_UrlRedirectActionParameters populates our UrlRedirectActionParameters from the provided source UrlRedirectActionParameters
-func (parameters *UrlRedirectActionParameters) AssignProperties_From_UrlRedirectActionParameters(source *v20210601s.UrlRedirectActionParameters) error {
+func (parameters *UrlRedirectActionParameters) AssignProperties_From_UrlRedirectActionParameters(source *v1beta20210601s.UrlRedirectActionParameters) error {
 
 	// CustomFragment
 	parameters.CustomFragment = genruntime.ClonePointerToString(source.CustomFragment)
@@ -23559,7 +23559,7 @@ func (parameters *UrlRedirectActionParameters) AssignProperties_From_UrlRedirect
 }
 
 // AssignProperties_To_UrlRedirectActionParameters populates the provided destination UrlRedirectActionParameters from our UrlRedirectActionParameters
-func (parameters *UrlRedirectActionParameters) AssignProperties_To_UrlRedirectActionParameters(destination *v20210601s.UrlRedirectActionParameters) error {
+func (parameters *UrlRedirectActionParameters) AssignProperties_To_UrlRedirectActionParameters(destination *v1beta20210601s.UrlRedirectActionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -23682,7 +23682,7 @@ func (parameters *UrlRedirectActionParameters_STATUS) PopulateFromARM(owner genr
 }
 
 // AssignProperties_From_UrlRedirectActionParameters_STATUS populates our UrlRedirectActionParameters_STATUS from the provided source UrlRedirectActionParameters_STATUS
-func (parameters *UrlRedirectActionParameters_STATUS) AssignProperties_From_UrlRedirectActionParameters_STATUS(source *v20210601s.UrlRedirectActionParameters_STATUS) error {
+func (parameters *UrlRedirectActionParameters_STATUS) AssignProperties_From_UrlRedirectActionParameters_STATUS(source *v1beta20210601s.UrlRedirectActionParameters_STATUS) error {
 
 	// CustomFragment
 	parameters.CustomFragment = genruntime.ClonePointerToString(source.CustomFragment)
@@ -23725,7 +23725,7 @@ func (parameters *UrlRedirectActionParameters_STATUS) AssignProperties_From_UrlR
 }
 
 // AssignProperties_To_UrlRedirectActionParameters_STATUS populates the provided destination UrlRedirectActionParameters_STATUS from our UrlRedirectActionParameters_STATUS
-func (parameters *UrlRedirectActionParameters_STATUS) AssignProperties_To_UrlRedirectActionParameters_STATUS(destination *v20210601s.UrlRedirectActionParameters_STATUS) error {
+func (parameters *UrlRedirectActionParameters_STATUS) AssignProperties_To_UrlRedirectActionParameters_STATUS(destination *v1beta20210601s.UrlRedirectActionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -23876,7 +23876,7 @@ func (parameters *UrlRewriteActionParameters) PopulateFromARM(owner genruntime.A
 }
 
 // AssignProperties_From_UrlRewriteActionParameters populates our UrlRewriteActionParameters from the provided source UrlRewriteActionParameters
-func (parameters *UrlRewriteActionParameters) AssignProperties_From_UrlRewriteActionParameters(source *v20210601s.UrlRewriteActionParameters) error {
+func (parameters *UrlRewriteActionParameters) AssignProperties_From_UrlRewriteActionParameters(source *v1beta20210601s.UrlRewriteActionParameters) error {
 
 	// Destination
 	parameters.Destination = genruntime.ClonePointerToString(source.Destination)
@@ -23905,7 +23905,7 @@ func (parameters *UrlRewriteActionParameters) AssignProperties_From_UrlRewriteAc
 }
 
 // AssignProperties_To_UrlRewriteActionParameters populates the provided destination UrlRewriteActionParameters from our UrlRewriteActionParameters
-func (parameters *UrlRewriteActionParameters) AssignProperties_To_UrlRewriteActionParameters(destination *v20210601s.UrlRewriteActionParameters) error {
+func (parameters *UrlRewriteActionParameters) AssignProperties_To_UrlRewriteActionParameters(destination *v1beta20210601s.UrlRewriteActionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -23993,7 +23993,7 @@ func (parameters *UrlRewriteActionParameters_STATUS) PopulateFromARM(owner genru
 }
 
 // AssignProperties_From_UrlRewriteActionParameters_STATUS populates our UrlRewriteActionParameters_STATUS from the provided source UrlRewriteActionParameters_STATUS
-func (parameters *UrlRewriteActionParameters_STATUS) AssignProperties_From_UrlRewriteActionParameters_STATUS(source *v20210601s.UrlRewriteActionParameters_STATUS) error {
+func (parameters *UrlRewriteActionParameters_STATUS) AssignProperties_From_UrlRewriteActionParameters_STATUS(source *v1beta20210601s.UrlRewriteActionParameters_STATUS) error {
 
 	// Destination
 	parameters.Destination = genruntime.ClonePointerToString(source.Destination)
@@ -24022,7 +24022,7 @@ func (parameters *UrlRewriteActionParameters_STATUS) AssignProperties_From_UrlRe
 }
 
 // AssignProperties_To_UrlRewriteActionParameters_STATUS populates the provided destination UrlRewriteActionParameters_STATUS from our UrlRewriteActionParameters_STATUS
-func (parameters *UrlRewriteActionParameters_STATUS) AssignProperties_To_UrlRewriteActionParameters_STATUS(destination *v20210601s.UrlRewriteActionParameters_STATUS) error {
+func (parameters *UrlRewriteActionParameters_STATUS) AssignProperties_To_UrlRewriteActionParameters_STATUS(destination *v1beta20210601s.UrlRewriteActionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -24150,7 +24150,7 @@ func (parameters *UrlSigningActionParameters) PopulateFromARM(owner genruntime.A
 }
 
 // AssignProperties_From_UrlSigningActionParameters populates our UrlSigningActionParameters from the provided source UrlSigningActionParameters
-func (parameters *UrlSigningActionParameters) AssignProperties_From_UrlSigningActionParameters(source *v20210601s.UrlSigningActionParameters) error {
+func (parameters *UrlSigningActionParameters) AssignProperties_From_UrlSigningActionParameters(source *v1beta20210601s.UrlSigningActionParameters) error {
 
 	// Algorithm
 	if source.Algorithm != nil {
@@ -24191,7 +24191,7 @@ func (parameters *UrlSigningActionParameters) AssignProperties_From_UrlSigningAc
 }
 
 // AssignProperties_To_UrlSigningActionParameters populates the provided destination UrlSigningActionParameters from our UrlSigningActionParameters
-func (parameters *UrlSigningActionParameters) AssignProperties_To_UrlSigningActionParameters(destination *v20210601s.UrlSigningActionParameters) error {
+func (parameters *UrlSigningActionParameters) AssignProperties_To_UrlSigningActionParameters(destination *v1beta20210601s.UrlSigningActionParameters) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -24205,11 +24205,11 @@ func (parameters *UrlSigningActionParameters) AssignProperties_To_UrlSigningActi
 
 	// ParameterNameOverride
 	if parameters.ParameterNameOverride != nil {
-		parameterNameOverrideList := make([]v20210601s.UrlSigningParamIdentifier, len(parameters.ParameterNameOverride))
+		parameterNameOverrideList := make([]v1beta20210601s.UrlSigningParamIdentifier, len(parameters.ParameterNameOverride))
 		for parameterNameOverrideIndex, parameterNameOverrideItem := range parameters.ParameterNameOverride {
 			// Shadow the loop variable to avoid aliasing
 			parameterNameOverrideItem := parameterNameOverrideItem
-			var parameterNameOverride v20210601s.UrlSigningParamIdentifier
+			var parameterNameOverride v1beta20210601s.UrlSigningParamIdentifier
 			err := parameterNameOverrideItem.AssignProperties_To_UrlSigningParamIdentifier(&parameterNameOverride)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UrlSigningParamIdentifier() to populate field ParameterNameOverride")
@@ -24288,7 +24288,7 @@ func (parameters *UrlSigningActionParameters_STATUS) PopulateFromARM(owner genru
 }
 
 // AssignProperties_From_UrlSigningActionParameters_STATUS populates our UrlSigningActionParameters_STATUS from the provided source UrlSigningActionParameters_STATUS
-func (parameters *UrlSigningActionParameters_STATUS) AssignProperties_From_UrlSigningActionParameters_STATUS(source *v20210601s.UrlSigningActionParameters_STATUS) error {
+func (parameters *UrlSigningActionParameters_STATUS) AssignProperties_From_UrlSigningActionParameters_STATUS(source *v1beta20210601s.UrlSigningActionParameters_STATUS) error {
 
 	// Algorithm
 	if source.Algorithm != nil {
@@ -24329,7 +24329,7 @@ func (parameters *UrlSigningActionParameters_STATUS) AssignProperties_From_UrlSi
 }
 
 // AssignProperties_To_UrlSigningActionParameters_STATUS populates the provided destination UrlSigningActionParameters_STATUS from our UrlSigningActionParameters_STATUS
-func (parameters *UrlSigningActionParameters_STATUS) AssignProperties_To_UrlSigningActionParameters_STATUS(destination *v20210601s.UrlSigningActionParameters_STATUS) error {
+func (parameters *UrlSigningActionParameters_STATUS) AssignProperties_To_UrlSigningActionParameters_STATUS(destination *v1beta20210601s.UrlSigningActionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -24343,11 +24343,11 @@ func (parameters *UrlSigningActionParameters_STATUS) AssignProperties_To_UrlSign
 
 	// ParameterNameOverride
 	if parameters.ParameterNameOverride != nil {
-		parameterNameOverrideList := make([]v20210601s.UrlSigningParamIdentifier_STATUS, len(parameters.ParameterNameOverride))
+		parameterNameOverrideList := make([]v1beta20210601s.UrlSigningParamIdentifier_STATUS, len(parameters.ParameterNameOverride))
 		for parameterNameOverrideIndex, parameterNameOverrideItem := range parameters.ParameterNameOverride {
 			// Shadow the loop variable to avoid aliasing
 			parameterNameOverrideItem := parameterNameOverrideItem
-			var parameterNameOverride v20210601s.UrlSigningParamIdentifier_STATUS
+			var parameterNameOverride v1beta20210601s.UrlSigningParamIdentifier_STATUS
 			err := parameterNameOverrideItem.AssignProperties_To_UrlSigningParamIdentifier_STATUS(&parameterNameOverride)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UrlSigningParamIdentifier_STATUS() to populate field ParameterNameOverride")
@@ -24475,7 +24475,7 @@ func (configuration *CacheConfiguration) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_CacheConfiguration populates our CacheConfiguration from the provided source CacheConfiguration
-func (configuration *CacheConfiguration) AssignProperties_From_CacheConfiguration(source *v20210601s.CacheConfiguration) error {
+func (configuration *CacheConfiguration) AssignProperties_From_CacheConfiguration(source *v1beta20210601s.CacheConfiguration) error {
 
 	// CacheBehavior
 	if source.CacheBehavior != nil {
@@ -24512,7 +24512,7 @@ func (configuration *CacheConfiguration) AssignProperties_From_CacheConfiguratio
 }
 
 // AssignProperties_To_CacheConfiguration populates the provided destination CacheConfiguration from our CacheConfiguration
-func (configuration *CacheConfiguration) AssignProperties_To_CacheConfiguration(destination *v20210601s.CacheConfiguration) error {
+func (configuration *CacheConfiguration) AssignProperties_To_CacheConfiguration(destination *v1beta20210601s.CacheConfiguration) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -24615,7 +24615,7 @@ func (configuration *CacheConfiguration_STATUS) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_CacheConfiguration_STATUS populates our CacheConfiguration_STATUS from the provided source CacheConfiguration_STATUS
-func (configuration *CacheConfiguration_STATUS) AssignProperties_From_CacheConfiguration_STATUS(source *v20210601s.CacheConfiguration_STATUS) error {
+func (configuration *CacheConfiguration_STATUS) AssignProperties_From_CacheConfiguration_STATUS(source *v1beta20210601s.CacheConfiguration_STATUS) error {
 
 	// CacheBehavior
 	if source.CacheBehavior != nil {
@@ -24652,7 +24652,7 @@ func (configuration *CacheConfiguration_STATUS) AssignProperties_From_CacheConfi
 }
 
 // AssignProperties_To_CacheConfiguration_STATUS populates the provided destination CacheConfiguration_STATUS from our CacheConfiguration_STATUS
-func (configuration *CacheConfiguration_STATUS) AssignProperties_To_CacheConfiguration_STATUS(destination *v20210601s.CacheConfiguration_STATUS) error {
+func (configuration *CacheConfiguration_STATUS) AssignProperties_To_CacheConfiguration_STATUS(destination *v1beta20210601s.CacheConfiguration_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -25094,7 +25094,7 @@ func (override *OriginGroupOverride) PopulateFromARM(owner genruntime.ArbitraryO
 }
 
 // AssignProperties_From_OriginGroupOverride populates our OriginGroupOverride from the provided source OriginGroupOverride
-func (override *OriginGroupOverride) AssignProperties_From_OriginGroupOverride(source *v20210601s.OriginGroupOverride) error {
+func (override *OriginGroupOverride) AssignProperties_From_OriginGroupOverride(source *v1beta20210601s.OriginGroupOverride) error {
 
 	// ForwardingProtocol
 	if source.ForwardingProtocol != nil {
@@ -25121,7 +25121,7 @@ func (override *OriginGroupOverride) AssignProperties_From_OriginGroupOverride(s
 }
 
 // AssignProperties_To_OriginGroupOverride populates the provided destination OriginGroupOverride from our OriginGroupOverride
-func (override *OriginGroupOverride) AssignProperties_To_OriginGroupOverride(destination *v20210601s.OriginGroupOverride) error {
+func (override *OriginGroupOverride) AssignProperties_To_OriginGroupOverride(destination *v1beta20210601s.OriginGroupOverride) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -25135,7 +25135,7 @@ func (override *OriginGroupOverride) AssignProperties_To_OriginGroupOverride(des
 
 	// OriginGroup
 	if override.OriginGroup != nil {
-		var originGroup v20210601s.ResourceReference
+		var originGroup v1beta20210601s.ResourceReference
 		err := override.OriginGroup.AssignProperties_To_ResourceReference(&originGroup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field OriginGroup")
@@ -25198,7 +25198,7 @@ func (override *OriginGroupOverride_STATUS) PopulateFromARM(owner genruntime.Arb
 }
 
 // AssignProperties_From_OriginGroupOverride_STATUS populates our OriginGroupOverride_STATUS from the provided source OriginGroupOverride_STATUS
-func (override *OriginGroupOverride_STATUS) AssignProperties_From_OriginGroupOverride_STATUS(source *v20210601s.OriginGroupOverride_STATUS) error {
+func (override *OriginGroupOverride_STATUS) AssignProperties_From_OriginGroupOverride_STATUS(source *v1beta20210601s.OriginGroupOverride_STATUS) error {
 
 	// ForwardingProtocol
 	if source.ForwardingProtocol != nil {
@@ -25225,7 +25225,7 @@ func (override *OriginGroupOverride_STATUS) AssignProperties_From_OriginGroupOve
 }
 
 // AssignProperties_To_OriginGroupOverride_STATUS populates the provided destination OriginGroupOverride_STATUS from our OriginGroupOverride_STATUS
-func (override *OriginGroupOverride_STATUS) AssignProperties_To_OriginGroupOverride_STATUS(destination *v20210601s.OriginGroupOverride_STATUS) error {
+func (override *OriginGroupOverride_STATUS) AssignProperties_To_OriginGroupOverride_STATUS(destination *v1beta20210601s.OriginGroupOverride_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -25239,7 +25239,7 @@ func (override *OriginGroupOverride_STATUS) AssignProperties_To_OriginGroupOverr
 
 	// OriginGroup
 	if override.OriginGroup != nil {
-		var originGroup v20210601s.ResourceReference_STATUS
+		var originGroup v1beta20210601s.ResourceReference_STATUS
 		err := override.OriginGroup.AssignProperties_To_ResourceReference_STATUS(&originGroup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field OriginGroup")
@@ -26111,7 +26111,7 @@ func (identifier *UrlSigningParamIdentifier) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignProperties_From_UrlSigningParamIdentifier populates our UrlSigningParamIdentifier from the provided source UrlSigningParamIdentifier
-func (identifier *UrlSigningParamIdentifier) AssignProperties_From_UrlSigningParamIdentifier(source *v20210601s.UrlSigningParamIdentifier) error {
+func (identifier *UrlSigningParamIdentifier) AssignProperties_From_UrlSigningParamIdentifier(source *v1beta20210601s.UrlSigningParamIdentifier) error {
 
 	// ParamIndicator
 	if source.ParamIndicator != nil {
@@ -26129,7 +26129,7 @@ func (identifier *UrlSigningParamIdentifier) AssignProperties_From_UrlSigningPar
 }
 
 // AssignProperties_To_UrlSigningParamIdentifier populates the provided destination UrlSigningParamIdentifier from our UrlSigningParamIdentifier
-func (identifier *UrlSigningParamIdentifier) AssignProperties_To_UrlSigningParamIdentifier(destination *v20210601s.UrlSigningParamIdentifier) error {
+func (identifier *UrlSigningParamIdentifier) AssignProperties_To_UrlSigningParamIdentifier(destination *v1beta20210601s.UrlSigningParamIdentifier) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -26192,7 +26192,7 @@ func (identifier *UrlSigningParamIdentifier_STATUS) PopulateFromARM(owner genrun
 }
 
 // AssignProperties_From_UrlSigningParamIdentifier_STATUS populates our UrlSigningParamIdentifier_STATUS from the provided source UrlSigningParamIdentifier_STATUS
-func (identifier *UrlSigningParamIdentifier_STATUS) AssignProperties_From_UrlSigningParamIdentifier_STATUS(source *v20210601s.UrlSigningParamIdentifier_STATUS) error {
+func (identifier *UrlSigningParamIdentifier_STATUS) AssignProperties_From_UrlSigningParamIdentifier_STATUS(source *v1beta20210601s.UrlSigningParamIdentifier_STATUS) error {
 
 	// ParamIndicator
 	if source.ParamIndicator != nil {
@@ -26210,7 +26210,7 @@ func (identifier *UrlSigningParamIdentifier_STATUS) AssignProperties_From_UrlSig
 }
 
 // AssignProperties_To_UrlSigningParamIdentifier_STATUS populates the provided destination UrlSigningParamIdentifier_STATUS from our UrlSigningParamIdentifier_STATUS
-func (identifier *UrlSigningParamIdentifier_STATUS) AssignProperties_To_UrlSigningParamIdentifier_STATUS(destination *v20210601s.UrlSigningParamIdentifier_STATUS) error {
+func (identifier *UrlSigningParamIdentifier_STATUS) AssignProperties_To_UrlSigningParamIdentifier_STATUS(destination *v1beta20210601s.UrlSigningParamIdentifier_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

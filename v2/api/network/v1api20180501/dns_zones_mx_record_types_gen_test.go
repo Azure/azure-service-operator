@@ -5,7 +5,7 @@ package v1api20180501
 
 import (
 	"encoding/json"
-	v1api20180501s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501storage"
+	v20180501s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForDnsZonesMXRecord(subject DnsZonesMXRecord) stri
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20180501s.DnsZonesMXRecord
+	var hub v20180501s.DnsZonesMXRecord
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForDnsZonesMXRecord(subject DnsZonesMXRecord) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20180501s.DnsZonesMXRecord
+	var other v20180501s.DnsZonesMXRecord
 	err := copied.AssignProperties_To_DnsZonesMXRecord(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForDnsZones_MX_Spec(subject DnsZones_MX_Spec) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20180501s.DnsZones_MX_Spec
+	var other v20180501s.DnsZones_MX_Spec
 	err := copied.AssignProperties_To_DnsZones_MX_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -309,7 +309,7 @@ func RunPropertyAssignmentTestForDnsZones_MX_STATUS(subject DnsZones_MX_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20180501s.DnsZones_MX_STATUS
+	var other v20180501s.DnsZones_MX_STATUS
 	err := copied.AssignProperties_To_DnsZones_MX_STATUS(&other)
 	if err != nil {
 		return err.Error()

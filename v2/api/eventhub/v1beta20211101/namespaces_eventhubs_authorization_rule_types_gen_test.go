@@ -5,8 +5,8 @@ package v1beta20211101
 
 import (
 	"encoding/json"
-	v1api20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101storage"
-	v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101storage"
+	v1beta20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -37,7 +37,7 @@ func RunResourceConversionTestForNamespacesEventhubsAuthorizationRule(subject Na
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20211101s.NamespacesEventhubsAuthorizationRule
+	var hub v20211101s.NamespacesEventhubsAuthorizationRule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -79,7 +79,7 @@ func RunPropertyAssignmentTestForNamespacesEventhubsAuthorizationRule(subject Na
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211101s.NamespacesEventhubsAuthorizationRule
+	var other v1beta20211101s.NamespacesEventhubsAuthorizationRule
 	err := copied.AssignProperties_To_NamespacesEventhubsAuthorizationRule(&other)
 	if err != nil {
 		return err.Error()
@@ -183,7 +183,7 @@ func RunPropertyAssignmentTestForNamespaces_Eventhubs_AuthorizationRule_Spec(sub
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211101s.Namespaces_Eventhubs_AuthorizationRule_Spec
+	var other v1beta20211101s.Namespaces_Eventhubs_AuthorizationRule_Spec
 	err := copied.AssignProperties_To_Namespaces_Eventhubs_AuthorizationRule_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -287,7 +287,7 @@ func RunPropertyAssignmentTestForNamespaces_Eventhubs_AuthorizationRule_STATUS(s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211101s.Namespaces_Eventhubs_AuthorizationRule_STATUS
+	var other v1beta20211101s.Namespaces_Eventhubs_AuthorizationRule_STATUS
 	err := copied.AssignProperties_To_Namespaces_Eventhubs_AuthorizationRule_STATUS(&other)
 	if err != nil {
 		return err.Error()

@@ -5,7 +5,7 @@ package v1beta20201101storage
 
 import (
 	"encoding/json"
-	v1api20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForLoadBalancer(subject LoadBalancer) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20201101s.LoadBalancer
+	var hub v20201101s.LoadBalancer
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForLoadBalancer(subject LoadBalancer) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.LoadBalancer
+	var other v20201101s.LoadBalancer
 	err := copied.AssignProperties_To_LoadBalancer(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForLoadBalancer_Spec(subject LoadBalancer_Spec) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.LoadBalancer_Spec
+	var other v20201101s.LoadBalancer_Spec
 	err := copied.AssignProperties_To_LoadBalancer_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -308,7 +308,7 @@ func RunPropertyAssignmentTestForLoadBalancer_STATUS(subject LoadBalancer_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.LoadBalancer_STATUS
+	var other v20201101s.LoadBalancer_STATUS
 	err := copied.AssignProperties_To_LoadBalancer_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -440,7 +440,7 @@ func RunPropertyAssignmentTestForBackendAddressPool_LoadBalancer_SubResourceEmbe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.BackendAddressPool_LoadBalancer_SubResourceEmbedded
+	var other v20201101s.BackendAddressPool_LoadBalancer_SubResourceEmbedded
 	err := copied.AssignProperties_To_BackendAddressPool_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -557,7 +557,7 @@ func RunPropertyAssignmentTestForBackendAddressPool_STATUS_LoadBalancer_SubResou
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded
+	var other v20201101s.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded
 	err := copied.AssignProperties_To_BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -682,7 +682,7 @@ func RunPropertyAssignmentTestForExtendedLocation(subject ExtendedLocation) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.ExtendedLocation
+	var other v20201101s.ExtendedLocation
 	err := copied.AssignProperties_To_ExtendedLocation(&other)
 	if err != nil {
 		return err.Error()
@@ -785,7 +785,7 @@ func RunPropertyAssignmentTestForExtendedLocation_STATUS(subject ExtendedLocatio
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.ExtendedLocation_STATUS
+	var other v20201101s.ExtendedLocation_STATUS
 	err := copied.AssignProperties_To_ExtendedLocation_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -889,7 +889,7 @@ func RunPropertyAssignmentTestForFrontendIPConfiguration_LoadBalancer_SubResourc
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded
+	var other v20201101s.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded
 	err := copied.AssignProperties_To_FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -1012,7 +1012,7 @@ func RunPropertyAssignmentTestForFrontendIPConfiguration_STATUS_LoadBalancer_Sub
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
+	var other v20201101s.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
 	err := copied.AssignProperties_To_FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -1143,7 +1143,7 @@ func RunPropertyAssignmentTestForInboundNatPool(subject InboundNatPool) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.InboundNatPool
+	var other v20201101s.InboundNatPool
 	err := copied.AssignProperties_To_InboundNatPool(&other)
 	if err != nil {
 		return err.Error()
@@ -1266,7 +1266,7 @@ func RunPropertyAssignmentTestForInboundNatPool_STATUS(subject InboundNatPool_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.InboundNatPool_STATUS
+	var other v20201101s.InboundNatPool_STATUS
 	err := copied.AssignProperties_To_InboundNatPool_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1394,7 +1394,7 @@ func RunPropertyAssignmentTestForInboundNatRule_LoadBalancer_SubResourceEmbedded
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.InboundNatRule_LoadBalancer_SubResourceEmbedded
+	var other v20201101s.InboundNatRule_LoadBalancer_SubResourceEmbedded
 	err := copied.AssignProperties_To_InboundNatRule_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -1517,7 +1517,7 @@ func RunPropertyAssignmentTestForInboundNatRule_STATUS_LoadBalancer_SubResourceE
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded
+	var other v20201101s.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded
 	err := copied.AssignProperties_To_InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -1645,7 +1645,7 @@ func RunPropertyAssignmentTestForLoadBalancerSku(subject LoadBalancerSku) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.LoadBalancerSku
+	var other v20201101s.LoadBalancerSku
 	err := copied.AssignProperties_To_LoadBalancerSku(&other)
 	if err != nil {
 		return err.Error()
@@ -1748,7 +1748,7 @@ func RunPropertyAssignmentTestForLoadBalancerSku_STATUS(subject LoadBalancerSku_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.LoadBalancerSku_STATUS
+	var other v20201101s.LoadBalancerSku_STATUS
 	err := copied.AssignProperties_To_LoadBalancerSku_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1852,7 +1852,7 @@ func RunPropertyAssignmentTestForLoadBalancingRule(subject LoadBalancingRule) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.LoadBalancingRule
+	var other v20201101s.LoadBalancingRule
 	err := copied.AssignProperties_To_LoadBalancingRule(&other)
 	if err != nil {
 		return err.Error()
@@ -1978,7 +1978,7 @@ func RunPropertyAssignmentTestForLoadBalancingRule_STATUS(subject LoadBalancingR
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.LoadBalancingRule_STATUS
+	var other v20201101s.LoadBalancingRule_STATUS
 	err := copied.AssignProperties_To_LoadBalancingRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2109,7 +2109,7 @@ func RunPropertyAssignmentTestForOutboundRule(subject OutboundRule) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.OutboundRule
+	var other v20201101s.OutboundRule
 	err := copied.AssignProperties_To_OutboundRule(&other)
 	if err != nil {
 		return err.Error()
@@ -2230,7 +2230,7 @@ func RunPropertyAssignmentTestForOutboundRule_STATUS(subject OutboundRule_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.OutboundRule_STATUS
+	var other v20201101s.OutboundRule_STATUS
 	err := copied.AssignProperties_To_OutboundRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2356,7 +2356,7 @@ func RunPropertyAssignmentTestForProbe(subject Probe) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.Probe
+	var other v20201101s.Probe
 	err := copied.AssignProperties_To_Probe(&other)
 	if err != nil {
 		return err.Error()
@@ -2463,7 +2463,7 @@ func RunPropertyAssignmentTestForProbe_STATUS(subject Probe_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.Probe_STATUS
+	var other v20201101s.Probe_STATUS
 	err := copied.AssignProperties_To_Probe_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2588,7 +2588,7 @@ func RunPropertyAssignmentTestForLoadBalancerBackendAddress(subject LoadBalancer
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.LoadBalancerBackendAddress
+	var other v20201101s.LoadBalancerBackendAddress
 	err := copied.AssignProperties_To_LoadBalancerBackendAddress(&other)
 	if err != nil {
 		return err.Error()
@@ -2708,7 +2708,7 @@ func RunPropertyAssignmentTestForLoadBalancerBackendAddress_STATUS(subject LoadB
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.LoadBalancerBackendAddress_STATUS
+	var other v20201101s.LoadBalancerBackendAddress_STATUS
 	err := copied.AssignProperties_To_LoadBalancerBackendAddress_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2829,7 +2829,7 @@ func RunPropertyAssignmentTestForNetworkInterfaceIPConfiguration_STATUS_LoadBala
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
+	var other v20201101s.NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
 	err := copied.AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -2932,7 +2932,7 @@ func RunPropertyAssignmentTestForPublicIPAddress_STATUS_LoadBalancer_SubResource
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded
+	var other v20201101s.PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded
 	err := copied.AssignProperties_To_PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -3035,7 +3035,7 @@ func RunPropertyAssignmentTestForPublicIPAddressSpec_LoadBalancer_SubResourceEmb
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded
+	var other v20201101s.PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded
 	err := copied.AssignProperties_To_PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -3132,7 +3132,7 @@ func RunPropertyAssignmentTestForSubnet_LoadBalancer_SubResourceEmbedded(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.Subnet_LoadBalancer_SubResourceEmbedded
+	var other v20201101s.Subnet_LoadBalancer_SubResourceEmbedded
 	err := copied.AssignProperties_To_Subnet_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -3229,7 +3229,7 @@ func RunPropertyAssignmentTestForSubnet_STATUS_LoadBalancer_SubResourceEmbedded(
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.Subnet_STATUS_LoadBalancer_SubResourceEmbedded
+	var other v20201101s.Subnet_STATUS_LoadBalancer_SubResourceEmbedded
 	err := copied.AssignProperties_To_Subnet_STATUS_LoadBalancer_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()

@@ -5,8 +5,8 @@ package v1beta20210401
 
 import (
 	"encoding/json"
-	v1api20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
-	v20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
+	v1beta20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -37,7 +37,7 @@ func RunResourceConversionTestForStorageAccountsQueueServicesQueue(subject Stora
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20220901s.StorageAccountsQueueServicesQueue
+	var hub v20220901s.StorageAccountsQueueServicesQueue
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -79,7 +79,7 @@ func RunPropertyAssignmentTestForStorageAccountsQueueServicesQueue(subject Stora
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210401s.StorageAccountsQueueServicesQueue
+	var other v1beta20210401s.StorageAccountsQueueServicesQueue
 	err := copied.AssignProperties_To_StorageAccountsQueueServicesQueue(&other)
 	if err != nil {
 		return err.Error()
@@ -183,7 +183,7 @@ func RunPropertyAssignmentTestForStorageAccounts_QueueServices_Queue_Spec(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210401s.StorageAccounts_QueueServices_Queue_Spec
+	var other v1beta20210401s.StorageAccounts_QueueServices_Queue_Spec
 	err := copied.AssignProperties_To_StorageAccounts_QueueServices_Queue_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -287,7 +287,7 @@ func RunPropertyAssignmentTestForStorageAccounts_QueueServices_Queue_STATUS(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210401s.StorageAccounts_QueueServices_Queue_STATUS
+	var other v1beta20210401s.StorageAccounts_QueueServices_Queue_STATUS
 	err := copied.AssignProperties_To_StorageAccounts_QueueServices_Queue_STATUS(&other)
 	if err != nil {
 		return err.Error()

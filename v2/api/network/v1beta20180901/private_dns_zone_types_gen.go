@@ -5,7 +5,7 @@ package v1beta20180901
 
 import (
 	"fmt"
-	v20180901s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901storage"
+	v1beta20180901s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -48,7 +48,7 @@ var _ conversion.Convertible = &PrivateDnsZone{}
 // ConvertFrom populates our PrivateDnsZone from the provided hub PrivateDnsZone
 func (zone *PrivateDnsZone) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var source v20180901s.PrivateDnsZone
+	var source v1beta20180901s.PrivateDnsZone
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
@@ -66,7 +66,7 @@ func (zone *PrivateDnsZone) ConvertFrom(hub conversion.Hub) error {
 // ConvertTo populates the provided hub PrivateDnsZone from our PrivateDnsZone
 func (zone *PrivateDnsZone) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var destination v20180901s.PrivateDnsZone
+	var destination v1beta20180901s.PrivateDnsZone
 	err := zone.AssignProperties_To_PrivateDnsZone(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from zone")
@@ -241,7 +241,7 @@ func (zone *PrivateDnsZone) validateWriteOnceProperties(old runtime.Object) (adm
 }
 
 // AssignProperties_From_PrivateDnsZone populates our PrivateDnsZone from the provided source PrivateDnsZone
-func (zone *PrivateDnsZone) AssignProperties_From_PrivateDnsZone(source *v20180901s.PrivateDnsZone) error {
+func (zone *PrivateDnsZone) AssignProperties_From_PrivateDnsZone(source *v1beta20180901s.PrivateDnsZone) error {
 
 	// ObjectMeta
 	zone.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -267,13 +267,13 @@ func (zone *PrivateDnsZone) AssignProperties_From_PrivateDnsZone(source *v201809
 }
 
 // AssignProperties_To_PrivateDnsZone populates the provided destination PrivateDnsZone from our PrivateDnsZone
-func (zone *PrivateDnsZone) AssignProperties_To_PrivateDnsZone(destination *v20180901s.PrivateDnsZone) error {
+func (zone *PrivateDnsZone) AssignProperties_To_PrivateDnsZone(destination *v1beta20180901s.PrivateDnsZone) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *zone.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20180901s.PrivateDnsZone_Spec
+	var spec v1beta20180901s.PrivateDnsZone_Spec
 	err := zone.Spec.AssignProperties_To_PrivateDnsZone_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_PrivateDnsZone_Spec() to populate field Spec")
@@ -281,7 +281,7 @@ func (zone *PrivateDnsZone) AssignProperties_To_PrivateDnsZone(destination *v201
 	destination.Spec = spec
 
 	// Status
-	var status v20180901s.PrivateDnsZone_STATUS
+	var status v1beta20180901s.PrivateDnsZone_STATUS
 	err = zone.Status.AssignProperties_To_PrivateDnsZone_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_PrivateDnsZone_STATUS() to populate field Status")
@@ -410,14 +410,14 @@ var _ genruntime.ConvertibleSpec = &PrivateDnsZone_Spec{}
 
 // ConvertSpecFrom populates our PrivateDnsZone_Spec from the provided source
 func (zone *PrivateDnsZone_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20180901s.PrivateDnsZone_Spec)
+	src, ok := source.(*v1beta20180901s.PrivateDnsZone_Spec)
 	if ok {
 		// Populate our instance from source
 		return zone.AssignProperties_From_PrivateDnsZone_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20180901s.PrivateDnsZone_Spec{}
+	src = &v1beta20180901s.PrivateDnsZone_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -434,14 +434,14 @@ func (zone *PrivateDnsZone_Spec) ConvertSpecFrom(source genruntime.ConvertibleSp
 
 // ConvertSpecTo populates the provided destination from our PrivateDnsZone_Spec
 func (zone *PrivateDnsZone_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20180901s.PrivateDnsZone_Spec)
+	dst, ok := destination.(*v1beta20180901s.PrivateDnsZone_Spec)
 	if ok {
 		// Populate destination from our instance
 		return zone.AssignProperties_To_PrivateDnsZone_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20180901s.PrivateDnsZone_Spec{}
+	dst = &v1beta20180901s.PrivateDnsZone_Spec{}
 	err := zone.AssignProperties_To_PrivateDnsZone_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -457,7 +457,7 @@ func (zone *PrivateDnsZone_Spec) ConvertSpecTo(destination genruntime.Convertibl
 }
 
 // AssignProperties_From_PrivateDnsZone_Spec populates our PrivateDnsZone_Spec from the provided source PrivateDnsZone_Spec
-func (zone *PrivateDnsZone_Spec) AssignProperties_From_PrivateDnsZone_Spec(source *v20180901s.PrivateDnsZone_Spec) error {
+func (zone *PrivateDnsZone_Spec) AssignProperties_From_PrivateDnsZone_Spec(source *v1beta20180901s.PrivateDnsZone_Spec) error {
 
 	// AzureName
 	zone.AzureName = source.AzureName
@@ -484,7 +484,7 @@ func (zone *PrivateDnsZone_Spec) AssignProperties_From_PrivateDnsZone_Spec(sourc
 }
 
 // AssignProperties_To_PrivateDnsZone_Spec populates the provided destination PrivateDnsZone_Spec from our PrivateDnsZone_Spec
-func (zone *PrivateDnsZone_Spec) AssignProperties_To_PrivateDnsZone_Spec(destination *v20180901s.PrivateDnsZone_Spec) error {
+func (zone *PrivateDnsZone_Spec) AssignProperties_To_PrivateDnsZone_Spec(destination *v1beta20180901s.PrivateDnsZone_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -553,14 +553,14 @@ var _ genruntime.ConvertibleStatus = &PrivateDnsZone_STATUS{}
 
 // ConvertStatusFrom populates our PrivateDnsZone_STATUS from the provided source
 func (zone *PrivateDnsZone_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20180901s.PrivateDnsZone_STATUS)
+	src, ok := source.(*v1beta20180901s.PrivateDnsZone_STATUS)
 	if ok {
 		// Populate our instance from source
 		return zone.AssignProperties_From_PrivateDnsZone_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20180901s.PrivateDnsZone_STATUS{}
+	src = &v1beta20180901s.PrivateDnsZone_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -577,14 +577,14 @@ func (zone *PrivateDnsZone_STATUS) ConvertStatusFrom(source genruntime.Convertib
 
 // ConvertStatusTo populates the provided destination from our PrivateDnsZone_STATUS
 func (zone *PrivateDnsZone_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20180901s.PrivateDnsZone_STATUS)
+	dst, ok := destination.(*v1beta20180901s.PrivateDnsZone_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return zone.AssignProperties_To_PrivateDnsZone_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20180901s.PrivateDnsZone_STATUS{}
+	dst = &v1beta20180901s.PrivateDnsZone_STATUS{}
 	err := zone.AssignProperties_To_PrivateDnsZone_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -721,7 +721,7 @@ func (zone *PrivateDnsZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 }
 
 // AssignProperties_From_PrivateDnsZone_STATUS populates our PrivateDnsZone_STATUS from the provided source PrivateDnsZone_STATUS
-func (zone *PrivateDnsZone_STATUS) AssignProperties_From_PrivateDnsZone_STATUS(source *v20180901s.PrivateDnsZone_STATUS) error {
+func (zone *PrivateDnsZone_STATUS) AssignProperties_From_PrivateDnsZone_STATUS(source *v1beta20180901s.PrivateDnsZone_STATUS) error {
 
 	// Conditions
 	zone.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -775,7 +775,7 @@ func (zone *PrivateDnsZone_STATUS) AssignProperties_From_PrivateDnsZone_STATUS(s
 }
 
 // AssignProperties_To_PrivateDnsZone_STATUS populates the provided destination PrivateDnsZone_STATUS from our PrivateDnsZone_STATUS
-func (zone *PrivateDnsZone_STATUS) AssignProperties_To_PrivateDnsZone_STATUS(destination *v20180901s.PrivateDnsZone_STATUS) error {
+func (zone *PrivateDnsZone_STATUS) AssignProperties_To_PrivateDnsZone_STATUS(destination *v1beta20180901s.PrivateDnsZone_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

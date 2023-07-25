@@ -5,8 +5,8 @@ package v1beta20200601
 
 import (
 	"encoding/json"
-	v1api20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601storage"
-	v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601storage"
+	v1beta20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -37,7 +37,7 @@ func RunResourceConversionTestForDomainsTopic(subject DomainsTopic) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20200601s.DomainsTopic
+	var hub v20200601s.DomainsTopic
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -79,7 +79,7 @@ func RunPropertyAssignmentTestForDomainsTopic(subject DomainsTopic) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.DomainsTopic
+	var other v1beta20200601s.DomainsTopic
 	err := copied.AssignProperties_To_DomainsTopic(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForDomains_Topic_Spec(subject Domains_Topic_Spec) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.Domains_Topic_Spec
+	var other v1beta20200601s.Domains_Topic_Spec
 	err := copied.AssignProperties_To_Domains_Topic_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -284,7 +284,7 @@ func RunPropertyAssignmentTestForDomains_Topic_STATUS(subject Domains_Topic_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200601s.Domains_Topic_STATUS
+	var other v1beta20200601s.Domains_Topic_STATUS
 	err := copied.AssignProperties_To_Domains_Topic_STATUS(&other)
 	if err != nil {
 		return err.Error()

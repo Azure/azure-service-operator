@@ -5,7 +5,7 @@ package v1beta20210601storage
 
 import (
 	"fmt"
-	v1api20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601storage"
+	v20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -45,7 +45,7 @@ var _ conversion.Convertible = &ProfilesEndpoint{}
 
 // ConvertFrom populates our ProfilesEndpoint from the provided hub ProfilesEndpoint
 func (endpoint *ProfilesEndpoint) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20210601s.ProfilesEndpoint)
+	source, ok := hub.(*v20210601s.ProfilesEndpoint)
 	if !ok {
 		return fmt.Errorf("expected cdn/v1api20210601storage/ProfilesEndpoint but received %T instead", hub)
 	}
@@ -55,7 +55,7 @@ func (endpoint *ProfilesEndpoint) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub ProfilesEndpoint from our ProfilesEndpoint
 func (endpoint *ProfilesEndpoint) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20210601s.ProfilesEndpoint)
+	destination, ok := hub.(*v20210601s.ProfilesEndpoint)
 	if !ok {
 		return fmt.Errorf("expected cdn/v1api20210601storage/ProfilesEndpoint but received %T instead", hub)
 	}
@@ -130,7 +130,7 @@ func (endpoint *ProfilesEndpoint) SetStatus(status genruntime.ConvertibleStatus)
 }
 
 // AssignProperties_From_ProfilesEndpoint populates our ProfilesEndpoint from the provided source ProfilesEndpoint
-func (endpoint *ProfilesEndpoint) AssignProperties_From_ProfilesEndpoint(source *v1api20210601s.ProfilesEndpoint) error {
+func (endpoint *ProfilesEndpoint) AssignProperties_From_ProfilesEndpoint(source *v20210601s.ProfilesEndpoint) error {
 
 	// ObjectMeta
 	endpoint.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -165,13 +165,13 @@ func (endpoint *ProfilesEndpoint) AssignProperties_From_ProfilesEndpoint(source 
 }
 
 // AssignProperties_To_ProfilesEndpoint populates the provided destination ProfilesEndpoint from our ProfilesEndpoint
-func (endpoint *ProfilesEndpoint) AssignProperties_To_ProfilesEndpoint(destination *v1api20210601s.ProfilesEndpoint) error {
+func (endpoint *ProfilesEndpoint) AssignProperties_To_ProfilesEndpoint(destination *v20210601s.ProfilesEndpoint) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *endpoint.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20210601s.Profiles_Endpoint_Spec
+	var spec v20210601s.Profiles_Endpoint_Spec
 	err := endpoint.Spec.AssignProperties_To_Profiles_Endpoint_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Profiles_Endpoint_Spec() to populate field Spec")
@@ -179,7 +179,7 @@ func (endpoint *ProfilesEndpoint) AssignProperties_To_ProfilesEndpoint(destinati
 	destination.Spec = spec
 
 	// Status
-	var status v1api20210601s.Profiles_Endpoint_STATUS
+	var status v20210601s.Profiles_Endpoint_STATUS
 	err = endpoint.Status.AssignProperties_To_Profiles_Endpoint_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Profiles_Endpoint_STATUS() to populate field Status")
@@ -218,8 +218,8 @@ type ProfilesEndpointList struct {
 }
 
 type augmentConversionForProfilesEndpoint interface {
-	AssignPropertiesFrom(src *v1api20210601s.ProfilesEndpoint) error
-	AssignPropertiesTo(dst *v1api20210601s.ProfilesEndpoint) error
+	AssignPropertiesFrom(src *v20210601s.ProfilesEndpoint) error
+	AssignPropertiesTo(dst *v20210601s.ProfilesEndpoint) error
 }
 
 // Storage version of v1beta20210601.Profiles_Endpoint_Spec
@@ -259,14 +259,14 @@ var _ genruntime.ConvertibleSpec = &Profiles_Endpoint_Spec{}
 
 // ConvertSpecFrom populates our Profiles_Endpoint_Spec from the provided source
 func (endpoint *Profiles_Endpoint_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20210601s.Profiles_Endpoint_Spec)
+	src, ok := source.(*v20210601s.Profiles_Endpoint_Spec)
 	if ok {
 		// Populate our instance from source
 		return endpoint.AssignProperties_From_Profiles_Endpoint_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20210601s.Profiles_Endpoint_Spec{}
+	src = &v20210601s.Profiles_Endpoint_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -283,14 +283,14 @@ func (endpoint *Profiles_Endpoint_Spec) ConvertSpecFrom(source genruntime.Conver
 
 // ConvertSpecTo populates the provided destination from our Profiles_Endpoint_Spec
 func (endpoint *Profiles_Endpoint_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20210601s.Profiles_Endpoint_Spec)
+	dst, ok := destination.(*v20210601s.Profiles_Endpoint_Spec)
 	if ok {
 		// Populate destination from our instance
 		return endpoint.AssignProperties_To_Profiles_Endpoint_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20210601s.Profiles_Endpoint_Spec{}
+	dst = &v20210601s.Profiles_Endpoint_Spec{}
 	err := endpoint.AssignProperties_To_Profiles_Endpoint_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -306,7 +306,7 @@ func (endpoint *Profiles_Endpoint_Spec) ConvertSpecTo(destination genruntime.Con
 }
 
 // AssignProperties_From_Profiles_Endpoint_Spec populates our Profiles_Endpoint_Spec from the provided source Profiles_Endpoint_Spec
-func (endpoint *Profiles_Endpoint_Spec) AssignProperties_From_Profiles_Endpoint_Spec(source *v1api20210601s.Profiles_Endpoint_Spec) error {
+func (endpoint *Profiles_Endpoint_Spec) AssignProperties_From_Profiles_Endpoint_Spec(source *v20210601s.Profiles_Endpoint_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -501,7 +501,7 @@ func (endpoint *Profiles_Endpoint_Spec) AssignProperties_From_Profiles_Endpoint_
 }
 
 // AssignProperties_To_Profiles_Endpoint_Spec populates the provided destination Profiles_Endpoint_Spec from our Profiles_Endpoint_Spec
-func (endpoint *Profiles_Endpoint_Spec) AssignProperties_To_Profiles_Endpoint_Spec(destination *v1api20210601s.Profiles_Endpoint_Spec) error {
+func (endpoint *Profiles_Endpoint_Spec) AssignProperties_To_Profiles_Endpoint_Spec(destination *v20210601s.Profiles_Endpoint_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(endpoint.PropertyBag)
 
@@ -513,7 +513,7 @@ func (endpoint *Profiles_Endpoint_Spec) AssignProperties_To_Profiles_Endpoint_Sp
 
 	// DefaultOriginGroup
 	if endpoint.DefaultOriginGroup != nil {
-		var defaultOriginGroup v1api20210601s.ResourceReference
+		var defaultOriginGroup v20210601s.ResourceReference
 		err := endpoint.DefaultOriginGroup.AssignProperties_To_ResourceReference(&defaultOriginGroup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field DefaultOriginGroup")
@@ -525,7 +525,7 @@ func (endpoint *Profiles_Endpoint_Spec) AssignProperties_To_Profiles_Endpoint_Sp
 
 	// DeliveryPolicy
 	if endpoint.DeliveryPolicy != nil {
-		var deliveryPolicy v1api20210601s.EndpointProperties_DeliveryPolicy
+		var deliveryPolicy v20210601s.EndpointProperties_DeliveryPolicy
 		err := endpoint.DeliveryPolicy.AssignProperties_To_EndpointProperties_DeliveryPolicy(&deliveryPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EndpointProperties_DeliveryPolicy() to populate field DeliveryPolicy")
@@ -537,11 +537,11 @@ func (endpoint *Profiles_Endpoint_Spec) AssignProperties_To_Profiles_Endpoint_Sp
 
 	// GeoFilters
 	if endpoint.GeoFilters != nil {
-		geoFilterList := make([]v1api20210601s.GeoFilter, len(endpoint.GeoFilters))
+		geoFilterList := make([]v20210601s.GeoFilter, len(endpoint.GeoFilters))
 		for geoFilterIndex, geoFilterItem := range endpoint.GeoFilters {
 			// Shadow the loop variable to avoid aliasing
 			geoFilterItem := geoFilterItem
-			var geoFilter v1api20210601s.GeoFilter
+			var geoFilter v20210601s.GeoFilter
 			err := geoFilterItem.AssignProperties_To_GeoFilter(&geoFilter)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_GeoFilter() to populate field GeoFilters")
@@ -585,11 +585,11 @@ func (endpoint *Profiles_Endpoint_Spec) AssignProperties_To_Profiles_Endpoint_Sp
 
 	// OriginGroups
 	if endpoint.OriginGroups != nil {
-		originGroupList := make([]v1api20210601s.DeepCreatedOriginGroup, len(endpoint.OriginGroups))
+		originGroupList := make([]v20210601s.DeepCreatedOriginGroup, len(endpoint.OriginGroups))
 		for originGroupIndex, originGroupItem := range endpoint.OriginGroups {
 			// Shadow the loop variable to avoid aliasing
 			originGroupItem := originGroupItem
-			var originGroup v1api20210601s.DeepCreatedOriginGroup
+			var originGroup v20210601s.DeepCreatedOriginGroup
 			err := originGroupItem.AssignProperties_To_DeepCreatedOriginGroup(&originGroup)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_DeepCreatedOriginGroup() to populate field OriginGroups")
@@ -612,11 +612,11 @@ func (endpoint *Profiles_Endpoint_Spec) AssignProperties_To_Profiles_Endpoint_Sp
 
 	// Origins
 	if endpoint.Origins != nil {
-		originList := make([]v1api20210601s.DeepCreatedOrigin, len(endpoint.Origins))
+		originList := make([]v20210601s.DeepCreatedOrigin, len(endpoint.Origins))
 		for originIndex, originItem := range endpoint.Origins {
 			// Shadow the loop variable to avoid aliasing
 			originItem := originItem
-			var origin v1api20210601s.DeepCreatedOrigin
+			var origin v20210601s.DeepCreatedOrigin
 			err := originItem.AssignProperties_To_DeepCreatedOrigin(&origin)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_DeepCreatedOrigin() to populate field Origins")
@@ -647,11 +647,11 @@ func (endpoint *Profiles_Endpoint_Spec) AssignProperties_To_Profiles_Endpoint_Sp
 
 	// UrlSigningKeys
 	if endpoint.UrlSigningKeys != nil {
-		urlSigningKeyList := make([]v1api20210601s.UrlSigningKey, len(endpoint.UrlSigningKeys))
+		urlSigningKeyList := make([]v20210601s.UrlSigningKey, len(endpoint.UrlSigningKeys))
 		for urlSigningKeyIndex, urlSigningKeyItem := range endpoint.UrlSigningKeys {
 			// Shadow the loop variable to avoid aliasing
 			urlSigningKeyItem := urlSigningKeyItem
-			var urlSigningKey v1api20210601s.UrlSigningKey
+			var urlSigningKey v20210601s.UrlSigningKey
 			err := urlSigningKeyItem.AssignProperties_To_UrlSigningKey(&urlSigningKey)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UrlSigningKey() to populate field UrlSigningKeys")
@@ -665,7 +665,7 @@ func (endpoint *Profiles_Endpoint_Spec) AssignProperties_To_Profiles_Endpoint_Sp
 
 	// WebApplicationFirewallPolicyLink
 	if endpoint.WebApplicationFirewallPolicyLink != nil {
-		var webApplicationFirewallPolicyLink v1api20210601s.EndpointProperties_WebApplicationFirewallPolicyLink
+		var webApplicationFirewallPolicyLink v20210601s.EndpointProperties_WebApplicationFirewallPolicyLink
 		err := endpoint.WebApplicationFirewallPolicyLink.AssignProperties_To_EndpointProperties_WebApplicationFirewallPolicyLink(&webApplicationFirewallPolicyLink)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EndpointProperties_WebApplicationFirewallPolicyLink() to populate field WebApplicationFirewallPolicyLink")
@@ -732,14 +732,14 @@ var _ genruntime.ConvertibleStatus = &Profiles_Endpoint_STATUS{}
 
 // ConvertStatusFrom populates our Profiles_Endpoint_STATUS from the provided source
 func (endpoint *Profiles_Endpoint_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20210601s.Profiles_Endpoint_STATUS)
+	src, ok := source.(*v20210601s.Profiles_Endpoint_STATUS)
 	if ok {
 		// Populate our instance from source
 		return endpoint.AssignProperties_From_Profiles_Endpoint_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20210601s.Profiles_Endpoint_STATUS{}
+	src = &v20210601s.Profiles_Endpoint_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -756,14 +756,14 @@ func (endpoint *Profiles_Endpoint_STATUS) ConvertStatusFrom(source genruntime.Co
 
 // ConvertStatusTo populates the provided destination from our Profiles_Endpoint_STATUS
 func (endpoint *Profiles_Endpoint_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20210601s.Profiles_Endpoint_STATUS)
+	dst, ok := destination.(*v20210601s.Profiles_Endpoint_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return endpoint.AssignProperties_To_Profiles_Endpoint_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20210601s.Profiles_Endpoint_STATUS{}
+	dst = &v20210601s.Profiles_Endpoint_STATUS{}
 	err := endpoint.AssignProperties_To_Profiles_Endpoint_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -779,7 +779,7 @@ func (endpoint *Profiles_Endpoint_STATUS) ConvertStatusTo(destination genruntime
 }
 
 // AssignProperties_From_Profiles_Endpoint_STATUS populates our Profiles_Endpoint_STATUS from the provided source Profiles_Endpoint_STATUS
-func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_From_Profiles_Endpoint_STATUS(source *v1api20210601s.Profiles_Endpoint_STATUS) error {
+func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_From_Profiles_Endpoint_STATUS(source *v20210601s.Profiles_Endpoint_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1011,7 +1011,7 @@ func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_From_Profiles_Endpoin
 }
 
 // AssignProperties_To_Profiles_Endpoint_STATUS populates the provided destination Profiles_Endpoint_STATUS from our Profiles_Endpoint_STATUS
-func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_To_Profiles_Endpoint_STATUS(destination *v1api20210601s.Profiles_Endpoint_STATUS) error {
+func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_To_Profiles_Endpoint_STATUS(destination *v20210601s.Profiles_Endpoint_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(endpoint.PropertyBag)
 
@@ -1023,11 +1023,11 @@ func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_To_Profiles_Endpoint_
 
 	// CustomDomains
 	if endpoint.CustomDomains != nil {
-		customDomainList := make([]v1api20210601s.DeepCreatedCustomDomain_STATUS, len(endpoint.CustomDomains))
+		customDomainList := make([]v20210601s.DeepCreatedCustomDomain_STATUS, len(endpoint.CustomDomains))
 		for customDomainIndex, customDomainItem := range endpoint.CustomDomains {
 			// Shadow the loop variable to avoid aliasing
 			customDomainItem := customDomainItem
-			var customDomain v1api20210601s.DeepCreatedCustomDomain_STATUS
+			var customDomain v20210601s.DeepCreatedCustomDomain_STATUS
 			err := customDomainItem.AssignProperties_To_DeepCreatedCustomDomain_STATUS(&customDomain)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_DeepCreatedCustomDomain_STATUS() to populate field CustomDomains")
@@ -1041,7 +1041,7 @@ func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_To_Profiles_Endpoint_
 
 	// DefaultOriginGroup
 	if endpoint.DefaultOriginGroup != nil {
-		var defaultOriginGroup v1api20210601s.ResourceReference_STATUS
+		var defaultOriginGroup v20210601s.ResourceReference_STATUS
 		err := endpoint.DefaultOriginGroup.AssignProperties_To_ResourceReference_STATUS(&defaultOriginGroup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field DefaultOriginGroup")
@@ -1053,7 +1053,7 @@ func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_To_Profiles_Endpoint_
 
 	// DeliveryPolicy
 	if endpoint.DeliveryPolicy != nil {
-		var deliveryPolicy v1api20210601s.EndpointProperties_DeliveryPolicy_STATUS
+		var deliveryPolicy v20210601s.EndpointProperties_DeliveryPolicy_STATUS
 		err := endpoint.DeliveryPolicy.AssignProperties_To_EndpointProperties_DeliveryPolicy_STATUS(&deliveryPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EndpointProperties_DeliveryPolicy_STATUS() to populate field DeliveryPolicy")
@@ -1065,11 +1065,11 @@ func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_To_Profiles_Endpoint_
 
 	// GeoFilters
 	if endpoint.GeoFilters != nil {
-		geoFilterList := make([]v1api20210601s.GeoFilter_STATUS, len(endpoint.GeoFilters))
+		geoFilterList := make([]v20210601s.GeoFilter_STATUS, len(endpoint.GeoFilters))
 		for geoFilterIndex, geoFilterItem := range endpoint.GeoFilters {
 			// Shadow the loop variable to avoid aliasing
 			geoFilterItem := geoFilterItem
-			var geoFilter v1api20210601s.GeoFilter_STATUS
+			var geoFilter v20210601s.GeoFilter_STATUS
 			err := geoFilterItem.AssignProperties_To_GeoFilter_STATUS(&geoFilter)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_GeoFilter_STATUS() to populate field GeoFilters")
@@ -1122,11 +1122,11 @@ func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_To_Profiles_Endpoint_
 
 	// OriginGroups
 	if endpoint.OriginGroups != nil {
-		originGroupList := make([]v1api20210601s.DeepCreatedOriginGroup_STATUS, len(endpoint.OriginGroups))
+		originGroupList := make([]v20210601s.DeepCreatedOriginGroup_STATUS, len(endpoint.OriginGroups))
 		for originGroupIndex, originGroupItem := range endpoint.OriginGroups {
 			// Shadow the loop variable to avoid aliasing
 			originGroupItem := originGroupItem
-			var originGroup v1api20210601s.DeepCreatedOriginGroup_STATUS
+			var originGroup v20210601s.DeepCreatedOriginGroup_STATUS
 			err := originGroupItem.AssignProperties_To_DeepCreatedOriginGroup_STATUS(&originGroup)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_DeepCreatedOriginGroup_STATUS() to populate field OriginGroups")
@@ -1146,11 +1146,11 @@ func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_To_Profiles_Endpoint_
 
 	// Origins
 	if endpoint.Origins != nil {
-		originList := make([]v1api20210601s.DeepCreatedOrigin_STATUS, len(endpoint.Origins))
+		originList := make([]v20210601s.DeepCreatedOrigin_STATUS, len(endpoint.Origins))
 		for originIndex, originItem := range endpoint.Origins {
 			// Shadow the loop variable to avoid aliasing
 			originItem := originItem
-			var origin v1api20210601s.DeepCreatedOrigin_STATUS
+			var origin v20210601s.DeepCreatedOrigin_STATUS
 			err := originItem.AssignProperties_To_DeepCreatedOrigin_STATUS(&origin)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_DeepCreatedOrigin_STATUS() to populate field Origins")
@@ -1176,7 +1176,7 @@ func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_To_Profiles_Endpoint_
 
 	// SystemData
 	if endpoint.SystemData != nil {
-		var systemDatum v1api20210601s.SystemData_STATUS
+		var systemDatum v20210601s.SystemData_STATUS
 		err := endpoint.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
@@ -1194,11 +1194,11 @@ func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_To_Profiles_Endpoint_
 
 	// UrlSigningKeys
 	if endpoint.UrlSigningKeys != nil {
-		urlSigningKeyList := make([]v1api20210601s.UrlSigningKey_STATUS, len(endpoint.UrlSigningKeys))
+		urlSigningKeyList := make([]v20210601s.UrlSigningKey_STATUS, len(endpoint.UrlSigningKeys))
 		for urlSigningKeyIndex, urlSigningKeyItem := range endpoint.UrlSigningKeys {
 			// Shadow the loop variable to avoid aliasing
 			urlSigningKeyItem := urlSigningKeyItem
-			var urlSigningKey v1api20210601s.UrlSigningKey_STATUS
+			var urlSigningKey v20210601s.UrlSigningKey_STATUS
 			err := urlSigningKeyItem.AssignProperties_To_UrlSigningKey_STATUS(&urlSigningKey)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UrlSigningKey_STATUS() to populate field UrlSigningKeys")
@@ -1212,7 +1212,7 @@ func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_To_Profiles_Endpoint_
 
 	// WebApplicationFirewallPolicyLink
 	if endpoint.WebApplicationFirewallPolicyLink != nil {
-		var webApplicationFirewallPolicyLink v1api20210601s.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS
+		var webApplicationFirewallPolicyLink v20210601s.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS
 		err := endpoint.WebApplicationFirewallPolicyLink.AssignProperties_To_EndpointProperties_WebApplicationFirewallPolicyLink_STATUS(&webApplicationFirewallPolicyLink)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EndpointProperties_WebApplicationFirewallPolicyLink_STATUS() to populate field WebApplicationFirewallPolicyLink")
@@ -1243,13 +1243,13 @@ func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_To_Profiles_Endpoint_
 }
 
 type augmentConversionForProfiles_Endpoint_Spec interface {
-	AssignPropertiesFrom(src *v1api20210601s.Profiles_Endpoint_Spec) error
-	AssignPropertiesTo(dst *v1api20210601s.Profiles_Endpoint_Spec) error
+	AssignPropertiesFrom(src *v20210601s.Profiles_Endpoint_Spec) error
+	AssignPropertiesTo(dst *v20210601s.Profiles_Endpoint_Spec) error
 }
 
 type augmentConversionForProfiles_Endpoint_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.Profiles_Endpoint_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.Profiles_Endpoint_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.Profiles_Endpoint_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.Profiles_Endpoint_STATUS) error
 }
 
 // Storage version of v1beta20210601.DeepCreatedCustomDomain_STATUS
@@ -1262,7 +1262,7 @@ type DeepCreatedCustomDomain_STATUS struct {
 }
 
 // AssignProperties_From_DeepCreatedCustomDomain_STATUS populates our DeepCreatedCustomDomain_STATUS from the provided source DeepCreatedCustomDomain_STATUS
-func (domain *DeepCreatedCustomDomain_STATUS) AssignProperties_From_DeepCreatedCustomDomain_STATUS(source *v1api20210601s.DeepCreatedCustomDomain_STATUS) error {
+func (domain *DeepCreatedCustomDomain_STATUS) AssignProperties_From_DeepCreatedCustomDomain_STATUS(source *v20210601s.DeepCreatedCustomDomain_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1296,7 +1296,7 @@ func (domain *DeepCreatedCustomDomain_STATUS) AssignProperties_From_DeepCreatedC
 }
 
 // AssignProperties_To_DeepCreatedCustomDomain_STATUS populates the provided destination DeepCreatedCustomDomain_STATUS from our DeepCreatedCustomDomain_STATUS
-func (domain *DeepCreatedCustomDomain_STATUS) AssignProperties_To_DeepCreatedCustomDomain_STATUS(destination *v1api20210601s.DeepCreatedCustomDomain_STATUS) error {
+func (domain *DeepCreatedCustomDomain_STATUS) AssignProperties_To_DeepCreatedCustomDomain_STATUS(destination *v20210601s.DeepCreatedCustomDomain_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(domain.PropertyBag)
 
@@ -1348,7 +1348,7 @@ type DeepCreatedOrigin struct {
 }
 
 // AssignProperties_From_DeepCreatedOrigin populates our DeepCreatedOrigin from the provided source DeepCreatedOrigin
-func (origin *DeepCreatedOrigin) AssignProperties_From_DeepCreatedOrigin(source *v1api20210601s.DeepCreatedOrigin) error {
+func (origin *DeepCreatedOrigin) AssignProperties_From_DeepCreatedOrigin(source *v20210601s.DeepCreatedOrigin) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1424,7 +1424,7 @@ func (origin *DeepCreatedOrigin) AssignProperties_From_DeepCreatedOrigin(source 
 }
 
 // AssignProperties_To_DeepCreatedOrigin populates the provided destination DeepCreatedOrigin from our DeepCreatedOrigin
-func (origin *DeepCreatedOrigin) AssignProperties_To_DeepCreatedOrigin(destination *v1api20210601s.DeepCreatedOrigin) error {
+func (origin *DeepCreatedOrigin) AssignProperties_To_DeepCreatedOrigin(destination *v20210601s.DeepCreatedOrigin) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(origin.PropertyBag)
 
@@ -1519,7 +1519,7 @@ type DeepCreatedOrigin_STATUS struct {
 }
 
 // AssignProperties_From_DeepCreatedOrigin_STATUS populates our DeepCreatedOrigin_STATUS from the provided source DeepCreatedOrigin_STATUS
-func (origin *DeepCreatedOrigin_STATUS) AssignProperties_From_DeepCreatedOrigin_STATUS(source *v1api20210601s.DeepCreatedOrigin_STATUS) error {
+func (origin *DeepCreatedOrigin_STATUS) AssignProperties_From_DeepCreatedOrigin_STATUS(source *v20210601s.DeepCreatedOrigin_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1588,7 +1588,7 @@ func (origin *DeepCreatedOrigin_STATUS) AssignProperties_From_DeepCreatedOrigin_
 }
 
 // AssignProperties_To_DeepCreatedOrigin_STATUS populates the provided destination DeepCreatedOrigin_STATUS from our DeepCreatedOrigin_STATUS
-func (origin *DeepCreatedOrigin_STATUS) AssignProperties_To_DeepCreatedOrigin_STATUS(destination *v1api20210601s.DeepCreatedOrigin_STATUS) error {
+func (origin *DeepCreatedOrigin_STATUS) AssignProperties_To_DeepCreatedOrigin_STATUS(destination *v20210601s.DeepCreatedOrigin_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(origin.PropertyBag)
 
@@ -1668,7 +1668,7 @@ type DeepCreatedOriginGroup struct {
 }
 
 // AssignProperties_From_DeepCreatedOriginGroup populates our DeepCreatedOriginGroup from the provided source DeepCreatedOriginGroup
-func (group *DeepCreatedOriginGroup) AssignProperties_From_DeepCreatedOriginGroup(source *v1api20210601s.DeepCreatedOriginGroup) error {
+func (group *DeepCreatedOriginGroup) AssignProperties_From_DeepCreatedOriginGroup(source *v20210601s.DeepCreatedOriginGroup) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1741,13 +1741,13 @@ func (group *DeepCreatedOriginGroup) AssignProperties_From_DeepCreatedOriginGrou
 }
 
 // AssignProperties_To_DeepCreatedOriginGroup populates the provided destination DeepCreatedOriginGroup from our DeepCreatedOriginGroup
-func (group *DeepCreatedOriginGroup) AssignProperties_To_DeepCreatedOriginGroup(destination *v1api20210601s.DeepCreatedOriginGroup) error {
+func (group *DeepCreatedOriginGroup) AssignProperties_To_DeepCreatedOriginGroup(destination *v20210601s.DeepCreatedOriginGroup) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(group.PropertyBag)
 
 	// HealthProbeSettings
 	if group.HealthProbeSettings != nil {
-		var healthProbeSetting v1api20210601s.HealthProbeParameters
+		var healthProbeSetting v20210601s.HealthProbeParameters
 		err := group.HealthProbeSettings.AssignProperties_To_HealthProbeParameters(&healthProbeSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HealthProbeParameters() to populate field HealthProbeSettings")
@@ -1762,11 +1762,11 @@ func (group *DeepCreatedOriginGroup) AssignProperties_To_DeepCreatedOriginGroup(
 
 	// Origins
 	if group.Origins != nil {
-		originList := make([]v1api20210601s.ResourceReference, len(group.Origins))
+		originList := make([]v20210601s.ResourceReference, len(group.Origins))
 		for originIndex, originItem := range group.Origins {
 			// Shadow the loop variable to avoid aliasing
 			originItem := originItem
-			var origin v1api20210601s.ResourceReference
+			var origin v20210601s.ResourceReference
 			err := originItem.AssignProperties_To_ResourceReference(&origin)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field Origins")
@@ -1780,7 +1780,7 @@ func (group *DeepCreatedOriginGroup) AssignProperties_To_DeepCreatedOriginGroup(
 
 	// ResponseBasedOriginErrorDetectionSettings
 	if group.ResponseBasedOriginErrorDetectionSettings != nil {
-		var responseBasedOriginErrorDetectionSetting v1api20210601s.ResponseBasedOriginErrorDetectionParameters
+		var responseBasedOriginErrorDetectionSetting v20210601s.ResponseBasedOriginErrorDetectionParameters
 		err := group.ResponseBasedOriginErrorDetectionSettings.AssignProperties_To_ResponseBasedOriginErrorDetectionParameters(&responseBasedOriginErrorDetectionSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResponseBasedOriginErrorDetectionParameters() to populate field ResponseBasedOriginErrorDetectionSettings")
@@ -1825,7 +1825,7 @@ type DeepCreatedOriginGroup_STATUS struct {
 }
 
 // AssignProperties_From_DeepCreatedOriginGroup_STATUS populates our DeepCreatedOriginGroup_STATUS from the provided source DeepCreatedOriginGroup_STATUS
-func (group *DeepCreatedOriginGroup_STATUS) AssignProperties_From_DeepCreatedOriginGroup_STATUS(source *v1api20210601s.DeepCreatedOriginGroup_STATUS) error {
+func (group *DeepCreatedOriginGroup_STATUS) AssignProperties_From_DeepCreatedOriginGroup_STATUS(source *v20210601s.DeepCreatedOriginGroup_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1898,13 +1898,13 @@ func (group *DeepCreatedOriginGroup_STATUS) AssignProperties_From_DeepCreatedOri
 }
 
 // AssignProperties_To_DeepCreatedOriginGroup_STATUS populates the provided destination DeepCreatedOriginGroup_STATUS from our DeepCreatedOriginGroup_STATUS
-func (group *DeepCreatedOriginGroup_STATUS) AssignProperties_To_DeepCreatedOriginGroup_STATUS(destination *v1api20210601s.DeepCreatedOriginGroup_STATUS) error {
+func (group *DeepCreatedOriginGroup_STATUS) AssignProperties_To_DeepCreatedOriginGroup_STATUS(destination *v20210601s.DeepCreatedOriginGroup_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(group.PropertyBag)
 
 	// HealthProbeSettings
 	if group.HealthProbeSettings != nil {
-		var healthProbeSetting v1api20210601s.HealthProbeParameters_STATUS
+		var healthProbeSetting v20210601s.HealthProbeParameters_STATUS
 		err := group.HealthProbeSettings.AssignProperties_To_HealthProbeParameters_STATUS(&healthProbeSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HealthProbeParameters_STATUS() to populate field HealthProbeSettings")
@@ -1919,11 +1919,11 @@ func (group *DeepCreatedOriginGroup_STATUS) AssignProperties_To_DeepCreatedOrigi
 
 	// Origins
 	if group.Origins != nil {
-		originList := make([]v1api20210601s.ResourceReference_STATUS, len(group.Origins))
+		originList := make([]v20210601s.ResourceReference_STATUS, len(group.Origins))
 		for originIndex, originItem := range group.Origins {
 			// Shadow the loop variable to avoid aliasing
 			originItem := originItem
-			var origin v1api20210601s.ResourceReference_STATUS
+			var origin v20210601s.ResourceReference_STATUS
 			err := originItem.AssignProperties_To_ResourceReference_STATUS(&origin)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field Origins")
@@ -1937,7 +1937,7 @@ func (group *DeepCreatedOriginGroup_STATUS) AssignProperties_To_DeepCreatedOrigi
 
 	// ResponseBasedOriginErrorDetectionSettings
 	if group.ResponseBasedOriginErrorDetectionSettings != nil {
-		var responseBasedOriginErrorDetectionSetting v1api20210601s.ResponseBasedOriginErrorDetectionParameters_STATUS
+		var responseBasedOriginErrorDetectionSetting v20210601s.ResponseBasedOriginErrorDetectionParameters_STATUS
 		err := group.ResponseBasedOriginErrorDetectionSettings.AssignProperties_To_ResponseBasedOriginErrorDetectionParameters_STATUS(&responseBasedOriginErrorDetectionSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResponseBasedOriginErrorDetectionParameters_STATUS() to populate field ResponseBasedOriginErrorDetectionSettings")
@@ -1979,7 +1979,7 @@ type EndpointProperties_DeliveryPolicy struct {
 }
 
 // AssignProperties_From_EndpointProperties_DeliveryPolicy populates our EndpointProperties_DeliveryPolicy from the provided source EndpointProperties_DeliveryPolicy
-func (policy *EndpointProperties_DeliveryPolicy) AssignProperties_From_EndpointProperties_DeliveryPolicy(source *v1api20210601s.EndpointProperties_DeliveryPolicy) error {
+func (policy *EndpointProperties_DeliveryPolicy) AssignProperties_From_EndpointProperties_DeliveryPolicy(source *v20210601s.EndpointProperties_DeliveryPolicy) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2025,7 +2025,7 @@ func (policy *EndpointProperties_DeliveryPolicy) AssignProperties_From_EndpointP
 }
 
 // AssignProperties_To_EndpointProperties_DeliveryPolicy populates the provided destination EndpointProperties_DeliveryPolicy from our EndpointProperties_DeliveryPolicy
-func (policy *EndpointProperties_DeliveryPolicy) AssignProperties_To_EndpointProperties_DeliveryPolicy(destination *v1api20210601s.EndpointProperties_DeliveryPolicy) error {
+func (policy *EndpointProperties_DeliveryPolicy) AssignProperties_To_EndpointProperties_DeliveryPolicy(destination *v20210601s.EndpointProperties_DeliveryPolicy) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
 
@@ -2034,11 +2034,11 @@ func (policy *EndpointProperties_DeliveryPolicy) AssignProperties_To_EndpointPro
 
 	// Rules
 	if policy.Rules != nil {
-		ruleList := make([]v1api20210601s.DeliveryRule, len(policy.Rules))
+		ruleList := make([]v20210601s.DeliveryRule, len(policy.Rules))
 		for ruleIndex, ruleItem := range policy.Rules {
 			// Shadow the loop variable to avoid aliasing
 			ruleItem := ruleItem
-			var rule v1api20210601s.DeliveryRule
+			var rule v20210601s.DeliveryRule
 			err := ruleItem.AssignProperties_To_DeliveryRule(&rule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_DeliveryRule() to populate field Rules")
@@ -2079,7 +2079,7 @@ type EndpointProperties_DeliveryPolicy_STATUS struct {
 }
 
 // AssignProperties_From_EndpointProperties_DeliveryPolicy_STATUS populates our EndpointProperties_DeliveryPolicy_STATUS from the provided source EndpointProperties_DeliveryPolicy_STATUS
-func (policy *EndpointProperties_DeliveryPolicy_STATUS) AssignProperties_From_EndpointProperties_DeliveryPolicy_STATUS(source *v1api20210601s.EndpointProperties_DeliveryPolicy_STATUS) error {
+func (policy *EndpointProperties_DeliveryPolicy_STATUS) AssignProperties_From_EndpointProperties_DeliveryPolicy_STATUS(source *v20210601s.EndpointProperties_DeliveryPolicy_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2125,7 +2125,7 @@ func (policy *EndpointProperties_DeliveryPolicy_STATUS) AssignProperties_From_En
 }
 
 // AssignProperties_To_EndpointProperties_DeliveryPolicy_STATUS populates the provided destination EndpointProperties_DeliveryPolicy_STATUS from our EndpointProperties_DeliveryPolicy_STATUS
-func (policy *EndpointProperties_DeliveryPolicy_STATUS) AssignProperties_To_EndpointProperties_DeliveryPolicy_STATUS(destination *v1api20210601s.EndpointProperties_DeliveryPolicy_STATUS) error {
+func (policy *EndpointProperties_DeliveryPolicy_STATUS) AssignProperties_To_EndpointProperties_DeliveryPolicy_STATUS(destination *v20210601s.EndpointProperties_DeliveryPolicy_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
 
@@ -2134,11 +2134,11 @@ func (policy *EndpointProperties_DeliveryPolicy_STATUS) AssignProperties_To_Endp
 
 	// Rules
 	if policy.Rules != nil {
-		ruleList := make([]v1api20210601s.DeliveryRule_STATUS, len(policy.Rules))
+		ruleList := make([]v20210601s.DeliveryRule_STATUS, len(policy.Rules))
 		for ruleIndex, ruleItem := range policy.Rules {
 			// Shadow the loop variable to avoid aliasing
 			ruleItem := ruleItem
-			var rule v1api20210601s.DeliveryRule_STATUS
+			var rule v20210601s.DeliveryRule_STATUS
 			err := ruleItem.AssignProperties_To_DeliveryRule_STATUS(&rule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_DeliveryRule_STATUS() to populate field Rules")
@@ -2178,7 +2178,7 @@ type EndpointProperties_WebApplicationFirewallPolicyLink struct {
 }
 
 // AssignProperties_From_EndpointProperties_WebApplicationFirewallPolicyLink populates our EndpointProperties_WebApplicationFirewallPolicyLink from the provided source EndpointProperties_WebApplicationFirewallPolicyLink
-func (link *EndpointProperties_WebApplicationFirewallPolicyLink) AssignProperties_From_EndpointProperties_WebApplicationFirewallPolicyLink(source *v1api20210601s.EndpointProperties_WebApplicationFirewallPolicyLink) error {
+func (link *EndpointProperties_WebApplicationFirewallPolicyLink) AssignProperties_From_EndpointProperties_WebApplicationFirewallPolicyLink(source *v20210601s.EndpointProperties_WebApplicationFirewallPolicyLink) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2211,7 +2211,7 @@ func (link *EndpointProperties_WebApplicationFirewallPolicyLink) AssignPropertie
 }
 
 // AssignProperties_To_EndpointProperties_WebApplicationFirewallPolicyLink populates the provided destination EndpointProperties_WebApplicationFirewallPolicyLink from our EndpointProperties_WebApplicationFirewallPolicyLink
-func (link *EndpointProperties_WebApplicationFirewallPolicyLink) AssignProperties_To_EndpointProperties_WebApplicationFirewallPolicyLink(destination *v1api20210601s.EndpointProperties_WebApplicationFirewallPolicyLink) error {
+func (link *EndpointProperties_WebApplicationFirewallPolicyLink) AssignProperties_To_EndpointProperties_WebApplicationFirewallPolicyLink(destination *v20210601s.EndpointProperties_WebApplicationFirewallPolicyLink) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(link.PropertyBag)
 
@@ -2251,7 +2251,7 @@ type EndpointProperties_WebApplicationFirewallPolicyLink_STATUS struct {
 }
 
 // AssignProperties_From_EndpointProperties_WebApplicationFirewallPolicyLink_STATUS populates our EndpointProperties_WebApplicationFirewallPolicyLink_STATUS from the provided source EndpointProperties_WebApplicationFirewallPolicyLink_STATUS
-func (link *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) AssignProperties_From_EndpointProperties_WebApplicationFirewallPolicyLink_STATUS(source *v1api20210601s.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) error {
+func (link *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) AssignProperties_From_EndpointProperties_WebApplicationFirewallPolicyLink_STATUS(source *v20210601s.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2279,7 +2279,7 @@ func (link *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) AssignPr
 }
 
 // AssignProperties_To_EndpointProperties_WebApplicationFirewallPolicyLink_STATUS populates the provided destination EndpointProperties_WebApplicationFirewallPolicyLink_STATUS from our EndpointProperties_WebApplicationFirewallPolicyLink_STATUS
-func (link *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) AssignProperties_To_EndpointProperties_WebApplicationFirewallPolicyLink_STATUS(destination *v1api20210601s.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) error {
+func (link *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) AssignProperties_To_EndpointProperties_WebApplicationFirewallPolicyLink_STATUS(destination *v20210601s.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(link.PropertyBag)
 
@@ -2316,7 +2316,7 @@ type GeoFilter struct {
 }
 
 // AssignProperties_From_GeoFilter populates our GeoFilter from the provided source GeoFilter
-func (filter *GeoFilter) AssignProperties_From_GeoFilter(source *v1api20210601s.GeoFilter) error {
+func (filter *GeoFilter) AssignProperties_From_GeoFilter(source *v20210601s.GeoFilter) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2350,7 +2350,7 @@ func (filter *GeoFilter) AssignProperties_From_GeoFilter(source *v1api20210601s.
 }
 
 // AssignProperties_To_GeoFilter populates the provided destination GeoFilter from our GeoFilter
-func (filter *GeoFilter) AssignProperties_To_GeoFilter(destination *v1api20210601s.GeoFilter) error {
+func (filter *GeoFilter) AssignProperties_To_GeoFilter(destination *v20210601s.GeoFilter) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
 
@@ -2393,7 +2393,7 @@ type GeoFilter_STATUS struct {
 }
 
 // AssignProperties_From_GeoFilter_STATUS populates our GeoFilter_STATUS from the provided source GeoFilter_STATUS
-func (filter *GeoFilter_STATUS) AssignProperties_From_GeoFilter_STATUS(source *v1api20210601s.GeoFilter_STATUS) error {
+func (filter *GeoFilter_STATUS) AssignProperties_From_GeoFilter_STATUS(source *v20210601s.GeoFilter_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2427,7 +2427,7 @@ func (filter *GeoFilter_STATUS) AssignProperties_From_GeoFilter_STATUS(source *v
 }
 
 // AssignProperties_To_GeoFilter_STATUS populates the provided destination GeoFilter_STATUS from our GeoFilter_STATUS
-func (filter *GeoFilter_STATUS) AssignProperties_To_GeoFilter_STATUS(destination *v1api20210601s.GeoFilter_STATUS) error {
+func (filter *GeoFilter_STATUS) AssignProperties_To_GeoFilter_STATUS(destination *v20210601s.GeoFilter_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
 
@@ -2468,7 +2468,7 @@ type ResourceReference struct {
 }
 
 // AssignProperties_From_ResourceReference populates our ResourceReference from the provided source ResourceReference
-func (reference *ResourceReference) AssignProperties_From_ResourceReference(source *v1api20210601s.ResourceReference) error {
+func (reference *ResourceReference) AssignProperties_From_ResourceReference(source *v20210601s.ResourceReference) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2501,7 +2501,7 @@ func (reference *ResourceReference) AssignProperties_From_ResourceReference(sour
 }
 
 // AssignProperties_To_ResourceReference populates the provided destination ResourceReference from our ResourceReference
-func (reference *ResourceReference) AssignProperties_To_ResourceReference(destination *v1api20210601s.ResourceReference) error {
+func (reference *ResourceReference) AssignProperties_To_ResourceReference(destination *v20210601s.ResourceReference) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(reference.PropertyBag)
 
@@ -2541,7 +2541,7 @@ type ResourceReference_STATUS struct {
 }
 
 // AssignProperties_From_ResourceReference_STATUS populates our ResourceReference_STATUS from the provided source ResourceReference_STATUS
-func (reference *ResourceReference_STATUS) AssignProperties_From_ResourceReference_STATUS(source *v1api20210601s.ResourceReference_STATUS) error {
+func (reference *ResourceReference_STATUS) AssignProperties_From_ResourceReference_STATUS(source *v20210601s.ResourceReference_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2569,7 +2569,7 @@ func (reference *ResourceReference_STATUS) AssignProperties_From_ResourceReferen
 }
 
 // AssignProperties_To_ResourceReference_STATUS populates the provided destination ResourceReference_STATUS from our ResourceReference_STATUS
-func (reference *ResourceReference_STATUS) AssignProperties_To_ResourceReference_STATUS(destination *v1api20210601s.ResourceReference_STATUS) error {
+func (reference *ResourceReference_STATUS) AssignProperties_To_ResourceReference_STATUS(destination *v20210601s.ResourceReference_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(reference.PropertyBag)
 
@@ -2605,7 +2605,7 @@ type UrlSigningKey struct {
 }
 
 // AssignProperties_From_UrlSigningKey populates our UrlSigningKey from the provided source UrlSigningKey
-func (signingKey *UrlSigningKey) AssignProperties_From_UrlSigningKey(source *v1api20210601s.UrlSigningKey) error {
+func (signingKey *UrlSigningKey) AssignProperties_From_UrlSigningKey(source *v20210601s.UrlSigningKey) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2645,7 +2645,7 @@ func (signingKey *UrlSigningKey) AssignProperties_From_UrlSigningKey(source *v1a
 }
 
 // AssignProperties_To_UrlSigningKey populates the provided destination UrlSigningKey from our UrlSigningKey
-func (signingKey *UrlSigningKey) AssignProperties_To_UrlSigningKey(destination *v1api20210601s.UrlSigningKey) error {
+func (signingKey *UrlSigningKey) AssignProperties_To_UrlSigningKey(destination *v20210601s.UrlSigningKey) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(signingKey.PropertyBag)
 
@@ -2654,7 +2654,7 @@ func (signingKey *UrlSigningKey) AssignProperties_To_UrlSigningKey(destination *
 
 	// KeySourceParameters
 	if signingKey.KeySourceParameters != nil {
-		var keySourceParameter v1api20210601s.KeyVaultSigningKeyParameters
+		var keySourceParameter v20210601s.KeyVaultSigningKeyParameters
 		err := signingKey.KeySourceParameters.AssignProperties_To_KeyVaultSigningKeyParameters(&keySourceParameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultSigningKeyParameters() to populate field KeySourceParameters")
@@ -2693,7 +2693,7 @@ type UrlSigningKey_STATUS struct {
 }
 
 // AssignProperties_From_UrlSigningKey_STATUS populates our UrlSigningKey_STATUS from the provided source UrlSigningKey_STATUS
-func (signingKey *UrlSigningKey_STATUS) AssignProperties_From_UrlSigningKey_STATUS(source *v1api20210601s.UrlSigningKey_STATUS) error {
+func (signingKey *UrlSigningKey_STATUS) AssignProperties_From_UrlSigningKey_STATUS(source *v20210601s.UrlSigningKey_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2733,7 +2733,7 @@ func (signingKey *UrlSigningKey_STATUS) AssignProperties_From_UrlSigningKey_STAT
 }
 
 // AssignProperties_To_UrlSigningKey_STATUS populates the provided destination UrlSigningKey_STATUS from our UrlSigningKey_STATUS
-func (signingKey *UrlSigningKey_STATUS) AssignProperties_To_UrlSigningKey_STATUS(destination *v1api20210601s.UrlSigningKey_STATUS) error {
+func (signingKey *UrlSigningKey_STATUS) AssignProperties_To_UrlSigningKey_STATUS(destination *v20210601s.UrlSigningKey_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(signingKey.PropertyBag)
 
@@ -2742,7 +2742,7 @@ func (signingKey *UrlSigningKey_STATUS) AssignProperties_To_UrlSigningKey_STATUS
 
 	// KeySourceParameters
 	if signingKey.KeySourceParameters != nil {
-		var keySourceParameter v1api20210601s.KeyVaultSigningKeyParameters_STATUS
+		var keySourceParameter v20210601s.KeyVaultSigningKeyParameters_STATUS
 		err := signingKey.KeySourceParameters.AssignProperties_To_KeyVaultSigningKeyParameters_STATUS(&keySourceParameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultSigningKeyParameters_STATUS() to populate field KeySourceParameters")
@@ -2773,78 +2773,78 @@ func (signingKey *UrlSigningKey_STATUS) AssignProperties_To_UrlSigningKey_STATUS
 }
 
 type augmentConversionForDeepCreatedCustomDomain_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeepCreatedCustomDomain_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeepCreatedCustomDomain_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeepCreatedCustomDomain_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeepCreatedCustomDomain_STATUS) error
 }
 
 type augmentConversionForDeepCreatedOrigin interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeepCreatedOrigin) error
-	AssignPropertiesTo(dst *v1api20210601s.DeepCreatedOrigin) error
+	AssignPropertiesFrom(src *v20210601s.DeepCreatedOrigin) error
+	AssignPropertiesTo(dst *v20210601s.DeepCreatedOrigin) error
 }
 
 type augmentConversionForDeepCreatedOrigin_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeepCreatedOrigin_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeepCreatedOrigin_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeepCreatedOrigin_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeepCreatedOrigin_STATUS) error
 }
 
 type augmentConversionForDeepCreatedOriginGroup interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeepCreatedOriginGroup) error
-	AssignPropertiesTo(dst *v1api20210601s.DeepCreatedOriginGroup) error
+	AssignPropertiesFrom(src *v20210601s.DeepCreatedOriginGroup) error
+	AssignPropertiesTo(dst *v20210601s.DeepCreatedOriginGroup) error
 }
 
 type augmentConversionForDeepCreatedOriginGroup_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeepCreatedOriginGroup_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeepCreatedOriginGroup_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeepCreatedOriginGroup_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeepCreatedOriginGroup_STATUS) error
 }
 
 type augmentConversionForEndpointProperties_DeliveryPolicy interface {
-	AssignPropertiesFrom(src *v1api20210601s.EndpointProperties_DeliveryPolicy) error
-	AssignPropertiesTo(dst *v1api20210601s.EndpointProperties_DeliveryPolicy) error
+	AssignPropertiesFrom(src *v20210601s.EndpointProperties_DeliveryPolicy) error
+	AssignPropertiesTo(dst *v20210601s.EndpointProperties_DeliveryPolicy) error
 }
 
 type augmentConversionForEndpointProperties_DeliveryPolicy_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.EndpointProperties_DeliveryPolicy_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.EndpointProperties_DeliveryPolicy_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.EndpointProperties_DeliveryPolicy_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.EndpointProperties_DeliveryPolicy_STATUS) error
 }
 
 type augmentConversionForEndpointProperties_WebApplicationFirewallPolicyLink interface {
-	AssignPropertiesFrom(src *v1api20210601s.EndpointProperties_WebApplicationFirewallPolicyLink) error
-	AssignPropertiesTo(dst *v1api20210601s.EndpointProperties_WebApplicationFirewallPolicyLink) error
+	AssignPropertiesFrom(src *v20210601s.EndpointProperties_WebApplicationFirewallPolicyLink) error
+	AssignPropertiesTo(dst *v20210601s.EndpointProperties_WebApplicationFirewallPolicyLink) error
 }
 
 type augmentConversionForEndpointProperties_WebApplicationFirewallPolicyLink_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) error
 }
 
 type augmentConversionForGeoFilter interface {
-	AssignPropertiesFrom(src *v1api20210601s.GeoFilter) error
-	AssignPropertiesTo(dst *v1api20210601s.GeoFilter) error
+	AssignPropertiesFrom(src *v20210601s.GeoFilter) error
+	AssignPropertiesTo(dst *v20210601s.GeoFilter) error
 }
 
 type augmentConversionForGeoFilter_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.GeoFilter_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.GeoFilter_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.GeoFilter_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.GeoFilter_STATUS) error
 }
 
 type augmentConversionForResourceReference interface {
-	AssignPropertiesFrom(src *v1api20210601s.ResourceReference) error
-	AssignPropertiesTo(dst *v1api20210601s.ResourceReference) error
+	AssignPropertiesFrom(src *v20210601s.ResourceReference) error
+	AssignPropertiesTo(dst *v20210601s.ResourceReference) error
 }
 
 type augmentConversionForResourceReference_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.ResourceReference_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.ResourceReference_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.ResourceReference_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.ResourceReference_STATUS) error
 }
 
 type augmentConversionForUrlSigningKey interface {
-	AssignPropertiesFrom(src *v1api20210601s.UrlSigningKey) error
-	AssignPropertiesTo(dst *v1api20210601s.UrlSigningKey) error
+	AssignPropertiesFrom(src *v20210601s.UrlSigningKey) error
+	AssignPropertiesTo(dst *v20210601s.UrlSigningKey) error
 }
 
 type augmentConversionForUrlSigningKey_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.UrlSigningKey_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.UrlSigningKey_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.UrlSigningKey_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.UrlSigningKey_STATUS) error
 }
 
 // Storage version of v1beta20210601.DeliveryRule
@@ -2858,7 +2858,7 @@ type DeliveryRule struct {
 }
 
 // AssignProperties_From_DeliveryRule populates our DeliveryRule from the provided source DeliveryRule
-func (rule *DeliveryRule) AssignProperties_From_DeliveryRule(source *v1api20210601s.DeliveryRule) error {
+func (rule *DeliveryRule) AssignProperties_From_DeliveryRule(source *v20210601s.DeliveryRule) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2925,17 +2925,17 @@ func (rule *DeliveryRule) AssignProperties_From_DeliveryRule(source *v1api202106
 }
 
 // AssignProperties_To_DeliveryRule populates the provided destination DeliveryRule from our DeliveryRule
-func (rule *DeliveryRule) AssignProperties_To_DeliveryRule(destination *v1api20210601s.DeliveryRule) error {
+func (rule *DeliveryRule) AssignProperties_To_DeliveryRule(destination *v20210601s.DeliveryRule) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
 
 	// Actions
 	if rule.Actions != nil {
-		actionList := make([]v1api20210601s.DeliveryRuleAction, len(rule.Actions))
+		actionList := make([]v20210601s.DeliveryRuleAction, len(rule.Actions))
 		for actionIndex, actionItem := range rule.Actions {
 			// Shadow the loop variable to avoid aliasing
 			actionItem := actionItem
-			var action v1api20210601s.DeliveryRuleAction
+			var action v20210601s.DeliveryRuleAction
 			err := actionItem.AssignProperties_To_DeliveryRuleAction(&action)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleAction() to populate field Actions")
@@ -2949,11 +2949,11 @@ func (rule *DeliveryRule) AssignProperties_To_DeliveryRule(destination *v1api202
 
 	// Conditions
 	if rule.Conditions != nil {
-		conditionList := make([]v1api20210601s.DeliveryRuleCondition, len(rule.Conditions))
+		conditionList := make([]v20210601s.DeliveryRuleCondition, len(rule.Conditions))
 		for conditionIndex, conditionItem := range rule.Conditions {
 			// Shadow the loop variable to avoid aliasing
 			conditionItem := conditionItem
-			var condition v1api20210601s.DeliveryRuleCondition
+			var condition v20210601s.DeliveryRuleCondition
 			err := conditionItem.AssignProperties_To_DeliveryRuleCondition(&condition)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCondition() to populate field Conditions")
@@ -3002,7 +3002,7 @@ type DeliveryRule_STATUS struct {
 }
 
 // AssignProperties_From_DeliveryRule_STATUS populates our DeliveryRule_STATUS from the provided source DeliveryRule_STATUS
-func (rule *DeliveryRule_STATUS) AssignProperties_From_DeliveryRule_STATUS(source *v1api20210601s.DeliveryRule_STATUS) error {
+func (rule *DeliveryRule_STATUS) AssignProperties_From_DeliveryRule_STATUS(source *v20210601s.DeliveryRule_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3069,17 +3069,17 @@ func (rule *DeliveryRule_STATUS) AssignProperties_From_DeliveryRule_STATUS(sourc
 }
 
 // AssignProperties_To_DeliveryRule_STATUS populates the provided destination DeliveryRule_STATUS from our DeliveryRule_STATUS
-func (rule *DeliveryRule_STATUS) AssignProperties_To_DeliveryRule_STATUS(destination *v1api20210601s.DeliveryRule_STATUS) error {
+func (rule *DeliveryRule_STATUS) AssignProperties_To_DeliveryRule_STATUS(destination *v20210601s.DeliveryRule_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
 
 	// Actions
 	if rule.Actions != nil {
-		actionList := make([]v1api20210601s.DeliveryRuleAction_STATUS, len(rule.Actions))
+		actionList := make([]v20210601s.DeliveryRuleAction_STATUS, len(rule.Actions))
 		for actionIndex, actionItem := range rule.Actions {
 			// Shadow the loop variable to avoid aliasing
 			actionItem := actionItem
-			var action v1api20210601s.DeliveryRuleAction_STATUS
+			var action v20210601s.DeliveryRuleAction_STATUS
 			err := actionItem.AssignProperties_To_DeliveryRuleAction_STATUS(&action)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleAction_STATUS() to populate field Actions")
@@ -3093,11 +3093,11 @@ func (rule *DeliveryRule_STATUS) AssignProperties_To_DeliveryRule_STATUS(destina
 
 	// Conditions
 	if rule.Conditions != nil {
-		conditionList := make([]v1api20210601s.DeliveryRuleCondition_STATUS, len(rule.Conditions))
+		conditionList := make([]v20210601s.DeliveryRuleCondition_STATUS, len(rule.Conditions))
 		for conditionIndex, conditionItem := range rule.Conditions {
 			// Shadow the loop variable to avoid aliasing
 			conditionItem := conditionItem
-			var condition v1api20210601s.DeliveryRuleCondition_STATUS
+			var condition v20210601s.DeliveryRuleCondition_STATUS
 			err := conditionItem.AssignProperties_To_DeliveryRuleCondition_STATUS(&condition)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCondition_STATUS() to populate field Conditions")
@@ -3146,7 +3146,7 @@ type HealthProbeParameters struct {
 }
 
 // AssignProperties_From_HealthProbeParameters populates our HealthProbeParameters from the provided source HealthProbeParameters
-func (parameters *HealthProbeParameters) AssignProperties_From_HealthProbeParameters(source *v1api20210601s.HealthProbeParameters) error {
+func (parameters *HealthProbeParameters) AssignProperties_From_HealthProbeParameters(source *v20210601s.HealthProbeParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3183,7 +3183,7 @@ func (parameters *HealthProbeParameters) AssignProperties_From_HealthProbeParame
 }
 
 // AssignProperties_To_HealthProbeParameters populates the provided destination HealthProbeParameters from our HealthProbeParameters
-func (parameters *HealthProbeParameters) AssignProperties_To_HealthProbeParameters(destination *v1api20210601s.HealthProbeParameters) error {
+func (parameters *HealthProbeParameters) AssignProperties_To_HealthProbeParameters(destination *v20210601s.HealthProbeParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -3230,7 +3230,7 @@ type HealthProbeParameters_STATUS struct {
 }
 
 // AssignProperties_From_HealthProbeParameters_STATUS populates our HealthProbeParameters_STATUS from the provided source HealthProbeParameters_STATUS
-func (parameters *HealthProbeParameters_STATUS) AssignProperties_From_HealthProbeParameters_STATUS(source *v1api20210601s.HealthProbeParameters_STATUS) error {
+func (parameters *HealthProbeParameters_STATUS) AssignProperties_From_HealthProbeParameters_STATUS(source *v20210601s.HealthProbeParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3267,7 +3267,7 @@ func (parameters *HealthProbeParameters_STATUS) AssignProperties_From_HealthProb
 }
 
 // AssignProperties_To_HealthProbeParameters_STATUS populates the provided destination HealthProbeParameters_STATUS from our HealthProbeParameters_STATUS
-func (parameters *HealthProbeParameters_STATUS) AssignProperties_To_HealthProbeParameters_STATUS(destination *v1api20210601s.HealthProbeParameters_STATUS) error {
+func (parameters *HealthProbeParameters_STATUS) AssignProperties_To_HealthProbeParameters_STATUS(destination *v20210601s.HealthProbeParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -3316,7 +3316,7 @@ type KeyVaultSigningKeyParameters struct {
 }
 
 // AssignProperties_From_KeyVaultSigningKeyParameters populates our KeyVaultSigningKeyParameters from the provided source KeyVaultSigningKeyParameters
-func (parameters *KeyVaultSigningKeyParameters) AssignProperties_From_KeyVaultSigningKeyParameters(source *v1api20210601s.KeyVaultSigningKeyParameters) error {
+func (parameters *KeyVaultSigningKeyParameters) AssignProperties_From_KeyVaultSigningKeyParameters(source *v20210601s.KeyVaultSigningKeyParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3359,7 +3359,7 @@ func (parameters *KeyVaultSigningKeyParameters) AssignProperties_From_KeyVaultSi
 }
 
 // AssignProperties_To_KeyVaultSigningKeyParameters populates the provided destination KeyVaultSigningKeyParameters from our KeyVaultSigningKeyParameters
-func (parameters *KeyVaultSigningKeyParameters) AssignProperties_To_KeyVaultSigningKeyParameters(destination *v1api20210601s.KeyVaultSigningKeyParameters) error {
+func (parameters *KeyVaultSigningKeyParameters) AssignProperties_To_KeyVaultSigningKeyParameters(destination *v20210601s.KeyVaultSigningKeyParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -3414,7 +3414,7 @@ type KeyVaultSigningKeyParameters_STATUS struct {
 }
 
 // AssignProperties_From_KeyVaultSigningKeyParameters_STATUS populates our KeyVaultSigningKeyParameters_STATUS from the provided source KeyVaultSigningKeyParameters_STATUS
-func (parameters *KeyVaultSigningKeyParameters_STATUS) AssignProperties_From_KeyVaultSigningKeyParameters_STATUS(source *v1api20210601s.KeyVaultSigningKeyParameters_STATUS) error {
+func (parameters *KeyVaultSigningKeyParameters_STATUS) AssignProperties_From_KeyVaultSigningKeyParameters_STATUS(source *v20210601s.KeyVaultSigningKeyParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3457,7 +3457,7 @@ func (parameters *KeyVaultSigningKeyParameters_STATUS) AssignProperties_From_Key
 }
 
 // AssignProperties_To_KeyVaultSigningKeyParameters_STATUS populates the provided destination KeyVaultSigningKeyParameters_STATUS from our KeyVaultSigningKeyParameters_STATUS
-func (parameters *KeyVaultSigningKeyParameters_STATUS) AssignProperties_To_KeyVaultSigningKeyParameters_STATUS(destination *v1api20210601s.KeyVaultSigningKeyParameters_STATUS) error {
+func (parameters *KeyVaultSigningKeyParameters_STATUS) AssignProperties_To_KeyVaultSigningKeyParameters_STATUS(destination *v20210601s.KeyVaultSigningKeyParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -3509,7 +3509,7 @@ type ResponseBasedOriginErrorDetectionParameters struct {
 }
 
 // AssignProperties_From_ResponseBasedOriginErrorDetectionParameters populates our ResponseBasedOriginErrorDetectionParameters from the provided source ResponseBasedOriginErrorDetectionParameters
-func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignProperties_From_ResponseBasedOriginErrorDetectionParameters(source *v1api20210601s.ResponseBasedOriginErrorDetectionParameters) error {
+func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignProperties_From_ResponseBasedOriginErrorDetectionParameters(source *v20210601s.ResponseBasedOriginErrorDetectionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3558,17 +3558,17 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignProperties_
 }
 
 // AssignProperties_To_ResponseBasedOriginErrorDetectionParameters populates the provided destination ResponseBasedOriginErrorDetectionParameters from our ResponseBasedOriginErrorDetectionParameters
-func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignProperties_To_ResponseBasedOriginErrorDetectionParameters(destination *v1api20210601s.ResponseBasedOriginErrorDetectionParameters) error {
+func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignProperties_To_ResponseBasedOriginErrorDetectionParameters(destination *v20210601s.ResponseBasedOriginErrorDetectionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
 	// HttpErrorRanges
 	if parameters.HttpErrorRanges != nil {
-		httpErrorRangeList := make([]v1api20210601s.HttpErrorRangeParameters, len(parameters.HttpErrorRanges))
+		httpErrorRangeList := make([]v20210601s.HttpErrorRangeParameters, len(parameters.HttpErrorRanges))
 		for httpErrorRangeIndex, httpErrorRangeItem := range parameters.HttpErrorRanges {
 			// Shadow the loop variable to avoid aliasing
 			httpErrorRangeItem := httpErrorRangeItem
-			var httpErrorRange v1api20210601s.HttpErrorRangeParameters
+			var httpErrorRange v20210601s.HttpErrorRangeParameters
 			err := httpErrorRangeItem.AssignProperties_To_HttpErrorRangeParameters(&httpErrorRange)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_HttpErrorRangeParameters() to populate field HttpErrorRanges")
@@ -3616,7 +3616,7 @@ type ResponseBasedOriginErrorDetectionParameters_STATUS struct {
 }
 
 // AssignProperties_From_ResponseBasedOriginErrorDetectionParameters_STATUS populates our ResponseBasedOriginErrorDetectionParameters_STATUS from the provided source ResponseBasedOriginErrorDetectionParameters_STATUS
-func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignProperties_From_ResponseBasedOriginErrorDetectionParameters_STATUS(source *v1api20210601s.ResponseBasedOriginErrorDetectionParameters_STATUS) error {
+func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignProperties_From_ResponseBasedOriginErrorDetectionParameters_STATUS(source *v20210601s.ResponseBasedOriginErrorDetectionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3665,17 +3665,17 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignProp
 }
 
 // AssignProperties_To_ResponseBasedOriginErrorDetectionParameters_STATUS populates the provided destination ResponseBasedOriginErrorDetectionParameters_STATUS from our ResponseBasedOriginErrorDetectionParameters_STATUS
-func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignProperties_To_ResponseBasedOriginErrorDetectionParameters_STATUS(destination *v1api20210601s.ResponseBasedOriginErrorDetectionParameters_STATUS) error {
+func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignProperties_To_ResponseBasedOriginErrorDetectionParameters_STATUS(destination *v20210601s.ResponseBasedOriginErrorDetectionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
 	// HttpErrorRanges
 	if parameters.HttpErrorRanges != nil {
-		httpErrorRangeList := make([]v1api20210601s.HttpErrorRangeParameters_STATUS, len(parameters.HttpErrorRanges))
+		httpErrorRangeList := make([]v20210601s.HttpErrorRangeParameters_STATUS, len(parameters.HttpErrorRanges))
 		for httpErrorRangeIndex, httpErrorRangeItem := range parameters.HttpErrorRanges {
 			// Shadow the loop variable to avoid aliasing
 			httpErrorRangeItem := httpErrorRangeItem
-			var httpErrorRange v1api20210601s.HttpErrorRangeParameters_STATUS
+			var httpErrorRange v20210601s.HttpErrorRangeParameters_STATUS
 			err := httpErrorRangeItem.AssignProperties_To_HttpErrorRangeParameters_STATUS(&httpErrorRange)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_HttpErrorRangeParameters_STATUS() to populate field HttpErrorRanges")
@@ -3714,43 +3714,43 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignProp
 }
 
 type augmentConversionForDeliveryRule interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRule) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRule) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRule) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRule) error
 }
 
 type augmentConversionForDeliveryRule_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRule_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRule_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRule_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRule_STATUS) error
 }
 
 type augmentConversionForHealthProbeParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.HealthProbeParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.HealthProbeParameters) error
+	AssignPropertiesFrom(src *v20210601s.HealthProbeParameters) error
+	AssignPropertiesTo(dst *v20210601s.HealthProbeParameters) error
 }
 
 type augmentConversionForHealthProbeParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.HealthProbeParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.HealthProbeParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.HealthProbeParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.HealthProbeParameters_STATUS) error
 }
 
 type augmentConversionForKeyVaultSigningKeyParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.KeyVaultSigningKeyParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.KeyVaultSigningKeyParameters) error
+	AssignPropertiesFrom(src *v20210601s.KeyVaultSigningKeyParameters) error
+	AssignPropertiesTo(dst *v20210601s.KeyVaultSigningKeyParameters) error
 }
 
 type augmentConversionForKeyVaultSigningKeyParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.KeyVaultSigningKeyParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.KeyVaultSigningKeyParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.KeyVaultSigningKeyParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.KeyVaultSigningKeyParameters_STATUS) error
 }
 
 type augmentConversionForResponseBasedOriginErrorDetectionParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.ResponseBasedOriginErrorDetectionParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.ResponseBasedOriginErrorDetectionParameters) error
+	AssignPropertiesFrom(src *v20210601s.ResponseBasedOriginErrorDetectionParameters) error
+	AssignPropertiesTo(dst *v20210601s.ResponseBasedOriginErrorDetectionParameters) error
 }
 
 type augmentConversionForResponseBasedOriginErrorDetectionParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.ResponseBasedOriginErrorDetectionParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.ResponseBasedOriginErrorDetectionParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.ResponseBasedOriginErrorDetectionParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.ResponseBasedOriginErrorDetectionParameters_STATUS) error
 }
 
 // Storage version of v1beta20210601.DeliveryRuleAction
@@ -3769,7 +3769,7 @@ type DeliveryRuleAction struct {
 }
 
 // AssignProperties_From_DeliveryRuleAction populates our DeliveryRuleAction from the provided source DeliveryRuleAction
-func (action *DeliveryRuleAction) AssignProperties_From_DeliveryRuleAction(source *v1api20210601s.DeliveryRuleAction) error {
+func (action *DeliveryRuleAction) AssignProperties_From_DeliveryRuleAction(source *v20210601s.DeliveryRuleAction) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3902,13 +3902,13 @@ func (action *DeliveryRuleAction) AssignProperties_From_DeliveryRuleAction(sourc
 }
 
 // AssignProperties_To_DeliveryRuleAction populates the provided destination DeliveryRuleAction from our DeliveryRuleAction
-func (action *DeliveryRuleAction) AssignProperties_To_DeliveryRuleAction(destination *v1api20210601s.DeliveryRuleAction) error {
+func (action *DeliveryRuleAction) AssignProperties_To_DeliveryRuleAction(destination *v20210601s.DeliveryRuleAction) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(action.PropertyBag)
 
 	// CacheExpiration
 	if action.CacheExpiration != nil {
-		var cacheExpiration v1api20210601s.DeliveryRuleCacheExpirationAction
+		var cacheExpiration v20210601s.DeliveryRuleCacheExpirationAction
 		err := action.CacheExpiration.AssignProperties_To_DeliveryRuleCacheExpirationAction(&cacheExpiration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCacheExpirationAction() to populate field CacheExpiration")
@@ -3920,7 +3920,7 @@ func (action *DeliveryRuleAction) AssignProperties_To_DeliveryRuleAction(destina
 
 	// CacheKeyQueryString
 	if action.CacheKeyQueryString != nil {
-		var cacheKeyQueryString v1api20210601s.DeliveryRuleCacheKeyQueryStringAction
+		var cacheKeyQueryString v20210601s.DeliveryRuleCacheKeyQueryStringAction
 		err := action.CacheKeyQueryString.AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction(&cacheKeyQueryString)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction() to populate field CacheKeyQueryString")
@@ -3932,7 +3932,7 @@ func (action *DeliveryRuleAction) AssignProperties_To_DeliveryRuleAction(destina
 
 	// ModifyRequestHeader
 	if action.ModifyRequestHeader != nil {
-		var modifyRequestHeader v1api20210601s.DeliveryRuleRequestHeaderAction
+		var modifyRequestHeader v20210601s.DeliveryRuleRequestHeaderAction
 		err := action.ModifyRequestHeader.AssignProperties_To_DeliveryRuleRequestHeaderAction(&modifyRequestHeader)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestHeaderAction() to populate field ModifyRequestHeader")
@@ -3944,7 +3944,7 @@ func (action *DeliveryRuleAction) AssignProperties_To_DeliveryRuleAction(destina
 
 	// ModifyResponseHeader
 	if action.ModifyResponseHeader != nil {
-		var modifyResponseHeader v1api20210601s.DeliveryRuleResponseHeaderAction
+		var modifyResponseHeader v20210601s.DeliveryRuleResponseHeaderAction
 		err := action.ModifyResponseHeader.AssignProperties_To_DeliveryRuleResponseHeaderAction(&modifyResponseHeader)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleResponseHeaderAction() to populate field ModifyResponseHeader")
@@ -3956,7 +3956,7 @@ func (action *DeliveryRuleAction) AssignProperties_To_DeliveryRuleAction(destina
 
 	// OriginGroupOverride
 	if action.OriginGroupOverride != nil {
-		var originGroupOverride v1api20210601s.OriginGroupOverrideAction
+		var originGroupOverride v20210601s.OriginGroupOverrideAction
 		err := action.OriginGroupOverride.AssignProperties_To_OriginGroupOverrideAction(&originGroupOverride)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_OriginGroupOverrideAction() to populate field OriginGroupOverride")
@@ -3968,7 +3968,7 @@ func (action *DeliveryRuleAction) AssignProperties_To_DeliveryRuleAction(destina
 
 	// RouteConfigurationOverride
 	if action.RouteConfigurationOverride != nil {
-		var routeConfigurationOverride v1api20210601s.DeliveryRuleRouteConfigurationOverrideAction
+		var routeConfigurationOverride v20210601s.DeliveryRuleRouteConfigurationOverrideAction
 		err := action.RouteConfigurationOverride.AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction(&routeConfigurationOverride)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction() to populate field RouteConfigurationOverride")
@@ -3980,7 +3980,7 @@ func (action *DeliveryRuleAction) AssignProperties_To_DeliveryRuleAction(destina
 
 	// UrlRedirect
 	if action.UrlRedirect != nil {
-		var urlRedirect v1api20210601s.UrlRedirectAction
+		var urlRedirect v20210601s.UrlRedirectAction
 		err := action.UrlRedirect.AssignProperties_To_UrlRedirectAction(&urlRedirect)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlRedirectAction() to populate field UrlRedirect")
@@ -3992,7 +3992,7 @@ func (action *DeliveryRuleAction) AssignProperties_To_DeliveryRuleAction(destina
 
 	// UrlRewrite
 	if action.UrlRewrite != nil {
-		var urlRewrite v1api20210601s.UrlRewriteAction
+		var urlRewrite v20210601s.UrlRewriteAction
 		err := action.UrlRewrite.AssignProperties_To_UrlRewriteAction(&urlRewrite)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlRewriteAction() to populate field UrlRewrite")
@@ -4004,7 +4004,7 @@ func (action *DeliveryRuleAction) AssignProperties_To_DeliveryRuleAction(destina
 
 	// UrlSigning
 	if action.UrlSigning != nil {
-		var urlSigning v1api20210601s.UrlSigningAction
+		var urlSigning v20210601s.UrlSigningAction
 		err := action.UrlSigning.AssignProperties_To_UrlSigningAction(&urlSigning)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlSigningAction() to populate field UrlSigning")
@@ -4050,7 +4050,7 @@ type DeliveryRuleAction_STATUS struct {
 }
 
 // AssignProperties_From_DeliveryRuleAction_STATUS populates our DeliveryRuleAction_STATUS from the provided source DeliveryRuleAction_STATUS
-func (action *DeliveryRuleAction_STATUS) AssignProperties_From_DeliveryRuleAction_STATUS(source *v1api20210601s.DeliveryRuleAction_STATUS) error {
+func (action *DeliveryRuleAction_STATUS) AssignProperties_From_DeliveryRuleAction_STATUS(source *v20210601s.DeliveryRuleAction_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4183,13 +4183,13 @@ func (action *DeliveryRuleAction_STATUS) AssignProperties_From_DeliveryRuleActio
 }
 
 // AssignProperties_To_DeliveryRuleAction_STATUS populates the provided destination DeliveryRuleAction_STATUS from our DeliveryRuleAction_STATUS
-func (action *DeliveryRuleAction_STATUS) AssignProperties_To_DeliveryRuleAction_STATUS(destination *v1api20210601s.DeliveryRuleAction_STATUS) error {
+func (action *DeliveryRuleAction_STATUS) AssignProperties_To_DeliveryRuleAction_STATUS(destination *v20210601s.DeliveryRuleAction_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(action.PropertyBag)
 
 	// CacheExpiration
 	if action.CacheExpiration != nil {
-		var cacheExpiration v1api20210601s.DeliveryRuleCacheExpirationAction_STATUS
+		var cacheExpiration v20210601s.DeliveryRuleCacheExpirationAction_STATUS
 		err := action.CacheExpiration.AssignProperties_To_DeliveryRuleCacheExpirationAction_STATUS(&cacheExpiration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCacheExpirationAction_STATUS() to populate field CacheExpiration")
@@ -4201,7 +4201,7 @@ func (action *DeliveryRuleAction_STATUS) AssignProperties_To_DeliveryRuleAction_
 
 	// CacheKeyQueryString
 	if action.CacheKeyQueryString != nil {
-		var cacheKeyQueryString v1api20210601s.DeliveryRuleCacheKeyQueryStringAction_STATUS
+		var cacheKeyQueryString v20210601s.DeliveryRuleCacheKeyQueryStringAction_STATUS
 		err := action.CacheKeyQueryString.AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction_STATUS(&cacheKeyQueryString)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction_STATUS() to populate field CacheKeyQueryString")
@@ -4213,7 +4213,7 @@ func (action *DeliveryRuleAction_STATUS) AssignProperties_To_DeliveryRuleAction_
 
 	// ModifyRequestHeader
 	if action.ModifyRequestHeader != nil {
-		var modifyRequestHeader v1api20210601s.DeliveryRuleRequestHeaderAction_STATUS
+		var modifyRequestHeader v20210601s.DeliveryRuleRequestHeaderAction_STATUS
 		err := action.ModifyRequestHeader.AssignProperties_To_DeliveryRuleRequestHeaderAction_STATUS(&modifyRequestHeader)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestHeaderAction_STATUS() to populate field ModifyRequestHeader")
@@ -4225,7 +4225,7 @@ func (action *DeliveryRuleAction_STATUS) AssignProperties_To_DeliveryRuleAction_
 
 	// ModifyResponseHeader
 	if action.ModifyResponseHeader != nil {
-		var modifyResponseHeader v1api20210601s.DeliveryRuleResponseHeaderAction_STATUS
+		var modifyResponseHeader v20210601s.DeliveryRuleResponseHeaderAction_STATUS
 		err := action.ModifyResponseHeader.AssignProperties_To_DeliveryRuleResponseHeaderAction_STATUS(&modifyResponseHeader)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleResponseHeaderAction_STATUS() to populate field ModifyResponseHeader")
@@ -4237,7 +4237,7 @@ func (action *DeliveryRuleAction_STATUS) AssignProperties_To_DeliveryRuleAction_
 
 	// OriginGroupOverride
 	if action.OriginGroupOverride != nil {
-		var originGroupOverride v1api20210601s.OriginGroupOverrideAction_STATUS
+		var originGroupOverride v20210601s.OriginGroupOverrideAction_STATUS
 		err := action.OriginGroupOverride.AssignProperties_To_OriginGroupOverrideAction_STATUS(&originGroupOverride)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_OriginGroupOverrideAction_STATUS() to populate field OriginGroupOverride")
@@ -4249,7 +4249,7 @@ func (action *DeliveryRuleAction_STATUS) AssignProperties_To_DeliveryRuleAction_
 
 	// RouteConfigurationOverride
 	if action.RouteConfigurationOverride != nil {
-		var routeConfigurationOverride v1api20210601s.DeliveryRuleRouteConfigurationOverrideAction_STATUS
+		var routeConfigurationOverride v20210601s.DeliveryRuleRouteConfigurationOverrideAction_STATUS
 		err := action.RouteConfigurationOverride.AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction_STATUS(&routeConfigurationOverride)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction_STATUS() to populate field RouteConfigurationOverride")
@@ -4261,7 +4261,7 @@ func (action *DeliveryRuleAction_STATUS) AssignProperties_To_DeliveryRuleAction_
 
 	// UrlRedirect
 	if action.UrlRedirect != nil {
-		var urlRedirect v1api20210601s.UrlRedirectAction_STATUS
+		var urlRedirect v20210601s.UrlRedirectAction_STATUS
 		err := action.UrlRedirect.AssignProperties_To_UrlRedirectAction_STATUS(&urlRedirect)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlRedirectAction_STATUS() to populate field UrlRedirect")
@@ -4273,7 +4273,7 @@ func (action *DeliveryRuleAction_STATUS) AssignProperties_To_DeliveryRuleAction_
 
 	// UrlRewrite
 	if action.UrlRewrite != nil {
-		var urlRewrite v1api20210601s.UrlRewriteAction_STATUS
+		var urlRewrite v20210601s.UrlRewriteAction_STATUS
 		err := action.UrlRewrite.AssignProperties_To_UrlRewriteAction_STATUS(&urlRewrite)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlRewriteAction_STATUS() to populate field UrlRewrite")
@@ -4285,7 +4285,7 @@ func (action *DeliveryRuleAction_STATUS) AssignProperties_To_DeliveryRuleAction_
 
 	// UrlSigning
 	if action.UrlSigning != nil {
-		var urlSigning v1api20210601s.UrlSigningAction_STATUS
+		var urlSigning v20210601s.UrlSigningAction_STATUS
 		err := action.UrlSigning.AssignProperties_To_UrlSigningAction_STATUS(&urlSigning)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlSigningAction_STATUS() to populate field UrlSigning")
@@ -4341,7 +4341,7 @@ type DeliveryRuleCondition struct {
 }
 
 // AssignProperties_From_DeliveryRuleCondition populates our DeliveryRuleCondition from the provided source DeliveryRuleCondition
-func (condition *DeliveryRuleCondition) AssignProperties_From_DeliveryRuleCondition(source *v1api20210601s.DeliveryRuleCondition) error {
+func (condition *DeliveryRuleCondition) AssignProperties_From_DeliveryRuleCondition(source *v20210601s.DeliveryRuleCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4594,13 +4594,13 @@ func (condition *DeliveryRuleCondition) AssignProperties_From_DeliveryRuleCondit
 }
 
 // AssignProperties_To_DeliveryRuleCondition populates the provided destination DeliveryRuleCondition from our DeliveryRuleCondition
-func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleCondition(destination *v1api20210601s.DeliveryRuleCondition) error {
+func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleCondition(destination *v20210601s.DeliveryRuleCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
 	// ClientPort
 	if condition.ClientPort != nil {
-		var clientPort v1api20210601s.DeliveryRuleClientPortCondition
+		var clientPort v20210601s.DeliveryRuleClientPortCondition
 		err := condition.ClientPort.AssignProperties_To_DeliveryRuleClientPortCondition(&clientPort)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleClientPortCondition() to populate field ClientPort")
@@ -4612,7 +4612,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// Cookies
 	if condition.Cookies != nil {
-		var cookie v1api20210601s.DeliveryRuleCookiesCondition
+		var cookie v20210601s.DeliveryRuleCookiesCondition
 		err := condition.Cookies.AssignProperties_To_DeliveryRuleCookiesCondition(&cookie)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCookiesCondition() to populate field Cookies")
@@ -4624,7 +4624,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// HostName
 	if condition.HostName != nil {
-		var hostName v1api20210601s.DeliveryRuleHostNameCondition
+		var hostName v20210601s.DeliveryRuleHostNameCondition
 		err := condition.HostName.AssignProperties_To_DeliveryRuleHostNameCondition(&hostName)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleHostNameCondition() to populate field HostName")
@@ -4636,7 +4636,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// HttpVersion
 	if condition.HttpVersion != nil {
-		var httpVersion v1api20210601s.DeliveryRuleHttpVersionCondition
+		var httpVersion v20210601s.DeliveryRuleHttpVersionCondition
 		err := condition.HttpVersion.AssignProperties_To_DeliveryRuleHttpVersionCondition(&httpVersion)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleHttpVersionCondition() to populate field HttpVersion")
@@ -4648,7 +4648,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// IsDevice
 	if condition.IsDevice != nil {
-		var isDevice v1api20210601s.DeliveryRuleIsDeviceCondition
+		var isDevice v20210601s.DeliveryRuleIsDeviceCondition
 		err := condition.IsDevice.AssignProperties_To_DeliveryRuleIsDeviceCondition(&isDevice)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleIsDeviceCondition() to populate field IsDevice")
@@ -4660,7 +4660,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// PostArgs
 	if condition.PostArgs != nil {
-		var postArg v1api20210601s.DeliveryRulePostArgsCondition
+		var postArg v20210601s.DeliveryRulePostArgsCondition
 		err := condition.PostArgs.AssignProperties_To_DeliveryRulePostArgsCondition(&postArg)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRulePostArgsCondition() to populate field PostArgs")
@@ -4672,7 +4672,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// QueryString
 	if condition.QueryString != nil {
-		var queryString v1api20210601s.DeliveryRuleQueryStringCondition
+		var queryString v20210601s.DeliveryRuleQueryStringCondition
 		err := condition.QueryString.AssignProperties_To_DeliveryRuleQueryStringCondition(&queryString)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleQueryStringCondition() to populate field QueryString")
@@ -4684,7 +4684,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// RemoteAddress
 	if condition.RemoteAddress != nil {
-		var remoteAddress v1api20210601s.DeliveryRuleRemoteAddressCondition
+		var remoteAddress v20210601s.DeliveryRuleRemoteAddressCondition
 		err := condition.RemoteAddress.AssignProperties_To_DeliveryRuleRemoteAddressCondition(&remoteAddress)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRemoteAddressCondition() to populate field RemoteAddress")
@@ -4696,7 +4696,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// RequestBody
 	if condition.RequestBody != nil {
-		var requestBody v1api20210601s.DeliveryRuleRequestBodyCondition
+		var requestBody v20210601s.DeliveryRuleRequestBodyCondition
 		err := condition.RequestBody.AssignProperties_To_DeliveryRuleRequestBodyCondition(&requestBody)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestBodyCondition() to populate field RequestBody")
@@ -4708,7 +4708,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// RequestHeader
 	if condition.RequestHeader != nil {
-		var requestHeader v1api20210601s.DeliveryRuleRequestHeaderCondition
+		var requestHeader v20210601s.DeliveryRuleRequestHeaderCondition
 		err := condition.RequestHeader.AssignProperties_To_DeliveryRuleRequestHeaderCondition(&requestHeader)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestHeaderCondition() to populate field RequestHeader")
@@ -4720,7 +4720,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// RequestMethod
 	if condition.RequestMethod != nil {
-		var requestMethod v1api20210601s.DeliveryRuleRequestMethodCondition
+		var requestMethod v20210601s.DeliveryRuleRequestMethodCondition
 		err := condition.RequestMethod.AssignProperties_To_DeliveryRuleRequestMethodCondition(&requestMethod)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestMethodCondition() to populate field RequestMethod")
@@ -4732,7 +4732,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// RequestScheme
 	if condition.RequestScheme != nil {
-		var requestScheme v1api20210601s.DeliveryRuleRequestSchemeCondition
+		var requestScheme v20210601s.DeliveryRuleRequestSchemeCondition
 		err := condition.RequestScheme.AssignProperties_To_DeliveryRuleRequestSchemeCondition(&requestScheme)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestSchemeCondition() to populate field RequestScheme")
@@ -4744,7 +4744,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// RequestUri
 	if condition.RequestUri != nil {
-		var requestUri v1api20210601s.DeliveryRuleRequestUriCondition
+		var requestUri v20210601s.DeliveryRuleRequestUriCondition
 		err := condition.RequestUri.AssignProperties_To_DeliveryRuleRequestUriCondition(&requestUri)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestUriCondition() to populate field RequestUri")
@@ -4756,7 +4756,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// ServerPort
 	if condition.ServerPort != nil {
-		var serverPort v1api20210601s.DeliveryRuleServerPortCondition
+		var serverPort v20210601s.DeliveryRuleServerPortCondition
 		err := condition.ServerPort.AssignProperties_To_DeliveryRuleServerPortCondition(&serverPort)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleServerPortCondition() to populate field ServerPort")
@@ -4768,7 +4768,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// SocketAddr
 	if condition.SocketAddr != nil {
-		var socketAddr v1api20210601s.DeliveryRuleSocketAddrCondition
+		var socketAddr v20210601s.DeliveryRuleSocketAddrCondition
 		err := condition.SocketAddr.AssignProperties_To_DeliveryRuleSocketAddrCondition(&socketAddr)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleSocketAddrCondition() to populate field SocketAddr")
@@ -4780,7 +4780,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// SslProtocol
 	if condition.SslProtocol != nil {
-		var sslProtocol v1api20210601s.DeliveryRuleSslProtocolCondition
+		var sslProtocol v20210601s.DeliveryRuleSslProtocolCondition
 		err := condition.SslProtocol.AssignProperties_To_DeliveryRuleSslProtocolCondition(&sslProtocol)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleSslProtocolCondition() to populate field SslProtocol")
@@ -4792,7 +4792,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// UrlFileExtension
 	if condition.UrlFileExtension != nil {
-		var urlFileExtension v1api20210601s.DeliveryRuleUrlFileExtensionCondition
+		var urlFileExtension v20210601s.DeliveryRuleUrlFileExtensionCondition
 		err := condition.UrlFileExtension.AssignProperties_To_DeliveryRuleUrlFileExtensionCondition(&urlFileExtension)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleUrlFileExtensionCondition() to populate field UrlFileExtension")
@@ -4804,7 +4804,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// UrlFileName
 	if condition.UrlFileName != nil {
-		var urlFileName v1api20210601s.DeliveryRuleUrlFileNameCondition
+		var urlFileName v20210601s.DeliveryRuleUrlFileNameCondition
 		err := condition.UrlFileName.AssignProperties_To_DeliveryRuleUrlFileNameCondition(&urlFileName)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleUrlFileNameCondition() to populate field UrlFileName")
@@ -4816,7 +4816,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// UrlPath
 	if condition.UrlPath != nil {
-		var urlPath v1api20210601s.DeliveryRuleUrlPathCondition
+		var urlPath v20210601s.DeliveryRuleUrlPathCondition
 		err := condition.UrlPath.AssignProperties_To_DeliveryRuleUrlPathCondition(&urlPath)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleUrlPathCondition() to populate field UrlPath")
@@ -4872,7 +4872,7 @@ type DeliveryRuleCondition_STATUS struct {
 }
 
 // AssignProperties_From_DeliveryRuleCondition_STATUS populates our DeliveryRuleCondition_STATUS from the provided source DeliveryRuleCondition_STATUS
-func (condition *DeliveryRuleCondition_STATUS) AssignProperties_From_DeliveryRuleCondition_STATUS(source *v1api20210601s.DeliveryRuleCondition_STATUS) error {
+func (condition *DeliveryRuleCondition_STATUS) AssignProperties_From_DeliveryRuleCondition_STATUS(source *v20210601s.DeliveryRuleCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5125,13 +5125,13 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_From_DeliveryRul
 }
 
 // AssignProperties_To_DeliveryRuleCondition_STATUS populates the provided destination DeliveryRuleCondition_STATUS from our DeliveryRuleCondition_STATUS
-func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleCondition_STATUS(destination *v1api20210601s.DeliveryRuleCondition_STATUS) error {
+func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleCondition_STATUS(destination *v20210601s.DeliveryRuleCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
 	// ClientPort
 	if condition.ClientPort != nil {
-		var clientPort v1api20210601s.DeliveryRuleClientPortCondition_STATUS
+		var clientPort v20210601s.DeliveryRuleClientPortCondition_STATUS
 		err := condition.ClientPort.AssignProperties_To_DeliveryRuleClientPortCondition_STATUS(&clientPort)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleClientPortCondition_STATUS() to populate field ClientPort")
@@ -5143,7 +5143,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// Cookies
 	if condition.Cookies != nil {
-		var cookie v1api20210601s.DeliveryRuleCookiesCondition_STATUS
+		var cookie v20210601s.DeliveryRuleCookiesCondition_STATUS
 		err := condition.Cookies.AssignProperties_To_DeliveryRuleCookiesCondition_STATUS(&cookie)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCookiesCondition_STATUS() to populate field Cookies")
@@ -5155,7 +5155,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// HostName
 	if condition.HostName != nil {
-		var hostName v1api20210601s.DeliveryRuleHostNameCondition_STATUS
+		var hostName v20210601s.DeliveryRuleHostNameCondition_STATUS
 		err := condition.HostName.AssignProperties_To_DeliveryRuleHostNameCondition_STATUS(&hostName)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleHostNameCondition_STATUS() to populate field HostName")
@@ -5167,7 +5167,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// HttpVersion
 	if condition.HttpVersion != nil {
-		var httpVersion v1api20210601s.DeliveryRuleHttpVersionCondition_STATUS
+		var httpVersion v20210601s.DeliveryRuleHttpVersionCondition_STATUS
 		err := condition.HttpVersion.AssignProperties_To_DeliveryRuleHttpVersionCondition_STATUS(&httpVersion)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleHttpVersionCondition_STATUS() to populate field HttpVersion")
@@ -5179,7 +5179,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// IsDevice
 	if condition.IsDevice != nil {
-		var isDevice v1api20210601s.DeliveryRuleIsDeviceCondition_STATUS
+		var isDevice v20210601s.DeliveryRuleIsDeviceCondition_STATUS
 		err := condition.IsDevice.AssignProperties_To_DeliveryRuleIsDeviceCondition_STATUS(&isDevice)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleIsDeviceCondition_STATUS() to populate field IsDevice")
@@ -5191,7 +5191,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// PostArgs
 	if condition.PostArgs != nil {
-		var postArg v1api20210601s.DeliveryRulePostArgsCondition_STATUS
+		var postArg v20210601s.DeliveryRulePostArgsCondition_STATUS
 		err := condition.PostArgs.AssignProperties_To_DeliveryRulePostArgsCondition_STATUS(&postArg)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRulePostArgsCondition_STATUS() to populate field PostArgs")
@@ -5203,7 +5203,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// QueryString
 	if condition.QueryString != nil {
-		var queryString v1api20210601s.DeliveryRuleQueryStringCondition_STATUS
+		var queryString v20210601s.DeliveryRuleQueryStringCondition_STATUS
 		err := condition.QueryString.AssignProperties_To_DeliveryRuleQueryStringCondition_STATUS(&queryString)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleQueryStringCondition_STATUS() to populate field QueryString")
@@ -5215,7 +5215,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// RemoteAddress
 	if condition.RemoteAddress != nil {
-		var remoteAddress v1api20210601s.DeliveryRuleRemoteAddressCondition_STATUS
+		var remoteAddress v20210601s.DeliveryRuleRemoteAddressCondition_STATUS
 		err := condition.RemoteAddress.AssignProperties_To_DeliveryRuleRemoteAddressCondition_STATUS(&remoteAddress)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRemoteAddressCondition_STATUS() to populate field RemoteAddress")
@@ -5227,7 +5227,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// RequestBody
 	if condition.RequestBody != nil {
-		var requestBody v1api20210601s.DeliveryRuleRequestBodyCondition_STATUS
+		var requestBody v20210601s.DeliveryRuleRequestBodyCondition_STATUS
 		err := condition.RequestBody.AssignProperties_To_DeliveryRuleRequestBodyCondition_STATUS(&requestBody)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestBodyCondition_STATUS() to populate field RequestBody")
@@ -5239,7 +5239,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// RequestHeader
 	if condition.RequestHeader != nil {
-		var requestHeader v1api20210601s.DeliveryRuleRequestHeaderCondition_STATUS
+		var requestHeader v20210601s.DeliveryRuleRequestHeaderCondition_STATUS
 		err := condition.RequestHeader.AssignProperties_To_DeliveryRuleRequestHeaderCondition_STATUS(&requestHeader)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestHeaderCondition_STATUS() to populate field RequestHeader")
@@ -5251,7 +5251,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// RequestMethod
 	if condition.RequestMethod != nil {
-		var requestMethod v1api20210601s.DeliveryRuleRequestMethodCondition_STATUS
+		var requestMethod v20210601s.DeliveryRuleRequestMethodCondition_STATUS
 		err := condition.RequestMethod.AssignProperties_To_DeliveryRuleRequestMethodCondition_STATUS(&requestMethod)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestMethodCondition_STATUS() to populate field RequestMethod")
@@ -5263,7 +5263,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// RequestScheme
 	if condition.RequestScheme != nil {
-		var requestScheme v1api20210601s.DeliveryRuleRequestSchemeCondition_STATUS
+		var requestScheme v20210601s.DeliveryRuleRequestSchemeCondition_STATUS
 		err := condition.RequestScheme.AssignProperties_To_DeliveryRuleRequestSchemeCondition_STATUS(&requestScheme)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestSchemeCondition_STATUS() to populate field RequestScheme")
@@ -5275,7 +5275,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// RequestUri
 	if condition.RequestUri != nil {
-		var requestUri v1api20210601s.DeliveryRuleRequestUriCondition_STATUS
+		var requestUri v20210601s.DeliveryRuleRequestUriCondition_STATUS
 		err := condition.RequestUri.AssignProperties_To_DeliveryRuleRequestUriCondition_STATUS(&requestUri)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestUriCondition_STATUS() to populate field RequestUri")
@@ -5287,7 +5287,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// ServerPort
 	if condition.ServerPort != nil {
-		var serverPort v1api20210601s.DeliveryRuleServerPortCondition_STATUS
+		var serverPort v20210601s.DeliveryRuleServerPortCondition_STATUS
 		err := condition.ServerPort.AssignProperties_To_DeliveryRuleServerPortCondition_STATUS(&serverPort)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleServerPortCondition_STATUS() to populate field ServerPort")
@@ -5299,7 +5299,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// SocketAddr
 	if condition.SocketAddr != nil {
-		var socketAddr v1api20210601s.DeliveryRuleSocketAddrCondition_STATUS
+		var socketAddr v20210601s.DeliveryRuleSocketAddrCondition_STATUS
 		err := condition.SocketAddr.AssignProperties_To_DeliveryRuleSocketAddrCondition_STATUS(&socketAddr)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleSocketAddrCondition_STATUS() to populate field SocketAddr")
@@ -5311,7 +5311,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// SslProtocol
 	if condition.SslProtocol != nil {
-		var sslProtocol v1api20210601s.DeliveryRuleSslProtocolCondition_STATUS
+		var sslProtocol v20210601s.DeliveryRuleSslProtocolCondition_STATUS
 		err := condition.SslProtocol.AssignProperties_To_DeliveryRuleSslProtocolCondition_STATUS(&sslProtocol)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleSslProtocolCondition_STATUS() to populate field SslProtocol")
@@ -5323,7 +5323,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// UrlFileExtension
 	if condition.UrlFileExtension != nil {
-		var urlFileExtension v1api20210601s.DeliveryRuleUrlFileExtensionCondition_STATUS
+		var urlFileExtension v20210601s.DeliveryRuleUrlFileExtensionCondition_STATUS
 		err := condition.UrlFileExtension.AssignProperties_To_DeliveryRuleUrlFileExtensionCondition_STATUS(&urlFileExtension)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleUrlFileExtensionCondition_STATUS() to populate field UrlFileExtension")
@@ -5335,7 +5335,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// UrlFileName
 	if condition.UrlFileName != nil {
-		var urlFileName v1api20210601s.DeliveryRuleUrlFileNameCondition_STATUS
+		var urlFileName v20210601s.DeliveryRuleUrlFileNameCondition_STATUS
 		err := condition.UrlFileName.AssignProperties_To_DeliveryRuleUrlFileNameCondition_STATUS(&urlFileName)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleUrlFileNameCondition_STATUS() to populate field UrlFileName")
@@ -5347,7 +5347,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// UrlPath
 	if condition.UrlPath != nil {
-		var urlPath v1api20210601s.DeliveryRuleUrlPathCondition_STATUS
+		var urlPath v20210601s.DeliveryRuleUrlPathCondition_STATUS
 		err := condition.UrlPath.AssignProperties_To_DeliveryRuleUrlPathCondition_STATUS(&urlPath)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleUrlPathCondition_STATUS() to populate field UrlPath")
@@ -5386,7 +5386,7 @@ type HttpErrorRangeParameters struct {
 }
 
 // AssignProperties_From_HttpErrorRangeParameters populates our HttpErrorRangeParameters from the provided source HttpErrorRangeParameters
-func (parameters *HttpErrorRangeParameters) AssignProperties_From_HttpErrorRangeParameters(source *v1api20210601s.HttpErrorRangeParameters) error {
+func (parameters *HttpErrorRangeParameters) AssignProperties_From_HttpErrorRangeParameters(source *v20210601s.HttpErrorRangeParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5417,7 +5417,7 @@ func (parameters *HttpErrorRangeParameters) AssignProperties_From_HttpErrorRange
 }
 
 // AssignProperties_To_HttpErrorRangeParameters populates the provided destination HttpErrorRangeParameters from our HttpErrorRangeParameters
-func (parameters *HttpErrorRangeParameters) AssignProperties_To_HttpErrorRangeParameters(destination *v1api20210601s.HttpErrorRangeParameters) error {
+func (parameters *HttpErrorRangeParameters) AssignProperties_To_HttpErrorRangeParameters(destination *v20210601s.HttpErrorRangeParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -5456,7 +5456,7 @@ type HttpErrorRangeParameters_STATUS struct {
 }
 
 // AssignProperties_From_HttpErrorRangeParameters_STATUS populates our HttpErrorRangeParameters_STATUS from the provided source HttpErrorRangeParameters_STATUS
-func (parameters *HttpErrorRangeParameters_STATUS) AssignProperties_From_HttpErrorRangeParameters_STATUS(source *v1api20210601s.HttpErrorRangeParameters_STATUS) error {
+func (parameters *HttpErrorRangeParameters_STATUS) AssignProperties_From_HttpErrorRangeParameters_STATUS(source *v20210601s.HttpErrorRangeParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5487,7 +5487,7 @@ func (parameters *HttpErrorRangeParameters_STATUS) AssignProperties_From_HttpErr
 }
 
 // AssignProperties_To_HttpErrorRangeParameters_STATUS populates the provided destination HttpErrorRangeParameters_STATUS from our HttpErrorRangeParameters_STATUS
-func (parameters *HttpErrorRangeParameters_STATUS) AssignProperties_To_HttpErrorRangeParameters_STATUS(destination *v1api20210601s.HttpErrorRangeParameters_STATUS) error {
+func (parameters *HttpErrorRangeParameters_STATUS) AssignProperties_To_HttpErrorRangeParameters_STATUS(destination *v20210601s.HttpErrorRangeParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -5518,33 +5518,33 @@ func (parameters *HttpErrorRangeParameters_STATUS) AssignProperties_To_HttpError
 }
 
 type augmentConversionForDeliveryRuleAction interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleAction) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleAction) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleAction) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleAction) error
 }
 
 type augmentConversionForDeliveryRuleAction_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleAction_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleAction_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleAction_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleAction_STATUS) error
 }
 
 type augmentConversionForDeliveryRuleCondition interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleCondition) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleCondition) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleCondition) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleCondition) error
 }
 
 type augmentConversionForDeliveryRuleCondition_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleCondition_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleCondition_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleCondition_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleCondition_STATUS) error
 }
 
 type augmentConversionForHttpErrorRangeParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.HttpErrorRangeParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.HttpErrorRangeParameters) error
+	AssignPropertiesFrom(src *v20210601s.HttpErrorRangeParameters) error
+	AssignPropertiesTo(dst *v20210601s.HttpErrorRangeParameters) error
 }
 
 type augmentConversionForHttpErrorRangeParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.HttpErrorRangeParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.HttpErrorRangeParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.HttpErrorRangeParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.HttpErrorRangeParameters_STATUS) error
 }
 
 // Storage version of v1beta20210601.DeliveryRuleCacheExpirationAction
@@ -5556,7 +5556,7 @@ type DeliveryRuleCacheExpirationAction struct {
 }
 
 // AssignProperties_From_DeliveryRuleCacheExpirationAction populates our DeliveryRuleCacheExpirationAction from the provided source DeliveryRuleCacheExpirationAction
-func (action *DeliveryRuleCacheExpirationAction) AssignProperties_From_DeliveryRuleCacheExpirationAction(source *v1api20210601s.DeliveryRuleCacheExpirationAction) error {
+func (action *DeliveryRuleCacheExpirationAction) AssignProperties_From_DeliveryRuleCacheExpirationAction(source *v20210601s.DeliveryRuleCacheExpirationAction) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5596,7 +5596,7 @@ func (action *DeliveryRuleCacheExpirationAction) AssignProperties_From_DeliveryR
 }
 
 // AssignProperties_To_DeliveryRuleCacheExpirationAction populates the provided destination DeliveryRuleCacheExpirationAction from our DeliveryRuleCacheExpirationAction
-func (action *DeliveryRuleCacheExpirationAction) AssignProperties_To_DeliveryRuleCacheExpirationAction(destination *v1api20210601s.DeliveryRuleCacheExpirationAction) error {
+func (action *DeliveryRuleCacheExpirationAction) AssignProperties_To_DeliveryRuleCacheExpirationAction(destination *v20210601s.DeliveryRuleCacheExpirationAction) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(action.PropertyBag)
 
@@ -5605,7 +5605,7 @@ func (action *DeliveryRuleCacheExpirationAction) AssignProperties_To_DeliveryRul
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v1api20210601s.CacheExpirationActionParameters
+		var parameter v20210601s.CacheExpirationActionParameters
 		err := action.Parameters.AssignProperties_To_CacheExpirationActionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CacheExpirationActionParameters() to populate field Parameters")
@@ -5644,7 +5644,7 @@ type DeliveryRuleCacheExpirationAction_STATUS struct {
 }
 
 // AssignProperties_From_DeliveryRuleCacheExpirationAction_STATUS populates our DeliveryRuleCacheExpirationAction_STATUS from the provided source DeliveryRuleCacheExpirationAction_STATUS
-func (action *DeliveryRuleCacheExpirationAction_STATUS) AssignProperties_From_DeliveryRuleCacheExpirationAction_STATUS(source *v1api20210601s.DeliveryRuleCacheExpirationAction_STATUS) error {
+func (action *DeliveryRuleCacheExpirationAction_STATUS) AssignProperties_From_DeliveryRuleCacheExpirationAction_STATUS(source *v20210601s.DeliveryRuleCacheExpirationAction_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5684,7 +5684,7 @@ func (action *DeliveryRuleCacheExpirationAction_STATUS) AssignProperties_From_De
 }
 
 // AssignProperties_To_DeliveryRuleCacheExpirationAction_STATUS populates the provided destination DeliveryRuleCacheExpirationAction_STATUS from our DeliveryRuleCacheExpirationAction_STATUS
-func (action *DeliveryRuleCacheExpirationAction_STATUS) AssignProperties_To_DeliveryRuleCacheExpirationAction_STATUS(destination *v1api20210601s.DeliveryRuleCacheExpirationAction_STATUS) error {
+func (action *DeliveryRuleCacheExpirationAction_STATUS) AssignProperties_To_DeliveryRuleCacheExpirationAction_STATUS(destination *v20210601s.DeliveryRuleCacheExpirationAction_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(action.PropertyBag)
 
@@ -5693,7 +5693,7 @@ func (action *DeliveryRuleCacheExpirationAction_STATUS) AssignProperties_To_Deli
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v1api20210601s.CacheExpirationActionParameters_STATUS
+		var parameter v20210601s.CacheExpirationActionParameters_STATUS
 		err := action.Parameters.AssignProperties_To_CacheExpirationActionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CacheExpirationActionParameters_STATUS() to populate field Parameters")
@@ -5732,7 +5732,7 @@ type DeliveryRuleCacheKeyQueryStringAction struct {
 }
 
 // AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction populates our DeliveryRuleCacheKeyQueryStringAction from the provided source DeliveryRuleCacheKeyQueryStringAction
-func (action *DeliveryRuleCacheKeyQueryStringAction) AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction(source *v1api20210601s.DeliveryRuleCacheKeyQueryStringAction) error {
+func (action *DeliveryRuleCacheKeyQueryStringAction) AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction(source *v20210601s.DeliveryRuleCacheKeyQueryStringAction) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5772,7 +5772,7 @@ func (action *DeliveryRuleCacheKeyQueryStringAction) AssignProperties_From_Deliv
 }
 
 // AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction populates the provided destination DeliveryRuleCacheKeyQueryStringAction from our DeliveryRuleCacheKeyQueryStringAction
-func (action *DeliveryRuleCacheKeyQueryStringAction) AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction(destination *v1api20210601s.DeliveryRuleCacheKeyQueryStringAction) error {
+func (action *DeliveryRuleCacheKeyQueryStringAction) AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction(destination *v20210601s.DeliveryRuleCacheKeyQueryStringAction) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(action.PropertyBag)
 
@@ -5781,7 +5781,7 @@ func (action *DeliveryRuleCacheKeyQueryStringAction) AssignProperties_To_Deliver
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v1api20210601s.CacheKeyQueryStringActionParameters
+		var parameter v20210601s.CacheKeyQueryStringActionParameters
 		err := action.Parameters.AssignProperties_To_CacheKeyQueryStringActionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CacheKeyQueryStringActionParameters() to populate field Parameters")
@@ -5820,7 +5820,7 @@ type DeliveryRuleCacheKeyQueryStringAction_STATUS struct {
 }
 
 // AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction_STATUS populates our DeliveryRuleCacheKeyQueryStringAction_STATUS from the provided source DeliveryRuleCacheKeyQueryStringAction_STATUS
-func (action *DeliveryRuleCacheKeyQueryStringAction_STATUS) AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction_STATUS(source *v1api20210601s.DeliveryRuleCacheKeyQueryStringAction_STATUS) error {
+func (action *DeliveryRuleCacheKeyQueryStringAction_STATUS) AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction_STATUS(source *v20210601s.DeliveryRuleCacheKeyQueryStringAction_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5860,7 +5860,7 @@ func (action *DeliveryRuleCacheKeyQueryStringAction_STATUS) AssignProperties_Fro
 }
 
 // AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction_STATUS populates the provided destination DeliveryRuleCacheKeyQueryStringAction_STATUS from our DeliveryRuleCacheKeyQueryStringAction_STATUS
-func (action *DeliveryRuleCacheKeyQueryStringAction_STATUS) AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction_STATUS(destination *v1api20210601s.DeliveryRuleCacheKeyQueryStringAction_STATUS) error {
+func (action *DeliveryRuleCacheKeyQueryStringAction_STATUS) AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction_STATUS(destination *v20210601s.DeliveryRuleCacheKeyQueryStringAction_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(action.PropertyBag)
 
@@ -5869,7 +5869,7 @@ func (action *DeliveryRuleCacheKeyQueryStringAction_STATUS) AssignProperties_To_
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v1api20210601s.CacheKeyQueryStringActionParameters_STATUS
+		var parameter v20210601s.CacheKeyQueryStringActionParameters_STATUS
 		err := action.Parameters.AssignProperties_To_CacheKeyQueryStringActionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CacheKeyQueryStringActionParameters_STATUS() to populate field Parameters")
@@ -5908,7 +5908,7 @@ type DeliveryRuleClientPortCondition struct {
 }
 
 // AssignProperties_From_DeliveryRuleClientPortCondition populates our DeliveryRuleClientPortCondition from the provided source DeliveryRuleClientPortCondition
-func (condition *DeliveryRuleClientPortCondition) AssignProperties_From_DeliveryRuleClientPortCondition(source *v1api20210601s.DeliveryRuleClientPortCondition) error {
+func (condition *DeliveryRuleClientPortCondition) AssignProperties_From_DeliveryRuleClientPortCondition(source *v20210601s.DeliveryRuleClientPortCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5948,7 +5948,7 @@ func (condition *DeliveryRuleClientPortCondition) AssignProperties_From_Delivery
 }
 
 // AssignProperties_To_DeliveryRuleClientPortCondition populates the provided destination DeliveryRuleClientPortCondition from our DeliveryRuleClientPortCondition
-func (condition *DeliveryRuleClientPortCondition) AssignProperties_To_DeliveryRuleClientPortCondition(destination *v1api20210601s.DeliveryRuleClientPortCondition) error {
+func (condition *DeliveryRuleClientPortCondition) AssignProperties_To_DeliveryRuleClientPortCondition(destination *v20210601s.DeliveryRuleClientPortCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -5957,7 +5957,7 @@ func (condition *DeliveryRuleClientPortCondition) AssignProperties_To_DeliveryRu
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.ClientPortMatchConditionParameters
+		var parameter v20210601s.ClientPortMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_ClientPortMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ClientPortMatchConditionParameters() to populate field Parameters")
@@ -5996,7 +5996,7 @@ type DeliveryRuleClientPortCondition_STATUS struct {
 }
 
 // AssignProperties_From_DeliveryRuleClientPortCondition_STATUS populates our DeliveryRuleClientPortCondition_STATUS from the provided source DeliveryRuleClientPortCondition_STATUS
-func (condition *DeliveryRuleClientPortCondition_STATUS) AssignProperties_From_DeliveryRuleClientPortCondition_STATUS(source *v1api20210601s.DeliveryRuleClientPortCondition_STATUS) error {
+func (condition *DeliveryRuleClientPortCondition_STATUS) AssignProperties_From_DeliveryRuleClientPortCondition_STATUS(source *v20210601s.DeliveryRuleClientPortCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6036,7 +6036,7 @@ func (condition *DeliveryRuleClientPortCondition_STATUS) AssignProperties_From_D
 }
 
 // AssignProperties_To_DeliveryRuleClientPortCondition_STATUS populates the provided destination DeliveryRuleClientPortCondition_STATUS from our DeliveryRuleClientPortCondition_STATUS
-func (condition *DeliveryRuleClientPortCondition_STATUS) AssignProperties_To_DeliveryRuleClientPortCondition_STATUS(destination *v1api20210601s.DeliveryRuleClientPortCondition_STATUS) error {
+func (condition *DeliveryRuleClientPortCondition_STATUS) AssignProperties_To_DeliveryRuleClientPortCondition_STATUS(destination *v20210601s.DeliveryRuleClientPortCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -6045,7 +6045,7 @@ func (condition *DeliveryRuleClientPortCondition_STATUS) AssignProperties_To_Del
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.ClientPortMatchConditionParameters_STATUS
+		var parameter v20210601s.ClientPortMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_ClientPortMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ClientPortMatchConditionParameters_STATUS() to populate field Parameters")
@@ -6084,7 +6084,7 @@ type DeliveryRuleCookiesCondition struct {
 }
 
 // AssignProperties_From_DeliveryRuleCookiesCondition populates our DeliveryRuleCookiesCondition from the provided source DeliveryRuleCookiesCondition
-func (condition *DeliveryRuleCookiesCondition) AssignProperties_From_DeliveryRuleCookiesCondition(source *v1api20210601s.DeliveryRuleCookiesCondition) error {
+func (condition *DeliveryRuleCookiesCondition) AssignProperties_From_DeliveryRuleCookiesCondition(source *v20210601s.DeliveryRuleCookiesCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6124,7 +6124,7 @@ func (condition *DeliveryRuleCookiesCondition) AssignProperties_From_DeliveryRul
 }
 
 // AssignProperties_To_DeliveryRuleCookiesCondition populates the provided destination DeliveryRuleCookiesCondition from our DeliveryRuleCookiesCondition
-func (condition *DeliveryRuleCookiesCondition) AssignProperties_To_DeliveryRuleCookiesCondition(destination *v1api20210601s.DeliveryRuleCookiesCondition) error {
+func (condition *DeliveryRuleCookiesCondition) AssignProperties_To_DeliveryRuleCookiesCondition(destination *v20210601s.DeliveryRuleCookiesCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -6133,7 +6133,7 @@ func (condition *DeliveryRuleCookiesCondition) AssignProperties_To_DeliveryRuleC
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.CookiesMatchConditionParameters
+		var parameter v20210601s.CookiesMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_CookiesMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CookiesMatchConditionParameters() to populate field Parameters")
@@ -6172,7 +6172,7 @@ type DeliveryRuleCookiesCondition_STATUS struct {
 }
 
 // AssignProperties_From_DeliveryRuleCookiesCondition_STATUS populates our DeliveryRuleCookiesCondition_STATUS from the provided source DeliveryRuleCookiesCondition_STATUS
-func (condition *DeliveryRuleCookiesCondition_STATUS) AssignProperties_From_DeliveryRuleCookiesCondition_STATUS(source *v1api20210601s.DeliveryRuleCookiesCondition_STATUS) error {
+func (condition *DeliveryRuleCookiesCondition_STATUS) AssignProperties_From_DeliveryRuleCookiesCondition_STATUS(source *v20210601s.DeliveryRuleCookiesCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6212,7 +6212,7 @@ func (condition *DeliveryRuleCookiesCondition_STATUS) AssignProperties_From_Deli
 }
 
 // AssignProperties_To_DeliveryRuleCookiesCondition_STATUS populates the provided destination DeliveryRuleCookiesCondition_STATUS from our DeliveryRuleCookiesCondition_STATUS
-func (condition *DeliveryRuleCookiesCondition_STATUS) AssignProperties_To_DeliveryRuleCookiesCondition_STATUS(destination *v1api20210601s.DeliveryRuleCookiesCondition_STATUS) error {
+func (condition *DeliveryRuleCookiesCondition_STATUS) AssignProperties_To_DeliveryRuleCookiesCondition_STATUS(destination *v20210601s.DeliveryRuleCookiesCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -6221,7 +6221,7 @@ func (condition *DeliveryRuleCookiesCondition_STATUS) AssignProperties_To_Delive
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.CookiesMatchConditionParameters_STATUS
+		var parameter v20210601s.CookiesMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_CookiesMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CookiesMatchConditionParameters_STATUS() to populate field Parameters")
@@ -6260,7 +6260,7 @@ type DeliveryRuleHostNameCondition struct {
 }
 
 // AssignProperties_From_DeliveryRuleHostNameCondition populates our DeliveryRuleHostNameCondition from the provided source DeliveryRuleHostNameCondition
-func (condition *DeliveryRuleHostNameCondition) AssignProperties_From_DeliveryRuleHostNameCondition(source *v1api20210601s.DeliveryRuleHostNameCondition) error {
+func (condition *DeliveryRuleHostNameCondition) AssignProperties_From_DeliveryRuleHostNameCondition(source *v20210601s.DeliveryRuleHostNameCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6300,7 +6300,7 @@ func (condition *DeliveryRuleHostNameCondition) AssignProperties_From_DeliveryRu
 }
 
 // AssignProperties_To_DeliveryRuleHostNameCondition populates the provided destination DeliveryRuleHostNameCondition from our DeliveryRuleHostNameCondition
-func (condition *DeliveryRuleHostNameCondition) AssignProperties_To_DeliveryRuleHostNameCondition(destination *v1api20210601s.DeliveryRuleHostNameCondition) error {
+func (condition *DeliveryRuleHostNameCondition) AssignProperties_To_DeliveryRuleHostNameCondition(destination *v20210601s.DeliveryRuleHostNameCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -6309,7 +6309,7 @@ func (condition *DeliveryRuleHostNameCondition) AssignProperties_To_DeliveryRule
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.HostNameMatchConditionParameters
+		var parameter v20210601s.HostNameMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_HostNameMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HostNameMatchConditionParameters() to populate field Parameters")
@@ -6348,7 +6348,7 @@ type DeliveryRuleHostNameCondition_STATUS struct {
 }
 
 // AssignProperties_From_DeliveryRuleHostNameCondition_STATUS populates our DeliveryRuleHostNameCondition_STATUS from the provided source DeliveryRuleHostNameCondition_STATUS
-func (condition *DeliveryRuleHostNameCondition_STATUS) AssignProperties_From_DeliveryRuleHostNameCondition_STATUS(source *v1api20210601s.DeliveryRuleHostNameCondition_STATUS) error {
+func (condition *DeliveryRuleHostNameCondition_STATUS) AssignProperties_From_DeliveryRuleHostNameCondition_STATUS(source *v20210601s.DeliveryRuleHostNameCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6388,7 +6388,7 @@ func (condition *DeliveryRuleHostNameCondition_STATUS) AssignProperties_From_Del
 }
 
 // AssignProperties_To_DeliveryRuleHostNameCondition_STATUS populates the provided destination DeliveryRuleHostNameCondition_STATUS from our DeliveryRuleHostNameCondition_STATUS
-func (condition *DeliveryRuleHostNameCondition_STATUS) AssignProperties_To_DeliveryRuleHostNameCondition_STATUS(destination *v1api20210601s.DeliveryRuleHostNameCondition_STATUS) error {
+func (condition *DeliveryRuleHostNameCondition_STATUS) AssignProperties_To_DeliveryRuleHostNameCondition_STATUS(destination *v20210601s.DeliveryRuleHostNameCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -6397,7 +6397,7 @@ func (condition *DeliveryRuleHostNameCondition_STATUS) AssignProperties_To_Deliv
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.HostNameMatchConditionParameters_STATUS
+		var parameter v20210601s.HostNameMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_HostNameMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HostNameMatchConditionParameters_STATUS() to populate field Parameters")
@@ -6436,7 +6436,7 @@ type DeliveryRuleHttpVersionCondition struct {
 }
 
 // AssignProperties_From_DeliveryRuleHttpVersionCondition populates our DeliveryRuleHttpVersionCondition from the provided source DeliveryRuleHttpVersionCondition
-func (condition *DeliveryRuleHttpVersionCondition) AssignProperties_From_DeliveryRuleHttpVersionCondition(source *v1api20210601s.DeliveryRuleHttpVersionCondition) error {
+func (condition *DeliveryRuleHttpVersionCondition) AssignProperties_From_DeliveryRuleHttpVersionCondition(source *v20210601s.DeliveryRuleHttpVersionCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6476,7 +6476,7 @@ func (condition *DeliveryRuleHttpVersionCondition) AssignProperties_From_Deliver
 }
 
 // AssignProperties_To_DeliveryRuleHttpVersionCondition populates the provided destination DeliveryRuleHttpVersionCondition from our DeliveryRuleHttpVersionCondition
-func (condition *DeliveryRuleHttpVersionCondition) AssignProperties_To_DeliveryRuleHttpVersionCondition(destination *v1api20210601s.DeliveryRuleHttpVersionCondition) error {
+func (condition *DeliveryRuleHttpVersionCondition) AssignProperties_To_DeliveryRuleHttpVersionCondition(destination *v20210601s.DeliveryRuleHttpVersionCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -6485,7 +6485,7 @@ func (condition *DeliveryRuleHttpVersionCondition) AssignProperties_To_DeliveryR
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.HttpVersionMatchConditionParameters
+		var parameter v20210601s.HttpVersionMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_HttpVersionMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HttpVersionMatchConditionParameters() to populate field Parameters")
@@ -6524,7 +6524,7 @@ type DeliveryRuleHttpVersionCondition_STATUS struct {
 }
 
 // AssignProperties_From_DeliveryRuleHttpVersionCondition_STATUS populates our DeliveryRuleHttpVersionCondition_STATUS from the provided source DeliveryRuleHttpVersionCondition_STATUS
-func (condition *DeliveryRuleHttpVersionCondition_STATUS) AssignProperties_From_DeliveryRuleHttpVersionCondition_STATUS(source *v1api20210601s.DeliveryRuleHttpVersionCondition_STATUS) error {
+func (condition *DeliveryRuleHttpVersionCondition_STATUS) AssignProperties_From_DeliveryRuleHttpVersionCondition_STATUS(source *v20210601s.DeliveryRuleHttpVersionCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6564,7 +6564,7 @@ func (condition *DeliveryRuleHttpVersionCondition_STATUS) AssignProperties_From_
 }
 
 // AssignProperties_To_DeliveryRuleHttpVersionCondition_STATUS populates the provided destination DeliveryRuleHttpVersionCondition_STATUS from our DeliveryRuleHttpVersionCondition_STATUS
-func (condition *DeliveryRuleHttpVersionCondition_STATUS) AssignProperties_To_DeliveryRuleHttpVersionCondition_STATUS(destination *v1api20210601s.DeliveryRuleHttpVersionCondition_STATUS) error {
+func (condition *DeliveryRuleHttpVersionCondition_STATUS) AssignProperties_To_DeliveryRuleHttpVersionCondition_STATUS(destination *v20210601s.DeliveryRuleHttpVersionCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -6573,7 +6573,7 @@ func (condition *DeliveryRuleHttpVersionCondition_STATUS) AssignProperties_To_De
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.HttpVersionMatchConditionParameters_STATUS
+		var parameter v20210601s.HttpVersionMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_HttpVersionMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HttpVersionMatchConditionParameters_STATUS() to populate field Parameters")
@@ -6612,7 +6612,7 @@ type DeliveryRuleIsDeviceCondition struct {
 }
 
 // AssignProperties_From_DeliveryRuleIsDeviceCondition populates our DeliveryRuleIsDeviceCondition from the provided source DeliveryRuleIsDeviceCondition
-func (condition *DeliveryRuleIsDeviceCondition) AssignProperties_From_DeliveryRuleIsDeviceCondition(source *v1api20210601s.DeliveryRuleIsDeviceCondition) error {
+func (condition *DeliveryRuleIsDeviceCondition) AssignProperties_From_DeliveryRuleIsDeviceCondition(source *v20210601s.DeliveryRuleIsDeviceCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6652,7 +6652,7 @@ func (condition *DeliveryRuleIsDeviceCondition) AssignProperties_From_DeliveryRu
 }
 
 // AssignProperties_To_DeliveryRuleIsDeviceCondition populates the provided destination DeliveryRuleIsDeviceCondition from our DeliveryRuleIsDeviceCondition
-func (condition *DeliveryRuleIsDeviceCondition) AssignProperties_To_DeliveryRuleIsDeviceCondition(destination *v1api20210601s.DeliveryRuleIsDeviceCondition) error {
+func (condition *DeliveryRuleIsDeviceCondition) AssignProperties_To_DeliveryRuleIsDeviceCondition(destination *v20210601s.DeliveryRuleIsDeviceCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -6661,7 +6661,7 @@ func (condition *DeliveryRuleIsDeviceCondition) AssignProperties_To_DeliveryRule
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.IsDeviceMatchConditionParameters
+		var parameter v20210601s.IsDeviceMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_IsDeviceMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IsDeviceMatchConditionParameters() to populate field Parameters")
@@ -6700,7 +6700,7 @@ type DeliveryRuleIsDeviceCondition_STATUS struct {
 }
 
 // AssignProperties_From_DeliveryRuleIsDeviceCondition_STATUS populates our DeliveryRuleIsDeviceCondition_STATUS from the provided source DeliveryRuleIsDeviceCondition_STATUS
-func (condition *DeliveryRuleIsDeviceCondition_STATUS) AssignProperties_From_DeliveryRuleIsDeviceCondition_STATUS(source *v1api20210601s.DeliveryRuleIsDeviceCondition_STATUS) error {
+func (condition *DeliveryRuleIsDeviceCondition_STATUS) AssignProperties_From_DeliveryRuleIsDeviceCondition_STATUS(source *v20210601s.DeliveryRuleIsDeviceCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6740,7 +6740,7 @@ func (condition *DeliveryRuleIsDeviceCondition_STATUS) AssignProperties_From_Del
 }
 
 // AssignProperties_To_DeliveryRuleIsDeviceCondition_STATUS populates the provided destination DeliveryRuleIsDeviceCondition_STATUS from our DeliveryRuleIsDeviceCondition_STATUS
-func (condition *DeliveryRuleIsDeviceCondition_STATUS) AssignProperties_To_DeliveryRuleIsDeviceCondition_STATUS(destination *v1api20210601s.DeliveryRuleIsDeviceCondition_STATUS) error {
+func (condition *DeliveryRuleIsDeviceCondition_STATUS) AssignProperties_To_DeliveryRuleIsDeviceCondition_STATUS(destination *v20210601s.DeliveryRuleIsDeviceCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -6749,7 +6749,7 @@ func (condition *DeliveryRuleIsDeviceCondition_STATUS) AssignProperties_To_Deliv
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.IsDeviceMatchConditionParameters_STATUS
+		var parameter v20210601s.IsDeviceMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_IsDeviceMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IsDeviceMatchConditionParameters_STATUS() to populate field Parameters")
@@ -6788,7 +6788,7 @@ type DeliveryRulePostArgsCondition struct {
 }
 
 // AssignProperties_From_DeliveryRulePostArgsCondition populates our DeliveryRulePostArgsCondition from the provided source DeliveryRulePostArgsCondition
-func (condition *DeliveryRulePostArgsCondition) AssignProperties_From_DeliveryRulePostArgsCondition(source *v1api20210601s.DeliveryRulePostArgsCondition) error {
+func (condition *DeliveryRulePostArgsCondition) AssignProperties_From_DeliveryRulePostArgsCondition(source *v20210601s.DeliveryRulePostArgsCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6828,7 +6828,7 @@ func (condition *DeliveryRulePostArgsCondition) AssignProperties_From_DeliveryRu
 }
 
 // AssignProperties_To_DeliveryRulePostArgsCondition populates the provided destination DeliveryRulePostArgsCondition from our DeliveryRulePostArgsCondition
-func (condition *DeliveryRulePostArgsCondition) AssignProperties_To_DeliveryRulePostArgsCondition(destination *v1api20210601s.DeliveryRulePostArgsCondition) error {
+func (condition *DeliveryRulePostArgsCondition) AssignProperties_To_DeliveryRulePostArgsCondition(destination *v20210601s.DeliveryRulePostArgsCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -6837,7 +6837,7 @@ func (condition *DeliveryRulePostArgsCondition) AssignProperties_To_DeliveryRule
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.PostArgsMatchConditionParameters
+		var parameter v20210601s.PostArgsMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_PostArgsMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PostArgsMatchConditionParameters() to populate field Parameters")
@@ -6876,7 +6876,7 @@ type DeliveryRulePostArgsCondition_STATUS struct {
 }
 
 // AssignProperties_From_DeliveryRulePostArgsCondition_STATUS populates our DeliveryRulePostArgsCondition_STATUS from the provided source DeliveryRulePostArgsCondition_STATUS
-func (condition *DeliveryRulePostArgsCondition_STATUS) AssignProperties_From_DeliveryRulePostArgsCondition_STATUS(source *v1api20210601s.DeliveryRulePostArgsCondition_STATUS) error {
+func (condition *DeliveryRulePostArgsCondition_STATUS) AssignProperties_From_DeliveryRulePostArgsCondition_STATUS(source *v20210601s.DeliveryRulePostArgsCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6916,7 +6916,7 @@ func (condition *DeliveryRulePostArgsCondition_STATUS) AssignProperties_From_Del
 }
 
 // AssignProperties_To_DeliveryRulePostArgsCondition_STATUS populates the provided destination DeliveryRulePostArgsCondition_STATUS from our DeliveryRulePostArgsCondition_STATUS
-func (condition *DeliveryRulePostArgsCondition_STATUS) AssignProperties_To_DeliveryRulePostArgsCondition_STATUS(destination *v1api20210601s.DeliveryRulePostArgsCondition_STATUS) error {
+func (condition *DeliveryRulePostArgsCondition_STATUS) AssignProperties_To_DeliveryRulePostArgsCondition_STATUS(destination *v20210601s.DeliveryRulePostArgsCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -6925,7 +6925,7 @@ func (condition *DeliveryRulePostArgsCondition_STATUS) AssignProperties_To_Deliv
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.PostArgsMatchConditionParameters_STATUS
+		var parameter v20210601s.PostArgsMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_PostArgsMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PostArgsMatchConditionParameters_STATUS() to populate field Parameters")
@@ -6964,7 +6964,7 @@ type DeliveryRuleQueryStringCondition struct {
 }
 
 // AssignProperties_From_DeliveryRuleQueryStringCondition populates our DeliveryRuleQueryStringCondition from the provided source DeliveryRuleQueryStringCondition
-func (condition *DeliveryRuleQueryStringCondition) AssignProperties_From_DeliveryRuleQueryStringCondition(source *v1api20210601s.DeliveryRuleQueryStringCondition) error {
+func (condition *DeliveryRuleQueryStringCondition) AssignProperties_From_DeliveryRuleQueryStringCondition(source *v20210601s.DeliveryRuleQueryStringCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7004,7 +7004,7 @@ func (condition *DeliveryRuleQueryStringCondition) AssignProperties_From_Deliver
 }
 
 // AssignProperties_To_DeliveryRuleQueryStringCondition populates the provided destination DeliveryRuleQueryStringCondition from our DeliveryRuleQueryStringCondition
-func (condition *DeliveryRuleQueryStringCondition) AssignProperties_To_DeliveryRuleQueryStringCondition(destination *v1api20210601s.DeliveryRuleQueryStringCondition) error {
+func (condition *DeliveryRuleQueryStringCondition) AssignProperties_To_DeliveryRuleQueryStringCondition(destination *v20210601s.DeliveryRuleQueryStringCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -7013,7 +7013,7 @@ func (condition *DeliveryRuleQueryStringCondition) AssignProperties_To_DeliveryR
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.QueryStringMatchConditionParameters
+		var parameter v20210601s.QueryStringMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_QueryStringMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_QueryStringMatchConditionParameters() to populate field Parameters")
@@ -7052,7 +7052,7 @@ type DeliveryRuleQueryStringCondition_STATUS struct {
 }
 
 // AssignProperties_From_DeliveryRuleQueryStringCondition_STATUS populates our DeliveryRuleQueryStringCondition_STATUS from the provided source DeliveryRuleQueryStringCondition_STATUS
-func (condition *DeliveryRuleQueryStringCondition_STATUS) AssignProperties_From_DeliveryRuleQueryStringCondition_STATUS(source *v1api20210601s.DeliveryRuleQueryStringCondition_STATUS) error {
+func (condition *DeliveryRuleQueryStringCondition_STATUS) AssignProperties_From_DeliveryRuleQueryStringCondition_STATUS(source *v20210601s.DeliveryRuleQueryStringCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7092,7 +7092,7 @@ func (condition *DeliveryRuleQueryStringCondition_STATUS) AssignProperties_From_
 }
 
 // AssignProperties_To_DeliveryRuleQueryStringCondition_STATUS populates the provided destination DeliveryRuleQueryStringCondition_STATUS from our DeliveryRuleQueryStringCondition_STATUS
-func (condition *DeliveryRuleQueryStringCondition_STATUS) AssignProperties_To_DeliveryRuleQueryStringCondition_STATUS(destination *v1api20210601s.DeliveryRuleQueryStringCondition_STATUS) error {
+func (condition *DeliveryRuleQueryStringCondition_STATUS) AssignProperties_To_DeliveryRuleQueryStringCondition_STATUS(destination *v20210601s.DeliveryRuleQueryStringCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -7101,7 +7101,7 @@ func (condition *DeliveryRuleQueryStringCondition_STATUS) AssignProperties_To_De
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.QueryStringMatchConditionParameters_STATUS
+		var parameter v20210601s.QueryStringMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_QueryStringMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_QueryStringMatchConditionParameters_STATUS() to populate field Parameters")
@@ -7140,7 +7140,7 @@ type DeliveryRuleRemoteAddressCondition struct {
 }
 
 // AssignProperties_From_DeliveryRuleRemoteAddressCondition populates our DeliveryRuleRemoteAddressCondition from the provided source DeliveryRuleRemoteAddressCondition
-func (condition *DeliveryRuleRemoteAddressCondition) AssignProperties_From_DeliveryRuleRemoteAddressCondition(source *v1api20210601s.DeliveryRuleRemoteAddressCondition) error {
+func (condition *DeliveryRuleRemoteAddressCondition) AssignProperties_From_DeliveryRuleRemoteAddressCondition(source *v20210601s.DeliveryRuleRemoteAddressCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7180,7 +7180,7 @@ func (condition *DeliveryRuleRemoteAddressCondition) AssignProperties_From_Deliv
 }
 
 // AssignProperties_To_DeliveryRuleRemoteAddressCondition populates the provided destination DeliveryRuleRemoteAddressCondition from our DeliveryRuleRemoteAddressCondition
-func (condition *DeliveryRuleRemoteAddressCondition) AssignProperties_To_DeliveryRuleRemoteAddressCondition(destination *v1api20210601s.DeliveryRuleRemoteAddressCondition) error {
+func (condition *DeliveryRuleRemoteAddressCondition) AssignProperties_To_DeliveryRuleRemoteAddressCondition(destination *v20210601s.DeliveryRuleRemoteAddressCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -7189,7 +7189,7 @@ func (condition *DeliveryRuleRemoteAddressCondition) AssignProperties_To_Deliver
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.RemoteAddressMatchConditionParameters
+		var parameter v20210601s.RemoteAddressMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_RemoteAddressMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RemoteAddressMatchConditionParameters() to populate field Parameters")
@@ -7228,7 +7228,7 @@ type DeliveryRuleRemoteAddressCondition_STATUS struct {
 }
 
 // AssignProperties_From_DeliveryRuleRemoteAddressCondition_STATUS populates our DeliveryRuleRemoteAddressCondition_STATUS from the provided source DeliveryRuleRemoteAddressCondition_STATUS
-func (condition *DeliveryRuleRemoteAddressCondition_STATUS) AssignProperties_From_DeliveryRuleRemoteAddressCondition_STATUS(source *v1api20210601s.DeliveryRuleRemoteAddressCondition_STATUS) error {
+func (condition *DeliveryRuleRemoteAddressCondition_STATUS) AssignProperties_From_DeliveryRuleRemoteAddressCondition_STATUS(source *v20210601s.DeliveryRuleRemoteAddressCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7268,7 +7268,7 @@ func (condition *DeliveryRuleRemoteAddressCondition_STATUS) AssignProperties_Fro
 }
 
 // AssignProperties_To_DeliveryRuleRemoteAddressCondition_STATUS populates the provided destination DeliveryRuleRemoteAddressCondition_STATUS from our DeliveryRuleRemoteAddressCondition_STATUS
-func (condition *DeliveryRuleRemoteAddressCondition_STATUS) AssignProperties_To_DeliveryRuleRemoteAddressCondition_STATUS(destination *v1api20210601s.DeliveryRuleRemoteAddressCondition_STATUS) error {
+func (condition *DeliveryRuleRemoteAddressCondition_STATUS) AssignProperties_To_DeliveryRuleRemoteAddressCondition_STATUS(destination *v20210601s.DeliveryRuleRemoteAddressCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -7277,7 +7277,7 @@ func (condition *DeliveryRuleRemoteAddressCondition_STATUS) AssignProperties_To_
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.RemoteAddressMatchConditionParameters_STATUS
+		var parameter v20210601s.RemoteAddressMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_RemoteAddressMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RemoteAddressMatchConditionParameters_STATUS() to populate field Parameters")
@@ -7316,7 +7316,7 @@ type DeliveryRuleRequestBodyCondition struct {
 }
 
 // AssignProperties_From_DeliveryRuleRequestBodyCondition populates our DeliveryRuleRequestBodyCondition from the provided source DeliveryRuleRequestBodyCondition
-func (condition *DeliveryRuleRequestBodyCondition) AssignProperties_From_DeliveryRuleRequestBodyCondition(source *v1api20210601s.DeliveryRuleRequestBodyCondition) error {
+func (condition *DeliveryRuleRequestBodyCondition) AssignProperties_From_DeliveryRuleRequestBodyCondition(source *v20210601s.DeliveryRuleRequestBodyCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7356,7 +7356,7 @@ func (condition *DeliveryRuleRequestBodyCondition) AssignProperties_From_Deliver
 }
 
 // AssignProperties_To_DeliveryRuleRequestBodyCondition populates the provided destination DeliveryRuleRequestBodyCondition from our DeliveryRuleRequestBodyCondition
-func (condition *DeliveryRuleRequestBodyCondition) AssignProperties_To_DeliveryRuleRequestBodyCondition(destination *v1api20210601s.DeliveryRuleRequestBodyCondition) error {
+func (condition *DeliveryRuleRequestBodyCondition) AssignProperties_To_DeliveryRuleRequestBodyCondition(destination *v20210601s.DeliveryRuleRequestBodyCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -7365,7 +7365,7 @@ func (condition *DeliveryRuleRequestBodyCondition) AssignProperties_To_DeliveryR
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.RequestBodyMatchConditionParameters
+		var parameter v20210601s.RequestBodyMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_RequestBodyMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RequestBodyMatchConditionParameters() to populate field Parameters")
@@ -7404,7 +7404,7 @@ type DeliveryRuleRequestBodyCondition_STATUS struct {
 }
 
 // AssignProperties_From_DeliveryRuleRequestBodyCondition_STATUS populates our DeliveryRuleRequestBodyCondition_STATUS from the provided source DeliveryRuleRequestBodyCondition_STATUS
-func (condition *DeliveryRuleRequestBodyCondition_STATUS) AssignProperties_From_DeliveryRuleRequestBodyCondition_STATUS(source *v1api20210601s.DeliveryRuleRequestBodyCondition_STATUS) error {
+func (condition *DeliveryRuleRequestBodyCondition_STATUS) AssignProperties_From_DeliveryRuleRequestBodyCondition_STATUS(source *v20210601s.DeliveryRuleRequestBodyCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7444,7 +7444,7 @@ func (condition *DeliveryRuleRequestBodyCondition_STATUS) AssignProperties_From_
 }
 
 // AssignProperties_To_DeliveryRuleRequestBodyCondition_STATUS populates the provided destination DeliveryRuleRequestBodyCondition_STATUS from our DeliveryRuleRequestBodyCondition_STATUS
-func (condition *DeliveryRuleRequestBodyCondition_STATUS) AssignProperties_To_DeliveryRuleRequestBodyCondition_STATUS(destination *v1api20210601s.DeliveryRuleRequestBodyCondition_STATUS) error {
+func (condition *DeliveryRuleRequestBodyCondition_STATUS) AssignProperties_To_DeliveryRuleRequestBodyCondition_STATUS(destination *v20210601s.DeliveryRuleRequestBodyCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -7453,7 +7453,7 @@ func (condition *DeliveryRuleRequestBodyCondition_STATUS) AssignProperties_To_De
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.RequestBodyMatchConditionParameters_STATUS
+		var parameter v20210601s.RequestBodyMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_RequestBodyMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RequestBodyMatchConditionParameters_STATUS() to populate field Parameters")
@@ -7492,7 +7492,7 @@ type DeliveryRuleRequestHeaderAction struct {
 }
 
 // AssignProperties_From_DeliveryRuleRequestHeaderAction populates our DeliveryRuleRequestHeaderAction from the provided source DeliveryRuleRequestHeaderAction
-func (action *DeliveryRuleRequestHeaderAction) AssignProperties_From_DeliveryRuleRequestHeaderAction(source *v1api20210601s.DeliveryRuleRequestHeaderAction) error {
+func (action *DeliveryRuleRequestHeaderAction) AssignProperties_From_DeliveryRuleRequestHeaderAction(source *v20210601s.DeliveryRuleRequestHeaderAction) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7532,7 +7532,7 @@ func (action *DeliveryRuleRequestHeaderAction) AssignProperties_From_DeliveryRul
 }
 
 // AssignProperties_To_DeliveryRuleRequestHeaderAction populates the provided destination DeliveryRuleRequestHeaderAction from our DeliveryRuleRequestHeaderAction
-func (action *DeliveryRuleRequestHeaderAction) AssignProperties_To_DeliveryRuleRequestHeaderAction(destination *v1api20210601s.DeliveryRuleRequestHeaderAction) error {
+func (action *DeliveryRuleRequestHeaderAction) AssignProperties_To_DeliveryRuleRequestHeaderAction(destination *v20210601s.DeliveryRuleRequestHeaderAction) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(action.PropertyBag)
 
@@ -7541,7 +7541,7 @@ func (action *DeliveryRuleRequestHeaderAction) AssignProperties_To_DeliveryRuleR
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v1api20210601s.HeaderActionParameters
+		var parameter v20210601s.HeaderActionParameters
 		err := action.Parameters.AssignProperties_To_HeaderActionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HeaderActionParameters() to populate field Parameters")
@@ -7580,7 +7580,7 @@ type DeliveryRuleRequestHeaderAction_STATUS struct {
 }
 
 // AssignProperties_From_DeliveryRuleRequestHeaderAction_STATUS populates our DeliveryRuleRequestHeaderAction_STATUS from the provided source DeliveryRuleRequestHeaderAction_STATUS
-func (action *DeliveryRuleRequestHeaderAction_STATUS) AssignProperties_From_DeliveryRuleRequestHeaderAction_STATUS(source *v1api20210601s.DeliveryRuleRequestHeaderAction_STATUS) error {
+func (action *DeliveryRuleRequestHeaderAction_STATUS) AssignProperties_From_DeliveryRuleRequestHeaderAction_STATUS(source *v20210601s.DeliveryRuleRequestHeaderAction_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7620,7 +7620,7 @@ func (action *DeliveryRuleRequestHeaderAction_STATUS) AssignProperties_From_Deli
 }
 
 // AssignProperties_To_DeliveryRuleRequestHeaderAction_STATUS populates the provided destination DeliveryRuleRequestHeaderAction_STATUS from our DeliveryRuleRequestHeaderAction_STATUS
-func (action *DeliveryRuleRequestHeaderAction_STATUS) AssignProperties_To_DeliveryRuleRequestHeaderAction_STATUS(destination *v1api20210601s.DeliveryRuleRequestHeaderAction_STATUS) error {
+func (action *DeliveryRuleRequestHeaderAction_STATUS) AssignProperties_To_DeliveryRuleRequestHeaderAction_STATUS(destination *v20210601s.DeliveryRuleRequestHeaderAction_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(action.PropertyBag)
 
@@ -7629,7 +7629,7 @@ func (action *DeliveryRuleRequestHeaderAction_STATUS) AssignProperties_To_Delive
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v1api20210601s.HeaderActionParameters_STATUS
+		var parameter v20210601s.HeaderActionParameters_STATUS
 		err := action.Parameters.AssignProperties_To_HeaderActionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HeaderActionParameters_STATUS() to populate field Parameters")
@@ -7668,7 +7668,7 @@ type DeliveryRuleRequestHeaderCondition struct {
 }
 
 // AssignProperties_From_DeliveryRuleRequestHeaderCondition populates our DeliveryRuleRequestHeaderCondition from the provided source DeliveryRuleRequestHeaderCondition
-func (condition *DeliveryRuleRequestHeaderCondition) AssignProperties_From_DeliveryRuleRequestHeaderCondition(source *v1api20210601s.DeliveryRuleRequestHeaderCondition) error {
+func (condition *DeliveryRuleRequestHeaderCondition) AssignProperties_From_DeliveryRuleRequestHeaderCondition(source *v20210601s.DeliveryRuleRequestHeaderCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7708,7 +7708,7 @@ func (condition *DeliveryRuleRequestHeaderCondition) AssignProperties_From_Deliv
 }
 
 // AssignProperties_To_DeliveryRuleRequestHeaderCondition populates the provided destination DeliveryRuleRequestHeaderCondition from our DeliveryRuleRequestHeaderCondition
-func (condition *DeliveryRuleRequestHeaderCondition) AssignProperties_To_DeliveryRuleRequestHeaderCondition(destination *v1api20210601s.DeliveryRuleRequestHeaderCondition) error {
+func (condition *DeliveryRuleRequestHeaderCondition) AssignProperties_To_DeliveryRuleRequestHeaderCondition(destination *v20210601s.DeliveryRuleRequestHeaderCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -7717,7 +7717,7 @@ func (condition *DeliveryRuleRequestHeaderCondition) AssignProperties_To_Deliver
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.RequestHeaderMatchConditionParameters
+		var parameter v20210601s.RequestHeaderMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_RequestHeaderMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RequestHeaderMatchConditionParameters() to populate field Parameters")
@@ -7756,7 +7756,7 @@ type DeliveryRuleRequestHeaderCondition_STATUS struct {
 }
 
 // AssignProperties_From_DeliveryRuleRequestHeaderCondition_STATUS populates our DeliveryRuleRequestHeaderCondition_STATUS from the provided source DeliveryRuleRequestHeaderCondition_STATUS
-func (condition *DeliveryRuleRequestHeaderCondition_STATUS) AssignProperties_From_DeliveryRuleRequestHeaderCondition_STATUS(source *v1api20210601s.DeliveryRuleRequestHeaderCondition_STATUS) error {
+func (condition *DeliveryRuleRequestHeaderCondition_STATUS) AssignProperties_From_DeliveryRuleRequestHeaderCondition_STATUS(source *v20210601s.DeliveryRuleRequestHeaderCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7796,7 +7796,7 @@ func (condition *DeliveryRuleRequestHeaderCondition_STATUS) AssignProperties_Fro
 }
 
 // AssignProperties_To_DeliveryRuleRequestHeaderCondition_STATUS populates the provided destination DeliveryRuleRequestHeaderCondition_STATUS from our DeliveryRuleRequestHeaderCondition_STATUS
-func (condition *DeliveryRuleRequestHeaderCondition_STATUS) AssignProperties_To_DeliveryRuleRequestHeaderCondition_STATUS(destination *v1api20210601s.DeliveryRuleRequestHeaderCondition_STATUS) error {
+func (condition *DeliveryRuleRequestHeaderCondition_STATUS) AssignProperties_To_DeliveryRuleRequestHeaderCondition_STATUS(destination *v20210601s.DeliveryRuleRequestHeaderCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -7805,7 +7805,7 @@ func (condition *DeliveryRuleRequestHeaderCondition_STATUS) AssignProperties_To_
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.RequestHeaderMatchConditionParameters_STATUS
+		var parameter v20210601s.RequestHeaderMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_RequestHeaderMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RequestHeaderMatchConditionParameters_STATUS() to populate field Parameters")
@@ -7844,7 +7844,7 @@ type DeliveryRuleRequestMethodCondition struct {
 }
 
 // AssignProperties_From_DeliveryRuleRequestMethodCondition populates our DeliveryRuleRequestMethodCondition from the provided source DeliveryRuleRequestMethodCondition
-func (condition *DeliveryRuleRequestMethodCondition) AssignProperties_From_DeliveryRuleRequestMethodCondition(source *v1api20210601s.DeliveryRuleRequestMethodCondition) error {
+func (condition *DeliveryRuleRequestMethodCondition) AssignProperties_From_DeliveryRuleRequestMethodCondition(source *v20210601s.DeliveryRuleRequestMethodCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7884,7 +7884,7 @@ func (condition *DeliveryRuleRequestMethodCondition) AssignProperties_From_Deliv
 }
 
 // AssignProperties_To_DeliveryRuleRequestMethodCondition populates the provided destination DeliveryRuleRequestMethodCondition from our DeliveryRuleRequestMethodCondition
-func (condition *DeliveryRuleRequestMethodCondition) AssignProperties_To_DeliveryRuleRequestMethodCondition(destination *v1api20210601s.DeliveryRuleRequestMethodCondition) error {
+func (condition *DeliveryRuleRequestMethodCondition) AssignProperties_To_DeliveryRuleRequestMethodCondition(destination *v20210601s.DeliveryRuleRequestMethodCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -7893,7 +7893,7 @@ func (condition *DeliveryRuleRequestMethodCondition) AssignProperties_To_Deliver
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.RequestMethodMatchConditionParameters
+		var parameter v20210601s.RequestMethodMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_RequestMethodMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RequestMethodMatchConditionParameters() to populate field Parameters")
@@ -7932,7 +7932,7 @@ type DeliveryRuleRequestMethodCondition_STATUS struct {
 }
 
 // AssignProperties_From_DeliveryRuleRequestMethodCondition_STATUS populates our DeliveryRuleRequestMethodCondition_STATUS from the provided source DeliveryRuleRequestMethodCondition_STATUS
-func (condition *DeliveryRuleRequestMethodCondition_STATUS) AssignProperties_From_DeliveryRuleRequestMethodCondition_STATUS(source *v1api20210601s.DeliveryRuleRequestMethodCondition_STATUS) error {
+func (condition *DeliveryRuleRequestMethodCondition_STATUS) AssignProperties_From_DeliveryRuleRequestMethodCondition_STATUS(source *v20210601s.DeliveryRuleRequestMethodCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7972,7 +7972,7 @@ func (condition *DeliveryRuleRequestMethodCondition_STATUS) AssignProperties_Fro
 }
 
 // AssignProperties_To_DeliveryRuleRequestMethodCondition_STATUS populates the provided destination DeliveryRuleRequestMethodCondition_STATUS from our DeliveryRuleRequestMethodCondition_STATUS
-func (condition *DeliveryRuleRequestMethodCondition_STATUS) AssignProperties_To_DeliveryRuleRequestMethodCondition_STATUS(destination *v1api20210601s.DeliveryRuleRequestMethodCondition_STATUS) error {
+func (condition *DeliveryRuleRequestMethodCondition_STATUS) AssignProperties_To_DeliveryRuleRequestMethodCondition_STATUS(destination *v20210601s.DeliveryRuleRequestMethodCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -7981,7 +7981,7 @@ func (condition *DeliveryRuleRequestMethodCondition_STATUS) AssignProperties_To_
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.RequestMethodMatchConditionParameters_STATUS
+		var parameter v20210601s.RequestMethodMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_RequestMethodMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RequestMethodMatchConditionParameters_STATUS() to populate field Parameters")
@@ -8020,7 +8020,7 @@ type DeliveryRuleRequestSchemeCondition struct {
 }
 
 // AssignProperties_From_DeliveryRuleRequestSchemeCondition populates our DeliveryRuleRequestSchemeCondition from the provided source DeliveryRuleRequestSchemeCondition
-func (condition *DeliveryRuleRequestSchemeCondition) AssignProperties_From_DeliveryRuleRequestSchemeCondition(source *v1api20210601s.DeliveryRuleRequestSchemeCondition) error {
+func (condition *DeliveryRuleRequestSchemeCondition) AssignProperties_From_DeliveryRuleRequestSchemeCondition(source *v20210601s.DeliveryRuleRequestSchemeCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8060,7 +8060,7 @@ func (condition *DeliveryRuleRequestSchemeCondition) AssignProperties_From_Deliv
 }
 
 // AssignProperties_To_DeliveryRuleRequestSchemeCondition populates the provided destination DeliveryRuleRequestSchemeCondition from our DeliveryRuleRequestSchemeCondition
-func (condition *DeliveryRuleRequestSchemeCondition) AssignProperties_To_DeliveryRuleRequestSchemeCondition(destination *v1api20210601s.DeliveryRuleRequestSchemeCondition) error {
+func (condition *DeliveryRuleRequestSchemeCondition) AssignProperties_To_DeliveryRuleRequestSchemeCondition(destination *v20210601s.DeliveryRuleRequestSchemeCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -8069,7 +8069,7 @@ func (condition *DeliveryRuleRequestSchemeCondition) AssignProperties_To_Deliver
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.RequestSchemeMatchConditionParameters
+		var parameter v20210601s.RequestSchemeMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_RequestSchemeMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RequestSchemeMatchConditionParameters() to populate field Parameters")
@@ -8108,7 +8108,7 @@ type DeliveryRuleRequestSchemeCondition_STATUS struct {
 }
 
 // AssignProperties_From_DeliveryRuleRequestSchemeCondition_STATUS populates our DeliveryRuleRequestSchemeCondition_STATUS from the provided source DeliveryRuleRequestSchemeCondition_STATUS
-func (condition *DeliveryRuleRequestSchemeCondition_STATUS) AssignProperties_From_DeliveryRuleRequestSchemeCondition_STATUS(source *v1api20210601s.DeliveryRuleRequestSchemeCondition_STATUS) error {
+func (condition *DeliveryRuleRequestSchemeCondition_STATUS) AssignProperties_From_DeliveryRuleRequestSchemeCondition_STATUS(source *v20210601s.DeliveryRuleRequestSchemeCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8148,7 +8148,7 @@ func (condition *DeliveryRuleRequestSchemeCondition_STATUS) AssignProperties_Fro
 }
 
 // AssignProperties_To_DeliveryRuleRequestSchemeCondition_STATUS populates the provided destination DeliveryRuleRequestSchemeCondition_STATUS from our DeliveryRuleRequestSchemeCondition_STATUS
-func (condition *DeliveryRuleRequestSchemeCondition_STATUS) AssignProperties_To_DeliveryRuleRequestSchemeCondition_STATUS(destination *v1api20210601s.DeliveryRuleRequestSchemeCondition_STATUS) error {
+func (condition *DeliveryRuleRequestSchemeCondition_STATUS) AssignProperties_To_DeliveryRuleRequestSchemeCondition_STATUS(destination *v20210601s.DeliveryRuleRequestSchemeCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -8157,7 +8157,7 @@ func (condition *DeliveryRuleRequestSchemeCondition_STATUS) AssignProperties_To_
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.RequestSchemeMatchConditionParameters_STATUS
+		var parameter v20210601s.RequestSchemeMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_RequestSchemeMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RequestSchemeMatchConditionParameters_STATUS() to populate field Parameters")
@@ -8196,7 +8196,7 @@ type DeliveryRuleRequestUriCondition struct {
 }
 
 // AssignProperties_From_DeliveryRuleRequestUriCondition populates our DeliveryRuleRequestUriCondition from the provided source DeliveryRuleRequestUriCondition
-func (condition *DeliveryRuleRequestUriCondition) AssignProperties_From_DeliveryRuleRequestUriCondition(source *v1api20210601s.DeliveryRuleRequestUriCondition) error {
+func (condition *DeliveryRuleRequestUriCondition) AssignProperties_From_DeliveryRuleRequestUriCondition(source *v20210601s.DeliveryRuleRequestUriCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8236,7 +8236,7 @@ func (condition *DeliveryRuleRequestUriCondition) AssignProperties_From_Delivery
 }
 
 // AssignProperties_To_DeliveryRuleRequestUriCondition populates the provided destination DeliveryRuleRequestUriCondition from our DeliveryRuleRequestUriCondition
-func (condition *DeliveryRuleRequestUriCondition) AssignProperties_To_DeliveryRuleRequestUriCondition(destination *v1api20210601s.DeliveryRuleRequestUriCondition) error {
+func (condition *DeliveryRuleRequestUriCondition) AssignProperties_To_DeliveryRuleRequestUriCondition(destination *v20210601s.DeliveryRuleRequestUriCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -8245,7 +8245,7 @@ func (condition *DeliveryRuleRequestUriCondition) AssignProperties_To_DeliveryRu
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.RequestUriMatchConditionParameters
+		var parameter v20210601s.RequestUriMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_RequestUriMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RequestUriMatchConditionParameters() to populate field Parameters")
@@ -8284,7 +8284,7 @@ type DeliveryRuleRequestUriCondition_STATUS struct {
 }
 
 // AssignProperties_From_DeliveryRuleRequestUriCondition_STATUS populates our DeliveryRuleRequestUriCondition_STATUS from the provided source DeliveryRuleRequestUriCondition_STATUS
-func (condition *DeliveryRuleRequestUriCondition_STATUS) AssignProperties_From_DeliveryRuleRequestUriCondition_STATUS(source *v1api20210601s.DeliveryRuleRequestUriCondition_STATUS) error {
+func (condition *DeliveryRuleRequestUriCondition_STATUS) AssignProperties_From_DeliveryRuleRequestUriCondition_STATUS(source *v20210601s.DeliveryRuleRequestUriCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8324,7 +8324,7 @@ func (condition *DeliveryRuleRequestUriCondition_STATUS) AssignProperties_From_D
 }
 
 // AssignProperties_To_DeliveryRuleRequestUriCondition_STATUS populates the provided destination DeliveryRuleRequestUriCondition_STATUS from our DeliveryRuleRequestUriCondition_STATUS
-func (condition *DeliveryRuleRequestUriCondition_STATUS) AssignProperties_To_DeliveryRuleRequestUriCondition_STATUS(destination *v1api20210601s.DeliveryRuleRequestUriCondition_STATUS) error {
+func (condition *DeliveryRuleRequestUriCondition_STATUS) AssignProperties_To_DeliveryRuleRequestUriCondition_STATUS(destination *v20210601s.DeliveryRuleRequestUriCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -8333,7 +8333,7 @@ func (condition *DeliveryRuleRequestUriCondition_STATUS) AssignProperties_To_Del
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.RequestUriMatchConditionParameters_STATUS
+		var parameter v20210601s.RequestUriMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_RequestUriMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RequestUriMatchConditionParameters_STATUS() to populate field Parameters")
@@ -8372,7 +8372,7 @@ type DeliveryRuleResponseHeaderAction struct {
 }
 
 // AssignProperties_From_DeliveryRuleResponseHeaderAction populates our DeliveryRuleResponseHeaderAction from the provided source DeliveryRuleResponseHeaderAction
-func (action *DeliveryRuleResponseHeaderAction) AssignProperties_From_DeliveryRuleResponseHeaderAction(source *v1api20210601s.DeliveryRuleResponseHeaderAction) error {
+func (action *DeliveryRuleResponseHeaderAction) AssignProperties_From_DeliveryRuleResponseHeaderAction(source *v20210601s.DeliveryRuleResponseHeaderAction) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8412,7 +8412,7 @@ func (action *DeliveryRuleResponseHeaderAction) AssignProperties_From_DeliveryRu
 }
 
 // AssignProperties_To_DeliveryRuleResponseHeaderAction populates the provided destination DeliveryRuleResponseHeaderAction from our DeliveryRuleResponseHeaderAction
-func (action *DeliveryRuleResponseHeaderAction) AssignProperties_To_DeliveryRuleResponseHeaderAction(destination *v1api20210601s.DeliveryRuleResponseHeaderAction) error {
+func (action *DeliveryRuleResponseHeaderAction) AssignProperties_To_DeliveryRuleResponseHeaderAction(destination *v20210601s.DeliveryRuleResponseHeaderAction) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(action.PropertyBag)
 
@@ -8421,7 +8421,7 @@ func (action *DeliveryRuleResponseHeaderAction) AssignProperties_To_DeliveryRule
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v1api20210601s.HeaderActionParameters
+		var parameter v20210601s.HeaderActionParameters
 		err := action.Parameters.AssignProperties_To_HeaderActionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HeaderActionParameters() to populate field Parameters")
@@ -8460,7 +8460,7 @@ type DeliveryRuleResponseHeaderAction_STATUS struct {
 }
 
 // AssignProperties_From_DeliveryRuleResponseHeaderAction_STATUS populates our DeliveryRuleResponseHeaderAction_STATUS from the provided source DeliveryRuleResponseHeaderAction_STATUS
-func (action *DeliveryRuleResponseHeaderAction_STATUS) AssignProperties_From_DeliveryRuleResponseHeaderAction_STATUS(source *v1api20210601s.DeliveryRuleResponseHeaderAction_STATUS) error {
+func (action *DeliveryRuleResponseHeaderAction_STATUS) AssignProperties_From_DeliveryRuleResponseHeaderAction_STATUS(source *v20210601s.DeliveryRuleResponseHeaderAction_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8500,7 +8500,7 @@ func (action *DeliveryRuleResponseHeaderAction_STATUS) AssignProperties_From_Del
 }
 
 // AssignProperties_To_DeliveryRuleResponseHeaderAction_STATUS populates the provided destination DeliveryRuleResponseHeaderAction_STATUS from our DeliveryRuleResponseHeaderAction_STATUS
-func (action *DeliveryRuleResponseHeaderAction_STATUS) AssignProperties_To_DeliveryRuleResponseHeaderAction_STATUS(destination *v1api20210601s.DeliveryRuleResponseHeaderAction_STATUS) error {
+func (action *DeliveryRuleResponseHeaderAction_STATUS) AssignProperties_To_DeliveryRuleResponseHeaderAction_STATUS(destination *v20210601s.DeliveryRuleResponseHeaderAction_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(action.PropertyBag)
 
@@ -8509,7 +8509,7 @@ func (action *DeliveryRuleResponseHeaderAction_STATUS) AssignProperties_To_Deliv
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v1api20210601s.HeaderActionParameters_STATUS
+		var parameter v20210601s.HeaderActionParameters_STATUS
 		err := action.Parameters.AssignProperties_To_HeaderActionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HeaderActionParameters_STATUS() to populate field Parameters")
@@ -8548,7 +8548,7 @@ type DeliveryRuleRouteConfigurationOverrideAction struct {
 }
 
 // AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction populates our DeliveryRuleRouteConfigurationOverrideAction from the provided source DeliveryRuleRouteConfigurationOverrideAction
-func (action *DeliveryRuleRouteConfigurationOverrideAction) AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction(source *v1api20210601s.DeliveryRuleRouteConfigurationOverrideAction) error {
+func (action *DeliveryRuleRouteConfigurationOverrideAction) AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction(source *v20210601s.DeliveryRuleRouteConfigurationOverrideAction) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8588,7 +8588,7 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction) AssignProperties_Fro
 }
 
 // AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction populates the provided destination DeliveryRuleRouteConfigurationOverrideAction from our DeliveryRuleRouteConfigurationOverrideAction
-func (action *DeliveryRuleRouteConfigurationOverrideAction) AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction(destination *v1api20210601s.DeliveryRuleRouteConfigurationOverrideAction) error {
+func (action *DeliveryRuleRouteConfigurationOverrideAction) AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction(destination *v20210601s.DeliveryRuleRouteConfigurationOverrideAction) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(action.PropertyBag)
 
@@ -8597,7 +8597,7 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction) AssignProperties_To_
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v1api20210601s.RouteConfigurationOverrideActionParameters
+		var parameter v20210601s.RouteConfigurationOverrideActionParameters
 		err := action.Parameters.AssignProperties_To_RouteConfigurationOverrideActionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RouteConfigurationOverrideActionParameters() to populate field Parameters")
@@ -8636,7 +8636,7 @@ type DeliveryRuleRouteConfigurationOverrideAction_STATUS struct {
 }
 
 // AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction_STATUS populates our DeliveryRuleRouteConfigurationOverrideAction_STATUS from the provided source DeliveryRuleRouteConfigurationOverrideAction_STATUS
-func (action *DeliveryRuleRouteConfigurationOverrideAction_STATUS) AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction_STATUS(source *v1api20210601s.DeliveryRuleRouteConfigurationOverrideAction_STATUS) error {
+func (action *DeliveryRuleRouteConfigurationOverrideAction_STATUS) AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction_STATUS(source *v20210601s.DeliveryRuleRouteConfigurationOverrideAction_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8676,7 +8676,7 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction_STATUS) AssignPropert
 }
 
 // AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction_STATUS populates the provided destination DeliveryRuleRouteConfigurationOverrideAction_STATUS from our DeliveryRuleRouteConfigurationOverrideAction_STATUS
-func (action *DeliveryRuleRouteConfigurationOverrideAction_STATUS) AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction_STATUS(destination *v1api20210601s.DeliveryRuleRouteConfigurationOverrideAction_STATUS) error {
+func (action *DeliveryRuleRouteConfigurationOverrideAction_STATUS) AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction_STATUS(destination *v20210601s.DeliveryRuleRouteConfigurationOverrideAction_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(action.PropertyBag)
 
@@ -8685,7 +8685,7 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction_STATUS) AssignPropert
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v1api20210601s.RouteConfigurationOverrideActionParameters_STATUS
+		var parameter v20210601s.RouteConfigurationOverrideActionParameters_STATUS
 		err := action.Parameters.AssignProperties_To_RouteConfigurationOverrideActionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RouteConfigurationOverrideActionParameters_STATUS() to populate field Parameters")
@@ -8724,7 +8724,7 @@ type DeliveryRuleServerPortCondition struct {
 }
 
 // AssignProperties_From_DeliveryRuleServerPortCondition populates our DeliveryRuleServerPortCondition from the provided source DeliveryRuleServerPortCondition
-func (condition *DeliveryRuleServerPortCondition) AssignProperties_From_DeliveryRuleServerPortCondition(source *v1api20210601s.DeliveryRuleServerPortCondition) error {
+func (condition *DeliveryRuleServerPortCondition) AssignProperties_From_DeliveryRuleServerPortCondition(source *v20210601s.DeliveryRuleServerPortCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8764,7 +8764,7 @@ func (condition *DeliveryRuleServerPortCondition) AssignProperties_From_Delivery
 }
 
 // AssignProperties_To_DeliveryRuleServerPortCondition populates the provided destination DeliveryRuleServerPortCondition from our DeliveryRuleServerPortCondition
-func (condition *DeliveryRuleServerPortCondition) AssignProperties_To_DeliveryRuleServerPortCondition(destination *v1api20210601s.DeliveryRuleServerPortCondition) error {
+func (condition *DeliveryRuleServerPortCondition) AssignProperties_To_DeliveryRuleServerPortCondition(destination *v20210601s.DeliveryRuleServerPortCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -8773,7 +8773,7 @@ func (condition *DeliveryRuleServerPortCondition) AssignProperties_To_DeliveryRu
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.ServerPortMatchConditionParameters
+		var parameter v20210601s.ServerPortMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_ServerPortMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ServerPortMatchConditionParameters() to populate field Parameters")
@@ -8812,7 +8812,7 @@ type DeliveryRuleServerPortCondition_STATUS struct {
 }
 
 // AssignProperties_From_DeliveryRuleServerPortCondition_STATUS populates our DeliveryRuleServerPortCondition_STATUS from the provided source DeliveryRuleServerPortCondition_STATUS
-func (condition *DeliveryRuleServerPortCondition_STATUS) AssignProperties_From_DeliveryRuleServerPortCondition_STATUS(source *v1api20210601s.DeliveryRuleServerPortCondition_STATUS) error {
+func (condition *DeliveryRuleServerPortCondition_STATUS) AssignProperties_From_DeliveryRuleServerPortCondition_STATUS(source *v20210601s.DeliveryRuleServerPortCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8852,7 +8852,7 @@ func (condition *DeliveryRuleServerPortCondition_STATUS) AssignProperties_From_D
 }
 
 // AssignProperties_To_DeliveryRuleServerPortCondition_STATUS populates the provided destination DeliveryRuleServerPortCondition_STATUS from our DeliveryRuleServerPortCondition_STATUS
-func (condition *DeliveryRuleServerPortCondition_STATUS) AssignProperties_To_DeliveryRuleServerPortCondition_STATUS(destination *v1api20210601s.DeliveryRuleServerPortCondition_STATUS) error {
+func (condition *DeliveryRuleServerPortCondition_STATUS) AssignProperties_To_DeliveryRuleServerPortCondition_STATUS(destination *v20210601s.DeliveryRuleServerPortCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -8861,7 +8861,7 @@ func (condition *DeliveryRuleServerPortCondition_STATUS) AssignProperties_To_Del
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.ServerPortMatchConditionParameters_STATUS
+		var parameter v20210601s.ServerPortMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_ServerPortMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ServerPortMatchConditionParameters_STATUS() to populate field Parameters")
@@ -8900,7 +8900,7 @@ type DeliveryRuleSocketAddrCondition struct {
 }
 
 // AssignProperties_From_DeliveryRuleSocketAddrCondition populates our DeliveryRuleSocketAddrCondition from the provided source DeliveryRuleSocketAddrCondition
-func (condition *DeliveryRuleSocketAddrCondition) AssignProperties_From_DeliveryRuleSocketAddrCondition(source *v1api20210601s.DeliveryRuleSocketAddrCondition) error {
+func (condition *DeliveryRuleSocketAddrCondition) AssignProperties_From_DeliveryRuleSocketAddrCondition(source *v20210601s.DeliveryRuleSocketAddrCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8940,7 +8940,7 @@ func (condition *DeliveryRuleSocketAddrCondition) AssignProperties_From_Delivery
 }
 
 // AssignProperties_To_DeliveryRuleSocketAddrCondition populates the provided destination DeliveryRuleSocketAddrCondition from our DeliveryRuleSocketAddrCondition
-func (condition *DeliveryRuleSocketAddrCondition) AssignProperties_To_DeliveryRuleSocketAddrCondition(destination *v1api20210601s.DeliveryRuleSocketAddrCondition) error {
+func (condition *DeliveryRuleSocketAddrCondition) AssignProperties_To_DeliveryRuleSocketAddrCondition(destination *v20210601s.DeliveryRuleSocketAddrCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -8949,7 +8949,7 @@ func (condition *DeliveryRuleSocketAddrCondition) AssignProperties_To_DeliveryRu
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.SocketAddrMatchConditionParameters
+		var parameter v20210601s.SocketAddrMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_SocketAddrMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SocketAddrMatchConditionParameters() to populate field Parameters")
@@ -8988,7 +8988,7 @@ type DeliveryRuleSocketAddrCondition_STATUS struct {
 }
 
 // AssignProperties_From_DeliveryRuleSocketAddrCondition_STATUS populates our DeliveryRuleSocketAddrCondition_STATUS from the provided source DeliveryRuleSocketAddrCondition_STATUS
-func (condition *DeliveryRuleSocketAddrCondition_STATUS) AssignProperties_From_DeliveryRuleSocketAddrCondition_STATUS(source *v1api20210601s.DeliveryRuleSocketAddrCondition_STATUS) error {
+func (condition *DeliveryRuleSocketAddrCondition_STATUS) AssignProperties_From_DeliveryRuleSocketAddrCondition_STATUS(source *v20210601s.DeliveryRuleSocketAddrCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9028,7 +9028,7 @@ func (condition *DeliveryRuleSocketAddrCondition_STATUS) AssignProperties_From_D
 }
 
 // AssignProperties_To_DeliveryRuleSocketAddrCondition_STATUS populates the provided destination DeliveryRuleSocketAddrCondition_STATUS from our DeliveryRuleSocketAddrCondition_STATUS
-func (condition *DeliveryRuleSocketAddrCondition_STATUS) AssignProperties_To_DeliveryRuleSocketAddrCondition_STATUS(destination *v1api20210601s.DeliveryRuleSocketAddrCondition_STATUS) error {
+func (condition *DeliveryRuleSocketAddrCondition_STATUS) AssignProperties_To_DeliveryRuleSocketAddrCondition_STATUS(destination *v20210601s.DeliveryRuleSocketAddrCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -9037,7 +9037,7 @@ func (condition *DeliveryRuleSocketAddrCondition_STATUS) AssignProperties_To_Del
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.SocketAddrMatchConditionParameters_STATUS
+		var parameter v20210601s.SocketAddrMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_SocketAddrMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SocketAddrMatchConditionParameters_STATUS() to populate field Parameters")
@@ -9076,7 +9076,7 @@ type DeliveryRuleSslProtocolCondition struct {
 }
 
 // AssignProperties_From_DeliveryRuleSslProtocolCondition populates our DeliveryRuleSslProtocolCondition from the provided source DeliveryRuleSslProtocolCondition
-func (condition *DeliveryRuleSslProtocolCondition) AssignProperties_From_DeliveryRuleSslProtocolCondition(source *v1api20210601s.DeliveryRuleSslProtocolCondition) error {
+func (condition *DeliveryRuleSslProtocolCondition) AssignProperties_From_DeliveryRuleSslProtocolCondition(source *v20210601s.DeliveryRuleSslProtocolCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9116,7 +9116,7 @@ func (condition *DeliveryRuleSslProtocolCondition) AssignProperties_From_Deliver
 }
 
 // AssignProperties_To_DeliveryRuleSslProtocolCondition populates the provided destination DeliveryRuleSslProtocolCondition from our DeliveryRuleSslProtocolCondition
-func (condition *DeliveryRuleSslProtocolCondition) AssignProperties_To_DeliveryRuleSslProtocolCondition(destination *v1api20210601s.DeliveryRuleSslProtocolCondition) error {
+func (condition *DeliveryRuleSslProtocolCondition) AssignProperties_To_DeliveryRuleSslProtocolCondition(destination *v20210601s.DeliveryRuleSslProtocolCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -9125,7 +9125,7 @@ func (condition *DeliveryRuleSslProtocolCondition) AssignProperties_To_DeliveryR
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.SslProtocolMatchConditionParameters
+		var parameter v20210601s.SslProtocolMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_SslProtocolMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SslProtocolMatchConditionParameters() to populate field Parameters")
@@ -9164,7 +9164,7 @@ type DeliveryRuleSslProtocolCondition_STATUS struct {
 }
 
 // AssignProperties_From_DeliveryRuleSslProtocolCondition_STATUS populates our DeliveryRuleSslProtocolCondition_STATUS from the provided source DeliveryRuleSslProtocolCondition_STATUS
-func (condition *DeliveryRuleSslProtocolCondition_STATUS) AssignProperties_From_DeliveryRuleSslProtocolCondition_STATUS(source *v1api20210601s.DeliveryRuleSslProtocolCondition_STATUS) error {
+func (condition *DeliveryRuleSslProtocolCondition_STATUS) AssignProperties_From_DeliveryRuleSslProtocolCondition_STATUS(source *v20210601s.DeliveryRuleSslProtocolCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9204,7 +9204,7 @@ func (condition *DeliveryRuleSslProtocolCondition_STATUS) AssignProperties_From_
 }
 
 // AssignProperties_To_DeliveryRuleSslProtocolCondition_STATUS populates the provided destination DeliveryRuleSslProtocolCondition_STATUS from our DeliveryRuleSslProtocolCondition_STATUS
-func (condition *DeliveryRuleSslProtocolCondition_STATUS) AssignProperties_To_DeliveryRuleSslProtocolCondition_STATUS(destination *v1api20210601s.DeliveryRuleSslProtocolCondition_STATUS) error {
+func (condition *DeliveryRuleSslProtocolCondition_STATUS) AssignProperties_To_DeliveryRuleSslProtocolCondition_STATUS(destination *v20210601s.DeliveryRuleSslProtocolCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -9213,7 +9213,7 @@ func (condition *DeliveryRuleSslProtocolCondition_STATUS) AssignProperties_To_De
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.SslProtocolMatchConditionParameters_STATUS
+		var parameter v20210601s.SslProtocolMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_SslProtocolMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SslProtocolMatchConditionParameters_STATUS() to populate field Parameters")
@@ -9252,7 +9252,7 @@ type DeliveryRuleUrlFileExtensionCondition struct {
 }
 
 // AssignProperties_From_DeliveryRuleUrlFileExtensionCondition populates our DeliveryRuleUrlFileExtensionCondition from the provided source DeliveryRuleUrlFileExtensionCondition
-func (condition *DeliveryRuleUrlFileExtensionCondition) AssignProperties_From_DeliveryRuleUrlFileExtensionCondition(source *v1api20210601s.DeliveryRuleUrlFileExtensionCondition) error {
+func (condition *DeliveryRuleUrlFileExtensionCondition) AssignProperties_From_DeliveryRuleUrlFileExtensionCondition(source *v20210601s.DeliveryRuleUrlFileExtensionCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9292,7 +9292,7 @@ func (condition *DeliveryRuleUrlFileExtensionCondition) AssignProperties_From_De
 }
 
 // AssignProperties_To_DeliveryRuleUrlFileExtensionCondition populates the provided destination DeliveryRuleUrlFileExtensionCondition from our DeliveryRuleUrlFileExtensionCondition
-func (condition *DeliveryRuleUrlFileExtensionCondition) AssignProperties_To_DeliveryRuleUrlFileExtensionCondition(destination *v1api20210601s.DeliveryRuleUrlFileExtensionCondition) error {
+func (condition *DeliveryRuleUrlFileExtensionCondition) AssignProperties_To_DeliveryRuleUrlFileExtensionCondition(destination *v20210601s.DeliveryRuleUrlFileExtensionCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -9301,7 +9301,7 @@ func (condition *DeliveryRuleUrlFileExtensionCondition) AssignProperties_To_Deli
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.UrlFileExtensionMatchConditionParameters
+		var parameter v20210601s.UrlFileExtensionMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_UrlFileExtensionMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlFileExtensionMatchConditionParameters() to populate field Parameters")
@@ -9340,7 +9340,7 @@ type DeliveryRuleUrlFileExtensionCondition_STATUS struct {
 }
 
 // AssignProperties_From_DeliveryRuleUrlFileExtensionCondition_STATUS populates our DeliveryRuleUrlFileExtensionCondition_STATUS from the provided source DeliveryRuleUrlFileExtensionCondition_STATUS
-func (condition *DeliveryRuleUrlFileExtensionCondition_STATUS) AssignProperties_From_DeliveryRuleUrlFileExtensionCondition_STATUS(source *v1api20210601s.DeliveryRuleUrlFileExtensionCondition_STATUS) error {
+func (condition *DeliveryRuleUrlFileExtensionCondition_STATUS) AssignProperties_From_DeliveryRuleUrlFileExtensionCondition_STATUS(source *v20210601s.DeliveryRuleUrlFileExtensionCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9380,7 +9380,7 @@ func (condition *DeliveryRuleUrlFileExtensionCondition_STATUS) AssignProperties_
 }
 
 // AssignProperties_To_DeliveryRuleUrlFileExtensionCondition_STATUS populates the provided destination DeliveryRuleUrlFileExtensionCondition_STATUS from our DeliveryRuleUrlFileExtensionCondition_STATUS
-func (condition *DeliveryRuleUrlFileExtensionCondition_STATUS) AssignProperties_To_DeliveryRuleUrlFileExtensionCondition_STATUS(destination *v1api20210601s.DeliveryRuleUrlFileExtensionCondition_STATUS) error {
+func (condition *DeliveryRuleUrlFileExtensionCondition_STATUS) AssignProperties_To_DeliveryRuleUrlFileExtensionCondition_STATUS(destination *v20210601s.DeliveryRuleUrlFileExtensionCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -9389,7 +9389,7 @@ func (condition *DeliveryRuleUrlFileExtensionCondition_STATUS) AssignProperties_
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.UrlFileExtensionMatchConditionParameters_STATUS
+		var parameter v20210601s.UrlFileExtensionMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_UrlFileExtensionMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlFileExtensionMatchConditionParameters_STATUS() to populate field Parameters")
@@ -9428,7 +9428,7 @@ type DeliveryRuleUrlFileNameCondition struct {
 }
 
 // AssignProperties_From_DeliveryRuleUrlFileNameCondition populates our DeliveryRuleUrlFileNameCondition from the provided source DeliveryRuleUrlFileNameCondition
-func (condition *DeliveryRuleUrlFileNameCondition) AssignProperties_From_DeliveryRuleUrlFileNameCondition(source *v1api20210601s.DeliveryRuleUrlFileNameCondition) error {
+func (condition *DeliveryRuleUrlFileNameCondition) AssignProperties_From_DeliveryRuleUrlFileNameCondition(source *v20210601s.DeliveryRuleUrlFileNameCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9468,7 +9468,7 @@ func (condition *DeliveryRuleUrlFileNameCondition) AssignProperties_From_Deliver
 }
 
 // AssignProperties_To_DeliveryRuleUrlFileNameCondition populates the provided destination DeliveryRuleUrlFileNameCondition from our DeliveryRuleUrlFileNameCondition
-func (condition *DeliveryRuleUrlFileNameCondition) AssignProperties_To_DeliveryRuleUrlFileNameCondition(destination *v1api20210601s.DeliveryRuleUrlFileNameCondition) error {
+func (condition *DeliveryRuleUrlFileNameCondition) AssignProperties_To_DeliveryRuleUrlFileNameCondition(destination *v20210601s.DeliveryRuleUrlFileNameCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -9477,7 +9477,7 @@ func (condition *DeliveryRuleUrlFileNameCondition) AssignProperties_To_DeliveryR
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.UrlFileNameMatchConditionParameters
+		var parameter v20210601s.UrlFileNameMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_UrlFileNameMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlFileNameMatchConditionParameters() to populate field Parameters")
@@ -9516,7 +9516,7 @@ type DeliveryRuleUrlFileNameCondition_STATUS struct {
 }
 
 // AssignProperties_From_DeliveryRuleUrlFileNameCondition_STATUS populates our DeliveryRuleUrlFileNameCondition_STATUS from the provided source DeliveryRuleUrlFileNameCondition_STATUS
-func (condition *DeliveryRuleUrlFileNameCondition_STATUS) AssignProperties_From_DeliveryRuleUrlFileNameCondition_STATUS(source *v1api20210601s.DeliveryRuleUrlFileNameCondition_STATUS) error {
+func (condition *DeliveryRuleUrlFileNameCondition_STATUS) AssignProperties_From_DeliveryRuleUrlFileNameCondition_STATUS(source *v20210601s.DeliveryRuleUrlFileNameCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9556,7 +9556,7 @@ func (condition *DeliveryRuleUrlFileNameCondition_STATUS) AssignProperties_From_
 }
 
 // AssignProperties_To_DeliveryRuleUrlFileNameCondition_STATUS populates the provided destination DeliveryRuleUrlFileNameCondition_STATUS from our DeliveryRuleUrlFileNameCondition_STATUS
-func (condition *DeliveryRuleUrlFileNameCondition_STATUS) AssignProperties_To_DeliveryRuleUrlFileNameCondition_STATUS(destination *v1api20210601s.DeliveryRuleUrlFileNameCondition_STATUS) error {
+func (condition *DeliveryRuleUrlFileNameCondition_STATUS) AssignProperties_To_DeliveryRuleUrlFileNameCondition_STATUS(destination *v20210601s.DeliveryRuleUrlFileNameCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -9565,7 +9565,7 @@ func (condition *DeliveryRuleUrlFileNameCondition_STATUS) AssignProperties_To_De
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.UrlFileNameMatchConditionParameters_STATUS
+		var parameter v20210601s.UrlFileNameMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_UrlFileNameMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlFileNameMatchConditionParameters_STATUS() to populate field Parameters")
@@ -9604,7 +9604,7 @@ type DeliveryRuleUrlPathCondition struct {
 }
 
 // AssignProperties_From_DeliveryRuleUrlPathCondition populates our DeliveryRuleUrlPathCondition from the provided source DeliveryRuleUrlPathCondition
-func (condition *DeliveryRuleUrlPathCondition) AssignProperties_From_DeliveryRuleUrlPathCondition(source *v1api20210601s.DeliveryRuleUrlPathCondition) error {
+func (condition *DeliveryRuleUrlPathCondition) AssignProperties_From_DeliveryRuleUrlPathCondition(source *v20210601s.DeliveryRuleUrlPathCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9644,7 +9644,7 @@ func (condition *DeliveryRuleUrlPathCondition) AssignProperties_From_DeliveryRul
 }
 
 // AssignProperties_To_DeliveryRuleUrlPathCondition populates the provided destination DeliveryRuleUrlPathCondition from our DeliveryRuleUrlPathCondition
-func (condition *DeliveryRuleUrlPathCondition) AssignProperties_To_DeliveryRuleUrlPathCondition(destination *v1api20210601s.DeliveryRuleUrlPathCondition) error {
+func (condition *DeliveryRuleUrlPathCondition) AssignProperties_To_DeliveryRuleUrlPathCondition(destination *v20210601s.DeliveryRuleUrlPathCondition) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -9653,7 +9653,7 @@ func (condition *DeliveryRuleUrlPathCondition) AssignProperties_To_DeliveryRuleU
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.UrlPathMatchConditionParameters
+		var parameter v20210601s.UrlPathMatchConditionParameters
 		err := condition.Parameters.AssignProperties_To_UrlPathMatchConditionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlPathMatchConditionParameters() to populate field Parameters")
@@ -9692,7 +9692,7 @@ type DeliveryRuleUrlPathCondition_STATUS struct {
 }
 
 // AssignProperties_From_DeliveryRuleUrlPathCondition_STATUS populates our DeliveryRuleUrlPathCondition_STATUS from the provided source DeliveryRuleUrlPathCondition_STATUS
-func (condition *DeliveryRuleUrlPathCondition_STATUS) AssignProperties_From_DeliveryRuleUrlPathCondition_STATUS(source *v1api20210601s.DeliveryRuleUrlPathCondition_STATUS) error {
+func (condition *DeliveryRuleUrlPathCondition_STATUS) AssignProperties_From_DeliveryRuleUrlPathCondition_STATUS(source *v20210601s.DeliveryRuleUrlPathCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9732,7 +9732,7 @@ func (condition *DeliveryRuleUrlPathCondition_STATUS) AssignProperties_From_Deli
 }
 
 // AssignProperties_To_DeliveryRuleUrlPathCondition_STATUS populates the provided destination DeliveryRuleUrlPathCondition_STATUS from our DeliveryRuleUrlPathCondition_STATUS
-func (condition *DeliveryRuleUrlPathCondition_STATUS) AssignProperties_To_DeliveryRuleUrlPathCondition_STATUS(destination *v1api20210601s.DeliveryRuleUrlPathCondition_STATUS) error {
+func (condition *DeliveryRuleUrlPathCondition_STATUS) AssignProperties_To_DeliveryRuleUrlPathCondition_STATUS(destination *v20210601s.DeliveryRuleUrlPathCondition_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
 
@@ -9741,7 +9741,7 @@ func (condition *DeliveryRuleUrlPathCondition_STATUS) AssignProperties_To_Delive
 
 	// Parameters
 	if condition.Parameters != nil {
-		var parameter v1api20210601s.UrlPathMatchConditionParameters_STATUS
+		var parameter v20210601s.UrlPathMatchConditionParameters_STATUS
 		err := condition.Parameters.AssignProperties_To_UrlPathMatchConditionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlPathMatchConditionParameters_STATUS() to populate field Parameters")
@@ -9780,7 +9780,7 @@ type OriginGroupOverrideAction struct {
 }
 
 // AssignProperties_From_OriginGroupOverrideAction populates our OriginGroupOverrideAction from the provided source OriginGroupOverrideAction
-func (action *OriginGroupOverrideAction) AssignProperties_From_OriginGroupOverrideAction(source *v1api20210601s.OriginGroupOverrideAction) error {
+func (action *OriginGroupOverrideAction) AssignProperties_From_OriginGroupOverrideAction(source *v20210601s.OriginGroupOverrideAction) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9820,7 +9820,7 @@ func (action *OriginGroupOverrideAction) AssignProperties_From_OriginGroupOverri
 }
 
 // AssignProperties_To_OriginGroupOverrideAction populates the provided destination OriginGroupOverrideAction from our OriginGroupOverrideAction
-func (action *OriginGroupOverrideAction) AssignProperties_To_OriginGroupOverrideAction(destination *v1api20210601s.OriginGroupOverrideAction) error {
+func (action *OriginGroupOverrideAction) AssignProperties_To_OriginGroupOverrideAction(destination *v20210601s.OriginGroupOverrideAction) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(action.PropertyBag)
 
@@ -9829,7 +9829,7 @@ func (action *OriginGroupOverrideAction) AssignProperties_To_OriginGroupOverride
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v1api20210601s.OriginGroupOverrideActionParameters
+		var parameter v20210601s.OriginGroupOverrideActionParameters
 		err := action.Parameters.AssignProperties_To_OriginGroupOverrideActionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_OriginGroupOverrideActionParameters() to populate field Parameters")
@@ -9868,7 +9868,7 @@ type OriginGroupOverrideAction_STATUS struct {
 }
 
 // AssignProperties_From_OriginGroupOverrideAction_STATUS populates our OriginGroupOverrideAction_STATUS from the provided source OriginGroupOverrideAction_STATUS
-func (action *OriginGroupOverrideAction_STATUS) AssignProperties_From_OriginGroupOverrideAction_STATUS(source *v1api20210601s.OriginGroupOverrideAction_STATUS) error {
+func (action *OriginGroupOverrideAction_STATUS) AssignProperties_From_OriginGroupOverrideAction_STATUS(source *v20210601s.OriginGroupOverrideAction_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9908,7 +9908,7 @@ func (action *OriginGroupOverrideAction_STATUS) AssignProperties_From_OriginGrou
 }
 
 // AssignProperties_To_OriginGroupOverrideAction_STATUS populates the provided destination OriginGroupOverrideAction_STATUS from our OriginGroupOverrideAction_STATUS
-func (action *OriginGroupOverrideAction_STATUS) AssignProperties_To_OriginGroupOverrideAction_STATUS(destination *v1api20210601s.OriginGroupOverrideAction_STATUS) error {
+func (action *OriginGroupOverrideAction_STATUS) AssignProperties_To_OriginGroupOverrideAction_STATUS(destination *v20210601s.OriginGroupOverrideAction_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(action.PropertyBag)
 
@@ -9917,7 +9917,7 @@ func (action *OriginGroupOverrideAction_STATUS) AssignProperties_To_OriginGroupO
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v1api20210601s.OriginGroupOverrideActionParameters_STATUS
+		var parameter v20210601s.OriginGroupOverrideActionParameters_STATUS
 		err := action.Parameters.AssignProperties_To_OriginGroupOverrideActionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_OriginGroupOverrideActionParameters_STATUS() to populate field Parameters")
@@ -9956,7 +9956,7 @@ type UrlRedirectAction struct {
 }
 
 // AssignProperties_From_UrlRedirectAction populates our UrlRedirectAction from the provided source UrlRedirectAction
-func (action *UrlRedirectAction) AssignProperties_From_UrlRedirectAction(source *v1api20210601s.UrlRedirectAction) error {
+func (action *UrlRedirectAction) AssignProperties_From_UrlRedirectAction(source *v20210601s.UrlRedirectAction) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9996,7 +9996,7 @@ func (action *UrlRedirectAction) AssignProperties_From_UrlRedirectAction(source 
 }
 
 // AssignProperties_To_UrlRedirectAction populates the provided destination UrlRedirectAction from our UrlRedirectAction
-func (action *UrlRedirectAction) AssignProperties_To_UrlRedirectAction(destination *v1api20210601s.UrlRedirectAction) error {
+func (action *UrlRedirectAction) AssignProperties_To_UrlRedirectAction(destination *v20210601s.UrlRedirectAction) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(action.PropertyBag)
 
@@ -10005,7 +10005,7 @@ func (action *UrlRedirectAction) AssignProperties_To_UrlRedirectAction(destinati
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v1api20210601s.UrlRedirectActionParameters
+		var parameter v20210601s.UrlRedirectActionParameters
 		err := action.Parameters.AssignProperties_To_UrlRedirectActionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlRedirectActionParameters() to populate field Parameters")
@@ -10044,7 +10044,7 @@ type UrlRedirectAction_STATUS struct {
 }
 
 // AssignProperties_From_UrlRedirectAction_STATUS populates our UrlRedirectAction_STATUS from the provided source UrlRedirectAction_STATUS
-func (action *UrlRedirectAction_STATUS) AssignProperties_From_UrlRedirectAction_STATUS(source *v1api20210601s.UrlRedirectAction_STATUS) error {
+func (action *UrlRedirectAction_STATUS) AssignProperties_From_UrlRedirectAction_STATUS(source *v20210601s.UrlRedirectAction_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -10084,7 +10084,7 @@ func (action *UrlRedirectAction_STATUS) AssignProperties_From_UrlRedirectAction_
 }
 
 // AssignProperties_To_UrlRedirectAction_STATUS populates the provided destination UrlRedirectAction_STATUS from our UrlRedirectAction_STATUS
-func (action *UrlRedirectAction_STATUS) AssignProperties_To_UrlRedirectAction_STATUS(destination *v1api20210601s.UrlRedirectAction_STATUS) error {
+func (action *UrlRedirectAction_STATUS) AssignProperties_To_UrlRedirectAction_STATUS(destination *v20210601s.UrlRedirectAction_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(action.PropertyBag)
 
@@ -10093,7 +10093,7 @@ func (action *UrlRedirectAction_STATUS) AssignProperties_To_UrlRedirectAction_ST
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v1api20210601s.UrlRedirectActionParameters_STATUS
+		var parameter v20210601s.UrlRedirectActionParameters_STATUS
 		err := action.Parameters.AssignProperties_To_UrlRedirectActionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlRedirectActionParameters_STATUS() to populate field Parameters")
@@ -10132,7 +10132,7 @@ type UrlRewriteAction struct {
 }
 
 // AssignProperties_From_UrlRewriteAction populates our UrlRewriteAction from the provided source UrlRewriteAction
-func (action *UrlRewriteAction) AssignProperties_From_UrlRewriteAction(source *v1api20210601s.UrlRewriteAction) error {
+func (action *UrlRewriteAction) AssignProperties_From_UrlRewriteAction(source *v20210601s.UrlRewriteAction) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -10172,7 +10172,7 @@ func (action *UrlRewriteAction) AssignProperties_From_UrlRewriteAction(source *v
 }
 
 // AssignProperties_To_UrlRewriteAction populates the provided destination UrlRewriteAction from our UrlRewriteAction
-func (action *UrlRewriteAction) AssignProperties_To_UrlRewriteAction(destination *v1api20210601s.UrlRewriteAction) error {
+func (action *UrlRewriteAction) AssignProperties_To_UrlRewriteAction(destination *v20210601s.UrlRewriteAction) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(action.PropertyBag)
 
@@ -10181,7 +10181,7 @@ func (action *UrlRewriteAction) AssignProperties_To_UrlRewriteAction(destination
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v1api20210601s.UrlRewriteActionParameters
+		var parameter v20210601s.UrlRewriteActionParameters
 		err := action.Parameters.AssignProperties_To_UrlRewriteActionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlRewriteActionParameters() to populate field Parameters")
@@ -10220,7 +10220,7 @@ type UrlRewriteAction_STATUS struct {
 }
 
 // AssignProperties_From_UrlRewriteAction_STATUS populates our UrlRewriteAction_STATUS from the provided source UrlRewriteAction_STATUS
-func (action *UrlRewriteAction_STATUS) AssignProperties_From_UrlRewriteAction_STATUS(source *v1api20210601s.UrlRewriteAction_STATUS) error {
+func (action *UrlRewriteAction_STATUS) AssignProperties_From_UrlRewriteAction_STATUS(source *v20210601s.UrlRewriteAction_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -10260,7 +10260,7 @@ func (action *UrlRewriteAction_STATUS) AssignProperties_From_UrlRewriteAction_ST
 }
 
 // AssignProperties_To_UrlRewriteAction_STATUS populates the provided destination UrlRewriteAction_STATUS from our UrlRewriteAction_STATUS
-func (action *UrlRewriteAction_STATUS) AssignProperties_To_UrlRewriteAction_STATUS(destination *v1api20210601s.UrlRewriteAction_STATUS) error {
+func (action *UrlRewriteAction_STATUS) AssignProperties_To_UrlRewriteAction_STATUS(destination *v20210601s.UrlRewriteAction_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(action.PropertyBag)
 
@@ -10269,7 +10269,7 @@ func (action *UrlRewriteAction_STATUS) AssignProperties_To_UrlRewriteAction_STAT
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v1api20210601s.UrlRewriteActionParameters_STATUS
+		var parameter v20210601s.UrlRewriteActionParameters_STATUS
 		err := action.Parameters.AssignProperties_To_UrlRewriteActionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlRewriteActionParameters_STATUS() to populate field Parameters")
@@ -10308,7 +10308,7 @@ type UrlSigningAction struct {
 }
 
 // AssignProperties_From_UrlSigningAction populates our UrlSigningAction from the provided source UrlSigningAction
-func (action *UrlSigningAction) AssignProperties_From_UrlSigningAction(source *v1api20210601s.UrlSigningAction) error {
+func (action *UrlSigningAction) AssignProperties_From_UrlSigningAction(source *v20210601s.UrlSigningAction) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -10348,7 +10348,7 @@ func (action *UrlSigningAction) AssignProperties_From_UrlSigningAction(source *v
 }
 
 // AssignProperties_To_UrlSigningAction populates the provided destination UrlSigningAction from our UrlSigningAction
-func (action *UrlSigningAction) AssignProperties_To_UrlSigningAction(destination *v1api20210601s.UrlSigningAction) error {
+func (action *UrlSigningAction) AssignProperties_To_UrlSigningAction(destination *v20210601s.UrlSigningAction) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(action.PropertyBag)
 
@@ -10357,7 +10357,7 @@ func (action *UrlSigningAction) AssignProperties_To_UrlSigningAction(destination
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v1api20210601s.UrlSigningActionParameters
+		var parameter v20210601s.UrlSigningActionParameters
 		err := action.Parameters.AssignProperties_To_UrlSigningActionParameters(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlSigningActionParameters() to populate field Parameters")
@@ -10396,7 +10396,7 @@ type UrlSigningAction_STATUS struct {
 }
 
 // AssignProperties_From_UrlSigningAction_STATUS populates our UrlSigningAction_STATUS from the provided source UrlSigningAction_STATUS
-func (action *UrlSigningAction_STATUS) AssignProperties_From_UrlSigningAction_STATUS(source *v1api20210601s.UrlSigningAction_STATUS) error {
+func (action *UrlSigningAction_STATUS) AssignProperties_From_UrlSigningAction_STATUS(source *v20210601s.UrlSigningAction_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -10436,7 +10436,7 @@ func (action *UrlSigningAction_STATUS) AssignProperties_From_UrlSigningAction_ST
 }
 
 // AssignProperties_To_UrlSigningAction_STATUS populates the provided destination UrlSigningAction_STATUS from our UrlSigningAction_STATUS
-func (action *UrlSigningAction_STATUS) AssignProperties_To_UrlSigningAction_STATUS(destination *v1api20210601s.UrlSigningAction_STATUS) error {
+func (action *UrlSigningAction_STATUS) AssignProperties_To_UrlSigningAction_STATUS(destination *v20210601s.UrlSigningAction_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(action.PropertyBag)
 
@@ -10445,7 +10445,7 @@ func (action *UrlSigningAction_STATUS) AssignProperties_To_UrlSigningAction_STAT
 
 	// Parameters
 	if action.Parameters != nil {
-		var parameter v1api20210601s.UrlSigningActionParameters_STATUS
+		var parameter v20210601s.UrlSigningActionParameters_STATUS
 		err := action.Parameters.AssignProperties_To_UrlSigningActionParameters_STATUS(&parameter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UrlSigningActionParameters_STATUS() to populate field Parameters")
@@ -10476,283 +10476,283 @@ func (action *UrlSigningAction_STATUS) AssignProperties_To_UrlSigningAction_STAT
 }
 
 type augmentConversionForDeliveryRuleCacheExpirationAction interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleCacheExpirationAction) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleCacheExpirationAction) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleCacheExpirationAction) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleCacheExpirationAction) error
 }
 
 type augmentConversionForDeliveryRuleCacheExpirationAction_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleCacheExpirationAction_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleCacheExpirationAction_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleCacheExpirationAction_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleCacheExpirationAction_STATUS) error
 }
 
 type augmentConversionForDeliveryRuleCacheKeyQueryStringAction interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleCacheKeyQueryStringAction) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleCacheKeyQueryStringAction) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleCacheKeyQueryStringAction) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleCacheKeyQueryStringAction) error
 }
 
 type augmentConversionForDeliveryRuleCacheKeyQueryStringAction_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleCacheKeyQueryStringAction_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleCacheKeyQueryStringAction_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleCacheKeyQueryStringAction_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleCacheKeyQueryStringAction_STATUS) error
 }
 
 type augmentConversionForDeliveryRuleClientPortCondition interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleClientPortCondition) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleClientPortCondition) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleClientPortCondition) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleClientPortCondition) error
 }
 
 type augmentConversionForDeliveryRuleClientPortCondition_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleClientPortCondition_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleClientPortCondition_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleClientPortCondition_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleClientPortCondition_STATUS) error
 }
 
 type augmentConversionForDeliveryRuleCookiesCondition interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleCookiesCondition) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleCookiesCondition) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleCookiesCondition) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleCookiesCondition) error
 }
 
 type augmentConversionForDeliveryRuleCookiesCondition_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleCookiesCondition_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleCookiesCondition_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleCookiesCondition_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleCookiesCondition_STATUS) error
 }
 
 type augmentConversionForDeliveryRuleHostNameCondition interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleHostNameCondition) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleHostNameCondition) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleHostNameCondition) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleHostNameCondition) error
 }
 
 type augmentConversionForDeliveryRuleHostNameCondition_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleHostNameCondition_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleHostNameCondition_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleHostNameCondition_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleHostNameCondition_STATUS) error
 }
 
 type augmentConversionForDeliveryRuleHttpVersionCondition interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleHttpVersionCondition) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleHttpVersionCondition) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleHttpVersionCondition) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleHttpVersionCondition) error
 }
 
 type augmentConversionForDeliveryRuleHttpVersionCondition_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleHttpVersionCondition_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleHttpVersionCondition_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleHttpVersionCondition_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleHttpVersionCondition_STATUS) error
 }
 
 type augmentConversionForDeliveryRuleIsDeviceCondition interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleIsDeviceCondition) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleIsDeviceCondition) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleIsDeviceCondition) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleIsDeviceCondition) error
 }
 
 type augmentConversionForDeliveryRuleIsDeviceCondition_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleIsDeviceCondition_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleIsDeviceCondition_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleIsDeviceCondition_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleIsDeviceCondition_STATUS) error
 }
 
 type augmentConversionForDeliveryRulePostArgsCondition interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRulePostArgsCondition) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRulePostArgsCondition) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRulePostArgsCondition) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRulePostArgsCondition) error
 }
 
 type augmentConversionForDeliveryRulePostArgsCondition_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRulePostArgsCondition_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRulePostArgsCondition_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRulePostArgsCondition_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRulePostArgsCondition_STATUS) error
 }
 
 type augmentConversionForDeliveryRuleQueryStringCondition interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleQueryStringCondition) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleQueryStringCondition) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleQueryStringCondition) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleQueryStringCondition) error
 }
 
 type augmentConversionForDeliveryRuleQueryStringCondition_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleQueryStringCondition_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleQueryStringCondition_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleQueryStringCondition_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleQueryStringCondition_STATUS) error
 }
 
 type augmentConversionForDeliveryRuleRemoteAddressCondition interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleRemoteAddressCondition) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleRemoteAddressCondition) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleRemoteAddressCondition) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleRemoteAddressCondition) error
 }
 
 type augmentConversionForDeliveryRuleRemoteAddressCondition_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleRemoteAddressCondition_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleRemoteAddressCondition_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleRemoteAddressCondition_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleRemoteAddressCondition_STATUS) error
 }
 
 type augmentConversionForDeliveryRuleRequestBodyCondition interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleRequestBodyCondition) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleRequestBodyCondition) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleRequestBodyCondition) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleRequestBodyCondition) error
 }
 
 type augmentConversionForDeliveryRuleRequestBodyCondition_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleRequestBodyCondition_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleRequestBodyCondition_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleRequestBodyCondition_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleRequestBodyCondition_STATUS) error
 }
 
 type augmentConversionForDeliveryRuleRequestHeaderAction interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleRequestHeaderAction) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleRequestHeaderAction) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleRequestHeaderAction) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleRequestHeaderAction) error
 }
 
 type augmentConversionForDeliveryRuleRequestHeaderAction_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleRequestHeaderAction_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleRequestHeaderAction_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleRequestHeaderAction_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleRequestHeaderAction_STATUS) error
 }
 
 type augmentConversionForDeliveryRuleRequestHeaderCondition interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleRequestHeaderCondition) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleRequestHeaderCondition) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleRequestHeaderCondition) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleRequestHeaderCondition) error
 }
 
 type augmentConversionForDeliveryRuleRequestHeaderCondition_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleRequestHeaderCondition_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleRequestHeaderCondition_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleRequestHeaderCondition_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleRequestHeaderCondition_STATUS) error
 }
 
 type augmentConversionForDeliveryRuleRequestMethodCondition interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleRequestMethodCondition) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleRequestMethodCondition) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleRequestMethodCondition) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleRequestMethodCondition) error
 }
 
 type augmentConversionForDeliveryRuleRequestMethodCondition_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleRequestMethodCondition_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleRequestMethodCondition_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleRequestMethodCondition_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleRequestMethodCondition_STATUS) error
 }
 
 type augmentConversionForDeliveryRuleRequestSchemeCondition interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleRequestSchemeCondition) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleRequestSchemeCondition) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleRequestSchemeCondition) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleRequestSchemeCondition) error
 }
 
 type augmentConversionForDeliveryRuleRequestSchemeCondition_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleRequestSchemeCondition_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleRequestSchemeCondition_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleRequestSchemeCondition_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleRequestSchemeCondition_STATUS) error
 }
 
 type augmentConversionForDeliveryRuleRequestUriCondition interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleRequestUriCondition) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleRequestUriCondition) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleRequestUriCondition) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleRequestUriCondition) error
 }
 
 type augmentConversionForDeliveryRuleRequestUriCondition_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleRequestUriCondition_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleRequestUriCondition_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleRequestUriCondition_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleRequestUriCondition_STATUS) error
 }
 
 type augmentConversionForDeliveryRuleResponseHeaderAction interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleResponseHeaderAction) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleResponseHeaderAction) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleResponseHeaderAction) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleResponseHeaderAction) error
 }
 
 type augmentConversionForDeliveryRuleResponseHeaderAction_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleResponseHeaderAction_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleResponseHeaderAction_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleResponseHeaderAction_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleResponseHeaderAction_STATUS) error
 }
 
 type augmentConversionForDeliveryRuleRouteConfigurationOverrideAction interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleRouteConfigurationOverrideAction) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleRouteConfigurationOverrideAction) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleRouteConfigurationOverrideAction) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleRouteConfigurationOverrideAction) error
 }
 
 type augmentConversionForDeliveryRuleRouteConfigurationOverrideAction_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleRouteConfigurationOverrideAction_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleRouteConfigurationOverrideAction_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleRouteConfigurationOverrideAction_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleRouteConfigurationOverrideAction_STATUS) error
 }
 
 type augmentConversionForDeliveryRuleServerPortCondition interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleServerPortCondition) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleServerPortCondition) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleServerPortCondition) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleServerPortCondition) error
 }
 
 type augmentConversionForDeliveryRuleServerPortCondition_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleServerPortCondition_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleServerPortCondition_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleServerPortCondition_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleServerPortCondition_STATUS) error
 }
 
 type augmentConversionForDeliveryRuleSocketAddrCondition interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleSocketAddrCondition) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleSocketAddrCondition) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleSocketAddrCondition) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleSocketAddrCondition) error
 }
 
 type augmentConversionForDeliveryRuleSocketAddrCondition_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleSocketAddrCondition_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleSocketAddrCondition_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleSocketAddrCondition_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleSocketAddrCondition_STATUS) error
 }
 
 type augmentConversionForDeliveryRuleSslProtocolCondition interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleSslProtocolCondition) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleSslProtocolCondition) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleSslProtocolCondition) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleSslProtocolCondition) error
 }
 
 type augmentConversionForDeliveryRuleSslProtocolCondition_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleSslProtocolCondition_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleSslProtocolCondition_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleSslProtocolCondition_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleSslProtocolCondition_STATUS) error
 }
 
 type augmentConversionForDeliveryRuleUrlFileExtensionCondition interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleUrlFileExtensionCondition) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleUrlFileExtensionCondition) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleUrlFileExtensionCondition) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleUrlFileExtensionCondition) error
 }
 
 type augmentConversionForDeliveryRuleUrlFileExtensionCondition_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleUrlFileExtensionCondition_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleUrlFileExtensionCondition_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleUrlFileExtensionCondition_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleUrlFileExtensionCondition_STATUS) error
 }
 
 type augmentConversionForDeliveryRuleUrlFileNameCondition interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleUrlFileNameCondition) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleUrlFileNameCondition) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleUrlFileNameCondition) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleUrlFileNameCondition) error
 }
 
 type augmentConversionForDeliveryRuleUrlFileNameCondition_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleUrlFileNameCondition_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleUrlFileNameCondition_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleUrlFileNameCondition_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleUrlFileNameCondition_STATUS) error
 }
 
 type augmentConversionForDeliveryRuleUrlPathCondition interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleUrlPathCondition) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleUrlPathCondition) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleUrlPathCondition) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleUrlPathCondition) error
 }
 
 type augmentConversionForDeliveryRuleUrlPathCondition_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.DeliveryRuleUrlPathCondition_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.DeliveryRuleUrlPathCondition_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.DeliveryRuleUrlPathCondition_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.DeliveryRuleUrlPathCondition_STATUS) error
 }
 
 type augmentConversionForOriginGroupOverrideAction interface {
-	AssignPropertiesFrom(src *v1api20210601s.OriginGroupOverrideAction) error
-	AssignPropertiesTo(dst *v1api20210601s.OriginGroupOverrideAction) error
+	AssignPropertiesFrom(src *v20210601s.OriginGroupOverrideAction) error
+	AssignPropertiesTo(dst *v20210601s.OriginGroupOverrideAction) error
 }
 
 type augmentConversionForOriginGroupOverrideAction_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.OriginGroupOverrideAction_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.OriginGroupOverrideAction_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.OriginGroupOverrideAction_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.OriginGroupOverrideAction_STATUS) error
 }
 
 type augmentConversionForUrlRedirectAction interface {
-	AssignPropertiesFrom(src *v1api20210601s.UrlRedirectAction) error
-	AssignPropertiesTo(dst *v1api20210601s.UrlRedirectAction) error
+	AssignPropertiesFrom(src *v20210601s.UrlRedirectAction) error
+	AssignPropertiesTo(dst *v20210601s.UrlRedirectAction) error
 }
 
 type augmentConversionForUrlRedirectAction_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.UrlRedirectAction_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.UrlRedirectAction_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.UrlRedirectAction_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.UrlRedirectAction_STATUS) error
 }
 
 type augmentConversionForUrlRewriteAction interface {
-	AssignPropertiesFrom(src *v1api20210601s.UrlRewriteAction) error
-	AssignPropertiesTo(dst *v1api20210601s.UrlRewriteAction) error
+	AssignPropertiesFrom(src *v20210601s.UrlRewriteAction) error
+	AssignPropertiesTo(dst *v20210601s.UrlRewriteAction) error
 }
 
 type augmentConversionForUrlRewriteAction_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.UrlRewriteAction_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.UrlRewriteAction_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.UrlRewriteAction_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.UrlRewriteAction_STATUS) error
 }
 
 type augmentConversionForUrlSigningAction interface {
-	AssignPropertiesFrom(src *v1api20210601s.UrlSigningAction) error
-	AssignPropertiesTo(dst *v1api20210601s.UrlSigningAction) error
+	AssignPropertiesFrom(src *v20210601s.UrlSigningAction) error
+	AssignPropertiesTo(dst *v20210601s.UrlSigningAction) error
 }
 
 type augmentConversionForUrlSigningAction_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.UrlSigningAction_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.UrlSigningAction_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.UrlSigningAction_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.UrlSigningAction_STATUS) error
 }
 
 // Storage version of v1beta20210601.CacheExpirationActionParameters
@@ -10766,7 +10766,7 @@ type CacheExpirationActionParameters struct {
 }
 
 // AssignProperties_From_CacheExpirationActionParameters populates our CacheExpirationActionParameters from the provided source CacheExpirationActionParameters
-func (parameters *CacheExpirationActionParameters) AssignProperties_From_CacheExpirationActionParameters(source *v1api20210601s.CacheExpirationActionParameters) error {
+func (parameters *CacheExpirationActionParameters) AssignProperties_From_CacheExpirationActionParameters(source *v20210601s.CacheExpirationActionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -10803,7 +10803,7 @@ func (parameters *CacheExpirationActionParameters) AssignProperties_From_CacheEx
 }
 
 // AssignProperties_To_CacheExpirationActionParameters populates the provided destination CacheExpirationActionParameters from our CacheExpirationActionParameters
-func (parameters *CacheExpirationActionParameters) AssignProperties_To_CacheExpirationActionParameters(destination *v1api20210601s.CacheExpirationActionParameters) error {
+func (parameters *CacheExpirationActionParameters) AssignProperties_To_CacheExpirationActionParameters(destination *v20210601s.CacheExpirationActionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -10850,7 +10850,7 @@ type CacheExpirationActionParameters_STATUS struct {
 }
 
 // AssignProperties_From_CacheExpirationActionParameters_STATUS populates our CacheExpirationActionParameters_STATUS from the provided source CacheExpirationActionParameters_STATUS
-func (parameters *CacheExpirationActionParameters_STATUS) AssignProperties_From_CacheExpirationActionParameters_STATUS(source *v1api20210601s.CacheExpirationActionParameters_STATUS) error {
+func (parameters *CacheExpirationActionParameters_STATUS) AssignProperties_From_CacheExpirationActionParameters_STATUS(source *v20210601s.CacheExpirationActionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -10887,7 +10887,7 @@ func (parameters *CacheExpirationActionParameters_STATUS) AssignProperties_From_
 }
 
 // AssignProperties_To_CacheExpirationActionParameters_STATUS populates the provided destination CacheExpirationActionParameters_STATUS from our CacheExpirationActionParameters_STATUS
-func (parameters *CacheExpirationActionParameters_STATUS) AssignProperties_To_CacheExpirationActionParameters_STATUS(destination *v1api20210601s.CacheExpirationActionParameters_STATUS) error {
+func (parameters *CacheExpirationActionParameters_STATUS) AssignProperties_To_CacheExpirationActionParameters_STATUS(destination *v20210601s.CacheExpirationActionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -10933,7 +10933,7 @@ type CacheKeyQueryStringActionParameters struct {
 }
 
 // AssignProperties_From_CacheKeyQueryStringActionParameters populates our CacheKeyQueryStringActionParameters from the provided source CacheKeyQueryStringActionParameters
-func (parameters *CacheKeyQueryStringActionParameters) AssignProperties_From_CacheKeyQueryStringActionParameters(source *v1api20210601s.CacheKeyQueryStringActionParameters) error {
+func (parameters *CacheKeyQueryStringActionParameters) AssignProperties_From_CacheKeyQueryStringActionParameters(source *v20210601s.CacheKeyQueryStringActionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -10967,7 +10967,7 @@ func (parameters *CacheKeyQueryStringActionParameters) AssignProperties_From_Cac
 }
 
 // AssignProperties_To_CacheKeyQueryStringActionParameters populates the provided destination CacheKeyQueryStringActionParameters from our CacheKeyQueryStringActionParameters
-func (parameters *CacheKeyQueryStringActionParameters) AssignProperties_To_CacheKeyQueryStringActionParameters(destination *v1api20210601s.CacheKeyQueryStringActionParameters) error {
+func (parameters *CacheKeyQueryStringActionParameters) AssignProperties_To_CacheKeyQueryStringActionParameters(destination *v20210601s.CacheKeyQueryStringActionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -11010,7 +11010,7 @@ type CacheKeyQueryStringActionParameters_STATUS struct {
 }
 
 // AssignProperties_From_CacheKeyQueryStringActionParameters_STATUS populates our CacheKeyQueryStringActionParameters_STATUS from the provided source CacheKeyQueryStringActionParameters_STATUS
-func (parameters *CacheKeyQueryStringActionParameters_STATUS) AssignProperties_From_CacheKeyQueryStringActionParameters_STATUS(source *v1api20210601s.CacheKeyQueryStringActionParameters_STATUS) error {
+func (parameters *CacheKeyQueryStringActionParameters_STATUS) AssignProperties_From_CacheKeyQueryStringActionParameters_STATUS(source *v20210601s.CacheKeyQueryStringActionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -11044,7 +11044,7 @@ func (parameters *CacheKeyQueryStringActionParameters_STATUS) AssignProperties_F
 }
 
 // AssignProperties_To_CacheKeyQueryStringActionParameters_STATUS populates the provided destination CacheKeyQueryStringActionParameters_STATUS from our CacheKeyQueryStringActionParameters_STATUS
-func (parameters *CacheKeyQueryStringActionParameters_STATUS) AssignProperties_To_CacheKeyQueryStringActionParameters_STATUS(destination *v1api20210601s.CacheKeyQueryStringActionParameters_STATUS) error {
+func (parameters *CacheKeyQueryStringActionParameters_STATUS) AssignProperties_To_CacheKeyQueryStringActionParameters_STATUS(destination *v20210601s.CacheKeyQueryStringActionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -11089,7 +11089,7 @@ type ClientPortMatchConditionParameters struct {
 }
 
 // AssignProperties_From_ClientPortMatchConditionParameters populates our ClientPortMatchConditionParameters from the provided source ClientPortMatchConditionParameters
-func (parameters *ClientPortMatchConditionParameters) AssignProperties_From_ClientPortMatchConditionParameters(source *v1api20210601s.ClientPortMatchConditionParameters) error {
+func (parameters *ClientPortMatchConditionParameters) AssignProperties_From_ClientPortMatchConditionParameters(source *v20210601s.ClientPortMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -11134,7 +11134,7 @@ func (parameters *ClientPortMatchConditionParameters) AssignProperties_From_Clie
 }
 
 // AssignProperties_To_ClientPortMatchConditionParameters populates the provided destination ClientPortMatchConditionParameters from our ClientPortMatchConditionParameters
-func (parameters *ClientPortMatchConditionParameters) AssignProperties_To_ClientPortMatchConditionParameters(destination *v1api20210601s.ClientPortMatchConditionParameters) error {
+func (parameters *ClientPortMatchConditionParameters) AssignProperties_To_ClientPortMatchConditionParameters(destination *v20210601s.ClientPortMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -11190,7 +11190,7 @@ type ClientPortMatchConditionParameters_STATUS struct {
 }
 
 // AssignProperties_From_ClientPortMatchConditionParameters_STATUS populates our ClientPortMatchConditionParameters_STATUS from the provided source ClientPortMatchConditionParameters_STATUS
-func (parameters *ClientPortMatchConditionParameters_STATUS) AssignProperties_From_ClientPortMatchConditionParameters_STATUS(source *v1api20210601s.ClientPortMatchConditionParameters_STATUS) error {
+func (parameters *ClientPortMatchConditionParameters_STATUS) AssignProperties_From_ClientPortMatchConditionParameters_STATUS(source *v20210601s.ClientPortMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -11235,7 +11235,7 @@ func (parameters *ClientPortMatchConditionParameters_STATUS) AssignProperties_Fr
 }
 
 // AssignProperties_To_ClientPortMatchConditionParameters_STATUS populates the provided destination ClientPortMatchConditionParameters_STATUS from our ClientPortMatchConditionParameters_STATUS
-func (parameters *ClientPortMatchConditionParameters_STATUS) AssignProperties_To_ClientPortMatchConditionParameters_STATUS(destination *v1api20210601s.ClientPortMatchConditionParameters_STATUS) error {
+func (parameters *ClientPortMatchConditionParameters_STATUS) AssignProperties_To_ClientPortMatchConditionParameters_STATUS(destination *v20210601s.ClientPortMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -11292,7 +11292,7 @@ type CookiesMatchConditionParameters struct {
 }
 
 // AssignProperties_From_CookiesMatchConditionParameters populates our CookiesMatchConditionParameters from the provided source CookiesMatchConditionParameters
-func (parameters *CookiesMatchConditionParameters) AssignProperties_From_CookiesMatchConditionParameters(source *v1api20210601s.CookiesMatchConditionParameters) error {
+func (parameters *CookiesMatchConditionParameters) AssignProperties_From_CookiesMatchConditionParameters(source *v20210601s.CookiesMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -11340,7 +11340,7 @@ func (parameters *CookiesMatchConditionParameters) AssignProperties_From_Cookies
 }
 
 // AssignProperties_To_CookiesMatchConditionParameters populates the provided destination CookiesMatchConditionParameters from our CookiesMatchConditionParameters
-func (parameters *CookiesMatchConditionParameters) AssignProperties_To_CookiesMatchConditionParameters(destination *v1api20210601s.CookiesMatchConditionParameters) error {
+func (parameters *CookiesMatchConditionParameters) AssignProperties_To_CookiesMatchConditionParameters(destination *v20210601s.CookiesMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -11400,7 +11400,7 @@ type CookiesMatchConditionParameters_STATUS struct {
 }
 
 // AssignProperties_From_CookiesMatchConditionParameters_STATUS populates our CookiesMatchConditionParameters_STATUS from the provided source CookiesMatchConditionParameters_STATUS
-func (parameters *CookiesMatchConditionParameters_STATUS) AssignProperties_From_CookiesMatchConditionParameters_STATUS(source *v1api20210601s.CookiesMatchConditionParameters_STATUS) error {
+func (parameters *CookiesMatchConditionParameters_STATUS) AssignProperties_From_CookiesMatchConditionParameters_STATUS(source *v20210601s.CookiesMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -11448,7 +11448,7 @@ func (parameters *CookiesMatchConditionParameters_STATUS) AssignProperties_From_
 }
 
 // AssignProperties_To_CookiesMatchConditionParameters_STATUS populates the provided destination CookiesMatchConditionParameters_STATUS from our CookiesMatchConditionParameters_STATUS
-func (parameters *CookiesMatchConditionParameters_STATUS) AssignProperties_To_CookiesMatchConditionParameters_STATUS(destination *v1api20210601s.CookiesMatchConditionParameters_STATUS) error {
+func (parameters *CookiesMatchConditionParameters_STATUS) AssignProperties_To_CookiesMatchConditionParameters_STATUS(destination *v20210601s.CookiesMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -11506,7 +11506,7 @@ type HeaderActionParameters struct {
 }
 
 // AssignProperties_From_HeaderActionParameters populates our HeaderActionParameters from the provided source HeaderActionParameters
-func (parameters *HeaderActionParameters) AssignProperties_From_HeaderActionParameters(source *v1api20210601s.HeaderActionParameters) error {
+func (parameters *HeaderActionParameters) AssignProperties_From_HeaderActionParameters(source *v20210601s.HeaderActionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -11543,7 +11543,7 @@ func (parameters *HeaderActionParameters) AssignProperties_From_HeaderActionPara
 }
 
 // AssignProperties_To_HeaderActionParameters populates the provided destination HeaderActionParameters from our HeaderActionParameters
-func (parameters *HeaderActionParameters) AssignProperties_To_HeaderActionParameters(destination *v1api20210601s.HeaderActionParameters) error {
+func (parameters *HeaderActionParameters) AssignProperties_To_HeaderActionParameters(destination *v20210601s.HeaderActionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -11590,7 +11590,7 @@ type HeaderActionParameters_STATUS struct {
 }
 
 // AssignProperties_From_HeaderActionParameters_STATUS populates our HeaderActionParameters_STATUS from the provided source HeaderActionParameters_STATUS
-func (parameters *HeaderActionParameters_STATUS) AssignProperties_From_HeaderActionParameters_STATUS(source *v1api20210601s.HeaderActionParameters_STATUS) error {
+func (parameters *HeaderActionParameters_STATUS) AssignProperties_From_HeaderActionParameters_STATUS(source *v20210601s.HeaderActionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -11627,7 +11627,7 @@ func (parameters *HeaderActionParameters_STATUS) AssignProperties_From_HeaderAct
 }
 
 // AssignProperties_To_HeaderActionParameters_STATUS populates the provided destination HeaderActionParameters_STATUS from our HeaderActionParameters_STATUS
-func (parameters *HeaderActionParameters_STATUS) AssignProperties_To_HeaderActionParameters_STATUS(destination *v1api20210601s.HeaderActionParameters_STATUS) error {
+func (parameters *HeaderActionParameters_STATUS) AssignProperties_To_HeaderActionParameters_STATUS(destination *v20210601s.HeaderActionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -11675,7 +11675,7 @@ type HostNameMatchConditionParameters struct {
 }
 
 // AssignProperties_From_HostNameMatchConditionParameters populates our HostNameMatchConditionParameters from the provided source HostNameMatchConditionParameters
-func (parameters *HostNameMatchConditionParameters) AssignProperties_From_HostNameMatchConditionParameters(source *v1api20210601s.HostNameMatchConditionParameters) error {
+func (parameters *HostNameMatchConditionParameters) AssignProperties_From_HostNameMatchConditionParameters(source *v20210601s.HostNameMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -11720,7 +11720,7 @@ func (parameters *HostNameMatchConditionParameters) AssignProperties_From_HostNa
 }
 
 // AssignProperties_To_HostNameMatchConditionParameters populates the provided destination HostNameMatchConditionParameters from our HostNameMatchConditionParameters
-func (parameters *HostNameMatchConditionParameters) AssignProperties_To_HostNameMatchConditionParameters(destination *v1api20210601s.HostNameMatchConditionParameters) error {
+func (parameters *HostNameMatchConditionParameters) AssignProperties_To_HostNameMatchConditionParameters(destination *v20210601s.HostNameMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -11776,7 +11776,7 @@ type HostNameMatchConditionParameters_STATUS struct {
 }
 
 // AssignProperties_From_HostNameMatchConditionParameters_STATUS populates our HostNameMatchConditionParameters_STATUS from the provided source HostNameMatchConditionParameters_STATUS
-func (parameters *HostNameMatchConditionParameters_STATUS) AssignProperties_From_HostNameMatchConditionParameters_STATUS(source *v1api20210601s.HostNameMatchConditionParameters_STATUS) error {
+func (parameters *HostNameMatchConditionParameters_STATUS) AssignProperties_From_HostNameMatchConditionParameters_STATUS(source *v20210601s.HostNameMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -11821,7 +11821,7 @@ func (parameters *HostNameMatchConditionParameters_STATUS) AssignProperties_From
 }
 
 // AssignProperties_To_HostNameMatchConditionParameters_STATUS populates the provided destination HostNameMatchConditionParameters_STATUS from our HostNameMatchConditionParameters_STATUS
-func (parameters *HostNameMatchConditionParameters_STATUS) AssignProperties_To_HostNameMatchConditionParameters_STATUS(destination *v1api20210601s.HostNameMatchConditionParameters_STATUS) error {
+func (parameters *HostNameMatchConditionParameters_STATUS) AssignProperties_To_HostNameMatchConditionParameters_STATUS(destination *v20210601s.HostNameMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -11877,7 +11877,7 @@ type HttpVersionMatchConditionParameters struct {
 }
 
 // AssignProperties_From_HttpVersionMatchConditionParameters populates our HttpVersionMatchConditionParameters from the provided source HttpVersionMatchConditionParameters
-func (parameters *HttpVersionMatchConditionParameters) AssignProperties_From_HttpVersionMatchConditionParameters(source *v1api20210601s.HttpVersionMatchConditionParameters) error {
+func (parameters *HttpVersionMatchConditionParameters) AssignProperties_From_HttpVersionMatchConditionParameters(source *v20210601s.HttpVersionMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -11922,7 +11922,7 @@ func (parameters *HttpVersionMatchConditionParameters) AssignProperties_From_Htt
 }
 
 // AssignProperties_To_HttpVersionMatchConditionParameters populates the provided destination HttpVersionMatchConditionParameters from our HttpVersionMatchConditionParameters
-func (parameters *HttpVersionMatchConditionParameters) AssignProperties_To_HttpVersionMatchConditionParameters(destination *v1api20210601s.HttpVersionMatchConditionParameters) error {
+func (parameters *HttpVersionMatchConditionParameters) AssignProperties_To_HttpVersionMatchConditionParameters(destination *v20210601s.HttpVersionMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -11978,7 +11978,7 @@ type HttpVersionMatchConditionParameters_STATUS struct {
 }
 
 // AssignProperties_From_HttpVersionMatchConditionParameters_STATUS populates our HttpVersionMatchConditionParameters_STATUS from the provided source HttpVersionMatchConditionParameters_STATUS
-func (parameters *HttpVersionMatchConditionParameters_STATUS) AssignProperties_From_HttpVersionMatchConditionParameters_STATUS(source *v1api20210601s.HttpVersionMatchConditionParameters_STATUS) error {
+func (parameters *HttpVersionMatchConditionParameters_STATUS) AssignProperties_From_HttpVersionMatchConditionParameters_STATUS(source *v20210601s.HttpVersionMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -12023,7 +12023,7 @@ func (parameters *HttpVersionMatchConditionParameters_STATUS) AssignProperties_F
 }
 
 // AssignProperties_To_HttpVersionMatchConditionParameters_STATUS populates the provided destination HttpVersionMatchConditionParameters_STATUS from our HttpVersionMatchConditionParameters_STATUS
-func (parameters *HttpVersionMatchConditionParameters_STATUS) AssignProperties_To_HttpVersionMatchConditionParameters_STATUS(destination *v1api20210601s.HttpVersionMatchConditionParameters_STATUS) error {
+func (parameters *HttpVersionMatchConditionParameters_STATUS) AssignProperties_To_HttpVersionMatchConditionParameters_STATUS(destination *v20210601s.HttpVersionMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -12079,7 +12079,7 @@ type IsDeviceMatchConditionParameters struct {
 }
 
 // AssignProperties_From_IsDeviceMatchConditionParameters populates our IsDeviceMatchConditionParameters from the provided source IsDeviceMatchConditionParameters
-func (parameters *IsDeviceMatchConditionParameters) AssignProperties_From_IsDeviceMatchConditionParameters(source *v1api20210601s.IsDeviceMatchConditionParameters) error {
+func (parameters *IsDeviceMatchConditionParameters) AssignProperties_From_IsDeviceMatchConditionParameters(source *v20210601s.IsDeviceMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -12124,7 +12124,7 @@ func (parameters *IsDeviceMatchConditionParameters) AssignProperties_From_IsDevi
 }
 
 // AssignProperties_To_IsDeviceMatchConditionParameters populates the provided destination IsDeviceMatchConditionParameters from our IsDeviceMatchConditionParameters
-func (parameters *IsDeviceMatchConditionParameters) AssignProperties_To_IsDeviceMatchConditionParameters(destination *v1api20210601s.IsDeviceMatchConditionParameters) error {
+func (parameters *IsDeviceMatchConditionParameters) AssignProperties_To_IsDeviceMatchConditionParameters(destination *v20210601s.IsDeviceMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -12180,7 +12180,7 @@ type IsDeviceMatchConditionParameters_STATUS struct {
 }
 
 // AssignProperties_From_IsDeviceMatchConditionParameters_STATUS populates our IsDeviceMatchConditionParameters_STATUS from the provided source IsDeviceMatchConditionParameters_STATUS
-func (parameters *IsDeviceMatchConditionParameters_STATUS) AssignProperties_From_IsDeviceMatchConditionParameters_STATUS(source *v1api20210601s.IsDeviceMatchConditionParameters_STATUS) error {
+func (parameters *IsDeviceMatchConditionParameters_STATUS) AssignProperties_From_IsDeviceMatchConditionParameters_STATUS(source *v20210601s.IsDeviceMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -12225,7 +12225,7 @@ func (parameters *IsDeviceMatchConditionParameters_STATUS) AssignProperties_From
 }
 
 // AssignProperties_To_IsDeviceMatchConditionParameters_STATUS populates the provided destination IsDeviceMatchConditionParameters_STATUS from our IsDeviceMatchConditionParameters_STATUS
-func (parameters *IsDeviceMatchConditionParameters_STATUS) AssignProperties_To_IsDeviceMatchConditionParameters_STATUS(destination *v1api20210601s.IsDeviceMatchConditionParameters_STATUS) error {
+func (parameters *IsDeviceMatchConditionParameters_STATUS) AssignProperties_To_IsDeviceMatchConditionParameters_STATUS(destination *v20210601s.IsDeviceMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -12278,7 +12278,7 @@ type OriginGroupOverrideActionParameters struct {
 }
 
 // AssignProperties_From_OriginGroupOverrideActionParameters populates our OriginGroupOverrideActionParameters from the provided source OriginGroupOverrideActionParameters
-func (parameters *OriginGroupOverrideActionParameters) AssignProperties_From_OriginGroupOverrideActionParameters(source *v1api20210601s.OriginGroupOverrideActionParameters) error {
+func (parameters *OriginGroupOverrideActionParameters) AssignProperties_From_OriginGroupOverrideActionParameters(source *v20210601s.OriginGroupOverrideActionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -12318,13 +12318,13 @@ func (parameters *OriginGroupOverrideActionParameters) AssignProperties_From_Ori
 }
 
 // AssignProperties_To_OriginGroupOverrideActionParameters populates the provided destination OriginGroupOverrideActionParameters from our OriginGroupOverrideActionParameters
-func (parameters *OriginGroupOverrideActionParameters) AssignProperties_To_OriginGroupOverrideActionParameters(destination *v1api20210601s.OriginGroupOverrideActionParameters) error {
+func (parameters *OriginGroupOverrideActionParameters) AssignProperties_To_OriginGroupOverrideActionParameters(destination *v20210601s.OriginGroupOverrideActionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
 	// OriginGroup
 	if parameters.OriginGroup != nil {
-		var originGroup v1api20210601s.ResourceReference
+		var originGroup v20210601s.ResourceReference
 		err := parameters.OriginGroup.AssignProperties_To_ResourceReference(&originGroup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field OriginGroup")
@@ -12366,7 +12366,7 @@ type OriginGroupOverrideActionParameters_STATUS struct {
 }
 
 // AssignProperties_From_OriginGroupOverrideActionParameters_STATUS populates our OriginGroupOverrideActionParameters_STATUS from the provided source OriginGroupOverrideActionParameters_STATUS
-func (parameters *OriginGroupOverrideActionParameters_STATUS) AssignProperties_From_OriginGroupOverrideActionParameters_STATUS(source *v1api20210601s.OriginGroupOverrideActionParameters_STATUS) error {
+func (parameters *OriginGroupOverrideActionParameters_STATUS) AssignProperties_From_OriginGroupOverrideActionParameters_STATUS(source *v20210601s.OriginGroupOverrideActionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -12406,13 +12406,13 @@ func (parameters *OriginGroupOverrideActionParameters_STATUS) AssignProperties_F
 }
 
 // AssignProperties_To_OriginGroupOverrideActionParameters_STATUS populates the provided destination OriginGroupOverrideActionParameters_STATUS from our OriginGroupOverrideActionParameters_STATUS
-func (parameters *OriginGroupOverrideActionParameters_STATUS) AssignProperties_To_OriginGroupOverrideActionParameters_STATUS(destination *v1api20210601s.OriginGroupOverrideActionParameters_STATUS) error {
+func (parameters *OriginGroupOverrideActionParameters_STATUS) AssignProperties_To_OriginGroupOverrideActionParameters_STATUS(destination *v20210601s.OriginGroupOverrideActionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
 	// OriginGroup
 	if parameters.OriginGroup != nil {
-		var originGroup v1api20210601s.ResourceReference_STATUS
+		var originGroup v20210601s.ResourceReference_STATUS
 		err := parameters.OriginGroup.AssignProperties_To_ResourceReference_STATUS(&originGroup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field OriginGroup")
@@ -12458,7 +12458,7 @@ type PostArgsMatchConditionParameters struct {
 }
 
 // AssignProperties_From_PostArgsMatchConditionParameters populates our PostArgsMatchConditionParameters from the provided source PostArgsMatchConditionParameters
-func (parameters *PostArgsMatchConditionParameters) AssignProperties_From_PostArgsMatchConditionParameters(source *v1api20210601s.PostArgsMatchConditionParameters) error {
+func (parameters *PostArgsMatchConditionParameters) AssignProperties_From_PostArgsMatchConditionParameters(source *v20210601s.PostArgsMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -12506,7 +12506,7 @@ func (parameters *PostArgsMatchConditionParameters) AssignProperties_From_PostAr
 }
 
 // AssignProperties_To_PostArgsMatchConditionParameters populates the provided destination PostArgsMatchConditionParameters from our PostArgsMatchConditionParameters
-func (parameters *PostArgsMatchConditionParameters) AssignProperties_To_PostArgsMatchConditionParameters(destination *v1api20210601s.PostArgsMatchConditionParameters) error {
+func (parameters *PostArgsMatchConditionParameters) AssignProperties_To_PostArgsMatchConditionParameters(destination *v20210601s.PostArgsMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -12566,7 +12566,7 @@ type PostArgsMatchConditionParameters_STATUS struct {
 }
 
 // AssignProperties_From_PostArgsMatchConditionParameters_STATUS populates our PostArgsMatchConditionParameters_STATUS from the provided source PostArgsMatchConditionParameters_STATUS
-func (parameters *PostArgsMatchConditionParameters_STATUS) AssignProperties_From_PostArgsMatchConditionParameters_STATUS(source *v1api20210601s.PostArgsMatchConditionParameters_STATUS) error {
+func (parameters *PostArgsMatchConditionParameters_STATUS) AssignProperties_From_PostArgsMatchConditionParameters_STATUS(source *v20210601s.PostArgsMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -12614,7 +12614,7 @@ func (parameters *PostArgsMatchConditionParameters_STATUS) AssignProperties_From
 }
 
 // AssignProperties_To_PostArgsMatchConditionParameters_STATUS populates the provided destination PostArgsMatchConditionParameters_STATUS from our PostArgsMatchConditionParameters_STATUS
-func (parameters *PostArgsMatchConditionParameters_STATUS) AssignProperties_To_PostArgsMatchConditionParameters_STATUS(destination *v1api20210601s.PostArgsMatchConditionParameters_STATUS) error {
+func (parameters *PostArgsMatchConditionParameters_STATUS) AssignProperties_To_PostArgsMatchConditionParameters_STATUS(destination *v20210601s.PostArgsMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -12673,7 +12673,7 @@ type QueryStringMatchConditionParameters struct {
 }
 
 // AssignProperties_From_QueryStringMatchConditionParameters populates our QueryStringMatchConditionParameters from the provided source QueryStringMatchConditionParameters
-func (parameters *QueryStringMatchConditionParameters) AssignProperties_From_QueryStringMatchConditionParameters(source *v1api20210601s.QueryStringMatchConditionParameters) error {
+func (parameters *QueryStringMatchConditionParameters) AssignProperties_From_QueryStringMatchConditionParameters(source *v20210601s.QueryStringMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -12718,7 +12718,7 @@ func (parameters *QueryStringMatchConditionParameters) AssignProperties_From_Que
 }
 
 // AssignProperties_To_QueryStringMatchConditionParameters populates the provided destination QueryStringMatchConditionParameters from our QueryStringMatchConditionParameters
-func (parameters *QueryStringMatchConditionParameters) AssignProperties_To_QueryStringMatchConditionParameters(destination *v1api20210601s.QueryStringMatchConditionParameters) error {
+func (parameters *QueryStringMatchConditionParameters) AssignProperties_To_QueryStringMatchConditionParameters(destination *v20210601s.QueryStringMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -12774,7 +12774,7 @@ type QueryStringMatchConditionParameters_STATUS struct {
 }
 
 // AssignProperties_From_QueryStringMatchConditionParameters_STATUS populates our QueryStringMatchConditionParameters_STATUS from the provided source QueryStringMatchConditionParameters_STATUS
-func (parameters *QueryStringMatchConditionParameters_STATUS) AssignProperties_From_QueryStringMatchConditionParameters_STATUS(source *v1api20210601s.QueryStringMatchConditionParameters_STATUS) error {
+func (parameters *QueryStringMatchConditionParameters_STATUS) AssignProperties_From_QueryStringMatchConditionParameters_STATUS(source *v20210601s.QueryStringMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -12819,7 +12819,7 @@ func (parameters *QueryStringMatchConditionParameters_STATUS) AssignProperties_F
 }
 
 // AssignProperties_To_QueryStringMatchConditionParameters_STATUS populates the provided destination QueryStringMatchConditionParameters_STATUS from our QueryStringMatchConditionParameters_STATUS
-func (parameters *QueryStringMatchConditionParameters_STATUS) AssignProperties_To_QueryStringMatchConditionParameters_STATUS(destination *v1api20210601s.QueryStringMatchConditionParameters_STATUS) error {
+func (parameters *QueryStringMatchConditionParameters_STATUS) AssignProperties_To_QueryStringMatchConditionParameters_STATUS(destination *v20210601s.QueryStringMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -12875,7 +12875,7 @@ type RemoteAddressMatchConditionParameters struct {
 }
 
 // AssignProperties_From_RemoteAddressMatchConditionParameters populates our RemoteAddressMatchConditionParameters from the provided source RemoteAddressMatchConditionParameters
-func (parameters *RemoteAddressMatchConditionParameters) AssignProperties_From_RemoteAddressMatchConditionParameters(source *v1api20210601s.RemoteAddressMatchConditionParameters) error {
+func (parameters *RemoteAddressMatchConditionParameters) AssignProperties_From_RemoteAddressMatchConditionParameters(source *v20210601s.RemoteAddressMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -12920,7 +12920,7 @@ func (parameters *RemoteAddressMatchConditionParameters) AssignProperties_From_R
 }
 
 // AssignProperties_To_RemoteAddressMatchConditionParameters populates the provided destination RemoteAddressMatchConditionParameters from our RemoteAddressMatchConditionParameters
-func (parameters *RemoteAddressMatchConditionParameters) AssignProperties_To_RemoteAddressMatchConditionParameters(destination *v1api20210601s.RemoteAddressMatchConditionParameters) error {
+func (parameters *RemoteAddressMatchConditionParameters) AssignProperties_To_RemoteAddressMatchConditionParameters(destination *v20210601s.RemoteAddressMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -12976,7 +12976,7 @@ type RemoteAddressMatchConditionParameters_STATUS struct {
 }
 
 // AssignProperties_From_RemoteAddressMatchConditionParameters_STATUS populates our RemoteAddressMatchConditionParameters_STATUS from the provided source RemoteAddressMatchConditionParameters_STATUS
-func (parameters *RemoteAddressMatchConditionParameters_STATUS) AssignProperties_From_RemoteAddressMatchConditionParameters_STATUS(source *v1api20210601s.RemoteAddressMatchConditionParameters_STATUS) error {
+func (parameters *RemoteAddressMatchConditionParameters_STATUS) AssignProperties_From_RemoteAddressMatchConditionParameters_STATUS(source *v20210601s.RemoteAddressMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -13021,7 +13021,7 @@ func (parameters *RemoteAddressMatchConditionParameters_STATUS) AssignProperties
 }
 
 // AssignProperties_To_RemoteAddressMatchConditionParameters_STATUS populates the provided destination RemoteAddressMatchConditionParameters_STATUS from our RemoteAddressMatchConditionParameters_STATUS
-func (parameters *RemoteAddressMatchConditionParameters_STATUS) AssignProperties_To_RemoteAddressMatchConditionParameters_STATUS(destination *v1api20210601s.RemoteAddressMatchConditionParameters_STATUS) error {
+func (parameters *RemoteAddressMatchConditionParameters_STATUS) AssignProperties_To_RemoteAddressMatchConditionParameters_STATUS(destination *v20210601s.RemoteAddressMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -13077,7 +13077,7 @@ type RequestBodyMatchConditionParameters struct {
 }
 
 // AssignProperties_From_RequestBodyMatchConditionParameters populates our RequestBodyMatchConditionParameters from the provided source RequestBodyMatchConditionParameters
-func (parameters *RequestBodyMatchConditionParameters) AssignProperties_From_RequestBodyMatchConditionParameters(source *v1api20210601s.RequestBodyMatchConditionParameters) error {
+func (parameters *RequestBodyMatchConditionParameters) AssignProperties_From_RequestBodyMatchConditionParameters(source *v20210601s.RequestBodyMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -13122,7 +13122,7 @@ func (parameters *RequestBodyMatchConditionParameters) AssignProperties_From_Req
 }
 
 // AssignProperties_To_RequestBodyMatchConditionParameters populates the provided destination RequestBodyMatchConditionParameters from our RequestBodyMatchConditionParameters
-func (parameters *RequestBodyMatchConditionParameters) AssignProperties_To_RequestBodyMatchConditionParameters(destination *v1api20210601s.RequestBodyMatchConditionParameters) error {
+func (parameters *RequestBodyMatchConditionParameters) AssignProperties_To_RequestBodyMatchConditionParameters(destination *v20210601s.RequestBodyMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -13178,7 +13178,7 @@ type RequestBodyMatchConditionParameters_STATUS struct {
 }
 
 // AssignProperties_From_RequestBodyMatchConditionParameters_STATUS populates our RequestBodyMatchConditionParameters_STATUS from the provided source RequestBodyMatchConditionParameters_STATUS
-func (parameters *RequestBodyMatchConditionParameters_STATUS) AssignProperties_From_RequestBodyMatchConditionParameters_STATUS(source *v1api20210601s.RequestBodyMatchConditionParameters_STATUS) error {
+func (parameters *RequestBodyMatchConditionParameters_STATUS) AssignProperties_From_RequestBodyMatchConditionParameters_STATUS(source *v20210601s.RequestBodyMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -13223,7 +13223,7 @@ func (parameters *RequestBodyMatchConditionParameters_STATUS) AssignProperties_F
 }
 
 // AssignProperties_To_RequestBodyMatchConditionParameters_STATUS populates the provided destination RequestBodyMatchConditionParameters_STATUS from our RequestBodyMatchConditionParameters_STATUS
-func (parameters *RequestBodyMatchConditionParameters_STATUS) AssignProperties_To_RequestBodyMatchConditionParameters_STATUS(destination *v1api20210601s.RequestBodyMatchConditionParameters_STATUS) error {
+func (parameters *RequestBodyMatchConditionParameters_STATUS) AssignProperties_To_RequestBodyMatchConditionParameters_STATUS(destination *v20210601s.RequestBodyMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -13280,7 +13280,7 @@ type RequestHeaderMatchConditionParameters struct {
 }
 
 // AssignProperties_From_RequestHeaderMatchConditionParameters populates our RequestHeaderMatchConditionParameters from the provided source RequestHeaderMatchConditionParameters
-func (parameters *RequestHeaderMatchConditionParameters) AssignProperties_From_RequestHeaderMatchConditionParameters(source *v1api20210601s.RequestHeaderMatchConditionParameters) error {
+func (parameters *RequestHeaderMatchConditionParameters) AssignProperties_From_RequestHeaderMatchConditionParameters(source *v20210601s.RequestHeaderMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -13328,7 +13328,7 @@ func (parameters *RequestHeaderMatchConditionParameters) AssignProperties_From_R
 }
 
 // AssignProperties_To_RequestHeaderMatchConditionParameters populates the provided destination RequestHeaderMatchConditionParameters from our RequestHeaderMatchConditionParameters
-func (parameters *RequestHeaderMatchConditionParameters) AssignProperties_To_RequestHeaderMatchConditionParameters(destination *v1api20210601s.RequestHeaderMatchConditionParameters) error {
+func (parameters *RequestHeaderMatchConditionParameters) AssignProperties_To_RequestHeaderMatchConditionParameters(destination *v20210601s.RequestHeaderMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -13388,7 +13388,7 @@ type RequestHeaderMatchConditionParameters_STATUS struct {
 }
 
 // AssignProperties_From_RequestHeaderMatchConditionParameters_STATUS populates our RequestHeaderMatchConditionParameters_STATUS from the provided source RequestHeaderMatchConditionParameters_STATUS
-func (parameters *RequestHeaderMatchConditionParameters_STATUS) AssignProperties_From_RequestHeaderMatchConditionParameters_STATUS(source *v1api20210601s.RequestHeaderMatchConditionParameters_STATUS) error {
+func (parameters *RequestHeaderMatchConditionParameters_STATUS) AssignProperties_From_RequestHeaderMatchConditionParameters_STATUS(source *v20210601s.RequestHeaderMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -13436,7 +13436,7 @@ func (parameters *RequestHeaderMatchConditionParameters_STATUS) AssignProperties
 }
 
 // AssignProperties_To_RequestHeaderMatchConditionParameters_STATUS populates the provided destination RequestHeaderMatchConditionParameters_STATUS from our RequestHeaderMatchConditionParameters_STATUS
-func (parameters *RequestHeaderMatchConditionParameters_STATUS) AssignProperties_To_RequestHeaderMatchConditionParameters_STATUS(destination *v1api20210601s.RequestHeaderMatchConditionParameters_STATUS) error {
+func (parameters *RequestHeaderMatchConditionParameters_STATUS) AssignProperties_To_RequestHeaderMatchConditionParameters_STATUS(destination *v20210601s.RequestHeaderMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -13495,7 +13495,7 @@ type RequestMethodMatchConditionParameters struct {
 }
 
 // AssignProperties_From_RequestMethodMatchConditionParameters populates our RequestMethodMatchConditionParameters from the provided source RequestMethodMatchConditionParameters
-func (parameters *RequestMethodMatchConditionParameters) AssignProperties_From_RequestMethodMatchConditionParameters(source *v1api20210601s.RequestMethodMatchConditionParameters) error {
+func (parameters *RequestMethodMatchConditionParameters) AssignProperties_From_RequestMethodMatchConditionParameters(source *v20210601s.RequestMethodMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -13540,7 +13540,7 @@ func (parameters *RequestMethodMatchConditionParameters) AssignProperties_From_R
 }
 
 // AssignProperties_To_RequestMethodMatchConditionParameters populates the provided destination RequestMethodMatchConditionParameters from our RequestMethodMatchConditionParameters
-func (parameters *RequestMethodMatchConditionParameters) AssignProperties_To_RequestMethodMatchConditionParameters(destination *v1api20210601s.RequestMethodMatchConditionParameters) error {
+func (parameters *RequestMethodMatchConditionParameters) AssignProperties_To_RequestMethodMatchConditionParameters(destination *v20210601s.RequestMethodMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -13596,7 +13596,7 @@ type RequestMethodMatchConditionParameters_STATUS struct {
 }
 
 // AssignProperties_From_RequestMethodMatchConditionParameters_STATUS populates our RequestMethodMatchConditionParameters_STATUS from the provided source RequestMethodMatchConditionParameters_STATUS
-func (parameters *RequestMethodMatchConditionParameters_STATUS) AssignProperties_From_RequestMethodMatchConditionParameters_STATUS(source *v1api20210601s.RequestMethodMatchConditionParameters_STATUS) error {
+func (parameters *RequestMethodMatchConditionParameters_STATUS) AssignProperties_From_RequestMethodMatchConditionParameters_STATUS(source *v20210601s.RequestMethodMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -13641,7 +13641,7 @@ func (parameters *RequestMethodMatchConditionParameters_STATUS) AssignProperties
 }
 
 // AssignProperties_To_RequestMethodMatchConditionParameters_STATUS populates the provided destination RequestMethodMatchConditionParameters_STATUS from our RequestMethodMatchConditionParameters_STATUS
-func (parameters *RequestMethodMatchConditionParameters_STATUS) AssignProperties_To_RequestMethodMatchConditionParameters_STATUS(destination *v1api20210601s.RequestMethodMatchConditionParameters_STATUS) error {
+func (parameters *RequestMethodMatchConditionParameters_STATUS) AssignProperties_To_RequestMethodMatchConditionParameters_STATUS(destination *v20210601s.RequestMethodMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -13697,7 +13697,7 @@ type RequestSchemeMatchConditionParameters struct {
 }
 
 // AssignProperties_From_RequestSchemeMatchConditionParameters populates our RequestSchemeMatchConditionParameters from the provided source RequestSchemeMatchConditionParameters
-func (parameters *RequestSchemeMatchConditionParameters) AssignProperties_From_RequestSchemeMatchConditionParameters(source *v1api20210601s.RequestSchemeMatchConditionParameters) error {
+func (parameters *RequestSchemeMatchConditionParameters) AssignProperties_From_RequestSchemeMatchConditionParameters(source *v20210601s.RequestSchemeMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -13742,7 +13742,7 @@ func (parameters *RequestSchemeMatchConditionParameters) AssignProperties_From_R
 }
 
 // AssignProperties_To_RequestSchemeMatchConditionParameters populates the provided destination RequestSchemeMatchConditionParameters from our RequestSchemeMatchConditionParameters
-func (parameters *RequestSchemeMatchConditionParameters) AssignProperties_To_RequestSchemeMatchConditionParameters(destination *v1api20210601s.RequestSchemeMatchConditionParameters) error {
+func (parameters *RequestSchemeMatchConditionParameters) AssignProperties_To_RequestSchemeMatchConditionParameters(destination *v20210601s.RequestSchemeMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -13798,7 +13798,7 @@ type RequestSchemeMatchConditionParameters_STATUS struct {
 }
 
 // AssignProperties_From_RequestSchemeMatchConditionParameters_STATUS populates our RequestSchemeMatchConditionParameters_STATUS from the provided source RequestSchemeMatchConditionParameters_STATUS
-func (parameters *RequestSchemeMatchConditionParameters_STATUS) AssignProperties_From_RequestSchemeMatchConditionParameters_STATUS(source *v1api20210601s.RequestSchemeMatchConditionParameters_STATUS) error {
+func (parameters *RequestSchemeMatchConditionParameters_STATUS) AssignProperties_From_RequestSchemeMatchConditionParameters_STATUS(source *v20210601s.RequestSchemeMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -13843,7 +13843,7 @@ func (parameters *RequestSchemeMatchConditionParameters_STATUS) AssignProperties
 }
 
 // AssignProperties_To_RequestSchemeMatchConditionParameters_STATUS populates the provided destination RequestSchemeMatchConditionParameters_STATUS from our RequestSchemeMatchConditionParameters_STATUS
-func (parameters *RequestSchemeMatchConditionParameters_STATUS) AssignProperties_To_RequestSchemeMatchConditionParameters_STATUS(destination *v1api20210601s.RequestSchemeMatchConditionParameters_STATUS) error {
+func (parameters *RequestSchemeMatchConditionParameters_STATUS) AssignProperties_To_RequestSchemeMatchConditionParameters_STATUS(destination *v20210601s.RequestSchemeMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -13899,7 +13899,7 @@ type RequestUriMatchConditionParameters struct {
 }
 
 // AssignProperties_From_RequestUriMatchConditionParameters populates our RequestUriMatchConditionParameters from the provided source RequestUriMatchConditionParameters
-func (parameters *RequestUriMatchConditionParameters) AssignProperties_From_RequestUriMatchConditionParameters(source *v1api20210601s.RequestUriMatchConditionParameters) error {
+func (parameters *RequestUriMatchConditionParameters) AssignProperties_From_RequestUriMatchConditionParameters(source *v20210601s.RequestUriMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -13944,7 +13944,7 @@ func (parameters *RequestUriMatchConditionParameters) AssignProperties_From_Requ
 }
 
 // AssignProperties_To_RequestUriMatchConditionParameters populates the provided destination RequestUriMatchConditionParameters from our RequestUriMatchConditionParameters
-func (parameters *RequestUriMatchConditionParameters) AssignProperties_To_RequestUriMatchConditionParameters(destination *v1api20210601s.RequestUriMatchConditionParameters) error {
+func (parameters *RequestUriMatchConditionParameters) AssignProperties_To_RequestUriMatchConditionParameters(destination *v20210601s.RequestUriMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -14000,7 +14000,7 @@ type RequestUriMatchConditionParameters_STATUS struct {
 }
 
 // AssignProperties_From_RequestUriMatchConditionParameters_STATUS populates our RequestUriMatchConditionParameters_STATUS from the provided source RequestUriMatchConditionParameters_STATUS
-func (parameters *RequestUriMatchConditionParameters_STATUS) AssignProperties_From_RequestUriMatchConditionParameters_STATUS(source *v1api20210601s.RequestUriMatchConditionParameters_STATUS) error {
+func (parameters *RequestUriMatchConditionParameters_STATUS) AssignProperties_From_RequestUriMatchConditionParameters_STATUS(source *v20210601s.RequestUriMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -14045,7 +14045,7 @@ func (parameters *RequestUriMatchConditionParameters_STATUS) AssignProperties_Fr
 }
 
 // AssignProperties_To_RequestUriMatchConditionParameters_STATUS populates the provided destination RequestUriMatchConditionParameters_STATUS from our RequestUriMatchConditionParameters_STATUS
-func (parameters *RequestUriMatchConditionParameters_STATUS) AssignProperties_To_RequestUriMatchConditionParameters_STATUS(destination *v1api20210601s.RequestUriMatchConditionParameters_STATUS) error {
+func (parameters *RequestUriMatchConditionParameters_STATUS) AssignProperties_To_RequestUriMatchConditionParameters_STATUS(destination *v20210601s.RequestUriMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -14099,7 +14099,7 @@ type RouteConfigurationOverrideActionParameters struct {
 }
 
 // AssignProperties_From_RouteConfigurationOverrideActionParameters populates our RouteConfigurationOverrideActionParameters from the provided source RouteConfigurationOverrideActionParameters
-func (parameters *RouteConfigurationOverrideActionParameters) AssignProperties_From_RouteConfigurationOverrideActionParameters(source *v1api20210601s.RouteConfigurationOverrideActionParameters) error {
+func (parameters *RouteConfigurationOverrideActionParameters) AssignProperties_From_RouteConfigurationOverrideActionParameters(source *v20210601s.RouteConfigurationOverrideActionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -14151,13 +14151,13 @@ func (parameters *RouteConfigurationOverrideActionParameters) AssignProperties_F
 }
 
 // AssignProperties_To_RouteConfigurationOverrideActionParameters populates the provided destination RouteConfigurationOverrideActionParameters from our RouteConfigurationOverrideActionParameters
-func (parameters *RouteConfigurationOverrideActionParameters) AssignProperties_To_RouteConfigurationOverrideActionParameters(destination *v1api20210601s.RouteConfigurationOverrideActionParameters) error {
+func (parameters *RouteConfigurationOverrideActionParameters) AssignProperties_To_RouteConfigurationOverrideActionParameters(destination *v20210601s.RouteConfigurationOverrideActionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
 	// CacheConfiguration
 	if parameters.CacheConfiguration != nil {
-		var cacheConfiguration v1api20210601s.CacheConfiguration
+		var cacheConfiguration v20210601s.CacheConfiguration
 		err := parameters.CacheConfiguration.AssignProperties_To_CacheConfiguration(&cacheConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CacheConfiguration() to populate field CacheConfiguration")
@@ -14169,7 +14169,7 @@ func (parameters *RouteConfigurationOverrideActionParameters) AssignProperties_T
 
 	// OriginGroupOverride
 	if parameters.OriginGroupOverride != nil {
-		var originGroupOverride v1api20210601s.OriginGroupOverride
+		var originGroupOverride v20210601s.OriginGroupOverride
 		err := parameters.OriginGroupOverride.AssignProperties_To_OriginGroupOverride(&originGroupOverride)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_OriginGroupOverride() to populate field OriginGroupOverride")
@@ -14212,7 +14212,7 @@ type RouteConfigurationOverrideActionParameters_STATUS struct {
 }
 
 // AssignProperties_From_RouteConfigurationOverrideActionParameters_STATUS populates our RouteConfigurationOverrideActionParameters_STATUS from the provided source RouteConfigurationOverrideActionParameters_STATUS
-func (parameters *RouteConfigurationOverrideActionParameters_STATUS) AssignProperties_From_RouteConfigurationOverrideActionParameters_STATUS(source *v1api20210601s.RouteConfigurationOverrideActionParameters_STATUS) error {
+func (parameters *RouteConfigurationOverrideActionParameters_STATUS) AssignProperties_From_RouteConfigurationOverrideActionParameters_STATUS(source *v20210601s.RouteConfigurationOverrideActionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -14264,13 +14264,13 @@ func (parameters *RouteConfigurationOverrideActionParameters_STATUS) AssignPrope
 }
 
 // AssignProperties_To_RouteConfigurationOverrideActionParameters_STATUS populates the provided destination RouteConfigurationOverrideActionParameters_STATUS from our RouteConfigurationOverrideActionParameters_STATUS
-func (parameters *RouteConfigurationOverrideActionParameters_STATUS) AssignProperties_To_RouteConfigurationOverrideActionParameters_STATUS(destination *v1api20210601s.RouteConfigurationOverrideActionParameters_STATUS) error {
+func (parameters *RouteConfigurationOverrideActionParameters_STATUS) AssignProperties_To_RouteConfigurationOverrideActionParameters_STATUS(destination *v20210601s.RouteConfigurationOverrideActionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
 	// CacheConfiguration
 	if parameters.CacheConfiguration != nil {
-		var cacheConfiguration v1api20210601s.CacheConfiguration_STATUS
+		var cacheConfiguration v20210601s.CacheConfiguration_STATUS
 		err := parameters.CacheConfiguration.AssignProperties_To_CacheConfiguration_STATUS(&cacheConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CacheConfiguration_STATUS() to populate field CacheConfiguration")
@@ -14282,7 +14282,7 @@ func (parameters *RouteConfigurationOverrideActionParameters_STATUS) AssignPrope
 
 	// OriginGroupOverride
 	if parameters.OriginGroupOverride != nil {
-		var originGroupOverride v1api20210601s.OriginGroupOverride_STATUS
+		var originGroupOverride v20210601s.OriginGroupOverride_STATUS
 		err := parameters.OriginGroupOverride.AssignProperties_To_OriginGroupOverride_STATUS(&originGroupOverride)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_OriginGroupOverride_STATUS() to populate field OriginGroupOverride")
@@ -14327,7 +14327,7 @@ type ServerPortMatchConditionParameters struct {
 }
 
 // AssignProperties_From_ServerPortMatchConditionParameters populates our ServerPortMatchConditionParameters from the provided source ServerPortMatchConditionParameters
-func (parameters *ServerPortMatchConditionParameters) AssignProperties_From_ServerPortMatchConditionParameters(source *v1api20210601s.ServerPortMatchConditionParameters) error {
+func (parameters *ServerPortMatchConditionParameters) AssignProperties_From_ServerPortMatchConditionParameters(source *v20210601s.ServerPortMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -14372,7 +14372,7 @@ func (parameters *ServerPortMatchConditionParameters) AssignProperties_From_Serv
 }
 
 // AssignProperties_To_ServerPortMatchConditionParameters populates the provided destination ServerPortMatchConditionParameters from our ServerPortMatchConditionParameters
-func (parameters *ServerPortMatchConditionParameters) AssignProperties_To_ServerPortMatchConditionParameters(destination *v1api20210601s.ServerPortMatchConditionParameters) error {
+func (parameters *ServerPortMatchConditionParameters) AssignProperties_To_ServerPortMatchConditionParameters(destination *v20210601s.ServerPortMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -14428,7 +14428,7 @@ type ServerPortMatchConditionParameters_STATUS struct {
 }
 
 // AssignProperties_From_ServerPortMatchConditionParameters_STATUS populates our ServerPortMatchConditionParameters_STATUS from the provided source ServerPortMatchConditionParameters_STATUS
-func (parameters *ServerPortMatchConditionParameters_STATUS) AssignProperties_From_ServerPortMatchConditionParameters_STATUS(source *v1api20210601s.ServerPortMatchConditionParameters_STATUS) error {
+func (parameters *ServerPortMatchConditionParameters_STATUS) AssignProperties_From_ServerPortMatchConditionParameters_STATUS(source *v20210601s.ServerPortMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -14473,7 +14473,7 @@ func (parameters *ServerPortMatchConditionParameters_STATUS) AssignProperties_Fr
 }
 
 // AssignProperties_To_ServerPortMatchConditionParameters_STATUS populates the provided destination ServerPortMatchConditionParameters_STATUS from our ServerPortMatchConditionParameters_STATUS
-func (parameters *ServerPortMatchConditionParameters_STATUS) AssignProperties_To_ServerPortMatchConditionParameters_STATUS(destination *v1api20210601s.ServerPortMatchConditionParameters_STATUS) error {
+func (parameters *ServerPortMatchConditionParameters_STATUS) AssignProperties_To_ServerPortMatchConditionParameters_STATUS(destination *v20210601s.ServerPortMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -14529,7 +14529,7 @@ type SocketAddrMatchConditionParameters struct {
 }
 
 // AssignProperties_From_SocketAddrMatchConditionParameters populates our SocketAddrMatchConditionParameters from the provided source SocketAddrMatchConditionParameters
-func (parameters *SocketAddrMatchConditionParameters) AssignProperties_From_SocketAddrMatchConditionParameters(source *v1api20210601s.SocketAddrMatchConditionParameters) error {
+func (parameters *SocketAddrMatchConditionParameters) AssignProperties_From_SocketAddrMatchConditionParameters(source *v20210601s.SocketAddrMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -14574,7 +14574,7 @@ func (parameters *SocketAddrMatchConditionParameters) AssignProperties_From_Sock
 }
 
 // AssignProperties_To_SocketAddrMatchConditionParameters populates the provided destination SocketAddrMatchConditionParameters from our SocketAddrMatchConditionParameters
-func (parameters *SocketAddrMatchConditionParameters) AssignProperties_To_SocketAddrMatchConditionParameters(destination *v1api20210601s.SocketAddrMatchConditionParameters) error {
+func (parameters *SocketAddrMatchConditionParameters) AssignProperties_To_SocketAddrMatchConditionParameters(destination *v20210601s.SocketAddrMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -14630,7 +14630,7 @@ type SocketAddrMatchConditionParameters_STATUS struct {
 }
 
 // AssignProperties_From_SocketAddrMatchConditionParameters_STATUS populates our SocketAddrMatchConditionParameters_STATUS from the provided source SocketAddrMatchConditionParameters_STATUS
-func (parameters *SocketAddrMatchConditionParameters_STATUS) AssignProperties_From_SocketAddrMatchConditionParameters_STATUS(source *v1api20210601s.SocketAddrMatchConditionParameters_STATUS) error {
+func (parameters *SocketAddrMatchConditionParameters_STATUS) AssignProperties_From_SocketAddrMatchConditionParameters_STATUS(source *v20210601s.SocketAddrMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -14675,7 +14675,7 @@ func (parameters *SocketAddrMatchConditionParameters_STATUS) AssignProperties_Fr
 }
 
 // AssignProperties_To_SocketAddrMatchConditionParameters_STATUS populates the provided destination SocketAddrMatchConditionParameters_STATUS from our SocketAddrMatchConditionParameters_STATUS
-func (parameters *SocketAddrMatchConditionParameters_STATUS) AssignProperties_To_SocketAddrMatchConditionParameters_STATUS(destination *v1api20210601s.SocketAddrMatchConditionParameters_STATUS) error {
+func (parameters *SocketAddrMatchConditionParameters_STATUS) AssignProperties_To_SocketAddrMatchConditionParameters_STATUS(destination *v20210601s.SocketAddrMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -14731,7 +14731,7 @@ type SslProtocolMatchConditionParameters struct {
 }
 
 // AssignProperties_From_SslProtocolMatchConditionParameters populates our SslProtocolMatchConditionParameters from the provided source SslProtocolMatchConditionParameters
-func (parameters *SslProtocolMatchConditionParameters) AssignProperties_From_SslProtocolMatchConditionParameters(source *v1api20210601s.SslProtocolMatchConditionParameters) error {
+func (parameters *SslProtocolMatchConditionParameters) AssignProperties_From_SslProtocolMatchConditionParameters(source *v20210601s.SslProtocolMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -14776,7 +14776,7 @@ func (parameters *SslProtocolMatchConditionParameters) AssignProperties_From_Ssl
 }
 
 // AssignProperties_To_SslProtocolMatchConditionParameters populates the provided destination SslProtocolMatchConditionParameters from our SslProtocolMatchConditionParameters
-func (parameters *SslProtocolMatchConditionParameters) AssignProperties_To_SslProtocolMatchConditionParameters(destination *v1api20210601s.SslProtocolMatchConditionParameters) error {
+func (parameters *SslProtocolMatchConditionParameters) AssignProperties_To_SslProtocolMatchConditionParameters(destination *v20210601s.SslProtocolMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -14832,7 +14832,7 @@ type SslProtocolMatchConditionParameters_STATUS struct {
 }
 
 // AssignProperties_From_SslProtocolMatchConditionParameters_STATUS populates our SslProtocolMatchConditionParameters_STATUS from the provided source SslProtocolMatchConditionParameters_STATUS
-func (parameters *SslProtocolMatchConditionParameters_STATUS) AssignProperties_From_SslProtocolMatchConditionParameters_STATUS(source *v1api20210601s.SslProtocolMatchConditionParameters_STATUS) error {
+func (parameters *SslProtocolMatchConditionParameters_STATUS) AssignProperties_From_SslProtocolMatchConditionParameters_STATUS(source *v20210601s.SslProtocolMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -14877,7 +14877,7 @@ func (parameters *SslProtocolMatchConditionParameters_STATUS) AssignProperties_F
 }
 
 // AssignProperties_To_SslProtocolMatchConditionParameters_STATUS populates the provided destination SslProtocolMatchConditionParameters_STATUS from our SslProtocolMatchConditionParameters_STATUS
-func (parameters *SslProtocolMatchConditionParameters_STATUS) AssignProperties_To_SslProtocolMatchConditionParameters_STATUS(destination *v1api20210601s.SslProtocolMatchConditionParameters_STATUS) error {
+func (parameters *SslProtocolMatchConditionParameters_STATUS) AssignProperties_To_SslProtocolMatchConditionParameters_STATUS(destination *v20210601s.SslProtocolMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -14933,7 +14933,7 @@ type UrlFileExtensionMatchConditionParameters struct {
 }
 
 // AssignProperties_From_UrlFileExtensionMatchConditionParameters populates our UrlFileExtensionMatchConditionParameters from the provided source UrlFileExtensionMatchConditionParameters
-func (parameters *UrlFileExtensionMatchConditionParameters) AssignProperties_From_UrlFileExtensionMatchConditionParameters(source *v1api20210601s.UrlFileExtensionMatchConditionParameters) error {
+func (parameters *UrlFileExtensionMatchConditionParameters) AssignProperties_From_UrlFileExtensionMatchConditionParameters(source *v20210601s.UrlFileExtensionMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -14978,7 +14978,7 @@ func (parameters *UrlFileExtensionMatchConditionParameters) AssignProperties_Fro
 }
 
 // AssignProperties_To_UrlFileExtensionMatchConditionParameters populates the provided destination UrlFileExtensionMatchConditionParameters from our UrlFileExtensionMatchConditionParameters
-func (parameters *UrlFileExtensionMatchConditionParameters) AssignProperties_To_UrlFileExtensionMatchConditionParameters(destination *v1api20210601s.UrlFileExtensionMatchConditionParameters) error {
+func (parameters *UrlFileExtensionMatchConditionParameters) AssignProperties_To_UrlFileExtensionMatchConditionParameters(destination *v20210601s.UrlFileExtensionMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -15034,7 +15034,7 @@ type UrlFileExtensionMatchConditionParameters_STATUS struct {
 }
 
 // AssignProperties_From_UrlFileExtensionMatchConditionParameters_STATUS populates our UrlFileExtensionMatchConditionParameters_STATUS from the provided source UrlFileExtensionMatchConditionParameters_STATUS
-func (parameters *UrlFileExtensionMatchConditionParameters_STATUS) AssignProperties_From_UrlFileExtensionMatchConditionParameters_STATUS(source *v1api20210601s.UrlFileExtensionMatchConditionParameters_STATUS) error {
+func (parameters *UrlFileExtensionMatchConditionParameters_STATUS) AssignProperties_From_UrlFileExtensionMatchConditionParameters_STATUS(source *v20210601s.UrlFileExtensionMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -15079,7 +15079,7 @@ func (parameters *UrlFileExtensionMatchConditionParameters_STATUS) AssignPropert
 }
 
 // AssignProperties_To_UrlFileExtensionMatchConditionParameters_STATUS populates the provided destination UrlFileExtensionMatchConditionParameters_STATUS from our UrlFileExtensionMatchConditionParameters_STATUS
-func (parameters *UrlFileExtensionMatchConditionParameters_STATUS) AssignProperties_To_UrlFileExtensionMatchConditionParameters_STATUS(destination *v1api20210601s.UrlFileExtensionMatchConditionParameters_STATUS) error {
+func (parameters *UrlFileExtensionMatchConditionParameters_STATUS) AssignProperties_To_UrlFileExtensionMatchConditionParameters_STATUS(destination *v20210601s.UrlFileExtensionMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -15135,7 +15135,7 @@ type UrlFileNameMatchConditionParameters struct {
 }
 
 // AssignProperties_From_UrlFileNameMatchConditionParameters populates our UrlFileNameMatchConditionParameters from the provided source UrlFileNameMatchConditionParameters
-func (parameters *UrlFileNameMatchConditionParameters) AssignProperties_From_UrlFileNameMatchConditionParameters(source *v1api20210601s.UrlFileNameMatchConditionParameters) error {
+func (parameters *UrlFileNameMatchConditionParameters) AssignProperties_From_UrlFileNameMatchConditionParameters(source *v20210601s.UrlFileNameMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -15180,7 +15180,7 @@ func (parameters *UrlFileNameMatchConditionParameters) AssignProperties_From_Url
 }
 
 // AssignProperties_To_UrlFileNameMatchConditionParameters populates the provided destination UrlFileNameMatchConditionParameters from our UrlFileNameMatchConditionParameters
-func (parameters *UrlFileNameMatchConditionParameters) AssignProperties_To_UrlFileNameMatchConditionParameters(destination *v1api20210601s.UrlFileNameMatchConditionParameters) error {
+func (parameters *UrlFileNameMatchConditionParameters) AssignProperties_To_UrlFileNameMatchConditionParameters(destination *v20210601s.UrlFileNameMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -15236,7 +15236,7 @@ type UrlFileNameMatchConditionParameters_STATUS struct {
 }
 
 // AssignProperties_From_UrlFileNameMatchConditionParameters_STATUS populates our UrlFileNameMatchConditionParameters_STATUS from the provided source UrlFileNameMatchConditionParameters_STATUS
-func (parameters *UrlFileNameMatchConditionParameters_STATUS) AssignProperties_From_UrlFileNameMatchConditionParameters_STATUS(source *v1api20210601s.UrlFileNameMatchConditionParameters_STATUS) error {
+func (parameters *UrlFileNameMatchConditionParameters_STATUS) AssignProperties_From_UrlFileNameMatchConditionParameters_STATUS(source *v20210601s.UrlFileNameMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -15281,7 +15281,7 @@ func (parameters *UrlFileNameMatchConditionParameters_STATUS) AssignProperties_F
 }
 
 // AssignProperties_To_UrlFileNameMatchConditionParameters_STATUS populates the provided destination UrlFileNameMatchConditionParameters_STATUS from our UrlFileNameMatchConditionParameters_STATUS
-func (parameters *UrlFileNameMatchConditionParameters_STATUS) AssignProperties_To_UrlFileNameMatchConditionParameters_STATUS(destination *v1api20210601s.UrlFileNameMatchConditionParameters_STATUS) error {
+func (parameters *UrlFileNameMatchConditionParameters_STATUS) AssignProperties_To_UrlFileNameMatchConditionParameters_STATUS(destination *v20210601s.UrlFileNameMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -15337,7 +15337,7 @@ type UrlPathMatchConditionParameters struct {
 }
 
 // AssignProperties_From_UrlPathMatchConditionParameters populates our UrlPathMatchConditionParameters from the provided source UrlPathMatchConditionParameters
-func (parameters *UrlPathMatchConditionParameters) AssignProperties_From_UrlPathMatchConditionParameters(source *v1api20210601s.UrlPathMatchConditionParameters) error {
+func (parameters *UrlPathMatchConditionParameters) AssignProperties_From_UrlPathMatchConditionParameters(source *v20210601s.UrlPathMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -15382,7 +15382,7 @@ func (parameters *UrlPathMatchConditionParameters) AssignProperties_From_UrlPath
 }
 
 // AssignProperties_To_UrlPathMatchConditionParameters populates the provided destination UrlPathMatchConditionParameters from our UrlPathMatchConditionParameters
-func (parameters *UrlPathMatchConditionParameters) AssignProperties_To_UrlPathMatchConditionParameters(destination *v1api20210601s.UrlPathMatchConditionParameters) error {
+func (parameters *UrlPathMatchConditionParameters) AssignProperties_To_UrlPathMatchConditionParameters(destination *v20210601s.UrlPathMatchConditionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -15438,7 +15438,7 @@ type UrlPathMatchConditionParameters_STATUS struct {
 }
 
 // AssignProperties_From_UrlPathMatchConditionParameters_STATUS populates our UrlPathMatchConditionParameters_STATUS from the provided source UrlPathMatchConditionParameters_STATUS
-func (parameters *UrlPathMatchConditionParameters_STATUS) AssignProperties_From_UrlPathMatchConditionParameters_STATUS(source *v1api20210601s.UrlPathMatchConditionParameters_STATUS) error {
+func (parameters *UrlPathMatchConditionParameters_STATUS) AssignProperties_From_UrlPathMatchConditionParameters_STATUS(source *v20210601s.UrlPathMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -15483,7 +15483,7 @@ func (parameters *UrlPathMatchConditionParameters_STATUS) AssignProperties_From_
 }
 
 // AssignProperties_To_UrlPathMatchConditionParameters_STATUS populates the provided destination UrlPathMatchConditionParameters_STATUS from our UrlPathMatchConditionParameters_STATUS
-func (parameters *UrlPathMatchConditionParameters_STATUS) AssignProperties_To_UrlPathMatchConditionParameters_STATUS(destination *v1api20210601s.UrlPathMatchConditionParameters_STATUS) error {
+func (parameters *UrlPathMatchConditionParameters_STATUS) AssignProperties_To_UrlPathMatchConditionParameters_STATUS(destination *v20210601s.UrlPathMatchConditionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -15541,7 +15541,7 @@ type UrlRedirectActionParameters struct {
 }
 
 // AssignProperties_From_UrlRedirectActionParameters populates our UrlRedirectActionParameters from the provided source UrlRedirectActionParameters
-func (parameters *UrlRedirectActionParameters) AssignProperties_From_UrlRedirectActionParameters(source *v1api20210601s.UrlRedirectActionParameters) error {
+func (parameters *UrlRedirectActionParameters) AssignProperties_From_UrlRedirectActionParameters(source *v20210601s.UrlRedirectActionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -15587,7 +15587,7 @@ func (parameters *UrlRedirectActionParameters) AssignProperties_From_UrlRedirect
 }
 
 // AssignProperties_To_UrlRedirectActionParameters populates the provided destination UrlRedirectActionParameters from our UrlRedirectActionParameters
-func (parameters *UrlRedirectActionParameters) AssignProperties_To_UrlRedirectActionParameters(destination *v1api20210601s.UrlRedirectActionParameters) error {
+func (parameters *UrlRedirectActionParameters) AssignProperties_To_UrlRedirectActionParameters(destination *v20210601s.UrlRedirectActionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -15646,7 +15646,7 @@ type UrlRedirectActionParameters_STATUS struct {
 }
 
 // AssignProperties_From_UrlRedirectActionParameters_STATUS populates our UrlRedirectActionParameters_STATUS from the provided source UrlRedirectActionParameters_STATUS
-func (parameters *UrlRedirectActionParameters_STATUS) AssignProperties_From_UrlRedirectActionParameters_STATUS(source *v1api20210601s.UrlRedirectActionParameters_STATUS) error {
+func (parameters *UrlRedirectActionParameters_STATUS) AssignProperties_From_UrlRedirectActionParameters_STATUS(source *v20210601s.UrlRedirectActionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -15692,7 +15692,7 @@ func (parameters *UrlRedirectActionParameters_STATUS) AssignProperties_From_UrlR
 }
 
 // AssignProperties_To_UrlRedirectActionParameters_STATUS populates the provided destination UrlRedirectActionParameters_STATUS from our UrlRedirectActionParameters_STATUS
-func (parameters *UrlRedirectActionParameters_STATUS) AssignProperties_To_UrlRedirectActionParameters_STATUS(destination *v1api20210601s.UrlRedirectActionParameters_STATUS) error {
+func (parameters *UrlRedirectActionParameters_STATUS) AssignProperties_To_UrlRedirectActionParameters_STATUS(destination *v20210601s.UrlRedirectActionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -15748,7 +15748,7 @@ type UrlRewriteActionParameters struct {
 }
 
 // AssignProperties_From_UrlRewriteActionParameters populates our UrlRewriteActionParameters from the provided source UrlRewriteActionParameters
-func (parameters *UrlRewriteActionParameters) AssignProperties_From_UrlRewriteActionParameters(source *v1api20210601s.UrlRewriteActionParameters) error {
+func (parameters *UrlRewriteActionParameters) AssignProperties_From_UrlRewriteActionParameters(source *v20210601s.UrlRewriteActionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -15790,7 +15790,7 @@ func (parameters *UrlRewriteActionParameters) AssignProperties_From_UrlRewriteAc
 }
 
 // AssignProperties_To_UrlRewriteActionParameters populates the provided destination UrlRewriteActionParameters from our UrlRewriteActionParameters
-func (parameters *UrlRewriteActionParameters) AssignProperties_To_UrlRewriteActionParameters(destination *v1api20210601s.UrlRewriteActionParameters) error {
+func (parameters *UrlRewriteActionParameters) AssignProperties_To_UrlRewriteActionParameters(destination *v20210601s.UrlRewriteActionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -15842,7 +15842,7 @@ type UrlRewriteActionParameters_STATUS struct {
 }
 
 // AssignProperties_From_UrlRewriteActionParameters_STATUS populates our UrlRewriteActionParameters_STATUS from the provided source UrlRewriteActionParameters_STATUS
-func (parameters *UrlRewriteActionParameters_STATUS) AssignProperties_From_UrlRewriteActionParameters_STATUS(source *v1api20210601s.UrlRewriteActionParameters_STATUS) error {
+func (parameters *UrlRewriteActionParameters_STATUS) AssignProperties_From_UrlRewriteActionParameters_STATUS(source *v20210601s.UrlRewriteActionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -15884,7 +15884,7 @@ func (parameters *UrlRewriteActionParameters_STATUS) AssignProperties_From_UrlRe
 }
 
 // AssignProperties_To_UrlRewriteActionParameters_STATUS populates the provided destination UrlRewriteActionParameters_STATUS from our UrlRewriteActionParameters_STATUS
-func (parameters *UrlRewriteActionParameters_STATUS) AssignProperties_To_UrlRewriteActionParameters_STATUS(destination *v1api20210601s.UrlRewriteActionParameters_STATUS) error {
+func (parameters *UrlRewriteActionParameters_STATUS) AssignProperties_To_UrlRewriteActionParameters_STATUS(destination *v20210601s.UrlRewriteActionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -15935,7 +15935,7 @@ type UrlSigningActionParameters struct {
 }
 
 // AssignProperties_From_UrlSigningActionParameters populates our UrlSigningActionParameters from the provided source UrlSigningActionParameters
-func (parameters *UrlSigningActionParameters) AssignProperties_From_UrlSigningActionParameters(source *v1api20210601s.UrlSigningActionParameters) error {
+func (parameters *UrlSigningActionParameters) AssignProperties_From_UrlSigningActionParameters(source *v20210601s.UrlSigningActionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -15984,7 +15984,7 @@ func (parameters *UrlSigningActionParameters) AssignProperties_From_UrlSigningAc
 }
 
 // AssignProperties_To_UrlSigningActionParameters populates the provided destination UrlSigningActionParameters from our UrlSigningActionParameters
-func (parameters *UrlSigningActionParameters) AssignProperties_To_UrlSigningActionParameters(destination *v1api20210601s.UrlSigningActionParameters) error {
+func (parameters *UrlSigningActionParameters) AssignProperties_To_UrlSigningActionParameters(destination *v20210601s.UrlSigningActionParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -15993,11 +15993,11 @@ func (parameters *UrlSigningActionParameters) AssignProperties_To_UrlSigningActi
 
 	// ParameterNameOverride
 	if parameters.ParameterNameOverride != nil {
-		parameterNameOverrideList := make([]v1api20210601s.UrlSigningParamIdentifier, len(parameters.ParameterNameOverride))
+		parameterNameOverrideList := make([]v20210601s.UrlSigningParamIdentifier, len(parameters.ParameterNameOverride))
 		for parameterNameOverrideIndex, parameterNameOverrideItem := range parameters.ParameterNameOverride {
 			// Shadow the loop variable to avoid aliasing
 			parameterNameOverrideItem := parameterNameOverrideItem
-			var parameterNameOverride v1api20210601s.UrlSigningParamIdentifier
+			var parameterNameOverride v20210601s.UrlSigningParamIdentifier
 			err := parameterNameOverrideItem.AssignProperties_To_UrlSigningParamIdentifier(&parameterNameOverride)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UrlSigningParamIdentifier() to populate field ParameterNameOverride")
@@ -16042,7 +16042,7 @@ type UrlSigningActionParameters_STATUS struct {
 }
 
 // AssignProperties_From_UrlSigningActionParameters_STATUS populates our UrlSigningActionParameters_STATUS from the provided source UrlSigningActionParameters_STATUS
-func (parameters *UrlSigningActionParameters_STATUS) AssignProperties_From_UrlSigningActionParameters_STATUS(source *v1api20210601s.UrlSigningActionParameters_STATUS) error {
+func (parameters *UrlSigningActionParameters_STATUS) AssignProperties_From_UrlSigningActionParameters_STATUS(source *v20210601s.UrlSigningActionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -16091,7 +16091,7 @@ func (parameters *UrlSigningActionParameters_STATUS) AssignProperties_From_UrlSi
 }
 
 // AssignProperties_To_UrlSigningActionParameters_STATUS populates the provided destination UrlSigningActionParameters_STATUS from our UrlSigningActionParameters_STATUS
-func (parameters *UrlSigningActionParameters_STATUS) AssignProperties_To_UrlSigningActionParameters_STATUS(destination *v1api20210601s.UrlSigningActionParameters_STATUS) error {
+func (parameters *UrlSigningActionParameters_STATUS) AssignProperties_To_UrlSigningActionParameters_STATUS(destination *v20210601s.UrlSigningActionParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
@@ -16100,11 +16100,11 @@ func (parameters *UrlSigningActionParameters_STATUS) AssignProperties_To_UrlSign
 
 	// ParameterNameOverride
 	if parameters.ParameterNameOverride != nil {
-		parameterNameOverrideList := make([]v1api20210601s.UrlSigningParamIdentifier_STATUS, len(parameters.ParameterNameOverride))
+		parameterNameOverrideList := make([]v20210601s.UrlSigningParamIdentifier_STATUS, len(parameters.ParameterNameOverride))
 		for parameterNameOverrideIndex, parameterNameOverrideItem := range parameters.ParameterNameOverride {
 			// Shadow the loop variable to avoid aliasing
 			parameterNameOverrideItem := parameterNameOverrideItem
-			var parameterNameOverride v1api20210601s.UrlSigningParamIdentifier_STATUS
+			var parameterNameOverride v20210601s.UrlSigningParamIdentifier_STATUS
 			err := parameterNameOverrideItem.AssignProperties_To_UrlSigningParamIdentifier_STATUS(&parameterNameOverride)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UrlSigningParamIdentifier_STATUS() to populate field ParameterNameOverride")
@@ -16140,273 +16140,273 @@ func (parameters *UrlSigningActionParameters_STATUS) AssignProperties_To_UrlSign
 }
 
 type augmentConversionForCacheExpirationActionParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.CacheExpirationActionParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.CacheExpirationActionParameters) error
+	AssignPropertiesFrom(src *v20210601s.CacheExpirationActionParameters) error
+	AssignPropertiesTo(dst *v20210601s.CacheExpirationActionParameters) error
 }
 
 type augmentConversionForCacheExpirationActionParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.CacheExpirationActionParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.CacheExpirationActionParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.CacheExpirationActionParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.CacheExpirationActionParameters_STATUS) error
 }
 
 type augmentConversionForCacheKeyQueryStringActionParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.CacheKeyQueryStringActionParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.CacheKeyQueryStringActionParameters) error
+	AssignPropertiesFrom(src *v20210601s.CacheKeyQueryStringActionParameters) error
+	AssignPropertiesTo(dst *v20210601s.CacheKeyQueryStringActionParameters) error
 }
 
 type augmentConversionForCacheKeyQueryStringActionParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.CacheKeyQueryStringActionParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.CacheKeyQueryStringActionParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.CacheKeyQueryStringActionParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.CacheKeyQueryStringActionParameters_STATUS) error
 }
 
 type augmentConversionForClientPortMatchConditionParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.ClientPortMatchConditionParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.ClientPortMatchConditionParameters) error
+	AssignPropertiesFrom(src *v20210601s.ClientPortMatchConditionParameters) error
+	AssignPropertiesTo(dst *v20210601s.ClientPortMatchConditionParameters) error
 }
 
 type augmentConversionForClientPortMatchConditionParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.ClientPortMatchConditionParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.ClientPortMatchConditionParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.ClientPortMatchConditionParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.ClientPortMatchConditionParameters_STATUS) error
 }
 
 type augmentConversionForCookiesMatchConditionParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.CookiesMatchConditionParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.CookiesMatchConditionParameters) error
+	AssignPropertiesFrom(src *v20210601s.CookiesMatchConditionParameters) error
+	AssignPropertiesTo(dst *v20210601s.CookiesMatchConditionParameters) error
 }
 
 type augmentConversionForCookiesMatchConditionParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.CookiesMatchConditionParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.CookiesMatchConditionParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.CookiesMatchConditionParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.CookiesMatchConditionParameters_STATUS) error
 }
 
 type augmentConversionForHeaderActionParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.HeaderActionParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.HeaderActionParameters) error
+	AssignPropertiesFrom(src *v20210601s.HeaderActionParameters) error
+	AssignPropertiesTo(dst *v20210601s.HeaderActionParameters) error
 }
 
 type augmentConversionForHeaderActionParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.HeaderActionParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.HeaderActionParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.HeaderActionParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.HeaderActionParameters_STATUS) error
 }
 
 type augmentConversionForHostNameMatchConditionParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.HostNameMatchConditionParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.HostNameMatchConditionParameters) error
+	AssignPropertiesFrom(src *v20210601s.HostNameMatchConditionParameters) error
+	AssignPropertiesTo(dst *v20210601s.HostNameMatchConditionParameters) error
 }
 
 type augmentConversionForHostNameMatchConditionParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.HostNameMatchConditionParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.HostNameMatchConditionParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.HostNameMatchConditionParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.HostNameMatchConditionParameters_STATUS) error
 }
 
 type augmentConversionForHttpVersionMatchConditionParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.HttpVersionMatchConditionParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.HttpVersionMatchConditionParameters) error
+	AssignPropertiesFrom(src *v20210601s.HttpVersionMatchConditionParameters) error
+	AssignPropertiesTo(dst *v20210601s.HttpVersionMatchConditionParameters) error
 }
 
 type augmentConversionForHttpVersionMatchConditionParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.HttpVersionMatchConditionParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.HttpVersionMatchConditionParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.HttpVersionMatchConditionParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.HttpVersionMatchConditionParameters_STATUS) error
 }
 
 type augmentConversionForIsDeviceMatchConditionParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.IsDeviceMatchConditionParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.IsDeviceMatchConditionParameters) error
+	AssignPropertiesFrom(src *v20210601s.IsDeviceMatchConditionParameters) error
+	AssignPropertiesTo(dst *v20210601s.IsDeviceMatchConditionParameters) error
 }
 
 type augmentConversionForIsDeviceMatchConditionParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.IsDeviceMatchConditionParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.IsDeviceMatchConditionParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.IsDeviceMatchConditionParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.IsDeviceMatchConditionParameters_STATUS) error
 }
 
 type augmentConversionForOriginGroupOverrideActionParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.OriginGroupOverrideActionParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.OriginGroupOverrideActionParameters) error
+	AssignPropertiesFrom(src *v20210601s.OriginGroupOverrideActionParameters) error
+	AssignPropertiesTo(dst *v20210601s.OriginGroupOverrideActionParameters) error
 }
 
 type augmentConversionForOriginGroupOverrideActionParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.OriginGroupOverrideActionParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.OriginGroupOverrideActionParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.OriginGroupOverrideActionParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.OriginGroupOverrideActionParameters_STATUS) error
 }
 
 type augmentConversionForPostArgsMatchConditionParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.PostArgsMatchConditionParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.PostArgsMatchConditionParameters) error
+	AssignPropertiesFrom(src *v20210601s.PostArgsMatchConditionParameters) error
+	AssignPropertiesTo(dst *v20210601s.PostArgsMatchConditionParameters) error
 }
 
 type augmentConversionForPostArgsMatchConditionParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.PostArgsMatchConditionParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.PostArgsMatchConditionParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.PostArgsMatchConditionParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.PostArgsMatchConditionParameters_STATUS) error
 }
 
 type augmentConversionForQueryStringMatchConditionParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.QueryStringMatchConditionParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.QueryStringMatchConditionParameters) error
+	AssignPropertiesFrom(src *v20210601s.QueryStringMatchConditionParameters) error
+	AssignPropertiesTo(dst *v20210601s.QueryStringMatchConditionParameters) error
 }
 
 type augmentConversionForQueryStringMatchConditionParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.QueryStringMatchConditionParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.QueryStringMatchConditionParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.QueryStringMatchConditionParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.QueryStringMatchConditionParameters_STATUS) error
 }
 
 type augmentConversionForRemoteAddressMatchConditionParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.RemoteAddressMatchConditionParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.RemoteAddressMatchConditionParameters) error
+	AssignPropertiesFrom(src *v20210601s.RemoteAddressMatchConditionParameters) error
+	AssignPropertiesTo(dst *v20210601s.RemoteAddressMatchConditionParameters) error
 }
 
 type augmentConversionForRemoteAddressMatchConditionParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.RemoteAddressMatchConditionParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.RemoteAddressMatchConditionParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.RemoteAddressMatchConditionParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.RemoteAddressMatchConditionParameters_STATUS) error
 }
 
 type augmentConversionForRequestBodyMatchConditionParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.RequestBodyMatchConditionParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.RequestBodyMatchConditionParameters) error
+	AssignPropertiesFrom(src *v20210601s.RequestBodyMatchConditionParameters) error
+	AssignPropertiesTo(dst *v20210601s.RequestBodyMatchConditionParameters) error
 }
 
 type augmentConversionForRequestBodyMatchConditionParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.RequestBodyMatchConditionParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.RequestBodyMatchConditionParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.RequestBodyMatchConditionParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.RequestBodyMatchConditionParameters_STATUS) error
 }
 
 type augmentConversionForRequestHeaderMatchConditionParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.RequestHeaderMatchConditionParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.RequestHeaderMatchConditionParameters) error
+	AssignPropertiesFrom(src *v20210601s.RequestHeaderMatchConditionParameters) error
+	AssignPropertiesTo(dst *v20210601s.RequestHeaderMatchConditionParameters) error
 }
 
 type augmentConversionForRequestHeaderMatchConditionParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.RequestHeaderMatchConditionParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.RequestHeaderMatchConditionParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.RequestHeaderMatchConditionParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.RequestHeaderMatchConditionParameters_STATUS) error
 }
 
 type augmentConversionForRequestMethodMatchConditionParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.RequestMethodMatchConditionParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.RequestMethodMatchConditionParameters) error
+	AssignPropertiesFrom(src *v20210601s.RequestMethodMatchConditionParameters) error
+	AssignPropertiesTo(dst *v20210601s.RequestMethodMatchConditionParameters) error
 }
 
 type augmentConversionForRequestMethodMatchConditionParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.RequestMethodMatchConditionParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.RequestMethodMatchConditionParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.RequestMethodMatchConditionParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.RequestMethodMatchConditionParameters_STATUS) error
 }
 
 type augmentConversionForRequestSchemeMatchConditionParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.RequestSchemeMatchConditionParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.RequestSchemeMatchConditionParameters) error
+	AssignPropertiesFrom(src *v20210601s.RequestSchemeMatchConditionParameters) error
+	AssignPropertiesTo(dst *v20210601s.RequestSchemeMatchConditionParameters) error
 }
 
 type augmentConversionForRequestSchemeMatchConditionParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.RequestSchemeMatchConditionParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.RequestSchemeMatchConditionParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.RequestSchemeMatchConditionParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.RequestSchemeMatchConditionParameters_STATUS) error
 }
 
 type augmentConversionForRequestUriMatchConditionParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.RequestUriMatchConditionParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.RequestUriMatchConditionParameters) error
+	AssignPropertiesFrom(src *v20210601s.RequestUriMatchConditionParameters) error
+	AssignPropertiesTo(dst *v20210601s.RequestUriMatchConditionParameters) error
 }
 
 type augmentConversionForRequestUriMatchConditionParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.RequestUriMatchConditionParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.RequestUriMatchConditionParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.RequestUriMatchConditionParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.RequestUriMatchConditionParameters_STATUS) error
 }
 
 type augmentConversionForRouteConfigurationOverrideActionParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.RouteConfigurationOverrideActionParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.RouteConfigurationOverrideActionParameters) error
+	AssignPropertiesFrom(src *v20210601s.RouteConfigurationOverrideActionParameters) error
+	AssignPropertiesTo(dst *v20210601s.RouteConfigurationOverrideActionParameters) error
 }
 
 type augmentConversionForRouteConfigurationOverrideActionParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.RouteConfigurationOverrideActionParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.RouteConfigurationOverrideActionParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.RouteConfigurationOverrideActionParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.RouteConfigurationOverrideActionParameters_STATUS) error
 }
 
 type augmentConversionForServerPortMatchConditionParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.ServerPortMatchConditionParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.ServerPortMatchConditionParameters) error
+	AssignPropertiesFrom(src *v20210601s.ServerPortMatchConditionParameters) error
+	AssignPropertiesTo(dst *v20210601s.ServerPortMatchConditionParameters) error
 }
 
 type augmentConversionForServerPortMatchConditionParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.ServerPortMatchConditionParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.ServerPortMatchConditionParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.ServerPortMatchConditionParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.ServerPortMatchConditionParameters_STATUS) error
 }
 
 type augmentConversionForSocketAddrMatchConditionParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.SocketAddrMatchConditionParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.SocketAddrMatchConditionParameters) error
+	AssignPropertiesFrom(src *v20210601s.SocketAddrMatchConditionParameters) error
+	AssignPropertiesTo(dst *v20210601s.SocketAddrMatchConditionParameters) error
 }
 
 type augmentConversionForSocketAddrMatchConditionParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.SocketAddrMatchConditionParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.SocketAddrMatchConditionParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.SocketAddrMatchConditionParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.SocketAddrMatchConditionParameters_STATUS) error
 }
 
 type augmentConversionForSslProtocolMatchConditionParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.SslProtocolMatchConditionParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.SslProtocolMatchConditionParameters) error
+	AssignPropertiesFrom(src *v20210601s.SslProtocolMatchConditionParameters) error
+	AssignPropertiesTo(dst *v20210601s.SslProtocolMatchConditionParameters) error
 }
 
 type augmentConversionForSslProtocolMatchConditionParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.SslProtocolMatchConditionParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.SslProtocolMatchConditionParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.SslProtocolMatchConditionParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.SslProtocolMatchConditionParameters_STATUS) error
 }
 
 type augmentConversionForUrlFileExtensionMatchConditionParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.UrlFileExtensionMatchConditionParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.UrlFileExtensionMatchConditionParameters) error
+	AssignPropertiesFrom(src *v20210601s.UrlFileExtensionMatchConditionParameters) error
+	AssignPropertiesTo(dst *v20210601s.UrlFileExtensionMatchConditionParameters) error
 }
 
 type augmentConversionForUrlFileExtensionMatchConditionParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.UrlFileExtensionMatchConditionParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.UrlFileExtensionMatchConditionParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.UrlFileExtensionMatchConditionParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.UrlFileExtensionMatchConditionParameters_STATUS) error
 }
 
 type augmentConversionForUrlFileNameMatchConditionParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.UrlFileNameMatchConditionParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.UrlFileNameMatchConditionParameters) error
+	AssignPropertiesFrom(src *v20210601s.UrlFileNameMatchConditionParameters) error
+	AssignPropertiesTo(dst *v20210601s.UrlFileNameMatchConditionParameters) error
 }
 
 type augmentConversionForUrlFileNameMatchConditionParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.UrlFileNameMatchConditionParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.UrlFileNameMatchConditionParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.UrlFileNameMatchConditionParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.UrlFileNameMatchConditionParameters_STATUS) error
 }
 
 type augmentConversionForUrlPathMatchConditionParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.UrlPathMatchConditionParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.UrlPathMatchConditionParameters) error
+	AssignPropertiesFrom(src *v20210601s.UrlPathMatchConditionParameters) error
+	AssignPropertiesTo(dst *v20210601s.UrlPathMatchConditionParameters) error
 }
 
 type augmentConversionForUrlPathMatchConditionParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.UrlPathMatchConditionParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.UrlPathMatchConditionParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.UrlPathMatchConditionParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.UrlPathMatchConditionParameters_STATUS) error
 }
 
 type augmentConversionForUrlRedirectActionParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.UrlRedirectActionParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.UrlRedirectActionParameters) error
+	AssignPropertiesFrom(src *v20210601s.UrlRedirectActionParameters) error
+	AssignPropertiesTo(dst *v20210601s.UrlRedirectActionParameters) error
 }
 
 type augmentConversionForUrlRedirectActionParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.UrlRedirectActionParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.UrlRedirectActionParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.UrlRedirectActionParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.UrlRedirectActionParameters_STATUS) error
 }
 
 type augmentConversionForUrlRewriteActionParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.UrlRewriteActionParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.UrlRewriteActionParameters) error
+	AssignPropertiesFrom(src *v20210601s.UrlRewriteActionParameters) error
+	AssignPropertiesTo(dst *v20210601s.UrlRewriteActionParameters) error
 }
 
 type augmentConversionForUrlRewriteActionParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.UrlRewriteActionParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.UrlRewriteActionParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.UrlRewriteActionParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.UrlRewriteActionParameters_STATUS) error
 }
 
 type augmentConversionForUrlSigningActionParameters interface {
-	AssignPropertiesFrom(src *v1api20210601s.UrlSigningActionParameters) error
-	AssignPropertiesTo(dst *v1api20210601s.UrlSigningActionParameters) error
+	AssignPropertiesFrom(src *v20210601s.UrlSigningActionParameters) error
+	AssignPropertiesTo(dst *v20210601s.UrlSigningActionParameters) error
 }
 
 type augmentConversionForUrlSigningActionParameters_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.UrlSigningActionParameters_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.UrlSigningActionParameters_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.UrlSigningActionParameters_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.UrlSigningActionParameters_STATUS) error
 }
 
 // Storage version of v1beta20210601.CacheConfiguration
@@ -16421,7 +16421,7 @@ type CacheConfiguration struct {
 }
 
 // AssignProperties_From_CacheConfiguration populates our CacheConfiguration from the provided source CacheConfiguration
-func (configuration *CacheConfiguration) AssignProperties_From_CacheConfiguration(source *v1api20210601s.CacheConfiguration) error {
+func (configuration *CacheConfiguration) AssignProperties_From_CacheConfiguration(source *v20210601s.CacheConfiguration) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -16461,7 +16461,7 @@ func (configuration *CacheConfiguration) AssignProperties_From_CacheConfiguratio
 }
 
 // AssignProperties_To_CacheConfiguration populates the provided destination CacheConfiguration from our CacheConfiguration
-func (configuration *CacheConfiguration) AssignProperties_To_CacheConfiguration(destination *v1api20210601s.CacheConfiguration) error {
+func (configuration *CacheConfiguration) AssignProperties_To_CacheConfiguration(destination *v20210601s.CacheConfiguration) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
@@ -16512,7 +16512,7 @@ type CacheConfiguration_STATUS struct {
 }
 
 // AssignProperties_From_CacheConfiguration_STATUS populates our CacheConfiguration_STATUS from the provided source CacheConfiguration_STATUS
-func (configuration *CacheConfiguration_STATUS) AssignProperties_From_CacheConfiguration_STATUS(source *v1api20210601s.CacheConfiguration_STATUS) error {
+func (configuration *CacheConfiguration_STATUS) AssignProperties_From_CacheConfiguration_STATUS(source *v20210601s.CacheConfiguration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -16552,7 +16552,7 @@ func (configuration *CacheConfiguration_STATUS) AssignProperties_From_CacheConfi
 }
 
 // AssignProperties_To_CacheConfiguration_STATUS populates the provided destination CacheConfiguration_STATUS from our CacheConfiguration_STATUS
-func (configuration *CacheConfiguration_STATUS) AssignProperties_To_CacheConfiguration_STATUS(destination *v1api20210601s.CacheConfiguration_STATUS) error {
+func (configuration *CacheConfiguration_STATUS) AssignProperties_To_CacheConfiguration_STATUS(destination *v20210601s.CacheConfiguration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
@@ -16600,7 +16600,7 @@ type OriginGroupOverride struct {
 }
 
 // AssignProperties_From_OriginGroupOverride populates our OriginGroupOverride from the provided source OriginGroupOverride
-func (override *OriginGroupOverride) AssignProperties_From_OriginGroupOverride(source *v1api20210601s.OriginGroupOverride) error {
+func (override *OriginGroupOverride) AssignProperties_From_OriginGroupOverride(source *v20210601s.OriginGroupOverride) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -16640,7 +16640,7 @@ func (override *OriginGroupOverride) AssignProperties_From_OriginGroupOverride(s
 }
 
 // AssignProperties_To_OriginGroupOverride populates the provided destination OriginGroupOverride from our OriginGroupOverride
-func (override *OriginGroupOverride) AssignProperties_To_OriginGroupOverride(destination *v1api20210601s.OriginGroupOverride) error {
+func (override *OriginGroupOverride) AssignProperties_To_OriginGroupOverride(destination *v20210601s.OriginGroupOverride) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(override.PropertyBag)
 
@@ -16649,7 +16649,7 @@ func (override *OriginGroupOverride) AssignProperties_To_OriginGroupOverride(des
 
 	// OriginGroup
 	if override.OriginGroup != nil {
-		var originGroup v1api20210601s.ResourceReference
+		var originGroup v20210601s.ResourceReference
 		err := override.OriginGroup.AssignProperties_To_ResourceReference(&originGroup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field OriginGroup")
@@ -16688,7 +16688,7 @@ type OriginGroupOverride_STATUS struct {
 }
 
 // AssignProperties_From_OriginGroupOverride_STATUS populates our OriginGroupOverride_STATUS from the provided source OriginGroupOverride_STATUS
-func (override *OriginGroupOverride_STATUS) AssignProperties_From_OriginGroupOverride_STATUS(source *v1api20210601s.OriginGroupOverride_STATUS) error {
+func (override *OriginGroupOverride_STATUS) AssignProperties_From_OriginGroupOverride_STATUS(source *v20210601s.OriginGroupOverride_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -16728,7 +16728,7 @@ func (override *OriginGroupOverride_STATUS) AssignProperties_From_OriginGroupOve
 }
 
 // AssignProperties_To_OriginGroupOverride_STATUS populates the provided destination OriginGroupOverride_STATUS from our OriginGroupOverride_STATUS
-func (override *OriginGroupOverride_STATUS) AssignProperties_To_OriginGroupOverride_STATUS(destination *v1api20210601s.OriginGroupOverride_STATUS) error {
+func (override *OriginGroupOverride_STATUS) AssignProperties_To_OriginGroupOverride_STATUS(destination *v20210601s.OriginGroupOverride_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(override.PropertyBag)
 
@@ -16737,7 +16737,7 @@ func (override *OriginGroupOverride_STATUS) AssignProperties_To_OriginGroupOverr
 
 	// OriginGroup
 	if override.OriginGroup != nil {
-		var originGroup v1api20210601s.ResourceReference_STATUS
+		var originGroup v20210601s.ResourceReference_STATUS
 		err := override.OriginGroup.AssignProperties_To_ResourceReference_STATUS(&originGroup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field OriginGroup")
@@ -16776,7 +16776,7 @@ type UrlSigningParamIdentifier struct {
 }
 
 // AssignProperties_From_UrlSigningParamIdentifier populates our UrlSigningParamIdentifier from the provided source UrlSigningParamIdentifier
-func (identifier *UrlSigningParamIdentifier) AssignProperties_From_UrlSigningParamIdentifier(source *v1api20210601s.UrlSigningParamIdentifier) error {
+func (identifier *UrlSigningParamIdentifier) AssignProperties_From_UrlSigningParamIdentifier(source *v20210601s.UrlSigningParamIdentifier) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -16807,7 +16807,7 @@ func (identifier *UrlSigningParamIdentifier) AssignProperties_From_UrlSigningPar
 }
 
 // AssignProperties_To_UrlSigningParamIdentifier populates the provided destination UrlSigningParamIdentifier from our UrlSigningParamIdentifier
-func (identifier *UrlSigningParamIdentifier) AssignProperties_To_UrlSigningParamIdentifier(destination *v1api20210601s.UrlSigningParamIdentifier) error {
+func (identifier *UrlSigningParamIdentifier) AssignProperties_To_UrlSigningParamIdentifier(destination *v20210601s.UrlSigningParamIdentifier) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identifier.PropertyBag)
 
@@ -16846,7 +16846,7 @@ type UrlSigningParamIdentifier_STATUS struct {
 }
 
 // AssignProperties_From_UrlSigningParamIdentifier_STATUS populates our UrlSigningParamIdentifier_STATUS from the provided source UrlSigningParamIdentifier_STATUS
-func (identifier *UrlSigningParamIdentifier_STATUS) AssignProperties_From_UrlSigningParamIdentifier_STATUS(source *v1api20210601s.UrlSigningParamIdentifier_STATUS) error {
+func (identifier *UrlSigningParamIdentifier_STATUS) AssignProperties_From_UrlSigningParamIdentifier_STATUS(source *v20210601s.UrlSigningParamIdentifier_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -16877,7 +16877,7 @@ func (identifier *UrlSigningParamIdentifier_STATUS) AssignProperties_From_UrlSig
 }
 
 // AssignProperties_To_UrlSigningParamIdentifier_STATUS populates the provided destination UrlSigningParamIdentifier_STATUS from our UrlSigningParamIdentifier_STATUS
-func (identifier *UrlSigningParamIdentifier_STATUS) AssignProperties_To_UrlSigningParamIdentifier_STATUS(destination *v1api20210601s.UrlSigningParamIdentifier_STATUS) error {
+func (identifier *UrlSigningParamIdentifier_STATUS) AssignProperties_To_UrlSigningParamIdentifier_STATUS(destination *v20210601s.UrlSigningParamIdentifier_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identifier.PropertyBag)
 
@@ -16908,33 +16908,33 @@ func (identifier *UrlSigningParamIdentifier_STATUS) AssignProperties_To_UrlSigni
 }
 
 type augmentConversionForCacheConfiguration interface {
-	AssignPropertiesFrom(src *v1api20210601s.CacheConfiguration) error
-	AssignPropertiesTo(dst *v1api20210601s.CacheConfiguration) error
+	AssignPropertiesFrom(src *v20210601s.CacheConfiguration) error
+	AssignPropertiesTo(dst *v20210601s.CacheConfiguration) error
 }
 
 type augmentConversionForCacheConfiguration_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.CacheConfiguration_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.CacheConfiguration_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.CacheConfiguration_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.CacheConfiguration_STATUS) error
 }
 
 type augmentConversionForOriginGroupOverride interface {
-	AssignPropertiesFrom(src *v1api20210601s.OriginGroupOverride) error
-	AssignPropertiesTo(dst *v1api20210601s.OriginGroupOverride) error
+	AssignPropertiesFrom(src *v20210601s.OriginGroupOverride) error
+	AssignPropertiesTo(dst *v20210601s.OriginGroupOverride) error
 }
 
 type augmentConversionForOriginGroupOverride_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.OriginGroupOverride_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.OriginGroupOverride_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.OriginGroupOverride_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.OriginGroupOverride_STATUS) error
 }
 
 type augmentConversionForUrlSigningParamIdentifier interface {
-	AssignPropertiesFrom(src *v1api20210601s.UrlSigningParamIdentifier) error
-	AssignPropertiesTo(dst *v1api20210601s.UrlSigningParamIdentifier) error
+	AssignPropertiesFrom(src *v20210601s.UrlSigningParamIdentifier) error
+	AssignPropertiesTo(dst *v20210601s.UrlSigningParamIdentifier) error
 }
 
 type augmentConversionForUrlSigningParamIdentifier_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.UrlSigningParamIdentifier_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.UrlSigningParamIdentifier_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.UrlSigningParamIdentifier_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.UrlSigningParamIdentifier_STATUS) error
 }
 
 func init() {
