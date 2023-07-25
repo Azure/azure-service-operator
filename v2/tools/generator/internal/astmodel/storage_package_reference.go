@@ -19,6 +19,7 @@ type StoragePackageReference struct {
 
 var _ PackageReference = StoragePackageReference{}
 var _ LocalLikePackageReference = StoragePackageReference{}
+var _ DerivedPackageReference = StoragePackageReference{}
 
 // MakeStoragePackageReference creates a new storage package reference from a local package reference
 func MakeStoragePackageReference(local LocalPackageReference) StoragePackageReference {
@@ -106,4 +107,9 @@ func (s StoragePackageReference) ImportAlias(style PackageImportStyle) string {
 	default:
 		panic(fmt.Sprintf("didn't expect PackageImportStyle %q", style))
 	}
+}
+
+// Base implements DerivedPackageReference.
+func (s StoragePackageReference) Base() PackageReference {
+	return s.inner
 }

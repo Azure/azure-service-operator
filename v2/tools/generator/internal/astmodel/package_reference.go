@@ -48,6 +48,11 @@ type LocalLikePackageReference interface {
 	PackagePath() string
 }
 
+// DerivedPackageReference should be implemented by any package reference that's derived from another
+type DerivedPackageReference interface {
+	Base() PackageReference
+}
+
 // IsExternalPackageReference returns true if the provided reference is external
 func IsExternalPackageReference(ref PackageReference) bool {
 	_, result := ref.(ExternalPackageReference)
