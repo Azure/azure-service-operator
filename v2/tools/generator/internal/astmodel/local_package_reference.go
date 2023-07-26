@@ -167,7 +167,7 @@ var apiVersionSimplifier = strings.NewReplacer(
 )
 
 func (pr LocalPackageReference) simplifiedApiVersion(version string) string {
-	return apiVersionSimplifier.Replace(version)
+	return strings.ToLower(apiVersionSimplifier.Replace(version))
 }
 
 var generatorVersionSimplifier = strings.NewReplacer(
