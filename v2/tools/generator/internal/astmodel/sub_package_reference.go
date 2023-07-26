@@ -17,6 +17,7 @@ type SubPackageReference struct {
 
 var _ PackageReference = SubPackageReference{}
 var _ LocalLikePackageReference = SubPackageReference{}
+var _ DerivedPackageReference = SubPackageReference{}
 
 var _ fmt.Stringer = SubPackageReference{}
 
