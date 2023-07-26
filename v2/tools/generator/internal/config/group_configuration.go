@@ -124,6 +124,8 @@ func (gc *GroupConfiguration) findVersion(ref astmodel.PackageReference) (*Versi
 		return gc.findVersion(r.Base())
 	case astmodel.LocalPackageReference:
 		return gc.findVersionForLocalPackageReference(r)
+	case astmodel.SubPackageReference:
+		return gc.findVersion(r.Parent())
 	}
 
 	panic(fmt.Sprintf("didn't expect PackageReference of type %T", ref))
