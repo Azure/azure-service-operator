@@ -7,7 +7,6 @@ package astmodel
 
 import (
 	"fmt"
-
 	"github.com/dave/dst"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"

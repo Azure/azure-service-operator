@@ -187,11 +187,12 @@ func (set *PackageImportSet) orderImports(i PackageImport, j PackageImport) bool
 func (set *PackageImportSet) createMapByGroup() map[string][]PackageImport {
 	result := make(map[string][]PackageImport)
 	for _, imp := range set.imports {
-		group, _, ok := imp.packageReference.TryGroupVersion()
+		ref, ok := imp.packageReference.(LocalLikePackageReference)
 		if !ok {
 			continue
 		}
 
+		group := ref.Group()
 		result[group] = append(result[group], imp)
 	}
 
