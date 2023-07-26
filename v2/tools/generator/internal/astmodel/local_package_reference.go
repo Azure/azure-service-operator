@@ -159,32 +159,25 @@ func (pr LocalPackageReference) ImportAlias(style PackageImportStyle) string {
 	}
 }
 
+var apiVersionSimplifier = strings.NewReplacer(
+	"alpha", "a",
+	"beta", "b",
+	"preview", "p",
+	"-", "",
+)
+
 func (pr LocalPackageReference) simplifiedApiVersion(version string) string {
-	return strings.ToLower(pr.simplify(version, apiVersionSimplifications))
+	return apiVersionSimplifier.Replace(version)
 }
 
-var apiVersionSimplifications = map[string]string{
-	"alpha":   "a",
-	"beta":    "b",
-	"preview": "p",
-	"-":       "",
-}
+var generatorVersionSimplifier = strings.NewReplacer(
+	"v1alpha1api", "alpha",
+	"v1beta1api", "beta",
+	"v1api", "v",
+)
 
 func (pr LocalPackageReference) simplifiedGeneratorVersion(version string) string {
-	return pr.simplify(version, generatorVersionSimplifications)
-}
-
-var generatorVersionSimplifications = map[string]string{
-	"v1alpha1api": "alpha",
-	"v1beta1api":  "beta",
-	"v1api":       "v",
-}
-
-func (pr LocalPackageReference) simplify(result string, simplifications map[string]string) string {
-	for l, s := range simplifications {
-		result = strings.Replace(result, l, s, -1)
-	}
-	return result
+	return generatorVersionSimplifier.Replace(version)
 }
 
 // sanitizePackageName removes all non-alphanumeric characters and converts to lower case
