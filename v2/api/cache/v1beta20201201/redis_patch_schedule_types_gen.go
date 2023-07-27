@@ -322,10 +322,10 @@ func (schedule *Redis_PatchSchedule_Spec) ConvertToARM(resolved genruntime.Conve
 	}
 	result := &Redis_PatchSchedule_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if schedule.ScheduleEntries != nil {
 		result.Properties = &ScheduleEntries_ARM{}
 	}
@@ -351,10 +351,10 @@ func (schedule *Redis_PatchSchedule_Spec) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Redis_PatchSchedule_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	schedule.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘ScheduleEntries’:
+	// Set property "ScheduleEntries":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ScheduleEntries {
@@ -579,27 +579,27 @@ func (schedule *Redis_PatchSchedule_STATUS) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Redis_PatchSchedule_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		schedule.Id = &id
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		schedule.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		schedule.Name = &name
 	}
 
-	// Set property ‘ScheduleEntries’:
+	// Set property "ScheduleEntries":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ScheduleEntries {
@@ -612,7 +612,7 @@ func (schedule *Redis_PatchSchedule_STATUS) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		schedule.Type = &typeVar
@@ -730,19 +730,19 @@ func (entry *ScheduleEntry) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	}
 	result := &ScheduleEntry_ARM{}
 
-	// Set property ‘DayOfWeek’:
+	// Set property "DayOfWeek":
 	if entry.DayOfWeek != nil {
 		dayOfWeek := *entry.DayOfWeek
 		result.DayOfWeek = &dayOfWeek
 	}
 
-	// Set property ‘MaintenanceWindow’:
+	// Set property "MaintenanceWindow":
 	if entry.MaintenanceWindow != nil {
 		maintenanceWindow := *entry.MaintenanceWindow
 		result.MaintenanceWindow = &maintenanceWindow
 	}
 
-	// Set property ‘StartHourUtc’:
+	// Set property "StartHourUtc":
 	if entry.StartHourUtc != nil {
 		startHourUtc := *entry.StartHourUtc
 		result.StartHourUtc = &startHourUtc
@@ -762,19 +762,19 @@ func (entry *ScheduleEntry) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScheduleEntry_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DayOfWeek’:
+	// Set property "DayOfWeek":
 	if typedInput.DayOfWeek != nil {
 		dayOfWeek := *typedInput.DayOfWeek
 		entry.DayOfWeek = &dayOfWeek
 	}
 
-	// Set property ‘MaintenanceWindow’:
+	// Set property "MaintenanceWindow":
 	if typedInput.MaintenanceWindow != nil {
 		maintenanceWindow := *typedInput.MaintenanceWindow
 		entry.MaintenanceWindow = &maintenanceWindow
 	}
 
-	// Set property ‘StartHourUtc’:
+	// Set property "StartHourUtc":
 	if typedInput.StartHourUtc != nil {
 		startHourUtc := *typedInput.StartHourUtc
 		entry.StartHourUtc = &startHourUtc
@@ -856,19 +856,19 @@ func (entry *ScheduleEntry_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScheduleEntry_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DayOfWeek’:
+	// Set property "DayOfWeek":
 	if typedInput.DayOfWeek != nil {
 		dayOfWeek := *typedInput.DayOfWeek
 		entry.DayOfWeek = &dayOfWeek
 	}
 
-	// Set property ‘MaintenanceWindow’:
+	// Set property "MaintenanceWindow":
 	if typedInput.MaintenanceWindow != nil {
 		maintenanceWindow := *typedInput.MaintenanceWindow
 		entry.MaintenanceWindow = &maintenanceWindow
 	}
 
-	// Set property ‘StartHourUtc’:
+	// Set property "StartHourUtc":
 	if typedInput.StartHourUtc != nil {
 		startHourUtc := *typedInput.StartHourUtc
 		entry.StartHourUtc = &startHourUtc

@@ -346,10 +346,10 @@ func (connection *Workspaces_Connection_Spec) ConvertToARM(resolved genruntime.C
 	}
 	result := &Workspaces_Connection_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if connection.AuthType != nil ||
 		connection.Category != nil ||
 		connection.Target != nil ||
@@ -392,7 +392,7 @@ func (connection *Workspaces_Connection_Spec) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspaces_Connection_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AuthType’:
+	// Set property "AuthType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AuthType != nil {
@@ -401,10 +401,10 @@ func (connection *Workspaces_Connection_Spec) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	connection.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Category’:
+	// Set property "Category":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Category != nil {
@@ -413,10 +413,10 @@ func (connection *Workspaces_Connection_Spec) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	connection.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Target’:
+	// Set property "Target":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Target != nil {
@@ -425,7 +425,7 @@ func (connection *Workspaces_Connection_Spec) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Value != nil {
@@ -434,7 +434,7 @@ func (connection *Workspaces_Connection_Spec) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘ValueFormat’:
+	// Set property "ValueFormat":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ValueFormat != nil {
@@ -715,7 +715,7 @@ func (connection *Workspaces_Connection_STATUS) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspaces_Connection_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AuthType’:
+	// Set property "AuthType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AuthType != nil {
@@ -724,7 +724,7 @@ func (connection *Workspaces_Connection_STATUS) PopulateFromARM(owner genruntime
 		}
 	}
 
-	// Set property ‘Category’:
+	// Set property "Category":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Category != nil {
@@ -733,21 +733,21 @@ func (connection *Workspaces_Connection_STATUS) PopulateFromARM(owner genruntime
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		connection.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		connection.Name = &name
 	}
 
-	// Set property ‘Target’:
+	// Set property "Target":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Target != nil {
@@ -756,13 +756,13 @@ func (connection *Workspaces_Connection_STATUS) PopulateFromARM(owner genruntime
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		connection.Type = &typeVar
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Value != nil {
@@ -771,7 +771,7 @@ func (connection *Workspaces_Connection_STATUS) PopulateFromARM(owner genruntime
 		}
 	}
 
-	// Set property ‘ValueFormat’:
+	// Set property "ValueFormat":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ValueFormat != nil {

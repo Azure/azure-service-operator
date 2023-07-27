@@ -334,10 +334,10 @@ func (policy *BackupVaults_BackupPolicy_Spec) ConvertToARM(resolved genruntime.C
 	}
 	result := &BackupVaults_BackupPolicy_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if policy.Properties != nil {
 		properties_ARM, err := (*policy.Properties).ConvertToARM(resolved)
 		if err != nil {
@@ -361,13 +361,13 @@ func (policy *BackupVaults_BackupPolicy_Spec) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackupVaults_BackupPolicy_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	policy.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	policy.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if typedInput.Properties != nil {
 		var properties1 BaseBackupPolicy
 		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
@@ -617,21 +617,21 @@ func (policy *BackupVaults_BackupPolicy_STATUS) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackupVaults_BackupPolicy_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		policy.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		policy.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if typedInput.Properties != nil {
 		var properties1 BaseBackupPolicy_STATUS
 		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
@@ -642,7 +642,7 @@ func (policy *BackupVaults_BackupPolicy_STATUS) PopulateFromARM(owner genruntime
 		policy.Properties = &properties
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -653,7 +653,7 @@ func (policy *BackupVaults_BackupPolicy_STATUS) PopulateFromARM(owner genruntime
 		policy.SystemData = &systemData
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		policy.Type = &typeVar
@@ -772,7 +772,7 @@ func (policy *BaseBackupPolicy) ConvertToARM(resolved genruntime.ConvertToARMRes
 	}
 	result := &BaseBackupPolicy_ARM{}
 
-	// Set property ‘BackupPolicy’:
+	// Set property "BackupPolicy":
 	if policy.BackupPolicy != nil {
 		backupPolicy_ARM, err := (*policy.BackupPolicy).ConvertToARM(resolved)
 		if err != nil {
@@ -796,7 +796,7 @@ func (policy *BaseBackupPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BaseBackupPolicy_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BackupPolicy’:
+	// Set property "BackupPolicy":
 	if typedInput.BackupPolicy != nil {
 		var backupPolicy1 BackupPolicy
 		err := backupPolicy1.PopulateFromARM(owner, *typedInput.BackupPolicy)
@@ -896,7 +896,7 @@ func (policy *BaseBackupPolicy_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BaseBackupPolicy_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BackupPolicy’:
+	// Set property "BackupPolicy":
 	if typedInput.BackupPolicy != nil {
 		var backupPolicy1 BackupPolicy_STATUS
 		err := backupPolicy1.PopulateFromARM(owner, *typedInput.BackupPolicy)
@@ -980,17 +980,17 @@ func (policy *BackupPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	}
 	result := &BackupPolicy_ARM{}
 
-	// Set property ‘DatasourceTypes’:
+	// Set property "DatasourceTypes":
 	for _, item := range policy.DatasourceTypes {
 		result.DatasourceTypes = append(result.DatasourceTypes, item)
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	if policy.ObjectType != nil {
 		result.ObjectType = *policy.ObjectType
 	}
 
-	// Set property ‘PolicyRules’:
+	// Set property "PolicyRules":
 	for _, item := range policy.PolicyRules {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -1013,15 +1013,15 @@ func (policy *BackupPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackupPolicy_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DatasourceTypes’:
+	// Set property "DatasourceTypes":
 	for _, item := range typedInput.DatasourceTypes {
 		policy.DatasourceTypes = append(policy.DatasourceTypes, item)
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	policy.ObjectType = &typedInput.ObjectType
 
-	// Set property ‘PolicyRules’:
+	// Set property "PolicyRules":
 	for _, item := range typedInput.PolicyRules {
 		var item1 BasePolicyRule
 		err := item1.PopulateFromARM(owner, item)
@@ -1175,15 +1175,15 @@ func (policy *BackupPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackupPolicy_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DatasourceTypes’:
+	// Set property "DatasourceTypes":
 	for _, item := range typedInput.DatasourceTypes {
 		policy.DatasourceTypes = append(policy.DatasourceTypes, item)
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	policy.ObjectType = &typedInput.ObjectType
 
-	// Set property ‘PolicyRules’:
+	// Set property "PolicyRules":
 	for _, item := range typedInput.PolicyRules {
 		var item1 BasePolicyRule_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -1295,7 +1295,7 @@ func (rule *BasePolicyRule) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	}
 	result := &BasePolicyRule_ARM{}
 
-	// Set property ‘AzureBackup’:
+	// Set property "AzureBackup":
 	if rule.AzureBackup != nil {
 		azureBackup_ARM, err := (*rule.AzureBackup).ConvertToARM(resolved)
 		if err != nil {
@@ -1305,7 +1305,7 @@ func (rule *BasePolicyRule) ConvertToARM(resolved genruntime.ConvertToARMResolve
 		result.AzureBackup = &azureBackup
 	}
 
-	// Set property ‘AzureRetention’:
+	// Set property "AzureRetention":
 	if rule.AzureRetention != nil {
 		azureRetention_ARM, err := (*rule.AzureRetention).ConvertToARM(resolved)
 		if err != nil {
@@ -1329,7 +1329,7 @@ func (rule *BasePolicyRule) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BasePolicyRule_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureBackup’:
+	// Set property "AzureBackup":
 	if typedInput.AzureBackup != nil {
 		var azureBackup1 AzureBackupRule
 		err := azureBackup1.PopulateFromARM(owner, *typedInput.AzureBackup)
@@ -1340,7 +1340,7 @@ func (rule *BasePolicyRule) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		rule.AzureBackup = &azureBackup
 	}
 
-	// Set property ‘AzureRetention’:
+	// Set property "AzureRetention":
 	if typedInput.AzureRetention != nil {
 		var azureRetention1 AzureRetentionRule
 		err := azureRetention1.PopulateFromARM(owner, *typedInput.AzureRetention)
@@ -1479,7 +1479,7 @@ func (rule *BasePolicyRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BasePolicyRule_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureBackup’:
+	// Set property "AzureBackup":
 	if typedInput.AzureBackup != nil {
 		var azureBackup1 AzureBackupRule_STATUS
 		err := azureBackup1.PopulateFromARM(owner, *typedInput.AzureBackup)
@@ -1490,7 +1490,7 @@ func (rule *BasePolicyRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		rule.AzureBackup = &azureBackup
 	}
 
-	// Set property ‘AzureRetention’:
+	// Set property "AzureRetention":
 	if typedInput.AzureRetention != nil {
 		var azureRetention1 AzureRetentionRule_STATUS
 		err := azureRetention1.PopulateFromARM(owner, *typedInput.AzureRetention)
@@ -1602,7 +1602,7 @@ func (rule *AzureBackupRule) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	}
 	result := &AzureBackupRule_ARM{}
 
-	// Set property ‘BackupParameters’:
+	// Set property "BackupParameters":
 	if rule.BackupParameters != nil {
 		backupParameters_ARM, err := (*rule.BackupParameters).ConvertToARM(resolved)
 		if err != nil {
@@ -1612,7 +1612,7 @@ func (rule *AzureBackupRule) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.BackupParameters = &backupParameters
 	}
 
-	// Set property ‘DataStore’:
+	// Set property "DataStore":
 	if rule.DataStore != nil {
 		dataStore_ARM, err := (*rule.DataStore).ConvertToARM(resolved)
 		if err != nil {
@@ -1622,18 +1622,18 @@ func (rule *AzureBackupRule) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.DataStore = &dataStore
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if rule.Name != nil {
 		name := *rule.Name
 		result.Name = &name
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	if rule.ObjectType != nil {
 		result.ObjectType = *rule.ObjectType
 	}
 
-	// Set property ‘Trigger’:
+	// Set property "Trigger":
 	if rule.Trigger != nil {
 		trigger_ARM, err := (*rule.Trigger).ConvertToARM(resolved)
 		if err != nil {
@@ -1657,7 +1657,7 @@ func (rule *AzureBackupRule) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureBackupRule_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BackupParameters’:
+	// Set property "BackupParameters":
 	if typedInput.BackupParameters != nil {
 		var backupParameters1 BackupParameters
 		err := backupParameters1.PopulateFromARM(owner, *typedInput.BackupParameters)
@@ -1668,7 +1668,7 @@ func (rule *AzureBackupRule) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		rule.BackupParameters = &backupParameters
 	}
 
-	// Set property ‘DataStore’:
+	// Set property "DataStore":
 	if typedInput.DataStore != nil {
 		var dataStore1 DataStoreInfoBase
 		err := dataStore1.PopulateFromARM(owner, *typedInput.DataStore)
@@ -1679,16 +1679,16 @@ func (rule *AzureBackupRule) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		rule.DataStore = &dataStore
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		rule.Name = &name
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	rule.ObjectType = &typedInput.ObjectType
 
-	// Set property ‘Trigger’:
+	// Set property "Trigger":
 	if typedInput.Trigger != nil {
 		var trigger1 TriggerContext
 		err := trigger1.PopulateFromARM(owner, *typedInput.Trigger)
@@ -1898,7 +1898,7 @@ func (rule *AzureBackupRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureBackupRule_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BackupParameters’:
+	// Set property "BackupParameters":
 	if typedInput.BackupParameters != nil {
 		var backupParameters1 BackupParameters_STATUS
 		err := backupParameters1.PopulateFromARM(owner, *typedInput.BackupParameters)
@@ -1909,7 +1909,7 @@ func (rule *AzureBackupRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		rule.BackupParameters = &backupParameters
 	}
 
-	// Set property ‘DataStore’:
+	// Set property "DataStore":
 	if typedInput.DataStore != nil {
 		var dataStore1 DataStoreInfoBase_STATUS
 		err := dataStore1.PopulateFromARM(owner, *typedInput.DataStore)
@@ -1920,16 +1920,16 @@ func (rule *AzureBackupRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		rule.DataStore = &dataStore
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		rule.Name = &name
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	rule.ObjectType = &typedInput.ObjectType
 
-	// Set property ‘Trigger’:
+	// Set property "Trigger":
 	if typedInput.Trigger != nil {
 		var trigger1 TriggerContext_STATUS
 		err := trigger1.PopulateFromARM(owner, *typedInput.Trigger)
@@ -2083,13 +2083,13 @@ func (rule *AzureRetentionRule) ConvertToARM(resolved genruntime.ConvertToARMRes
 	}
 	result := &AzureRetentionRule_ARM{}
 
-	// Set property ‘IsDefault’:
+	// Set property "IsDefault":
 	if rule.IsDefault != nil {
 		isDefault := *rule.IsDefault
 		result.IsDefault = &isDefault
 	}
 
-	// Set property ‘Lifecycles’:
+	// Set property "Lifecycles":
 	for _, item := range rule.Lifecycles {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -2098,13 +2098,13 @@ func (rule *AzureRetentionRule) ConvertToARM(resolved genruntime.ConvertToARMRes
 		result.Lifecycles = append(result.Lifecycles, *item_ARM.(*SourceLifeCycle_ARM))
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if rule.Name != nil {
 		name := *rule.Name
 		result.Name = &name
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	if rule.ObjectType != nil {
 		result.ObjectType = *rule.ObjectType
 	}
@@ -2123,13 +2123,13 @@ func (rule *AzureRetentionRule) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureRetentionRule_ARM, got %T", armInput)
 	}
 
-	// Set property ‘IsDefault’:
+	// Set property "IsDefault":
 	if typedInput.IsDefault != nil {
 		isDefault := *typedInput.IsDefault
 		rule.IsDefault = &isDefault
 	}
 
-	// Set property ‘Lifecycles’:
+	// Set property "Lifecycles":
 	for _, item := range typedInput.Lifecycles {
 		var item1 SourceLifeCycle
 		err := item1.PopulateFromARM(owner, item)
@@ -2139,13 +2139,13 @@ func (rule *AzureRetentionRule) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		rule.Lifecycles = append(rule.Lifecycles, item1)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		rule.Name = &name
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	rule.ObjectType = &typedInput.ObjectType
 
 	// No error
@@ -2314,13 +2314,13 @@ func (rule *AzureRetentionRule_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureRetentionRule_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘IsDefault’:
+	// Set property "IsDefault":
 	if typedInput.IsDefault != nil {
 		isDefault := *typedInput.IsDefault
 		rule.IsDefault = &isDefault
 	}
 
-	// Set property ‘Lifecycles’:
+	// Set property "Lifecycles":
 	for _, item := range typedInput.Lifecycles {
 		var item1 SourceLifeCycle_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -2330,13 +2330,13 @@ func (rule *AzureRetentionRule_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		rule.Lifecycles = append(rule.Lifecycles, item1)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		rule.Name = &name
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	rule.ObjectType = &typedInput.ObjectType
 
 	// No error
@@ -2454,7 +2454,7 @@ func (parameters *BackupParameters) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &BackupParameters_ARM{}
 
-	// Set property ‘AzureBackupParams’:
+	// Set property "AzureBackupParams":
 	if parameters.AzureBackupParams != nil {
 		azureBackupParams_ARM, err := (*parameters.AzureBackupParams).ConvertToARM(resolved)
 		if err != nil {
@@ -2478,7 +2478,7 @@ func (parameters *BackupParameters) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackupParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureBackupParams’:
+	// Set property "AzureBackupParams":
 	if typedInput.AzureBackupParams != nil {
 		var azureBackupParams1 AzureBackupParams
 		err := azureBackupParams1.PopulateFromARM(owner, *typedInput.AzureBackupParams)
@@ -2578,7 +2578,7 @@ func (parameters *BackupParameters_STATUS) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackupParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureBackupParams’:
+	// Set property "AzureBackupParams":
 	if typedInput.AzureBackupParams != nil {
 		var azureBackupParams1 AzureBackupParams_STATUS
 		err := azureBackupParams1.PopulateFromARM(owner, *typedInput.AzureBackupParams)
@@ -2660,13 +2660,13 @@ func (base *DataStoreInfoBase) ConvertToARM(resolved genruntime.ConvertToARMReso
 	}
 	result := &DataStoreInfoBase_ARM{}
 
-	// Set property ‘DataStoreType’:
+	// Set property "DataStoreType":
 	if base.DataStoreType != nil {
 		dataStoreType := *base.DataStoreType
 		result.DataStoreType = &dataStoreType
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	if base.ObjectType != nil {
 		objectType := *base.ObjectType
 		result.ObjectType = &objectType
@@ -2686,13 +2686,13 @@ func (base *DataStoreInfoBase) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DataStoreInfoBase_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DataStoreType’:
+	// Set property "DataStoreType":
 	if typedInput.DataStoreType != nil {
 		dataStoreType := *typedInput.DataStoreType
 		base.DataStoreType = &dataStoreType
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	if typedInput.ObjectType != nil {
 		objectType := *typedInput.ObjectType
 		base.ObjectType = &objectType
@@ -2788,13 +2788,13 @@ func (base *DataStoreInfoBase_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DataStoreInfoBase_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DataStoreType’:
+	// Set property "DataStoreType":
 	if typedInput.DataStoreType != nil {
 		dataStoreType := *typedInput.DataStoreType
 		base.DataStoreType = &dataStoreType
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	if typedInput.ObjectType != nil {
 		objectType := *typedInput.ObjectType
 		base.ObjectType = &objectType
@@ -2869,7 +2869,7 @@ func (cycle *SourceLifeCycle) ConvertToARM(resolved genruntime.ConvertToARMResol
 	}
 	result := &SourceLifeCycle_ARM{}
 
-	// Set property ‘DeleteAfter’:
+	// Set property "DeleteAfter":
 	if cycle.DeleteAfter != nil {
 		deleteAfter_ARM, err := (*cycle.DeleteAfter).ConvertToARM(resolved)
 		if err != nil {
@@ -2879,7 +2879,7 @@ func (cycle *SourceLifeCycle) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.DeleteAfter = &deleteAfter
 	}
 
-	// Set property ‘SourceDataStore’:
+	// Set property "SourceDataStore":
 	if cycle.SourceDataStore != nil {
 		sourceDataStore_ARM, err := (*cycle.SourceDataStore).ConvertToARM(resolved)
 		if err != nil {
@@ -2889,7 +2889,7 @@ func (cycle *SourceLifeCycle) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.SourceDataStore = &sourceDataStore
 	}
 
-	// Set property ‘TargetDataStoreCopySettings’:
+	// Set property "TargetDataStoreCopySettings":
 	for _, item := range cycle.TargetDataStoreCopySettings {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -2912,7 +2912,7 @@ func (cycle *SourceLifeCycle) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SourceLifeCycle_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DeleteAfter’:
+	// Set property "DeleteAfter":
 	if typedInput.DeleteAfter != nil {
 		var deleteAfter1 DeleteOption
 		err := deleteAfter1.PopulateFromARM(owner, *typedInput.DeleteAfter)
@@ -2923,7 +2923,7 @@ func (cycle *SourceLifeCycle) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		cycle.DeleteAfter = &deleteAfter
 	}
 
-	// Set property ‘SourceDataStore’:
+	// Set property "SourceDataStore":
 	if typedInput.SourceDataStore != nil {
 		var sourceDataStore1 DataStoreInfoBase
 		err := sourceDataStore1.PopulateFromARM(owner, *typedInput.SourceDataStore)
@@ -2934,7 +2934,7 @@ func (cycle *SourceLifeCycle) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		cycle.SourceDataStore = &sourceDataStore
 	}
 
-	// Set property ‘TargetDataStoreCopySettings’:
+	// Set property "TargetDataStoreCopySettings":
 	for _, item := range typedInput.TargetDataStoreCopySettings {
 		var item1 TargetCopySetting
 		err := item1.PopulateFromARM(owner, item)
@@ -3127,7 +3127,7 @@ func (cycle *SourceLifeCycle_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SourceLifeCycle_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DeleteAfter’:
+	// Set property "DeleteAfter":
 	if typedInput.DeleteAfter != nil {
 		var deleteAfter1 DeleteOption_STATUS
 		err := deleteAfter1.PopulateFromARM(owner, *typedInput.DeleteAfter)
@@ -3138,7 +3138,7 @@ func (cycle *SourceLifeCycle_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		cycle.DeleteAfter = &deleteAfter
 	}
 
-	// Set property ‘SourceDataStore’:
+	// Set property "SourceDataStore":
 	if typedInput.SourceDataStore != nil {
 		var sourceDataStore1 DataStoreInfoBase_STATUS
 		err := sourceDataStore1.PopulateFromARM(owner, *typedInput.SourceDataStore)
@@ -3149,7 +3149,7 @@ func (cycle *SourceLifeCycle_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		cycle.SourceDataStore = &sourceDataStore
 	}
 
-	// Set property ‘TargetDataStoreCopySettings’:
+	// Set property "TargetDataStoreCopySettings":
 	for _, item := range typedInput.TargetDataStoreCopySettings {
 		var item1 TargetCopySetting_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -3287,7 +3287,7 @@ func (context *TriggerContext) ConvertToARM(resolved genruntime.ConvertToARMReso
 	}
 	result := &TriggerContext_ARM{}
 
-	// Set property ‘Adhoc’:
+	// Set property "Adhoc":
 	if context.Adhoc != nil {
 		adhoc_ARM, err := (*context.Adhoc).ConvertToARM(resolved)
 		if err != nil {
@@ -3297,7 +3297,7 @@ func (context *TriggerContext) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Adhoc = &adhoc
 	}
 
-	// Set property ‘Schedule’:
+	// Set property "Schedule":
 	if context.Schedule != nil {
 		schedule_ARM, err := (*context.Schedule).ConvertToARM(resolved)
 		if err != nil {
@@ -3321,7 +3321,7 @@ func (context *TriggerContext) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TriggerContext_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Adhoc’:
+	// Set property "Adhoc":
 	if typedInput.Adhoc != nil {
 		var adhoc1 AdhocBasedTriggerContext
 		err := adhoc1.PopulateFromARM(owner, *typedInput.Adhoc)
@@ -3332,7 +3332,7 @@ func (context *TriggerContext) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		context.Adhoc = &adhoc
 	}
 
-	// Set property ‘Schedule’:
+	// Set property "Schedule":
 	if typedInput.Schedule != nil {
 		var schedule1 ScheduleBasedTriggerContext
 		err := schedule1.PopulateFromARM(owner, *typedInput.Schedule)
@@ -3471,7 +3471,7 @@ func (context *TriggerContext_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TriggerContext_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Adhoc’:
+	// Set property "Adhoc":
 	if typedInput.Adhoc != nil {
 		var adhoc1 AdhocBasedTriggerContext_STATUS
 		err := adhoc1.PopulateFromARM(owner, *typedInput.Adhoc)
@@ -3482,7 +3482,7 @@ func (context *TriggerContext_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		context.Adhoc = &adhoc
 	}
 
-	// Set property ‘Schedule’:
+	// Set property "Schedule":
 	if typedInput.Schedule != nil {
 		var schedule1 ScheduleBasedTriggerContext_STATUS
 		err := schedule1.PopulateFromARM(owner, *typedInput.Schedule)
@@ -3587,12 +3587,12 @@ func (context *AdhocBasedTriggerContext) ConvertToARM(resolved genruntime.Conver
 	}
 	result := &AdhocBasedTriggerContext_ARM{}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	if context.ObjectType != nil {
 		result.ObjectType = *context.ObjectType
 	}
 
-	// Set property ‘TaggingCriteria’:
+	// Set property "TaggingCriteria":
 	if context.TaggingCriteria != nil {
 		taggingCriteria_ARM, err := (*context.TaggingCriteria).ConvertToARM(resolved)
 		if err != nil {
@@ -3616,10 +3616,10 @@ func (context *AdhocBasedTriggerContext) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AdhocBasedTriggerContext_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	context.ObjectType = &typedInput.ObjectType
 
-	// Set property ‘TaggingCriteria’:
+	// Set property "TaggingCriteria":
 	if typedInput.TaggingCriteria != nil {
 		var taggingCriteria1 AdhocBasedTaggingCriteria
 		err := taggingCriteria1.PopulateFromARM(owner, *typedInput.TaggingCriteria)
@@ -3746,10 +3746,10 @@ func (context *AdhocBasedTriggerContext_STATUS) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AdhocBasedTriggerContext_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	context.ObjectType = &typedInput.ObjectType
 
-	// Set property ‘TaggingCriteria’:
+	// Set property "TaggingCriteria":
 	if typedInput.TaggingCriteria != nil {
 		var taggingCriteria1 AdhocBasedTaggingCriteria_STATUS
 		err := taggingCriteria1.PopulateFromARM(owner, *typedInput.TaggingCriteria)
@@ -3846,13 +3846,13 @@ func (params *AzureBackupParams) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &AzureBackupParams_ARM{}
 
-	// Set property ‘BackupType’:
+	// Set property "BackupType":
 	if params.BackupType != nil {
 		backupType := *params.BackupType
 		result.BackupType = &backupType
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	if params.ObjectType != nil {
 		result.ObjectType = *params.ObjectType
 	}
@@ -3871,13 +3871,13 @@ func (params *AzureBackupParams) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureBackupParams_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BackupType’:
+	// Set property "BackupType":
 	if typedInput.BackupType != nil {
 		backupType := *typedInput.BackupType
 		params.BackupType = &backupType
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	params.ObjectType = &typedInput.ObjectType
 
 	// No error
@@ -3969,13 +3969,13 @@ func (params *AzureBackupParams_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureBackupParams_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BackupType’:
+	// Set property "BackupType":
 	if typedInput.BackupType != nil {
 		backupType := *typedInput.BackupType
 		params.BackupType = &backupType
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	params.ObjectType = &typedInput.ObjectType
 
 	// No error
@@ -4041,7 +4041,7 @@ func (option *DeleteOption) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	}
 	result := &DeleteOption_ARM{}
 
-	// Set property ‘AbsoluteDeleteOption’:
+	// Set property "AbsoluteDeleteOption":
 	if option.AbsoluteDeleteOption != nil {
 		absoluteDeleteOption_ARM, err := (*option.AbsoluteDeleteOption).ConvertToARM(resolved)
 		if err != nil {
@@ -4065,7 +4065,7 @@ func (option *DeleteOption) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeleteOption_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AbsoluteDeleteOption’:
+	// Set property "AbsoluteDeleteOption":
 	if typedInput.AbsoluteDeleteOption != nil {
 		var absoluteDeleteOption1 AbsoluteDeleteOption
 		err := absoluteDeleteOption1.PopulateFromARM(owner, *typedInput.AbsoluteDeleteOption)
@@ -4165,7 +4165,7 @@ func (option *DeleteOption_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeleteOption_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AbsoluteDeleteOption’:
+	// Set property "AbsoluteDeleteOption":
 	if typedInput.AbsoluteDeleteOption != nil {
 		var absoluteDeleteOption1 AbsoluteDeleteOption_STATUS
 		err := absoluteDeleteOption1.PopulateFromARM(owner, *typedInput.AbsoluteDeleteOption)
@@ -4250,12 +4250,12 @@ func (context *ScheduleBasedTriggerContext) ConvertToARM(resolved genruntime.Con
 	}
 	result := &ScheduleBasedTriggerContext_ARM{}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	if context.ObjectType != nil {
 		result.ObjectType = *context.ObjectType
 	}
 
-	// Set property ‘Schedule’:
+	// Set property "Schedule":
 	if context.Schedule != nil {
 		schedule_ARM, err := (*context.Schedule).ConvertToARM(resolved)
 		if err != nil {
@@ -4265,7 +4265,7 @@ func (context *ScheduleBasedTriggerContext) ConvertToARM(resolved genruntime.Con
 		result.Schedule = &schedule
 	}
 
-	// Set property ‘TaggingCriteria’:
+	// Set property "TaggingCriteria":
 	for _, item := range context.TaggingCriteria {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -4288,10 +4288,10 @@ func (context *ScheduleBasedTriggerContext) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScheduleBasedTriggerContext_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	context.ObjectType = &typedInput.ObjectType
 
-	// Set property ‘Schedule’:
+	// Set property "Schedule":
 	if typedInput.Schedule != nil {
 		var schedule1 BackupSchedule
 		err := schedule1.PopulateFromARM(owner, *typedInput.Schedule)
@@ -4302,7 +4302,7 @@ func (context *ScheduleBasedTriggerContext) PopulateFromARM(owner genruntime.Arb
 		context.Schedule = &schedule
 	}
 
-	// Set property ‘TaggingCriteria’:
+	// Set property "TaggingCriteria":
 	for _, item := range typedInput.TaggingCriteria {
 		var item1 TaggingCriteria
 		err := item1.PopulateFromARM(owner, item)
@@ -4485,10 +4485,10 @@ func (context *ScheduleBasedTriggerContext_STATUS) PopulateFromARM(owner genrunt
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScheduleBasedTriggerContext_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	context.ObjectType = &typedInput.ObjectType
 
-	// Set property ‘Schedule’:
+	// Set property "Schedule":
 	if typedInput.Schedule != nil {
 		var schedule1 BackupSchedule_STATUS
 		err := schedule1.PopulateFromARM(owner, *typedInput.Schedule)
@@ -4499,7 +4499,7 @@ func (context *ScheduleBasedTriggerContext_STATUS) PopulateFromARM(owner genrunt
 		context.Schedule = &schedule
 	}
 
-	// Set property ‘TaggingCriteria’:
+	// Set property "TaggingCriteria":
 	for _, item := range typedInput.TaggingCriteria {
 		var item1 TaggingCriteria_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -4632,7 +4632,7 @@ func (setting *TargetCopySetting) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &TargetCopySetting_ARM{}
 
-	// Set property ‘CopyAfter’:
+	// Set property "CopyAfter":
 	if setting.CopyAfter != nil {
 		copyAfter_ARM, err := (*setting.CopyAfter).ConvertToARM(resolved)
 		if err != nil {
@@ -4642,7 +4642,7 @@ func (setting *TargetCopySetting) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.CopyAfter = &copyAfter
 	}
 
-	// Set property ‘DataStore’:
+	// Set property "DataStore":
 	if setting.DataStore != nil {
 		dataStore_ARM, err := (*setting.DataStore).ConvertToARM(resolved)
 		if err != nil {
@@ -4666,7 +4666,7 @@ func (setting *TargetCopySetting) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TargetCopySetting_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CopyAfter’:
+	// Set property "CopyAfter":
 	if typedInput.CopyAfter != nil {
 		var copyAfter1 CopyOption
 		err := copyAfter1.PopulateFromARM(owner, *typedInput.CopyAfter)
@@ -4677,7 +4677,7 @@ func (setting *TargetCopySetting) PopulateFromARM(owner genruntime.ArbitraryOwne
 		setting.CopyAfter = &copyAfter
 	}
 
-	// Set property ‘DataStore’:
+	// Set property "DataStore":
 	if typedInput.DataStore != nil {
 		var dataStore1 DataStoreInfoBase
 		err := dataStore1.PopulateFromARM(owner, *typedInput.DataStore)
@@ -4817,7 +4817,7 @@ func (setting *TargetCopySetting_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TargetCopySetting_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CopyAfter’:
+	// Set property "CopyAfter":
 	if typedInput.CopyAfter != nil {
 		var copyAfter1 CopyOption_STATUS
 		err := copyAfter1.PopulateFromARM(owner, *typedInput.CopyAfter)
@@ -4828,7 +4828,7 @@ func (setting *TargetCopySetting_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		setting.CopyAfter = &copyAfter
 	}
 
-	// Set property ‘DataStore’:
+	// Set property "DataStore":
 	if typedInput.DataStore != nil {
 		var dataStore1 DataStoreInfoBase_STATUS
 		err := dataStore1.PopulateFromARM(owner, *typedInput.DataStore)
@@ -4933,13 +4933,13 @@ func (option *AbsoluteDeleteOption) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &AbsoluteDeleteOption_ARM{}
 
-	// Set property ‘Duration’:
+	// Set property "Duration":
 	if option.Duration != nil {
 		duration := *option.Duration
 		result.Duration = &duration
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	if option.ObjectType != nil {
 		result.ObjectType = *option.ObjectType
 	}
@@ -4958,13 +4958,13 @@ func (option *AbsoluteDeleteOption) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AbsoluteDeleteOption_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Duration’:
+	// Set property "Duration":
 	if typedInput.Duration != nil {
 		duration := *typedInput.Duration
 		option.Duration = &duration
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	option.ObjectType = &typedInput.ObjectType
 
 	// No error
@@ -5056,13 +5056,13 @@ func (option *AbsoluteDeleteOption_STATUS) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AbsoluteDeleteOption_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Duration’:
+	// Set property "Duration":
 	if typedInput.Duration != nil {
 		duration := *typedInput.Duration
 		option.Duration = &duration
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	option.ObjectType = &typedInput.ObjectType
 
 	// No error
@@ -5129,7 +5129,7 @@ func (criteria *AdhocBasedTaggingCriteria) ConvertToARM(resolved genruntime.Conv
 	}
 	result := &AdhocBasedTaggingCriteria_ARM{}
 
-	// Set property ‘TagInfo’:
+	// Set property "TagInfo":
 	if criteria.TagInfo != nil {
 		tagInfo_ARM, err := (*criteria.TagInfo).ConvertToARM(resolved)
 		if err != nil {
@@ -5153,7 +5153,7 @@ func (criteria *AdhocBasedTaggingCriteria) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AdhocBasedTaggingCriteria_ARM, got %T", armInput)
 	}
 
-	// Set property ‘TagInfo’:
+	// Set property "TagInfo":
 	if typedInput.TagInfo != nil {
 		var tagInfo1 RetentionTag
 		err := tagInfo1.PopulateFromARM(owner, *typedInput.TagInfo)
@@ -5254,7 +5254,7 @@ func (criteria *AdhocBasedTaggingCriteria_STATUS) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AdhocBasedTaggingCriteria_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘TagInfo’:
+	// Set property "TagInfo":
 	if typedInput.TagInfo != nil {
 		var tagInfo1 RetentionTag_STATUS
 		err := tagInfo1.PopulateFromARM(owner, *typedInput.TagInfo)
@@ -5335,12 +5335,12 @@ func (schedule *BackupSchedule) ConvertToARM(resolved genruntime.ConvertToARMRes
 	}
 	result := &BackupSchedule_ARM{}
 
-	// Set property ‘RepeatingTimeIntervals’:
+	// Set property "RepeatingTimeIntervals":
 	for _, item := range schedule.RepeatingTimeIntervals {
 		result.RepeatingTimeIntervals = append(result.RepeatingTimeIntervals, item)
 	}
 
-	// Set property ‘TimeZone’:
+	// Set property "TimeZone":
 	if schedule.TimeZone != nil {
 		timeZone := *schedule.TimeZone
 		result.TimeZone = &timeZone
@@ -5360,12 +5360,12 @@ func (schedule *BackupSchedule) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackupSchedule_ARM, got %T", armInput)
 	}
 
-	// Set property ‘RepeatingTimeIntervals’:
+	// Set property "RepeatingTimeIntervals":
 	for _, item := range typedInput.RepeatingTimeIntervals {
 		schedule.RepeatingTimeIntervals = append(schedule.RepeatingTimeIntervals, item)
 	}
 
-	// Set property ‘TimeZone’:
+	// Set property "TimeZone":
 	if typedInput.TimeZone != nil {
 		timeZone := *typedInput.TimeZone
 		schedule.TimeZone = &timeZone
@@ -5446,12 +5446,12 @@ func (schedule *BackupSchedule_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackupSchedule_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘RepeatingTimeIntervals’:
+	// Set property "RepeatingTimeIntervals":
 	for _, item := range typedInput.RepeatingTimeIntervals {
 		schedule.RepeatingTimeIntervals = append(schedule.RepeatingTimeIntervals, item)
 	}
 
-	// Set property ‘TimeZone’:
+	// Set property "TimeZone":
 	if typedInput.TimeZone != nil {
 		timeZone := *typedInput.TimeZone
 		schedule.TimeZone = &timeZone
@@ -5516,7 +5516,7 @@ func (option *CopyOption) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	}
 	result := &CopyOption_ARM{}
 
-	// Set property ‘CopyOnExpiry’:
+	// Set property "CopyOnExpiry":
 	if option.CopyOnExpiry != nil {
 		copyOnExpiry_ARM, err := (*option.CopyOnExpiry).ConvertToARM(resolved)
 		if err != nil {
@@ -5526,7 +5526,7 @@ func (option *CopyOption) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		result.CopyOnExpiry = &copyOnExpiry
 	}
 
-	// Set property ‘CustomCopy’:
+	// Set property "CustomCopy":
 	if option.CustomCopy != nil {
 		customCopy_ARM, err := (*option.CustomCopy).ConvertToARM(resolved)
 		if err != nil {
@@ -5536,7 +5536,7 @@ func (option *CopyOption) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		result.CustomCopy = &customCopy
 	}
 
-	// Set property ‘ImmediateCopy’:
+	// Set property "ImmediateCopy":
 	if option.ImmediateCopy != nil {
 		immediateCopy_ARM, err := (*option.ImmediateCopy).ConvertToARM(resolved)
 		if err != nil {
@@ -5560,7 +5560,7 @@ func (option *CopyOption) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CopyOption_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CopyOnExpiry’:
+	// Set property "CopyOnExpiry":
 	if typedInput.CopyOnExpiry != nil {
 		var copyOnExpiry1 CopyOnExpiryOption
 		err := copyOnExpiry1.PopulateFromARM(owner, *typedInput.CopyOnExpiry)
@@ -5571,7 +5571,7 @@ func (option *CopyOption) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		option.CopyOnExpiry = &copyOnExpiry
 	}
 
-	// Set property ‘CustomCopy’:
+	// Set property "CustomCopy":
 	if typedInput.CustomCopy != nil {
 		var customCopy1 CustomCopyOption
 		err := customCopy1.PopulateFromARM(owner, *typedInput.CustomCopy)
@@ -5582,7 +5582,7 @@ func (option *CopyOption) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		option.CustomCopy = &customCopy
 	}
 
-	// Set property ‘ImmediateCopy’:
+	// Set property "ImmediateCopy":
 	if typedInput.ImmediateCopy != nil {
 		var immediateCopy1 ImmediateCopyOption
 		err := immediateCopy1.PopulateFromARM(owner, *typedInput.ImmediateCopy)
@@ -5760,7 +5760,7 @@ func (option *CopyOption_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CopyOption_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CopyOnExpiry’:
+	// Set property "CopyOnExpiry":
 	if typedInput.CopyOnExpiry != nil {
 		var copyOnExpiry1 CopyOnExpiryOption_STATUS
 		err := copyOnExpiry1.PopulateFromARM(owner, *typedInput.CopyOnExpiry)
@@ -5771,7 +5771,7 @@ func (option *CopyOption_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		option.CopyOnExpiry = &copyOnExpiry
 	}
 
-	// Set property ‘CustomCopy’:
+	// Set property "CustomCopy":
 	if typedInput.CustomCopy != nil {
 		var customCopy1 CustomCopyOption_STATUS
 		err := customCopy1.PopulateFromARM(owner, *typedInput.CustomCopy)
@@ -5782,7 +5782,7 @@ func (option *CopyOption_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		option.CustomCopy = &customCopy
 	}
 
-	// Set property ‘ImmediateCopy’:
+	// Set property "ImmediateCopy":
 	if typedInput.ImmediateCopy != nil {
 		var immediateCopy1 ImmediateCopyOption_STATUS
 		err := immediateCopy1.PopulateFromARM(owner, *typedInput.ImmediateCopy)
@@ -5919,7 +5919,7 @@ func (criteria *TaggingCriteria) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &TaggingCriteria_ARM{}
 
-	// Set property ‘Criteria’:
+	// Set property "Criteria":
 	for _, item := range criteria.Criteria {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -5928,13 +5928,13 @@ func (criteria *TaggingCriteria) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Criteria = append(result.Criteria, *item_ARM.(*BackupCriteria_ARM))
 	}
 
-	// Set property ‘IsDefault’:
+	// Set property "IsDefault":
 	if criteria.IsDefault != nil {
 		isDefault := *criteria.IsDefault
 		result.IsDefault = &isDefault
 	}
 
-	// Set property ‘TagInfo’:
+	// Set property "TagInfo":
 	if criteria.TagInfo != nil {
 		tagInfo_ARM, err := (*criteria.TagInfo).ConvertToARM(resolved)
 		if err != nil {
@@ -5944,7 +5944,7 @@ func (criteria *TaggingCriteria) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.TagInfo = &tagInfo
 	}
 
-	// Set property ‘TaggingPriority’:
+	// Set property "TaggingPriority":
 	if criteria.TaggingPriority != nil {
 		taggingPriority := *criteria.TaggingPriority
 		result.TaggingPriority = &taggingPriority
@@ -5964,7 +5964,7 @@ func (criteria *TaggingCriteria) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TaggingCriteria_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Criteria’:
+	// Set property "Criteria":
 	for _, item := range typedInput.Criteria {
 		var item1 BackupCriteria
 		err := item1.PopulateFromARM(owner, item)
@@ -5974,13 +5974,13 @@ func (criteria *TaggingCriteria) PopulateFromARM(owner genruntime.ArbitraryOwner
 		criteria.Criteria = append(criteria.Criteria, item1)
 	}
 
-	// Set property ‘IsDefault’:
+	// Set property "IsDefault":
 	if typedInput.IsDefault != nil {
 		isDefault := *typedInput.IsDefault
 		criteria.IsDefault = &isDefault
 	}
 
-	// Set property ‘TagInfo’:
+	// Set property "TagInfo":
 	if typedInput.TagInfo != nil {
 		var tagInfo1 RetentionTag
 		err := tagInfo1.PopulateFromARM(owner, *typedInput.TagInfo)
@@ -5991,7 +5991,7 @@ func (criteria *TaggingCriteria) PopulateFromARM(owner genruntime.ArbitraryOwner
 		criteria.TagInfo = &tagInfo
 	}
 
-	// Set property ‘TaggingPriority’:
+	// Set property "TaggingPriority":
 	if typedInput.TaggingPriority != nil {
 		taggingPriority := *typedInput.TaggingPriority
 		criteria.TaggingPriority = &taggingPriority
@@ -6183,7 +6183,7 @@ func (criteria *TaggingCriteria_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TaggingCriteria_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Criteria’:
+	// Set property "Criteria":
 	for _, item := range typedInput.Criteria {
 		var item1 BackupCriteria_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -6193,13 +6193,13 @@ func (criteria *TaggingCriteria_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		criteria.Criteria = append(criteria.Criteria, item1)
 	}
 
-	// Set property ‘IsDefault’:
+	// Set property "IsDefault":
 	if typedInput.IsDefault != nil {
 		isDefault := *typedInput.IsDefault
 		criteria.IsDefault = &isDefault
 	}
 
-	// Set property ‘TagInfo’:
+	// Set property "TagInfo":
 	if typedInput.TagInfo != nil {
 		var tagInfo1 RetentionTag_STATUS
 		err := tagInfo1.PopulateFromARM(owner, *typedInput.TagInfo)
@@ -6210,7 +6210,7 @@ func (criteria *TaggingCriteria_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		criteria.TagInfo = &tagInfo
 	}
 
-	// Set property ‘TaggingPriority’:
+	// Set property "TaggingPriority":
 	if typedInput.TaggingPriority != nil {
 		taggingPriority := *typedInput.TaggingPriority
 		criteria.TaggingPriority = &taggingPriority
@@ -6339,7 +6339,7 @@ func (criteria *BackupCriteria) ConvertToARM(resolved genruntime.ConvertToARMRes
 	}
 	result := &BackupCriteria_ARM{}
 
-	// Set property ‘ScheduleBasedBackupCriteria’:
+	// Set property "ScheduleBasedBackupCriteria":
 	if criteria.ScheduleBasedBackupCriteria != nil {
 		scheduleBasedBackupCriteria_ARM, err := (*criteria.ScheduleBasedBackupCriteria).ConvertToARM(resolved)
 		if err != nil {
@@ -6363,7 +6363,7 @@ func (criteria *BackupCriteria) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackupCriteria_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ScheduleBasedBackupCriteria’:
+	// Set property "ScheduleBasedBackupCriteria":
 	if typedInput.ScheduleBasedBackupCriteria != nil {
 		var scheduleBasedBackupCriteria1 ScheduleBasedBackupCriteria
 		err := scheduleBasedBackupCriteria1.PopulateFromARM(owner, *typedInput.ScheduleBasedBackupCriteria)
@@ -6463,7 +6463,7 @@ func (criteria *BackupCriteria_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackupCriteria_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ScheduleBasedBackupCriteria’:
+	// Set property "ScheduleBasedBackupCriteria":
 	if typedInput.ScheduleBasedBackupCriteria != nil {
 		var scheduleBasedBackupCriteria1 ScheduleBasedBackupCriteria_STATUS
 		err := scheduleBasedBackupCriteria1.PopulateFromARM(owner, *typedInput.ScheduleBasedBackupCriteria)
@@ -6540,7 +6540,7 @@ func (option *CopyOnExpiryOption) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &CopyOnExpiryOption_ARM{}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	if option.ObjectType != nil {
 		result.ObjectType = *option.ObjectType
 	}
@@ -6559,7 +6559,7 @@ func (option *CopyOnExpiryOption) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CopyOnExpiryOption_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	option.ObjectType = &typedInput.ObjectType
 
 	// No error
@@ -6639,7 +6639,7 @@ func (option *CopyOnExpiryOption_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CopyOnExpiryOption_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	option.ObjectType = &typedInput.ObjectType
 
 	// No error
@@ -6703,13 +6703,13 @@ func (option *CustomCopyOption) ConvertToARM(resolved genruntime.ConvertToARMRes
 	}
 	result := &CustomCopyOption_ARM{}
 
-	// Set property ‘Duration’:
+	// Set property "Duration":
 	if option.Duration != nil {
 		duration := *option.Duration
 		result.Duration = &duration
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	if option.ObjectType != nil {
 		result.ObjectType = *option.ObjectType
 	}
@@ -6728,13 +6728,13 @@ func (option *CustomCopyOption) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomCopyOption_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Duration’:
+	// Set property "Duration":
 	if typedInput.Duration != nil {
 		duration := *typedInput.Duration
 		option.Duration = &duration
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	option.ObjectType = &typedInput.ObjectType
 
 	// No error
@@ -6826,13 +6826,13 @@ func (option *CustomCopyOption_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomCopyOption_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Duration’:
+	// Set property "Duration":
 	if typedInput.Duration != nil {
 		duration := *typedInput.Duration
 		option.Duration = &duration
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	option.ObjectType = &typedInput.ObjectType
 
 	// No error
@@ -6899,7 +6899,7 @@ func (option *ImmediateCopyOption) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &ImmediateCopyOption_ARM{}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	if option.ObjectType != nil {
 		result.ObjectType = *option.ObjectType
 	}
@@ -6918,7 +6918,7 @@ func (option *ImmediateCopyOption) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImmediateCopyOption_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	option.ObjectType = &typedInput.ObjectType
 
 	// No error
@@ -6998,7 +6998,7 @@ func (option *ImmediateCopyOption_STATUS) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImmediateCopyOption_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	option.ObjectType = &typedInput.ObjectType
 
 	// No error
@@ -7060,7 +7060,7 @@ func (retentionTag *RetentionTag) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &RetentionTag_ARM{}
 
-	// Set property ‘TagName’:
+	// Set property "TagName":
 	if retentionTag.TagName != nil {
 		tagName := *retentionTag.TagName
 		result.TagName = &tagName
@@ -7080,7 +7080,7 @@ func (retentionTag *RetentionTag) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RetentionTag_ARM, got %T", armInput)
 	}
 
-	// Set property ‘TagName’:
+	// Set property "TagName":
 	if typedInput.TagName != nil {
 		tagName := *typedInput.TagName
 		retentionTag.TagName = &tagName
@@ -7155,19 +7155,19 @@ func (retentionTag *RetentionTag_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RetentionTag_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ETag’:
+	// Set property "ETag":
 	if typedInput.ETag != nil {
 		eTag := *typedInput.ETag
 		retentionTag.ETag = &eTag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		retentionTag.Id = &id
 	}
 
-	// Set property ‘TagName’:
+	// Set property "TagName":
 	if typedInput.TagName != nil {
 		tagName := *typedInput.TagName
 		retentionTag.TagName = &tagName
@@ -7252,12 +7252,12 @@ func (criteria *ScheduleBasedBackupCriteria) ConvertToARM(resolved genruntime.Co
 	}
 	result := &ScheduleBasedBackupCriteria_ARM{}
 
-	// Set property ‘AbsoluteCriteria’:
+	// Set property "AbsoluteCriteria":
 	for _, item := range criteria.AbsoluteCriteria {
 		result.AbsoluteCriteria = append(result.AbsoluteCriteria, item)
 	}
 
-	// Set property ‘DaysOfMonth’:
+	// Set property "DaysOfMonth":
 	for _, item := range criteria.DaysOfMonth {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -7266,27 +7266,27 @@ func (criteria *ScheduleBasedBackupCriteria) ConvertToARM(resolved genruntime.Co
 		result.DaysOfMonth = append(result.DaysOfMonth, *item_ARM.(*Day_ARM))
 	}
 
-	// Set property ‘DaysOfTheWeek’:
+	// Set property "DaysOfTheWeek":
 	for _, item := range criteria.DaysOfTheWeek {
 		result.DaysOfTheWeek = append(result.DaysOfTheWeek, item)
 	}
 
-	// Set property ‘MonthsOfYear’:
+	// Set property "MonthsOfYear":
 	for _, item := range criteria.MonthsOfYear {
 		result.MonthsOfYear = append(result.MonthsOfYear, item)
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	if criteria.ObjectType != nil {
 		result.ObjectType = *criteria.ObjectType
 	}
 
-	// Set property ‘ScheduleTimes’:
+	// Set property "ScheduleTimes":
 	for _, item := range criteria.ScheduleTimes {
 		result.ScheduleTimes = append(result.ScheduleTimes, item)
 	}
 
-	// Set property ‘WeeksOfTheMonth’:
+	// Set property "WeeksOfTheMonth":
 	for _, item := range criteria.WeeksOfTheMonth {
 		result.WeeksOfTheMonth = append(result.WeeksOfTheMonth, item)
 	}
@@ -7305,12 +7305,12 @@ func (criteria *ScheduleBasedBackupCriteria) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScheduleBasedBackupCriteria_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AbsoluteCriteria’:
+	// Set property "AbsoluteCriteria":
 	for _, item := range typedInput.AbsoluteCriteria {
 		criteria.AbsoluteCriteria = append(criteria.AbsoluteCriteria, item)
 	}
 
-	// Set property ‘DaysOfMonth’:
+	// Set property "DaysOfMonth":
 	for _, item := range typedInput.DaysOfMonth {
 		var item1 Day
 		err := item1.PopulateFromARM(owner, item)
@@ -7320,25 +7320,25 @@ func (criteria *ScheduleBasedBackupCriteria) PopulateFromARM(owner genruntime.Ar
 		criteria.DaysOfMonth = append(criteria.DaysOfMonth, item1)
 	}
 
-	// Set property ‘DaysOfTheWeek’:
+	// Set property "DaysOfTheWeek":
 	for _, item := range typedInput.DaysOfTheWeek {
 		criteria.DaysOfTheWeek = append(criteria.DaysOfTheWeek, item)
 	}
 
-	// Set property ‘MonthsOfYear’:
+	// Set property "MonthsOfYear":
 	for _, item := range typedInput.MonthsOfYear {
 		criteria.MonthsOfYear = append(criteria.MonthsOfYear, item)
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	criteria.ObjectType = &typedInput.ObjectType
 
-	// Set property ‘ScheduleTimes’:
+	// Set property "ScheduleTimes":
 	for _, item := range typedInput.ScheduleTimes {
 		criteria.ScheduleTimes = append(criteria.ScheduleTimes, item)
 	}
 
-	// Set property ‘WeeksOfTheMonth’:
+	// Set property "WeeksOfTheMonth":
 	for _, item := range typedInput.WeeksOfTheMonth {
 		criteria.WeeksOfTheMonth = append(criteria.WeeksOfTheMonth, item)
 	}
@@ -7662,12 +7662,12 @@ func (criteria *ScheduleBasedBackupCriteria_STATUS) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ScheduleBasedBackupCriteria_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AbsoluteCriteria’:
+	// Set property "AbsoluteCriteria":
 	for _, item := range typedInput.AbsoluteCriteria {
 		criteria.AbsoluteCriteria = append(criteria.AbsoluteCriteria, item)
 	}
 
-	// Set property ‘DaysOfMonth’:
+	// Set property "DaysOfMonth":
 	for _, item := range typedInput.DaysOfMonth {
 		var item1 Day_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -7677,25 +7677,25 @@ func (criteria *ScheduleBasedBackupCriteria_STATUS) PopulateFromARM(owner genrun
 		criteria.DaysOfMonth = append(criteria.DaysOfMonth, item1)
 	}
 
-	// Set property ‘DaysOfTheWeek’:
+	// Set property "DaysOfTheWeek":
 	for _, item := range typedInput.DaysOfTheWeek {
 		criteria.DaysOfTheWeek = append(criteria.DaysOfTheWeek, item)
 	}
 
-	// Set property ‘MonthsOfYear’:
+	// Set property "MonthsOfYear":
 	for _, item := range typedInput.MonthsOfYear {
 		criteria.MonthsOfYear = append(criteria.MonthsOfYear, item)
 	}
 
-	// Set property ‘ObjectType’:
+	// Set property "ObjectType":
 	criteria.ObjectType = &typedInput.ObjectType
 
-	// Set property ‘ScheduleTimes’:
+	// Set property "ScheduleTimes":
 	for _, item := range typedInput.ScheduleTimes {
 		criteria.ScheduleTimes = append(criteria.ScheduleTimes, item)
 	}
 
-	// Set property ‘WeeksOfTheMonth’:
+	// Set property "WeeksOfTheMonth":
 	for _, item := range typedInput.WeeksOfTheMonth {
 		criteria.WeeksOfTheMonth = append(criteria.WeeksOfTheMonth, item)
 	}
@@ -7907,13 +7907,13 @@ func (day *Day) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	}
 	result := &Day_ARM{}
 
-	// Set property ‘Date’:
+	// Set property "Date":
 	if day.Date != nil {
 		date := *day.Date
 		result.Date = &date
 	}
 
-	// Set property ‘IsLast’:
+	// Set property "IsLast":
 	if day.IsLast != nil {
 		isLast := *day.IsLast
 		result.IsLast = &isLast
@@ -7933,13 +7933,13 @@ func (day *Day) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Day_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Date’:
+	// Set property "Date":
 	if typedInput.Date != nil {
 		date := *typedInput.Date
 		day.Date = &date
 	}
 
-	// Set property ‘IsLast’:
+	// Set property "IsLast":
 	if typedInput.IsLast != nil {
 		isLast := *typedInput.IsLast
 		day.IsLast = &isLast
@@ -8035,13 +8035,13 @@ func (day *Day_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Day_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Date’:
+	// Set property "Date":
 	if typedInput.Date != nil {
 		date := *typedInput.Date
 		day.Date = &date
 	}
 
-	// Set property ‘IsLast’:
+	// Set property "IsLast":
 	if typedInput.IsLast != nil {
 		isLast := *typedInput.IsLast
 		day.IsLast = &isLast

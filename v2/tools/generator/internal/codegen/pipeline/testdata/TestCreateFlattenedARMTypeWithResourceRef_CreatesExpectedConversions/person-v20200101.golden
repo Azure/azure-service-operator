@@ -82,10 +82,10 @@ func (person *Person_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	}
 	result := &Person_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if person.FamilyNameReference != nil ||
 		person.FullName != nil ||
 		person.KnownAs != nil {
@@ -120,18 +120,18 @@ func (person *Person_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Person_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	person.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// no assignment for property ‘FamilyNameReference’
+	// no assignment for property "FamilyNameReference"
 
-	// Set property ‘FullName’:
+	// Set property "FullName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		person.FullName = &typedInput.Properties.FullName
 	}
 
-	// Set property ‘KnownAs’:
+	// Set property "KnownAs":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		person.KnownAs = &typedInput.Properties.KnownAs
@@ -160,7 +160,7 @@ func (person *Person_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Person_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Status’:
+	// Set property "Status":
 	person.Status = typedInput.Status
 
 	// No error

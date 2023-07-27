@@ -347,22 +347,22 @@ func (link *PrivateDnsZones_VirtualNetworkLink_Spec) ConvertToARM(resolved genru
 	}
 	result := &PrivateDnsZones_VirtualNetworkLink_Spec_ARM{}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if link.Etag != nil {
 		etag := *link.Etag
 		result.Etag = &etag
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if link.Location != nil {
 		location := *link.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if link.RegistrationEnabled != nil || link.VirtualNetwork != nil {
 		result.Properties = &VirtualNetworkLinkProperties_ARM{}
 	}
@@ -379,7 +379,7 @@ func (link *PrivateDnsZones_VirtualNetworkLink_Spec) ConvertToARM(resolved genru
 		result.Properties.VirtualNetwork = &virtualNetwork
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if link.Tags != nil {
 		result.Tags = make(map[string]string, len(link.Tags))
 		for key, value := range link.Tags {
@@ -401,25 +401,25 @@ func (link *PrivateDnsZones_VirtualNetworkLink_Spec) PopulateFromARM(owner genru
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateDnsZones_VirtualNetworkLink_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	link.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		link.Etag = &etag
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		link.Location = &location
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	link.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘RegistrationEnabled’:
+	// Set property "RegistrationEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RegistrationEnabled != nil {
@@ -428,7 +428,7 @@ func (link *PrivateDnsZones_VirtualNetworkLink_Spec) PopulateFromARM(owner genru
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		link.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -436,7 +436,7 @@ func (link *PrivateDnsZones_VirtualNetworkLink_Spec) PopulateFromARM(owner genru
 		}
 	}
 
-	// Set property ‘VirtualNetwork’:
+	// Set property "VirtualNetwork":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VirtualNetwork != nil {
@@ -759,33 +759,33 @@ func (link *PrivateDnsZones_VirtualNetworkLink_STATUS) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateDnsZones_VirtualNetworkLink_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		link.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		link.Id = &id
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		link.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		link.Name = &name
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -794,7 +794,7 @@ func (link *PrivateDnsZones_VirtualNetworkLink_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘RegistrationEnabled’:
+	// Set property "RegistrationEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RegistrationEnabled != nil {
@@ -803,7 +803,7 @@ func (link *PrivateDnsZones_VirtualNetworkLink_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		link.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -811,13 +811,13 @@ func (link *PrivateDnsZones_VirtualNetworkLink_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		link.Type = &typeVar
 	}
 
-	// Set property ‘VirtualNetwork’:
+	// Set property "VirtualNetwork":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VirtualNetwork != nil {
@@ -831,7 +831,7 @@ func (link *PrivateDnsZones_VirtualNetworkLink_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘VirtualNetworkLinkState’:
+	// Set property "VirtualNetworkLinkState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VirtualNetworkLinkState != nil {
@@ -996,7 +996,7 @@ func (resource *SubResource) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	}
 	result := &SubResource_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if resource.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*resource.Reference)
 		if err != nil {
@@ -1020,7 +1020,7 @@ func (resource *SubResource) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubResource_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil
@@ -1100,7 +1100,7 @@ func (resource *SubResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubResource_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		resource.Id = &id

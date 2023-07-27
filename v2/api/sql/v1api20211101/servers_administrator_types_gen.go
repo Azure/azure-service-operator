@@ -355,10 +355,10 @@ func (administrator *Servers_Administrator_Spec) ConvertToARM(resolved genruntim
 	}
 	result := &Servers_Administrator_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if administrator.AdministratorType != nil ||
 		administrator.Login != nil ||
 		administrator.Sid != nil ||
@@ -414,7 +414,7 @@ func (administrator *Servers_Administrator_Spec) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Administrator_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdministratorType’:
+	// Set property "AdministratorType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AdministratorType != nil {
@@ -423,7 +423,7 @@ func (administrator *Servers_Administrator_Spec) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// Set property ‘Login’:
+	// Set property "Login":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Login != nil {
@@ -432,10 +432,10 @@ func (administrator *Servers_Administrator_Spec) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	administrator.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Sid’:
+	// Set property "Sid":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Sid != nil {
@@ -444,9 +444,9 @@ func (administrator *Servers_Administrator_Spec) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// no assignment for property ‘SidFromConfig’
+	// no assignment for property "SidFromConfig"
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TenantId != nil {
@@ -455,7 +455,7 @@ func (administrator *Servers_Administrator_Spec) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// no assignment for property ‘TenantIdFromConfig’
+	// no assignment for property "TenantIdFromConfig"
 
 	// No error
 	return nil
@@ -771,7 +771,7 @@ func (administrator *Servers_Administrator_STATUS) PopulateFromARM(owner genrunt
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Administrator_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdministratorType’:
+	// Set property "AdministratorType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AdministratorType != nil {
@@ -780,7 +780,7 @@ func (administrator *Servers_Administrator_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// Set property ‘AzureADOnlyAuthentication’:
+	// Set property "AzureADOnlyAuthentication":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AzureADOnlyAuthentication != nil {
@@ -789,15 +789,15 @@ func (administrator *Servers_Administrator_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		administrator.Id = &id
 	}
 
-	// Set property ‘Login’:
+	// Set property "Login":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Login != nil {
@@ -806,13 +806,13 @@ func (administrator *Servers_Administrator_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		administrator.Name = &name
 	}
 
-	// Set property ‘Sid’:
+	// Set property "Sid":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Sid != nil {
@@ -821,7 +821,7 @@ func (administrator *Servers_Administrator_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TenantId != nil {
@@ -830,7 +830,7 @@ func (administrator *Servers_Administrator_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		administrator.Type = &typeVar

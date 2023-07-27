@@ -340,10 +340,10 @@ func (database *FlexibleServers_Database_Spec) ConvertToARM(resolved genruntime.
 	}
 	result := &FlexibleServers_Database_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if database.Charset != nil || database.Collation != nil {
 		result.Properties = &DatabaseProperties_ARM{}
 	}
@@ -370,10 +370,10 @@ func (database *FlexibleServers_Database_Spec) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServers_Database_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	database.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Charset’:
+	// Set property "Charset":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Charset != nil {
@@ -382,7 +382,7 @@ func (database *FlexibleServers_Database_Spec) PopulateFromARM(owner genruntime.
 		}
 	}
 
-	// Set property ‘Collation’:
+	// Set property "Collation":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Collation != nil {
@@ -391,7 +391,7 @@ func (database *FlexibleServers_Database_Spec) PopulateFromARM(owner genruntime.
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	database.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// No error
@@ -606,7 +606,7 @@ func (database *FlexibleServers_Database_STATUS) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServers_Database_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Charset’:
+	// Set property "Charset":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Charset != nil {
@@ -615,7 +615,7 @@ func (database *FlexibleServers_Database_STATUS) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// Set property ‘Collation’:
+	// Set property "Collation":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Collation != nil {
@@ -624,21 +624,21 @@ func (database *FlexibleServers_Database_STATUS) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		database.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		database.Name = &name
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -649,7 +649,7 @@ func (database *FlexibleServers_Database_STATUS) PopulateFromARM(owner genruntim
 		database.SystemData = &systemData
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		database.Type = &typeVar

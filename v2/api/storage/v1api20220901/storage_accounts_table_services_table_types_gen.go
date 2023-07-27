@@ -337,10 +337,10 @@ func (table *StorageAccounts_TableServices_Table_Spec) ConvertToARM(resolved gen
 	}
 	result := &StorageAccounts_TableServices_Table_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if table.SignedIdentifiers != nil {
 		result.Properties = &TableProperties_ARM{}
 	}
@@ -366,13 +366,13 @@ func (table *StorageAccounts_TableServices_Table_Spec) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_TableServices_Table_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	table.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	table.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘SignedIdentifiers’:
+	// Set property "SignedIdentifiers":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.SignedIdentifiers {
@@ -643,21 +643,21 @@ func (table *StorageAccounts_TableServices_Table_STATUS) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_TableServices_Table_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		table.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		table.Name = &name
 	}
 
-	// Set property ‘SignedIdentifiers’:
+	// Set property "SignedIdentifiers":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.SignedIdentifiers {
@@ -670,7 +670,7 @@ func (table *StorageAccounts_TableServices_Table_STATUS) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘TableName’:
+	// Set property "TableName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TableName != nil {
@@ -679,7 +679,7 @@ func (table *StorageAccounts_TableServices_Table_STATUS) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		table.Type = &typeVar
@@ -797,7 +797,7 @@ func (identifier *TableSignedIdentifier) ConvertToARM(resolved genruntime.Conver
 	}
 	result := &TableSignedIdentifier_ARM{}
 
-	// Set property ‘AccessPolicy’:
+	// Set property "AccessPolicy":
 	if identifier.AccessPolicy != nil {
 		accessPolicy_ARM, err := (*identifier.AccessPolicy).ConvertToARM(resolved)
 		if err != nil {
@@ -807,7 +807,7 @@ func (identifier *TableSignedIdentifier) ConvertToARM(resolved genruntime.Conver
 		result.AccessPolicy = &accessPolicy
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if identifier.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*identifier.Reference)
 		if err != nil {
@@ -831,7 +831,7 @@ func (identifier *TableSignedIdentifier) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TableSignedIdentifier_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AccessPolicy’:
+	// Set property "AccessPolicy":
 	if typedInput.AccessPolicy != nil {
 		var accessPolicy1 TableAccessPolicy
 		err := accessPolicy1.PopulateFromARM(owner, *typedInput.AccessPolicy)
@@ -842,7 +842,7 @@ func (identifier *TableSignedIdentifier) PopulateFromARM(owner genruntime.Arbitr
 		identifier.AccessPolicy = &accessPolicy
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil
@@ -961,7 +961,7 @@ func (identifier *TableSignedIdentifier_STATUS) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TableSignedIdentifier_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AccessPolicy’:
+	// Set property "AccessPolicy":
 	if typedInput.AccessPolicy != nil {
 		var accessPolicy1 TableAccessPolicy_STATUS
 		err := accessPolicy1.PopulateFromARM(owner, *typedInput.AccessPolicy)
@@ -972,7 +972,7 @@ func (identifier *TableSignedIdentifier_STATUS) PopulateFromARM(owner genruntime
 		identifier.AccessPolicy = &accessPolicy
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		identifier.Id = &id
@@ -1057,19 +1057,19 @@ func (policy *TableAccessPolicy) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &TableAccessPolicy_ARM{}
 
-	// Set property ‘ExpiryTime’:
+	// Set property "ExpiryTime":
 	if policy.ExpiryTime != nil {
 		expiryTime := *policy.ExpiryTime
 		result.ExpiryTime = &expiryTime
 	}
 
-	// Set property ‘Permission’:
+	// Set property "Permission":
 	if policy.Permission != nil {
 		permission := *policy.Permission
 		result.Permission = &permission
 	}
 
-	// Set property ‘StartTime’:
+	// Set property "StartTime":
 	if policy.StartTime != nil {
 		startTime := *policy.StartTime
 		result.StartTime = &startTime
@@ -1089,19 +1089,19 @@ func (policy *TableAccessPolicy) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TableAccessPolicy_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ExpiryTime’:
+	// Set property "ExpiryTime":
 	if typedInput.ExpiryTime != nil {
 		expiryTime := *typedInput.ExpiryTime
 		policy.ExpiryTime = &expiryTime
 	}
 
-	// Set property ‘Permission’:
+	// Set property "Permission":
 	if typedInput.Permission != nil {
 		permission := *typedInput.Permission
 		policy.Permission = &permission
 	}
 
-	// Set property ‘StartTime’:
+	// Set property "StartTime":
 	if typedInput.StartTime != nil {
 		startTime := *typedInput.StartTime
 		policy.StartTime = &startTime
@@ -1194,19 +1194,19 @@ func (policy *TableAccessPolicy_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TableAccessPolicy_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ExpiryTime’:
+	// Set property "ExpiryTime":
 	if typedInput.ExpiryTime != nil {
 		expiryTime := *typedInput.ExpiryTime
 		policy.ExpiryTime = &expiryTime
 	}
 
-	// Set property ‘Permission’:
+	// Set property "Permission":
 	if typedInput.Permission != nil {
 		permission := *typedInput.Permission
 		policy.Permission = &permission
 	}
 
-	// Set property ‘StartTime’:
+	// Set property "StartTime":
 	if typedInput.StartTime != nil {
 		startTime := *typedInput.StartTime
 		policy.StartTime = &startTime

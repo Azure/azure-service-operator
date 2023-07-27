@@ -352,16 +352,16 @@ func (endpoint *Profiles_Endpoint_Spec) ConvertToARM(resolved genruntime.Convert
 	}
 	result := &Profiles_Endpoint_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if endpoint.Location != nil {
 		location := *endpoint.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if endpoint.ContentTypesToCompress != nil ||
 		endpoint.DefaultOriginGroup != nil ||
 		endpoint.DeliveryPolicy != nil ||
@@ -468,7 +468,7 @@ func (endpoint *Profiles_Endpoint_Spec) ConvertToARM(resolved genruntime.Convert
 		result.Properties.WebApplicationFirewallPolicyLink = &webApplicationFirewallPolicyLink
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if endpoint.Tags != nil {
 		result.Tags = make(map[string]string, len(endpoint.Tags))
 		for key, value := range endpoint.Tags {
@@ -490,10 +490,10 @@ func (endpoint *Profiles_Endpoint_Spec) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profiles_Endpoint_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	endpoint.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘ContentTypesToCompress’:
+	// Set property "ContentTypesToCompress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ContentTypesToCompress {
@@ -501,7 +501,7 @@ func (endpoint *Profiles_Endpoint_Spec) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘DefaultOriginGroup’:
+	// Set property "DefaultOriginGroup":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultOriginGroup != nil {
@@ -515,7 +515,7 @@ func (endpoint *Profiles_Endpoint_Spec) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘DeliveryPolicy’:
+	// Set property "DeliveryPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeliveryPolicy != nil {
@@ -529,7 +529,7 @@ func (endpoint *Profiles_Endpoint_Spec) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘GeoFilters’:
+	// Set property "GeoFilters":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.GeoFilters {
@@ -542,7 +542,7 @@ func (endpoint *Profiles_Endpoint_Spec) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘IsCompressionEnabled’:
+	// Set property "IsCompressionEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsCompressionEnabled != nil {
@@ -551,7 +551,7 @@ func (endpoint *Profiles_Endpoint_Spec) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘IsHttpAllowed’:
+	// Set property "IsHttpAllowed":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsHttpAllowed != nil {
@@ -560,7 +560,7 @@ func (endpoint *Profiles_Endpoint_Spec) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘IsHttpsAllowed’:
+	// Set property "IsHttpsAllowed":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsHttpsAllowed != nil {
@@ -569,13 +569,13 @@ func (endpoint *Profiles_Endpoint_Spec) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		endpoint.Location = &location
 	}
 
-	// Set property ‘OptimizationType’:
+	// Set property "OptimizationType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OptimizationType != nil {
@@ -584,7 +584,7 @@ func (endpoint *Profiles_Endpoint_Spec) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘OriginGroups’:
+	// Set property "OriginGroups":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.OriginGroups {
@@ -597,7 +597,7 @@ func (endpoint *Profiles_Endpoint_Spec) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘OriginHostHeader’:
+	// Set property "OriginHostHeader":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OriginHostHeader != nil {
@@ -606,7 +606,7 @@ func (endpoint *Profiles_Endpoint_Spec) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘OriginPath’:
+	// Set property "OriginPath":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OriginPath != nil {
@@ -615,7 +615,7 @@ func (endpoint *Profiles_Endpoint_Spec) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘Origins’:
+	// Set property "Origins":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Origins {
@@ -628,10 +628,10 @@ func (endpoint *Profiles_Endpoint_Spec) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	endpoint.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘ProbePath’:
+	// Set property "ProbePath":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProbePath != nil {
@@ -640,7 +640,7 @@ func (endpoint *Profiles_Endpoint_Spec) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘QueryStringCachingBehavior’:
+	// Set property "QueryStringCachingBehavior":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.QueryStringCachingBehavior != nil {
@@ -649,7 +649,7 @@ func (endpoint *Profiles_Endpoint_Spec) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		endpoint.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -657,7 +657,7 @@ func (endpoint *Profiles_Endpoint_Spec) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘UrlSigningKeys’:
+	// Set property "UrlSigningKeys":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.UrlSigningKeys {
@@ -670,7 +670,7 @@ func (endpoint *Profiles_Endpoint_Spec) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘WebApplicationFirewallPolicyLink’:
+	// Set property "WebApplicationFirewallPolicyLink":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.WebApplicationFirewallPolicyLink != nil {
@@ -1224,9 +1224,9 @@ func (endpoint *Profiles_Endpoint_STATUS) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profiles_Endpoint_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘ContentTypesToCompress’:
+	// Set property "ContentTypesToCompress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ContentTypesToCompress {
@@ -1234,7 +1234,7 @@ func (endpoint *Profiles_Endpoint_STATUS) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
-	// Set property ‘CustomDomains’:
+	// Set property "CustomDomains":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.CustomDomains {
@@ -1247,7 +1247,7 @@ func (endpoint *Profiles_Endpoint_STATUS) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
-	// Set property ‘DefaultOriginGroup’:
+	// Set property "DefaultOriginGroup":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultOriginGroup != nil {
@@ -1261,7 +1261,7 @@ func (endpoint *Profiles_Endpoint_STATUS) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
-	// Set property ‘DeliveryPolicy’:
+	// Set property "DeliveryPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeliveryPolicy != nil {
@@ -1275,7 +1275,7 @@ func (endpoint *Profiles_Endpoint_STATUS) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
-	// Set property ‘GeoFilters’:
+	// Set property "GeoFilters":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.GeoFilters {
@@ -1288,7 +1288,7 @@ func (endpoint *Profiles_Endpoint_STATUS) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
-	// Set property ‘HostName’:
+	// Set property "HostName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HostName != nil {
@@ -1297,13 +1297,13 @@ func (endpoint *Profiles_Endpoint_STATUS) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		endpoint.Id = &id
 	}
 
-	// Set property ‘IsCompressionEnabled’:
+	// Set property "IsCompressionEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsCompressionEnabled != nil {
@@ -1312,7 +1312,7 @@ func (endpoint *Profiles_Endpoint_STATUS) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
-	// Set property ‘IsHttpAllowed’:
+	// Set property "IsHttpAllowed":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsHttpAllowed != nil {
@@ -1321,7 +1321,7 @@ func (endpoint *Profiles_Endpoint_STATUS) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
-	// Set property ‘IsHttpsAllowed’:
+	// Set property "IsHttpsAllowed":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsHttpsAllowed != nil {
@@ -1330,19 +1330,19 @@ func (endpoint *Profiles_Endpoint_STATUS) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		endpoint.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		endpoint.Name = &name
 	}
 
-	// Set property ‘OptimizationType’:
+	// Set property "OptimizationType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OptimizationType != nil {
@@ -1351,7 +1351,7 @@ func (endpoint *Profiles_Endpoint_STATUS) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
-	// Set property ‘OriginGroups’:
+	// Set property "OriginGroups":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.OriginGroups {
@@ -1364,7 +1364,7 @@ func (endpoint *Profiles_Endpoint_STATUS) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
-	// Set property ‘OriginHostHeader’:
+	// Set property "OriginHostHeader":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OriginHostHeader != nil {
@@ -1373,7 +1373,7 @@ func (endpoint *Profiles_Endpoint_STATUS) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
-	// Set property ‘OriginPath’:
+	// Set property "OriginPath":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OriginPath != nil {
@@ -1382,7 +1382,7 @@ func (endpoint *Profiles_Endpoint_STATUS) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
-	// Set property ‘Origins’:
+	// Set property "Origins":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Origins {
@@ -1395,7 +1395,7 @@ func (endpoint *Profiles_Endpoint_STATUS) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
-	// Set property ‘ProbePath’:
+	// Set property "ProbePath":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProbePath != nil {
@@ -1404,7 +1404,7 @@ func (endpoint *Profiles_Endpoint_STATUS) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -1413,7 +1413,7 @@ func (endpoint *Profiles_Endpoint_STATUS) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
-	// Set property ‘QueryStringCachingBehavior’:
+	// Set property "QueryStringCachingBehavior":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.QueryStringCachingBehavior != nil {
@@ -1422,7 +1422,7 @@ func (endpoint *Profiles_Endpoint_STATUS) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
-	// Set property ‘ResourceState’:
+	// Set property "ResourceState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceState != nil {
@@ -1431,7 +1431,7 @@ func (endpoint *Profiles_Endpoint_STATUS) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -1442,7 +1442,7 @@ func (endpoint *Profiles_Endpoint_STATUS) PopulateFromARM(owner genruntime.Arbit
 		endpoint.SystemData = &systemData
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		endpoint.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1450,13 +1450,13 @@ func (endpoint *Profiles_Endpoint_STATUS) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		endpoint.Type = &typeVar
 	}
 
-	// Set property ‘UrlSigningKeys’:
+	// Set property "UrlSigningKeys":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.UrlSigningKeys {
@@ -1469,7 +1469,7 @@ func (endpoint *Profiles_Endpoint_STATUS) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
-	// Set property ‘WebApplicationFirewallPolicyLink’:
+	// Set property "WebApplicationFirewallPolicyLink":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.WebApplicationFirewallPolicyLink != nil {
@@ -1985,7 +1985,7 @@ func (domain *DeepCreatedCustomDomain_STATUS) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeepCreatedCustomDomain_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘HostName’:
+	// Set property "HostName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HostName != nil {
@@ -1994,13 +1994,13 @@ func (domain *DeepCreatedCustomDomain_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		domain.Name = &name
 	}
 
-	// Set property ‘ValidationData’:
+	// Set property "ValidationData":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ValidationData != nil {
@@ -2095,13 +2095,13 @@ func (origin *DeepCreatedOrigin) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &DeepCreatedOrigin_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if origin.Name != nil {
 		name := *origin.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if origin.Enabled != nil ||
 		origin.HostName != nil ||
 		origin.HttpPort != nil ||
@@ -2182,7 +2182,7 @@ func (origin *DeepCreatedOrigin) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeepCreatedOrigin_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Enabled != nil {
@@ -2191,7 +2191,7 @@ func (origin *DeepCreatedOrigin) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘HostName’:
+	// Set property "HostName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HostName != nil {
@@ -2200,7 +2200,7 @@ func (origin *DeepCreatedOrigin) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘HttpPort’:
+	// Set property "HttpPort":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HttpPort != nil {
@@ -2209,7 +2209,7 @@ func (origin *DeepCreatedOrigin) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘HttpsPort’:
+	// Set property "HttpsPort":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HttpsPort != nil {
@@ -2218,13 +2218,13 @@ func (origin *DeepCreatedOrigin) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		origin.Name = &name
 	}
 
-	// Set property ‘OriginHostHeader’:
+	// Set property "OriginHostHeader":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OriginHostHeader != nil {
@@ -2233,7 +2233,7 @@ func (origin *DeepCreatedOrigin) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘Priority’:
+	// Set property "Priority":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Priority != nil {
@@ -2242,7 +2242,7 @@ func (origin *DeepCreatedOrigin) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘PrivateLinkAlias’:
+	// Set property "PrivateLinkAlias":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateLinkAlias != nil {
@@ -2251,7 +2251,7 @@ func (origin *DeepCreatedOrigin) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘PrivateLinkApprovalMessage’:
+	// Set property "PrivateLinkApprovalMessage":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateLinkApprovalMessage != nil {
@@ -2260,11 +2260,11 @@ func (origin *DeepCreatedOrigin) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// no assignment for property ‘PrivateLinkLocationReference’
+	// no assignment for property "PrivateLinkLocationReference"
 
-	// no assignment for property ‘PrivateLinkResourceReference’
+	// no assignment for property "PrivateLinkResourceReference"
 
-	// Set property ‘Weight’:
+	// Set property "Weight":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Weight != nil {
@@ -2473,7 +2473,7 @@ func (origin *DeepCreatedOrigin_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeepCreatedOrigin_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Enabled != nil {
@@ -2482,7 +2482,7 @@ func (origin *DeepCreatedOrigin_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘HostName’:
+	// Set property "HostName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HostName != nil {
@@ -2491,7 +2491,7 @@ func (origin *DeepCreatedOrigin_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘HttpPort’:
+	// Set property "HttpPort":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HttpPort != nil {
@@ -2500,7 +2500,7 @@ func (origin *DeepCreatedOrigin_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘HttpsPort’:
+	// Set property "HttpsPort":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HttpsPort != nil {
@@ -2509,13 +2509,13 @@ func (origin *DeepCreatedOrigin_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		origin.Name = &name
 	}
 
-	// Set property ‘OriginHostHeader’:
+	// Set property "OriginHostHeader":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OriginHostHeader != nil {
@@ -2524,7 +2524,7 @@ func (origin *DeepCreatedOrigin_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘Priority’:
+	// Set property "Priority":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Priority != nil {
@@ -2533,7 +2533,7 @@ func (origin *DeepCreatedOrigin_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘PrivateEndpointStatus’:
+	// Set property "PrivateEndpointStatus":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateEndpointStatus != nil {
@@ -2542,7 +2542,7 @@ func (origin *DeepCreatedOrigin_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘PrivateLinkAlias’:
+	// Set property "PrivateLinkAlias":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateLinkAlias != nil {
@@ -2551,7 +2551,7 @@ func (origin *DeepCreatedOrigin_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘PrivateLinkApprovalMessage’:
+	// Set property "PrivateLinkApprovalMessage":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateLinkApprovalMessage != nil {
@@ -2560,7 +2560,7 @@ func (origin *DeepCreatedOrigin_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘PrivateLinkLocation’:
+	// Set property "PrivateLinkLocation":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateLinkLocation != nil {
@@ -2569,7 +2569,7 @@ func (origin *DeepCreatedOrigin_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘PrivateLinkResourceId’:
+	// Set property "PrivateLinkResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateLinkResourceId != nil {
@@ -2578,7 +2578,7 @@ func (origin *DeepCreatedOrigin_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘Weight’:
+	// Set property "Weight":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Weight != nil {
@@ -2737,13 +2737,13 @@ func (group *DeepCreatedOriginGroup) ConvertToARM(resolved genruntime.ConvertToA
 	}
 	result := &DeepCreatedOriginGroup_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if group.Name != nil {
 		name := *group.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if group.HealthProbeSettings != nil ||
 		group.Origins != nil ||
 		group.ResponseBasedOriginErrorDetectionSettings != nil ||
@@ -2792,7 +2792,7 @@ func (group *DeepCreatedOriginGroup) PopulateFromARM(owner genruntime.ArbitraryO
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeepCreatedOriginGroup_ARM, got %T", armInput)
 	}
 
-	// Set property ‘HealthProbeSettings’:
+	// Set property "HealthProbeSettings":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HealthProbeSettings != nil {
@@ -2806,13 +2806,13 @@ func (group *DeepCreatedOriginGroup) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		group.Name = &name
 	}
 
-	// Set property ‘Origins’:
+	// Set property "Origins":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Origins {
@@ -2825,7 +2825,7 @@ func (group *DeepCreatedOriginGroup) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘ResponseBasedOriginErrorDetectionSettings’:
+	// Set property "ResponseBasedOriginErrorDetectionSettings":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResponseBasedOriginErrorDetectionSettings != nil {
@@ -2839,7 +2839,7 @@ func (group *DeepCreatedOriginGroup) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘TrafficRestorationTimeToHealedOrNewEndpointsInMinutes’:
+	// Set property "TrafficRestorationTimeToHealedOrNewEndpointsInMinutes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes != nil {
@@ -3004,7 +3004,7 @@ func (group *DeepCreatedOriginGroup_STATUS) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeepCreatedOriginGroup_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘HealthProbeSettings’:
+	// Set property "HealthProbeSettings":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HealthProbeSettings != nil {
@@ -3018,13 +3018,13 @@ func (group *DeepCreatedOriginGroup_STATUS) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		group.Name = &name
 	}
 
-	// Set property ‘Origins’:
+	// Set property "Origins":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Origins {
@@ -3037,7 +3037,7 @@ func (group *DeepCreatedOriginGroup_STATUS) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘ResponseBasedOriginErrorDetectionSettings’:
+	// Set property "ResponseBasedOriginErrorDetectionSettings":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResponseBasedOriginErrorDetectionSettings != nil {
@@ -3051,7 +3051,7 @@ func (group *DeepCreatedOriginGroup_STATUS) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘TrafficRestorationTimeToHealedOrNewEndpointsInMinutes’:
+	// Set property "TrafficRestorationTimeToHealedOrNewEndpointsInMinutes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes != nil {
@@ -3200,13 +3200,13 @@ func (policy *EndpointProperties_DeliveryPolicy) ConvertToARM(resolved genruntim
 	}
 	result := &EndpointProperties_DeliveryPolicy_ARM{}
 
-	// Set property ‘Description’:
+	// Set property "Description":
 	if policy.Description != nil {
 		description := *policy.Description
 		result.Description = &description
 	}
 
-	// Set property ‘Rules’:
+	// Set property "Rules":
 	for _, item := range policy.Rules {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -3229,13 +3229,13 @@ func (policy *EndpointProperties_DeliveryPolicy) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EndpointProperties_DeliveryPolicy_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Description’:
+	// Set property "Description":
 	if typedInput.Description != nil {
 		description := *typedInput.Description
 		policy.Description = &description
 	}
 
-	// Set property ‘Rules’:
+	// Set property "Rules":
 	for _, item := range typedInput.Rules {
 		var item1 DeliveryRule
 		err := item1.PopulateFromARM(owner, item)
@@ -3334,13 +3334,13 @@ func (policy *EndpointProperties_DeliveryPolicy_STATUS) PopulateFromARM(owner ge
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EndpointProperties_DeliveryPolicy_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Description’:
+	// Set property "Description":
 	if typedInput.Description != nil {
 		description := *typedInput.Description
 		policy.Description = &description
 	}
 
-	// Set property ‘Rules’:
+	// Set property "Rules":
 	for _, item := range typedInput.Rules {
 		var item1 DeliveryRule_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -3458,7 +3458,7 @@ func (link *EndpointProperties_WebApplicationFirewallPolicyLink) ConvertToARM(re
 	}
 	result := &EndpointProperties_WebApplicationFirewallPolicyLink_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if link.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*link.Reference)
 		if err != nil {
@@ -3482,7 +3482,7 @@ func (link *EndpointProperties_WebApplicationFirewallPolicyLink) PopulateFromARM
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EndpointProperties_WebApplicationFirewallPolicyLink_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil
@@ -3546,7 +3546,7 @@ func (link *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) Populate
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EndpointProperties_WebApplicationFirewallPolicyLink_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		link.Id = &id
@@ -3606,18 +3606,18 @@ func (filter *GeoFilter) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	}
 	result := &GeoFilter_ARM{}
 
-	// Set property ‘Action’:
+	// Set property "Action":
 	if filter.Action != nil {
 		action := *filter.Action
 		result.Action = &action
 	}
 
-	// Set property ‘CountryCodes’:
+	// Set property "CountryCodes":
 	for _, item := range filter.CountryCodes {
 		result.CountryCodes = append(result.CountryCodes, item)
 	}
 
-	// Set property ‘RelativePath’:
+	// Set property "RelativePath":
 	if filter.RelativePath != nil {
 		relativePath := *filter.RelativePath
 		result.RelativePath = &relativePath
@@ -3637,18 +3637,18 @@ func (filter *GeoFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected GeoFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Action’:
+	// Set property "Action":
 	if typedInput.Action != nil {
 		action := *typedInput.Action
 		filter.Action = &action
 	}
 
-	// Set property ‘CountryCodes’:
+	// Set property "CountryCodes":
 	for _, item := range typedInput.CountryCodes {
 		filter.CountryCodes = append(filter.CountryCodes, item)
 	}
 
-	// Set property ‘RelativePath’:
+	// Set property "RelativePath":
 	if typedInput.RelativePath != nil {
 		relativePath := *typedInput.RelativePath
 		filter.RelativePath = &relativePath
@@ -3730,18 +3730,18 @@ func (filter *GeoFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected GeoFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Action’:
+	// Set property "Action":
 	if typedInput.Action != nil {
 		action := *typedInput.Action
 		filter.Action = &action
 	}
 
-	// Set property ‘CountryCodes’:
+	// Set property "CountryCodes":
 	for _, item := range typedInput.CountryCodes {
 		filter.CountryCodes = append(filter.CountryCodes, item)
 	}
 
-	// Set property ‘RelativePath’:
+	// Set property "RelativePath":
 	if typedInput.RelativePath != nil {
 		relativePath := *typedInput.RelativePath
 		filter.RelativePath = &relativePath
@@ -3860,7 +3860,7 @@ func (reference *ResourceReference) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &ResourceReference_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if reference.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*reference.Reference)
 		if err != nil {
@@ -3884,7 +3884,7 @@ func (reference *ResourceReference) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceReference_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil
@@ -3948,7 +3948,7 @@ func (reference *ResourceReference_STATUS) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceReference_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		reference.Id = &id
@@ -4005,13 +4005,13 @@ func (signingKey *UrlSigningKey) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &UrlSigningKey_ARM{}
 
-	// Set property ‘KeyId’:
+	// Set property "KeyId":
 	if signingKey.KeyId != nil {
 		keyId := *signingKey.KeyId
 		result.KeyId = &keyId
 	}
 
-	// Set property ‘KeySourceParameters’:
+	// Set property "KeySourceParameters":
 	if signingKey.KeySourceParameters != nil {
 		keySourceParameters_ARM, err := (*signingKey.KeySourceParameters).ConvertToARM(resolved)
 		if err != nil {
@@ -4035,13 +4035,13 @@ func (signingKey *UrlSigningKey) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlSigningKey_ARM, got %T", armInput)
 	}
 
-	// Set property ‘KeyId’:
+	// Set property "KeyId":
 	if typedInput.KeyId != nil {
 		keyId := *typedInput.KeyId
 		signingKey.KeyId = &keyId
 	}
 
-	// Set property ‘KeySourceParameters’:
+	// Set property "KeySourceParameters":
 	if typedInput.KeySourceParameters != nil {
 		var keySourceParameters1 KeyVaultSigningKeyParameters
 		err := keySourceParameters1.PopulateFromARM(owner, *typedInput.KeySourceParameters)
@@ -4129,13 +4129,13 @@ func (signingKey *UrlSigningKey_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlSigningKey_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘KeyId’:
+	// Set property "KeyId":
 	if typedInput.KeyId != nil {
 		keyId := *typedInput.KeyId
 		signingKey.KeyId = &keyId
 	}
 
-	// Set property ‘KeySourceParameters’:
+	// Set property "KeySourceParameters":
 	if typedInput.KeySourceParameters != nil {
 		var keySourceParameters1 KeyVaultSigningKeyParameters_STATUS
 		err := keySourceParameters1.PopulateFromARM(owner, *typedInput.KeySourceParameters)
@@ -4223,7 +4223,7 @@ func (rule *DeliveryRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	}
 	result := &DeliveryRule_ARM{}
 
-	// Set property ‘Actions’:
+	// Set property "Actions":
 	for _, item := range rule.Actions {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -4232,7 +4232,7 @@ func (rule *DeliveryRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		result.Actions = append(result.Actions, *item_ARM.(*DeliveryRuleAction_ARM))
 	}
 
-	// Set property ‘Conditions’:
+	// Set property "Conditions":
 	for _, item := range rule.Conditions {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -4241,13 +4241,13 @@ func (rule *DeliveryRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		result.Conditions = append(result.Conditions, *item_ARM.(*DeliveryRuleCondition_ARM))
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if rule.Name != nil {
 		name := *rule.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Order’:
+	// Set property "Order":
 	if rule.Order != nil {
 		order := *rule.Order
 		result.Order = &order
@@ -4267,7 +4267,7 @@ func (rule *DeliveryRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRule_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Actions’:
+	// Set property "Actions":
 	for _, item := range typedInput.Actions {
 		var item1 DeliveryRuleAction
 		err := item1.PopulateFromARM(owner, item)
@@ -4277,7 +4277,7 @@ func (rule *DeliveryRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		rule.Actions = append(rule.Actions, item1)
 	}
 
-	// Set property ‘Conditions’:
+	// Set property "Conditions":
 	for _, item := range typedInput.Conditions {
 		var item1 DeliveryRuleCondition
 		err := item1.PopulateFromARM(owner, item)
@@ -4287,13 +4287,13 @@ func (rule *DeliveryRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		rule.Conditions = append(rule.Conditions, item1)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		rule.Name = &name
 	}
 
-	// Set property ‘Order’:
+	// Set property "Order":
 	if typedInput.Order != nil {
 		order := *typedInput.Order
 		rule.Order = &order
@@ -4432,7 +4432,7 @@ func (rule *DeliveryRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRule_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Actions’:
+	// Set property "Actions":
 	for _, item := range typedInput.Actions {
 		var item1 DeliveryRuleAction_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -4442,15 +4442,15 @@ func (rule *DeliveryRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		rule.Actions = append(rule.Actions, item1)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		rule.Name = &name
 	}
 
-	// Set property ‘Order’:
+	// Set property "Order":
 	if typedInput.Order != nil {
 		order := *typedInput.Order
 		rule.Order = &order
@@ -4603,25 +4603,25 @@ func (parameters *HealthProbeParameters) ConvertToARM(resolved genruntime.Conver
 	}
 	result := &HealthProbeParameters_ARM{}
 
-	// Set property ‘ProbeIntervalInSeconds’:
+	// Set property "ProbeIntervalInSeconds":
 	if parameters.ProbeIntervalInSeconds != nil {
 		probeIntervalInSeconds := *parameters.ProbeIntervalInSeconds
 		result.ProbeIntervalInSeconds = &probeIntervalInSeconds
 	}
 
-	// Set property ‘ProbePath’:
+	// Set property "ProbePath":
 	if parameters.ProbePath != nil {
 		probePath := *parameters.ProbePath
 		result.ProbePath = &probePath
 	}
 
-	// Set property ‘ProbeProtocol’:
+	// Set property "ProbeProtocol":
 	if parameters.ProbeProtocol != nil {
 		probeProtocol := *parameters.ProbeProtocol
 		result.ProbeProtocol = &probeProtocol
 	}
 
-	// Set property ‘ProbeRequestType’:
+	// Set property "ProbeRequestType":
 	if parameters.ProbeRequestType != nil {
 		probeRequestType := *parameters.ProbeRequestType
 		result.ProbeRequestType = &probeRequestType
@@ -4641,25 +4641,25 @@ func (parameters *HealthProbeParameters) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HealthProbeParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ProbeIntervalInSeconds’:
+	// Set property "ProbeIntervalInSeconds":
 	if typedInput.ProbeIntervalInSeconds != nil {
 		probeIntervalInSeconds := *typedInput.ProbeIntervalInSeconds
 		parameters.ProbeIntervalInSeconds = &probeIntervalInSeconds
 	}
 
-	// Set property ‘ProbePath’:
+	// Set property "ProbePath":
 	if typedInput.ProbePath != nil {
 		probePath := *typedInput.ProbePath
 		parameters.ProbePath = &probePath
 	}
 
-	// Set property ‘ProbeProtocol’:
+	// Set property "ProbeProtocol":
 	if typedInput.ProbeProtocol != nil {
 		probeProtocol := *typedInput.ProbeProtocol
 		parameters.ProbeProtocol = &probeProtocol
 	}
 
-	// Set property ‘ProbeRequestType’:
+	// Set property "ProbeRequestType":
 	if typedInput.ProbeRequestType != nil {
 		probeRequestType := *typedInput.ProbeRequestType
 		parameters.ProbeRequestType = &probeRequestType
@@ -4768,25 +4768,25 @@ func (parameters *HealthProbeParameters_STATUS) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HealthProbeParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ProbeIntervalInSeconds’:
+	// Set property "ProbeIntervalInSeconds":
 	if typedInput.ProbeIntervalInSeconds != nil {
 		probeIntervalInSeconds := *typedInput.ProbeIntervalInSeconds
 		parameters.ProbeIntervalInSeconds = &probeIntervalInSeconds
 	}
 
-	// Set property ‘ProbePath’:
+	// Set property "ProbePath":
 	if typedInput.ProbePath != nil {
 		probePath := *typedInput.ProbePath
 		parameters.ProbePath = &probePath
 	}
 
-	// Set property ‘ProbeProtocol’:
+	// Set property "ProbeProtocol":
 	if typedInput.ProbeProtocol != nil {
 		probeProtocol := *typedInput.ProbeProtocol
 		parameters.ProbeProtocol = &probeProtocol
 	}
 
-	// Set property ‘ProbeRequestType’:
+	// Set property "ProbeRequestType":
 	if typedInput.ProbeRequestType != nil {
 		probeRequestType := *typedInput.ProbeRequestType
 		parameters.ProbeRequestType = &probeRequestType
@@ -4893,37 +4893,37 @@ func (parameters *KeyVaultSigningKeyParameters) ConvertToARM(resolved genruntime
 	}
 	result := &KeyVaultSigningKeyParameters_ARM{}
 
-	// Set property ‘ResourceGroupName’:
+	// Set property "ResourceGroupName":
 	if parameters.ResourceGroupName != nil {
 		resourceGroupName := *parameters.ResourceGroupName
 		result.ResourceGroupName = &resourceGroupName
 	}
 
-	// Set property ‘SecretName’:
+	// Set property "SecretName":
 	if parameters.SecretName != nil {
 		secretName := *parameters.SecretName
 		result.SecretName = &secretName
 	}
 
-	// Set property ‘SecretVersion’:
+	// Set property "SecretVersion":
 	if parameters.SecretVersion != nil {
 		secretVersion := *parameters.SecretVersion
 		result.SecretVersion = &secretVersion
 	}
 
-	// Set property ‘SubscriptionId’:
+	// Set property "SubscriptionId":
 	if parameters.SubscriptionId != nil {
 		subscriptionId := *parameters.SubscriptionId
 		result.SubscriptionId = &subscriptionId
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if parameters.TypeName != nil {
 		typeName := *parameters.TypeName
 		result.TypeName = &typeName
 	}
 
-	// Set property ‘VaultName’:
+	// Set property "VaultName":
 	if parameters.VaultName != nil {
 		vaultName := *parameters.VaultName
 		result.VaultName = &vaultName
@@ -4943,37 +4943,37 @@ func (parameters *KeyVaultSigningKeyParameters) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultSigningKeyParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ResourceGroupName’:
+	// Set property "ResourceGroupName":
 	if typedInput.ResourceGroupName != nil {
 		resourceGroupName := *typedInput.ResourceGroupName
 		parameters.ResourceGroupName = &resourceGroupName
 	}
 
-	// Set property ‘SecretName’:
+	// Set property "SecretName":
 	if typedInput.SecretName != nil {
 		secretName := *typedInput.SecretName
 		parameters.SecretName = &secretName
 	}
 
-	// Set property ‘SecretVersion’:
+	// Set property "SecretVersion":
 	if typedInput.SecretVersion != nil {
 		secretVersion := *typedInput.SecretVersion
 		parameters.SecretVersion = &secretVersion
 	}
 
-	// Set property ‘SubscriptionId’:
+	// Set property "SubscriptionId":
 	if typedInput.SubscriptionId != nil {
 		subscriptionId := *typedInput.SubscriptionId
 		parameters.SubscriptionId = &subscriptionId
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
 	}
 
-	// Set property ‘VaultName’:
+	// Set property "VaultName":
 	if typedInput.VaultName != nil {
 		vaultName := *typedInput.VaultName
 		parameters.VaultName = &vaultName
@@ -5076,37 +5076,37 @@ func (parameters *KeyVaultSigningKeyParameters_STATUS) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultSigningKeyParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ResourceGroupName’:
+	// Set property "ResourceGroupName":
 	if typedInput.ResourceGroupName != nil {
 		resourceGroupName := *typedInput.ResourceGroupName
 		parameters.ResourceGroupName = &resourceGroupName
 	}
 
-	// Set property ‘SecretName’:
+	// Set property "SecretName":
 	if typedInput.SecretName != nil {
 		secretName := *typedInput.SecretName
 		parameters.SecretName = &secretName
 	}
 
-	// Set property ‘SecretVersion’:
+	// Set property "SecretVersion":
 	if typedInput.SecretVersion != nil {
 		secretVersion := *typedInput.SecretVersion
 		parameters.SecretVersion = &secretVersion
 	}
 
-	// Set property ‘SubscriptionId’:
+	// Set property "SubscriptionId":
 	if typedInput.SubscriptionId != nil {
 		subscriptionId := *typedInput.SubscriptionId
 		parameters.SubscriptionId = &subscriptionId
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
 	}
 
-	// Set property ‘VaultName’:
+	// Set property "VaultName":
 	if typedInput.VaultName != nil {
 		vaultName := *typedInput.VaultName
 		parameters.VaultName = &vaultName
@@ -5215,7 +5215,7 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) ConvertToARM(reso
 	}
 	result := &ResponseBasedOriginErrorDetectionParameters_ARM{}
 
-	// Set property ‘HttpErrorRanges’:
+	// Set property "HttpErrorRanges":
 	for _, item := range parameters.HttpErrorRanges {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -5224,13 +5224,13 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) ConvertToARM(reso
 		result.HttpErrorRanges = append(result.HttpErrorRanges, *item_ARM.(*HttpErrorRangeParameters_ARM))
 	}
 
-	// Set property ‘ResponseBasedDetectedErrorTypes’:
+	// Set property "ResponseBasedDetectedErrorTypes":
 	if parameters.ResponseBasedDetectedErrorTypes != nil {
 		responseBasedDetectedErrorTypes := *parameters.ResponseBasedDetectedErrorTypes
 		result.ResponseBasedDetectedErrorTypes = &responseBasedDetectedErrorTypes
 	}
 
-	// Set property ‘ResponseBasedFailoverThresholdPercentage’:
+	// Set property "ResponseBasedFailoverThresholdPercentage":
 	if parameters.ResponseBasedFailoverThresholdPercentage != nil {
 		responseBasedFailoverThresholdPercentage := *parameters.ResponseBasedFailoverThresholdPercentage
 		result.ResponseBasedFailoverThresholdPercentage = &responseBasedFailoverThresholdPercentage
@@ -5250,7 +5250,7 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) PopulateFromARM(o
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResponseBasedOriginErrorDetectionParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘HttpErrorRanges’:
+	// Set property "HttpErrorRanges":
 	for _, item := range typedInput.HttpErrorRanges {
 		var item1 HttpErrorRangeParameters
 		err := item1.PopulateFromARM(owner, item)
@@ -5260,13 +5260,13 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) PopulateFromARM(o
 		parameters.HttpErrorRanges = append(parameters.HttpErrorRanges, item1)
 	}
 
-	// Set property ‘ResponseBasedDetectedErrorTypes’:
+	// Set property "ResponseBasedDetectedErrorTypes":
 	if typedInput.ResponseBasedDetectedErrorTypes != nil {
 		responseBasedDetectedErrorTypes := *typedInput.ResponseBasedDetectedErrorTypes
 		parameters.ResponseBasedDetectedErrorTypes = &responseBasedDetectedErrorTypes
 	}
 
-	// Set property ‘ResponseBasedFailoverThresholdPercentage’:
+	// Set property "ResponseBasedFailoverThresholdPercentage":
 	if typedInput.ResponseBasedFailoverThresholdPercentage != nil {
 		responseBasedFailoverThresholdPercentage := *typedInput.ResponseBasedFailoverThresholdPercentage
 		parameters.ResponseBasedFailoverThresholdPercentage = &responseBasedFailoverThresholdPercentage
@@ -5388,7 +5388,7 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) PopulateFr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResponseBasedOriginErrorDetectionParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘HttpErrorRanges’:
+	// Set property "HttpErrorRanges":
 	for _, item := range typedInput.HttpErrorRanges {
 		var item1 HttpErrorRangeParameters_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -5398,13 +5398,13 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) PopulateFr
 		parameters.HttpErrorRanges = append(parameters.HttpErrorRanges, item1)
 	}
 
-	// Set property ‘ResponseBasedDetectedErrorTypes’:
+	// Set property "ResponseBasedDetectedErrorTypes":
 	if typedInput.ResponseBasedDetectedErrorTypes != nil {
 		responseBasedDetectedErrorTypes := *typedInput.ResponseBasedDetectedErrorTypes
 		parameters.ResponseBasedDetectedErrorTypes = &responseBasedDetectedErrorTypes
 	}
 
-	// Set property ‘ResponseBasedFailoverThresholdPercentage’:
+	// Set property "ResponseBasedFailoverThresholdPercentage":
 	if typedInput.ResponseBasedFailoverThresholdPercentage != nil {
 		responseBasedFailoverThresholdPercentage := *typedInput.ResponseBasedFailoverThresholdPercentage
 		parameters.ResponseBasedFailoverThresholdPercentage = &responseBasedFailoverThresholdPercentage
@@ -5517,7 +5517,7 @@ func (action *DeliveryRuleAction) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &DeliveryRuleAction_ARM{}
 
-	// Set property ‘CacheExpiration’:
+	// Set property "CacheExpiration":
 	if action.CacheExpiration != nil {
 		cacheExpiration_ARM, err := (*action.CacheExpiration).ConvertToARM(resolved)
 		if err != nil {
@@ -5527,7 +5527,7 @@ func (action *DeliveryRuleAction) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.CacheExpiration = &cacheExpiration
 	}
 
-	// Set property ‘CacheKeyQueryString’:
+	// Set property "CacheKeyQueryString":
 	if action.CacheKeyQueryString != nil {
 		cacheKeyQueryString_ARM, err := (*action.CacheKeyQueryString).ConvertToARM(resolved)
 		if err != nil {
@@ -5537,7 +5537,7 @@ func (action *DeliveryRuleAction) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.CacheKeyQueryString = &cacheKeyQueryString
 	}
 
-	// Set property ‘ModifyRequestHeader’:
+	// Set property "ModifyRequestHeader":
 	if action.ModifyRequestHeader != nil {
 		modifyRequestHeader_ARM, err := (*action.ModifyRequestHeader).ConvertToARM(resolved)
 		if err != nil {
@@ -5547,7 +5547,7 @@ func (action *DeliveryRuleAction) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.ModifyRequestHeader = &modifyRequestHeader
 	}
 
-	// Set property ‘ModifyResponseHeader’:
+	// Set property "ModifyResponseHeader":
 	if action.ModifyResponseHeader != nil {
 		modifyResponseHeader_ARM, err := (*action.ModifyResponseHeader).ConvertToARM(resolved)
 		if err != nil {
@@ -5557,7 +5557,7 @@ func (action *DeliveryRuleAction) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.ModifyResponseHeader = &modifyResponseHeader
 	}
 
-	// Set property ‘OriginGroupOverride’:
+	// Set property "OriginGroupOverride":
 	if action.OriginGroupOverride != nil {
 		originGroupOverride_ARM, err := (*action.OriginGroupOverride).ConvertToARM(resolved)
 		if err != nil {
@@ -5567,7 +5567,7 @@ func (action *DeliveryRuleAction) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.OriginGroupOverride = &originGroupOverride
 	}
 
-	// Set property ‘RouteConfigurationOverride’:
+	// Set property "RouteConfigurationOverride":
 	if action.RouteConfigurationOverride != nil {
 		routeConfigurationOverride_ARM, err := (*action.RouteConfigurationOverride).ConvertToARM(resolved)
 		if err != nil {
@@ -5577,7 +5577,7 @@ func (action *DeliveryRuleAction) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.RouteConfigurationOverride = &routeConfigurationOverride
 	}
 
-	// Set property ‘UrlRedirect’:
+	// Set property "UrlRedirect":
 	if action.UrlRedirect != nil {
 		urlRedirect_ARM, err := (*action.UrlRedirect).ConvertToARM(resolved)
 		if err != nil {
@@ -5587,7 +5587,7 @@ func (action *DeliveryRuleAction) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.UrlRedirect = &urlRedirect
 	}
 
-	// Set property ‘UrlRewrite’:
+	// Set property "UrlRewrite":
 	if action.UrlRewrite != nil {
 		urlRewrite_ARM, err := (*action.UrlRewrite).ConvertToARM(resolved)
 		if err != nil {
@@ -5597,7 +5597,7 @@ func (action *DeliveryRuleAction) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.UrlRewrite = &urlRewrite
 	}
 
-	// Set property ‘UrlSigning’:
+	// Set property "UrlSigning":
 	if action.UrlSigning != nil {
 		urlSigning_ARM, err := (*action.UrlSigning).ConvertToARM(resolved)
 		if err != nil {
@@ -5621,7 +5621,7 @@ func (action *DeliveryRuleAction) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleAction_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CacheExpiration’:
+	// Set property "CacheExpiration":
 	if typedInput.CacheExpiration != nil {
 		var cacheExpiration1 DeliveryRuleCacheExpirationAction
 		err := cacheExpiration1.PopulateFromARM(owner, *typedInput.CacheExpiration)
@@ -5632,7 +5632,7 @@ func (action *DeliveryRuleAction) PopulateFromARM(owner genruntime.ArbitraryOwne
 		action.CacheExpiration = &cacheExpiration
 	}
 
-	// Set property ‘CacheKeyQueryString’:
+	// Set property "CacheKeyQueryString":
 	if typedInput.CacheKeyQueryString != nil {
 		var cacheKeyQueryString1 DeliveryRuleCacheKeyQueryStringAction
 		err := cacheKeyQueryString1.PopulateFromARM(owner, *typedInput.CacheKeyQueryString)
@@ -5643,7 +5643,7 @@ func (action *DeliveryRuleAction) PopulateFromARM(owner genruntime.ArbitraryOwne
 		action.CacheKeyQueryString = &cacheKeyQueryString
 	}
 
-	// Set property ‘ModifyRequestHeader’:
+	// Set property "ModifyRequestHeader":
 	if typedInput.ModifyRequestHeader != nil {
 		var modifyRequestHeader1 DeliveryRuleRequestHeaderAction
 		err := modifyRequestHeader1.PopulateFromARM(owner, *typedInput.ModifyRequestHeader)
@@ -5654,7 +5654,7 @@ func (action *DeliveryRuleAction) PopulateFromARM(owner genruntime.ArbitraryOwne
 		action.ModifyRequestHeader = &modifyRequestHeader
 	}
 
-	// Set property ‘ModifyResponseHeader’:
+	// Set property "ModifyResponseHeader":
 	if typedInput.ModifyResponseHeader != nil {
 		var modifyResponseHeader1 DeliveryRuleResponseHeaderAction
 		err := modifyResponseHeader1.PopulateFromARM(owner, *typedInput.ModifyResponseHeader)
@@ -5665,7 +5665,7 @@ func (action *DeliveryRuleAction) PopulateFromARM(owner genruntime.ArbitraryOwne
 		action.ModifyResponseHeader = &modifyResponseHeader
 	}
 
-	// Set property ‘OriginGroupOverride’:
+	// Set property "OriginGroupOverride":
 	if typedInput.OriginGroupOverride != nil {
 		var originGroupOverride1 OriginGroupOverrideAction
 		err := originGroupOverride1.PopulateFromARM(owner, *typedInput.OriginGroupOverride)
@@ -5676,7 +5676,7 @@ func (action *DeliveryRuleAction) PopulateFromARM(owner genruntime.ArbitraryOwne
 		action.OriginGroupOverride = &originGroupOverride
 	}
 
-	// Set property ‘RouteConfigurationOverride’:
+	// Set property "RouteConfigurationOverride":
 	if typedInput.RouteConfigurationOverride != nil {
 		var routeConfigurationOverride1 DeliveryRuleRouteConfigurationOverrideAction
 		err := routeConfigurationOverride1.PopulateFromARM(owner, *typedInput.RouteConfigurationOverride)
@@ -5687,7 +5687,7 @@ func (action *DeliveryRuleAction) PopulateFromARM(owner genruntime.ArbitraryOwne
 		action.RouteConfigurationOverride = &routeConfigurationOverride
 	}
 
-	// Set property ‘UrlRedirect’:
+	// Set property "UrlRedirect":
 	if typedInput.UrlRedirect != nil {
 		var urlRedirect1 UrlRedirectAction
 		err := urlRedirect1.PopulateFromARM(owner, *typedInput.UrlRedirect)
@@ -5698,7 +5698,7 @@ func (action *DeliveryRuleAction) PopulateFromARM(owner genruntime.ArbitraryOwne
 		action.UrlRedirect = &urlRedirect
 	}
 
-	// Set property ‘UrlRewrite’:
+	// Set property "UrlRewrite":
 	if typedInput.UrlRewrite != nil {
 		var urlRewrite1 UrlRewriteAction
 		err := urlRewrite1.PopulateFromARM(owner, *typedInput.UrlRewrite)
@@ -5709,7 +5709,7 @@ func (action *DeliveryRuleAction) PopulateFromARM(owner genruntime.ArbitraryOwne
 		action.UrlRewrite = &urlRewrite
 	}
 
-	// Set property ‘UrlSigning’:
+	// Set property "UrlSigning":
 	if typedInput.UrlSigning != nil {
 		var urlSigning1 UrlSigningAction
 		err := urlSigning1.PopulateFromARM(owner, *typedInput.UrlSigning)
@@ -5990,7 +5990,7 @@ func (action *DeliveryRuleAction_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleAction_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CacheExpiration’:
+	// Set property "CacheExpiration":
 	if typedInput.CacheExpiration != nil {
 		var cacheExpiration1 DeliveryRuleCacheExpirationAction_STATUS
 		err := cacheExpiration1.PopulateFromARM(owner, *typedInput.CacheExpiration)
@@ -6001,7 +6001,7 @@ func (action *DeliveryRuleAction_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		action.CacheExpiration = &cacheExpiration
 	}
 
-	// Set property ‘CacheKeyQueryString’:
+	// Set property "CacheKeyQueryString":
 	if typedInput.CacheKeyQueryString != nil {
 		var cacheKeyQueryString1 DeliveryRuleCacheKeyQueryStringAction_STATUS
 		err := cacheKeyQueryString1.PopulateFromARM(owner, *typedInput.CacheKeyQueryString)
@@ -6012,7 +6012,7 @@ func (action *DeliveryRuleAction_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		action.CacheKeyQueryString = &cacheKeyQueryString
 	}
 
-	// Set property ‘ModifyRequestHeader’:
+	// Set property "ModifyRequestHeader":
 	if typedInput.ModifyRequestHeader != nil {
 		var modifyRequestHeader1 DeliveryRuleRequestHeaderAction_STATUS
 		err := modifyRequestHeader1.PopulateFromARM(owner, *typedInput.ModifyRequestHeader)
@@ -6023,7 +6023,7 @@ func (action *DeliveryRuleAction_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		action.ModifyRequestHeader = &modifyRequestHeader
 	}
 
-	// Set property ‘ModifyResponseHeader’:
+	// Set property "ModifyResponseHeader":
 	if typedInput.ModifyResponseHeader != nil {
 		var modifyResponseHeader1 DeliveryRuleResponseHeaderAction_STATUS
 		err := modifyResponseHeader1.PopulateFromARM(owner, *typedInput.ModifyResponseHeader)
@@ -6034,7 +6034,7 @@ func (action *DeliveryRuleAction_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		action.ModifyResponseHeader = &modifyResponseHeader
 	}
 
-	// Set property ‘OriginGroupOverride’:
+	// Set property "OriginGroupOverride":
 	if typedInput.OriginGroupOverride != nil {
 		var originGroupOverride1 OriginGroupOverrideAction_STATUS
 		err := originGroupOverride1.PopulateFromARM(owner, *typedInput.OriginGroupOverride)
@@ -6045,7 +6045,7 @@ func (action *DeliveryRuleAction_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		action.OriginGroupOverride = &originGroupOverride
 	}
 
-	// Set property ‘RouteConfigurationOverride’:
+	// Set property "RouteConfigurationOverride":
 	if typedInput.RouteConfigurationOverride != nil {
 		var routeConfigurationOverride1 DeliveryRuleRouteConfigurationOverrideAction_STATUS
 		err := routeConfigurationOverride1.PopulateFromARM(owner, *typedInput.RouteConfigurationOverride)
@@ -6056,7 +6056,7 @@ func (action *DeliveryRuleAction_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		action.RouteConfigurationOverride = &routeConfigurationOverride
 	}
 
-	// Set property ‘UrlRedirect’:
+	// Set property "UrlRedirect":
 	if typedInput.UrlRedirect != nil {
 		var urlRedirect1 UrlRedirectAction_STATUS
 		err := urlRedirect1.PopulateFromARM(owner, *typedInput.UrlRedirect)
@@ -6067,7 +6067,7 @@ func (action *DeliveryRuleAction_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		action.UrlRedirect = &urlRedirect
 	}
 
-	// Set property ‘UrlRewrite’:
+	// Set property "UrlRewrite":
 	if typedInput.UrlRewrite != nil {
 		var urlRewrite1 UrlRewriteAction_STATUS
 		err := urlRewrite1.PopulateFromARM(owner, *typedInput.UrlRewrite)
@@ -6078,7 +6078,7 @@ func (action *DeliveryRuleAction_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		action.UrlRewrite = &urlRewrite
 	}
 
-	// Set property ‘UrlSigning’:
+	// Set property "UrlSigning":
 	if typedInput.UrlSigning != nil {
 		var urlSigning1 UrlSigningAction_STATUS
 		err := urlSigning1.PopulateFromARM(owner, *typedInput.UrlSigning)
@@ -6364,7 +6364,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 	}
 	result := &DeliveryRuleCondition_ARM{}
 
-	// Set property ‘ClientPort’:
+	// Set property "ClientPort":
 	if condition.ClientPort != nil {
 		clientPort_ARM, err := (*condition.ClientPort).ConvertToARM(resolved)
 		if err != nil {
@@ -6374,7 +6374,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		result.ClientPort = &clientPort
 	}
 
-	// Set property ‘Cookies’:
+	// Set property "Cookies":
 	if condition.Cookies != nil {
 		cookies_ARM, err := (*condition.Cookies).ConvertToARM(resolved)
 		if err != nil {
@@ -6384,7 +6384,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		result.Cookies = &cookies
 	}
 
-	// Set property ‘HostName’:
+	// Set property "HostName":
 	if condition.HostName != nil {
 		hostName_ARM, err := (*condition.HostName).ConvertToARM(resolved)
 		if err != nil {
@@ -6394,7 +6394,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		result.HostName = &hostName
 	}
 
-	// Set property ‘HttpVersion’:
+	// Set property "HttpVersion":
 	if condition.HttpVersion != nil {
 		httpVersion_ARM, err := (*condition.HttpVersion).ConvertToARM(resolved)
 		if err != nil {
@@ -6404,7 +6404,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		result.HttpVersion = &httpVersion
 	}
 
-	// Set property ‘IsDevice’:
+	// Set property "IsDevice":
 	if condition.IsDevice != nil {
 		isDevice_ARM, err := (*condition.IsDevice).ConvertToARM(resolved)
 		if err != nil {
@@ -6414,7 +6414,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		result.IsDevice = &isDevice
 	}
 
-	// Set property ‘PostArgs’:
+	// Set property "PostArgs":
 	if condition.PostArgs != nil {
 		postArgs_ARM, err := (*condition.PostArgs).ConvertToARM(resolved)
 		if err != nil {
@@ -6424,7 +6424,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		result.PostArgs = &postArgs
 	}
 
-	// Set property ‘QueryString’:
+	// Set property "QueryString":
 	if condition.QueryString != nil {
 		queryString_ARM, err := (*condition.QueryString).ConvertToARM(resolved)
 		if err != nil {
@@ -6434,7 +6434,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		result.QueryString = &queryString
 	}
 
-	// Set property ‘RemoteAddress’:
+	// Set property "RemoteAddress":
 	if condition.RemoteAddress != nil {
 		remoteAddress_ARM, err := (*condition.RemoteAddress).ConvertToARM(resolved)
 		if err != nil {
@@ -6444,7 +6444,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		result.RemoteAddress = &remoteAddress
 	}
 
-	// Set property ‘RequestBody’:
+	// Set property "RequestBody":
 	if condition.RequestBody != nil {
 		requestBody_ARM, err := (*condition.RequestBody).ConvertToARM(resolved)
 		if err != nil {
@@ -6454,7 +6454,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		result.RequestBody = &requestBody
 	}
 
-	// Set property ‘RequestHeader’:
+	// Set property "RequestHeader":
 	if condition.RequestHeader != nil {
 		requestHeader_ARM, err := (*condition.RequestHeader).ConvertToARM(resolved)
 		if err != nil {
@@ -6464,7 +6464,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		result.RequestHeader = &requestHeader
 	}
 
-	// Set property ‘RequestMethod’:
+	// Set property "RequestMethod":
 	if condition.RequestMethod != nil {
 		requestMethod_ARM, err := (*condition.RequestMethod).ConvertToARM(resolved)
 		if err != nil {
@@ -6474,7 +6474,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		result.RequestMethod = &requestMethod
 	}
 
-	// Set property ‘RequestScheme’:
+	// Set property "RequestScheme":
 	if condition.RequestScheme != nil {
 		requestScheme_ARM, err := (*condition.RequestScheme).ConvertToARM(resolved)
 		if err != nil {
@@ -6484,7 +6484,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		result.RequestScheme = &requestScheme
 	}
 
-	// Set property ‘RequestUri’:
+	// Set property "RequestUri":
 	if condition.RequestUri != nil {
 		requestUri_ARM, err := (*condition.RequestUri).ConvertToARM(resolved)
 		if err != nil {
@@ -6494,7 +6494,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		result.RequestUri = &requestUri
 	}
 
-	// Set property ‘ServerPort’:
+	// Set property "ServerPort":
 	if condition.ServerPort != nil {
 		serverPort_ARM, err := (*condition.ServerPort).ConvertToARM(resolved)
 		if err != nil {
@@ -6504,7 +6504,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		result.ServerPort = &serverPort
 	}
 
-	// Set property ‘SocketAddr’:
+	// Set property "SocketAddr":
 	if condition.SocketAddr != nil {
 		socketAddr_ARM, err := (*condition.SocketAddr).ConvertToARM(resolved)
 		if err != nil {
@@ -6514,7 +6514,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		result.SocketAddr = &socketAddr
 	}
 
-	// Set property ‘SslProtocol’:
+	// Set property "SslProtocol":
 	if condition.SslProtocol != nil {
 		sslProtocol_ARM, err := (*condition.SslProtocol).ConvertToARM(resolved)
 		if err != nil {
@@ -6524,7 +6524,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		result.SslProtocol = &sslProtocol
 	}
 
-	// Set property ‘UrlFileExtension’:
+	// Set property "UrlFileExtension":
 	if condition.UrlFileExtension != nil {
 		urlFileExtension_ARM, err := (*condition.UrlFileExtension).ConvertToARM(resolved)
 		if err != nil {
@@ -6534,7 +6534,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		result.UrlFileExtension = &urlFileExtension
 	}
 
-	// Set property ‘UrlFileName’:
+	// Set property "UrlFileName":
 	if condition.UrlFileName != nil {
 		urlFileName_ARM, err := (*condition.UrlFileName).ConvertToARM(resolved)
 		if err != nil {
@@ -6544,7 +6544,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		result.UrlFileName = &urlFileName
 	}
 
-	// Set property ‘UrlPath’:
+	// Set property "UrlPath":
 	if condition.UrlPath != nil {
 		urlPath_ARM, err := (*condition.UrlPath).ConvertToARM(resolved)
 		if err != nil {
@@ -6568,7 +6568,7 @@ func (condition *DeliveryRuleCondition) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleCondition_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ClientPort’:
+	// Set property "ClientPort":
 	if typedInput.ClientPort != nil {
 		var clientPort1 DeliveryRuleClientPortCondition
 		err := clientPort1.PopulateFromARM(owner, *typedInput.ClientPort)
@@ -6579,7 +6579,7 @@ func (condition *DeliveryRuleCondition) PopulateFromARM(owner genruntime.Arbitra
 		condition.ClientPort = &clientPort
 	}
 
-	// Set property ‘Cookies’:
+	// Set property "Cookies":
 	if typedInput.Cookies != nil {
 		var cookies1 DeliveryRuleCookiesCondition
 		err := cookies1.PopulateFromARM(owner, *typedInput.Cookies)
@@ -6590,7 +6590,7 @@ func (condition *DeliveryRuleCondition) PopulateFromARM(owner genruntime.Arbitra
 		condition.Cookies = &cookies
 	}
 
-	// Set property ‘HostName’:
+	// Set property "HostName":
 	if typedInput.HostName != nil {
 		var hostName1 DeliveryRuleHostNameCondition
 		err := hostName1.PopulateFromARM(owner, *typedInput.HostName)
@@ -6601,7 +6601,7 @@ func (condition *DeliveryRuleCondition) PopulateFromARM(owner genruntime.Arbitra
 		condition.HostName = &hostName
 	}
 
-	// Set property ‘HttpVersion’:
+	// Set property "HttpVersion":
 	if typedInput.HttpVersion != nil {
 		var httpVersion1 DeliveryRuleHttpVersionCondition
 		err := httpVersion1.PopulateFromARM(owner, *typedInput.HttpVersion)
@@ -6612,7 +6612,7 @@ func (condition *DeliveryRuleCondition) PopulateFromARM(owner genruntime.Arbitra
 		condition.HttpVersion = &httpVersion
 	}
 
-	// Set property ‘IsDevice’:
+	// Set property "IsDevice":
 	if typedInput.IsDevice != nil {
 		var isDevice1 DeliveryRuleIsDeviceCondition
 		err := isDevice1.PopulateFromARM(owner, *typedInput.IsDevice)
@@ -6623,7 +6623,7 @@ func (condition *DeliveryRuleCondition) PopulateFromARM(owner genruntime.Arbitra
 		condition.IsDevice = &isDevice
 	}
 
-	// Set property ‘PostArgs’:
+	// Set property "PostArgs":
 	if typedInput.PostArgs != nil {
 		var postArgs1 DeliveryRulePostArgsCondition
 		err := postArgs1.PopulateFromARM(owner, *typedInput.PostArgs)
@@ -6634,7 +6634,7 @@ func (condition *DeliveryRuleCondition) PopulateFromARM(owner genruntime.Arbitra
 		condition.PostArgs = &postArgs
 	}
 
-	// Set property ‘QueryString’:
+	// Set property "QueryString":
 	if typedInput.QueryString != nil {
 		var queryString1 DeliveryRuleQueryStringCondition
 		err := queryString1.PopulateFromARM(owner, *typedInput.QueryString)
@@ -6645,7 +6645,7 @@ func (condition *DeliveryRuleCondition) PopulateFromARM(owner genruntime.Arbitra
 		condition.QueryString = &queryString
 	}
 
-	// Set property ‘RemoteAddress’:
+	// Set property "RemoteAddress":
 	if typedInput.RemoteAddress != nil {
 		var remoteAddress1 DeliveryRuleRemoteAddressCondition
 		err := remoteAddress1.PopulateFromARM(owner, *typedInput.RemoteAddress)
@@ -6656,7 +6656,7 @@ func (condition *DeliveryRuleCondition) PopulateFromARM(owner genruntime.Arbitra
 		condition.RemoteAddress = &remoteAddress
 	}
 
-	// Set property ‘RequestBody’:
+	// Set property "RequestBody":
 	if typedInput.RequestBody != nil {
 		var requestBody1 DeliveryRuleRequestBodyCondition
 		err := requestBody1.PopulateFromARM(owner, *typedInput.RequestBody)
@@ -6667,7 +6667,7 @@ func (condition *DeliveryRuleCondition) PopulateFromARM(owner genruntime.Arbitra
 		condition.RequestBody = &requestBody
 	}
 
-	// Set property ‘RequestHeader’:
+	// Set property "RequestHeader":
 	if typedInput.RequestHeader != nil {
 		var requestHeader1 DeliveryRuleRequestHeaderCondition
 		err := requestHeader1.PopulateFromARM(owner, *typedInput.RequestHeader)
@@ -6678,7 +6678,7 @@ func (condition *DeliveryRuleCondition) PopulateFromARM(owner genruntime.Arbitra
 		condition.RequestHeader = &requestHeader
 	}
 
-	// Set property ‘RequestMethod’:
+	// Set property "RequestMethod":
 	if typedInput.RequestMethod != nil {
 		var requestMethod1 DeliveryRuleRequestMethodCondition
 		err := requestMethod1.PopulateFromARM(owner, *typedInput.RequestMethod)
@@ -6689,7 +6689,7 @@ func (condition *DeliveryRuleCondition) PopulateFromARM(owner genruntime.Arbitra
 		condition.RequestMethod = &requestMethod
 	}
 
-	// Set property ‘RequestScheme’:
+	// Set property "RequestScheme":
 	if typedInput.RequestScheme != nil {
 		var requestScheme1 DeliveryRuleRequestSchemeCondition
 		err := requestScheme1.PopulateFromARM(owner, *typedInput.RequestScheme)
@@ -6700,7 +6700,7 @@ func (condition *DeliveryRuleCondition) PopulateFromARM(owner genruntime.Arbitra
 		condition.RequestScheme = &requestScheme
 	}
 
-	// Set property ‘RequestUri’:
+	// Set property "RequestUri":
 	if typedInput.RequestUri != nil {
 		var requestUri1 DeliveryRuleRequestUriCondition
 		err := requestUri1.PopulateFromARM(owner, *typedInput.RequestUri)
@@ -6711,7 +6711,7 @@ func (condition *DeliveryRuleCondition) PopulateFromARM(owner genruntime.Arbitra
 		condition.RequestUri = &requestUri
 	}
 
-	// Set property ‘ServerPort’:
+	// Set property "ServerPort":
 	if typedInput.ServerPort != nil {
 		var serverPort1 DeliveryRuleServerPortCondition
 		err := serverPort1.PopulateFromARM(owner, *typedInput.ServerPort)
@@ -6722,7 +6722,7 @@ func (condition *DeliveryRuleCondition) PopulateFromARM(owner genruntime.Arbitra
 		condition.ServerPort = &serverPort
 	}
 
-	// Set property ‘SocketAddr’:
+	// Set property "SocketAddr":
 	if typedInput.SocketAddr != nil {
 		var socketAddr1 DeliveryRuleSocketAddrCondition
 		err := socketAddr1.PopulateFromARM(owner, *typedInput.SocketAddr)
@@ -6733,7 +6733,7 @@ func (condition *DeliveryRuleCondition) PopulateFromARM(owner genruntime.Arbitra
 		condition.SocketAddr = &socketAddr
 	}
 
-	// Set property ‘SslProtocol’:
+	// Set property "SslProtocol":
 	if typedInput.SslProtocol != nil {
 		var sslProtocol1 DeliveryRuleSslProtocolCondition
 		err := sslProtocol1.PopulateFromARM(owner, *typedInput.SslProtocol)
@@ -6744,7 +6744,7 @@ func (condition *DeliveryRuleCondition) PopulateFromARM(owner genruntime.Arbitra
 		condition.SslProtocol = &sslProtocol
 	}
 
-	// Set property ‘UrlFileExtension’:
+	// Set property "UrlFileExtension":
 	if typedInput.UrlFileExtension != nil {
 		var urlFileExtension1 DeliveryRuleUrlFileExtensionCondition
 		err := urlFileExtension1.PopulateFromARM(owner, *typedInput.UrlFileExtension)
@@ -6755,7 +6755,7 @@ func (condition *DeliveryRuleCondition) PopulateFromARM(owner genruntime.Arbitra
 		condition.UrlFileExtension = &urlFileExtension
 	}
 
-	// Set property ‘UrlFileName’:
+	// Set property "UrlFileName":
 	if typedInput.UrlFileName != nil {
 		var urlFileName1 DeliveryRuleUrlFileNameCondition
 		err := urlFileName1.PopulateFromARM(owner, *typedInput.UrlFileName)
@@ -6766,7 +6766,7 @@ func (condition *DeliveryRuleCondition) PopulateFromARM(owner genruntime.Arbitra
 		condition.UrlFileName = &urlFileName
 	}
 
-	// Set property ‘UrlPath’:
+	// Set property "UrlPath":
 	if typedInput.UrlPath != nil {
 		var urlPath1 DeliveryRuleUrlPathCondition
 		err := urlPath1.PopulateFromARM(owner, *typedInput.UrlPath)
@@ -7297,7 +7297,7 @@ func (condition *DeliveryRuleCondition_STATUS) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleCondition_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ClientPort’:
+	// Set property "ClientPort":
 	if typedInput.ClientPort != nil {
 		var clientPort1 DeliveryRuleClientPortCondition_STATUS
 		err := clientPort1.PopulateFromARM(owner, *typedInput.ClientPort)
@@ -7308,7 +7308,7 @@ func (condition *DeliveryRuleCondition_STATUS) PopulateFromARM(owner genruntime.
 		condition.ClientPort = &clientPort
 	}
 
-	// Set property ‘Cookies’:
+	// Set property "Cookies":
 	if typedInput.Cookies != nil {
 		var cookies1 DeliveryRuleCookiesCondition_STATUS
 		err := cookies1.PopulateFromARM(owner, *typedInput.Cookies)
@@ -7319,7 +7319,7 @@ func (condition *DeliveryRuleCondition_STATUS) PopulateFromARM(owner genruntime.
 		condition.Cookies = &cookies
 	}
 
-	// Set property ‘HostName’:
+	// Set property "HostName":
 	if typedInput.HostName != nil {
 		var hostName1 DeliveryRuleHostNameCondition_STATUS
 		err := hostName1.PopulateFromARM(owner, *typedInput.HostName)
@@ -7330,7 +7330,7 @@ func (condition *DeliveryRuleCondition_STATUS) PopulateFromARM(owner genruntime.
 		condition.HostName = &hostName
 	}
 
-	// Set property ‘HttpVersion’:
+	// Set property "HttpVersion":
 	if typedInput.HttpVersion != nil {
 		var httpVersion1 DeliveryRuleHttpVersionCondition_STATUS
 		err := httpVersion1.PopulateFromARM(owner, *typedInput.HttpVersion)
@@ -7341,7 +7341,7 @@ func (condition *DeliveryRuleCondition_STATUS) PopulateFromARM(owner genruntime.
 		condition.HttpVersion = &httpVersion
 	}
 
-	// Set property ‘IsDevice’:
+	// Set property "IsDevice":
 	if typedInput.IsDevice != nil {
 		var isDevice1 DeliveryRuleIsDeviceCondition_STATUS
 		err := isDevice1.PopulateFromARM(owner, *typedInput.IsDevice)
@@ -7352,7 +7352,7 @@ func (condition *DeliveryRuleCondition_STATUS) PopulateFromARM(owner genruntime.
 		condition.IsDevice = &isDevice
 	}
 
-	// Set property ‘PostArgs’:
+	// Set property "PostArgs":
 	if typedInput.PostArgs != nil {
 		var postArgs1 DeliveryRulePostArgsCondition_STATUS
 		err := postArgs1.PopulateFromARM(owner, *typedInput.PostArgs)
@@ -7363,7 +7363,7 @@ func (condition *DeliveryRuleCondition_STATUS) PopulateFromARM(owner genruntime.
 		condition.PostArgs = &postArgs
 	}
 
-	// Set property ‘QueryString’:
+	// Set property "QueryString":
 	if typedInput.QueryString != nil {
 		var queryString1 DeliveryRuleQueryStringCondition_STATUS
 		err := queryString1.PopulateFromARM(owner, *typedInput.QueryString)
@@ -7374,7 +7374,7 @@ func (condition *DeliveryRuleCondition_STATUS) PopulateFromARM(owner genruntime.
 		condition.QueryString = &queryString
 	}
 
-	// Set property ‘RemoteAddress’:
+	// Set property "RemoteAddress":
 	if typedInput.RemoteAddress != nil {
 		var remoteAddress1 DeliveryRuleRemoteAddressCondition_STATUS
 		err := remoteAddress1.PopulateFromARM(owner, *typedInput.RemoteAddress)
@@ -7385,7 +7385,7 @@ func (condition *DeliveryRuleCondition_STATUS) PopulateFromARM(owner genruntime.
 		condition.RemoteAddress = &remoteAddress
 	}
 
-	// Set property ‘RequestBody’:
+	// Set property "RequestBody":
 	if typedInput.RequestBody != nil {
 		var requestBody1 DeliveryRuleRequestBodyCondition_STATUS
 		err := requestBody1.PopulateFromARM(owner, *typedInput.RequestBody)
@@ -7396,7 +7396,7 @@ func (condition *DeliveryRuleCondition_STATUS) PopulateFromARM(owner genruntime.
 		condition.RequestBody = &requestBody
 	}
 
-	// Set property ‘RequestHeader’:
+	// Set property "RequestHeader":
 	if typedInput.RequestHeader != nil {
 		var requestHeader1 DeliveryRuleRequestHeaderCondition_STATUS
 		err := requestHeader1.PopulateFromARM(owner, *typedInput.RequestHeader)
@@ -7407,7 +7407,7 @@ func (condition *DeliveryRuleCondition_STATUS) PopulateFromARM(owner genruntime.
 		condition.RequestHeader = &requestHeader
 	}
 
-	// Set property ‘RequestMethod’:
+	// Set property "RequestMethod":
 	if typedInput.RequestMethod != nil {
 		var requestMethod1 DeliveryRuleRequestMethodCondition_STATUS
 		err := requestMethod1.PopulateFromARM(owner, *typedInput.RequestMethod)
@@ -7418,7 +7418,7 @@ func (condition *DeliveryRuleCondition_STATUS) PopulateFromARM(owner genruntime.
 		condition.RequestMethod = &requestMethod
 	}
 
-	// Set property ‘RequestScheme’:
+	// Set property "RequestScheme":
 	if typedInput.RequestScheme != nil {
 		var requestScheme1 DeliveryRuleRequestSchemeCondition_STATUS
 		err := requestScheme1.PopulateFromARM(owner, *typedInput.RequestScheme)
@@ -7429,7 +7429,7 @@ func (condition *DeliveryRuleCondition_STATUS) PopulateFromARM(owner genruntime.
 		condition.RequestScheme = &requestScheme
 	}
 
-	// Set property ‘RequestUri’:
+	// Set property "RequestUri":
 	if typedInput.RequestUri != nil {
 		var requestUri1 DeliveryRuleRequestUriCondition_STATUS
 		err := requestUri1.PopulateFromARM(owner, *typedInput.RequestUri)
@@ -7440,7 +7440,7 @@ func (condition *DeliveryRuleCondition_STATUS) PopulateFromARM(owner genruntime.
 		condition.RequestUri = &requestUri
 	}
 
-	// Set property ‘ServerPort’:
+	// Set property "ServerPort":
 	if typedInput.ServerPort != nil {
 		var serverPort1 DeliveryRuleServerPortCondition_STATUS
 		err := serverPort1.PopulateFromARM(owner, *typedInput.ServerPort)
@@ -7451,7 +7451,7 @@ func (condition *DeliveryRuleCondition_STATUS) PopulateFromARM(owner genruntime.
 		condition.ServerPort = &serverPort
 	}
 
-	// Set property ‘SocketAddr’:
+	// Set property "SocketAddr":
 	if typedInput.SocketAddr != nil {
 		var socketAddr1 DeliveryRuleSocketAddrCondition_STATUS
 		err := socketAddr1.PopulateFromARM(owner, *typedInput.SocketAddr)
@@ -7462,7 +7462,7 @@ func (condition *DeliveryRuleCondition_STATUS) PopulateFromARM(owner genruntime.
 		condition.SocketAddr = &socketAddr
 	}
 
-	// Set property ‘SslProtocol’:
+	// Set property "SslProtocol":
 	if typedInput.SslProtocol != nil {
 		var sslProtocol1 DeliveryRuleSslProtocolCondition_STATUS
 		err := sslProtocol1.PopulateFromARM(owner, *typedInput.SslProtocol)
@@ -7473,7 +7473,7 @@ func (condition *DeliveryRuleCondition_STATUS) PopulateFromARM(owner genruntime.
 		condition.SslProtocol = &sslProtocol
 	}
 
-	// Set property ‘UrlFileExtension’:
+	// Set property "UrlFileExtension":
 	if typedInput.UrlFileExtension != nil {
 		var urlFileExtension1 DeliveryRuleUrlFileExtensionCondition_STATUS
 		err := urlFileExtension1.PopulateFromARM(owner, *typedInput.UrlFileExtension)
@@ -7484,7 +7484,7 @@ func (condition *DeliveryRuleCondition_STATUS) PopulateFromARM(owner genruntime.
 		condition.UrlFileExtension = &urlFileExtension
 	}
 
-	// Set property ‘UrlFileName’:
+	// Set property "UrlFileName":
 	if typedInput.UrlFileName != nil {
 		var urlFileName1 DeliveryRuleUrlFileNameCondition_STATUS
 		err := urlFileName1.PopulateFromARM(owner, *typedInput.UrlFileName)
@@ -7495,7 +7495,7 @@ func (condition *DeliveryRuleCondition_STATUS) PopulateFromARM(owner genruntime.
 		condition.UrlFileName = &urlFileName
 	}
 
-	// Set property ‘UrlPath’:
+	// Set property "UrlPath":
 	if typedInput.UrlPath != nil {
 		var urlPath1 DeliveryRuleUrlPathCondition_STATUS
 		err := urlPath1.PopulateFromARM(owner, *typedInput.UrlPath)
@@ -8050,13 +8050,13 @@ func (parameters *HttpErrorRangeParameters) ConvertToARM(resolved genruntime.Con
 	}
 	result := &HttpErrorRangeParameters_ARM{}
 
-	// Set property ‘Begin’:
+	// Set property "Begin":
 	if parameters.Begin != nil {
 		begin := *parameters.Begin
 		result.Begin = &begin
 	}
 
-	// Set property ‘End’:
+	// Set property "End":
 	if parameters.End != nil {
 		end := *parameters.End
 		result.End = &end
@@ -8076,13 +8076,13 @@ func (parameters *HttpErrorRangeParameters) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HttpErrorRangeParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Begin’:
+	// Set property "Begin":
 	if typedInput.Begin != nil {
 		begin := *typedInput.Begin
 		parameters.Begin = &begin
 	}
 
-	// Set property ‘End’:
+	// Set property "End":
 	if typedInput.End != nil {
 		end := *typedInput.End
 		parameters.End = &end
@@ -8167,13 +8167,13 @@ func (parameters *HttpErrorRangeParameters_STATUS) PopulateFromARM(owner genrunt
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HttpErrorRangeParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Begin’:
+	// Set property "Begin":
 	if typedInput.Begin != nil {
 		begin := *typedInput.Begin
 		parameters.Begin = &begin
 	}
 
-	// Set property ‘End’:
+	// Set property "End":
 	if typedInput.End != nil {
 		end := *typedInput.End
 		parameters.End = &end
@@ -8270,12 +8270,12 @@ func (action *DeliveryRuleCacheExpirationAction) ConvertToARM(resolved genruntim
 	}
 	result := &DeliveryRuleCacheExpirationAction_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if action.Name != nil {
 		result.Name = *action.Name
 	}
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if action.Parameters != nil {
 		parameters_ARM, err := (*action.Parameters).ConvertToARM(resolved)
 		if err != nil {
@@ -8299,10 +8299,10 @@ func (action *DeliveryRuleCacheExpirationAction) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleCacheExpirationAction_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	action.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 CacheExpirationActionParameters
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -8400,10 +8400,10 @@ func (action *DeliveryRuleCacheExpirationAction_STATUS) PopulateFromARM(owner ge
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleCacheExpirationAction_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	action.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 CacheExpirationActionParameters_STATUS
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -8499,12 +8499,12 @@ func (action *DeliveryRuleCacheKeyQueryStringAction) ConvertToARM(resolved genru
 	}
 	result := &DeliveryRuleCacheKeyQueryStringAction_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if action.Name != nil {
 		result.Name = *action.Name
 	}
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if action.Parameters != nil {
 		parameters_ARM, err := (*action.Parameters).ConvertToARM(resolved)
 		if err != nil {
@@ -8528,10 +8528,10 @@ func (action *DeliveryRuleCacheKeyQueryStringAction) PopulateFromARM(owner genru
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleCacheKeyQueryStringAction_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	action.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 CacheKeyQueryStringActionParameters
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -8629,10 +8629,10 @@ func (action *DeliveryRuleCacheKeyQueryStringAction_STATUS) PopulateFromARM(owne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleCacheKeyQueryStringAction_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	action.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 CacheKeyQueryStringActionParameters_STATUS
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -8728,12 +8728,12 @@ func (condition *DeliveryRuleClientPortCondition) ConvertToARM(resolved genrunti
 	}
 	result := &DeliveryRuleClientPortCondition_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if condition.Name != nil {
 		result.Name = *condition.Name
 	}
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if condition.Parameters != nil {
 		parameters_ARM, err := (*condition.Parameters).ConvertToARM(resolved)
 		if err != nil {
@@ -8757,10 +8757,10 @@ func (condition *DeliveryRuleClientPortCondition) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleClientPortCondition_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 ClientPortMatchConditionParameters
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -8858,10 +8858,10 @@ func (condition *DeliveryRuleClientPortCondition_STATUS) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleClientPortCondition_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 ClientPortMatchConditionParameters_STATUS
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -8957,12 +8957,12 @@ func (condition *DeliveryRuleCookiesCondition) ConvertToARM(resolved genruntime.
 	}
 	result := &DeliveryRuleCookiesCondition_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if condition.Name != nil {
 		result.Name = *condition.Name
 	}
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if condition.Parameters != nil {
 		parameters_ARM, err := (*condition.Parameters).ConvertToARM(resolved)
 		if err != nil {
@@ -8986,10 +8986,10 @@ func (condition *DeliveryRuleCookiesCondition) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleCookiesCondition_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 CookiesMatchConditionParameters
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -9087,10 +9087,10 @@ func (condition *DeliveryRuleCookiesCondition_STATUS) PopulateFromARM(owner genr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleCookiesCondition_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 CookiesMatchConditionParameters_STATUS
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -9186,12 +9186,12 @@ func (condition *DeliveryRuleHostNameCondition) ConvertToARM(resolved genruntime
 	}
 	result := &DeliveryRuleHostNameCondition_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if condition.Name != nil {
 		result.Name = *condition.Name
 	}
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if condition.Parameters != nil {
 		parameters_ARM, err := (*condition.Parameters).ConvertToARM(resolved)
 		if err != nil {
@@ -9215,10 +9215,10 @@ func (condition *DeliveryRuleHostNameCondition) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleHostNameCondition_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 HostNameMatchConditionParameters
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -9316,10 +9316,10 @@ func (condition *DeliveryRuleHostNameCondition_STATUS) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleHostNameCondition_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 HostNameMatchConditionParameters_STATUS
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -9415,12 +9415,12 @@ func (condition *DeliveryRuleHttpVersionCondition) ConvertToARM(resolved genrunt
 	}
 	result := &DeliveryRuleHttpVersionCondition_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if condition.Name != nil {
 		result.Name = *condition.Name
 	}
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if condition.Parameters != nil {
 		parameters_ARM, err := (*condition.Parameters).ConvertToARM(resolved)
 		if err != nil {
@@ -9444,10 +9444,10 @@ func (condition *DeliveryRuleHttpVersionCondition) PopulateFromARM(owner genrunt
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleHttpVersionCondition_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 HttpVersionMatchConditionParameters
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -9545,10 +9545,10 @@ func (condition *DeliveryRuleHttpVersionCondition_STATUS) PopulateFromARM(owner 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleHttpVersionCondition_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 HttpVersionMatchConditionParameters_STATUS
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -9644,12 +9644,12 @@ func (condition *DeliveryRuleIsDeviceCondition) ConvertToARM(resolved genruntime
 	}
 	result := &DeliveryRuleIsDeviceCondition_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if condition.Name != nil {
 		result.Name = *condition.Name
 	}
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if condition.Parameters != nil {
 		parameters_ARM, err := (*condition.Parameters).ConvertToARM(resolved)
 		if err != nil {
@@ -9673,10 +9673,10 @@ func (condition *DeliveryRuleIsDeviceCondition) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleIsDeviceCondition_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 IsDeviceMatchConditionParameters
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -9774,10 +9774,10 @@ func (condition *DeliveryRuleIsDeviceCondition_STATUS) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleIsDeviceCondition_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 IsDeviceMatchConditionParameters_STATUS
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -9873,12 +9873,12 @@ func (condition *DeliveryRulePostArgsCondition) ConvertToARM(resolved genruntime
 	}
 	result := &DeliveryRulePostArgsCondition_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if condition.Name != nil {
 		result.Name = *condition.Name
 	}
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if condition.Parameters != nil {
 		parameters_ARM, err := (*condition.Parameters).ConvertToARM(resolved)
 		if err != nil {
@@ -9902,10 +9902,10 @@ func (condition *DeliveryRulePostArgsCondition) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRulePostArgsCondition_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 PostArgsMatchConditionParameters
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -10003,10 +10003,10 @@ func (condition *DeliveryRulePostArgsCondition_STATUS) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRulePostArgsCondition_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 PostArgsMatchConditionParameters_STATUS
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -10102,12 +10102,12 @@ func (condition *DeliveryRuleQueryStringCondition) ConvertToARM(resolved genrunt
 	}
 	result := &DeliveryRuleQueryStringCondition_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if condition.Name != nil {
 		result.Name = *condition.Name
 	}
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if condition.Parameters != nil {
 		parameters_ARM, err := (*condition.Parameters).ConvertToARM(resolved)
 		if err != nil {
@@ -10131,10 +10131,10 @@ func (condition *DeliveryRuleQueryStringCondition) PopulateFromARM(owner genrunt
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleQueryStringCondition_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 QueryStringMatchConditionParameters
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -10232,10 +10232,10 @@ func (condition *DeliveryRuleQueryStringCondition_STATUS) PopulateFromARM(owner 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleQueryStringCondition_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 QueryStringMatchConditionParameters_STATUS
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -10331,12 +10331,12 @@ func (condition *DeliveryRuleRemoteAddressCondition) ConvertToARM(resolved genru
 	}
 	result := &DeliveryRuleRemoteAddressCondition_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if condition.Name != nil {
 		result.Name = *condition.Name
 	}
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if condition.Parameters != nil {
 		parameters_ARM, err := (*condition.Parameters).ConvertToARM(resolved)
 		if err != nil {
@@ -10360,10 +10360,10 @@ func (condition *DeliveryRuleRemoteAddressCondition) PopulateFromARM(owner genru
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleRemoteAddressCondition_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 RemoteAddressMatchConditionParameters
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -10461,10 +10461,10 @@ func (condition *DeliveryRuleRemoteAddressCondition_STATUS) PopulateFromARM(owne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleRemoteAddressCondition_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 RemoteAddressMatchConditionParameters_STATUS
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -10560,12 +10560,12 @@ func (condition *DeliveryRuleRequestBodyCondition) ConvertToARM(resolved genrunt
 	}
 	result := &DeliveryRuleRequestBodyCondition_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if condition.Name != nil {
 		result.Name = *condition.Name
 	}
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if condition.Parameters != nil {
 		parameters_ARM, err := (*condition.Parameters).ConvertToARM(resolved)
 		if err != nil {
@@ -10589,10 +10589,10 @@ func (condition *DeliveryRuleRequestBodyCondition) PopulateFromARM(owner genrunt
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleRequestBodyCondition_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 RequestBodyMatchConditionParameters
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -10690,10 +10690,10 @@ func (condition *DeliveryRuleRequestBodyCondition_STATUS) PopulateFromARM(owner 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleRequestBodyCondition_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 RequestBodyMatchConditionParameters_STATUS
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -10789,12 +10789,12 @@ func (action *DeliveryRuleRequestHeaderAction) ConvertToARM(resolved genruntime.
 	}
 	result := &DeliveryRuleRequestHeaderAction_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if action.Name != nil {
 		result.Name = *action.Name
 	}
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if action.Parameters != nil {
 		parameters_ARM, err := (*action.Parameters).ConvertToARM(resolved)
 		if err != nil {
@@ -10818,10 +10818,10 @@ func (action *DeliveryRuleRequestHeaderAction) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleRequestHeaderAction_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	action.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 HeaderActionParameters
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -10919,10 +10919,10 @@ func (action *DeliveryRuleRequestHeaderAction_STATUS) PopulateFromARM(owner genr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleRequestHeaderAction_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	action.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 HeaderActionParameters_STATUS
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -11018,12 +11018,12 @@ func (condition *DeliveryRuleRequestHeaderCondition) ConvertToARM(resolved genru
 	}
 	result := &DeliveryRuleRequestHeaderCondition_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if condition.Name != nil {
 		result.Name = *condition.Name
 	}
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if condition.Parameters != nil {
 		parameters_ARM, err := (*condition.Parameters).ConvertToARM(resolved)
 		if err != nil {
@@ -11047,10 +11047,10 @@ func (condition *DeliveryRuleRequestHeaderCondition) PopulateFromARM(owner genru
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleRequestHeaderCondition_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 RequestHeaderMatchConditionParameters
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -11148,10 +11148,10 @@ func (condition *DeliveryRuleRequestHeaderCondition_STATUS) PopulateFromARM(owne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleRequestHeaderCondition_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 RequestHeaderMatchConditionParameters_STATUS
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -11247,12 +11247,12 @@ func (condition *DeliveryRuleRequestMethodCondition) ConvertToARM(resolved genru
 	}
 	result := &DeliveryRuleRequestMethodCondition_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if condition.Name != nil {
 		result.Name = *condition.Name
 	}
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if condition.Parameters != nil {
 		parameters_ARM, err := (*condition.Parameters).ConvertToARM(resolved)
 		if err != nil {
@@ -11276,10 +11276,10 @@ func (condition *DeliveryRuleRequestMethodCondition) PopulateFromARM(owner genru
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleRequestMethodCondition_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 RequestMethodMatchConditionParameters
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -11377,10 +11377,10 @@ func (condition *DeliveryRuleRequestMethodCondition_STATUS) PopulateFromARM(owne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleRequestMethodCondition_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 RequestMethodMatchConditionParameters_STATUS
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -11476,12 +11476,12 @@ func (condition *DeliveryRuleRequestSchemeCondition) ConvertToARM(resolved genru
 	}
 	result := &DeliveryRuleRequestSchemeCondition_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if condition.Name != nil {
 		result.Name = *condition.Name
 	}
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if condition.Parameters != nil {
 		parameters_ARM, err := (*condition.Parameters).ConvertToARM(resolved)
 		if err != nil {
@@ -11505,10 +11505,10 @@ func (condition *DeliveryRuleRequestSchemeCondition) PopulateFromARM(owner genru
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleRequestSchemeCondition_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 RequestSchemeMatchConditionParameters
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -11606,10 +11606,10 @@ func (condition *DeliveryRuleRequestSchemeCondition_STATUS) PopulateFromARM(owne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleRequestSchemeCondition_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 RequestSchemeMatchConditionParameters_STATUS
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -11705,12 +11705,12 @@ func (condition *DeliveryRuleRequestUriCondition) ConvertToARM(resolved genrunti
 	}
 	result := &DeliveryRuleRequestUriCondition_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if condition.Name != nil {
 		result.Name = *condition.Name
 	}
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if condition.Parameters != nil {
 		parameters_ARM, err := (*condition.Parameters).ConvertToARM(resolved)
 		if err != nil {
@@ -11734,10 +11734,10 @@ func (condition *DeliveryRuleRequestUriCondition) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleRequestUriCondition_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 RequestUriMatchConditionParameters
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -11835,10 +11835,10 @@ func (condition *DeliveryRuleRequestUriCondition_STATUS) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleRequestUriCondition_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 RequestUriMatchConditionParameters_STATUS
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -11934,12 +11934,12 @@ func (action *DeliveryRuleResponseHeaderAction) ConvertToARM(resolved genruntime
 	}
 	result := &DeliveryRuleResponseHeaderAction_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if action.Name != nil {
 		result.Name = *action.Name
 	}
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if action.Parameters != nil {
 		parameters_ARM, err := (*action.Parameters).ConvertToARM(resolved)
 		if err != nil {
@@ -11963,10 +11963,10 @@ func (action *DeliveryRuleResponseHeaderAction) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleResponseHeaderAction_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	action.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 HeaderActionParameters
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -12064,10 +12064,10 @@ func (action *DeliveryRuleResponseHeaderAction_STATUS) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleResponseHeaderAction_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	action.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 HeaderActionParameters_STATUS
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -12163,12 +12163,12 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction) ConvertToARM(resolve
 	}
 	result := &DeliveryRuleRouteConfigurationOverrideAction_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if action.Name != nil {
 		result.Name = *action.Name
 	}
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if action.Parameters != nil {
 		parameters_ARM, err := (*action.Parameters).ConvertToARM(resolved)
 		if err != nil {
@@ -12192,10 +12192,10 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction) PopulateFromARM(owne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleRouteConfigurationOverrideAction_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	action.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 RouteConfigurationOverrideActionParameters
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -12293,10 +12293,10 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction_STATUS) PopulateFromA
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleRouteConfigurationOverrideAction_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	action.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 RouteConfigurationOverrideActionParameters_STATUS
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -12392,12 +12392,12 @@ func (condition *DeliveryRuleServerPortCondition) ConvertToARM(resolved genrunti
 	}
 	result := &DeliveryRuleServerPortCondition_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if condition.Name != nil {
 		result.Name = *condition.Name
 	}
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if condition.Parameters != nil {
 		parameters_ARM, err := (*condition.Parameters).ConvertToARM(resolved)
 		if err != nil {
@@ -12421,10 +12421,10 @@ func (condition *DeliveryRuleServerPortCondition) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleServerPortCondition_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 ServerPortMatchConditionParameters
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -12522,10 +12522,10 @@ func (condition *DeliveryRuleServerPortCondition_STATUS) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleServerPortCondition_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 ServerPortMatchConditionParameters_STATUS
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -12621,12 +12621,12 @@ func (condition *DeliveryRuleSocketAddrCondition) ConvertToARM(resolved genrunti
 	}
 	result := &DeliveryRuleSocketAddrCondition_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if condition.Name != nil {
 		result.Name = *condition.Name
 	}
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if condition.Parameters != nil {
 		parameters_ARM, err := (*condition.Parameters).ConvertToARM(resolved)
 		if err != nil {
@@ -12650,10 +12650,10 @@ func (condition *DeliveryRuleSocketAddrCondition) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleSocketAddrCondition_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 SocketAddrMatchConditionParameters
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -12751,10 +12751,10 @@ func (condition *DeliveryRuleSocketAddrCondition_STATUS) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleSocketAddrCondition_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 SocketAddrMatchConditionParameters_STATUS
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -12850,12 +12850,12 @@ func (condition *DeliveryRuleSslProtocolCondition) ConvertToARM(resolved genrunt
 	}
 	result := &DeliveryRuleSslProtocolCondition_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if condition.Name != nil {
 		result.Name = *condition.Name
 	}
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if condition.Parameters != nil {
 		parameters_ARM, err := (*condition.Parameters).ConvertToARM(resolved)
 		if err != nil {
@@ -12879,10 +12879,10 @@ func (condition *DeliveryRuleSslProtocolCondition) PopulateFromARM(owner genrunt
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleSslProtocolCondition_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 SslProtocolMatchConditionParameters
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -12980,10 +12980,10 @@ func (condition *DeliveryRuleSslProtocolCondition_STATUS) PopulateFromARM(owner 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleSslProtocolCondition_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 SslProtocolMatchConditionParameters_STATUS
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -13079,12 +13079,12 @@ func (condition *DeliveryRuleUrlFileExtensionCondition) ConvertToARM(resolved ge
 	}
 	result := &DeliveryRuleUrlFileExtensionCondition_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if condition.Name != nil {
 		result.Name = *condition.Name
 	}
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if condition.Parameters != nil {
 		parameters_ARM, err := (*condition.Parameters).ConvertToARM(resolved)
 		if err != nil {
@@ -13108,10 +13108,10 @@ func (condition *DeliveryRuleUrlFileExtensionCondition) PopulateFromARM(owner ge
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleUrlFileExtensionCondition_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 UrlFileExtensionMatchConditionParameters
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -13209,10 +13209,10 @@ func (condition *DeliveryRuleUrlFileExtensionCondition_STATUS) PopulateFromARM(o
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleUrlFileExtensionCondition_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 UrlFileExtensionMatchConditionParameters_STATUS
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -13308,12 +13308,12 @@ func (condition *DeliveryRuleUrlFileNameCondition) ConvertToARM(resolved genrunt
 	}
 	result := &DeliveryRuleUrlFileNameCondition_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if condition.Name != nil {
 		result.Name = *condition.Name
 	}
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if condition.Parameters != nil {
 		parameters_ARM, err := (*condition.Parameters).ConvertToARM(resolved)
 		if err != nil {
@@ -13337,10 +13337,10 @@ func (condition *DeliveryRuleUrlFileNameCondition) PopulateFromARM(owner genrunt
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleUrlFileNameCondition_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 UrlFileNameMatchConditionParameters
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -13438,10 +13438,10 @@ func (condition *DeliveryRuleUrlFileNameCondition_STATUS) PopulateFromARM(owner 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleUrlFileNameCondition_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 UrlFileNameMatchConditionParameters_STATUS
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -13537,12 +13537,12 @@ func (condition *DeliveryRuleUrlPathCondition) ConvertToARM(resolved genruntime.
 	}
 	result := &DeliveryRuleUrlPathCondition_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if condition.Name != nil {
 		result.Name = *condition.Name
 	}
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if condition.Parameters != nil {
 		parameters_ARM, err := (*condition.Parameters).ConvertToARM(resolved)
 		if err != nil {
@@ -13566,10 +13566,10 @@ func (condition *DeliveryRuleUrlPathCondition) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleUrlPathCondition_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 UrlPathMatchConditionParameters
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -13667,10 +13667,10 @@ func (condition *DeliveryRuleUrlPathCondition_STATUS) PopulateFromARM(owner genr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleUrlPathCondition_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	condition.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 UrlPathMatchConditionParameters_STATUS
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -13766,12 +13766,12 @@ func (action *OriginGroupOverrideAction) ConvertToARM(resolved genruntime.Conver
 	}
 	result := &OriginGroupOverrideAction_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if action.Name != nil {
 		result.Name = *action.Name
 	}
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if action.Parameters != nil {
 		parameters_ARM, err := (*action.Parameters).ConvertToARM(resolved)
 		if err != nil {
@@ -13795,10 +13795,10 @@ func (action *OriginGroupOverrideAction) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OriginGroupOverrideAction_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	action.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 OriginGroupOverrideActionParameters
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -13896,10 +13896,10 @@ func (action *OriginGroupOverrideAction_STATUS) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OriginGroupOverrideAction_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	action.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 OriginGroupOverrideActionParameters_STATUS
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -13995,12 +13995,12 @@ func (action *UrlRedirectAction) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &UrlRedirectAction_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if action.Name != nil {
 		result.Name = *action.Name
 	}
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if action.Parameters != nil {
 		parameters_ARM, err := (*action.Parameters).ConvertToARM(resolved)
 		if err != nil {
@@ -14024,10 +14024,10 @@ func (action *UrlRedirectAction) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlRedirectAction_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	action.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 UrlRedirectActionParameters
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -14125,10 +14125,10 @@ func (action *UrlRedirectAction_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlRedirectAction_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	action.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 UrlRedirectActionParameters_STATUS
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -14224,12 +14224,12 @@ func (action *UrlRewriteAction) ConvertToARM(resolved genruntime.ConvertToARMRes
 	}
 	result := &UrlRewriteAction_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if action.Name != nil {
 		result.Name = *action.Name
 	}
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if action.Parameters != nil {
 		parameters_ARM, err := (*action.Parameters).ConvertToARM(resolved)
 		if err != nil {
@@ -14253,10 +14253,10 @@ func (action *UrlRewriteAction) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlRewriteAction_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	action.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 UrlRewriteActionParameters
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -14354,10 +14354,10 @@ func (action *UrlRewriteAction_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlRewriteAction_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	action.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 UrlRewriteActionParameters_STATUS
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -14453,12 +14453,12 @@ func (action *UrlSigningAction) ConvertToARM(resolved genruntime.ConvertToARMRes
 	}
 	result := &UrlSigningAction_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if action.Name != nil {
 		result.Name = *action.Name
 	}
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if action.Parameters != nil {
 		parameters_ARM, err := (*action.Parameters).ConvertToARM(resolved)
 		if err != nil {
@@ -14482,10 +14482,10 @@ func (action *UrlSigningAction) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlSigningAction_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	action.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 UrlSigningActionParameters
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -14583,10 +14583,10 @@ func (action *UrlSigningAction_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlSigningAction_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	action.Name = &typedInput.Name
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 UrlSigningActionParameters_STATUS
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -14686,25 +14686,25 @@ func (parameters *CacheExpirationActionParameters) ConvertToARM(resolved genrunt
 	}
 	result := &CacheExpirationActionParameters_ARM{}
 
-	// Set property ‘CacheBehavior’:
+	// Set property "CacheBehavior":
 	if parameters.CacheBehavior != nil {
 		cacheBehavior := *parameters.CacheBehavior
 		result.CacheBehavior = &cacheBehavior
 	}
 
-	// Set property ‘CacheDuration’:
+	// Set property "CacheDuration":
 	if parameters.CacheDuration != nil {
 		cacheDuration := *parameters.CacheDuration
 		result.CacheDuration = &cacheDuration
 	}
 
-	// Set property ‘CacheType’:
+	// Set property "CacheType":
 	if parameters.CacheType != nil {
 		cacheType := *parameters.CacheType
 		result.CacheType = &cacheType
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if parameters.TypeName != nil {
 		typeName := *parameters.TypeName
 		result.TypeName = &typeName
@@ -14724,25 +14724,25 @@ func (parameters *CacheExpirationActionParameters) PopulateFromARM(owner genrunt
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CacheExpirationActionParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CacheBehavior’:
+	// Set property "CacheBehavior":
 	if typedInput.CacheBehavior != nil {
 		cacheBehavior := *typedInput.CacheBehavior
 		parameters.CacheBehavior = &cacheBehavior
 	}
 
-	// Set property ‘CacheDuration’:
+	// Set property "CacheDuration":
 	if typedInput.CacheDuration != nil {
 		cacheDuration := *typedInput.CacheDuration
 		parameters.CacheDuration = &cacheDuration
 	}
 
-	// Set property ‘CacheType’:
+	// Set property "CacheType":
 	if typedInput.CacheType != nil {
 		cacheType := *typedInput.CacheType
 		parameters.CacheType = &cacheType
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -14851,25 +14851,25 @@ func (parameters *CacheExpirationActionParameters_STATUS) PopulateFromARM(owner 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CacheExpirationActionParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CacheBehavior’:
+	// Set property "CacheBehavior":
 	if typedInput.CacheBehavior != nil {
 		cacheBehavior := *typedInput.CacheBehavior
 		parameters.CacheBehavior = &cacheBehavior
 	}
 
-	// Set property ‘CacheDuration’:
+	// Set property "CacheDuration":
 	if typedInput.CacheDuration != nil {
 		cacheDuration := *typedInput.CacheDuration
 		parameters.CacheDuration = &cacheDuration
 	}
 
-	// Set property ‘CacheType’:
+	// Set property "CacheType":
 	if typedInput.CacheType != nil {
 		cacheType := *typedInput.CacheType
 		parameters.CacheType = &cacheType
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -14976,19 +14976,19 @@ func (parameters *CacheKeyQueryStringActionParameters) ConvertToARM(resolved gen
 	}
 	result := &CacheKeyQueryStringActionParameters_ARM{}
 
-	// Set property ‘QueryParameters’:
+	// Set property "QueryParameters":
 	if parameters.QueryParameters != nil {
 		queryParameters := *parameters.QueryParameters
 		result.QueryParameters = &queryParameters
 	}
 
-	// Set property ‘QueryStringBehavior’:
+	// Set property "QueryStringBehavior":
 	if parameters.QueryStringBehavior != nil {
 		queryStringBehavior := *parameters.QueryStringBehavior
 		result.QueryStringBehavior = &queryStringBehavior
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if parameters.TypeName != nil {
 		typeName := *parameters.TypeName
 		result.TypeName = &typeName
@@ -15008,19 +15008,19 @@ func (parameters *CacheKeyQueryStringActionParameters) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CacheKeyQueryStringActionParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘QueryParameters’:
+	// Set property "QueryParameters":
 	if typedInput.QueryParameters != nil {
 		queryParameters := *typedInput.QueryParameters
 		parameters.QueryParameters = &queryParameters
 	}
 
-	// Set property ‘QueryStringBehavior’:
+	// Set property "QueryStringBehavior":
 	if typedInput.QueryStringBehavior != nil {
 		queryStringBehavior := *typedInput.QueryStringBehavior
 		parameters.QueryStringBehavior = &queryStringBehavior
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -15112,19 +15112,19 @@ func (parameters *CacheKeyQueryStringActionParameters_STATUS) PopulateFromARM(ow
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CacheKeyQueryStringActionParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘QueryParameters’:
+	// Set property "QueryParameters":
 	if typedInput.QueryParameters != nil {
 		queryParameters := *typedInput.QueryParameters
 		parameters.QueryParameters = &queryParameters
 	}
 
-	// Set property ‘QueryStringBehavior’:
+	// Set property "QueryStringBehavior":
 	if typedInput.QueryStringBehavior != nil {
 		queryStringBehavior := *typedInput.QueryStringBehavior
 		parameters.QueryStringBehavior = &queryStringBehavior
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -15217,29 +15217,29 @@ func (parameters *ClientPortMatchConditionParameters) ConvertToARM(resolved genr
 	}
 	result := &ClientPortMatchConditionParameters_ARM{}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range parameters.MatchValues {
 		result.MatchValues = append(result.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if parameters.NegateCondition != nil {
 		negateCondition := *parameters.NegateCondition
 		result.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if parameters.Operator != nil {
 		operator := *parameters.Operator
 		result.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
 		result.Transforms = append(result.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if parameters.TypeName != nil {
 		typeName := *parameters.TypeName
 		result.TypeName = &typeName
@@ -15259,29 +15259,29 @@ func (parameters *ClientPortMatchConditionParameters) PopulateFromARM(owner genr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ClientPortMatchConditionParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -15417,29 +15417,29 @@ func (parameters *ClientPortMatchConditionParameters_STATUS) PopulateFromARM(own
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ClientPortMatchConditionParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -15575,35 +15575,35 @@ func (parameters *CookiesMatchConditionParameters) ConvertToARM(resolved genrunt
 	}
 	result := &CookiesMatchConditionParameters_ARM{}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range parameters.MatchValues {
 		result.MatchValues = append(result.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if parameters.NegateCondition != nil {
 		negateCondition := *parameters.NegateCondition
 		result.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if parameters.Operator != nil {
 		operator := *parameters.Operator
 		result.Operator = &operator
 	}
 
-	// Set property ‘Selector’:
+	// Set property "Selector":
 	if parameters.Selector != nil {
 		selector := *parameters.Selector
 		result.Selector = &selector
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
 		result.Transforms = append(result.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if parameters.TypeName != nil {
 		typeName := *parameters.TypeName
 		result.TypeName = &typeName
@@ -15623,35 +15623,35 @@ func (parameters *CookiesMatchConditionParameters) PopulateFromARM(owner genrunt
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CookiesMatchConditionParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Selector’:
+	// Set property "Selector":
 	if typedInput.Selector != nil {
 		selector := *typedInput.Selector
 		parameters.Selector = &selector
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -15794,35 +15794,35 @@ func (parameters *CookiesMatchConditionParameters_STATUS) PopulateFromARM(owner 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CookiesMatchConditionParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Selector’:
+	// Set property "Selector":
 	if typedInput.Selector != nil {
 		selector := *typedInput.Selector
 		parameters.Selector = &selector
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -16270,25 +16270,25 @@ func (parameters *HeaderActionParameters) ConvertToARM(resolved genruntime.Conve
 	}
 	result := &HeaderActionParameters_ARM{}
 
-	// Set property ‘HeaderAction’:
+	// Set property "HeaderAction":
 	if parameters.HeaderAction != nil {
 		headerAction := *parameters.HeaderAction
 		result.HeaderAction = &headerAction
 	}
 
-	// Set property ‘HeaderName’:
+	// Set property "HeaderName":
 	if parameters.HeaderName != nil {
 		headerName := *parameters.HeaderName
 		result.HeaderName = &headerName
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if parameters.TypeName != nil {
 		typeName := *parameters.TypeName
 		result.TypeName = &typeName
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if parameters.Value != nil {
 		value := *parameters.Value
 		result.Value = &value
@@ -16308,25 +16308,25 @@ func (parameters *HeaderActionParameters) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HeaderActionParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘HeaderAction’:
+	// Set property "HeaderAction":
 	if typedInput.HeaderAction != nil {
 		headerAction := *typedInput.HeaderAction
 		parameters.HeaderAction = &headerAction
 	}
 
-	// Set property ‘HeaderName’:
+	// Set property "HeaderName":
 	if typedInput.HeaderName != nil {
 		headerName := *typedInput.HeaderName
 		parameters.HeaderName = &headerName
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		parameters.Value = &value
@@ -16425,25 +16425,25 @@ func (parameters *HeaderActionParameters_STATUS) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HeaderActionParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘HeaderAction’:
+	// Set property "HeaderAction":
 	if typedInput.HeaderAction != nil {
 		headerAction := *typedInput.HeaderAction
 		parameters.HeaderAction = &headerAction
 	}
 
-	// Set property ‘HeaderName’:
+	// Set property "HeaderName":
 	if typedInput.HeaderName != nil {
 		headerName := *typedInput.HeaderName
 		parameters.HeaderName = &headerName
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		parameters.Value = &value
@@ -16542,29 +16542,29 @@ func (parameters *HostNameMatchConditionParameters) ConvertToARM(resolved genrun
 	}
 	result := &HostNameMatchConditionParameters_ARM{}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range parameters.MatchValues {
 		result.MatchValues = append(result.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if parameters.NegateCondition != nil {
 		negateCondition := *parameters.NegateCondition
 		result.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if parameters.Operator != nil {
 		operator := *parameters.Operator
 		result.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
 		result.Transforms = append(result.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if parameters.TypeName != nil {
 		typeName := *parameters.TypeName
 		result.TypeName = &typeName
@@ -16584,29 +16584,29 @@ func (parameters *HostNameMatchConditionParameters) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HostNameMatchConditionParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -16742,29 +16742,29 @@ func (parameters *HostNameMatchConditionParameters_STATUS) PopulateFromARM(owner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HostNameMatchConditionParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -16899,29 +16899,29 @@ func (parameters *HttpVersionMatchConditionParameters) ConvertToARM(resolved gen
 	}
 	result := &HttpVersionMatchConditionParameters_ARM{}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range parameters.MatchValues {
 		result.MatchValues = append(result.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if parameters.NegateCondition != nil {
 		negateCondition := *parameters.NegateCondition
 		result.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if parameters.Operator != nil {
 		operator := *parameters.Operator
 		result.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
 		result.Transforms = append(result.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if parameters.TypeName != nil {
 		typeName := *parameters.TypeName
 		result.TypeName = &typeName
@@ -16941,29 +16941,29 @@ func (parameters *HttpVersionMatchConditionParameters) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HttpVersionMatchConditionParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -17099,29 +17099,29 @@ func (parameters *HttpVersionMatchConditionParameters_STATUS) PopulateFromARM(ow
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HttpVersionMatchConditionParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -17256,29 +17256,29 @@ func (parameters *IsDeviceMatchConditionParameters) ConvertToARM(resolved genrun
 	}
 	result := &IsDeviceMatchConditionParameters_ARM{}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range parameters.MatchValues {
 		result.MatchValues = append(result.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if parameters.NegateCondition != nil {
 		negateCondition := *parameters.NegateCondition
 		result.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if parameters.Operator != nil {
 		operator := *parameters.Operator
 		result.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
 		result.Transforms = append(result.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if parameters.TypeName != nil {
 		typeName := *parameters.TypeName
 		result.TypeName = &typeName
@@ -17298,29 +17298,29 @@ func (parameters *IsDeviceMatchConditionParameters) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IsDeviceMatchConditionParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -17476,29 +17476,29 @@ func (parameters *IsDeviceMatchConditionParameters_STATUS) PopulateFromARM(owner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IsDeviceMatchConditionParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -17661,7 +17661,7 @@ func (parameters *OriginGroupOverrideActionParameters) ConvertToARM(resolved gen
 	}
 	result := &OriginGroupOverrideActionParameters_ARM{}
 
-	// Set property ‘OriginGroup’:
+	// Set property "OriginGroup":
 	if parameters.OriginGroup != nil {
 		originGroup_ARM, err := (*parameters.OriginGroup).ConvertToARM(resolved)
 		if err != nil {
@@ -17671,7 +17671,7 @@ func (parameters *OriginGroupOverrideActionParameters) ConvertToARM(resolved gen
 		result.OriginGroup = &originGroup
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if parameters.TypeName != nil {
 		typeName := *parameters.TypeName
 		result.TypeName = &typeName
@@ -17691,7 +17691,7 @@ func (parameters *OriginGroupOverrideActionParameters) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OriginGroupOverrideActionParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘OriginGroup’:
+	// Set property "OriginGroup":
 	if typedInput.OriginGroup != nil {
 		var originGroup1 ResourceReference
 		err := originGroup1.PopulateFromARM(owner, *typedInput.OriginGroup)
@@ -17702,7 +17702,7 @@ func (parameters *OriginGroupOverrideActionParameters) PopulateFromARM(owner gen
 		parameters.OriginGroup = &originGroup
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -17795,7 +17795,7 @@ func (parameters *OriginGroupOverrideActionParameters_STATUS) PopulateFromARM(ow
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OriginGroupOverrideActionParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘OriginGroup’:
+	// Set property "OriginGroup":
 	if typedInput.OriginGroup != nil {
 		var originGroup1 ResourceReference_STATUS
 		err := originGroup1.PopulateFromARM(owner, *typedInput.OriginGroup)
@@ -17806,7 +17806,7 @@ func (parameters *OriginGroupOverrideActionParameters_STATUS) PopulateFromARM(ow
 		parameters.OriginGroup = &originGroup
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -17902,35 +17902,35 @@ func (parameters *PostArgsMatchConditionParameters) ConvertToARM(resolved genrun
 	}
 	result := &PostArgsMatchConditionParameters_ARM{}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range parameters.MatchValues {
 		result.MatchValues = append(result.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if parameters.NegateCondition != nil {
 		negateCondition := *parameters.NegateCondition
 		result.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if parameters.Operator != nil {
 		operator := *parameters.Operator
 		result.Operator = &operator
 	}
 
-	// Set property ‘Selector’:
+	// Set property "Selector":
 	if parameters.Selector != nil {
 		selector := *parameters.Selector
 		result.Selector = &selector
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
 		result.Transforms = append(result.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if parameters.TypeName != nil {
 		typeName := *parameters.TypeName
 		result.TypeName = &typeName
@@ -17950,35 +17950,35 @@ func (parameters *PostArgsMatchConditionParameters) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PostArgsMatchConditionParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Selector’:
+	// Set property "Selector":
 	if typedInput.Selector != nil {
 		selector := *typedInput.Selector
 		parameters.Selector = &selector
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -18121,35 +18121,35 @@ func (parameters *PostArgsMatchConditionParameters_STATUS) PopulateFromARM(owner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PostArgsMatchConditionParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Selector’:
+	// Set property "Selector":
 	if typedInput.Selector != nil {
 		selector := *typedInput.Selector
 		parameters.Selector = &selector
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -18290,29 +18290,29 @@ func (parameters *QueryStringMatchConditionParameters) ConvertToARM(resolved gen
 	}
 	result := &QueryStringMatchConditionParameters_ARM{}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range parameters.MatchValues {
 		result.MatchValues = append(result.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if parameters.NegateCondition != nil {
 		negateCondition := *parameters.NegateCondition
 		result.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if parameters.Operator != nil {
 		operator := *parameters.Operator
 		result.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
 		result.Transforms = append(result.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if parameters.TypeName != nil {
 		typeName := *parameters.TypeName
 		result.TypeName = &typeName
@@ -18332,29 +18332,29 @@ func (parameters *QueryStringMatchConditionParameters) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected QueryStringMatchConditionParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -18490,29 +18490,29 @@ func (parameters *QueryStringMatchConditionParameters_STATUS) PopulateFromARM(ow
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected QueryStringMatchConditionParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -18647,29 +18647,29 @@ func (parameters *RemoteAddressMatchConditionParameters) ConvertToARM(resolved g
 	}
 	result := &RemoteAddressMatchConditionParameters_ARM{}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range parameters.MatchValues {
 		result.MatchValues = append(result.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if parameters.NegateCondition != nil {
 		negateCondition := *parameters.NegateCondition
 		result.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if parameters.Operator != nil {
 		operator := *parameters.Operator
 		result.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
 		result.Transforms = append(result.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if parameters.TypeName != nil {
 		typeName := *parameters.TypeName
 		result.TypeName = &typeName
@@ -18689,29 +18689,29 @@ func (parameters *RemoteAddressMatchConditionParameters) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RemoteAddressMatchConditionParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -18847,29 +18847,29 @@ func (parameters *RemoteAddressMatchConditionParameters_STATUS) PopulateFromARM(
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RemoteAddressMatchConditionParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -19004,29 +19004,29 @@ func (parameters *RequestBodyMatchConditionParameters) ConvertToARM(resolved gen
 	}
 	result := &RequestBodyMatchConditionParameters_ARM{}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range parameters.MatchValues {
 		result.MatchValues = append(result.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if parameters.NegateCondition != nil {
 		negateCondition := *parameters.NegateCondition
 		result.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if parameters.Operator != nil {
 		operator := *parameters.Operator
 		result.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
 		result.Transforms = append(result.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if parameters.TypeName != nil {
 		typeName := *parameters.TypeName
 		result.TypeName = &typeName
@@ -19046,29 +19046,29 @@ func (parameters *RequestBodyMatchConditionParameters) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RequestBodyMatchConditionParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -19204,29 +19204,29 @@ func (parameters *RequestBodyMatchConditionParameters_STATUS) PopulateFromARM(ow
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RequestBodyMatchConditionParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -19362,35 +19362,35 @@ func (parameters *RequestHeaderMatchConditionParameters) ConvertToARM(resolved g
 	}
 	result := &RequestHeaderMatchConditionParameters_ARM{}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range parameters.MatchValues {
 		result.MatchValues = append(result.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if parameters.NegateCondition != nil {
 		negateCondition := *parameters.NegateCondition
 		result.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if parameters.Operator != nil {
 		operator := *parameters.Operator
 		result.Operator = &operator
 	}
 
-	// Set property ‘Selector’:
+	// Set property "Selector":
 	if parameters.Selector != nil {
 		selector := *parameters.Selector
 		result.Selector = &selector
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
 		result.Transforms = append(result.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if parameters.TypeName != nil {
 		typeName := *parameters.TypeName
 		result.TypeName = &typeName
@@ -19410,35 +19410,35 @@ func (parameters *RequestHeaderMatchConditionParameters) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RequestHeaderMatchConditionParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Selector’:
+	// Set property "Selector":
 	if typedInput.Selector != nil {
 		selector := *typedInput.Selector
 		parameters.Selector = &selector
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -19581,35 +19581,35 @@ func (parameters *RequestHeaderMatchConditionParameters_STATUS) PopulateFromARM(
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RequestHeaderMatchConditionParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Selector’:
+	// Set property "Selector":
 	if typedInput.Selector != nil {
 		selector := *typedInput.Selector
 		parameters.Selector = &selector
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -19750,29 +19750,29 @@ func (parameters *RequestMethodMatchConditionParameters) ConvertToARM(resolved g
 	}
 	result := &RequestMethodMatchConditionParameters_ARM{}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range parameters.MatchValues {
 		result.MatchValues = append(result.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if parameters.NegateCondition != nil {
 		negateCondition := *parameters.NegateCondition
 		result.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if parameters.Operator != nil {
 		operator := *parameters.Operator
 		result.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
 		result.Transforms = append(result.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if parameters.TypeName != nil {
 		typeName := *parameters.TypeName
 		result.TypeName = &typeName
@@ -19792,29 +19792,29 @@ func (parameters *RequestMethodMatchConditionParameters) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RequestMethodMatchConditionParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -19970,29 +19970,29 @@ func (parameters *RequestMethodMatchConditionParameters_STATUS) PopulateFromARM(
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RequestMethodMatchConditionParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -20147,29 +20147,29 @@ func (parameters *RequestSchemeMatchConditionParameters) ConvertToARM(resolved g
 	}
 	result := &RequestSchemeMatchConditionParameters_ARM{}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range parameters.MatchValues {
 		result.MatchValues = append(result.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if parameters.NegateCondition != nil {
 		negateCondition := *parameters.NegateCondition
 		result.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if parameters.Operator != nil {
 		operator := *parameters.Operator
 		result.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
 		result.Transforms = append(result.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if parameters.TypeName != nil {
 		typeName := *parameters.TypeName
 		result.TypeName = &typeName
@@ -20189,29 +20189,29 @@ func (parameters *RequestSchemeMatchConditionParameters) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RequestSchemeMatchConditionParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -20367,29 +20367,29 @@ func (parameters *RequestSchemeMatchConditionParameters_STATUS) PopulateFromARM(
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RequestSchemeMatchConditionParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -20544,29 +20544,29 @@ func (parameters *RequestUriMatchConditionParameters) ConvertToARM(resolved genr
 	}
 	result := &RequestUriMatchConditionParameters_ARM{}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range parameters.MatchValues {
 		result.MatchValues = append(result.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if parameters.NegateCondition != nil {
 		negateCondition := *parameters.NegateCondition
 		result.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if parameters.Operator != nil {
 		operator := *parameters.Operator
 		result.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
 		result.Transforms = append(result.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if parameters.TypeName != nil {
 		typeName := *parameters.TypeName
 		result.TypeName = &typeName
@@ -20586,29 +20586,29 @@ func (parameters *RequestUriMatchConditionParameters) PopulateFromARM(owner genr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RequestUriMatchConditionParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -20744,29 +20744,29 @@ func (parameters *RequestUriMatchConditionParameters_STATUS) PopulateFromARM(own
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RequestUriMatchConditionParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -20897,7 +20897,7 @@ func (parameters *RouteConfigurationOverrideActionParameters) ConvertToARM(resol
 	}
 	result := &RouteConfigurationOverrideActionParameters_ARM{}
 
-	// Set property ‘CacheConfiguration’:
+	// Set property "CacheConfiguration":
 	if parameters.CacheConfiguration != nil {
 		cacheConfiguration_ARM, err := (*parameters.CacheConfiguration).ConvertToARM(resolved)
 		if err != nil {
@@ -20907,7 +20907,7 @@ func (parameters *RouteConfigurationOverrideActionParameters) ConvertToARM(resol
 		result.CacheConfiguration = &cacheConfiguration
 	}
 
-	// Set property ‘OriginGroupOverride’:
+	// Set property "OriginGroupOverride":
 	if parameters.OriginGroupOverride != nil {
 		originGroupOverride_ARM, err := (*parameters.OriginGroupOverride).ConvertToARM(resolved)
 		if err != nil {
@@ -20917,7 +20917,7 @@ func (parameters *RouteConfigurationOverrideActionParameters) ConvertToARM(resol
 		result.OriginGroupOverride = &originGroupOverride
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if parameters.TypeName != nil {
 		typeName := *parameters.TypeName
 		result.TypeName = &typeName
@@ -20937,7 +20937,7 @@ func (parameters *RouteConfigurationOverrideActionParameters) PopulateFromARM(ow
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteConfigurationOverrideActionParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CacheConfiguration’:
+	// Set property "CacheConfiguration":
 	if typedInput.CacheConfiguration != nil {
 		var cacheConfiguration1 CacheConfiguration
 		err := cacheConfiguration1.PopulateFromARM(owner, *typedInput.CacheConfiguration)
@@ -20948,7 +20948,7 @@ func (parameters *RouteConfigurationOverrideActionParameters) PopulateFromARM(ow
 		parameters.CacheConfiguration = &cacheConfiguration
 	}
 
-	// Set property ‘OriginGroupOverride’:
+	// Set property "OriginGroupOverride":
 	if typedInput.OriginGroupOverride != nil {
 		var originGroupOverride1 OriginGroupOverride
 		err := originGroupOverride1.PopulateFromARM(owner, *typedInput.OriginGroupOverride)
@@ -20959,7 +20959,7 @@ func (parameters *RouteConfigurationOverrideActionParameters) PopulateFromARM(ow
 		parameters.OriginGroupOverride = &originGroupOverride
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -21077,7 +21077,7 @@ func (parameters *RouteConfigurationOverrideActionParameters_STATUS) PopulateFro
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteConfigurationOverrideActionParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CacheConfiguration’:
+	// Set property "CacheConfiguration":
 	if typedInput.CacheConfiguration != nil {
 		var cacheConfiguration1 CacheConfiguration_STATUS
 		err := cacheConfiguration1.PopulateFromARM(owner, *typedInput.CacheConfiguration)
@@ -21088,7 +21088,7 @@ func (parameters *RouteConfigurationOverrideActionParameters_STATUS) PopulateFro
 		parameters.CacheConfiguration = &cacheConfiguration
 	}
 
-	// Set property ‘OriginGroupOverride’:
+	// Set property "OriginGroupOverride":
 	if typedInput.OriginGroupOverride != nil {
 		var originGroupOverride1 OriginGroupOverride_STATUS
 		err := originGroupOverride1.PopulateFromARM(owner, *typedInput.OriginGroupOverride)
@@ -21099,7 +21099,7 @@ func (parameters *RouteConfigurationOverrideActionParameters_STATUS) PopulateFro
 		parameters.OriginGroupOverride = &originGroupOverride
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -21218,29 +21218,29 @@ func (parameters *ServerPortMatchConditionParameters) ConvertToARM(resolved genr
 	}
 	result := &ServerPortMatchConditionParameters_ARM{}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range parameters.MatchValues {
 		result.MatchValues = append(result.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if parameters.NegateCondition != nil {
 		negateCondition := *parameters.NegateCondition
 		result.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if parameters.Operator != nil {
 		operator := *parameters.Operator
 		result.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
 		result.Transforms = append(result.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if parameters.TypeName != nil {
 		typeName := *parameters.TypeName
 		result.TypeName = &typeName
@@ -21260,29 +21260,29 @@ func (parameters *ServerPortMatchConditionParameters) PopulateFromARM(owner genr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPortMatchConditionParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -21418,29 +21418,29 @@ func (parameters *ServerPortMatchConditionParameters_STATUS) PopulateFromARM(own
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPortMatchConditionParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -21575,29 +21575,29 @@ func (parameters *SocketAddrMatchConditionParameters) ConvertToARM(resolved genr
 	}
 	result := &SocketAddrMatchConditionParameters_ARM{}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range parameters.MatchValues {
 		result.MatchValues = append(result.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if parameters.NegateCondition != nil {
 		negateCondition := *parameters.NegateCondition
 		result.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if parameters.Operator != nil {
 		operator := *parameters.Operator
 		result.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
 		result.Transforms = append(result.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if parameters.TypeName != nil {
 		typeName := *parameters.TypeName
 		result.TypeName = &typeName
@@ -21617,29 +21617,29 @@ func (parameters *SocketAddrMatchConditionParameters) PopulateFromARM(owner genr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SocketAddrMatchConditionParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -21775,29 +21775,29 @@ func (parameters *SocketAddrMatchConditionParameters_STATUS) PopulateFromARM(own
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SocketAddrMatchConditionParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -21932,29 +21932,29 @@ func (parameters *SslProtocolMatchConditionParameters) ConvertToARM(resolved gen
 	}
 	result := &SslProtocolMatchConditionParameters_ARM{}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range parameters.MatchValues {
 		result.MatchValues = append(result.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if parameters.NegateCondition != nil {
 		negateCondition := *parameters.NegateCondition
 		result.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if parameters.Operator != nil {
 		operator := *parameters.Operator
 		result.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
 		result.Transforms = append(result.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if parameters.TypeName != nil {
 		typeName := *parameters.TypeName
 		result.TypeName = &typeName
@@ -21974,29 +21974,29 @@ func (parameters *SslProtocolMatchConditionParameters) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SslProtocolMatchConditionParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -22152,29 +22152,29 @@ func (parameters *SslProtocolMatchConditionParameters_STATUS) PopulateFromARM(ow
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SslProtocolMatchConditionParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -22329,29 +22329,29 @@ func (parameters *UrlFileExtensionMatchConditionParameters) ConvertToARM(resolve
 	}
 	result := &UrlFileExtensionMatchConditionParameters_ARM{}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range parameters.MatchValues {
 		result.MatchValues = append(result.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if parameters.NegateCondition != nil {
 		negateCondition := *parameters.NegateCondition
 		result.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if parameters.Operator != nil {
 		operator := *parameters.Operator
 		result.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
 		result.Transforms = append(result.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if parameters.TypeName != nil {
 		typeName := *parameters.TypeName
 		result.TypeName = &typeName
@@ -22371,29 +22371,29 @@ func (parameters *UrlFileExtensionMatchConditionParameters) PopulateFromARM(owne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlFileExtensionMatchConditionParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -22529,29 +22529,29 @@ func (parameters *UrlFileExtensionMatchConditionParameters_STATUS) PopulateFromA
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlFileExtensionMatchConditionParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -22686,29 +22686,29 @@ func (parameters *UrlFileNameMatchConditionParameters) ConvertToARM(resolved gen
 	}
 	result := &UrlFileNameMatchConditionParameters_ARM{}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range parameters.MatchValues {
 		result.MatchValues = append(result.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if parameters.NegateCondition != nil {
 		negateCondition := *parameters.NegateCondition
 		result.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if parameters.Operator != nil {
 		operator := *parameters.Operator
 		result.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
 		result.Transforms = append(result.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if parameters.TypeName != nil {
 		typeName := *parameters.TypeName
 		result.TypeName = &typeName
@@ -22728,29 +22728,29 @@ func (parameters *UrlFileNameMatchConditionParameters) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlFileNameMatchConditionParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -22886,29 +22886,29 @@ func (parameters *UrlFileNameMatchConditionParameters_STATUS) PopulateFromARM(ow
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlFileNameMatchConditionParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -23043,29 +23043,29 @@ func (parameters *UrlPathMatchConditionParameters) ConvertToARM(resolved genrunt
 	}
 	result := &UrlPathMatchConditionParameters_ARM{}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range parameters.MatchValues {
 		result.MatchValues = append(result.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if parameters.NegateCondition != nil {
 		negateCondition := *parameters.NegateCondition
 		result.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if parameters.Operator != nil {
 		operator := *parameters.Operator
 		result.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range parameters.Transforms {
 		result.Transforms = append(result.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if parameters.TypeName != nil {
 		typeName := *parameters.TypeName
 		result.TypeName = &typeName
@@ -23085,29 +23085,29 @@ func (parameters *UrlPathMatchConditionParameters) PopulateFromARM(owner genrunt
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlPathMatchConditionParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -23243,29 +23243,29 @@ func (parameters *UrlPathMatchConditionParameters_STATUS) PopulateFromARM(owner 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlPathMatchConditionParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MatchValues’:
+	// Set property "MatchValues":
 	for _, item := range typedInput.MatchValues {
 		parameters.MatchValues = append(parameters.MatchValues, item)
 	}
 
-	// Set property ‘NegateCondition’:
+	// Set property "NegateCondition":
 	if typedInput.NegateCondition != nil {
 		negateCondition := *typedInput.NegateCondition
 		parameters.NegateCondition = &negateCondition
 	}
 
-	// Set property ‘Operator’:
+	// Set property "Operator":
 	if typedInput.Operator != nil {
 		operator := *typedInput.Operator
 		parameters.Operator = &operator
 	}
 
-	// Set property ‘Transforms’:
+	// Set property "Transforms":
 	for _, item := range typedInput.Transforms {
 		parameters.Transforms = append(parameters.Transforms, item)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -23413,43 +23413,43 @@ func (parameters *UrlRedirectActionParameters) ConvertToARM(resolved genruntime.
 	}
 	result := &UrlRedirectActionParameters_ARM{}
 
-	// Set property ‘CustomFragment’:
+	// Set property "CustomFragment":
 	if parameters.CustomFragment != nil {
 		customFragment := *parameters.CustomFragment
 		result.CustomFragment = &customFragment
 	}
 
-	// Set property ‘CustomHostname’:
+	// Set property "CustomHostname":
 	if parameters.CustomHostname != nil {
 		customHostname := *parameters.CustomHostname
 		result.CustomHostname = &customHostname
 	}
 
-	// Set property ‘CustomPath’:
+	// Set property "CustomPath":
 	if parameters.CustomPath != nil {
 		customPath := *parameters.CustomPath
 		result.CustomPath = &customPath
 	}
 
-	// Set property ‘CustomQueryString’:
+	// Set property "CustomQueryString":
 	if parameters.CustomQueryString != nil {
 		customQueryString := *parameters.CustomQueryString
 		result.CustomQueryString = &customQueryString
 	}
 
-	// Set property ‘DestinationProtocol’:
+	// Set property "DestinationProtocol":
 	if parameters.DestinationProtocol != nil {
 		destinationProtocol := *parameters.DestinationProtocol
 		result.DestinationProtocol = &destinationProtocol
 	}
 
-	// Set property ‘RedirectType’:
+	// Set property "RedirectType":
 	if parameters.RedirectType != nil {
 		redirectType := *parameters.RedirectType
 		result.RedirectType = &redirectType
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if parameters.TypeName != nil {
 		typeName := *parameters.TypeName
 		result.TypeName = &typeName
@@ -23469,43 +23469,43 @@ func (parameters *UrlRedirectActionParameters) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlRedirectActionParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CustomFragment’:
+	// Set property "CustomFragment":
 	if typedInput.CustomFragment != nil {
 		customFragment := *typedInput.CustomFragment
 		parameters.CustomFragment = &customFragment
 	}
 
-	// Set property ‘CustomHostname’:
+	// Set property "CustomHostname":
 	if typedInput.CustomHostname != nil {
 		customHostname := *typedInput.CustomHostname
 		parameters.CustomHostname = &customHostname
 	}
 
-	// Set property ‘CustomPath’:
+	// Set property "CustomPath":
 	if typedInput.CustomPath != nil {
 		customPath := *typedInput.CustomPath
 		parameters.CustomPath = &customPath
 	}
 
-	// Set property ‘CustomQueryString’:
+	// Set property "CustomQueryString":
 	if typedInput.CustomQueryString != nil {
 		customQueryString := *typedInput.CustomQueryString
 		parameters.CustomQueryString = &customQueryString
 	}
 
-	// Set property ‘DestinationProtocol’:
+	// Set property "DestinationProtocol":
 	if typedInput.DestinationProtocol != nil {
 		destinationProtocol := *typedInput.DestinationProtocol
 		parameters.DestinationProtocol = &destinationProtocol
 	}
 
-	// Set property ‘RedirectType’:
+	// Set property "RedirectType":
 	if typedInput.RedirectType != nil {
 		redirectType := *typedInput.RedirectType
 		parameters.RedirectType = &redirectType
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -23635,43 +23635,43 @@ func (parameters *UrlRedirectActionParameters_STATUS) PopulateFromARM(owner genr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlRedirectActionParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CustomFragment’:
+	// Set property "CustomFragment":
 	if typedInput.CustomFragment != nil {
 		customFragment := *typedInput.CustomFragment
 		parameters.CustomFragment = &customFragment
 	}
 
-	// Set property ‘CustomHostname’:
+	// Set property "CustomHostname":
 	if typedInput.CustomHostname != nil {
 		customHostname := *typedInput.CustomHostname
 		parameters.CustomHostname = &customHostname
 	}
 
-	// Set property ‘CustomPath’:
+	// Set property "CustomPath":
 	if typedInput.CustomPath != nil {
 		customPath := *typedInput.CustomPath
 		parameters.CustomPath = &customPath
 	}
 
-	// Set property ‘CustomQueryString’:
+	// Set property "CustomQueryString":
 	if typedInput.CustomQueryString != nil {
 		customQueryString := *typedInput.CustomQueryString
 		parameters.CustomQueryString = &customQueryString
 	}
 
-	// Set property ‘DestinationProtocol’:
+	// Set property "DestinationProtocol":
 	if typedInput.DestinationProtocol != nil {
 		destinationProtocol := *typedInput.DestinationProtocol
 		parameters.DestinationProtocol = &destinationProtocol
 	}
 
-	// Set property ‘RedirectType’:
+	// Set property "RedirectType":
 	if typedInput.RedirectType != nil {
 		redirectType := *typedInput.RedirectType
 		parameters.RedirectType = &redirectType
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -23809,25 +23809,25 @@ func (parameters *UrlRewriteActionParameters) ConvertToARM(resolved genruntime.C
 	}
 	result := &UrlRewriteActionParameters_ARM{}
 
-	// Set property ‘Destination’:
+	// Set property "Destination":
 	if parameters.Destination != nil {
 		destination := *parameters.Destination
 		result.Destination = &destination
 	}
 
-	// Set property ‘PreserveUnmatchedPath’:
+	// Set property "PreserveUnmatchedPath":
 	if parameters.PreserveUnmatchedPath != nil {
 		preserveUnmatchedPath := *parameters.PreserveUnmatchedPath
 		result.PreserveUnmatchedPath = &preserveUnmatchedPath
 	}
 
-	// Set property ‘SourcePattern’:
+	// Set property "SourcePattern":
 	if parameters.SourcePattern != nil {
 		sourcePattern := *parameters.SourcePattern
 		result.SourcePattern = &sourcePattern
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if parameters.TypeName != nil {
 		typeName := *parameters.TypeName
 		result.TypeName = &typeName
@@ -23847,25 +23847,25 @@ func (parameters *UrlRewriteActionParameters) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlRewriteActionParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Destination’:
+	// Set property "Destination":
 	if typedInput.Destination != nil {
 		destination := *typedInput.Destination
 		parameters.Destination = &destination
 	}
 
-	// Set property ‘PreserveUnmatchedPath’:
+	// Set property "PreserveUnmatchedPath":
 	if typedInput.PreserveUnmatchedPath != nil {
 		preserveUnmatchedPath := *typedInput.PreserveUnmatchedPath
 		parameters.PreserveUnmatchedPath = &preserveUnmatchedPath
 	}
 
-	// Set property ‘SourcePattern’:
+	// Set property "SourcePattern":
 	if typedInput.SourcePattern != nil {
 		sourcePattern := *typedInput.SourcePattern
 		parameters.SourcePattern = &sourcePattern
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -23964,25 +23964,25 @@ func (parameters *UrlRewriteActionParameters_STATUS) PopulateFromARM(owner genru
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlRewriteActionParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Destination’:
+	// Set property "Destination":
 	if typedInput.Destination != nil {
 		destination := *typedInput.Destination
 		parameters.Destination = &destination
 	}
 
-	// Set property ‘PreserveUnmatchedPath’:
+	// Set property "PreserveUnmatchedPath":
 	if typedInput.PreserveUnmatchedPath != nil {
 		preserveUnmatchedPath := *typedInput.PreserveUnmatchedPath
 		parameters.PreserveUnmatchedPath = &preserveUnmatchedPath
 	}
 
-	// Set property ‘SourcePattern’:
+	// Set property "SourcePattern":
 	if typedInput.SourcePattern != nil {
 		sourcePattern := *typedInput.SourcePattern
 		parameters.SourcePattern = &sourcePattern
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -24088,13 +24088,13 @@ func (parameters *UrlSigningActionParameters) ConvertToARM(resolved genruntime.C
 	}
 	result := &UrlSigningActionParameters_ARM{}
 
-	// Set property ‘Algorithm’:
+	// Set property "Algorithm":
 	if parameters.Algorithm != nil {
 		algorithm := *parameters.Algorithm
 		result.Algorithm = &algorithm
 	}
 
-	// Set property ‘ParameterNameOverride’:
+	// Set property "ParameterNameOverride":
 	for _, item := range parameters.ParameterNameOverride {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -24103,7 +24103,7 @@ func (parameters *UrlSigningActionParameters) ConvertToARM(resolved genruntime.C
 		result.ParameterNameOverride = append(result.ParameterNameOverride, *item_ARM.(*UrlSigningParamIdentifier_ARM))
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if parameters.TypeName != nil {
 		typeName := *parameters.TypeName
 		result.TypeName = &typeName
@@ -24123,13 +24123,13 @@ func (parameters *UrlSigningActionParameters) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlSigningActionParameters_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Algorithm’:
+	// Set property "Algorithm":
 	if typedInput.Algorithm != nil {
 		algorithm := *typedInput.Algorithm
 		parameters.Algorithm = &algorithm
 	}
 
-	// Set property ‘ParameterNameOverride’:
+	// Set property "ParameterNameOverride":
 	for _, item := range typedInput.ParameterNameOverride {
 		var item1 UrlSigningParamIdentifier
 		err := item1.PopulateFromARM(owner, item)
@@ -24139,7 +24139,7 @@ func (parameters *UrlSigningActionParameters) PopulateFromARM(owner genruntime.A
 		parameters.ParameterNameOverride = append(parameters.ParameterNameOverride, item1)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -24261,13 +24261,13 @@ func (parameters *UrlSigningActionParameters_STATUS) PopulateFromARM(owner genru
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlSigningActionParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Algorithm’:
+	// Set property "Algorithm":
 	if typedInput.Algorithm != nil {
 		algorithm := *typedInput.Algorithm
 		parameters.Algorithm = &algorithm
 	}
 
-	// Set property ‘ParameterNameOverride’:
+	// Set property "ParameterNameOverride":
 	for _, item := range typedInput.ParameterNameOverride {
 		var item1 UrlSigningParamIdentifier_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -24277,7 +24277,7 @@ func (parameters *UrlSigningActionParameters_STATUS) PopulateFromARM(owner genru
 		parameters.ParameterNameOverride = append(parameters.ParameterNameOverride, item1)
 	}
 
-	// Set property ‘TypeName’:
+	// Set property "TypeName":
 	if typedInput.TypeName != nil {
 		typeName := *typedInput.TypeName
 		parameters.TypeName = &typeName
@@ -24396,31 +24396,31 @@ func (configuration *CacheConfiguration) ConvertToARM(resolved genruntime.Conver
 	}
 	result := &CacheConfiguration_ARM{}
 
-	// Set property ‘CacheBehavior’:
+	// Set property "CacheBehavior":
 	if configuration.CacheBehavior != nil {
 		cacheBehavior := *configuration.CacheBehavior
 		result.CacheBehavior = &cacheBehavior
 	}
 
-	// Set property ‘CacheDuration’:
+	// Set property "CacheDuration":
 	if configuration.CacheDuration != nil {
 		cacheDuration := *configuration.CacheDuration
 		result.CacheDuration = &cacheDuration
 	}
 
-	// Set property ‘IsCompressionEnabled’:
+	// Set property "IsCompressionEnabled":
 	if configuration.IsCompressionEnabled != nil {
 		isCompressionEnabled := *configuration.IsCompressionEnabled
 		result.IsCompressionEnabled = &isCompressionEnabled
 	}
 
-	// Set property ‘QueryParameters’:
+	// Set property "QueryParameters":
 	if configuration.QueryParameters != nil {
 		queryParameters := *configuration.QueryParameters
 		result.QueryParameters = &queryParameters
 	}
 
-	// Set property ‘QueryStringCachingBehavior’:
+	// Set property "QueryStringCachingBehavior":
 	if configuration.QueryStringCachingBehavior != nil {
 		queryStringCachingBehavior := *configuration.QueryStringCachingBehavior
 		result.QueryStringCachingBehavior = &queryStringCachingBehavior
@@ -24440,31 +24440,31 @@ func (configuration *CacheConfiguration) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CacheConfiguration_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CacheBehavior’:
+	// Set property "CacheBehavior":
 	if typedInput.CacheBehavior != nil {
 		cacheBehavior := *typedInput.CacheBehavior
 		configuration.CacheBehavior = &cacheBehavior
 	}
 
-	// Set property ‘CacheDuration’:
+	// Set property "CacheDuration":
 	if typedInput.CacheDuration != nil {
 		cacheDuration := *typedInput.CacheDuration
 		configuration.CacheDuration = &cacheDuration
 	}
 
-	// Set property ‘IsCompressionEnabled’:
+	// Set property "IsCompressionEnabled":
 	if typedInput.IsCompressionEnabled != nil {
 		isCompressionEnabled := *typedInput.IsCompressionEnabled
 		configuration.IsCompressionEnabled = &isCompressionEnabled
 	}
 
-	// Set property ‘QueryParameters’:
+	// Set property "QueryParameters":
 	if typedInput.QueryParameters != nil {
 		queryParameters := *typedInput.QueryParameters
 		configuration.QueryParameters = &queryParameters
 	}
 
-	// Set property ‘QueryStringCachingBehavior’:
+	// Set property "QueryStringCachingBehavior":
 	if typedInput.QueryStringCachingBehavior != nil {
 		queryStringCachingBehavior := *typedInput.QueryStringCachingBehavior
 		configuration.QueryStringCachingBehavior = &queryStringCachingBehavior
@@ -24580,31 +24580,31 @@ func (configuration *CacheConfiguration_STATUS) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CacheConfiguration_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CacheBehavior’:
+	// Set property "CacheBehavior":
 	if typedInput.CacheBehavior != nil {
 		cacheBehavior := *typedInput.CacheBehavior
 		configuration.CacheBehavior = &cacheBehavior
 	}
 
-	// Set property ‘CacheDuration’:
+	// Set property "CacheDuration":
 	if typedInput.CacheDuration != nil {
 		cacheDuration := *typedInput.CacheDuration
 		configuration.CacheDuration = &cacheDuration
 	}
 
-	// Set property ‘IsCompressionEnabled’:
+	// Set property "IsCompressionEnabled":
 	if typedInput.IsCompressionEnabled != nil {
 		isCompressionEnabled := *typedInput.IsCompressionEnabled
 		configuration.IsCompressionEnabled = &isCompressionEnabled
 	}
 
-	// Set property ‘QueryParameters’:
+	// Set property "QueryParameters":
 	if typedInput.QueryParameters != nil {
 		queryParameters := *typedInput.QueryParameters
 		configuration.QueryParameters = &queryParameters
 	}
 
-	// Set property ‘QueryStringCachingBehavior’:
+	// Set property "QueryStringCachingBehavior":
 	if typedInput.QueryStringCachingBehavior != nil {
 		queryStringCachingBehavior := *typedInput.QueryStringCachingBehavior
 		configuration.QueryStringCachingBehavior = &queryStringCachingBehavior
@@ -25042,13 +25042,13 @@ func (override *OriginGroupOverride) ConvertToARM(resolved genruntime.ConvertToA
 	}
 	result := &OriginGroupOverride_ARM{}
 
-	// Set property ‘ForwardingProtocol’:
+	// Set property "ForwardingProtocol":
 	if override.ForwardingProtocol != nil {
 		forwardingProtocol := *override.ForwardingProtocol
 		result.ForwardingProtocol = &forwardingProtocol
 	}
 
-	// Set property ‘OriginGroup’:
+	// Set property "OriginGroup":
 	if override.OriginGroup != nil {
 		originGroup_ARM, err := (*override.OriginGroup).ConvertToARM(resolved)
 		if err != nil {
@@ -25072,13 +25072,13 @@ func (override *OriginGroupOverride) PopulateFromARM(owner genruntime.ArbitraryO
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OriginGroupOverride_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ForwardingProtocol’:
+	// Set property "ForwardingProtocol":
 	if typedInput.ForwardingProtocol != nil {
 		forwardingProtocol := *typedInput.ForwardingProtocol
 		override.ForwardingProtocol = &forwardingProtocol
 	}
 
-	// Set property ‘OriginGroup’:
+	// Set property "OriginGroup":
 	if typedInput.OriginGroup != nil {
 		var originGroup1 ResourceReference
 		err := originGroup1.PopulateFromARM(owner, *typedInput.OriginGroup)
@@ -25176,13 +25176,13 @@ func (override *OriginGroupOverride_STATUS) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OriginGroupOverride_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ForwardingProtocol’:
+	// Set property "ForwardingProtocol":
 	if typedInput.ForwardingProtocol != nil {
 		forwardingProtocol := *typedInput.ForwardingProtocol
 		override.ForwardingProtocol = &forwardingProtocol
 	}
 
-	// Set property ‘OriginGroup’:
+	// Set property "OriginGroup":
 	if typedInput.OriginGroup != nil {
 		var originGroup1 ResourceReference_STATUS
 		err := originGroup1.PopulateFromARM(owner, *typedInput.OriginGroup)
@@ -26068,13 +26068,13 @@ func (identifier *UrlSigningParamIdentifier) ConvertToARM(resolved genruntime.Co
 	}
 	result := &UrlSigningParamIdentifier_ARM{}
 
-	// Set property ‘ParamIndicator’:
+	// Set property "ParamIndicator":
 	if identifier.ParamIndicator != nil {
 		paramIndicator := *identifier.ParamIndicator
 		result.ParamIndicator = &paramIndicator
 	}
 
-	// Set property ‘ParamName’:
+	// Set property "ParamName":
 	if identifier.ParamName != nil {
 		paramName := *identifier.ParamName
 		result.ParamName = &paramName
@@ -26094,13 +26094,13 @@ func (identifier *UrlSigningParamIdentifier) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlSigningParamIdentifier_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ParamIndicator’:
+	// Set property "ParamIndicator":
 	if typedInput.ParamIndicator != nil {
 		paramIndicator := *typedInput.ParamIndicator
 		identifier.ParamIndicator = &paramIndicator
 	}
 
-	// Set property ‘ParamName’:
+	// Set property "ParamName":
 	if typedInput.ParamName != nil {
 		paramName := *typedInput.ParamName
 		identifier.ParamName = &paramName
@@ -26175,13 +26175,13 @@ func (identifier *UrlSigningParamIdentifier_STATUS) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlSigningParamIdentifier_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ParamIndicator’:
+	// Set property "ParamIndicator":
 	if typedInput.ParamIndicator != nil {
 		paramIndicator := *typedInput.ParamIndicator
 		identifier.ParamIndicator = &paramIndicator
 	}
 
-	// Set property ‘ParamName’:
+	// Set property "ParamName":
 	if typedInput.ParamName != nil {
 		paramName := *typedInput.ParamName
 		identifier.ParamName = &paramName

@@ -364,16 +364,16 @@ func (zonesA *PrivateDnsZones_A_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	}
 	result := &PrivateDnsZones_A_Spec_ARM{}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if zonesA.Etag != nil {
 		etag := *zonesA.Etag
 		result.Etag = &etag
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if zonesA.ARecords != nil ||
 		zonesA.AaaaRecords != nil ||
 		zonesA.CnameRecord != nil ||
@@ -469,7 +469,7 @@ func (zonesA *PrivateDnsZones_A_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateDnsZones_A_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ARecords’:
+	// Set property "ARecords":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ARecords {
@@ -482,7 +482,7 @@ func (zonesA *PrivateDnsZones_A_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘AaaaRecords’:
+	// Set property "AaaaRecords":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.AaaaRecords {
@@ -495,10 +495,10 @@ func (zonesA *PrivateDnsZones_A_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	zonesA.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘CnameRecord’:
+	// Set property "CnameRecord":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CnameRecord != nil {
@@ -512,13 +512,13 @@ func (zonesA *PrivateDnsZones_A_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		zonesA.Etag = &etag
 	}
 
-	// Set property ‘Metadata’:
+	// Set property "Metadata":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Metadata != nil {
@@ -529,7 +529,7 @@ func (zonesA *PrivateDnsZones_A_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘MxRecords’:
+	// Set property "MxRecords":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.MxRecords {
@@ -542,10 +542,10 @@ func (zonesA *PrivateDnsZones_A_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	zonesA.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘PtrRecords’:
+	// Set property "PtrRecords":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PtrRecords {
@@ -558,7 +558,7 @@ func (zonesA *PrivateDnsZones_A_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘SoaRecord’:
+	// Set property "SoaRecord":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SoaRecord != nil {
@@ -572,7 +572,7 @@ func (zonesA *PrivateDnsZones_A_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘SrvRecords’:
+	// Set property "SrvRecords":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.SrvRecords {
@@ -585,7 +585,7 @@ func (zonesA *PrivateDnsZones_A_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Ttl’:
+	// Set property "Ttl":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Ttl != nil {
@@ -594,7 +594,7 @@ func (zonesA *PrivateDnsZones_A_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘TxtRecords’:
+	// Set property "TxtRecords":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.TxtRecords {
@@ -1265,7 +1265,7 @@ func (zonesA *PrivateDnsZones_A_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateDnsZones_A_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ARecords’:
+	// Set property "ARecords":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ARecords {
@@ -1278,7 +1278,7 @@ func (zonesA *PrivateDnsZones_A_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘AaaaRecords’:
+	// Set property "AaaaRecords":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.AaaaRecords {
@@ -1291,7 +1291,7 @@ func (zonesA *PrivateDnsZones_A_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘CnameRecord’:
+	// Set property "CnameRecord":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CnameRecord != nil {
@@ -1305,15 +1305,15 @@ func (zonesA *PrivateDnsZones_A_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		zonesA.Etag = &etag
 	}
 
-	// Set property ‘Fqdn’:
+	// Set property "Fqdn":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Fqdn != nil {
@@ -1322,13 +1322,13 @@ func (zonesA *PrivateDnsZones_A_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		zonesA.Id = &id
 	}
 
-	// Set property ‘IsAutoRegistered’:
+	// Set property "IsAutoRegistered":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsAutoRegistered != nil {
@@ -1337,7 +1337,7 @@ func (zonesA *PrivateDnsZones_A_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘Metadata’:
+	// Set property "Metadata":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Metadata != nil {
@@ -1348,7 +1348,7 @@ func (zonesA *PrivateDnsZones_A_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘MxRecords’:
+	// Set property "MxRecords":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.MxRecords {
@@ -1361,13 +1361,13 @@ func (zonesA *PrivateDnsZones_A_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		zonesA.Name = &name
 	}
 
-	// Set property ‘PtrRecords’:
+	// Set property "PtrRecords":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PtrRecords {
@@ -1380,7 +1380,7 @@ func (zonesA *PrivateDnsZones_A_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘SoaRecord’:
+	// Set property "SoaRecord":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SoaRecord != nil {
@@ -1394,7 +1394,7 @@ func (zonesA *PrivateDnsZones_A_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘SrvRecords’:
+	// Set property "SrvRecords":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.SrvRecords {
@@ -1407,7 +1407,7 @@ func (zonesA *PrivateDnsZones_A_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘Ttl’:
+	// Set property "Ttl":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Ttl != nil {
@@ -1416,7 +1416,7 @@ func (zonesA *PrivateDnsZones_A_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘TxtRecords’:
+	// Set property "TxtRecords":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.TxtRecords {
@@ -1429,7 +1429,7 @@ func (zonesA *PrivateDnsZones_A_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		zonesA.Type = &typeVar

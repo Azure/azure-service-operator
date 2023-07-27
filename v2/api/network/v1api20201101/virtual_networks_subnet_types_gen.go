@@ -367,10 +367,10 @@ func (subnet *VirtualNetworks_Subnet_Spec) ConvertToARM(resolved genruntime.Conv
 	}
 	result := &VirtualNetworks_Subnet_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if subnet.AddressPrefix != nil ||
 		subnet.AddressPrefixes != nil ||
 		subnet.ApplicationGatewayIpConfigurations != nil ||
@@ -474,7 +474,7 @@ func (subnet *VirtualNetworks_Subnet_Spec) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworks_Subnet_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AddressPrefix’:
+	// Set property "AddressPrefix":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AddressPrefix != nil {
@@ -483,7 +483,7 @@ func (subnet *VirtualNetworks_Subnet_Spec) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘AddressPrefixes’:
+	// Set property "AddressPrefixes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.AddressPrefixes {
@@ -491,7 +491,7 @@ func (subnet *VirtualNetworks_Subnet_Spec) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘ApplicationGatewayIpConfigurations’:
+	// Set property "ApplicationGatewayIpConfigurations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ApplicationGatewayIpConfigurations {
@@ -504,10 +504,10 @@ func (subnet *VirtualNetworks_Subnet_Spec) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	subnet.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Delegations’:
+	// Set property "Delegations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Delegations {
@@ -520,7 +520,7 @@ func (subnet *VirtualNetworks_Subnet_Spec) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘IpAllocations’:
+	// Set property "IpAllocations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.IpAllocations {
@@ -533,7 +533,7 @@ func (subnet *VirtualNetworks_Subnet_Spec) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘NatGateway’:
+	// Set property "NatGateway":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NatGateway != nil {
@@ -547,7 +547,7 @@ func (subnet *VirtualNetworks_Subnet_Spec) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘NetworkSecurityGroup’:
+	// Set property "NetworkSecurityGroup":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NetworkSecurityGroup != nil {
@@ -561,10 +561,10 @@ func (subnet *VirtualNetworks_Subnet_Spec) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	subnet.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘PrivateEndpointNetworkPolicies’:
+	// Set property "PrivateEndpointNetworkPolicies":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateEndpointNetworkPolicies != nil {
@@ -573,7 +573,7 @@ func (subnet *VirtualNetworks_Subnet_Spec) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘PrivateLinkServiceNetworkPolicies’:
+	// Set property "PrivateLinkServiceNetworkPolicies":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateLinkServiceNetworkPolicies != nil {
@@ -582,7 +582,7 @@ func (subnet *VirtualNetworks_Subnet_Spec) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘RouteTable’:
+	// Set property "RouteTable":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RouteTable != nil {
@@ -596,7 +596,7 @@ func (subnet *VirtualNetworks_Subnet_Spec) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘ServiceEndpointPolicies’:
+	// Set property "ServiceEndpointPolicies":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ServiceEndpointPolicies {
@@ -609,7 +609,7 @@ func (subnet *VirtualNetworks_Subnet_Spec) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘ServiceEndpoints’:
+	// Set property "ServiceEndpoints":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ServiceEndpoints {
@@ -1324,7 +1324,7 @@ func (subnet *VirtualNetworks_Subnet_STATUS) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworks_Subnet_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AddressPrefix’:
+	// Set property "AddressPrefix":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AddressPrefix != nil {
@@ -1333,7 +1333,7 @@ func (subnet *VirtualNetworks_Subnet_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘AddressPrefixes’:
+	// Set property "AddressPrefixes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.AddressPrefixes {
@@ -1341,7 +1341,7 @@ func (subnet *VirtualNetworks_Subnet_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘ApplicationGatewayIpConfigurations’:
+	// Set property "ApplicationGatewayIpConfigurations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ApplicationGatewayIpConfigurations {
@@ -1354,9 +1354,9 @@ func (subnet *VirtualNetworks_Subnet_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Delegations’:
+	// Set property "Delegations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Delegations {
@@ -1369,19 +1369,19 @@ func (subnet *VirtualNetworks_Subnet_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		subnet.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		subnet.Id = &id
 	}
 
-	// Set property ‘IpAllocations’:
+	// Set property "IpAllocations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.IpAllocations {
@@ -1394,7 +1394,7 @@ func (subnet *VirtualNetworks_Subnet_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘IpConfigurationProfiles’:
+	// Set property "IpConfigurationProfiles":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.IpConfigurationProfiles {
@@ -1407,7 +1407,7 @@ func (subnet *VirtualNetworks_Subnet_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘IpConfigurations’:
+	// Set property "IpConfigurations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.IpConfigurations {
@@ -1420,13 +1420,13 @@ func (subnet *VirtualNetworks_Subnet_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		subnet.Name = &name
 	}
 
-	// Set property ‘NatGateway’:
+	// Set property "NatGateway":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NatGateway != nil {
@@ -1440,7 +1440,7 @@ func (subnet *VirtualNetworks_Subnet_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘NetworkSecurityGroup’:
+	// Set property "NetworkSecurityGroup":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NetworkSecurityGroup != nil {
@@ -1454,7 +1454,7 @@ func (subnet *VirtualNetworks_Subnet_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘PrivateEndpointNetworkPolicies’:
+	// Set property "PrivateEndpointNetworkPolicies":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateEndpointNetworkPolicies != nil {
@@ -1463,7 +1463,7 @@ func (subnet *VirtualNetworks_Subnet_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘PrivateEndpoints’:
+	// Set property "PrivateEndpoints":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PrivateEndpoints {
@@ -1476,7 +1476,7 @@ func (subnet *VirtualNetworks_Subnet_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘PrivateLinkServiceNetworkPolicies’:
+	// Set property "PrivateLinkServiceNetworkPolicies":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateLinkServiceNetworkPolicies != nil {
@@ -1485,7 +1485,7 @@ func (subnet *VirtualNetworks_Subnet_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -1494,7 +1494,7 @@ func (subnet *VirtualNetworks_Subnet_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘Purpose’:
+	// Set property "Purpose":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Purpose != nil {
@@ -1503,7 +1503,7 @@ func (subnet *VirtualNetworks_Subnet_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘ResourceNavigationLinks’:
+	// Set property "ResourceNavigationLinks":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ResourceNavigationLinks {
@@ -1516,7 +1516,7 @@ func (subnet *VirtualNetworks_Subnet_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘RouteTable’:
+	// Set property "RouteTable":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RouteTable != nil {
@@ -1530,7 +1530,7 @@ func (subnet *VirtualNetworks_Subnet_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘ServiceAssociationLinks’:
+	// Set property "ServiceAssociationLinks":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ServiceAssociationLinks {
@@ -1543,7 +1543,7 @@ func (subnet *VirtualNetworks_Subnet_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘ServiceEndpointPolicies’:
+	// Set property "ServiceEndpointPolicies":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ServiceEndpointPolicies {
@@ -1556,7 +1556,7 @@ func (subnet *VirtualNetworks_Subnet_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘ServiceEndpoints’:
+	// Set property "ServiceEndpoints":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ServiceEndpoints {
@@ -1569,7 +1569,7 @@ func (subnet *VirtualNetworks_Subnet_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		subnet.Type = &typeVar
@@ -2150,7 +2150,7 @@ func (embedded *ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		embedded.Id = &id
@@ -2204,7 +2204,7 @@ func (embedded *ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubReso
 	}
 	result := &ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if embedded.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*embedded.Reference)
 		if err != nil {
@@ -2228,7 +2228,7 @@ func (embedded *ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubReso
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil
@@ -2306,13 +2306,13 @@ func (delegation *Delegation) ConvertToARM(resolved genruntime.ConvertToARMResol
 	}
 	result := &Delegation_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if delegation.Name != nil {
 		name := *delegation.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if delegation.ServiceName != nil {
 		result.Properties = &ServiceDelegationPropertiesFormat_ARM{}
 	}
@@ -2335,13 +2335,13 @@ func (delegation *Delegation) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Delegation_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		delegation.Name = &name
 	}
 
-	// Set property ‘ServiceName’:
+	// Set property "ServiceName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ServiceName != nil {
@@ -2440,7 +2440,7 @@ func (delegation *Delegation_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Delegation_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Actions’:
+	// Set property "Actions":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Actions {
@@ -2448,25 +2448,25 @@ func (delegation *Delegation_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		delegation.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		delegation.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		delegation.Name = &name
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -2475,7 +2475,7 @@ func (delegation *Delegation_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘ServiceName’:
+	// Set property "ServiceName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ServiceName != nil {
@@ -2484,7 +2484,7 @@ func (delegation *Delegation_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		delegation.Type = &typeVar
@@ -2589,7 +2589,7 @@ func (embedded *IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedde
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		embedded.Id = &id
@@ -2648,7 +2648,7 @@ func (profile *IPConfigurationProfile_STATUS) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IPConfigurationProfile_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		profile.Id = &id
@@ -2707,7 +2707,7 @@ func (embedded *NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEm
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		embedded.Id = &id
@@ -2761,7 +2761,7 @@ func (embedded *NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbed
 	}
 	result := &NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if embedded.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*embedded.Reference)
 		if err != nil {
@@ -2785,7 +2785,7 @@ func (embedded *NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbed
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil
@@ -2865,7 +2865,7 @@ func (embedded *PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedde
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		embedded.Id = &id
@@ -2924,7 +2924,7 @@ func (link *ResourceNavigationLink_STATUS) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceNavigationLink_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		link.Id = &id
@@ -2983,7 +2983,7 @@ func (embedded *RouteTable_STATUS_SubResourceEmbedded) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteTable_STATUS_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		embedded.Id = &id
@@ -3037,7 +3037,7 @@ func (embedded *RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded) Conve
 	}
 	result := &RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if embedded.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*embedded.Reference)
 		if err != nil {
@@ -3061,7 +3061,7 @@ func (embedded *RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded) Popul
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil
@@ -3141,7 +3141,7 @@ func (link *ServiceAssociationLink_STATUS) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServiceAssociationLink_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		link.Id = &id
@@ -3200,7 +3200,7 @@ func (embedded *ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceE
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		embedded.Id = &id
@@ -3254,7 +3254,7 @@ func (embedded *ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbe
 	}
 	result := &ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if embedded.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*embedded.Reference)
 		if err != nil {
@@ -3278,7 +3278,7 @@ func (embedded *ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil
@@ -3356,12 +3356,12 @@ func (format *ServiceEndpointPropertiesFormat) ConvertToARM(resolved genruntime.
 	}
 	result := &ServiceEndpointPropertiesFormat_ARM{}
 
-	// Set property ‘Locations’:
+	// Set property "Locations":
 	for _, item := range format.Locations {
 		result.Locations = append(result.Locations, item)
 	}
 
-	// Set property ‘Service’:
+	// Set property "Service":
 	if format.Service != nil {
 		service := *format.Service
 		result.Service = &service
@@ -3381,12 +3381,12 @@ func (format *ServiceEndpointPropertiesFormat) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServiceEndpointPropertiesFormat_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Locations’:
+	// Set property "Locations":
 	for _, item := range typedInput.Locations {
 		format.Locations = append(format.Locations, item)
 	}
 
-	// Set property ‘Service’:
+	// Set property "Service":
 	if typedInput.Service != nil {
 		service := *typedInput.Service
 		format.Service = &service
@@ -3470,18 +3470,18 @@ func (format *ServiceEndpointPropertiesFormat_STATUS) PopulateFromARM(owner genr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServiceEndpointPropertiesFormat_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Locations’:
+	// Set property "Locations":
 	for _, item := range typedInput.Locations {
 		format.Locations = append(format.Locations, item)
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
 		provisioningState := *typedInput.ProvisioningState
 		format.ProvisioningState = &provisioningState
 	}
 
-	// Set property ‘Service’:
+	// Set property "Service":
 	if typedInput.Service != nil {
 		service := *typedInput.Service
 		format.Service = &service

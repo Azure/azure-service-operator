@@ -349,7 +349,7 @@ func (vault *BackupVault_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 	}
 	result := &BackupVault_Spec_ARM{}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if vault.Identity != nil {
 		identity_ARM, err := (*vault.Identity).ConvertToARM(resolved)
 		if err != nil {
@@ -359,16 +359,16 @@ func (vault *BackupVault_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Identity = &identity
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if vault.Location != nil {
 		location := *vault.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if vault.Properties != nil {
 		properties_ARM, err := (*vault.Properties).ConvertToARM(resolved)
 		if err != nil {
@@ -378,7 +378,7 @@ func (vault *BackupVault_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Properties = &properties
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if vault.Tags != nil {
 		result.Tags = make(map[string]string, len(vault.Tags))
 		for key, value := range vault.Tags {
@@ -400,10 +400,10 @@ func (vault *BackupVault_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackupVault_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	vault.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 DppIdentityDetails
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -414,16 +414,16 @@ func (vault *BackupVault_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		vault.Identity = &identity
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		vault.Location = &location
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	vault.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if typedInput.Properties != nil {
 		var properties1 BackupVaultSpec
 		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
@@ -434,7 +434,7 @@ func (vault *BackupVault_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		vault.Properties = &properties
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		vault.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -746,21 +746,21 @@ func (resource *BackupVaultResource_STATUS) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackupVaultResource_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘ETag’:
+	// Set property "ETag":
 	if typedInput.ETag != nil {
 		eTag := *typedInput.ETag
 		resource.ETag = &eTag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		resource.Id = &id
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 DppIdentityDetails_STATUS
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -771,19 +771,19 @@ func (resource *BackupVaultResource_STATUS) PopulateFromARM(owner genruntime.Arb
 		resource.Identity = &identity
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		resource.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		resource.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if typedInput.Properties != nil {
 		var properties1 BackupVault_STATUS
 		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
@@ -794,7 +794,7 @@ func (resource *BackupVaultResource_STATUS) PopulateFromARM(owner genruntime.Arb
 		resource.Properties = &properties
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -805,7 +805,7 @@ func (resource *BackupVaultResource_STATUS) PopulateFromARM(owner genruntime.Arb
 		resource.SystemData = &systemData
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		resource.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -813,7 +813,7 @@ func (resource *BackupVaultResource_STATUS) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		resource.Type = &typeVar
@@ -1001,7 +1001,7 @@ func (vault *BackupVault_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackupVault_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘FeatureSettings’:
+	// Set property "FeatureSettings":
 	if typedInput.FeatureSettings != nil {
 		var featureSettings1 FeatureSettings_STATUS
 		err := featureSettings1.PopulateFromARM(owner, *typedInput.FeatureSettings)
@@ -1012,13 +1012,13 @@ func (vault *BackupVault_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		vault.FeatureSettings = &featureSettings
 	}
 
-	// Set property ‘IsVaultProtectedByResourceGuard’:
+	// Set property "IsVaultProtectedByResourceGuard":
 	if typedInput.IsVaultProtectedByResourceGuard != nil {
 		isVaultProtectedByResourceGuard := *typedInput.IsVaultProtectedByResourceGuard
 		vault.IsVaultProtectedByResourceGuard = &isVaultProtectedByResourceGuard
 	}
 
-	// Set property ‘MonitoringSettings’:
+	// Set property "MonitoringSettings":
 	if typedInput.MonitoringSettings != nil {
 		var monitoringSettings1 MonitoringSettings_STATUS
 		err := monitoringSettings1.PopulateFromARM(owner, *typedInput.MonitoringSettings)
@@ -1029,13 +1029,13 @@ func (vault *BackupVault_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		vault.MonitoringSettings = &monitoringSettings
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
 		provisioningState := *typedInput.ProvisioningState
 		vault.ProvisioningState = &provisioningState
 	}
 
-	// Set property ‘ResourceMoveDetails’:
+	// Set property "ResourceMoveDetails":
 	if typedInput.ResourceMoveDetails != nil {
 		var resourceMoveDetails1 ResourceMoveDetails_STATUS
 		err := resourceMoveDetails1.PopulateFromARM(owner, *typedInput.ResourceMoveDetails)
@@ -1046,13 +1046,13 @@ func (vault *BackupVault_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		vault.ResourceMoveDetails = &resourceMoveDetails
 	}
 
-	// Set property ‘ResourceMoveState’:
+	// Set property "ResourceMoveState":
 	if typedInput.ResourceMoveState != nil {
 		resourceMoveState := *typedInput.ResourceMoveState
 		vault.ResourceMoveState = &resourceMoveState
 	}
 
-	// Set property ‘SecuritySettings’:
+	// Set property "SecuritySettings":
 	if typedInput.SecuritySettings != nil {
 		var securitySettings1 SecuritySettings_STATUS
 		err := securitySettings1.PopulateFromARM(owner, *typedInput.SecuritySettings)
@@ -1063,7 +1063,7 @@ func (vault *BackupVault_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		vault.SecuritySettings = &securitySettings
 	}
 
-	// Set property ‘StorageSettings’:
+	// Set property "StorageSettings":
 	for _, item := range typedInput.StorageSettings {
 		var item1 StorageSetting_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -1305,7 +1305,7 @@ func (vault *BackupVaultSpec) ConvertToARM(resolved genruntime.ConvertToARMResol
 	}
 	result := &BackupVaultSpec_ARM{}
 
-	// Set property ‘FeatureSettings’:
+	// Set property "FeatureSettings":
 	if vault.FeatureSettings != nil {
 		featureSettings_ARM, err := (*vault.FeatureSettings).ConvertToARM(resolved)
 		if err != nil {
@@ -1315,7 +1315,7 @@ func (vault *BackupVaultSpec) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.FeatureSettings = &featureSettings
 	}
 
-	// Set property ‘MonitoringSettings’:
+	// Set property "MonitoringSettings":
 	if vault.MonitoringSettings != nil {
 		monitoringSettings_ARM, err := (*vault.MonitoringSettings).ConvertToARM(resolved)
 		if err != nil {
@@ -1325,7 +1325,7 @@ func (vault *BackupVaultSpec) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.MonitoringSettings = &monitoringSettings
 	}
 
-	// Set property ‘SecuritySettings’:
+	// Set property "SecuritySettings":
 	if vault.SecuritySettings != nil {
 		securitySettings_ARM, err := (*vault.SecuritySettings).ConvertToARM(resolved)
 		if err != nil {
@@ -1335,7 +1335,7 @@ func (vault *BackupVaultSpec) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.SecuritySettings = &securitySettings
 	}
 
-	// Set property ‘StorageSettings’:
+	// Set property "StorageSettings":
 	for _, item := range vault.StorageSettings {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -1358,7 +1358,7 @@ func (vault *BackupVaultSpec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackupVaultSpec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘FeatureSettings’:
+	// Set property "FeatureSettings":
 	if typedInput.FeatureSettings != nil {
 		var featureSettings1 FeatureSettings
 		err := featureSettings1.PopulateFromARM(owner, *typedInput.FeatureSettings)
@@ -1369,7 +1369,7 @@ func (vault *BackupVaultSpec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		vault.FeatureSettings = &featureSettings
 	}
 
-	// Set property ‘MonitoringSettings’:
+	// Set property "MonitoringSettings":
 	if typedInput.MonitoringSettings != nil {
 		var monitoringSettings1 MonitoringSettings
 		err := monitoringSettings1.PopulateFromARM(owner, *typedInput.MonitoringSettings)
@@ -1380,7 +1380,7 @@ func (vault *BackupVaultSpec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		vault.MonitoringSettings = &monitoringSettings
 	}
 
-	// Set property ‘SecuritySettings’:
+	// Set property "SecuritySettings":
 	if typedInput.SecuritySettings != nil {
 		var securitySettings1 SecuritySettings
 		err := securitySettings1.PopulateFromARM(owner, *typedInput.SecuritySettings)
@@ -1391,7 +1391,7 @@ func (vault *BackupVaultSpec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		vault.SecuritySettings = &securitySettings
 	}
 
-	// Set property ‘StorageSettings’:
+	// Set property "StorageSettings":
 	for _, item := range typedInput.StorageSettings {
 		var item1 StorageSetting
 		err := item1.PopulateFromARM(owner, item)
@@ -1612,7 +1612,7 @@ func (details *DppIdentityDetails) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &DppIdentityDetails_ARM{}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if details.Type != nil {
 		typeVar := *details.Type
 		result.Type = &typeVar
@@ -1632,7 +1632,7 @@ func (details *DppIdentityDetails) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DppIdentityDetails_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		details.Type = &typeVar
@@ -1708,19 +1708,19 @@ func (details *DppIdentityDetails_STATUS) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DppIdentityDetails_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘PrincipalId’:
+	// Set property "PrincipalId":
 	if typedInput.PrincipalId != nil {
 		principalId := *typedInput.PrincipalId
 		details.PrincipalId = &principalId
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
 		details.TenantId = &tenantId
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		details.Type = &typeVar
@@ -1806,37 +1806,37 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CreatedAt’:
+	// Set property "CreatedAt":
 	if typedInput.CreatedAt != nil {
 		createdAt := *typedInput.CreatedAt
 		data.CreatedAt = &createdAt
 	}
 
-	// Set property ‘CreatedBy’:
+	// Set property "CreatedBy":
 	if typedInput.CreatedBy != nil {
 		createdBy := *typedInput.CreatedBy
 		data.CreatedBy = &createdBy
 	}
 
-	// Set property ‘CreatedByType’:
+	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
 		createdByType := *typedInput.CreatedByType
 		data.CreatedByType = &createdByType
 	}
 
-	// Set property ‘LastModifiedAt’:
+	// Set property "LastModifiedAt":
 	if typedInput.LastModifiedAt != nil {
 		lastModifiedAt := *typedInput.LastModifiedAt
 		data.LastModifiedAt = &lastModifiedAt
 	}
 
-	// Set property ‘LastModifiedBy’:
+	// Set property "LastModifiedBy":
 	if typedInput.LastModifiedBy != nil {
 		lastModifiedBy := *typedInput.LastModifiedBy
 		data.LastModifiedBy = &lastModifiedBy
 	}
 
-	// Set property ‘LastModifiedByType’:
+	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
 		lastModifiedByType := *typedInput.LastModifiedByType
 		data.LastModifiedByType = &lastModifiedByType
@@ -1940,7 +1940,7 @@ func (settings *FeatureSettings) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &FeatureSettings_ARM{}
 
-	// Set property ‘CrossSubscriptionRestoreSettings’:
+	// Set property "CrossSubscriptionRestoreSettings":
 	if settings.CrossSubscriptionRestoreSettings != nil {
 		crossSubscriptionRestoreSettings_ARM, err := (*settings.CrossSubscriptionRestoreSettings).ConvertToARM(resolved)
 		if err != nil {
@@ -1964,7 +1964,7 @@ func (settings *FeatureSettings) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FeatureSettings_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CrossSubscriptionRestoreSettings’:
+	// Set property "CrossSubscriptionRestoreSettings":
 	if typedInput.CrossSubscriptionRestoreSettings != nil {
 		var crossSubscriptionRestoreSettings1 CrossSubscriptionRestoreSettings
 		err := crossSubscriptionRestoreSettings1.PopulateFromARM(owner, *typedInput.CrossSubscriptionRestoreSettings)
@@ -2065,7 +2065,7 @@ func (settings *FeatureSettings_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FeatureSettings_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CrossSubscriptionRestoreSettings’:
+	// Set property "CrossSubscriptionRestoreSettings":
 	if typedInput.CrossSubscriptionRestoreSettings != nil {
 		var crossSubscriptionRestoreSettings1 CrossSubscriptionRestoreSettings_STATUS
 		err := crossSubscriptionRestoreSettings1.PopulateFromARM(owner, *typedInput.CrossSubscriptionRestoreSettings)
@@ -2142,7 +2142,7 @@ func (settings *MonitoringSettings) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &MonitoringSettings_ARM{}
 
-	// Set property ‘AzureMonitorAlertSettings’:
+	// Set property "AzureMonitorAlertSettings":
 	if settings.AzureMonitorAlertSettings != nil {
 		azureMonitorAlertSettings_ARM, err := (*settings.AzureMonitorAlertSettings).ConvertToARM(resolved)
 		if err != nil {
@@ -2166,7 +2166,7 @@ func (settings *MonitoringSettings) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MonitoringSettings_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureMonitorAlertSettings’:
+	// Set property "AzureMonitorAlertSettings":
 	if typedInput.AzureMonitorAlertSettings != nil {
 		var azureMonitorAlertSettings1 AzureMonitorAlertSettings
 		err := azureMonitorAlertSettings1.PopulateFromARM(owner, *typedInput.AzureMonitorAlertSettings)
@@ -2267,7 +2267,7 @@ func (settings *MonitoringSettings_STATUS) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MonitoringSettings_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureMonitorAlertSettings’:
+	// Set property "AzureMonitorAlertSettings":
 	if typedInput.AzureMonitorAlertSettings != nil {
 		var azureMonitorAlertSettings1 AzureMonitorAlertSettings_STATUS
 		err := azureMonitorAlertSettings1.PopulateFromARM(owner, *typedInput.AzureMonitorAlertSettings)
@@ -2361,31 +2361,31 @@ func (details *ResourceMoveDetails_STATUS) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceMoveDetails_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CompletionTimeUtc’:
+	// Set property "CompletionTimeUtc":
 	if typedInput.CompletionTimeUtc != nil {
 		completionTimeUtc := *typedInput.CompletionTimeUtc
 		details.CompletionTimeUtc = &completionTimeUtc
 	}
 
-	// Set property ‘OperationId’:
+	// Set property "OperationId":
 	if typedInput.OperationId != nil {
 		operationId := *typedInput.OperationId
 		details.OperationId = &operationId
 	}
 
-	// Set property ‘SourceResourcePath’:
+	// Set property "SourceResourcePath":
 	if typedInput.SourceResourcePath != nil {
 		sourceResourcePath := *typedInput.SourceResourcePath
 		details.SourceResourcePath = &sourceResourcePath
 	}
 
-	// Set property ‘StartTimeUtc’:
+	// Set property "StartTimeUtc":
 	if typedInput.StartTimeUtc != nil {
 		startTimeUtc := *typedInput.StartTimeUtc
 		details.StartTimeUtc = &startTimeUtc
 	}
 
-	// Set property ‘TargetResourcePath’:
+	// Set property "TargetResourcePath":
 	if typedInput.TargetResourcePath != nil {
 		targetResourcePath := *typedInput.TargetResourcePath
 		details.TargetResourcePath = &targetResourcePath
@@ -2466,7 +2466,7 @@ func (settings *SecuritySettings) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &SecuritySettings_ARM{}
 
-	// Set property ‘ImmutabilitySettings’:
+	// Set property "ImmutabilitySettings":
 	if settings.ImmutabilitySettings != nil {
 		immutabilitySettings_ARM, err := (*settings.ImmutabilitySettings).ConvertToARM(resolved)
 		if err != nil {
@@ -2476,7 +2476,7 @@ func (settings *SecuritySettings) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.ImmutabilitySettings = &immutabilitySettings
 	}
 
-	// Set property ‘SoftDeleteSettings’:
+	// Set property "SoftDeleteSettings":
 	if settings.SoftDeleteSettings != nil {
 		softDeleteSettings_ARM, err := (*settings.SoftDeleteSettings).ConvertToARM(resolved)
 		if err != nil {
@@ -2500,7 +2500,7 @@ func (settings *SecuritySettings) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecuritySettings_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ImmutabilitySettings’:
+	// Set property "ImmutabilitySettings":
 	if typedInput.ImmutabilitySettings != nil {
 		var immutabilitySettings1 ImmutabilitySettings
 		err := immutabilitySettings1.PopulateFromARM(owner, *typedInput.ImmutabilitySettings)
@@ -2511,7 +2511,7 @@ func (settings *SecuritySettings) PopulateFromARM(owner genruntime.ArbitraryOwne
 		settings.ImmutabilitySettings = &immutabilitySettings
 	}
 
-	// Set property ‘SoftDeleteSettings’:
+	// Set property "SoftDeleteSettings":
 	if typedInput.SoftDeleteSettings != nil {
 		var softDeleteSettings1 SoftDeleteSettings
 		err := softDeleteSettings1.PopulateFromARM(owner, *typedInput.SoftDeleteSettings)
@@ -2651,7 +2651,7 @@ func (settings *SecuritySettings_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecuritySettings_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ImmutabilitySettings’:
+	// Set property "ImmutabilitySettings":
 	if typedInput.ImmutabilitySettings != nil {
 		var immutabilitySettings1 ImmutabilitySettings_STATUS
 		err := immutabilitySettings1.PopulateFromARM(owner, *typedInput.ImmutabilitySettings)
@@ -2662,7 +2662,7 @@ func (settings *SecuritySettings_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		settings.ImmutabilitySettings = &immutabilitySettings
 	}
 
-	// Set property ‘SoftDeleteSettings’:
+	// Set property "SoftDeleteSettings":
 	if typedInput.SoftDeleteSettings != nil {
 		var softDeleteSettings1 SoftDeleteSettings_STATUS
 		err := softDeleteSettings1.PopulateFromARM(owner, *typedInput.SoftDeleteSettings)
@@ -2766,13 +2766,13 @@ func (setting *StorageSetting) ConvertToARM(resolved genruntime.ConvertToARMReso
 	}
 	result := &StorageSetting_ARM{}
 
-	// Set property ‘DatastoreType’:
+	// Set property "DatastoreType":
 	if setting.DatastoreType != nil {
 		datastoreType := *setting.DatastoreType
 		result.DatastoreType = &datastoreType
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if setting.Type != nil {
 		typeVar := *setting.Type
 		result.Type = &typeVar
@@ -2792,13 +2792,13 @@ func (setting *StorageSetting) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageSetting_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DatastoreType’:
+	// Set property "DatastoreType":
 	if typedInput.DatastoreType != nil {
 		datastoreType := *typedInput.DatastoreType
 		setting.DatastoreType = &datastoreType
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		setting.Type = &typeVar
@@ -2909,13 +2909,13 @@ func (setting *StorageSetting_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageSetting_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DatastoreType’:
+	// Set property "DatastoreType":
 	if typedInput.DatastoreType != nil {
 		datastoreType := *typedInput.DatastoreType
 		setting.DatastoreType = &datastoreType
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		setting.Type = &typeVar
@@ -2994,7 +2994,7 @@ func (settings *AzureMonitorAlertSettings) ConvertToARM(resolved genruntime.Conv
 	}
 	result := &AzureMonitorAlertSettings_ARM{}
 
-	// Set property ‘AlertsForAllJobFailures’:
+	// Set property "AlertsForAllJobFailures":
 	if settings.AlertsForAllJobFailures != nil {
 		alertsForAllJobFailures := *settings.AlertsForAllJobFailures
 		result.AlertsForAllJobFailures = &alertsForAllJobFailures
@@ -3014,7 +3014,7 @@ func (settings *AzureMonitorAlertSettings) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureMonitorAlertSettings_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AlertsForAllJobFailures’:
+	// Set property "AlertsForAllJobFailures":
 	if typedInput.AlertsForAllJobFailures != nil {
 		alertsForAllJobFailures := *typedInput.AlertsForAllJobFailures
 		settings.AlertsForAllJobFailures = &alertsForAllJobFailures
@@ -3097,7 +3097,7 @@ func (settings *AzureMonitorAlertSettings_STATUS) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureMonitorAlertSettings_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AlertsForAllJobFailures’:
+	// Set property "AlertsForAllJobFailures":
 	if typedInput.AlertsForAllJobFailures != nil {
 		alertsForAllJobFailures := *typedInput.AlertsForAllJobFailures
 		settings.AlertsForAllJobFailures = &alertsForAllJobFailures
@@ -3161,7 +3161,7 @@ func (settings *CrossSubscriptionRestoreSettings) ConvertToARM(resolved genrunti
 	}
 	result := &CrossSubscriptionRestoreSettings_ARM{}
 
-	// Set property ‘State’:
+	// Set property "State":
 	if settings.State != nil {
 		state := *settings.State
 		result.State = &state
@@ -3181,7 +3181,7 @@ func (settings *CrossSubscriptionRestoreSettings) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CrossSubscriptionRestoreSettings_ARM, got %T", armInput)
 	}
 
-	// Set property ‘State’:
+	// Set property "State":
 	if typedInput.State != nil {
 		state := *typedInput.State
 		settings.State = &state
@@ -3265,7 +3265,7 @@ func (settings *CrossSubscriptionRestoreSettings_STATUS) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CrossSubscriptionRestoreSettings_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘State’:
+	// Set property "State":
 	if typedInput.State != nil {
 		state := *typedInput.State
 		settings.State = &state
@@ -3329,7 +3329,7 @@ func (settings *ImmutabilitySettings) ConvertToARM(resolved genruntime.ConvertTo
 	}
 	result := &ImmutabilitySettings_ARM{}
 
-	// Set property ‘State’:
+	// Set property "State":
 	if settings.State != nil {
 		state := *settings.State
 		result.State = &state
@@ -3349,7 +3349,7 @@ func (settings *ImmutabilitySettings) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImmutabilitySettings_ARM, got %T", armInput)
 	}
 
-	// Set property ‘State’:
+	// Set property "State":
 	if typedInput.State != nil {
 		state := *typedInput.State
 		settings.State = &state
@@ -3433,7 +3433,7 @@ func (settings *ImmutabilitySettings_STATUS) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImmutabilitySettings_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘State’:
+	// Set property "State":
 	if typedInput.State != nil {
 		state := *typedInput.State
 		settings.State = &state
@@ -3500,13 +3500,13 @@ func (settings *SoftDeleteSettings) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &SoftDeleteSettings_ARM{}
 
-	// Set property ‘RetentionDurationInDays’:
+	// Set property "RetentionDurationInDays":
 	if settings.RetentionDurationInDays != nil {
 		retentionDurationInDays := *settings.RetentionDurationInDays
 		result.RetentionDurationInDays = &retentionDurationInDays
 	}
 
-	// Set property ‘State’:
+	// Set property "State":
 	if settings.State != nil {
 		state := *settings.State
 		result.State = &state
@@ -3526,13 +3526,13 @@ func (settings *SoftDeleteSettings) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SoftDeleteSettings_ARM, got %T", armInput)
 	}
 
-	// Set property ‘RetentionDurationInDays’:
+	// Set property "RetentionDurationInDays":
 	if typedInput.RetentionDurationInDays != nil {
 		retentionDurationInDays := *typedInput.RetentionDurationInDays
 		settings.RetentionDurationInDays = &retentionDurationInDays
 	}
 
-	// Set property ‘State’:
+	// Set property "State":
 	if typedInput.State != nil {
 		state := *typedInput.State
 		settings.State = &state
@@ -3643,13 +3643,13 @@ func (settings *SoftDeleteSettings_STATUS) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SoftDeleteSettings_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘RetentionDurationInDays’:
+	// Set property "RetentionDurationInDays":
 	if typedInput.RetentionDurationInDays != nil {
 		retentionDurationInDays := *typedInput.RetentionDurationInDays
 		settings.RetentionDurationInDays = &retentionDurationInDays
 	}
 
-	// Set property ‘State’:
+	// Set property "State":
 	if typedInput.State != nil {
 		state := *typedInput.State
 		settings.State = &state

@@ -327,10 +327,10 @@ func (policy *Servers_Databases_BackupShortTermRetentionPolicy_Spec) ConvertToAR
 	}
 	result := &Servers_Databases_BackupShortTermRetentionPolicy_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if policy.DiffBackupIntervalInHours != nil || policy.RetentionDays != nil {
 		result.Properties = &BackupShortTermRetentionPolicyProperties_ARM{}
 	}
@@ -357,7 +357,7 @@ func (policy *Servers_Databases_BackupShortTermRetentionPolicy_Spec) PopulateFro
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Databases_BackupShortTermRetentionPolicy_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DiffBackupIntervalInHours’:
+	// Set property "DiffBackupIntervalInHours":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DiffBackupIntervalInHours != nil {
@@ -366,10 +366,10 @@ func (policy *Servers_Databases_BackupShortTermRetentionPolicy_Spec) PopulateFro
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	policy.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘RetentionDays’:
+	// Set property "RetentionDays":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RetentionDays != nil {
@@ -604,9 +604,9 @@ func (policy *Servers_Databases_BackupShortTermRetentionPolicy_STATUS) PopulateF
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Databases_BackupShortTermRetentionPolicy_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘DiffBackupIntervalInHours’:
+	// Set property "DiffBackupIntervalInHours":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DiffBackupIntervalInHours != nil {
@@ -615,19 +615,19 @@ func (policy *Servers_Databases_BackupShortTermRetentionPolicy_STATUS) PopulateF
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		policy.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		policy.Name = &name
 	}
 
-	// Set property ‘RetentionDays’:
+	// Set property "RetentionDays":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RetentionDays != nil {
@@ -636,7 +636,7 @@ func (policy *Servers_Databases_BackupShortTermRetentionPolicy_STATUS) PopulateF
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		policy.Type = &typeVar

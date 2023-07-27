@@ -339,10 +339,10 @@ func (rule *Redis_FirewallRule_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	}
 	result := &Redis_FirewallRule_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if rule.EndIP != nil || rule.StartIP != nil {
 		result.Properties = &RedisFirewallRuleProperties_ARM{}
 	}
@@ -369,10 +369,10 @@ func (rule *Redis_FirewallRule_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Redis_FirewallRule_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	rule.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘EndIP’:
+	// Set property "EndIP":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EndIP != nil {
@@ -381,10 +381,10 @@ func (rule *Redis_FirewallRule_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	rule.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘StartIP’:
+	// Set property "StartIP":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StartIP != nil {
@@ -613,9 +613,9 @@ func (rule *Redis_FirewallRule_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Redis_FirewallRule_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘EndIP’:
+	// Set property "EndIP":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EndIP != nil {
@@ -624,19 +624,19 @@ func (rule *Redis_FirewallRule_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		rule.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		rule.Name = &name
 	}
 
-	// Set property ‘StartIP’:
+	// Set property "StartIP":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StartIP != nil {
@@ -645,7 +645,7 @@ func (rule *Redis_FirewallRule_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		rule.Type = &typeVar

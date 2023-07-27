@@ -324,10 +324,10 @@ func (encryption *Servers_Databases_TransparentDataEncryption_Spec) ConvertToARM
 	}
 	result := &Servers_Databases_TransparentDataEncryption_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if encryption.State != nil {
 		result.Properties = &TransparentDataEncryptionProperties_ARM{}
 	}
@@ -350,10 +350,10 @@ func (encryption *Servers_Databases_TransparentDataEncryption_Spec) PopulateFrom
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Databases_TransparentDataEncryption_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	encryption.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘State’:
+	// Set property "State":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
@@ -575,21 +575,21 @@ func (encryption *Servers_Databases_TransparentDataEncryption_STATUS) PopulateFr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Databases_TransparentDataEncryption_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		encryption.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		encryption.Name = &name
 	}
 
-	// Set property ‘State’:
+	// Set property "State":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
@@ -598,7 +598,7 @@ func (encryption *Servers_Databases_TransparentDataEncryption_STATUS) PopulateFr
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		encryption.Type = &typeVar

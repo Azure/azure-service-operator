@@ -328,10 +328,10 @@ func (service *StorageAccounts_QueueService_Spec) ConvertToARM(resolved genrunti
 	}
 	result := &StorageAccounts_QueueService_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if service.Cors != nil {
 		result.Properties = &StorageAccounts_QueueService_Properties_Spec_ARM{}
 	}
@@ -358,7 +358,7 @@ func (service *StorageAccounts_QueueService_Spec) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_QueueService_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Cors’:
+	// Set property "Cors":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Cors != nil {
@@ -372,7 +372,7 @@ func (service *StorageAccounts_QueueService_Spec) PopulateFromARM(owner genrunti
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	service.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// No error
@@ -584,9 +584,9 @@ func (service *StorageAccounts_QueueService_STATUS) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_QueueService_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Cors’:
+	// Set property "Cors":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Cors != nil {
@@ -600,19 +600,19 @@ func (service *StorageAccounts_QueueService_STATUS) PopulateFromARM(owner genrun
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		service.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		service.Name = &name
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		service.Type = &typeVar
