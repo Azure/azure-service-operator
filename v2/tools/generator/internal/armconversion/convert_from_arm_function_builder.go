@@ -10,9 +10,8 @@ import (
 	"go/token"
 	"strings"
 
-	"github.com/pkg/errors"
-
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -197,7 +196,7 @@ func (builder *convertFromARMBuilder) userAssignedIdentitiesPropertyHandler(
 	}
 
 	// TODO: For now we are not assigning these, as we don't know how to rebuild the reference
-	return handledWithNOP, nil
+	return handledWithNoOp, nil
 }
 
 func (builder *convertFromARMBuilder) referencePropertyHandler(
@@ -211,7 +210,7 @@ func (builder *convertFromARMBuilder) referencePropertyHandler(
 	// TODO: For now, we are NOT assigning to these. _Status types don't have them and it's unclear what
 	// TODO: the fromARM functions do for us on Spec types. We may need them for diffing though. If so we will
 	// TODO: need to revisit this and actually assign something
-	return handledWithNOP, nil
+	return handledWithNoOp, nil
 }
 
 func (builder *convertFromARMBuilder) secretPropertyHandler(
@@ -228,7 +227,7 @@ func (builder *convertFromARMBuilder) secretPropertyHandler(
 	// TODO: For now, we are NOT assigning to these. _Status types don't have them and it's unclear what
 	// TODO: the fromARM functions do for us on Spec types. We may need them for diffing though. If so we will
 	// TODO: need to revisit this and actually assign something
-	return handledWithNOP, nil
+	return handledWithNoOp, nil
 }
 
 func (builder *convertFromARMBuilder) configMapPropertyHandler(
@@ -245,7 +244,7 @@ func (builder *convertFromARMBuilder) configMapPropertyHandler(
 	// TODO: For now, we are NOT assigning to these. _Status types don't have them and it's unclear what
 	// TODO: the fromARM functions do for us on Spec types. We may need them for diffing though. If so we will
 	// TODO: need to revisit this and actually assign something
-	return handledWithNOP, nil
+	return handledWithNoOp, nil
 }
 
 func (builder *convertFromARMBuilder) ownerPropertyHandler(
@@ -308,7 +307,7 @@ func (builder *convertFromARMBuilder) conditionsPropertyHandler(
 		return notHandled, nil
 	}
 
-	return handledWithNOP, nil
+	return handledWithNoOp, nil
 }
 
 // operatorSpecPropertyHandler generates conversions for the "OperatorSpec" property.
@@ -323,7 +322,7 @@ func (builder *convertFromARMBuilder) operatorSpecPropertyHandler(
 		return notHandled, nil
 	}
 
-	return handledWithNOP, nil
+	return handledWithNoOp, nil
 }
 
 // flattenedPropertyHandler generates conversions for properties that
@@ -361,7 +360,7 @@ func (builder *convertFromARMBuilder) flattenedPropertyHandler(
 
 	return notHandled,
 		errors.Errorf(
-			"couldn’t find source ARM property ‘%s’ that k8s property ‘%s’ was flattened from",
+			"couldn’t find source ARM property %q that k8s property %q was flattened from",
 			toProp.FlattenedFrom()[0],
 			toProp.PropertyName())
 }
@@ -380,7 +379,7 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 
 		return notHandled,
 			errors.Errorf(
-				"need to implement multiple levels of flattening: property ‘%s’ on %s was flattened from ‘%s’",
+				"need to implement multiple levels of flattening: property %q on %s was flattened from %q",
 				toProp.PropertyName(),
 				builder.receiverIdent,
 				strings.Join(props, "."))
@@ -432,7 +431,7 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 		// see pipeline_flatten_properties.go:flattenPropType which will only flatten from (optional) object types
 		return notHandled,
 			errors.Errorf(
-				"property ‘%s’ marked as flattened from non-object type %T, which shouldn’t be possible",
+				"property %q marked as flattened from non-object type %T, which shouldn’t be possible",
 				toProp.PropertyName(),
 				fromPropType)
 	}
@@ -444,7 +443,7 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 	if !ok {
 		return notHandled,
 			errors.Errorf(
-				"couldn't find source of flattened property ‘%s’ on %s",
+				"couldn't find source of flattened property %q on %s",
 				toProp.PropertyName(),
 				builder.receiverIdent)
 	}

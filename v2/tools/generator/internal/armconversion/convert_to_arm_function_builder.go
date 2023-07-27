@@ -7,10 +7,10 @@ package armconversion
 
 import (
 	"fmt"
-	"github.com/pkg/errors"
 	"go/token"
 
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -166,7 +166,7 @@ func (builder *convertToARMBuilder) operatorSpecPropertyHandler(
 	}
 
 	// Do nothing with this property, it exists for the operator only and is not sent to Azure
-	return handledWithNOP, nil
+	return handledWithNoOp, nil
 }
 
 func (builder *convertToARMBuilder) configMapReferencePropertyHandler(
@@ -824,7 +824,11 @@ func (builder *convertToARMBuilder) convertComplexTypeNameProperty(
 
 	if !destinationType.PackageReference.Equals(conversionBuilder.CodeGenerationContext.CurrentPackage()) {
 		// needs to be qualified
-		packageName := conversionBuilder.CodeGenerationContext.MustGetImportedPackageName(destinationType.PackageReference)
+		packageName, err := conversionBuilder.CodeGenerationContext.GetImportedPackageName(destinationType.PackageReference)
+		if err != nil {
+			return nil, err
+		}
+
 		typeAssertExpr.Type = astbuilder.Dereference(astbuilder.Selector(dst.NewIdent(packageName), destinationType.Name()))
 	}
 

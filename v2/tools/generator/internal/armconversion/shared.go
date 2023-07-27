@@ -52,9 +52,9 @@ func (builder conversionBuilder) propertyConversionHandler(
 ) ([]dst.Stmt, error) {
 	var err error
 	for _, conversionHandler := range builder.propertyConversionHandlers {
-		conversion, convErr := conversionHandler(toProp, fromType)
-		if convErr != nil {
-			err = convErr
+		var conversion propertyConversionHandlerResult
+		conversion, err = conversionHandler(toProp, fromType)
+		if err != nil {
 			break
 		}
 
@@ -98,8 +98,8 @@ var notHandled = propertyConversionHandlerResult{
 	matched: false,
 }
 
-// handledWithNOP is a result to use when a handler wants to return an empty set of statements for a conversion
-var handledWithNOP = propertyConversionHandlerResult{
+// handledWithNoOp is a result to use when a handler wants to return an empty set of statements for a conversion
+var handledWithNoOp = propertyConversionHandlerResult{
 	matched: true,
 }
 
@@ -163,7 +163,7 @@ func generateTypeConversionAssignments(
 				Decs: dst.EmptyStmtDecorations{
 					NodeDecs: dst.NodeDecs{
 						Before: dst.EmptyLine,
-						End:    []string{fmt.Sprintf("// Set property ‘%s’:", toField.PropertyName())},
+						End:    []string{fmt.Sprintf("// Set property %q:", toField.PropertyName())},
 					},
 				},
 			})
@@ -173,7 +173,7 @@ func generateTypeConversionAssignments(
 				Decs: dst.EmptyStmtDecorations{
 					NodeDecs: dst.NodeDecs{
 						Before: dst.EmptyLine,
-						End:    []string{fmt.Sprintf("// no assignment for property ‘%s’", toField.PropertyName())},
+						End:    []string{fmt.Sprintf("// no assignment for property %q", toField.PropertyName())},
 					},
 				},
 			})
