@@ -43,6 +43,101 @@ jobs:
 
           go get "$repo/v2@$sha"
 
+  test-controller:
+    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool]
+    permissions:
+      packages: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # required to access tags
+          submodules: 'true'
+
+      - name: check-changes
+        id: check-changes
+        run: scripts/v2/check-changes.sh
+
+      - name: Log in to GitHub Docker Registry
+        uses: docker/login-action@v2
+        with:
+          registry: docker.pkg.github.com # ghcr.io not yet enabled for Azure org
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+        if: steps.check-changes.outputs.code-changed == 'true'
+
+      # Note: Changes to this step must also be mirrored into pr-validation-with-secrets.yaml
+      - name: Build devcontainer image
+        # We must issue a manual pull before the build so the image gets copied locally, because
+        # docker.pkg.github.com is not a valid Docker registry and doesn't work with --cache-from,
+        # however, `docker pull` will fall back to other methods that do work and get the image loaded.
+        #
+        # This message comes from "docker pull":
+        #
+        # Run docker pull docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest
+        # WARNING: ⚠️ Failed to pull manifest by the resolved digest. This registry does not
+        #  appear to conform to the distribution registry specification; falling back to
+        #  pull by tag.  This fallback is DEPRECATED, and will be removed in a future
+        #  release.  Please contact admins of https://docker.pkg.github.com. ⚠️
+        #
+        # See: https://github.com/moby/moby/issues/41687#issuecomment-733826074 and related issues
+        run: |
+          docker pull docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest
+          docker build --cache-from docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest --tag devcontainer:latest .devcontainer
+        env:
+          DOCKER_BUILDKIT: 1
+        if: steps.check-changes.outputs.code-changed == 'true'
+
+      - name: Run devcontainer image
+        id: devcontainer
+        run: |
+          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock --network=host devcontainer:latest)
+          docker start "$container_id"
+          echo "container_id=$container_id" >> $GITHUB_ENV
+        if: steps.check-changes.outputs.code-changed == 'true'
+
+      - name: Run CI tasks
+        run: |
+          container_id=${{ env.container_id }}
+
+          set +e # don't exit instantly on failure, we need to produce Markdown summary
+          docker exec "$container_id" task controller:ci
+
+          EXIT_CODE=$?
+          set -e
+
+          # generate summary Markdown file for display in Actions
+          cat reports/*.md > $GITHUB_STEP_SUMMARY
+          exit $EXIT_CODE
+        if: steps.check-changes.outputs.code-changed == 'true'
+
+      - name: Save JSON logs on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: test-output
+          path: reports/*.json
+        
+      - name: Build docker image & build configuration YAML
+        run: |
+          container_id=${{ env.container_id }}
+          docker exec "$container_id" task controller:docker-build-and-save
+          docker exec "$container_id" task controller:run-kustomize-for-envtest
+        if: steps.check-changes.outputs.code-changed == 'true'
+
+      - name: Archive outputs
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: output
+          path: v2/bin/*
+          if-no-files-found: error
+        if: steps.check-changes.outputs.code-changed == 'true'
+
+      - name: Upload code coverage to Codecov
+        run: bash <(curl -s https://codecov.io/bash)
+        if: steps.check-changes.outputs.code-changed == 'true'
+
   test-generator:
     runs-on: [self-hosted, 1ES.Pool=aso-1es-pool]
     permissions:
@@ -102,7 +197,102 @@ jobs:
           container_id=${{ env.container_id }}
 
           set +e # don't exit instantly on failure, we need to produce Markdown summary
-          docker exec "$container_id" task ci
+          docker exec "$container_id" task generator:ci
+
+          EXIT_CODE=$?
+          set -e
+
+          # generate summary Markdown file for display in Actions
+          cat reports/*.md > $GITHUB_STEP_SUMMARY
+          exit $EXIT_CODE
+        if: steps.check-changes.outputs.code-changed == 'true'
+
+      - name: Save JSON logs on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: test-output
+          path: reports/*.json
+        
+      - name: Build docker image & build configuration YAML
+        run: |
+          container_id=${{ env.container_id }}
+          docker exec "$container_id" task controller:docker-build-and-save
+          docker exec "$container_id" task controller:run-kustomize-for-envtest
+        if: steps.check-changes.outputs.code-changed == 'true'
+
+      - name: Archive outputs
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: output
+          path: v2/bin/*
+          if-no-files-found: error
+        if: steps.check-changes.outputs.code-changed == 'true'
+
+      - name: Upload code coverage to Codecov
+        run: bash <(curl -s https://codecov.io/bash)
+        if: steps.check-changes.outputs.code-changed == 'true'
+
+  test-asoctl:
+    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool]
+    permissions:
+      packages: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # required to access tags
+          submodules: 'true'
+
+      - name: check-changes
+        id: check-changes
+        run: scripts/v2/check-changes.sh
+
+      - name: Log in to GitHub Docker Registry
+        uses: docker/login-action@v2
+        with:
+          registry: docker.pkg.github.com # ghcr.io not yet enabled for Azure org
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+        if: steps.check-changes.outputs.code-changed == 'true'
+
+      # Note: Changes to this step must also be mirrored into pr-validation-with-secrets.yaml
+      - name: Build devcontainer image
+        # We must issue a manual pull before the build so the image gets copied locally, because
+        # docker.pkg.github.com is not a valid Docker registry and doesn't work with --cache-from,
+        # however, `docker pull` will fall back to other methods that do work and get the image loaded.
+        #
+        # This message comes from "docker pull":
+        #
+        # Run docker pull docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest
+        # WARNING: ⚠️ Failed to pull manifest by the resolved digest. This registry does not
+        #  appear to conform to the distribution registry specification; falling back to
+        #  pull by tag.  This fallback is DEPRECATED, and will be removed in a future
+        #  release.  Please contact admins of https://docker.pkg.github.com. ⚠️
+        #
+        # See: https://github.com/moby/moby/issues/41687#issuecomment-733826074 and related issues
+        run: |
+          docker pull docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest
+          docker build --cache-from docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest --tag devcontainer:latest .devcontainer
+        env:
+          DOCKER_BUILDKIT: 1
+        if: steps.check-changes.outputs.code-changed == 'true'
+
+      - name: Run devcontainer image
+        id: devcontainer
+        run: |
+          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock --network=host devcontainer:latest)
+          docker start "$container_id"
+          echo "container_id=$container_id" >> $GITHUB_ENV
+        if: steps.check-changes.outputs.code-changed == 'true'
+
+      - name: Run CI tasks
+        run: |
+          container_id=${{ env.container_id }}
+
+          set +e # don't exit instantly on failure, we need to produce Markdown summary
+          docker exec "$container_id" task asoctl:ci
 
           EXIT_CODE=$?
           set -e
