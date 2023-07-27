@@ -343,10 +343,10 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) ConvertToARM(resol
 	}
 	result := &ManagedClusters_TrustedAccessRoleBinding_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if binding.Roles != nil || binding.SourceResourceReference != nil {
 		result.Properties = &TrustedAccessRoleBindingProperties_ARM{}
 	}
@@ -376,13 +376,13 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) PopulateFromARM(ow
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusters_TrustedAccessRoleBinding_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	binding.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	binding.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Roles’:
+	// Set property "Roles":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Roles {
@@ -390,7 +390,7 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) PopulateFromARM(ow
 		}
 	}
 
-	// no assignment for property ‘SourceResourceReference’
+	// no assignment for property "SourceResourceReference"
 
 	// No error
 	return nil
@@ -636,21 +636,21 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) PopulateFromARM(
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusters_TrustedAccessRoleBinding_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		binding.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		binding.Name = &name
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -659,7 +659,7 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) PopulateFromARM(
 		}
 	}
 
-	// Set property ‘Roles’:
+	// Set property "Roles":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Roles {
@@ -667,7 +667,7 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) PopulateFromARM(
 		}
 	}
 
-	// Set property ‘SourceResourceId’:
+	// Set property "SourceResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SourceResourceId != nil {
@@ -676,7 +676,7 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) PopulateFromARM(
 		}
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -687,7 +687,7 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) PopulateFromARM(
 		binding.SystemData = &systemData
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		binding.Type = &typeVar

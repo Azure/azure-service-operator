@@ -360,16 +360,16 @@ func (server *Server_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	}
 	result := &Server_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if server.Location != nil {
 		location := *server.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if server.Properties != nil {
 		properties_ARM, err := (*server.Properties).ConvertToARM(resolved)
 		if err != nil {
@@ -379,7 +379,7 @@ func (server *Server_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		result.Properties = &properties
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if server.Sku != nil {
 		sku_ARM, err := (*server.Sku).ConvertToARM(resolved)
 		if err != nil {
@@ -389,7 +389,7 @@ func (server *Server_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		result.Sku = &sku
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if server.Tags != nil {
 		result.Tags = make(map[string]string, len(server.Tags))
 		for key, value := range server.Tags {
@@ -411,21 +411,21 @@ func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Server_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	server.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		server.Location = &location
 	}
 
-	// no assignment for property ‘OperatorSpec’
+	// no assignment for property "OperatorSpec"
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	server.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if typedInput.Properties != nil {
 		var properties1 ServerPropertiesForCreate
 		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
@@ -436,7 +436,7 @@ func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		server.Properties = &properties
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 Sku
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -447,7 +447,7 @@ func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		server.Sku = &sku
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		server.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -739,7 +739,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Server_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdministratorLogin’:
+	// Set property "AdministratorLogin":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AdministratorLogin != nil {
@@ -748,9 +748,9 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘EarliestRestoreDate’:
+	// Set property "EarliestRestoreDate":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EarliestRestoreDate != nil {
@@ -759,7 +759,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘FullyQualifiedDomainName’:
+	// Set property "FullyQualifiedDomainName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FullyQualifiedDomainName != nil {
@@ -768,19 +768,19 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		server.Id = &id
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		server.Location = &location
 	}
 
-	// Set property ‘MasterServerId’:
+	// Set property "MasterServerId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MasterServerId != nil {
@@ -789,7 +789,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘MinimalTlsVersion’:
+	// Set property "MinimalTlsVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinimalTlsVersion != nil {
@@ -798,13 +798,13 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		server.Name = &name
 	}
 
-	// Set property ‘PrivateEndpointConnections’:
+	// Set property "PrivateEndpointConnections":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PrivateEndpointConnections {
@@ -817,7 +817,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
@@ -826,7 +826,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘ReplicaCapacity’:
+	// Set property "ReplicaCapacity":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ReplicaCapacity != nil {
@@ -835,7 +835,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘ReplicationRole’:
+	// Set property "ReplicationRole":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ReplicationRole != nil {
@@ -844,7 +844,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 Sku_STATUS
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -855,7 +855,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		server.Sku = &sku
 	}
 
-	// Set property ‘SslEnforcement’:
+	// Set property "SslEnforcement":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SslEnforcement != nil {
@@ -864,7 +864,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘StorageProfile’:
+	// Set property "StorageProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StorageProfile != nil {
@@ -878,7 +878,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		server.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -886,13 +886,13 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		server.Type = &typeVar
 	}
 
-	// Set property ‘UserVisibleState’:
+	// Set property "UserVisibleState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.UserVisibleState != nil {
@@ -901,7 +901,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Version’:
+	// Set property "Version":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Version != nil {
@@ -1264,13 +1264,13 @@ func (connection *ServerPrivateEndpointConnection_STATUS) PopulateFromARM(owner 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPrivateEndpointConnection_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		connection.Id = &id
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if typedInput.Properties != nil {
 		var properties1 ServerPrivateEndpointConnectionProperties_STATUS
 		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
@@ -1365,7 +1365,7 @@ func (create *ServerPropertiesForCreate) ConvertToARM(resolved genruntime.Conver
 	}
 	result := &ServerPropertiesForCreate_ARM{}
 
-	// Set property ‘Default’:
+	// Set property "Default":
 	if create.Default != nil {
 		default_ARM, err := (*create.Default).ConvertToARM(resolved)
 		if err != nil {
@@ -1375,7 +1375,7 @@ func (create *ServerPropertiesForCreate) ConvertToARM(resolved genruntime.Conver
 		result.Default = &def
 	}
 
-	// Set property ‘GeoRestore’:
+	// Set property "GeoRestore":
 	if create.GeoRestore != nil {
 		geoRestore_ARM, err := (*create.GeoRestore).ConvertToARM(resolved)
 		if err != nil {
@@ -1385,7 +1385,7 @@ func (create *ServerPropertiesForCreate) ConvertToARM(resolved genruntime.Conver
 		result.GeoRestore = &geoRestore
 	}
 
-	// Set property ‘PointInTimeRestore’:
+	// Set property "PointInTimeRestore":
 	if create.PointInTimeRestore != nil {
 		pointInTimeRestore_ARM, err := (*create.PointInTimeRestore).ConvertToARM(resolved)
 		if err != nil {
@@ -1395,7 +1395,7 @@ func (create *ServerPropertiesForCreate) ConvertToARM(resolved genruntime.Conver
 		result.PointInTimeRestore = &pointInTimeRestore
 	}
 
-	// Set property ‘Replica’:
+	// Set property "Replica":
 	if create.Replica != nil {
 		replica_ARM, err := (*create.Replica).ConvertToARM(resolved)
 		if err != nil {
@@ -1419,7 +1419,7 @@ func (create *ServerPropertiesForCreate) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPropertiesForCreate_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Default’:
+	// Set property "Default":
 	if typedInput.Default != nil {
 		var default1 ServerPropertiesForDefaultCreate
 		err := default1.PopulateFromARM(owner, *typedInput.Default)
@@ -1430,7 +1430,7 @@ func (create *ServerPropertiesForCreate) PopulateFromARM(owner genruntime.Arbitr
 		create.Default = &def
 	}
 
-	// Set property ‘GeoRestore’:
+	// Set property "GeoRestore":
 	if typedInput.GeoRestore != nil {
 		var geoRestore1 ServerPropertiesForGeoRestore
 		err := geoRestore1.PopulateFromARM(owner, *typedInput.GeoRestore)
@@ -1441,7 +1441,7 @@ func (create *ServerPropertiesForCreate) PopulateFromARM(owner genruntime.Arbitr
 		create.GeoRestore = &geoRestore
 	}
 
-	// Set property ‘PointInTimeRestore’:
+	// Set property "PointInTimeRestore":
 	if typedInput.PointInTimeRestore != nil {
 		var pointInTimeRestore1 ServerPropertiesForRestore
 		err := pointInTimeRestore1.PopulateFromARM(owner, *typedInput.PointInTimeRestore)
@@ -1452,7 +1452,7 @@ func (create *ServerPropertiesForCreate) PopulateFromARM(owner genruntime.Arbitr
 		create.PointInTimeRestore = &pointInTimeRestore
 	}
 
-	// Set property ‘Replica’:
+	// Set property "Replica":
 	if typedInput.Replica != nil {
 		var replica1 ServerPropertiesForReplica
 		err := replica1.PopulateFromARM(owner, *typedInput.Replica)
@@ -1615,31 +1615,31 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	}
 	result := &Sku_ARM{}
 
-	// Set property ‘Capacity’:
+	// Set property "Capacity":
 	if sku.Capacity != nil {
 		capacity := *sku.Capacity
 		result.Capacity = &capacity
 	}
 
-	// Set property ‘Family’:
+	// Set property "Family":
 	if sku.Family != nil {
 		family := *sku.Family
 		result.Family = &family
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if sku.Name != nil {
 		name := *sku.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Size’:
+	// Set property "Size":
 	if sku.Size != nil {
 		size := *sku.Size
 		result.Size = &size
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if sku.Tier != nil {
 		tier := *sku.Tier
 		result.Tier = &tier
@@ -1659,31 +1659,31 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Capacity’:
+	// Set property "Capacity":
 	if typedInput.Capacity != nil {
 		capacity := *typedInput.Capacity
 		sku.Capacity = &capacity
 	}
 
-	// Set property ‘Family’:
+	// Set property "Family":
 	if typedInput.Family != nil {
 		family := *typedInput.Family
 		sku.Family = &family
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		sku.Name = &name
 	}
 
-	// Set property ‘Size’:
+	// Set property "Size":
 	if typedInput.Size != nil {
 		size := *typedInput.Size
 		sku.Size = &size
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if typedInput.Tier != nil {
 		tier := *typedInput.Tier
 		sku.Tier = &tier
@@ -1789,31 +1789,31 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Capacity’:
+	// Set property "Capacity":
 	if typedInput.Capacity != nil {
 		capacity := *typedInput.Capacity
 		sku.Capacity = &capacity
 	}
 
-	// Set property ‘Family’:
+	// Set property "Family":
 	if typedInput.Family != nil {
 		family := *typedInput.Family
 		sku.Family = &family
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		sku.Name = &name
 	}
 
-	// Set property ‘Size’:
+	// Set property "Size":
 	if typedInput.Size != nil {
 		size := *typedInput.Size
 		sku.Size = &size
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if typedInput.Tier != nil {
 		tier := *typedInput.Tier
 		sku.Tier = &tier
@@ -1916,25 +1916,25 @@ func (profile *StorageProfile_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageProfile_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BackupRetentionDays’:
+	// Set property "BackupRetentionDays":
 	if typedInput.BackupRetentionDays != nil {
 		backupRetentionDays := *typedInput.BackupRetentionDays
 		profile.BackupRetentionDays = &backupRetentionDays
 	}
 
-	// Set property ‘GeoRedundantBackup’:
+	// Set property "GeoRedundantBackup":
 	if typedInput.GeoRedundantBackup != nil {
 		geoRedundantBackup := *typedInput.GeoRedundantBackup
 		profile.GeoRedundantBackup = &geoRedundantBackup
 	}
 
-	// Set property ‘StorageAutogrow’:
+	// Set property "StorageAutogrow":
 	if typedInput.StorageAutogrow != nil {
 		storageAutogrow := *typedInput.StorageAutogrow
 		profile.StorageAutogrow = &storageAutogrow
 	}
 
-	// Set property ‘StorageMB’:
+	// Set property "StorageMB":
 	if typedInput.StorageMB != nil {
 		storageMB := *typedInput.StorageMB
 		profile.StorageMB = &storageMB
@@ -2077,7 +2077,7 @@ func (properties *ServerPrivateEndpointConnectionProperties_STATUS) PopulateFrom
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPrivateEndpointConnectionProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘PrivateEndpoint’:
+	// Set property "PrivateEndpoint":
 	if typedInput.PrivateEndpoint != nil {
 		var privateEndpoint1 PrivateEndpointProperty_STATUS
 		err := privateEndpoint1.PopulateFromARM(owner, *typedInput.PrivateEndpoint)
@@ -2088,7 +2088,7 @@ func (properties *ServerPrivateEndpointConnectionProperties_STATUS) PopulateFrom
 		properties.PrivateEndpoint = &privateEndpoint
 	}
 
-	// Set property ‘PrivateLinkServiceConnectionState’:
+	// Set property "PrivateLinkServiceConnectionState":
 	if typedInput.PrivateLinkServiceConnectionState != nil {
 		var privateLinkServiceConnectionState1 ServerPrivateLinkServiceConnectionStateProperty_STATUS
 		err := privateLinkServiceConnectionState1.PopulateFromARM(owner, *typedInput.PrivateLinkServiceConnectionState)
@@ -2099,7 +2099,7 @@ func (properties *ServerPrivateEndpointConnectionProperties_STATUS) PopulateFrom
 		properties.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
 		provisioningState := *typedInput.ProvisioningState
 		properties.ProvisioningState = &provisioningState
@@ -2222,43 +2222,43 @@ func (create *ServerPropertiesForDefaultCreate) ConvertToARM(resolved genruntime
 	}
 	result := &ServerPropertiesForDefaultCreate_ARM{}
 
-	// Set property ‘AdministratorLogin’:
+	// Set property "AdministratorLogin":
 	if create.AdministratorLogin != nil {
 		administratorLogin := *create.AdministratorLogin
 		result.AdministratorLogin = &administratorLogin
 	}
 
-	// Set property ‘AdministratorLoginPassword’:
+	// Set property "AdministratorLoginPassword":
 	administratorLoginPasswordSecret, err := resolved.ResolvedSecrets.Lookup(create.AdministratorLoginPassword)
 	if err != nil {
 		return nil, errors.Wrap(err, "looking up secret for property AdministratorLoginPassword")
 	}
 	result.AdministratorLoginPassword = administratorLoginPasswordSecret
 
-	// Set property ‘CreateMode’:
+	// Set property "CreateMode":
 	if create.CreateMode != nil {
 		result.CreateMode = *create.CreateMode
 	}
 
-	// Set property ‘MinimalTlsVersion’:
+	// Set property "MinimalTlsVersion":
 	if create.MinimalTlsVersion != nil {
 		minimalTlsVersion := *create.MinimalTlsVersion
 		result.MinimalTlsVersion = &minimalTlsVersion
 	}
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	if create.PublicNetworkAccess != nil {
 		publicNetworkAccess := *create.PublicNetworkAccess
 		result.PublicNetworkAccess = &publicNetworkAccess
 	}
 
-	// Set property ‘SslEnforcement’:
+	// Set property "SslEnforcement":
 	if create.SslEnforcement != nil {
 		sslEnforcement := *create.SslEnforcement
 		result.SslEnforcement = &sslEnforcement
 	}
 
-	// Set property ‘StorageProfile’:
+	// Set property "StorageProfile":
 	if create.StorageProfile != nil {
 		storageProfile_ARM, err := (*create.StorageProfile).ConvertToARM(resolved)
 		if err != nil {
@@ -2268,7 +2268,7 @@ func (create *ServerPropertiesForDefaultCreate) ConvertToARM(resolved genruntime
 		result.StorageProfile = &storageProfile
 	}
 
-	// Set property ‘Version’:
+	// Set property "Version":
 	if create.Version != nil {
 		version := *create.Version
 		result.Version = &version
@@ -2288,36 +2288,36 @@ func (create *ServerPropertiesForDefaultCreate) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPropertiesForDefaultCreate_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdministratorLogin’:
+	// Set property "AdministratorLogin":
 	if typedInput.AdministratorLogin != nil {
 		administratorLogin := *typedInput.AdministratorLogin
 		create.AdministratorLogin = &administratorLogin
 	}
 
-	// no assignment for property ‘AdministratorLoginPassword’
+	// no assignment for property "AdministratorLoginPassword"
 
-	// Set property ‘CreateMode’:
+	// Set property "CreateMode":
 	create.CreateMode = &typedInput.CreateMode
 
-	// Set property ‘MinimalTlsVersion’:
+	// Set property "MinimalTlsVersion":
 	if typedInput.MinimalTlsVersion != nil {
 		minimalTlsVersion := *typedInput.MinimalTlsVersion
 		create.MinimalTlsVersion = &minimalTlsVersion
 	}
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	if typedInput.PublicNetworkAccess != nil {
 		publicNetworkAccess := *typedInput.PublicNetworkAccess
 		create.PublicNetworkAccess = &publicNetworkAccess
 	}
 
-	// Set property ‘SslEnforcement’:
+	// Set property "SslEnforcement":
 	if typedInput.SslEnforcement != nil {
 		sslEnforcement := *typedInput.SslEnforcement
 		create.SslEnforcement = &sslEnforcement
 	}
 
-	// Set property ‘StorageProfile’:
+	// Set property "StorageProfile":
 	if typedInput.StorageProfile != nil {
 		var storageProfile1 StorageProfile
 		err := storageProfile1.PopulateFromARM(owner, *typedInput.StorageProfile)
@@ -2328,7 +2328,7 @@ func (create *ServerPropertiesForDefaultCreate) PopulateFromARM(owner genruntime
 		create.StorageProfile = &storageProfile
 	}
 
-	// Set property ‘Version’:
+	// Set property "Version":
 	if typedInput.Version != nil {
 		version := *typedInput.Version
 		create.Version = &version
@@ -2505,36 +2505,36 @@ func (restore *ServerPropertiesForGeoRestore) ConvertToARM(resolved genruntime.C
 	}
 	result := &ServerPropertiesForGeoRestore_ARM{}
 
-	// Set property ‘CreateMode’:
+	// Set property "CreateMode":
 	if restore.CreateMode != nil {
 		result.CreateMode = *restore.CreateMode
 	}
 
-	// Set property ‘MinimalTlsVersion’:
+	// Set property "MinimalTlsVersion":
 	if restore.MinimalTlsVersion != nil {
 		minimalTlsVersion := *restore.MinimalTlsVersion
 		result.MinimalTlsVersion = &minimalTlsVersion
 	}
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	if restore.PublicNetworkAccess != nil {
 		publicNetworkAccess := *restore.PublicNetworkAccess
 		result.PublicNetworkAccess = &publicNetworkAccess
 	}
 
-	// Set property ‘SourceServerId’:
+	// Set property "SourceServerId":
 	if restore.SourceServerId != nil {
 		sourceServerId := *restore.SourceServerId
 		result.SourceServerId = &sourceServerId
 	}
 
-	// Set property ‘SslEnforcement’:
+	// Set property "SslEnforcement":
 	if restore.SslEnforcement != nil {
 		sslEnforcement := *restore.SslEnforcement
 		result.SslEnforcement = &sslEnforcement
 	}
 
-	// Set property ‘StorageProfile’:
+	// Set property "StorageProfile":
 	if restore.StorageProfile != nil {
 		storageProfile_ARM, err := (*restore.StorageProfile).ConvertToARM(resolved)
 		if err != nil {
@@ -2544,7 +2544,7 @@ func (restore *ServerPropertiesForGeoRestore) ConvertToARM(resolved genruntime.C
 		result.StorageProfile = &storageProfile
 	}
 
-	// Set property ‘Version’:
+	// Set property "Version":
 	if restore.Version != nil {
 		version := *restore.Version
 		result.Version = &version
@@ -2564,34 +2564,34 @@ func (restore *ServerPropertiesForGeoRestore) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPropertiesForGeoRestore_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CreateMode’:
+	// Set property "CreateMode":
 	restore.CreateMode = &typedInput.CreateMode
 
-	// Set property ‘MinimalTlsVersion’:
+	// Set property "MinimalTlsVersion":
 	if typedInput.MinimalTlsVersion != nil {
 		minimalTlsVersion := *typedInput.MinimalTlsVersion
 		restore.MinimalTlsVersion = &minimalTlsVersion
 	}
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	if typedInput.PublicNetworkAccess != nil {
 		publicNetworkAccess := *typedInput.PublicNetworkAccess
 		restore.PublicNetworkAccess = &publicNetworkAccess
 	}
 
-	// Set property ‘SourceServerId’:
+	// Set property "SourceServerId":
 	if typedInput.SourceServerId != nil {
 		sourceServerId := *typedInput.SourceServerId
 		restore.SourceServerId = &sourceServerId
 	}
 
-	// Set property ‘SslEnforcement’:
+	// Set property "SslEnforcement":
 	if typedInput.SslEnforcement != nil {
 		sslEnforcement := *typedInput.SslEnforcement
 		restore.SslEnforcement = &sslEnforcement
 	}
 
-	// Set property ‘StorageProfile’:
+	// Set property "StorageProfile":
 	if typedInput.StorageProfile != nil {
 		var storageProfile1 StorageProfile
 		err := storageProfile1.PopulateFromARM(owner, *typedInput.StorageProfile)
@@ -2602,7 +2602,7 @@ func (restore *ServerPropertiesForGeoRestore) PopulateFromARM(owner genruntime.A
 		restore.StorageProfile = &storageProfile
 	}
 
-	// Set property ‘Version’:
+	// Set property "Version":
 	if typedInput.Version != nil {
 		version := *typedInput.Version
 		restore.Version = &version
@@ -2768,36 +2768,36 @@ func (replica *ServerPropertiesForReplica) ConvertToARM(resolved genruntime.Conv
 	}
 	result := &ServerPropertiesForReplica_ARM{}
 
-	// Set property ‘CreateMode’:
+	// Set property "CreateMode":
 	if replica.CreateMode != nil {
 		result.CreateMode = *replica.CreateMode
 	}
 
-	// Set property ‘MinimalTlsVersion’:
+	// Set property "MinimalTlsVersion":
 	if replica.MinimalTlsVersion != nil {
 		minimalTlsVersion := *replica.MinimalTlsVersion
 		result.MinimalTlsVersion = &minimalTlsVersion
 	}
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	if replica.PublicNetworkAccess != nil {
 		publicNetworkAccess := *replica.PublicNetworkAccess
 		result.PublicNetworkAccess = &publicNetworkAccess
 	}
 
-	// Set property ‘SourceServerId’:
+	// Set property "SourceServerId":
 	if replica.SourceServerId != nil {
 		sourceServerId := *replica.SourceServerId
 		result.SourceServerId = &sourceServerId
 	}
 
-	// Set property ‘SslEnforcement’:
+	// Set property "SslEnforcement":
 	if replica.SslEnforcement != nil {
 		sslEnforcement := *replica.SslEnforcement
 		result.SslEnforcement = &sslEnforcement
 	}
 
-	// Set property ‘StorageProfile’:
+	// Set property "StorageProfile":
 	if replica.StorageProfile != nil {
 		storageProfile_ARM, err := (*replica.StorageProfile).ConvertToARM(resolved)
 		if err != nil {
@@ -2807,7 +2807,7 @@ func (replica *ServerPropertiesForReplica) ConvertToARM(resolved genruntime.Conv
 		result.StorageProfile = &storageProfile
 	}
 
-	// Set property ‘Version’:
+	// Set property "Version":
 	if replica.Version != nil {
 		version := *replica.Version
 		result.Version = &version
@@ -2827,34 +2827,34 @@ func (replica *ServerPropertiesForReplica) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPropertiesForReplica_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CreateMode’:
+	// Set property "CreateMode":
 	replica.CreateMode = &typedInput.CreateMode
 
-	// Set property ‘MinimalTlsVersion’:
+	// Set property "MinimalTlsVersion":
 	if typedInput.MinimalTlsVersion != nil {
 		minimalTlsVersion := *typedInput.MinimalTlsVersion
 		replica.MinimalTlsVersion = &minimalTlsVersion
 	}
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	if typedInput.PublicNetworkAccess != nil {
 		publicNetworkAccess := *typedInput.PublicNetworkAccess
 		replica.PublicNetworkAccess = &publicNetworkAccess
 	}
 
-	// Set property ‘SourceServerId’:
+	// Set property "SourceServerId":
 	if typedInput.SourceServerId != nil {
 		sourceServerId := *typedInput.SourceServerId
 		replica.SourceServerId = &sourceServerId
 	}
 
-	// Set property ‘SslEnforcement’:
+	// Set property "SslEnforcement":
 	if typedInput.SslEnforcement != nil {
 		sslEnforcement := *typedInput.SslEnforcement
 		replica.SslEnforcement = &sslEnforcement
 	}
 
-	// Set property ‘StorageProfile’:
+	// Set property "StorageProfile":
 	if typedInput.StorageProfile != nil {
 		var storageProfile1 StorageProfile
 		err := storageProfile1.PopulateFromARM(owner, *typedInput.StorageProfile)
@@ -2865,7 +2865,7 @@ func (replica *ServerPropertiesForReplica) PopulateFromARM(owner genruntime.Arbi
 		replica.StorageProfile = &storageProfile
 	}
 
-	// Set property ‘Version’:
+	// Set property "Version":
 	if typedInput.Version != nil {
 		version := *typedInput.Version
 		replica.Version = &version
@@ -3034,42 +3034,42 @@ func (restore *ServerPropertiesForRestore) ConvertToARM(resolved genruntime.Conv
 	}
 	result := &ServerPropertiesForRestore_ARM{}
 
-	// Set property ‘CreateMode’:
+	// Set property "CreateMode":
 	if restore.CreateMode != nil {
 		result.CreateMode = *restore.CreateMode
 	}
 
-	// Set property ‘MinimalTlsVersion’:
+	// Set property "MinimalTlsVersion":
 	if restore.MinimalTlsVersion != nil {
 		minimalTlsVersion := *restore.MinimalTlsVersion
 		result.MinimalTlsVersion = &minimalTlsVersion
 	}
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	if restore.PublicNetworkAccess != nil {
 		publicNetworkAccess := *restore.PublicNetworkAccess
 		result.PublicNetworkAccess = &publicNetworkAccess
 	}
 
-	// Set property ‘RestorePointInTime’:
+	// Set property "RestorePointInTime":
 	if restore.RestorePointInTime != nil {
 		restorePointInTime := *restore.RestorePointInTime
 		result.RestorePointInTime = &restorePointInTime
 	}
 
-	// Set property ‘SourceServerId’:
+	// Set property "SourceServerId":
 	if restore.SourceServerId != nil {
 		sourceServerId := *restore.SourceServerId
 		result.SourceServerId = &sourceServerId
 	}
 
-	// Set property ‘SslEnforcement’:
+	// Set property "SslEnforcement":
 	if restore.SslEnforcement != nil {
 		sslEnforcement := *restore.SslEnforcement
 		result.SslEnforcement = &sslEnforcement
 	}
 
-	// Set property ‘StorageProfile’:
+	// Set property "StorageProfile":
 	if restore.StorageProfile != nil {
 		storageProfile_ARM, err := (*restore.StorageProfile).ConvertToARM(resolved)
 		if err != nil {
@@ -3079,7 +3079,7 @@ func (restore *ServerPropertiesForRestore) ConvertToARM(resolved genruntime.Conv
 		result.StorageProfile = &storageProfile
 	}
 
-	// Set property ‘Version’:
+	// Set property "Version":
 	if restore.Version != nil {
 		version := *restore.Version
 		result.Version = &version
@@ -3099,40 +3099,40 @@ func (restore *ServerPropertiesForRestore) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPropertiesForRestore_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CreateMode’:
+	// Set property "CreateMode":
 	restore.CreateMode = &typedInput.CreateMode
 
-	// Set property ‘MinimalTlsVersion’:
+	// Set property "MinimalTlsVersion":
 	if typedInput.MinimalTlsVersion != nil {
 		minimalTlsVersion := *typedInput.MinimalTlsVersion
 		restore.MinimalTlsVersion = &minimalTlsVersion
 	}
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	if typedInput.PublicNetworkAccess != nil {
 		publicNetworkAccess := *typedInput.PublicNetworkAccess
 		restore.PublicNetworkAccess = &publicNetworkAccess
 	}
 
-	// Set property ‘RestorePointInTime’:
+	// Set property "RestorePointInTime":
 	if typedInput.RestorePointInTime != nil {
 		restorePointInTime := *typedInput.RestorePointInTime
 		restore.RestorePointInTime = &restorePointInTime
 	}
 
-	// Set property ‘SourceServerId’:
+	// Set property "SourceServerId":
 	if typedInput.SourceServerId != nil {
 		sourceServerId := *typedInput.SourceServerId
 		restore.SourceServerId = &sourceServerId
 	}
 
-	// Set property ‘SslEnforcement’:
+	// Set property "SslEnforcement":
 	if typedInput.SslEnforcement != nil {
 		sslEnforcement := *typedInput.SslEnforcement
 		restore.SslEnforcement = &sslEnforcement
 	}
 
-	// Set property ‘StorageProfile’:
+	// Set property "StorageProfile":
 	if typedInput.StorageProfile != nil {
 		var storageProfile1 StorageProfile
 		err := storageProfile1.PopulateFromARM(owner, *typedInput.StorageProfile)
@@ -3143,7 +3143,7 @@ func (restore *ServerPropertiesForRestore) PopulateFromARM(owner genruntime.Arbi
 		restore.StorageProfile = &storageProfile
 	}
 
-	// Set property ‘Version’:
+	// Set property "Version":
 	if typedInput.Version != nil {
 		version := *typedInput.Version
 		restore.Version = &version
@@ -3329,7 +3329,7 @@ func (property *PrivateEndpointProperty_STATUS) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointProperty_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		property.Id = &id
@@ -3401,19 +3401,19 @@ func (property *ServerPrivateLinkServiceConnectionStateProperty_STATUS) Populate
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPrivateLinkServiceConnectionStateProperty_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ActionsRequired’:
+	// Set property "ActionsRequired":
 	if typedInput.ActionsRequired != nil {
 		actionsRequired := *typedInput.ActionsRequired
 		property.ActionsRequired = &actionsRequired
 	}
 
-	// Set property ‘Description’:
+	// Set property "Description":
 	if typedInput.Description != nil {
 		description := *typedInput.Description
 		property.Description = &description
 	}
 
-	// Set property ‘Status’:
+	// Set property "Status":
 	if typedInput.Status != nil {
 		status := *typedInput.Status
 		property.Status = &status
@@ -3501,25 +3501,25 @@ func (profile *StorageProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 	}
 	result := &StorageProfile_ARM{}
 
-	// Set property ‘BackupRetentionDays’:
+	// Set property "BackupRetentionDays":
 	if profile.BackupRetentionDays != nil {
 		backupRetentionDays := *profile.BackupRetentionDays
 		result.BackupRetentionDays = &backupRetentionDays
 	}
 
-	// Set property ‘GeoRedundantBackup’:
+	// Set property "GeoRedundantBackup":
 	if profile.GeoRedundantBackup != nil {
 		geoRedundantBackup := *profile.GeoRedundantBackup
 		result.GeoRedundantBackup = &geoRedundantBackup
 	}
 
-	// Set property ‘StorageAutogrow’:
+	// Set property "StorageAutogrow":
 	if profile.StorageAutogrow != nil {
 		storageAutogrow := *profile.StorageAutogrow
 		result.StorageAutogrow = &storageAutogrow
 	}
 
-	// Set property ‘StorageMB’:
+	// Set property "StorageMB":
 	if profile.StorageMB != nil {
 		storageMB := *profile.StorageMB
 		result.StorageMB = &storageMB
@@ -3539,25 +3539,25 @@ func (profile *StorageProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageProfile_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BackupRetentionDays’:
+	// Set property "BackupRetentionDays":
 	if typedInput.BackupRetentionDays != nil {
 		backupRetentionDays := *typedInput.BackupRetentionDays
 		profile.BackupRetentionDays = &backupRetentionDays
 	}
 
-	// Set property ‘GeoRedundantBackup’:
+	// Set property "GeoRedundantBackup":
 	if typedInput.GeoRedundantBackup != nil {
 		geoRedundantBackup := *typedInput.GeoRedundantBackup
 		profile.GeoRedundantBackup = &geoRedundantBackup
 	}
 
-	// Set property ‘StorageAutogrow’:
+	// Set property "StorageAutogrow":
 	if typedInput.StorageAutogrow != nil {
 		storageAutogrow := *typedInput.StorageAutogrow
 		profile.StorageAutogrow = &storageAutogrow
 	}
 
-	// Set property ‘StorageMB’:
+	// Set property "StorageMB":
 	if typedInput.StorageMB != nil {
 		storageMB := *typedInput.StorageMB
 		profile.StorageMB = &storageMB

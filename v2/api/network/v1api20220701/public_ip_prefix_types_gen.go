@@ -361,7 +361,7 @@ func (prefix *PublicIPPrefix_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &PublicIPPrefix_Spec_ARM{}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if prefix.ExtendedLocation != nil {
 		extendedLocation_ARM, err := (*prefix.ExtendedLocation).ConvertToARM(resolved)
 		if err != nil {
@@ -371,16 +371,16 @@ func (prefix *PublicIPPrefix_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if prefix.Location != nil {
 		location := *prefix.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if prefix.CustomIPPrefix != nil ||
 		prefix.IpTags != nil ||
 		prefix.NatGateway != nil ||
@@ -420,7 +420,7 @@ func (prefix *PublicIPPrefix_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.PublicIPAddressVersion = &publicIPAddressVersion
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if prefix.Sku != nil {
 		sku_ARM, err := (*prefix.Sku).ConvertToARM(resolved)
 		if err != nil {
@@ -430,7 +430,7 @@ func (prefix *PublicIPPrefix_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Sku = &sku
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if prefix.Tags != nil {
 		result.Tags = make(map[string]string, len(prefix.Tags))
 		for key, value := range prefix.Tags {
@@ -438,7 +438,7 @@ func (prefix *PublicIPPrefix_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		}
 	}
 
-	// Set property ‘Zones’:
+	// Set property "Zones":
 	for _, item := range prefix.Zones {
 		result.Zones = append(result.Zones, item)
 	}
@@ -457,10 +457,10 @@ func (prefix *PublicIPPrefix_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPPrefix_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	prefix.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘CustomIPPrefix’:
+	// Set property "CustomIPPrefix":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CustomIPPrefix != nil {
@@ -474,7 +474,7 @@ func (prefix *PublicIPPrefix_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if typedInput.ExtendedLocation != nil {
 		var extendedLocation1 ExtendedLocation
 		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
@@ -485,7 +485,7 @@ func (prefix *PublicIPPrefix_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		prefix.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘IpTags’:
+	// Set property "IpTags":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.IpTags {
@@ -498,13 +498,13 @@ func (prefix *PublicIPPrefix_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		prefix.Location = &location
 	}
 
-	// Set property ‘NatGateway’:
+	// Set property "NatGateway":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NatGateway != nil {
@@ -518,10 +518,10 @@ func (prefix *PublicIPPrefix_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	prefix.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘PrefixLength’:
+	// Set property "PrefixLength":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrefixLength != nil {
@@ -530,7 +530,7 @@ func (prefix *PublicIPPrefix_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘PublicIPAddressVersion’:
+	// Set property "PublicIPAddressVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicIPAddressVersion != nil {
@@ -539,7 +539,7 @@ func (prefix *PublicIPPrefix_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 PublicIPPrefixSku
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -550,7 +550,7 @@ func (prefix *PublicIPPrefix_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		prefix.Sku = &sku
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		prefix.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -558,7 +558,7 @@ func (prefix *PublicIPPrefix_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Zones’:
+	// Set property "Zones":
 	for _, item := range typedInput.Zones {
 		prefix.Zones = append(prefix.Zones, item)
 	}
@@ -1066,9 +1066,9 @@ func (prefix *PublicIPPrefix_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPPrefix_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘CustomIPPrefix’:
+	// Set property "CustomIPPrefix":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CustomIPPrefix != nil {
@@ -1082,13 +1082,13 @@ func (prefix *PublicIPPrefix_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		prefix.Etag = &etag
 	}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if typedInput.ExtendedLocation != nil {
 		var extendedLocation1 ExtendedLocation_STATUS
 		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
@@ -1099,13 +1099,13 @@ func (prefix *PublicIPPrefix_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		prefix.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		prefix.Id = &id
 	}
 
-	// Set property ‘IpPrefix’:
+	// Set property "IpPrefix":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IpPrefix != nil {
@@ -1114,7 +1114,7 @@ func (prefix *PublicIPPrefix_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘IpTags’:
+	// Set property "IpTags":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.IpTags {
@@ -1127,7 +1127,7 @@ func (prefix *PublicIPPrefix_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘LoadBalancerFrontendIpConfiguration’:
+	// Set property "LoadBalancerFrontendIpConfiguration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LoadBalancerFrontendIpConfiguration != nil {
@@ -1141,19 +1141,19 @@ func (prefix *PublicIPPrefix_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		prefix.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		prefix.Name = &name
 	}
 
-	// Set property ‘NatGateway’:
+	// Set property "NatGateway":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NatGateway != nil {
@@ -1167,7 +1167,7 @@ func (prefix *PublicIPPrefix_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘PrefixLength’:
+	// Set property "PrefixLength":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrefixLength != nil {
@@ -1176,7 +1176,7 @@ func (prefix *PublicIPPrefix_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -1185,7 +1185,7 @@ func (prefix *PublicIPPrefix_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘PublicIPAddressVersion’:
+	// Set property "PublicIPAddressVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicIPAddressVersion != nil {
@@ -1194,7 +1194,7 @@ func (prefix *PublicIPPrefix_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘PublicIPAddresses’:
+	// Set property "PublicIPAddresses":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PublicIPAddresses {
@@ -1207,7 +1207,7 @@ func (prefix *PublicIPPrefix_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘ResourceGuid’:
+	// Set property "ResourceGuid":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceGuid != nil {
@@ -1216,7 +1216,7 @@ func (prefix *PublicIPPrefix_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 PublicIPPrefixSku_STATUS
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -1227,7 +1227,7 @@ func (prefix *PublicIPPrefix_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		prefix.Sku = &sku
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		prefix.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1235,13 +1235,13 @@ func (prefix *PublicIPPrefix_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		prefix.Type = &typeVar
 	}
 
-	// Set property ‘Zones’:
+	// Set property "Zones":
 	for _, item := range typedInput.Zones {
 		prefix.Zones = append(prefix.Zones, item)
 	}
@@ -1581,13 +1581,13 @@ func (ipTag *IpTag) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 	}
 	result := &IpTag_ARM{}
 
-	// Set property ‘IpTagType’:
+	// Set property "IpTagType":
 	if ipTag.IpTagType != nil {
 		ipTagType := *ipTag.IpTagType
 		result.IpTagType = &ipTagType
 	}
 
-	// Set property ‘Tag’:
+	// Set property "Tag":
 	if ipTag.Tag != nil {
 		tag := *ipTag.Tag
 		result.Tag = &tag
@@ -1607,13 +1607,13 @@ func (ipTag *IpTag) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpTag_ARM, got %T", armInput)
 	}
 
-	// Set property ‘IpTagType’:
+	// Set property "IpTagType":
 	if typedInput.IpTagType != nil {
 		ipTagType := *typedInput.IpTagType
 		ipTag.IpTagType = &ipTagType
 	}
 
-	// Set property ‘Tag’:
+	// Set property "Tag":
 	if typedInput.Tag != nil {
 		tag := *typedInput.Tag
 		ipTag.Tag = &tag
@@ -1694,13 +1694,13 @@ func (ipTag *IpTag_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpTag_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘IpTagType’:
+	// Set property "IpTagType":
 	if typedInput.IpTagType != nil {
 		ipTagType := *typedInput.IpTagType
 		ipTag.IpTagType = &ipTagType
 	}
 
-	// Set property ‘Tag’:
+	// Set property "Tag":
 	if typedInput.Tag != nil {
 		tag := *typedInput.Tag
 		ipTag.Tag = &tag
@@ -1782,7 +1782,7 @@ func (embedded *NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded) PopulateFr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		embedded.Id = &id
@@ -1836,7 +1836,7 @@ func (embedded *NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded) ConvertToARM(
 	}
 	result := &NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if embedded.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*embedded.Reference)
 		if err != nil {
@@ -1860,7 +1860,7 @@ func (embedded *NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded) PopulateFromA
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil
@@ -1948,13 +1948,13 @@ func (prefixSku *PublicIPPrefixSku) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &PublicIPPrefixSku_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if prefixSku.Name != nil {
 		name := *prefixSku.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if prefixSku.Tier != nil {
 		tier := *prefixSku.Tier
 		result.Tier = &tier
@@ -1974,13 +1974,13 @@ func (prefixSku *PublicIPPrefixSku) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPPrefixSku_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		prefixSku.Name = &name
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if typedInput.Tier != nil {
 		tier := *typedInput.Tier
 		prefixSku.Tier = &tier
@@ -2091,13 +2091,13 @@ func (prefixSku *PublicIPPrefixSku_STATUS) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPPrefixSku_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		prefixSku.Name = &name
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if typedInput.Tier != nil {
 		tier := *typedInput.Tier
 		prefixSku.Tier = &tier
@@ -2177,7 +2177,7 @@ func (resource *PublicIpPrefixSubResource) ConvertToARM(resolved genruntime.Conv
 	}
 	result := &PublicIpPrefixSubResource_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if resource.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*resource.Reference)
 		if err != nil {
@@ -2201,7 +2201,7 @@ func (resource *PublicIpPrefixSubResource) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIpPrefixSubResource_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil
@@ -2281,7 +2281,7 @@ func (resource *PublicIpPrefixSubResource_STATUS) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIpPrefixSubResource_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		resource.Id = &id
@@ -2340,7 +2340,7 @@ func (address *ReferencedPublicIpAddress_STATUS) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ReferencedPublicIpAddress_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		address.Id = &id

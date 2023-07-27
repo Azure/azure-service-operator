@@ -400,7 +400,7 @@ func (serverfarm *Serverfarm_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &Serverfarm_Spec_ARM{}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if serverfarm.ExtendedLocation != nil {
 		extendedLocation_ARM, err := (*serverfarm.ExtendedLocation).ConvertToARM(resolved)
 		if err != nil {
@@ -410,22 +410,22 @@ func (serverfarm *Serverfarm_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘Kind’:
+	// Set property "Kind":
 	if serverfarm.Kind != nil {
 		kind := *serverfarm.Kind
 		result.Kind = &kind
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if serverfarm.Location != nil {
 		location := *serverfarm.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if serverfarm.ElasticScaleEnabled != nil ||
 		serverfarm.FreeOfferExpirationTime != nil ||
 		serverfarm.HostingEnvironmentProfile != nil ||
@@ -512,7 +512,7 @@ func (serverfarm *Serverfarm_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.ZoneRedundant = &zoneRedundant
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if serverfarm.Sku != nil {
 		sku_ARM, err := (*serverfarm.Sku).ConvertToARM(resolved)
 		if err != nil {
@@ -522,7 +522,7 @@ func (serverfarm *Serverfarm_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Sku = &sku
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if serverfarm.Tags != nil {
 		result.Tags = make(map[string]string, len(serverfarm.Tags))
 		for key, value := range serverfarm.Tags {
@@ -544,10 +544,10 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Serverfarm_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	serverfarm.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘ElasticScaleEnabled’:
+	// Set property "ElasticScaleEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ElasticScaleEnabled != nil {
@@ -556,7 +556,7 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if typedInput.ExtendedLocation != nil {
 		var extendedLocation1 ExtendedLocation
 		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
@@ -567,7 +567,7 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		serverfarm.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘FreeOfferExpirationTime’:
+	// Set property "FreeOfferExpirationTime":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FreeOfferExpirationTime != nil {
@@ -576,7 +576,7 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘HostingEnvironmentProfile’:
+	// Set property "HostingEnvironmentProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HostingEnvironmentProfile != nil {
@@ -590,7 +590,7 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘HyperV’:
+	// Set property "HyperV":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HyperV != nil {
@@ -599,7 +599,7 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘IsSpot’:
+	// Set property "IsSpot":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsSpot != nil {
@@ -608,7 +608,7 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘IsXenon’:
+	// Set property "IsXenon":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsXenon != nil {
@@ -617,13 +617,13 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Kind’:
+	// Set property "Kind":
 	if typedInput.Kind != nil {
 		kind := *typedInput.Kind
 		serverfarm.Kind = &kind
 	}
 
-	// Set property ‘KubeEnvironmentProfile’:
+	// Set property "KubeEnvironmentProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.KubeEnvironmentProfile != nil {
@@ -637,13 +637,13 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		serverfarm.Location = &location
 	}
 
-	// Set property ‘MaximumElasticWorkerCount’:
+	// Set property "MaximumElasticWorkerCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaximumElasticWorkerCount != nil {
@@ -652,10 +652,10 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	serverfarm.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘PerSiteScaling’:
+	// Set property "PerSiteScaling":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PerSiteScaling != nil {
@@ -664,7 +664,7 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Reserved’:
+	// Set property "Reserved":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Reserved != nil {
@@ -673,7 +673,7 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 SkuDescription
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -684,7 +684,7 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		serverfarm.Sku = &sku
 	}
 
-	// Set property ‘SpotExpirationTime’:
+	// Set property "SpotExpirationTime":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SpotExpirationTime != nil {
@@ -693,7 +693,7 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		serverfarm.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -701,7 +701,7 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘TargetWorkerCount’:
+	// Set property "TargetWorkerCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TargetWorkerCount != nil {
@@ -710,7 +710,7 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘TargetWorkerSizeId’:
+	// Set property "TargetWorkerSizeId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TargetWorkerSizeId != nil {
@@ -719,7 +719,7 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘WorkerTierName’:
+	// Set property "WorkerTierName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.WorkerTierName != nil {
@@ -728,7 +728,7 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘ZoneRedundant’:
+	// Set property "ZoneRedundant":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ZoneRedundant != nil {
@@ -1412,9 +1412,9 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Serverfarm_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘ElasticScaleEnabled’:
+	// Set property "ElasticScaleEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ElasticScaleEnabled != nil {
@@ -1423,7 +1423,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if typedInput.ExtendedLocation != nil {
 		var extendedLocation1 ExtendedLocation_STATUS
 		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
@@ -1434,7 +1434,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		serverfarm.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘FreeOfferExpirationTime’:
+	// Set property "FreeOfferExpirationTime":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FreeOfferExpirationTime != nil {
@@ -1443,7 +1443,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘GeoRegion’:
+	// Set property "GeoRegion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.GeoRegion != nil {
@@ -1452,7 +1452,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘HostingEnvironmentProfile’:
+	// Set property "HostingEnvironmentProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HostingEnvironmentProfile != nil {
@@ -1466,7 +1466,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘HyperV’:
+	// Set property "HyperV":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HyperV != nil {
@@ -1475,13 +1475,13 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		serverfarm.Id = &id
 	}
 
-	// Set property ‘IsSpot’:
+	// Set property "IsSpot":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsSpot != nil {
@@ -1490,7 +1490,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘IsXenon’:
+	// Set property "IsXenon":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsXenon != nil {
@@ -1499,13 +1499,13 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Kind’:
+	// Set property "Kind":
 	if typedInput.Kind != nil {
 		kind := *typedInput.Kind
 		serverfarm.Kind = &kind
 	}
 
-	// Set property ‘KubeEnvironmentProfile’:
+	// Set property "KubeEnvironmentProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.KubeEnvironmentProfile != nil {
@@ -1519,13 +1519,13 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		serverfarm.Location = &location
 	}
 
-	// Set property ‘MaximumElasticWorkerCount’:
+	// Set property "MaximumElasticWorkerCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaximumElasticWorkerCount != nil {
@@ -1534,7 +1534,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘MaximumNumberOfWorkers’:
+	// Set property "MaximumNumberOfWorkers":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaximumNumberOfWorkers != nil {
@@ -1543,13 +1543,13 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		serverfarm.Name = &name
 	}
 
-	// Set property ‘NumberOfSites’:
+	// Set property "NumberOfSites":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NumberOfSites != nil {
@@ -1558,7 +1558,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘NumberOfWorkers’:
+	// Set property "NumberOfWorkers":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NumberOfWorkers != nil {
@@ -1567,7 +1567,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘PerSiteScaling’:
+	// Set property "PerSiteScaling":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PerSiteScaling != nil {
@@ -1576,7 +1576,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -1585,7 +1585,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Reserved’:
+	// Set property "Reserved":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Reserved != nil {
@@ -1594,7 +1594,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘ResourceGroup’:
+	// Set property "ResourceGroup":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceGroup != nil {
@@ -1603,7 +1603,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 SkuDescription_STATUS
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -1614,7 +1614,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		serverfarm.Sku = &sku
 	}
 
-	// Set property ‘SpotExpirationTime’:
+	// Set property "SpotExpirationTime":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SpotExpirationTime != nil {
@@ -1623,7 +1623,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Status’:
+	// Set property "Status":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Status != nil {
@@ -1632,7 +1632,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Subscription’:
+	// Set property "Subscription":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Subscription != nil {
@@ -1641,7 +1641,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		serverfarm.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1649,7 +1649,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘TargetWorkerCount’:
+	// Set property "TargetWorkerCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TargetWorkerCount != nil {
@@ -1658,7 +1658,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘TargetWorkerSizeId’:
+	// Set property "TargetWorkerSizeId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TargetWorkerSizeId != nil {
@@ -1667,13 +1667,13 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		serverfarm.Type = &typeVar
 	}
 
-	// Set property ‘WorkerTierName’:
+	// Set property "WorkerTierName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.WorkerTierName != nil {
@@ -1682,7 +1682,7 @@ func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘ZoneRedundant’:
+	// Set property "ZoneRedundant":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ZoneRedundant != nil {
@@ -2087,7 +2087,7 @@ func (location *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &ExtendedLocation_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if location.Name != nil {
 		name := *location.Name
 		result.Name = &name
@@ -2107,7 +2107,7 @@ func (location *ExtendedLocation) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExtendedLocation_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		location.Name = &name
@@ -2179,13 +2179,13 @@ func (location *ExtendedLocation_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExtendedLocation_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		location.Name = &name
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		location.Type = &typeVar
@@ -2245,7 +2245,7 @@ func (profile *HostingEnvironmentProfile) ConvertToARM(resolved genruntime.Conve
 	}
 	result := &HostingEnvironmentProfile_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if profile.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*profile.Reference)
 		if err != nil {
@@ -2269,7 +2269,7 @@ func (profile *HostingEnvironmentProfile) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HostingEnvironmentProfile_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil
@@ -2355,19 +2355,19 @@ func (profile *HostingEnvironmentProfile_STATUS) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HostingEnvironmentProfile_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		profile.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		profile.Name = &name
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		profile.Type = &typeVar
@@ -2433,7 +2433,7 @@ func (profile *KubeEnvironmentProfile) ConvertToARM(resolved genruntime.ConvertT
 	}
 	result := &KubeEnvironmentProfile_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if profile.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*profile.Reference)
 		if err != nil {
@@ -2457,7 +2457,7 @@ func (profile *KubeEnvironmentProfile) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KubeEnvironmentProfile_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil
@@ -2543,19 +2543,19 @@ func (profile *KubeEnvironmentProfile_STATUS) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KubeEnvironmentProfile_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		profile.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		profile.Name = &name
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		profile.Type = &typeVar
@@ -2660,7 +2660,7 @@ func (description *SkuDescription) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &SkuDescription_ARM{}
 
-	// Set property ‘Capabilities’:
+	// Set property "Capabilities":
 	for _, item := range description.Capabilities {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -2669,36 +2669,36 @@ func (description *SkuDescription) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Capabilities = append(result.Capabilities, *item_ARM.(*Capability_ARM))
 	}
 
-	// Set property ‘Capacity’:
+	// Set property "Capacity":
 	if description.Capacity != nil {
 		capacity := *description.Capacity
 		result.Capacity = &capacity
 	}
 
-	// Set property ‘Family’:
+	// Set property "Family":
 	if description.Family != nil {
 		family := *description.Family
 		result.Family = &family
 	}
 
-	// Set property ‘Locations’:
+	// Set property "Locations":
 	for _, item := range description.Locations {
 		result.Locations = append(result.Locations, item)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if description.Name != nil {
 		name := *description.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Size’:
+	// Set property "Size":
 	if description.Size != nil {
 		size := *description.Size
 		result.Size = &size
 	}
 
-	// Set property ‘SkuCapacity’:
+	// Set property "SkuCapacity":
 	if description.SkuCapacity != nil {
 		skuCapacity_ARM, err := (*description.SkuCapacity).ConvertToARM(resolved)
 		if err != nil {
@@ -2708,7 +2708,7 @@ func (description *SkuDescription) ConvertToARM(resolved genruntime.ConvertToARM
 		result.SkuCapacity = &skuCapacity
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if description.Tier != nil {
 		tier := *description.Tier
 		result.Tier = &tier
@@ -2728,7 +2728,7 @@ func (description *SkuDescription) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SkuDescription_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Capabilities’:
+	// Set property "Capabilities":
 	for _, item := range typedInput.Capabilities {
 		var item1 Capability
 		err := item1.PopulateFromARM(owner, item)
@@ -2738,36 +2738,36 @@ func (description *SkuDescription) PopulateFromARM(owner genruntime.ArbitraryOwn
 		description.Capabilities = append(description.Capabilities, item1)
 	}
 
-	// Set property ‘Capacity’:
+	// Set property "Capacity":
 	if typedInput.Capacity != nil {
 		capacity := *typedInput.Capacity
 		description.Capacity = &capacity
 	}
 
-	// Set property ‘Family’:
+	// Set property "Family":
 	if typedInput.Family != nil {
 		family := *typedInput.Family
 		description.Family = &family
 	}
 
-	// Set property ‘Locations’:
+	// Set property "Locations":
 	for _, item := range typedInput.Locations {
 		description.Locations = append(description.Locations, item)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		description.Name = &name
 	}
 
-	// Set property ‘Size’:
+	// Set property "Size":
 	if typedInput.Size != nil {
 		size := *typedInput.Size
 		description.Size = &size
 	}
 
-	// Set property ‘SkuCapacity’:
+	// Set property "SkuCapacity":
 	if typedInput.SkuCapacity != nil {
 		var skuCapacity1 SkuCapacity
 		err := skuCapacity1.PopulateFromARM(owner, *typedInput.SkuCapacity)
@@ -2778,7 +2778,7 @@ func (description *SkuDescription) PopulateFromARM(owner genruntime.ArbitraryOwn
 		description.SkuCapacity = &skuCapacity
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if typedInput.Tier != nil {
 		tier := *typedInput.Tier
 		description.Tier = &tier
@@ -3003,7 +3003,7 @@ func (description *SkuDescription_STATUS) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SkuDescription_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Capabilities’:
+	// Set property "Capabilities":
 	for _, item := range typedInput.Capabilities {
 		var item1 Capability_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -3013,36 +3013,36 @@ func (description *SkuDescription_STATUS) PopulateFromARM(owner genruntime.Arbit
 		description.Capabilities = append(description.Capabilities, item1)
 	}
 
-	// Set property ‘Capacity’:
+	// Set property "Capacity":
 	if typedInput.Capacity != nil {
 		capacity := *typedInput.Capacity
 		description.Capacity = &capacity
 	}
 
-	// Set property ‘Family’:
+	// Set property "Family":
 	if typedInput.Family != nil {
 		family := *typedInput.Family
 		description.Family = &family
 	}
 
-	// Set property ‘Locations’:
+	// Set property "Locations":
 	for _, item := range typedInput.Locations {
 		description.Locations = append(description.Locations, item)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		description.Name = &name
 	}
 
-	// Set property ‘Size’:
+	// Set property "Size":
 	if typedInput.Size != nil {
 		size := *typedInput.Size
 		description.Size = &size
 	}
 
-	// Set property ‘SkuCapacity’:
+	// Set property "SkuCapacity":
 	if typedInput.SkuCapacity != nil {
 		var skuCapacity1 SkuCapacity_STATUS
 		err := skuCapacity1.PopulateFromARM(owner, *typedInput.SkuCapacity)
@@ -3053,7 +3053,7 @@ func (description *SkuDescription_STATUS) PopulateFromARM(owner genruntime.Arbit
 		description.SkuCapacity = &skuCapacity
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if typedInput.Tier != nil {
 		tier := *typedInput.Tier
 		description.Tier = &tier
@@ -3203,19 +3203,19 @@ func (capability *Capability) ConvertToARM(resolved genruntime.ConvertToARMResol
 	}
 	result := &Capability_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if capability.Name != nil {
 		name := *capability.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Reason’:
+	// Set property "Reason":
 	if capability.Reason != nil {
 		reason := *capability.Reason
 		result.Reason = &reason
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if capability.Value != nil {
 		value := *capability.Value
 		result.Value = &value
@@ -3235,19 +3235,19 @@ func (capability *Capability) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Capability_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		capability.Name = &name
 	}
 
-	// Set property ‘Reason’:
+	// Set property "Reason":
 	if typedInput.Reason != nil {
 		reason := *typedInput.Reason
 		capability.Reason = &reason
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		capability.Value = &value
@@ -3340,19 +3340,19 @@ func (capability *Capability_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Capability_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		capability.Name = &name
 	}
 
-	// Set property ‘Reason’:
+	// Set property "Reason":
 	if typedInput.Reason != nil {
 		reason := *typedInput.Reason
 		capability.Reason = &reason
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		capability.Value = &value
@@ -3430,31 +3430,31 @@ func (capacity *SkuCapacity) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	}
 	result := &SkuCapacity_ARM{}
 
-	// Set property ‘Default’:
+	// Set property "Default":
 	if capacity.Default != nil {
 		def := *capacity.Default
 		result.Default = &def
 	}
 
-	// Set property ‘ElasticMaximum’:
+	// Set property "ElasticMaximum":
 	if capacity.ElasticMaximum != nil {
 		elasticMaximum := *capacity.ElasticMaximum
 		result.ElasticMaximum = &elasticMaximum
 	}
 
-	// Set property ‘Maximum’:
+	// Set property "Maximum":
 	if capacity.Maximum != nil {
 		maximum := *capacity.Maximum
 		result.Maximum = &maximum
 	}
 
-	// Set property ‘Minimum’:
+	// Set property "Minimum":
 	if capacity.Minimum != nil {
 		minimum := *capacity.Minimum
 		result.Minimum = &minimum
 	}
 
-	// Set property ‘ScaleType’:
+	// Set property "ScaleType":
 	if capacity.ScaleType != nil {
 		scaleType := *capacity.ScaleType
 		result.ScaleType = &scaleType
@@ -3474,31 +3474,31 @@ func (capacity *SkuCapacity) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SkuCapacity_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Default’:
+	// Set property "Default":
 	if typedInput.Default != nil {
 		def := *typedInput.Default
 		capacity.Default = &def
 	}
 
-	// Set property ‘ElasticMaximum’:
+	// Set property "ElasticMaximum":
 	if typedInput.ElasticMaximum != nil {
 		elasticMaximum := *typedInput.ElasticMaximum
 		capacity.ElasticMaximum = &elasticMaximum
 	}
 
-	// Set property ‘Maximum’:
+	// Set property "Maximum":
 	if typedInput.Maximum != nil {
 		maximum := *typedInput.Maximum
 		capacity.Maximum = &maximum
 	}
 
-	// Set property ‘Minimum’:
+	// Set property "Minimum":
 	if typedInput.Minimum != nil {
 		minimum := *typedInput.Minimum
 		capacity.Minimum = &minimum
 	}
 
-	// Set property ‘ScaleType’:
+	// Set property "ScaleType":
 	if typedInput.ScaleType != nil {
 		scaleType := *typedInput.ScaleType
 		capacity.ScaleType = &scaleType
@@ -3615,31 +3615,31 @@ func (capacity *SkuCapacity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SkuCapacity_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Default’:
+	// Set property "Default":
 	if typedInput.Default != nil {
 		def := *typedInput.Default
 		capacity.Default = &def
 	}
 
-	// Set property ‘ElasticMaximum’:
+	// Set property "ElasticMaximum":
 	if typedInput.ElasticMaximum != nil {
 		elasticMaximum := *typedInput.ElasticMaximum
 		capacity.ElasticMaximum = &elasticMaximum
 	}
 
-	// Set property ‘Maximum’:
+	// Set property "Maximum":
 	if typedInput.Maximum != nil {
 		maximum := *typedInput.Maximum
 		capacity.Maximum = &maximum
 	}
 
-	// Set property ‘Minimum’:
+	// Set property "Minimum":
 	if typedInput.Minimum != nil {
 		minimum := *typedInput.Minimum
 		capacity.Minimum = &minimum
 	}
 
-	// Set property ‘ScaleType’:
+	// Set property "ScaleType":
 	if typedInput.ScaleType != nil {
 		scaleType := *typedInput.ScaleType
 		capacity.ScaleType = &scaleType

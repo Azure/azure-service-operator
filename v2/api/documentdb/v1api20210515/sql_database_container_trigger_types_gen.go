@@ -343,16 +343,16 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) ConvertToA
 	}
 	result := &DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if trigger.Location != nil {
 		location := *trigger.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if trigger.Options != nil || trigger.Resource != nil {
 		result.Properties = &SqlTriggerCreateUpdateProperties_ARM{}
 	}
@@ -373,7 +373,7 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) ConvertToA
 		result.Properties.Resource = &resource
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if trigger.Tags != nil {
 		result.Tags = make(map[string]string, len(trigger.Tags))
 		for key, value := range trigger.Tags {
@@ -395,16 +395,16 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) PopulateFr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	trigger.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		trigger.Location = &location
 	}
 
-	// Set property ‘Options’:
+	// Set property "Options":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Options != nil {
@@ -418,10 +418,10 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) PopulateFr
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	trigger.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Resource’:
+	// Set property "Resource":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
@@ -435,7 +435,7 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) PopulateFr
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		trigger.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -723,27 +723,27 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) Populate
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		trigger.Id = &id
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		trigger.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		trigger.Name = &name
 	}
 
-	// Set property ‘Resource’:
+	// Set property "Resource":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
@@ -757,7 +757,7 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) Populate
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		trigger.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -765,7 +765,7 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) Populate
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		trigger.Type = &typeVar
@@ -895,43 +895,43 @@ func (resource *SqlTriggerGetProperties_Resource_STATUS) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlTriggerGetProperties_Resource_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Body’:
+	// Set property "Body":
 	if typedInput.Body != nil {
 		body := *typedInput.Body
 		resource.Body = &body
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		resource.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		resource.Id = &id
 	}
 
-	// Set property ‘Rid’:
+	// Set property "Rid":
 	if typedInput.Rid != nil {
 		rid := *typedInput.Rid
 		resource.Rid = &rid
 	}
 
-	// Set property ‘TriggerOperation’:
+	// Set property "TriggerOperation":
 	if typedInput.TriggerOperation != nil {
 		triggerOperation := *typedInput.TriggerOperation
 		resource.TriggerOperation = &triggerOperation
 	}
 
-	// Set property ‘TriggerType’:
+	// Set property "TriggerType":
 	if typedInput.TriggerType != nil {
 		triggerType := *typedInput.TriggerType
 		resource.TriggerType = &triggerType
 	}
 
-	// Set property ‘Ts’:
+	// Set property "Ts":
 	if typedInput.Ts != nil {
 		ts := *typedInput.Ts
 		resource.Ts = &ts
@@ -1061,25 +1061,25 @@ func (resource *SqlTriggerResource) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &SqlTriggerResource_ARM{}
 
-	// Set property ‘Body’:
+	// Set property "Body":
 	if resource.Body != nil {
 		body := *resource.Body
 		result.Body = &body
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if resource.Id != nil {
 		id := *resource.Id
 		result.Id = &id
 	}
 
-	// Set property ‘TriggerOperation’:
+	// Set property "TriggerOperation":
 	if resource.TriggerOperation != nil {
 		triggerOperation := *resource.TriggerOperation
 		result.TriggerOperation = &triggerOperation
 	}
 
-	// Set property ‘TriggerType’:
+	// Set property "TriggerType":
 	if resource.TriggerType != nil {
 		triggerType := *resource.TriggerType
 		result.TriggerType = &triggerType
@@ -1099,25 +1099,25 @@ func (resource *SqlTriggerResource) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlTriggerResource_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Body’:
+	// Set property "Body":
 	if typedInput.Body != nil {
 		body := *typedInput.Body
 		resource.Body = &body
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		resource.Id = &id
 	}
 
-	// Set property ‘TriggerOperation’:
+	// Set property "TriggerOperation":
 	if typedInput.TriggerOperation != nil {
 		triggerOperation := *typedInput.TriggerOperation
 		resource.TriggerOperation = &triggerOperation
 	}
 
-	// Set property ‘TriggerType’:
+	// Set property "TriggerType":
 	if typedInput.TriggerType != nil {
 		triggerType := *typedInput.TriggerType
 		resource.TriggerType = &triggerType

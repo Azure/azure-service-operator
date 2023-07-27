@@ -385,7 +385,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &Workspace_Spec_ARM{}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if workspace.Identity != nil {
 		identity_ARM, err := (*workspace.Identity).ConvertToARM(resolved)
 		if err != nil {
@@ -395,16 +395,16 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Identity = &identity
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if workspace.Location != nil {
 		location := *workspace.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if workspace.AllowPublicAccessWhenBehindVnet != nil ||
 		workspace.ApplicationInsightsReference != nil ||
 		workspace.ContainerRegistryReference != nil ||
@@ -514,7 +514,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.StorageAccount = &storageAccount
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if workspace.Sku != nil {
 		sku_ARM, err := (*workspace.Sku).ConvertToARM(resolved)
 		if err != nil {
@@ -524,7 +524,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Sku = &sku
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if workspace.SystemData != nil {
 		systemData_ARM, err := (*workspace.SystemData).ConvertToARM(resolved)
 		if err != nil {
@@ -534,7 +534,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.SystemData = &systemData
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if workspace.Tags != nil {
 		result.Tags = make(map[string]string, len(workspace.Tags))
 		for key, value := range workspace.Tags {
@@ -556,7 +556,7 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspace_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AllowPublicAccessWhenBehindVnet’:
+	// Set property "AllowPublicAccessWhenBehindVnet":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AllowPublicAccessWhenBehindVnet != nil {
@@ -565,14 +565,14 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// no assignment for property ‘ApplicationInsightsReference’
+	// no assignment for property "ApplicationInsightsReference"
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	workspace.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// no assignment for property ‘ContainerRegistryReference’
+	// no assignment for property "ContainerRegistryReference"
 
-	// Set property ‘Description’:
+	// Set property "Description":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Description != nil {
@@ -581,7 +581,7 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘DiscoveryUrl’:
+	// Set property "DiscoveryUrl":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DiscoveryUrl != nil {
@@ -590,7 +590,7 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘Encryption’:
+	// Set property "Encryption":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Encryption != nil {
@@ -604,7 +604,7 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘FriendlyName’:
+	// Set property "FriendlyName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FriendlyName != nil {
@@ -613,7 +613,7 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘HbiWorkspace’:
+	// Set property "HbiWorkspace":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HbiWorkspace != nil {
@@ -622,7 +622,7 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 Identity
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -633,7 +633,7 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		workspace.Identity = &identity
 	}
 
-	// Set property ‘ImageBuildCompute’:
+	// Set property "ImageBuildCompute":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ImageBuildCompute != nil {
@@ -642,22 +642,22 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// no assignment for property ‘KeyVaultReference’
+	// no assignment for property "KeyVaultReference"
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		workspace.Location = &location
 	}
 
-	// no assignment for property ‘OperatorSpec’
+	// no assignment for property "OperatorSpec"
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	workspace.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// no assignment for property ‘PrimaryUserAssignedIdentityReference’
+	// no assignment for property "PrimaryUserAssignedIdentityReference"
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
@@ -666,7 +666,7 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘ServiceManagedResourcesSettings’:
+	// Set property "ServiceManagedResourcesSettings":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ServiceManagedResourcesSettings != nil {
@@ -680,7 +680,7 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘SharedPrivateLinkResources’:
+	// Set property "SharedPrivateLinkResources":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.SharedPrivateLinkResources {
@@ -693,7 +693,7 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 Sku
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -704,9 +704,9 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		workspace.Sku = &sku
 	}
 
-	// no assignment for property ‘StorageAccountReference’
+	// no assignment for property "StorageAccountReference"
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -717,7 +717,7 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		workspace.SystemData = &systemData
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		workspace.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1282,7 +1282,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspace_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AllowPublicAccessWhenBehindVnet’:
+	// Set property "AllowPublicAccessWhenBehindVnet":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AllowPublicAccessWhenBehindVnet != nil {
@@ -1291,7 +1291,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘ApplicationInsights’:
+	// Set property "ApplicationInsights":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ApplicationInsights != nil {
@@ -1300,9 +1300,9 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘ContainerRegistry’:
+	// Set property "ContainerRegistry":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ContainerRegistry != nil {
@@ -1311,7 +1311,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Description’:
+	// Set property "Description":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Description != nil {
@@ -1320,7 +1320,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘DiscoveryUrl’:
+	// Set property "DiscoveryUrl":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DiscoveryUrl != nil {
@@ -1329,7 +1329,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Encryption’:
+	// Set property "Encryption":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Encryption != nil {
@@ -1343,7 +1343,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘FriendlyName’:
+	// Set property "FriendlyName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FriendlyName != nil {
@@ -1352,7 +1352,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘HbiWorkspace’:
+	// Set property "HbiWorkspace":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HbiWorkspace != nil {
@@ -1361,13 +1361,13 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		workspace.Id = &id
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 Identity_STATUS
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -1378,7 +1378,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		workspace.Identity = &identity
 	}
 
-	// Set property ‘ImageBuildCompute’:
+	// Set property "ImageBuildCompute":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ImageBuildCompute != nil {
@@ -1387,7 +1387,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘KeyVault’:
+	// Set property "KeyVault":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.KeyVault != nil {
@@ -1396,13 +1396,13 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		workspace.Location = &location
 	}
 
-	// Set property ‘MlFlowTrackingUri’:
+	// Set property "MlFlowTrackingUri":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MlFlowTrackingUri != nil {
@@ -1411,13 +1411,13 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		workspace.Name = &name
 	}
 
-	// Set property ‘NotebookInfo’:
+	// Set property "NotebookInfo":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NotebookInfo != nil {
@@ -1431,7 +1431,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘PrimaryUserAssignedIdentity’:
+	// Set property "PrimaryUserAssignedIdentity":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrimaryUserAssignedIdentity != nil {
@@ -1440,7 +1440,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘PrivateEndpointConnections’:
+	// Set property "PrivateEndpointConnections":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PrivateEndpointConnections {
@@ -1453,7 +1453,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘PrivateLinkCount’:
+	// Set property "PrivateLinkCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateLinkCount != nil {
@@ -1462,7 +1462,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -1471,7 +1471,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
@@ -1480,7 +1480,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘ServiceManagedResourcesSettings’:
+	// Set property "ServiceManagedResourcesSettings":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ServiceManagedResourcesSettings != nil {
@@ -1494,7 +1494,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘ServiceProvisionedResourceGroup’:
+	// Set property "ServiceProvisionedResourceGroup":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ServiceProvisionedResourceGroup != nil {
@@ -1503,7 +1503,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘SharedPrivateLinkResources’:
+	// Set property "SharedPrivateLinkResources":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.SharedPrivateLinkResources {
@@ -1516,7 +1516,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 Sku_STATUS
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -1527,7 +1527,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		workspace.Sku = &sku
 	}
 
-	// Set property ‘StorageAccount’:
+	// Set property "StorageAccount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StorageAccount != nil {
@@ -1536,7 +1536,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘StorageHnsEnabled’:
+	// Set property "StorageHnsEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StorageHnsEnabled != nil {
@@ -1545,7 +1545,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -1556,7 +1556,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		workspace.SystemData = &systemData
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		workspace.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1564,7 +1564,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TenantId != nil {
@@ -1573,13 +1573,13 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		workspace.Type = &typeVar
 	}
 
-	// Set property ‘WorkspaceId’:
+	// Set property "WorkspaceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.WorkspaceId != nil {
@@ -2051,7 +2051,7 @@ func (property *EncryptionProperty) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &EncryptionProperty_ARM{}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if property.Identity != nil {
 		identity_ARM, err := (*property.Identity).ConvertToARM(resolved)
 		if err != nil {
@@ -2061,7 +2061,7 @@ func (property *EncryptionProperty) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Identity = &identity
 	}
 
-	// Set property ‘KeyVaultProperties’:
+	// Set property "KeyVaultProperties":
 	if property.KeyVaultProperties != nil {
 		keyVaultProperties_ARM, err := (*property.KeyVaultProperties).ConvertToARM(resolved)
 		if err != nil {
@@ -2071,7 +2071,7 @@ func (property *EncryptionProperty) ConvertToARM(resolved genruntime.ConvertToAR
 		result.KeyVaultProperties = &keyVaultProperties
 	}
 
-	// Set property ‘Status’:
+	// Set property "Status":
 	if property.Status != nil {
 		status := *property.Status
 		result.Status = &status
@@ -2091,7 +2091,7 @@ func (property *EncryptionProperty) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EncryptionProperty_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 IdentityForCmk
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -2102,7 +2102,7 @@ func (property *EncryptionProperty) PopulateFromARM(owner genruntime.ArbitraryOw
 		property.Identity = &identity
 	}
 
-	// Set property ‘KeyVaultProperties’:
+	// Set property "KeyVaultProperties":
 	if typedInput.KeyVaultProperties != nil {
 		var keyVaultProperties1 KeyVaultProperties
 		err := keyVaultProperties1.PopulateFromARM(owner, *typedInput.KeyVaultProperties)
@@ -2113,7 +2113,7 @@ func (property *EncryptionProperty) PopulateFromARM(owner genruntime.ArbitraryOw
 		property.KeyVaultProperties = &keyVaultProperties
 	}
 
-	// Set property ‘Status’:
+	// Set property "Status":
 	if typedInput.Status != nil {
 		status := *typedInput.Status
 		property.Status = &status
@@ -2231,7 +2231,7 @@ func (property *EncryptionProperty_STATUS) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EncryptionProperty_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 IdentityForCmk_STATUS
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -2242,7 +2242,7 @@ func (property *EncryptionProperty_STATUS) PopulateFromARM(owner genruntime.Arbi
 		property.Identity = &identity
 	}
 
-	// Set property ‘KeyVaultProperties’:
+	// Set property "KeyVaultProperties":
 	if typedInput.KeyVaultProperties != nil {
 		var keyVaultProperties1 KeyVaultProperties_STATUS
 		err := keyVaultProperties1.PopulateFromARM(owner, *typedInput.KeyVaultProperties)
@@ -2253,7 +2253,7 @@ func (property *EncryptionProperty_STATUS) PopulateFromARM(owner genruntime.Arbi
 		property.KeyVaultProperties = &keyVaultProperties
 	}
 
-	// Set property ‘Status’:
+	// Set property "Status":
 	if typedInput.Status != nil {
 		status := *typedInput.Status
 		property.Status = &status
@@ -2365,13 +2365,13 @@ func (identity *Identity) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	}
 	result := &Identity_ARM{}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if identity.Type != nil {
 		typeVar := *identity.Type
 		result.Type = &typeVar
 	}
 
-	// Set property ‘UserAssignedIdentities’:
+	// Set property "UserAssignedIdentities":
 	result.UserAssignedIdentities = make(map[string]UserAssignedIdentityDetails_ARM, len(identity.UserAssignedIdentities))
 	for _, ident := range identity.UserAssignedIdentities {
 		identARMID, err := resolved.ResolvedReferences.Lookup(ident.Reference)
@@ -2396,13 +2396,13 @@ func (identity *Identity) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Identity_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		identity.Type = &typeVar
 	}
 
-	// no assignment for property ‘UserAssignedIdentities’
+	// no assignment for property "UserAssignedIdentities"
 
 	// No error
 	return nil
@@ -2505,25 +2505,25 @@ func (identity *Identity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Identity_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘PrincipalId’:
+	// Set property "PrincipalId":
 	if typedInput.PrincipalId != nil {
 		principalId := *typedInput.PrincipalId
 		identity.PrincipalId = &principalId
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
 		identity.TenantId = &tenantId
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		identity.Type = &typeVar
 	}
 
-	// Set property ‘UserAssignedIdentities’:
+	// Set property "UserAssignedIdentities":
 	if typedInput.UserAssignedIdentities != nil {
 		identity.UserAssignedIdentities = make(map[string]UserAssignedIdentity_STATUS, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
@@ -2648,13 +2648,13 @@ func (info *NotebookResourceInfo_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NotebookResourceInfo_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Fqdn’:
+	// Set property "Fqdn":
 	if typedInput.Fqdn != nil {
 		fqdn := *typedInput.Fqdn
 		info.Fqdn = &fqdn
 	}
 
-	// Set property ‘NotebookPreparationError’:
+	// Set property "NotebookPreparationError":
 	if typedInput.NotebookPreparationError != nil {
 		var notebookPreparationError1 NotebookPreparationError_STATUS
 		err := notebookPreparationError1.PopulateFromARM(owner, *typedInput.NotebookPreparationError)
@@ -2665,7 +2665,7 @@ func (info *NotebookResourceInfo_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		info.NotebookPreparationError = &notebookPreparationError
 	}
 
-	// Set property ‘ResourceId’:
+	// Set property "ResourceId":
 	if typedInput.ResourceId != nil {
 		resourceId := *typedInput.ResourceId
 		info.ResourceId = &resourceId
@@ -2753,7 +2753,7 @@ func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		connection.Id = &id
@@ -2806,7 +2806,7 @@ func (settings *ServiceManagedResourcesSettings) ConvertToARM(resolved genruntim
 	}
 	result := &ServiceManagedResourcesSettings_ARM{}
 
-	// Set property ‘CosmosDb’:
+	// Set property "CosmosDb":
 	if settings.CosmosDb != nil {
 		cosmosDb_ARM, err := (*settings.CosmosDb).ConvertToARM(resolved)
 		if err != nil {
@@ -2830,7 +2830,7 @@ func (settings *ServiceManagedResourcesSettings) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServiceManagedResourcesSettings_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CosmosDb’:
+	// Set property "CosmosDb":
 	if typedInput.CosmosDb != nil {
 		var cosmosDb1 CosmosDbSettings
 		err := cosmosDb1.PopulateFromARM(owner, *typedInput.CosmosDb)
@@ -2911,7 +2911,7 @@ func (settings *ServiceManagedResourcesSettings_STATUS) PopulateFromARM(owner ge
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServiceManagedResourcesSettings_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CosmosDb’:
+	// Set property "CosmosDb":
 	if typedInput.CosmosDb != nil {
 		var cosmosDb1 CosmosDbSettings_STATUS
 		err := cosmosDb1.PopulateFromARM(owner, *typedInput.CosmosDb)
@@ -2991,13 +2991,13 @@ func (resource *SharedPrivateLinkResource) ConvertToARM(resolved genruntime.Conv
 	}
 	result := &SharedPrivateLinkResource_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if resource.Name != nil {
 		name := *resource.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if resource.GroupId != nil ||
 		resource.PrivateLinkResourceReference != nil ||
 		resource.RequestMessage != nil ||
@@ -3039,7 +3039,7 @@ func (resource *SharedPrivateLinkResource) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SharedPrivateLinkResource_ARM, got %T", armInput)
 	}
 
-	// Set property ‘GroupId’:
+	// Set property "GroupId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.GroupId != nil {
@@ -3048,15 +3048,15 @@ func (resource *SharedPrivateLinkResource) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		resource.Name = &name
 	}
 
-	// no assignment for property ‘PrivateLinkResourceReference’
+	// no assignment for property "PrivateLinkResourceReference"
 
-	// Set property ‘RequestMessage’:
+	// Set property "RequestMessage":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RequestMessage != nil {
@@ -3065,7 +3065,7 @@ func (resource *SharedPrivateLinkResource) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘Status’:
+	// Set property "Status":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Status != nil {
@@ -3174,7 +3174,7 @@ func (resource *SharedPrivateLinkResource_STATUS) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SharedPrivateLinkResource_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘GroupId’:
+	// Set property "GroupId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.GroupId != nil {
@@ -3183,13 +3183,13 @@ func (resource *SharedPrivateLinkResource_STATUS) PopulateFromARM(owner genrunti
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		resource.Name = &name
 	}
 
-	// Set property ‘PrivateLinkResourceId’:
+	// Set property "PrivateLinkResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateLinkResourceId != nil {
@@ -3198,7 +3198,7 @@ func (resource *SharedPrivateLinkResource_STATUS) PopulateFromARM(owner genrunti
 		}
 	}
 
-	// Set property ‘RequestMessage’:
+	// Set property "RequestMessage":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RequestMessage != nil {
@@ -3207,7 +3207,7 @@ func (resource *SharedPrivateLinkResource_STATUS) PopulateFromARM(owner genrunti
 		}
 	}
 
-	// Set property ‘Status’:
+	// Set property "Status":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Status != nil {
@@ -3298,13 +3298,13 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	}
 	result := &Sku_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if sku.Name != nil {
 		name := *sku.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if sku.Tier != nil {
 		tier := *sku.Tier
 		result.Tier = &tier
@@ -3324,13 +3324,13 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		sku.Name = &name
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if typedInput.Tier != nil {
 		tier := *typedInput.Tier
 		sku.Tier = &tier
@@ -3395,13 +3395,13 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		sku.Name = &name
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if typedInput.Tier != nil {
 		tier := *typedInput.Tier
 		sku.Tier = &tier
@@ -3465,37 +3465,37 @@ func (data *SystemData) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	}
 	result := &SystemData_ARM{}
 
-	// Set property ‘CreatedAt’:
+	// Set property "CreatedAt":
 	if data.CreatedAt != nil {
 		createdAt := *data.CreatedAt
 		result.CreatedAt = &createdAt
 	}
 
-	// Set property ‘CreatedBy’:
+	// Set property "CreatedBy":
 	if data.CreatedBy != nil {
 		createdBy := *data.CreatedBy
 		result.CreatedBy = &createdBy
 	}
 
-	// Set property ‘CreatedByType’:
+	// Set property "CreatedByType":
 	if data.CreatedByType != nil {
 		createdByType := *data.CreatedByType
 		result.CreatedByType = &createdByType
 	}
 
-	// Set property ‘LastModifiedAt’:
+	// Set property "LastModifiedAt":
 	if data.LastModifiedAt != nil {
 		lastModifiedAt := *data.LastModifiedAt
 		result.LastModifiedAt = &lastModifiedAt
 	}
 
-	// Set property ‘LastModifiedBy’:
+	// Set property "LastModifiedBy":
 	if data.LastModifiedBy != nil {
 		lastModifiedBy := *data.LastModifiedBy
 		result.LastModifiedBy = &lastModifiedBy
 	}
 
-	// Set property ‘LastModifiedByType’:
+	// Set property "LastModifiedByType":
 	if data.LastModifiedByType != nil {
 		lastModifiedByType := *data.LastModifiedByType
 		result.LastModifiedByType = &lastModifiedByType
@@ -3515,37 +3515,37 @@ func (data *SystemData) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CreatedAt’:
+	// Set property "CreatedAt":
 	if typedInput.CreatedAt != nil {
 		createdAt := *typedInput.CreatedAt
 		data.CreatedAt = &createdAt
 	}
 
-	// Set property ‘CreatedBy’:
+	// Set property "CreatedBy":
 	if typedInput.CreatedBy != nil {
 		createdBy := *typedInput.CreatedBy
 		data.CreatedBy = &createdBy
 	}
 
-	// Set property ‘CreatedByType’:
+	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
 		createdByType := *typedInput.CreatedByType
 		data.CreatedByType = &createdByType
 	}
 
-	// Set property ‘LastModifiedAt’:
+	// Set property "LastModifiedAt":
 	if typedInput.LastModifiedAt != nil {
 		lastModifiedAt := *typedInput.LastModifiedAt
 		data.LastModifiedAt = &lastModifiedAt
 	}
 
-	// Set property ‘LastModifiedBy’:
+	// Set property "LastModifiedBy":
 	if typedInput.LastModifiedBy != nil {
 		lastModifiedBy := *typedInput.LastModifiedBy
 		data.LastModifiedBy = &lastModifiedBy
 	}
 
-	// Set property ‘LastModifiedByType’:
+	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
 		lastModifiedByType := *typedInput.LastModifiedByType
 		data.LastModifiedByType = &lastModifiedByType
@@ -3658,37 +3658,37 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CreatedAt’:
+	// Set property "CreatedAt":
 	if typedInput.CreatedAt != nil {
 		createdAt := *typedInput.CreatedAt
 		data.CreatedAt = &createdAt
 	}
 
-	// Set property ‘CreatedBy’:
+	// Set property "CreatedBy":
 	if typedInput.CreatedBy != nil {
 		createdBy := *typedInput.CreatedBy
 		data.CreatedBy = &createdBy
 	}
 
-	// Set property ‘CreatedByType’:
+	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
 		createdByType := *typedInput.CreatedByType
 		data.CreatedByType = &createdByType
 	}
 
-	// Set property ‘LastModifiedAt’:
+	// Set property "LastModifiedAt":
 	if typedInput.LastModifiedAt != nil {
 		lastModifiedAt := *typedInput.LastModifiedAt
 		data.LastModifiedAt = &lastModifiedAt
 	}
 
-	// Set property ‘LastModifiedBy’:
+	// Set property "LastModifiedBy":
 	if typedInput.LastModifiedBy != nil {
 		lastModifiedBy := *typedInput.LastModifiedBy
 		data.LastModifiedBy = &lastModifiedBy
 	}
 
-	// Set property ‘LastModifiedByType’:
+	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
 		lastModifiedByType := *typedInput.LastModifiedByType
 		data.LastModifiedByType = &lastModifiedByType
@@ -3877,7 +3877,7 @@ func (settings *CosmosDbSettings) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &CosmosDbSettings_ARM{}
 
-	// Set property ‘CollectionsThroughput’:
+	// Set property "CollectionsThroughput":
 	if settings.CollectionsThroughput != nil {
 		collectionsThroughput := *settings.CollectionsThroughput
 		result.CollectionsThroughput = &collectionsThroughput
@@ -3897,7 +3897,7 @@ func (settings *CosmosDbSettings) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CosmosDbSettings_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CollectionsThroughput’:
+	// Set property "CollectionsThroughput":
 	if typedInput.CollectionsThroughput != nil {
 		collectionsThroughput := *typedInput.CollectionsThroughput
 		settings.CollectionsThroughput = &collectionsThroughput
@@ -3955,7 +3955,7 @@ func (settings *CosmosDbSettings_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CosmosDbSettings_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CollectionsThroughput’:
+	// Set property "CollectionsThroughput":
 	if typedInput.CollectionsThroughput != nil {
 		collectionsThroughput := *typedInput.CollectionsThroughput
 		settings.CollectionsThroughput = &collectionsThroughput
@@ -4025,7 +4025,7 @@ func (forCmk *IdentityForCmk) ConvertToARM(resolved genruntime.ConvertToARMResol
 	}
 	result := &IdentityForCmk_ARM{}
 
-	// Set property ‘UserAssignedIdentity’:
+	// Set property "UserAssignedIdentity":
 	if forCmk.UserAssignedIdentity != nil {
 		userAssignedIdentity := *forCmk.UserAssignedIdentity
 		result.UserAssignedIdentity = &userAssignedIdentity
@@ -4045,7 +4045,7 @@ func (forCmk *IdentityForCmk) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IdentityForCmk_ARM, got %T", armInput)
 	}
 
-	// Set property ‘UserAssignedIdentity’:
+	// Set property "UserAssignedIdentity":
 	if typedInput.UserAssignedIdentity != nil {
 		userAssignedIdentity := *typedInput.UserAssignedIdentity
 		forCmk.UserAssignedIdentity = &userAssignedIdentity
@@ -4103,7 +4103,7 @@ func (forCmk *IdentityForCmk_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IdentityForCmk_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘UserAssignedIdentity’:
+	// Set property "UserAssignedIdentity":
 	if typedInput.UserAssignedIdentity != nil {
 		userAssignedIdentity := *typedInput.UserAssignedIdentity
 		forCmk.UserAssignedIdentity = &userAssignedIdentity
@@ -4162,19 +4162,19 @@ func (properties *KeyVaultProperties) ConvertToARM(resolved genruntime.ConvertTo
 	}
 	result := &KeyVaultProperties_ARM{}
 
-	// Set property ‘IdentityClientId’:
+	// Set property "IdentityClientId":
 	if properties.IdentityClientId != nil {
 		identityClientId := *properties.IdentityClientId
 		result.IdentityClientId = &identityClientId
 	}
 
-	// Set property ‘KeyIdentifier’:
+	// Set property "KeyIdentifier":
 	if properties.KeyIdentifier != nil {
 		keyIdentifier := *properties.KeyIdentifier
 		result.KeyIdentifier = &keyIdentifier
 	}
 
-	// Set property ‘KeyVaultArmId’:
+	// Set property "KeyVaultArmId":
 	if properties.KeyVaultArmId != nil {
 		keyVaultArmId := *properties.KeyVaultArmId
 		result.KeyVaultArmId = &keyVaultArmId
@@ -4194,19 +4194,19 @@ func (properties *KeyVaultProperties) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘IdentityClientId’:
+	// Set property "IdentityClientId":
 	if typedInput.IdentityClientId != nil {
 		identityClientId := *typedInput.IdentityClientId
 		properties.IdentityClientId = &identityClientId
 	}
 
-	// Set property ‘KeyIdentifier’:
+	// Set property "KeyIdentifier":
 	if typedInput.KeyIdentifier != nil {
 		keyIdentifier := *typedInput.KeyIdentifier
 		properties.KeyIdentifier = &keyIdentifier
 	}
 
-	// Set property ‘KeyVaultArmId’:
+	// Set property "KeyVaultArmId":
 	if typedInput.KeyVaultArmId != nil {
 		keyVaultArmId := *typedInput.KeyVaultArmId
 		properties.KeyVaultArmId = &keyVaultArmId
@@ -4278,19 +4278,19 @@ func (properties *KeyVaultProperties_STATUS) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘IdentityClientId’:
+	// Set property "IdentityClientId":
 	if typedInput.IdentityClientId != nil {
 		identityClientId := *typedInput.IdentityClientId
 		properties.IdentityClientId = &identityClientId
 	}
 
-	// Set property ‘KeyIdentifier’:
+	// Set property "KeyIdentifier":
 	if typedInput.KeyIdentifier != nil {
 		keyIdentifier := *typedInput.KeyIdentifier
 		properties.KeyIdentifier = &keyIdentifier
 	}
 
-	// Set property ‘KeyVaultArmId’:
+	// Set property "KeyVaultArmId":
 	if typedInput.KeyVaultArmId != nil {
 		keyVaultArmId := *typedInput.KeyVaultArmId
 		properties.KeyVaultArmId = &keyVaultArmId
@@ -4361,13 +4361,13 @@ func (error *NotebookPreparationError_STATUS) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NotebookPreparationError_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ErrorMessage’:
+	// Set property "ErrorMessage":
 	if typedInput.ErrorMessage != nil {
 		errorMessage := *typedInput.ErrorMessage
 		error.ErrorMessage = &errorMessage
 	}
 
-	// Set property ‘StatusCode’:
+	// Set property "StatusCode":
 	if typedInput.StatusCode != nil {
 		statusCode := *typedInput.StatusCode
 		error.StatusCode = &statusCode
@@ -4458,19 +4458,19 @@ func (identity *UserAssignedIdentity_STATUS) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentity_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ClientId’:
+	// Set property "ClientId":
 	if typedInput.ClientId != nil {
 		clientId := *typedInput.ClientId
 		identity.ClientId = &clientId
 	}
 
-	// Set property ‘PrincipalId’:
+	// Set property "PrincipalId":
 	if typedInput.PrincipalId != nil {
 		principalId := *typedInput.PrincipalId
 		identity.PrincipalId = &principalId
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
 		identity.TenantId = &tenantId

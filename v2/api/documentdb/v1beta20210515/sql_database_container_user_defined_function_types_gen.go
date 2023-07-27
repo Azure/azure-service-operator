@@ -336,16 +336,16 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spe
 	}
 	result := &DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if function.Location != nil {
 		location := *function.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if function.Options != nil || function.Resource != nil {
 		result.Properties = &SqlUserDefinedFunctionCreateUpdateProperties_ARM{}
 	}
@@ -366,7 +366,7 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spe
 		result.Properties.Resource = &resource
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if function.Tags != nil {
 		result.Tags = make(map[string]string, len(function.Tags))
 		for key, value := range function.Tags {
@@ -388,16 +388,16 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	function.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		function.Location = &location
 	}
 
-	// Set property ‘Options’:
+	// Set property "Options":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Options != nil {
@@ -411,10 +411,10 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spe
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	function.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Resource’:
+	// Set property "Resource":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
@@ -428,7 +428,7 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spe
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		function.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -684,27 +684,27 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STA
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		function.Id = &id
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		function.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		function.Name = &name
 	}
 
-	// Set property ‘Resource’:
+	// Set property "Resource":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
@@ -718,7 +718,7 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STA
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		function.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -726,7 +726,7 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STA
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		function.Type = &typeVar
@@ -842,31 +842,31 @@ func (resource *SqlUserDefinedFunctionGetProperties_Resource_STATUS) PopulateFro
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlUserDefinedFunctionGetProperties_Resource_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Body’:
+	// Set property "Body":
 	if typedInput.Body != nil {
 		body := *typedInput.Body
 		resource.Body = &body
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		resource.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		resource.Id = &id
 	}
 
-	// Set property ‘Rid’:
+	// Set property "Rid":
 	if typedInput.Rid != nil {
 		rid := *typedInput.Rid
 		resource.Rid = &rid
 	}
 
-	// Set property ‘Ts’:
+	// Set property "Ts":
 	if typedInput.Ts != nil {
 		ts := *typedInput.Ts
 		resource.Ts = &ts
@@ -956,13 +956,13 @@ func (resource *SqlUserDefinedFunctionResource) ConvertToARM(resolved genruntime
 	}
 	result := &SqlUserDefinedFunctionResource_ARM{}
 
-	// Set property ‘Body’:
+	// Set property "Body":
 	if resource.Body != nil {
 		body := *resource.Body
 		result.Body = &body
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if resource.Id != nil {
 		id := *resource.Id
 		result.Id = &id
@@ -982,13 +982,13 @@ func (resource *SqlUserDefinedFunctionResource) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlUserDefinedFunctionResource_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Body’:
+	// Set property "Body":
 	if typedInput.Body != nil {
 		body := *typedInput.Body
 		resource.Body = &body
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		resource.Id = &id

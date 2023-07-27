@@ -345,22 +345,22 @@ func (zone *PrivateDnsZone_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &PrivateDnsZone_Spec_ARM{}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if zone.Etag != nil {
 		etag := *zone.Etag
 		result.Etag = &etag
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if zone.Location != nil {
 		location := *zone.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if zone.Tags != nil {
 		result.Tags = make(map[string]string, len(zone.Tags))
 		for key, value := range zone.Tags {
@@ -382,25 +382,25 @@ func (zone *PrivateDnsZone_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateDnsZone_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	zone.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		zone.Etag = &etag
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		zone.Location = &location
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	zone.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		zone.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -669,27 +669,27 @@ func (zone *PrivateDnsZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateDnsZone_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		zone.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		zone.Id = &id
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		zone.Location = &location
 	}
 
-	// Set property ‘MaxNumberOfRecordSets’:
+	// Set property "MaxNumberOfRecordSets":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxNumberOfRecordSets != nil {
@@ -698,7 +698,7 @@ func (zone *PrivateDnsZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘MaxNumberOfVirtualNetworkLinks’:
+	// Set property "MaxNumberOfVirtualNetworkLinks":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxNumberOfVirtualNetworkLinks != nil {
@@ -707,7 +707,7 @@ func (zone *PrivateDnsZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘MaxNumberOfVirtualNetworkLinksWithRegistration’:
+	// Set property "MaxNumberOfVirtualNetworkLinksWithRegistration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxNumberOfVirtualNetworkLinksWithRegistration != nil {
@@ -716,13 +716,13 @@ func (zone *PrivateDnsZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		zone.Name = &name
 	}
 
-	// Set property ‘NumberOfRecordSets’:
+	// Set property "NumberOfRecordSets":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NumberOfRecordSets != nil {
@@ -731,7 +731,7 @@ func (zone *PrivateDnsZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘NumberOfVirtualNetworkLinks’:
+	// Set property "NumberOfVirtualNetworkLinks":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NumberOfVirtualNetworkLinks != nil {
@@ -740,7 +740,7 @@ func (zone *PrivateDnsZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘NumberOfVirtualNetworkLinksWithRegistration’:
+	// Set property "NumberOfVirtualNetworkLinksWithRegistration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NumberOfVirtualNetworkLinksWithRegistration != nil {
@@ -749,7 +749,7 @@ func (zone *PrivateDnsZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -758,7 +758,7 @@ func (zone *PrivateDnsZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		zone.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -766,7 +766,7 @@ func (zone *PrivateDnsZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		zone.Type = &typeVar

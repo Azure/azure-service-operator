@@ -345,10 +345,10 @@ func (route *RouteTables_Route_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	}
 	result := &RouteTables_Route_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if route.AddressPrefix != nil ||
 		route.HasBgpOverride != nil ||
 		route.NextHopIpAddress != nil ||
@@ -386,7 +386,7 @@ func (route *RouteTables_Route_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteTables_Route_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AddressPrefix’:
+	// Set property "AddressPrefix":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AddressPrefix != nil {
@@ -395,10 +395,10 @@ func (route *RouteTables_Route_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	route.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘HasBgpOverride’:
+	// Set property "HasBgpOverride":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HasBgpOverride != nil {
@@ -407,7 +407,7 @@ func (route *RouteTables_Route_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘NextHopIpAddress’:
+	// Set property "NextHopIpAddress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NextHopIpAddress != nil {
@@ -416,7 +416,7 @@ func (route *RouteTables_Route_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘NextHopType’:
+	// Set property "NextHopType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NextHopType != nil {
@@ -425,7 +425,7 @@ func (route *RouteTables_Route_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	route.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// No error
@@ -708,7 +708,7 @@ func (route *RouteTables_Route_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteTables_Route_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AddressPrefix’:
+	// Set property "AddressPrefix":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AddressPrefix != nil {
@@ -717,15 +717,15 @@ func (route *RouteTables_Route_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		route.Etag = &etag
 	}
 
-	// Set property ‘HasBgpOverride’:
+	// Set property "HasBgpOverride":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HasBgpOverride != nil {
@@ -734,19 +734,19 @@ func (route *RouteTables_Route_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		route.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		route.Name = &name
 	}
 
-	// Set property ‘NextHopIpAddress’:
+	// Set property "NextHopIpAddress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NextHopIpAddress != nil {
@@ -755,7 +755,7 @@ func (route *RouteTables_Route_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘NextHopType’:
+	// Set property "NextHopType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NextHopType != nil {
@@ -764,7 +764,7 @@ func (route *RouteTables_Route_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -773,7 +773,7 @@ func (route *RouteTables_Route_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		route.Type = &typeVar

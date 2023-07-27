@@ -449,28 +449,28 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &Component_Spec_ARM{}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if component.Etag != nil {
 		etag := *component.Etag
 		result.Etag = &etag
 	}
 
-	// Set property ‘Kind’:
+	// Set property "Kind":
 	if component.Kind != nil {
 		kind := *component.Kind
 		result.Kind = &kind
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if component.Location != nil {
 		location := *component.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if component.Application_Type != nil ||
 		component.DisableIpMasking != nil ||
 		component.DisableLocalAuth != nil ||
@@ -548,7 +548,7 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.WorkspaceResourceId = &workspaceResourceId
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if component.Tags != nil {
 		result.Tags = make(map[string]string, len(component.Tags))
 		for key, value := range component.Tags {
@@ -570,7 +570,7 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Component_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Application_Type’:
+	// Set property "Application_Type":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Application_Type != nil {
@@ -579,10 +579,10 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	component.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘DisableIpMasking’:
+	// Set property "DisableIpMasking":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DisableIpMasking != nil {
@@ -591,7 +591,7 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘DisableLocalAuth’:
+	// Set property "DisableLocalAuth":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DisableLocalAuth != nil {
@@ -600,13 +600,13 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		component.Etag = &etag
 	}
 
-	// Set property ‘Flow_Type’:
+	// Set property "Flow_Type":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Flow_Type != nil {
@@ -615,7 +615,7 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘ForceCustomerStorageForProfiler’:
+	// Set property "ForceCustomerStorageForProfiler":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ForceCustomerStorageForProfiler != nil {
@@ -624,7 +624,7 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘HockeyAppId’:
+	// Set property "HockeyAppId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HockeyAppId != nil {
@@ -633,7 +633,7 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘ImmediatePurgeDataOn30Days’:
+	// Set property "ImmediatePurgeDataOn30Days":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ImmediatePurgeDataOn30Days != nil {
@@ -642,7 +642,7 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘IngestionMode’:
+	// Set property "IngestionMode":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IngestionMode != nil {
@@ -651,24 +651,24 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘Kind’:
+	// Set property "Kind":
 	if typedInput.Kind != nil {
 		kind := *typedInput.Kind
 		component.Kind = &kind
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		component.Location = &location
 	}
 
-	// no assignment for property ‘OperatorSpec’
+	// no assignment for property "OperatorSpec"
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	component.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘PublicNetworkAccessForIngestion’:
+	// Set property "PublicNetworkAccessForIngestion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccessForIngestion != nil {
@@ -677,7 +677,7 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘PublicNetworkAccessForQuery’:
+	// Set property "PublicNetworkAccessForQuery":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccessForQuery != nil {
@@ -686,7 +686,7 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘Request_Source’:
+	// Set property "Request_Source":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Request_Source != nil {
@@ -695,7 +695,7 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘RetentionInDays’:
+	// Set property "RetentionInDays":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RetentionInDays != nil {
@@ -704,7 +704,7 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘SamplingPercentage’:
+	// Set property "SamplingPercentage":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SamplingPercentage != nil {
@@ -713,7 +713,7 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		component.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -721,7 +721,7 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// no assignment for property ‘WorkspaceResourceReference’
+	// no assignment for property "WorkspaceResourceReference"
 
 	// No error
 	return nil
@@ -1381,7 +1381,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Component_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AppId’:
+	// Set property "AppId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AppId != nil {
@@ -1390,7 +1390,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘ApplicationId’:
+	// Set property "ApplicationId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ApplicationId != nil {
@@ -1399,7 +1399,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Application_Type’:
+	// Set property "Application_Type":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Application_Type != nil {
@@ -1408,9 +1408,9 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘ConnectionString’:
+	// Set property "ConnectionString":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ConnectionString != nil {
@@ -1419,7 +1419,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘CreationDate’:
+	// Set property "CreationDate":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreationDate != nil {
@@ -1428,7 +1428,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘DisableIpMasking’:
+	// Set property "DisableIpMasking":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DisableIpMasking != nil {
@@ -1437,7 +1437,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘DisableLocalAuth’:
+	// Set property "DisableLocalAuth":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DisableLocalAuth != nil {
@@ -1446,13 +1446,13 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		component.Etag = &etag
 	}
 
-	// Set property ‘Flow_Type’:
+	// Set property "Flow_Type":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Flow_Type != nil {
@@ -1461,7 +1461,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘ForceCustomerStorageForProfiler’:
+	// Set property "ForceCustomerStorageForProfiler":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ForceCustomerStorageForProfiler != nil {
@@ -1470,7 +1470,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘HockeyAppId’:
+	// Set property "HockeyAppId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HockeyAppId != nil {
@@ -1479,7 +1479,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘HockeyAppToken’:
+	// Set property "HockeyAppToken":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HockeyAppToken != nil {
@@ -1488,13 +1488,13 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		component.Id = &id
 	}
 
-	// Set property ‘ImmediatePurgeDataOn30Days’:
+	// Set property "ImmediatePurgeDataOn30Days":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ImmediatePurgeDataOn30Days != nil {
@@ -1503,7 +1503,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘IngestionMode’:
+	// Set property "IngestionMode":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IngestionMode != nil {
@@ -1512,7 +1512,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘InstrumentationKey’:
+	// Set property "InstrumentationKey":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.InstrumentationKey != nil {
@@ -1521,13 +1521,13 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Kind’:
+	// Set property "Kind":
 	if typedInput.Kind != nil {
 		kind := *typedInput.Kind
 		component.Kind = &kind
 	}
 
-	// Set property ‘LaMigrationDate’:
+	// Set property "LaMigrationDate":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LaMigrationDate != nil {
@@ -1536,19 +1536,19 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		component.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		component.Name = &name
 	}
 
-	// Set property ‘PrivateLinkScopedResources’:
+	// Set property "PrivateLinkScopedResources":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PrivateLinkScopedResources {
@@ -1561,7 +1561,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘PropertiesName’:
+	// Set property "PropertiesName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Name != nil {
@@ -1570,7 +1570,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -1579,7 +1579,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘PublicNetworkAccessForIngestion’:
+	// Set property "PublicNetworkAccessForIngestion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccessForIngestion != nil {
@@ -1588,7 +1588,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘PublicNetworkAccessForQuery’:
+	// Set property "PublicNetworkAccessForQuery":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccessForQuery != nil {
@@ -1597,7 +1597,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Request_Source’:
+	// Set property "Request_Source":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Request_Source != nil {
@@ -1606,7 +1606,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘RetentionInDays’:
+	// Set property "RetentionInDays":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RetentionInDays != nil {
@@ -1615,7 +1615,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘SamplingPercentage’:
+	// Set property "SamplingPercentage":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SamplingPercentage != nil {
@@ -1624,7 +1624,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		component.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1632,7 +1632,7 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TenantId != nil {
@@ -1641,13 +1641,13 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		component.Type = &typeVar
 	}
 
-	// Set property ‘WorkspaceResourceId’:
+	// Set property "WorkspaceResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.WorkspaceResourceId != nil {
@@ -2147,13 +2147,13 @@ func (resource *PrivateLinkScopedResource_STATUS) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkScopedResource_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ResourceId’:
+	// Set property "ResourceId":
 	if typedInput.ResourceId != nil {
 		resourceId := *typedInput.ResourceId
 		resource.ResourceId = &resourceId
 	}
 
-	// Set property ‘ScopeId’:
+	// Set property "ScopeId":
 	if typedInput.ScopeId != nil {
 		scopeId := *typedInput.ScopeId
 		resource.ScopeId = &scopeId

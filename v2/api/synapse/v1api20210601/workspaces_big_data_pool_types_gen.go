@@ -386,16 +386,16 @@ func (pool *Workspaces_BigDataPool_Spec) ConvertToARM(resolved genruntime.Conver
 	}
 	result := &Workspaces_BigDataPool_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if pool.Location != nil {
 		location := *pool.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if pool.AutoPause != nil ||
 		pool.AutoScale != nil ||
 		pool.CustomLibraries != nil ||
@@ -502,7 +502,7 @@ func (pool *Workspaces_BigDataPool_Spec) ConvertToARM(resolved genruntime.Conver
 		result.Properties.SparkVersion = &sparkVersion
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if pool.Tags != nil {
 		result.Tags = make(map[string]string, len(pool.Tags))
 		for key, value := range pool.Tags {
@@ -524,7 +524,7 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspaces_BigDataPool_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AutoPause’:
+	// Set property "AutoPause":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutoPause != nil {
@@ -538,7 +538,7 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘AutoScale’:
+	// Set property "AutoScale":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutoScale != nil {
@@ -552,10 +552,10 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	pool.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘CustomLibraries’:
+	// Set property "CustomLibraries":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.CustomLibraries {
@@ -568,7 +568,7 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘DefaultSparkLogFolder’:
+	// Set property "DefaultSparkLogFolder":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultSparkLogFolder != nil {
@@ -577,7 +577,7 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘DynamicExecutorAllocation’:
+	// Set property "DynamicExecutorAllocation":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DynamicExecutorAllocation != nil {
@@ -591,7 +591,7 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘IsAutotuneEnabled’:
+	// Set property "IsAutotuneEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsAutotuneEnabled != nil {
@@ -600,7 +600,7 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘IsComputeIsolationEnabled’:
+	// Set property "IsComputeIsolationEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsComputeIsolationEnabled != nil {
@@ -609,7 +609,7 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘LibraryRequirements’:
+	// Set property "LibraryRequirements":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LibraryRequirements != nil {
@@ -623,13 +623,13 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		pool.Location = &location
 	}
 
-	// Set property ‘NodeCount’:
+	// Set property "NodeCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NodeCount != nil {
@@ -638,7 +638,7 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘NodeSize’:
+	// Set property "NodeSize":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NodeSize != nil {
@@ -647,7 +647,7 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘NodeSizeFamily’:
+	// Set property "NodeSizeFamily":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NodeSizeFamily != nil {
@@ -656,10 +656,10 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	pool.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -668,7 +668,7 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘SessionLevelPackagesEnabled’:
+	// Set property "SessionLevelPackagesEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SessionLevelPackagesEnabled != nil {
@@ -677,7 +677,7 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘SparkConfigProperties’:
+	// Set property "SparkConfigProperties":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SparkConfigProperties != nil {
@@ -691,7 +691,7 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘SparkEventsFolder’:
+	// Set property "SparkEventsFolder":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SparkEventsFolder != nil {
@@ -700,7 +700,7 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘SparkVersion’:
+	// Set property "SparkVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SparkVersion != nil {
@@ -709,7 +709,7 @@ func (pool *Workspaces_BigDataPool_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		pool.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1393,7 +1393,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspaces_BigDataPool_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AutoPause’:
+	// Set property "AutoPause":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutoPause != nil {
@@ -1407,7 +1407,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘AutoScale’:
+	// Set property "AutoScale":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutoScale != nil {
@@ -1421,7 +1421,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘CacheSize’:
+	// Set property "CacheSize":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CacheSize != nil {
@@ -1430,9 +1430,9 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘CreationDate’:
+	// Set property "CreationDate":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreationDate != nil {
@@ -1441,7 +1441,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘CustomLibraries’:
+	// Set property "CustomLibraries":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.CustomLibraries {
@@ -1454,7 +1454,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘DefaultSparkLogFolder’:
+	// Set property "DefaultSparkLogFolder":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultSparkLogFolder != nil {
@@ -1463,7 +1463,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘DynamicExecutorAllocation’:
+	// Set property "DynamicExecutorAllocation":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DynamicExecutorAllocation != nil {
@@ -1477,13 +1477,13 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		pool.Id = &id
 	}
 
-	// Set property ‘IsAutotuneEnabled’:
+	// Set property "IsAutotuneEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsAutotuneEnabled != nil {
@@ -1492,7 +1492,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘IsComputeIsolationEnabled’:
+	// Set property "IsComputeIsolationEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsComputeIsolationEnabled != nil {
@@ -1501,7 +1501,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘LastSucceededTimestamp’:
+	// Set property "LastSucceededTimestamp":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LastSucceededTimestamp != nil {
@@ -1510,7 +1510,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘LibraryRequirements’:
+	// Set property "LibraryRequirements":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LibraryRequirements != nil {
@@ -1524,19 +1524,19 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		pool.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		pool.Name = &name
 	}
 
-	// Set property ‘NodeCount’:
+	// Set property "NodeCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NodeCount != nil {
@@ -1545,7 +1545,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘NodeSize’:
+	// Set property "NodeSize":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NodeSize != nil {
@@ -1554,7 +1554,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘NodeSizeFamily’:
+	// Set property "NodeSizeFamily":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NodeSizeFamily != nil {
@@ -1563,7 +1563,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -1572,7 +1572,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘SessionLevelPackagesEnabled’:
+	// Set property "SessionLevelPackagesEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SessionLevelPackagesEnabled != nil {
@@ -1581,7 +1581,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘SparkConfigProperties’:
+	// Set property "SparkConfigProperties":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SparkConfigProperties != nil {
@@ -1595,7 +1595,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘SparkEventsFolder’:
+	// Set property "SparkEventsFolder":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SparkEventsFolder != nil {
@@ -1604,7 +1604,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘SparkVersion’:
+	// Set property "SparkVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SparkVersion != nil {
@@ -1613,7 +1613,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		pool.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1621,7 +1621,7 @@ func (pool *Workspaces_BigDataPool_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		pool.Type = &typeVar
@@ -1992,13 +1992,13 @@ func (properties *AutoPauseProperties) ConvertToARM(resolved genruntime.ConvertT
 	}
 	result := &AutoPauseProperties_ARM{}
 
-	// Set property ‘DelayInMinutes’:
+	// Set property "DelayInMinutes":
 	if properties.DelayInMinutes != nil {
 		delayInMinutes := *properties.DelayInMinutes
 		result.DelayInMinutes = &delayInMinutes
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if properties.Enabled != nil {
 		enabled := *properties.Enabled
 		result.Enabled = &enabled
@@ -2018,13 +2018,13 @@ func (properties *AutoPauseProperties) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoPauseProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DelayInMinutes’:
+	// Set property "DelayInMinutes":
 	if typedInput.DelayInMinutes != nil {
 		delayInMinutes := *typedInput.DelayInMinutes
 		properties.DelayInMinutes = &delayInMinutes
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		properties.Enabled = &enabled
@@ -2120,13 +2120,13 @@ func (properties *AutoPauseProperties_STATUS) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoPauseProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DelayInMinutes’:
+	// Set property "DelayInMinutes":
 	if typedInput.DelayInMinutes != nil {
 		delayInMinutes := *typedInput.DelayInMinutes
 		properties.DelayInMinutes = &delayInMinutes
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		properties.Enabled = &enabled
@@ -2202,19 +2202,19 @@ func (properties *AutoScaleProperties) ConvertToARM(resolved genruntime.ConvertT
 	}
 	result := &AutoScaleProperties_ARM{}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if properties.Enabled != nil {
 		enabled := *properties.Enabled
 		result.Enabled = &enabled
 	}
 
-	// Set property ‘MaxNodeCount’:
+	// Set property "MaxNodeCount":
 	if properties.MaxNodeCount != nil {
 		maxNodeCount := *properties.MaxNodeCount
 		result.MaxNodeCount = &maxNodeCount
 	}
 
-	// Set property ‘MinNodeCount’:
+	// Set property "MinNodeCount":
 	if properties.MinNodeCount != nil {
 		minNodeCount := *properties.MinNodeCount
 		result.MinNodeCount = &minNodeCount
@@ -2234,19 +2234,19 @@ func (properties *AutoScaleProperties) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoScaleProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		properties.Enabled = &enabled
 	}
 
-	// Set property ‘MaxNodeCount’:
+	// Set property "MaxNodeCount":
 	if typedInput.MaxNodeCount != nil {
 		maxNodeCount := *typedInput.MaxNodeCount
 		properties.MaxNodeCount = &maxNodeCount
 	}
 
-	// Set property ‘MinNodeCount’:
+	// Set property "MinNodeCount":
 	if typedInput.MinNodeCount != nil {
 		minNodeCount := *typedInput.MinNodeCount
 		properties.MinNodeCount = &minNodeCount
@@ -2354,19 +2354,19 @@ func (properties *AutoScaleProperties_STATUS) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoScaleProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		properties.Enabled = &enabled
 	}
 
-	// Set property ‘MaxNodeCount’:
+	// Set property "MaxNodeCount":
 	if typedInput.MaxNodeCount != nil {
 		maxNodeCount := *typedInput.MaxNodeCount
 		properties.MaxNodeCount = &maxNodeCount
 	}
 
-	// Set property ‘MinNodeCount’:
+	// Set property "MinNodeCount":
 	if typedInput.MinNodeCount != nil {
 		minNodeCount := *typedInput.MinNodeCount
 		properties.MinNodeCount = &minNodeCount
@@ -2492,19 +2492,19 @@ func (allocation *DynamicExecutorAllocation) ConvertToARM(resolved genruntime.Co
 	}
 	result := &DynamicExecutorAllocation_ARM{}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if allocation.Enabled != nil {
 		enabled := *allocation.Enabled
 		result.Enabled = &enabled
 	}
 
-	// Set property ‘MaxExecutors’:
+	// Set property "MaxExecutors":
 	if allocation.MaxExecutors != nil {
 		maxExecutors := *allocation.MaxExecutors
 		result.MaxExecutors = &maxExecutors
 	}
 
-	// Set property ‘MinExecutors’:
+	// Set property "MinExecutors":
 	if allocation.MinExecutors != nil {
 		minExecutors := *allocation.MinExecutors
 		result.MinExecutors = &minExecutors
@@ -2524,19 +2524,19 @@ func (allocation *DynamicExecutorAllocation) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DynamicExecutorAllocation_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		allocation.Enabled = &enabled
 	}
 
-	// Set property ‘MaxExecutors’:
+	// Set property "MaxExecutors":
 	if typedInput.MaxExecutors != nil {
 		maxExecutors := *typedInput.MaxExecutors
 		allocation.MaxExecutors = &maxExecutors
 	}
 
-	// Set property ‘MinExecutors’:
+	// Set property "MinExecutors":
 	if typedInput.MinExecutors != nil {
 		minExecutors := *typedInput.MinExecutors
 		allocation.MinExecutors = &minExecutors
@@ -2644,19 +2644,19 @@ func (allocation *DynamicExecutorAllocation_STATUS) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DynamicExecutorAllocation_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		allocation.Enabled = &enabled
 	}
 
-	// Set property ‘MaxExecutors’:
+	// Set property "MaxExecutors":
 	if typedInput.MaxExecutors != nil {
 		maxExecutors := *typedInput.MaxExecutors
 		allocation.MaxExecutors = &maxExecutors
 	}
 
-	// Set property ‘MinExecutors’:
+	// Set property "MinExecutors":
 	if typedInput.MinExecutors != nil {
 		minExecutors := *typedInput.MinExecutors
 		allocation.MinExecutors = &minExecutors
@@ -2741,25 +2741,25 @@ func (info *LibraryInfo) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	}
 	result := &LibraryInfo_ARM{}
 
-	// Set property ‘ContainerName’:
+	// Set property "ContainerName":
 	if info.ContainerName != nil {
 		containerName := *info.ContainerName
 		result.ContainerName = &containerName
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if info.Name != nil {
 		name := *info.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Path’:
+	// Set property "Path":
 	if info.Path != nil {
 		path := *info.Path
 		result.Path = &path
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if info.Type != nil {
 		typeVar := *info.Type
 		result.Type = &typeVar
@@ -2779,25 +2779,25 @@ func (info *LibraryInfo) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LibraryInfo_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ContainerName’:
+	// Set property "ContainerName":
 	if typedInput.ContainerName != nil {
 		containerName := *typedInput.ContainerName
 		info.ContainerName = &containerName
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		info.Name = &name
 	}
 
-	// Set property ‘Path’:
+	// Set property "Path":
 	if typedInput.Path != nil {
 		path := *typedInput.Path
 		info.Path = &path
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		info.Type = &typeVar
@@ -2911,43 +2911,43 @@ func (info *LibraryInfo_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LibraryInfo_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ContainerName’:
+	// Set property "ContainerName":
 	if typedInput.ContainerName != nil {
 		containerName := *typedInput.ContainerName
 		info.ContainerName = &containerName
 	}
 
-	// Set property ‘CreatorId’:
+	// Set property "CreatorId":
 	if typedInput.CreatorId != nil {
 		creatorId := *typedInput.CreatorId
 		info.CreatorId = &creatorId
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		info.Name = &name
 	}
 
-	// Set property ‘Path’:
+	// Set property "Path":
 	if typedInput.Path != nil {
 		path := *typedInput.Path
 		info.Path = &path
 	}
 
-	// Set property ‘ProvisioningStatus’:
+	// Set property "ProvisioningStatus":
 	if typedInput.ProvisioningStatus != nil {
 		provisioningStatus := *typedInput.ProvisioningStatus
 		info.ProvisioningStatus = &provisioningStatus
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		info.Type = &typeVar
 	}
 
-	// Set property ‘UploadedTimestamp’:
+	// Set property "UploadedTimestamp":
 	if typedInput.UploadedTimestamp != nil {
 		uploadedTimestamp := *typedInput.UploadedTimestamp
 		info.UploadedTimestamp = &uploadedTimestamp
@@ -3040,13 +3040,13 @@ func (requirements *LibraryRequirements) ConvertToARM(resolved genruntime.Conver
 	}
 	result := &LibraryRequirements_ARM{}
 
-	// Set property ‘Content’:
+	// Set property "Content":
 	if requirements.Content != nil {
 		content := *requirements.Content
 		result.Content = &content
 	}
 
-	// Set property ‘Filename’:
+	// Set property "Filename":
 	if requirements.Filename != nil {
 		filename := *requirements.Filename
 		result.Filename = &filename
@@ -3066,13 +3066,13 @@ func (requirements *LibraryRequirements) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LibraryRequirements_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Content’:
+	// Set property "Content":
 	if typedInput.Content != nil {
 		content := *typedInput.Content
 		requirements.Content = &content
 	}
 
-	// Set property ‘Filename’:
+	// Set property "Filename":
 	if typedInput.Filename != nil {
 		filename := *typedInput.Filename
 		requirements.Filename = &filename
@@ -3156,19 +3156,19 @@ func (requirements *LibraryRequirements_STATUS) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LibraryRequirements_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Content’:
+	// Set property "Content":
 	if typedInput.Content != nil {
 		content := *typedInput.Content
 		requirements.Content = &content
 	}
 
-	// Set property ‘Filename’:
+	// Set property "Filename":
 	if typedInput.Filename != nil {
 		filename := *typedInput.Filename
 		requirements.Filename = &filename
 	}
 
-	// Set property ‘Time’:
+	// Set property "Time":
 	if typedInput.Time != nil {
 		time := *typedInput.Time
 		requirements.Time = &time
@@ -3240,19 +3240,19 @@ func (properties *SparkConfigProperties) ConvertToARM(resolved genruntime.Conver
 	}
 	result := &SparkConfigProperties_ARM{}
 
-	// Set property ‘ConfigurationType’:
+	// Set property "ConfigurationType":
 	if properties.ConfigurationType != nil {
 		configurationType := *properties.ConfigurationType
 		result.ConfigurationType = &configurationType
 	}
 
-	// Set property ‘Content’:
+	// Set property "Content":
 	if properties.Content != nil {
 		content := *properties.Content
 		result.Content = &content
 	}
 
-	// Set property ‘Filename’:
+	// Set property "Filename":
 	if properties.Filename != nil {
 		filename := *properties.Filename
 		result.Filename = &filename
@@ -3272,19 +3272,19 @@ func (properties *SparkConfigProperties) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SparkConfigProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ConfigurationType’:
+	// Set property "ConfigurationType":
 	if typedInput.ConfigurationType != nil {
 		configurationType := *typedInput.ConfigurationType
 		properties.ConfigurationType = &configurationType
 	}
 
-	// Set property ‘Content’:
+	// Set property "Content":
 	if typedInput.Content != nil {
 		content := *typedInput.Content
 		properties.Content = &content
 	}
 
-	// Set property ‘Filename’:
+	// Set property "Filename":
 	if typedInput.Filename != nil {
 		filename := *typedInput.Filename
 		properties.Filename = &filename
@@ -3395,25 +3395,25 @@ func (properties *SparkConfigProperties_STATUS) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SparkConfigProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ConfigurationType’:
+	// Set property "ConfigurationType":
 	if typedInput.ConfigurationType != nil {
 		configurationType := *typedInput.ConfigurationType
 		properties.ConfigurationType = &configurationType
 	}
 
-	// Set property ‘Content’:
+	// Set property "Content":
 	if typedInput.Content != nil {
 		content := *typedInput.Content
 		properties.Content = &content
 	}
 
-	// Set property ‘Filename’:
+	// Set property "Filename":
 	if typedInput.Filename != nil {
 		filename := *typedInput.Filename
 		properties.Filename = &filename
 	}
 
-	// Set property ‘Time’:
+	// Set property "Time":
 	if typedInput.Time != nil {
 		time := *typedInput.Time
 		properties.Time = &time

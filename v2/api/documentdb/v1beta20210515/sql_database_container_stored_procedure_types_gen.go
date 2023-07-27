@@ -336,16 +336,16 @@ func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec) 
 	}
 	result := &DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if procedure.Location != nil {
 		location := *procedure.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if procedure.Options != nil || procedure.Resource != nil {
 		result.Properties = &SqlStoredProcedureCreateUpdateProperties_ARM{}
 	}
@@ -366,7 +366,7 @@ func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec) 
 		result.Properties.Resource = &resource
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if procedure.Tags != nil {
 		result.Tags = make(map[string]string, len(procedure.Tags))
 		for key, value := range procedure.Tags {
@@ -388,16 +388,16 @@ func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec) 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	procedure.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		procedure.Location = &location
 	}
 
-	// Set property ‘Options’:
+	// Set property "Options":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Options != nil {
@@ -411,10 +411,10 @@ func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec) 
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	procedure.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Resource’:
+	// Set property "Resource":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
@@ -428,7 +428,7 @@ func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec) 
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		procedure.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -684,27 +684,27 @@ func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		procedure.Id = &id
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		procedure.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		procedure.Name = &name
 	}
 
-	// Set property ‘Resource’:
+	// Set property "Resource":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
@@ -718,7 +718,7 @@ func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		procedure.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -726,7 +726,7 @@ func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		procedure.Type = &typeVar
@@ -842,31 +842,31 @@ func (resource *SqlStoredProcedureGetProperties_Resource_STATUS) PopulateFromARM
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlStoredProcedureGetProperties_Resource_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Body’:
+	// Set property "Body":
 	if typedInput.Body != nil {
 		body := *typedInput.Body
 		resource.Body = &body
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		resource.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		resource.Id = &id
 	}
 
-	// Set property ‘Rid’:
+	// Set property "Rid":
 	if typedInput.Rid != nil {
 		rid := *typedInput.Rid
 		resource.Rid = &rid
 	}
 
-	// Set property ‘Ts’:
+	// Set property "Ts":
 	if typedInput.Ts != nil {
 		ts := *typedInput.Ts
 		resource.Ts = &ts
@@ -956,13 +956,13 @@ func (resource *SqlStoredProcedureResource) ConvertToARM(resolved genruntime.Con
 	}
 	result := &SqlStoredProcedureResource_ARM{}
 
-	// Set property ‘Body’:
+	// Set property "Body":
 	if resource.Body != nil {
 		body := *resource.Body
 		result.Body = &body
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if resource.Id != nil {
 		id := *resource.Id
 		result.Id = &id
@@ -982,13 +982,13 @@ func (resource *SqlStoredProcedureResource) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlStoredProcedureResource_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Body’:
+	// Set property "Body":
 	if typedInput.Body != nil {
 		body := *typedInput.Body
 		resource.Body = &body
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		resource.Id = &id

@@ -348,22 +348,22 @@ func (group *ResourceGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &ResourceGroup_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if group.Location != nil {
 		location := *group.Location
 		result.Location = &location
 	}
 
-	// Set property ‘ManagedBy’:
+	// Set property "ManagedBy":
 	if group.ManagedBy != nil {
 		managedBy := *group.ManagedBy
 		result.ManagedBy = &managedBy
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if group.Tags != nil {
 		result.Tags = make(map[string]string, len(group.Tags))
 		for key, value := range group.Tags {
@@ -385,22 +385,22 @@ func (group *ResourceGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceGroup_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	group.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		group.Location = &location
 	}
 
-	// Set property ‘ManagedBy’:
+	// Set property "ManagedBy":
 	if typedInput.ManagedBy != nil {
 		managedBy := *typedInput.ManagedBy
 		group.ManagedBy = &managedBy
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		group.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -628,33 +628,33 @@ func (group *ResourceGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceGroup_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		group.Id = &id
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		group.Location = &location
 	}
 
-	// Set property ‘ManagedBy’:
+	// Set property "ManagedBy":
 	if typedInput.ManagedBy != nil {
 		managedBy := *typedInput.ManagedBy
 		group.ManagedBy = &managedBy
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		group.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if typedInput.Properties != nil {
 		var properties1 ResourceGroupProperties_STATUS
 		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
@@ -665,7 +665,7 @@ func (group *ResourceGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		group.Properties = &properties
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		group.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -673,7 +673,7 @@ func (group *ResourceGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		group.Type = &typeVar
@@ -792,7 +792,7 @@ func (properties *ResourceGroupProperties_STATUS) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceGroupProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
 		provisioningState := *typedInput.ProvisioningState
 		properties.ProvisioningState = &provisioningState

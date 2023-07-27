@@ -441,10 +441,10 @@ func (setting *Servers_AuditingSetting_Spec) ConvertToARM(resolved genruntime.Co
 	}
 	result := &Servers_AuditingSetting_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if setting.AuditActionsAndGroups != nil ||
 		setting.IsAzureMonitorTargetEnabled != nil ||
 		setting.IsDevopsAuditEnabled != nil ||
@@ -520,7 +520,7 @@ func (setting *Servers_AuditingSetting_Spec) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_AuditingSetting_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AuditActionsAndGroups’:
+	// Set property "AuditActionsAndGroups":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.AuditActionsAndGroups {
@@ -528,7 +528,7 @@ func (setting *Servers_AuditingSetting_Spec) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘IsAzureMonitorTargetEnabled’:
+	// Set property "IsAzureMonitorTargetEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsAzureMonitorTargetEnabled != nil {
@@ -537,7 +537,7 @@ func (setting *Servers_AuditingSetting_Spec) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘IsDevopsAuditEnabled’:
+	// Set property "IsDevopsAuditEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsDevopsAuditEnabled != nil {
@@ -546,7 +546,7 @@ func (setting *Servers_AuditingSetting_Spec) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘IsManagedIdentityInUse’:
+	// Set property "IsManagedIdentityInUse":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsManagedIdentityInUse != nil {
@@ -555,7 +555,7 @@ func (setting *Servers_AuditingSetting_Spec) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘IsStorageSecondaryKeyInUse’:
+	// Set property "IsStorageSecondaryKeyInUse":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsStorageSecondaryKeyInUse != nil {
@@ -564,10 +564,10 @@ func (setting *Servers_AuditingSetting_Spec) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	setting.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘QueueDelayMs’:
+	// Set property "QueueDelayMs":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.QueueDelayMs != nil {
@@ -576,7 +576,7 @@ func (setting *Servers_AuditingSetting_Spec) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘RetentionDays’:
+	// Set property "RetentionDays":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RetentionDays != nil {
@@ -585,7 +585,7 @@ func (setting *Servers_AuditingSetting_Spec) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘State’:
+	// Set property "State":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
@@ -594,9 +594,9 @@ func (setting *Servers_AuditingSetting_Spec) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// no assignment for property ‘StorageAccountAccessKey’
+	// no assignment for property "StorageAccountAccessKey"
 
-	// Set property ‘StorageAccountSubscriptionId’:
+	// Set property "StorageAccountSubscriptionId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StorageAccountSubscriptionId != nil {
@@ -605,7 +605,7 @@ func (setting *Servers_AuditingSetting_Spec) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘StorageEndpoint’:
+	// Set property "StorageEndpoint":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StorageEndpoint != nil {
@@ -1104,7 +1104,7 @@ func (setting *Servers_AuditingSetting_STATUS) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_AuditingSetting_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AuditActionsAndGroups’:
+	// Set property "AuditActionsAndGroups":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.AuditActionsAndGroups {
@@ -1112,15 +1112,15 @@ func (setting *Servers_AuditingSetting_STATUS) PopulateFromARM(owner genruntime.
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		setting.Id = &id
 	}
 
-	// Set property ‘IsAzureMonitorTargetEnabled’:
+	// Set property "IsAzureMonitorTargetEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsAzureMonitorTargetEnabled != nil {
@@ -1129,7 +1129,7 @@ func (setting *Servers_AuditingSetting_STATUS) PopulateFromARM(owner genruntime.
 		}
 	}
 
-	// Set property ‘IsDevopsAuditEnabled’:
+	// Set property "IsDevopsAuditEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsDevopsAuditEnabled != nil {
@@ -1138,7 +1138,7 @@ func (setting *Servers_AuditingSetting_STATUS) PopulateFromARM(owner genruntime.
 		}
 	}
 
-	// Set property ‘IsManagedIdentityInUse’:
+	// Set property "IsManagedIdentityInUse":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsManagedIdentityInUse != nil {
@@ -1147,7 +1147,7 @@ func (setting *Servers_AuditingSetting_STATUS) PopulateFromARM(owner genruntime.
 		}
 	}
 
-	// Set property ‘IsStorageSecondaryKeyInUse’:
+	// Set property "IsStorageSecondaryKeyInUse":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsStorageSecondaryKeyInUse != nil {
@@ -1156,13 +1156,13 @@ func (setting *Servers_AuditingSetting_STATUS) PopulateFromARM(owner genruntime.
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		setting.Name = &name
 	}
 
-	// Set property ‘QueueDelayMs’:
+	// Set property "QueueDelayMs":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.QueueDelayMs != nil {
@@ -1171,7 +1171,7 @@ func (setting *Servers_AuditingSetting_STATUS) PopulateFromARM(owner genruntime.
 		}
 	}
 
-	// Set property ‘RetentionDays’:
+	// Set property "RetentionDays":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RetentionDays != nil {
@@ -1180,7 +1180,7 @@ func (setting *Servers_AuditingSetting_STATUS) PopulateFromARM(owner genruntime.
 		}
 	}
 
-	// Set property ‘State’:
+	// Set property "State":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
@@ -1189,7 +1189,7 @@ func (setting *Servers_AuditingSetting_STATUS) PopulateFromARM(owner genruntime.
 		}
 	}
 
-	// Set property ‘StorageAccountSubscriptionId’:
+	// Set property "StorageAccountSubscriptionId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StorageAccountSubscriptionId != nil {
@@ -1198,7 +1198,7 @@ func (setting *Servers_AuditingSetting_STATUS) PopulateFromARM(owner genruntime.
 		}
 	}
 
-	// Set property ‘StorageEndpoint’:
+	// Set property "StorageEndpoint":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StorageEndpoint != nil {
@@ -1207,7 +1207,7 @@ func (setting *Servers_AuditingSetting_STATUS) PopulateFromARM(owner genruntime.
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		setting.Type = &typeVar

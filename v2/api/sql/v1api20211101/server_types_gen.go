@@ -423,7 +423,7 @@ func (server *Server_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	}
 	result := &Server_Spec_ARM{}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if server.Identity != nil {
 		identity_ARM, err := (*server.Identity).ConvertToARM(resolved)
 		if err != nil {
@@ -433,16 +433,16 @@ func (server *Server_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		result.Identity = &identity
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if server.Location != nil {
 		location := *server.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if server.AdministratorLogin != nil ||
 		server.AdministratorLoginPassword != nil ||
 		server.Administrators != nil ||
@@ -508,7 +508,7 @@ func (server *Server_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		result.Properties.Version = &version
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if server.Tags != nil {
 		result.Tags = make(map[string]string, len(server.Tags))
 		for key, value := range server.Tags {
@@ -530,7 +530,7 @@ func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Server_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdministratorLogin’:
+	// Set property "AdministratorLogin":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AdministratorLogin != nil {
@@ -539,9 +539,9 @@ func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// no assignment for property ‘AdministratorLoginPassword’
+	// no assignment for property "AdministratorLoginPassword"
 
-	// Set property ‘Administrators’:
+	// Set property "Administrators":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Administrators != nil {
@@ -555,10 +555,10 @@ func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	server.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘FederatedClientId’:
+	// Set property "FederatedClientId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FederatedClientId != nil {
@@ -567,7 +567,7 @@ func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 ResourceIdentity
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -578,7 +578,7 @@ func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		server.Identity = &identity
 	}
 
-	// Set property ‘KeyId’:
+	// Set property "KeyId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.KeyId != nil {
@@ -587,13 +587,13 @@ func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		server.Location = &location
 	}
 
-	// Set property ‘MinimalTlsVersion’:
+	// Set property "MinimalTlsVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinimalTlsVersion != nil {
@@ -602,14 +602,14 @@ func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// no assignment for property ‘OperatorSpec’
+	// no assignment for property "OperatorSpec"
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	server.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// no assignment for property ‘PrimaryUserAssignedIdentityReference’
+	// no assignment for property "PrimaryUserAssignedIdentityReference"
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
@@ -618,7 +618,7 @@ func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘RestrictOutboundNetworkAccess’:
+	// Set property "RestrictOutboundNetworkAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RestrictOutboundNetworkAccess != nil {
@@ -627,7 +627,7 @@ func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		server.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -635,7 +635,7 @@ func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘Version’:
+	// Set property "Version":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Version != nil {
@@ -1155,7 +1155,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Server_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdministratorLogin’:
+	// Set property "AdministratorLogin":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AdministratorLogin != nil {
@@ -1164,7 +1164,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Administrators’:
+	// Set property "Administrators":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Administrators != nil {
@@ -1178,9 +1178,9 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘FederatedClientId’:
+	// Set property "FederatedClientId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FederatedClientId != nil {
@@ -1189,7 +1189,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘FullyQualifiedDomainName’:
+	// Set property "FullyQualifiedDomainName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FullyQualifiedDomainName != nil {
@@ -1198,13 +1198,13 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		server.Id = &id
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 ResourceIdentity_STATUS
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -1215,7 +1215,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		server.Identity = &identity
 	}
 
-	// Set property ‘KeyId’:
+	// Set property "KeyId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.KeyId != nil {
@@ -1224,19 +1224,19 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Kind’:
+	// Set property "Kind":
 	if typedInput.Kind != nil {
 		kind := *typedInput.Kind
 		server.Kind = &kind
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		server.Location = &location
 	}
 
-	// Set property ‘MinimalTlsVersion’:
+	// Set property "MinimalTlsVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinimalTlsVersion != nil {
@@ -1245,13 +1245,13 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		server.Name = &name
 	}
 
-	// Set property ‘PrimaryUserAssignedIdentityId’:
+	// Set property "PrimaryUserAssignedIdentityId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrimaryUserAssignedIdentityId != nil {
@@ -1260,7 +1260,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘PrivateEndpointConnections’:
+	// Set property "PrivateEndpointConnections":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PrivateEndpointConnections {
@@ -1273,7 +1273,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
@@ -1282,7 +1282,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘RestrictOutboundNetworkAccess’:
+	// Set property "RestrictOutboundNetworkAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RestrictOutboundNetworkAccess != nil {
@@ -1291,7 +1291,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘State’:
+	// Set property "State":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
@@ -1300,7 +1300,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		server.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1308,13 +1308,13 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		server.Type = &typeVar
 	}
 
-	// Set property ‘Version’:
+	// Set property "Version":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Version != nil {
@@ -1323,7 +1323,7 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘WorkspaceFeature’:
+	// Set property "WorkspaceFeature":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.WorkspaceFeature != nil {
@@ -1600,13 +1600,13 @@ func (identity *ResourceIdentity) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &ResourceIdentity_ARM{}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if identity.Type != nil {
 		typeVar := *identity.Type
 		result.Type = &typeVar
 	}
 
-	// Set property ‘UserAssignedIdentities’:
+	// Set property "UserAssignedIdentities":
 	result.UserAssignedIdentities = make(map[string]UserAssignedIdentityDetails_ARM, len(identity.UserAssignedIdentities))
 	for _, ident := range identity.UserAssignedIdentities {
 		identARMID, err := resolved.ResolvedReferences.Lookup(ident.Reference)
@@ -1631,13 +1631,13 @@ func (identity *ResourceIdentity) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceIdentity_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		identity.Type = &typeVar
 	}
 
-	// no assignment for property ‘UserAssignedIdentities’
+	// no assignment for property "UserAssignedIdentities"
 
 	// No error
 	return nil
@@ -1775,25 +1775,25 @@ func (identity *ResourceIdentity_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceIdentity_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘PrincipalId’:
+	// Set property "PrincipalId":
 	if typedInput.PrincipalId != nil {
 		principalId := *typedInput.PrincipalId
 		identity.PrincipalId = &principalId
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
 		identity.TenantId = &tenantId
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		identity.Type = &typeVar
 	}
 
-	// Set property ‘UserAssignedIdentities’:
+	// Set property "UserAssignedIdentities":
 	if typedInput.UserAssignedIdentities != nil {
 		identity.UserAssignedIdentities = make(map[string]UserIdentity_STATUS, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
@@ -1929,37 +1929,37 @@ func (administrator *ServerExternalAdministrator) ConvertToARM(resolved genrunti
 	}
 	result := &ServerExternalAdministrator_ARM{}
 
-	// Set property ‘AdministratorType’:
+	// Set property "AdministratorType":
 	if administrator.AdministratorType != nil {
 		administratorType := *administrator.AdministratorType
 		result.AdministratorType = &administratorType
 	}
 
-	// Set property ‘AzureADOnlyAuthentication’:
+	// Set property "AzureADOnlyAuthentication":
 	if administrator.AzureADOnlyAuthentication != nil {
 		azureADOnlyAuthentication := *administrator.AzureADOnlyAuthentication
 		result.AzureADOnlyAuthentication = &azureADOnlyAuthentication
 	}
 
-	// Set property ‘Login’:
+	// Set property "Login":
 	if administrator.Login != nil {
 		login := *administrator.Login
 		result.Login = &login
 	}
 
-	// Set property ‘PrincipalType’:
+	// Set property "PrincipalType":
 	if administrator.PrincipalType != nil {
 		principalType := *administrator.PrincipalType
 		result.PrincipalType = &principalType
 	}
 
-	// Set property ‘Sid’:
+	// Set property "Sid":
 	if administrator.Sid != nil {
 		sid := *administrator.Sid
 		result.Sid = &sid
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if administrator.TenantId != nil {
 		tenantId := *administrator.TenantId
 		result.TenantId = &tenantId
@@ -1979,37 +1979,37 @@ func (administrator *ServerExternalAdministrator) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerExternalAdministrator_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdministratorType’:
+	// Set property "AdministratorType":
 	if typedInput.AdministratorType != nil {
 		administratorType := *typedInput.AdministratorType
 		administrator.AdministratorType = &administratorType
 	}
 
-	// Set property ‘AzureADOnlyAuthentication’:
+	// Set property "AzureADOnlyAuthentication":
 	if typedInput.AzureADOnlyAuthentication != nil {
 		azureADOnlyAuthentication := *typedInput.AzureADOnlyAuthentication
 		administrator.AzureADOnlyAuthentication = &azureADOnlyAuthentication
 	}
 
-	// Set property ‘Login’:
+	// Set property "Login":
 	if typedInput.Login != nil {
 		login := *typedInput.Login
 		administrator.Login = &login
 	}
 
-	// Set property ‘PrincipalType’:
+	// Set property "PrincipalType":
 	if typedInput.PrincipalType != nil {
 		principalType := *typedInput.PrincipalType
 		administrator.PrincipalType = &principalType
 	}
 
-	// Set property ‘Sid’:
+	// Set property "Sid":
 	if typedInput.Sid != nil {
 		sid := *typedInput.Sid
 		administrator.Sid = &sid
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
 		administrator.TenantId = &tenantId
@@ -2213,37 +2213,37 @@ func (administrator *ServerExternalAdministrator_STATUS) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerExternalAdministrator_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdministratorType’:
+	// Set property "AdministratorType":
 	if typedInput.AdministratorType != nil {
 		administratorType := *typedInput.AdministratorType
 		administrator.AdministratorType = &administratorType
 	}
 
-	// Set property ‘AzureADOnlyAuthentication’:
+	// Set property "AzureADOnlyAuthentication":
 	if typedInput.AzureADOnlyAuthentication != nil {
 		azureADOnlyAuthentication := *typedInput.AzureADOnlyAuthentication
 		administrator.AzureADOnlyAuthentication = &azureADOnlyAuthentication
 	}
 
-	// Set property ‘Login’:
+	// Set property "Login":
 	if typedInput.Login != nil {
 		login := *typedInput.Login
 		administrator.Login = &login
 	}
 
-	// Set property ‘PrincipalType’:
+	// Set property "PrincipalType":
 	if typedInput.PrincipalType != nil {
 		principalType := *typedInput.PrincipalType
 		administrator.PrincipalType = &principalType
 	}
 
-	// Set property ‘Sid’:
+	// Set property "Sid":
 	if typedInput.Sid != nil {
 		sid := *typedInput.Sid
 		administrator.Sid = &sid
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
 		administrator.TenantId = &tenantId
@@ -2418,13 +2418,13 @@ func (connection *ServerPrivateEndpointConnection_STATUS) PopulateFromARM(owner 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPrivateEndpointConnection_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		connection.Id = &id
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if typedInput.Properties != nil {
 		var properties1 PrivateEndpointConnectionProperties_STATUS
 		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
@@ -2558,12 +2558,12 @@ func (properties *PrivateEndpointConnectionProperties_STATUS) PopulateFromARM(ow
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnectionProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘GroupIds’:
+	// Set property "GroupIds":
 	for _, item := range typedInput.GroupIds {
 		properties.GroupIds = append(properties.GroupIds, item)
 	}
 
-	// Set property ‘PrivateEndpoint’:
+	// Set property "PrivateEndpoint":
 	if typedInput.PrivateEndpoint != nil {
 		var privateEndpoint1 PrivateEndpointProperty_STATUS
 		err := privateEndpoint1.PopulateFromARM(owner, *typedInput.PrivateEndpoint)
@@ -2574,7 +2574,7 @@ func (properties *PrivateEndpointConnectionProperties_STATUS) PopulateFromARM(ow
 		properties.PrivateEndpoint = &privateEndpoint
 	}
 
-	// Set property ‘PrivateLinkServiceConnectionState’:
+	// Set property "PrivateLinkServiceConnectionState":
 	if typedInput.PrivateLinkServiceConnectionState != nil {
 		var privateLinkServiceConnectionState1 PrivateLinkServiceConnectionStateProperty_STATUS
 		err := privateLinkServiceConnectionState1.PopulateFromARM(owner, *typedInput.PrivateLinkServiceConnectionState)
@@ -2585,7 +2585,7 @@ func (properties *PrivateEndpointConnectionProperties_STATUS) PopulateFromARM(ow
 		properties.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
 		provisioningState := *typedInput.ProvisioningState
 		properties.ProvisioningState = &provisioningState
@@ -2816,13 +2816,13 @@ func (identity *UserIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserIdentity_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ClientId’:
+	// Set property "ClientId":
 	if typedInput.ClientId != nil {
 		clientId := *typedInput.ClientId
 		identity.ClientId = &clientId
 	}
 
-	// Set property ‘PrincipalId’:
+	// Set property "PrincipalId":
 	if typedInput.PrincipalId != nil {
 		principalId := *typedInput.PrincipalId
 		identity.PrincipalId = &principalId
@@ -2896,7 +2896,7 @@ func (property *PrivateEndpointProperty_STATUS) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointProperty_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		property.Id = &id
@@ -2960,19 +2960,19 @@ func (property *PrivateLinkServiceConnectionStateProperty_STATUS) PopulateFromAR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkServiceConnectionStateProperty_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ActionsRequired’:
+	// Set property "ActionsRequired":
 	if typedInput.ActionsRequired != nil {
 		actionsRequired := *typedInput.ActionsRequired
 		property.ActionsRequired = &actionsRequired
 	}
 
-	// Set property ‘Description’:
+	// Set property "Description":
 	if typedInput.Description != nil {
 		description := *typedInput.Description
 		property.Description = &description
 	}
 
-	// Set property ‘Status’:
+	// Set property "Status":
 	if typedInput.Status != nil {
 		status := *typedInput.Status
 		property.Status = &status

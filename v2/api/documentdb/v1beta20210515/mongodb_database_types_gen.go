@@ -336,16 +336,16 @@ func (database *DatabaseAccounts_MongodbDatabase_Spec) ConvertToARM(resolved gen
 	}
 	result := &DatabaseAccounts_MongodbDatabase_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if database.Location != nil {
 		location := *database.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if database.Options != nil || database.Resource != nil {
 		result.Properties = &MongoDBDatabaseCreateUpdateProperties_ARM{}
 	}
@@ -366,7 +366,7 @@ func (database *DatabaseAccounts_MongodbDatabase_Spec) ConvertToARM(resolved gen
 		result.Properties.Resource = &resource
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if database.Tags != nil {
 		result.Tags = make(map[string]string, len(database.Tags))
 		for key, value := range database.Tags {
@@ -388,16 +388,16 @@ func (database *DatabaseAccounts_MongodbDatabase_Spec) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_MongodbDatabase_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	database.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		database.Location = &location
 	}
 
-	// Set property ‘Options’:
+	// Set property "Options":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Options != nil {
@@ -411,10 +411,10 @@ func (database *DatabaseAccounts_MongodbDatabase_Spec) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	database.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Resource’:
+	// Set property "Resource":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
@@ -428,7 +428,7 @@ func (database *DatabaseAccounts_MongodbDatabase_Spec) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		database.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -685,27 +685,27 @@ func (database *DatabaseAccounts_MongodbDatabase_STATUS) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_MongodbDatabase_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		database.Id = &id
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		database.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		database.Name = &name
 	}
 
-	// Set property ‘Options’:
+	// Set property "Options":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Options != nil {
@@ -719,7 +719,7 @@ func (database *DatabaseAccounts_MongodbDatabase_STATUS) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘Resource’:
+	// Set property "Resource":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
@@ -733,7 +733,7 @@ func (database *DatabaseAccounts_MongodbDatabase_STATUS) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		database.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -741,7 +741,7 @@ func (database *DatabaseAccounts_MongodbDatabase_STATUS) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		database.Type = &typeVar
@@ -873,7 +873,7 @@ func (options *CreateUpdateOptions) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &CreateUpdateOptions_ARM{}
 
-	// Set property ‘AutoscaleSettings’:
+	// Set property "AutoscaleSettings":
 	if options.AutoscaleSettings != nil {
 		autoscaleSettings_ARM, err := (*options.AutoscaleSettings).ConvertToARM(resolved)
 		if err != nil {
@@ -883,7 +883,7 @@ func (options *CreateUpdateOptions) ConvertToARM(resolved genruntime.ConvertToAR
 		result.AutoscaleSettings = &autoscaleSettings
 	}
 
-	// Set property ‘Throughput’:
+	// Set property "Throughput":
 	if options.Throughput != nil {
 		throughput := *options.Throughput
 		result.Throughput = &throughput
@@ -903,7 +903,7 @@ func (options *CreateUpdateOptions) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CreateUpdateOptions_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AutoscaleSettings’:
+	// Set property "AutoscaleSettings":
 	if typedInput.AutoscaleSettings != nil {
 		var autoscaleSettings1 AutoscaleSettings
 		err := autoscaleSettings1.PopulateFromARM(owner, *typedInput.AutoscaleSettings)
@@ -914,7 +914,7 @@ func (options *CreateUpdateOptions) PopulateFromARM(owner genruntime.ArbitraryOw
 		options.AutoscaleSettings = &autoscaleSettings
 	}
 
-	// Set property ‘Throughput’:
+	// Set property "Throughput":
 	if typedInput.Throughput != nil {
 		throughput := *typedInput.Throughput
 		options.Throughput = &throughput
@@ -999,25 +999,25 @@ func (resource *MongoDBDatabaseGetProperties_Resource_STATUS) PopulateFromARM(ow
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoDBDatabaseGetProperties_Resource_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		resource.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		resource.Id = &id
 	}
 
-	// Set property ‘Rid’:
+	// Set property "Rid":
 	if typedInput.Rid != nil {
 		rid := *typedInput.Rid
 		resource.Rid = &rid
 	}
 
-	// Set property ‘Ts’:
+	// Set property "Ts":
 	if typedInput.Ts != nil {
 		ts := *typedInput.Ts
 		resource.Ts = &ts
@@ -1099,7 +1099,7 @@ func (resource *MongoDBDatabaseResource) ConvertToARM(resolved genruntime.Conver
 	}
 	result := &MongoDBDatabaseResource_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if resource.Id != nil {
 		id := *resource.Id
 		result.Id = &id
@@ -1119,7 +1119,7 @@ func (resource *MongoDBDatabaseResource) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoDBDatabaseResource_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		resource.Id = &id
@@ -1178,7 +1178,7 @@ func (resource *OptionsResource_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OptionsResource_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AutoscaleSettings’:
+	// Set property "AutoscaleSettings":
 	if typedInput.AutoscaleSettings != nil {
 		var autoscaleSettings1 AutoscaleSettings_STATUS
 		err := autoscaleSettings1.PopulateFromARM(owner, *typedInput.AutoscaleSettings)
@@ -1189,7 +1189,7 @@ func (resource *OptionsResource_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		resource.AutoscaleSettings = &autoscaleSettings
 	}
 
-	// Set property ‘Throughput’:
+	// Set property "Throughput":
 	if typedInput.Throughput != nil {
 		throughput := *typedInput.Throughput
 		resource.Throughput = &throughput
@@ -1266,7 +1266,7 @@ func (settings *AutoscaleSettings) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &AutoscaleSettings_ARM{}
 
-	// Set property ‘MaxThroughput’:
+	// Set property "MaxThroughput":
 	if settings.MaxThroughput != nil {
 		maxThroughput := *settings.MaxThroughput
 		result.MaxThroughput = &maxThroughput
@@ -1286,7 +1286,7 @@ func (settings *AutoscaleSettings) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoscaleSettings_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MaxThroughput’:
+	// Set property "MaxThroughput":
 	if typedInput.MaxThroughput != nil {
 		maxThroughput := *typedInput.MaxThroughput
 		settings.MaxThroughput = &maxThroughput
@@ -1344,7 +1344,7 @@ func (settings *AutoscaleSettings_STATUS) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoscaleSettings_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MaxThroughput’:
+	// Set property "MaxThroughput":
 	if typedInput.MaxThroughput != nil {
 		maxThroughput := *typedInput.MaxThroughput
 		settings.MaxThroughput = &maxThroughput

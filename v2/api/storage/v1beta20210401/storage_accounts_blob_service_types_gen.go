@@ -329,10 +329,10 @@ func (service *StorageAccounts_BlobService_Spec) ConvertToARM(resolved genruntim
 	}
 	result := &StorageAccounts_BlobService_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if service.AutomaticSnapshotPolicyEnabled != nil ||
 		service.ChangeFeed != nil ||
 		service.ContainerDeleteRetentionPolicy != nil ||
@@ -419,7 +419,7 @@ func (service *StorageAccounts_BlobService_Spec) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_BlobService_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AutomaticSnapshotPolicyEnabled’:
+	// Set property "AutomaticSnapshotPolicyEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutomaticSnapshotPolicyEnabled != nil {
@@ -428,7 +428,7 @@ func (service *StorageAccounts_BlobService_Spec) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// Set property ‘ChangeFeed’:
+	// Set property "ChangeFeed":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ChangeFeed != nil {
@@ -442,7 +442,7 @@ func (service *StorageAccounts_BlobService_Spec) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// Set property ‘ContainerDeleteRetentionPolicy’:
+	// Set property "ContainerDeleteRetentionPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ContainerDeleteRetentionPolicy != nil {
@@ -456,7 +456,7 @@ func (service *StorageAccounts_BlobService_Spec) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// Set property ‘Cors’:
+	// Set property "Cors":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Cors != nil {
@@ -470,7 +470,7 @@ func (service *StorageAccounts_BlobService_Spec) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// Set property ‘DefaultServiceVersion’:
+	// Set property "DefaultServiceVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultServiceVersion != nil {
@@ -479,7 +479,7 @@ func (service *StorageAccounts_BlobService_Spec) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// Set property ‘DeleteRetentionPolicy’:
+	// Set property "DeleteRetentionPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeleteRetentionPolicy != nil {
@@ -493,7 +493,7 @@ func (service *StorageAccounts_BlobService_Spec) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// Set property ‘IsVersioningEnabled’:
+	// Set property "IsVersioningEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsVersioningEnabled != nil {
@@ -502,7 +502,7 @@ func (service *StorageAccounts_BlobService_Spec) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// Set property ‘LastAccessTimeTrackingPolicy’:
+	// Set property "LastAccessTimeTrackingPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LastAccessTimeTrackingPolicy != nil {
@@ -516,10 +516,10 @@ func (service *StorageAccounts_BlobService_Spec) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	service.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘RestorePolicy’:
+	// Set property "RestorePolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RestorePolicy != nil {
@@ -900,7 +900,7 @@ func (service *StorageAccounts_BlobService_STATUS) PopulateFromARM(owner genrunt
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_BlobService_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AutomaticSnapshotPolicyEnabled’:
+	// Set property "AutomaticSnapshotPolicyEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutomaticSnapshotPolicyEnabled != nil {
@@ -909,7 +909,7 @@ func (service *StorageAccounts_BlobService_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// Set property ‘ChangeFeed’:
+	// Set property "ChangeFeed":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ChangeFeed != nil {
@@ -923,9 +923,9 @@ func (service *StorageAccounts_BlobService_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘ContainerDeleteRetentionPolicy’:
+	// Set property "ContainerDeleteRetentionPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ContainerDeleteRetentionPolicy != nil {
@@ -939,7 +939,7 @@ func (service *StorageAccounts_BlobService_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// Set property ‘Cors’:
+	// Set property "Cors":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Cors != nil {
@@ -953,7 +953,7 @@ func (service *StorageAccounts_BlobService_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// Set property ‘DefaultServiceVersion’:
+	// Set property "DefaultServiceVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultServiceVersion != nil {
@@ -962,7 +962,7 @@ func (service *StorageAccounts_BlobService_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// Set property ‘DeleteRetentionPolicy’:
+	// Set property "DeleteRetentionPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeleteRetentionPolicy != nil {
@@ -976,13 +976,13 @@ func (service *StorageAccounts_BlobService_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		service.Id = &id
 	}
 
-	// Set property ‘IsVersioningEnabled’:
+	// Set property "IsVersioningEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsVersioningEnabled != nil {
@@ -991,7 +991,7 @@ func (service *StorageAccounts_BlobService_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// Set property ‘LastAccessTimeTrackingPolicy’:
+	// Set property "LastAccessTimeTrackingPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LastAccessTimeTrackingPolicy != nil {
@@ -1005,13 +1005,13 @@ func (service *StorageAccounts_BlobService_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		service.Name = &name
 	}
 
-	// Set property ‘RestorePolicy’:
+	// Set property "RestorePolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RestorePolicy != nil {
@@ -1025,7 +1025,7 @@ func (service *StorageAccounts_BlobService_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 Sku_STATUS
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -1036,7 +1036,7 @@ func (service *StorageAccounts_BlobService_STATUS) PopulateFromARM(owner genrunt
 		service.Sku = &sku
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		service.Type = &typeVar
@@ -1317,13 +1317,13 @@ func (feed *ChangeFeed) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	}
 	result := &ChangeFeed_ARM{}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if feed.Enabled != nil {
 		enabled := *feed.Enabled
 		result.Enabled = &enabled
 	}
 
-	// Set property ‘RetentionInDays’:
+	// Set property "RetentionInDays":
 	if feed.RetentionInDays != nil {
 		retentionInDays := *feed.RetentionInDays
 		result.RetentionInDays = &retentionInDays
@@ -1343,13 +1343,13 @@ func (feed *ChangeFeed) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ChangeFeed_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		feed.Enabled = &enabled
 	}
 
-	// Set property ‘RetentionInDays’:
+	// Set property "RetentionInDays":
 	if typedInput.RetentionInDays != nil {
 		retentionInDays := *typedInput.RetentionInDays
 		feed.RetentionInDays = &retentionInDays
@@ -1434,13 +1434,13 @@ func (feed *ChangeFeed_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ChangeFeed_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		feed.Enabled = &enabled
 	}
 
-	// Set property ‘RetentionInDays’:
+	// Set property "RetentionInDays":
 	if typedInput.RetentionInDays != nil {
 		retentionInDays := *typedInput.RetentionInDays
 		feed.RetentionInDays = &retentionInDays
@@ -1509,7 +1509,7 @@ func (rules *CorsRules) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	}
 	result := &CorsRules_ARM{}
 
-	// Set property ‘CorsRules’:
+	// Set property "CorsRules":
 	for _, item := range rules.CorsRules {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -1532,7 +1532,7 @@ func (rules *CorsRules) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CorsRules_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CorsRules’:
+	// Set property "CorsRules":
 	for _, item := range typedInput.CorsRules {
 		var item1 CorsRule
 		err := item1.PopulateFromARM(owner, item)
@@ -1624,7 +1624,7 @@ func (rules *CorsRules_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CorsRules_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CorsRules’:
+	// Set property "CorsRules":
 	for _, item := range typedInput.CorsRules {
 		var item1 CorsRule_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -1714,13 +1714,13 @@ func (policy *DeleteRetentionPolicy) ConvertToARM(resolved genruntime.ConvertToA
 	}
 	result := &DeleteRetentionPolicy_ARM{}
 
-	// Set property ‘Days’:
+	// Set property "Days":
 	if policy.Days != nil {
 		days := *policy.Days
 		result.Days = &days
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if policy.Enabled != nil {
 		enabled := *policy.Enabled
 		result.Enabled = &enabled
@@ -1740,13 +1740,13 @@ func (policy *DeleteRetentionPolicy) PopulateFromARM(owner genruntime.ArbitraryO
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeleteRetentionPolicy_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Days’:
+	// Set property "Days":
 	if typedInput.Days != nil {
 		days := *typedInput.Days
 		policy.Days = &days
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		policy.Enabled = &enabled
@@ -1831,13 +1831,13 @@ func (policy *DeleteRetentionPolicy_STATUS) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeleteRetentionPolicy_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Days’:
+	// Set property "Days":
 	if typedInput.Days != nil {
 		days := *typedInput.Days
 		policy.Days = &days
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		policy.Enabled = &enabled
@@ -1911,24 +1911,24 @@ func (policy *LastAccessTimeTrackingPolicy) ConvertToARM(resolved genruntime.Con
 	}
 	result := &LastAccessTimeTrackingPolicy_ARM{}
 
-	// Set property ‘BlobType’:
+	// Set property "BlobType":
 	for _, item := range policy.BlobType {
 		result.BlobType = append(result.BlobType, item)
 	}
 
-	// Set property ‘Enable’:
+	// Set property "Enable":
 	if policy.Enable != nil {
 		enable := *policy.Enable
 		result.Enable = &enable
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if policy.Name != nil {
 		name := *policy.Name
 		result.Name = &name
 	}
 
-	// Set property ‘TrackingGranularityInDays’:
+	// Set property "TrackingGranularityInDays":
 	if policy.TrackingGranularityInDays != nil {
 		trackingGranularityInDays := *policy.TrackingGranularityInDays
 		result.TrackingGranularityInDays = &trackingGranularityInDays
@@ -1948,24 +1948,24 @@ func (policy *LastAccessTimeTrackingPolicy) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LastAccessTimeTrackingPolicy_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BlobType’:
+	// Set property "BlobType":
 	for _, item := range typedInput.BlobType {
 		policy.BlobType = append(policy.BlobType, item)
 	}
 
-	// Set property ‘Enable’:
+	// Set property "Enable":
 	if typedInput.Enable != nil {
 		enable := *typedInput.Enable
 		policy.Enable = &enable
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		policy.Name = &name
 	}
 
-	// Set property ‘TrackingGranularityInDays’:
+	// Set property "TrackingGranularityInDays":
 	if typedInput.TrackingGranularityInDays != nil {
 		trackingGranularityInDays := *typedInput.TrackingGranularityInDays
 		policy.TrackingGranularityInDays = &trackingGranularityInDays
@@ -2064,24 +2064,24 @@ func (policy *LastAccessTimeTrackingPolicy_STATUS) PopulateFromARM(owner genrunt
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LastAccessTimeTrackingPolicy_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BlobType’:
+	// Set property "BlobType":
 	for _, item := range typedInput.BlobType {
 		policy.BlobType = append(policy.BlobType, item)
 	}
 
-	// Set property ‘Enable’:
+	// Set property "Enable":
 	if typedInput.Enable != nil {
 		enable := *typedInput.Enable
 		policy.Enable = &enable
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		policy.Name = &name
 	}
 
-	// Set property ‘TrackingGranularityInDays’:
+	// Set property "TrackingGranularityInDays":
 	if typedInput.TrackingGranularityInDays != nil {
 		trackingGranularityInDays := *typedInput.TrackingGranularityInDays
 		policy.TrackingGranularityInDays = &trackingGranularityInDays
@@ -2177,13 +2177,13 @@ func (properties *RestorePolicyProperties) ConvertToARM(resolved genruntime.Conv
 	}
 	result := &RestorePolicyProperties_ARM{}
 
-	// Set property ‘Days’:
+	// Set property "Days":
 	if properties.Days != nil {
 		days := *properties.Days
 		result.Days = &days
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if properties.Enabled != nil {
 		enabled := *properties.Enabled
 		result.Enabled = &enabled
@@ -2203,13 +2203,13 @@ func (properties *RestorePolicyProperties) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RestorePolicyProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Days’:
+	// Set property "Days":
 	if typedInput.Days != nil {
 		days := *typedInput.Days
 		properties.Days = &days
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		properties.Enabled = &enabled
@@ -2296,25 +2296,25 @@ func (properties *RestorePolicyProperties_STATUS) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RestorePolicyProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Days’:
+	// Set property "Days":
 	if typedInput.Days != nil {
 		days := *typedInput.Days
 		properties.Days = &days
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		properties.Enabled = &enabled
 	}
 
-	// Set property ‘LastEnabledTime’:
+	// Set property "LastEnabledTime":
 	if typedInput.LastEnabledTime != nil {
 		lastEnabledTime := *typedInput.LastEnabledTime
 		properties.LastEnabledTime = &lastEnabledTime
 	}
 
-	// Set property ‘MinRestoreTime’:
+	// Set property "MinRestoreTime":
 	if typedInput.MinRestoreTime != nil {
 		minRestoreTime := *typedInput.MinRestoreTime
 		properties.MinRestoreTime = &minRestoreTime
@@ -2408,27 +2408,27 @@ func (rule *CorsRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	}
 	result := &CorsRule_ARM{}
 
-	// Set property ‘AllowedHeaders’:
+	// Set property "AllowedHeaders":
 	for _, item := range rule.AllowedHeaders {
 		result.AllowedHeaders = append(result.AllowedHeaders, item)
 	}
 
-	// Set property ‘AllowedMethods’:
+	// Set property "AllowedMethods":
 	for _, item := range rule.AllowedMethods {
 		result.AllowedMethods = append(result.AllowedMethods, item)
 	}
 
-	// Set property ‘AllowedOrigins’:
+	// Set property "AllowedOrigins":
 	for _, item := range rule.AllowedOrigins {
 		result.AllowedOrigins = append(result.AllowedOrigins, item)
 	}
 
-	// Set property ‘ExposedHeaders’:
+	// Set property "ExposedHeaders":
 	for _, item := range rule.ExposedHeaders {
 		result.ExposedHeaders = append(result.ExposedHeaders, item)
 	}
 
-	// Set property ‘MaxAgeInSeconds’:
+	// Set property "MaxAgeInSeconds":
 	if rule.MaxAgeInSeconds != nil {
 		maxAgeInSeconds := *rule.MaxAgeInSeconds
 		result.MaxAgeInSeconds = &maxAgeInSeconds
@@ -2448,27 +2448,27 @@ func (rule *CorsRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CorsRule_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AllowedHeaders’:
+	// Set property "AllowedHeaders":
 	for _, item := range typedInput.AllowedHeaders {
 		rule.AllowedHeaders = append(rule.AllowedHeaders, item)
 	}
 
-	// Set property ‘AllowedMethods’:
+	// Set property "AllowedMethods":
 	for _, item := range typedInput.AllowedMethods {
 		rule.AllowedMethods = append(rule.AllowedMethods, item)
 	}
 
-	// Set property ‘AllowedOrigins’:
+	// Set property "AllowedOrigins":
 	for _, item := range typedInput.AllowedOrigins {
 		rule.AllowedOrigins = append(rule.AllowedOrigins, item)
 	}
 
-	// Set property ‘ExposedHeaders’:
+	// Set property "ExposedHeaders":
 	for _, item := range typedInput.ExposedHeaders {
 		rule.ExposedHeaders = append(rule.ExposedHeaders, item)
 	}
 
-	// Set property ‘MaxAgeInSeconds’:
+	// Set property "MaxAgeInSeconds":
 	if typedInput.MaxAgeInSeconds != nil {
 		maxAgeInSeconds := *typedInput.MaxAgeInSeconds
 		rule.MaxAgeInSeconds = &maxAgeInSeconds
@@ -2574,27 +2574,27 @@ func (rule *CorsRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CorsRule_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AllowedHeaders’:
+	// Set property "AllowedHeaders":
 	for _, item := range typedInput.AllowedHeaders {
 		rule.AllowedHeaders = append(rule.AllowedHeaders, item)
 	}
 
-	// Set property ‘AllowedMethods’:
+	// Set property "AllowedMethods":
 	for _, item := range typedInput.AllowedMethods {
 		rule.AllowedMethods = append(rule.AllowedMethods, item)
 	}
 
-	// Set property ‘AllowedOrigins’:
+	// Set property "AllowedOrigins":
 	for _, item := range typedInput.AllowedOrigins {
 		rule.AllowedOrigins = append(rule.AllowedOrigins, item)
 	}
 
-	// Set property ‘ExposedHeaders’:
+	// Set property "ExposedHeaders":
 	for _, item := range typedInput.ExposedHeaders {
 		rule.ExposedHeaders = append(rule.ExposedHeaders, item)
 	}
 
-	// Set property ‘MaxAgeInSeconds’:
+	// Set property "MaxAgeInSeconds":
 	if typedInput.MaxAgeInSeconds != nil {
 		maxAgeInSeconds := *typedInput.MaxAgeInSeconds
 		rule.MaxAgeInSeconds = &maxAgeInSeconds

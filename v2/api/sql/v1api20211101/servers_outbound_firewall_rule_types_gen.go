@@ -331,7 +331,7 @@ func (rule *Servers_OutboundFirewallRule_Spec) ConvertToARM(resolved genruntime.
 	}
 	result := &Servers_OutboundFirewallRule_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 	return result, nil
 }
@@ -348,10 +348,10 @@ func (rule *Servers_OutboundFirewallRule_Spec) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_OutboundFirewallRule_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	rule.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	rule.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// No error
@@ -554,21 +554,21 @@ func (rule *Servers_OutboundFirewallRule_STATUS) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_OutboundFirewallRule_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		rule.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		rule.Name = &name
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -577,7 +577,7 @@ func (rule *Servers_OutboundFirewallRule_STATUS) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		rule.Type = &typeVar
