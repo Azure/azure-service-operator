@@ -334,10 +334,10 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &FakeResource_Spec_ARM{}
 
-	// Set property ‘APIVersion’:
+	// Set property "APIVersion":
 	result.APIVersion = resource.APIVersion
 
-	// Set property ‘MapFoo’:
+	// Set property "MapFoo":
 	if resource.MapFoo != nil {
 		result.MapFoo = make(map[string]Foo_ARM, len(resource.MapFoo))
 		for key, value := range resource.MapFoo {
@@ -349,7 +349,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		}
 	}
 
-	// Set property ‘MapOfArrays’:
+	// Set property "MapOfArrays":
 	if resource.MapOfArrays != nil {
 		result.MapOfArrays = make(map[string][]Foo_ARM, len(resource.MapOfArrays))
 		for key, value := range resource.MapOfArrays {
@@ -365,7 +365,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		}
 	}
 
-	// Set property ‘MapOfEnums’:
+	// Set property "MapOfEnums":
 	if resource.MapOfEnums != nil {
 		result.MapOfEnums = make(map[string]Color, len(resource.MapOfEnums))
 		for key, value := range resource.MapOfEnums {
@@ -373,7 +373,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		}
 	}
 
-	// Set property ‘MapOfMaps’:
+	// Set property "MapOfMaps":
 	if resource.MapOfMaps != nil {
 		result.MapOfMaps = make(map[string]map[string]Foo_ARM, len(resource.MapOfMaps))
 		for key, value := range resource.MapOfMaps {
@@ -391,7 +391,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		}
 	}
 
-	// Set property ‘MapOfMapsOfMaps’:
+	// Set property "MapOfMapsOfMaps":
 	if resource.MapOfMapsOfMaps != nil {
 		result.MapOfMapsOfMaps = make(map[string]map[string]map[string]Foo_ARM, len(resource.MapOfMapsOfMaps))
 		for key, value := range resource.MapOfMapsOfMaps {
@@ -415,7 +415,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		}
 	}
 
-	// Set property ‘MapOfMapsOfMapsOfStrings’:
+	// Set property "MapOfMapsOfMapsOfStrings":
 	if resource.MapOfMapsOfMapsOfStrings != nil {
 		result.MapOfMapsOfMapsOfStrings = make(map[string]map[string]map[string]string, len(resource.MapOfMapsOfMapsOfStrings))
 		for key, value := range resource.MapOfMapsOfMapsOfStrings {
@@ -435,7 +435,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		}
 	}
 
-	// Set property ‘MapOfStrings’:
+	// Set property "MapOfStrings":
 	if resource.MapOfStrings != nil {
 		result.MapOfStrings = make(map[string]string, len(resource.MapOfStrings))
 		for key, value := range resource.MapOfStrings {
@@ -443,10 +443,10 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	result.Type = resource.Type
 	return result, nil
 }
@@ -463,13 +463,13 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘APIVersion’:
+	// Set property "APIVersion":
 	resource.APIVersion = typedInput.APIVersion
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	resource.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘MapFoo’:
+	// Set property "MapFoo":
 	if typedInput.MapFoo != nil {
 		resource.MapFoo = make(map[string]Foo, len(typedInput.MapFoo))
 		for key, value := range typedInput.MapFoo {
@@ -482,7 +482,7 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘MapOfArrays’:
+	// Set property "MapOfArrays":
 	if typedInput.MapOfArrays != nil {
 		resource.MapOfArrays = make(map[string][]Foo, len(typedInput.MapOfArrays))
 		for key, value := range typedInput.MapOfArrays {
@@ -499,7 +499,7 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘MapOfEnums’:
+	// Set property "MapOfEnums":
 	if typedInput.MapOfEnums != nil {
 		resource.MapOfEnums = make(map[string]Color, len(typedInput.MapOfEnums))
 		for key, value := range typedInput.MapOfEnums {
@@ -507,7 +507,7 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘MapOfMaps’:
+	// Set property "MapOfMaps":
 	if typedInput.MapOfMaps != nil {
 		resource.MapOfMaps = make(map[string]map[string]Foo, len(typedInput.MapOfMaps))
 		for key, value := range typedInput.MapOfMaps {
@@ -526,7 +526,7 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘MapOfMapsOfMaps’:
+	// Set property "MapOfMapsOfMaps":
 	if typedInput.MapOfMapsOfMaps != nil {
 		resource.MapOfMapsOfMaps = make(map[string]map[string]map[string]Foo, len(typedInput.MapOfMapsOfMaps))
 		for key, value := range typedInput.MapOfMapsOfMaps {
@@ -551,7 +551,7 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘MapOfMapsOfMapsOfStrings’:
+	// Set property "MapOfMapsOfMapsOfStrings":
 	if typedInput.MapOfMapsOfMapsOfStrings != nil {
 		resource.MapOfMapsOfMapsOfStrings = make(map[string]map[string]map[string]string, len(typedInput.MapOfMapsOfMapsOfStrings))
 		for key, value := range typedInput.MapOfMapsOfMapsOfStrings {
@@ -571,7 +571,7 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘MapOfStrings’:
+	// Set property "MapOfStrings":
 	if typedInput.MapOfStrings != nil {
 		resource.MapOfStrings = make(map[string]string, len(typedInput.MapOfStrings))
 		for key, value := range typedInput.MapOfStrings {
@@ -579,10 +579,10 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	resource.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	resource.Type = typedInput.Type
 
 	// No error
@@ -1043,7 +1043,7 @@ func (foo *Foo) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	}
 	result := &Foo_ARM{}
 
-	// Set property ‘FooName’:
+	// Set property "FooName":
 	if foo.FooName != nil {
 		fooName := *foo.FooName
 		result.FooName = &fooName
@@ -1063,7 +1063,7 @@ func (foo *Foo) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Foo_ARM, got %T", armInput)
 	}
 
-	// Set property ‘FooName’:
+	// Set property "FooName":
 	if typedInput.FooName != nil {
 		fooName := *typedInput.FooName
 		foo.FooName = &fooName
