@@ -384,16 +384,16 @@ func (webtest *Webtest_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	}
 	result := &Webtest_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if webtest.Location != nil {
 		location := *webtest.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if webtest.Configuration != nil ||
 		webtest.Description != nil ||
 		webtest.Enabled != nil ||
@@ -472,7 +472,7 @@ func (webtest *Webtest_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties.ValidationRules = &validationRules
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if webtest.Tags != nil {
 		result.Tags = make(map[string]string, len(webtest.Tags))
 		for key, value := range webtest.Tags {
@@ -494,10 +494,10 @@ func (webtest *Webtest_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Webtest_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	webtest.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Configuration’:
+	// Set property "Configuration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Configuration != nil {
@@ -511,7 +511,7 @@ func (webtest *Webtest_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Description’:
+	// Set property "Description":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Description != nil {
@@ -520,7 +520,7 @@ func (webtest *Webtest_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Enabled != nil {
@@ -529,7 +529,7 @@ func (webtest *Webtest_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Frequency’:
+	// Set property "Frequency":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Frequency != nil {
@@ -538,7 +538,7 @@ func (webtest *Webtest_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Kind’:
+	// Set property "Kind":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Kind != nil {
@@ -547,13 +547,13 @@ func (webtest *Webtest_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		webtest.Location = &location
 	}
 
-	// Set property ‘Locations’:
+	// Set property "Locations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Locations {
@@ -566,7 +566,7 @@ func (webtest *Webtest_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Name != nil {
@@ -575,10 +575,10 @@ func (webtest *Webtest_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	webtest.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Request’:
+	// Set property "Request":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Request != nil {
@@ -592,7 +592,7 @@ func (webtest *Webtest_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘RetryEnabled’:
+	// Set property "RetryEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RetryEnabled != nil {
@@ -601,7 +601,7 @@ func (webtest *Webtest_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘SyntheticMonitorId’:
+	// Set property "SyntheticMonitorId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SyntheticMonitorId != nil {
@@ -610,7 +610,7 @@ func (webtest *Webtest_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		webtest.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -618,7 +618,7 @@ func (webtest *Webtest_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Timeout’:
+	// Set property "Timeout":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Timeout != nil {
@@ -627,7 +627,7 @@ func (webtest *Webtest_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘ValidationRules’:
+	// Set property "ValidationRules":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ValidationRules != nil {
@@ -1181,9 +1181,9 @@ func (webtest *Webtest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Webtest_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Configuration’:
+	// Set property "Configuration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Configuration != nil {
@@ -1197,7 +1197,7 @@ func (webtest *Webtest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘Description’:
+	// Set property "Description":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Description != nil {
@@ -1206,7 +1206,7 @@ func (webtest *Webtest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Enabled != nil {
@@ -1215,7 +1215,7 @@ func (webtest *Webtest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘Frequency’:
+	// Set property "Frequency":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Frequency != nil {
@@ -1224,13 +1224,13 @@ func (webtest *Webtest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		webtest.Id = &id
 	}
 
-	// Set property ‘Kind’:
+	// Set property "Kind":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Kind != nil {
@@ -1239,13 +1239,13 @@ func (webtest *Webtest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		webtest.Location = &location
 	}
 
-	// Set property ‘Locations’:
+	// Set property "Locations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Locations {
@@ -1258,13 +1258,13 @@ func (webtest *Webtest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		webtest.Name = &name
 	}
 
-	// Set property ‘PropertiesName’:
+	// Set property "PropertiesName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Name != nil {
@@ -1273,7 +1273,7 @@ func (webtest *Webtest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -1282,7 +1282,7 @@ func (webtest *Webtest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘Request’:
+	// Set property "Request":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Request != nil {
@@ -1296,7 +1296,7 @@ func (webtest *Webtest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘RetryEnabled’:
+	// Set property "RetryEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RetryEnabled != nil {
@@ -1305,7 +1305,7 @@ func (webtest *Webtest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘SyntheticMonitorId’:
+	// Set property "SyntheticMonitorId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SyntheticMonitorId != nil {
@@ -1314,7 +1314,7 @@ func (webtest *Webtest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		webtest.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1322,7 +1322,7 @@ func (webtest *Webtest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘Timeout’:
+	// Set property "Timeout":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Timeout != nil {
@@ -1331,13 +1331,13 @@ func (webtest *Webtest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		webtest.Type = &typeVar
 	}
 
-	// Set property ‘ValidationRules’:
+	// Set property "ValidationRules":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ValidationRules != nil {
@@ -1621,7 +1621,7 @@ func (geolocation *WebTestGeolocation) ConvertToARM(resolved genruntime.ConvertT
 	}
 	result := &WebTestGeolocation_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if geolocation.Id != nil {
 		id := *geolocation.Id
 		result.Id = &id
@@ -1641,7 +1641,7 @@ func (geolocation *WebTestGeolocation) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebTestGeolocation_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		geolocation.Id = &id
@@ -1710,7 +1710,7 @@ func (geolocation *WebTestGeolocation_STATUS) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebTestGeolocation_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		geolocation.Id = &id
@@ -1763,7 +1763,7 @@ func (configuration *WebTestProperties_Configuration) ConvertToARM(resolved genr
 	}
 	result := &WebTestProperties_Configuration_ARM{}
 
-	// Set property ‘WebTest’:
+	// Set property "WebTest":
 	if configuration.WebTest != nil {
 		webTest := *configuration.WebTest
 		result.WebTest = &webTest
@@ -1783,7 +1783,7 @@ func (configuration *WebTestProperties_Configuration) PopulateFromARM(owner genr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebTestProperties_Configuration_ARM, got %T", armInput)
 	}
 
-	// Set property ‘WebTest’:
+	// Set property "WebTest":
 	if typedInput.WebTest != nil {
 		webTest := *typedInput.WebTest
 		configuration.WebTest = &webTest
@@ -1851,7 +1851,7 @@ func (configuration *WebTestProperties_Configuration_STATUS) PopulateFromARM(own
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebTestProperties_Configuration_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘WebTest’:
+	// Set property "WebTest":
 	if typedInput.WebTest != nil {
 		webTest := *typedInput.WebTest
 		configuration.WebTest = &webTest
@@ -1938,13 +1938,13 @@ func (request *WebTestProperties_Request) ConvertToARM(resolved genruntime.Conve
 	}
 	result := &WebTestProperties_Request_ARM{}
 
-	// Set property ‘FollowRedirects’:
+	// Set property "FollowRedirects":
 	if request.FollowRedirects != nil {
 		followRedirects := *request.FollowRedirects
 		result.FollowRedirects = &followRedirects
 	}
 
-	// Set property ‘Headers’:
+	// Set property "Headers":
 	for _, item := range request.Headers {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -1953,25 +1953,25 @@ func (request *WebTestProperties_Request) ConvertToARM(resolved genruntime.Conve
 		result.Headers = append(result.Headers, *item_ARM.(*HeaderField_ARM))
 	}
 
-	// Set property ‘HttpVerb’:
+	// Set property "HttpVerb":
 	if request.HttpVerb != nil {
 		httpVerb := *request.HttpVerb
 		result.HttpVerb = &httpVerb
 	}
 
-	// Set property ‘ParseDependentRequests’:
+	// Set property "ParseDependentRequests":
 	if request.ParseDependentRequests != nil {
 		parseDependentRequests := *request.ParseDependentRequests
 		result.ParseDependentRequests = &parseDependentRequests
 	}
 
-	// Set property ‘RequestBody’:
+	// Set property "RequestBody":
 	if request.RequestBody != nil {
 		requestBody := *request.RequestBody
 		result.RequestBody = &requestBody
 	}
 
-	// Set property ‘RequestUrl’:
+	// Set property "RequestUrl":
 	if request.RequestUrl != nil {
 		requestUrl := *request.RequestUrl
 		result.RequestUrl = &requestUrl
@@ -1991,13 +1991,13 @@ func (request *WebTestProperties_Request) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebTestProperties_Request_ARM, got %T", armInput)
 	}
 
-	// Set property ‘FollowRedirects’:
+	// Set property "FollowRedirects":
 	if typedInput.FollowRedirects != nil {
 		followRedirects := *typedInput.FollowRedirects
 		request.FollowRedirects = &followRedirects
 	}
 
-	// Set property ‘Headers’:
+	// Set property "Headers":
 	for _, item := range typedInput.Headers {
 		var item1 HeaderField
 		err := item1.PopulateFromARM(owner, item)
@@ -2007,25 +2007,25 @@ func (request *WebTestProperties_Request) PopulateFromARM(owner genruntime.Arbit
 		request.Headers = append(request.Headers, item1)
 	}
 
-	// Set property ‘HttpVerb’:
+	// Set property "HttpVerb":
 	if typedInput.HttpVerb != nil {
 		httpVerb := *typedInput.HttpVerb
 		request.HttpVerb = &httpVerb
 	}
 
-	// Set property ‘ParseDependentRequests’:
+	// Set property "ParseDependentRequests":
 	if typedInput.ParseDependentRequests != nil {
 		parseDependentRequests := *typedInput.ParseDependentRequests
 		request.ParseDependentRequests = &parseDependentRequests
 	}
 
-	// Set property ‘RequestBody’:
+	// Set property "RequestBody":
 	if typedInput.RequestBody != nil {
 		requestBody := *typedInput.RequestBody
 		request.RequestBody = &requestBody
 	}
 
-	// Set property ‘RequestUrl’:
+	// Set property "RequestUrl":
 	if typedInput.RequestUrl != nil {
 		requestUrl := *typedInput.RequestUrl
 		request.RequestUrl = &requestUrl
@@ -2228,13 +2228,13 @@ func (request *WebTestProperties_Request_STATUS) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebTestProperties_Request_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘FollowRedirects’:
+	// Set property "FollowRedirects":
 	if typedInput.FollowRedirects != nil {
 		followRedirects := *typedInput.FollowRedirects
 		request.FollowRedirects = &followRedirects
 	}
 
-	// Set property ‘Headers’:
+	// Set property "Headers":
 	for _, item := range typedInput.Headers {
 		var item1 HeaderField_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -2244,25 +2244,25 @@ func (request *WebTestProperties_Request_STATUS) PopulateFromARM(owner genruntim
 		request.Headers = append(request.Headers, item1)
 	}
 
-	// Set property ‘HttpVerb’:
+	// Set property "HttpVerb":
 	if typedInput.HttpVerb != nil {
 		httpVerb := *typedInput.HttpVerb
 		request.HttpVerb = &httpVerb
 	}
 
-	// Set property ‘ParseDependentRequests’:
+	// Set property "ParseDependentRequests":
 	if typedInput.ParseDependentRequests != nil {
 		parseDependentRequests := *typedInput.ParseDependentRequests
 		request.ParseDependentRequests = &parseDependentRequests
 	}
 
-	// Set property ‘RequestBody’:
+	// Set property "RequestBody":
 	if typedInput.RequestBody != nil {
 		requestBody := *typedInput.RequestBody
 		request.RequestBody = &requestBody
 	}
 
-	// Set property ‘RequestUrl’:
+	// Set property "RequestUrl":
 	if typedInput.RequestUrl != nil {
 		requestUrl := *typedInput.RequestUrl
 		request.RequestUrl = &requestUrl
@@ -2408,7 +2408,7 @@ func (rules *WebTestProperties_ValidationRules) ConvertToARM(resolved genruntime
 	}
 	result := &WebTestProperties_ValidationRules_ARM{}
 
-	// Set property ‘ContentValidation’:
+	// Set property "ContentValidation":
 	if rules.ContentValidation != nil {
 		contentValidation_ARM, err := (*rules.ContentValidation).ConvertToARM(resolved)
 		if err != nil {
@@ -2418,25 +2418,25 @@ func (rules *WebTestProperties_ValidationRules) ConvertToARM(resolved genruntime
 		result.ContentValidation = &contentValidation
 	}
 
-	// Set property ‘ExpectedHttpStatusCode’:
+	// Set property "ExpectedHttpStatusCode":
 	if rules.ExpectedHttpStatusCode != nil {
 		expectedHttpStatusCode := *rules.ExpectedHttpStatusCode
 		result.ExpectedHttpStatusCode = &expectedHttpStatusCode
 	}
 
-	// Set property ‘IgnoreHttpsStatusCode’:
+	// Set property "IgnoreHttpsStatusCode":
 	if rules.IgnoreHttpsStatusCode != nil {
 		ignoreHttpsStatusCode := *rules.IgnoreHttpsStatusCode
 		result.IgnoreHttpsStatusCode = &ignoreHttpsStatusCode
 	}
 
-	// Set property ‘SSLCertRemainingLifetimeCheck’:
+	// Set property "SSLCertRemainingLifetimeCheck":
 	if rules.SSLCertRemainingLifetimeCheck != nil {
 		sslCertRemainingLifetimeCheck := *rules.SSLCertRemainingLifetimeCheck
 		result.SSLCertRemainingLifetimeCheck = &sslCertRemainingLifetimeCheck
 	}
 
-	// Set property ‘SSLCheck’:
+	// Set property "SSLCheck":
 	if rules.SSLCheck != nil {
 		sslCheck := *rules.SSLCheck
 		result.SSLCheck = &sslCheck
@@ -2456,7 +2456,7 @@ func (rules *WebTestProperties_ValidationRules) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebTestProperties_ValidationRules_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ContentValidation’:
+	// Set property "ContentValidation":
 	if typedInput.ContentValidation != nil {
 		var contentValidation1 WebTestProperties_ValidationRules_ContentValidation
 		err := contentValidation1.PopulateFromARM(owner, *typedInput.ContentValidation)
@@ -2467,25 +2467,25 @@ func (rules *WebTestProperties_ValidationRules) PopulateFromARM(owner genruntime
 		rules.ContentValidation = &contentValidation
 	}
 
-	// Set property ‘ExpectedHttpStatusCode’:
+	// Set property "ExpectedHttpStatusCode":
 	if typedInput.ExpectedHttpStatusCode != nil {
 		expectedHttpStatusCode := *typedInput.ExpectedHttpStatusCode
 		rules.ExpectedHttpStatusCode = &expectedHttpStatusCode
 	}
 
-	// Set property ‘IgnoreHttpsStatusCode’:
+	// Set property "IgnoreHttpsStatusCode":
 	if typedInput.IgnoreHttpsStatusCode != nil {
 		ignoreHttpsStatusCode := *typedInput.IgnoreHttpsStatusCode
 		rules.IgnoreHttpsStatusCode = &ignoreHttpsStatusCode
 	}
 
-	// Set property ‘SSLCertRemainingLifetimeCheck’:
+	// Set property "SSLCertRemainingLifetimeCheck":
 	if typedInput.SSLCertRemainingLifetimeCheck != nil {
 		sslCertRemainingLifetimeCheck := *typedInput.SSLCertRemainingLifetimeCheck
 		rules.SSLCertRemainingLifetimeCheck = &sslCertRemainingLifetimeCheck
 	}
 
-	// Set property ‘SSLCheck’:
+	// Set property "SSLCheck":
 	if typedInput.SSLCheck != nil {
 		sslCheck := *typedInput.SSLCheck
 		rules.SSLCheck = &sslCheck
@@ -2659,7 +2659,7 @@ func (rules *WebTestProperties_ValidationRules_STATUS) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebTestProperties_ValidationRules_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ContentValidation’:
+	// Set property "ContentValidation":
 	if typedInput.ContentValidation != nil {
 		var contentValidation1 WebTestProperties_ValidationRules_ContentValidation_STATUS
 		err := contentValidation1.PopulateFromARM(owner, *typedInput.ContentValidation)
@@ -2670,25 +2670,25 @@ func (rules *WebTestProperties_ValidationRules_STATUS) PopulateFromARM(owner gen
 		rules.ContentValidation = &contentValidation
 	}
 
-	// Set property ‘ExpectedHttpStatusCode’:
+	// Set property "ExpectedHttpStatusCode":
 	if typedInput.ExpectedHttpStatusCode != nil {
 		expectedHttpStatusCode := *typedInput.ExpectedHttpStatusCode
 		rules.ExpectedHttpStatusCode = &expectedHttpStatusCode
 	}
 
-	// Set property ‘IgnoreHttpsStatusCode’:
+	// Set property "IgnoreHttpsStatusCode":
 	if typedInput.IgnoreHttpsStatusCode != nil {
 		ignoreHttpsStatusCode := *typedInput.IgnoreHttpsStatusCode
 		rules.IgnoreHttpsStatusCode = &ignoreHttpsStatusCode
 	}
 
-	// Set property ‘SSLCertRemainingLifetimeCheck’:
+	// Set property "SSLCertRemainingLifetimeCheck":
 	if typedInput.SSLCertRemainingLifetimeCheck != nil {
 		sslCertRemainingLifetimeCheck := *typedInput.SSLCertRemainingLifetimeCheck
 		rules.SSLCertRemainingLifetimeCheck = &sslCertRemainingLifetimeCheck
 	}
 
-	// Set property ‘SSLCheck’:
+	// Set property "SSLCheck":
 	if typedInput.SSLCheck != nil {
 		sslCheck := *typedInput.SSLCheck
 		rules.SSLCheck = &sslCheck
@@ -2807,13 +2807,13 @@ func (field *HeaderField) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	}
 	result := &HeaderField_ARM{}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if field.Key != nil {
 		key := *field.Key
 		result.Key = &key
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if field.Value != nil {
 		value := *field.Value
 		result.Value = &value
@@ -2833,13 +2833,13 @@ func (field *HeaderField) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HeaderField_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		field.Key = &key
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		field.Value = &value
@@ -2920,13 +2920,13 @@ func (field *HeaderField_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HeaderField_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		field.Key = &key
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		field.Value = &value
@@ -2992,19 +2992,19 @@ func (validation *WebTestProperties_ValidationRules_ContentValidation) ConvertTo
 	}
 	result := &WebTestProperties_ValidationRules_ContentValidation_ARM{}
 
-	// Set property ‘ContentMatch’:
+	// Set property "ContentMatch":
 	if validation.ContentMatch != nil {
 		contentMatch := *validation.ContentMatch
 		result.ContentMatch = &contentMatch
 	}
 
-	// Set property ‘IgnoreCase’:
+	// Set property "IgnoreCase":
 	if validation.IgnoreCase != nil {
 		ignoreCase := *validation.IgnoreCase
 		result.IgnoreCase = &ignoreCase
 	}
 
-	// Set property ‘PassIfTextFound’:
+	// Set property "PassIfTextFound":
 	if validation.PassIfTextFound != nil {
 		passIfTextFound := *validation.PassIfTextFound
 		result.PassIfTextFound = &passIfTextFound
@@ -3024,19 +3024,19 @@ func (validation *WebTestProperties_ValidationRules_ContentValidation) PopulateF
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebTestProperties_ValidationRules_ContentValidation_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ContentMatch’:
+	// Set property "ContentMatch":
 	if typedInput.ContentMatch != nil {
 		contentMatch := *typedInput.ContentMatch
 		validation.ContentMatch = &contentMatch
 	}
 
-	// Set property ‘IgnoreCase’:
+	// Set property "IgnoreCase":
 	if typedInput.IgnoreCase != nil {
 		ignoreCase := *typedInput.IgnoreCase
 		validation.IgnoreCase = &ignoreCase
 	}
 
-	// Set property ‘PassIfTextFound’:
+	// Set property "PassIfTextFound":
 	if typedInput.PassIfTextFound != nil {
 		passIfTextFound := *typedInput.PassIfTextFound
 		validation.PassIfTextFound = &passIfTextFound
@@ -3159,19 +3159,19 @@ func (validation *WebTestProperties_ValidationRules_ContentValidation_STATUS) Po
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebTestProperties_ValidationRules_ContentValidation_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ContentMatch’:
+	// Set property "ContentMatch":
 	if typedInput.ContentMatch != nil {
 		contentMatch := *typedInput.ContentMatch
 		validation.ContentMatch = &contentMatch
 	}
 
-	// Set property ‘IgnoreCase’:
+	// Set property "IgnoreCase":
 	if typedInput.IgnoreCase != nil {
 		ignoreCase := *typedInput.IgnoreCase
 		validation.IgnoreCase = &ignoreCase
 	}
 
-	// Set property ‘PassIfTextFound’:
+	// Set property "PassIfTextFound":
 	if typedInput.PassIfTextFound != nil {
 		passIfTextFound := *typedInput.PassIfTextFound
 		validation.PassIfTextFound = &passIfTextFound

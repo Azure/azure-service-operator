@@ -419,16 +419,16 @@ func (redis *Redis_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	}
 	result := &Redis_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if redis.Location != nil {
 		location := *redis.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if redis.EnableNonSslPort != nil ||
 		redis.MinimumTlsVersion != nil ||
 		redis.PublicNetworkAccess != nil ||
@@ -506,7 +506,7 @@ func (redis *Redis_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if redis.Tags != nil {
 		result.Tags = make(map[string]string, len(redis.Tags))
 		for key, value := range redis.Tags {
@@ -514,7 +514,7 @@ func (redis *Redis_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		}
 	}
 
-	// Set property ‘Zones’:
+	// Set property "Zones":
 	for _, item := range redis.Zones {
 		result.Zones = append(result.Zones, item)
 	}
@@ -533,10 +533,10 @@ func (redis *Redis_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Redis_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	redis.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘EnableNonSslPort’:
+	// Set property "EnableNonSslPort":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableNonSslPort != nil {
@@ -545,13 +545,13 @@ func (redis *Redis_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		redis.Location = &location
 	}
 
-	// Set property ‘MinimumTlsVersion’:
+	// Set property "MinimumTlsVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinimumTlsVersion != nil {
@@ -560,12 +560,12 @@ func (redis *Redis_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// no assignment for property ‘OperatorSpec’
+	// no assignment for property "OperatorSpec"
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	redis.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
@@ -574,7 +574,7 @@ func (redis *Redis_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘RedisConfiguration’:
+	// Set property "RedisConfiguration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RedisConfiguration != nil {
@@ -588,7 +588,7 @@ func (redis *Redis_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘RedisVersion’:
+	// Set property "RedisVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RedisVersion != nil {
@@ -597,7 +597,7 @@ func (redis *Redis_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘ReplicasPerMaster’:
+	// Set property "ReplicasPerMaster":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ReplicasPerMaster != nil {
@@ -606,7 +606,7 @@ func (redis *Redis_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘ReplicasPerPrimary’:
+	// Set property "ReplicasPerPrimary":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ReplicasPerPrimary != nil {
@@ -615,7 +615,7 @@ func (redis *Redis_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘ShardCount’:
+	// Set property "ShardCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ShardCount != nil {
@@ -624,7 +624,7 @@ func (redis *Redis_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Sku != nil {
@@ -638,7 +638,7 @@ func (redis *Redis_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘StaticIP’:
+	// Set property "StaticIP":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StaticIP != nil {
@@ -647,9 +647,9 @@ func (redis *Redis_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// no assignment for property ‘SubnetReference’
+	// no assignment for property "SubnetReference"
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		redis.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -657,7 +657,7 @@ func (redis *Redis_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘TenantSettings’:
+	// Set property "TenantSettings":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TenantSettings != nil {
@@ -668,7 +668,7 @@ func (redis *Redis_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘Zones’:
+	// Set property "Zones":
 	for _, item := range typedInput.Zones {
 		redis.Zones = append(redis.Zones, item)
 	}
@@ -1232,9 +1232,9 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Redis_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘EnableNonSslPort’:
+	// Set property "EnableNonSslPort":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableNonSslPort != nil {
@@ -1243,7 +1243,7 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘HostName’:
+	// Set property "HostName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HostName != nil {
@@ -1252,13 +1252,13 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		redis.Id = &id
 	}
 
-	// Set property ‘Instances’:
+	// Set property "Instances":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Instances {
@@ -1271,7 +1271,7 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘LinkedServers’:
+	// Set property "LinkedServers":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.LinkedServers {
@@ -1284,13 +1284,13 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		redis.Location = &location
 	}
 
-	// Set property ‘MinimumTlsVersion’:
+	// Set property "MinimumTlsVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinimumTlsVersion != nil {
@@ -1299,13 +1299,13 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		redis.Name = &name
 	}
 
-	// Set property ‘Port’:
+	// Set property "Port":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Port != nil {
@@ -1314,7 +1314,7 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘PrivateEndpointConnections’:
+	// Set property "PrivateEndpointConnections":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PrivateEndpointConnections {
@@ -1327,7 +1327,7 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -1336,7 +1336,7 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
@@ -1345,7 +1345,7 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘RedisConfiguration’:
+	// Set property "RedisConfiguration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RedisConfiguration != nil {
@@ -1359,7 +1359,7 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘RedisVersion’:
+	// Set property "RedisVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RedisVersion != nil {
@@ -1368,7 +1368,7 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘ReplicasPerMaster’:
+	// Set property "ReplicasPerMaster":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ReplicasPerMaster != nil {
@@ -1377,7 +1377,7 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘ReplicasPerPrimary’:
+	// Set property "ReplicasPerPrimary":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ReplicasPerPrimary != nil {
@@ -1386,7 +1386,7 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘ShardCount’:
+	// Set property "ShardCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ShardCount != nil {
@@ -1395,7 +1395,7 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Sku != nil {
@@ -1409,7 +1409,7 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘SslPort’:
+	// Set property "SslPort":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SslPort != nil {
@@ -1418,7 +1418,7 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘StaticIP’:
+	// Set property "StaticIP":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StaticIP != nil {
@@ -1427,7 +1427,7 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘SubnetId’:
+	// Set property "SubnetId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SubnetId != nil {
@@ -1436,7 +1436,7 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		redis.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1444,7 +1444,7 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘TenantSettings’:
+	// Set property "TenantSettings":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TenantSettings != nil {
@@ -1455,13 +1455,13 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		redis.Type = &typeVar
 	}
 
-	// Set property ‘Zones’:
+	// Set property "Zones":
 	for _, item := range typedInput.Zones {
 		redis.Zones = append(redis.Zones, item)
 	}
@@ -1836,7 +1836,7 @@ func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		connection.Id = &id
@@ -1942,7 +1942,7 @@ func (configuration *RedisCreateProperties_RedisConfiguration) ConvertToARM(reso
 	}
 	result := &RedisCreateProperties_RedisConfiguration_ARM{}
 
-	// Set property ‘AdditionalProperties’:
+	// Set property "AdditionalProperties":
 	if configuration.AdditionalProperties != nil {
 		result.AdditionalProperties = make(map[string]string, len(configuration.AdditionalProperties))
 		for key, value := range configuration.AdditionalProperties {
@@ -1950,73 +1950,73 @@ func (configuration *RedisCreateProperties_RedisConfiguration) ConvertToARM(reso
 		}
 	}
 
-	// Set property ‘AofBackupEnabled’:
+	// Set property "AofBackupEnabled":
 	if configuration.AofBackupEnabled != nil {
 		aofBackupEnabled := *configuration.AofBackupEnabled
 		result.AofBackupEnabled = &aofBackupEnabled
 	}
 
-	// Set property ‘AofStorageConnectionString0’:
+	// Set property "AofStorageConnectionString0":
 	if configuration.AofStorageConnectionString0 != nil {
 		aofStorageConnectionString0 := *configuration.AofStorageConnectionString0
 		result.AofStorageConnectionString0 = &aofStorageConnectionString0
 	}
 
-	// Set property ‘AofStorageConnectionString1’:
+	// Set property "AofStorageConnectionString1":
 	if configuration.AofStorageConnectionString1 != nil {
 		aofStorageConnectionString1 := *configuration.AofStorageConnectionString1
 		result.AofStorageConnectionString1 = &aofStorageConnectionString1
 	}
 
-	// Set property ‘Authnotrequired’:
+	// Set property "Authnotrequired":
 	if configuration.Authnotrequired != nil {
 		authnotrequired := *configuration.Authnotrequired
 		result.Authnotrequired = &authnotrequired
 	}
 
-	// Set property ‘MaxfragmentationmemoryReserved’:
+	// Set property "MaxfragmentationmemoryReserved":
 	if configuration.MaxfragmentationmemoryReserved != nil {
 		maxfragmentationmemoryReserved := *configuration.MaxfragmentationmemoryReserved
 		result.MaxfragmentationmemoryReserved = &maxfragmentationmemoryReserved
 	}
 
-	// Set property ‘MaxmemoryDelta’:
+	// Set property "MaxmemoryDelta":
 	if configuration.MaxmemoryDelta != nil {
 		maxmemoryDelta := *configuration.MaxmemoryDelta
 		result.MaxmemoryDelta = &maxmemoryDelta
 	}
 
-	// Set property ‘MaxmemoryPolicy’:
+	// Set property "MaxmemoryPolicy":
 	if configuration.MaxmemoryPolicy != nil {
 		maxmemoryPolicy := *configuration.MaxmemoryPolicy
 		result.MaxmemoryPolicy = &maxmemoryPolicy
 	}
 
-	// Set property ‘MaxmemoryReserved’:
+	// Set property "MaxmemoryReserved":
 	if configuration.MaxmemoryReserved != nil {
 		maxmemoryReserved := *configuration.MaxmemoryReserved
 		result.MaxmemoryReserved = &maxmemoryReserved
 	}
 
-	// Set property ‘RdbBackupEnabled’:
+	// Set property "RdbBackupEnabled":
 	if configuration.RdbBackupEnabled != nil {
 		rdbBackupEnabled := *configuration.RdbBackupEnabled
 		result.RdbBackupEnabled = &rdbBackupEnabled
 	}
 
-	// Set property ‘RdbBackupFrequency’:
+	// Set property "RdbBackupFrequency":
 	if configuration.RdbBackupFrequency != nil {
 		rdbBackupFrequency := *configuration.RdbBackupFrequency
 		result.RdbBackupFrequency = &rdbBackupFrequency
 	}
 
-	// Set property ‘RdbBackupMaxSnapshotCount’:
+	// Set property "RdbBackupMaxSnapshotCount":
 	if configuration.RdbBackupMaxSnapshotCount != nil {
 		rdbBackupMaxSnapshotCount := *configuration.RdbBackupMaxSnapshotCount
 		result.RdbBackupMaxSnapshotCount = &rdbBackupMaxSnapshotCount
 	}
 
-	// Set property ‘RdbStorageConnectionString’:
+	// Set property "RdbStorageConnectionString":
 	if configuration.RdbStorageConnectionString != nil {
 		rdbStorageConnectionString := *configuration.RdbStorageConnectionString
 		result.RdbStorageConnectionString = &rdbStorageConnectionString
@@ -2036,7 +2036,7 @@ func (configuration *RedisCreateProperties_RedisConfiguration) PopulateFromARM(o
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisCreateProperties_RedisConfiguration_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdditionalProperties’:
+	// Set property "AdditionalProperties":
 	if typedInput.AdditionalProperties != nil {
 		configuration.AdditionalProperties = make(map[string]string, len(typedInput.AdditionalProperties))
 		for key, value := range typedInput.AdditionalProperties {
@@ -2044,73 +2044,73 @@ func (configuration *RedisCreateProperties_RedisConfiguration) PopulateFromARM(o
 		}
 	}
 
-	// Set property ‘AofBackupEnabled’:
+	// Set property "AofBackupEnabled":
 	if typedInput.AofBackupEnabled != nil {
 		aofBackupEnabled := *typedInput.AofBackupEnabled
 		configuration.AofBackupEnabled = &aofBackupEnabled
 	}
 
-	// Set property ‘AofStorageConnectionString0’:
+	// Set property "AofStorageConnectionString0":
 	if typedInput.AofStorageConnectionString0 != nil {
 		aofStorageConnectionString0 := *typedInput.AofStorageConnectionString0
 		configuration.AofStorageConnectionString0 = &aofStorageConnectionString0
 	}
 
-	// Set property ‘AofStorageConnectionString1’:
+	// Set property "AofStorageConnectionString1":
 	if typedInput.AofStorageConnectionString1 != nil {
 		aofStorageConnectionString1 := *typedInput.AofStorageConnectionString1
 		configuration.AofStorageConnectionString1 = &aofStorageConnectionString1
 	}
 
-	// Set property ‘Authnotrequired’:
+	// Set property "Authnotrequired":
 	if typedInput.Authnotrequired != nil {
 		authnotrequired := *typedInput.Authnotrequired
 		configuration.Authnotrequired = &authnotrequired
 	}
 
-	// Set property ‘MaxfragmentationmemoryReserved’:
+	// Set property "MaxfragmentationmemoryReserved":
 	if typedInput.MaxfragmentationmemoryReserved != nil {
 		maxfragmentationmemoryReserved := *typedInput.MaxfragmentationmemoryReserved
 		configuration.MaxfragmentationmemoryReserved = &maxfragmentationmemoryReserved
 	}
 
-	// Set property ‘MaxmemoryDelta’:
+	// Set property "MaxmemoryDelta":
 	if typedInput.MaxmemoryDelta != nil {
 		maxmemoryDelta := *typedInput.MaxmemoryDelta
 		configuration.MaxmemoryDelta = &maxmemoryDelta
 	}
 
-	// Set property ‘MaxmemoryPolicy’:
+	// Set property "MaxmemoryPolicy":
 	if typedInput.MaxmemoryPolicy != nil {
 		maxmemoryPolicy := *typedInput.MaxmemoryPolicy
 		configuration.MaxmemoryPolicy = &maxmemoryPolicy
 	}
 
-	// Set property ‘MaxmemoryReserved’:
+	// Set property "MaxmemoryReserved":
 	if typedInput.MaxmemoryReserved != nil {
 		maxmemoryReserved := *typedInput.MaxmemoryReserved
 		configuration.MaxmemoryReserved = &maxmemoryReserved
 	}
 
-	// Set property ‘RdbBackupEnabled’:
+	// Set property "RdbBackupEnabled":
 	if typedInput.RdbBackupEnabled != nil {
 		rdbBackupEnabled := *typedInput.RdbBackupEnabled
 		configuration.RdbBackupEnabled = &rdbBackupEnabled
 	}
 
-	// Set property ‘RdbBackupFrequency’:
+	// Set property "RdbBackupFrequency":
 	if typedInput.RdbBackupFrequency != nil {
 		rdbBackupFrequency := *typedInput.RdbBackupFrequency
 		configuration.RdbBackupFrequency = &rdbBackupFrequency
 	}
 
-	// Set property ‘RdbBackupMaxSnapshotCount’:
+	// Set property "RdbBackupMaxSnapshotCount":
 	if typedInput.RdbBackupMaxSnapshotCount != nil {
 		rdbBackupMaxSnapshotCount := *typedInput.RdbBackupMaxSnapshotCount
 		configuration.RdbBackupMaxSnapshotCount = &rdbBackupMaxSnapshotCount
 	}
 
-	// Set property ‘RdbStorageConnectionString’:
+	// Set property "RdbStorageConnectionString":
 	if typedInput.RdbStorageConnectionString != nil {
 		rdbStorageConnectionString := *typedInput.RdbStorageConnectionString
 		configuration.RdbStorageConnectionString = &rdbStorageConnectionString
@@ -2302,37 +2302,37 @@ func (details *RedisInstanceDetails_STATUS) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisInstanceDetails_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘IsMaster’:
+	// Set property "IsMaster":
 	if typedInput.IsMaster != nil {
 		isMaster := *typedInput.IsMaster
 		details.IsMaster = &isMaster
 	}
 
-	// Set property ‘IsPrimary’:
+	// Set property "IsPrimary":
 	if typedInput.IsPrimary != nil {
 		isPrimary := *typedInput.IsPrimary
 		details.IsPrimary = &isPrimary
 	}
 
-	// Set property ‘NonSslPort’:
+	// Set property "NonSslPort":
 	if typedInput.NonSslPort != nil {
 		nonSslPort := *typedInput.NonSslPort
 		details.NonSslPort = &nonSslPort
 	}
 
-	// Set property ‘ShardId’:
+	// Set property "ShardId":
 	if typedInput.ShardId != nil {
 		shardId := *typedInput.ShardId
 		details.ShardId = &shardId
 	}
 
-	// Set property ‘SslPort’:
+	// Set property "SslPort":
 	if typedInput.SslPort != nil {
 		sslPort := *typedInput.SslPort
 		details.SslPort = &sslPort
 	}
 
-	// Set property ‘Zone’:
+	// Set property "Zone":
 	if typedInput.Zone != nil {
 		zone := *typedInput.Zone
 		details.Zone = &zone
@@ -2441,7 +2441,7 @@ func (server *RedisLinkedServer_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisLinkedServer_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		server.Id = &id
@@ -2626,7 +2626,7 @@ func (configuration *RedisProperties_RedisConfiguration_STATUS) PopulateFromARM(
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisProperties_RedisConfiguration_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdditionalProperties’:
+	// Set property "AdditionalProperties":
 	if typedInput.AdditionalProperties != nil {
 		configuration.AdditionalProperties = make(map[string]string, len(typedInput.AdditionalProperties))
 		for key, value := range typedInput.AdditionalProperties {
@@ -2634,85 +2634,85 @@ func (configuration *RedisProperties_RedisConfiguration_STATUS) PopulateFromARM(
 		}
 	}
 
-	// Set property ‘AofBackupEnabled’:
+	// Set property "AofBackupEnabled":
 	if typedInput.AofBackupEnabled != nil {
 		aofBackupEnabled := *typedInput.AofBackupEnabled
 		configuration.AofBackupEnabled = &aofBackupEnabled
 	}
 
-	// Set property ‘AofStorageConnectionString0’:
+	// Set property "AofStorageConnectionString0":
 	if typedInput.AofStorageConnectionString0 != nil {
 		aofStorageConnectionString0 := *typedInput.AofStorageConnectionString0
 		configuration.AofStorageConnectionString0 = &aofStorageConnectionString0
 	}
 
-	// Set property ‘AofStorageConnectionString1’:
+	// Set property "AofStorageConnectionString1":
 	if typedInput.AofStorageConnectionString1 != nil {
 		aofStorageConnectionString1 := *typedInput.AofStorageConnectionString1
 		configuration.AofStorageConnectionString1 = &aofStorageConnectionString1
 	}
 
-	// Set property ‘Authnotrequired’:
+	// Set property "Authnotrequired":
 	if typedInput.Authnotrequired != nil {
 		authnotrequired := *typedInput.Authnotrequired
 		configuration.Authnotrequired = &authnotrequired
 	}
 
-	// Set property ‘Maxclients’:
+	// Set property "Maxclients":
 	if typedInput.Maxclients != nil {
 		maxclients := *typedInput.Maxclients
 		configuration.Maxclients = &maxclients
 	}
 
-	// Set property ‘MaxfragmentationmemoryReserved’:
+	// Set property "MaxfragmentationmemoryReserved":
 	if typedInput.MaxfragmentationmemoryReserved != nil {
 		maxfragmentationmemoryReserved := *typedInput.MaxfragmentationmemoryReserved
 		configuration.MaxfragmentationmemoryReserved = &maxfragmentationmemoryReserved
 	}
 
-	// Set property ‘MaxmemoryDelta’:
+	// Set property "MaxmemoryDelta":
 	if typedInput.MaxmemoryDelta != nil {
 		maxmemoryDelta := *typedInput.MaxmemoryDelta
 		configuration.MaxmemoryDelta = &maxmemoryDelta
 	}
 
-	// Set property ‘MaxmemoryPolicy’:
+	// Set property "MaxmemoryPolicy":
 	if typedInput.MaxmemoryPolicy != nil {
 		maxmemoryPolicy := *typedInput.MaxmemoryPolicy
 		configuration.MaxmemoryPolicy = &maxmemoryPolicy
 	}
 
-	// Set property ‘MaxmemoryReserved’:
+	// Set property "MaxmemoryReserved":
 	if typedInput.MaxmemoryReserved != nil {
 		maxmemoryReserved := *typedInput.MaxmemoryReserved
 		configuration.MaxmemoryReserved = &maxmemoryReserved
 	}
 
-	// Set property ‘RdbBackupEnabled’:
+	// Set property "RdbBackupEnabled":
 	if typedInput.RdbBackupEnabled != nil {
 		rdbBackupEnabled := *typedInput.RdbBackupEnabled
 		configuration.RdbBackupEnabled = &rdbBackupEnabled
 	}
 
-	// Set property ‘RdbBackupFrequency’:
+	// Set property "RdbBackupFrequency":
 	if typedInput.RdbBackupFrequency != nil {
 		rdbBackupFrequency := *typedInput.RdbBackupFrequency
 		configuration.RdbBackupFrequency = &rdbBackupFrequency
 	}
 
-	// Set property ‘RdbBackupMaxSnapshotCount’:
+	// Set property "RdbBackupMaxSnapshotCount":
 	if typedInput.RdbBackupMaxSnapshotCount != nil {
 		rdbBackupMaxSnapshotCount := *typedInput.RdbBackupMaxSnapshotCount
 		configuration.RdbBackupMaxSnapshotCount = &rdbBackupMaxSnapshotCount
 	}
 
-	// Set property ‘RdbStorageConnectionString’:
+	// Set property "RdbStorageConnectionString":
 	if typedInput.RdbStorageConnectionString != nil {
 		rdbStorageConnectionString := *typedInput.RdbStorageConnectionString
 		configuration.RdbStorageConnectionString = &rdbStorageConnectionString
 	}
 
-	// Set property ‘ZonalConfiguration’:
+	// Set property "ZonalConfiguration":
 	if typedInput.ZonalConfiguration != nil {
 		zonalConfiguration := *typedInput.ZonalConfiguration
 		configuration.ZonalConfiguration = &zonalConfiguration
@@ -2860,19 +2860,19 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	}
 	result := &Sku_ARM{}
 
-	// Set property ‘Capacity’:
+	// Set property "Capacity":
 	if sku.Capacity != nil {
 		capacity := *sku.Capacity
 		result.Capacity = &capacity
 	}
 
-	// Set property ‘Family’:
+	// Set property "Family":
 	if sku.Family != nil {
 		family := *sku.Family
 		result.Family = &family
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if sku.Name != nil {
 		name := *sku.Name
 		result.Name = &name
@@ -2892,19 +2892,19 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Capacity’:
+	// Set property "Capacity":
 	if typedInput.Capacity != nil {
 		capacity := *typedInput.Capacity
 		sku.Capacity = &capacity
 	}
 
-	// Set property ‘Family’:
+	// Set property "Family":
 	if typedInput.Family != nil {
 		family := *typedInput.Family
 		sku.Family = &family
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		sku.Name = &name
@@ -3028,19 +3028,19 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Capacity’:
+	// Set property "Capacity":
 	if typedInput.Capacity != nil {
 		capacity := *typedInput.Capacity
 		sku.Capacity = &capacity
 	}
 
-	// Set property ‘Family’:
+	// Set property "Family":
 	if typedInput.Family != nil {
 		family := *typedInput.Family
 		sku.Family = &family
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		sku.Name = &name

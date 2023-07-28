@@ -319,10 +319,10 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &FakeResource_Spec_ARM{}
 
-	// Set property ‘APIVersion’:
+	// Set property "APIVersion":
 	result.APIVersion = resource.APIVersion
 
-	// Set property ‘JsonObject’:
+	// Set property "JsonObject":
 	if resource.JsonObject != nil {
 		result.JsonObject = make(map[string]v1.JSON, len(resource.JsonObject))
 		for key, value := range resource.JsonObject {
@@ -330,22 +330,22 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		}
 	}
 
-	// Set property ‘MandatoryJson’:
+	// Set property "MandatoryJson":
 	if resource.MandatoryJson != nil {
 		mandatoryJson := *(*resource.MandatoryJson).DeepCopy()
 		result.MandatoryJson = &mandatoryJson
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘OptionalJson’:
+	// Set property "OptionalJson":
 	if resource.OptionalJson != nil {
 		optionalJson := *(*resource.OptionalJson).DeepCopy()
 		result.OptionalJson = &optionalJson
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	result.Type = resource.Type
 	return result, nil
 }
@@ -362,13 +362,13 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘APIVersion’:
+	// Set property "APIVersion":
 	resource.APIVersion = typedInput.APIVersion
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	resource.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘JsonObject’:
+	// Set property "JsonObject":
 	if typedInput.JsonObject != nil {
 		resource.JsonObject = make(map[string]v1.JSON, len(typedInput.JsonObject))
 		for key, value := range typedInput.JsonObject {
@@ -376,22 +376,22 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘MandatoryJson’:
+	// Set property "MandatoryJson":
 	if typedInput.MandatoryJson != nil {
 		mandatoryJson := *(*typedInput.MandatoryJson).DeepCopy()
 		resource.MandatoryJson = &mandatoryJson
 	}
 
-	// Set property ‘OptionalJson’:
+	// Set property "OptionalJson":
 	if typedInput.OptionalJson != nil {
 		optionalJson := *(*typedInput.OptionalJson).DeepCopy()
 		resource.OptionalJson = &optionalJson
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	resource.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	resource.Type = typedInput.Type
 
 	// No error

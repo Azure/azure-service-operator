@@ -332,16 +332,16 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &FakeResource_Spec_ARM{}
 
-	// Set property ‘APIVersion’:
+	// Set property "APIVersion":
 	result.APIVersion = resource.APIVersion
 
-	// Set property ‘Color’:
+	// Set property "Color":
 	if resource.Color != nil {
 		color := *resource.Color
 		result.Color = &color
 	}
 
-	// Set property ‘Foo’:
+	// Set property "Foo":
 	if resource.Foo != nil {
 		foo_ARM, err := (*resource.Foo).ConvertToARM(resolved)
 		if err != nil {
@@ -351,10 +351,10 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Foo = &foo
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘OptionalFoo’:
+	// Set property "OptionalFoo":
 	if resource.OptionalFoo != nil {
 		optionalFoo_ARM, err := (*resource.OptionalFoo).ConvertToARM(resolved)
 		if err != nil {
@@ -364,7 +364,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.OptionalFoo = &optionalFoo
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	result.Type = resource.Type
 	return result, nil
 }
@@ -381,19 +381,19 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘APIVersion’:
+	// Set property "APIVersion":
 	resource.APIVersion = typedInput.APIVersion
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	resource.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Color’:
+	// Set property "Color":
 	if typedInput.Color != nil {
 		color := *typedInput.Color
 		resource.Color = &color
 	}
 
-	// Set property ‘Foo’:
+	// Set property "Foo":
 	if typedInput.Foo != nil {
 		var foo1 Foo
 		err := foo1.PopulateFromARM(owner, *typedInput.Foo)
@@ -404,7 +404,7 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		resource.Foo = &foo
 	}
 
-	// Set property ‘OptionalFoo’:
+	// Set property "OptionalFoo":
 	if typedInput.OptionalFoo != nil {
 		var optionalFoo1 Foo
 		err := optionalFoo1.PopulateFromARM(owner, *typedInput.OptionalFoo)
@@ -415,10 +415,10 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		resource.OptionalFoo = &optionalFoo
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	resource.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	resource.Type = typedInput.Type
 
 	// No error
@@ -641,7 +641,7 @@ func (foo *Foo) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	}
 	result := &Foo_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if foo.Name != nil {
 		name := *foo.Name
 		result.Name = &name
@@ -661,7 +661,7 @@ func (foo *Foo) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Foo_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		foo.Name = &name

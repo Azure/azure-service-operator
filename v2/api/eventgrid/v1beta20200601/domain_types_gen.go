@@ -344,16 +344,16 @@ func (domain *Domain_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	}
 	result := &Domain_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if domain.Location != nil {
 		location := *domain.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if domain.InboundIpRules != nil ||
 		domain.InputSchema != nil ||
 		domain.InputSchemaMapping != nil ||
@@ -384,7 +384,7 @@ func (domain *Domain_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if domain.Tags != nil {
 		result.Tags = make(map[string]string, len(domain.Tags))
 		for key, value := range domain.Tags {
@@ -406,10 +406,10 @@ func (domain *Domain_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Domain_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	domain.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘InboundIpRules’:
+	// Set property "InboundIpRules":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.InboundIpRules {
@@ -422,7 +422,7 @@ func (domain *Domain_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘InputSchema’:
+	// Set property "InputSchema":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.InputSchema != nil {
@@ -431,7 +431,7 @@ func (domain *Domain_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘InputSchemaMapping’:
+	// Set property "InputSchemaMapping":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.InputSchemaMapping != nil {
@@ -445,16 +445,16 @@ func (domain *Domain_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		domain.Location = &location
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	domain.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
@@ -463,7 +463,7 @@ func (domain *Domain_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		domain.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -769,9 +769,9 @@ func (domain *Domain_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Domain_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Endpoint’:
+	// Set property "Endpoint":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Endpoint != nil {
@@ -780,13 +780,13 @@ func (domain *Domain_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		domain.Id = &id
 	}
 
-	// Set property ‘InboundIpRules’:
+	// Set property "InboundIpRules":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.InboundIpRules {
@@ -799,7 +799,7 @@ func (domain *Domain_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘InputSchema’:
+	// Set property "InputSchema":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.InputSchema != nil {
@@ -808,7 +808,7 @@ func (domain *Domain_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘InputSchemaMapping’:
+	// Set property "InputSchemaMapping":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.InputSchemaMapping != nil {
@@ -822,13 +822,13 @@ func (domain *Domain_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		domain.Location = &location
 	}
 
-	// Set property ‘MetricResourceId’:
+	// Set property "MetricResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MetricResourceId != nil {
@@ -837,13 +837,13 @@ func (domain *Domain_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		domain.Name = &name
 	}
 
-	// Set property ‘PrivateEndpointConnections’:
+	// Set property "PrivateEndpointConnections":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PrivateEndpointConnections {
@@ -856,7 +856,7 @@ func (domain *Domain_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -865,7 +865,7 @@ func (domain *Domain_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
@@ -874,7 +874,7 @@ func (domain *Domain_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -885,7 +885,7 @@ func (domain *Domain_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		domain.SystemData = &systemData
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		domain.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -893,7 +893,7 @@ func (domain *Domain_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		domain.Type = &typeVar
@@ -1208,13 +1208,13 @@ func (rule *InboundIpRule) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	}
 	result := &InboundIpRule_ARM{}
 
-	// Set property ‘Action’:
+	// Set property "Action":
 	if rule.Action != nil {
 		action := *rule.Action
 		result.Action = &action
 	}
 
-	// Set property ‘IpMask’:
+	// Set property "IpMask":
 	if rule.IpMask != nil {
 		ipMask := *rule.IpMask
 		result.IpMask = &ipMask
@@ -1234,13 +1234,13 @@ func (rule *InboundIpRule) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InboundIpRule_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Action’:
+	// Set property "Action":
 	if typedInput.Action != nil {
 		action := *typedInput.Action
 		rule.Action = &action
 	}
 
-	// Set property ‘IpMask’:
+	// Set property "IpMask":
 	if typedInput.IpMask != nil {
 		ipMask := *typedInput.IpMask
 		rule.IpMask = &ipMask
@@ -1315,13 +1315,13 @@ func (rule *InboundIpRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InboundIpRule_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Action’:
+	// Set property "Action":
 	if typedInput.Action != nil {
 		action := *typedInput.Action
 		rule.Action = &action
 	}
 
-	// Set property ‘IpMask’:
+	// Set property "IpMask":
 	if typedInput.IpMask != nil {
 		ipMask := *typedInput.IpMask
 		rule.IpMask = &ipMask
@@ -1390,7 +1390,7 @@ func (mapping *InputSchemaMapping) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &InputSchemaMapping_ARM{}
 
-	// Set property ‘Json’:
+	// Set property "Json":
 	if mapping.Json != nil {
 		json_ARM, err := (*mapping.Json).ConvertToARM(resolved)
 		if err != nil {
@@ -1414,7 +1414,7 @@ func (mapping *InputSchemaMapping) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InputSchemaMapping_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Json’:
+	// Set property "Json":
 	if typedInput.Json != nil {
 		var json1 JsonInputSchemaMapping
 		err := json1.PopulateFromARM(owner, *typedInput.Json)
@@ -1495,7 +1495,7 @@ func (mapping *InputSchemaMapping_STATUS) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InputSchemaMapping_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Json’:
+	// Set property "Json":
 	if typedInput.Json != nil {
 		var json1 JsonInputSchemaMapping_STATUS
 		err := json1.PopulateFromARM(owner, *typedInput.Json)
@@ -1576,7 +1576,7 @@ func (embedded *PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded) Pop
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		embedded.Id = &id
@@ -1639,37 +1639,37 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CreatedAt’:
+	// Set property "CreatedAt":
 	if typedInput.CreatedAt != nil {
 		createdAt := *typedInput.CreatedAt
 		data.CreatedAt = &createdAt
 	}
 
-	// Set property ‘CreatedBy’:
+	// Set property "CreatedBy":
 	if typedInput.CreatedBy != nil {
 		createdBy := *typedInput.CreatedBy
 		data.CreatedBy = &createdBy
 	}
 
-	// Set property ‘CreatedByType’:
+	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
 		createdByType := *typedInput.CreatedByType
 		data.CreatedByType = &createdByType
 	}
 
-	// Set property ‘LastModifiedAt’:
+	// Set property "LastModifiedAt":
 	if typedInput.LastModifiedAt != nil {
 		lastModifiedAt := *typedInput.LastModifiedAt
 		data.LastModifiedAt = &lastModifiedAt
 	}
 
-	// Set property ‘LastModifiedBy’:
+	// Set property "LastModifiedBy":
 	if typedInput.LastModifiedBy != nil {
 		lastModifiedBy := *typedInput.LastModifiedBy
 		data.LastModifiedBy = &lastModifiedBy
 	}
 
-	// Set property ‘LastModifiedByType’:
+	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
 		lastModifiedByType := *typedInput.LastModifiedByType
 		data.LastModifiedByType = &lastModifiedByType
@@ -1791,12 +1791,12 @@ func (mapping *JsonInputSchemaMapping) ConvertToARM(resolved genruntime.ConvertT
 	}
 	result := &JsonInputSchemaMapping_ARM{}
 
-	// Set property ‘InputSchemaMappingType’:
+	// Set property "InputSchemaMappingType":
 	if mapping.InputSchemaMappingType != nil {
 		result.InputSchemaMappingType = *mapping.InputSchemaMappingType
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if mapping.DataVersion != nil ||
 		mapping.EventTime != nil ||
 		mapping.EventType != nil ||
@@ -1868,7 +1868,7 @@ func (mapping *JsonInputSchemaMapping) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected JsonInputSchemaMapping_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DataVersion’:
+	// Set property "DataVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DataVersion != nil {
@@ -1882,7 +1882,7 @@ func (mapping *JsonInputSchemaMapping) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘EventTime’:
+	// Set property "EventTime":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EventTime != nil {
@@ -1896,7 +1896,7 @@ func (mapping *JsonInputSchemaMapping) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘EventType’:
+	// Set property "EventType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EventType != nil {
@@ -1910,7 +1910,7 @@ func (mapping *JsonInputSchemaMapping) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Id != nil {
@@ -1924,10 +1924,10 @@ func (mapping *JsonInputSchemaMapping) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘InputSchemaMappingType’:
+	// Set property "InputSchemaMappingType":
 	mapping.InputSchemaMappingType = &typedInput.InputSchemaMappingType
 
-	// Set property ‘Subject’:
+	// Set property "Subject":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Subject != nil {
@@ -1941,7 +1941,7 @@ func (mapping *JsonInputSchemaMapping) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘Topic’:
+	// Set property "Topic":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Topic != nil {
@@ -2167,7 +2167,7 @@ func (mapping *JsonInputSchemaMapping_STATUS) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected JsonInputSchemaMapping_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DataVersion’:
+	// Set property "DataVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DataVersion != nil {
@@ -2181,7 +2181,7 @@ func (mapping *JsonInputSchemaMapping_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘EventTime’:
+	// Set property "EventTime":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EventTime != nil {
@@ -2195,7 +2195,7 @@ func (mapping *JsonInputSchemaMapping_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘EventType’:
+	// Set property "EventType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EventType != nil {
@@ -2209,7 +2209,7 @@ func (mapping *JsonInputSchemaMapping_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Id != nil {
@@ -2223,10 +2223,10 @@ func (mapping *JsonInputSchemaMapping_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘InputSchemaMappingType’:
+	// Set property "InputSchemaMappingType":
 	mapping.InputSchemaMappingType = &typedInput.InputSchemaMappingType
 
-	// Set property ‘Subject’:
+	// Set property "Subject":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Subject != nil {
@@ -2240,7 +2240,7 @@ func (mapping *JsonInputSchemaMapping_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘Topic’:
+	// Set property "Topic":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Topic != nil {
@@ -2455,7 +2455,7 @@ func (field *JsonField) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	}
 	result := &JsonField_ARM{}
 
-	// Set property ‘SourceField’:
+	// Set property "SourceField":
 	if field.SourceField != nil {
 		sourceField := *field.SourceField
 		result.SourceField = &sourceField
@@ -2475,7 +2475,7 @@ func (field *JsonField) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected JsonField_ARM, got %T", armInput)
 	}
 
-	// Set property ‘SourceField’:
+	// Set property "SourceField":
 	if typedInput.SourceField != nil {
 		sourceField := *typedInput.SourceField
 		field.SourceField = &sourceField
@@ -2533,7 +2533,7 @@ func (field *JsonField_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected JsonField_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘SourceField’:
+	// Set property "SourceField":
 	if typedInput.SourceField != nil {
 		sourceField := *typedInput.SourceField
 		field.SourceField = &sourceField
@@ -2587,13 +2587,13 @@ func (withDefault *JsonFieldWithDefault) ConvertToARM(resolved genruntime.Conver
 	}
 	result := &JsonFieldWithDefault_ARM{}
 
-	// Set property ‘DefaultValue’:
+	// Set property "DefaultValue":
 	if withDefault.DefaultValue != nil {
 		defaultValue := *withDefault.DefaultValue
 		result.DefaultValue = &defaultValue
 	}
 
-	// Set property ‘SourceField’:
+	// Set property "SourceField":
 	if withDefault.SourceField != nil {
 		sourceField := *withDefault.SourceField
 		result.SourceField = &sourceField
@@ -2613,13 +2613,13 @@ func (withDefault *JsonFieldWithDefault) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected JsonFieldWithDefault_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DefaultValue’:
+	// Set property "DefaultValue":
 	if typedInput.DefaultValue != nil {
 		defaultValue := *typedInput.DefaultValue
 		withDefault.DefaultValue = &defaultValue
 	}
 
-	// Set property ‘SourceField’:
+	// Set property "SourceField":
 	if typedInput.SourceField != nil {
 		sourceField := *typedInput.SourceField
 		withDefault.SourceField = &sourceField
@@ -2684,13 +2684,13 @@ func (withDefault *JsonFieldWithDefault_STATUS) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected JsonFieldWithDefault_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DefaultValue’:
+	// Set property "DefaultValue":
 	if typedInput.DefaultValue != nil {
 		defaultValue := *typedInput.DefaultValue
 		withDefault.DefaultValue = &defaultValue
 	}
 
-	// Set property ‘SourceField’:
+	// Set property "SourceField":
 	if typedInput.SourceField != nil {
 		sourceField := *typedInput.SourceField
 		withDefault.SourceField = &sourceField

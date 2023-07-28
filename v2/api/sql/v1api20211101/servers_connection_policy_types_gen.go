@@ -324,10 +324,10 @@ func (policy *Servers_ConnectionPolicy_Spec) ConvertToARM(resolved genruntime.Co
 	}
 	result := &Servers_ConnectionPolicy_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if policy.ConnectionType != nil {
 		result.Properties = &ServerConnectionPolicyProperties_ARM{}
 	}
@@ -350,7 +350,7 @@ func (policy *Servers_ConnectionPolicy_Spec) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_ConnectionPolicy_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ConnectionType’:
+	// Set property "ConnectionType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ConnectionType != nil {
@@ -359,7 +359,7 @@ func (policy *Servers_ConnectionPolicy_Spec) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	policy.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// No error
@@ -581,9 +581,9 @@ func (policy *Servers_ConnectionPolicy_STATUS) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_ConnectionPolicy_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘ConnectionType’:
+	// Set property "ConnectionType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ConnectionType != nil {
@@ -592,31 +592,31 @@ func (policy *Servers_ConnectionPolicy_STATUS) PopulateFromARM(owner genruntime.
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		policy.Id = &id
 	}
 
-	// Set property ‘Kind’:
+	// Set property "Kind":
 	if typedInput.Kind != nil {
 		kind := *typedInput.Kind
 		policy.Kind = &kind
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		policy.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		policy.Name = &name
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		policy.Type = &typeVar

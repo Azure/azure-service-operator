@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -55,11 +56,12 @@ func newConvertFromARMFunctionBuilder(
 	result.locals.Add(result.receiverIdent)
 
 	// It's a bit awkward that there are two levels of "handler" here, but they serve different purposes:
-	// The top level propertyConversionHandlers is about determining which properties are involved: given a property on the destination type it
-	// determines which property (if any) on the source type will be converted to the destination.
+	// The top level propertyConversionHandlers is about determining which properties are involved: given a property on
+	// the destination type it determines which property (if any) on the source type will be converted to the
+	// destination.
 	// The "inner" handler (typeConversionBuilder) is about determining how to convert between two types: given a
-	// source type and a destination type, figure out how to make the assignment work. It has no knowledge of broader object structure
-	// or other properties.
+	// source type and a destination type, figure out how to make the assignment work. It has no knowledge of broader
+	// object structure or other properties.
 	result.typeConversionBuilder.AddConversionHandlers(result.convertComplexTypeNameProperty)
 	result.propertyConversionHandlers = []propertyConversionHandler{
 		// Handlers for specific properties come first
@@ -80,12 +82,17 @@ func newConvertFromARMFunctionBuilder(
 	return result
 }
 
-func (builder *convertFromARMBuilder) functionDeclaration() *dst.FuncDecl {
+func (builder *convertFromARMBuilder) functionDeclaration() (*dst.FuncDecl, error) {
+	body, err := builder.functionBodyStatements()
+	if err != nil {
+		return nil, err
+	}
+
 	fn := &astbuilder.FuncDetails{
 		Name:          builder.methodName,
 		ReceiverIdent: builder.receiverIdent,
 		ReceiverType:  astbuilder.PointerTo(builder.receiverTypeExpr),
-		Body:          builder.functionBodyStatements(),
+		Body:          body,
 	}
 
 	fn.AddComments("populates a Kubernetes CRD object from an Azure ARM object")
@@ -95,14 +102,17 @@ func (builder *convertFromARMBuilder) functionDeclaration() *dst.FuncDecl {
 
 	fn.AddParameter(builder.inputIdent, dst.NewIdent("interface{}"))
 	fn.AddReturns("error")
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
-func (builder *convertFromARMBuilder) functionBodyStatements() []dst.Stmt {
-	conversionStmts := generateTypeConversionAssignments(
+func (builder *convertFromARMBuilder) functionBodyStatements() ([]dst.Stmt, error) {
+	conversionStmts, err := generateTypeConversionAssignments(
 		builder.armType,
 		builder.kubeType,
 		builder.propertyConversionHandler)
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to generate conversion statements for %s", builder.methodName)
+	}
 
 	// We remove empty statements here as they may have been used to store comments or other
 	// notes about properties which were not transformed. We want to keep these statements in the
@@ -115,7 +125,7 @@ func (builder *convertFromARMBuilder) functionBodyStatements() []dst.Stmt {
 	return astbuilder.Statements(
 		assertStmts,
 		conversionStmts,
-		astbuilder.ReturnNoError())
+		astbuilder.ReturnNoError()), nil
 }
 
 func (builder *convertFromARMBuilder) assertInputTypeIsARM(needsResult bool) []dst.Stmt {
@@ -155,15 +165,15 @@ func (builder *convertFromARMBuilder) assertInputTypeIsARM(needsResult bool) []d
 func (builder *convertFromARMBuilder) namePropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	fromType *astmodel.ObjectType,
-) ([]dst.Stmt, bool) {
+) (propertyConversionHandlerResult, error) {
 	if builder.typeKind != TypeKindSpec || !toProp.HasName(astmodel.AzureNameProperty) {
-		return nil, false
+		return notHandled, nil
 	}
 
 	// Check to make sure that the ARM object has a "Name" property (which matches our "AzureName")
 	fromProp, ok := fromType.Property("Name")
 	if !ok {
-		panic("ARM resource missing property 'Name'")
+		return notHandled, errors.New("ARM resource missing property 'Name'")
 	}
 
 	// Invoke SetAzureName(ExtractKubernetesResourceNameFromARMName(this.Name)):
@@ -175,78 +185,77 @@ func (builder *convertFromARMBuilder) namePropertyHandler(
 			"ExtractKubernetesResourceNameFromARMName",
 			astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName()))))
 
-	return astbuilder.Statements(
-		setAzureName), true
+	return handleWith(setAzureName), nil
 }
 
 func (builder *convertFromARMBuilder) userAssignedIdentitiesPropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	_ *astmodel.ObjectType,
-) ([]dst.Stmt, bool) {
+) (propertyConversionHandlerResult, error) {
 	if _, ok := astmodel.IsUserAssignedIdentityProperty(toProp); !ok {
-		return nil, false
+		return notHandled, nil
 	}
 
 	// TODO: For now we are not assigning these, as we don't know how to rebuild the reference
-	return nil, true
+	return handledWithNoOp, nil
 }
 
 func (builder *convertFromARMBuilder) referencePropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	_ *astmodel.ObjectType,
-) ([]dst.Stmt, bool) {
+) (propertyConversionHandlerResult, error) {
 	if !astmodel.IsTypeResourceReference(toProp.PropertyType()) {
-		return nil, false
+		return notHandled, nil
 	}
 
 	// TODO: For now, we are NOT assigning to these. _Status types don't have them and it's unclear what
 	// TODO: the fromARM functions do for us on Spec types. We may need them for diffing though. If so we will
 	// TODO: need to revisit this and actually assign something
-	return nil, true
+	return handledWithNoOp, nil
 }
 
 func (builder *convertFromARMBuilder) secretPropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	_ *astmodel.ObjectType,
-) ([]dst.Stmt, bool) {
+) (propertyConversionHandlerResult, error) {
 	isSecretReference := astmodel.TypeEquals(toProp.PropertyType(), astmodel.SecretReferenceType)
 	isOptionalSecretReference := astmodel.TypeEquals(toProp.PropertyType(), astmodel.OptionalSecretReferenceType)
 
 	if !isSecretReference && !isOptionalSecretReference {
-		return nil, false
+		return notHandled, nil
 	}
 
 	// TODO: For now, we are NOT assigning to these. _Status types don't have them and it's unclear what
 	// TODO: the fromARM functions do for us on Spec types. We may need them for diffing though. If so we will
 	// TODO: need to revisit this and actually assign something
-	return nil, true
+	return handledWithNoOp, nil
 }
 
 func (builder *convertFromARMBuilder) configMapPropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	_ *astmodel.ObjectType,
-) ([]dst.Stmt, bool) {
+) (propertyConversionHandlerResult, error) {
 	isConfigMapReference := astmodel.TypeEquals(toProp.PropertyType(), astmodel.ConfigMapReferenceType)
 	isConfigMapReferencePtr := astmodel.TypeEquals(toProp.PropertyType(), astmodel.OptionalConfigMapReferenceType)
 
 	if !isConfigMapReference && !isConfigMapReferencePtr {
-		return nil, false
+		return notHandled, nil
 	}
 
 	// TODO: For now, we are NOT assigning to these. _Status types don't have them and it's unclear what
 	// TODO: the fromARM functions do for us on Spec types. We may need them for diffing though. If so we will
 	// TODO: need to revisit this and actually assign something
-	return nil, true
+	return handledWithNoOp, nil
 }
 
 func (builder *convertFromARMBuilder) ownerPropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	_ *astmodel.ObjectType,
-) ([]dst.Stmt, bool) {
+) (propertyConversionHandlerResult, error) {
 	ownerParameter := builder.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported)
 	ownerProp := builder.idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported)
 	if toProp.PropertyName() != ownerProp || builder.typeKind != TypeKindSpec {
-		return nil, false
+		return notHandled, nil
 	}
 
 	// Confirm that the destination type is the type we expect
@@ -258,7 +267,11 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 		var armDescription strings.Builder
 		builder.armType.WriteDebugDescription(&armDescription, nil)
 
-		panic(fmt.Sprintf("Owner property was not of type TypeName. Kube: %s, ARM: %s", kubeDescription.String(), armDescription.String()))
+		return notHandled,
+			errors.Errorf(
+				"owner property was not of type TypeName. Kube: %s, ARM: %s",
+				kubeDescription.String(),
+				armDescription.String())
 	}
 
 	var convertedOwner dst.Expr
@@ -269,7 +282,10 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 	} else if ownerNameType == astmodel.ArbitraryOwnerReference {
 		convertedOwner = astbuilder.AddrOf(dst.NewIdent(ownerParameter))
 	} else {
-		panic(fmt.Sprintf("found Owner property on spec with unexpected TypeName %s", ownerNameType.String()))
+		return notHandled,
+			errors.Errorf(
+				"found Owner property on spec with unexpected TypeName %s",
+				ownerNameType.String())
 	}
 
 	setOwner := astbuilder.QualifiedAssignment(
@@ -278,7 +294,7 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 		token.ASSIGN,
 		convertedOwner)
 
-	return astbuilder.Statements(setOwner), true
+	return handleWith(setOwner), nil
 }
 
 // conditionsPropertyHandler generates conversions for the "Conditions" status property. This property is set by the controller
@@ -286,13 +302,13 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 func (builder *convertFromARMBuilder) conditionsPropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	_ *astmodel.ObjectType,
-) ([]dst.Stmt, bool) {
+) (propertyConversionHandlerResult, error) {
 	isPropConditions := toProp.PropertyName() == builder.idFactory.CreatePropertyName(astmodel.ConditionsProperty, astmodel.Exported)
 	if !isPropConditions || builder.typeKind != TypeKindStatus {
-		return nil, false
+		return notHandled, nil
 	}
 
-	return nil, true
+	return handledWithNoOp, nil
 }
 
 // operatorSpecPropertyHandler generates conversions for the "OperatorSpec" property.
@@ -302,12 +318,12 @@ func (builder *convertFromARMBuilder) conditionsPropertyHandler(
 func (builder *convertFromARMBuilder) operatorSpecPropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	_ *astmodel.ObjectType,
-) ([]dst.Stmt, bool) {
+) (propertyConversionHandlerResult, error) {
 	if toProp.PropertyName() != astmodel.OperatorSpecProperty || builder.typeKind != TypeKindSpec {
-		return nil, false
+		return notHandled, nil
 	}
 
-	return nil, true
+	return handledWithNoOp, nil
 }
 
 // flattenedPropertyHandler generates conversions for properties that
@@ -324,21 +340,36 @@ func (builder *convertFromARMBuilder) operatorSpecPropertyHandler(
 func (builder *convertFromARMBuilder) flattenedPropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	fromType *astmodel.ObjectType,
-) ([]dst.Stmt, bool) {
+) (propertyConversionHandlerResult, error) {
 	if !toProp.WasFlattened() {
-		return nil, false
+		return notHandled, nil
 	}
 
 	for _, fromProp := range fromType.Properties().Copy() {
 		if toProp.WasFlattenedFrom(fromProp.PropertyName()) {
-			return builder.buildFlattenedAssignment(toProp, fromProp), true
+			result, err := builder.buildFlattenedAssignment(toProp, fromProp)
+			if err != nil {
+				return notHandled,
+					errors.Wrapf(err,
+						"failed to build flattened assignment for property %s",
+						toProp.PropertyName())
+			}
+
+			return result, nil
 		}
 	}
 
-	panic(fmt.Sprintf("couldn’t find source ARM property ‘%s’ that k8s property ‘%s’ was flattened from", toProp.FlattenedFrom()[0], toProp.PropertyName()))
+	return notHandled,
+		errors.Errorf(
+			"couldn’t find source ARM property %q that k8s property %q was flattened from",
+			toProp.FlattenedFrom()[0],
+			toProp.PropertyName())
 }
 
-func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.PropertyDefinition, fromProp *astmodel.PropertyDefinition) []dst.Stmt {
+func (builder *convertFromARMBuilder) buildFlattenedAssignment(
+	toProp *astmodel.PropertyDefinition,
+	fromProp *astmodel.PropertyDefinition,
+) (propertyConversionHandlerResult, error) {
 	if len(toProp.FlattenedFrom()) > 2 {
 		// this doesn't appear to happen anywhere in the JSON schemas currently
 
@@ -347,15 +378,17 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.
 			props = append(props, string(ff))
 		}
 
-		panic(fmt.Sprintf("need to implement multiple levels of flattening: property ‘%s’ on %s was flattened from ‘%s’",
-			toProp.PropertyName(),
-			builder.receiverIdent,
-			strings.Join(props, ".")))
+		return notHandled,
+			errors.Errorf(
+				"need to implement multiple levels of flattening: property %q on %s was flattened from %q",
+				toProp.PropertyName(),
+				builder.receiverIdent,
+				strings.Join(props, "."))
 	}
 
 	allDefs := builder.codeGenerationContext.GetAllReachableDefinitions()
 
-	// the from shape here must be:
+	// the 'from' shape here must be:
 	// 1. maybe a typename, pointing to…
 	// 2. maybe optional, wrapping …
 	// 3. maybe a typename, pointing to…
@@ -364,7 +397,11 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.
 	// (1.) resolve any outer typename
 	fromPropType, err := allDefs.FullyResolve(fromProp.PropertyType())
 	if err != nil {
-		panic(err)
+		return notHandled,
+			errors.Wrapf(
+				err,
+				"failed to resolve type for property %s",
+				fromProp.PropertyName())
 	}
 
 	var fromPropObjType *astmodel.ObjectType
@@ -374,9 +411,14 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.
 	if fromPropOptType, ok := fromPropType.(*astmodel.OptionalType); ok {
 		generateNilCheck = true
 		// (3.) resolve any inner typename
-		elementType, err := allDefs.FullyResolve(fromPropOptType.Element())
+		var elementType astmodel.Type
+		elementType, err = allDefs.FullyResolve(fromPropOptType.Element())
 		if err != nil {
-			panic(err)
+			return notHandled,
+				errors.Wrapf(
+					err,
+					"failed to resolve type for property %s",
+					fromProp.PropertyName())
 		}
 
 		// (4.) resolve the inner object type
@@ -388,9 +430,11 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.
 
 	if !objOk {
 		// see pipeline_flatten_properties.go:flattenPropType which will only flatten from (optional) object types
-		panic(fmt.Sprintf("property ‘%s’ marked as flattened from non-object type %T, which shouldn’t be possible",
-			toProp.PropertyName(),
-			fromPropType))
+		return notHandled,
+			errors.Errorf(
+				"property %q marked as flattened from non-object type %T, which shouldn’t be possible",
+				toProp.PropertyName(),
+				fromPropType)
 	}
 
 	// *** Now generate the code! ***
@@ -398,7 +442,11 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.
 	originalPropName := toPropFlattenedFrom[len(toPropFlattenedFrom)-1]
 	nestedProp, ok := fromPropObjType.Property(originalPropName)
 	if !ok {
-		panic("couldn't find source of flattened property")
+		return notHandled,
+			errors.Errorf(
+				"couldn't find source of flattened property %q on %s",
+				toProp.PropertyName(),
+				builder.receiverIdent)
 	}
 
 	// need to make a clone of builder.locals if we are going to nest in an if statement
@@ -407,7 +455,7 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.
 		locals = locals.Clone()
 	}
 
-	stmts := builder.typeConversionBuilder.BuildConversion(
+	stmts, err := builder.typeConversionBuilder.BuildConversion(
 		astmodel.ConversionParameters{
 			Source:            astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName()), string(originalPropName)),
 			SourceType:        nestedProp.PropertyType(),
@@ -418,10 +466,17 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.
 			AssignmentHandler: nil,
 			Locals:            locals,
 		})
+	if err != nil {
+		return notHandled,
+			errors.Wrapf(
+				err,
+				"failed to generate conversion for flattened property %s",
+				toProp.PropertyName())
+	}
 
 	// we were unable to generate an inner conversion, so we cannot generate the overall conversion
 	if len(stmts) == 0 {
-		return nil
+		return notHandled, nil
 	}
 
 	if generateNilCheck {
@@ -430,7 +485,7 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.
 			astbuilder.IfNotNil(propToCheck, stmts...))
 	}
 
-	result := []dst.Stmt{
+	comment := []dst.Stmt{
 		&dst.EmptyStmt{
 			Decs: dst.EmptyStmtDecorations{
 				NodeDecs: dst.NodeDecs{
@@ -440,19 +495,19 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(toProp *astmodel.
 		},
 	}
 
-	return append(result, stmts...)
+	return handleWith(comment, stmts), nil
 }
 
 func (builder *convertFromARMBuilder) propertiesWithSameNameHandler(
 	toProp *astmodel.PropertyDefinition,
 	fromType *astmodel.ObjectType,
-) ([]dst.Stmt, bool) {
+) (propertyConversionHandlerResult, error) {
 	fromProp, ok := fromType.Property(toProp.PropertyName())
 	if !ok {
-		return nil, false
+		return notHandled, nil
 	}
 
-	return builder.typeConversionBuilder.BuildConversion(
+	conversion, err := builder.typeConversionBuilder.BuildConversion(
 		astmodel.ConversionParameters{
 			Source:            astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName())),
 			SourceType:        fromProp.PropertyType(),
@@ -462,7 +517,16 @@ func (builder *convertFromARMBuilder) propertiesWithSameNameHandler(
 			ConversionContext: nil,
 			AssignmentHandler: nil,
 			Locals:            builder.locals,
-		}), true
+		})
+	if err != nil {
+		return notHandled,
+			errors.Wrapf(
+				err,
+				"failed to generate conversion for property %s",
+				toProp.PropertyName())
+	}
+
+	return handleWith(conversion), nil
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -478,20 +542,23 @@ func (builder *convertFromARMBuilder) propertiesWithSameNameHandler(
 //		return err
 //	}
 //	<destination> = <nameHint>
-func (builder *convertFromARMBuilder) convertComplexTypeNameProperty(_ *astmodel.ConversionFunctionBuilder, params astmodel.ConversionParameters) []dst.Stmt {
+func (builder *convertFromARMBuilder) convertComplexTypeNameProperty(
+	_ *astmodel.ConversionFunctionBuilder,
+	params astmodel.ConversionParameters,
+) ([]dst.Stmt, error) {
 	destinationType, ok := params.DestinationType.(astmodel.TypeName)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	sourceType, ok := params.SourceType.(astmodel.TypeName)
 	if !ok {
-		return nil
+		return nil, nil
 	}
 
 	// This is for handling type names that aren't equal
 	if astmodel.TypeEquals(sourceType, destinationType) {
-		return nil
+		return nil, nil
 	}
 
 	propertyLocalVar := builder.typeConversionBuilder.CreateLocal(params.Locals, "", params.NameHint)
@@ -500,11 +567,7 @@ func (builder *convertFromARMBuilder) convertComplexTypeNameProperty(_ *astmodel
 	newVariable := astbuilder.NewVariable(propertyLocalVar, destinationType.Name())
 	if !destinationType.PackageReference.Equals(builder.codeGenerationContext.CurrentPackage()) {
 		// struct name has to be qualified
-		packageName, err := builder.codeGenerationContext.GetImportedPackageName(destinationType.PackageReference)
-		if err != nil {
-			panic(err)
-		}
-
+		packageName := builder.codeGenerationContext.MustGetImportedPackageName(destinationType.PackageReference)
 		newVariable = astbuilder.NewVariableQualified(
 			propertyLocalVar,
 			packageName,
@@ -539,5 +602,5 @@ func (builder *convertFromARMBuilder) convertComplexTypeNameProperty(_ *astmodel
 			params.AssignmentHandler(params.GetDestination(), dst.NewIdent(propertyLocalVar)))
 	}
 
-	return results
+	return results, nil
 }

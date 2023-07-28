@@ -350,10 +350,10 @@ func (database *RedisEnterprise_Database_Spec) ConvertToARM(resolved genruntime.
 	}
 	result := &RedisEnterprise_Database_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if database.ClientProtocol != nil ||
 		database.ClusteringPolicy != nil ||
 		database.EvictionPolicy != nil ||
@@ -408,10 +408,10 @@ func (database *RedisEnterprise_Database_Spec) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisEnterprise_Database_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	database.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘ClientProtocol’:
+	// Set property "ClientProtocol":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ClientProtocol != nil {
@@ -420,7 +420,7 @@ func (database *RedisEnterprise_Database_Spec) PopulateFromARM(owner genruntime.
 		}
 	}
 
-	// Set property ‘ClusteringPolicy’:
+	// Set property "ClusteringPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ClusteringPolicy != nil {
@@ -429,7 +429,7 @@ func (database *RedisEnterprise_Database_Spec) PopulateFromARM(owner genruntime.
 		}
 	}
 
-	// Set property ‘EvictionPolicy’:
+	// Set property "EvictionPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EvictionPolicy != nil {
@@ -438,7 +438,7 @@ func (database *RedisEnterprise_Database_Spec) PopulateFromARM(owner genruntime.
 		}
 	}
 
-	// Set property ‘Modules’:
+	// Set property "Modules":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Modules {
@@ -451,10 +451,10 @@ func (database *RedisEnterprise_Database_Spec) PopulateFromARM(owner genruntime.
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	database.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Persistence’:
+	// Set property "Persistence":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Persistence != nil {
@@ -468,7 +468,7 @@ func (database *RedisEnterprise_Database_Spec) PopulateFromARM(owner genruntime.
 		}
 	}
 
-	// Set property ‘Port’:
+	// Set property "Port":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Port != nil {
@@ -871,7 +871,7 @@ func (database *RedisEnterprise_Database_STATUS) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisEnterprise_Database_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ClientProtocol’:
+	// Set property "ClientProtocol":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ClientProtocol != nil {
@@ -880,7 +880,7 @@ func (database *RedisEnterprise_Database_STATUS) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// Set property ‘ClusteringPolicy’:
+	// Set property "ClusteringPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ClusteringPolicy != nil {
@@ -889,9 +889,9 @@ func (database *RedisEnterprise_Database_STATUS) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘EvictionPolicy’:
+	// Set property "EvictionPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EvictionPolicy != nil {
@@ -900,13 +900,13 @@ func (database *RedisEnterprise_Database_STATUS) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		database.Id = &id
 	}
 
-	// Set property ‘Modules’:
+	// Set property "Modules":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Modules {
@@ -919,13 +919,13 @@ func (database *RedisEnterprise_Database_STATUS) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		database.Name = &name
 	}
 
-	// Set property ‘Persistence’:
+	// Set property "Persistence":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Persistence != nil {
@@ -939,7 +939,7 @@ func (database *RedisEnterprise_Database_STATUS) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// Set property ‘Port’:
+	// Set property "Port":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Port != nil {
@@ -948,7 +948,7 @@ func (database *RedisEnterprise_Database_STATUS) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -957,7 +957,7 @@ func (database *RedisEnterprise_Database_STATUS) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// Set property ‘ResourceState’:
+	// Set property "ResourceState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceState != nil {
@@ -966,7 +966,7 @@ func (database *RedisEnterprise_Database_STATUS) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		database.Type = &typeVar
@@ -1245,13 +1245,13 @@ func (module *Module) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	}
 	result := &Module_ARM{}
 
-	// Set property ‘Args’:
+	// Set property "Args":
 	if module.Args != nil {
 		args := *module.Args
 		result.Args = &args
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if module.Name != nil {
 		name := *module.Name
 		result.Name = &name
@@ -1271,13 +1271,13 @@ func (module *Module) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Module_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Args’:
+	// Set property "Args":
 	if typedInput.Args != nil {
 		args := *typedInput.Args
 		module.Args = &args
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		module.Name = &name
@@ -1361,19 +1361,19 @@ func (module *Module_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Module_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Args’:
+	// Set property "Args":
 	if typedInput.Args != nil {
 		args := *typedInput.Args
 		module.Args = &args
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		module.Name = &name
 	}
 
-	// Set property ‘Version’:
+	// Set property "Version":
 	if typedInput.Version != nil {
 		version := *typedInput.Version
 		module.Version = &version
@@ -1448,25 +1448,25 @@ func (persistence *Persistence) ConvertToARM(resolved genruntime.ConvertToARMRes
 	}
 	result := &Persistence_ARM{}
 
-	// Set property ‘AofEnabled’:
+	// Set property "AofEnabled":
 	if persistence.AofEnabled != nil {
 		aofEnabled := *persistence.AofEnabled
 		result.AofEnabled = &aofEnabled
 	}
 
-	// Set property ‘AofFrequency’:
+	// Set property "AofFrequency":
 	if persistence.AofFrequency != nil {
 		aofFrequency := *persistence.AofFrequency
 		result.AofFrequency = &aofFrequency
 	}
 
-	// Set property ‘RdbEnabled’:
+	// Set property "RdbEnabled":
 	if persistence.RdbEnabled != nil {
 		rdbEnabled := *persistence.RdbEnabled
 		result.RdbEnabled = &rdbEnabled
 	}
 
-	// Set property ‘RdbFrequency’:
+	// Set property "RdbFrequency":
 	if persistence.RdbFrequency != nil {
 		rdbFrequency := *persistence.RdbFrequency
 		result.RdbFrequency = &rdbFrequency
@@ -1486,25 +1486,25 @@ func (persistence *Persistence) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Persistence_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AofEnabled’:
+	// Set property "AofEnabled":
 	if typedInput.AofEnabled != nil {
 		aofEnabled := *typedInput.AofEnabled
 		persistence.AofEnabled = &aofEnabled
 	}
 
-	// Set property ‘AofFrequency’:
+	// Set property "AofFrequency":
 	if typedInput.AofFrequency != nil {
 		aofFrequency := *typedInput.AofFrequency
 		persistence.AofFrequency = &aofFrequency
 	}
 
-	// Set property ‘RdbEnabled’:
+	// Set property "RdbEnabled":
 	if typedInput.RdbEnabled != nil {
 		rdbEnabled := *typedInput.RdbEnabled
 		persistence.RdbEnabled = &rdbEnabled
 	}
 
-	// Set property ‘RdbFrequency’:
+	// Set property "RdbFrequency":
 	if typedInput.RdbFrequency != nil {
 		rdbFrequency := *typedInput.RdbFrequency
 		persistence.RdbFrequency = &rdbFrequency
@@ -1669,25 +1669,25 @@ func (persistence *Persistence_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Persistence_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AofEnabled’:
+	// Set property "AofEnabled":
 	if typedInput.AofEnabled != nil {
 		aofEnabled := *typedInput.AofEnabled
 		persistence.AofEnabled = &aofEnabled
 	}
 
-	// Set property ‘AofFrequency’:
+	// Set property "AofFrequency":
 	if typedInput.AofFrequency != nil {
 		aofFrequency := *typedInput.AofFrequency
 		persistence.AofFrequency = &aofFrequency
 	}
 
-	// Set property ‘RdbEnabled’:
+	// Set property "RdbEnabled":
 	if typedInput.RdbEnabled != nil {
 		rdbEnabled := *typedInput.RdbEnabled
 		persistence.RdbEnabled = &rdbEnabled
 	}
 
-	// Set property ‘RdbFrequency’:
+	// Set property "RdbFrequency":
 	if typedInput.RdbFrequency != nil {
 		rdbFrequency := *typedInput.RdbFrequency
 		persistence.RdbFrequency = &rdbFrequency

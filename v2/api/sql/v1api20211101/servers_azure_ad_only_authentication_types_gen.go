@@ -324,10 +324,10 @@ func (authentication *Servers_AzureADOnlyAuthentication_Spec) ConvertToARM(resol
 	}
 	result := &Servers_AzureADOnlyAuthentication_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if authentication.AzureADOnlyAuthentication != nil {
 		result.Properties = &AzureADOnlyAuthProperties_ARM{}
 	}
@@ -350,7 +350,7 @@ func (authentication *Servers_AzureADOnlyAuthentication_Spec) PopulateFromARM(ow
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_AzureADOnlyAuthentication_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureADOnlyAuthentication’:
+	// Set property "AzureADOnlyAuthentication":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AzureADOnlyAuthentication != nil {
@@ -359,7 +359,7 @@ func (authentication *Servers_AzureADOnlyAuthentication_Spec) PopulateFromARM(ow
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	authentication.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// No error
@@ -575,7 +575,7 @@ func (authentication *Servers_AzureADOnlyAuthentication_STATUS) PopulateFromARM(
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_AzureADOnlyAuthentication_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureADOnlyAuthentication’:
+	// Set property "AzureADOnlyAuthentication":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AzureADOnlyAuthentication != nil {
@@ -584,21 +584,21 @@ func (authentication *Servers_AzureADOnlyAuthentication_STATUS) PopulateFromARM(
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		authentication.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		authentication.Name = &name
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		authentication.Type = &typeVar

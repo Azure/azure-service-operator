@@ -348,7 +348,7 @@ func (gateway *VirtualNetworkGateway_Spec) ConvertToARM(resolved genruntime.Conv
 	}
 	result := &VirtualNetworkGateway_Spec_ARM{}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if gateway.ExtendedLocation != nil {
 		extendedLocation_ARM, err := (*gateway.ExtendedLocation).ConvertToARM(resolved)
 		if err != nil {
@@ -358,16 +358,16 @@ func (gateway *VirtualNetworkGateway_Spec) ConvertToARM(resolved genruntime.Conv
 		result.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if gateway.Location != nil {
 		location := *gateway.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if gateway.ActiveActive != nil ||
 		gateway.BgpSettings != nil ||
 		gateway.CustomRoutes != nil ||
@@ -468,7 +468,7 @@ func (gateway *VirtualNetworkGateway_Spec) ConvertToARM(resolved genruntime.Conv
 		result.Properties.VpnType = &vpnType
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if gateway.Tags != nil {
 		result.Tags = make(map[string]string, len(gateway.Tags))
 		for key, value := range gateway.Tags {
@@ -490,7 +490,7 @@ func (gateway *VirtualNetworkGateway_Spec) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkGateway_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ActiveActive’:
+	// Set property "ActiveActive":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ActiveActive != nil {
@@ -499,10 +499,10 @@ func (gateway *VirtualNetworkGateway_Spec) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	gateway.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘BgpSettings’:
+	// Set property "BgpSettings":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BgpSettings != nil {
@@ -516,7 +516,7 @@ func (gateway *VirtualNetworkGateway_Spec) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘CustomRoutes’:
+	// Set property "CustomRoutes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CustomRoutes != nil {
@@ -530,7 +530,7 @@ func (gateway *VirtualNetworkGateway_Spec) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘EnableBgp’:
+	// Set property "EnableBgp":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableBgp != nil {
@@ -539,7 +539,7 @@ func (gateway *VirtualNetworkGateway_Spec) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘EnableDnsForwarding’:
+	// Set property "EnableDnsForwarding":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableDnsForwarding != nil {
@@ -548,7 +548,7 @@ func (gateway *VirtualNetworkGateway_Spec) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘EnablePrivateIpAddress’:
+	// Set property "EnablePrivateIpAddress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnablePrivateIpAddress != nil {
@@ -557,7 +557,7 @@ func (gateway *VirtualNetworkGateway_Spec) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if typedInput.ExtendedLocation != nil {
 		var extendedLocation1 ExtendedLocation
 		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
@@ -568,7 +568,7 @@ func (gateway *VirtualNetworkGateway_Spec) PopulateFromARM(owner genruntime.Arbi
 		gateway.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘GatewayDefaultSite’:
+	// Set property "GatewayDefaultSite":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.GatewayDefaultSite != nil {
@@ -582,7 +582,7 @@ func (gateway *VirtualNetworkGateway_Spec) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘GatewayType’:
+	// Set property "GatewayType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.GatewayType != nil {
@@ -591,7 +591,7 @@ func (gateway *VirtualNetworkGateway_Spec) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘IpConfigurations’:
+	// Set property "IpConfigurations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.IpConfigurations {
@@ -604,16 +604,16 @@ func (gateway *VirtualNetworkGateway_Spec) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		gateway.Location = &location
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	gateway.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Sku != nil {
@@ -627,7 +627,7 @@ func (gateway *VirtualNetworkGateway_Spec) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		gateway.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -635,9 +635,9 @@ func (gateway *VirtualNetworkGateway_Spec) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// no assignment for property ‘VNetExtendedLocationResourceReference’
+	// no assignment for property "VNetExtendedLocationResourceReference"
 
-	// Set property ‘VpnClientConfiguration’:
+	// Set property "VpnClientConfiguration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VpnClientConfiguration != nil {
@@ -651,7 +651,7 @@ func (gateway *VirtualNetworkGateway_Spec) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘VpnGatewayGeneration’:
+	// Set property "VpnGatewayGeneration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VpnGatewayGeneration != nil {
@@ -660,7 +660,7 @@ func (gateway *VirtualNetworkGateway_Spec) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘VpnType’:
+	// Set property "VpnType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VpnType != nil {
@@ -1196,7 +1196,7 @@ func (gateway *VirtualNetworkGateway_STATUS) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkGateway_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ActiveActive’:
+	// Set property "ActiveActive":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ActiveActive != nil {
@@ -1205,7 +1205,7 @@ func (gateway *VirtualNetworkGateway_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘BgpSettings’:
+	// Set property "BgpSettings":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BgpSettings != nil {
@@ -1219,9 +1219,9 @@ func (gateway *VirtualNetworkGateway_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘CustomRoutes’:
+	// Set property "CustomRoutes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CustomRoutes != nil {
@@ -1235,7 +1235,7 @@ func (gateway *VirtualNetworkGateway_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘EnableBgp’:
+	// Set property "EnableBgp":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableBgp != nil {
@@ -1244,7 +1244,7 @@ func (gateway *VirtualNetworkGateway_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘EnableDnsForwarding’:
+	// Set property "EnableDnsForwarding":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableDnsForwarding != nil {
@@ -1253,7 +1253,7 @@ func (gateway *VirtualNetworkGateway_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘EnablePrivateIpAddress’:
+	// Set property "EnablePrivateIpAddress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnablePrivateIpAddress != nil {
@@ -1262,13 +1262,13 @@ func (gateway *VirtualNetworkGateway_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		gateway.Etag = &etag
 	}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if typedInput.ExtendedLocation != nil {
 		var extendedLocation1 ExtendedLocation_STATUS
 		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
@@ -1279,7 +1279,7 @@ func (gateway *VirtualNetworkGateway_STATUS) PopulateFromARM(owner genruntime.Ar
 		gateway.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘GatewayDefaultSite’:
+	// Set property "GatewayDefaultSite":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.GatewayDefaultSite != nil {
@@ -1293,7 +1293,7 @@ func (gateway *VirtualNetworkGateway_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘GatewayType’:
+	// Set property "GatewayType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.GatewayType != nil {
@@ -1302,13 +1302,13 @@ func (gateway *VirtualNetworkGateway_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		gateway.Id = &id
 	}
 
-	// Set property ‘InboundDnsForwardingEndpoint’:
+	// Set property "InboundDnsForwardingEndpoint":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.InboundDnsForwardingEndpoint != nil {
@@ -1317,7 +1317,7 @@ func (gateway *VirtualNetworkGateway_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘IpConfigurations’:
+	// Set property "IpConfigurations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.IpConfigurations {
@@ -1330,19 +1330,19 @@ func (gateway *VirtualNetworkGateway_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		gateway.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		gateway.Name = &name
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -1351,7 +1351,7 @@ func (gateway *VirtualNetworkGateway_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘ResourceGuid’:
+	// Set property "ResourceGuid":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceGuid != nil {
@@ -1360,7 +1360,7 @@ func (gateway *VirtualNetworkGateway_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Sku != nil {
@@ -1374,7 +1374,7 @@ func (gateway *VirtualNetworkGateway_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		gateway.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1382,13 +1382,13 @@ func (gateway *VirtualNetworkGateway_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		gateway.Type = &typeVar
 	}
 
-	// Set property ‘VNetExtendedLocationResourceId’:
+	// Set property "VNetExtendedLocationResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VNetExtendedLocationResourceId != nil {
@@ -1397,7 +1397,7 @@ func (gateway *VirtualNetworkGateway_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘VpnClientConfiguration’:
+	// Set property "VpnClientConfiguration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VpnClientConfiguration != nil {
@@ -1411,7 +1411,7 @@ func (gateway *VirtualNetworkGateway_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘VpnGatewayGeneration’:
+	// Set property "VpnGatewayGeneration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VpnGatewayGeneration != nil {
@@ -1420,7 +1420,7 @@ func (gateway *VirtualNetworkGateway_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘VpnType’:
+	// Set property "VpnType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VpnType != nil {
@@ -1841,19 +1841,19 @@ func (settings *BgpSettings) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	}
 	result := &BgpSettings_ARM{}
 
-	// Set property ‘Asn’:
+	// Set property "Asn":
 	if settings.Asn != nil {
 		asn := *settings.Asn
 		result.Asn = &asn
 	}
 
-	// Set property ‘BgpPeeringAddress’:
+	// Set property "BgpPeeringAddress":
 	if settings.BgpPeeringAddress != nil {
 		bgpPeeringAddress := *settings.BgpPeeringAddress
 		result.BgpPeeringAddress = &bgpPeeringAddress
 	}
 
-	// Set property ‘BgpPeeringAddresses’:
+	// Set property "BgpPeeringAddresses":
 	for _, item := range settings.BgpPeeringAddresses {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -1862,7 +1862,7 @@ func (settings *BgpSettings) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.BgpPeeringAddresses = append(result.BgpPeeringAddresses, *item_ARM.(*IPConfigurationBgpPeeringAddress_ARM))
 	}
 
-	// Set property ‘PeerWeight’:
+	// Set property "PeerWeight":
 	if settings.PeerWeight != nil {
 		peerWeight := *settings.PeerWeight
 		result.PeerWeight = &peerWeight
@@ -1882,19 +1882,19 @@ func (settings *BgpSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BgpSettings_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Asn’:
+	// Set property "Asn":
 	if typedInput.Asn != nil {
 		asn := *typedInput.Asn
 		settings.Asn = &asn
 	}
 
-	// Set property ‘BgpPeeringAddress’:
+	// Set property "BgpPeeringAddress":
 	if typedInput.BgpPeeringAddress != nil {
 		bgpPeeringAddress := *typedInput.BgpPeeringAddress
 		settings.BgpPeeringAddress = &bgpPeeringAddress
 	}
 
-	// Set property ‘BgpPeeringAddresses’:
+	// Set property "BgpPeeringAddresses":
 	for _, item := range typedInput.BgpPeeringAddresses {
 		var item1 IPConfigurationBgpPeeringAddress
 		err := item1.PopulateFromARM(owner, item)
@@ -1904,7 +1904,7 @@ func (settings *BgpSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		settings.BgpPeeringAddresses = append(settings.BgpPeeringAddresses, item1)
 	}
 
-	// Set property ‘PeerWeight’:
+	// Set property "PeerWeight":
 	if typedInput.PeerWeight != nil {
 		peerWeight := *typedInput.PeerWeight
 		settings.PeerWeight = &peerWeight
@@ -2023,19 +2023,19 @@ func (settings *BgpSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BgpSettings_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Asn’:
+	// Set property "Asn":
 	if typedInput.Asn != nil {
 		asn := *typedInput.Asn
 		settings.Asn = &asn
 	}
 
-	// Set property ‘BgpPeeringAddress’:
+	// Set property "BgpPeeringAddress":
 	if typedInput.BgpPeeringAddress != nil {
 		bgpPeeringAddress := *typedInput.BgpPeeringAddress
 		settings.BgpPeeringAddress = &bgpPeeringAddress
 	}
 
-	// Set property ‘BgpPeeringAddresses’:
+	// Set property "BgpPeeringAddresses":
 	for _, item := range typedInput.BgpPeeringAddresses {
 		var item1 IPConfigurationBgpPeeringAddress_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -2045,7 +2045,7 @@ func (settings *BgpSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		settings.BgpPeeringAddresses = append(settings.BgpPeeringAddresses, item1)
 	}
 
-	// Set property ‘PeerWeight’:
+	// Set property "PeerWeight":
 	if typedInput.PeerWeight != nil {
 		peerWeight := *typedInput.PeerWeight
 		settings.PeerWeight = &peerWeight
@@ -2159,13 +2159,13 @@ func (configuration *VirtualNetworkGatewayIPConfiguration) ConvertToARM(resolved
 	}
 	result := &VirtualNetworkGatewayIPConfiguration_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if configuration.Name != nil {
 		name := *configuration.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if configuration.PrivateIPAllocationMethod != nil ||
 		configuration.PublicIPAddress != nil ||
 		configuration.Subnet != nil {
@@ -2206,13 +2206,13 @@ func (configuration *VirtualNetworkGatewayIPConfiguration) PopulateFromARM(owner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkGatewayIPConfiguration_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		configuration.Name = &name
 	}
 
-	// Set property ‘PrivateIPAllocationMethod’:
+	// Set property "PrivateIPAllocationMethod":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAllocationMethod != nil {
@@ -2221,7 +2221,7 @@ func (configuration *VirtualNetworkGatewayIPConfiguration) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘PublicIPAddress’:
+	// Set property "PublicIPAddress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicIPAddress != nil {
@@ -2235,7 +2235,7 @@ func (configuration *VirtualNetworkGatewayIPConfiguration) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘Subnet’:
+	// Set property "Subnet":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Subnet != nil {
@@ -2372,25 +2372,25 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_STATUS) PopulateFromAR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkGatewayIPConfiguration_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		configuration.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		configuration.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		configuration.Name = &name
 	}
 
-	// Set property ‘PrivateIPAddress’:
+	// Set property "PrivateIPAddress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAddress != nil {
@@ -2399,7 +2399,7 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_STATUS) PopulateFromAR
 		}
 	}
 
-	// Set property ‘PrivateIPAllocationMethod’:
+	// Set property "PrivateIPAllocationMethod":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAllocationMethod != nil {
@@ -2408,7 +2408,7 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_STATUS) PopulateFromAR
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -2417,7 +2417,7 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_STATUS) PopulateFromAR
 		}
 	}
 
-	// Set property ‘PublicIPAddress’:
+	// Set property "PublicIPAddress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicIPAddress != nil {
@@ -2431,7 +2431,7 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_STATUS) PopulateFromAR
 		}
 	}
 
-	// Set property ‘Subnet’:
+	// Set property "Subnet":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Subnet != nil {
@@ -2652,13 +2652,13 @@ func (gatewaySku *VirtualNetworkGatewaySku) ConvertToARM(resolved genruntime.Con
 	}
 	result := &VirtualNetworkGatewaySku_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if gatewaySku.Name != nil {
 		name := *gatewaySku.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if gatewaySku.Tier != nil {
 		tier := *gatewaySku.Tier
 		result.Tier = &tier
@@ -2678,13 +2678,13 @@ func (gatewaySku *VirtualNetworkGatewaySku) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkGatewaySku_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		gatewaySku.Name = &name
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if typedInput.Tier != nil {
 		tier := *typedInput.Tier
 		gatewaySku.Tier = &tier
@@ -2770,19 +2770,19 @@ func (gatewaySku *VirtualNetworkGatewaySku_STATUS) PopulateFromARM(owner genrunt
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkGatewaySku_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Capacity’:
+	// Set property "Capacity":
 	if typedInput.Capacity != nil {
 		capacity := *typedInput.Capacity
 		gatewaySku.Capacity = &capacity
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		gatewaySku.Name = &name
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if typedInput.Tier != nil {
 		tier := *typedInput.Tier
 		gatewaySku.Tier = &tier
@@ -2878,37 +2878,37 @@ func (configuration *VpnClientConfiguration) ConvertToARM(resolved genruntime.Co
 	}
 	result := &VpnClientConfiguration_ARM{}
 
-	// Set property ‘AadAudience’:
+	// Set property "AadAudience":
 	if configuration.AadAudience != nil {
 		aadAudience := *configuration.AadAudience
 		result.AadAudience = &aadAudience
 	}
 
-	// Set property ‘AadIssuer’:
+	// Set property "AadIssuer":
 	if configuration.AadIssuer != nil {
 		aadIssuer := *configuration.AadIssuer
 		result.AadIssuer = &aadIssuer
 	}
 
-	// Set property ‘AadTenant’:
+	// Set property "AadTenant":
 	if configuration.AadTenant != nil {
 		aadTenant := *configuration.AadTenant
 		result.AadTenant = &aadTenant
 	}
 
-	// Set property ‘RadiusServerAddress’:
+	// Set property "RadiusServerAddress":
 	if configuration.RadiusServerAddress != nil {
 		radiusServerAddress := *configuration.RadiusServerAddress
 		result.RadiusServerAddress = &radiusServerAddress
 	}
 
-	// Set property ‘RadiusServerSecret’:
+	// Set property "RadiusServerSecret":
 	if configuration.RadiusServerSecret != nil {
 		radiusServerSecret := *configuration.RadiusServerSecret
 		result.RadiusServerSecret = &radiusServerSecret
 	}
 
-	// Set property ‘RadiusServers’:
+	// Set property "RadiusServers":
 	for _, item := range configuration.RadiusServers {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -2917,12 +2917,12 @@ func (configuration *VpnClientConfiguration) ConvertToARM(resolved genruntime.Co
 		result.RadiusServers = append(result.RadiusServers, *item_ARM.(*RadiusServer_ARM))
 	}
 
-	// Set property ‘VpnAuthenticationTypes’:
+	// Set property "VpnAuthenticationTypes":
 	for _, item := range configuration.VpnAuthenticationTypes {
 		result.VpnAuthenticationTypes = append(result.VpnAuthenticationTypes, item)
 	}
 
-	// Set property ‘VpnClientAddressPool’:
+	// Set property "VpnClientAddressPool":
 	if configuration.VpnClientAddressPool != nil {
 		vpnClientAddressPool_ARM, err := (*configuration.VpnClientAddressPool).ConvertToARM(resolved)
 		if err != nil {
@@ -2932,7 +2932,7 @@ func (configuration *VpnClientConfiguration) ConvertToARM(resolved genruntime.Co
 		result.VpnClientAddressPool = &vpnClientAddressPool
 	}
 
-	// Set property ‘VpnClientIpsecPolicies’:
+	// Set property "VpnClientIpsecPolicies":
 	for _, item := range configuration.VpnClientIpsecPolicies {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -2941,12 +2941,12 @@ func (configuration *VpnClientConfiguration) ConvertToARM(resolved genruntime.Co
 		result.VpnClientIpsecPolicies = append(result.VpnClientIpsecPolicies, *item_ARM.(*IpsecPolicy_ARM))
 	}
 
-	// Set property ‘VpnClientProtocols’:
+	// Set property "VpnClientProtocols":
 	for _, item := range configuration.VpnClientProtocols {
 		result.VpnClientProtocols = append(result.VpnClientProtocols, item)
 	}
 
-	// Set property ‘VpnClientRevokedCertificates’:
+	// Set property "VpnClientRevokedCertificates":
 	for _, item := range configuration.VpnClientRevokedCertificates {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -2955,7 +2955,7 @@ func (configuration *VpnClientConfiguration) ConvertToARM(resolved genruntime.Co
 		result.VpnClientRevokedCertificates = append(result.VpnClientRevokedCertificates, *item_ARM.(*VpnClientRevokedCertificate_ARM))
 	}
 
-	// Set property ‘VpnClientRootCertificates’:
+	// Set property "VpnClientRootCertificates":
 	for _, item := range configuration.VpnClientRootCertificates {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -2978,37 +2978,37 @@ func (configuration *VpnClientConfiguration) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VpnClientConfiguration_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AadAudience’:
+	// Set property "AadAudience":
 	if typedInput.AadAudience != nil {
 		aadAudience := *typedInput.AadAudience
 		configuration.AadAudience = &aadAudience
 	}
 
-	// Set property ‘AadIssuer’:
+	// Set property "AadIssuer":
 	if typedInput.AadIssuer != nil {
 		aadIssuer := *typedInput.AadIssuer
 		configuration.AadIssuer = &aadIssuer
 	}
 
-	// Set property ‘AadTenant’:
+	// Set property "AadTenant":
 	if typedInput.AadTenant != nil {
 		aadTenant := *typedInput.AadTenant
 		configuration.AadTenant = &aadTenant
 	}
 
-	// Set property ‘RadiusServerAddress’:
+	// Set property "RadiusServerAddress":
 	if typedInput.RadiusServerAddress != nil {
 		radiusServerAddress := *typedInput.RadiusServerAddress
 		configuration.RadiusServerAddress = &radiusServerAddress
 	}
 
-	// Set property ‘RadiusServerSecret’:
+	// Set property "RadiusServerSecret":
 	if typedInput.RadiusServerSecret != nil {
 		radiusServerSecret := *typedInput.RadiusServerSecret
 		configuration.RadiusServerSecret = &radiusServerSecret
 	}
 
-	// Set property ‘RadiusServers’:
+	// Set property "RadiusServers":
 	for _, item := range typedInput.RadiusServers {
 		var item1 RadiusServer
 		err := item1.PopulateFromARM(owner, item)
@@ -3018,12 +3018,12 @@ func (configuration *VpnClientConfiguration) PopulateFromARM(owner genruntime.Ar
 		configuration.RadiusServers = append(configuration.RadiusServers, item1)
 	}
 
-	// Set property ‘VpnAuthenticationTypes’:
+	// Set property "VpnAuthenticationTypes":
 	for _, item := range typedInput.VpnAuthenticationTypes {
 		configuration.VpnAuthenticationTypes = append(configuration.VpnAuthenticationTypes, item)
 	}
 
-	// Set property ‘VpnClientAddressPool’:
+	// Set property "VpnClientAddressPool":
 	if typedInput.VpnClientAddressPool != nil {
 		var vpnClientAddressPool1 AddressSpace
 		err := vpnClientAddressPool1.PopulateFromARM(owner, *typedInput.VpnClientAddressPool)
@@ -3034,7 +3034,7 @@ func (configuration *VpnClientConfiguration) PopulateFromARM(owner genruntime.Ar
 		configuration.VpnClientAddressPool = &vpnClientAddressPool
 	}
 
-	// Set property ‘VpnClientIpsecPolicies’:
+	// Set property "VpnClientIpsecPolicies":
 	for _, item := range typedInput.VpnClientIpsecPolicies {
 		var item1 IpsecPolicy
 		err := item1.PopulateFromARM(owner, item)
@@ -3044,12 +3044,12 @@ func (configuration *VpnClientConfiguration) PopulateFromARM(owner genruntime.Ar
 		configuration.VpnClientIpsecPolicies = append(configuration.VpnClientIpsecPolicies, item1)
 	}
 
-	// Set property ‘VpnClientProtocols’:
+	// Set property "VpnClientProtocols":
 	for _, item := range typedInput.VpnClientProtocols {
 		configuration.VpnClientProtocols = append(configuration.VpnClientProtocols, item)
 	}
 
-	// Set property ‘VpnClientRevokedCertificates’:
+	// Set property "VpnClientRevokedCertificates":
 	for _, item := range typedInput.VpnClientRevokedCertificates {
 		var item1 VpnClientRevokedCertificate
 		err := item1.PopulateFromARM(owner, item)
@@ -3059,7 +3059,7 @@ func (configuration *VpnClientConfiguration) PopulateFromARM(owner genruntime.Ar
 		configuration.VpnClientRevokedCertificates = append(configuration.VpnClientRevokedCertificates, item1)
 	}
 
-	// Set property ‘VpnClientRootCertificates’:
+	// Set property "VpnClientRootCertificates":
 	for _, item := range typedInput.VpnClientRootCertificates {
 		var item1 VpnClientRootCertificate
 		err := item1.PopulateFromARM(owner, item)
@@ -3376,37 +3376,37 @@ func (configuration *VpnClientConfiguration_STATUS) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VpnClientConfiguration_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AadAudience’:
+	// Set property "AadAudience":
 	if typedInput.AadAudience != nil {
 		aadAudience := *typedInput.AadAudience
 		configuration.AadAudience = &aadAudience
 	}
 
-	// Set property ‘AadIssuer’:
+	// Set property "AadIssuer":
 	if typedInput.AadIssuer != nil {
 		aadIssuer := *typedInput.AadIssuer
 		configuration.AadIssuer = &aadIssuer
 	}
 
-	// Set property ‘AadTenant’:
+	// Set property "AadTenant":
 	if typedInput.AadTenant != nil {
 		aadTenant := *typedInput.AadTenant
 		configuration.AadTenant = &aadTenant
 	}
 
-	// Set property ‘RadiusServerAddress’:
+	// Set property "RadiusServerAddress":
 	if typedInput.RadiusServerAddress != nil {
 		radiusServerAddress := *typedInput.RadiusServerAddress
 		configuration.RadiusServerAddress = &radiusServerAddress
 	}
 
-	// Set property ‘RadiusServerSecret’:
+	// Set property "RadiusServerSecret":
 	if typedInput.RadiusServerSecret != nil {
 		radiusServerSecret := *typedInput.RadiusServerSecret
 		configuration.RadiusServerSecret = &radiusServerSecret
 	}
 
-	// Set property ‘RadiusServers’:
+	// Set property "RadiusServers":
 	for _, item := range typedInput.RadiusServers {
 		var item1 RadiusServer_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -3416,12 +3416,12 @@ func (configuration *VpnClientConfiguration_STATUS) PopulateFromARM(owner genrun
 		configuration.RadiusServers = append(configuration.RadiusServers, item1)
 	}
 
-	// Set property ‘VpnAuthenticationTypes’:
+	// Set property "VpnAuthenticationTypes":
 	for _, item := range typedInput.VpnAuthenticationTypes {
 		configuration.VpnAuthenticationTypes = append(configuration.VpnAuthenticationTypes, item)
 	}
 
-	// Set property ‘VpnClientAddressPool’:
+	// Set property "VpnClientAddressPool":
 	if typedInput.VpnClientAddressPool != nil {
 		var vpnClientAddressPool1 AddressSpace_STATUS
 		err := vpnClientAddressPool1.PopulateFromARM(owner, *typedInput.VpnClientAddressPool)
@@ -3432,7 +3432,7 @@ func (configuration *VpnClientConfiguration_STATUS) PopulateFromARM(owner genrun
 		configuration.VpnClientAddressPool = &vpnClientAddressPool
 	}
 
-	// Set property ‘VpnClientIpsecPolicies’:
+	// Set property "VpnClientIpsecPolicies":
 	for _, item := range typedInput.VpnClientIpsecPolicies {
 		var item1 IpsecPolicy_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -3442,12 +3442,12 @@ func (configuration *VpnClientConfiguration_STATUS) PopulateFromARM(owner genrun
 		configuration.VpnClientIpsecPolicies = append(configuration.VpnClientIpsecPolicies, item1)
 	}
 
-	// Set property ‘VpnClientProtocols’:
+	// Set property "VpnClientProtocols":
 	for _, item := range typedInput.VpnClientProtocols {
 		configuration.VpnClientProtocols = append(configuration.VpnClientProtocols, item)
 	}
 
-	// Set property ‘VpnClientRevokedCertificates’:
+	// Set property "VpnClientRevokedCertificates":
 	for _, item := range typedInput.VpnClientRevokedCertificates {
 		var item1 VpnClientRevokedCertificate_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -3457,7 +3457,7 @@ func (configuration *VpnClientConfiguration_STATUS) PopulateFromARM(owner genrun
 		configuration.VpnClientRevokedCertificates = append(configuration.VpnClientRevokedCertificates, item1)
 	}
 
-	// Set property ‘VpnClientRootCertificates’:
+	// Set property "VpnClientRootCertificates":
 	for _, item := range typedInput.VpnClientRootCertificates {
 		var item1 VpnClientRootCertificate_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -3759,12 +3759,12 @@ func (address *IPConfigurationBgpPeeringAddress) ConvertToARM(resolved genruntim
 	}
 	result := &IPConfigurationBgpPeeringAddress_ARM{}
 
-	// Set property ‘CustomBgpIpAddresses’:
+	// Set property "CustomBgpIpAddresses":
 	for _, item := range address.CustomBgpIpAddresses {
 		result.CustomBgpIpAddresses = append(result.CustomBgpIpAddresses, item)
 	}
 
-	// Set property ‘IpconfigurationId’:
+	// Set property "IpconfigurationId":
 	if address.IpconfigurationId != nil {
 		ipconfigurationId := *address.IpconfigurationId
 		result.IpconfigurationId = &ipconfigurationId
@@ -3784,12 +3784,12 @@ func (address *IPConfigurationBgpPeeringAddress) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IPConfigurationBgpPeeringAddress_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CustomBgpIpAddresses’:
+	// Set property "CustomBgpIpAddresses":
 	for _, item := range typedInput.CustomBgpIpAddresses {
 		address.CustomBgpIpAddresses = append(address.CustomBgpIpAddresses, item)
 	}
 
-	// Set property ‘IpconfigurationId’:
+	// Set property "IpconfigurationId":
 	if typedInput.IpconfigurationId != nil {
 		ipconfigurationId := *typedInput.IpconfigurationId
 		address.IpconfigurationId = &ipconfigurationId
@@ -3856,23 +3856,23 @@ func (address *IPConfigurationBgpPeeringAddress_STATUS) PopulateFromARM(owner ge
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IPConfigurationBgpPeeringAddress_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CustomBgpIpAddresses’:
+	// Set property "CustomBgpIpAddresses":
 	for _, item := range typedInput.CustomBgpIpAddresses {
 		address.CustomBgpIpAddresses = append(address.CustomBgpIpAddresses, item)
 	}
 
-	// Set property ‘DefaultBgpIpAddresses’:
+	// Set property "DefaultBgpIpAddresses":
 	for _, item := range typedInput.DefaultBgpIpAddresses {
 		address.DefaultBgpIpAddresses = append(address.DefaultBgpIpAddresses, item)
 	}
 
-	// Set property ‘IpconfigurationId’:
+	// Set property "IpconfigurationId":
 	if typedInput.IpconfigurationId != nil {
 		ipconfigurationId := *typedInput.IpconfigurationId
 		address.IpconfigurationId = &ipconfigurationId
 	}
 
-	// Set property ‘TunnelIpAddresses’:
+	// Set property "TunnelIpAddresses":
 	for _, item := range typedInput.TunnelIpAddresses {
 		address.TunnelIpAddresses = append(address.TunnelIpAddresses, item)
 	}
@@ -3964,49 +3964,49 @@ func (policy *IpsecPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	}
 	result := &IpsecPolicy_ARM{}
 
-	// Set property ‘DhGroup’:
+	// Set property "DhGroup":
 	if policy.DhGroup != nil {
 		dhGroup := *policy.DhGroup
 		result.DhGroup = &dhGroup
 	}
 
-	// Set property ‘IkeEncryption’:
+	// Set property "IkeEncryption":
 	if policy.IkeEncryption != nil {
 		ikeEncryption := *policy.IkeEncryption
 		result.IkeEncryption = &ikeEncryption
 	}
 
-	// Set property ‘IkeIntegrity’:
+	// Set property "IkeIntegrity":
 	if policy.IkeIntegrity != nil {
 		ikeIntegrity := *policy.IkeIntegrity
 		result.IkeIntegrity = &ikeIntegrity
 	}
 
-	// Set property ‘IpsecEncryption’:
+	// Set property "IpsecEncryption":
 	if policy.IpsecEncryption != nil {
 		ipsecEncryption := *policy.IpsecEncryption
 		result.IpsecEncryption = &ipsecEncryption
 	}
 
-	// Set property ‘IpsecIntegrity’:
+	// Set property "IpsecIntegrity":
 	if policy.IpsecIntegrity != nil {
 		ipsecIntegrity := *policy.IpsecIntegrity
 		result.IpsecIntegrity = &ipsecIntegrity
 	}
 
-	// Set property ‘PfsGroup’:
+	// Set property "PfsGroup":
 	if policy.PfsGroup != nil {
 		pfsGroup := *policy.PfsGroup
 		result.PfsGroup = &pfsGroup
 	}
 
-	// Set property ‘SaDataSizeKilobytes’:
+	// Set property "SaDataSizeKilobytes":
 	if policy.SaDataSizeKilobytes != nil {
 		saDataSizeKilobytes := *policy.SaDataSizeKilobytes
 		result.SaDataSizeKilobytes = &saDataSizeKilobytes
 	}
 
-	// Set property ‘SaLifeTimeSeconds’:
+	// Set property "SaLifeTimeSeconds":
 	if policy.SaLifeTimeSeconds != nil {
 		saLifeTimeSeconds := *policy.SaLifeTimeSeconds
 		result.SaLifeTimeSeconds = &saLifeTimeSeconds
@@ -4026,49 +4026,49 @@ func (policy *IpsecPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpsecPolicy_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DhGroup’:
+	// Set property "DhGroup":
 	if typedInput.DhGroup != nil {
 		dhGroup := *typedInput.DhGroup
 		policy.DhGroup = &dhGroup
 	}
 
-	// Set property ‘IkeEncryption’:
+	// Set property "IkeEncryption":
 	if typedInput.IkeEncryption != nil {
 		ikeEncryption := *typedInput.IkeEncryption
 		policy.IkeEncryption = &ikeEncryption
 	}
 
-	// Set property ‘IkeIntegrity’:
+	// Set property "IkeIntegrity":
 	if typedInput.IkeIntegrity != nil {
 		ikeIntegrity := *typedInput.IkeIntegrity
 		policy.IkeIntegrity = &ikeIntegrity
 	}
 
-	// Set property ‘IpsecEncryption’:
+	// Set property "IpsecEncryption":
 	if typedInput.IpsecEncryption != nil {
 		ipsecEncryption := *typedInput.IpsecEncryption
 		policy.IpsecEncryption = &ipsecEncryption
 	}
 
-	// Set property ‘IpsecIntegrity’:
+	// Set property "IpsecIntegrity":
 	if typedInput.IpsecIntegrity != nil {
 		ipsecIntegrity := *typedInput.IpsecIntegrity
 		policy.IpsecIntegrity = &ipsecIntegrity
 	}
 
-	// Set property ‘PfsGroup’:
+	// Set property "PfsGroup":
 	if typedInput.PfsGroup != nil {
 		pfsGroup := *typedInput.PfsGroup
 		policy.PfsGroup = &pfsGroup
 	}
 
-	// Set property ‘SaDataSizeKilobytes’:
+	// Set property "SaDataSizeKilobytes":
 	if typedInput.SaDataSizeKilobytes != nil {
 		saDataSizeKilobytes := *typedInput.SaDataSizeKilobytes
 		policy.SaDataSizeKilobytes = &saDataSizeKilobytes
 	}
 
-	// Set property ‘SaLifeTimeSeconds’:
+	// Set property "SaLifeTimeSeconds":
 	if typedInput.SaLifeTimeSeconds != nil {
 		saLifeTimeSeconds := *typedInput.SaLifeTimeSeconds
 		policy.SaLifeTimeSeconds = &saLifeTimeSeconds
@@ -4235,49 +4235,49 @@ func (policy *IpsecPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpsecPolicy_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DhGroup’:
+	// Set property "DhGroup":
 	if typedInput.DhGroup != nil {
 		dhGroup := *typedInput.DhGroup
 		policy.DhGroup = &dhGroup
 	}
 
-	// Set property ‘IkeEncryption’:
+	// Set property "IkeEncryption":
 	if typedInput.IkeEncryption != nil {
 		ikeEncryption := *typedInput.IkeEncryption
 		policy.IkeEncryption = &ikeEncryption
 	}
 
-	// Set property ‘IkeIntegrity’:
+	// Set property "IkeIntegrity":
 	if typedInput.IkeIntegrity != nil {
 		ikeIntegrity := *typedInput.IkeIntegrity
 		policy.IkeIntegrity = &ikeIntegrity
 	}
 
-	// Set property ‘IpsecEncryption’:
+	// Set property "IpsecEncryption":
 	if typedInput.IpsecEncryption != nil {
 		ipsecEncryption := *typedInput.IpsecEncryption
 		policy.IpsecEncryption = &ipsecEncryption
 	}
 
-	// Set property ‘IpsecIntegrity’:
+	// Set property "IpsecIntegrity":
 	if typedInput.IpsecIntegrity != nil {
 		ipsecIntegrity := *typedInput.IpsecIntegrity
 		policy.IpsecIntegrity = &ipsecIntegrity
 	}
 
-	// Set property ‘PfsGroup’:
+	// Set property "PfsGroup":
 	if typedInput.PfsGroup != nil {
 		pfsGroup := *typedInput.PfsGroup
 		policy.PfsGroup = &pfsGroup
 	}
 
-	// Set property ‘SaDataSizeKilobytes’:
+	// Set property "SaDataSizeKilobytes":
 	if typedInput.SaDataSizeKilobytes != nil {
 		saDataSizeKilobytes := *typedInput.SaDataSizeKilobytes
 		policy.SaDataSizeKilobytes = &saDataSizeKilobytes
 	}
 
-	// Set property ‘SaLifeTimeSeconds’:
+	// Set property "SaLifeTimeSeconds":
 	if typedInput.SaLifeTimeSeconds != nil {
 		saLifeTimeSeconds := *typedInput.SaLifeTimeSeconds
 		policy.SaLifeTimeSeconds = &saLifeTimeSeconds
@@ -4435,19 +4435,19 @@ func (server *RadiusServer) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	}
 	result := &RadiusServer_ARM{}
 
-	// Set property ‘RadiusServerAddress’:
+	// Set property "RadiusServerAddress":
 	if server.RadiusServerAddress != nil {
 		radiusServerAddress := *server.RadiusServerAddress
 		result.RadiusServerAddress = &radiusServerAddress
 	}
 
-	// Set property ‘RadiusServerScore’:
+	// Set property "RadiusServerScore":
 	if server.RadiusServerScore != nil {
 		radiusServerScore := *server.RadiusServerScore
 		result.RadiusServerScore = &radiusServerScore
 	}
 
-	// Set property ‘RadiusServerSecret’:
+	// Set property "RadiusServerSecret":
 	if server.RadiusServerSecret != nil {
 		radiusServerSecret := *server.RadiusServerSecret
 		result.RadiusServerSecret = &radiusServerSecret
@@ -4467,19 +4467,19 @@ func (server *RadiusServer) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RadiusServer_ARM, got %T", armInput)
 	}
 
-	// Set property ‘RadiusServerAddress’:
+	// Set property "RadiusServerAddress":
 	if typedInput.RadiusServerAddress != nil {
 		radiusServerAddress := *typedInput.RadiusServerAddress
 		server.RadiusServerAddress = &radiusServerAddress
 	}
 
-	// Set property ‘RadiusServerScore’:
+	// Set property "RadiusServerScore":
 	if typedInput.RadiusServerScore != nil {
 		radiusServerScore := *typedInput.RadiusServerScore
 		server.RadiusServerScore = &radiusServerScore
 	}
 
-	// Set property ‘RadiusServerSecret’:
+	// Set property "RadiusServerSecret":
 	if typedInput.RadiusServerSecret != nil {
 		radiusServerSecret := *typedInput.RadiusServerSecret
 		server.RadiusServerSecret = &radiusServerSecret
@@ -4551,19 +4551,19 @@ func (server *RadiusServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RadiusServer_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘RadiusServerAddress’:
+	// Set property "RadiusServerAddress":
 	if typedInput.RadiusServerAddress != nil {
 		radiusServerAddress := *typedInput.RadiusServerAddress
 		server.RadiusServerAddress = &radiusServerAddress
 	}
 
-	// Set property ‘RadiusServerScore’:
+	// Set property "RadiusServerScore":
 	if typedInput.RadiusServerScore != nil {
 		radiusServerScore := *typedInput.RadiusServerScore
 		server.RadiusServerScore = &radiusServerScore
 	}
 
-	// Set property ‘RadiusServerSecret’:
+	// Set property "RadiusServerSecret":
 	if typedInput.RadiusServerSecret != nil {
 		radiusServerSecret := *typedInput.RadiusServerSecret
 		server.RadiusServerSecret = &radiusServerSecret
@@ -4767,13 +4767,13 @@ func (certificate *VpnClientRevokedCertificate) ConvertToARM(resolved genruntime
 	}
 	result := &VpnClientRevokedCertificate_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if certificate.Name != nil {
 		name := *certificate.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if certificate.Thumbprint != nil {
 		result.Properties = &VpnClientRevokedCertificatePropertiesFormat_ARM{}
 	}
@@ -4796,13 +4796,13 @@ func (certificate *VpnClientRevokedCertificate) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VpnClientRevokedCertificate_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		certificate.Name = &name
 	}
 
-	// Set property ‘Thumbprint’:
+	// Set property "Thumbprint":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Thumbprint != nil {
@@ -4873,25 +4873,25 @@ func (certificate *VpnClientRevokedCertificate_STATUS) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VpnClientRevokedCertificate_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		certificate.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		certificate.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		certificate.Name = &name
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -4900,7 +4900,7 @@ func (certificate *VpnClientRevokedCertificate_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘Thumbprint’:
+	// Set property "Thumbprint":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Thumbprint != nil {
@@ -4993,13 +4993,13 @@ func (certificate *VpnClientRootCertificate) ConvertToARM(resolved genruntime.Co
 	}
 	result := &VpnClientRootCertificate_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if certificate.Name != nil {
 		name := *certificate.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if certificate.PublicCertData != nil {
 		result.Properties = &VpnClientRootCertificatePropertiesFormat_ARM{}
 	}
@@ -5022,13 +5022,13 @@ func (certificate *VpnClientRootCertificate) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VpnClientRootCertificate_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		certificate.Name = &name
 	}
 
-	// Set property ‘PublicCertData’:
+	// Set property "PublicCertData":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicCertData != nil {
@@ -5099,25 +5099,25 @@ func (certificate *VpnClientRootCertificate_STATUS) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VpnClientRootCertificate_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		certificate.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		certificate.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		certificate.Name = &name
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -5126,7 +5126,7 @@ func (certificate *VpnClientRootCertificate_STATUS) PopulateFromARM(owner genrun
 		}
 	}
 
-	// Set property ‘PublicCertData’:
+	// Set property "PublicCertData":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicCertData != nil {

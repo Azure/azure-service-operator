@@ -328,16 +328,16 @@ func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_S
 	}
 	result := &DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if setting.Location != nil {
 		location := *setting.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if setting.Resource != nil {
 		result.Properties = &ThroughputSettingsUpdateProperties_ARM{}
 	}
@@ -350,7 +350,7 @@ func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_S
 		result.Properties.Resource = &resource
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if setting.Tags != nil {
 		result.Tags = make(map[string]string, len(setting.Tags))
 		for key, value := range setting.Tags {
@@ -372,16 +372,16 @@ func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_S
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		setting.Location = &location
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	setting.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Resource’:
+	// Set property "Resource":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
@@ -395,7 +395,7 @@ func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_S
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		setting.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -648,27 +648,27 @@ func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_S
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		setting.Id = &id
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		setting.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		setting.Name = &name
 	}
 
-	// Set property ‘Resource’:
+	// Set property "Resource":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
@@ -682,7 +682,7 @@ func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_S
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		setting.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -690,7 +690,7 @@ func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_S
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		setting.Type = &typeVar
@@ -822,7 +822,7 @@ func (resource *ThroughputSettingsGetProperties_Resource_STATUS) PopulateFromARM
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ThroughputSettingsGetProperties_Resource_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AutoscaleSettings’:
+	// Set property "AutoscaleSettings":
 	if typedInput.AutoscaleSettings != nil {
 		var autoscaleSettings1 AutoscaleSettingsResource_STATUS
 		err := autoscaleSettings1.PopulateFromARM(owner, *typedInput.AutoscaleSettings)
@@ -833,37 +833,37 @@ func (resource *ThroughputSettingsGetProperties_Resource_STATUS) PopulateFromARM
 		resource.AutoscaleSettings = &autoscaleSettings
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		resource.Etag = &etag
 	}
 
-	// Set property ‘MinimumThroughput’:
+	// Set property "MinimumThroughput":
 	if typedInput.MinimumThroughput != nil {
 		minimumThroughput := *typedInput.MinimumThroughput
 		resource.MinimumThroughput = &minimumThroughput
 	}
 
-	// Set property ‘OfferReplacePending’:
+	// Set property "OfferReplacePending":
 	if typedInput.OfferReplacePending != nil {
 		offerReplacePending := *typedInput.OfferReplacePending
 		resource.OfferReplacePending = &offerReplacePending
 	}
 
-	// Set property ‘Rid’:
+	// Set property "Rid":
 	if typedInput.Rid != nil {
 		rid := *typedInput.Rid
 		resource.Rid = &rid
 	}
 
-	// Set property ‘Throughput’:
+	// Set property "Throughput":
 	if typedInput.Throughput != nil {
 		throughput := *typedInput.Throughput
 		resource.Throughput = &throughput
 	}
 
-	// Set property ‘Ts’:
+	// Set property "Ts":
 	if typedInput.Ts != nil {
 		ts := *typedInput.Ts
 		resource.Ts = &ts
@@ -986,7 +986,7 @@ func (resource *ThroughputSettingsResource) ConvertToARM(resolved genruntime.Con
 	}
 	result := &ThroughputSettingsResource_ARM{}
 
-	// Set property ‘AutoscaleSettings’:
+	// Set property "AutoscaleSettings":
 	if resource.AutoscaleSettings != nil {
 		autoscaleSettings_ARM, err := (*resource.AutoscaleSettings).ConvertToARM(resolved)
 		if err != nil {
@@ -996,7 +996,7 @@ func (resource *ThroughputSettingsResource) ConvertToARM(resolved genruntime.Con
 		result.AutoscaleSettings = &autoscaleSettings
 	}
 
-	// Set property ‘Throughput’:
+	// Set property "Throughput":
 	if resource.Throughput != nil {
 		throughput := *resource.Throughput
 		result.Throughput = &throughput
@@ -1016,7 +1016,7 @@ func (resource *ThroughputSettingsResource) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ThroughputSettingsResource_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AutoscaleSettings’:
+	// Set property "AutoscaleSettings":
 	if typedInput.AutoscaleSettings != nil {
 		var autoscaleSettings1 AutoscaleSettingsResource
 		err := autoscaleSettings1.PopulateFromARM(owner, *typedInput.AutoscaleSettings)
@@ -1027,7 +1027,7 @@ func (resource *ThroughputSettingsResource) PopulateFromARM(owner genruntime.Arb
 		resource.AutoscaleSettings = &autoscaleSettings
 	}
 
-	// Set property ‘Throughput’:
+	// Set property "Throughput":
 	if typedInput.Throughput != nil {
 		throughput := *typedInput.Throughput
 		resource.Throughput = &throughput
@@ -1131,7 +1131,7 @@ func (resource *AutoscaleSettingsResource) ConvertToARM(resolved genruntime.Conv
 	}
 	result := &AutoscaleSettingsResource_ARM{}
 
-	// Set property ‘AutoUpgradePolicy’:
+	// Set property "AutoUpgradePolicy":
 	if resource.AutoUpgradePolicy != nil {
 		autoUpgradePolicy_ARM, err := (*resource.AutoUpgradePolicy).ConvertToARM(resolved)
 		if err != nil {
@@ -1141,7 +1141,7 @@ func (resource *AutoscaleSettingsResource) ConvertToARM(resolved genruntime.Conv
 		result.AutoUpgradePolicy = &autoUpgradePolicy
 	}
 
-	// Set property ‘MaxThroughput’:
+	// Set property "MaxThroughput":
 	if resource.MaxThroughput != nil {
 		maxThroughput := *resource.MaxThroughput
 		result.MaxThroughput = &maxThroughput
@@ -1161,7 +1161,7 @@ func (resource *AutoscaleSettingsResource) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoscaleSettingsResource_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AutoUpgradePolicy’:
+	// Set property "AutoUpgradePolicy":
 	if typedInput.AutoUpgradePolicy != nil {
 		var autoUpgradePolicy1 AutoUpgradePolicyResource
 		err := autoUpgradePolicy1.PopulateFromARM(owner, *typedInput.AutoUpgradePolicy)
@@ -1172,7 +1172,7 @@ func (resource *AutoscaleSettingsResource) PopulateFromARM(owner genruntime.Arbi
 		resource.AutoUpgradePolicy = &autoUpgradePolicy
 	}
 
-	// Set property ‘MaxThroughput’:
+	// Set property "MaxThroughput":
 	if typedInput.MaxThroughput != nil {
 		maxThroughput := *typedInput.MaxThroughput
 		resource.MaxThroughput = &maxThroughput
@@ -1284,7 +1284,7 @@ func (resource *AutoscaleSettingsResource_STATUS) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoscaleSettingsResource_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AutoUpgradePolicy’:
+	// Set property "AutoUpgradePolicy":
 	if typedInput.AutoUpgradePolicy != nil {
 		var autoUpgradePolicy1 AutoUpgradePolicyResource_STATUS
 		err := autoUpgradePolicy1.PopulateFromARM(owner, *typedInput.AutoUpgradePolicy)
@@ -1295,13 +1295,13 @@ func (resource *AutoscaleSettingsResource_STATUS) PopulateFromARM(owner genrunti
 		resource.AutoUpgradePolicy = &autoUpgradePolicy
 	}
 
-	// Set property ‘MaxThroughput’:
+	// Set property "MaxThroughput":
 	if typedInput.MaxThroughput != nil {
 		maxThroughput := *typedInput.MaxThroughput
 		resource.MaxThroughput = &maxThroughput
 	}
 
-	// Set property ‘TargetMaxThroughput’:
+	// Set property "TargetMaxThroughput":
 	if typedInput.TargetMaxThroughput != nil {
 		targetMaxThroughput := *typedInput.TargetMaxThroughput
 		resource.TargetMaxThroughput = &targetMaxThroughput
@@ -1385,7 +1385,7 @@ func (resource *AutoUpgradePolicyResource) ConvertToARM(resolved genruntime.Conv
 	}
 	result := &AutoUpgradePolicyResource_ARM{}
 
-	// Set property ‘ThroughputPolicy’:
+	// Set property "ThroughputPolicy":
 	if resource.ThroughputPolicy != nil {
 		throughputPolicy_ARM, err := (*resource.ThroughputPolicy).ConvertToARM(resolved)
 		if err != nil {
@@ -1409,7 +1409,7 @@ func (resource *AutoUpgradePolicyResource) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoUpgradePolicyResource_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ThroughputPolicy’:
+	// Set property "ThroughputPolicy":
 	if typedInput.ThroughputPolicy != nil {
 		var throughputPolicy1 ThroughputPolicyResource
 		err := throughputPolicy1.PopulateFromARM(owner, *typedInput.ThroughputPolicy)
@@ -1510,7 +1510,7 @@ func (resource *AutoUpgradePolicyResource_STATUS) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoUpgradePolicyResource_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ThroughputPolicy’:
+	// Set property "ThroughputPolicy":
 	if typedInput.ThroughputPolicy != nil {
 		var throughputPolicy1 ThroughputPolicyResource_STATUS
 		err := throughputPolicy1.PopulateFromARM(owner, *typedInput.ThroughputPolicy)
@@ -1590,13 +1590,13 @@ func (resource *ThroughputPolicyResource) ConvertToARM(resolved genruntime.Conve
 	}
 	result := &ThroughputPolicyResource_ARM{}
 
-	// Set property ‘IncrementPercent’:
+	// Set property "IncrementPercent":
 	if resource.IncrementPercent != nil {
 		incrementPercent := *resource.IncrementPercent
 		result.IncrementPercent = &incrementPercent
 	}
 
-	// Set property ‘IsEnabled’:
+	// Set property "IsEnabled":
 	if resource.IsEnabled != nil {
 		isEnabled := *resource.IsEnabled
 		result.IsEnabled = &isEnabled
@@ -1616,13 +1616,13 @@ func (resource *ThroughputPolicyResource) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ThroughputPolicyResource_ARM, got %T", armInput)
 	}
 
-	// Set property ‘IncrementPercent’:
+	// Set property "IncrementPercent":
 	if typedInput.IncrementPercent != nil {
 		incrementPercent := *typedInput.IncrementPercent
 		resource.IncrementPercent = &incrementPercent
 	}
 
-	// Set property ‘IsEnabled’:
+	// Set property "IsEnabled":
 	if typedInput.IsEnabled != nil {
 		isEnabled := *typedInput.IsEnabled
 		resource.IsEnabled = &isEnabled
@@ -1718,13 +1718,13 @@ func (resource *ThroughputPolicyResource_STATUS) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ThroughputPolicyResource_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘IncrementPercent’:
+	// Set property "IncrementPercent":
 	if typedInput.IncrementPercent != nil {
 		incrementPercent := *typedInput.IncrementPercent
 		resource.IncrementPercent = &incrementPercent
 	}
 
-	// Set property ‘IsEnabled’:
+	// Set property "IsEnabled":
 	if typedInput.IsEnabled != nil {
 		isEnabled := *typedInput.IsEnabled
 		resource.IsEnabled = &isEnabled
