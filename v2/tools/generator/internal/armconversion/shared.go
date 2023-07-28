@@ -242,7 +242,7 @@ const (
 	NoARMConversionValue = "noarmconversion"
 )
 
-func skipNonConvertablePropertyHandler(
+func skipPropertiesFlaggedWithNoARMConversion(
 	toProp *astmodel.PropertyDefinition,
 	fromType *astmodel.ObjectType,
 ) ([]dst.Stmt, bool) {

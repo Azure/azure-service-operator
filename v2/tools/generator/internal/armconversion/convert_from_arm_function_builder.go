@@ -65,7 +65,7 @@ func newConvertFromARMFunctionBuilder(
 	result.typeConversionBuilder.AddConversionHandlers(result.convertComplexTypeNameProperty)
 	result.propertyConversionHandlers = []propertyConversionHandler{
 		// Handlers for specific properties come first
-		skipNonConvertablePropertyHandler,
+		skipPropertiesFlaggedWithNoARMConversion,
 		result.namePropertyHandler,
 		result.ownerPropertyHandler,
 		result.conditionsPropertyHandler,

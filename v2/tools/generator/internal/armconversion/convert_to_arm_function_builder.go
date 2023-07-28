@@ -67,7 +67,7 @@ func newConvertToARMFunctionBuilder(
 
 	result.propertyConversionHandlers = []propertyConversionHandler{
 		// Handlers for specific properties come first
-		skipNonConvertablePropertyHandler,
+		skipPropertiesFlaggedWithNoARMConversion,
 		result.namePropertyHandler,
 		result.operatorSpecPropertyHandler,
 		result.configMapReferencePropertyHandler,
