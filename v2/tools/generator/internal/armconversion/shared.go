@@ -41,11 +41,6 @@ const (
 	TypeKindStatus
 )
 
-const (
-	ConversionTag        = "conversion"
-	NoARMConversionValue = "noarmconversion"
-)
-
 func (builder conversionBuilder) propertyConversionHandler(
 	toProp *astmodel.PropertyDefinition,
 	fromType *astmodel.ObjectType,
@@ -58,7 +53,7 @@ func (builder conversionBuilder) propertyConversionHandler(
 			break
 		}
 
-		if conversion.matched || toProp.HasTagValue(ConversionTag, NoARMConversionValue) {
+		if conversion.matched {
 			return conversion.statements, nil
 		}
 	}
@@ -240,4 +235,21 @@ func removeEmptyStatements(stmts []dst.Stmt) []dst.Stmt {
 	}
 
 	return result
+}
+
+const (
+	ConversionTag        = "conversion"
+	NoARMConversionValue = "noarmconversion"
+)
+
+func skipPropertiesFlaggedWithNoARMConversion(
+	toProp *astmodel.PropertyDefinition,
+	fromType *astmodel.ObjectType,
+) (propertyConversionHandlerResult, error) {
+	// If the property has been flagged as not being convertible, skip it
+	if toProp.HasTagValue(ConversionTag, NoARMConversionValue) {
+		return handledWithNoOp, nil
+	}
+
+	return notHandled, nil
 }
