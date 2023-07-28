@@ -47,10 +47,7 @@ func NewFileDefinition(
 		iName := definitions[i].Name().Name()
 		jName := definitions[j].Name().Name()
 
-		iKey := strings.ToLower(iName)
-		jKey := strings.ToLower(jName)
-
-		return iKey < jKey
+		return strings.ToLower(iName) < strings.ToLower(jName)
 	})
 
 	// TODO: check that all definitions are from same package
