@@ -361,7 +361,7 @@ func (disk *Disk_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 	}
 	result := &Disk_Spec_ARM{}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if disk.ExtendedLocation != nil {
 		extendedLocation_ARM, err := (*disk.ExtendedLocation).ConvertToARM(resolved)
 		if err != nil {
@@ -371,16 +371,16 @@ func (disk *Disk_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 		result.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if disk.Location != nil {
 		location := *disk.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if disk.BurstingEnabled != nil ||
 		disk.CreationData != nil ||
 		disk.DiskAccessReference != nil ||
@@ -484,7 +484,7 @@ func (disk *Disk_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 		result.Properties.Tier = &tier
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if disk.Sku != nil {
 		sku_ARM, err := (*disk.Sku).ConvertToARM(resolved)
 		if err != nil {
@@ -494,7 +494,7 @@ func (disk *Disk_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 		result.Sku = &sku
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if disk.Tags != nil {
 		result.Tags = make(map[string]string, len(disk.Tags))
 		for key, value := range disk.Tags {
@@ -502,7 +502,7 @@ func (disk *Disk_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 		}
 	}
 
-	// Set property ‘Zones’:
+	// Set property "Zones":
 	for _, item := range disk.Zones {
 		result.Zones = append(result.Zones, item)
 	}
@@ -521,10 +521,10 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Disk_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	disk.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘BurstingEnabled’:
+	// Set property "BurstingEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BurstingEnabled != nil {
@@ -533,7 +533,7 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		}
 	}
 
-	// Set property ‘CreationData’:
+	// Set property "CreationData":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreationData != nil {
@@ -547,9 +547,9 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		}
 	}
 
-	// no assignment for property ‘DiskAccessReference’
+	// no assignment for property "DiskAccessReference"
 
-	// Set property ‘DiskIOPSReadOnly’:
+	// Set property "DiskIOPSReadOnly":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DiskIOPSReadOnly != nil {
@@ -558,7 +558,7 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		}
 	}
 
-	// Set property ‘DiskIOPSReadWrite’:
+	// Set property "DiskIOPSReadWrite":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DiskIOPSReadWrite != nil {
@@ -567,7 +567,7 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		}
 	}
 
-	// Set property ‘DiskMBpsReadOnly’:
+	// Set property "DiskMBpsReadOnly":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DiskMBpsReadOnly != nil {
@@ -576,7 +576,7 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		}
 	}
 
-	// Set property ‘DiskMBpsReadWrite’:
+	// Set property "DiskMBpsReadWrite":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DiskMBpsReadWrite != nil {
@@ -585,7 +585,7 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		}
 	}
 
-	// Set property ‘DiskSizeGB’:
+	// Set property "DiskSizeGB":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DiskSizeGB != nil {
@@ -594,7 +594,7 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		}
 	}
 
-	// Set property ‘Encryption’:
+	// Set property "Encryption":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Encryption != nil {
@@ -608,7 +608,7 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		}
 	}
 
-	// Set property ‘EncryptionSettingsCollection’:
+	// Set property "EncryptionSettingsCollection":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EncryptionSettingsCollection != nil {
@@ -622,7 +622,7 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		}
 	}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if typedInput.ExtendedLocation != nil {
 		var extendedLocation1 ExtendedLocation
 		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
@@ -633,7 +633,7 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		disk.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘HyperVGeneration’:
+	// Set property "HyperVGeneration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HyperVGeneration != nil {
@@ -642,13 +642,13 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		disk.Location = &location
 	}
 
-	// Set property ‘MaxShares’:
+	// Set property "MaxShares":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxShares != nil {
@@ -657,7 +657,7 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		}
 	}
 
-	// Set property ‘NetworkAccessPolicy’:
+	// Set property "NetworkAccessPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NetworkAccessPolicy != nil {
@@ -666,7 +666,7 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		}
 	}
 
-	// Set property ‘OsType’:
+	// Set property "OsType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OsType != nil {
@@ -675,10 +675,10 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	disk.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘PurchasePlan’:
+	// Set property "PurchasePlan":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PurchasePlan != nil {
@@ -692,7 +692,7 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 DiskSku
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -703,7 +703,7 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		disk.Sku = &sku
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		disk.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -711,7 +711,7 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		}
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Tier != nil {
@@ -720,7 +720,7 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		}
 	}
 
-	// Set property ‘Zones’:
+	// Set property "Zones":
 	for _, item := range typedInput.Zones {
 		disk.Zones = append(disk.Zones, item)
 	}
@@ -1222,7 +1222,7 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Disk_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BurstingEnabled’:
+	// Set property "BurstingEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BurstingEnabled != nil {
@@ -1231,9 +1231,9 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘CreationData’:
+	// Set property "CreationData":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreationData != nil {
@@ -1247,7 +1247,7 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘DiskAccessId’:
+	// Set property "DiskAccessId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DiskAccessId != nil {
@@ -1256,7 +1256,7 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘DiskIOPSReadOnly’:
+	// Set property "DiskIOPSReadOnly":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DiskIOPSReadOnly != nil {
@@ -1265,7 +1265,7 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘DiskIOPSReadWrite’:
+	// Set property "DiskIOPSReadWrite":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DiskIOPSReadWrite != nil {
@@ -1274,7 +1274,7 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘DiskMBpsReadOnly’:
+	// Set property "DiskMBpsReadOnly":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DiskMBpsReadOnly != nil {
@@ -1283,7 +1283,7 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘DiskMBpsReadWrite’:
+	// Set property "DiskMBpsReadWrite":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DiskMBpsReadWrite != nil {
@@ -1292,7 +1292,7 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘DiskSizeBytes’:
+	// Set property "DiskSizeBytes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DiskSizeBytes != nil {
@@ -1301,7 +1301,7 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘DiskSizeGB’:
+	// Set property "DiskSizeGB":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DiskSizeGB != nil {
@@ -1310,7 +1310,7 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘DiskState’:
+	// Set property "DiskState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DiskState != nil {
@@ -1319,7 +1319,7 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘Encryption’:
+	// Set property "Encryption":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Encryption != nil {
@@ -1333,7 +1333,7 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘EncryptionSettingsCollection’:
+	// Set property "EncryptionSettingsCollection":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EncryptionSettingsCollection != nil {
@@ -1347,7 +1347,7 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if typedInput.ExtendedLocation != nil {
 		var extendedLocation1 ExtendedLocation_STATUS
 		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
@@ -1358,7 +1358,7 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		disk.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘HyperVGeneration’:
+	// Set property "HyperVGeneration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HyperVGeneration != nil {
@@ -1367,30 +1367,30 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		disk.Id = &id
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		disk.Location = &location
 	}
 
-	// Set property ‘ManagedBy’:
+	// Set property "ManagedBy":
 	if typedInput.ManagedBy != nil {
 		managedBy := *typedInput.ManagedBy
 		disk.ManagedBy = &managedBy
 	}
 
-	// Set property ‘ManagedByExtended’:
+	// Set property "ManagedByExtended":
 	for _, item := range typedInput.ManagedByExtended {
 		disk.ManagedByExtended = append(disk.ManagedByExtended, item)
 	}
 
-	// Set property ‘MaxShares’:
+	// Set property "MaxShares":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxShares != nil {
@@ -1399,13 +1399,13 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		disk.Name = &name
 	}
 
-	// Set property ‘NetworkAccessPolicy’:
+	// Set property "NetworkAccessPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NetworkAccessPolicy != nil {
@@ -1414,7 +1414,7 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘OsType’:
+	// Set property "OsType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OsType != nil {
@@ -1423,7 +1423,7 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -1432,7 +1432,7 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘PurchasePlan’:
+	// Set property "PurchasePlan":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PurchasePlan != nil {
@@ -1446,7 +1446,7 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘ShareInfo’:
+	// Set property "ShareInfo":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ShareInfo {
@@ -1459,7 +1459,7 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 DiskSku_STATUS
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -1470,7 +1470,7 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		disk.Sku = &sku
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		disk.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1478,7 +1478,7 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Tier != nil {
@@ -1487,7 +1487,7 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘TimeCreated’:
+	// Set property "TimeCreated":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TimeCreated != nil {
@@ -1496,13 +1496,13 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		disk.Type = &typeVar
 	}
 
-	// Set property ‘UniqueId’:
+	// Set property "UniqueId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.UniqueId != nil {
@@ -1511,7 +1511,7 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘Zones’:
+	// Set property "Zones":
 	for _, item := range typedInput.Zones {
 		disk.Zones = append(disk.Zones, item)
 	}
@@ -1951,13 +1951,13 @@ func (data *CreationData) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	}
 	result := &CreationData_ARM{}
 
-	// Set property ‘CreateOption’:
+	// Set property "CreateOption":
 	if data.CreateOption != nil {
 		createOption := *data.CreateOption
 		result.CreateOption = &createOption
 	}
 
-	// Set property ‘GalleryImageReference’:
+	// Set property "GalleryImageReference":
 	if data.GalleryImageReference != nil {
 		galleryImageReference_ARM, err := (*data.GalleryImageReference).ConvertToARM(resolved)
 		if err != nil {
@@ -1967,7 +1967,7 @@ func (data *CreationData) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		result.GalleryImageReference = &galleryImageReference
 	}
 
-	// Set property ‘ImageReference’:
+	// Set property "ImageReference":
 	if data.ImageReference != nil {
 		imageReference_ARM, err := (*data.ImageReference).ConvertToARM(resolved)
 		if err != nil {
@@ -1977,13 +1977,13 @@ func (data *CreationData) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		result.ImageReference = &imageReference
 	}
 
-	// Set property ‘LogicalSectorSize’:
+	// Set property "LogicalSectorSize":
 	if data.LogicalSectorSize != nil {
 		logicalSectorSize := *data.LogicalSectorSize
 		result.LogicalSectorSize = &logicalSectorSize
 	}
 
-	// Set property ‘SourceResourceId’:
+	// Set property "SourceResourceId":
 	if data.SourceResourceReference != nil {
 		sourceResourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*data.SourceResourceReference)
 		if err != nil {
@@ -1993,19 +1993,19 @@ func (data *CreationData) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		result.SourceResourceId = &sourceResourceReference
 	}
 
-	// Set property ‘SourceUri’:
+	// Set property "SourceUri":
 	if data.SourceUri != nil {
 		sourceUri := *data.SourceUri
 		result.SourceUri = &sourceUri
 	}
 
-	// Set property ‘StorageAccountId’:
+	// Set property "StorageAccountId":
 	if data.StorageAccountId != nil {
 		storageAccountId := *data.StorageAccountId
 		result.StorageAccountId = &storageAccountId
 	}
 
-	// Set property ‘UploadSizeBytes’:
+	// Set property "UploadSizeBytes":
 	if data.UploadSizeBytes != nil {
 		uploadSizeBytes := *data.UploadSizeBytes
 		result.UploadSizeBytes = &uploadSizeBytes
@@ -2025,13 +2025,13 @@ func (data *CreationData) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CreationData_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CreateOption’:
+	// Set property "CreateOption":
 	if typedInput.CreateOption != nil {
 		createOption := *typedInput.CreateOption
 		data.CreateOption = &createOption
 	}
 
-	// Set property ‘GalleryImageReference’:
+	// Set property "GalleryImageReference":
 	if typedInput.GalleryImageReference != nil {
 		var galleryImageReference1 ImageDiskReference
 		err := galleryImageReference1.PopulateFromARM(owner, *typedInput.GalleryImageReference)
@@ -2042,7 +2042,7 @@ func (data *CreationData) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		data.GalleryImageReference = &galleryImageReference
 	}
 
-	// Set property ‘ImageReference’:
+	// Set property "ImageReference":
 	if typedInput.ImageReference != nil {
 		var imageReference1 ImageDiskReference
 		err := imageReference1.PopulateFromARM(owner, *typedInput.ImageReference)
@@ -2053,27 +2053,27 @@ func (data *CreationData) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		data.ImageReference = &imageReference
 	}
 
-	// Set property ‘LogicalSectorSize’:
+	// Set property "LogicalSectorSize":
 	if typedInput.LogicalSectorSize != nil {
 		logicalSectorSize := *typedInput.LogicalSectorSize
 		data.LogicalSectorSize = &logicalSectorSize
 	}
 
-	// no assignment for property ‘SourceResourceReference’
+	// no assignment for property "SourceResourceReference"
 
-	// Set property ‘SourceUri’:
+	// Set property "SourceUri":
 	if typedInput.SourceUri != nil {
 		sourceUri := *typedInput.SourceUri
 		data.SourceUri = &sourceUri
 	}
 
-	// Set property ‘StorageAccountId’:
+	// Set property "StorageAccountId":
 	if typedInput.StorageAccountId != nil {
 		storageAccountId := *typedInput.StorageAccountId
 		data.StorageAccountId = &storageAccountId
 	}
 
-	// Set property ‘UploadSizeBytes’:
+	// Set property "UploadSizeBytes":
 	if typedInput.UploadSizeBytes != nil {
 		uploadSizeBytes := *typedInput.UploadSizeBytes
 		data.UploadSizeBytes = &uploadSizeBytes
@@ -2237,13 +2237,13 @@ func (data *CreationData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CreationData_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CreateOption’:
+	// Set property "CreateOption":
 	if typedInput.CreateOption != nil {
 		createOption := *typedInput.CreateOption
 		data.CreateOption = &createOption
 	}
 
-	// Set property ‘GalleryImageReference’:
+	// Set property "GalleryImageReference":
 	if typedInput.GalleryImageReference != nil {
 		var galleryImageReference1 ImageDiskReference_STATUS
 		err := galleryImageReference1.PopulateFromARM(owner, *typedInput.GalleryImageReference)
@@ -2254,7 +2254,7 @@ func (data *CreationData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		data.GalleryImageReference = &galleryImageReference
 	}
 
-	// Set property ‘ImageReference’:
+	// Set property "ImageReference":
 	if typedInput.ImageReference != nil {
 		var imageReference1 ImageDiskReference_STATUS
 		err := imageReference1.PopulateFromARM(owner, *typedInput.ImageReference)
@@ -2265,37 +2265,37 @@ func (data *CreationData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		data.ImageReference = &imageReference
 	}
 
-	// Set property ‘LogicalSectorSize’:
+	// Set property "LogicalSectorSize":
 	if typedInput.LogicalSectorSize != nil {
 		logicalSectorSize := *typedInput.LogicalSectorSize
 		data.LogicalSectorSize = &logicalSectorSize
 	}
 
-	// Set property ‘SourceResourceId’:
+	// Set property "SourceResourceId":
 	if typedInput.SourceResourceId != nil {
 		sourceResourceId := *typedInput.SourceResourceId
 		data.SourceResourceId = &sourceResourceId
 	}
 
-	// Set property ‘SourceUniqueId’:
+	// Set property "SourceUniqueId":
 	if typedInput.SourceUniqueId != nil {
 		sourceUniqueId := *typedInput.SourceUniqueId
 		data.SourceUniqueId = &sourceUniqueId
 	}
 
-	// Set property ‘SourceUri’:
+	// Set property "SourceUri":
 	if typedInput.SourceUri != nil {
 		sourceUri := *typedInput.SourceUri
 		data.SourceUri = &sourceUri
 	}
 
-	// Set property ‘StorageAccountId’:
+	// Set property "StorageAccountId":
 	if typedInput.StorageAccountId != nil {
 		storageAccountId := *typedInput.StorageAccountId
 		data.StorageAccountId = &storageAccountId
 	}
 
-	// Set property ‘UploadSizeBytes’:
+	// Set property "UploadSizeBytes":
 	if typedInput.UploadSizeBytes != nil {
 		uploadSizeBytes := *typedInput.UploadSizeBytes
 		data.UploadSizeBytes = &uploadSizeBytes
@@ -2477,7 +2477,7 @@ func (diskSku *DiskSku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	}
 	result := &DiskSku_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if diskSku.Name != nil {
 		name := *diskSku.Name
 		result.Name = &name
@@ -2497,7 +2497,7 @@ func (diskSku *DiskSku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DiskSku_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		diskSku.Name = &name
@@ -2566,13 +2566,13 @@ func (diskSku *DiskSku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DiskSku_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		diskSku.Name = &name
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if typedInput.Tier != nil {
 		tier := *typedInput.Tier
 		diskSku.Tier = &tier
@@ -2654,7 +2654,7 @@ func (encryption *Encryption) ConvertToARM(resolved genruntime.ConvertToARMResol
 	}
 	result := &Encryption_ARM{}
 
-	// Set property ‘DiskEncryptionSetId’:
+	// Set property "DiskEncryptionSetId":
 	if encryption.DiskEncryptionSetReference != nil {
 		diskEncryptionSetReferenceARMID, err := resolved.ResolvedReferences.Lookup(*encryption.DiskEncryptionSetReference)
 		if err != nil {
@@ -2664,7 +2664,7 @@ func (encryption *Encryption) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.DiskEncryptionSetId = &diskEncryptionSetReference
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if encryption.Type != nil {
 		typeVar := *encryption.Type
 		result.Type = &typeVar
@@ -2684,9 +2684,9 @@ func (encryption *Encryption) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Encryption_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘DiskEncryptionSetReference’
+	// no assignment for property "DiskEncryptionSetReference"
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		encryption.Type = &typeVar
@@ -2771,13 +2771,13 @@ func (encryption *Encryption_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Encryption_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DiskEncryptionSetId’:
+	// Set property "DiskEncryptionSetId":
 	if typedInput.DiskEncryptionSetId != nil {
 		diskEncryptionSetId := *typedInput.DiskEncryptionSetId
 		encryption.DiskEncryptionSetId = &diskEncryptionSetId
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		encryption.Type = &typeVar
@@ -2849,13 +2849,13 @@ func (collection *EncryptionSettingsCollection) ConvertToARM(resolved genruntime
 	}
 	result := &EncryptionSettingsCollection_ARM{}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if collection.Enabled != nil {
 		enabled := *collection.Enabled
 		result.Enabled = &enabled
 	}
 
-	// Set property ‘EncryptionSettings’:
+	// Set property "EncryptionSettings":
 	for _, item := range collection.EncryptionSettings {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -2864,7 +2864,7 @@ func (collection *EncryptionSettingsCollection) ConvertToARM(resolved genruntime
 		result.EncryptionSettings = append(result.EncryptionSettings, *item_ARM.(*EncryptionSettingsElement_ARM))
 	}
 
-	// Set property ‘EncryptionSettingsVersion’:
+	// Set property "EncryptionSettingsVersion":
 	if collection.EncryptionSettingsVersion != nil {
 		encryptionSettingsVersion := *collection.EncryptionSettingsVersion
 		result.EncryptionSettingsVersion = &encryptionSettingsVersion
@@ -2884,13 +2884,13 @@ func (collection *EncryptionSettingsCollection) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EncryptionSettingsCollection_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		collection.Enabled = &enabled
 	}
 
-	// Set property ‘EncryptionSettings’:
+	// Set property "EncryptionSettings":
 	for _, item := range typedInput.EncryptionSettings {
 		var item1 EncryptionSettingsElement
 		err := item1.PopulateFromARM(owner, item)
@@ -2900,7 +2900,7 @@ func (collection *EncryptionSettingsCollection) PopulateFromARM(owner genruntime
 		collection.EncryptionSettings = append(collection.EncryptionSettings, item1)
 	}
 
-	// Set property ‘EncryptionSettingsVersion’:
+	// Set property "EncryptionSettingsVersion":
 	if typedInput.EncryptionSettingsVersion != nil {
 		encryptionSettingsVersion := *typedInput.EncryptionSettingsVersion
 		collection.EncryptionSettingsVersion = &encryptionSettingsVersion
@@ -3012,13 +3012,13 @@ func (collection *EncryptionSettingsCollection_STATUS) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EncryptionSettingsCollection_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		collection.Enabled = &enabled
 	}
 
-	// Set property ‘EncryptionSettings’:
+	// Set property "EncryptionSettings":
 	for _, item := range typedInput.EncryptionSettings {
 		var item1 EncryptionSettingsElement_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -3028,7 +3028,7 @@ func (collection *EncryptionSettingsCollection_STATUS) PopulateFromARM(owner gen
 		collection.EncryptionSettings = append(collection.EncryptionSettings, item1)
 	}
 
-	// Set property ‘EncryptionSettingsVersion’:
+	// Set property "EncryptionSettingsVersion":
 	if typedInput.EncryptionSettingsVersion != nil {
 		encryptionSettingsVersion := *typedInput.EncryptionSettingsVersion
 		collection.EncryptionSettingsVersion = &encryptionSettingsVersion
@@ -3134,13 +3134,13 @@ func (location *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &ExtendedLocation_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if location.Name != nil {
 		name := *location.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if location.Type != nil {
 		typeVar := *location.Type
 		result.Type = &typeVar
@@ -3160,13 +3160,13 @@ func (location *ExtendedLocation) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExtendedLocation_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		location.Name = &name
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		location.Type = &typeVar
@@ -3241,13 +3241,13 @@ func (location *ExtendedLocation_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExtendedLocation_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		location.Name = &name
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		location.Type = &typeVar
@@ -3343,25 +3343,25 @@ func (plan *PurchasePlan) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	}
 	result := &PurchasePlan_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if plan.Name != nil {
 		name := *plan.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Product’:
+	// Set property "Product":
 	if plan.Product != nil {
 		product := *plan.Product
 		result.Product = &product
 	}
 
-	// Set property ‘PromotionCode’:
+	// Set property "PromotionCode":
 	if plan.PromotionCode != nil {
 		promotionCode := *plan.PromotionCode
 		result.PromotionCode = &promotionCode
 	}
 
-	// Set property ‘Publisher’:
+	// Set property "Publisher":
 	if plan.Publisher != nil {
 		publisher := *plan.Publisher
 		result.Publisher = &publisher
@@ -3381,25 +3381,25 @@ func (plan *PurchasePlan) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PurchasePlan_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		plan.Name = &name
 	}
 
-	// Set property ‘Product’:
+	// Set property "Product":
 	if typedInput.Product != nil {
 		product := *typedInput.Product
 		plan.Product = &product
 	}
 
-	// Set property ‘PromotionCode’:
+	// Set property "PromotionCode":
 	if typedInput.PromotionCode != nil {
 		promotionCode := *typedInput.PromotionCode
 		plan.PromotionCode = &promotionCode
 	}
 
-	// Set property ‘Publisher’:
+	// Set property "Publisher":
 	if typedInput.Publisher != nil {
 		publisher := *typedInput.Publisher
 		plan.Publisher = &publisher
@@ -3478,25 +3478,25 @@ func (plan *PurchasePlan_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PurchasePlan_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		plan.Name = &name
 	}
 
-	// Set property ‘Product’:
+	// Set property "Product":
 	if typedInput.Product != nil {
 		product := *typedInput.Product
 		plan.Product = &product
 	}
 
-	// Set property ‘PromotionCode’:
+	// Set property "PromotionCode":
 	if typedInput.PromotionCode != nil {
 		promotionCode := *typedInput.PromotionCode
 		plan.PromotionCode = &promotionCode
 	}
 
-	// Set property ‘Publisher’:
+	// Set property "Publisher":
 	if typedInput.Publisher != nil {
 		publisher := *typedInput.Publisher
 		plan.Publisher = &publisher
@@ -3572,7 +3572,7 @@ func (element *ShareInfoElement_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ShareInfoElement_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘VmUri’:
+	// Set property "VmUri":
 	if typedInput.VmUri != nil {
 		vmUri := *typedInput.VmUri
 		element.VmUri = &vmUri
@@ -3653,7 +3653,7 @@ func (element *EncryptionSettingsElement) ConvertToARM(resolved genruntime.Conve
 	}
 	result := &EncryptionSettingsElement_ARM{}
 
-	// Set property ‘DiskEncryptionKey’:
+	// Set property "DiskEncryptionKey":
 	if element.DiskEncryptionKey != nil {
 		diskEncryptionKey_ARM, err := (*element.DiskEncryptionKey).ConvertToARM(resolved)
 		if err != nil {
@@ -3663,7 +3663,7 @@ func (element *EncryptionSettingsElement) ConvertToARM(resolved genruntime.Conve
 		result.DiskEncryptionKey = &diskEncryptionKey
 	}
 
-	// Set property ‘KeyEncryptionKey’:
+	// Set property "KeyEncryptionKey":
 	if element.KeyEncryptionKey != nil {
 		keyEncryptionKey_ARM, err := (*element.KeyEncryptionKey).ConvertToARM(resolved)
 		if err != nil {
@@ -3687,7 +3687,7 @@ func (element *EncryptionSettingsElement) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EncryptionSettingsElement_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DiskEncryptionKey’:
+	// Set property "DiskEncryptionKey":
 	if typedInput.DiskEncryptionKey != nil {
 		var diskEncryptionKey1 KeyVaultAndSecretReference
 		err := diskEncryptionKey1.PopulateFromARM(owner, *typedInput.DiskEncryptionKey)
@@ -3698,7 +3698,7 @@ func (element *EncryptionSettingsElement) PopulateFromARM(owner genruntime.Arbit
 		element.DiskEncryptionKey = &diskEncryptionKey
 	}
 
-	// Set property ‘KeyEncryptionKey’:
+	// Set property "KeyEncryptionKey":
 	if typedInput.KeyEncryptionKey != nil {
 		var keyEncryptionKey1 KeyVaultAndKeyReference
 		err := keyEncryptionKey1.PopulateFromARM(owner, *typedInput.KeyEncryptionKey)
@@ -3804,7 +3804,7 @@ func (element *EncryptionSettingsElement_STATUS) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EncryptionSettingsElement_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DiskEncryptionKey’:
+	// Set property "DiskEncryptionKey":
 	if typedInput.DiskEncryptionKey != nil {
 		var diskEncryptionKey1 KeyVaultAndSecretReference_STATUS
 		err := diskEncryptionKey1.PopulateFromARM(owner, *typedInput.DiskEncryptionKey)
@@ -3815,7 +3815,7 @@ func (element *EncryptionSettingsElement_STATUS) PopulateFromARM(owner genruntim
 		element.DiskEncryptionKey = &diskEncryptionKey
 	}
 
-	// Set property ‘KeyEncryptionKey’:
+	// Set property "KeyEncryptionKey":
 	if typedInput.KeyEncryptionKey != nil {
 		var keyEncryptionKey1 KeyVaultAndKeyReference_STATUS
 		err := keyEncryptionKey1.PopulateFromARM(owner, *typedInput.KeyEncryptionKey)
@@ -3937,7 +3937,7 @@ func (reference *ImageDiskReference) ConvertToARM(resolved genruntime.ConvertToA
 	}
 	result := &ImageDiskReference_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if reference.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*reference.Reference)
 		if err != nil {
@@ -3947,7 +3947,7 @@ func (reference *ImageDiskReference) ConvertToARM(resolved genruntime.ConvertToA
 		result.Id = &reference1
 	}
 
-	// Set property ‘Lun’:
+	// Set property "Lun":
 	if reference.Lun != nil {
 		lun := *reference.Lun
 		result.Lun = &lun
@@ -3967,13 +3967,13 @@ func (reference *ImageDiskReference) PopulateFromARM(owner genruntime.ArbitraryO
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageDiskReference_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Lun’:
+	// Set property "Lun":
 	if typedInput.Lun != nil {
 		lun := *typedInput.Lun
 		reference.Lun = &lun
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil
@@ -4044,13 +4044,13 @@ func (reference *ImageDiskReference_STATUS) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageDiskReference_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		reference.Id = &id
 	}
 
-	// Set property ‘Lun’:
+	// Set property "Lun":
 	if typedInput.Lun != nil {
 		lun := *typedInput.Lun
 		reference.Lun = &lun
@@ -4113,13 +4113,13 @@ func (reference *KeyVaultAndKeyReference) ConvertToARM(resolved genruntime.Conve
 	}
 	result := &KeyVaultAndKeyReference_ARM{}
 
-	// Set property ‘KeyUrl’:
+	// Set property "KeyUrl":
 	if reference.KeyUrl != nil {
 		keyUrl := *reference.KeyUrl
 		result.KeyUrl = &keyUrl
 	}
 
-	// Set property ‘SourceVault’:
+	// Set property "SourceVault":
 	if reference.SourceVault != nil {
 		sourceVault_ARM, err := (*reference.SourceVault).ConvertToARM(resolved)
 		if err != nil {
@@ -4143,13 +4143,13 @@ func (reference *KeyVaultAndKeyReference) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultAndKeyReference_ARM, got %T", armInput)
 	}
 
-	// Set property ‘KeyUrl’:
+	// Set property "KeyUrl":
 	if typedInput.KeyUrl != nil {
 		keyUrl := *typedInput.KeyUrl
 		reference.KeyUrl = &keyUrl
 	}
 
-	// Set property ‘SourceVault’:
+	// Set property "SourceVault":
 	if typedInput.SourceVault != nil {
 		var sourceVault1 SourceVault
 		err := sourceVault1.PopulateFromARM(owner, *typedInput.SourceVault)
@@ -4237,13 +4237,13 @@ func (reference *KeyVaultAndKeyReference_STATUS) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultAndKeyReference_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘KeyUrl’:
+	// Set property "KeyUrl":
 	if typedInput.KeyUrl != nil {
 		keyUrl := *typedInput.KeyUrl
 		reference.KeyUrl = &keyUrl
 	}
 
-	// Set property ‘SourceVault’:
+	// Set property "SourceVault":
 	if typedInput.SourceVault != nil {
 		var sourceVault1 SourceVault_STATUS
 		err := sourceVault1.PopulateFromARM(owner, *typedInput.SourceVault)
@@ -4329,13 +4329,13 @@ func (reference *KeyVaultAndSecretReference) ConvertToARM(resolved genruntime.Co
 	}
 	result := &KeyVaultAndSecretReference_ARM{}
 
-	// Set property ‘SecretUrl’:
+	// Set property "SecretUrl":
 	if reference.SecretUrl != nil {
 		secretUrl := *reference.SecretUrl
 		result.SecretUrl = &secretUrl
 	}
 
-	// Set property ‘SourceVault’:
+	// Set property "SourceVault":
 	if reference.SourceVault != nil {
 		sourceVault_ARM, err := (*reference.SourceVault).ConvertToARM(resolved)
 		if err != nil {
@@ -4359,13 +4359,13 @@ func (reference *KeyVaultAndSecretReference) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultAndSecretReference_ARM, got %T", armInput)
 	}
 
-	// Set property ‘SecretUrl’:
+	// Set property "SecretUrl":
 	if typedInput.SecretUrl != nil {
 		secretUrl := *typedInput.SecretUrl
 		reference.SecretUrl = &secretUrl
 	}
 
-	// Set property ‘SourceVault’:
+	// Set property "SourceVault":
 	if typedInput.SourceVault != nil {
 		var sourceVault1 SourceVault
 		err := sourceVault1.PopulateFromARM(owner, *typedInput.SourceVault)
@@ -4453,13 +4453,13 @@ func (reference *KeyVaultAndSecretReference_STATUS) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultAndSecretReference_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘SecretUrl’:
+	// Set property "SecretUrl":
 	if typedInput.SecretUrl != nil {
 		secretUrl := *typedInput.SecretUrl
 		reference.SecretUrl = &secretUrl
 	}
 
-	// Set property ‘SourceVault’:
+	// Set property "SourceVault":
 	if typedInput.SourceVault != nil {
 		var sourceVault1 SourceVault_STATUS
 		err := sourceVault1.PopulateFromARM(owner, *typedInput.SourceVault)
@@ -4541,7 +4541,7 @@ func (vault *SourceVault) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	}
 	result := &SourceVault_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if vault.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*vault.Reference)
 		if err != nil {
@@ -4565,7 +4565,7 @@ func (vault *SourceVault) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SourceVault_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil
@@ -4629,7 +4629,7 @@ func (vault *SourceVault_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SourceVault_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		vault.Id = &id

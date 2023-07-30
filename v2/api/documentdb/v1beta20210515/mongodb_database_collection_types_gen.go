@@ -336,16 +336,16 @@ func (collection *DatabaseAccounts_MongodbDatabases_Collection_Spec) ConvertToAR
 	}
 	result := &DatabaseAccounts_MongodbDatabases_Collection_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if collection.Location != nil {
 		location := *collection.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if collection.Options != nil || collection.Resource != nil {
 		result.Properties = &MongoDBCollectionCreateUpdateProperties_ARM{}
 	}
@@ -366,7 +366,7 @@ func (collection *DatabaseAccounts_MongodbDatabases_Collection_Spec) ConvertToAR
 		result.Properties.Resource = &resource
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if collection.Tags != nil {
 		result.Tags = make(map[string]string, len(collection.Tags))
 		for key, value := range collection.Tags {
@@ -388,16 +388,16 @@ func (collection *DatabaseAccounts_MongodbDatabases_Collection_Spec) PopulateFro
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_MongodbDatabases_Collection_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	collection.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		collection.Location = &location
 	}
 
-	// Set property ‘Options’:
+	// Set property "Options":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Options != nil {
@@ -411,10 +411,10 @@ func (collection *DatabaseAccounts_MongodbDatabases_Collection_Spec) PopulateFro
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	collection.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Resource’:
+	// Set property "Resource":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
@@ -428,7 +428,7 @@ func (collection *DatabaseAccounts_MongodbDatabases_Collection_Spec) PopulateFro
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		collection.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -685,27 +685,27 @@ func (collection *DatabaseAccounts_MongodbDatabases_Collection_STATUS) PopulateF
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_MongodbDatabases_Collection_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		collection.Id = &id
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		collection.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		collection.Name = &name
 	}
 
-	// Set property ‘Options’:
+	// Set property "Options":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Options != nil {
@@ -719,7 +719,7 @@ func (collection *DatabaseAccounts_MongodbDatabases_Collection_STATUS) PopulateF
 		}
 	}
 
-	// Set property ‘Resource’:
+	// Set property "Resource":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
@@ -733,7 +733,7 @@ func (collection *DatabaseAccounts_MongodbDatabases_Collection_STATUS) PopulateF
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		collection.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -741,7 +741,7 @@ func (collection *DatabaseAccounts_MongodbDatabases_Collection_STATUS) PopulateF
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		collection.Type = &typeVar
@@ -883,25 +883,25 @@ func (resource *MongoDBCollectionGetProperties_Resource_STATUS) PopulateFromARM(
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoDBCollectionGetProperties_Resource_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AnalyticalStorageTtl’:
+	// Set property "AnalyticalStorageTtl":
 	if typedInput.AnalyticalStorageTtl != nil {
 		analyticalStorageTtl := *typedInput.AnalyticalStorageTtl
 		resource.AnalyticalStorageTtl = &analyticalStorageTtl
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		resource.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		resource.Id = &id
 	}
 
-	// Set property ‘Indexes’:
+	// Set property "Indexes":
 	for _, item := range typedInput.Indexes {
 		var item1 MongoIndex_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -911,13 +911,13 @@ func (resource *MongoDBCollectionGetProperties_Resource_STATUS) PopulateFromARM(
 		resource.Indexes = append(resource.Indexes, item1)
 	}
 
-	// Set property ‘Rid’:
+	// Set property "Rid":
 	if typedInput.Rid != nil {
 		rid := *typedInput.Rid
 		resource.Rid = &rid
 	}
 
-	// Set property ‘ShardKey’:
+	// Set property "ShardKey":
 	if typedInput.ShardKey != nil {
 		resource.ShardKey = make(map[string]string, len(typedInput.ShardKey))
 		for key, value := range typedInput.ShardKey {
@@ -925,7 +925,7 @@ func (resource *MongoDBCollectionGetProperties_Resource_STATUS) PopulateFromARM(
 		}
 	}
 
-	// Set property ‘Ts’:
+	// Set property "Ts":
 	if typedInput.Ts != nil {
 		ts := *typedInput.Ts
 		resource.Ts = &ts
@@ -1059,19 +1059,19 @@ func (resource *MongoDBCollectionResource) ConvertToARM(resolved genruntime.Conv
 	}
 	result := &MongoDBCollectionResource_ARM{}
 
-	// Set property ‘AnalyticalStorageTtl’:
+	// Set property "AnalyticalStorageTtl":
 	if resource.AnalyticalStorageTtl != nil {
 		analyticalStorageTtl := *resource.AnalyticalStorageTtl
 		result.AnalyticalStorageTtl = &analyticalStorageTtl
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if resource.Id != nil {
 		id := *resource.Id
 		result.Id = &id
 	}
 
-	// Set property ‘Indexes’:
+	// Set property "Indexes":
 	for _, item := range resource.Indexes {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -1080,7 +1080,7 @@ func (resource *MongoDBCollectionResource) ConvertToARM(resolved genruntime.Conv
 		result.Indexes = append(result.Indexes, *item_ARM.(*MongoIndex_ARM))
 	}
 
-	// Set property ‘ShardKey’:
+	// Set property "ShardKey":
 	if resource.ShardKey != nil {
 		result.ShardKey = make(map[string]string, len(resource.ShardKey))
 		for key, value := range resource.ShardKey {
@@ -1102,19 +1102,19 @@ func (resource *MongoDBCollectionResource) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoDBCollectionResource_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AnalyticalStorageTtl’:
+	// Set property "AnalyticalStorageTtl":
 	if typedInput.AnalyticalStorageTtl != nil {
 		analyticalStorageTtl := *typedInput.AnalyticalStorageTtl
 		resource.AnalyticalStorageTtl = &analyticalStorageTtl
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		resource.Id = &id
 	}
 
-	// Set property ‘Indexes’:
+	// Set property "Indexes":
 	for _, item := range typedInput.Indexes {
 		var item1 MongoIndex
 		err := item1.PopulateFromARM(owner, item)
@@ -1124,7 +1124,7 @@ func (resource *MongoDBCollectionResource) PopulateFromARM(owner genruntime.Arbi
 		resource.Indexes = append(resource.Indexes, item1)
 	}
 
-	// Set property ‘ShardKey’:
+	// Set property "ShardKey":
 	if typedInput.ShardKey != nil {
 		resource.ShardKey = make(map[string]string, len(typedInput.ShardKey))
 		for key, value := range typedInput.ShardKey {
@@ -1228,7 +1228,7 @@ func (index *MongoIndex) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	}
 	result := &MongoIndex_ARM{}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if index.Key != nil {
 		key_ARM, err := (*index.Key).ConvertToARM(resolved)
 		if err != nil {
@@ -1238,7 +1238,7 @@ func (index *MongoIndex) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		result.Key = &key
 	}
 
-	// Set property ‘Options’:
+	// Set property "Options":
 	if index.Options != nil {
 		options_ARM, err := (*index.Options).ConvertToARM(resolved)
 		if err != nil {
@@ -1262,7 +1262,7 @@ func (index *MongoIndex) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoIndex_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		var key1 MongoIndexKeys
 		err := key1.PopulateFromARM(owner, *typedInput.Key)
@@ -1273,7 +1273,7 @@ func (index *MongoIndex) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		index.Key = &key
 	}
 
-	// Set property ‘Options’:
+	// Set property "Options":
 	if typedInput.Options != nil {
 		var options1 MongoIndexOptions
 		err := options1.PopulateFromARM(owner, *typedInput.Options)
@@ -1379,7 +1379,7 @@ func (index *MongoIndex_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoIndex_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		var key1 MongoIndexKeys_STATUS
 		err := key1.PopulateFromARM(owner, *typedInput.Key)
@@ -1390,7 +1390,7 @@ func (index *MongoIndex_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		index.Key = &key
 	}
 
-	// Set property ‘Options’:
+	// Set property "Options":
 	if typedInput.Options != nil {
 		var options1 MongoIndexOptions_STATUS
 		err := options1.PopulateFromARM(owner, *typedInput.Options)
@@ -1490,7 +1490,7 @@ func (keys *MongoIndexKeys) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	}
 	result := &MongoIndexKeys_ARM{}
 
-	// Set property ‘Keys’:
+	// Set property "Keys":
 	for _, item := range keys.Keys {
 		result.Keys = append(result.Keys, item)
 	}
@@ -1509,7 +1509,7 @@ func (keys *MongoIndexKeys) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoIndexKeys_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Keys’:
+	// Set property "Keys":
 	for _, item := range typedInput.Keys {
 		keys.Keys = append(keys.Keys, item)
 	}
@@ -1566,7 +1566,7 @@ func (keys *MongoIndexKeys_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoIndexKeys_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Keys’:
+	// Set property "Keys":
 	for _, item := range typedInput.Keys {
 		keys.Keys = append(keys.Keys, item)
 	}
@@ -1619,13 +1619,13 @@ func (options *MongoIndexOptions) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &MongoIndexOptions_ARM{}
 
-	// Set property ‘ExpireAfterSeconds’:
+	// Set property "ExpireAfterSeconds":
 	if options.ExpireAfterSeconds != nil {
 		expireAfterSeconds := *options.ExpireAfterSeconds
 		result.ExpireAfterSeconds = &expireAfterSeconds
 	}
 
-	// Set property ‘Unique’:
+	// Set property "Unique":
 	if options.Unique != nil {
 		unique := *options.Unique
 		result.Unique = &unique
@@ -1645,13 +1645,13 @@ func (options *MongoIndexOptions) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoIndexOptions_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ExpireAfterSeconds’:
+	// Set property "ExpireAfterSeconds":
 	if typedInput.ExpireAfterSeconds != nil {
 		expireAfterSeconds := *typedInput.ExpireAfterSeconds
 		options.ExpireAfterSeconds = &expireAfterSeconds
 	}
 
-	// Set property ‘Unique’:
+	// Set property "Unique":
 	if typedInput.Unique != nil {
 		unique := *typedInput.Unique
 		options.Unique = &unique
@@ -1726,13 +1726,13 @@ func (options *MongoIndexOptions_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoIndexOptions_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ExpireAfterSeconds’:
+	// Set property "ExpireAfterSeconds":
 	if typedInput.ExpireAfterSeconds != nil {
 		expireAfterSeconds := *typedInput.ExpireAfterSeconds
 		options.ExpireAfterSeconds = &expireAfterSeconds
 	}
 
-	// Set property ‘Unique’:
+	// Set property "Unique":
 	if typedInput.Unique != nil {
 		unique := *typedInput.Unique
 		options.Unique = &unique

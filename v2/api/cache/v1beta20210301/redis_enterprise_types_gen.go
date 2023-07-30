@@ -345,16 +345,16 @@ func (enterprise *RedisEnterprise_Spec) ConvertToARM(resolved genruntime.Convert
 	}
 	result := &RedisEnterprise_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if enterprise.Location != nil {
 		location := *enterprise.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if enterprise.MinimumTlsVersion != nil {
 		result.Properties = &ClusterProperties_ARM{}
 	}
@@ -363,7 +363,7 @@ func (enterprise *RedisEnterprise_Spec) ConvertToARM(resolved genruntime.Convert
 		result.Properties.MinimumTlsVersion = &minimumTlsVersion
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if enterprise.Sku != nil {
 		sku_ARM, err := (*enterprise.Sku).ConvertToARM(resolved)
 		if err != nil {
@@ -373,7 +373,7 @@ func (enterprise *RedisEnterprise_Spec) ConvertToARM(resolved genruntime.Convert
 		result.Sku = &sku
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if enterprise.Tags != nil {
 		result.Tags = make(map[string]string, len(enterprise.Tags))
 		for key, value := range enterprise.Tags {
@@ -381,7 +381,7 @@ func (enterprise *RedisEnterprise_Spec) ConvertToARM(resolved genruntime.Convert
 		}
 	}
 
-	// Set property ‘Zones’:
+	// Set property "Zones":
 	for _, item := range enterprise.Zones {
 		result.Zones = append(result.Zones, item)
 	}
@@ -400,16 +400,16 @@ func (enterprise *RedisEnterprise_Spec) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisEnterprise_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	enterprise.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		enterprise.Location = &location
 	}
 
-	// Set property ‘MinimumTlsVersion’:
+	// Set property "MinimumTlsVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinimumTlsVersion != nil {
@@ -418,10 +418,10 @@ func (enterprise *RedisEnterprise_Spec) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	enterprise.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 Sku
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -432,7 +432,7 @@ func (enterprise *RedisEnterprise_Spec) PopulateFromARM(owner genruntime.Arbitra
 		enterprise.Sku = &sku
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		enterprise.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -440,7 +440,7 @@ func (enterprise *RedisEnterprise_Spec) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘Zones’:
+	// Set property "Zones":
 	for _, item := range typedInput.Zones {
 		enterprise.Zones = append(enterprise.Zones, item)
 	}
@@ -698,9 +698,9 @@ func (enterprise *RedisEnterprise_STATUS) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisEnterprise_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘HostName’:
+	// Set property "HostName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HostName != nil {
@@ -709,19 +709,19 @@ func (enterprise *RedisEnterprise_STATUS) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		enterprise.Id = &id
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		enterprise.Location = &location
 	}
 
-	// Set property ‘MinimumTlsVersion’:
+	// Set property "MinimumTlsVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinimumTlsVersion != nil {
@@ -730,13 +730,13 @@ func (enterprise *RedisEnterprise_STATUS) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		enterprise.Name = &name
 	}
 
-	// Set property ‘PrivateEndpointConnections’:
+	// Set property "PrivateEndpointConnections":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PrivateEndpointConnections {
@@ -749,7 +749,7 @@ func (enterprise *RedisEnterprise_STATUS) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -758,7 +758,7 @@ func (enterprise *RedisEnterprise_STATUS) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
-	// Set property ‘RedisVersion’:
+	// Set property "RedisVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RedisVersion != nil {
@@ -767,7 +767,7 @@ func (enterprise *RedisEnterprise_STATUS) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
-	// Set property ‘ResourceState’:
+	// Set property "ResourceState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceState != nil {
@@ -776,7 +776,7 @@ func (enterprise *RedisEnterprise_STATUS) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 Sku_STATUS
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -787,7 +787,7 @@ func (enterprise *RedisEnterprise_STATUS) PopulateFromARM(owner genruntime.Arbit
 		enterprise.Sku = &sku
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		enterprise.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -795,13 +795,13 @@ func (enterprise *RedisEnterprise_STATUS) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		enterprise.Type = &typeVar
 	}
 
-	// Set property ‘Zones’:
+	// Set property "Zones":
 	for _, item := range typedInput.Zones {
 		enterprise.Zones = append(enterprise.Zones, item)
 	}
@@ -1034,7 +1034,7 @@ func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		connection.Id = &id
@@ -1120,13 +1120,13 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	}
 	result := &Sku_ARM{}
 
-	// Set property ‘Capacity’:
+	// Set property "Capacity":
 	if sku.Capacity != nil {
 		capacity := *sku.Capacity
 		result.Capacity = &capacity
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if sku.Name != nil {
 		name := *sku.Name
 		result.Name = &name
@@ -1146,13 +1146,13 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Capacity’:
+	// Set property "Capacity":
 	if typedInput.Capacity != nil {
 		capacity := *typedInput.Capacity
 		sku.Capacity = &capacity
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		sku.Name = &name
@@ -1227,13 +1227,13 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Capacity’:
+	// Set property "Capacity":
 	if typedInput.Capacity != nil {
 		capacity := *typedInput.Capacity
 		sku.Capacity = &capacity
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		sku.Name = &name

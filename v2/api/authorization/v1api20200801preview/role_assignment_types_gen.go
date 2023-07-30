@@ -368,10 +368,10 @@ func (assignment *RoleAssignment_Spec) ConvertToARM(resolved genruntime.ConvertT
 	}
 	result := &RoleAssignment_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if assignment.Condition != nil ||
 		assignment.ConditionVersion != nil ||
 		assignment.DelegatedManagedIdentityResourceId != nil ||
@@ -437,10 +437,10 @@ func (assignment *RoleAssignment_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoleAssignment_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	assignment.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Condition’:
+	// Set property "Condition":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Condition != nil {
@@ -449,7 +449,7 @@ func (assignment *RoleAssignment_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘ConditionVersion’:
+	// Set property "ConditionVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ConditionVersion != nil {
@@ -458,7 +458,7 @@ func (assignment *RoleAssignment_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘DelegatedManagedIdentityResourceId’:
+	// Set property "DelegatedManagedIdentityResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DelegatedManagedIdentityResourceId != nil {
@@ -467,7 +467,7 @@ func (assignment *RoleAssignment_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘Description’:
+	// Set property "Description":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Description != nil {
@@ -476,10 +476,10 @@ func (assignment *RoleAssignment_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	assignment.Owner = &owner
 
-	// Set property ‘PrincipalId’:
+	// Set property "PrincipalId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrincipalId != nil {
@@ -488,9 +488,9 @@ func (assignment *RoleAssignment_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// no assignment for property ‘PrincipalIdFromConfig’
+	// no assignment for property "PrincipalIdFromConfig"
 
-	// Set property ‘PrincipalType’:
+	// Set property "PrincipalType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrincipalType != nil {
@@ -499,7 +499,7 @@ func (assignment *RoleAssignment_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// no assignment for property ‘RoleDefinitionReference’
+	// no assignment for property "RoleDefinitionReference"
 
 	// No error
 	return nil
@@ -846,7 +846,7 @@ func (assignment *RoleAssignment_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoleAssignment_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Condition’:
+	// Set property "Condition":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Condition != nil {
@@ -855,7 +855,7 @@ func (assignment *RoleAssignment_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘ConditionVersion’:
+	// Set property "ConditionVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ConditionVersion != nil {
@@ -864,9 +864,9 @@ func (assignment *RoleAssignment_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘CreatedBy’:
+	// Set property "CreatedBy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreatedBy != nil {
@@ -875,7 +875,7 @@ func (assignment *RoleAssignment_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘CreatedOn’:
+	// Set property "CreatedOn":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreatedOn != nil {
@@ -884,7 +884,7 @@ func (assignment *RoleAssignment_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘DelegatedManagedIdentityResourceId’:
+	// Set property "DelegatedManagedIdentityResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DelegatedManagedIdentityResourceId != nil {
@@ -893,7 +893,7 @@ func (assignment *RoleAssignment_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘Description’:
+	// Set property "Description":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Description != nil {
@@ -902,19 +902,19 @@ func (assignment *RoleAssignment_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		assignment.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		assignment.Name = &name
 	}
 
-	// Set property ‘PrincipalId’:
+	// Set property "PrincipalId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrincipalId != nil {
@@ -923,7 +923,7 @@ func (assignment *RoleAssignment_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘PrincipalType’:
+	// Set property "PrincipalType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrincipalType != nil {
@@ -932,7 +932,7 @@ func (assignment *RoleAssignment_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘RoleDefinitionId’:
+	// Set property "RoleDefinitionId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RoleDefinitionId != nil {
@@ -941,7 +941,7 @@ func (assignment *RoleAssignment_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘Scope’:
+	// Set property "Scope":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Scope != nil {
@@ -950,13 +950,13 @@ func (assignment *RoleAssignment_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		assignment.Type = &typeVar
 	}
 
-	// Set property ‘UpdatedBy’:
+	// Set property "UpdatedBy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.UpdatedBy != nil {
@@ -965,7 +965,7 @@ func (assignment *RoleAssignment_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘UpdatedOn’:
+	// Set property "UpdatedOn":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.UpdatedOn != nil {

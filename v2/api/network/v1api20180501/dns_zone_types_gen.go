@@ -354,16 +354,16 @@ func (zone *DnsZone_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	}
 	result := &DnsZone_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if zone.Location != nil {
 		location := *zone.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if zone.RegistrationVirtualNetworks != nil ||
 		zone.ResolutionVirtualNetworks != nil ||
 		zone.ZoneType != nil {
@@ -388,7 +388,7 @@ func (zone *DnsZone_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		result.Properties.ZoneType = &zoneType
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if zone.Tags != nil {
 		result.Tags = make(map[string]string, len(zone.Tags))
 		for key, value := range zone.Tags {
@@ -410,19 +410,19 @@ func (zone *DnsZone_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsZone_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	zone.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		zone.Location = &location
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	zone.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘RegistrationVirtualNetworks’:
+	// Set property "RegistrationVirtualNetworks":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.RegistrationVirtualNetworks {
@@ -435,7 +435,7 @@ func (zone *DnsZone_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		}
 	}
 
-	// Set property ‘ResolutionVirtualNetworks’:
+	// Set property "ResolutionVirtualNetworks":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ResolutionVirtualNetworks {
@@ -448,7 +448,7 @@ func (zone *DnsZone_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		zone.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -456,7 +456,7 @@ func (zone *DnsZone_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		}
 	}
 
-	// Set property ‘ZoneType’:
+	// Set property "ZoneType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ZoneType != nil {
@@ -846,27 +846,27 @@ func (zone *DnsZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsZone_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		zone.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		zone.Id = &id
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		zone.Location = &location
 	}
 
-	// Set property ‘MaxNumberOfRecordSets’:
+	// Set property "MaxNumberOfRecordSets":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxNumberOfRecordSets != nil {
@@ -875,7 +875,7 @@ func (zone *DnsZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		}
 	}
 
-	// Set property ‘MaxNumberOfRecordsPerRecordSet’:
+	// Set property "MaxNumberOfRecordsPerRecordSet":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxNumberOfRecordsPerRecordSet != nil {
@@ -884,13 +884,13 @@ func (zone *DnsZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		zone.Name = &name
 	}
 
-	// Set property ‘NameServers’:
+	// Set property "NameServers":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.NameServers {
@@ -898,7 +898,7 @@ func (zone *DnsZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		}
 	}
 
-	// Set property ‘NumberOfRecordSets’:
+	// Set property "NumberOfRecordSets":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NumberOfRecordSets != nil {
@@ -907,7 +907,7 @@ func (zone *DnsZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		}
 	}
 
-	// Set property ‘RegistrationVirtualNetworks’:
+	// Set property "RegistrationVirtualNetworks":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.RegistrationVirtualNetworks {
@@ -920,7 +920,7 @@ func (zone *DnsZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		}
 	}
 
-	// Set property ‘ResolutionVirtualNetworks’:
+	// Set property "ResolutionVirtualNetworks":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ResolutionVirtualNetworks {
@@ -933,7 +933,7 @@ func (zone *DnsZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		zone.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -941,13 +941,13 @@ func (zone *DnsZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		zone.Type = &typeVar
 	}
 
-	// Set property ‘ZoneType’:
+	// Set property "ZoneType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ZoneType != nil {
@@ -1152,7 +1152,7 @@ func (resource *SubResource) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	}
 	result := &SubResource_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if resource.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*resource.Reference)
 		if err != nil {
@@ -1176,7 +1176,7 @@ func (resource *SubResource) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubResource_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil
@@ -1256,7 +1256,7 @@ func (resource *SubResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubResource_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		resource.Id = &id

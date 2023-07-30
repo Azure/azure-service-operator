@@ -344,10 +344,10 @@ func (eventhub *Namespaces_Eventhub_Spec) ConvertToARM(resolved genruntime.Conve
 	}
 	result := &Namespaces_Eventhub_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if eventhub.CaptureDescription != nil ||
 		eventhub.MessageRetentionInDays != nil ||
 		eventhub.PartitionCount != nil {
@@ -384,10 +384,10 @@ func (eventhub *Namespaces_Eventhub_Spec) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Eventhub_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	eventhub.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘CaptureDescription’:
+	// Set property "CaptureDescription":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CaptureDescription != nil {
@@ -401,7 +401,7 @@ func (eventhub *Namespaces_Eventhub_Spec) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
-	// Set property ‘MessageRetentionInDays’:
+	// Set property "MessageRetentionInDays":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MessageRetentionInDays != nil {
@@ -410,10 +410,10 @@ func (eventhub *Namespaces_Eventhub_Spec) PopulateFromARM(owner genruntime.Arbit
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	eventhub.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘PartitionCount’:
+	// Set property "PartitionCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PartitionCount != nil {
@@ -731,7 +731,7 @@ func (eventhub *Namespaces_Eventhub_STATUS) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Eventhub_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CaptureDescription’:
+	// Set property "CaptureDescription":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CaptureDescription != nil {
@@ -745,9 +745,9 @@ func (eventhub *Namespaces_Eventhub_STATUS) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘CreatedAt’:
+	// Set property "CreatedAt":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreatedAt != nil {
@@ -756,19 +756,19 @@ func (eventhub *Namespaces_Eventhub_STATUS) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		eventhub.Id = &id
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		eventhub.Location = &location
 	}
 
-	// Set property ‘MessageRetentionInDays’:
+	// Set property "MessageRetentionInDays":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MessageRetentionInDays != nil {
@@ -777,13 +777,13 @@ func (eventhub *Namespaces_Eventhub_STATUS) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		eventhub.Name = &name
 	}
 
-	// Set property ‘PartitionCount’:
+	// Set property "PartitionCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PartitionCount != nil {
@@ -792,7 +792,7 @@ func (eventhub *Namespaces_Eventhub_STATUS) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘PartitionIds’:
+	// Set property "PartitionIds":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PartitionIds {
@@ -800,7 +800,7 @@ func (eventhub *Namespaces_Eventhub_STATUS) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘Status’:
+	// Set property "Status":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Status != nil {
@@ -809,7 +809,7 @@ func (eventhub *Namespaces_Eventhub_STATUS) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -820,13 +820,13 @@ func (eventhub *Namespaces_Eventhub_STATUS) PopulateFromARM(owner genruntime.Arb
 		eventhub.SystemData = &systemData
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		eventhub.Type = &typeVar
 	}
 
-	// Set property ‘UpdatedAt’:
+	// Set property "UpdatedAt":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.UpdatedAt != nil {
@@ -1019,7 +1019,7 @@ func (description *CaptureDescription) ConvertToARM(resolved genruntime.ConvertT
 	}
 	result := &CaptureDescription_ARM{}
 
-	// Set property ‘Destination’:
+	// Set property "Destination":
 	if description.Destination != nil {
 		destination_ARM, err := (*description.Destination).ConvertToARM(resolved)
 		if err != nil {
@@ -1029,31 +1029,31 @@ func (description *CaptureDescription) ConvertToARM(resolved genruntime.ConvertT
 		result.Destination = &destination
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if description.Enabled != nil {
 		enabled := *description.Enabled
 		result.Enabled = &enabled
 	}
 
-	// Set property ‘Encoding’:
+	// Set property "Encoding":
 	if description.Encoding != nil {
 		encoding := *description.Encoding
 		result.Encoding = &encoding
 	}
 
-	// Set property ‘IntervalInSeconds’:
+	// Set property "IntervalInSeconds":
 	if description.IntervalInSeconds != nil {
 		intervalInSeconds := *description.IntervalInSeconds
 		result.IntervalInSeconds = &intervalInSeconds
 	}
 
-	// Set property ‘SizeLimitInBytes’:
+	// Set property "SizeLimitInBytes":
 	if description.SizeLimitInBytes != nil {
 		sizeLimitInBytes := *description.SizeLimitInBytes
 		result.SizeLimitInBytes = &sizeLimitInBytes
 	}
 
-	// Set property ‘SkipEmptyArchives’:
+	// Set property "SkipEmptyArchives":
 	if description.SkipEmptyArchives != nil {
 		skipEmptyArchives := *description.SkipEmptyArchives
 		result.SkipEmptyArchives = &skipEmptyArchives
@@ -1073,7 +1073,7 @@ func (description *CaptureDescription) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CaptureDescription_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Destination’:
+	// Set property "Destination":
 	if typedInput.Destination != nil {
 		var destination1 Destination
 		err := destination1.PopulateFromARM(owner, *typedInput.Destination)
@@ -1084,31 +1084,31 @@ func (description *CaptureDescription) PopulateFromARM(owner genruntime.Arbitrar
 		description.Destination = &destination
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		description.Enabled = &enabled
 	}
 
-	// Set property ‘Encoding’:
+	// Set property "Encoding":
 	if typedInput.Encoding != nil {
 		encoding := *typedInput.Encoding
 		description.Encoding = &encoding
 	}
 
-	// Set property ‘IntervalInSeconds’:
+	// Set property "IntervalInSeconds":
 	if typedInput.IntervalInSeconds != nil {
 		intervalInSeconds := *typedInput.IntervalInSeconds
 		description.IntervalInSeconds = &intervalInSeconds
 	}
 
-	// Set property ‘SizeLimitInBytes’:
+	// Set property "SizeLimitInBytes":
 	if typedInput.SizeLimitInBytes != nil {
 		sizeLimitInBytes := *typedInput.SizeLimitInBytes
 		description.SizeLimitInBytes = &sizeLimitInBytes
 	}
 
-	// Set property ‘SkipEmptyArchives’:
+	// Set property "SkipEmptyArchives":
 	if typedInput.SkipEmptyArchives != nil {
 		skipEmptyArchives := *typedInput.SkipEmptyArchives
 		description.SkipEmptyArchives = &skipEmptyArchives
@@ -1312,7 +1312,7 @@ func (description *CaptureDescription_STATUS) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CaptureDescription_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Destination’:
+	// Set property "Destination":
 	if typedInput.Destination != nil {
 		var destination1 Destination_STATUS
 		err := destination1.PopulateFromARM(owner, *typedInput.Destination)
@@ -1323,31 +1323,31 @@ func (description *CaptureDescription_STATUS) PopulateFromARM(owner genruntime.A
 		description.Destination = &destination
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		description.Enabled = &enabled
 	}
 
-	// Set property ‘Encoding’:
+	// Set property "Encoding":
 	if typedInput.Encoding != nil {
 		encoding := *typedInput.Encoding
 		description.Encoding = &encoding
 	}
 
-	// Set property ‘IntervalInSeconds’:
+	// Set property "IntervalInSeconds":
 	if typedInput.IntervalInSeconds != nil {
 		intervalInSeconds := *typedInput.IntervalInSeconds
 		description.IntervalInSeconds = &intervalInSeconds
 	}
 
-	// Set property ‘SizeLimitInBytes’:
+	// Set property "SizeLimitInBytes":
 	if typedInput.SizeLimitInBytes != nil {
 		sizeLimitInBytes := *typedInput.SizeLimitInBytes
 		description.SizeLimitInBytes = &sizeLimitInBytes
 	}
 
-	// Set property ‘SkipEmptyArchives’:
+	// Set property "SkipEmptyArchives":
 	if typedInput.SkipEmptyArchives != nil {
 		skipEmptyArchives := *typedInput.SkipEmptyArchives
 		description.SkipEmptyArchives = &skipEmptyArchives
@@ -1529,13 +1529,13 @@ func (destination *Destination) ConvertToARM(resolved genruntime.ConvertToARMRes
 	}
 	result := &Destination_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if destination.Name != nil {
 		name := *destination.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if destination.ArchiveNameFormat != nil ||
 		destination.BlobContainer != nil ||
 		destination.DataLakeAccountName != nil ||
@@ -1587,7 +1587,7 @@ func (destination *Destination) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Destination_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ArchiveNameFormat’:
+	// Set property "ArchiveNameFormat":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ArchiveNameFormat != nil {
@@ -1596,7 +1596,7 @@ func (destination *Destination) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘BlobContainer’:
+	// Set property "BlobContainer":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BlobContainer != nil {
@@ -1605,7 +1605,7 @@ func (destination *Destination) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘DataLakeAccountName’:
+	// Set property "DataLakeAccountName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DataLakeAccountName != nil {
@@ -1614,7 +1614,7 @@ func (destination *Destination) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘DataLakeFolderPath’:
+	// Set property "DataLakeFolderPath":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DataLakeFolderPath != nil {
@@ -1623,7 +1623,7 @@ func (destination *Destination) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘DataLakeSubscriptionId’:
+	// Set property "DataLakeSubscriptionId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DataLakeSubscriptionId != nil {
@@ -1632,13 +1632,13 @@ func (destination *Destination) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		destination.Name = &name
 	}
 
-	// no assignment for property ‘StorageAccountResourceReference’
+	// no assignment for property "StorageAccountResourceReference"
 
 	// No error
 	return nil
@@ -1807,7 +1807,7 @@ func (destination *Destination_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Destination_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ArchiveNameFormat’:
+	// Set property "ArchiveNameFormat":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ArchiveNameFormat != nil {
@@ -1816,7 +1816,7 @@ func (destination *Destination_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘BlobContainer’:
+	// Set property "BlobContainer":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BlobContainer != nil {
@@ -1825,7 +1825,7 @@ func (destination *Destination_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘DataLakeAccountName’:
+	// Set property "DataLakeAccountName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DataLakeAccountName != nil {
@@ -1834,7 +1834,7 @@ func (destination *Destination_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘DataLakeFolderPath’:
+	// Set property "DataLakeFolderPath":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DataLakeFolderPath != nil {
@@ -1843,7 +1843,7 @@ func (destination *Destination_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘DataLakeSubscriptionId’:
+	// Set property "DataLakeSubscriptionId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DataLakeSubscriptionId != nil {
@@ -1852,13 +1852,13 @@ func (destination *Destination_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		destination.Name = &name
 	}
 
-	// Set property ‘StorageAccountResourceId’:
+	// Set property "StorageAccountResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StorageAccountResourceId != nil {

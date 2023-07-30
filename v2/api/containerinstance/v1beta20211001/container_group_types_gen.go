@@ -357,7 +357,7 @@ func (group *ContainerGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &ContainerGroup_Spec_ARM{}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if group.Identity != nil {
 		identity_ARM, err := (*group.Identity).ConvertToARM(resolved)
 		if err != nil {
@@ -367,16 +367,16 @@ func (group *ContainerGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.Identity = &identity
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if group.Location != nil {
 		location := *group.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if group.Containers != nil ||
 		group.Diagnostics != nil ||
 		group.DnsConfig != nil ||
@@ -471,7 +471,7 @@ func (group *ContainerGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.Properties.Volumes = append(result.Properties.Volumes, *item_ARM.(*Volume_ARM))
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if group.Tags != nil {
 		result.Tags = make(map[string]string, len(group.Tags))
 		for key, value := range group.Tags {
@@ -479,7 +479,7 @@ func (group *ContainerGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 		}
 	}
 
-	// Set property ‘Zones’:
+	// Set property "Zones":
 	for _, item := range group.Zones {
 		result.Zones = append(result.Zones, item)
 	}
@@ -498,10 +498,10 @@ func (group *ContainerGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerGroup_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	group.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Containers’:
+	// Set property "Containers":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Containers {
@@ -514,7 +514,7 @@ func (group *ContainerGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘Diagnostics’:
+	// Set property "Diagnostics":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Diagnostics != nil {
@@ -528,7 +528,7 @@ func (group *ContainerGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘DnsConfig’:
+	// Set property "DnsConfig":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DnsConfig != nil {
@@ -542,7 +542,7 @@ func (group *ContainerGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘EncryptionProperties’:
+	// Set property "EncryptionProperties":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EncryptionProperties != nil {
@@ -556,7 +556,7 @@ func (group *ContainerGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 ContainerGroupIdentity
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -567,7 +567,7 @@ func (group *ContainerGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 		group.Identity = &identity
 	}
 
-	// Set property ‘ImageRegistryCredentials’:
+	// Set property "ImageRegistryCredentials":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ImageRegistryCredentials {
@@ -580,7 +580,7 @@ func (group *ContainerGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘InitContainers’:
+	// Set property "InitContainers":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.InitContainers {
@@ -593,7 +593,7 @@ func (group *ContainerGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘IpAddress’:
+	// Set property "IpAddress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IpAddress != nil {
@@ -607,13 +607,13 @@ func (group *ContainerGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		group.Location = &location
 	}
 
-	// Set property ‘OsType’:
+	// Set property "OsType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OsType != nil {
@@ -622,10 +622,10 @@ func (group *ContainerGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	group.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘RestartPolicy’:
+	// Set property "RestartPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RestartPolicy != nil {
@@ -634,7 +634,7 @@ func (group *ContainerGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Sku != nil {
@@ -643,7 +643,7 @@ func (group *ContainerGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘SubnetIds’:
+	// Set property "SubnetIds":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.SubnetIds {
@@ -656,7 +656,7 @@ func (group *ContainerGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		group.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -664,7 +664,7 @@ func (group *ContainerGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘Volumes’:
+	// Set property "Volumes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Volumes {
@@ -677,7 +677,7 @@ func (group *ContainerGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘Zones’:
+	// Set property "Zones":
 	for _, item := range typedInput.Zones {
 		group.Zones = append(group.Zones, item)
 	}
@@ -1249,9 +1249,9 @@ func (group *ContainerGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerGroup_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Containers’:
+	// Set property "Containers":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Containers {
@@ -1264,7 +1264,7 @@ func (group *ContainerGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Diagnostics’:
+	// Set property "Diagnostics":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Diagnostics != nil {
@@ -1278,7 +1278,7 @@ func (group *ContainerGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘DnsConfig’:
+	// Set property "DnsConfig":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DnsConfig != nil {
@@ -1292,7 +1292,7 @@ func (group *ContainerGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘EncryptionProperties’:
+	// Set property "EncryptionProperties":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EncryptionProperties != nil {
@@ -1306,13 +1306,13 @@ func (group *ContainerGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		group.Id = &id
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 ContainerGroupIdentity_STATUS
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -1323,7 +1323,7 @@ func (group *ContainerGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		group.Identity = &identity
 	}
 
-	// Set property ‘ImageRegistryCredentials’:
+	// Set property "ImageRegistryCredentials":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ImageRegistryCredentials {
@@ -1336,7 +1336,7 @@ func (group *ContainerGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘InitContainers’:
+	// Set property "InitContainers":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.InitContainers {
@@ -1349,7 +1349,7 @@ func (group *ContainerGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘InstanceView’:
+	// Set property "InstanceView":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.InstanceView != nil {
@@ -1363,7 +1363,7 @@ func (group *ContainerGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘IpAddress’:
+	// Set property "IpAddress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IpAddress != nil {
@@ -1377,19 +1377,19 @@ func (group *ContainerGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		group.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		group.Name = &name
 	}
 
-	// Set property ‘OsType’:
+	// Set property "OsType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OsType != nil {
@@ -1398,7 +1398,7 @@ func (group *ContainerGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -1407,7 +1407,7 @@ func (group *ContainerGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘RestartPolicy’:
+	// Set property "RestartPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RestartPolicy != nil {
@@ -1416,7 +1416,7 @@ func (group *ContainerGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Sku != nil {
@@ -1425,7 +1425,7 @@ func (group *ContainerGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘SubnetIds’:
+	// Set property "SubnetIds":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.SubnetIds {
@@ -1438,7 +1438,7 @@ func (group *ContainerGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		group.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1446,13 +1446,13 @@ func (group *ContainerGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		group.Type = &typeVar
 	}
 
-	// Set property ‘Volumes’:
+	// Set property "Volumes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Volumes {
@@ -1465,7 +1465,7 @@ func (group *ContainerGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Zones’:
+	// Set property "Zones":
 	for _, item := range typedInput.Zones {
 		group.Zones = append(group.Zones, item)
 	}
@@ -1945,13 +1945,13 @@ func (container *Container) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	}
 	result := &Container_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if container.Name != nil {
 		name := *container.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if container.Command != nil ||
 		container.EnvironmentVariables != nil ||
 		container.Image != nil ||
@@ -2029,7 +2029,7 @@ func (container *Container) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Container_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Command’:
+	// Set property "Command":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Command {
@@ -2037,7 +2037,7 @@ func (container *Container) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		}
 	}
 
-	// Set property ‘EnvironmentVariables’:
+	// Set property "EnvironmentVariables":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.EnvironmentVariables {
@@ -2050,7 +2050,7 @@ func (container *Container) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		}
 	}
 
-	// Set property ‘Image’:
+	// Set property "Image":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Image != nil {
@@ -2059,7 +2059,7 @@ func (container *Container) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		}
 	}
 
-	// Set property ‘LivenessProbe’:
+	// Set property "LivenessProbe":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LivenessProbe != nil {
@@ -2073,13 +2073,13 @@ func (container *Container) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		container.Name = &name
 	}
 
-	// Set property ‘Ports’:
+	// Set property "Ports":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Ports {
@@ -2092,7 +2092,7 @@ func (container *Container) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		}
 	}
 
-	// Set property ‘ReadinessProbe’:
+	// Set property "ReadinessProbe":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ReadinessProbe != nil {
@@ -2106,7 +2106,7 @@ func (container *Container) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		}
 	}
 
-	// Set property ‘Resources’:
+	// Set property "Resources":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resources != nil {
@@ -2120,7 +2120,7 @@ func (container *Container) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		}
 	}
 
-	// Set property ‘VolumeMounts’:
+	// Set property "VolumeMounts":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.VolumeMounts {
@@ -2386,7 +2386,7 @@ func (container *Container_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Container_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Command’:
+	// Set property "Command":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Command {
@@ -2394,7 +2394,7 @@ func (container *Container_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘EnvironmentVariables’:
+	// Set property "EnvironmentVariables":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.EnvironmentVariables {
@@ -2407,7 +2407,7 @@ func (container *Container_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Image’:
+	// Set property "Image":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Image != nil {
@@ -2416,7 +2416,7 @@ func (container *Container_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘InstanceView’:
+	// Set property "InstanceView":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.InstanceView != nil {
@@ -2430,7 +2430,7 @@ func (container *Container_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘LivenessProbe’:
+	// Set property "LivenessProbe":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LivenessProbe != nil {
@@ -2444,13 +2444,13 @@ func (container *Container_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		container.Name = &name
 	}
 
-	// Set property ‘Ports’:
+	// Set property "Ports":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Ports {
@@ -2463,7 +2463,7 @@ func (container *Container_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘ReadinessProbe’:
+	// Set property "ReadinessProbe":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ReadinessProbe != nil {
@@ -2477,7 +2477,7 @@ func (container *Container_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Resources’:
+	// Set property "Resources":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resources != nil {
@@ -2491,7 +2491,7 @@ func (container *Container_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘VolumeMounts’:
+	// Set property "VolumeMounts":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.VolumeMounts {
@@ -2773,7 +2773,7 @@ func (view *ContainerGroup_Properties_InstanceView_STATUS) PopulateFromARM(owner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerGroup_Properties_InstanceView_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Events’:
+	// Set property "Events":
 	for _, item := range typedInput.Events {
 		var item1 Event_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -2783,7 +2783,7 @@ func (view *ContainerGroup_Properties_InstanceView_STATUS) PopulateFromARM(owner
 		view.Events = append(view.Events, item1)
 	}
 
-	// Set property ‘State’:
+	// Set property "State":
 	if typedInput.State != nil {
 		state := *typedInput.State
 		view.State = &state
@@ -2912,7 +2912,7 @@ func (diagnostics *ContainerGroupDiagnostics) ConvertToARM(resolved genruntime.C
 	}
 	result := &ContainerGroupDiagnostics_ARM{}
 
-	// Set property ‘LogAnalytics’:
+	// Set property "LogAnalytics":
 	if diagnostics.LogAnalytics != nil {
 		logAnalytics_ARM, err := (*diagnostics.LogAnalytics).ConvertToARM(resolved)
 		if err != nil {
@@ -2936,7 +2936,7 @@ func (diagnostics *ContainerGroupDiagnostics) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerGroupDiagnostics_ARM, got %T", armInput)
 	}
 
-	// Set property ‘LogAnalytics’:
+	// Set property "LogAnalytics":
 	if typedInput.LogAnalytics != nil {
 		var logAnalytics1 LogAnalytics
 		err := logAnalytics1.PopulateFromARM(owner, *typedInput.LogAnalytics)
@@ -3017,7 +3017,7 @@ func (diagnostics *ContainerGroupDiagnostics_STATUS) PopulateFromARM(owner genru
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerGroupDiagnostics_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘LogAnalytics’:
+	// Set property "LogAnalytics":
 	if typedInput.LogAnalytics != nil {
 		var logAnalytics1 LogAnalytics_STATUS
 		err := logAnalytics1.PopulateFromARM(owner, *typedInput.LogAnalytics)
@@ -3094,13 +3094,13 @@ func (identity *ContainerGroupIdentity) ConvertToARM(resolved genruntime.Convert
 	}
 	result := &ContainerGroupIdentity_ARM{}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if identity.Type != nil {
 		typeVar := *identity.Type
 		result.Type = &typeVar
 	}
 
-	// Set property ‘UserAssignedIdentities’:
+	// Set property "UserAssignedIdentities":
 	result.UserAssignedIdentities = make(map[string]UserAssignedIdentityDetails_ARM, len(identity.UserAssignedIdentities))
 	for _, ident := range identity.UserAssignedIdentities {
 		identARMID, err := resolved.ResolvedReferences.Lookup(ident.Reference)
@@ -3125,13 +3125,13 @@ func (identity *ContainerGroupIdentity) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerGroupIdentity_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		identity.Type = &typeVar
 	}
 
-	// no assignment for property ‘UserAssignedIdentities’
+	// no assignment for property "UserAssignedIdentities"
 
 	// No error
 	return nil
@@ -3234,25 +3234,25 @@ func (identity *ContainerGroupIdentity_STATUS) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerGroupIdentity_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘PrincipalId’:
+	// Set property "PrincipalId":
 	if typedInput.PrincipalId != nil {
 		principalId := *typedInput.PrincipalId
 		identity.PrincipalId = &principalId
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
 		identity.TenantId = &tenantId
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		identity.Type = &typeVar
 	}
 
-	// Set property ‘UserAssignedIdentities’:
+	// Set property "UserAssignedIdentities":
 	if typedInput.UserAssignedIdentities != nil {
 		identity.UserAssignedIdentities = make(map[string]UserAssignedIdentities_STATUS, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
@@ -3390,7 +3390,7 @@ func (subnetId *ContainerGroupSubnetId) ConvertToARM(resolved genruntime.Convert
 	}
 	result := &ContainerGroupSubnetId_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if subnetId.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*subnetId.Reference)
 		if err != nil {
@@ -3400,7 +3400,7 @@ func (subnetId *ContainerGroupSubnetId) ConvertToARM(resolved genruntime.Convert
 		result.Id = &reference
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if subnetId.Name != nil {
 		name := *subnetId.Name
 		result.Name = &name
@@ -3420,13 +3420,13 @@ func (subnetId *ContainerGroupSubnetId) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerGroupSubnetId_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		subnetId.Name = &name
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil
@@ -3497,13 +3497,13 @@ func (subnetId *ContainerGroupSubnetId_STATUS) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerGroupSubnetId_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		subnetId.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		subnetId.Name = &name
@@ -3565,18 +3565,18 @@ func (configuration *DnsConfiguration) ConvertToARM(resolved genruntime.ConvertT
 	}
 	result := &DnsConfiguration_ARM{}
 
-	// Set property ‘NameServers’:
+	// Set property "NameServers":
 	for _, item := range configuration.NameServers {
 		result.NameServers = append(result.NameServers, item)
 	}
 
-	// Set property ‘Options’:
+	// Set property "Options":
 	if configuration.Options != nil {
 		options := *configuration.Options
 		result.Options = &options
 	}
 
-	// Set property ‘SearchDomains’:
+	// Set property "SearchDomains":
 	if configuration.SearchDomains != nil {
 		searchDomains := *configuration.SearchDomains
 		result.SearchDomains = &searchDomains
@@ -3596,18 +3596,18 @@ func (configuration *DnsConfiguration) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsConfiguration_ARM, got %T", armInput)
 	}
 
-	// Set property ‘NameServers’:
+	// Set property "NameServers":
 	for _, item := range typedInput.NameServers {
 		configuration.NameServers = append(configuration.NameServers, item)
 	}
 
-	// Set property ‘Options’:
+	// Set property "Options":
 	if typedInput.Options != nil {
 		options := *typedInput.Options
 		configuration.Options = &options
 	}
 
-	// Set property ‘SearchDomains’:
+	// Set property "SearchDomains":
 	if typedInput.SearchDomains != nil {
 		searchDomains := *typedInput.SearchDomains
 		configuration.SearchDomains = &searchDomains
@@ -3679,18 +3679,18 @@ func (configuration *DnsConfiguration_STATUS) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsConfiguration_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘NameServers’:
+	// Set property "NameServers":
 	for _, item := range typedInput.NameServers {
 		configuration.NameServers = append(configuration.NameServers, item)
 	}
 
-	// Set property ‘Options’:
+	// Set property "Options":
 	if typedInput.Options != nil {
 		options := *typedInput.Options
 		configuration.Options = &options
 	}
 
-	// Set property ‘SearchDomains’:
+	// Set property "SearchDomains":
 	if typedInput.SearchDomains != nil {
 		searchDomains := *typedInput.SearchDomains
 		configuration.SearchDomains = &searchDomains
@@ -3762,19 +3762,19 @@ func (properties *EncryptionProperties) ConvertToARM(resolved genruntime.Convert
 	}
 	result := &EncryptionProperties_ARM{}
 
-	// Set property ‘KeyName’:
+	// Set property "KeyName":
 	if properties.KeyName != nil {
 		keyName := *properties.KeyName
 		result.KeyName = &keyName
 	}
 
-	// Set property ‘KeyVersion’:
+	// Set property "KeyVersion":
 	if properties.KeyVersion != nil {
 		keyVersion := *properties.KeyVersion
 		result.KeyVersion = &keyVersion
 	}
 
-	// Set property ‘VaultBaseUrl’:
+	// Set property "VaultBaseUrl":
 	if properties.VaultBaseUrl != nil {
 		vaultBaseUrl := *properties.VaultBaseUrl
 		result.VaultBaseUrl = &vaultBaseUrl
@@ -3794,19 +3794,19 @@ func (properties *EncryptionProperties) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EncryptionProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘KeyName’:
+	// Set property "KeyName":
 	if typedInput.KeyName != nil {
 		keyName := *typedInput.KeyName
 		properties.KeyName = &keyName
 	}
 
-	// Set property ‘KeyVersion’:
+	// Set property "KeyVersion":
 	if typedInput.KeyVersion != nil {
 		keyVersion := *typedInput.KeyVersion
 		properties.KeyVersion = &keyVersion
 	}
 
-	// Set property ‘VaultBaseUrl’:
+	// Set property "VaultBaseUrl":
 	if typedInput.VaultBaseUrl != nil {
 		vaultBaseUrl := *typedInput.VaultBaseUrl
 		properties.VaultBaseUrl = &vaultBaseUrl
@@ -3878,19 +3878,19 @@ func (properties *EncryptionProperties_STATUS) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EncryptionProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘KeyName’:
+	// Set property "KeyName":
 	if typedInput.KeyName != nil {
 		keyName := *typedInput.KeyName
 		properties.KeyName = &keyName
 	}
 
-	// Set property ‘KeyVersion’:
+	// Set property "KeyVersion":
 	if typedInput.KeyVersion != nil {
 		keyVersion := *typedInput.KeyVersion
 		properties.KeyVersion = &keyVersion
 	}
 
-	// Set property ‘VaultBaseUrl’:
+	// Set property "VaultBaseUrl":
 	if typedInput.VaultBaseUrl != nil {
 		vaultBaseUrl := *typedInput.VaultBaseUrl
 		properties.VaultBaseUrl = &vaultBaseUrl
@@ -3961,19 +3961,19 @@ func (credential *ImageRegistryCredential) ConvertToARM(resolved genruntime.Conv
 	}
 	result := &ImageRegistryCredential_ARM{}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if credential.Identity != nil {
 		identity := *credential.Identity
 		result.Identity = &identity
 	}
 
-	// Set property ‘IdentityUrl’:
+	// Set property "IdentityUrl":
 	if credential.IdentityUrl != nil {
 		identityUrl := *credential.IdentityUrl
 		result.IdentityUrl = &identityUrl
 	}
 
-	// Set property ‘Password’:
+	// Set property "Password":
 	if credential.Password != nil {
 		passwordSecret, err := resolved.ResolvedSecrets.Lookup(*credential.Password)
 		if err != nil {
@@ -3983,13 +3983,13 @@ func (credential *ImageRegistryCredential) ConvertToARM(resolved genruntime.Conv
 		result.Password = &password
 	}
 
-	// Set property ‘Server’:
+	// Set property "Server":
 	if credential.Server != nil {
 		server := *credential.Server
 		result.Server = &server
 	}
 
-	// Set property ‘Username’:
+	// Set property "Username":
 	if credential.Username != nil {
 		username := *credential.Username
 		result.Username = &username
@@ -4009,27 +4009,27 @@ func (credential *ImageRegistryCredential) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageRegistryCredential_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		identity := *typedInput.Identity
 		credential.Identity = &identity
 	}
 
-	// Set property ‘IdentityUrl’:
+	// Set property "IdentityUrl":
 	if typedInput.IdentityUrl != nil {
 		identityUrl := *typedInput.IdentityUrl
 		credential.IdentityUrl = &identityUrl
 	}
 
-	// no assignment for property ‘Password’
+	// no assignment for property "Password"
 
-	// Set property ‘Server’:
+	// Set property "Server":
 	if typedInput.Server != nil {
 		server := *typedInput.Server
 		credential.Server = &server
 	}
 
-	// Set property ‘Username’:
+	// Set property "Username":
 	if typedInput.Username != nil {
 		username := *typedInput.Username
 		credential.Username = &username
@@ -4124,25 +4124,25 @@ func (credential *ImageRegistryCredential_STATUS) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageRegistryCredential_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		identity := *typedInput.Identity
 		credential.Identity = &identity
 	}
 
-	// Set property ‘IdentityUrl’:
+	// Set property "IdentityUrl":
 	if typedInput.IdentityUrl != nil {
 		identityUrl := *typedInput.IdentityUrl
 		credential.IdentityUrl = &identityUrl
 	}
 
-	// Set property ‘Server’:
+	// Set property "Server":
 	if typedInput.Server != nil {
 		server := *typedInput.Server
 		credential.Server = &server
 	}
 
-	// Set property ‘Username’:
+	// Set property "Username":
 	if typedInput.Username != nil {
 		username := *typedInput.Username
 		credential.Username = &username
@@ -4219,13 +4219,13 @@ func (definition *InitContainerDefinition) ConvertToARM(resolved genruntime.Conv
 	}
 	result := &InitContainerDefinition_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if definition.Name != nil {
 		name := *definition.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if definition.Command != nil ||
 		definition.EnvironmentVariables != nil ||
 		definition.Image != nil ||
@@ -4268,7 +4268,7 @@ func (definition *InitContainerDefinition) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InitContainerDefinition_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Command’:
+	// Set property "Command":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Command {
@@ -4276,7 +4276,7 @@ func (definition *InitContainerDefinition) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘EnvironmentVariables’:
+	// Set property "EnvironmentVariables":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.EnvironmentVariables {
@@ -4289,7 +4289,7 @@ func (definition *InitContainerDefinition) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘Image’:
+	// Set property "Image":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Image != nil {
@@ -4298,13 +4298,13 @@ func (definition *InitContainerDefinition) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		definition.Name = &name
 	}
 
-	// Set property ‘VolumeMounts’:
+	// Set property "VolumeMounts":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.VolumeMounts {
@@ -4458,7 +4458,7 @@ func (definition *InitContainerDefinition_STATUS) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InitContainerDefinition_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Command’:
+	// Set property "Command":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Command {
@@ -4466,7 +4466,7 @@ func (definition *InitContainerDefinition_STATUS) PopulateFromARM(owner genrunti
 		}
 	}
 
-	// Set property ‘EnvironmentVariables’:
+	// Set property "EnvironmentVariables":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.EnvironmentVariables {
@@ -4479,7 +4479,7 @@ func (definition *InitContainerDefinition_STATUS) PopulateFromARM(owner genrunti
 		}
 	}
 
-	// Set property ‘Image’:
+	// Set property "Image":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Image != nil {
@@ -4488,7 +4488,7 @@ func (definition *InitContainerDefinition_STATUS) PopulateFromARM(owner genrunti
 		}
 	}
 
-	// Set property ‘InstanceView’:
+	// Set property "InstanceView":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.InstanceView != nil {
@@ -4502,13 +4502,13 @@ func (definition *InitContainerDefinition_STATUS) PopulateFromARM(owner genrunti
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		definition.Name = &name
 	}
 
-	// Set property ‘VolumeMounts’:
+	// Set property "VolumeMounts":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.VolumeMounts {
@@ -4684,25 +4684,25 @@ func (address *IpAddress) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	}
 	result := &IpAddress_ARM{}
 
-	// Set property ‘AutoGeneratedDomainNameLabelScope’:
+	// Set property "AutoGeneratedDomainNameLabelScope":
 	if address.AutoGeneratedDomainNameLabelScope != nil {
 		autoGeneratedDomainNameLabelScope := *address.AutoGeneratedDomainNameLabelScope
 		result.AutoGeneratedDomainNameLabelScope = &autoGeneratedDomainNameLabelScope
 	}
 
-	// Set property ‘DnsNameLabel’:
+	// Set property "DnsNameLabel":
 	if address.DnsNameLabel != nil {
 		dnsNameLabel := *address.DnsNameLabel
 		result.DnsNameLabel = &dnsNameLabel
 	}
 
-	// Set property ‘Ip’:
+	// Set property "Ip":
 	if address.Ip != nil {
 		ip := *address.Ip
 		result.Ip = &ip
 	}
 
-	// Set property ‘Ports’:
+	// Set property "Ports":
 	for _, item := range address.Ports {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -4711,7 +4711,7 @@ func (address *IpAddress) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		result.Ports = append(result.Ports, *item_ARM.(*Port_ARM))
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if address.Type != nil {
 		typeVar := *address.Type
 		result.Type = &typeVar
@@ -4731,25 +4731,25 @@ func (address *IpAddress) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpAddress_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AutoGeneratedDomainNameLabelScope’:
+	// Set property "AutoGeneratedDomainNameLabelScope":
 	if typedInput.AutoGeneratedDomainNameLabelScope != nil {
 		autoGeneratedDomainNameLabelScope := *typedInput.AutoGeneratedDomainNameLabelScope
 		address.AutoGeneratedDomainNameLabelScope = &autoGeneratedDomainNameLabelScope
 	}
 
-	// Set property ‘DnsNameLabel’:
+	// Set property "DnsNameLabel":
 	if typedInput.DnsNameLabel != nil {
 		dnsNameLabel := *typedInput.DnsNameLabel
 		address.DnsNameLabel = &dnsNameLabel
 	}
 
-	// Set property ‘Ip’:
+	// Set property "Ip":
 	if typedInput.Ip != nil {
 		ip := *typedInput.Ip
 		address.Ip = &ip
 	}
 
-	// Set property ‘Ports’:
+	// Set property "Ports":
 	for _, item := range typedInput.Ports {
 		var item1 Port
 		err := item1.PopulateFromARM(owner, item)
@@ -4759,7 +4759,7 @@ func (address *IpAddress) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		address.Ports = append(address.Ports, item1)
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		address.Type = &typeVar
@@ -4896,31 +4896,31 @@ func (address *IpAddress_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpAddress_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AutoGeneratedDomainNameLabelScope’:
+	// Set property "AutoGeneratedDomainNameLabelScope":
 	if typedInput.AutoGeneratedDomainNameLabelScope != nil {
 		autoGeneratedDomainNameLabelScope := *typedInput.AutoGeneratedDomainNameLabelScope
 		address.AutoGeneratedDomainNameLabelScope = &autoGeneratedDomainNameLabelScope
 	}
 
-	// Set property ‘DnsNameLabel’:
+	// Set property "DnsNameLabel":
 	if typedInput.DnsNameLabel != nil {
 		dnsNameLabel := *typedInput.DnsNameLabel
 		address.DnsNameLabel = &dnsNameLabel
 	}
 
-	// Set property ‘Fqdn’:
+	// Set property "Fqdn":
 	if typedInput.Fqdn != nil {
 		fqdn := *typedInput.Fqdn
 		address.Fqdn = &fqdn
 	}
 
-	// Set property ‘Ip’:
+	// Set property "Ip":
 	if typedInput.Ip != nil {
 		ip := *typedInput.Ip
 		address.Ip = &ip
 	}
 
-	// Set property ‘Ports’:
+	// Set property "Ports":
 	for _, item := range typedInput.Ports {
 		var item1 Port_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -4930,7 +4930,7 @@ func (address *IpAddress_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		address.Ports = append(address.Ports, item1)
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		address.Type = &typeVar
@@ -5069,7 +5069,7 @@ func (volume *Volume) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	}
 	result := &Volume_ARM{}
 
-	// Set property ‘AzureFile’:
+	// Set property "AzureFile":
 	if volume.AzureFile != nil {
 		azureFile_ARM, err := (*volume.AzureFile).ConvertToARM(resolved)
 		if err != nil {
@@ -5079,7 +5079,7 @@ func (volume *Volume) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 		result.AzureFile = &azureFile
 	}
 
-	// Set property ‘EmptyDir’:
+	// Set property "EmptyDir":
 	if volume.EmptyDir != nil {
 		result.EmptyDir = make(map[string]v1.JSON, len(volume.EmptyDir))
 		for key, value := range volume.EmptyDir {
@@ -5087,7 +5087,7 @@ func (volume *Volume) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 		}
 	}
 
-	// Set property ‘GitRepo’:
+	// Set property "GitRepo":
 	if volume.GitRepo != nil {
 		gitRepo_ARM, err := (*volume.GitRepo).ConvertToARM(resolved)
 		if err != nil {
@@ -5097,13 +5097,13 @@ func (volume *Volume) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 		result.GitRepo = &gitRepo
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if volume.Name != nil {
 		name := *volume.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Secret’:
+	// Set property "Secret":
 	if volume.Secret != nil {
 		result.Secret = make(map[string]string, len(volume.Secret))
 		for key, value := range volume.Secret {
@@ -5125,7 +5125,7 @@ func (volume *Volume) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Volume_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureFile’:
+	// Set property "AzureFile":
 	if typedInput.AzureFile != nil {
 		var azureFile1 AzureFileVolume
 		err := azureFile1.PopulateFromARM(owner, *typedInput.AzureFile)
@@ -5136,7 +5136,7 @@ func (volume *Volume) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 		volume.AzureFile = &azureFile
 	}
 
-	// Set property ‘EmptyDir’:
+	// Set property "EmptyDir":
 	if typedInput.EmptyDir != nil {
 		volume.EmptyDir = make(map[string]v1.JSON, len(typedInput.EmptyDir))
 		for key, value := range typedInput.EmptyDir {
@@ -5144,7 +5144,7 @@ func (volume *Volume) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 		}
 	}
 
-	// Set property ‘GitRepo’:
+	// Set property "GitRepo":
 	if typedInput.GitRepo != nil {
 		var gitRepo1 GitRepoVolume
 		err := gitRepo1.PopulateFromARM(owner, *typedInput.GitRepo)
@@ -5155,13 +5155,13 @@ func (volume *Volume) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 		volume.GitRepo = &gitRepo
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		volume.Name = &name
 	}
 
-	// Set property ‘Secret’:
+	// Set property "Secret":
 	if typedInput.Secret != nil {
 		volume.Secret = make(map[string]string, len(typedInput.Secret))
 		for key, value := range typedInput.Secret {
@@ -5305,7 +5305,7 @@ func (volume *Volume_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Volume_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureFile’:
+	// Set property "AzureFile":
 	if typedInput.AzureFile != nil {
 		var azureFile1 AzureFileVolume_STATUS
 		err := azureFile1.PopulateFromARM(owner, *typedInput.AzureFile)
@@ -5316,7 +5316,7 @@ func (volume *Volume_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		volume.AzureFile = &azureFile
 	}
 
-	// Set property ‘EmptyDir’:
+	// Set property "EmptyDir":
 	if typedInput.EmptyDir != nil {
 		volume.EmptyDir = make(map[string]v1.JSON, len(typedInput.EmptyDir))
 		for key, value := range typedInput.EmptyDir {
@@ -5324,7 +5324,7 @@ func (volume *Volume_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘GitRepo’:
+	// Set property "GitRepo":
 	if typedInput.GitRepo != nil {
 		var gitRepo1 GitRepoVolume_STATUS
 		err := gitRepo1.PopulateFromARM(owner, *typedInput.GitRepo)
@@ -5335,13 +5335,13 @@ func (volume *Volume_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		volume.GitRepo = &gitRepo
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		volume.Name = &name
 	}
 
-	// Set property ‘Secret’:
+	// Set property "Secret":
 	if typedInput.Secret != nil {
 		volume.Secret = make(map[string]string, len(typedInput.Secret))
 		for key, value := range typedInput.Secret {
@@ -5483,25 +5483,25 @@ func (volume *AzureFileVolume) ConvertToARM(resolved genruntime.ConvertToARMReso
 	}
 	result := &AzureFileVolume_ARM{}
 
-	// Set property ‘ReadOnly’:
+	// Set property "ReadOnly":
 	if volume.ReadOnly != nil {
 		readOnly := *volume.ReadOnly
 		result.ReadOnly = &readOnly
 	}
 
-	// Set property ‘ShareName’:
+	// Set property "ShareName":
 	if volume.ShareName != nil {
 		shareName := *volume.ShareName
 		result.ShareName = &shareName
 	}
 
-	// Set property ‘StorageAccountKey’:
+	// Set property "StorageAccountKey":
 	if volume.StorageAccountKey != nil {
 		storageAccountKey := *volume.StorageAccountKey
 		result.StorageAccountKey = &storageAccountKey
 	}
 
-	// Set property ‘StorageAccountName’:
+	// Set property "StorageAccountName":
 	if volume.StorageAccountName != nil {
 		storageAccountName := *volume.StorageAccountName
 		result.StorageAccountName = &storageAccountName
@@ -5521,25 +5521,25 @@ func (volume *AzureFileVolume) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureFileVolume_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ReadOnly’:
+	// Set property "ReadOnly":
 	if typedInput.ReadOnly != nil {
 		readOnly := *typedInput.ReadOnly
 		volume.ReadOnly = &readOnly
 	}
 
-	// Set property ‘ShareName’:
+	// Set property "ShareName":
 	if typedInput.ShareName != nil {
 		shareName := *typedInput.ShareName
 		volume.ShareName = &shareName
 	}
 
-	// Set property ‘StorageAccountKey’:
+	// Set property "StorageAccountKey":
 	if typedInput.StorageAccountKey != nil {
 		storageAccountKey := *typedInput.StorageAccountKey
 		volume.StorageAccountKey = &storageAccountKey
 	}
 
-	// Set property ‘StorageAccountName’:
+	// Set property "StorageAccountName":
 	if typedInput.StorageAccountName != nil {
 		storageAccountName := *typedInput.StorageAccountName
 		volume.StorageAccountName = &storageAccountName
@@ -5628,25 +5628,25 @@ func (volume *AzureFileVolume_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureFileVolume_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ReadOnly’:
+	// Set property "ReadOnly":
 	if typedInput.ReadOnly != nil {
 		readOnly := *typedInput.ReadOnly
 		volume.ReadOnly = &readOnly
 	}
 
-	// Set property ‘ShareName’:
+	// Set property "ShareName":
 	if typedInput.ShareName != nil {
 		shareName := *typedInput.ShareName
 		volume.ShareName = &shareName
 	}
 
-	// Set property ‘StorageAccountKey’:
+	// Set property "StorageAccountKey":
 	if typedInput.StorageAccountKey != nil {
 		storageAccountKey := *typedInput.StorageAccountKey
 		volume.StorageAccountKey = &storageAccountKey
 	}
 
-	// Set property ‘StorageAccountName’:
+	// Set property "StorageAccountName":
 	if typedInput.StorageAccountName != nil {
 		storageAccountName := *typedInput.StorageAccountName
 		volume.StorageAccountName = &storageAccountName
@@ -5729,13 +5729,13 @@ func (port *ContainerPort) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	}
 	result := &ContainerPort_ARM{}
 
-	// Set property ‘Port’:
+	// Set property "Port":
 	if port.Port != nil {
 		port1 := *port.Port
 		result.Port = &port1
 	}
 
-	// Set property ‘Protocol’:
+	// Set property "Protocol":
 	if port.Protocol != nil {
 		protocol := *port.Protocol
 		result.Protocol = &protocol
@@ -5755,13 +5755,13 @@ func (port *ContainerPort) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerPort_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Port’:
+	// Set property "Port":
 	if typedInput.Port != nil {
 		port1 := *typedInput.Port
 		port.Port = &port1
 	}
 
-	// Set property ‘Protocol’:
+	// Set property "Protocol":
 	if typedInput.Protocol != nil {
 		protocol := *typedInput.Protocol
 		port.Protocol = &protocol
@@ -5836,13 +5836,13 @@ func (port *ContainerPort_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerPort_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Port’:
+	// Set property "Port":
 	if typedInput.Port != nil {
 		port1 := *typedInput.Port
 		port.Port = &port1
 	}
 
-	// Set property ‘Protocol’:
+	// Set property "Protocol":
 	if typedInput.Protocol != nil {
 		protocol := *typedInput.Protocol
 		port.Protocol = &protocol
@@ -5917,7 +5917,7 @@ func (probe *ContainerProbe) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	}
 	result := &ContainerProbe_ARM{}
 
-	// Set property ‘Exec’:
+	// Set property "Exec":
 	if probe.Exec != nil {
 		exec_ARM, err := (*probe.Exec).ConvertToARM(resolved)
 		if err != nil {
@@ -5927,13 +5927,13 @@ func (probe *ContainerProbe) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Exec = &exec
 	}
 
-	// Set property ‘FailureThreshold’:
+	// Set property "FailureThreshold":
 	if probe.FailureThreshold != nil {
 		failureThreshold := *probe.FailureThreshold
 		result.FailureThreshold = &failureThreshold
 	}
 
-	// Set property ‘HttpGet’:
+	// Set property "HttpGet":
 	if probe.HttpGet != nil {
 		httpGet_ARM, err := (*probe.HttpGet).ConvertToARM(resolved)
 		if err != nil {
@@ -5943,25 +5943,25 @@ func (probe *ContainerProbe) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.HttpGet = &httpGet
 	}
 
-	// Set property ‘InitialDelaySeconds’:
+	// Set property "InitialDelaySeconds":
 	if probe.InitialDelaySeconds != nil {
 		initialDelaySeconds := *probe.InitialDelaySeconds
 		result.InitialDelaySeconds = &initialDelaySeconds
 	}
 
-	// Set property ‘PeriodSeconds’:
+	// Set property "PeriodSeconds":
 	if probe.PeriodSeconds != nil {
 		periodSeconds := *probe.PeriodSeconds
 		result.PeriodSeconds = &periodSeconds
 	}
 
-	// Set property ‘SuccessThreshold’:
+	// Set property "SuccessThreshold":
 	if probe.SuccessThreshold != nil {
 		successThreshold := *probe.SuccessThreshold
 		result.SuccessThreshold = &successThreshold
 	}
 
-	// Set property ‘TimeoutSeconds’:
+	// Set property "TimeoutSeconds":
 	if probe.TimeoutSeconds != nil {
 		timeoutSeconds := *probe.TimeoutSeconds
 		result.TimeoutSeconds = &timeoutSeconds
@@ -5981,7 +5981,7 @@ func (probe *ContainerProbe) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerProbe_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Exec’:
+	// Set property "Exec":
 	if typedInput.Exec != nil {
 		var exec1 ContainerExec
 		err := exec1.PopulateFromARM(owner, *typedInput.Exec)
@@ -5992,13 +5992,13 @@ func (probe *ContainerProbe) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		probe.Exec = &exec
 	}
 
-	// Set property ‘FailureThreshold’:
+	// Set property "FailureThreshold":
 	if typedInput.FailureThreshold != nil {
 		failureThreshold := *typedInput.FailureThreshold
 		probe.FailureThreshold = &failureThreshold
 	}
 
-	// Set property ‘HttpGet’:
+	// Set property "HttpGet":
 	if typedInput.HttpGet != nil {
 		var httpGet1 ContainerHttpGet
 		err := httpGet1.PopulateFromARM(owner, *typedInput.HttpGet)
@@ -6009,25 +6009,25 @@ func (probe *ContainerProbe) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		probe.HttpGet = &httpGet
 	}
 
-	// Set property ‘InitialDelaySeconds’:
+	// Set property "InitialDelaySeconds":
 	if typedInput.InitialDelaySeconds != nil {
 		initialDelaySeconds := *typedInput.InitialDelaySeconds
 		probe.InitialDelaySeconds = &initialDelaySeconds
 	}
 
-	// Set property ‘PeriodSeconds’:
+	// Set property "PeriodSeconds":
 	if typedInput.PeriodSeconds != nil {
 		periodSeconds := *typedInput.PeriodSeconds
 		probe.PeriodSeconds = &periodSeconds
 	}
 
-	// Set property ‘SuccessThreshold’:
+	// Set property "SuccessThreshold":
 	if typedInput.SuccessThreshold != nil {
 		successThreshold := *typedInput.SuccessThreshold
 		probe.SuccessThreshold = &successThreshold
 	}
 
-	// Set property ‘TimeoutSeconds’:
+	// Set property "TimeoutSeconds":
 	if typedInput.TimeoutSeconds != nil {
 		timeoutSeconds := *typedInput.TimeoutSeconds
 		probe.TimeoutSeconds = &timeoutSeconds
@@ -6163,7 +6163,7 @@ func (probe *ContainerProbe_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerProbe_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Exec’:
+	// Set property "Exec":
 	if typedInput.Exec != nil {
 		var exec1 ContainerExec_STATUS
 		err := exec1.PopulateFromARM(owner, *typedInput.Exec)
@@ -6174,13 +6174,13 @@ func (probe *ContainerProbe_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		probe.Exec = &exec
 	}
 
-	// Set property ‘FailureThreshold’:
+	// Set property "FailureThreshold":
 	if typedInput.FailureThreshold != nil {
 		failureThreshold := *typedInput.FailureThreshold
 		probe.FailureThreshold = &failureThreshold
 	}
 
-	// Set property ‘HttpGet’:
+	// Set property "HttpGet":
 	if typedInput.HttpGet != nil {
 		var httpGet1 ContainerHttpGet_STATUS
 		err := httpGet1.PopulateFromARM(owner, *typedInput.HttpGet)
@@ -6191,25 +6191,25 @@ func (probe *ContainerProbe_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		probe.HttpGet = &httpGet
 	}
 
-	// Set property ‘InitialDelaySeconds’:
+	// Set property "InitialDelaySeconds":
 	if typedInput.InitialDelaySeconds != nil {
 		initialDelaySeconds := *typedInput.InitialDelaySeconds
 		probe.InitialDelaySeconds = &initialDelaySeconds
 	}
 
-	// Set property ‘PeriodSeconds’:
+	// Set property "PeriodSeconds":
 	if typedInput.PeriodSeconds != nil {
 		periodSeconds := *typedInput.PeriodSeconds
 		probe.PeriodSeconds = &periodSeconds
 	}
 
-	// Set property ‘SuccessThreshold’:
+	// Set property "SuccessThreshold":
 	if typedInput.SuccessThreshold != nil {
 		successThreshold := *typedInput.SuccessThreshold
 		probe.SuccessThreshold = &successThreshold
 	}
 
-	// Set property ‘TimeoutSeconds’:
+	// Set property "TimeoutSeconds":
 	if typedInput.TimeoutSeconds != nil {
 		timeoutSeconds := *typedInput.TimeoutSeconds
 		probe.TimeoutSeconds = &timeoutSeconds
@@ -6342,7 +6342,7 @@ func (view *ContainerProperties_InstanceView_STATUS) PopulateFromARM(owner genru
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerProperties_InstanceView_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CurrentState’:
+	// Set property "CurrentState":
 	if typedInput.CurrentState != nil {
 		var currentState1 ContainerState_STATUS
 		err := currentState1.PopulateFromARM(owner, *typedInput.CurrentState)
@@ -6353,7 +6353,7 @@ func (view *ContainerProperties_InstanceView_STATUS) PopulateFromARM(owner genru
 		view.CurrentState = &currentState
 	}
 
-	// Set property ‘Events’:
+	// Set property "Events":
 	for _, item := range typedInput.Events {
 		var item1 Event_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -6363,7 +6363,7 @@ func (view *ContainerProperties_InstanceView_STATUS) PopulateFromARM(owner genru
 		view.Events = append(view.Events, item1)
 	}
 
-	// Set property ‘PreviousState’:
+	// Set property "PreviousState":
 	if typedInput.PreviousState != nil {
 		var previousState1 ContainerState_STATUS
 		err := previousState1.PopulateFromARM(owner, *typedInput.PreviousState)
@@ -6374,7 +6374,7 @@ func (view *ContainerProperties_InstanceView_STATUS) PopulateFromARM(owner genru
 		view.PreviousState = &previousState
 	}
 
-	// Set property ‘RestartCount’:
+	// Set property "RestartCount":
 	if typedInput.RestartCount != nil {
 		restartCount := *typedInput.RestartCount
 		view.RestartCount = &restartCount
@@ -6514,13 +6514,13 @@ func (variable *EnvironmentVariable) ConvertToARM(resolved genruntime.ConvertToA
 	}
 	result := &EnvironmentVariable_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if variable.Name != nil {
 		name := *variable.Name
 		result.Name = &name
 	}
 
-	// Set property ‘SecureValue’:
+	// Set property "SecureValue":
 	if variable.SecureValue != nil {
 		secureValueSecret, err := resolved.ResolvedSecrets.Lookup(*variable.SecureValue)
 		if err != nil {
@@ -6530,7 +6530,7 @@ func (variable *EnvironmentVariable) ConvertToARM(resolved genruntime.ConvertToA
 		result.SecureValue = &secureValue
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if variable.Value != nil {
 		value := *variable.Value
 		result.Value = &value
@@ -6550,15 +6550,15 @@ func (variable *EnvironmentVariable) PopulateFromARM(owner genruntime.ArbitraryO
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EnvironmentVariable_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		variable.Name = &name
 	}
 
-	// no assignment for property ‘SecureValue’
+	// no assignment for property "SecureValue"
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		variable.Value = &value
@@ -6639,13 +6639,13 @@ func (variable *EnvironmentVariable_STATUS) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EnvironmentVariable_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		variable.Name = &name
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		variable.Value = &value
@@ -6714,37 +6714,37 @@ func (event *Event_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Event_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Count’:
+	// Set property "Count":
 	if typedInput.Count != nil {
 		count := *typedInput.Count
 		event.Count = &count
 	}
 
-	// Set property ‘FirstTimestamp’:
+	// Set property "FirstTimestamp":
 	if typedInput.FirstTimestamp != nil {
 		firstTimestamp := *typedInput.FirstTimestamp
 		event.FirstTimestamp = &firstTimestamp
 	}
 
-	// Set property ‘LastTimestamp’:
+	// Set property "LastTimestamp":
 	if typedInput.LastTimestamp != nil {
 		lastTimestamp := *typedInput.LastTimestamp
 		event.LastTimestamp = &lastTimestamp
 	}
 
-	// Set property ‘Message’:
+	// Set property "Message":
 	if typedInput.Message != nil {
 		message := *typedInput.Message
 		event.Message = &message
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		event.Name = &name
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		event.Type = &typeVar
@@ -6831,19 +6831,19 @@ func (volume *GitRepoVolume) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	}
 	result := &GitRepoVolume_ARM{}
 
-	// Set property ‘Directory’:
+	// Set property "Directory":
 	if volume.Directory != nil {
 		directory := *volume.Directory
 		result.Directory = &directory
 	}
 
-	// Set property ‘Repository’:
+	// Set property "Repository":
 	if volume.Repository != nil {
 		repository := *volume.Repository
 		result.Repository = &repository
 	}
 
-	// Set property ‘Revision’:
+	// Set property "Revision":
 	if volume.Revision != nil {
 		revision := *volume.Revision
 		result.Revision = &revision
@@ -6863,19 +6863,19 @@ func (volume *GitRepoVolume) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected GitRepoVolume_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Directory’:
+	// Set property "Directory":
 	if typedInput.Directory != nil {
 		directory := *typedInput.Directory
 		volume.Directory = &directory
 	}
 
-	// Set property ‘Repository’:
+	// Set property "Repository":
 	if typedInput.Repository != nil {
 		repository := *typedInput.Repository
 		volume.Repository = &repository
 	}
 
-	// Set property ‘Revision’:
+	// Set property "Revision":
 	if typedInput.Revision != nil {
 		revision := *typedInput.Revision
 		volume.Revision = &revision
@@ -6947,19 +6947,19 @@ func (volume *GitRepoVolume_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected GitRepoVolume_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Directory’:
+	// Set property "Directory":
 	if typedInput.Directory != nil {
 		directory := *typedInput.Directory
 		volume.Directory = &directory
 	}
 
-	// Set property ‘Repository’:
+	// Set property "Repository":
 	if typedInput.Repository != nil {
 		repository := *typedInput.Repository
 		volume.Repository = &repository
 	}
 
-	// Set property ‘Revision’:
+	// Set property "Revision":
 	if typedInput.Revision != nil {
 		revision := *typedInput.Revision
 		volume.Revision = &revision
@@ -7032,7 +7032,7 @@ func (view *InitContainerPropertiesDefinition_InstanceView_STATUS) PopulateFromA
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InitContainerPropertiesDefinition_InstanceView_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CurrentState’:
+	// Set property "CurrentState":
 	if typedInput.CurrentState != nil {
 		var currentState1 ContainerState_STATUS
 		err := currentState1.PopulateFromARM(owner, *typedInput.CurrentState)
@@ -7043,7 +7043,7 @@ func (view *InitContainerPropertiesDefinition_InstanceView_STATUS) PopulateFromA
 		view.CurrentState = &currentState
 	}
 
-	// Set property ‘Events’:
+	// Set property "Events":
 	for _, item := range typedInput.Events {
 		var item1 Event_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -7053,7 +7053,7 @@ func (view *InitContainerPropertiesDefinition_InstanceView_STATUS) PopulateFromA
 		view.Events = append(view.Events, item1)
 	}
 
-	// Set property ‘PreviousState’:
+	// Set property "PreviousState":
 	if typedInput.PreviousState != nil {
 		var previousState1 ContainerState_STATUS
 		err := previousState1.PopulateFromARM(owner, *typedInput.PreviousState)
@@ -7064,7 +7064,7 @@ func (view *InitContainerPropertiesDefinition_InstanceView_STATUS) PopulateFromA
 		view.PreviousState = &previousState
 	}
 
-	// Set property ‘RestartCount’:
+	// Set property "RestartCount":
 	if typedInput.RestartCount != nil {
 		restartCount := *typedInput.RestartCount
 		view.RestartCount = &restartCount
@@ -7251,13 +7251,13 @@ func (analytics *LogAnalytics) ConvertToARM(resolved genruntime.ConvertToARMReso
 	}
 	result := &LogAnalytics_ARM{}
 
-	// Set property ‘LogType’:
+	// Set property "LogType":
 	if analytics.LogType != nil {
 		logType := *analytics.LogType
 		result.LogType = &logType
 	}
 
-	// Set property ‘Metadata’:
+	// Set property "Metadata":
 	if analytics.Metadata != nil {
 		result.Metadata = make(map[string]string, len(analytics.Metadata))
 		for key, value := range analytics.Metadata {
@@ -7265,20 +7265,20 @@ func (analytics *LogAnalytics) ConvertToARM(resolved genruntime.ConvertToARMReso
 		}
 	}
 
-	// Set property ‘WorkspaceId’:
+	// Set property "WorkspaceId":
 	if analytics.WorkspaceId != nil {
 		workspaceId := *analytics.WorkspaceId
 		result.WorkspaceId = &workspaceId
 	}
 
-	// Set property ‘WorkspaceKey’:
+	// Set property "WorkspaceKey":
 	workspaceKeySecret, err := resolved.ResolvedSecrets.Lookup(analytics.WorkspaceKey)
 	if err != nil {
 		return nil, errors.Wrap(err, "looking up secret for property WorkspaceKey")
 	}
 	result.WorkspaceKey = workspaceKeySecret
 
-	// Set property ‘WorkspaceResourceId’:
+	// Set property "WorkspaceResourceId":
 	if analytics.WorkspaceResourceReference != nil {
 		workspaceResourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*analytics.WorkspaceResourceReference)
 		if err != nil {
@@ -7302,13 +7302,13 @@ func (analytics *LogAnalytics) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LogAnalytics_ARM, got %T", armInput)
 	}
 
-	// Set property ‘LogType’:
+	// Set property "LogType":
 	if typedInput.LogType != nil {
 		logType := *typedInput.LogType
 		analytics.LogType = &logType
 	}
 
-	// Set property ‘Metadata’:
+	// Set property "Metadata":
 	if typedInput.Metadata != nil {
 		analytics.Metadata = make(map[string]string, len(typedInput.Metadata))
 		for key, value := range typedInput.Metadata {
@@ -7316,15 +7316,15 @@ func (analytics *LogAnalytics) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘WorkspaceId’:
+	// Set property "WorkspaceId":
 	if typedInput.WorkspaceId != nil {
 		workspaceId := *typedInput.WorkspaceId
 		analytics.WorkspaceId = &workspaceId
 	}
 
-	// no assignment for property ‘WorkspaceKey’
+	// no assignment for property "WorkspaceKey"
 
-	// no assignment for property ‘WorkspaceResourceReference’
+	// no assignment for property "WorkspaceResourceReference"
 
 	// No error
 	return nil
@@ -7429,13 +7429,13 @@ func (analytics *LogAnalytics_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LogAnalytics_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘LogType’:
+	// Set property "LogType":
 	if typedInput.LogType != nil {
 		logType := *typedInput.LogType
 		analytics.LogType = &logType
 	}
 
-	// Set property ‘Metadata’:
+	// Set property "Metadata":
 	if typedInput.Metadata != nil {
 		analytics.Metadata = make(map[string]string, len(typedInput.Metadata))
 		for key, value := range typedInput.Metadata {
@@ -7443,7 +7443,7 @@ func (analytics *LogAnalytics_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘WorkspaceId’:
+	// Set property "WorkspaceId":
 	if typedInput.WorkspaceId != nil {
 		workspaceId := *typedInput.WorkspaceId
 		analytics.WorkspaceId = &workspaceId
@@ -7520,13 +7520,13 @@ func (port *Port) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) 
 	}
 	result := &Port_ARM{}
 
-	// Set property ‘Port’:
+	// Set property "Port":
 	if port.Port != nil {
 		port1 := *port.Port
 		result.Port = &port1
 	}
 
-	// Set property ‘Protocol’:
+	// Set property "Protocol":
 	if port.Protocol != nil {
 		protocol := *port.Protocol
 		result.Protocol = &protocol
@@ -7546,13 +7546,13 @@ func (port *Port) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armI
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Port_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Port’:
+	// Set property "Port":
 	if typedInput.Port != nil {
 		port1 := *typedInput.Port
 		port.Port = &port1
 	}
 
-	// Set property ‘Protocol’:
+	// Set property "Protocol":
 	if typedInput.Protocol != nil {
 		protocol := *typedInput.Protocol
 		port.Protocol = &protocol
@@ -7627,13 +7627,13 @@ func (port *Port_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Port_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Port’:
+	// Set property "Port":
 	if typedInput.Port != nil {
 		port1 := *typedInput.Port
 		port.Port = &port1
 	}
 
-	// Set property ‘Protocol’:
+	// Set property "Protocol":
 	if typedInput.Protocol != nil {
 		protocol := *typedInput.Protocol
 		port.Protocol = &protocol
@@ -7705,7 +7705,7 @@ func (requirements *ResourceRequirements) ConvertToARM(resolved genruntime.Conve
 	}
 	result := &ResourceRequirements_ARM{}
 
-	// Set property ‘Limits’:
+	// Set property "Limits":
 	if requirements.Limits != nil {
 		limits_ARM, err := (*requirements.Limits).ConvertToARM(resolved)
 		if err != nil {
@@ -7715,7 +7715,7 @@ func (requirements *ResourceRequirements) ConvertToARM(resolved genruntime.Conve
 		result.Limits = &limits
 	}
 
-	// Set property ‘Requests’:
+	// Set property "Requests":
 	if requirements.Requests != nil {
 		requests_ARM, err := (*requirements.Requests).ConvertToARM(resolved)
 		if err != nil {
@@ -7739,7 +7739,7 @@ func (requirements *ResourceRequirements) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceRequirements_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Limits’:
+	// Set property "Limits":
 	if typedInput.Limits != nil {
 		var limits1 ResourceLimits
 		err := limits1.PopulateFromARM(owner, *typedInput.Limits)
@@ -7750,7 +7750,7 @@ func (requirements *ResourceRequirements) PopulateFromARM(owner genruntime.Arbit
 		requirements.Limits = &limits
 	}
 
-	// Set property ‘Requests’:
+	// Set property "Requests":
 	if typedInput.Requests != nil {
 		var requests1 ResourceRequests
 		err := requests1.PopulateFromARM(owner, *typedInput.Requests)
@@ -7856,7 +7856,7 @@ func (requirements *ResourceRequirements_STATUS) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceRequirements_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Limits’:
+	// Set property "Limits":
 	if typedInput.Limits != nil {
 		var limits1 ResourceLimits_STATUS
 		err := limits1.PopulateFromARM(owner, *typedInput.Limits)
@@ -7867,7 +7867,7 @@ func (requirements *ResourceRequirements_STATUS) PopulateFromARM(owner genruntim
 		requirements.Limits = &limits
 	}
 
-	// Set property ‘Requests’:
+	// Set property "Requests":
 	if typedInput.Requests != nil {
 		var requests1 ResourceRequests_STATUS
 		err := requests1.PopulateFromARM(owner, *typedInput.Requests)
@@ -7973,13 +7973,13 @@ func (identities *UserAssignedIdentities_STATUS) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentities_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ClientId’:
+	// Set property "ClientId":
 	if typedInput.ClientId != nil {
 		clientId := *typedInput.ClientId
 		identities.ClientId = &clientId
 	}
 
-	// Set property ‘PrincipalId’:
+	// Set property "PrincipalId":
 	if typedInput.PrincipalId != nil {
 		principalId := *typedInput.PrincipalId
 		identities.PrincipalId = &principalId
@@ -8077,19 +8077,19 @@ func (mount *VolumeMount) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	}
 	result := &VolumeMount_ARM{}
 
-	// Set property ‘MountPath’:
+	// Set property "MountPath":
 	if mount.MountPath != nil {
 		mountPath := *mount.MountPath
 		result.MountPath = &mountPath
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if mount.Name != nil {
 		name := *mount.Name
 		result.Name = &name
 	}
 
-	// Set property ‘ReadOnly’:
+	// Set property "ReadOnly":
 	if mount.ReadOnly != nil {
 		readOnly := *mount.ReadOnly
 		result.ReadOnly = &readOnly
@@ -8109,19 +8109,19 @@ func (mount *VolumeMount) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VolumeMount_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MountPath’:
+	// Set property "MountPath":
 	if typedInput.MountPath != nil {
 		mountPath := *typedInput.MountPath
 		mount.MountPath = &mountPath
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		mount.Name = &name
 	}
 
-	// Set property ‘ReadOnly’:
+	// Set property "ReadOnly":
 	if typedInput.ReadOnly != nil {
 		readOnly := *typedInput.ReadOnly
 		mount.ReadOnly = &readOnly
@@ -8203,19 +8203,19 @@ func (mount *VolumeMount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VolumeMount_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MountPath’:
+	// Set property "MountPath":
 	if typedInput.MountPath != nil {
 		mountPath := *typedInput.MountPath
 		mount.MountPath = &mountPath
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		mount.Name = &name
 	}
 
-	// Set property ‘ReadOnly’:
+	// Set property "ReadOnly":
 	if typedInput.ReadOnly != nil {
 		readOnly := *typedInput.ReadOnly
 		mount.ReadOnly = &readOnly
@@ -8290,7 +8290,7 @@ func (exec *ContainerExec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	}
 	result := &ContainerExec_ARM{}
 
-	// Set property ‘Command’:
+	// Set property "Command":
 	for _, item := range exec.Command {
 		result.Command = append(result.Command, item)
 	}
@@ -8309,7 +8309,7 @@ func (exec *ContainerExec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerExec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Command’:
+	// Set property "Command":
 	for _, item := range typedInput.Command {
 		exec.Command = append(exec.Command, item)
 	}
@@ -8366,7 +8366,7 @@ func (exec *ContainerExec_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerExec_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Command’:
+	// Set property "Command":
 	for _, item := range typedInput.Command {
 		exec.Command = append(exec.Command, item)
 	}
@@ -8423,7 +8423,7 @@ func (httpGet *ContainerHttpGet) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &ContainerHttpGet_ARM{}
 
-	// Set property ‘HttpHeaders’:
+	// Set property "HttpHeaders":
 	for _, item := range httpGet.HttpHeaders {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -8432,19 +8432,19 @@ func (httpGet *ContainerHttpGet) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.HttpHeaders = append(result.HttpHeaders, *item_ARM.(*HttpHeader_ARM))
 	}
 
-	// Set property ‘Path’:
+	// Set property "Path":
 	if httpGet.Path != nil {
 		path := *httpGet.Path
 		result.Path = &path
 	}
 
-	// Set property ‘Port’:
+	// Set property "Port":
 	if httpGet.Port != nil {
 		port := *httpGet.Port
 		result.Port = &port
 	}
 
-	// Set property ‘Scheme’:
+	// Set property "Scheme":
 	if httpGet.Scheme != nil {
 		scheme := *httpGet.Scheme
 		result.Scheme = &scheme
@@ -8464,7 +8464,7 @@ func (httpGet *ContainerHttpGet) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerHttpGet_ARM, got %T", armInput)
 	}
 
-	// Set property ‘HttpHeaders’:
+	// Set property "HttpHeaders":
 	for _, item := range typedInput.HttpHeaders {
 		var item1 HttpHeader
 		err := item1.PopulateFromARM(owner, item)
@@ -8474,19 +8474,19 @@ func (httpGet *ContainerHttpGet) PopulateFromARM(owner genruntime.ArbitraryOwner
 		httpGet.HttpHeaders = append(httpGet.HttpHeaders, item1)
 	}
 
-	// Set property ‘Path’:
+	// Set property "Path":
 	if typedInput.Path != nil {
 		path := *typedInput.Path
 		httpGet.Path = &path
 	}
 
-	// Set property ‘Port’:
+	// Set property "Port":
 	if typedInput.Port != nil {
 		port := *typedInput.Port
 		httpGet.Port = &port
 	}
 
-	// Set property ‘Scheme’:
+	// Set property "Scheme":
 	if typedInput.Scheme != nil {
 		scheme := *typedInput.Scheme
 		httpGet.Scheme = &scheme
@@ -8605,7 +8605,7 @@ func (httpGet *ContainerHttpGet_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerHttpGet_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘HttpHeaders’:
+	// Set property "HttpHeaders":
 	for _, item := range typedInput.HttpHeaders {
 		var item1 HttpHeader_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -8615,19 +8615,19 @@ func (httpGet *ContainerHttpGet_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		httpGet.HttpHeaders = append(httpGet.HttpHeaders, item1)
 	}
 
-	// Set property ‘Path’:
+	// Set property "Path":
 	if typedInput.Path != nil {
 		path := *typedInput.Path
 		httpGet.Path = &path
 	}
 
-	// Set property ‘Port’:
+	// Set property "Port":
 	if typedInput.Port != nil {
 		port := *typedInput.Port
 		httpGet.Port = &port
 	}
 
-	// Set property ‘Scheme’:
+	// Set property "Scheme":
 	if typedInput.Scheme != nil {
 		scheme := *typedInput.Scheme
 		httpGet.Scheme = &scheme
@@ -8764,31 +8764,31 @@ func (state *ContainerState_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerState_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DetailStatus’:
+	// Set property "DetailStatus":
 	if typedInput.DetailStatus != nil {
 		detailStatus := *typedInput.DetailStatus
 		state.DetailStatus = &detailStatus
 	}
 
-	// Set property ‘ExitCode’:
+	// Set property "ExitCode":
 	if typedInput.ExitCode != nil {
 		exitCode := *typedInput.ExitCode
 		state.ExitCode = &exitCode
 	}
 
-	// Set property ‘FinishTime’:
+	// Set property "FinishTime":
 	if typedInput.FinishTime != nil {
 		finishTime := *typedInput.FinishTime
 		state.FinishTime = &finishTime
 	}
 
-	// Set property ‘StartTime’:
+	// Set property "StartTime":
 	if typedInput.StartTime != nil {
 		startTime := *typedInput.StartTime
 		state.StartTime = &startTime
 	}
 
-	// Set property ‘State’:
+	// Set property "State":
 	if typedInput.State != nil {
 		state1 := *typedInput.State
 		state.State = &state1
@@ -8901,13 +8901,13 @@ func (limits *ResourceLimits) ConvertToARM(resolved genruntime.ConvertToARMResol
 	}
 	result := &ResourceLimits_ARM{}
 
-	// Set property ‘Cpu’:
+	// Set property "Cpu":
 	if limits.Cpu != nil {
 		cpu := *limits.Cpu
 		result.Cpu = &cpu
 	}
 
-	// Set property ‘Gpu’:
+	// Set property "Gpu":
 	if limits.Gpu != nil {
 		gpu_ARM, err := (*limits.Gpu).ConvertToARM(resolved)
 		if err != nil {
@@ -8917,7 +8917,7 @@ func (limits *ResourceLimits) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.Gpu = &gpu
 	}
 
-	// Set property ‘MemoryInGB’:
+	// Set property "MemoryInGB":
 	if limits.MemoryInGB != nil {
 		memoryInGB := *limits.MemoryInGB
 		result.MemoryInGB = &memoryInGB
@@ -8937,13 +8937,13 @@ func (limits *ResourceLimits) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceLimits_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Cpu’:
+	// Set property "Cpu":
 	if typedInput.Cpu != nil {
 		cpu := *typedInput.Cpu
 		limits.Cpu = &cpu
 	}
 
-	// Set property ‘Gpu’:
+	// Set property "Gpu":
 	if typedInput.Gpu != nil {
 		var gpu1 GpuResource
 		err := gpu1.PopulateFromARM(owner, *typedInput.Gpu)
@@ -8954,7 +8954,7 @@ func (limits *ResourceLimits) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		limits.Gpu = &gpu
 	}
 
-	// Set property ‘MemoryInGB’:
+	// Set property "MemoryInGB":
 	if typedInput.MemoryInGB != nil {
 		memoryInGB := *typedInput.MemoryInGB
 		limits.MemoryInGB = &memoryInGB
@@ -9064,13 +9064,13 @@ func (limits *ResourceLimits_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceLimits_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Cpu’:
+	// Set property "Cpu":
 	if typedInput.Cpu != nil {
 		cpu := *typedInput.Cpu
 		limits.Cpu = &cpu
 	}
 
-	// Set property ‘Gpu’:
+	// Set property "Gpu":
 	if typedInput.Gpu != nil {
 		var gpu1 GpuResource_STATUS
 		err := gpu1.PopulateFromARM(owner, *typedInput.Gpu)
@@ -9081,7 +9081,7 @@ func (limits *ResourceLimits_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		limits.Gpu = &gpu
 	}
 
-	// Set property ‘MemoryInGB’:
+	// Set property "MemoryInGB":
 	if typedInput.MemoryInGB != nil {
 		memoryInGB := *typedInput.MemoryInGB
 		limits.MemoryInGB = &memoryInGB
@@ -9189,13 +9189,13 @@ func (requests *ResourceRequests) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &ResourceRequests_ARM{}
 
-	// Set property ‘Cpu’:
+	// Set property "Cpu":
 	if requests.Cpu != nil {
 		cpu := *requests.Cpu
 		result.Cpu = &cpu
 	}
 
-	// Set property ‘Gpu’:
+	// Set property "Gpu":
 	if requests.Gpu != nil {
 		gpu_ARM, err := (*requests.Gpu).ConvertToARM(resolved)
 		if err != nil {
@@ -9205,7 +9205,7 @@ func (requests *ResourceRequests) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.Gpu = &gpu
 	}
 
-	// Set property ‘MemoryInGB’:
+	// Set property "MemoryInGB":
 	if requests.MemoryInGB != nil {
 		memoryInGB := *requests.MemoryInGB
 		result.MemoryInGB = &memoryInGB
@@ -9225,13 +9225,13 @@ func (requests *ResourceRequests) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceRequests_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Cpu’:
+	// Set property "Cpu":
 	if typedInput.Cpu != nil {
 		cpu := *typedInput.Cpu
 		requests.Cpu = &cpu
 	}
 
-	// Set property ‘Gpu’:
+	// Set property "Gpu":
 	if typedInput.Gpu != nil {
 		var gpu1 GpuResource
 		err := gpu1.PopulateFromARM(owner, *typedInput.Gpu)
@@ -9242,7 +9242,7 @@ func (requests *ResourceRequests) PopulateFromARM(owner genruntime.ArbitraryOwne
 		requests.Gpu = &gpu
 	}
 
-	// Set property ‘MemoryInGB’:
+	// Set property "MemoryInGB":
 	if typedInput.MemoryInGB != nil {
 		memoryInGB := *typedInput.MemoryInGB
 		requests.MemoryInGB = &memoryInGB
@@ -9352,13 +9352,13 @@ func (requests *ResourceRequests_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceRequests_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Cpu’:
+	// Set property "Cpu":
 	if typedInput.Cpu != nil {
 		cpu := *typedInput.Cpu
 		requests.Cpu = &cpu
 	}
 
-	// Set property ‘Gpu’:
+	// Set property "Gpu":
 	if typedInput.Gpu != nil {
 		var gpu1 GpuResource_STATUS
 		err := gpu1.PopulateFromARM(owner, *typedInput.Gpu)
@@ -9369,7 +9369,7 @@ func (requests *ResourceRequests_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		requests.Gpu = &gpu
 	}
 
-	// Set property ‘MemoryInGB’:
+	// Set property "MemoryInGB":
 	if typedInput.MemoryInGB != nil {
 		memoryInGB := *typedInput.MemoryInGB
 		requests.MemoryInGB = &memoryInGB
@@ -9493,13 +9493,13 @@ func (resource *GpuResource) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	}
 	result := &GpuResource_ARM{}
 
-	// Set property ‘Count’:
+	// Set property "Count":
 	if resource.Count != nil {
 		count := *resource.Count
 		result.Count = &count
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if resource.Sku != nil {
 		sku := *resource.Sku
 		result.Sku = &sku
@@ -9519,13 +9519,13 @@ func (resource *GpuResource) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected GpuResource_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Count’:
+	// Set property "Count":
 	if typedInput.Count != nil {
 		count := *typedInput.Count
 		resource.Count = &count
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		sku := *typedInput.Sku
 		resource.Sku = &sku
@@ -9600,13 +9600,13 @@ func (resource *GpuResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected GpuResource_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Count’:
+	// Set property "Count":
 	if typedInput.Count != nil {
 		count := *typedInput.Count
 		resource.Count = &count
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		sku := *typedInput.Sku
 		resource.Sku = &sku
@@ -9676,13 +9676,13 @@ func (header *HttpHeader) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	}
 	result := &HttpHeader_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if header.Name != nil {
 		name := *header.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if header.Value != nil {
 		value := *header.Value
 		result.Value = &value
@@ -9702,13 +9702,13 @@ func (header *HttpHeader) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HttpHeader_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		header.Name = &name
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		header.Value = &value
@@ -9773,13 +9773,13 @@ func (header *HttpHeader_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HttpHeader_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		header.Name = &name
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		header.Value = &value

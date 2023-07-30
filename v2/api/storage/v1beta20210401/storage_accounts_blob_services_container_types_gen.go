@@ -337,10 +337,10 @@ func (container *StorageAccounts_BlobServices_Container_Spec) ConvertToARM(resol
 	}
 	result := &StorageAccounts_BlobServices_Container_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if container.DefaultEncryptionScope != nil ||
 		container.DenyEncryptionScopeOverride != nil ||
 		container.ImmutableStorageWithVersioning != nil ||
@@ -389,10 +389,10 @@ func (container *StorageAccounts_BlobServices_Container_Spec) PopulateFromARM(ow
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_BlobServices_Container_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	container.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘DefaultEncryptionScope’:
+	// Set property "DefaultEncryptionScope":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultEncryptionScope != nil {
@@ -401,7 +401,7 @@ func (container *StorageAccounts_BlobServices_Container_Spec) PopulateFromARM(ow
 		}
 	}
 
-	// Set property ‘DenyEncryptionScopeOverride’:
+	// Set property "DenyEncryptionScopeOverride":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DenyEncryptionScopeOverride != nil {
@@ -410,7 +410,7 @@ func (container *StorageAccounts_BlobServices_Container_Spec) PopulateFromARM(ow
 		}
 	}
 
-	// Set property ‘ImmutableStorageWithVersioning’:
+	// Set property "ImmutableStorageWithVersioning":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ImmutableStorageWithVersioning != nil {
@@ -424,7 +424,7 @@ func (container *StorageAccounts_BlobServices_Container_Spec) PopulateFromARM(ow
 		}
 	}
 
-	// Set property ‘Metadata’:
+	// Set property "Metadata":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Metadata != nil {
@@ -435,10 +435,10 @@ func (container *StorageAccounts_BlobServices_Container_Spec) PopulateFromARM(ow
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	container.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘PublicAccess’:
+	// Set property "PublicAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicAccess != nil {
@@ -718,9 +718,9 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) PopulateFromARM(
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_BlobServices_Container_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘DefaultEncryptionScope’:
+	// Set property "DefaultEncryptionScope":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultEncryptionScope != nil {
@@ -729,7 +729,7 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) PopulateFromARM(
 		}
 	}
 
-	// Set property ‘Deleted’:
+	// Set property "Deleted":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Deleted != nil {
@@ -738,7 +738,7 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) PopulateFromARM(
 		}
 	}
 
-	// Set property ‘DeletedTime’:
+	// Set property "DeletedTime":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeletedTime != nil {
@@ -747,7 +747,7 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) PopulateFromARM(
 		}
 	}
 
-	// Set property ‘DenyEncryptionScopeOverride’:
+	// Set property "DenyEncryptionScopeOverride":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DenyEncryptionScopeOverride != nil {
@@ -756,13 +756,13 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) PopulateFromARM(
 		}
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		container.Etag = &etag
 	}
 
-	// Set property ‘HasImmutabilityPolicy’:
+	// Set property "HasImmutabilityPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HasImmutabilityPolicy != nil {
@@ -771,7 +771,7 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) PopulateFromARM(
 		}
 	}
 
-	// Set property ‘HasLegalHold’:
+	// Set property "HasLegalHold":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HasLegalHold != nil {
@@ -780,13 +780,13 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) PopulateFromARM(
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		container.Id = &id
 	}
 
-	// Set property ‘ImmutabilityPolicy’:
+	// Set property "ImmutabilityPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ImmutabilityPolicy != nil {
@@ -800,7 +800,7 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) PopulateFromARM(
 		}
 	}
 
-	// Set property ‘ImmutableStorageWithVersioning’:
+	// Set property "ImmutableStorageWithVersioning":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ImmutableStorageWithVersioning != nil {
@@ -814,7 +814,7 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) PopulateFromARM(
 		}
 	}
 
-	// Set property ‘LastModifiedTime’:
+	// Set property "LastModifiedTime":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LastModifiedTime != nil {
@@ -823,7 +823,7 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) PopulateFromARM(
 		}
 	}
 
-	// Set property ‘LeaseDuration’:
+	// Set property "LeaseDuration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LeaseDuration != nil {
@@ -832,7 +832,7 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) PopulateFromARM(
 		}
 	}
 
-	// Set property ‘LeaseState’:
+	// Set property "LeaseState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LeaseState != nil {
@@ -841,7 +841,7 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) PopulateFromARM(
 		}
 	}
 
-	// Set property ‘LeaseStatus’:
+	// Set property "LeaseStatus":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LeaseStatus != nil {
@@ -850,7 +850,7 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) PopulateFromARM(
 		}
 	}
 
-	// Set property ‘LegalHold’:
+	// Set property "LegalHold":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LegalHold != nil {
@@ -864,7 +864,7 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) PopulateFromARM(
 		}
 	}
 
-	// Set property ‘Metadata’:
+	// Set property "Metadata":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Metadata != nil {
@@ -875,13 +875,13 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) PopulateFromARM(
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		container.Name = &name
 	}
 
-	// Set property ‘PublicAccess’:
+	// Set property "PublicAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicAccess != nil {
@@ -890,7 +890,7 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) PopulateFromARM(
 		}
 	}
 
-	// Set property ‘RemainingRetentionDays’:
+	// Set property "RemainingRetentionDays":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RemainingRetentionDays != nil {
@@ -899,13 +899,13 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) PopulateFromARM(
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		container.Type = &typeVar
 	}
 
-	// Set property ‘Version’:
+	// Set property "Version":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Version != nil {
@@ -1280,7 +1280,7 @@ func (properties *ImmutabilityPolicyProperties_STATUS) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImmutabilityPolicyProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AllowProtectedAppendWrites’:
+	// Set property "AllowProtectedAppendWrites":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AllowProtectedAppendWrites != nil {
@@ -1289,13 +1289,13 @@ func (properties *ImmutabilityPolicyProperties_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		properties.Etag = &etag
 	}
 
-	// Set property ‘ImmutabilityPeriodSinceCreationInDays’:
+	// Set property "ImmutabilityPeriodSinceCreationInDays":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ImmutabilityPeriodSinceCreationInDays != nil {
@@ -1304,7 +1304,7 @@ func (properties *ImmutabilityPolicyProperties_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘State’:
+	// Set property "State":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
@@ -1313,7 +1313,7 @@ func (properties *ImmutabilityPolicyProperties_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘UpdateHistory’:
+	// Set property "UpdateHistory":
 	for _, item := range typedInput.UpdateHistory {
 		var item1 UpdateHistoryProperty_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -1444,7 +1444,7 @@ func (versioning *ImmutableStorageWithVersioning) ConvertToARM(resolved genrunti
 	}
 	result := &ImmutableStorageWithVersioning_ARM{}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if versioning.Enabled != nil {
 		enabled := *versioning.Enabled
 		result.Enabled = &enabled
@@ -1464,7 +1464,7 @@ func (versioning *ImmutableStorageWithVersioning) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImmutableStorageWithVersioning_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		versioning.Enabled = &enabled
@@ -1534,19 +1534,19 @@ func (versioning *ImmutableStorageWithVersioning_STATUS) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImmutableStorageWithVersioning_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		versioning.Enabled = &enabled
 	}
 
-	// Set property ‘MigrationState’:
+	// Set property "MigrationState":
 	if typedInput.MigrationState != nil {
 		migrationState := *typedInput.MigrationState
 		versioning.MigrationState = &migrationState
 	}
 
-	// Set property ‘TimeStamp’:
+	// Set property "TimeStamp":
 	if typedInput.TimeStamp != nil {
 		timeStamp := *typedInput.TimeStamp
 		versioning.TimeStamp = &timeStamp
@@ -1637,13 +1637,13 @@ func (properties *LegalHoldProperties_STATUS) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LegalHoldProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘HasLegalHold’:
+	// Set property "HasLegalHold":
 	if typedInput.HasLegalHold != nil {
 		hasLegalHold := *typedInput.HasLegalHold
 		properties.HasLegalHold = &hasLegalHold
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	for _, item := range typedInput.Tags {
 		var item1 TagProperty_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -1773,31 +1773,31 @@ func (property *TagProperty_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TagProperty_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ObjectIdentifier’:
+	// Set property "ObjectIdentifier":
 	if typedInput.ObjectIdentifier != nil {
 		objectIdentifier := *typedInput.ObjectIdentifier
 		property.ObjectIdentifier = &objectIdentifier
 	}
 
-	// Set property ‘Tag’:
+	// Set property "Tag":
 	if typedInput.Tag != nil {
 		tag := *typedInput.Tag
 		property.Tag = &tag
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
 		property.TenantId = &tenantId
 	}
 
-	// Set property ‘Timestamp’:
+	// Set property "Timestamp":
 	if typedInput.Timestamp != nil {
 		timestamp := *typedInput.Timestamp
 		property.Timestamp = &timestamp
 	}
 
-	// Set property ‘Upn’:
+	// Set property "Upn":
 	if typedInput.Upn != nil {
 		upn := *typedInput.Upn
 		property.Upn = &upn
@@ -1884,37 +1884,37 @@ func (property *UpdateHistoryProperty_STATUS) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UpdateHistoryProperty_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ImmutabilityPeriodSinceCreationInDays’:
+	// Set property "ImmutabilityPeriodSinceCreationInDays":
 	if typedInput.ImmutabilityPeriodSinceCreationInDays != nil {
 		immutabilityPeriodSinceCreationInDays := *typedInput.ImmutabilityPeriodSinceCreationInDays
 		property.ImmutabilityPeriodSinceCreationInDays = &immutabilityPeriodSinceCreationInDays
 	}
 
-	// Set property ‘ObjectIdentifier’:
+	// Set property "ObjectIdentifier":
 	if typedInput.ObjectIdentifier != nil {
 		objectIdentifier := *typedInput.ObjectIdentifier
 		property.ObjectIdentifier = &objectIdentifier
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
 		property.TenantId = &tenantId
 	}
 
-	// Set property ‘Timestamp’:
+	// Set property "Timestamp":
 	if typedInput.Timestamp != nil {
 		timestamp := *typedInput.Timestamp
 		property.Timestamp = &timestamp
 	}
 
-	// Set property ‘Update’:
+	// Set property "Update":
 	if typedInput.Update != nil {
 		update := *typedInput.Update
 		property.Update = &update
 	}
 
-	// Set property ‘Upn’:
+	// Set property "Upn":
 	if typedInput.Upn != nil {
 		upn := *typedInput.Upn
 		property.Upn = &upn

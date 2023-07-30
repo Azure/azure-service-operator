@@ -346,10 +346,10 @@ func (queue *Namespaces_Queue_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &Namespaces_Queue_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if queue.AutoDeleteOnIdle != nil ||
 		queue.DeadLetteringOnMessageExpiration != nil ||
 		queue.DefaultMessageTimeToLive != nil ||
@@ -437,7 +437,7 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Queue_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AutoDeleteOnIdle’:
+	// Set property "AutoDeleteOnIdle":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutoDeleteOnIdle != nil {
@@ -446,10 +446,10 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	queue.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘DeadLetteringOnMessageExpiration’:
+	// Set property "DeadLetteringOnMessageExpiration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeadLetteringOnMessageExpiration != nil {
@@ -458,7 +458,7 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘DefaultMessageTimeToLive’:
+	// Set property "DefaultMessageTimeToLive":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultMessageTimeToLive != nil {
@@ -467,7 +467,7 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘DuplicateDetectionHistoryTimeWindow’:
+	// Set property "DuplicateDetectionHistoryTimeWindow":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DuplicateDetectionHistoryTimeWindow != nil {
@@ -476,7 +476,7 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘EnableBatchedOperations’:
+	// Set property "EnableBatchedOperations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableBatchedOperations != nil {
@@ -485,7 +485,7 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘EnableExpress’:
+	// Set property "EnableExpress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableExpress != nil {
@@ -494,7 +494,7 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘EnablePartitioning’:
+	// Set property "EnablePartitioning":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnablePartitioning != nil {
@@ -503,7 +503,7 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘ForwardDeadLetteredMessagesTo’:
+	// Set property "ForwardDeadLetteredMessagesTo":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ForwardDeadLetteredMessagesTo != nil {
@@ -512,7 +512,7 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘ForwardTo’:
+	// Set property "ForwardTo":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ForwardTo != nil {
@@ -521,7 +521,7 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘LockDuration’:
+	// Set property "LockDuration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LockDuration != nil {
@@ -530,7 +530,7 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘MaxDeliveryCount’:
+	// Set property "MaxDeliveryCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxDeliveryCount != nil {
@@ -539,7 +539,7 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘MaxSizeInMegabytes’:
+	// Set property "MaxSizeInMegabytes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxSizeInMegabytes != nil {
@@ -548,10 +548,10 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	queue.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘RequiresDuplicateDetection’:
+	// Set property "RequiresDuplicateDetection":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RequiresDuplicateDetection != nil {
@@ -560,7 +560,7 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘RequiresSession’:
+	// Set property "RequiresSession":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RequiresSession != nil {
@@ -919,7 +919,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Queue_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AccessedAt’:
+	// Set property "AccessedAt":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AccessedAt != nil {
@@ -928,7 +928,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘AutoDeleteOnIdle’:
+	// Set property "AutoDeleteOnIdle":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutoDeleteOnIdle != nil {
@@ -937,9 +937,9 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘CountDetails’:
+	// Set property "CountDetails":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CountDetails != nil {
@@ -953,7 +953,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘CreatedAt’:
+	// Set property "CreatedAt":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreatedAt != nil {
@@ -962,7 +962,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘DeadLetteringOnMessageExpiration’:
+	// Set property "DeadLetteringOnMessageExpiration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeadLetteringOnMessageExpiration != nil {
@@ -971,7 +971,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘DefaultMessageTimeToLive’:
+	// Set property "DefaultMessageTimeToLive":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultMessageTimeToLive != nil {
@@ -980,7 +980,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘DuplicateDetectionHistoryTimeWindow’:
+	// Set property "DuplicateDetectionHistoryTimeWindow":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DuplicateDetectionHistoryTimeWindow != nil {
@@ -989,7 +989,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘EnableBatchedOperations’:
+	// Set property "EnableBatchedOperations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableBatchedOperations != nil {
@@ -998,7 +998,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘EnableExpress’:
+	// Set property "EnableExpress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableExpress != nil {
@@ -1007,7 +1007,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘EnablePartitioning’:
+	// Set property "EnablePartitioning":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnablePartitioning != nil {
@@ -1016,7 +1016,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘ForwardDeadLetteredMessagesTo’:
+	// Set property "ForwardDeadLetteredMessagesTo":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ForwardDeadLetteredMessagesTo != nil {
@@ -1025,7 +1025,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘ForwardTo’:
+	// Set property "ForwardTo":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ForwardTo != nil {
@@ -1034,13 +1034,13 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		queue.Id = &id
 	}
 
-	// Set property ‘LockDuration’:
+	// Set property "LockDuration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LockDuration != nil {
@@ -1049,7 +1049,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘MaxDeliveryCount’:
+	// Set property "MaxDeliveryCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxDeliveryCount != nil {
@@ -1058,7 +1058,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘MaxSizeInMegabytes’:
+	// Set property "MaxSizeInMegabytes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxSizeInMegabytes != nil {
@@ -1067,7 +1067,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘MessageCount’:
+	// Set property "MessageCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MessageCount != nil {
@@ -1076,13 +1076,13 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		queue.Name = &name
 	}
 
-	// Set property ‘RequiresDuplicateDetection’:
+	// Set property "RequiresDuplicateDetection":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RequiresDuplicateDetection != nil {
@@ -1091,7 +1091,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘RequiresSession’:
+	// Set property "RequiresSession":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RequiresSession != nil {
@@ -1100,7 +1100,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘SizeInBytes’:
+	// Set property "SizeInBytes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SizeInBytes != nil {
@@ -1109,7 +1109,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Status’:
+	// Set property "Status":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Status != nil {
@@ -1118,7 +1118,7 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -1129,13 +1129,13 @@ func (queue *Namespaces_Queue_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		queue.SystemData = &systemData
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		queue.Type = &typeVar
 	}
 
-	// Set property ‘UpdatedAt’:
+	// Set property "UpdatedAt":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.UpdatedAt != nil {
@@ -1471,31 +1471,31 @@ func (details *MessageCountDetails_STATUS) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MessageCountDetails_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ActiveMessageCount’:
+	// Set property "ActiveMessageCount":
 	if typedInput.ActiveMessageCount != nil {
 		activeMessageCount := *typedInput.ActiveMessageCount
 		details.ActiveMessageCount = &activeMessageCount
 	}
 
-	// Set property ‘DeadLetterMessageCount’:
+	// Set property "DeadLetterMessageCount":
 	if typedInput.DeadLetterMessageCount != nil {
 		deadLetterMessageCount := *typedInput.DeadLetterMessageCount
 		details.DeadLetterMessageCount = &deadLetterMessageCount
 	}
 
-	// Set property ‘ScheduledMessageCount’:
+	// Set property "ScheduledMessageCount":
 	if typedInput.ScheduledMessageCount != nil {
 		scheduledMessageCount := *typedInput.ScheduledMessageCount
 		details.ScheduledMessageCount = &scheduledMessageCount
 	}
 
-	// Set property ‘TransferDeadLetterMessageCount’:
+	// Set property "TransferDeadLetterMessageCount":
 	if typedInput.TransferDeadLetterMessageCount != nil {
 		transferDeadLetterMessageCount := *typedInput.TransferDeadLetterMessageCount
 		details.TransferDeadLetterMessageCount = &transferDeadLetterMessageCount
 	}
 
-	// Set property ‘TransferMessageCount’:
+	// Set property "TransferMessageCount":
 	if typedInput.TransferMessageCount != nil {
 		transferMessageCount := *typedInput.TransferMessageCount
 		details.TransferMessageCount = &transferMessageCount

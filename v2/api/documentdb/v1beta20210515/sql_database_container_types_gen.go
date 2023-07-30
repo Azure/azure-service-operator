@@ -336,16 +336,16 @@ func (container *DatabaseAccounts_SqlDatabases_Container_Spec) ConvertToARM(reso
 	}
 	result := &DatabaseAccounts_SqlDatabases_Container_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if container.Location != nil {
 		location := *container.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if container.Options != nil || container.Resource != nil {
 		result.Properties = &SqlContainerCreateUpdateProperties_ARM{}
 	}
@@ -366,7 +366,7 @@ func (container *DatabaseAccounts_SqlDatabases_Container_Spec) ConvertToARM(reso
 		result.Properties.Resource = &resource
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if container.Tags != nil {
 		result.Tags = make(map[string]string, len(container.Tags))
 		for key, value := range container.Tags {
@@ -388,16 +388,16 @@ func (container *DatabaseAccounts_SqlDatabases_Container_Spec) PopulateFromARM(o
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlDatabases_Container_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	container.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		container.Location = &location
 	}
 
-	// Set property ‘Options’:
+	// Set property "Options":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Options != nil {
@@ -411,10 +411,10 @@ func (container *DatabaseAccounts_SqlDatabases_Container_Spec) PopulateFromARM(o
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	container.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Resource’:
+	// Set property "Resource":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
@@ -428,7 +428,7 @@ func (container *DatabaseAccounts_SqlDatabases_Container_Spec) PopulateFromARM(o
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		container.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -685,27 +685,27 @@ func (container *DatabaseAccounts_SqlDatabases_Container_STATUS) PopulateFromARM
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlDatabases_Container_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		container.Id = &id
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		container.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		container.Name = &name
 	}
 
-	// Set property ‘Options’:
+	// Set property "Options":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Options != nil {
@@ -719,7 +719,7 @@ func (container *DatabaseAccounts_SqlDatabases_Container_STATUS) PopulateFromARM
 		}
 	}
 
-	// Set property ‘Resource’:
+	// Set property "Resource":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
@@ -733,7 +733,7 @@ func (container *DatabaseAccounts_SqlDatabases_Container_STATUS) PopulateFromARM
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		container.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -741,7 +741,7 @@ func (container *DatabaseAccounts_SqlDatabases_Container_STATUS) PopulateFromARM
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		container.Type = &typeVar
@@ -886,13 +886,13 @@ func (resource *SqlContainerGetProperties_Resource_STATUS) PopulateFromARM(owner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlContainerGetProperties_Resource_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AnalyticalStorageTtl’:
+	// Set property "AnalyticalStorageTtl":
 	if typedInput.AnalyticalStorageTtl != nil {
 		analyticalStorageTtl := *typedInput.AnalyticalStorageTtl
 		resource.AnalyticalStorageTtl = &analyticalStorageTtl
 	}
 
-	// Set property ‘ConflictResolutionPolicy’:
+	// Set property "ConflictResolutionPolicy":
 	if typedInput.ConflictResolutionPolicy != nil {
 		var conflictResolutionPolicy1 ConflictResolutionPolicy_STATUS
 		err := conflictResolutionPolicy1.PopulateFromARM(owner, *typedInput.ConflictResolutionPolicy)
@@ -903,25 +903,25 @@ func (resource *SqlContainerGetProperties_Resource_STATUS) PopulateFromARM(owner
 		resource.ConflictResolutionPolicy = &conflictResolutionPolicy
 	}
 
-	// Set property ‘DefaultTtl’:
+	// Set property "DefaultTtl":
 	if typedInput.DefaultTtl != nil {
 		defaultTtl := *typedInput.DefaultTtl
 		resource.DefaultTtl = &defaultTtl
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		resource.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		resource.Id = &id
 	}
 
-	// Set property ‘IndexingPolicy’:
+	// Set property "IndexingPolicy":
 	if typedInput.IndexingPolicy != nil {
 		var indexingPolicy1 IndexingPolicy_STATUS
 		err := indexingPolicy1.PopulateFromARM(owner, *typedInput.IndexingPolicy)
@@ -932,7 +932,7 @@ func (resource *SqlContainerGetProperties_Resource_STATUS) PopulateFromARM(owner
 		resource.IndexingPolicy = &indexingPolicy
 	}
 
-	// Set property ‘PartitionKey’:
+	// Set property "PartitionKey":
 	if typedInput.PartitionKey != nil {
 		var partitionKey1 ContainerPartitionKey_STATUS
 		err := partitionKey1.PopulateFromARM(owner, *typedInput.PartitionKey)
@@ -943,19 +943,19 @@ func (resource *SqlContainerGetProperties_Resource_STATUS) PopulateFromARM(owner
 		resource.PartitionKey = &partitionKey
 	}
 
-	// Set property ‘Rid’:
+	// Set property "Rid":
 	if typedInput.Rid != nil {
 		rid := *typedInput.Rid
 		resource.Rid = &rid
 	}
 
-	// Set property ‘Ts’:
+	// Set property "Ts":
 	if typedInput.Ts != nil {
 		ts := *typedInput.Ts
 		resource.Ts = &ts
 	}
 
-	// Set property ‘UniqueKeyPolicy’:
+	// Set property "UniqueKeyPolicy":
 	if typedInput.UniqueKeyPolicy != nil {
 		var uniqueKeyPolicy1 UniqueKeyPolicy_STATUS
 		err := uniqueKeyPolicy1.PopulateFromARM(owner, *typedInput.UniqueKeyPolicy)
@@ -1157,13 +1157,13 @@ func (resource *SqlContainerResource) ConvertToARM(resolved genruntime.ConvertTo
 	}
 	result := &SqlContainerResource_ARM{}
 
-	// Set property ‘AnalyticalStorageTtl’:
+	// Set property "AnalyticalStorageTtl":
 	if resource.AnalyticalStorageTtl != nil {
 		analyticalStorageTtl := *resource.AnalyticalStorageTtl
 		result.AnalyticalStorageTtl = &analyticalStorageTtl
 	}
 
-	// Set property ‘ConflictResolutionPolicy’:
+	// Set property "ConflictResolutionPolicy":
 	if resource.ConflictResolutionPolicy != nil {
 		conflictResolutionPolicy_ARM, err := (*resource.ConflictResolutionPolicy).ConvertToARM(resolved)
 		if err != nil {
@@ -1173,19 +1173,19 @@ func (resource *SqlContainerResource) ConvertToARM(resolved genruntime.ConvertTo
 		result.ConflictResolutionPolicy = &conflictResolutionPolicy
 	}
 
-	// Set property ‘DefaultTtl’:
+	// Set property "DefaultTtl":
 	if resource.DefaultTtl != nil {
 		defaultTtl := *resource.DefaultTtl
 		result.DefaultTtl = &defaultTtl
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if resource.Id != nil {
 		id := *resource.Id
 		result.Id = &id
 	}
 
-	// Set property ‘IndexingPolicy’:
+	// Set property "IndexingPolicy":
 	if resource.IndexingPolicy != nil {
 		indexingPolicy_ARM, err := (*resource.IndexingPolicy).ConvertToARM(resolved)
 		if err != nil {
@@ -1195,7 +1195,7 @@ func (resource *SqlContainerResource) ConvertToARM(resolved genruntime.ConvertTo
 		result.IndexingPolicy = &indexingPolicy
 	}
 
-	// Set property ‘PartitionKey’:
+	// Set property "PartitionKey":
 	if resource.PartitionKey != nil {
 		partitionKey_ARM, err := (*resource.PartitionKey).ConvertToARM(resolved)
 		if err != nil {
@@ -1205,7 +1205,7 @@ func (resource *SqlContainerResource) ConvertToARM(resolved genruntime.ConvertTo
 		result.PartitionKey = &partitionKey
 	}
 
-	// Set property ‘UniqueKeyPolicy’:
+	// Set property "UniqueKeyPolicy":
 	if resource.UniqueKeyPolicy != nil {
 		uniqueKeyPolicy_ARM, err := (*resource.UniqueKeyPolicy).ConvertToARM(resolved)
 		if err != nil {
@@ -1229,13 +1229,13 @@ func (resource *SqlContainerResource) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlContainerResource_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AnalyticalStorageTtl’:
+	// Set property "AnalyticalStorageTtl":
 	if typedInput.AnalyticalStorageTtl != nil {
 		analyticalStorageTtl := *typedInput.AnalyticalStorageTtl
 		resource.AnalyticalStorageTtl = &analyticalStorageTtl
 	}
 
-	// Set property ‘ConflictResolutionPolicy’:
+	// Set property "ConflictResolutionPolicy":
 	if typedInput.ConflictResolutionPolicy != nil {
 		var conflictResolutionPolicy1 ConflictResolutionPolicy
 		err := conflictResolutionPolicy1.PopulateFromARM(owner, *typedInput.ConflictResolutionPolicy)
@@ -1246,19 +1246,19 @@ func (resource *SqlContainerResource) PopulateFromARM(owner genruntime.Arbitrary
 		resource.ConflictResolutionPolicy = &conflictResolutionPolicy
 	}
 
-	// Set property ‘DefaultTtl’:
+	// Set property "DefaultTtl":
 	if typedInput.DefaultTtl != nil {
 		defaultTtl := *typedInput.DefaultTtl
 		resource.DefaultTtl = &defaultTtl
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		resource.Id = &id
 	}
 
-	// Set property ‘IndexingPolicy’:
+	// Set property "IndexingPolicy":
 	if typedInput.IndexingPolicy != nil {
 		var indexingPolicy1 IndexingPolicy
 		err := indexingPolicy1.PopulateFromARM(owner, *typedInput.IndexingPolicy)
@@ -1269,7 +1269,7 @@ func (resource *SqlContainerResource) PopulateFromARM(owner genruntime.Arbitrary
 		resource.IndexingPolicy = &indexingPolicy
 	}
 
-	// Set property ‘PartitionKey’:
+	// Set property "PartitionKey":
 	if typedInput.PartitionKey != nil {
 		var partitionKey1 ContainerPartitionKey
 		err := partitionKey1.PopulateFromARM(owner, *typedInput.PartitionKey)
@@ -1280,7 +1280,7 @@ func (resource *SqlContainerResource) PopulateFromARM(owner genruntime.Arbitrary
 		resource.PartitionKey = &partitionKey
 	}
 
-	// Set property ‘UniqueKeyPolicy’:
+	// Set property "UniqueKeyPolicy":
 	if typedInput.UniqueKeyPolicy != nil {
 		var uniqueKeyPolicy1 UniqueKeyPolicy
 		err := uniqueKeyPolicy1.PopulateFromARM(owner, *typedInput.UniqueKeyPolicy)
@@ -1448,19 +1448,19 @@ func (policy *ConflictResolutionPolicy) ConvertToARM(resolved genruntime.Convert
 	}
 	result := &ConflictResolutionPolicy_ARM{}
 
-	// Set property ‘ConflictResolutionPath’:
+	// Set property "ConflictResolutionPath":
 	if policy.ConflictResolutionPath != nil {
 		conflictResolutionPath := *policy.ConflictResolutionPath
 		result.ConflictResolutionPath = &conflictResolutionPath
 	}
 
-	// Set property ‘ConflictResolutionProcedure’:
+	// Set property "ConflictResolutionProcedure":
 	if policy.ConflictResolutionProcedure != nil {
 		conflictResolutionProcedure := *policy.ConflictResolutionProcedure
 		result.ConflictResolutionProcedure = &conflictResolutionProcedure
 	}
 
-	// Set property ‘Mode’:
+	// Set property "Mode":
 	if policy.Mode != nil {
 		mode := *policy.Mode
 		result.Mode = &mode
@@ -1480,19 +1480,19 @@ func (policy *ConflictResolutionPolicy) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ConflictResolutionPolicy_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ConflictResolutionPath’:
+	// Set property "ConflictResolutionPath":
 	if typedInput.ConflictResolutionPath != nil {
 		conflictResolutionPath := *typedInput.ConflictResolutionPath
 		policy.ConflictResolutionPath = &conflictResolutionPath
 	}
 
-	// Set property ‘ConflictResolutionProcedure’:
+	// Set property "ConflictResolutionProcedure":
 	if typedInput.ConflictResolutionProcedure != nil {
 		conflictResolutionProcedure := *typedInput.ConflictResolutionProcedure
 		policy.ConflictResolutionProcedure = &conflictResolutionProcedure
 	}
 
-	// Set property ‘Mode’:
+	// Set property "Mode":
 	if typedInput.Mode != nil {
 		mode := *typedInput.Mode
 		policy.Mode = &mode
@@ -1574,19 +1574,19 @@ func (policy *ConflictResolutionPolicy_STATUS) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ConflictResolutionPolicy_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ConflictResolutionPath’:
+	// Set property "ConflictResolutionPath":
 	if typedInput.ConflictResolutionPath != nil {
 		conflictResolutionPath := *typedInput.ConflictResolutionPath
 		policy.ConflictResolutionPath = &conflictResolutionPath
 	}
 
-	// Set property ‘ConflictResolutionProcedure’:
+	// Set property "ConflictResolutionProcedure":
 	if typedInput.ConflictResolutionProcedure != nil {
 		conflictResolutionProcedure := *typedInput.ConflictResolutionProcedure
 		policy.ConflictResolutionProcedure = &conflictResolutionProcedure
 	}
 
-	// Set property ‘Mode’:
+	// Set property "Mode":
 	if typedInput.Mode != nil {
 		mode := *typedInput.Mode
 		policy.Mode = &mode
@@ -1666,18 +1666,18 @@ func (partitionKey *ContainerPartitionKey) ConvertToARM(resolved genruntime.Conv
 	}
 	result := &ContainerPartitionKey_ARM{}
 
-	// Set property ‘Kind’:
+	// Set property "Kind":
 	if partitionKey.Kind != nil {
 		kind := *partitionKey.Kind
 		result.Kind = &kind
 	}
 
-	// Set property ‘Paths’:
+	// Set property "Paths":
 	for _, item := range partitionKey.Paths {
 		result.Paths = append(result.Paths, item)
 	}
 
-	// Set property ‘Version’:
+	// Set property "Version":
 	if partitionKey.Version != nil {
 		version := *partitionKey.Version
 		result.Version = &version
@@ -1697,18 +1697,18 @@ func (partitionKey *ContainerPartitionKey) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerPartitionKey_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Kind’:
+	// Set property "Kind":
 	if typedInput.Kind != nil {
 		kind := *typedInput.Kind
 		partitionKey.Kind = &kind
 	}
 
-	// Set property ‘Paths’:
+	// Set property "Paths":
 	for _, item := range typedInput.Paths {
 		partitionKey.Paths = append(partitionKey.Paths, item)
 	}
 
-	// Set property ‘Version’:
+	// Set property "Version":
 	if typedInput.Version != nil {
 		version := *typedInput.Version
 		partitionKey.Version = &version
@@ -1801,24 +1801,24 @@ func (partitionKey *ContainerPartitionKey_STATUS) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerPartitionKey_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Kind’:
+	// Set property "Kind":
 	if typedInput.Kind != nil {
 		kind := *typedInput.Kind
 		partitionKey.Kind = &kind
 	}
 
-	// Set property ‘Paths’:
+	// Set property "Paths":
 	for _, item := range typedInput.Paths {
 		partitionKey.Paths = append(partitionKey.Paths, item)
 	}
 
-	// Set property ‘SystemKey’:
+	// Set property "SystemKey":
 	if typedInput.SystemKey != nil {
 		systemKey := *typedInput.SystemKey
 		partitionKey.SystemKey = &systemKey
 	}
 
-	// Set property ‘Version’:
+	// Set property "Version":
 	if typedInput.Version != nil {
 		version := *typedInput.Version
 		partitionKey.Version = &version
@@ -1914,13 +1914,13 @@ func (policy *IndexingPolicy) ConvertToARM(resolved genruntime.ConvertToARMResol
 	}
 	result := &IndexingPolicy_ARM{}
 
-	// Set property ‘Automatic’:
+	// Set property "Automatic":
 	if policy.Automatic != nil {
 		automatic := *policy.Automatic
 		result.Automatic = &automatic
 	}
 
-	// Set property ‘CompositeIndexes’:
+	// Set property "CompositeIndexes":
 	for _, item := range policy.CompositeIndexes {
 		var itemTemp []CompositePath_ARM
 		for _, item1 := range item {
@@ -1933,7 +1933,7 @@ func (policy *IndexingPolicy) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.CompositeIndexes = append(result.CompositeIndexes, itemTemp)
 	}
 
-	// Set property ‘ExcludedPaths’:
+	// Set property "ExcludedPaths":
 	for _, item := range policy.ExcludedPaths {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -1942,7 +1942,7 @@ func (policy *IndexingPolicy) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.ExcludedPaths = append(result.ExcludedPaths, *item_ARM.(*ExcludedPath_ARM))
 	}
 
-	// Set property ‘IncludedPaths’:
+	// Set property "IncludedPaths":
 	for _, item := range policy.IncludedPaths {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -1951,13 +1951,13 @@ func (policy *IndexingPolicy) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.IncludedPaths = append(result.IncludedPaths, *item_ARM.(*IncludedPath_ARM))
 	}
 
-	// Set property ‘IndexingMode’:
+	// Set property "IndexingMode":
 	if policy.IndexingMode != nil {
 		indexingMode := *policy.IndexingMode
 		result.IndexingMode = &indexingMode
 	}
 
-	// Set property ‘SpatialIndexes’:
+	// Set property "SpatialIndexes":
 	for _, item := range policy.SpatialIndexes {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -1980,13 +1980,13 @@ func (policy *IndexingPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IndexingPolicy_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Automatic’:
+	// Set property "Automatic":
 	if typedInput.Automatic != nil {
 		automatic := *typedInput.Automatic
 		policy.Automatic = &automatic
 	}
 
-	// Set property ‘CompositeIndexes’:
+	// Set property "CompositeIndexes":
 	for _, item := range typedInput.CompositeIndexes {
 		var itemTemp []CompositePath
 		for _, item1 := range item {
@@ -2000,7 +2000,7 @@ func (policy *IndexingPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		policy.CompositeIndexes = append(policy.CompositeIndexes, itemTemp)
 	}
 
-	// Set property ‘ExcludedPaths’:
+	// Set property "ExcludedPaths":
 	for _, item := range typedInput.ExcludedPaths {
 		var item1 ExcludedPath
 		err := item1.PopulateFromARM(owner, item)
@@ -2010,7 +2010,7 @@ func (policy *IndexingPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		policy.ExcludedPaths = append(policy.ExcludedPaths, item1)
 	}
 
-	// Set property ‘IncludedPaths’:
+	// Set property "IncludedPaths":
 	for _, item := range typedInput.IncludedPaths {
 		var item1 IncludedPath
 		err := item1.PopulateFromARM(owner, item)
@@ -2020,13 +2020,13 @@ func (policy *IndexingPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		policy.IncludedPaths = append(policy.IncludedPaths, item1)
 	}
 
-	// Set property ‘IndexingMode’:
+	// Set property "IndexingMode":
 	if typedInput.IndexingMode != nil {
 		indexingMode := *typedInput.IndexingMode
 		policy.IndexingMode = &indexingMode
 	}
 
-	// Set property ‘SpatialIndexes’:
+	// Set property "SpatialIndexes":
 	for _, item := range typedInput.SpatialIndexes {
 		var item1 SpatialSpec
 		err := item1.PopulateFromARM(owner, item)
@@ -2283,13 +2283,13 @@ func (policy *IndexingPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IndexingPolicy_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Automatic’:
+	// Set property "Automatic":
 	if typedInput.Automatic != nil {
 		automatic := *typedInput.Automatic
 		policy.Automatic = &automatic
 	}
 
-	// Set property ‘CompositeIndexes’:
+	// Set property "CompositeIndexes":
 	for _, item := range typedInput.CompositeIndexes {
 		var itemTemp []CompositePath_STATUS
 		for _, item1 := range item {
@@ -2303,7 +2303,7 @@ func (policy *IndexingPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		policy.CompositeIndexes = append(policy.CompositeIndexes, itemTemp)
 	}
 
-	// Set property ‘ExcludedPaths’:
+	// Set property "ExcludedPaths":
 	for _, item := range typedInput.ExcludedPaths {
 		var item1 ExcludedPath_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -2313,7 +2313,7 @@ func (policy *IndexingPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		policy.ExcludedPaths = append(policy.ExcludedPaths, item1)
 	}
 
-	// Set property ‘IncludedPaths’:
+	// Set property "IncludedPaths":
 	for _, item := range typedInput.IncludedPaths {
 		var item1 IncludedPath_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -2323,13 +2323,13 @@ func (policy *IndexingPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		policy.IncludedPaths = append(policy.IncludedPaths, item1)
 	}
 
-	// Set property ‘IndexingMode’:
+	// Set property "IndexingMode":
 	if typedInput.IndexingMode != nil {
 		indexingMode := *typedInput.IndexingMode
 		policy.IndexingMode = &indexingMode
 	}
 
-	// Set property ‘SpatialIndexes’:
+	// Set property "SpatialIndexes":
 	for _, item := range typedInput.SpatialIndexes {
 		var item1 SpatialSpec_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -2576,7 +2576,7 @@ func (policy *UniqueKeyPolicy) ConvertToARM(resolved genruntime.ConvertToARMReso
 	}
 	result := &UniqueKeyPolicy_ARM{}
 
-	// Set property ‘UniqueKeys’:
+	// Set property "UniqueKeys":
 	for _, item := range policy.UniqueKeys {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -2599,7 +2599,7 @@ func (policy *UniqueKeyPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UniqueKeyPolicy_ARM, got %T", armInput)
 	}
 
-	// Set property ‘UniqueKeys’:
+	// Set property "UniqueKeys":
 	for _, item := range typedInput.UniqueKeys {
 		var item1 UniqueKey
 		err := item1.PopulateFromARM(owner, item)
@@ -2691,7 +2691,7 @@ func (policy *UniqueKeyPolicy_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UniqueKeyPolicy_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘UniqueKeys’:
+	// Set property "UniqueKeys":
 	for _, item := range typedInput.UniqueKeys {
 		var item1 UniqueKey_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -2779,13 +2779,13 @@ func (path *CompositePath) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	}
 	result := &CompositePath_ARM{}
 
-	// Set property ‘Order’:
+	// Set property "Order":
 	if path.Order != nil {
 		order := *path.Order
 		result.Order = &order
 	}
 
-	// Set property ‘Path’:
+	// Set property "Path":
 	if path.Path != nil {
 		path1 := *path.Path
 		result.Path = &path1
@@ -2805,13 +2805,13 @@ func (path *CompositePath) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CompositePath_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Order’:
+	// Set property "Order":
 	if typedInput.Order != nil {
 		order := *typedInput.Order
 		path.Order = &order
 	}
 
-	// Set property ‘Path’:
+	// Set property "Path":
 	if typedInput.Path != nil {
 		path1 := *typedInput.Path
 		path.Path = &path1
@@ -2886,13 +2886,13 @@ func (path *CompositePath_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CompositePath_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Order’:
+	// Set property "Order":
 	if typedInput.Order != nil {
 		order := *typedInput.Order
 		path.Order = &order
 	}
 
-	// Set property ‘Path’:
+	// Set property "Path":
 	if typedInput.Path != nil {
 		path1 := *typedInput.Path
 		path.Path = &path1
@@ -2961,7 +2961,7 @@ func (path *ExcludedPath) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	}
 	result := &ExcludedPath_ARM{}
 
-	// Set property ‘Path’:
+	// Set property "Path":
 	if path.Path != nil {
 		path1 := *path.Path
 		result.Path = &path1
@@ -2981,7 +2981,7 @@ func (path *ExcludedPath) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExcludedPath_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Path’:
+	// Set property "Path":
 	if typedInput.Path != nil {
 		path1 := *typedInput.Path
 		path.Path = &path1
@@ -3039,7 +3039,7 @@ func (path *ExcludedPath_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExcludedPath_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Path’:
+	// Set property "Path":
 	if typedInput.Path != nil {
 		path1 := *typedInput.Path
 		path.Path = &path1
@@ -3093,7 +3093,7 @@ func (path *IncludedPath) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	}
 	result := &IncludedPath_ARM{}
 
-	// Set property ‘Indexes’:
+	// Set property "Indexes":
 	for _, item := range path.Indexes {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -3102,7 +3102,7 @@ func (path *IncludedPath) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		result.Indexes = append(result.Indexes, *item_ARM.(*Indexes_ARM))
 	}
 
-	// Set property ‘Path’:
+	// Set property "Path":
 	if path.Path != nil {
 		path1 := *path.Path
 		result.Path = &path1
@@ -3122,7 +3122,7 @@ func (path *IncludedPath) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IncludedPath_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Indexes’:
+	// Set property "Indexes":
 	for _, item := range typedInput.Indexes {
 		var item1 Indexes
 		err := item1.PopulateFromARM(owner, item)
@@ -3132,7 +3132,7 @@ func (path *IncludedPath) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		path.Indexes = append(path.Indexes, item1)
 	}
 
-	// Set property ‘Path’:
+	// Set property "Path":
 	if typedInput.Path != nil {
 		path1 := *typedInput.Path
 		path.Path = &path1
@@ -3227,7 +3227,7 @@ func (path *IncludedPath_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IncludedPath_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Indexes’:
+	// Set property "Indexes":
 	for _, item := range typedInput.Indexes {
 		var item1 Indexes_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -3237,7 +3237,7 @@ func (path *IncludedPath_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		path.Indexes = append(path.Indexes, item1)
 	}
 
-	// Set property ‘Path’:
+	// Set property "Path":
 	if typedInput.Path != nil {
 		path1 := *typedInput.Path
 		path.Path = &path1
@@ -3327,13 +3327,13 @@ func (spatial *SpatialSpec) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	}
 	result := &SpatialSpec_ARM{}
 
-	// Set property ‘Path’:
+	// Set property "Path":
 	if spatial.Path != nil {
 		path := *spatial.Path
 		result.Path = &path
 	}
 
-	// Set property ‘Types’:
+	// Set property "Types":
 	for _, item := range spatial.Types {
 		result.Types = append(result.Types, item)
 	}
@@ -3352,13 +3352,13 @@ func (spatial *SpatialSpec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SpatialSpec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Path’:
+	// Set property "Path":
 	if typedInput.Path != nil {
 		path := *typedInput.Path
 		spatial.Path = &path
 	}
 
-	// Set property ‘Types’:
+	// Set property "Types":
 	for _, item := range typedInput.Types {
 		spatial.Types = append(spatial.Types, item)
 	}
@@ -3442,13 +3442,13 @@ func (spatial *SpatialSpec_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SpatialSpec_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Path’:
+	// Set property "Path":
 	if typedInput.Path != nil {
 		path := *typedInput.Path
 		spatial.Path = &path
 	}
 
-	// Set property ‘Types’:
+	// Set property "Types":
 	for _, item := range typedInput.Types {
 		spatial.Types = append(spatial.Types, item)
 	}
@@ -3526,7 +3526,7 @@ func (uniqueKey *UniqueKey) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	}
 	result := &UniqueKey_ARM{}
 
-	// Set property ‘Paths’:
+	// Set property "Paths":
 	for _, item := range uniqueKey.Paths {
 		result.Paths = append(result.Paths, item)
 	}
@@ -3545,7 +3545,7 @@ func (uniqueKey *UniqueKey) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UniqueKey_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Paths’:
+	// Set property "Paths":
 	for _, item := range typedInput.Paths {
 		uniqueKey.Paths = append(uniqueKey.Paths, item)
 	}
@@ -3602,7 +3602,7 @@ func (uniqueKey *UniqueKey_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UniqueKey_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Paths’:
+	// Set property "Paths":
 	for _, item := range typedInput.Paths {
 		uniqueKey.Paths = append(uniqueKey.Paths, item)
 	}
@@ -3656,19 +3656,19 @@ func (indexes *Indexes) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	}
 	result := &Indexes_ARM{}
 
-	// Set property ‘DataType’:
+	// Set property "DataType":
 	if indexes.DataType != nil {
 		dataType := *indexes.DataType
 		result.DataType = &dataType
 	}
 
-	// Set property ‘Kind’:
+	// Set property "Kind":
 	if indexes.Kind != nil {
 		kind := *indexes.Kind
 		result.Kind = &kind
 	}
 
-	// Set property ‘Precision’:
+	// Set property "Precision":
 	if indexes.Precision != nil {
 		precision := *indexes.Precision
 		result.Precision = &precision
@@ -3688,19 +3688,19 @@ func (indexes *Indexes) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Indexes_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DataType’:
+	// Set property "DataType":
 	if typedInput.DataType != nil {
 		dataType := *typedInput.DataType
 		indexes.DataType = &dataType
 	}
 
-	// Set property ‘Kind’:
+	// Set property "Kind":
 	if typedInput.Kind != nil {
 		kind := *typedInput.Kind
 		indexes.Kind = &kind
 	}
 
-	// Set property ‘Precision’:
+	// Set property "Precision":
 	if typedInput.Precision != nil {
 		precision := *typedInput.Precision
 		indexes.Precision = &precision
@@ -3792,19 +3792,19 @@ func (indexes *Indexes_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Indexes_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DataType’:
+	// Set property "DataType":
 	if typedInput.DataType != nil {
 		dataType := *typedInput.DataType
 		indexes.DataType = &dataType
 	}
 
-	// Set property ‘Kind’:
+	// Set property "Kind":
 	if typedInput.Kind != nil {
 		kind := *typedInput.Kind
 		indexes.Kind = &kind
 	}
 
-	// Set property ‘Precision’:
+	// Set property "Precision":
 	if typedInput.Precision != nil {
 		precision := *typedInput.Precision
 		indexes.Precision = &precision

@@ -354,16 +354,16 @@ func (topic *Topic_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	}
 	result := &Topic_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if topic.Location != nil {
 		location := *topic.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if topic.InboundIpRules != nil ||
 		topic.InputSchema != nil ||
 		topic.InputSchemaMapping != nil ||
@@ -394,7 +394,7 @@ func (topic *Topic_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if topic.Tags != nil {
 		result.Tags = make(map[string]string, len(topic.Tags))
 		for key, value := range topic.Tags {
@@ -416,10 +416,10 @@ func (topic *Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Topic_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	topic.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘InboundIpRules’:
+	// Set property "InboundIpRules":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.InboundIpRules {
@@ -432,7 +432,7 @@ func (topic *Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘InputSchema’:
+	// Set property "InputSchema":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.InputSchema != nil {
@@ -441,7 +441,7 @@ func (topic *Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘InputSchemaMapping’:
+	// Set property "InputSchemaMapping":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.InputSchemaMapping != nil {
@@ -455,16 +455,16 @@ func (topic *Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		topic.Location = &location
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	topic.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
@@ -473,7 +473,7 @@ func (topic *Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		topic.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -868,9 +868,9 @@ func (topic *Topic_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Topic_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Endpoint’:
+	// Set property "Endpoint":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Endpoint != nil {
@@ -879,13 +879,13 @@ func (topic *Topic_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		topic.Id = &id
 	}
 
-	// Set property ‘InboundIpRules’:
+	// Set property "InboundIpRules":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.InboundIpRules {
@@ -898,7 +898,7 @@ func (topic *Topic_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘InputSchema’:
+	// Set property "InputSchema":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.InputSchema != nil {
@@ -907,7 +907,7 @@ func (topic *Topic_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘InputSchemaMapping’:
+	// Set property "InputSchemaMapping":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.InputSchemaMapping != nil {
@@ -921,13 +921,13 @@ func (topic *Topic_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		topic.Location = &location
 	}
 
-	// Set property ‘MetricResourceId’:
+	// Set property "MetricResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MetricResourceId != nil {
@@ -936,13 +936,13 @@ func (topic *Topic_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		topic.Name = &name
 	}
 
-	// Set property ‘PrivateEndpointConnections’:
+	// Set property "PrivateEndpointConnections":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PrivateEndpointConnections {
@@ -955,7 +955,7 @@ func (topic *Topic_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -964,7 +964,7 @@ func (topic *Topic_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
@@ -973,7 +973,7 @@ func (topic *Topic_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -984,7 +984,7 @@ func (topic *Topic_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		topic.SystemData = &systemData
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		topic.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -992,7 +992,7 @@ func (topic *Topic_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		topic.Type = &typeVar
@@ -1260,7 +1260,7 @@ func (embedded *PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) Popu
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		embedded.Id = &id

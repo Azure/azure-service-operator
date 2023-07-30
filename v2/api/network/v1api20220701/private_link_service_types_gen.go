@@ -402,7 +402,7 @@ func (service *PrivateLinkService_Spec) ConvertToARM(resolved genruntime.Convert
 	}
 	result := &PrivateLinkService_Spec_ARM{}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if service.ExtendedLocation != nil {
 		extendedLocation_ARM, err := (*service.ExtendedLocation).ConvertToARM(resolved)
 		if err != nil {
@@ -412,16 +412,16 @@ func (service *PrivateLinkService_Spec) ConvertToARM(resolved genruntime.Convert
 		result.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if service.Location != nil {
 		location := *service.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if service.AutoApproval != nil ||
 		service.EnableProxyProtocol != nil ||
 		service.Fqdns != nil ||
@@ -468,7 +468,7 @@ func (service *PrivateLinkService_Spec) ConvertToARM(resolved genruntime.Convert
 		result.Properties.Visibility = &visibility
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if service.Tags != nil {
 		result.Tags = make(map[string]string, len(service.Tags))
 		for key, value := range service.Tags {
@@ -490,7 +490,7 @@ func (service *PrivateLinkService_Spec) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkService_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AutoApproval’:
+	// Set property "AutoApproval":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutoApproval != nil {
@@ -504,10 +504,10 @@ func (service *PrivateLinkService_Spec) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	service.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘EnableProxyProtocol’:
+	// Set property "EnableProxyProtocol":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableProxyProtocol != nil {
@@ -516,7 +516,7 @@ func (service *PrivateLinkService_Spec) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if typedInput.ExtendedLocation != nil {
 		var extendedLocation1 ExtendedLocation
 		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
@@ -527,7 +527,7 @@ func (service *PrivateLinkService_Spec) PopulateFromARM(owner genruntime.Arbitra
 		service.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘Fqdns’:
+	// Set property "Fqdns":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Fqdns {
@@ -535,7 +535,7 @@ func (service *PrivateLinkService_Spec) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘IpConfigurations’:
+	// Set property "IpConfigurations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.IpConfigurations {
@@ -548,7 +548,7 @@ func (service *PrivateLinkService_Spec) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘LoadBalancerFrontendIpConfigurations’:
+	// Set property "LoadBalancerFrontendIpConfigurations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.LoadBalancerFrontendIpConfigurations {
@@ -561,18 +561,18 @@ func (service *PrivateLinkService_Spec) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		service.Location = &location
 	}
 
-	// no assignment for property ‘OperatorSpec’
+	// no assignment for property "OperatorSpec"
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	service.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		service.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -580,7 +580,7 @@ func (service *PrivateLinkService_Spec) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘Visibility’:
+	// Set property "Visibility":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Visibility != nil {
@@ -1123,7 +1123,7 @@ func (embedded *PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Alias’:
+	// Set property "Alias":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Alias != nil {
@@ -1132,7 +1132,7 @@ func (embedded *PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded
 		}
 	}
 
-	// Set property ‘AutoApproval’:
+	// Set property "AutoApproval":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutoApproval != nil {
@@ -1146,9 +1146,9 @@ func (embedded *PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘EnableProxyProtocol’:
+	// Set property "EnableProxyProtocol":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableProxyProtocol != nil {
@@ -1157,13 +1157,13 @@ func (embedded *PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded
 		}
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		embedded.Etag = &etag
 	}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if typedInput.ExtendedLocation != nil {
 		var extendedLocation1 ExtendedLocation_STATUS
 		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
@@ -1174,7 +1174,7 @@ func (embedded *PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded
 		embedded.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘Fqdns’:
+	// Set property "Fqdns":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Fqdns {
@@ -1182,13 +1182,13 @@ func (embedded *PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		embedded.Id = &id
 	}
 
-	// Set property ‘IpConfigurations’:
+	// Set property "IpConfigurations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.IpConfigurations {
@@ -1201,7 +1201,7 @@ func (embedded *PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded
 		}
 	}
 
-	// Set property ‘LoadBalancerFrontendIpConfigurations’:
+	// Set property "LoadBalancerFrontendIpConfigurations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.LoadBalancerFrontendIpConfigurations {
@@ -1214,19 +1214,19 @@ func (embedded *PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		embedded.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		embedded.Name = &name
 	}
 
-	// Set property ‘NetworkInterfaces’:
+	// Set property "NetworkInterfaces":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.NetworkInterfaces {
@@ -1239,7 +1239,7 @@ func (embedded *PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded
 		}
 	}
 
-	// Set property ‘PrivateEndpointConnections’:
+	// Set property "PrivateEndpointConnections":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PrivateEndpointConnections {
@@ -1252,7 +1252,7 @@ func (embedded *PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -1261,7 +1261,7 @@ func (embedded *PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		embedded.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1269,13 +1269,13 @@ func (embedded *PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		embedded.Type = &typeVar
 	}
 
-	// Set property ‘Visibility’:
+	// Set property "Visibility":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Visibility != nil {
@@ -1633,7 +1633,7 @@ func (embedded *FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded) 
 	}
 	result := &FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if embedded.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*embedded.Reference)
 		if err != nil {
@@ -1657,7 +1657,7 @@ func (embedded *FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded) 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil
@@ -1737,7 +1737,7 @@ func (embedded *FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		embedded.Id = &id
@@ -1796,7 +1796,7 @@ func (embedded *NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded) 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		embedded.Id = &id
@@ -1855,7 +1855,7 @@ func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		connection.Id = &id
@@ -1924,13 +1924,13 @@ func (configuration *PrivateLinkServiceIpConfiguration) ConvertToARM(resolved ge
 	}
 	result := &PrivateLinkServiceIpConfiguration_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if configuration.Name != nil {
 		name := *configuration.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if configuration.Primary != nil ||
 		configuration.PrivateIPAddress != nil ||
 		configuration.PrivateIPAddressVersion != nil ||
@@ -1977,13 +1977,13 @@ func (configuration *PrivateLinkServiceIpConfiguration) PopulateFromARM(owner ge
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkServiceIpConfiguration_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		configuration.Name = &name
 	}
 
-	// Set property ‘Primary’:
+	// Set property "Primary":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Primary != nil {
@@ -1992,7 +1992,7 @@ func (configuration *PrivateLinkServiceIpConfiguration) PopulateFromARM(owner ge
 		}
 	}
 
-	// Set property ‘PrivateIPAddress’:
+	// Set property "PrivateIPAddress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAddress != nil {
@@ -2001,7 +2001,7 @@ func (configuration *PrivateLinkServiceIpConfiguration) PopulateFromARM(owner ge
 		}
 	}
 
-	// Set property ‘PrivateIPAddressVersion’:
+	// Set property "PrivateIPAddressVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAddressVersion != nil {
@@ -2010,7 +2010,7 @@ func (configuration *PrivateLinkServiceIpConfiguration) PopulateFromARM(owner ge
 		}
 	}
 
-	// Set property ‘PrivateIPAllocationMethod’:
+	// Set property "PrivateIPAllocationMethod":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAllocationMethod != nil {
@@ -2019,7 +2019,7 @@ func (configuration *PrivateLinkServiceIpConfiguration) PopulateFromARM(owner ge
 		}
 	}
 
-	// Set property ‘Subnet’:
+	// Set property "Subnet":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Subnet != nil {
@@ -2240,25 +2240,25 @@ func (configuration *PrivateLinkServiceIpConfiguration_STATUS) PopulateFromARM(o
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkServiceIpConfiguration_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		configuration.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		configuration.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		configuration.Name = &name
 	}
 
-	// Set property ‘Primary’:
+	// Set property "Primary":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Primary != nil {
@@ -2267,7 +2267,7 @@ func (configuration *PrivateLinkServiceIpConfiguration_STATUS) PopulateFromARM(o
 		}
 	}
 
-	// Set property ‘PrivateIPAddress’:
+	// Set property "PrivateIPAddress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAddress != nil {
@@ -2276,7 +2276,7 @@ func (configuration *PrivateLinkServiceIpConfiguration_STATUS) PopulateFromARM(o
 		}
 	}
 
-	// Set property ‘PrivateIPAddressVersion’:
+	// Set property "PrivateIPAddressVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAddressVersion != nil {
@@ -2285,7 +2285,7 @@ func (configuration *PrivateLinkServiceIpConfiguration_STATUS) PopulateFromARM(o
 		}
 	}
 
-	// Set property ‘PrivateIPAllocationMethod’:
+	// Set property "PrivateIPAllocationMethod":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAllocationMethod != nil {
@@ -2294,7 +2294,7 @@ func (configuration *PrivateLinkServiceIpConfiguration_STATUS) PopulateFromARM(o
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -2303,7 +2303,7 @@ func (configuration *PrivateLinkServiceIpConfiguration_STATUS) PopulateFromARM(o
 		}
 	}
 
-	// Set property ‘Subnet’:
+	// Set property "Subnet":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Subnet != nil {
@@ -2317,7 +2317,7 @@ func (configuration *PrivateLinkServiceIpConfiguration_STATUS) PopulateFromARM(o
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		configuration.Type = &typeVar
@@ -2536,7 +2536,7 @@ func (resourceSet *ResourceSet) ConvertToARM(resolved genruntime.ConvertToARMRes
 	}
 	result := &ResourceSet_ARM{}
 
-	// Set property ‘Subscriptions’:
+	// Set property "Subscriptions":
 	for _, item := range resourceSet.Subscriptions {
 		result.Subscriptions = append(result.Subscriptions, item)
 	}
@@ -2555,7 +2555,7 @@ func (resourceSet *ResourceSet) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceSet_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Subscriptions’:
+	// Set property "Subscriptions":
 	for _, item := range typedInput.Subscriptions {
 		resourceSet.Subscriptions = append(resourceSet.Subscriptions, item)
 	}
@@ -2623,7 +2623,7 @@ func (resourceSet *ResourceSet_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceSet_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Subscriptions’:
+	// Set property "Subscriptions":
 	for _, item := range typedInput.Subscriptions {
 		resourceSet.Subscriptions = append(resourceSet.Subscriptions, item)
 	}
@@ -2728,7 +2728,7 @@ func (embedded *Subnet_PrivateLinkService_SubResourceEmbedded) ConvertToARM(reso
 	}
 	result := &Subnet_PrivateLinkService_SubResourceEmbedded_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if embedded.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*embedded.Reference)
 		if err != nil {
@@ -2752,7 +2752,7 @@ func (embedded *Subnet_PrivateLinkService_SubResourceEmbedded) PopulateFromARM(o
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Subnet_PrivateLinkService_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil
@@ -2832,7 +2832,7 @@ func (embedded *Subnet_STATUS_PrivateLinkService_SubResourceEmbedded) PopulateFr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Subnet_STATUS_PrivateLinkService_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		embedded.Id = &id

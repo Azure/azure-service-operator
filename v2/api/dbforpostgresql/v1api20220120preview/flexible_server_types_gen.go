@@ -432,16 +432,16 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &FlexibleServer_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if server.Location != nil {
 		location := *server.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if server.AdministratorLogin != nil ||
 		server.AdministratorLoginPassword != nil ||
 		server.AvailabilityZone != nil ||
@@ -533,7 +533,7 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.Version = &version
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if server.Sku != nil {
 		sku_ARM, err := (*server.Sku).ConvertToARM(resolved)
 		if err != nil {
@@ -543,7 +543,7 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Sku = &sku
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if server.Tags != nil {
 		result.Tags = make(map[string]string, len(server.Tags))
 		for key, value := range server.Tags {
@@ -565,7 +565,7 @@ func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServer_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdministratorLogin’:
+	// Set property "AdministratorLogin":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AdministratorLogin != nil {
@@ -574,9 +574,9 @@ func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// no assignment for property ‘AdministratorLoginPassword’
+	// no assignment for property "AdministratorLoginPassword"
 
-	// Set property ‘AvailabilityZone’:
+	// Set property "AvailabilityZone":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AvailabilityZone != nil {
@@ -585,10 +585,10 @@ func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	server.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Backup’:
+	// Set property "Backup":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Backup != nil {
@@ -602,7 +602,7 @@ func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘CreateMode’:
+	// Set property "CreateMode":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreateMode != nil {
@@ -611,7 +611,7 @@ func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘HighAvailability’:
+	// Set property "HighAvailability":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HighAvailability != nil {
@@ -625,13 +625,13 @@ func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		server.Location = &location
 	}
 
-	// Set property ‘MaintenanceWindow’:
+	// Set property "MaintenanceWindow":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaintenanceWindow != nil {
@@ -645,7 +645,7 @@ func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Network’:
+	// Set property "Network":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Network != nil {
@@ -659,12 +659,12 @@ func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// no assignment for property ‘OperatorSpec’
+	// no assignment for property "OperatorSpec"
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	server.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘PointInTimeUTC’:
+	// Set property "PointInTimeUTC":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PointInTimeUTC != nil {
@@ -673,7 +673,7 @@ func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 Sku
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -684,9 +684,9 @@ func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		server.Sku = &sku
 	}
 
-	// no assignment for property ‘SourceServerResourceReference’
+	// no assignment for property "SourceServerResourceReference"
 
-	// Set property ‘Storage’:
+	// Set property "Storage":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Storage != nil {
@@ -700,7 +700,7 @@ func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		server.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -708,7 +708,7 @@ func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Version’:
+	// Set property "Version":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Version != nil {
@@ -1225,7 +1225,7 @@ func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServer_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdministratorLogin’:
+	// Set property "AdministratorLogin":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AdministratorLogin != nil {
@@ -1234,7 +1234,7 @@ func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘AvailabilityZone’:
+	// Set property "AvailabilityZone":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AvailabilityZone != nil {
@@ -1243,7 +1243,7 @@ func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Backup’:
+	// Set property "Backup":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Backup != nil {
@@ -1257,9 +1257,9 @@ func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘CreateMode’:
+	// Set property "CreateMode":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreateMode != nil {
@@ -1268,7 +1268,7 @@ func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘FullyQualifiedDomainName’:
+	// Set property "FullyQualifiedDomainName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FullyQualifiedDomainName != nil {
@@ -1277,7 +1277,7 @@ func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘HighAvailability’:
+	// Set property "HighAvailability":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HighAvailability != nil {
@@ -1291,19 +1291,19 @@ func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		server.Id = &id
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		server.Location = &location
 	}
 
-	// Set property ‘MaintenanceWindow’:
+	// Set property "MaintenanceWindow":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaintenanceWindow != nil {
@@ -1317,7 +1317,7 @@ func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘MinorVersion’:
+	// Set property "MinorVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinorVersion != nil {
@@ -1326,13 +1326,13 @@ func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		server.Name = &name
 	}
 
-	// Set property ‘Network’:
+	// Set property "Network":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Network != nil {
@@ -1346,7 +1346,7 @@ func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘PointInTimeUTC’:
+	// Set property "PointInTimeUTC":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PointInTimeUTC != nil {
@@ -1355,7 +1355,7 @@ func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 Sku_STATUS
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -1366,7 +1366,7 @@ func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		server.Sku = &sku
 	}
 
-	// Set property ‘SourceServerResourceId’:
+	// Set property "SourceServerResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SourceServerResourceId != nil {
@@ -1375,7 +1375,7 @@ func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘State’:
+	// Set property "State":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
@@ -1384,7 +1384,7 @@ func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Storage’:
+	// Set property "Storage":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Storage != nil {
@@ -1398,7 +1398,7 @@ func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -1409,7 +1409,7 @@ func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		server.SystemData = &systemData
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		server.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1417,13 +1417,13 @@ func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		server.Type = &typeVar
 	}
 
-	// Set property ‘Version’:
+	// Set property "Version":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Version != nil {
@@ -1765,13 +1765,13 @@ func (backup *Backup) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	}
 	result := &Backup_ARM{}
 
-	// Set property ‘BackupRetentionDays’:
+	// Set property "BackupRetentionDays":
 	if backup.BackupRetentionDays != nil {
 		backupRetentionDays := *backup.BackupRetentionDays
 		result.BackupRetentionDays = &backupRetentionDays
 	}
 
-	// Set property ‘GeoRedundantBackup’:
+	// Set property "GeoRedundantBackup":
 	if backup.GeoRedundantBackup != nil {
 		geoRedundantBackup := *backup.GeoRedundantBackup
 		result.GeoRedundantBackup = &geoRedundantBackup
@@ -1791,13 +1791,13 @@ func (backup *Backup) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Backup_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BackupRetentionDays’:
+	// Set property "BackupRetentionDays":
 	if typedInput.BackupRetentionDays != nil {
 		backupRetentionDays := *typedInput.BackupRetentionDays
 		backup.BackupRetentionDays = &backupRetentionDays
 	}
 
-	// Set property ‘GeoRedundantBackup’:
+	// Set property "GeoRedundantBackup":
 	if typedInput.GeoRedundantBackup != nil {
 		geoRedundantBackup := *typedInput.GeoRedundantBackup
 		backup.GeoRedundantBackup = &geoRedundantBackup
@@ -1878,19 +1878,19 @@ func (backup *Backup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Backup_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BackupRetentionDays’:
+	// Set property "BackupRetentionDays":
 	if typedInput.BackupRetentionDays != nil {
 		backupRetentionDays := *typedInput.BackupRetentionDays
 		backup.BackupRetentionDays = &backupRetentionDays
 	}
 
-	// Set property ‘EarliestRestoreDate’:
+	// Set property "EarliestRestoreDate":
 	if typedInput.EarliestRestoreDate != nil {
 		earliestRestoreDate := *typedInput.EarliestRestoreDate
 		backup.EarliestRestoreDate = &earliestRestoreDate
 	}
 
-	// Set property ‘GeoRedundantBackup’:
+	// Set property "GeoRedundantBackup":
 	if typedInput.GeoRedundantBackup != nil {
 		geoRedundantBackup := *typedInput.GeoRedundantBackup
 		backup.GeoRedundantBackup = &geoRedundantBackup
@@ -2022,13 +2022,13 @@ func (availability *HighAvailability) ConvertToARM(resolved genruntime.ConvertTo
 	}
 	result := &HighAvailability_ARM{}
 
-	// Set property ‘Mode’:
+	// Set property "Mode":
 	if availability.Mode != nil {
 		mode := *availability.Mode
 		result.Mode = &mode
 	}
 
-	// Set property ‘StandbyAvailabilityZone’:
+	// Set property "StandbyAvailabilityZone":
 	if availability.StandbyAvailabilityZone != nil {
 		standbyAvailabilityZone := *availability.StandbyAvailabilityZone
 		result.StandbyAvailabilityZone = &standbyAvailabilityZone
@@ -2048,13 +2048,13 @@ func (availability *HighAvailability) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HighAvailability_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Mode’:
+	// Set property "Mode":
 	if typedInput.Mode != nil {
 		mode := *typedInput.Mode
 		availability.Mode = &mode
 	}
 
-	// Set property ‘StandbyAvailabilityZone’:
+	// Set property "StandbyAvailabilityZone":
 	if typedInput.StandbyAvailabilityZone != nil {
 		standbyAvailabilityZone := *typedInput.StandbyAvailabilityZone
 		availability.StandbyAvailabilityZone = &standbyAvailabilityZone
@@ -2135,19 +2135,19 @@ func (availability *HighAvailability_STATUS) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HighAvailability_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Mode’:
+	// Set property "Mode":
 	if typedInput.Mode != nil {
 		mode := *typedInput.Mode
 		availability.Mode = &mode
 	}
 
-	// Set property ‘StandbyAvailabilityZone’:
+	// Set property "StandbyAvailabilityZone":
 	if typedInput.StandbyAvailabilityZone != nil {
 		standbyAvailabilityZone := *typedInput.StandbyAvailabilityZone
 		availability.StandbyAvailabilityZone = &standbyAvailabilityZone
 	}
 
-	// Set property ‘State’:
+	// Set property "State":
 	if typedInput.State != nil {
 		state := *typedInput.State
 		availability.State = &state
@@ -2242,25 +2242,25 @@ func (window *MaintenanceWindow) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &MaintenanceWindow_ARM{}
 
-	// Set property ‘CustomWindow’:
+	// Set property "CustomWindow":
 	if window.CustomWindow != nil {
 		customWindow := *window.CustomWindow
 		result.CustomWindow = &customWindow
 	}
 
-	// Set property ‘DayOfWeek’:
+	// Set property "DayOfWeek":
 	if window.DayOfWeek != nil {
 		dayOfWeek := *window.DayOfWeek
 		result.DayOfWeek = &dayOfWeek
 	}
 
-	// Set property ‘StartHour’:
+	// Set property "StartHour":
 	if window.StartHour != nil {
 		startHour := *window.StartHour
 		result.StartHour = &startHour
 	}
 
-	// Set property ‘StartMinute’:
+	// Set property "StartMinute":
 	if window.StartMinute != nil {
 		startMinute := *window.StartMinute
 		result.StartMinute = &startMinute
@@ -2280,25 +2280,25 @@ func (window *MaintenanceWindow) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MaintenanceWindow_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CustomWindow’:
+	// Set property "CustomWindow":
 	if typedInput.CustomWindow != nil {
 		customWindow := *typedInput.CustomWindow
 		window.CustomWindow = &customWindow
 	}
 
-	// Set property ‘DayOfWeek’:
+	// Set property "DayOfWeek":
 	if typedInput.DayOfWeek != nil {
 		dayOfWeek := *typedInput.DayOfWeek
 		window.DayOfWeek = &dayOfWeek
 	}
 
-	// Set property ‘StartHour’:
+	// Set property "StartHour":
 	if typedInput.StartHour != nil {
 		startHour := *typedInput.StartHour
 		window.StartHour = &startHour
 	}
 
-	// Set property ‘StartMinute’:
+	// Set property "StartMinute":
 	if typedInput.StartMinute != nil {
 		startMinute := *typedInput.StartMinute
 		window.StartMinute = &startMinute
@@ -2384,25 +2384,25 @@ func (window *MaintenanceWindow_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MaintenanceWindow_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CustomWindow’:
+	// Set property "CustomWindow":
 	if typedInput.CustomWindow != nil {
 		customWindow := *typedInput.CustomWindow
 		window.CustomWindow = &customWindow
 	}
 
-	// Set property ‘DayOfWeek’:
+	// Set property "DayOfWeek":
 	if typedInput.DayOfWeek != nil {
 		dayOfWeek := *typedInput.DayOfWeek
 		window.DayOfWeek = &dayOfWeek
 	}
 
-	// Set property ‘StartHour’:
+	// Set property "StartHour":
 	if typedInput.StartHour != nil {
 		startHour := *typedInput.StartHour
 		window.StartHour = &startHour
 	}
 
-	// Set property ‘StartMinute’:
+	// Set property "StartMinute":
 	if typedInput.StartMinute != nil {
 		startMinute := *typedInput.StartMinute
 		window.StartMinute = &startMinute
@@ -2477,7 +2477,7 @@ func (network *Network) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	}
 	result := &Network_ARM{}
 
-	// Set property ‘DelegatedSubnetResourceId’:
+	// Set property "DelegatedSubnetResourceId":
 	if network.DelegatedSubnetResourceReference != nil {
 		delegatedSubnetResourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*network.DelegatedSubnetResourceReference)
 		if err != nil {
@@ -2487,7 +2487,7 @@ func (network *Network) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 		result.DelegatedSubnetResourceId = &delegatedSubnetResourceReference
 	}
 
-	// Set property ‘PrivateDnsZoneArmResourceId’:
+	// Set property "PrivateDnsZoneArmResourceId":
 	if network.PrivateDnsZoneArmResourceReference != nil {
 		privateDnsZoneArmResourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*network.PrivateDnsZoneArmResourceReference)
 		if err != nil {
@@ -2511,9 +2511,9 @@ func (network *Network) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Network_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘DelegatedSubnetResourceReference’
+	// no assignment for property "DelegatedSubnetResourceReference"
 
-	// no assignment for property ‘PrivateDnsZoneArmResourceReference’
+	// no assignment for property "PrivateDnsZoneArmResourceReference"
 
 	// No error
 	return nil
@@ -2600,19 +2600,19 @@ func (network *Network_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Network_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DelegatedSubnetResourceId’:
+	// Set property "DelegatedSubnetResourceId":
 	if typedInput.DelegatedSubnetResourceId != nil {
 		delegatedSubnetResourceId := *typedInput.DelegatedSubnetResourceId
 		network.DelegatedSubnetResourceId = &delegatedSubnetResourceId
 	}
 
-	// Set property ‘PrivateDnsZoneArmResourceId’:
+	// Set property "PrivateDnsZoneArmResourceId":
 	if typedInput.PrivateDnsZoneArmResourceId != nil {
 		privateDnsZoneArmResourceId := *typedInput.PrivateDnsZoneArmResourceId
 		network.PrivateDnsZoneArmResourceId = &privateDnsZoneArmResourceId
 	}
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	if typedInput.PublicNetworkAccess != nil {
 		publicNetworkAccess := *typedInput.PublicNetworkAccess
 		network.PublicNetworkAccess = &publicNetworkAccess
@@ -2745,13 +2745,13 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	}
 	result := &Sku_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if sku.Name != nil {
 		name := *sku.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if sku.Tier != nil {
 		tier := *sku.Tier
 		result.Tier = &tier
@@ -2771,13 +2771,13 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		sku.Name = &name
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if typedInput.Tier != nil {
 		tier := *typedInput.Tier
 		sku.Tier = &tier
@@ -2855,13 +2855,13 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		sku.Name = &name
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if typedInput.Tier != nil {
 		tier := *typedInput.Tier
 		sku.Tier = &tier
@@ -2931,7 +2931,7 @@ func (storage *Storage) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	}
 	result := &Storage_ARM{}
 
-	// Set property ‘StorageSizeGB’:
+	// Set property "StorageSizeGB":
 	if storage.StorageSizeGB != nil {
 		storageSizeGB := *storage.StorageSizeGB
 		result.StorageSizeGB = &storageSizeGB
@@ -2951,7 +2951,7 @@ func (storage *Storage) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Storage_ARM, got %T", armInput)
 	}
 
-	// Set property ‘StorageSizeGB’:
+	// Set property "StorageSizeGB":
 	if typedInput.StorageSizeGB != nil {
 		storageSizeGB := *typedInput.StorageSizeGB
 		storage.StorageSizeGB = &storageSizeGB
@@ -3010,7 +3010,7 @@ func (storage *Storage_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Storage_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘StorageSizeGB’:
+	// Set property "StorageSizeGB":
 	if typedInput.StorageSizeGB != nil {
 		storageSizeGB := *typedInput.StorageSizeGB
 		storage.StorageSizeGB = &storageSizeGB
@@ -3084,37 +3084,37 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CreatedAt’:
+	// Set property "CreatedAt":
 	if typedInput.CreatedAt != nil {
 		createdAt := *typedInput.CreatedAt
 		data.CreatedAt = &createdAt
 	}
 
-	// Set property ‘CreatedBy’:
+	// Set property "CreatedBy":
 	if typedInput.CreatedBy != nil {
 		createdBy := *typedInput.CreatedBy
 		data.CreatedBy = &createdBy
 	}
 
-	// Set property ‘CreatedByType’:
+	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
 		createdByType := *typedInput.CreatedByType
 		data.CreatedByType = &createdByType
 	}
 
-	// Set property ‘LastModifiedAt’:
+	// Set property "LastModifiedAt":
 	if typedInput.LastModifiedAt != nil {
 		lastModifiedAt := *typedInput.LastModifiedAt
 		data.LastModifiedAt = &lastModifiedAt
 	}
 
-	// Set property ‘LastModifiedBy’:
+	// Set property "LastModifiedBy":
 	if typedInput.LastModifiedBy != nil {
 		lastModifiedBy := *typedInput.LastModifiedBy
 		data.LastModifiedBy = &lastModifiedBy
 	}
 
-	// Set property ‘LastModifiedByType’:
+	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
 		lastModifiedByType := *typedInput.LastModifiedByType
 		data.LastModifiedByType = &lastModifiedByType

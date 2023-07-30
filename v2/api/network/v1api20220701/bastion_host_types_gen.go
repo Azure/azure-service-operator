@@ -371,16 +371,16 @@ func (host *BastionHost_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 	}
 	result := &BastionHost_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if host.Location != nil {
 		location := *host.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if host.DisableCopyPaste != nil ||
 		host.DnsName != nil ||
 		host.EnableFileCopy != nil ||
@@ -427,7 +427,7 @@ func (host *BastionHost_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.Properties.ScaleUnits = &scaleUnits
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if host.Sku != nil {
 		sku_ARM, err := (*host.Sku).ConvertToARM(resolved)
 		if err != nil {
@@ -437,7 +437,7 @@ func (host *BastionHost_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.Sku = &sku
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if host.Tags != nil {
 		result.Tags = make(map[string]string, len(host.Tags))
 		for key, value := range host.Tags {
@@ -459,10 +459,10 @@ func (host *BastionHost_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BastionHost_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	host.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘DisableCopyPaste’:
+	// Set property "DisableCopyPaste":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DisableCopyPaste != nil {
@@ -471,7 +471,7 @@ func (host *BastionHost_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		}
 	}
 
-	// Set property ‘DnsName’:
+	// Set property "DnsName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DnsName != nil {
@@ -480,7 +480,7 @@ func (host *BastionHost_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		}
 	}
 
-	// Set property ‘EnableFileCopy’:
+	// Set property "EnableFileCopy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableFileCopy != nil {
@@ -489,7 +489,7 @@ func (host *BastionHost_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		}
 	}
 
-	// Set property ‘EnableIpConnect’:
+	// Set property "EnableIpConnect":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableIpConnect != nil {
@@ -498,7 +498,7 @@ func (host *BastionHost_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		}
 	}
 
-	// Set property ‘EnableShareableLink’:
+	// Set property "EnableShareableLink":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableShareableLink != nil {
@@ -507,7 +507,7 @@ func (host *BastionHost_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		}
 	}
 
-	// Set property ‘EnableTunneling’:
+	// Set property "EnableTunneling":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableTunneling != nil {
@@ -516,7 +516,7 @@ func (host *BastionHost_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		}
 	}
 
-	// Set property ‘IpConfigurations’:
+	// Set property "IpConfigurations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.IpConfigurations {
@@ -529,16 +529,16 @@ func (host *BastionHost_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		host.Location = &location
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	host.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘ScaleUnits’:
+	// Set property "ScaleUnits":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ScaleUnits != nil {
@@ -547,7 +547,7 @@ func (host *BastionHost_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 Sku
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -558,7 +558,7 @@ func (host *BastionHost_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		host.Sku = &sku
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		host.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1062,9 +1062,9 @@ func (host *BastionHost_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BastionHost_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘DisableCopyPaste’:
+	// Set property "DisableCopyPaste":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DisableCopyPaste != nil {
@@ -1073,7 +1073,7 @@ func (host *BastionHost_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘DnsName’:
+	// Set property "DnsName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DnsName != nil {
@@ -1082,7 +1082,7 @@ func (host *BastionHost_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘EnableFileCopy’:
+	// Set property "EnableFileCopy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableFileCopy != nil {
@@ -1091,7 +1091,7 @@ func (host *BastionHost_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘EnableIpConnect’:
+	// Set property "EnableIpConnect":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableIpConnect != nil {
@@ -1100,7 +1100,7 @@ func (host *BastionHost_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘EnableShareableLink’:
+	// Set property "EnableShareableLink":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableShareableLink != nil {
@@ -1109,7 +1109,7 @@ func (host *BastionHost_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘EnableTunneling’:
+	// Set property "EnableTunneling":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableTunneling != nil {
@@ -1118,19 +1118,19 @@ func (host *BastionHost_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		host.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		host.Id = &id
 	}
 
-	// Set property ‘IpConfigurations’:
+	// Set property "IpConfigurations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.IpConfigurations {
@@ -1143,19 +1143,19 @@ func (host *BastionHost_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		host.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		host.Name = &name
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -1164,7 +1164,7 @@ func (host *BastionHost_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘ScaleUnits’:
+	// Set property "ScaleUnits":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ScaleUnits != nil {
@@ -1173,7 +1173,7 @@ func (host *BastionHost_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 Sku_STATUS
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -1184,7 +1184,7 @@ func (host *BastionHost_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		host.Sku = &sku
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		host.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1192,7 +1192,7 @@ func (host *BastionHost_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		host.Type = &typeVar
@@ -1461,13 +1461,13 @@ func (configuration *BastionHostIPConfiguration) ConvertToARM(resolved genruntim
 	}
 	result := &BastionHostIPConfiguration_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if configuration.Name != nil {
 		name := *configuration.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if configuration.PrivateIPAllocationMethod != nil ||
 		configuration.PublicIPAddress != nil ||
 		configuration.Subnet != nil {
@@ -1508,13 +1508,13 @@ func (configuration *BastionHostIPConfiguration) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BastionHostIPConfiguration_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		configuration.Name = &name
 	}
 
-	// Set property ‘PrivateIPAllocationMethod’:
+	// Set property "PrivateIPAllocationMethod":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAllocationMethod != nil {
@@ -1523,7 +1523,7 @@ func (configuration *BastionHostIPConfiguration) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// Set property ‘PublicIPAddress’:
+	// Set property "PublicIPAddress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicIPAddress != nil {
@@ -1537,7 +1537,7 @@ func (configuration *BastionHostIPConfiguration) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// Set property ‘Subnet’:
+	// Set property "Subnet":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Subnet != nil {
@@ -1675,7 +1675,7 @@ func (configuration *BastionHostIPConfiguration_STATUS) PopulateFromARM(owner ge
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BastionHostIPConfiguration_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		configuration.Id = &id
@@ -1739,7 +1739,7 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	}
 	result := &Sku_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if sku.Name != nil {
 		name := *sku.Name
 		result.Name = &name
@@ -1759,7 +1759,7 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		sku.Name = &name
@@ -1843,7 +1843,7 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		sku.Name = &name
@@ -1907,7 +1907,7 @@ func (resource *BastionHostSubResource) ConvertToARM(resolved genruntime.Convert
 	}
 	result := &BastionHostSubResource_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if resource.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*resource.Reference)
 		if err != nil {
@@ -1931,7 +1931,7 @@ func (resource *BastionHostSubResource) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BastionHostSubResource_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil

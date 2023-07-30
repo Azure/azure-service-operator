@@ -342,16 +342,16 @@ func (resolver *DnsResolver_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &DnsResolver_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if resolver.Location != nil {
 		location := *resolver.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if resolver.VirtualNetwork != nil {
 		result.Properties = &DnsResolverProperties_ARM{}
 	}
@@ -364,7 +364,7 @@ func (resolver *DnsResolver_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.Properties.VirtualNetwork = &virtualNetwork
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if resolver.Tags != nil {
 		result.Tags = make(map[string]string, len(resolver.Tags))
 		for key, value := range resolver.Tags {
@@ -386,19 +386,19 @@ func (resolver *DnsResolver_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsResolver_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	resolver.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		resolver.Location = &location
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	resolver.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		resolver.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -406,7 +406,7 @@ func (resolver *DnsResolver_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘VirtualNetwork’:
+	// Set property "VirtualNetwork":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VirtualNetwork != nil {
@@ -697,9 +697,9 @@ func (resolver *DnsResolver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsResolver_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘DnsResolverState’:
+	// Set property "DnsResolverState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DnsResolverState != nil {
@@ -708,31 +708,31 @@ func (resolver *DnsResolver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		resolver.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		resolver.Id = &id
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		resolver.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		resolver.Name = &name
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -741,7 +741,7 @@ func (resolver *DnsResolver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘ResourceGuid’:
+	// Set property "ResourceGuid":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceGuid != nil {
@@ -750,7 +750,7 @@ func (resolver *DnsResolver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -761,7 +761,7 @@ func (resolver *DnsResolver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		resolver.SystemData = &systemData
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		resolver.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -769,13 +769,13 @@ func (resolver *DnsResolver_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		resolver.Type = &typeVar
 	}
 
-	// Set property ‘VirtualNetwork’:
+	// Set property "VirtualNetwork":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VirtualNetwork != nil {

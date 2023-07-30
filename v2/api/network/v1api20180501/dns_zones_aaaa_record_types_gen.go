@@ -370,10 +370,10 @@ func (aaaa *DnsZones_AAAA_Spec) ConvertToARM(resolved genruntime.ConvertToARMRes
 	}
 	result := &DnsZones_AAAA_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if aaaa.AAAARecords != nil ||
 		aaaa.ARecords != nil ||
 		aaaa.CNAMERecord != nil ||
@@ -494,7 +494,7 @@ func (aaaa *DnsZones_AAAA_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsZones_AAAA_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AAAARecords’:
+	// Set property "AAAARecords":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.AAAARecords {
@@ -507,7 +507,7 @@ func (aaaa *DnsZones_AAAA_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘ARecords’:
+	// Set property "ARecords":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ARecords {
@@ -520,10 +520,10 @@ func (aaaa *DnsZones_AAAA_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	aaaa.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘CNAMERecord’:
+	// Set property "CNAMERecord":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CNAMERecord != nil {
@@ -537,7 +537,7 @@ func (aaaa *DnsZones_AAAA_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘CaaRecords’:
+	// Set property "CaaRecords":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.CaaRecords {
@@ -550,7 +550,7 @@ func (aaaa *DnsZones_AAAA_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘MXRecords’:
+	// Set property "MXRecords":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.MXRecords {
@@ -563,7 +563,7 @@ func (aaaa *DnsZones_AAAA_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘Metadata’:
+	// Set property "Metadata":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Metadata != nil {
@@ -574,7 +574,7 @@ func (aaaa *DnsZones_AAAA_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘NSRecords’:
+	// Set property "NSRecords":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.NSRecords {
@@ -587,10 +587,10 @@ func (aaaa *DnsZones_AAAA_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	aaaa.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘PTRRecords’:
+	// Set property "PTRRecords":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PTRRecords {
@@ -603,7 +603,7 @@ func (aaaa *DnsZones_AAAA_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘SOARecord’:
+	// Set property "SOARecord":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SOARecord != nil {
@@ -617,7 +617,7 @@ func (aaaa *DnsZones_AAAA_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘SRVRecords’:
+	// Set property "SRVRecords":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.SRVRecords {
@@ -630,7 +630,7 @@ func (aaaa *DnsZones_AAAA_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘TTL’:
+	// Set property "TTL":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TTL != nil {
@@ -639,7 +639,7 @@ func (aaaa *DnsZones_AAAA_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘TXTRecords’:
+	// Set property "TXTRecords":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.TXTRecords {
@@ -652,7 +652,7 @@ func (aaaa *DnsZones_AAAA_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘TargetResource’:
+	// Set property "TargetResource":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TargetResource != nil {
@@ -1467,7 +1467,7 @@ func (aaaa *DnsZones_AAAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsZones_AAAA_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AAAARecords’:
+	// Set property "AAAARecords":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.AAAARecords {
@@ -1480,7 +1480,7 @@ func (aaaa *DnsZones_AAAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘ARecords’:
+	// Set property "ARecords":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ARecords {
@@ -1493,7 +1493,7 @@ func (aaaa *DnsZones_AAAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘CNAMERecord’:
+	// Set property "CNAMERecord":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CNAMERecord != nil {
@@ -1507,7 +1507,7 @@ func (aaaa *DnsZones_AAAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘CaaRecords’:
+	// Set property "CaaRecords":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.CaaRecords {
@@ -1520,15 +1520,15 @@ func (aaaa *DnsZones_AAAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		aaaa.Etag = &etag
 	}
 
-	// Set property ‘Fqdn’:
+	// Set property "Fqdn":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Fqdn != nil {
@@ -1537,13 +1537,13 @@ func (aaaa *DnsZones_AAAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		aaaa.Id = &id
 	}
 
-	// Set property ‘MXRecords’:
+	// Set property "MXRecords":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.MXRecords {
@@ -1556,7 +1556,7 @@ func (aaaa *DnsZones_AAAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘Metadata’:
+	// Set property "Metadata":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Metadata != nil {
@@ -1567,7 +1567,7 @@ func (aaaa *DnsZones_AAAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘NSRecords’:
+	// Set property "NSRecords":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.NSRecords {
@@ -1580,13 +1580,13 @@ func (aaaa *DnsZones_AAAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		aaaa.Name = &name
 	}
 
-	// Set property ‘PTRRecords’:
+	// Set property "PTRRecords":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PTRRecords {
@@ -1599,7 +1599,7 @@ func (aaaa *DnsZones_AAAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -1608,7 +1608,7 @@ func (aaaa *DnsZones_AAAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘SOARecord’:
+	// Set property "SOARecord":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SOARecord != nil {
@@ -1622,7 +1622,7 @@ func (aaaa *DnsZones_AAAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘SRVRecords’:
+	// Set property "SRVRecords":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.SRVRecords {
@@ -1635,7 +1635,7 @@ func (aaaa *DnsZones_AAAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘TTL’:
+	// Set property "TTL":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TTL != nil {
@@ -1644,7 +1644,7 @@ func (aaaa *DnsZones_AAAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘TXTRecords’:
+	// Set property "TXTRecords":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.TXTRecords {
@@ -1657,7 +1657,7 @@ func (aaaa *DnsZones_AAAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘TargetResource’:
+	// Set property "TargetResource":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TargetResource != nil {
@@ -1671,7 +1671,7 @@ func (aaaa *DnsZones_AAAA_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		aaaa.Type = &typeVar
@@ -2133,7 +2133,7 @@ func (record *AaaaRecord) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	}
 	result := &AaaaRecord_ARM{}
 
-	// Set property ‘Ipv6Address’:
+	// Set property "Ipv6Address":
 	if record.Ipv6Address != nil {
 		ipv6Address := *record.Ipv6Address
 		result.Ipv6Address = &ipv6Address
@@ -2153,7 +2153,7 @@ func (record *AaaaRecord) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AaaaRecord_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Ipv6Address’:
+	// Set property "Ipv6Address":
 	if typedInput.Ipv6Address != nil {
 		ipv6Address := *typedInput.Ipv6Address
 		record.Ipv6Address = &ipv6Address
@@ -2222,7 +2222,7 @@ func (record *AaaaRecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AaaaRecord_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Ipv6Address’:
+	// Set property "Ipv6Address":
 	if typedInput.Ipv6Address != nil {
 		ipv6Address := *typedInput.Ipv6Address
 		record.Ipv6Address = &ipv6Address
@@ -2276,7 +2276,7 @@ func (record *ARecord) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 	}
 	result := &ARecord_ARM{}
 
-	// Set property ‘Ipv4Address’:
+	// Set property "Ipv4Address":
 	if record.Ipv4Address != nil {
 		ipv4Address := *record.Ipv4Address
 		result.Ipv4Address = &ipv4Address
@@ -2296,7 +2296,7 @@ func (record *ARecord) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ARecord_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Ipv4Address’:
+	// Set property "Ipv4Address":
 	if typedInput.Ipv4Address != nil {
 		ipv4Address := *typedInput.Ipv4Address
 		record.Ipv4Address = &ipv4Address
@@ -2365,7 +2365,7 @@ func (record *ARecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ARecord_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Ipv4Address’:
+	// Set property "Ipv4Address":
 	if typedInput.Ipv4Address != nil {
 		ipv4Address := *typedInput.Ipv4Address
 		record.Ipv4Address = &ipv4Address
@@ -2425,19 +2425,19 @@ func (record *CaaRecord) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	}
 	result := &CaaRecord_ARM{}
 
-	// Set property ‘Flags’:
+	// Set property "Flags":
 	if record.Flags != nil {
 		flags := *record.Flags
 		result.Flags = &flags
 	}
 
-	// Set property ‘Tag’:
+	// Set property "Tag":
 	if record.Tag != nil {
 		tag := *record.Tag
 		result.Tag = &tag
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if record.Value != nil {
 		value := *record.Value
 		result.Value = &value
@@ -2457,19 +2457,19 @@ func (record *CaaRecord) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CaaRecord_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Flags’:
+	// Set property "Flags":
 	if typedInput.Flags != nil {
 		flags := *typedInput.Flags
 		record.Flags = &flags
 	}
 
-	// Set property ‘Tag’:
+	// Set property "Tag":
 	if typedInput.Tag != nil {
 		tag := *typedInput.Tag
 		record.Tag = &tag
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		record.Value = &value
@@ -2562,19 +2562,19 @@ func (record *CaaRecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CaaRecord_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Flags’:
+	// Set property "Flags":
 	if typedInput.Flags != nil {
 		flags := *typedInput.Flags
 		record.Flags = &flags
 	}
 
-	// Set property ‘Tag’:
+	// Set property "Tag":
 	if typedInput.Tag != nil {
 		tag := *typedInput.Tag
 		record.Tag = &tag
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		record.Value = &value
@@ -2640,7 +2640,7 @@ func (record *CnameRecord) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	}
 	result := &CnameRecord_ARM{}
 
-	// Set property ‘Cname’:
+	// Set property "Cname":
 	if record.Cname != nil {
 		cname := *record.Cname
 		result.Cname = &cname
@@ -2660,7 +2660,7 @@ func (record *CnameRecord) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CnameRecord_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Cname’:
+	// Set property "Cname":
 	if typedInput.Cname != nil {
 		cname := *typedInput.Cname
 		record.Cname = &cname
@@ -2729,7 +2729,7 @@ func (record *CnameRecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CnameRecord_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Cname’:
+	// Set property "Cname":
 	if typedInput.Cname != nil {
 		cname := *typedInput.Cname
 		record.Cname = &cname
@@ -2786,13 +2786,13 @@ func (record *MxRecord) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	}
 	result := &MxRecord_ARM{}
 
-	// Set property ‘Exchange’:
+	// Set property "Exchange":
 	if record.Exchange != nil {
 		exchange := *record.Exchange
 		result.Exchange = &exchange
 	}
 
-	// Set property ‘Preference’:
+	// Set property "Preference":
 	if record.Preference != nil {
 		preference := *record.Preference
 		result.Preference = &preference
@@ -2812,13 +2812,13 @@ func (record *MxRecord) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MxRecord_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Exchange’:
+	// Set property "Exchange":
 	if typedInput.Exchange != nil {
 		exchange := *typedInput.Exchange
 		record.Exchange = &exchange
 	}
 
-	// Set property ‘Preference’:
+	// Set property "Preference":
 	if typedInput.Preference != nil {
 		preference := *typedInput.Preference
 		record.Preference = &preference
@@ -2899,13 +2899,13 @@ func (record *MxRecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MxRecord_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Exchange’:
+	// Set property "Exchange":
 	if typedInput.Exchange != nil {
 		exchange := *typedInput.Exchange
 		record.Exchange = &exchange
 	}
 
-	// Set property ‘Preference’:
+	// Set property "Preference":
 	if typedInput.Preference != nil {
 		preference := *typedInput.Preference
 		record.Preference = &preference
@@ -2965,7 +2965,7 @@ func (record *NsRecord) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	}
 	result := &NsRecord_ARM{}
 
-	// Set property ‘Nsdname’:
+	// Set property "Nsdname":
 	if record.Nsdname != nil {
 		nsdname := *record.Nsdname
 		result.Nsdname = &nsdname
@@ -2985,7 +2985,7 @@ func (record *NsRecord) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NsRecord_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Nsdname’:
+	// Set property "Nsdname":
 	if typedInput.Nsdname != nil {
 		nsdname := *typedInput.Nsdname
 		record.Nsdname = &nsdname
@@ -3054,7 +3054,7 @@ func (record *NsRecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NsRecord_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Nsdname’:
+	// Set property "Nsdname":
 	if typedInput.Nsdname != nil {
 		nsdname := *typedInput.Nsdname
 		record.Nsdname = &nsdname
@@ -3108,7 +3108,7 @@ func (record *PtrRecord) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	}
 	result := &PtrRecord_ARM{}
 
-	// Set property ‘Ptrdname’:
+	// Set property "Ptrdname":
 	if record.Ptrdname != nil {
 		ptrdname := *record.Ptrdname
 		result.Ptrdname = &ptrdname
@@ -3128,7 +3128,7 @@ func (record *PtrRecord) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PtrRecord_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Ptrdname’:
+	// Set property "Ptrdname":
 	if typedInput.Ptrdname != nil {
 		ptrdname := *typedInput.Ptrdname
 		record.Ptrdname = &ptrdname
@@ -3197,7 +3197,7 @@ func (record *PtrRecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PtrRecord_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Ptrdname’:
+	// Set property "Ptrdname":
 	if typedInput.Ptrdname != nil {
 		ptrdname := *typedInput.Ptrdname
 		record.Ptrdname = &ptrdname
@@ -3269,43 +3269,43 @@ func (record *SoaRecord) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	}
 	result := &SoaRecord_ARM{}
 
-	// Set property ‘Email’:
+	// Set property "Email":
 	if record.Email != nil {
 		email := *record.Email
 		result.Email = &email
 	}
 
-	// Set property ‘ExpireTime’:
+	// Set property "ExpireTime":
 	if record.ExpireTime != nil {
 		expireTime := *record.ExpireTime
 		result.ExpireTime = &expireTime
 	}
 
-	// Set property ‘Host’:
+	// Set property "Host":
 	if record.Host != nil {
 		host := *record.Host
 		result.Host = &host
 	}
 
-	// Set property ‘MinimumTTL’:
+	// Set property "MinimumTTL":
 	if record.MinimumTTL != nil {
 		minimumTTL := *record.MinimumTTL
 		result.MinimumTTL = &minimumTTL
 	}
 
-	// Set property ‘RefreshTime’:
+	// Set property "RefreshTime":
 	if record.RefreshTime != nil {
 		refreshTime := *record.RefreshTime
 		result.RefreshTime = &refreshTime
 	}
 
-	// Set property ‘RetryTime’:
+	// Set property "RetryTime":
 	if record.RetryTime != nil {
 		retryTime := *record.RetryTime
 		result.RetryTime = &retryTime
 	}
 
-	// Set property ‘SerialNumber’:
+	// Set property "SerialNumber":
 	if record.SerialNumber != nil {
 		serialNumber := *record.SerialNumber
 		result.SerialNumber = &serialNumber
@@ -3325,43 +3325,43 @@ func (record *SoaRecord) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SoaRecord_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Email’:
+	// Set property "Email":
 	if typedInput.Email != nil {
 		email := *typedInput.Email
 		record.Email = &email
 	}
 
-	// Set property ‘ExpireTime’:
+	// Set property "ExpireTime":
 	if typedInput.ExpireTime != nil {
 		expireTime := *typedInput.ExpireTime
 		record.ExpireTime = &expireTime
 	}
 
-	// Set property ‘Host’:
+	// Set property "Host":
 	if typedInput.Host != nil {
 		host := *typedInput.Host
 		record.Host = &host
 	}
 
-	// Set property ‘MinimumTTL’:
+	// Set property "MinimumTTL":
 	if typedInput.MinimumTTL != nil {
 		minimumTTL := *typedInput.MinimumTTL
 		record.MinimumTTL = &minimumTTL
 	}
 
-	// Set property ‘RefreshTime’:
+	// Set property "RefreshTime":
 	if typedInput.RefreshTime != nil {
 		refreshTime := *typedInput.RefreshTime
 		record.RefreshTime = &refreshTime
 	}
 
-	// Set property ‘RetryTime’:
+	// Set property "RetryTime":
 	if typedInput.RetryTime != nil {
 		retryTime := *typedInput.RetryTime
 		record.RetryTime = &retryTime
 	}
 
-	// Set property ‘SerialNumber’:
+	// Set property "SerialNumber":
 	if typedInput.SerialNumber != nil {
 		serialNumber := *typedInput.SerialNumber
 		record.SerialNumber = &serialNumber
@@ -3502,43 +3502,43 @@ func (record *SoaRecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SoaRecord_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Email’:
+	// Set property "Email":
 	if typedInput.Email != nil {
 		email := *typedInput.Email
 		record.Email = &email
 	}
 
-	// Set property ‘ExpireTime’:
+	// Set property "ExpireTime":
 	if typedInput.ExpireTime != nil {
 		expireTime := *typedInput.ExpireTime
 		record.ExpireTime = &expireTime
 	}
 
-	// Set property ‘Host’:
+	// Set property "Host":
 	if typedInput.Host != nil {
 		host := *typedInput.Host
 		record.Host = &host
 	}
 
-	// Set property ‘MinimumTTL’:
+	// Set property "MinimumTTL":
 	if typedInput.MinimumTTL != nil {
 		minimumTTL := *typedInput.MinimumTTL
 		record.MinimumTTL = &minimumTTL
 	}
 
-	// Set property ‘RefreshTime’:
+	// Set property "RefreshTime":
 	if typedInput.RefreshTime != nil {
 		refreshTime := *typedInput.RefreshTime
 		record.RefreshTime = &refreshTime
 	}
 
-	// Set property ‘RetryTime’:
+	// Set property "RetryTime":
 	if typedInput.RetryTime != nil {
 		retryTime := *typedInput.RetryTime
 		record.RetryTime = &retryTime
 	}
 
-	// Set property ‘SerialNumber’:
+	// Set property "SerialNumber":
 	if typedInput.SerialNumber != nil {
 		serialNumber := *typedInput.SerialNumber
 		record.SerialNumber = &serialNumber
@@ -3637,25 +3637,25 @@ func (record *SrvRecord) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	}
 	result := &SrvRecord_ARM{}
 
-	// Set property ‘Port’:
+	// Set property "Port":
 	if record.Port != nil {
 		port := *record.Port
 		result.Port = &port
 	}
 
-	// Set property ‘Priority’:
+	// Set property "Priority":
 	if record.Priority != nil {
 		priority := *record.Priority
 		result.Priority = &priority
 	}
 
-	// Set property ‘Target’:
+	// Set property "Target":
 	if record.Target != nil {
 		target := *record.Target
 		result.Target = &target
 	}
 
-	// Set property ‘Weight’:
+	// Set property "Weight":
 	if record.Weight != nil {
 		weight := *record.Weight
 		result.Weight = &weight
@@ -3675,25 +3675,25 @@ func (record *SrvRecord) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SrvRecord_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Port’:
+	// Set property "Port":
 	if typedInput.Port != nil {
 		port := *typedInput.Port
 		record.Port = &port
 	}
 
-	// Set property ‘Priority’:
+	// Set property "Priority":
 	if typedInput.Priority != nil {
 		priority := *typedInput.Priority
 		record.Priority = &priority
 	}
 
-	// Set property ‘Target’:
+	// Set property "Target":
 	if typedInput.Target != nil {
 		target := *typedInput.Target
 		record.Target = &target
 	}
 
-	// Set property ‘Weight’:
+	// Set property "Weight":
 	if typedInput.Weight != nil {
 		weight := *typedInput.Weight
 		record.Weight = &weight
@@ -3798,25 +3798,25 @@ func (record *SrvRecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SrvRecord_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Port’:
+	// Set property "Port":
 	if typedInput.Port != nil {
 		port := *typedInput.Port
 		record.Port = &port
 	}
 
-	// Set property ‘Priority’:
+	// Set property "Priority":
 	if typedInput.Priority != nil {
 		priority := *typedInput.Priority
 		record.Priority = &priority
 	}
 
-	// Set property ‘Target’:
+	// Set property "Target":
 	if typedInput.Target != nil {
 		target := *typedInput.Target
 		record.Target = &target
 	}
 
-	// Set property ‘Weight’:
+	// Set property "Weight":
 	if typedInput.Weight != nil {
 		weight := *typedInput.Weight
 		record.Weight = &weight
@@ -3888,7 +3888,7 @@ func (record *TxtRecord) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	}
 	result := &TxtRecord_ARM{}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	for _, item := range record.Value {
 		result.Value = append(result.Value, item)
 	}
@@ -3907,7 +3907,7 @@ func (record *TxtRecord) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TxtRecord_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	for _, item := range typedInput.Value {
 		record.Value = append(record.Value, item)
 	}
@@ -3975,7 +3975,7 @@ func (record *TxtRecord_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TxtRecord_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	for _, item := range typedInput.Value {
 		record.Value = append(record.Value, item)
 	}

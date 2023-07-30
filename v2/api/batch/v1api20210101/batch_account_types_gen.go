@@ -367,7 +367,7 @@ func (account *BatchAccount_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &BatchAccount_Spec_ARM{}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if account.Identity != nil {
 		identity_ARM, err := (*account.Identity).ConvertToARM(resolved)
 		if err != nil {
@@ -377,16 +377,16 @@ func (account *BatchAccount_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.Identity = &identity
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if account.Location != nil {
 		location := *account.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if account.AutoStorage != nil ||
 		account.Encryption != nil ||
 		account.KeyVaultReference != nil ||
@@ -427,7 +427,7 @@ func (account *BatchAccount_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if account.Tags != nil {
 		result.Tags = make(map[string]string, len(account.Tags))
 		for key, value := range account.Tags {
@@ -449,7 +449,7 @@ func (account *BatchAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BatchAccount_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AutoStorage’:
+	// Set property "AutoStorage":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutoStorage != nil {
@@ -463,10 +463,10 @@ func (account *BatchAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	account.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Encryption’:
+	// Set property "Encryption":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Encryption != nil {
@@ -480,7 +480,7 @@ func (account *BatchAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 BatchAccountIdentity
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -491,7 +491,7 @@ func (account *BatchAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 		account.Identity = &identity
 	}
 
-	// Set property ‘KeyVaultReference’:
+	// Set property "KeyVaultReference":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.KeyVaultReference != nil {
@@ -505,16 +505,16 @@ func (account *BatchAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		account.Location = &location
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	account.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘PoolAllocationMode’:
+	// Set property "PoolAllocationMode":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PoolAllocationMode != nil {
@@ -523,7 +523,7 @@ func (account *BatchAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
@@ -532,7 +532,7 @@ func (account *BatchAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		account.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1002,7 +1002,7 @@ func (account *BatchAccount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BatchAccount_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AccountEndpoint’:
+	// Set property "AccountEndpoint":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AccountEndpoint != nil {
@@ -1011,7 +1011,7 @@ func (account *BatchAccount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘ActiveJobAndJobScheduleQuota’:
+	// Set property "ActiveJobAndJobScheduleQuota":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ActiveJobAndJobScheduleQuota != nil {
@@ -1020,7 +1020,7 @@ func (account *BatchAccount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘AutoStorage’:
+	// Set property "AutoStorage":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutoStorage != nil {
@@ -1034,9 +1034,9 @@ func (account *BatchAccount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘DedicatedCoreQuota’:
+	// Set property "DedicatedCoreQuota":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DedicatedCoreQuota != nil {
@@ -1045,7 +1045,7 @@ func (account *BatchAccount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘DedicatedCoreQuotaPerVMFamily’:
+	// Set property "DedicatedCoreQuotaPerVMFamily":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.DedicatedCoreQuotaPerVMFamily {
@@ -1058,7 +1058,7 @@ func (account *BatchAccount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘DedicatedCoreQuotaPerVMFamilyEnforced’:
+	// Set property "DedicatedCoreQuotaPerVMFamilyEnforced":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DedicatedCoreQuotaPerVMFamilyEnforced != nil {
@@ -1067,7 +1067,7 @@ func (account *BatchAccount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Encryption’:
+	// Set property "Encryption":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Encryption != nil {
@@ -1081,13 +1081,13 @@ func (account *BatchAccount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		account.Id = &id
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 BatchAccountIdentity_STATUS
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -1098,7 +1098,7 @@ func (account *BatchAccount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		account.Identity = &identity
 	}
 
-	// Set property ‘KeyVaultReference’:
+	// Set property "KeyVaultReference":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.KeyVaultReference != nil {
@@ -1112,13 +1112,13 @@ func (account *BatchAccount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		account.Location = &location
 	}
 
-	// Set property ‘LowPriorityCoreQuota’:
+	// Set property "LowPriorityCoreQuota":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LowPriorityCoreQuota != nil {
@@ -1127,13 +1127,13 @@ func (account *BatchAccount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		account.Name = &name
 	}
 
-	// Set property ‘PoolAllocationMode’:
+	// Set property "PoolAllocationMode":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PoolAllocationMode != nil {
@@ -1142,7 +1142,7 @@ func (account *BatchAccount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘PoolQuota’:
+	// Set property "PoolQuota":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PoolQuota != nil {
@@ -1151,7 +1151,7 @@ func (account *BatchAccount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘PrivateEndpointConnections’:
+	// Set property "PrivateEndpointConnections":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PrivateEndpointConnections {
@@ -1164,7 +1164,7 @@ func (account *BatchAccount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -1173,7 +1173,7 @@ func (account *BatchAccount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
@@ -1182,7 +1182,7 @@ func (account *BatchAccount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		account.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1190,7 +1190,7 @@ func (account *BatchAccount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		account.Type = &typeVar
@@ -1537,7 +1537,7 @@ func (properties *AutoStorageBaseProperties) ConvertToARM(resolved genruntime.Co
 	}
 	result := &AutoStorageBaseProperties_ARM{}
 
-	// Set property ‘StorageAccountId’:
+	// Set property "StorageAccountId":
 	if properties.StorageAccountReference != nil {
 		storageAccountReferenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.StorageAccountReference)
 		if err != nil {
@@ -1561,7 +1561,7 @@ func (properties *AutoStorageBaseProperties) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoStorageBaseProperties_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘StorageAccountReference’
+	// no assignment for property "StorageAccountReference"
 
 	// No error
 	return nil
@@ -1644,13 +1644,13 @@ func (properties *AutoStorageProperties_STATUS) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoStorageProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘LastKeySync’:
+	// Set property "LastKeySync":
 	if typedInput.LastKeySync != nil {
 		lastKeySync := *typedInput.LastKeySync
 		properties.LastKeySync = &lastKeySync
 	}
 
-	// Set property ‘StorageAccountId’:
+	// Set property "StorageAccountId":
 	if typedInput.StorageAccountId != nil {
 		storageAccountId := *typedInput.StorageAccountId
 		properties.StorageAccountId = &storageAccountId
@@ -1717,13 +1717,13 @@ func (identity *BatchAccountIdentity) ConvertToARM(resolved genruntime.ConvertTo
 	}
 	result := &BatchAccountIdentity_ARM{}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if identity.Type != nil {
 		typeVar := *identity.Type
 		result.Type = &typeVar
 	}
 
-	// Set property ‘UserAssignedIdentities’:
+	// Set property "UserAssignedIdentities":
 	result.UserAssignedIdentities = make(map[string]UserAssignedIdentityDetails_ARM, len(identity.UserAssignedIdentities))
 	for _, ident := range identity.UserAssignedIdentities {
 		identARMID, err := resolved.ResolvedReferences.Lookup(ident.Reference)
@@ -1748,13 +1748,13 @@ func (identity *BatchAccountIdentity) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BatchAccountIdentity_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		identity.Type = &typeVar
 	}
 
-	// no assignment for property ‘UserAssignedIdentities’
+	// no assignment for property "UserAssignedIdentities"
 
 	// No error
 	return nil
@@ -1895,25 +1895,25 @@ func (identity *BatchAccountIdentity_STATUS) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BatchAccountIdentity_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘PrincipalId’:
+	// Set property "PrincipalId":
 	if typedInput.PrincipalId != nil {
 		principalId := *typedInput.PrincipalId
 		identity.PrincipalId = &principalId
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
 		identity.TenantId = &tenantId
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		identity.Type = &typeVar
 	}
 
-	// Set property ‘UserAssignedIdentities’:
+	// Set property "UserAssignedIdentities":
 	if typedInput.UserAssignedIdentities != nil {
 		identity.UserAssignedIdentities = make(map[string]BatchAccountIdentity_UserAssignedIdentities_STATUS, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
@@ -2047,13 +2047,13 @@ func (properties *EncryptionProperties) ConvertToARM(resolved genruntime.Convert
 	}
 	result := &EncryptionProperties_ARM{}
 
-	// Set property ‘KeySource’:
+	// Set property "KeySource":
 	if properties.KeySource != nil {
 		keySource := *properties.KeySource
 		result.KeySource = &keySource
 	}
 
-	// Set property ‘KeyVaultProperties’:
+	// Set property "KeyVaultProperties":
 	if properties.KeyVaultProperties != nil {
 		keyVaultProperties_ARM, err := (*properties.KeyVaultProperties).ConvertToARM(resolved)
 		if err != nil {
@@ -2077,13 +2077,13 @@ func (properties *EncryptionProperties) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EncryptionProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘KeySource’:
+	// Set property "KeySource":
 	if typedInput.KeySource != nil {
 		keySource := *typedInput.KeySource
 		properties.KeySource = &keySource
 	}
 
-	// Set property ‘KeyVaultProperties’:
+	// Set property "KeyVaultProperties":
 	if typedInput.KeyVaultProperties != nil {
 		var keyVaultProperties1 KeyVaultProperties
 		err := keyVaultProperties1.PopulateFromARM(owner, *typedInput.KeyVaultProperties)
@@ -2212,13 +2212,13 @@ func (properties *EncryptionProperties_STATUS) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EncryptionProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘KeySource’:
+	// Set property "KeySource":
 	if typedInput.KeySource != nil {
 		keySource := *typedInput.KeySource
 		properties.KeySource = &keySource
 	}
 
-	// Set property ‘KeyVaultProperties’:
+	// Set property "KeyVaultProperties":
 	if typedInput.KeyVaultProperties != nil {
 		var keyVaultProperties1 KeyVaultProperties_STATUS
 		err := keyVaultProperties1.PopulateFromARM(owner, *typedInput.KeyVaultProperties)
@@ -2316,7 +2316,7 @@ func (reference *KeyVaultReference) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &KeyVaultReference_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if reference.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*reference.Reference)
 		if err != nil {
@@ -2326,7 +2326,7 @@ func (reference *KeyVaultReference) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Id = &reference1
 	}
 
-	// Set property ‘Url’:
+	// Set property "Url":
 	if reference.Url != nil {
 		url := *reference.Url
 		result.Url = &url
@@ -2346,9 +2346,9 @@ func (reference *KeyVaultReference) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultReference_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
-	// Set property ‘Url’:
+	// Set property "Url":
 	if typedInput.Url != nil {
 		url := *typedInput.Url
 		reference.Url = &url
@@ -2444,13 +2444,13 @@ func (reference *KeyVaultReference_STATUS) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultReference_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		reference.Id = &id
 	}
 
-	// Set property ‘Url’:
+	// Set property "Url":
 	if typedInput.Url != nil {
 		url := *typedInput.Url
 		reference.Url = &url
@@ -2532,7 +2532,7 @@ func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		connection.Id = &id
@@ -2611,13 +2611,13 @@ func (quota *VirtualMachineFamilyCoreQuota_STATUS) PopulateFromARM(owner genrunt
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineFamilyCoreQuota_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CoreQuota’:
+	// Set property "CoreQuota":
 	if typedInput.CoreQuota != nil {
 		coreQuota := *typedInput.CoreQuota
 		quota.CoreQuota = &coreQuota
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		quota.Name = &name
@@ -2684,13 +2684,13 @@ func (identities *BatchAccountIdentity_UserAssignedIdentities_STATUS) PopulateFr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BatchAccountIdentity_UserAssignedIdentities_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ClientId’:
+	// Set property "ClientId":
 	if typedInput.ClientId != nil {
 		clientId := *typedInput.ClientId
 		identities.ClientId = &clientId
 	}
 
-	// Set property ‘PrincipalId’:
+	// Set property "PrincipalId":
 	if typedInput.PrincipalId != nil {
 		principalId := *typedInput.PrincipalId
 		identities.PrincipalId = &principalId
@@ -2770,7 +2770,7 @@ func (properties *KeyVaultProperties) ConvertToARM(resolved genruntime.ConvertTo
 	}
 	result := &KeyVaultProperties_ARM{}
 
-	// Set property ‘KeyIdentifier’:
+	// Set property "KeyIdentifier":
 	if properties.KeyIdentifier != nil {
 		keyIdentifier := *properties.KeyIdentifier
 		result.KeyIdentifier = &keyIdentifier
@@ -2790,7 +2790,7 @@ func (properties *KeyVaultProperties) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘KeyIdentifier’:
+	// Set property "KeyIdentifier":
 	if typedInput.KeyIdentifier != nil {
 		keyIdentifier := *typedInput.KeyIdentifier
 		properties.KeyIdentifier = &keyIdentifier
@@ -2864,7 +2864,7 @@ func (properties *KeyVaultProperties_STATUS) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘KeyIdentifier’:
+	// Set property "KeyIdentifier":
 	if typedInput.KeyIdentifier != nil {
 		keyIdentifier := *typedInput.KeyIdentifier
 		properties.KeyIdentifier = &keyIdentifier

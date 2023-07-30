@@ -340,10 +340,10 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) ConvertToARM(resolved
 	}
 	result := &DatabaseAccounts_SqlRoleAssignment_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if assignment.PrincipalId != nil ||
 		assignment.PrincipalIdFromConfig != nil ||
 		assignment.RoleDefinitionId != nil ||
@@ -385,13 +385,13 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) PopulateFromARM(owner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlRoleAssignment_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	assignment.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	assignment.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘PrincipalId’:
+	// Set property "PrincipalId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrincipalId != nil {
@@ -400,9 +400,9 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) PopulateFromARM(owner
 		}
 	}
 
-	// no assignment for property ‘PrincipalIdFromConfig’
+	// no assignment for property "PrincipalIdFromConfig"
 
-	// Set property ‘RoleDefinitionId’:
+	// Set property "RoleDefinitionId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RoleDefinitionId != nil {
@@ -411,7 +411,7 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘Scope’:
+	// Set property "Scope":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Scope != nil {
@@ -642,21 +642,21 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) PopulateFromARM(own
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlRoleAssignment_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		assignment.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		assignment.Name = &name
 	}
 
-	// Set property ‘PrincipalId’:
+	// Set property "PrincipalId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrincipalId != nil {
@@ -665,7 +665,7 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) PopulateFromARM(own
 		}
 	}
 
-	// Set property ‘RoleDefinitionId’:
+	// Set property "RoleDefinitionId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RoleDefinitionId != nil {
@@ -674,7 +674,7 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) PopulateFromARM(own
 		}
 	}
 
-	// Set property ‘Scope’:
+	// Set property "Scope":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Scope != nil {
@@ -683,7 +683,7 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) PopulateFromARM(own
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		assignment.Type = &typeVar

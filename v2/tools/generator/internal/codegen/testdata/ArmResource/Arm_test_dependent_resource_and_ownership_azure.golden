@@ -1057,13 +1057,13 @@ func (a *A_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	}
 	result := &A_Spec_ARM{}
 
-	// Set property ‘APIVersion’:
+	// Set property "APIVersion":
 	result.APIVersion = a.APIVersion
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	result.Type = a.Type
 	return result, nil
 }
@@ -1080,16 +1080,16 @@ func (a *A_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected A_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘APIVersion’:
+	// Set property "APIVersion":
 	a.APIVersion = typedInput.APIVersion
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	a.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	a.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	a.Type = typedInput.Type
 
 	// No error
@@ -1266,13 +1266,13 @@ func (b *B_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	}
 	result := &B_Spec_ARM{}
 
-	// Set property ‘APIVersion’:
+	// Set property "APIVersion":
 	result.APIVersion = b.APIVersion
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	result.Type = b.Type
 	return result, nil
 }
@@ -1289,16 +1289,16 @@ func (b *B_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected B_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘APIVersion’:
+	// Set property "APIVersion":
 	b.APIVersion = typedInput.APIVersion
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	b.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	b.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	b.Type = typedInput.Type
 
 	// No error
@@ -1470,13 +1470,13 @@ func (c *C_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	}
 	result := &C_Spec_ARM{}
 
-	// Set property ‘APIVersion’:
+	// Set property "APIVersion":
 	result.APIVersion = c.APIVersion
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	result.Type = c.Type
 	return result, nil
 }
@@ -1493,16 +1493,16 @@ func (c *C_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected C_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘APIVersion’:
+	// Set property "APIVersion":
 	c.APIVersion = typedInput.APIVersion
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	c.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	c.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	c.Type = typedInput.Type
 
 	// No error
@@ -1674,13 +1674,13 @@ func (d *D_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	}
 	result := &D_Spec_ARM{}
 
-	// Set property ‘APIVersion’:
+	// Set property "APIVersion":
 	result.APIVersion = d.APIVersion
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	result.Type = d.Type
 	return result, nil
 }
@@ -1697,16 +1697,16 @@ func (d *D_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected D_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘APIVersion’:
+	// Set property "APIVersion":
 	d.APIVersion = typedInput.APIVersion
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	d.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	d.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	d.Type = typedInput.Type
 
 	// No error

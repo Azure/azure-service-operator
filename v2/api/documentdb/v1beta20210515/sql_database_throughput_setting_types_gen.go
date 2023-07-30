@@ -325,16 +325,16 @@ func (setting *DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec) ConvertToAR
 	}
 	result := &DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if setting.Location != nil {
 		location := *setting.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if setting.Resource != nil {
 		result.Properties = &ThroughputSettingsUpdateProperties_ARM{}
 	}
@@ -347,7 +347,7 @@ func (setting *DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec) ConvertToAR
 		result.Properties.Resource = &resource
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if setting.Tags != nil {
 		result.Tags = make(map[string]string, len(setting.Tags))
 		for key, value := range setting.Tags {
@@ -369,16 +369,16 @@ func (setting *DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec) PopulateFro
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		setting.Location = &location
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	setting.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Resource’:
+	// Set property "Resource":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
@@ -392,7 +392,7 @@ func (setting *DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec) PopulateFro
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		setting.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -613,27 +613,27 @@ func (setting *DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS) PopulateF
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		setting.Id = &id
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		setting.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		setting.Name = &name
 	}
 
-	// Set property ‘Resource’:
+	// Set property "Resource":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
@@ -647,7 +647,7 @@ func (setting *DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS) PopulateF
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		setting.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -655,7 +655,7 @@ func (setting *DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS) PopulateF
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		setting.Type = &typeVar

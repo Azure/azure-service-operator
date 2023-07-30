@@ -339,10 +339,10 @@ func (server *Redis_LinkedServer_Spec) ConvertToARM(resolved genruntime.ConvertT
 	}
 	result := &Redis_LinkedServer_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if server.LinkedRedisCacheLocation != nil ||
 		server.LinkedRedisCacheReference != nil ||
 		server.ServerRole != nil {
@@ -379,10 +379,10 @@ func (server *Redis_LinkedServer_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Redis_LinkedServer_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	server.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘LinkedRedisCacheLocation’:
+	// Set property "LinkedRedisCacheLocation":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LinkedRedisCacheLocation != nil {
@@ -391,12 +391,12 @@ func (server *Redis_LinkedServer_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// no assignment for property ‘LinkedRedisCacheReference’
+	// no assignment for property "LinkedRedisCacheReference"
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	server.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘ServerRole’:
+	// Set property "ServerRole":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ServerRole != nil {
@@ -630,15 +630,15 @@ func (server *Redis_LinkedServer_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Redis_LinkedServer_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		server.Id = &id
 	}
 
-	// Set property ‘LinkedRedisCacheId’:
+	// Set property "LinkedRedisCacheId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LinkedRedisCacheId != nil {
@@ -647,7 +647,7 @@ func (server *Redis_LinkedServer_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘LinkedRedisCacheLocation’:
+	// Set property "LinkedRedisCacheLocation":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LinkedRedisCacheLocation != nil {
@@ -656,13 +656,13 @@ func (server *Redis_LinkedServer_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		server.Name = &name
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -671,7 +671,7 @@ func (server *Redis_LinkedServer_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘ServerRole’:
+	// Set property "ServerRole":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ServerRole != nil {
@@ -680,7 +680,7 @@ func (server *Redis_LinkedServer_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		server.Type = &typeVar

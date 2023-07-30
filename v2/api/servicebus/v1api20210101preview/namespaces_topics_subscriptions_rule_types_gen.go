@@ -346,10 +346,10 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) ConvertToARM(resolved gen
 	}
 	result := &Namespaces_Topics_Subscriptions_Rule_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if rule.Action != nil ||
 		rule.CorrelationFilter != nil ||
 		rule.FilterType != nil ||
@@ -399,7 +399,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Topics_Subscriptions_Rule_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Action’:
+	// Set property "Action":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Action != nil {
@@ -413,10 +413,10 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	rule.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘CorrelationFilter’:
+	// Set property "CorrelationFilter":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CorrelationFilter != nil {
@@ -430,7 +430,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘FilterType’:
+	// Set property "FilterType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FilterType != nil {
@@ -439,10 +439,10 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	rule.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘SqlFilter’:
+	// Set property "SqlFilter":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SqlFilter != nil {
@@ -801,7 +801,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Topics_Subscriptions_Rule_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Action’:
+	// Set property "Action":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Action != nil {
@@ -815,9 +815,9 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) PopulateFromARM(owner g
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘CorrelationFilter’:
+	// Set property "CorrelationFilter":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CorrelationFilter != nil {
@@ -831,7 +831,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘FilterType’:
+	// Set property "FilterType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FilterType != nil {
@@ -840,19 +840,19 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		rule.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		rule.Name = &name
 	}
 
-	// Set property ‘SqlFilter’:
+	// Set property "SqlFilter":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SqlFilter != nil {
@@ -866,7 +866,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -877,7 +877,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) PopulateFromARM(owner g
 		rule.SystemData = &systemData
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		rule.Type = &typeVar
@@ -1069,19 +1069,19 @@ func (action *Action) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	}
 	result := &Action_ARM{}
 
-	// Set property ‘CompatibilityLevel’:
+	// Set property "CompatibilityLevel":
 	if action.CompatibilityLevel != nil {
 		compatibilityLevel := *action.CompatibilityLevel
 		result.CompatibilityLevel = &compatibilityLevel
 	}
 
-	// Set property ‘RequiresPreprocessing’:
+	// Set property "RequiresPreprocessing":
 	if action.RequiresPreprocessing != nil {
 		requiresPreprocessing := *action.RequiresPreprocessing
 		result.RequiresPreprocessing = &requiresPreprocessing
 	}
 
-	// Set property ‘SqlExpression’:
+	// Set property "SqlExpression":
 	if action.SqlExpression != nil {
 		sqlExpression := *action.SqlExpression
 		result.SqlExpression = &sqlExpression
@@ -1101,19 +1101,19 @@ func (action *Action) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Action_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CompatibilityLevel’:
+	// Set property "CompatibilityLevel":
 	if typedInput.CompatibilityLevel != nil {
 		compatibilityLevel := *typedInput.CompatibilityLevel
 		action.CompatibilityLevel = &compatibilityLevel
 	}
 
-	// Set property ‘RequiresPreprocessing’:
+	// Set property "RequiresPreprocessing":
 	if typedInput.RequiresPreprocessing != nil {
 		requiresPreprocessing := *typedInput.RequiresPreprocessing
 		action.RequiresPreprocessing = &requiresPreprocessing
 	}
 
-	// Set property ‘SqlExpression’:
+	// Set property "SqlExpression":
 	if typedInput.SqlExpression != nil {
 		sqlExpression := *typedInput.SqlExpression
 		action.SqlExpression = &sqlExpression
@@ -1223,19 +1223,19 @@ func (action *Action_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Action_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CompatibilityLevel’:
+	// Set property "CompatibilityLevel":
 	if typedInput.CompatibilityLevel != nil {
 		compatibilityLevel := *typedInput.CompatibilityLevel
 		action.CompatibilityLevel = &compatibilityLevel
 	}
 
-	// Set property ‘RequiresPreprocessing’:
+	// Set property "RequiresPreprocessing":
 	if typedInput.RequiresPreprocessing != nil {
 		requiresPreprocessing := *typedInput.RequiresPreprocessing
 		action.RequiresPreprocessing = &requiresPreprocessing
 	}
 
-	// Set property ‘SqlExpression’:
+	// Set property "SqlExpression":
 	if typedInput.SqlExpression != nil {
 		sqlExpression := *typedInput.SqlExpression
 		action.SqlExpression = &sqlExpression
@@ -1338,31 +1338,31 @@ func (filter *CorrelationFilter) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &CorrelationFilter_ARM{}
 
-	// Set property ‘ContentType’:
+	// Set property "ContentType":
 	if filter.ContentType != nil {
 		contentType := *filter.ContentType
 		result.ContentType = &contentType
 	}
 
-	// Set property ‘CorrelationId’:
+	// Set property "CorrelationId":
 	if filter.CorrelationId != nil {
 		correlationId := *filter.CorrelationId
 		result.CorrelationId = &correlationId
 	}
 
-	// Set property ‘Label’:
+	// Set property "Label":
 	if filter.Label != nil {
 		label := *filter.Label
 		result.Label = &label
 	}
 
-	// Set property ‘MessageId’:
+	// Set property "MessageId":
 	if filter.MessageId != nil {
 		messageId := *filter.MessageId
 		result.MessageId = &messageId
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if filter.Properties != nil {
 		result.Properties = make(map[string]string, len(filter.Properties))
 		for key, value := range filter.Properties {
@@ -1370,31 +1370,31 @@ func (filter *CorrelationFilter) ConvertToARM(resolved genruntime.ConvertToARMRe
 		}
 	}
 
-	// Set property ‘ReplyTo’:
+	// Set property "ReplyTo":
 	if filter.ReplyTo != nil {
 		replyTo := *filter.ReplyTo
 		result.ReplyTo = &replyTo
 	}
 
-	// Set property ‘ReplyToSessionId’:
+	// Set property "ReplyToSessionId":
 	if filter.ReplyToSessionId != nil {
 		replyToSessionId := *filter.ReplyToSessionId
 		result.ReplyToSessionId = &replyToSessionId
 	}
 
-	// Set property ‘RequiresPreprocessing’:
+	// Set property "RequiresPreprocessing":
 	if filter.RequiresPreprocessing != nil {
 		requiresPreprocessing := *filter.RequiresPreprocessing
 		result.RequiresPreprocessing = &requiresPreprocessing
 	}
 
-	// Set property ‘SessionId’:
+	// Set property "SessionId":
 	if filter.SessionId != nil {
 		sessionId := *filter.SessionId
 		result.SessionId = &sessionId
 	}
 
-	// Set property ‘To’:
+	// Set property "To":
 	if filter.To != nil {
 		to := *filter.To
 		result.To = &to
@@ -1414,31 +1414,31 @@ func (filter *CorrelationFilter) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CorrelationFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ContentType’:
+	// Set property "ContentType":
 	if typedInput.ContentType != nil {
 		contentType := *typedInput.ContentType
 		filter.ContentType = &contentType
 	}
 
-	// Set property ‘CorrelationId’:
+	// Set property "CorrelationId":
 	if typedInput.CorrelationId != nil {
 		correlationId := *typedInput.CorrelationId
 		filter.CorrelationId = &correlationId
 	}
 
-	// Set property ‘Label’:
+	// Set property "Label":
 	if typedInput.Label != nil {
 		label := *typedInput.Label
 		filter.Label = &label
 	}
 
-	// Set property ‘MessageId’:
+	// Set property "MessageId":
 	if typedInput.MessageId != nil {
 		messageId := *typedInput.MessageId
 		filter.MessageId = &messageId
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if typedInput.Properties != nil {
 		filter.Properties = make(map[string]string, len(typedInput.Properties))
 		for key, value := range typedInput.Properties {
@@ -1446,31 +1446,31 @@ func (filter *CorrelationFilter) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘ReplyTo’:
+	// Set property "ReplyTo":
 	if typedInput.ReplyTo != nil {
 		replyTo := *typedInput.ReplyTo
 		filter.ReplyTo = &replyTo
 	}
 
-	// Set property ‘ReplyToSessionId’:
+	// Set property "ReplyToSessionId":
 	if typedInput.ReplyToSessionId != nil {
 		replyToSessionId := *typedInput.ReplyToSessionId
 		filter.ReplyToSessionId = &replyToSessionId
 	}
 
-	// Set property ‘RequiresPreprocessing’:
+	// Set property "RequiresPreprocessing":
 	if typedInput.RequiresPreprocessing != nil {
 		requiresPreprocessing := *typedInput.RequiresPreprocessing
 		filter.RequiresPreprocessing = &requiresPreprocessing
 	}
 
-	// Set property ‘SessionId’:
+	// Set property "SessionId":
 	if typedInput.SessionId != nil {
 		sessionId := *typedInput.SessionId
 		filter.SessionId = &sessionId
 	}
 
-	// Set property ‘To’:
+	// Set property "To":
 	if typedInput.To != nil {
 		to := *typedInput.To
 		filter.To = &to
@@ -1662,31 +1662,31 @@ func (filter *CorrelationFilter_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CorrelationFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ContentType’:
+	// Set property "ContentType":
 	if typedInput.ContentType != nil {
 		contentType := *typedInput.ContentType
 		filter.ContentType = &contentType
 	}
 
-	// Set property ‘CorrelationId’:
+	// Set property "CorrelationId":
 	if typedInput.CorrelationId != nil {
 		correlationId := *typedInput.CorrelationId
 		filter.CorrelationId = &correlationId
 	}
 
-	// Set property ‘Label’:
+	// Set property "Label":
 	if typedInput.Label != nil {
 		label := *typedInput.Label
 		filter.Label = &label
 	}
 
-	// Set property ‘MessageId’:
+	// Set property "MessageId":
 	if typedInput.MessageId != nil {
 		messageId := *typedInput.MessageId
 		filter.MessageId = &messageId
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if typedInput.Properties != nil {
 		filter.Properties = make(map[string]string, len(typedInput.Properties))
 		for key, value := range typedInput.Properties {
@@ -1694,31 +1694,31 @@ func (filter *CorrelationFilter_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘ReplyTo’:
+	// Set property "ReplyTo":
 	if typedInput.ReplyTo != nil {
 		replyTo := *typedInput.ReplyTo
 		filter.ReplyTo = &replyTo
 	}
 
-	// Set property ‘ReplyToSessionId’:
+	// Set property "ReplyToSessionId":
 	if typedInput.ReplyToSessionId != nil {
 		replyToSessionId := *typedInput.ReplyToSessionId
 		filter.ReplyToSessionId = &replyToSessionId
 	}
 
-	// Set property ‘RequiresPreprocessing’:
+	// Set property "RequiresPreprocessing":
 	if typedInput.RequiresPreprocessing != nil {
 		requiresPreprocessing := *typedInput.RequiresPreprocessing
 		filter.RequiresPreprocessing = &requiresPreprocessing
 	}
 
-	// Set property ‘SessionId’:
+	// Set property "SessionId":
 	if typedInput.SessionId != nil {
 		sessionId := *typedInput.SessionId
 		filter.SessionId = &sessionId
 	}
 
-	// Set property ‘To’:
+	// Set property "To":
 	if typedInput.To != nil {
 		to := *typedInput.To
 		filter.To = &to
@@ -1862,19 +1862,19 @@ func (filter *SqlFilter) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	}
 	result := &SqlFilter_ARM{}
 
-	// Set property ‘CompatibilityLevel’:
+	// Set property "CompatibilityLevel":
 	if filter.CompatibilityLevel != nil {
 		compatibilityLevel := *filter.CompatibilityLevel
 		result.CompatibilityLevel = &compatibilityLevel
 	}
 
-	// Set property ‘RequiresPreprocessing’:
+	// Set property "RequiresPreprocessing":
 	if filter.RequiresPreprocessing != nil {
 		requiresPreprocessing := *filter.RequiresPreprocessing
 		result.RequiresPreprocessing = &requiresPreprocessing
 	}
 
-	// Set property ‘SqlExpression’:
+	// Set property "SqlExpression":
 	if filter.SqlExpression != nil {
 		sqlExpression := *filter.SqlExpression
 		result.SqlExpression = &sqlExpression
@@ -1894,19 +1894,19 @@ func (filter *SqlFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CompatibilityLevel’:
+	// Set property "CompatibilityLevel":
 	if typedInput.CompatibilityLevel != nil {
 		compatibilityLevel := *typedInput.CompatibilityLevel
 		filter.CompatibilityLevel = &compatibilityLevel
 	}
 
-	// Set property ‘RequiresPreprocessing’:
+	// Set property "RequiresPreprocessing":
 	if typedInput.RequiresPreprocessing != nil {
 		requiresPreprocessing := *typedInput.RequiresPreprocessing
 		filter.RequiresPreprocessing = &requiresPreprocessing
 	}
 
-	// Set property ‘SqlExpression’:
+	// Set property "SqlExpression":
 	if typedInput.SqlExpression != nil {
 		sqlExpression := *typedInput.SqlExpression
 		filter.SqlExpression = &sqlExpression
@@ -2030,19 +2030,19 @@ func (filter *SqlFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CompatibilityLevel’:
+	// Set property "CompatibilityLevel":
 	if typedInput.CompatibilityLevel != nil {
 		compatibilityLevel := *typedInput.CompatibilityLevel
 		filter.CompatibilityLevel = &compatibilityLevel
 	}
 
-	// Set property ‘RequiresPreprocessing’:
+	// Set property "RequiresPreprocessing":
 	if typedInput.RequiresPreprocessing != nil {
 		requiresPreprocessing := *typedInput.RequiresPreprocessing
 		filter.RequiresPreprocessing = &requiresPreprocessing
 	}
 
-	// Set property ‘SqlExpression’:
+	// Set property "SqlExpression":
 	if typedInput.SqlExpression != nil {
 		sqlExpression := *typedInput.SqlExpression
 		filter.SqlExpression = &sqlExpression

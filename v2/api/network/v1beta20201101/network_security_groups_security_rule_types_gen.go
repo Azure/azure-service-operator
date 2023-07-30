@@ -351,10 +351,10 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) ConvertToARM(resolved genru
 	}
 	result := &NetworkSecurityGroups_SecurityRule_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if rule.Access != nil ||
 		rule.Description != nil ||
 		rule.DestinationAddressPrefix != nil ||
@@ -449,7 +449,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) PopulateFromARM(owner genru
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkSecurityGroups_SecurityRule_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Access’:
+	// Set property "Access":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Access != nil {
@@ -458,10 +458,10 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) PopulateFromARM(owner genru
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	rule.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Description’:
+	// Set property "Description":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Description != nil {
@@ -470,7 +470,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) PopulateFromARM(owner genru
 		}
 	}
 
-	// Set property ‘DestinationAddressPrefix’:
+	// Set property "DestinationAddressPrefix":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DestinationAddressPrefix != nil {
@@ -479,7 +479,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) PopulateFromARM(owner genru
 		}
 	}
 
-	// Set property ‘DestinationAddressPrefixes’:
+	// Set property "DestinationAddressPrefixes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.DestinationAddressPrefixes {
@@ -487,7 +487,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) PopulateFromARM(owner genru
 		}
 	}
 
-	// Set property ‘DestinationApplicationSecurityGroups’:
+	// Set property "DestinationApplicationSecurityGroups":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.DestinationApplicationSecurityGroups {
@@ -500,7 +500,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) PopulateFromARM(owner genru
 		}
 	}
 
-	// Set property ‘DestinationPortRange’:
+	// Set property "DestinationPortRange":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DestinationPortRange != nil {
@@ -509,7 +509,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) PopulateFromARM(owner genru
 		}
 	}
 
-	// Set property ‘DestinationPortRanges’:
+	// Set property "DestinationPortRanges":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.DestinationPortRanges {
@@ -517,7 +517,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) PopulateFromARM(owner genru
 		}
 	}
 
-	// Set property ‘Direction’:
+	// Set property "Direction":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Direction != nil {
@@ -526,10 +526,10 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) PopulateFromARM(owner genru
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	rule.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Priority’:
+	// Set property "Priority":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Priority != nil {
@@ -538,7 +538,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) PopulateFromARM(owner genru
 		}
 	}
 
-	// Set property ‘Protocol’:
+	// Set property "Protocol":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
@@ -547,7 +547,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) PopulateFromARM(owner genru
 		}
 	}
 
-	// Set property ‘SourceAddressPrefix’:
+	// Set property "SourceAddressPrefix":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SourceAddressPrefix != nil {
@@ -556,7 +556,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) PopulateFromARM(owner genru
 		}
 	}
 
-	// Set property ‘SourceAddressPrefixes’:
+	// Set property "SourceAddressPrefixes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.SourceAddressPrefixes {
@@ -564,7 +564,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) PopulateFromARM(owner genru
 		}
 	}
 
-	// Set property ‘SourceApplicationSecurityGroups’:
+	// Set property "SourceApplicationSecurityGroups":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.SourceApplicationSecurityGroups {
@@ -577,7 +577,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) PopulateFromARM(owner genru
 		}
 	}
 
-	// Set property ‘SourcePortRange’:
+	// Set property "SourcePortRange":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SourcePortRange != nil {
@@ -586,7 +586,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) PopulateFromARM(owner genru
 		}
 	}
 
-	// Set property ‘SourcePortRanges’:
+	// Set property "SourcePortRanges":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.SourcePortRanges {
@@ -977,7 +977,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkSecurityGroups_SecurityRule_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Access’:
+	// Set property "Access":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Access != nil {
@@ -986,9 +986,9 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Description’:
+	// Set property "Description":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Description != nil {
@@ -997,7 +997,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘DestinationAddressPrefix’:
+	// Set property "DestinationAddressPrefix":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DestinationAddressPrefix != nil {
@@ -1006,7 +1006,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘DestinationAddressPrefixes’:
+	// Set property "DestinationAddressPrefixes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.DestinationAddressPrefixes {
@@ -1014,7 +1014,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘DestinationApplicationSecurityGroups’:
+	// Set property "DestinationApplicationSecurityGroups":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.DestinationApplicationSecurityGroups {
@@ -1027,7 +1027,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘DestinationPortRange’:
+	// Set property "DestinationPortRange":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DestinationPortRange != nil {
@@ -1036,7 +1036,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘DestinationPortRanges’:
+	// Set property "DestinationPortRanges":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.DestinationPortRanges {
@@ -1044,7 +1044,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘Direction’:
+	// Set property "Direction":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Direction != nil {
@@ -1053,25 +1053,25 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		rule.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		rule.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		rule.Name = &name
 	}
 
-	// Set property ‘Priority’:
+	// Set property "Priority":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Priority != nil {
@@ -1080,7 +1080,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘Protocol’:
+	// Set property "Protocol":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
@@ -1089,7 +1089,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -1098,7 +1098,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘SourceAddressPrefix’:
+	// Set property "SourceAddressPrefix":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SourceAddressPrefix != nil {
@@ -1107,7 +1107,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘SourceAddressPrefixes’:
+	// Set property "SourceAddressPrefixes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.SourceAddressPrefixes {
@@ -1115,7 +1115,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘SourceApplicationSecurityGroups’:
+	// Set property "SourceApplicationSecurityGroups":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.SourceApplicationSecurityGroups {
@@ -1128,7 +1128,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘SourcePortRange’:
+	// Set property "SourcePortRange":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SourcePortRange != nil {
@@ -1137,7 +1137,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘SourcePortRanges’:
+	// Set property "SourcePortRanges":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.SourcePortRanges {
@@ -1145,7 +1145,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		rule.Type = &typeVar
@@ -1423,7 +1423,7 @@ func (embedded *ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRu
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		embedded.Id = &id
@@ -1476,7 +1476,7 @@ func (embedded *ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_
 	}
 	result := &ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if embedded.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*embedded.Reference)
 		if err != nil {
@@ -1500,7 +1500,7 @@ func (embedded *ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil

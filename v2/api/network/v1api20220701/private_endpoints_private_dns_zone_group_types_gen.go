@@ -334,10 +334,10 @@ func (group *PrivateEndpoints_PrivateDnsZoneGroup_Spec) ConvertToARM(resolved ge
 	}
 	result := &PrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if group.PrivateDnsZoneConfigs != nil {
 		result.Properties = &PrivateDnsZoneGroupPropertiesFormat_ARM{}
 	}
@@ -363,13 +363,13 @@ func (group *PrivateEndpoints_PrivateDnsZoneGroup_Spec) PopulateFromARM(owner ge
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	group.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	group.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘PrivateDnsZoneConfigs’:
+	// Set property "PrivateDnsZoneConfigs":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PrivateDnsZoneConfigs {
@@ -639,27 +639,27 @@ func (group *PrivateEndpoints_PrivateDnsZoneGroup_STATUS) PopulateFromARM(owner 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpoints_PrivateDnsZoneGroup_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		group.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		group.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		group.Name = &name
 	}
 
-	// Set property ‘PrivateDnsZoneConfigs’:
+	// Set property "PrivateDnsZoneConfigs":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PrivateDnsZoneConfigs {
@@ -672,7 +672,7 @@ func (group *PrivateEndpoints_PrivateDnsZoneGroup_STATUS) PopulateFromARM(owner 
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -802,13 +802,13 @@ func (config *PrivateDnsZoneConfig) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &PrivateDnsZoneConfig_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if config.Name != nil {
 		name := *config.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if config.PrivateDnsZoneReference != nil {
 		result.Properties = &PrivateDnsZonePropertiesFormat_ARM{}
 	}
@@ -835,13 +835,13 @@ func (config *PrivateDnsZoneConfig) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateDnsZoneConfig_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		config.Name = &name
 	}
 
-	// no assignment for property ‘PrivateDnsZoneReference’
+	// no assignment for property "PrivateDnsZoneReference"
 
 	// No error
 	return nil
@@ -936,13 +936,13 @@ func (config *PrivateDnsZoneConfig_STATUS) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateDnsZoneConfig_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		config.Name = &name
 	}
 
-	// Set property ‘PrivateDnsZoneId’:
+	// Set property "PrivateDnsZoneId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateDnsZoneId != nil {
@@ -951,7 +951,7 @@ func (config *PrivateDnsZoneConfig_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘RecordSets’:
+	// Set property "RecordSets":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.RecordSets {
@@ -1084,36 +1084,36 @@ func (recordSet *RecordSet_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RecordSet_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Fqdn’:
+	// Set property "Fqdn":
 	if typedInput.Fqdn != nil {
 		fqdn := *typedInput.Fqdn
 		recordSet.Fqdn = &fqdn
 	}
 
-	// Set property ‘IpAddresses’:
+	// Set property "IpAddresses":
 	for _, item := range typedInput.IpAddresses {
 		recordSet.IpAddresses = append(recordSet.IpAddresses, item)
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
 		provisioningState := *typedInput.ProvisioningState
 		recordSet.ProvisioningState = &provisioningState
 	}
 
-	// Set property ‘RecordSetName’:
+	// Set property "RecordSetName":
 	if typedInput.RecordSetName != nil {
 		recordSetName := *typedInput.RecordSetName
 		recordSet.RecordSetName = &recordSetName
 	}
 
-	// Set property ‘RecordType’:
+	// Set property "RecordType":
 	if typedInput.RecordType != nil {
 		recordType := *typedInput.RecordType
 		recordSet.RecordType = &recordType
 	}
 
-	// Set property ‘Ttl’:
+	// Set property "Ttl":
 	if typedInput.Ttl != nil {
 		ttl := *typedInput.Ttl
 		recordSet.Ttl = &ttl

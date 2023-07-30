@@ -338,10 +338,10 @@ func (configuration *Servers_Configuration_Spec) ConvertToARM(resolved genruntim
 	}
 	result := &Servers_Configuration_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if configuration.Source != nil || configuration.Value != nil {
 		result.Properties = &ConfigurationProperties_ARM{}
 	}
@@ -368,13 +368,13 @@ func (configuration *Servers_Configuration_Spec) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Configuration_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	configuration.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	configuration.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Source’:
+	// Set property "Source":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Source != nil {
@@ -383,7 +383,7 @@ func (configuration *Servers_Configuration_Spec) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Value != nil {
@@ -596,7 +596,7 @@ func (configuration *Servers_Configuration_STATUS) PopulateFromARM(owner genrunt
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Configuration_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AllowedValues’:
+	// Set property "AllowedValues":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AllowedValues != nil {
@@ -605,9 +605,9 @@ func (configuration *Servers_Configuration_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘DataType’:
+	// Set property "DataType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DataType != nil {
@@ -616,7 +616,7 @@ func (configuration *Servers_Configuration_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// Set property ‘DefaultValue’:
+	// Set property "DefaultValue":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultValue != nil {
@@ -625,7 +625,7 @@ func (configuration *Servers_Configuration_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// Set property ‘Description’:
+	// Set property "Description":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Description != nil {
@@ -634,19 +634,19 @@ func (configuration *Servers_Configuration_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		configuration.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		configuration.Name = &name
 	}
 
-	// Set property ‘Source’:
+	// Set property "Source":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Source != nil {
@@ -655,13 +655,13 @@ func (configuration *Servers_Configuration_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		configuration.Type = &typeVar
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Value != nil {

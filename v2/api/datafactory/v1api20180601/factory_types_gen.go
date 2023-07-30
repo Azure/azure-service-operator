@@ -366,7 +366,7 @@ func (factory *Factory_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	}
 	result := &Factory_Spec_ARM{}
 
-	// Set property ‘AdditionalProperties’:
+	// Set property "AdditionalProperties":
 	if factory.AdditionalProperties != nil {
 		result.AdditionalProperties = make(map[string]v1.JSON, len(factory.AdditionalProperties))
 		for key, value := range factory.AdditionalProperties {
@@ -374,7 +374,7 @@ func (factory *Factory_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		}
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if factory.Identity != nil {
 		identity_ARM, err := (*factory.Identity).ConvertToARM(resolved)
 		if err != nil {
@@ -384,16 +384,16 @@ func (factory *Factory_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Identity = &identity
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if factory.Location != nil {
 		location := *factory.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if factory.Encryption != nil ||
 		factory.GlobalParameters != nil ||
 		factory.PublicNetworkAccess != nil ||
@@ -440,7 +440,7 @@ func (factory *Factory_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Properties.RepoConfiguration = &repoConfiguration
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if factory.Tags != nil {
 		result.Tags = make(map[string]string, len(factory.Tags))
 		for key, value := range factory.Tags {
@@ -462,7 +462,7 @@ func (factory *Factory_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Factory_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdditionalProperties’:
+	// Set property "AdditionalProperties":
 	if typedInput.AdditionalProperties != nil {
 		factory.AdditionalProperties = make(map[string]v1.JSON, len(typedInput.AdditionalProperties))
 		for key, value := range typedInput.AdditionalProperties {
@@ -470,10 +470,10 @@ func (factory *Factory_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	factory.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Encryption’:
+	// Set property "Encryption":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Encryption != nil {
@@ -487,7 +487,7 @@ func (factory *Factory_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘GlobalParameters’:
+	// Set property "GlobalParameters":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.GlobalParameters != nil {
@@ -503,7 +503,7 @@ func (factory *Factory_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 FactoryIdentity
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -514,16 +514,16 @@ func (factory *Factory_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		factory.Identity = &identity
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		factory.Location = &location
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	factory.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
@@ -532,7 +532,7 @@ func (factory *Factory_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘PurviewConfiguration’:
+	// Set property "PurviewConfiguration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PurviewConfiguration != nil {
@@ -546,7 +546,7 @@ func (factory *Factory_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘RepoConfiguration’:
+	// Set property "RepoConfiguration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RepoConfiguration != nil {
@@ -560,7 +560,7 @@ func (factory *Factory_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		factory.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1081,7 +1081,7 @@ func (factory *Factory_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Factory_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdditionalProperties’:
+	// Set property "AdditionalProperties":
 	if typedInput.AdditionalProperties != nil {
 		factory.AdditionalProperties = make(map[string]v1.JSON, len(typedInput.AdditionalProperties))
 		for key, value := range typedInput.AdditionalProperties {
@@ -1089,9 +1089,9 @@ func (factory *Factory_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘CreateTime’:
+	// Set property "CreateTime":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreateTime != nil {
@@ -1100,13 +1100,13 @@ func (factory *Factory_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘ETag’:
+	// Set property "ETag":
 	if typedInput.ETag != nil {
 		eTag := *typedInput.ETag
 		factory.ETag = &eTag
 	}
 
-	// Set property ‘Encryption’:
+	// Set property "Encryption":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Encryption != nil {
@@ -1120,7 +1120,7 @@ func (factory *Factory_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘GlobalParameters’:
+	// Set property "GlobalParameters":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.GlobalParameters != nil {
@@ -1136,13 +1136,13 @@ func (factory *Factory_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		factory.Id = &id
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 FactoryIdentity_STATUS
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -1153,19 +1153,19 @@ func (factory *Factory_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		factory.Identity = &identity
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		factory.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		factory.Name = &name
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -1174,7 +1174,7 @@ func (factory *Factory_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
@@ -1183,7 +1183,7 @@ func (factory *Factory_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘PurviewConfiguration’:
+	// Set property "PurviewConfiguration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PurviewConfiguration != nil {
@@ -1197,7 +1197,7 @@ func (factory *Factory_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘RepoConfiguration’:
+	// Set property "RepoConfiguration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RepoConfiguration != nil {
@@ -1211,7 +1211,7 @@ func (factory *Factory_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		factory.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1219,13 +1219,13 @@ func (factory *Factory_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		factory.Type = &typeVar
 	}
 
-	// Set property ‘Version’:
+	// Set property "Version":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Version != nil {
@@ -1522,7 +1522,7 @@ func (configuration *EncryptionConfiguration) ConvertToARM(resolved genruntime.C
 	}
 	result := &EncryptionConfiguration_ARM{}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if configuration.Identity != nil {
 		identity_ARM, err := (*configuration.Identity).ConvertToARM(resolved)
 		if err != nil {
@@ -1532,19 +1532,19 @@ func (configuration *EncryptionConfiguration) ConvertToARM(resolved genruntime.C
 		result.Identity = &identity
 	}
 
-	// Set property ‘KeyName’:
+	// Set property "KeyName":
 	if configuration.KeyName != nil {
 		keyName := *configuration.KeyName
 		result.KeyName = &keyName
 	}
 
-	// Set property ‘KeyVersion’:
+	// Set property "KeyVersion":
 	if configuration.KeyVersion != nil {
 		keyVersion := *configuration.KeyVersion
 		result.KeyVersion = &keyVersion
 	}
 
-	// Set property ‘VaultBaseUrl’:
+	// Set property "VaultBaseUrl":
 	if configuration.VaultBaseUrl != nil {
 		vaultBaseUrl := *configuration.VaultBaseUrl
 		result.VaultBaseUrl = &vaultBaseUrl
@@ -1564,7 +1564,7 @@ func (configuration *EncryptionConfiguration) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EncryptionConfiguration_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 CMKIdentityDefinition
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -1575,19 +1575,19 @@ func (configuration *EncryptionConfiguration) PopulateFromARM(owner genruntime.A
 		configuration.Identity = &identity
 	}
 
-	// Set property ‘KeyName’:
+	// Set property "KeyName":
 	if typedInput.KeyName != nil {
 		keyName := *typedInput.KeyName
 		configuration.KeyName = &keyName
 	}
 
-	// Set property ‘KeyVersion’:
+	// Set property "KeyVersion":
 	if typedInput.KeyVersion != nil {
 		keyVersion := *typedInput.KeyVersion
 		configuration.KeyVersion = &keyVersion
 	}
 
-	// Set property ‘VaultBaseUrl’:
+	// Set property "VaultBaseUrl":
 	if typedInput.VaultBaseUrl != nil {
 		vaultBaseUrl := *typedInput.VaultBaseUrl
 		configuration.VaultBaseUrl = &vaultBaseUrl
@@ -1720,7 +1720,7 @@ func (configuration *EncryptionConfiguration_STATUS) PopulateFromARM(owner genru
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EncryptionConfiguration_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 CMKIdentityDefinition_STATUS
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -1731,19 +1731,19 @@ func (configuration *EncryptionConfiguration_STATUS) PopulateFromARM(owner genru
 		configuration.Identity = &identity
 	}
 
-	// Set property ‘KeyName’:
+	// Set property "KeyName":
 	if typedInput.KeyName != nil {
 		keyName := *typedInput.KeyName
 		configuration.KeyName = &keyName
 	}
 
-	// Set property ‘KeyVersion’:
+	// Set property "KeyVersion":
 	if typedInput.KeyVersion != nil {
 		keyVersion := *typedInput.KeyVersion
 		configuration.KeyVersion = &keyVersion
 	}
 
-	// Set property ‘VaultBaseUrl’:
+	// Set property "VaultBaseUrl":
 	if typedInput.VaultBaseUrl != nil {
 		vaultBaseUrl := *typedInput.VaultBaseUrl
 		configuration.VaultBaseUrl = &vaultBaseUrl
@@ -1837,13 +1837,13 @@ func (identity *FactoryIdentity) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &FactoryIdentity_ARM{}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if identity.Type != nil {
 		typeVar := *identity.Type
 		result.Type = &typeVar
 	}
 
-	// Set property ‘UserAssignedIdentities’:
+	// Set property "UserAssignedIdentities":
 	result.UserAssignedIdentities = make(map[string]UserAssignedIdentityDetails_ARM, len(identity.UserAssignedIdentities))
 	for _, ident := range identity.UserAssignedIdentities {
 		identARMID, err := resolved.ResolvedReferences.Lookup(ident.Reference)
@@ -1868,13 +1868,13 @@ func (identity *FactoryIdentity) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FactoryIdentity_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		identity.Type = &typeVar
 	}
 
-	// no assignment for property ‘UserAssignedIdentities’
+	// no assignment for property "UserAssignedIdentities"
 
 	// No error
 	return nil
@@ -2011,25 +2011,25 @@ func (identity *FactoryIdentity_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FactoryIdentity_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘PrincipalId’:
+	// Set property "PrincipalId":
 	if typedInput.PrincipalId != nil {
 		principalId := *typedInput.PrincipalId
 		identity.PrincipalId = &principalId
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
 		identity.TenantId = &tenantId
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		identity.Type = &typeVar
 	}
 
-	// Set property ‘UserAssignedIdentities’:
+	// Set property "UserAssignedIdentities":
 	if typedInput.UserAssignedIdentities != nil {
 		identity.UserAssignedIdentities = make(map[string]v1.JSON, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
@@ -2150,7 +2150,7 @@ func (configuration *FactoryRepoConfiguration) ConvertToARM(resolved genruntime.
 	}
 	result := &FactoryRepoConfiguration_ARM{}
 
-	// Set property ‘FactoryGitHub’:
+	// Set property "FactoryGitHub":
 	if configuration.FactoryGitHub != nil {
 		factoryGitHub_ARM, err := (*configuration.FactoryGitHub).ConvertToARM(resolved)
 		if err != nil {
@@ -2160,7 +2160,7 @@ func (configuration *FactoryRepoConfiguration) ConvertToARM(resolved genruntime.
 		result.FactoryGitHub = &factoryGitHub
 	}
 
-	// Set property ‘FactoryVSTS’:
+	// Set property "FactoryVSTS":
 	if configuration.FactoryVSTS != nil {
 		factoryVSTS_ARM, err := (*configuration.FactoryVSTS).ConvertToARM(resolved)
 		if err != nil {
@@ -2184,7 +2184,7 @@ func (configuration *FactoryRepoConfiguration) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FactoryRepoConfiguration_ARM, got %T", armInput)
 	}
 
-	// Set property ‘FactoryGitHub’:
+	// Set property "FactoryGitHub":
 	if typedInput.FactoryGitHub != nil {
 		var factoryGitHub1 FactoryGitHubConfiguration
 		err := factoryGitHub1.PopulateFromARM(owner, *typedInput.FactoryGitHub)
@@ -2195,7 +2195,7 @@ func (configuration *FactoryRepoConfiguration) PopulateFromARM(owner genruntime.
 		configuration.FactoryGitHub = &factoryGitHub
 	}
 
-	// Set property ‘FactoryVSTS’:
+	// Set property "FactoryVSTS":
 	if typedInput.FactoryVSTS != nil {
 		var factoryVSTS1 FactoryVSTSConfiguration
 		err := factoryVSTS1.PopulateFromARM(owner, *typedInput.FactoryVSTS)
@@ -2334,7 +2334,7 @@ func (configuration *FactoryRepoConfiguration_STATUS) PopulateFromARM(owner genr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FactoryRepoConfiguration_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘FactoryGitHub’:
+	// Set property "FactoryGitHub":
 	if typedInput.FactoryGitHub != nil {
 		var factoryGitHub1 FactoryGitHubConfiguration_STATUS
 		err := factoryGitHub1.PopulateFromARM(owner, *typedInput.FactoryGitHub)
@@ -2345,7 +2345,7 @@ func (configuration *FactoryRepoConfiguration_STATUS) PopulateFromARM(owner genr
 		configuration.FactoryGitHub = &factoryGitHub
 	}
 
-	// Set property ‘FactoryVSTS’:
+	// Set property "FactoryVSTS":
 	if typedInput.FactoryVSTS != nil {
 		var factoryVSTS1 FactoryVSTSConfiguration_STATUS
 		err := factoryVSTS1.PopulateFromARM(owner, *typedInput.FactoryVSTS)
@@ -2451,13 +2451,13 @@ func (specification *GlobalParameterSpecification) ConvertToARM(resolved genrunt
 	}
 	result := &GlobalParameterSpecification_ARM{}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if specification.Type != nil {
 		typeVar := *specification.Type
 		result.Type = &typeVar
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if specification.Value != nil {
 		result.Value = make(map[string]v1.JSON, len(specification.Value))
 		for key, value := range specification.Value {
@@ -2479,13 +2479,13 @@ func (specification *GlobalParameterSpecification) PopulateFromARM(owner genrunt
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected GlobalParameterSpecification_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		specification.Type = &typeVar
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		specification.Value = make(map[string]v1.JSON, len(typedInput.Value))
 		for key, value := range typedInput.Value {
@@ -2613,13 +2613,13 @@ func (specification *GlobalParameterSpecification_STATUS) PopulateFromARM(owner 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected GlobalParameterSpecification_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		specification.Type = &typeVar
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		specification.Value = make(map[string]v1.JSON, len(typedInput.Value))
 		for key, value := range typedInput.Value {
@@ -2711,7 +2711,7 @@ func (configuration *PurviewConfiguration) ConvertToARM(resolved genruntime.Conv
 	}
 	result := &PurviewConfiguration_ARM{}
 
-	// Set property ‘PurviewResourceId’:
+	// Set property "PurviewResourceId":
 	if configuration.PurviewResourceReference != nil {
 		purviewResourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*configuration.PurviewResourceReference)
 		if err != nil {
@@ -2735,7 +2735,7 @@ func (configuration *PurviewConfiguration) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PurviewConfiguration_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘PurviewResourceReference’
+	// no assignment for property "PurviewResourceReference"
 
 	// No error
 	return nil
@@ -2815,7 +2815,7 @@ func (configuration *PurviewConfiguration_STATUS) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PurviewConfiguration_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘PurviewResourceId’:
+	// Set property "PurviewResourceId":
 	if typedInput.PurviewResourceId != nil {
 		purviewResourceId := *typedInput.PurviewResourceId
 		configuration.PurviewResourceId = &purviewResourceId
@@ -2869,7 +2869,7 @@ func (definition *CMKIdentityDefinition) ConvertToARM(resolved genruntime.Conver
 	}
 	result := &CMKIdentityDefinition_ARM{}
 
-	// Set property ‘UserAssignedIdentity’:
+	// Set property "UserAssignedIdentity":
 	if definition.UserAssignedIdentityReference != nil {
 		userAssignedIdentityReferenceARMID, err := resolved.ResolvedReferences.Lookup(*definition.UserAssignedIdentityReference)
 		if err != nil {
@@ -2893,7 +2893,7 @@ func (definition *CMKIdentityDefinition) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CMKIdentityDefinition_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘UserAssignedIdentityReference’
+	// no assignment for property "UserAssignedIdentityReference"
 
 	// No error
 	return nil
@@ -2965,7 +2965,7 @@ func (definition *CMKIdentityDefinition_STATUS) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CMKIdentityDefinition_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘UserAssignedIdentity’:
+	// Set property "UserAssignedIdentity":
 	if typedInput.UserAssignedIdentity != nil {
 		userAssignedIdentity := *typedInput.UserAssignedIdentity
 		definition.UserAssignedIdentity = &userAssignedIdentity
@@ -3050,19 +3050,19 @@ func (configuration *FactoryGitHubConfiguration) ConvertToARM(resolved genruntim
 	}
 	result := &FactoryGitHubConfiguration_ARM{}
 
-	// Set property ‘AccountName’:
+	// Set property "AccountName":
 	if configuration.AccountName != nil {
 		accountName := *configuration.AccountName
 		result.AccountName = &accountName
 	}
 
-	// Set property ‘ClientId’:
+	// Set property "ClientId":
 	if configuration.ClientId != nil {
 		clientId := *configuration.ClientId
 		result.ClientId = &clientId
 	}
 
-	// Set property ‘ClientSecret’:
+	// Set property "ClientSecret":
 	if configuration.ClientSecret != nil {
 		clientSecret_ARM, err := (*configuration.ClientSecret).ConvertToARM(resolved)
 		if err != nil {
@@ -3072,43 +3072,43 @@ func (configuration *FactoryGitHubConfiguration) ConvertToARM(resolved genruntim
 		result.ClientSecret = &clientSecret
 	}
 
-	// Set property ‘CollaborationBranch’:
+	// Set property "CollaborationBranch":
 	if configuration.CollaborationBranch != nil {
 		collaborationBranch := *configuration.CollaborationBranch
 		result.CollaborationBranch = &collaborationBranch
 	}
 
-	// Set property ‘DisablePublish’:
+	// Set property "DisablePublish":
 	if configuration.DisablePublish != nil {
 		disablePublish := *configuration.DisablePublish
 		result.DisablePublish = &disablePublish
 	}
 
-	// Set property ‘HostName’:
+	// Set property "HostName":
 	if configuration.HostName != nil {
 		hostName := *configuration.HostName
 		result.HostName = &hostName
 	}
 
-	// Set property ‘LastCommitId’:
+	// Set property "LastCommitId":
 	if configuration.LastCommitId != nil {
 		lastCommitId := *configuration.LastCommitId
 		result.LastCommitId = &lastCommitId
 	}
 
-	// Set property ‘RepositoryName’:
+	// Set property "RepositoryName":
 	if configuration.RepositoryName != nil {
 		repositoryName := *configuration.RepositoryName
 		result.RepositoryName = &repositoryName
 	}
 
-	// Set property ‘RootFolder’:
+	// Set property "RootFolder":
 	if configuration.RootFolder != nil {
 		rootFolder := *configuration.RootFolder
 		result.RootFolder = &rootFolder
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if configuration.Type != nil {
 		result.Type = *configuration.Type
 	}
@@ -3127,19 +3127,19 @@ func (configuration *FactoryGitHubConfiguration) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FactoryGitHubConfiguration_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AccountName’:
+	// Set property "AccountName":
 	if typedInput.AccountName != nil {
 		accountName := *typedInput.AccountName
 		configuration.AccountName = &accountName
 	}
 
-	// Set property ‘ClientId’:
+	// Set property "ClientId":
 	if typedInput.ClientId != nil {
 		clientId := *typedInput.ClientId
 		configuration.ClientId = &clientId
 	}
 
-	// Set property ‘ClientSecret’:
+	// Set property "ClientSecret":
 	if typedInput.ClientSecret != nil {
 		var clientSecret1 GitHubClientSecret
 		err := clientSecret1.PopulateFromARM(owner, *typedInput.ClientSecret)
@@ -3150,43 +3150,43 @@ func (configuration *FactoryGitHubConfiguration) PopulateFromARM(owner genruntim
 		configuration.ClientSecret = &clientSecret
 	}
 
-	// Set property ‘CollaborationBranch’:
+	// Set property "CollaborationBranch":
 	if typedInput.CollaborationBranch != nil {
 		collaborationBranch := *typedInput.CollaborationBranch
 		configuration.CollaborationBranch = &collaborationBranch
 	}
 
-	// Set property ‘DisablePublish’:
+	// Set property "DisablePublish":
 	if typedInput.DisablePublish != nil {
 		disablePublish := *typedInput.DisablePublish
 		configuration.DisablePublish = &disablePublish
 	}
 
-	// Set property ‘HostName’:
+	// Set property "HostName":
 	if typedInput.HostName != nil {
 		hostName := *typedInput.HostName
 		configuration.HostName = &hostName
 	}
 
-	// Set property ‘LastCommitId’:
+	// Set property "LastCommitId":
 	if typedInput.LastCommitId != nil {
 		lastCommitId := *typedInput.LastCommitId
 		configuration.LastCommitId = &lastCommitId
 	}
 
-	// Set property ‘RepositoryName’:
+	// Set property "RepositoryName":
 	if typedInput.RepositoryName != nil {
 		repositoryName := *typedInput.RepositoryName
 		configuration.RepositoryName = &repositoryName
 	}
 
-	// Set property ‘RootFolder’:
+	// Set property "RootFolder":
 	if typedInput.RootFolder != nil {
 		rootFolder := *typedInput.RootFolder
 		configuration.RootFolder = &rootFolder
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	configuration.Type = &typedInput.Type
 
 	// No error
@@ -3416,19 +3416,19 @@ func (configuration *FactoryGitHubConfiguration_STATUS) PopulateFromARM(owner ge
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FactoryGitHubConfiguration_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AccountName’:
+	// Set property "AccountName":
 	if typedInput.AccountName != nil {
 		accountName := *typedInput.AccountName
 		configuration.AccountName = &accountName
 	}
 
-	// Set property ‘ClientId’:
+	// Set property "ClientId":
 	if typedInput.ClientId != nil {
 		clientId := *typedInput.ClientId
 		configuration.ClientId = &clientId
 	}
 
-	// Set property ‘ClientSecret’:
+	// Set property "ClientSecret":
 	if typedInput.ClientSecret != nil {
 		var clientSecret1 GitHubClientSecret_STATUS
 		err := clientSecret1.PopulateFromARM(owner, *typedInput.ClientSecret)
@@ -3439,43 +3439,43 @@ func (configuration *FactoryGitHubConfiguration_STATUS) PopulateFromARM(owner ge
 		configuration.ClientSecret = &clientSecret
 	}
 
-	// Set property ‘CollaborationBranch’:
+	// Set property "CollaborationBranch":
 	if typedInput.CollaborationBranch != nil {
 		collaborationBranch := *typedInput.CollaborationBranch
 		configuration.CollaborationBranch = &collaborationBranch
 	}
 
-	// Set property ‘DisablePublish’:
+	// Set property "DisablePublish":
 	if typedInput.DisablePublish != nil {
 		disablePublish := *typedInput.DisablePublish
 		configuration.DisablePublish = &disablePublish
 	}
 
-	// Set property ‘HostName’:
+	// Set property "HostName":
 	if typedInput.HostName != nil {
 		hostName := *typedInput.HostName
 		configuration.HostName = &hostName
 	}
 
-	// Set property ‘LastCommitId’:
+	// Set property "LastCommitId":
 	if typedInput.LastCommitId != nil {
 		lastCommitId := *typedInput.LastCommitId
 		configuration.LastCommitId = &lastCommitId
 	}
 
-	// Set property ‘RepositoryName’:
+	// Set property "RepositoryName":
 	if typedInput.RepositoryName != nil {
 		repositoryName := *typedInput.RepositoryName
 		configuration.RepositoryName = &repositoryName
 	}
 
-	// Set property ‘RootFolder’:
+	// Set property "RootFolder":
 	if typedInput.RootFolder != nil {
 		rootFolder := *typedInput.RootFolder
 		configuration.RootFolder = &rootFolder
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	configuration.Type = &typedInput.Type
 
 	// No error
@@ -3647,55 +3647,55 @@ func (configuration *FactoryVSTSConfiguration) ConvertToARM(resolved genruntime.
 	}
 	result := &FactoryVSTSConfiguration_ARM{}
 
-	// Set property ‘AccountName’:
+	// Set property "AccountName":
 	if configuration.AccountName != nil {
 		accountName := *configuration.AccountName
 		result.AccountName = &accountName
 	}
 
-	// Set property ‘CollaborationBranch’:
+	// Set property "CollaborationBranch":
 	if configuration.CollaborationBranch != nil {
 		collaborationBranch := *configuration.CollaborationBranch
 		result.CollaborationBranch = &collaborationBranch
 	}
 
-	// Set property ‘DisablePublish’:
+	// Set property "DisablePublish":
 	if configuration.DisablePublish != nil {
 		disablePublish := *configuration.DisablePublish
 		result.DisablePublish = &disablePublish
 	}
 
-	// Set property ‘LastCommitId’:
+	// Set property "LastCommitId":
 	if configuration.LastCommitId != nil {
 		lastCommitId := *configuration.LastCommitId
 		result.LastCommitId = &lastCommitId
 	}
 
-	// Set property ‘ProjectName’:
+	// Set property "ProjectName":
 	if configuration.ProjectName != nil {
 		projectName := *configuration.ProjectName
 		result.ProjectName = &projectName
 	}
 
-	// Set property ‘RepositoryName’:
+	// Set property "RepositoryName":
 	if configuration.RepositoryName != nil {
 		repositoryName := *configuration.RepositoryName
 		result.RepositoryName = &repositoryName
 	}
 
-	// Set property ‘RootFolder’:
+	// Set property "RootFolder":
 	if configuration.RootFolder != nil {
 		rootFolder := *configuration.RootFolder
 		result.RootFolder = &rootFolder
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if configuration.TenantId != nil {
 		tenantId := *configuration.TenantId
 		result.TenantId = &tenantId
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if configuration.Type != nil {
 		result.Type = *configuration.Type
 	}
@@ -3714,55 +3714,55 @@ func (configuration *FactoryVSTSConfiguration) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FactoryVSTSConfiguration_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AccountName’:
+	// Set property "AccountName":
 	if typedInput.AccountName != nil {
 		accountName := *typedInput.AccountName
 		configuration.AccountName = &accountName
 	}
 
-	// Set property ‘CollaborationBranch’:
+	// Set property "CollaborationBranch":
 	if typedInput.CollaborationBranch != nil {
 		collaborationBranch := *typedInput.CollaborationBranch
 		configuration.CollaborationBranch = &collaborationBranch
 	}
 
-	// Set property ‘DisablePublish’:
+	// Set property "DisablePublish":
 	if typedInput.DisablePublish != nil {
 		disablePublish := *typedInput.DisablePublish
 		configuration.DisablePublish = &disablePublish
 	}
 
-	// Set property ‘LastCommitId’:
+	// Set property "LastCommitId":
 	if typedInput.LastCommitId != nil {
 		lastCommitId := *typedInput.LastCommitId
 		configuration.LastCommitId = &lastCommitId
 	}
 
-	// Set property ‘ProjectName’:
+	// Set property "ProjectName":
 	if typedInput.ProjectName != nil {
 		projectName := *typedInput.ProjectName
 		configuration.ProjectName = &projectName
 	}
 
-	// Set property ‘RepositoryName’:
+	// Set property "RepositoryName":
 	if typedInput.RepositoryName != nil {
 		repositoryName := *typedInput.RepositoryName
 		configuration.RepositoryName = &repositoryName
 	}
 
-	// Set property ‘RootFolder’:
+	// Set property "RootFolder":
 	if typedInput.RootFolder != nil {
 		rootFolder := *typedInput.RootFolder
 		configuration.RootFolder = &rootFolder
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
 		configuration.TenantId = &tenantId
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	configuration.Type = &typedInput.Type
 
 	// No error
@@ -3953,55 +3953,55 @@ func (configuration *FactoryVSTSConfiguration_STATUS) PopulateFromARM(owner genr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FactoryVSTSConfiguration_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AccountName’:
+	// Set property "AccountName":
 	if typedInput.AccountName != nil {
 		accountName := *typedInput.AccountName
 		configuration.AccountName = &accountName
 	}
 
-	// Set property ‘CollaborationBranch’:
+	// Set property "CollaborationBranch":
 	if typedInput.CollaborationBranch != nil {
 		collaborationBranch := *typedInput.CollaborationBranch
 		configuration.CollaborationBranch = &collaborationBranch
 	}
 
-	// Set property ‘DisablePublish’:
+	// Set property "DisablePublish":
 	if typedInput.DisablePublish != nil {
 		disablePublish := *typedInput.DisablePublish
 		configuration.DisablePublish = &disablePublish
 	}
 
-	// Set property ‘LastCommitId’:
+	// Set property "LastCommitId":
 	if typedInput.LastCommitId != nil {
 		lastCommitId := *typedInput.LastCommitId
 		configuration.LastCommitId = &lastCommitId
 	}
 
-	// Set property ‘ProjectName’:
+	// Set property "ProjectName":
 	if typedInput.ProjectName != nil {
 		projectName := *typedInput.ProjectName
 		configuration.ProjectName = &projectName
 	}
 
-	// Set property ‘RepositoryName’:
+	// Set property "RepositoryName":
 	if typedInput.RepositoryName != nil {
 		repositoryName := *typedInput.RepositoryName
 		configuration.RepositoryName = &repositoryName
 	}
 
-	// Set property ‘RootFolder’:
+	// Set property "RootFolder":
 	if typedInput.RootFolder != nil {
 		rootFolder := *typedInput.RootFolder
 		configuration.RootFolder = &rootFolder
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
 		configuration.TenantId = &tenantId
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	configuration.Type = &typedInput.Type
 
 	// No error
@@ -4198,13 +4198,13 @@ func (secret *GitHubClientSecret) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &GitHubClientSecret_ARM{}
 
-	// Set property ‘ByoaSecretAkvUrl’:
+	// Set property "ByoaSecretAkvUrl":
 	if secret.ByoaSecretAkvUrl != nil {
 		byoaSecretAkvUrl := *secret.ByoaSecretAkvUrl
 		result.ByoaSecretAkvUrl = &byoaSecretAkvUrl
 	}
 
-	// Set property ‘ByoaSecretName’:
+	// Set property "ByoaSecretName":
 	if secret.ByoaSecretName != nil {
 		byoaSecretName := *secret.ByoaSecretName
 		result.ByoaSecretName = &byoaSecretName
@@ -4224,13 +4224,13 @@ func (secret *GitHubClientSecret) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected GitHubClientSecret_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ByoaSecretAkvUrl’:
+	// Set property "ByoaSecretAkvUrl":
 	if typedInput.ByoaSecretAkvUrl != nil {
 		byoaSecretAkvUrl := *typedInput.ByoaSecretAkvUrl
 		secret.ByoaSecretAkvUrl = &byoaSecretAkvUrl
 	}
 
-	// Set property ‘ByoaSecretName’:
+	// Set property "ByoaSecretName":
 	if typedInput.ByoaSecretName != nil {
 		byoaSecretName := *typedInput.ByoaSecretName
 		secret.ByoaSecretName = &byoaSecretName
@@ -4311,13 +4311,13 @@ func (secret *GitHubClientSecret_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected GitHubClientSecret_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ByoaSecretAkvUrl’:
+	// Set property "ByoaSecretAkvUrl":
 	if typedInput.ByoaSecretAkvUrl != nil {
 		byoaSecretAkvUrl := *typedInput.ByoaSecretAkvUrl
 		secret.ByoaSecretAkvUrl = &byoaSecretAkvUrl
 	}
 
-	// Set property ‘ByoaSecretName’:
+	// Set property "ByoaSecretName":
 	if typedInput.ByoaSecretName != nil {
 		byoaSecretName := *typedInput.ByoaSecretName
 		secret.ByoaSecretName = &byoaSecretName

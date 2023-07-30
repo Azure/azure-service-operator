@@ -362,7 +362,7 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &VirtualNetwork_Spec_ARM{}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if network.ExtendedLocation != nil {
 		extendedLocation_ARM, err := (*network.ExtendedLocation).ConvertToARM(resolved)
 		if err != nil {
@@ -372,16 +372,16 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if network.Location != nil {
 		location := *network.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if network.AddressSpace != nil ||
 		network.BgpCommunities != nil ||
 		network.DdosProtectionPlan != nil ||
@@ -439,7 +439,7 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.IpAllocations = append(result.Properties.IpAllocations, *item_ARM.(*SubResource_ARM))
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if network.Tags != nil {
 		result.Tags = make(map[string]string, len(network.Tags))
 		for key, value := range network.Tags {
@@ -461,7 +461,7 @@ func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetwork_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AddressSpace’:
+	// Set property "AddressSpace":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AddressSpace != nil {
@@ -475,10 +475,10 @@ func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	network.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘BgpCommunities’:
+	// Set property "BgpCommunities":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BgpCommunities != nil {
@@ -492,7 +492,7 @@ func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘DdosProtectionPlan’:
+	// Set property "DdosProtectionPlan":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DdosProtectionPlan != nil {
@@ -506,7 +506,7 @@ func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘DhcpOptions’:
+	// Set property "DhcpOptions":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DhcpOptions != nil {
@@ -520,7 +520,7 @@ func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘EnableDdosProtection’:
+	// Set property "EnableDdosProtection":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableDdosProtection != nil {
@@ -529,7 +529,7 @@ func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘EnableVmProtection’:
+	// Set property "EnableVmProtection":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableVmProtection != nil {
@@ -538,7 +538,7 @@ func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if typedInput.ExtendedLocation != nil {
 		var extendedLocation1 ExtendedLocation
 		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
@@ -549,7 +549,7 @@ func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		network.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘IpAllocations’:
+	// Set property "IpAllocations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.IpAllocations {
@@ -562,16 +562,16 @@ func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		network.Location = &location
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	network.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		network.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1115,7 +1115,7 @@ func (network *VirtualNetwork_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetwork_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AddressSpace’:
+	// Set property "AddressSpace":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AddressSpace != nil {
@@ -1129,7 +1129,7 @@ func (network *VirtualNetwork_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘BgpCommunities’:
+	// Set property "BgpCommunities":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BgpCommunities != nil {
@@ -1143,9 +1143,9 @@ func (network *VirtualNetwork_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘DdosProtectionPlan’:
+	// Set property "DdosProtectionPlan":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DdosProtectionPlan != nil {
@@ -1159,7 +1159,7 @@ func (network *VirtualNetwork_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘DhcpOptions’:
+	// Set property "DhcpOptions":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DhcpOptions != nil {
@@ -1173,7 +1173,7 @@ func (network *VirtualNetwork_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘EnableDdosProtection’:
+	// Set property "EnableDdosProtection":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableDdosProtection != nil {
@@ -1182,7 +1182,7 @@ func (network *VirtualNetwork_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘EnableVmProtection’:
+	// Set property "EnableVmProtection":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableVmProtection != nil {
@@ -1191,13 +1191,13 @@ func (network *VirtualNetwork_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		network.Etag = &etag
 	}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if typedInput.ExtendedLocation != nil {
 		var extendedLocation1 ExtendedLocation_STATUS
 		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
@@ -1208,13 +1208,13 @@ func (network *VirtualNetwork_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		network.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		network.Id = &id
 	}
 
-	// Set property ‘IpAllocations’:
+	// Set property "IpAllocations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.IpAllocations {
@@ -1227,19 +1227,19 @@ func (network *VirtualNetwork_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		network.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		network.Name = &name
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -1248,7 +1248,7 @@ func (network *VirtualNetwork_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘ResourceGuid’:
+	// Set property "ResourceGuid":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceGuid != nil {
@@ -1257,7 +1257,7 @@ func (network *VirtualNetwork_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		network.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1265,7 +1265,7 @@ func (network *VirtualNetwork_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		network.Type = &typeVar
@@ -1565,7 +1565,7 @@ func (space *AddressSpace) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	}
 	result := &AddressSpace_ARM{}
 
-	// Set property ‘AddressPrefixes’:
+	// Set property "AddressPrefixes":
 	for _, item := range space.AddressPrefixes {
 		result.AddressPrefixes = append(result.AddressPrefixes, item)
 	}
@@ -1584,7 +1584,7 @@ func (space *AddressSpace) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AddressSpace_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AddressPrefixes’:
+	// Set property "AddressPrefixes":
 	for _, item := range typedInput.AddressPrefixes {
 		space.AddressPrefixes = append(space.AddressPrefixes, item)
 	}
@@ -1652,7 +1652,7 @@ func (space *AddressSpace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AddressSpace_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AddressPrefixes’:
+	// Set property "AddressPrefixes":
 	for _, item := range typedInput.AddressPrefixes {
 		space.AddressPrefixes = append(space.AddressPrefixes, item)
 	}
@@ -1706,7 +1706,7 @@ func (options *DhcpOptions) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	}
 	result := &DhcpOptions_ARM{}
 
-	// Set property ‘DnsServers’:
+	// Set property "DnsServers":
 	for _, item := range options.DnsServers {
 		result.DnsServers = append(result.DnsServers, item)
 	}
@@ -1725,7 +1725,7 @@ func (options *DhcpOptions) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DhcpOptions_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DnsServers’:
+	// Set property "DnsServers":
 	for _, item := range typedInput.DnsServers {
 		options.DnsServers = append(options.DnsServers, item)
 	}
@@ -1794,7 +1794,7 @@ func (options *DhcpOptions_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DhcpOptions_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DnsServers’:
+	// Set property "DnsServers":
 	for _, item := range typedInput.DnsServers {
 		options.DnsServers = append(options.DnsServers, item)
 	}
@@ -1848,7 +1848,7 @@ func (communities *VirtualNetworkBgpCommunities) ConvertToARM(resolved genruntim
 	}
 	result := &VirtualNetworkBgpCommunities_ARM{}
 
-	// Set property ‘VirtualNetworkCommunity’:
+	// Set property "VirtualNetworkCommunity":
 	if communities.VirtualNetworkCommunity != nil {
 		virtualNetworkCommunity := *communities.VirtualNetworkCommunity
 		result.VirtualNetworkCommunity = &virtualNetworkCommunity
@@ -1868,7 +1868,7 @@ func (communities *VirtualNetworkBgpCommunities) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkBgpCommunities_ARM, got %T", armInput)
 	}
 
-	// Set property ‘VirtualNetworkCommunity’:
+	// Set property "VirtualNetworkCommunity":
 	if typedInput.VirtualNetworkCommunity != nil {
 		virtualNetworkCommunity := *typedInput.VirtualNetworkCommunity
 		communities.VirtualNetworkCommunity = &virtualNetworkCommunity
@@ -1940,13 +1940,13 @@ func (communities *VirtualNetworkBgpCommunities_STATUS) PopulateFromARM(owner ge
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkBgpCommunities_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘RegionalCommunity’:
+	// Set property "RegionalCommunity":
 	if typedInput.RegionalCommunity != nil {
 		regionalCommunity := *typedInput.RegionalCommunity
 		communities.RegionalCommunity = &regionalCommunity
 	}
 
-	// Set property ‘VirtualNetworkCommunity’:
+	// Set property "VirtualNetworkCommunity":
 	if typedInput.VirtualNetworkCommunity != nil {
 		virtualNetworkCommunity := *typedInput.VirtualNetworkCommunity
 		communities.VirtualNetworkCommunity = &virtualNetworkCommunity

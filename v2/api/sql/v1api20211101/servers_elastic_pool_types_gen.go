@@ -371,16 +371,16 @@ func (pool *Servers_ElasticPool_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	}
 	result := &Servers_ElasticPool_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if pool.Location != nil {
 		location := *pool.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if pool.HighAvailabilityReplicaCount != nil ||
 		pool.LicenseType != nil ||
 		pool.MaintenanceConfigurationId != nil ||
@@ -423,7 +423,7 @@ func (pool *Servers_ElasticPool_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		result.Properties.ZoneRedundant = &zoneRedundant
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if pool.Sku != nil {
 		sku_ARM, err := (*pool.Sku).ConvertToARM(resolved)
 		if err != nil {
@@ -433,7 +433,7 @@ func (pool *Servers_ElasticPool_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		result.Sku = &sku
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if pool.Tags != nil {
 		result.Tags = make(map[string]string, len(pool.Tags))
 		for key, value := range pool.Tags {
@@ -455,10 +455,10 @@ func (pool *Servers_ElasticPool_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_ElasticPool_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	pool.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘HighAvailabilityReplicaCount’:
+	// Set property "HighAvailabilityReplicaCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HighAvailabilityReplicaCount != nil {
@@ -467,7 +467,7 @@ func (pool *Servers_ElasticPool_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘LicenseType’:
+	// Set property "LicenseType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LicenseType != nil {
@@ -476,13 +476,13 @@ func (pool *Servers_ElasticPool_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		pool.Location = &location
 	}
 
-	// Set property ‘MaintenanceConfigurationId’:
+	// Set property "MaintenanceConfigurationId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaintenanceConfigurationId != nil {
@@ -491,7 +491,7 @@ func (pool *Servers_ElasticPool_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘MaxSizeBytes’:
+	// Set property "MaxSizeBytes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxSizeBytes != nil {
@@ -500,7 +500,7 @@ func (pool *Servers_ElasticPool_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘MinCapacity’:
+	// Set property "MinCapacity":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinCapacity != nil {
@@ -509,10 +509,10 @@ func (pool *Servers_ElasticPool_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	pool.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘PerDatabaseSettings’:
+	// Set property "PerDatabaseSettings":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PerDatabaseSettings != nil {
@@ -526,7 +526,7 @@ func (pool *Servers_ElasticPool_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 Sku
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -537,7 +537,7 @@ func (pool *Servers_ElasticPool_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		pool.Sku = &sku
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		pool.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -545,7 +545,7 @@ func (pool *Servers_ElasticPool_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘ZoneRedundant’:
+	// Set property "ZoneRedundant":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ZoneRedundant != nil {
@@ -986,9 +986,9 @@ func (pool *Servers_ElasticPool_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_ElasticPool_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘CreationDate’:
+	// Set property "CreationDate":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreationDate != nil {
@@ -997,7 +997,7 @@ func (pool *Servers_ElasticPool_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘HighAvailabilityReplicaCount’:
+	// Set property "HighAvailabilityReplicaCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HighAvailabilityReplicaCount != nil {
@@ -1006,19 +1006,19 @@ func (pool *Servers_ElasticPool_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		pool.Id = &id
 	}
 
-	// Set property ‘Kind’:
+	// Set property "Kind":
 	if typedInput.Kind != nil {
 		kind := *typedInput.Kind
 		pool.Kind = &kind
 	}
 
-	// Set property ‘LicenseType’:
+	// Set property "LicenseType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LicenseType != nil {
@@ -1027,13 +1027,13 @@ func (pool *Servers_ElasticPool_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		pool.Location = &location
 	}
 
-	// Set property ‘MaintenanceConfigurationId’:
+	// Set property "MaintenanceConfigurationId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaintenanceConfigurationId != nil {
@@ -1042,7 +1042,7 @@ func (pool *Servers_ElasticPool_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘MaxSizeBytes’:
+	// Set property "MaxSizeBytes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxSizeBytes != nil {
@@ -1051,7 +1051,7 @@ func (pool *Servers_ElasticPool_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘MinCapacity’:
+	// Set property "MinCapacity":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinCapacity != nil {
@@ -1060,13 +1060,13 @@ func (pool *Servers_ElasticPool_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		pool.Name = &name
 	}
 
-	// Set property ‘PerDatabaseSettings’:
+	// Set property "PerDatabaseSettings":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PerDatabaseSettings != nil {
@@ -1080,7 +1080,7 @@ func (pool *Servers_ElasticPool_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 Sku_STATUS
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -1091,7 +1091,7 @@ func (pool *Servers_ElasticPool_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		pool.Sku = &sku
 	}
 
-	// Set property ‘State’:
+	// Set property "State":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
@@ -1100,7 +1100,7 @@ func (pool *Servers_ElasticPool_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		pool.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1108,13 +1108,13 @@ func (pool *Servers_ElasticPool_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		pool.Type = &typeVar
 	}
 
-	// Set property ‘ZoneRedundant’:
+	// Set property "ZoneRedundant":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ZoneRedundant != nil {
@@ -1346,13 +1346,13 @@ func (settings *ElasticPoolPerDatabaseSettings) ConvertToARM(resolved genruntime
 	}
 	result := &ElasticPoolPerDatabaseSettings_ARM{}
 
-	// Set property ‘MaxCapacity’:
+	// Set property "MaxCapacity":
 	if settings.MaxCapacity != nil {
 		maxCapacity := *settings.MaxCapacity
 		result.MaxCapacity = &maxCapacity
 	}
 
-	// Set property ‘MinCapacity’:
+	// Set property "MinCapacity":
 	if settings.MinCapacity != nil {
 		minCapacity := *settings.MinCapacity
 		result.MinCapacity = &minCapacity
@@ -1372,13 +1372,13 @@ func (settings *ElasticPoolPerDatabaseSettings) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ElasticPoolPerDatabaseSettings_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MaxCapacity’:
+	// Set property "MaxCapacity":
 	if typedInput.MaxCapacity != nil {
 		maxCapacity := *typedInput.MaxCapacity
 		settings.MaxCapacity = &maxCapacity
 	}
 
-	// Set property ‘MinCapacity’:
+	// Set property "MinCapacity":
 	if typedInput.MinCapacity != nil {
 		minCapacity := *typedInput.MinCapacity
 		settings.MinCapacity = &minCapacity
@@ -1489,13 +1489,13 @@ func (settings *ElasticPoolPerDatabaseSettings_STATUS) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ElasticPoolPerDatabaseSettings_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MaxCapacity’:
+	// Set property "MaxCapacity":
 	if typedInput.MaxCapacity != nil {
 		maxCapacity := *typedInput.MaxCapacity
 		settings.MaxCapacity = &maxCapacity
 	}
 
-	// Set property ‘MinCapacity’:
+	// Set property "MinCapacity":
 	if typedInput.MinCapacity != nil {
 		minCapacity := *typedInput.MinCapacity
 		settings.MinCapacity = &minCapacity

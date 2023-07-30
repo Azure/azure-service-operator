@@ -365,10 +365,10 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) ConvertToARM(resolved
 	}
 	result := &VirtualNetworks_VirtualNetworkPeering_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if peering.AllowForwardedTraffic != nil ||
 		peering.AllowGatewayTransit != nil ||
 		peering.AllowVirtualNetworkAccess != nil ||
@@ -443,7 +443,7 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) PopulateFromARM(owner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworks_VirtualNetworkPeering_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AllowForwardedTraffic’:
+	// Set property "AllowForwardedTraffic":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AllowForwardedTraffic != nil {
@@ -452,7 +452,7 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘AllowGatewayTransit’:
+	// Set property "AllowGatewayTransit":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AllowGatewayTransit != nil {
@@ -461,7 +461,7 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘AllowVirtualNetworkAccess’:
+	// Set property "AllowVirtualNetworkAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AllowVirtualNetworkAccess != nil {
@@ -470,10 +470,10 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	peering.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘DoNotVerifyRemoteGateways’:
+	// Set property "DoNotVerifyRemoteGateways":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DoNotVerifyRemoteGateways != nil {
@@ -482,10 +482,10 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	peering.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘PeeringState’:
+	// Set property "PeeringState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PeeringState != nil {
@@ -494,7 +494,7 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘RemoteAddressSpace’:
+	// Set property "RemoteAddressSpace":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RemoteAddressSpace != nil {
@@ -508,7 +508,7 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘RemoteBgpCommunities’:
+	// Set property "RemoteBgpCommunities":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RemoteBgpCommunities != nil {
@@ -522,7 +522,7 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘RemoteVirtualNetwork’:
+	// Set property "RemoteVirtualNetwork":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RemoteVirtualNetwork != nil {
@@ -536,7 +536,7 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘UseRemoteGateways’:
+	// Set property "UseRemoteGateways":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.UseRemoteGateways != nil {
@@ -1037,7 +1037,7 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_STATUS) PopulateFromARM(own
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworks_VirtualNetworkPeering_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AllowForwardedTraffic’:
+	// Set property "AllowForwardedTraffic":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AllowForwardedTraffic != nil {
@@ -1046,7 +1046,7 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_STATUS) PopulateFromARM(own
 		}
 	}
 
-	// Set property ‘AllowGatewayTransit’:
+	// Set property "AllowGatewayTransit":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AllowGatewayTransit != nil {
@@ -1055,7 +1055,7 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_STATUS) PopulateFromARM(own
 		}
 	}
 
-	// Set property ‘AllowVirtualNetworkAccess’:
+	// Set property "AllowVirtualNetworkAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AllowVirtualNetworkAccess != nil {
@@ -1064,9 +1064,9 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_STATUS) PopulateFromARM(own
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘DoNotVerifyRemoteGateways’:
+	// Set property "DoNotVerifyRemoteGateways":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DoNotVerifyRemoteGateways != nil {
@@ -1075,25 +1075,25 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_STATUS) PopulateFromARM(own
 		}
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		peering.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		peering.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		peering.Name = &name
 	}
 
-	// Set property ‘PeeringState’:
+	// Set property "PeeringState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PeeringState != nil {
@@ -1102,7 +1102,7 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_STATUS) PopulateFromARM(own
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -1111,7 +1111,7 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_STATUS) PopulateFromARM(own
 		}
 	}
 
-	// Set property ‘RemoteAddressSpace’:
+	// Set property "RemoteAddressSpace":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RemoteAddressSpace != nil {
@@ -1125,7 +1125,7 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_STATUS) PopulateFromARM(own
 		}
 	}
 
-	// Set property ‘RemoteBgpCommunities’:
+	// Set property "RemoteBgpCommunities":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RemoteBgpCommunities != nil {
@@ -1139,7 +1139,7 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_STATUS) PopulateFromARM(own
 		}
 	}
 
-	// Set property ‘RemoteVirtualNetwork’:
+	// Set property "RemoteVirtualNetwork":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RemoteVirtualNetwork != nil {
@@ -1153,7 +1153,7 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_STATUS) PopulateFromARM(own
 		}
 	}
 
-	// Set property ‘ResourceGuid’:
+	// Set property "ResourceGuid":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceGuid != nil {
@@ -1162,13 +1162,13 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_STATUS) PopulateFromARM(own
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		peering.Type = &typeVar
 	}
 
-	// Set property ‘UseRemoteGateways’:
+	// Set property "UseRemoteGateways":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.UseRemoteGateways != nil {

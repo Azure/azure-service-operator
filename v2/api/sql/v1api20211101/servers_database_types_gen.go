@@ -471,7 +471,7 @@ func (database *Servers_Database_Spec) ConvertToARM(resolved genruntime.ConvertT
 	}
 	result := &Servers_Database_Spec_ARM{}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if database.Identity != nil {
 		identity_ARM, err := (*database.Identity).ConvertToARM(resolved)
 		if err != nil {
@@ -481,16 +481,16 @@ func (database *Servers_Database_Spec) ConvertToARM(resolved genruntime.ConvertT
 		result.Identity = &identity
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if database.Location != nil {
 		location := *database.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if database.AutoPauseDelay != nil ||
 		database.CatalogCollation != nil ||
 		database.Collation != nil ||
@@ -647,7 +647,7 @@ func (database *Servers_Database_Spec) ConvertToARM(resolved genruntime.ConvertT
 		result.Properties.ZoneRedundant = &zoneRedundant
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if database.Sku != nil {
 		sku_ARM, err := (*database.Sku).ConvertToARM(resolved)
 		if err != nil {
@@ -657,7 +657,7 @@ func (database *Servers_Database_Spec) ConvertToARM(resolved genruntime.ConvertT
 		result.Sku = &sku
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if database.Tags != nil {
 		result.Tags = make(map[string]string, len(database.Tags))
 		for key, value := range database.Tags {
@@ -679,7 +679,7 @@ func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Database_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AutoPauseDelay’:
+	// Set property "AutoPauseDelay":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutoPauseDelay != nil {
@@ -688,10 +688,10 @@ func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	database.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘CatalogCollation’:
+	// Set property "CatalogCollation":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CatalogCollation != nil {
@@ -700,7 +700,7 @@ func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘Collation’:
+	// Set property "Collation":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Collation != nil {
@@ -709,7 +709,7 @@ func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘CreateMode’:
+	// Set property "CreateMode":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreateMode != nil {
@@ -718,9 +718,9 @@ func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// no assignment for property ‘ElasticPoolReference’
+	// no assignment for property "ElasticPoolReference"
 
-	// Set property ‘FederatedClientId’:
+	// Set property "FederatedClientId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FederatedClientId != nil {
@@ -729,7 +729,7 @@ func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘HighAvailabilityReplicaCount’:
+	// Set property "HighAvailabilityReplicaCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HighAvailabilityReplicaCount != nil {
@@ -738,7 +738,7 @@ func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 DatabaseIdentity
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -749,7 +749,7 @@ func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		database.Identity = &identity
 	}
 
-	// Set property ‘IsLedgerOn’:
+	// Set property "IsLedgerOn":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsLedgerOn != nil {
@@ -758,7 +758,7 @@ func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘LicenseType’:
+	// Set property "LicenseType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LicenseType != nil {
@@ -767,15 +767,15 @@ func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		database.Location = &location
 	}
 
-	// no assignment for property ‘LongTermRetentionBackupResourceReference’
+	// no assignment for property "LongTermRetentionBackupResourceReference"
 
-	// Set property ‘MaintenanceConfigurationId’:
+	// Set property "MaintenanceConfigurationId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaintenanceConfigurationId != nil {
@@ -784,7 +784,7 @@ func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘MaxSizeBytes’:
+	// Set property "MaxSizeBytes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxSizeBytes != nil {
@@ -793,7 +793,7 @@ func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘MinCapacity’:
+	// Set property "MinCapacity":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinCapacity != nil {
@@ -802,10 +802,10 @@ func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	database.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘ReadScale’:
+	// Set property "ReadScale":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ReadScale != nil {
@@ -814,11 +814,11 @@ func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// no assignment for property ‘RecoverableDatabaseReference’
+	// no assignment for property "RecoverableDatabaseReference"
 
-	// no assignment for property ‘RecoveryServicesRecoveryPointReference’
+	// no assignment for property "RecoveryServicesRecoveryPointReference"
 
-	// Set property ‘RequestedBackupStorageRedundancy’:
+	// Set property "RequestedBackupStorageRedundancy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RequestedBackupStorageRedundancy != nil {
@@ -827,9 +827,9 @@ func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// no assignment for property ‘RestorableDroppedDatabaseReference’
+	// no assignment for property "RestorableDroppedDatabaseReference"
 
-	// Set property ‘RestorePointInTime’:
+	// Set property "RestorePointInTime":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RestorePointInTime != nil {
@@ -838,7 +838,7 @@ func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘SampleName’:
+	// Set property "SampleName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SampleName != nil {
@@ -847,7 +847,7 @@ func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘SecondaryType’:
+	// Set property "SecondaryType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SecondaryType != nil {
@@ -856,7 +856,7 @@ func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 Sku
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -867,7 +867,7 @@ func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		database.Sku = &sku
 	}
 
-	// Set property ‘SourceDatabaseDeletionDate’:
+	// Set property "SourceDatabaseDeletionDate":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SourceDatabaseDeletionDate != nil {
@@ -876,11 +876,11 @@ func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// no assignment for property ‘SourceDatabaseReference’
+	// no assignment for property "SourceDatabaseReference"
 
-	// no assignment for property ‘SourceResourceReference’
+	// no assignment for property "SourceResourceReference"
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		database.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -888,7 +888,7 @@ func (database *Servers_Database_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘ZoneRedundant’:
+	// Set property "ZoneRedundant":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ZoneRedundant != nil {
@@ -1865,7 +1865,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Database_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AutoPauseDelay’:
+	// Set property "AutoPauseDelay":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutoPauseDelay != nil {
@@ -1874,7 +1874,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘CatalogCollation’:
+	// Set property "CatalogCollation":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CatalogCollation != nil {
@@ -1883,7 +1883,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘Collation’:
+	// Set property "Collation":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Collation != nil {
@@ -1892,9 +1892,9 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘CreateMode’:
+	// Set property "CreateMode":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreateMode != nil {
@@ -1903,7 +1903,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘CreationDate’:
+	// Set property "CreationDate":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreationDate != nil {
@@ -1912,7 +1912,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘CurrentBackupStorageRedundancy’:
+	// Set property "CurrentBackupStorageRedundancy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CurrentBackupStorageRedundancy != nil {
@@ -1921,7 +1921,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘CurrentServiceObjectiveName’:
+	// Set property "CurrentServiceObjectiveName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CurrentServiceObjectiveName != nil {
@@ -1930,7 +1930,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘CurrentSku’:
+	// Set property "CurrentSku":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CurrentSku != nil {
@@ -1944,7 +1944,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘DatabaseId’:
+	// Set property "DatabaseId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DatabaseId != nil {
@@ -1953,7 +1953,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘DefaultSecondaryLocation’:
+	// Set property "DefaultSecondaryLocation":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultSecondaryLocation != nil {
@@ -1962,7 +1962,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘EarliestRestoreDate’:
+	// Set property "EarliestRestoreDate":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EarliestRestoreDate != nil {
@@ -1971,7 +1971,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘ElasticPoolId’:
+	// Set property "ElasticPoolId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ElasticPoolId != nil {
@@ -1980,7 +1980,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘FailoverGroupId’:
+	// Set property "FailoverGroupId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FailoverGroupId != nil {
@@ -1989,7 +1989,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘FederatedClientId’:
+	// Set property "FederatedClientId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FederatedClientId != nil {
@@ -1998,7 +1998,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘HighAvailabilityReplicaCount’:
+	// Set property "HighAvailabilityReplicaCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HighAvailabilityReplicaCount != nil {
@@ -2007,13 +2007,13 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		database.Id = &id
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 DatabaseIdentity_STATUS
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -2024,7 +2024,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		database.Identity = &identity
 	}
 
-	// Set property ‘IsInfraEncryptionEnabled’:
+	// Set property "IsInfraEncryptionEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsInfraEncryptionEnabled != nil {
@@ -2033,7 +2033,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘IsLedgerOn’:
+	// Set property "IsLedgerOn":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsLedgerOn != nil {
@@ -2042,13 +2042,13 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘Kind’:
+	// Set property "Kind":
 	if typedInput.Kind != nil {
 		kind := *typedInput.Kind
 		database.Kind = &kind
 	}
 
-	// Set property ‘LicenseType’:
+	// Set property "LicenseType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LicenseType != nil {
@@ -2057,13 +2057,13 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		database.Location = &location
 	}
 
-	// Set property ‘LongTermRetentionBackupResourceId’:
+	// Set property "LongTermRetentionBackupResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LongTermRetentionBackupResourceId != nil {
@@ -2072,7 +2072,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘MaintenanceConfigurationId’:
+	// Set property "MaintenanceConfigurationId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaintenanceConfigurationId != nil {
@@ -2081,13 +2081,13 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘ManagedBy’:
+	// Set property "ManagedBy":
 	if typedInput.ManagedBy != nil {
 		managedBy := *typedInput.ManagedBy
 		database.ManagedBy = &managedBy
 	}
 
-	// Set property ‘MaxLogSizeBytes’:
+	// Set property "MaxLogSizeBytes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxLogSizeBytes != nil {
@@ -2096,7 +2096,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘MaxSizeBytes’:
+	// Set property "MaxSizeBytes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxSizeBytes != nil {
@@ -2105,7 +2105,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘MinCapacity’:
+	// Set property "MinCapacity":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinCapacity != nil {
@@ -2114,13 +2114,13 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		database.Name = &name
 	}
 
-	// Set property ‘PausedDate’:
+	// Set property "PausedDate":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PausedDate != nil {
@@ -2129,7 +2129,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘ReadScale’:
+	// Set property "ReadScale":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ReadScale != nil {
@@ -2138,7 +2138,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘RecoverableDatabaseId’:
+	// Set property "RecoverableDatabaseId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RecoverableDatabaseId != nil {
@@ -2147,7 +2147,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘RecoveryServicesRecoveryPointId’:
+	// Set property "RecoveryServicesRecoveryPointId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RecoveryServicesRecoveryPointId != nil {
@@ -2156,7 +2156,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘RequestedBackupStorageRedundancy’:
+	// Set property "RequestedBackupStorageRedundancy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RequestedBackupStorageRedundancy != nil {
@@ -2165,7 +2165,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘RequestedServiceObjectiveName’:
+	// Set property "RequestedServiceObjectiveName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RequestedServiceObjectiveName != nil {
@@ -2174,7 +2174,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘RestorableDroppedDatabaseId’:
+	// Set property "RestorableDroppedDatabaseId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RestorableDroppedDatabaseId != nil {
@@ -2183,7 +2183,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘RestorePointInTime’:
+	// Set property "RestorePointInTime":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RestorePointInTime != nil {
@@ -2192,7 +2192,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘ResumedDate’:
+	// Set property "ResumedDate":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResumedDate != nil {
@@ -2201,7 +2201,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘SampleName’:
+	// Set property "SampleName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SampleName != nil {
@@ -2210,7 +2210,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘SecondaryType’:
+	// Set property "SecondaryType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SecondaryType != nil {
@@ -2219,7 +2219,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 Sku_STATUS
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -2230,7 +2230,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		database.Sku = &sku
 	}
 
-	// Set property ‘SourceDatabaseDeletionDate’:
+	// Set property "SourceDatabaseDeletionDate":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SourceDatabaseDeletionDate != nil {
@@ -2239,7 +2239,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘SourceDatabaseId’:
+	// Set property "SourceDatabaseId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SourceDatabaseId != nil {
@@ -2248,7 +2248,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘SourceResourceId’:
+	// Set property "SourceResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SourceResourceId != nil {
@@ -2257,7 +2257,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘Status’:
+	// Set property "Status":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Status != nil {
@@ -2266,7 +2266,7 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		database.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -2274,13 +2274,13 @@ func (database *Servers_Database_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		database.Type = &typeVar
 	}
 
-	// Set property ‘ZoneRedundant’:
+	// Set property "ZoneRedundant":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ZoneRedundant != nil {
@@ -2812,13 +2812,13 @@ func (identity *DatabaseIdentity) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &DatabaseIdentity_ARM{}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if identity.Type != nil {
 		typeVar := *identity.Type
 		result.Type = &typeVar
 	}
 
-	// Set property ‘UserAssignedIdentities’:
+	// Set property "UserAssignedIdentities":
 	result.UserAssignedIdentities = make(map[string]UserAssignedIdentityDetails_ARM, len(identity.UserAssignedIdentities))
 	for _, ident := range identity.UserAssignedIdentities {
 		identARMID, err := resolved.ResolvedReferences.Lookup(ident.Reference)
@@ -2843,13 +2843,13 @@ func (identity *DatabaseIdentity) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseIdentity_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		identity.Type = &typeVar
 	}
 
-	// no assignment for property ‘UserAssignedIdentities’
+	// no assignment for property "UserAssignedIdentities"
 
 	// No error
 	return nil
@@ -2983,19 +2983,19 @@ func (identity *DatabaseIdentity_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseIdentity_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
 		identity.TenantId = &tenantId
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		identity.Type = &typeVar
 	}
 
-	// Set property ‘UserAssignedIdentities’:
+	// Set property "UserAssignedIdentities":
 	if typedInput.UserAssignedIdentities != nil {
 		identity.UserAssignedIdentities = make(map[string]DatabaseUserIdentity_STATUS, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
@@ -3286,31 +3286,31 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	}
 	result := &Sku_ARM{}
 
-	// Set property ‘Capacity’:
+	// Set property "Capacity":
 	if sku.Capacity != nil {
 		capacity := *sku.Capacity
 		result.Capacity = &capacity
 	}
 
-	// Set property ‘Family’:
+	// Set property "Family":
 	if sku.Family != nil {
 		family := *sku.Family
 		result.Family = &family
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if sku.Name != nil {
 		name := *sku.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Size’:
+	// Set property "Size":
 	if sku.Size != nil {
 		size := *sku.Size
 		result.Size = &size
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if sku.Tier != nil {
 		tier := *sku.Tier
 		result.Tier = &tier
@@ -3330,31 +3330,31 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Capacity’:
+	// Set property "Capacity":
 	if typedInput.Capacity != nil {
 		capacity := *typedInput.Capacity
 		sku.Capacity = &capacity
 	}
 
-	// Set property ‘Family’:
+	// Set property "Family":
 	if typedInput.Family != nil {
 		family := *typedInput.Family
 		sku.Family = &family
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		sku.Name = &name
 	}
 
-	// Set property ‘Size’:
+	// Set property "Size":
 	if typedInput.Size != nil {
 		size := *typedInput.Size
 		sku.Size = &size
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if typedInput.Tier != nil {
 		tier := *typedInput.Tier
 		sku.Tier = &tier
@@ -3471,31 +3471,31 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Capacity’:
+	// Set property "Capacity":
 	if typedInput.Capacity != nil {
 		capacity := *typedInput.Capacity
 		sku.Capacity = &capacity
 	}
 
-	// Set property ‘Family’:
+	// Set property "Family":
 	if typedInput.Family != nil {
 		family := *typedInput.Family
 		sku.Family = &family
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		sku.Name = &name
 	}
 
-	// Set property ‘Size’:
+	// Set property "Size":
 	if typedInput.Size != nil {
 		size := *typedInput.Size
 		sku.Size = &size
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if typedInput.Tier != nil {
 		tier := *typedInput.Tier
 		sku.Tier = &tier
@@ -3581,13 +3581,13 @@ func (identity *DatabaseUserIdentity_STATUS) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseUserIdentity_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ClientId’:
+	// Set property "ClientId":
 	if typedInput.ClientId != nil {
 		clientId := *typedInput.ClientId
 		identity.ClientId = &clientId
 	}
 
-	// Set property ‘PrincipalId’:
+	// Set property "PrincipalId":
 	if typedInput.PrincipalId != nil {
 		principalId := *typedInput.PrincipalId
 		identity.PrincipalId = &principalId

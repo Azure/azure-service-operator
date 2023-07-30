@@ -361,16 +361,16 @@ func (vault *Vault_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	}
 	result := &Vault_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if vault.Location != nil {
 		location := *vault.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if vault.Properties != nil {
 		properties_ARM, err := (*vault.Properties).ConvertToARM(resolved)
 		if err != nil {
@@ -380,7 +380,7 @@ func (vault *Vault_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		result.Properties = &properties
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if vault.Tags != nil {
 		result.Tags = make(map[string]string, len(vault.Tags))
 		for key, value := range vault.Tags {
@@ -402,19 +402,19 @@ func (vault *Vault_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Vault_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	vault.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		vault.Location = &location
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	vault.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if typedInput.Properties != nil {
 		var properties1 VaultProperties
 		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
@@ -425,7 +425,7 @@ func (vault *Vault_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		vault.Properties = &properties
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		vault.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -695,27 +695,27 @@ func (vault *Vault_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Vault_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		vault.Id = &id
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		vault.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		vault.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if typedInput.Properties != nil {
 		var properties1 VaultProperties_STATUS
 		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
@@ -726,7 +726,7 @@ func (vault *Vault_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		vault.Properties = &properties
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -737,7 +737,7 @@ func (vault *Vault_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		vault.SystemData = &systemData
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		vault.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -745,7 +745,7 @@ func (vault *Vault_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		vault.Type = &typeVar
@@ -897,37 +897,37 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CreatedAt’:
+	// Set property "CreatedAt":
 	if typedInput.CreatedAt != nil {
 		createdAt := *typedInput.CreatedAt
 		data.CreatedAt = &createdAt
 	}
 
-	// Set property ‘CreatedBy’:
+	// Set property "CreatedBy":
 	if typedInput.CreatedBy != nil {
 		createdBy := *typedInput.CreatedBy
 		data.CreatedBy = &createdBy
 	}
 
-	// Set property ‘CreatedByType’:
+	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
 		createdByType := *typedInput.CreatedByType
 		data.CreatedByType = &createdByType
 	}
 
-	// Set property ‘LastModifiedAt’:
+	// Set property "LastModifiedAt":
 	if typedInput.LastModifiedAt != nil {
 		lastModifiedAt := *typedInput.LastModifiedAt
 		data.LastModifiedAt = &lastModifiedAt
 	}
 
-	// Set property ‘LastModifiedBy’:
+	// Set property "LastModifiedBy":
 	if typedInput.LastModifiedBy != nil {
 		lastModifiedBy := *typedInput.LastModifiedBy
 		data.LastModifiedBy = &lastModifiedBy
 	}
 
-	// Set property ‘LastModifiedByType’:
+	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
 		lastModifiedByType := *typedInput.LastModifiedByType
 		data.LastModifiedByType = &lastModifiedByType
@@ -1090,7 +1090,7 @@ func (properties *VaultProperties) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &VaultProperties_ARM{}
 
-	// Set property ‘AccessPolicies’:
+	// Set property "AccessPolicies":
 	for _, item := range properties.AccessPolicies {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -1099,49 +1099,49 @@ func (properties *VaultProperties) ConvertToARM(resolved genruntime.ConvertToARM
 		result.AccessPolicies = append(result.AccessPolicies, *item_ARM.(*AccessPolicyEntry_ARM))
 	}
 
-	// Set property ‘CreateMode’:
+	// Set property "CreateMode":
 	if properties.CreateMode != nil {
 		createMode := *properties.CreateMode
 		result.CreateMode = &createMode
 	}
 
-	// Set property ‘EnablePurgeProtection’:
+	// Set property "EnablePurgeProtection":
 	if properties.EnablePurgeProtection != nil {
 		enablePurgeProtection := *properties.EnablePurgeProtection
 		result.EnablePurgeProtection = &enablePurgeProtection
 	}
 
-	// Set property ‘EnableRbacAuthorization’:
+	// Set property "EnableRbacAuthorization":
 	if properties.EnableRbacAuthorization != nil {
 		enableRbacAuthorization := *properties.EnableRbacAuthorization
 		result.EnableRbacAuthorization = &enableRbacAuthorization
 	}
 
-	// Set property ‘EnableSoftDelete’:
+	// Set property "EnableSoftDelete":
 	if properties.EnableSoftDelete != nil {
 		enableSoftDelete := *properties.EnableSoftDelete
 		result.EnableSoftDelete = &enableSoftDelete
 	}
 
-	// Set property ‘EnabledForDeployment’:
+	// Set property "EnabledForDeployment":
 	if properties.EnabledForDeployment != nil {
 		enabledForDeployment := *properties.EnabledForDeployment
 		result.EnabledForDeployment = &enabledForDeployment
 	}
 
-	// Set property ‘EnabledForDiskEncryption’:
+	// Set property "EnabledForDiskEncryption":
 	if properties.EnabledForDiskEncryption != nil {
 		enabledForDiskEncryption := *properties.EnabledForDiskEncryption
 		result.EnabledForDiskEncryption = &enabledForDiskEncryption
 	}
 
-	// Set property ‘EnabledForTemplateDeployment’:
+	// Set property "EnabledForTemplateDeployment":
 	if properties.EnabledForTemplateDeployment != nil {
 		enabledForTemplateDeployment := *properties.EnabledForTemplateDeployment
 		result.EnabledForTemplateDeployment = &enabledForTemplateDeployment
 	}
 
-	// Set property ‘NetworkAcls’:
+	// Set property "NetworkAcls":
 	if properties.NetworkAcls != nil {
 		networkAcls_ARM, err := (*properties.NetworkAcls).ConvertToARM(resolved)
 		if err != nil {
@@ -1151,13 +1151,13 @@ func (properties *VaultProperties) ConvertToARM(resolved genruntime.ConvertToARM
 		result.NetworkAcls = &networkAcls
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	if properties.ProvisioningState != nil {
 		provisioningState := *properties.ProvisioningState
 		result.ProvisioningState = &provisioningState
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if properties.Sku != nil {
 		sku_ARM, err := (*properties.Sku).ConvertToARM(resolved)
 		if err != nil {
@@ -1167,13 +1167,13 @@ func (properties *VaultProperties) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Sku = &sku
 	}
 
-	// Set property ‘SoftDeleteRetentionInDays’:
+	// Set property "SoftDeleteRetentionInDays":
 	if properties.SoftDeleteRetentionInDays != nil {
 		softDeleteRetentionInDays := *properties.SoftDeleteRetentionInDays
 		result.SoftDeleteRetentionInDays = &softDeleteRetentionInDays
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if properties.TenantId != nil {
 		tenantId := *properties.TenantId
 		result.TenantId = &tenantId
@@ -1187,7 +1187,7 @@ func (properties *VaultProperties) ConvertToARM(resolved genruntime.ConvertToARM
 		result.TenantId = &tenantId
 	}
 
-	// Set property ‘VaultUri’:
+	// Set property "VaultUri":
 	if properties.VaultUri != nil {
 		vaultUri := *properties.VaultUri
 		result.VaultUri = &vaultUri
@@ -1207,7 +1207,7 @@ func (properties *VaultProperties) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VaultProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AccessPolicies’:
+	// Set property "AccessPolicies":
 	for _, item := range typedInput.AccessPolicies {
 		var item1 AccessPolicyEntry
 		err := item1.PopulateFromARM(owner, item)
@@ -1217,49 +1217,49 @@ func (properties *VaultProperties) PopulateFromARM(owner genruntime.ArbitraryOwn
 		properties.AccessPolicies = append(properties.AccessPolicies, item1)
 	}
 
-	// Set property ‘CreateMode’:
+	// Set property "CreateMode":
 	if typedInput.CreateMode != nil {
 		createMode := *typedInput.CreateMode
 		properties.CreateMode = &createMode
 	}
 
-	// Set property ‘EnablePurgeProtection’:
+	// Set property "EnablePurgeProtection":
 	if typedInput.EnablePurgeProtection != nil {
 		enablePurgeProtection := *typedInput.EnablePurgeProtection
 		properties.EnablePurgeProtection = &enablePurgeProtection
 	}
 
-	// Set property ‘EnableRbacAuthorization’:
+	// Set property "EnableRbacAuthorization":
 	if typedInput.EnableRbacAuthorization != nil {
 		enableRbacAuthorization := *typedInput.EnableRbacAuthorization
 		properties.EnableRbacAuthorization = &enableRbacAuthorization
 	}
 
-	// Set property ‘EnableSoftDelete’:
+	// Set property "EnableSoftDelete":
 	if typedInput.EnableSoftDelete != nil {
 		enableSoftDelete := *typedInput.EnableSoftDelete
 		properties.EnableSoftDelete = &enableSoftDelete
 	}
 
-	// Set property ‘EnabledForDeployment’:
+	// Set property "EnabledForDeployment":
 	if typedInput.EnabledForDeployment != nil {
 		enabledForDeployment := *typedInput.EnabledForDeployment
 		properties.EnabledForDeployment = &enabledForDeployment
 	}
 
-	// Set property ‘EnabledForDiskEncryption’:
+	// Set property "EnabledForDiskEncryption":
 	if typedInput.EnabledForDiskEncryption != nil {
 		enabledForDiskEncryption := *typedInput.EnabledForDiskEncryption
 		properties.EnabledForDiskEncryption = &enabledForDiskEncryption
 	}
 
-	// Set property ‘EnabledForTemplateDeployment’:
+	// Set property "EnabledForTemplateDeployment":
 	if typedInput.EnabledForTemplateDeployment != nil {
 		enabledForTemplateDeployment := *typedInput.EnabledForTemplateDeployment
 		properties.EnabledForTemplateDeployment = &enabledForTemplateDeployment
 	}
 
-	// Set property ‘NetworkAcls’:
+	// Set property "NetworkAcls":
 	if typedInput.NetworkAcls != nil {
 		var networkAcls1 NetworkRuleSet
 		err := networkAcls1.PopulateFromARM(owner, *typedInput.NetworkAcls)
@@ -1270,13 +1270,13 @@ func (properties *VaultProperties) PopulateFromARM(owner genruntime.ArbitraryOwn
 		properties.NetworkAcls = &networkAcls
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
 		provisioningState := *typedInput.ProvisioningState
 		properties.ProvisioningState = &provisioningState
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 Sku
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -1287,21 +1287,21 @@ func (properties *VaultProperties) PopulateFromARM(owner genruntime.ArbitraryOwn
 		properties.Sku = &sku
 	}
 
-	// Set property ‘SoftDeleteRetentionInDays’:
+	// Set property "SoftDeleteRetentionInDays":
 	if typedInput.SoftDeleteRetentionInDays != nil {
 		softDeleteRetentionInDays := *typedInput.SoftDeleteRetentionInDays
 		properties.SoftDeleteRetentionInDays = &softDeleteRetentionInDays
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
 		properties.TenantId = &tenantId
 	}
 
-	// no assignment for property ‘TenantIdFromConfig’
+	// no assignment for property "TenantIdFromConfig"
 
-	// Set property ‘VaultUri’:
+	// Set property "VaultUri":
 	if typedInput.VaultUri != nil {
 		vaultUri := *typedInput.VaultUri
 		properties.VaultUri = &vaultUri
@@ -1796,7 +1796,7 @@ func (properties *VaultProperties_STATUS) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VaultProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AccessPolicies’:
+	// Set property "AccessPolicies":
 	for _, item := range typedInput.AccessPolicies {
 		var item1 AccessPolicyEntry_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -1806,55 +1806,55 @@ func (properties *VaultProperties_STATUS) PopulateFromARM(owner genruntime.Arbit
 		properties.AccessPolicies = append(properties.AccessPolicies, item1)
 	}
 
-	// Set property ‘CreateMode’:
+	// Set property "CreateMode":
 	if typedInput.CreateMode != nil {
 		createMode := *typedInput.CreateMode
 		properties.CreateMode = &createMode
 	}
 
-	// Set property ‘EnablePurgeProtection’:
+	// Set property "EnablePurgeProtection":
 	if typedInput.EnablePurgeProtection != nil {
 		enablePurgeProtection := *typedInput.EnablePurgeProtection
 		properties.EnablePurgeProtection = &enablePurgeProtection
 	}
 
-	// Set property ‘EnableRbacAuthorization’:
+	// Set property "EnableRbacAuthorization":
 	if typedInput.EnableRbacAuthorization != nil {
 		enableRbacAuthorization := *typedInput.EnableRbacAuthorization
 		properties.EnableRbacAuthorization = &enableRbacAuthorization
 	}
 
-	// Set property ‘EnableSoftDelete’:
+	// Set property "EnableSoftDelete":
 	if typedInput.EnableSoftDelete != nil {
 		enableSoftDelete := *typedInput.EnableSoftDelete
 		properties.EnableSoftDelete = &enableSoftDelete
 	}
 
-	// Set property ‘EnabledForDeployment’:
+	// Set property "EnabledForDeployment":
 	if typedInput.EnabledForDeployment != nil {
 		enabledForDeployment := *typedInput.EnabledForDeployment
 		properties.EnabledForDeployment = &enabledForDeployment
 	}
 
-	// Set property ‘EnabledForDiskEncryption’:
+	// Set property "EnabledForDiskEncryption":
 	if typedInput.EnabledForDiskEncryption != nil {
 		enabledForDiskEncryption := *typedInput.EnabledForDiskEncryption
 		properties.EnabledForDiskEncryption = &enabledForDiskEncryption
 	}
 
-	// Set property ‘EnabledForTemplateDeployment’:
+	// Set property "EnabledForTemplateDeployment":
 	if typedInput.EnabledForTemplateDeployment != nil {
 		enabledForTemplateDeployment := *typedInput.EnabledForTemplateDeployment
 		properties.EnabledForTemplateDeployment = &enabledForTemplateDeployment
 	}
 
-	// Set property ‘HsmPoolResourceId’:
+	// Set property "HsmPoolResourceId":
 	if typedInput.HsmPoolResourceId != nil {
 		hsmPoolResourceId := *typedInput.HsmPoolResourceId
 		properties.HsmPoolResourceId = &hsmPoolResourceId
 	}
 
-	// Set property ‘NetworkAcls’:
+	// Set property "NetworkAcls":
 	if typedInput.NetworkAcls != nil {
 		var networkAcls1 NetworkRuleSet_STATUS
 		err := networkAcls1.PopulateFromARM(owner, *typedInput.NetworkAcls)
@@ -1865,7 +1865,7 @@ func (properties *VaultProperties_STATUS) PopulateFromARM(owner genruntime.Arbit
 		properties.NetworkAcls = &networkAcls
 	}
 
-	// Set property ‘PrivateEndpointConnections’:
+	// Set property "PrivateEndpointConnections":
 	for _, item := range typedInput.PrivateEndpointConnections {
 		var item1 PrivateEndpointConnectionItem_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -1875,13 +1875,13 @@ func (properties *VaultProperties_STATUS) PopulateFromARM(owner genruntime.Arbit
 		properties.PrivateEndpointConnections = append(properties.PrivateEndpointConnections, item1)
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
 		provisioningState := *typedInput.ProvisioningState
 		properties.ProvisioningState = &provisioningState
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 Sku_STATUS
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -1892,19 +1892,19 @@ func (properties *VaultProperties_STATUS) PopulateFromARM(owner genruntime.Arbit
 		properties.Sku = &sku
 	}
 
-	// Set property ‘SoftDeleteRetentionInDays’:
+	// Set property "SoftDeleteRetentionInDays":
 	if typedInput.SoftDeleteRetentionInDays != nil {
 		softDeleteRetentionInDays := *typedInput.SoftDeleteRetentionInDays
 		properties.SoftDeleteRetentionInDays = &softDeleteRetentionInDays
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
 		properties.TenantId = &tenantId
 	}
 
-	// Set property ‘VaultUri’:
+	// Set property "VaultUri":
 	if typedInput.VaultUri != nil {
 		vaultUri := *typedInput.VaultUri
 		properties.VaultUri = &vaultUri
@@ -2249,7 +2249,7 @@ func (entry *AccessPolicyEntry) ConvertToARM(resolved genruntime.ConvertToARMRes
 	}
 	result := &AccessPolicyEntry_ARM{}
 
-	// Set property ‘ApplicationId’:
+	// Set property "ApplicationId":
 	if entry.ApplicationId != nil {
 		applicationId := *entry.ApplicationId
 		result.ApplicationId = &applicationId
@@ -2263,7 +2263,7 @@ func (entry *AccessPolicyEntry) ConvertToARM(resolved genruntime.ConvertToARMRes
 		result.ApplicationId = &applicationId
 	}
 
-	// Set property ‘ObjectId’:
+	// Set property "ObjectId":
 	if entry.ObjectId != nil {
 		objectId := *entry.ObjectId
 		result.ObjectId = &objectId
@@ -2277,7 +2277,7 @@ func (entry *AccessPolicyEntry) ConvertToARM(resolved genruntime.ConvertToARMRes
 		result.ObjectId = &objectId
 	}
 
-	// Set property ‘Permissions’:
+	// Set property "Permissions":
 	if entry.Permissions != nil {
 		permissions_ARM, err := (*entry.Permissions).ConvertToARM(resolved)
 		if err != nil {
@@ -2287,7 +2287,7 @@ func (entry *AccessPolicyEntry) ConvertToARM(resolved genruntime.ConvertToARMRes
 		result.Permissions = &permissions
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if entry.TenantId != nil {
 		tenantId := *entry.TenantId
 		result.TenantId = &tenantId
@@ -2315,23 +2315,23 @@ func (entry *AccessPolicyEntry) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AccessPolicyEntry_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ApplicationId’:
+	// Set property "ApplicationId":
 	if typedInput.ApplicationId != nil {
 		applicationId := *typedInput.ApplicationId
 		entry.ApplicationId = &applicationId
 	}
 
-	// no assignment for property ‘ApplicationIdFromConfig’
+	// no assignment for property "ApplicationIdFromConfig"
 
-	// Set property ‘ObjectId’:
+	// Set property "ObjectId":
 	if typedInput.ObjectId != nil {
 		objectId := *typedInput.ObjectId
 		entry.ObjectId = &objectId
 	}
 
-	// no assignment for property ‘ObjectIdFromConfig’
+	// no assignment for property "ObjectIdFromConfig"
 
-	// Set property ‘Permissions’:
+	// Set property "Permissions":
 	if typedInput.Permissions != nil {
 		var permissions1 Permissions
 		err := permissions1.PopulateFromARM(owner, *typedInput.Permissions)
@@ -2342,13 +2342,13 @@ func (entry *AccessPolicyEntry) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		entry.Permissions = &permissions
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
 		entry.TenantId = &tenantId
 	}
 
-	// no assignment for property ‘TenantIdFromConfig’
+	// no assignment for property "TenantIdFromConfig"
 
 	// No error
 	return nil
@@ -2556,19 +2556,19 @@ func (entry *AccessPolicyEntry_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AccessPolicyEntry_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ApplicationId’:
+	// Set property "ApplicationId":
 	if typedInput.ApplicationId != nil {
 		applicationId := *typedInput.ApplicationId
 		entry.ApplicationId = &applicationId
 	}
 
-	// Set property ‘ObjectId’:
+	// Set property "ObjectId":
 	if typedInput.ObjectId != nil {
 		objectId := *typedInput.ObjectId
 		entry.ObjectId = &objectId
 	}
 
-	// Set property ‘Permissions’:
+	// Set property "Permissions":
 	if typedInput.Permissions != nil {
 		var permissions1 Permissions_STATUS
 		err := permissions1.PopulateFromARM(owner, *typedInput.Permissions)
@@ -2579,7 +2579,7 @@ func (entry *AccessPolicyEntry_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		entry.Permissions = &permissions
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
 		entry.TenantId = &tenantId
@@ -2680,19 +2680,19 @@ func (ruleSet *NetworkRuleSet) ConvertToARM(resolved genruntime.ConvertToARMReso
 	}
 	result := &NetworkRuleSet_ARM{}
 
-	// Set property ‘Bypass’:
+	// Set property "Bypass":
 	if ruleSet.Bypass != nil {
 		bypass := *ruleSet.Bypass
 		result.Bypass = &bypass
 	}
 
-	// Set property ‘DefaultAction’:
+	// Set property "DefaultAction":
 	if ruleSet.DefaultAction != nil {
 		defaultAction := *ruleSet.DefaultAction
 		result.DefaultAction = &defaultAction
 	}
 
-	// Set property ‘IpRules’:
+	// Set property "IpRules":
 	for _, item := range ruleSet.IpRules {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -2701,7 +2701,7 @@ func (ruleSet *NetworkRuleSet) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.IpRules = append(result.IpRules, *item_ARM.(*IPRule_ARM))
 	}
 
-	// Set property ‘VirtualNetworkRules’:
+	// Set property "VirtualNetworkRules":
 	for _, item := range ruleSet.VirtualNetworkRules {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -2724,19 +2724,19 @@ func (ruleSet *NetworkRuleSet) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkRuleSet_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Bypass’:
+	// Set property "Bypass":
 	if typedInput.Bypass != nil {
 		bypass := *typedInput.Bypass
 		ruleSet.Bypass = &bypass
 	}
 
-	// Set property ‘DefaultAction’:
+	// Set property "DefaultAction":
 	if typedInput.DefaultAction != nil {
 		defaultAction := *typedInput.DefaultAction
 		ruleSet.DefaultAction = &defaultAction
 	}
 
-	// Set property ‘IpRules’:
+	// Set property "IpRules":
 	for _, item := range typedInput.IpRules {
 		var item1 IPRule
 		err := item1.PopulateFromARM(owner, item)
@@ -2746,7 +2746,7 @@ func (ruleSet *NetworkRuleSet) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		ruleSet.IpRules = append(ruleSet.IpRules, item1)
 	}
 
-	// Set property ‘VirtualNetworkRules’:
+	// Set property "VirtualNetworkRules":
 	for _, item := range typedInput.VirtualNetworkRules {
 		var item1 VirtualNetworkRule
 		err := item1.PopulateFromARM(owner, item)
@@ -2977,19 +2977,19 @@ func (ruleSet *NetworkRuleSet_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkRuleSet_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Bypass’:
+	// Set property "Bypass":
 	if typedInput.Bypass != nil {
 		bypass := *typedInput.Bypass
 		ruleSet.Bypass = &bypass
 	}
 
-	// Set property ‘DefaultAction’:
+	// Set property "DefaultAction":
 	if typedInput.DefaultAction != nil {
 		defaultAction := *typedInput.DefaultAction
 		ruleSet.DefaultAction = &defaultAction
 	}
 
-	// Set property ‘IpRules’:
+	// Set property "IpRules":
 	for _, item := range typedInput.IpRules {
 		var item1 IPRule_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -2999,7 +2999,7 @@ func (ruleSet *NetworkRuleSet_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		ruleSet.IpRules = append(ruleSet.IpRules, item1)
 	}
 
-	// Set property ‘VirtualNetworkRules’:
+	// Set property "VirtualNetworkRules":
 	for _, item := range typedInput.VirtualNetworkRules {
 		var item1 VirtualNetworkRule_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -3172,19 +3172,19 @@ func (item *PrivateEndpointConnectionItem_STATUS) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnectionItem_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		item.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		item.Id = &id
 	}
 
-	// Set property ‘PrivateEndpoint’:
+	// Set property "PrivateEndpoint":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateEndpoint != nil {
@@ -3198,7 +3198,7 @@ func (item *PrivateEndpointConnectionItem_STATUS) PopulateFromARM(owner genrunti
 		}
 	}
 
-	// Set property ‘PrivateLinkServiceConnectionState’:
+	// Set property "PrivateLinkServiceConnectionState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateLinkServiceConnectionState != nil {
@@ -3212,7 +3212,7 @@ func (item *PrivateEndpointConnectionItem_STATUS) PopulateFromARM(owner genrunti
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -3344,13 +3344,13 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	}
 	result := &Sku_ARM{}
 
-	// Set property ‘Family’:
+	// Set property "Family":
 	if sku.Family != nil {
 		family := *sku.Family
 		result.Family = &family
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if sku.Name != nil {
 		name := *sku.Name
 		result.Name = &name
@@ -3370,13 +3370,13 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Family’:
+	// Set property "Family":
 	if typedInput.Family != nil {
 		family := *typedInput.Family
 		sku.Family = &family
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		sku.Name = &name
@@ -3487,13 +3487,13 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Family’:
+	// Set property "Family":
 	if typedInput.Family != nil {
 		family := *typedInput.Family
 		sku.Family = &family
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		sku.Name = &name
@@ -3575,7 +3575,7 @@ func (rule *IPRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 	}
 	result := &IPRule_ARM{}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if rule.Value != nil {
 		value := *rule.Value
 		result.Value = &value
@@ -3595,7 +3595,7 @@ func (rule *IPRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IPRule_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		rule.Value = &value
@@ -3665,7 +3665,7 @@ func (rule *IPRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IPRule_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		rule.Value = &value
@@ -3728,22 +3728,22 @@ func (permissions *Permissions) ConvertToARM(resolved genruntime.ConvertToARMRes
 	}
 	result := &Permissions_ARM{}
 
-	// Set property ‘Certificates’:
+	// Set property "Certificates":
 	for _, item := range permissions.Certificates {
 		result.Certificates = append(result.Certificates, item)
 	}
 
-	// Set property ‘Keys’:
+	// Set property "Keys":
 	for _, item := range permissions.Keys {
 		result.Keys = append(result.Keys, item)
 	}
 
-	// Set property ‘Secrets’:
+	// Set property "Secrets":
 	for _, item := range permissions.Secrets {
 		result.Secrets = append(result.Secrets, item)
 	}
 
-	// Set property ‘Storage’:
+	// Set property "Storage":
 	for _, item := range permissions.Storage {
 		result.Storage = append(result.Storage, item)
 	}
@@ -3762,22 +3762,22 @@ func (permissions *Permissions) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Permissions_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Certificates’:
+	// Set property "Certificates":
 	for _, item := range typedInput.Certificates {
 		permissions.Certificates = append(permissions.Certificates, item)
 	}
 
-	// Set property ‘Keys’:
+	// Set property "Keys":
 	for _, item := range typedInput.Keys {
 		permissions.Keys = append(permissions.Keys, item)
 	}
 
-	// Set property ‘Secrets’:
+	// Set property "Secrets":
 	for _, item := range typedInput.Secrets {
 		permissions.Secrets = append(permissions.Secrets, item)
 	}
 
-	// Set property ‘Storage’:
+	// Set property "Storage":
 	for _, item := range typedInput.Storage {
 		permissions.Storage = append(permissions.Storage, item)
 	}
@@ -4005,22 +4005,22 @@ func (permissions *Permissions_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Permissions_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Certificates’:
+	// Set property "Certificates":
 	for _, item := range typedInput.Certificates {
 		permissions.Certificates = append(permissions.Certificates, item)
 	}
 
-	// Set property ‘Keys’:
+	// Set property "Keys":
 	for _, item := range typedInput.Keys {
 		permissions.Keys = append(permissions.Keys, item)
 	}
 
-	// Set property ‘Secrets’:
+	// Set property "Secrets":
 	for _, item := range typedInput.Secrets {
 		permissions.Secrets = append(permissions.Secrets, item)
 	}
 
-	// Set property ‘Storage’:
+	// Set property "Storage":
 	for _, item := range typedInput.Storage {
 		permissions.Storage = append(permissions.Storage, item)
 	}
@@ -4176,7 +4176,7 @@ func (endpoint *PrivateEndpoint_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpoint_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		endpoint.Id = &id
@@ -4253,19 +4253,19 @@ func (state *PrivateLinkServiceConnectionState_STATUS) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkServiceConnectionState_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ActionsRequired’:
+	// Set property "ActionsRequired":
 	if typedInput.ActionsRequired != nil {
 		actionsRequired := *typedInput.ActionsRequired
 		state.ActionsRequired = &actionsRequired
 	}
 
-	// Set property ‘Description’:
+	// Set property "Description":
 	if typedInput.Description != nil {
 		description := *typedInput.Description
 		state.Description = &description
 	}
 
-	// Set property ‘Status’:
+	// Set property "Status":
 	if typedInput.Status != nil {
 		status := *typedInput.Status
 		state.Status = &status
@@ -4357,7 +4357,7 @@ func (rule *VirtualNetworkRule) ConvertToARM(resolved genruntime.ConvertToARMRes
 	}
 	result := &VirtualNetworkRule_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if rule.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*rule.Reference)
 		if err != nil {
@@ -4367,7 +4367,7 @@ func (rule *VirtualNetworkRule) ConvertToARM(resolved genruntime.ConvertToARMRes
 		result.Id = &reference
 	}
 
-	// Set property ‘IgnoreMissingVnetServiceEndpoint’:
+	// Set property "IgnoreMissingVnetServiceEndpoint":
 	if rule.IgnoreMissingVnetServiceEndpoint != nil {
 		ignoreMissingVnetServiceEndpoint := *rule.IgnoreMissingVnetServiceEndpoint
 		result.IgnoreMissingVnetServiceEndpoint = &ignoreMissingVnetServiceEndpoint
@@ -4387,13 +4387,13 @@ func (rule *VirtualNetworkRule) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkRule_ARM, got %T", armInput)
 	}
 
-	// Set property ‘IgnoreMissingVnetServiceEndpoint’:
+	// Set property "IgnoreMissingVnetServiceEndpoint":
 	if typedInput.IgnoreMissingVnetServiceEndpoint != nil {
 		ignoreMissingVnetServiceEndpoint := *typedInput.IgnoreMissingVnetServiceEndpoint
 		rule.IgnoreMissingVnetServiceEndpoint = &ignoreMissingVnetServiceEndpoint
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil
@@ -4502,13 +4502,13 @@ func (rule *VirtualNetworkRule_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkRule_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		rule.Id = &id
 	}
 
-	// Set property ‘IgnoreMissingVnetServiceEndpoint’:
+	// Set property "IgnoreMissingVnetServiceEndpoint":
 	if typedInput.IgnoreMissingVnetServiceEndpoint != nil {
 		ignoreMissingVnetServiceEndpoint := *typedInput.IgnoreMissingVnetServiceEndpoint
 		rule.IgnoreMissingVnetServiceEndpoint = &ignoreMissingVnetServiceEndpoint

@@ -339,10 +339,10 @@ func (rule *Servers_FirewallRule_Spec) ConvertToARM(resolved genruntime.ConvertT
 	}
 	result := &Servers_FirewallRule_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if rule.EndIpAddress != nil || rule.StartIpAddress != nil {
 		result.Properties = &ServerFirewallRuleProperties_ARM{}
 	}
@@ -369,10 +369,10 @@ func (rule *Servers_FirewallRule_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_FirewallRule_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	rule.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘EndIpAddress’:
+	// Set property "EndIpAddress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EndIpAddress != nil {
@@ -381,10 +381,10 @@ func (rule *Servers_FirewallRule_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	rule.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘StartIpAddress’:
+	// Set property "StartIpAddress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StartIpAddress != nil {
@@ -614,9 +614,9 @@ func (rule *Servers_FirewallRule_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_FirewallRule_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘EndIpAddress’:
+	// Set property "EndIpAddress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EndIpAddress != nil {
@@ -625,19 +625,19 @@ func (rule *Servers_FirewallRule_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		rule.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		rule.Name = &name
 	}
 
-	// Set property ‘StartIpAddress’:
+	// Set property "StartIpAddress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StartIpAddress != nil {
@@ -646,7 +646,7 @@ func (rule *Servers_FirewallRule_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		rule.Type = &typeVar

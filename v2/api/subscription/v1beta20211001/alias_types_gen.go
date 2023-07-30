@@ -320,10 +320,10 @@ func (alias *Alias_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	}
 	result := &Alias_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if alias.Properties != nil {
 		properties_ARM, err := (*alias.Properties).ConvertToARM(resolved)
 		if err != nil {
@@ -347,10 +347,10 @@ func (alias *Alias_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Alias_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	alias.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if typedInput.Properties != nil {
 		var properties1 PutAliasRequestProperties
 		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
@@ -554,21 +554,21 @@ func (alias *Alias_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Alias_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		alias.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		alias.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if typedInput.Properties != nil {
 		var properties1 SubscriptionAliasResponseProperties_STATUS
 		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
@@ -579,7 +579,7 @@ func (alias *Alias_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		alias.Properties = &properties
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -590,7 +590,7 @@ func (alias *Alias_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		alias.SystemData = &systemData
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		alias.Type = &typeVar
@@ -720,7 +720,7 @@ func (properties *PutAliasRequestProperties) ConvertToARM(resolved genruntime.Co
 	}
 	result := &PutAliasRequestProperties_ARM{}
 
-	// Set property ‘AdditionalProperties’:
+	// Set property "AdditionalProperties":
 	if properties.AdditionalProperties != nil {
 		additionalProperties_ARM, err := (*properties.AdditionalProperties).ConvertToARM(resolved)
 		if err != nil {
@@ -730,31 +730,31 @@ func (properties *PutAliasRequestProperties) ConvertToARM(resolved genruntime.Co
 		result.AdditionalProperties = &additionalProperties
 	}
 
-	// Set property ‘BillingScope’:
+	// Set property "BillingScope":
 	if properties.BillingScope != nil {
 		billingScope := *properties.BillingScope
 		result.BillingScope = &billingScope
 	}
 
-	// Set property ‘DisplayName’:
+	// Set property "DisplayName":
 	if properties.DisplayName != nil {
 		displayName := *properties.DisplayName
 		result.DisplayName = &displayName
 	}
 
-	// Set property ‘ResellerId’:
+	// Set property "ResellerId":
 	if properties.ResellerId != nil {
 		resellerId := *properties.ResellerId
 		result.ResellerId = &resellerId
 	}
 
-	// Set property ‘SubscriptionId’:
+	// Set property "SubscriptionId":
 	if properties.SubscriptionId != nil {
 		subscriptionId := *properties.SubscriptionId
 		result.SubscriptionId = &subscriptionId
 	}
 
-	// Set property ‘Workload’:
+	// Set property "Workload":
 	if properties.Workload != nil {
 		workload := *properties.Workload
 		result.Workload = &workload
@@ -774,7 +774,7 @@ func (properties *PutAliasRequestProperties) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PutAliasRequestProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdditionalProperties’:
+	// Set property "AdditionalProperties":
 	if typedInput.AdditionalProperties != nil {
 		var additionalProperties1 PutAliasRequestAdditionalProperties
 		err := additionalProperties1.PopulateFromARM(owner, *typedInput.AdditionalProperties)
@@ -785,31 +785,31 @@ func (properties *PutAliasRequestProperties) PopulateFromARM(owner genruntime.Ar
 		properties.AdditionalProperties = &additionalProperties
 	}
 
-	// Set property ‘BillingScope’:
+	// Set property "BillingScope":
 	if typedInput.BillingScope != nil {
 		billingScope := *typedInput.BillingScope
 		properties.BillingScope = &billingScope
 	}
 
-	// Set property ‘DisplayName’:
+	// Set property "DisplayName":
 	if typedInput.DisplayName != nil {
 		displayName := *typedInput.DisplayName
 		properties.DisplayName = &displayName
 	}
 
-	// Set property ‘ResellerId’:
+	// Set property "ResellerId":
 	if typedInput.ResellerId != nil {
 		resellerId := *typedInput.ResellerId
 		properties.ResellerId = &resellerId
 	}
 
-	// Set property ‘SubscriptionId’:
+	// Set property "SubscriptionId":
 	if typedInput.SubscriptionId != nil {
 		subscriptionId := *typedInput.SubscriptionId
 		properties.SubscriptionId = &subscriptionId
 	}
 
-	// Set property ‘Workload’:
+	// Set property "Workload":
 	if typedInput.Workload != nil {
 		workload := *typedInput.Workload
 		properties.Workload = &workload
@@ -936,67 +936,67 @@ func (properties *SubscriptionAliasResponseProperties_STATUS) PopulateFromARM(ow
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubscriptionAliasResponseProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AcceptOwnershipState’:
+	// Set property "AcceptOwnershipState":
 	if typedInput.AcceptOwnershipState != nil {
 		acceptOwnershipState := *typedInput.AcceptOwnershipState
 		properties.AcceptOwnershipState = &acceptOwnershipState
 	}
 
-	// Set property ‘AcceptOwnershipUrl’:
+	// Set property "AcceptOwnershipUrl":
 	if typedInput.AcceptOwnershipUrl != nil {
 		acceptOwnershipUrl := *typedInput.AcceptOwnershipUrl
 		properties.AcceptOwnershipUrl = &acceptOwnershipUrl
 	}
 
-	// Set property ‘BillingScope’:
+	// Set property "BillingScope":
 	if typedInput.BillingScope != nil {
 		billingScope := *typedInput.BillingScope
 		properties.BillingScope = &billingScope
 	}
 
-	// Set property ‘CreatedTime’:
+	// Set property "CreatedTime":
 	if typedInput.CreatedTime != nil {
 		createdTime := *typedInput.CreatedTime
 		properties.CreatedTime = &createdTime
 	}
 
-	// Set property ‘DisplayName’:
+	// Set property "DisplayName":
 	if typedInput.DisplayName != nil {
 		displayName := *typedInput.DisplayName
 		properties.DisplayName = &displayName
 	}
 
-	// Set property ‘ManagementGroupId’:
+	// Set property "ManagementGroupId":
 	if typedInput.ManagementGroupId != nil {
 		managementGroupId := *typedInput.ManagementGroupId
 		properties.ManagementGroupId = &managementGroupId
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
 		provisioningState := *typedInput.ProvisioningState
 		properties.ProvisioningState = &provisioningState
 	}
 
-	// Set property ‘ResellerId’:
+	// Set property "ResellerId":
 	if typedInput.ResellerId != nil {
 		resellerId := *typedInput.ResellerId
 		properties.ResellerId = &resellerId
 	}
 
-	// Set property ‘SubscriptionId’:
+	// Set property "SubscriptionId":
 	if typedInput.SubscriptionId != nil {
 		subscriptionId := *typedInput.SubscriptionId
 		properties.SubscriptionId = &subscriptionId
 	}
 
-	// Set property ‘SubscriptionOwnerId’:
+	// Set property "SubscriptionOwnerId":
 	if typedInput.SubscriptionOwnerId != nil {
 		subscriptionOwnerId := *typedInput.SubscriptionOwnerId
 		properties.SubscriptionOwnerId = &subscriptionOwnerId
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		properties.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1004,7 +1004,7 @@ func (properties *SubscriptionAliasResponseProperties_STATUS) PopulateFromARM(ow
 		}
 	}
 
-	// Set property ‘Workload’:
+	// Set property "Workload":
 	if typedInput.Workload != nil {
 		workload := *typedInput.Workload
 		properties.Workload = &workload
@@ -1163,37 +1163,37 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CreatedAt’:
+	// Set property "CreatedAt":
 	if typedInput.CreatedAt != nil {
 		createdAt := *typedInput.CreatedAt
 		data.CreatedAt = &createdAt
 	}
 
-	// Set property ‘CreatedBy’:
+	// Set property "CreatedBy":
 	if typedInput.CreatedBy != nil {
 		createdBy := *typedInput.CreatedBy
 		data.CreatedBy = &createdBy
 	}
 
-	// Set property ‘CreatedByType’:
+	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
 		createdByType := *typedInput.CreatedByType
 		data.CreatedByType = &createdByType
 	}
 
-	// Set property ‘LastModifiedAt’:
+	// Set property "LastModifiedAt":
 	if typedInput.LastModifiedAt != nil {
 		lastModifiedAt := *typedInput.LastModifiedAt
 		data.LastModifiedAt = &lastModifiedAt
 	}
 
-	// Set property ‘LastModifiedBy’:
+	// Set property "LastModifiedBy":
 	if typedInput.LastModifiedBy != nil {
 		lastModifiedBy := *typedInput.LastModifiedBy
 		data.LastModifiedBy = &lastModifiedBy
 	}
 
-	// Set property ‘LastModifiedByType’:
+	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
 		lastModifiedByType := *typedInput.LastModifiedByType
 		data.LastModifiedByType = &lastModifiedByType
@@ -1299,25 +1299,25 @@ func (properties *PutAliasRequestAdditionalProperties) ConvertToARM(resolved gen
 	}
 	result := &PutAliasRequestAdditionalProperties_ARM{}
 
-	// Set property ‘ManagementGroupId’:
+	// Set property "ManagementGroupId":
 	if properties.ManagementGroupId != nil {
 		managementGroupId := *properties.ManagementGroupId
 		result.ManagementGroupId = &managementGroupId
 	}
 
-	// Set property ‘SubscriptionOwnerId’:
+	// Set property "SubscriptionOwnerId":
 	if properties.SubscriptionOwnerId != nil {
 		subscriptionOwnerId := *properties.SubscriptionOwnerId
 		result.SubscriptionOwnerId = &subscriptionOwnerId
 	}
 
-	// Set property ‘SubscriptionTenantId’:
+	// Set property "SubscriptionTenantId":
 	if properties.SubscriptionTenantId != nil {
 		subscriptionTenantId := *properties.SubscriptionTenantId
 		result.SubscriptionTenantId = &subscriptionTenantId
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if properties.Tags != nil {
 		result.Tags = make(map[string]string, len(properties.Tags))
 		for key, value := range properties.Tags {
@@ -1339,25 +1339,25 @@ func (properties *PutAliasRequestAdditionalProperties) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PutAliasRequestAdditionalProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ManagementGroupId’:
+	// Set property "ManagementGroupId":
 	if typedInput.ManagementGroupId != nil {
 		managementGroupId := *typedInput.ManagementGroupId
 		properties.ManagementGroupId = &managementGroupId
 	}
 
-	// Set property ‘SubscriptionOwnerId’:
+	// Set property "SubscriptionOwnerId":
 	if typedInput.SubscriptionOwnerId != nil {
 		subscriptionOwnerId := *typedInput.SubscriptionOwnerId
 		properties.SubscriptionOwnerId = &subscriptionOwnerId
 	}
 
-	// Set property ‘SubscriptionTenantId’:
+	// Set property "SubscriptionTenantId":
 	if typedInput.SubscriptionTenantId != nil {
 		subscriptionTenantId := *typedInput.SubscriptionTenantId
 		properties.SubscriptionTenantId = &subscriptionTenantId
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		properties.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {

@@ -339,10 +339,10 @@ func (queue *StorageAccounts_QueueServices_Queue_Spec) ConvertToARM(resolved gen
 	}
 	result := &StorageAccounts_QueueServices_Queue_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if queue.Metadata != nil {
 		result.Properties = &QueueProperties_ARM{}
 	}
@@ -367,10 +367,10 @@ func (queue *StorageAccounts_QueueServices_Queue_Spec) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_QueueServices_Queue_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	queue.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Metadata’:
+	// Set property "Metadata":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Metadata != nil {
@@ -381,7 +381,7 @@ func (queue *StorageAccounts_QueueServices_Queue_Spec) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	queue.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// No error
@@ -588,7 +588,7 @@ func (queue *StorageAccounts_QueueServices_Queue_STATUS) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_QueueServices_Queue_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ApproximateMessageCount’:
+	// Set property "ApproximateMessageCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ApproximateMessageCount != nil {
@@ -597,15 +597,15 @@ func (queue *StorageAccounts_QueueServices_Queue_STATUS) PopulateFromARM(owner g
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		queue.Id = &id
 	}
 
-	// Set property ‘Metadata’:
+	// Set property "Metadata":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Metadata != nil {
@@ -616,13 +616,13 @@ func (queue *StorageAccounts_QueueServices_Queue_STATUS) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		queue.Name = &name
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		queue.Type = &typeVar

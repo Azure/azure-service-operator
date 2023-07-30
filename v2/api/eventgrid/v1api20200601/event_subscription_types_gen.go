@@ -352,10 +352,10 @@ func (subscription *EventSubscription_Spec) ConvertToARM(resolved genruntime.Con
 	}
 	result := &EventSubscription_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if subscription.DeadLetterDestination != nil ||
 		subscription.Destination != nil ||
 		subscription.EventDeliverySchema != nil ||
@@ -423,10 +423,10 @@ func (subscription *EventSubscription_Spec) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscription_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	subscription.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘DeadLetterDestination’:
+	// Set property "DeadLetterDestination":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeadLetterDestination != nil {
@@ -440,7 +440,7 @@ func (subscription *EventSubscription_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘Destination’:
+	// Set property "Destination":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Destination != nil {
@@ -454,7 +454,7 @@ func (subscription *EventSubscription_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘EventDeliverySchema’:
+	// Set property "EventDeliverySchema":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EventDeliverySchema != nil {
@@ -463,7 +463,7 @@ func (subscription *EventSubscription_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘ExpirationTimeUtc’:
+	// Set property "ExpirationTimeUtc":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ExpirationTimeUtc != nil {
@@ -472,7 +472,7 @@ func (subscription *EventSubscription_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘Filter’:
+	// Set property "Filter":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Filter != nil {
@@ -486,7 +486,7 @@ func (subscription *EventSubscription_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘Labels’:
+	// Set property "Labels":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Labels {
@@ -494,10 +494,10 @@ func (subscription *EventSubscription_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	subscription.Owner = &owner
 
-	// Set property ‘RetryPolicy’:
+	// Set property "RetryPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RetryPolicy != nil {
@@ -926,9 +926,9 @@ func (subscription *EventSubscription_STATUS) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscription_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘DeadLetterDestination’:
+	// Set property "DeadLetterDestination":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeadLetterDestination != nil {
@@ -942,7 +942,7 @@ func (subscription *EventSubscription_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘Destination’:
+	// Set property "Destination":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Destination != nil {
@@ -956,7 +956,7 @@ func (subscription *EventSubscription_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘EventDeliverySchema’:
+	// Set property "EventDeliverySchema":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EventDeliverySchema != nil {
@@ -965,7 +965,7 @@ func (subscription *EventSubscription_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘ExpirationTimeUtc’:
+	// Set property "ExpirationTimeUtc":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ExpirationTimeUtc != nil {
@@ -974,7 +974,7 @@ func (subscription *EventSubscription_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘Filter’:
+	// Set property "Filter":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Filter != nil {
@@ -988,13 +988,13 @@ func (subscription *EventSubscription_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		subscription.Id = &id
 	}
 
-	// Set property ‘Labels’:
+	// Set property "Labels":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Labels {
@@ -1002,13 +1002,13 @@ func (subscription *EventSubscription_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		subscription.Name = &name
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -1017,7 +1017,7 @@ func (subscription *EventSubscription_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘RetryPolicy’:
+	// Set property "RetryPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RetryPolicy != nil {
@@ -1031,7 +1031,7 @@ func (subscription *EventSubscription_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -1042,7 +1042,7 @@ func (subscription *EventSubscription_STATUS) PopulateFromARM(owner genruntime.A
 		subscription.SystemData = &systemData
 	}
 
-	// Set property ‘Topic’:
+	// Set property "Topic":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Topic != nil {
@@ -1051,7 +1051,7 @@ func (subscription *EventSubscription_STATUS) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		subscription.Type = &typeVar
@@ -1292,7 +1292,7 @@ func (destination *DeadLetterDestination) ConvertToARM(resolved genruntime.Conve
 	}
 	result := &DeadLetterDestination_ARM{}
 
-	// Set property ‘StorageBlob’:
+	// Set property "StorageBlob":
 	if destination.StorageBlob != nil {
 		storageBlob_ARM, err := (*destination.StorageBlob).ConvertToARM(resolved)
 		if err != nil {
@@ -1316,7 +1316,7 @@ func (destination *DeadLetterDestination) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeadLetterDestination_ARM, got %T", armInput)
 	}
 
-	// Set property ‘StorageBlob’:
+	// Set property "StorageBlob":
 	if typedInput.StorageBlob != nil {
 		var storageBlob1 StorageBlobDeadLetterDestination
 		err := storageBlob1.PopulateFromARM(owner, *typedInput.StorageBlob)
@@ -1416,7 +1416,7 @@ func (destination *DeadLetterDestination_STATUS) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeadLetterDestination_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘StorageBlob’:
+	// Set property "StorageBlob":
 	if typedInput.StorageBlob != nil {
 		var storageBlob1 StorageBlobDeadLetterDestination_STATUS
 		err := storageBlob1.PopulateFromARM(owner, *typedInput.StorageBlob)
@@ -1510,7 +1510,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 	}
 	result := &EventSubscriptionDestination_ARM{}
 
-	// Set property ‘AzureFunction’:
+	// Set property "AzureFunction":
 	if destination.AzureFunction != nil {
 		azureFunction_ARM, err := (*destination.AzureFunction).ConvertToARM(resolved)
 		if err != nil {
@@ -1520,7 +1520,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 		result.AzureFunction = &azureFunction
 	}
 
-	// Set property ‘EventHub’:
+	// Set property "EventHub":
 	if destination.EventHub != nil {
 		eventHub_ARM, err := (*destination.EventHub).ConvertToARM(resolved)
 		if err != nil {
@@ -1530,7 +1530,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 		result.EventHub = &eventHub
 	}
 
-	// Set property ‘HybridConnection’:
+	// Set property "HybridConnection":
 	if destination.HybridConnection != nil {
 		hybridConnection_ARM, err := (*destination.HybridConnection).ConvertToARM(resolved)
 		if err != nil {
@@ -1540,7 +1540,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 		result.HybridConnection = &hybridConnection
 	}
 
-	// Set property ‘ServiceBusQueue’:
+	// Set property "ServiceBusQueue":
 	if destination.ServiceBusQueue != nil {
 		serviceBusQueue_ARM, err := (*destination.ServiceBusQueue).ConvertToARM(resolved)
 		if err != nil {
@@ -1550,7 +1550,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 		result.ServiceBusQueue = &serviceBusQueue
 	}
 
-	// Set property ‘ServiceBusTopic’:
+	// Set property "ServiceBusTopic":
 	if destination.ServiceBusTopic != nil {
 		serviceBusTopic_ARM, err := (*destination.ServiceBusTopic).ConvertToARM(resolved)
 		if err != nil {
@@ -1560,7 +1560,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 		result.ServiceBusTopic = &serviceBusTopic
 	}
 
-	// Set property ‘StorageQueue’:
+	// Set property "StorageQueue":
 	if destination.StorageQueue != nil {
 		storageQueue_ARM, err := (*destination.StorageQueue).ConvertToARM(resolved)
 		if err != nil {
@@ -1570,7 +1570,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 		result.StorageQueue = &storageQueue
 	}
 
-	// Set property ‘WebHook’:
+	// Set property "WebHook":
 	if destination.WebHook != nil {
 		webHook_ARM, err := (*destination.WebHook).ConvertToARM(resolved)
 		if err != nil {
@@ -1594,7 +1594,7 @@ func (destination *EventSubscriptionDestination) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscriptionDestination_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureFunction’:
+	// Set property "AzureFunction":
 	if typedInput.AzureFunction != nil {
 		var azureFunction1 AzureFunctionEventSubscriptionDestination
 		err := azureFunction1.PopulateFromARM(owner, *typedInput.AzureFunction)
@@ -1605,7 +1605,7 @@ func (destination *EventSubscriptionDestination) PopulateFromARM(owner genruntim
 		destination.AzureFunction = &azureFunction
 	}
 
-	// Set property ‘EventHub’:
+	// Set property "EventHub":
 	if typedInput.EventHub != nil {
 		var eventHub1 EventHubEventSubscriptionDestination
 		err := eventHub1.PopulateFromARM(owner, *typedInput.EventHub)
@@ -1616,7 +1616,7 @@ func (destination *EventSubscriptionDestination) PopulateFromARM(owner genruntim
 		destination.EventHub = &eventHub
 	}
 
-	// Set property ‘HybridConnection’:
+	// Set property "HybridConnection":
 	if typedInput.HybridConnection != nil {
 		var hybridConnection1 HybridConnectionEventSubscriptionDestination
 		err := hybridConnection1.PopulateFromARM(owner, *typedInput.HybridConnection)
@@ -1627,7 +1627,7 @@ func (destination *EventSubscriptionDestination) PopulateFromARM(owner genruntim
 		destination.HybridConnection = &hybridConnection
 	}
 
-	// Set property ‘ServiceBusQueue’:
+	// Set property "ServiceBusQueue":
 	if typedInput.ServiceBusQueue != nil {
 		var serviceBusQueue1 ServiceBusQueueEventSubscriptionDestination
 		err := serviceBusQueue1.PopulateFromARM(owner, *typedInput.ServiceBusQueue)
@@ -1638,7 +1638,7 @@ func (destination *EventSubscriptionDestination) PopulateFromARM(owner genruntim
 		destination.ServiceBusQueue = &serviceBusQueue
 	}
 
-	// Set property ‘ServiceBusTopic’:
+	// Set property "ServiceBusTopic":
 	if typedInput.ServiceBusTopic != nil {
 		var serviceBusTopic1 ServiceBusTopicEventSubscriptionDestination
 		err := serviceBusTopic1.PopulateFromARM(owner, *typedInput.ServiceBusTopic)
@@ -1649,7 +1649,7 @@ func (destination *EventSubscriptionDestination) PopulateFromARM(owner genruntim
 		destination.ServiceBusTopic = &serviceBusTopic
 	}
 
-	// Set property ‘StorageQueue’:
+	// Set property "StorageQueue":
 	if typedInput.StorageQueue != nil {
 		var storageQueue1 StorageQueueEventSubscriptionDestination
 		err := storageQueue1.PopulateFromARM(owner, *typedInput.StorageQueue)
@@ -1660,7 +1660,7 @@ func (destination *EventSubscriptionDestination) PopulateFromARM(owner genruntim
 		destination.StorageQueue = &storageQueue
 	}
 
-	// Set property ‘WebHook’:
+	// Set property "WebHook":
 	if typedInput.WebHook != nil {
 		var webHook1 WebHookEventSubscriptionDestination
 		err := webHook1.PopulateFromARM(owner, *typedInput.WebHook)
@@ -1994,7 +1994,7 @@ func (destination *EventSubscriptionDestination_STATUS) PopulateFromARM(owner ge
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscriptionDestination_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureFunction’:
+	// Set property "AzureFunction":
 	if typedInput.AzureFunction != nil {
 		var azureFunction1 AzureFunctionEventSubscriptionDestination_STATUS
 		err := azureFunction1.PopulateFromARM(owner, *typedInput.AzureFunction)
@@ -2005,7 +2005,7 @@ func (destination *EventSubscriptionDestination_STATUS) PopulateFromARM(owner ge
 		destination.AzureFunction = &azureFunction
 	}
 
-	// Set property ‘EventHub’:
+	// Set property "EventHub":
 	if typedInput.EventHub != nil {
 		var eventHub1 EventHubEventSubscriptionDestination_STATUS
 		err := eventHub1.PopulateFromARM(owner, *typedInput.EventHub)
@@ -2016,7 +2016,7 @@ func (destination *EventSubscriptionDestination_STATUS) PopulateFromARM(owner ge
 		destination.EventHub = &eventHub
 	}
 
-	// Set property ‘HybridConnection’:
+	// Set property "HybridConnection":
 	if typedInput.HybridConnection != nil {
 		var hybridConnection1 HybridConnectionEventSubscriptionDestination_STATUS
 		err := hybridConnection1.PopulateFromARM(owner, *typedInput.HybridConnection)
@@ -2027,7 +2027,7 @@ func (destination *EventSubscriptionDestination_STATUS) PopulateFromARM(owner ge
 		destination.HybridConnection = &hybridConnection
 	}
 
-	// Set property ‘ServiceBusQueue’:
+	// Set property "ServiceBusQueue":
 	if typedInput.ServiceBusQueue != nil {
 		var serviceBusQueue1 ServiceBusQueueEventSubscriptionDestination_STATUS
 		err := serviceBusQueue1.PopulateFromARM(owner, *typedInput.ServiceBusQueue)
@@ -2038,7 +2038,7 @@ func (destination *EventSubscriptionDestination_STATUS) PopulateFromARM(owner ge
 		destination.ServiceBusQueue = &serviceBusQueue
 	}
 
-	// Set property ‘ServiceBusTopic’:
+	// Set property "ServiceBusTopic":
 	if typedInput.ServiceBusTopic != nil {
 		var serviceBusTopic1 ServiceBusTopicEventSubscriptionDestination_STATUS
 		err := serviceBusTopic1.PopulateFromARM(owner, *typedInput.ServiceBusTopic)
@@ -2049,7 +2049,7 @@ func (destination *EventSubscriptionDestination_STATUS) PopulateFromARM(owner ge
 		destination.ServiceBusTopic = &serviceBusTopic
 	}
 
-	// Set property ‘StorageQueue’:
+	// Set property "StorageQueue":
 	if typedInput.StorageQueue != nil {
 		var storageQueue1 StorageQueueEventSubscriptionDestination_STATUS
 		err := storageQueue1.PopulateFromARM(owner, *typedInput.StorageQueue)
@@ -2060,7 +2060,7 @@ func (destination *EventSubscriptionDestination_STATUS) PopulateFromARM(owner ge
 		destination.StorageQueue = &storageQueue
 	}
 
-	// Set property ‘WebHook’:
+	// Set property "WebHook":
 	if typedInput.WebHook != nil {
 		var webHook1 WebHookEventSubscriptionDestination_STATUS
 		err := webHook1.PopulateFromARM(owner, *typedInput.WebHook)
@@ -2298,7 +2298,7 @@ func (filter *EventSubscriptionFilter) ConvertToARM(resolved genruntime.ConvertT
 	}
 	result := &EventSubscriptionFilter_ARM{}
 
-	// Set property ‘AdvancedFilters’:
+	// Set property "AdvancedFilters":
 	for _, item := range filter.AdvancedFilters {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -2307,24 +2307,24 @@ func (filter *EventSubscriptionFilter) ConvertToARM(resolved genruntime.ConvertT
 		result.AdvancedFilters = append(result.AdvancedFilters, *item_ARM.(*AdvancedFilter_ARM))
 	}
 
-	// Set property ‘IncludedEventTypes’:
+	// Set property "IncludedEventTypes":
 	for _, item := range filter.IncludedEventTypes {
 		result.IncludedEventTypes = append(result.IncludedEventTypes, item)
 	}
 
-	// Set property ‘IsSubjectCaseSensitive’:
+	// Set property "IsSubjectCaseSensitive":
 	if filter.IsSubjectCaseSensitive != nil {
 		isSubjectCaseSensitive := *filter.IsSubjectCaseSensitive
 		result.IsSubjectCaseSensitive = &isSubjectCaseSensitive
 	}
 
-	// Set property ‘SubjectBeginsWith’:
+	// Set property "SubjectBeginsWith":
 	if filter.SubjectBeginsWith != nil {
 		subjectBeginsWith := *filter.SubjectBeginsWith
 		result.SubjectBeginsWith = &subjectBeginsWith
 	}
 
-	// Set property ‘SubjectEndsWith’:
+	// Set property "SubjectEndsWith":
 	if filter.SubjectEndsWith != nil {
 		subjectEndsWith := *filter.SubjectEndsWith
 		result.SubjectEndsWith = &subjectEndsWith
@@ -2344,7 +2344,7 @@ func (filter *EventSubscriptionFilter) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscriptionFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdvancedFilters’:
+	// Set property "AdvancedFilters":
 	for _, item := range typedInput.AdvancedFilters {
 		var item1 AdvancedFilter
 		err := item1.PopulateFromARM(owner, item)
@@ -2354,24 +2354,24 @@ func (filter *EventSubscriptionFilter) PopulateFromARM(owner genruntime.Arbitrar
 		filter.AdvancedFilters = append(filter.AdvancedFilters, item1)
 	}
 
-	// Set property ‘IncludedEventTypes’:
+	// Set property "IncludedEventTypes":
 	for _, item := range typedInput.IncludedEventTypes {
 		filter.IncludedEventTypes = append(filter.IncludedEventTypes, item)
 	}
 
-	// Set property ‘IsSubjectCaseSensitive’:
+	// Set property "IsSubjectCaseSensitive":
 	if typedInput.IsSubjectCaseSensitive != nil {
 		isSubjectCaseSensitive := *typedInput.IsSubjectCaseSensitive
 		filter.IsSubjectCaseSensitive = &isSubjectCaseSensitive
 	}
 
-	// Set property ‘SubjectBeginsWith’:
+	// Set property "SubjectBeginsWith":
 	if typedInput.SubjectBeginsWith != nil {
 		subjectBeginsWith := *typedInput.SubjectBeginsWith
 		filter.SubjectBeginsWith = &subjectBeginsWith
 	}
 
-	// Set property ‘SubjectEndsWith’:
+	// Set property "SubjectEndsWith":
 	if typedInput.SubjectEndsWith != nil {
 		subjectEndsWith := *typedInput.SubjectEndsWith
 		filter.SubjectEndsWith = &subjectEndsWith
@@ -2553,7 +2553,7 @@ func (filter *EventSubscriptionFilter_STATUS) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventSubscriptionFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdvancedFilters’:
+	// Set property "AdvancedFilters":
 	for _, item := range typedInput.AdvancedFilters {
 		var item1 AdvancedFilter_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -2563,24 +2563,24 @@ func (filter *EventSubscriptionFilter_STATUS) PopulateFromARM(owner genruntime.A
 		filter.AdvancedFilters = append(filter.AdvancedFilters, item1)
 	}
 
-	// Set property ‘IncludedEventTypes’:
+	// Set property "IncludedEventTypes":
 	for _, item := range typedInput.IncludedEventTypes {
 		filter.IncludedEventTypes = append(filter.IncludedEventTypes, item)
 	}
 
-	// Set property ‘IsSubjectCaseSensitive’:
+	// Set property "IsSubjectCaseSensitive":
 	if typedInput.IsSubjectCaseSensitive != nil {
 		isSubjectCaseSensitive := *typedInput.IsSubjectCaseSensitive
 		filter.IsSubjectCaseSensitive = &isSubjectCaseSensitive
 	}
 
-	// Set property ‘SubjectBeginsWith’:
+	// Set property "SubjectBeginsWith":
 	if typedInput.SubjectBeginsWith != nil {
 		subjectBeginsWith := *typedInput.SubjectBeginsWith
 		filter.SubjectBeginsWith = &subjectBeginsWith
 	}
 
-	// Set property ‘SubjectEndsWith’:
+	// Set property "SubjectEndsWith":
 	if typedInput.SubjectEndsWith != nil {
 		subjectEndsWith := *typedInput.SubjectEndsWith
 		filter.SubjectEndsWith = &subjectEndsWith
@@ -2730,13 +2730,13 @@ func (policy *RetryPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	}
 	result := &RetryPolicy_ARM{}
 
-	// Set property ‘EventTimeToLiveInMinutes’:
+	// Set property "EventTimeToLiveInMinutes":
 	if policy.EventTimeToLiveInMinutes != nil {
 		eventTimeToLiveInMinutes := *policy.EventTimeToLiveInMinutes
 		result.EventTimeToLiveInMinutes = &eventTimeToLiveInMinutes
 	}
 
-	// Set property ‘MaxDeliveryAttempts’:
+	// Set property "MaxDeliveryAttempts":
 	if policy.MaxDeliveryAttempts != nil {
 		maxDeliveryAttempts := *policy.MaxDeliveryAttempts
 		result.MaxDeliveryAttempts = &maxDeliveryAttempts
@@ -2756,13 +2756,13 @@ func (policy *RetryPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RetryPolicy_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EventTimeToLiveInMinutes’:
+	// Set property "EventTimeToLiveInMinutes":
 	if typedInput.EventTimeToLiveInMinutes != nil {
 		eventTimeToLiveInMinutes := *typedInput.EventTimeToLiveInMinutes
 		policy.EventTimeToLiveInMinutes = &eventTimeToLiveInMinutes
 	}
 
-	// Set property ‘MaxDeliveryAttempts’:
+	// Set property "MaxDeliveryAttempts":
 	if typedInput.MaxDeliveryAttempts != nil {
 		maxDeliveryAttempts := *typedInput.MaxDeliveryAttempts
 		policy.MaxDeliveryAttempts = &maxDeliveryAttempts
@@ -2843,13 +2843,13 @@ func (policy *RetryPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RetryPolicy_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EventTimeToLiveInMinutes’:
+	// Set property "EventTimeToLiveInMinutes":
 	if typedInput.EventTimeToLiveInMinutes != nil {
 		eventTimeToLiveInMinutes := *typedInput.EventTimeToLiveInMinutes
 		policy.EventTimeToLiveInMinutes = &eventTimeToLiveInMinutes
 	}
 
-	// Set property ‘MaxDeliveryAttempts’:
+	// Set property "MaxDeliveryAttempts":
 	if typedInput.MaxDeliveryAttempts != nil {
 		maxDeliveryAttempts := *typedInput.MaxDeliveryAttempts
 		policy.MaxDeliveryAttempts = &maxDeliveryAttempts
@@ -2941,7 +2941,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 	}
 	result := &AdvancedFilter_ARM{}
 
-	// Set property ‘BoolEquals’:
+	// Set property "BoolEquals":
 	if filter.BoolEquals != nil {
 		boolEquals_ARM, err := (*filter.BoolEquals).ConvertToARM(resolved)
 		if err != nil {
@@ -2951,7 +2951,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.BoolEquals = &boolEquals
 	}
 
-	// Set property ‘NumberGreaterThan’:
+	// Set property "NumberGreaterThan":
 	if filter.NumberGreaterThan != nil {
 		numberGreaterThan_ARM, err := (*filter.NumberGreaterThan).ConvertToARM(resolved)
 		if err != nil {
@@ -2961,7 +2961,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.NumberGreaterThan = &numberGreaterThan
 	}
 
-	// Set property ‘NumberGreaterThanOrEquals’:
+	// Set property "NumberGreaterThanOrEquals":
 	if filter.NumberGreaterThanOrEquals != nil {
 		numberGreaterThanOrEquals_ARM, err := (*filter.NumberGreaterThanOrEquals).ConvertToARM(resolved)
 		if err != nil {
@@ -2971,7 +2971,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.NumberGreaterThanOrEquals = &numberGreaterThanOrEquals
 	}
 
-	// Set property ‘NumberIn’:
+	// Set property "NumberIn":
 	if filter.NumberIn != nil {
 		numberIn_ARM, err := (*filter.NumberIn).ConvertToARM(resolved)
 		if err != nil {
@@ -2981,7 +2981,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.NumberIn = &numberIn
 	}
 
-	// Set property ‘NumberLessThan’:
+	// Set property "NumberLessThan":
 	if filter.NumberLessThan != nil {
 		numberLessThan_ARM, err := (*filter.NumberLessThan).ConvertToARM(resolved)
 		if err != nil {
@@ -2991,7 +2991,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.NumberLessThan = &numberLessThan
 	}
 
-	// Set property ‘NumberLessThanOrEquals’:
+	// Set property "NumberLessThanOrEquals":
 	if filter.NumberLessThanOrEquals != nil {
 		numberLessThanOrEquals_ARM, err := (*filter.NumberLessThanOrEquals).ConvertToARM(resolved)
 		if err != nil {
@@ -3001,7 +3001,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.NumberLessThanOrEquals = &numberLessThanOrEquals
 	}
 
-	// Set property ‘NumberNotIn’:
+	// Set property "NumberNotIn":
 	if filter.NumberNotIn != nil {
 		numberNotIn_ARM, err := (*filter.NumberNotIn).ConvertToARM(resolved)
 		if err != nil {
@@ -3011,7 +3011,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.NumberNotIn = &numberNotIn
 	}
 
-	// Set property ‘StringBeginsWith’:
+	// Set property "StringBeginsWith":
 	if filter.StringBeginsWith != nil {
 		stringBeginsWith_ARM, err := (*filter.StringBeginsWith).ConvertToARM(resolved)
 		if err != nil {
@@ -3021,7 +3021,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.StringBeginsWith = &stringBeginsWith
 	}
 
-	// Set property ‘StringContains’:
+	// Set property "StringContains":
 	if filter.StringContains != nil {
 		stringContains_ARM, err := (*filter.StringContains).ConvertToARM(resolved)
 		if err != nil {
@@ -3031,7 +3031,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.StringContains = &stringContains
 	}
 
-	// Set property ‘StringEndsWith’:
+	// Set property "StringEndsWith":
 	if filter.StringEndsWith != nil {
 		stringEndsWith_ARM, err := (*filter.StringEndsWith).ConvertToARM(resolved)
 		if err != nil {
@@ -3041,7 +3041,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.StringEndsWith = &stringEndsWith
 	}
 
-	// Set property ‘StringIn’:
+	// Set property "StringIn":
 	if filter.StringIn != nil {
 		stringIn_ARM, err := (*filter.StringIn).ConvertToARM(resolved)
 		if err != nil {
@@ -3051,7 +3051,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.StringIn = &stringIn
 	}
 
-	// Set property ‘StringNotIn’:
+	// Set property "StringNotIn":
 	if filter.StringNotIn != nil {
 		stringNotIn_ARM, err := (*filter.StringNotIn).ConvertToARM(resolved)
 		if err != nil {
@@ -3075,7 +3075,7 @@ func (filter *AdvancedFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AdvancedFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BoolEquals’:
+	// Set property "BoolEquals":
 	if typedInput.BoolEquals != nil {
 		var boolEquals1 BoolEqualsAdvancedFilter
 		err := boolEquals1.PopulateFromARM(owner, *typedInput.BoolEquals)
@@ -3086,7 +3086,7 @@ func (filter *AdvancedFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		filter.BoolEquals = &boolEquals
 	}
 
-	// Set property ‘NumberGreaterThan’:
+	// Set property "NumberGreaterThan":
 	if typedInput.NumberGreaterThan != nil {
 		var numberGreaterThan1 NumberGreaterThanAdvancedFilter
 		err := numberGreaterThan1.PopulateFromARM(owner, *typedInput.NumberGreaterThan)
@@ -3097,7 +3097,7 @@ func (filter *AdvancedFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		filter.NumberGreaterThan = &numberGreaterThan
 	}
 
-	// Set property ‘NumberGreaterThanOrEquals’:
+	// Set property "NumberGreaterThanOrEquals":
 	if typedInput.NumberGreaterThanOrEquals != nil {
 		var numberGreaterThanOrEquals1 NumberGreaterThanOrEqualsAdvancedFilter
 		err := numberGreaterThanOrEquals1.PopulateFromARM(owner, *typedInput.NumberGreaterThanOrEquals)
@@ -3108,7 +3108,7 @@ func (filter *AdvancedFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		filter.NumberGreaterThanOrEquals = &numberGreaterThanOrEquals
 	}
 
-	// Set property ‘NumberIn’:
+	// Set property "NumberIn":
 	if typedInput.NumberIn != nil {
 		var numberIn1 NumberInAdvancedFilter
 		err := numberIn1.PopulateFromARM(owner, *typedInput.NumberIn)
@@ -3119,7 +3119,7 @@ func (filter *AdvancedFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		filter.NumberIn = &numberIn
 	}
 
-	// Set property ‘NumberLessThan’:
+	// Set property "NumberLessThan":
 	if typedInput.NumberLessThan != nil {
 		var numberLessThan1 NumberLessThanAdvancedFilter
 		err := numberLessThan1.PopulateFromARM(owner, *typedInput.NumberLessThan)
@@ -3130,7 +3130,7 @@ func (filter *AdvancedFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		filter.NumberLessThan = &numberLessThan
 	}
 
-	// Set property ‘NumberLessThanOrEquals’:
+	// Set property "NumberLessThanOrEquals":
 	if typedInput.NumberLessThanOrEquals != nil {
 		var numberLessThanOrEquals1 NumberLessThanOrEqualsAdvancedFilter
 		err := numberLessThanOrEquals1.PopulateFromARM(owner, *typedInput.NumberLessThanOrEquals)
@@ -3141,7 +3141,7 @@ func (filter *AdvancedFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		filter.NumberLessThanOrEquals = &numberLessThanOrEquals
 	}
 
-	// Set property ‘NumberNotIn’:
+	// Set property "NumberNotIn":
 	if typedInput.NumberNotIn != nil {
 		var numberNotIn1 NumberNotInAdvancedFilter
 		err := numberNotIn1.PopulateFromARM(owner, *typedInput.NumberNotIn)
@@ -3152,7 +3152,7 @@ func (filter *AdvancedFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		filter.NumberNotIn = &numberNotIn
 	}
 
-	// Set property ‘StringBeginsWith’:
+	// Set property "StringBeginsWith":
 	if typedInput.StringBeginsWith != nil {
 		var stringBeginsWith1 StringBeginsWithAdvancedFilter
 		err := stringBeginsWith1.PopulateFromARM(owner, *typedInput.StringBeginsWith)
@@ -3163,7 +3163,7 @@ func (filter *AdvancedFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		filter.StringBeginsWith = &stringBeginsWith
 	}
 
-	// Set property ‘StringContains’:
+	// Set property "StringContains":
 	if typedInput.StringContains != nil {
 		var stringContains1 StringContainsAdvancedFilter
 		err := stringContains1.PopulateFromARM(owner, *typedInput.StringContains)
@@ -3174,7 +3174,7 @@ func (filter *AdvancedFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		filter.StringContains = &stringContains
 	}
 
-	// Set property ‘StringEndsWith’:
+	// Set property "StringEndsWith":
 	if typedInput.StringEndsWith != nil {
 		var stringEndsWith1 StringEndsWithAdvancedFilter
 		err := stringEndsWith1.PopulateFromARM(owner, *typedInput.StringEndsWith)
@@ -3185,7 +3185,7 @@ func (filter *AdvancedFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		filter.StringEndsWith = &stringEndsWith
 	}
 
-	// Set property ‘StringIn’:
+	// Set property "StringIn":
 	if typedInput.StringIn != nil {
 		var stringIn1 StringInAdvancedFilter
 		err := stringIn1.PopulateFromARM(owner, *typedInput.StringIn)
@@ -3196,7 +3196,7 @@ func (filter *AdvancedFilter) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		filter.StringIn = &stringIn
 	}
 
-	// Set property ‘StringNotIn’:
+	// Set property "StringNotIn":
 	if typedInput.StringNotIn != nil {
 		var stringNotIn1 StringNotInAdvancedFilter
 		err := stringNotIn1.PopulateFromARM(owner, *typedInput.StringNotIn)
@@ -3725,7 +3725,7 @@ func (filter *AdvancedFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AdvancedFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BoolEquals’:
+	// Set property "BoolEquals":
 	if typedInput.BoolEquals != nil {
 		var boolEquals1 BoolEqualsAdvancedFilter_STATUS
 		err := boolEquals1.PopulateFromARM(owner, *typedInput.BoolEquals)
@@ -3736,7 +3736,7 @@ func (filter *AdvancedFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		filter.BoolEquals = &boolEquals
 	}
 
-	// Set property ‘NumberGreaterThan’:
+	// Set property "NumberGreaterThan":
 	if typedInput.NumberGreaterThan != nil {
 		var numberGreaterThan1 NumberGreaterThanAdvancedFilter_STATUS
 		err := numberGreaterThan1.PopulateFromARM(owner, *typedInput.NumberGreaterThan)
@@ -3747,7 +3747,7 @@ func (filter *AdvancedFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		filter.NumberGreaterThan = &numberGreaterThan
 	}
 
-	// Set property ‘NumberGreaterThanOrEquals’:
+	// Set property "NumberGreaterThanOrEquals":
 	if typedInput.NumberGreaterThanOrEquals != nil {
 		var numberGreaterThanOrEquals1 NumberGreaterThanOrEqualsAdvancedFilter_STATUS
 		err := numberGreaterThanOrEquals1.PopulateFromARM(owner, *typedInput.NumberGreaterThanOrEquals)
@@ -3758,7 +3758,7 @@ func (filter *AdvancedFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		filter.NumberGreaterThanOrEquals = &numberGreaterThanOrEquals
 	}
 
-	// Set property ‘NumberIn’:
+	// Set property "NumberIn":
 	if typedInput.NumberIn != nil {
 		var numberIn1 NumberInAdvancedFilter_STATUS
 		err := numberIn1.PopulateFromARM(owner, *typedInput.NumberIn)
@@ -3769,7 +3769,7 @@ func (filter *AdvancedFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		filter.NumberIn = &numberIn
 	}
 
-	// Set property ‘NumberLessThan’:
+	// Set property "NumberLessThan":
 	if typedInput.NumberLessThan != nil {
 		var numberLessThan1 NumberLessThanAdvancedFilter_STATUS
 		err := numberLessThan1.PopulateFromARM(owner, *typedInput.NumberLessThan)
@@ -3780,7 +3780,7 @@ func (filter *AdvancedFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		filter.NumberLessThan = &numberLessThan
 	}
 
-	// Set property ‘NumberLessThanOrEquals’:
+	// Set property "NumberLessThanOrEquals":
 	if typedInput.NumberLessThanOrEquals != nil {
 		var numberLessThanOrEquals1 NumberLessThanOrEqualsAdvancedFilter_STATUS
 		err := numberLessThanOrEquals1.PopulateFromARM(owner, *typedInput.NumberLessThanOrEquals)
@@ -3791,7 +3791,7 @@ func (filter *AdvancedFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		filter.NumberLessThanOrEquals = &numberLessThanOrEquals
 	}
 
-	// Set property ‘NumberNotIn’:
+	// Set property "NumberNotIn":
 	if typedInput.NumberNotIn != nil {
 		var numberNotIn1 NumberNotInAdvancedFilter_STATUS
 		err := numberNotIn1.PopulateFromARM(owner, *typedInput.NumberNotIn)
@@ -3802,7 +3802,7 @@ func (filter *AdvancedFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		filter.NumberNotIn = &numberNotIn
 	}
 
-	// Set property ‘StringBeginsWith’:
+	// Set property "StringBeginsWith":
 	if typedInput.StringBeginsWith != nil {
 		var stringBeginsWith1 StringBeginsWithAdvancedFilter_STATUS
 		err := stringBeginsWith1.PopulateFromARM(owner, *typedInput.StringBeginsWith)
@@ -3813,7 +3813,7 @@ func (filter *AdvancedFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		filter.StringBeginsWith = &stringBeginsWith
 	}
 
-	// Set property ‘StringContains’:
+	// Set property "StringContains":
 	if typedInput.StringContains != nil {
 		var stringContains1 StringContainsAdvancedFilter_STATUS
 		err := stringContains1.PopulateFromARM(owner, *typedInput.StringContains)
@@ -3824,7 +3824,7 @@ func (filter *AdvancedFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		filter.StringContains = &stringContains
 	}
 
-	// Set property ‘StringEndsWith’:
+	// Set property "StringEndsWith":
 	if typedInput.StringEndsWith != nil {
 		var stringEndsWith1 StringEndsWithAdvancedFilter_STATUS
 		err := stringEndsWith1.PopulateFromARM(owner, *typedInput.StringEndsWith)
@@ -3835,7 +3835,7 @@ func (filter *AdvancedFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		filter.StringEndsWith = &stringEndsWith
 	}
 
-	// Set property ‘StringIn’:
+	// Set property "StringIn":
 	if typedInput.StringIn != nil {
 		var stringIn1 StringInAdvancedFilter_STATUS
 		err := stringIn1.PopulateFromARM(owner, *typedInput.StringIn)
@@ -3846,7 +3846,7 @@ func (filter *AdvancedFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		filter.StringIn = &stringIn
 	}
 
-	// Set property ‘StringNotIn’:
+	// Set property "StringNotIn":
 	if typedInput.StringNotIn != nil {
 		var stringNotIn1 StringNotInAdvancedFilter_STATUS
 		err := stringNotIn1.PopulateFromARM(owner, *typedInput.StringNotIn)
@@ -4197,12 +4197,12 @@ func (destination *AzureFunctionEventSubscriptionDestination) ConvertToARM(resol
 	}
 	result := &AzureFunctionEventSubscriptionDestination_ARM{}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	if destination.EndpointType != nil {
 		result.EndpointType = *destination.EndpointType
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if destination.MaxEventsPerBatch != nil ||
 		destination.PreferredBatchSizeInKilobytes != nil ||
 		destination.ResourceReference != nil {
@@ -4239,10 +4239,10 @@ func (destination *AzureFunctionEventSubscriptionDestination) PopulateFromARM(ow
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureFunctionEventSubscriptionDestination_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// Set property ‘MaxEventsPerBatch’:
+	// Set property "MaxEventsPerBatch":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxEventsPerBatch != nil {
@@ -4251,7 +4251,7 @@ func (destination *AzureFunctionEventSubscriptionDestination) PopulateFromARM(ow
 		}
 	}
 
-	// Set property ‘PreferredBatchSizeInKilobytes’:
+	// Set property "PreferredBatchSizeInKilobytes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PreferredBatchSizeInKilobytes != nil {
@@ -4260,7 +4260,7 @@ func (destination *AzureFunctionEventSubscriptionDestination) PopulateFromARM(ow
 		}
 	}
 
-	// no assignment for property ‘ResourceReference’
+	// no assignment for property "ResourceReference"
 
 	// No error
 	return nil
@@ -4391,10 +4391,10 @@ func (destination *AzureFunctionEventSubscriptionDestination_STATUS) PopulateFro
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureFunctionEventSubscriptionDestination_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// Set property ‘MaxEventsPerBatch’:
+	// Set property "MaxEventsPerBatch":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxEventsPerBatch != nil {
@@ -4403,7 +4403,7 @@ func (destination *AzureFunctionEventSubscriptionDestination_STATUS) PopulateFro
 		}
 	}
 
-	// Set property ‘PreferredBatchSizeInKilobytes’:
+	// Set property "PreferredBatchSizeInKilobytes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PreferredBatchSizeInKilobytes != nil {
@@ -4412,7 +4412,7 @@ func (destination *AzureFunctionEventSubscriptionDestination_STATUS) PopulateFro
 		}
 	}
 
-	// Set property ‘ResourceId’:
+	// Set property "ResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceId != nil {
@@ -4501,12 +4501,12 @@ func (destination *EventHubEventSubscriptionDestination) ConvertToARM(resolved g
 	}
 	result := &EventHubEventSubscriptionDestination_ARM{}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	if destination.EndpointType != nil {
 		result.EndpointType = *destination.EndpointType
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if destination.ResourceReference != nil {
 		result.Properties = &EventHubEventSubscriptionDestinationProperties_ARM{}
 	}
@@ -4533,10 +4533,10 @@ func (destination *EventHubEventSubscriptionDestination) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventHubEventSubscriptionDestination_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// no assignment for property ‘ResourceReference’
+	// no assignment for property "ResourceReference"
 
 	// No error
 	return nil
@@ -4642,10 +4642,10 @@ func (destination *EventHubEventSubscriptionDestination_STATUS) PopulateFromARM(
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EventHubEventSubscriptionDestination_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// Set property ‘ResourceId’:
+	// Set property "ResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceId != nil {
@@ -4721,12 +4721,12 @@ func (destination *HybridConnectionEventSubscriptionDestination) ConvertToARM(re
 	}
 	result := &HybridConnectionEventSubscriptionDestination_ARM{}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	if destination.EndpointType != nil {
 		result.EndpointType = *destination.EndpointType
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if destination.ResourceReference != nil {
 		result.Properties = &HybridConnectionEventSubscriptionDestinationProperties_ARM{}
 	}
@@ -4753,10 +4753,10 @@ func (destination *HybridConnectionEventSubscriptionDestination) PopulateFromARM
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HybridConnectionEventSubscriptionDestination_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// no assignment for property ‘ResourceReference’
+	// no assignment for property "ResourceReference"
 
 	// No error
 	return nil
@@ -4862,10 +4862,10 @@ func (destination *HybridConnectionEventSubscriptionDestination_STATUS) Populate
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HybridConnectionEventSubscriptionDestination_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// Set property ‘ResourceId’:
+	// Set property "ResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceId != nil {
@@ -4942,12 +4942,12 @@ func (destination *ServiceBusQueueEventSubscriptionDestination) ConvertToARM(res
 	}
 	result := &ServiceBusQueueEventSubscriptionDestination_ARM{}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	if destination.EndpointType != nil {
 		result.EndpointType = *destination.EndpointType
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if destination.ResourceReference != nil {
 		result.Properties = &ServiceBusQueueEventSubscriptionDestinationProperties_ARM{}
 	}
@@ -4974,10 +4974,10 @@ func (destination *ServiceBusQueueEventSubscriptionDestination) PopulateFromARM(
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServiceBusQueueEventSubscriptionDestination_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// no assignment for property ‘ResourceReference’
+	// no assignment for property "ResourceReference"
 
 	// No error
 	return nil
@@ -5083,10 +5083,10 @@ func (destination *ServiceBusQueueEventSubscriptionDestination_STATUS) PopulateF
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServiceBusQueueEventSubscriptionDestination_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// Set property ‘ResourceId’:
+	// Set property "ResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceId != nil {
@@ -5163,12 +5163,12 @@ func (destination *ServiceBusTopicEventSubscriptionDestination) ConvertToARM(res
 	}
 	result := &ServiceBusTopicEventSubscriptionDestination_ARM{}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	if destination.EndpointType != nil {
 		result.EndpointType = *destination.EndpointType
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if destination.ResourceReference != nil {
 		result.Properties = &ServiceBusTopicEventSubscriptionDestinationProperties_ARM{}
 	}
@@ -5195,10 +5195,10 @@ func (destination *ServiceBusTopicEventSubscriptionDestination) PopulateFromARM(
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServiceBusTopicEventSubscriptionDestination_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// no assignment for property ‘ResourceReference’
+	// no assignment for property "ResourceReference"
 
 	// No error
 	return nil
@@ -5305,10 +5305,10 @@ func (destination *ServiceBusTopicEventSubscriptionDestination_STATUS) PopulateF
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServiceBusTopicEventSubscriptionDestination_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// Set property ‘ResourceId’:
+	// Set property "ResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceId != nil {
@@ -5387,12 +5387,12 @@ func (destination *StorageBlobDeadLetterDestination) ConvertToARM(resolved genru
 	}
 	result := &StorageBlobDeadLetterDestination_ARM{}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	if destination.EndpointType != nil {
 		result.EndpointType = *destination.EndpointType
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if destination.BlobContainerName != nil || destination.ResourceReference != nil {
 		result.Properties = &StorageBlobDeadLetterDestinationProperties_ARM{}
 	}
@@ -5423,7 +5423,7 @@ func (destination *StorageBlobDeadLetterDestination) PopulateFromARM(owner genru
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageBlobDeadLetterDestination_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BlobContainerName’:
+	// Set property "BlobContainerName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BlobContainerName != nil {
@@ -5432,10 +5432,10 @@ func (destination *StorageBlobDeadLetterDestination) PopulateFromARM(owner genru
 		}
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// no assignment for property ‘ResourceReference’
+	// no assignment for property "ResourceReference"
 
 	// No error
 	return nil
@@ -5553,7 +5553,7 @@ func (destination *StorageBlobDeadLetterDestination_STATUS) PopulateFromARM(owne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageBlobDeadLetterDestination_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BlobContainerName’:
+	// Set property "BlobContainerName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BlobContainerName != nil {
@@ -5562,10 +5562,10 @@ func (destination *StorageBlobDeadLetterDestination_STATUS) PopulateFromARM(owne
 		}
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// Set property ‘ResourceId’:
+	// Set property "ResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceId != nil {
@@ -5651,12 +5651,12 @@ func (destination *StorageQueueEventSubscriptionDestination) ConvertToARM(resolv
 	}
 	result := &StorageQueueEventSubscriptionDestination_ARM{}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	if destination.EndpointType != nil {
 		result.EndpointType = *destination.EndpointType
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if destination.QueueName != nil || destination.ResourceReference != nil {
 		result.Properties = &StorageQueueEventSubscriptionDestinationProperties_ARM{}
 	}
@@ -5687,10 +5687,10 @@ func (destination *StorageQueueEventSubscriptionDestination) PopulateFromARM(own
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageQueueEventSubscriptionDestination_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// Set property ‘QueueName’:
+	// Set property "QueueName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.QueueName != nil {
@@ -5699,7 +5699,7 @@ func (destination *StorageQueueEventSubscriptionDestination) PopulateFromARM(own
 		}
 	}
 
-	// no assignment for property ‘ResourceReference’
+	// no assignment for property "ResourceReference"
 
 	// No error
 	return nil
@@ -5818,10 +5818,10 @@ func (destination *StorageQueueEventSubscriptionDestination_STATUS) PopulateFrom
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageQueueEventSubscriptionDestination_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// Set property ‘QueueName’:
+	// Set property "QueueName":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.QueueName != nil {
@@ -5830,7 +5830,7 @@ func (destination *StorageQueueEventSubscriptionDestination_STATUS) PopulateFrom
 		}
 	}
 
-	// Set property ‘ResourceId’:
+	// Set property "ResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceId != nil {
@@ -5926,12 +5926,12 @@ func (destination *WebHookEventSubscriptionDestination) ConvertToARM(resolved ge
 	}
 	result := &WebHookEventSubscriptionDestination_ARM{}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	if destination.EndpointType != nil {
 		result.EndpointType = *destination.EndpointType
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if destination.AzureActiveDirectoryApplicationIdOrUri != nil ||
 		destination.AzureActiveDirectoryTenantId != nil ||
 		destination.EndpointUrl != nil ||
@@ -5978,7 +5978,7 @@ func (destination *WebHookEventSubscriptionDestination) PopulateFromARM(owner ge
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebHookEventSubscriptionDestination_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureActiveDirectoryApplicationIdOrUri’:
+	// Set property "AzureActiveDirectoryApplicationIdOrUri":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AzureActiveDirectoryApplicationIdOrUri != nil {
@@ -5987,7 +5987,7 @@ func (destination *WebHookEventSubscriptionDestination) PopulateFromARM(owner ge
 		}
 	}
 
-	// Set property ‘AzureActiveDirectoryTenantId’:
+	// Set property "AzureActiveDirectoryTenantId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AzureActiveDirectoryTenantId != nil {
@@ -5996,12 +5996,12 @@ func (destination *WebHookEventSubscriptionDestination) PopulateFromARM(owner ge
 		}
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// no assignment for property ‘EndpointUrl’
+	// no assignment for property "EndpointUrl"
 
-	// Set property ‘MaxEventsPerBatch’:
+	// Set property "MaxEventsPerBatch":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxEventsPerBatch != nil {
@@ -6010,7 +6010,7 @@ func (destination *WebHookEventSubscriptionDestination) PopulateFromARM(owner ge
 		}
 	}
 
-	// Set property ‘PreferredBatchSizeInKilobytes’:
+	// Set property "PreferredBatchSizeInKilobytes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PreferredBatchSizeInKilobytes != nil {
@@ -6165,7 +6165,7 @@ func (destination *WebHookEventSubscriptionDestination_STATUS) PopulateFromARM(o
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebHookEventSubscriptionDestination_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureActiveDirectoryApplicationIdOrUri’:
+	// Set property "AzureActiveDirectoryApplicationIdOrUri":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AzureActiveDirectoryApplicationIdOrUri != nil {
@@ -6174,7 +6174,7 @@ func (destination *WebHookEventSubscriptionDestination_STATUS) PopulateFromARM(o
 		}
 	}
 
-	// Set property ‘AzureActiveDirectoryTenantId’:
+	// Set property "AzureActiveDirectoryTenantId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AzureActiveDirectoryTenantId != nil {
@@ -6183,7 +6183,7 @@ func (destination *WebHookEventSubscriptionDestination_STATUS) PopulateFromARM(o
 		}
 	}
 
-	// Set property ‘EndpointBaseUrl’:
+	// Set property "EndpointBaseUrl":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EndpointBaseUrl != nil {
@@ -6192,10 +6192,10 @@ func (destination *WebHookEventSubscriptionDestination_STATUS) PopulateFromARM(o
 		}
 	}
 
-	// Set property ‘EndpointType’:
+	// Set property "EndpointType":
 	destination.EndpointType = &typedInput.EndpointType
 
-	// Set property ‘MaxEventsPerBatch’:
+	// Set property "MaxEventsPerBatch":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxEventsPerBatch != nil {
@@ -6204,7 +6204,7 @@ func (destination *WebHookEventSubscriptionDestination_STATUS) PopulateFromARM(o
 		}
 	}
 
-	// Set property ‘PreferredBatchSizeInKilobytes’:
+	// Set property "PreferredBatchSizeInKilobytes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PreferredBatchSizeInKilobytes != nil {
@@ -6316,18 +6316,18 @@ func (filter *BoolEqualsAdvancedFilter) ConvertToARM(resolved genruntime.Convert
 	}
 	result := &BoolEqualsAdvancedFilter_ARM{}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if filter.Key != nil {
 		key := *filter.Key
 		result.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	if filter.OperatorType != nil {
 		result.OperatorType = *filter.OperatorType
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if filter.Value != nil {
 		value := *filter.Value
 		result.Value = &value
@@ -6347,16 +6347,16 @@ func (filter *BoolEqualsAdvancedFilter) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BoolEqualsAdvancedFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		filter.Value = &value
@@ -6478,16 +6478,16 @@ func (filter *BoolEqualsAdvancedFilter_STATUS) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BoolEqualsAdvancedFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		filter.Value = &value
@@ -6597,18 +6597,18 @@ func (filter *NumberGreaterThanAdvancedFilter) ConvertToARM(resolved genruntime.
 	}
 	result := &NumberGreaterThanAdvancedFilter_ARM{}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if filter.Key != nil {
 		key := *filter.Key
 		result.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	if filter.OperatorType != nil {
 		result.OperatorType = *filter.OperatorType
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if filter.Value != nil {
 		value := *filter.Value
 		result.Value = &value
@@ -6628,16 +6628,16 @@ func (filter *NumberGreaterThanAdvancedFilter) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NumberGreaterThanAdvancedFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		filter.Value = &value
@@ -6759,16 +6759,16 @@ func (filter *NumberGreaterThanAdvancedFilter_STATUS) PopulateFromARM(owner genr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NumberGreaterThanAdvancedFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		filter.Value = &value
@@ -6860,18 +6860,18 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter) ConvertToARM(resolved gen
 	}
 	result := &NumberGreaterThanOrEqualsAdvancedFilter_ARM{}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if filter.Key != nil {
 		key := *filter.Key
 		result.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	if filter.OperatorType != nil {
 		result.OperatorType = *filter.OperatorType
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if filter.Value != nil {
 		value := *filter.Value
 		result.Value = &value
@@ -6891,16 +6891,16 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NumberGreaterThanOrEqualsAdvancedFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		filter.Value = &value
@@ -7022,16 +7022,16 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter_STATUS) PopulateFromARM(ow
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		filter.Value = &value
@@ -7123,18 +7123,18 @@ func (filter *NumberInAdvancedFilter) ConvertToARM(resolved genruntime.ConvertTo
 	}
 	result := &NumberInAdvancedFilter_ARM{}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if filter.Key != nil {
 		key := *filter.Key
 		result.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	if filter.OperatorType != nil {
 		result.OperatorType = *filter.OperatorType
 	}
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range filter.Values {
 		result.Values = append(result.Values, item)
 	}
@@ -7153,16 +7153,16 @@ func (filter *NumberInAdvancedFilter) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NumberInAdvancedFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range typedInput.Values {
 		filter.Values = append(filter.Values, item)
 	}
@@ -7298,16 +7298,16 @@ func (filter *NumberInAdvancedFilter_STATUS) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NumberInAdvancedFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range typedInput.Values {
 		filter.Values = append(filter.Values, item)
 	}
@@ -7408,18 +7408,18 @@ func (filter *NumberLessThanAdvancedFilter) ConvertToARM(resolved genruntime.Con
 	}
 	result := &NumberLessThanAdvancedFilter_ARM{}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if filter.Key != nil {
 		key := *filter.Key
 		result.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	if filter.OperatorType != nil {
 		result.OperatorType = *filter.OperatorType
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if filter.Value != nil {
 		value := *filter.Value
 		result.Value = &value
@@ -7439,16 +7439,16 @@ func (filter *NumberLessThanAdvancedFilter) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NumberLessThanAdvancedFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		filter.Value = &value
@@ -7570,16 +7570,16 @@ func (filter *NumberLessThanAdvancedFilter_STATUS) PopulateFromARM(owner genrunt
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NumberLessThanAdvancedFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		filter.Value = &value
@@ -7671,18 +7671,18 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter) ConvertToARM(resolved genrun
 	}
 	result := &NumberLessThanOrEqualsAdvancedFilter_ARM{}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if filter.Key != nil {
 		key := *filter.Key
 		result.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	if filter.OperatorType != nil {
 		result.OperatorType = *filter.OperatorType
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if filter.Value != nil {
 		value := *filter.Value
 		result.Value = &value
@@ -7702,16 +7702,16 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NumberLessThanOrEqualsAdvancedFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		filter.Value = &value
@@ -7833,16 +7833,16 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter_STATUS) PopulateFromARM(owner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		filter.Value = &value
@@ -7934,18 +7934,18 @@ func (filter *NumberNotInAdvancedFilter) ConvertToARM(resolved genruntime.Conver
 	}
 	result := &NumberNotInAdvancedFilter_ARM{}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if filter.Key != nil {
 		key := *filter.Key
 		result.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	if filter.OperatorType != nil {
 		result.OperatorType = *filter.OperatorType
 	}
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range filter.Values {
 		result.Values = append(result.Values, item)
 	}
@@ -7964,16 +7964,16 @@ func (filter *NumberNotInAdvancedFilter) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NumberNotInAdvancedFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range typedInput.Values {
 		filter.Values = append(filter.Values, item)
 	}
@@ -8109,16 +8109,16 @@ func (filter *NumberNotInAdvancedFilter_STATUS) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NumberNotInAdvancedFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range typedInput.Values {
 		filter.Values = append(filter.Values, item)
 	}
@@ -8255,18 +8255,18 @@ func (filter *StringBeginsWithAdvancedFilter) ConvertToARM(resolved genruntime.C
 	}
 	result := &StringBeginsWithAdvancedFilter_ARM{}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if filter.Key != nil {
 		key := *filter.Key
 		result.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	if filter.OperatorType != nil {
 		result.OperatorType = *filter.OperatorType
 	}
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range filter.Values {
 		result.Values = append(result.Values, item)
 	}
@@ -8285,16 +8285,16 @@ func (filter *StringBeginsWithAdvancedFilter) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StringBeginsWithAdvancedFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range typedInput.Values {
 		filter.Values = append(filter.Values, item)
 	}
@@ -8400,16 +8400,16 @@ func (filter *StringBeginsWithAdvancedFilter_STATUS) PopulateFromARM(owner genru
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StringBeginsWithAdvancedFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range typedInput.Values {
 		filter.Values = append(filter.Values, item)
 	}
@@ -8490,18 +8490,18 @@ func (filter *StringContainsAdvancedFilter) ConvertToARM(resolved genruntime.Con
 	}
 	result := &StringContainsAdvancedFilter_ARM{}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if filter.Key != nil {
 		key := *filter.Key
 		result.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	if filter.OperatorType != nil {
 		result.OperatorType = *filter.OperatorType
 	}
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range filter.Values {
 		result.Values = append(result.Values, item)
 	}
@@ -8520,16 +8520,16 @@ func (filter *StringContainsAdvancedFilter) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StringContainsAdvancedFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range typedInput.Values {
 		filter.Values = append(filter.Values, item)
 	}
@@ -8635,16 +8635,16 @@ func (filter *StringContainsAdvancedFilter_STATUS) PopulateFromARM(owner genrunt
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StringContainsAdvancedFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range typedInput.Values {
 		filter.Values = append(filter.Values, item)
 	}
@@ -8725,18 +8725,18 @@ func (filter *StringEndsWithAdvancedFilter) ConvertToARM(resolved genruntime.Con
 	}
 	result := &StringEndsWithAdvancedFilter_ARM{}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if filter.Key != nil {
 		key := *filter.Key
 		result.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	if filter.OperatorType != nil {
 		result.OperatorType = *filter.OperatorType
 	}
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range filter.Values {
 		result.Values = append(result.Values, item)
 	}
@@ -8755,16 +8755,16 @@ func (filter *StringEndsWithAdvancedFilter) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StringEndsWithAdvancedFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range typedInput.Values {
 		filter.Values = append(filter.Values, item)
 	}
@@ -8870,16 +8870,16 @@ func (filter *StringEndsWithAdvancedFilter_STATUS) PopulateFromARM(owner genrunt
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StringEndsWithAdvancedFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range typedInput.Values {
 		filter.Values = append(filter.Values, item)
 	}
@@ -8960,18 +8960,18 @@ func (filter *StringInAdvancedFilter) ConvertToARM(resolved genruntime.ConvertTo
 	}
 	result := &StringInAdvancedFilter_ARM{}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if filter.Key != nil {
 		key := *filter.Key
 		result.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	if filter.OperatorType != nil {
 		result.OperatorType = *filter.OperatorType
 	}
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range filter.Values {
 		result.Values = append(result.Values, item)
 	}
@@ -8990,16 +8990,16 @@ func (filter *StringInAdvancedFilter) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StringInAdvancedFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range typedInput.Values {
 		filter.Values = append(filter.Values, item)
 	}
@@ -9105,16 +9105,16 @@ func (filter *StringInAdvancedFilter_STATUS) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StringInAdvancedFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range typedInput.Values {
 		filter.Values = append(filter.Values, item)
 	}
@@ -9195,18 +9195,18 @@ func (filter *StringNotInAdvancedFilter) ConvertToARM(resolved genruntime.Conver
 	}
 	result := &StringNotInAdvancedFilter_ARM{}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if filter.Key != nil {
 		key := *filter.Key
 		result.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	if filter.OperatorType != nil {
 		result.OperatorType = *filter.OperatorType
 	}
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range filter.Values {
 		result.Values = append(result.Values, item)
 	}
@@ -9225,16 +9225,16 @@ func (filter *StringNotInAdvancedFilter) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StringNotInAdvancedFilter_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range typedInput.Values {
 		filter.Values = append(filter.Values, item)
 	}
@@ -9340,16 +9340,16 @@ func (filter *StringNotInAdvancedFilter_STATUS) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StringNotInAdvancedFilter_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key’:
+	// Set property "Key":
 	if typedInput.Key != nil {
 		key := *typedInput.Key
 		filter.Key = &key
 	}
 
-	// Set property ‘OperatorType’:
+	// Set property "OperatorType":
 	filter.OperatorType = &typedInput.OperatorType
 
-	// Set property ‘Values’:
+	// Set property "Values":
 	for _, item := range typedInput.Values {
 		filter.Values = append(filter.Values, item)
 	}

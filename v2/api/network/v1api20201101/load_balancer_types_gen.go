@@ -376,7 +376,7 @@ func (balancer *LoadBalancer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &LoadBalancer_Spec_ARM{}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if balancer.ExtendedLocation != nil {
 		extendedLocation_ARM, err := (*balancer.ExtendedLocation).ConvertToARM(resolved)
 		if err != nil {
@@ -386,16 +386,16 @@ func (balancer *LoadBalancer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if balancer.Location != nil {
 		location := *balancer.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if balancer.BackendAddressPools != nil ||
 		balancer.FrontendIPConfigurations != nil ||
 		balancer.InboundNatPools != nil ||
@@ -455,7 +455,7 @@ func (balancer *LoadBalancer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties.Probes = append(result.Properties.Probes, *item_ARM.(*Probe_ARM))
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if balancer.Sku != nil {
 		sku_ARM, err := (*balancer.Sku).ConvertToARM(resolved)
 		if err != nil {
@@ -465,7 +465,7 @@ func (balancer *LoadBalancer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Sku = &sku
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if balancer.Tags != nil {
 		result.Tags = make(map[string]string, len(balancer.Tags))
 		for key, value := range balancer.Tags {
@@ -487,10 +487,10 @@ func (balancer *LoadBalancer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancer_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	balancer.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘BackendAddressPools’:
+	// Set property "BackendAddressPools":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.BackendAddressPools {
@@ -503,7 +503,7 @@ func (balancer *LoadBalancer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if typedInput.ExtendedLocation != nil {
 		var extendedLocation1 ExtendedLocation
 		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
@@ -514,7 +514,7 @@ func (balancer *LoadBalancer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		balancer.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘FrontendIPConfigurations’:
+	// Set property "FrontendIPConfigurations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.FrontendIPConfigurations {
@@ -527,7 +527,7 @@ func (balancer *LoadBalancer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘InboundNatPools’:
+	// Set property "InboundNatPools":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.InboundNatPools {
@@ -540,7 +540,7 @@ func (balancer *LoadBalancer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘InboundNatRules’:
+	// Set property "InboundNatRules":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.InboundNatRules {
@@ -553,7 +553,7 @@ func (balancer *LoadBalancer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘LoadBalancingRules’:
+	// Set property "LoadBalancingRules":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.LoadBalancingRules {
@@ -566,13 +566,13 @@ func (balancer *LoadBalancer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		balancer.Location = &location
 	}
 
-	// Set property ‘OutboundRules’:
+	// Set property "OutboundRules":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.OutboundRules {
@@ -585,10 +585,10 @@ func (balancer *LoadBalancer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	balancer.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Probes’:
+	// Set property "Probes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Probes {
@@ -601,7 +601,7 @@ func (balancer *LoadBalancer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 LoadBalancerSku
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -612,7 +612,7 @@ func (balancer *LoadBalancer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		balancer.Sku = &sku
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		balancer.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1333,7 +1333,7 @@ func (balancer *LoadBalancer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancer_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BackendAddressPools’:
+	// Set property "BackendAddressPools":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.BackendAddressPools {
@@ -1346,15 +1346,15 @@ func (balancer *LoadBalancer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		balancer.Etag = &etag
 	}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if typedInput.ExtendedLocation != nil {
 		var extendedLocation1 ExtendedLocation_STATUS
 		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
@@ -1365,7 +1365,7 @@ func (balancer *LoadBalancer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		balancer.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘FrontendIPConfigurations’:
+	// Set property "FrontendIPConfigurations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.FrontendIPConfigurations {
@@ -1378,13 +1378,13 @@ func (balancer *LoadBalancer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		balancer.Id = &id
 	}
 
-	// Set property ‘InboundNatPools’:
+	// Set property "InboundNatPools":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.InboundNatPools {
@@ -1397,7 +1397,7 @@ func (balancer *LoadBalancer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘InboundNatRules’:
+	// Set property "InboundNatRules":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.InboundNatRules {
@@ -1410,7 +1410,7 @@ func (balancer *LoadBalancer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘LoadBalancingRules’:
+	// Set property "LoadBalancingRules":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.LoadBalancingRules {
@@ -1423,19 +1423,19 @@ func (balancer *LoadBalancer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		balancer.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		balancer.Name = &name
 	}
 
-	// Set property ‘OutboundRules’:
+	// Set property "OutboundRules":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.OutboundRules {
@@ -1448,7 +1448,7 @@ func (balancer *LoadBalancer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Probes’:
+	// Set property "Probes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Probes {
@@ -1461,7 +1461,7 @@ func (balancer *LoadBalancer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -1470,7 +1470,7 @@ func (balancer *LoadBalancer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘ResourceGuid’:
+	// Set property "ResourceGuid":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceGuid != nil {
@@ -1479,7 +1479,7 @@ func (balancer *LoadBalancer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 LoadBalancerSku_STATUS
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -1490,7 +1490,7 @@ func (balancer *LoadBalancer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		balancer.Sku = &sku
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		balancer.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1498,7 +1498,7 @@ func (balancer *LoadBalancer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		balancer.Type = &typeVar
@@ -1914,13 +1914,13 @@ func (embedded *BackendAddressPool_LoadBalancer_SubResourceEmbedded) ConvertToAR
 	}
 	result := &BackendAddressPool_LoadBalancer_SubResourceEmbedded_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if embedded.Name != nil {
 		name := *embedded.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if embedded.LoadBalancerBackendAddresses != nil {
 		result.Properties = &BackendAddressPoolPropertiesFormat_ARM{}
 	}
@@ -1946,7 +1946,7 @@ func (embedded *BackendAddressPool_LoadBalancer_SubResourceEmbedded) PopulateFro
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendAddressPool_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// Set property ‘LoadBalancerBackendAddresses’:
+	// Set property "LoadBalancerBackendAddresses":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.LoadBalancerBackendAddresses {
@@ -1959,7 +1959,7 @@ func (embedded *BackendAddressPool_LoadBalancer_SubResourceEmbedded) PopulateFro
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		embedded.Name = &name
@@ -2110,7 +2110,7 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Popu
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BackendIPConfigurations’:
+	// Set property "BackendIPConfigurations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.BackendIPConfigurations {
@@ -2123,19 +2123,19 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Popu
 		}
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		embedded.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		embedded.Id = &id
 	}
 
-	// Set property ‘LoadBalancerBackendAddresses’:
+	// Set property "LoadBalancerBackendAddresses":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.LoadBalancerBackendAddresses {
@@ -2148,7 +2148,7 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Popu
 		}
 	}
 
-	// Set property ‘LoadBalancingRules’:
+	// Set property "LoadBalancingRules":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.LoadBalancingRules {
@@ -2161,13 +2161,13 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Popu
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		embedded.Name = &name
 	}
 
-	// Set property ‘OutboundRule’:
+	// Set property "OutboundRule":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OutboundRule != nil {
@@ -2181,7 +2181,7 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Popu
 		}
 	}
 
-	// Set property ‘OutboundRules’:
+	// Set property "OutboundRules":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.OutboundRules {
@@ -2194,7 +2194,7 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Popu
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -2203,7 +2203,7 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Popu
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		embedded.Type = &typeVar
@@ -2464,13 +2464,13 @@ func (location *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &ExtendedLocation_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if location.Name != nil {
 		name := *location.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if location.Type != nil {
 		typeVar := *location.Type
 		result.Type = &typeVar
@@ -2490,13 +2490,13 @@ func (location *ExtendedLocation) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExtendedLocation_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		location.Name = &name
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		location.Type = &typeVar
@@ -2592,13 +2592,13 @@ func (location *ExtendedLocation_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExtendedLocation_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		location.Name = &name
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		location.Type = &typeVar
@@ -2690,13 +2690,13 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Conver
 	}
 	result := &FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if embedded.Name != nil {
 		name := *embedded.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if embedded.PrivateIPAddress != nil ||
 		embedded.PrivateIPAddressVersion != nil ||
 		embedded.PrivateIPAllocationMethod != nil ||
@@ -2742,7 +2742,7 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Conver
 		result.Properties.Subnet = &subnet
 	}
 
-	// Set property ‘Zones’:
+	// Set property "Zones":
 	for _, item := range embedded.Zones {
 		result.Zones = append(result.Zones, item)
 	}
@@ -2761,13 +2761,13 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Popula
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		embedded.Name = &name
 	}
 
-	// Set property ‘PrivateIPAddress’:
+	// Set property "PrivateIPAddress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAddress != nil {
@@ -2776,7 +2776,7 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Popula
 		}
 	}
 
-	// Set property ‘PrivateIPAddressVersion’:
+	// Set property "PrivateIPAddressVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAddressVersion != nil {
@@ -2785,7 +2785,7 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Popula
 		}
 	}
 
-	// Set property ‘PrivateIPAllocationMethod’:
+	// Set property "PrivateIPAllocationMethod":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAllocationMethod != nil {
@@ -2794,7 +2794,7 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Popula
 		}
 	}
 
-	// Set property ‘PublicIPAddress’:
+	// Set property "PublicIPAddress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicIPAddress != nil {
@@ -2808,7 +2808,7 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Popula
 		}
 	}
 
-	// Set property ‘PublicIPPrefix’:
+	// Set property "PublicIPPrefix":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicIPPrefix != nil {
@@ -2822,7 +2822,7 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Popula
 		}
 	}
 
-	// Set property ‘Subnet’:
+	// Set property "Subnet":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Subnet != nil {
@@ -2836,7 +2836,7 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Popula
 		}
 	}
 
-	// Set property ‘Zones’:
+	// Set property "Zones":
 	for _, item := range typedInput.Zones {
 		embedded.Zones = append(embedded.Zones, item)
 	}
@@ -3124,19 +3124,19 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		embedded.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		embedded.Id = &id
 	}
 
-	// Set property ‘InboundNatPools’:
+	// Set property "InboundNatPools":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.InboundNatPools {
@@ -3149,7 +3149,7 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 		}
 	}
 
-	// Set property ‘InboundNatRules’:
+	// Set property "InboundNatRules":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.InboundNatRules {
@@ -3162,7 +3162,7 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 		}
 	}
 
-	// Set property ‘LoadBalancingRules’:
+	// Set property "LoadBalancingRules":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.LoadBalancingRules {
@@ -3175,13 +3175,13 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		embedded.Name = &name
 	}
 
-	// Set property ‘OutboundRules’:
+	// Set property "OutboundRules":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.OutboundRules {
@@ -3194,7 +3194,7 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 		}
 	}
 
-	// Set property ‘PrivateIPAddress’:
+	// Set property "PrivateIPAddress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAddress != nil {
@@ -3203,7 +3203,7 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 		}
 	}
 
-	// Set property ‘PrivateIPAddressVersion’:
+	// Set property "PrivateIPAddressVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAddressVersion != nil {
@@ -3212,7 +3212,7 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 		}
 	}
 
-	// Set property ‘PrivateIPAllocationMethod’:
+	// Set property "PrivateIPAllocationMethod":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateIPAllocationMethod != nil {
@@ -3221,7 +3221,7 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -3230,7 +3230,7 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 		}
 	}
 
-	// Set property ‘PublicIPAddress’:
+	// Set property "PublicIPAddress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicIPAddress != nil {
@@ -3244,7 +3244,7 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 		}
 	}
 
-	// Set property ‘PublicIPPrefix’:
+	// Set property "PublicIPPrefix":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicIPPrefix != nil {
@@ -3258,7 +3258,7 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 		}
 	}
 
-	// Set property ‘Subnet’:
+	// Set property "Subnet":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Subnet != nil {
@@ -3272,13 +3272,13 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		embedded.Type = &typeVar
 	}
 
-	// Set property ‘Zones’:
+	// Set property "Zones":
 	for _, item := range typedInput.Zones {
 		embedded.Zones = append(embedded.Zones, item)
 	}
@@ -3660,13 +3660,13 @@ func (pool *InboundNatPool) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	}
 	result := &InboundNatPool_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if pool.Name != nil {
 		name := *pool.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if pool.BackendPort != nil ||
 		pool.EnableFloatingIP != nil ||
 		pool.EnableTcpReset != nil ||
@@ -3728,7 +3728,7 @@ func (pool *InboundNatPool) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InboundNatPool_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BackendPort’:
+	// Set property "BackendPort":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BackendPort != nil {
@@ -3737,7 +3737,7 @@ func (pool *InboundNatPool) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		}
 	}
 
-	// Set property ‘EnableFloatingIP’:
+	// Set property "EnableFloatingIP":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableFloatingIP != nil {
@@ -3746,7 +3746,7 @@ func (pool *InboundNatPool) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		}
 	}
 
-	// Set property ‘EnableTcpReset’:
+	// Set property "EnableTcpReset":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableTcpReset != nil {
@@ -3755,7 +3755,7 @@ func (pool *InboundNatPool) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		}
 	}
 
-	// Set property ‘FrontendIPConfiguration’:
+	// Set property "FrontendIPConfiguration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FrontendIPConfiguration != nil {
@@ -3769,7 +3769,7 @@ func (pool *InboundNatPool) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		}
 	}
 
-	// Set property ‘FrontendPortRangeEnd’:
+	// Set property "FrontendPortRangeEnd":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FrontendPortRangeEnd != nil {
@@ -3778,7 +3778,7 @@ func (pool *InboundNatPool) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		}
 	}
 
-	// Set property ‘FrontendPortRangeStart’:
+	// Set property "FrontendPortRangeStart":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FrontendPortRangeStart != nil {
@@ -3787,7 +3787,7 @@ func (pool *InboundNatPool) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		}
 	}
 
-	// Set property ‘IdleTimeoutInMinutes’:
+	// Set property "IdleTimeoutInMinutes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IdleTimeoutInMinutes != nil {
@@ -3796,13 +3796,13 @@ func (pool *InboundNatPool) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		pool.Name = &name
 	}
 
-	// Set property ‘Protocol’:
+	// Set property "Protocol":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
@@ -4061,7 +4061,7 @@ func (pool *InboundNatPool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InboundNatPool_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BackendPort’:
+	// Set property "BackendPort":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BackendPort != nil {
@@ -4070,7 +4070,7 @@ func (pool *InboundNatPool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘EnableFloatingIP’:
+	// Set property "EnableFloatingIP":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableFloatingIP != nil {
@@ -4079,7 +4079,7 @@ func (pool *InboundNatPool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘EnableTcpReset’:
+	// Set property "EnableTcpReset":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableTcpReset != nil {
@@ -4088,13 +4088,13 @@ func (pool *InboundNatPool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		pool.Etag = &etag
 	}
 
-	// Set property ‘FrontendIPConfiguration’:
+	// Set property "FrontendIPConfiguration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FrontendIPConfiguration != nil {
@@ -4108,7 +4108,7 @@ func (pool *InboundNatPool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘FrontendPortRangeEnd’:
+	// Set property "FrontendPortRangeEnd":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FrontendPortRangeEnd != nil {
@@ -4117,7 +4117,7 @@ func (pool *InboundNatPool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘FrontendPortRangeStart’:
+	// Set property "FrontendPortRangeStart":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FrontendPortRangeStart != nil {
@@ -4126,13 +4126,13 @@ func (pool *InboundNatPool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		pool.Id = &id
 	}
 
-	// Set property ‘IdleTimeoutInMinutes’:
+	// Set property "IdleTimeoutInMinutes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IdleTimeoutInMinutes != nil {
@@ -4141,13 +4141,13 @@ func (pool *InboundNatPool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		pool.Name = &name
 	}
 
-	// Set property ‘Protocol’:
+	// Set property "Protocol":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
@@ -4156,7 +4156,7 @@ func (pool *InboundNatPool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -4165,7 +4165,7 @@ func (pool *InboundNatPool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		pool.Type = &typeVar
@@ -4376,13 +4376,13 @@ func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) ConvertToARM(re
 	}
 	result := &InboundNatRule_LoadBalancer_SubResourceEmbedded_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if embedded.Name != nil {
 		name := *embedded.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if embedded.BackendPort != nil ||
 		embedded.EnableFloatingIP != nil ||
 		embedded.EnableTcpReset != nil ||
@@ -4439,7 +4439,7 @@ func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) PopulateFromARM
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InboundNatRule_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BackendPort’:
+	// Set property "BackendPort":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BackendPort != nil {
@@ -4448,7 +4448,7 @@ func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) PopulateFromARM
 		}
 	}
 
-	// Set property ‘EnableFloatingIP’:
+	// Set property "EnableFloatingIP":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableFloatingIP != nil {
@@ -4457,7 +4457,7 @@ func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) PopulateFromARM
 		}
 	}
 
-	// Set property ‘EnableTcpReset’:
+	// Set property "EnableTcpReset":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableTcpReset != nil {
@@ -4466,7 +4466,7 @@ func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) PopulateFromARM
 		}
 	}
 
-	// Set property ‘FrontendIPConfiguration’:
+	// Set property "FrontendIPConfiguration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FrontendIPConfiguration != nil {
@@ -4480,7 +4480,7 @@ func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) PopulateFromARM
 		}
 	}
 
-	// Set property ‘FrontendPort’:
+	// Set property "FrontendPort":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FrontendPort != nil {
@@ -4489,7 +4489,7 @@ func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) PopulateFromARM
 		}
 	}
 
-	// Set property ‘IdleTimeoutInMinutes’:
+	// Set property "IdleTimeoutInMinutes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IdleTimeoutInMinutes != nil {
@@ -4498,13 +4498,13 @@ func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) PopulateFromARM
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		embedded.Name = &name
 	}
 
-	// Set property ‘Protocol’:
+	// Set property "Protocol":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
@@ -4754,7 +4754,7 @@ func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) Populate
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BackendIPConfiguration’:
+	// Set property "BackendIPConfiguration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BackendIPConfiguration != nil {
@@ -4768,7 +4768,7 @@ func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) Populate
 		}
 	}
 
-	// Set property ‘BackendPort’:
+	// Set property "BackendPort":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BackendPort != nil {
@@ -4777,7 +4777,7 @@ func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) Populate
 		}
 	}
 
-	// Set property ‘EnableFloatingIP’:
+	// Set property "EnableFloatingIP":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableFloatingIP != nil {
@@ -4786,7 +4786,7 @@ func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) Populate
 		}
 	}
 
-	// Set property ‘EnableTcpReset’:
+	// Set property "EnableTcpReset":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableTcpReset != nil {
@@ -4795,13 +4795,13 @@ func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) Populate
 		}
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		embedded.Etag = &etag
 	}
 
-	// Set property ‘FrontendIPConfiguration’:
+	// Set property "FrontendIPConfiguration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FrontendIPConfiguration != nil {
@@ -4815,7 +4815,7 @@ func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) Populate
 		}
 	}
 
-	// Set property ‘FrontendPort’:
+	// Set property "FrontendPort":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FrontendPort != nil {
@@ -4824,13 +4824,13 @@ func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) Populate
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		embedded.Id = &id
 	}
 
-	// Set property ‘IdleTimeoutInMinutes’:
+	// Set property "IdleTimeoutInMinutes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IdleTimeoutInMinutes != nil {
@@ -4839,13 +4839,13 @@ func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) Populate
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		embedded.Name = &name
 	}
 
-	// Set property ‘Protocol’:
+	// Set property "Protocol":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
@@ -4854,7 +4854,7 @@ func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) Populate
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -4863,7 +4863,7 @@ func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) Populate
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		embedded.Type = &typeVar
@@ -5068,13 +5068,13 @@ func (balancerSku *LoadBalancerSku) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &LoadBalancerSku_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if balancerSku.Name != nil {
 		name := *balancerSku.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if balancerSku.Tier != nil {
 		tier := *balancerSku.Tier
 		result.Tier = &tier
@@ -5094,13 +5094,13 @@ func (balancerSku *LoadBalancerSku) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancerSku_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		balancerSku.Name = &name
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if typedInput.Tier != nil {
 		tier := *typedInput.Tier
 		balancerSku.Tier = &tier
@@ -5211,13 +5211,13 @@ func (balancerSku *LoadBalancerSku_STATUS) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancerSku_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		balancerSku.Name = &name
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if typedInput.Tier != nil {
 		tier := *typedInput.Tier
 		balancerSku.Tier = &tier
@@ -5341,13 +5341,13 @@ func (rule *LoadBalancingRule) ConvertToARM(resolved genruntime.ConvertToARMReso
 	}
 	result := &LoadBalancingRule_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if rule.Name != nil {
 		name := *rule.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if rule.BackendAddressPool != nil ||
 		rule.BackendPort != nil ||
 		rule.DisableOutboundSnat != nil ||
@@ -5432,7 +5432,7 @@ func (rule *LoadBalancingRule) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancingRule_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BackendAddressPool’:
+	// Set property "BackendAddressPool":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BackendAddressPool != nil {
@@ -5446,7 +5446,7 @@ func (rule *LoadBalancingRule) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘BackendPort’:
+	// Set property "BackendPort":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BackendPort != nil {
@@ -5455,7 +5455,7 @@ func (rule *LoadBalancingRule) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘DisableOutboundSnat’:
+	// Set property "DisableOutboundSnat":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DisableOutboundSnat != nil {
@@ -5464,7 +5464,7 @@ func (rule *LoadBalancingRule) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘EnableFloatingIP’:
+	// Set property "EnableFloatingIP":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableFloatingIP != nil {
@@ -5473,7 +5473,7 @@ func (rule *LoadBalancingRule) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘EnableTcpReset’:
+	// Set property "EnableTcpReset":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableTcpReset != nil {
@@ -5482,7 +5482,7 @@ func (rule *LoadBalancingRule) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘FrontendIPConfiguration’:
+	// Set property "FrontendIPConfiguration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FrontendIPConfiguration != nil {
@@ -5496,7 +5496,7 @@ func (rule *LoadBalancingRule) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘FrontendPort’:
+	// Set property "FrontendPort":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FrontendPort != nil {
@@ -5505,7 +5505,7 @@ func (rule *LoadBalancingRule) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘IdleTimeoutInMinutes’:
+	// Set property "IdleTimeoutInMinutes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IdleTimeoutInMinutes != nil {
@@ -5514,7 +5514,7 @@ func (rule *LoadBalancingRule) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘LoadDistribution’:
+	// Set property "LoadDistribution":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LoadDistribution != nil {
@@ -5523,13 +5523,13 @@ func (rule *LoadBalancingRule) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		rule.Name = &name
 	}
 
-	// Set property ‘Probe’:
+	// Set property "Probe":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Probe != nil {
@@ -5543,7 +5543,7 @@ func (rule *LoadBalancingRule) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘Protocol’:
+	// Set property "Protocol":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
@@ -5924,7 +5924,7 @@ func (rule *LoadBalancingRule_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancingRule_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BackendAddressPool’:
+	// Set property "BackendAddressPool":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BackendAddressPool != nil {
@@ -5938,7 +5938,7 @@ func (rule *LoadBalancingRule_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘BackendPort’:
+	// Set property "BackendPort":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BackendPort != nil {
@@ -5947,7 +5947,7 @@ func (rule *LoadBalancingRule_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘DisableOutboundSnat’:
+	// Set property "DisableOutboundSnat":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DisableOutboundSnat != nil {
@@ -5956,7 +5956,7 @@ func (rule *LoadBalancingRule_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘EnableFloatingIP’:
+	// Set property "EnableFloatingIP":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableFloatingIP != nil {
@@ -5965,7 +5965,7 @@ func (rule *LoadBalancingRule_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘EnableTcpReset’:
+	// Set property "EnableTcpReset":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableTcpReset != nil {
@@ -5974,13 +5974,13 @@ func (rule *LoadBalancingRule_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		rule.Etag = &etag
 	}
 
-	// Set property ‘FrontendIPConfiguration’:
+	// Set property "FrontendIPConfiguration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FrontendIPConfiguration != nil {
@@ -5994,7 +5994,7 @@ func (rule *LoadBalancingRule_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘FrontendPort’:
+	// Set property "FrontendPort":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FrontendPort != nil {
@@ -6003,13 +6003,13 @@ func (rule *LoadBalancingRule_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		rule.Id = &id
 	}
 
-	// Set property ‘IdleTimeoutInMinutes’:
+	// Set property "IdleTimeoutInMinutes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IdleTimeoutInMinutes != nil {
@@ -6018,7 +6018,7 @@ func (rule *LoadBalancingRule_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘LoadDistribution’:
+	// Set property "LoadDistribution":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LoadDistribution != nil {
@@ -6027,13 +6027,13 @@ func (rule *LoadBalancingRule_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		rule.Name = &name
 	}
 
-	// Set property ‘Probe’:
+	// Set property "Probe":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Probe != nil {
@@ -6047,7 +6047,7 @@ func (rule *LoadBalancingRule_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Protocol’:
+	// Set property "Protocol":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
@@ -6056,7 +6056,7 @@ func (rule *LoadBalancingRule_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -6065,7 +6065,7 @@ func (rule *LoadBalancingRule_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		rule.Type = &typeVar
@@ -6347,13 +6347,13 @@ func (rule *OutboundRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	}
 	result := &OutboundRule_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if rule.Name != nil {
 		name := *rule.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if rule.AllocatedOutboundPorts != nil ||
 		rule.BackendAddressPool != nil ||
 		rule.EnableTcpReset != nil ||
@@ -6408,7 +6408,7 @@ func (rule *OutboundRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OutboundRule_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AllocatedOutboundPorts’:
+	// Set property "AllocatedOutboundPorts":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AllocatedOutboundPorts != nil {
@@ -6417,7 +6417,7 @@ func (rule *OutboundRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		}
 	}
 
-	// Set property ‘BackendAddressPool’:
+	// Set property "BackendAddressPool":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BackendAddressPool != nil {
@@ -6431,7 +6431,7 @@ func (rule *OutboundRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		}
 	}
 
-	// Set property ‘EnableTcpReset’:
+	// Set property "EnableTcpReset":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableTcpReset != nil {
@@ -6440,7 +6440,7 @@ func (rule *OutboundRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		}
 	}
 
-	// Set property ‘FrontendIPConfigurations’:
+	// Set property "FrontendIPConfigurations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.FrontendIPConfigurations {
@@ -6453,7 +6453,7 @@ func (rule *OutboundRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		}
 	}
 
-	// Set property ‘IdleTimeoutInMinutes’:
+	// Set property "IdleTimeoutInMinutes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IdleTimeoutInMinutes != nil {
@@ -6462,13 +6462,13 @@ func (rule *OutboundRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		rule.Name = &name
 	}
 
-	// Set property ‘Protocol’:
+	// Set property "Protocol":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
@@ -6729,7 +6729,7 @@ func (rule *OutboundRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OutboundRule_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AllocatedOutboundPorts’:
+	// Set property "AllocatedOutboundPorts":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AllocatedOutboundPorts != nil {
@@ -6738,7 +6738,7 @@ func (rule *OutboundRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘BackendAddressPool’:
+	// Set property "BackendAddressPool":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BackendAddressPool != nil {
@@ -6752,7 +6752,7 @@ func (rule *OutboundRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘EnableTcpReset’:
+	// Set property "EnableTcpReset":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableTcpReset != nil {
@@ -6761,13 +6761,13 @@ func (rule *OutboundRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		rule.Etag = &etag
 	}
 
-	// Set property ‘FrontendIPConfigurations’:
+	// Set property "FrontendIPConfigurations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.FrontendIPConfigurations {
@@ -6780,13 +6780,13 @@ func (rule *OutboundRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		rule.Id = &id
 	}
 
-	// Set property ‘IdleTimeoutInMinutes’:
+	// Set property "IdleTimeoutInMinutes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IdleTimeoutInMinutes != nil {
@@ -6795,13 +6795,13 @@ func (rule *OutboundRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		rule.Name = &name
 	}
 
-	// Set property ‘Protocol’:
+	// Set property "Protocol":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
@@ -6810,7 +6810,7 @@ func (rule *OutboundRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -6819,7 +6819,7 @@ func (rule *OutboundRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		rule.Type = &typeVar
@@ -7036,13 +7036,13 @@ func (probe *Probe) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 	}
 	result := &Probe_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if probe.Name != nil {
 		name := *probe.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if probe.IntervalInSeconds != nil ||
 		probe.NumberOfProbes != nil ||
 		probe.Port != nil ||
@@ -7085,7 +7085,7 @@ func (probe *Probe) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Probe_ARM, got %T", armInput)
 	}
 
-	// Set property ‘IntervalInSeconds’:
+	// Set property "IntervalInSeconds":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IntervalInSeconds != nil {
@@ -7094,13 +7094,13 @@ func (probe *Probe) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		probe.Name = &name
 	}
 
-	// Set property ‘NumberOfProbes’:
+	// Set property "NumberOfProbes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NumberOfProbes != nil {
@@ -7109,7 +7109,7 @@ func (probe *Probe) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 		}
 	}
 
-	// Set property ‘Port’:
+	// Set property "Port":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Port != nil {
@@ -7118,7 +7118,7 @@ func (probe *Probe) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 		}
 	}
 
-	// Set property ‘Protocol’:
+	// Set property "Protocol":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
@@ -7127,7 +7127,7 @@ func (probe *Probe) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 		}
 	}
 
-	// Set property ‘RequestPath’:
+	// Set property "RequestPath":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RequestPath != nil {
@@ -7297,19 +7297,19 @@ func (probe *Probe_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Probe_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		probe.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		probe.Id = &id
 	}
 
-	// Set property ‘IntervalInSeconds’:
+	// Set property "IntervalInSeconds":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IntervalInSeconds != nil {
@@ -7318,7 +7318,7 @@ func (probe *Probe_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘LoadBalancingRules’:
+	// Set property "LoadBalancingRules":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.LoadBalancingRules {
@@ -7331,13 +7331,13 @@ func (probe *Probe_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		probe.Name = &name
 	}
 
-	// Set property ‘NumberOfProbes’:
+	// Set property "NumberOfProbes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NumberOfProbes != nil {
@@ -7346,7 +7346,7 @@ func (probe *Probe_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘Port’:
+	// Set property "Port":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Port != nil {
@@ -7355,7 +7355,7 @@ func (probe *Probe_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘Protocol’:
+	// Set property "Protocol":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Protocol != nil {
@@ -7364,7 +7364,7 @@ func (probe *Probe_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -7373,7 +7373,7 @@ func (probe *Probe_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘RequestPath’:
+	// Set property "RequestPath":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RequestPath != nil {
@@ -7382,7 +7382,7 @@ func (probe *Probe_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		probe.Type = &typeVar
@@ -7568,13 +7568,13 @@ func (address *LoadBalancerBackendAddress) ConvertToARM(resolved genruntime.Conv
 	}
 	result := &LoadBalancerBackendAddress_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if address.Name != nil {
 		name := *address.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if address.IpAddress != nil ||
 		address.LoadBalancerFrontendIPConfiguration != nil ||
 		address.Subnet != nil ||
@@ -7624,7 +7624,7 @@ func (address *LoadBalancerBackendAddress) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancerBackendAddress_ARM, got %T", armInput)
 	}
 
-	// Set property ‘IpAddress’:
+	// Set property "IpAddress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IpAddress != nil {
@@ -7633,7 +7633,7 @@ func (address *LoadBalancerBackendAddress) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘LoadBalancerFrontendIPConfiguration’:
+	// Set property "LoadBalancerFrontendIPConfiguration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LoadBalancerFrontendIPConfiguration != nil {
@@ -7647,13 +7647,13 @@ func (address *LoadBalancerBackendAddress) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		address.Name = &name
 	}
 
-	// Set property ‘Subnet’:
+	// Set property "Subnet":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Subnet != nil {
@@ -7667,7 +7667,7 @@ func (address *LoadBalancerBackendAddress) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘VirtualNetwork’:
+	// Set property "VirtualNetwork":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VirtualNetwork != nil {
@@ -7876,7 +7876,7 @@ func (address *LoadBalancerBackendAddress_STATUS) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancerBackendAddress_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘IpAddress’:
+	// Set property "IpAddress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IpAddress != nil {
@@ -7885,7 +7885,7 @@ func (address *LoadBalancerBackendAddress_STATUS) PopulateFromARM(owner genrunti
 		}
 	}
 
-	// Set property ‘LoadBalancerFrontendIPConfiguration’:
+	// Set property "LoadBalancerFrontendIPConfiguration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LoadBalancerFrontendIPConfiguration != nil {
@@ -7899,13 +7899,13 @@ func (address *LoadBalancerBackendAddress_STATUS) PopulateFromARM(owner genrunti
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		address.Name = &name
 	}
 
-	// Set property ‘NetworkInterfaceIPConfiguration’:
+	// Set property "NetworkInterfaceIPConfiguration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NetworkInterfaceIPConfiguration != nil {
@@ -7919,7 +7919,7 @@ func (address *LoadBalancerBackendAddress_STATUS) PopulateFromARM(owner genrunti
 		}
 	}
 
-	// Set property ‘Subnet’:
+	// Set property "Subnet":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Subnet != nil {
@@ -7933,7 +7933,7 @@ func (address *LoadBalancerBackendAddress_STATUS) PopulateFromARM(owner genrunti
 		}
 	}
 
-	// Set property ‘VirtualNetwork’:
+	// Set property "VirtualNetwork":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VirtualNetwork != nil {
@@ -8119,7 +8119,7 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceE
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		embedded.Id = &id
@@ -8212,7 +8212,7 @@ func (embedded *PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) Populat
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		embedded.Id = &id
@@ -8266,7 +8266,7 @@ func (embedded *PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded) ConvertToA
 	}
 	result := &PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if embedded.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*embedded.Reference)
 		if err != nil {
@@ -8290,7 +8290,7 @@ func (embedded *PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded) PopulateFr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil
@@ -8365,7 +8365,7 @@ func (embedded *Subnet_LoadBalancer_SubResourceEmbedded) ConvertToARM(resolved g
 	}
 	result := &Subnet_LoadBalancer_SubResourceEmbedded_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if embedded.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*embedded.Reference)
 		if err != nil {
@@ -8389,7 +8389,7 @@ func (embedded *Subnet_LoadBalancer_SubResourceEmbedded) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Subnet_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil
@@ -8469,7 +8469,7 @@ func (embedded *Subnet_STATUS_LoadBalancer_SubResourceEmbedded) PopulateFromARM(
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Subnet_STATUS_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		embedded.Id = &id

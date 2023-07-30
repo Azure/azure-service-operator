@@ -330,10 +330,10 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &FakeResource_Spec_ARM{}
 
-	// Set property ‘APIVersion’:
+	// Set property "APIVersion":
 	result.APIVersion = resource.APIVersion
 
-	// Set property ‘ArrayFoo’:
+	// Set property "ArrayFoo":
 	for _, item := range resource.ArrayFoo {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -342,7 +342,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.ArrayFoo = append(result.ArrayFoo, *item_ARM.(*Foo_ARM))
 	}
 
-	// Set property ‘ArrayOfArrays’:
+	// Set property "ArrayOfArrays":
 	for _, item := range resource.ArrayOfArrays {
 		var itemTemp []Foo_ARM
 		for _, item1 := range item {
@@ -355,7 +355,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.ArrayOfArrays = append(result.ArrayOfArrays, itemTemp)
 	}
 
-	// Set property ‘ArrayOfArraysOfArrays’:
+	// Set property "ArrayOfArraysOfArrays":
 	for _, item := range resource.ArrayOfArraysOfArrays {
 		var itemTemp [][]Foo_ARM
 		for _, item1 := range item {
@@ -372,12 +372,12 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.ArrayOfArraysOfArrays = append(result.ArrayOfArraysOfArrays, itemTemp)
 	}
 
-	// Set property ‘ArrayOfEnums’:
+	// Set property "ArrayOfEnums":
 	for _, item := range resource.ArrayOfEnums {
 		result.ArrayOfEnums = append(result.ArrayOfEnums, item)
 	}
 
-	// Set property ‘ArrayOfMaps’:
+	// Set property "ArrayOfMaps":
 	for _, item := range resource.ArrayOfMaps {
 		if item != nil {
 			itemTemp := make(map[string]Foo_ARM, len(item))
@@ -392,10 +392,10 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	result.Type = resource.Type
 	return result, nil
 }
@@ -412,10 +412,10 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘APIVersion’:
+	// Set property "APIVersion":
 	resource.APIVersion = typedInput.APIVersion
 
-	// Set property ‘ArrayFoo’:
+	// Set property "ArrayFoo":
 	for _, item := range typedInput.ArrayFoo {
 		var item1 Foo
 		err := item1.PopulateFromARM(owner, item)
@@ -425,7 +425,7 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		resource.ArrayFoo = append(resource.ArrayFoo, item1)
 	}
 
-	// Set property ‘ArrayOfArrays’:
+	// Set property "ArrayOfArrays":
 	for _, item := range typedInput.ArrayOfArrays {
 		var itemTemp []Foo
 		for _, item1 := range item {
@@ -439,7 +439,7 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		resource.ArrayOfArrays = append(resource.ArrayOfArrays, itemTemp)
 	}
 
-	// Set property ‘ArrayOfArraysOfArrays’:
+	// Set property "ArrayOfArraysOfArrays":
 	for _, item := range typedInput.ArrayOfArraysOfArrays {
 		var itemTemp [][]Foo
 		for _, item1 := range item {
@@ -457,12 +457,12 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		resource.ArrayOfArraysOfArrays = append(resource.ArrayOfArraysOfArrays, itemTemp)
 	}
 
-	// Set property ‘ArrayOfEnums’:
+	// Set property "ArrayOfEnums":
 	for _, item := range typedInput.ArrayOfEnums {
 		resource.ArrayOfEnums = append(resource.ArrayOfEnums, item)
 	}
 
-	// Set property ‘ArrayOfMaps’:
+	// Set property "ArrayOfMaps":
 	for _, item := range typedInput.ArrayOfMaps {
 		if item != nil {
 			itemTemp := make(map[string]Foo, len(item))
@@ -478,13 +478,13 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	resource.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	resource.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	resource.Type = typedInput.Type
 
 	// No error
@@ -893,7 +893,7 @@ func (foo *Foo) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	}
 	result := &Foo_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if foo.Name != nil {
 		name := *foo.Name
 		result.Name = &name
@@ -913,7 +913,7 @@ func (foo *Foo) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Foo_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		foo.Name = &name

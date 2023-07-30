@@ -345,10 +345,10 @@ func (policy *Servers_SecurityAlertPolicy_Spec) ConvertToARM(resolved genruntime
 	}
 	result := &Servers_SecurityAlertPolicy_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if policy.DisabledAlerts != nil ||
 		policy.EmailAccountAdmins != nil ||
 		policy.EmailAddresses != nil ||
@@ -403,7 +403,7 @@ func (policy *Servers_SecurityAlertPolicy_Spec) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_SecurityAlertPolicy_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DisabledAlerts’:
+	// Set property "DisabledAlerts":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.DisabledAlerts {
@@ -411,7 +411,7 @@ func (policy *Servers_SecurityAlertPolicy_Spec) PopulateFromARM(owner genruntime
 		}
 	}
 
-	// Set property ‘EmailAccountAdmins’:
+	// Set property "EmailAccountAdmins":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EmailAccountAdmins != nil {
@@ -420,7 +420,7 @@ func (policy *Servers_SecurityAlertPolicy_Spec) PopulateFromARM(owner genruntime
 		}
 	}
 
-	// Set property ‘EmailAddresses’:
+	// Set property "EmailAddresses":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.EmailAddresses {
@@ -428,10 +428,10 @@ func (policy *Servers_SecurityAlertPolicy_Spec) PopulateFromARM(owner genruntime
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	policy.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘RetentionDays’:
+	// Set property "RetentionDays":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RetentionDays != nil {
@@ -440,7 +440,7 @@ func (policy *Servers_SecurityAlertPolicy_Spec) PopulateFromARM(owner genruntime
 		}
 	}
 
-	// Set property ‘State’:
+	// Set property "State":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
@@ -449,9 +449,9 @@ func (policy *Servers_SecurityAlertPolicy_Spec) PopulateFromARM(owner genruntime
 		}
 	}
 
-	// no assignment for property ‘StorageAccountAccessKey’
+	// no assignment for property "StorageAccountAccessKey"
 
-	// Set property ‘StorageEndpoint’:
+	// Set property "StorageEndpoint":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StorageEndpoint != nil {
@@ -773,9 +773,9 @@ func (policy *Servers_SecurityAlertPolicy_STATUS) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_SecurityAlertPolicy_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘CreationTime’:
+	// Set property "CreationTime":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreationTime != nil {
@@ -784,7 +784,7 @@ func (policy *Servers_SecurityAlertPolicy_STATUS) PopulateFromARM(owner genrunti
 		}
 	}
 
-	// Set property ‘DisabledAlerts’:
+	// Set property "DisabledAlerts":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.DisabledAlerts {
@@ -792,7 +792,7 @@ func (policy *Servers_SecurityAlertPolicy_STATUS) PopulateFromARM(owner genrunti
 		}
 	}
 
-	// Set property ‘EmailAccountAdmins’:
+	// Set property "EmailAccountAdmins":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EmailAccountAdmins != nil {
@@ -801,7 +801,7 @@ func (policy *Servers_SecurityAlertPolicy_STATUS) PopulateFromARM(owner genrunti
 		}
 	}
 
-	// Set property ‘EmailAddresses’:
+	// Set property "EmailAddresses":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.EmailAddresses {
@@ -809,19 +809,19 @@ func (policy *Servers_SecurityAlertPolicy_STATUS) PopulateFromARM(owner genrunti
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		policy.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		policy.Name = &name
 	}
 
-	// Set property ‘RetentionDays’:
+	// Set property "RetentionDays":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RetentionDays != nil {
@@ -830,7 +830,7 @@ func (policy *Servers_SecurityAlertPolicy_STATUS) PopulateFromARM(owner genrunti
 		}
 	}
 
-	// Set property ‘State’:
+	// Set property "State":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
@@ -839,7 +839,7 @@ func (policy *Servers_SecurityAlertPolicy_STATUS) PopulateFromARM(owner genrunti
 		}
 	}
 
-	// Set property ‘StorageEndpoint’:
+	// Set property "StorageEndpoint":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StorageEndpoint != nil {
@@ -848,7 +848,7 @@ func (policy *Servers_SecurityAlertPolicy_STATUS) PopulateFromARM(owner genrunti
 		}
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -859,7 +859,7 @@ func (policy *Servers_SecurityAlertPolicy_STATUS) PopulateFromARM(owner genrunti
 		policy.SystemData = &systemData
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		policy.Type = &typeVar

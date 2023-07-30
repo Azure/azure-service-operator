@@ -464,7 +464,7 @@ func BinaryExpr(lhs dst.Expr, op token.Token, rhs dst.Expr) *dst.BinaryExpr {
 
 // Statements creates a sequence of statements from the provided values, each of which may be a
 // single dst.Stmt or a slice of multiple []dst.Stmts
-func Statements(statements ...interface{}) []dst.Stmt {
+func Statements(statements ...any) []dst.Stmt {
 	var stmts []dst.Stmt
 	for _, s := range statements {
 		switch s := s.(type) {

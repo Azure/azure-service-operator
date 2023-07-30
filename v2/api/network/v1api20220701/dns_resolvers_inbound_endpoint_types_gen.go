@@ -342,16 +342,16 @@ func (endpoint *DnsResolvers_InboundEndpoint_Spec) ConvertToARM(resolved genrunt
 	}
 	result := &DnsResolvers_InboundEndpoint_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if endpoint.Location != nil {
 		location := *endpoint.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if endpoint.IpConfigurations != nil {
 		result.Properties = &InboundEndpointProperties_ARM{}
 	}
@@ -363,7 +363,7 @@ func (endpoint *DnsResolvers_InboundEndpoint_Spec) ConvertToARM(resolved genrunt
 		result.Properties.IpConfigurations = append(result.Properties.IpConfigurations, *item_ARM.(*IpConfiguration_ARM))
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if endpoint.Tags != nil {
 		result.Tags = make(map[string]string, len(endpoint.Tags))
 		for key, value := range endpoint.Tags {
@@ -385,10 +385,10 @@ func (endpoint *DnsResolvers_InboundEndpoint_Spec) PopulateFromARM(owner genrunt
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsResolvers_InboundEndpoint_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	endpoint.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘IpConfigurations’:
+	// Set property "IpConfigurations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.IpConfigurations {
@@ -401,16 +401,16 @@ func (endpoint *DnsResolvers_InboundEndpoint_Spec) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		endpoint.Location = &location
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	endpoint.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		endpoint.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -710,21 +710,21 @@ func (endpoint *DnsResolvers_InboundEndpoint_STATUS) PopulateFromARM(owner genru
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsResolvers_InboundEndpoint_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		endpoint.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		endpoint.Id = &id
 	}
 
-	// Set property ‘IpConfigurations’:
+	// Set property "IpConfigurations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.IpConfigurations {
@@ -737,19 +737,19 @@ func (endpoint *DnsResolvers_InboundEndpoint_STATUS) PopulateFromARM(owner genru
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		endpoint.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		endpoint.Name = &name
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -758,7 +758,7 @@ func (endpoint *DnsResolvers_InboundEndpoint_STATUS) PopulateFromARM(owner genru
 		}
 	}
 
-	// Set property ‘ResourceGuid’:
+	// Set property "ResourceGuid":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceGuid != nil {
@@ -767,7 +767,7 @@ func (endpoint *DnsResolvers_InboundEndpoint_STATUS) PopulateFromARM(owner genru
 		}
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -778,7 +778,7 @@ func (endpoint *DnsResolvers_InboundEndpoint_STATUS) PopulateFromARM(owner genru
 		endpoint.SystemData = &systemData
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		endpoint.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -786,7 +786,7 @@ func (endpoint *DnsResolvers_InboundEndpoint_STATUS) PopulateFromARM(owner genru
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		endpoint.Type = &typeVar
@@ -965,19 +965,19 @@ func (configuration *IpConfiguration) ConvertToARM(resolved genruntime.ConvertTo
 	}
 	result := &IpConfiguration_ARM{}
 
-	// Set property ‘PrivateIpAddress’:
+	// Set property "PrivateIpAddress":
 	if configuration.PrivateIpAddress != nil {
 		privateIpAddress := *configuration.PrivateIpAddress
 		result.PrivateIpAddress = &privateIpAddress
 	}
 
-	// Set property ‘PrivateIpAllocationMethod’:
+	// Set property "PrivateIpAllocationMethod":
 	if configuration.PrivateIpAllocationMethod != nil {
 		privateIpAllocationMethod := *configuration.PrivateIpAllocationMethod
 		result.PrivateIpAllocationMethod = &privateIpAllocationMethod
 	}
 
-	// Set property ‘Subnet’:
+	// Set property "Subnet":
 	if configuration.Subnet != nil {
 		subnet_ARM, err := (*configuration.Subnet).ConvertToARM(resolved)
 		if err != nil {
@@ -1001,19 +1001,19 @@ func (configuration *IpConfiguration) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpConfiguration_ARM, got %T", armInput)
 	}
 
-	// Set property ‘PrivateIpAddress’:
+	// Set property "PrivateIpAddress":
 	if typedInput.PrivateIpAddress != nil {
 		privateIpAddress := *typedInput.PrivateIpAddress
 		configuration.PrivateIpAddress = &privateIpAddress
 	}
 
-	// Set property ‘PrivateIpAllocationMethod’:
+	// Set property "PrivateIpAllocationMethod":
 	if typedInput.PrivateIpAllocationMethod != nil {
 		privateIpAllocationMethod := *typedInput.PrivateIpAllocationMethod
 		configuration.PrivateIpAllocationMethod = &privateIpAllocationMethod
 	}
 
-	// Set property ‘Subnet’:
+	// Set property "Subnet":
 	if typedInput.Subnet != nil {
 		var subnet1 DnsresolverSubResource
 		err := subnet1.PopulateFromARM(owner, *typedInput.Subnet)
@@ -1153,19 +1153,19 @@ func (configuration *IpConfiguration_STATUS) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpConfiguration_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘PrivateIpAddress’:
+	// Set property "PrivateIpAddress":
 	if typedInput.PrivateIpAddress != nil {
 		privateIpAddress := *typedInput.PrivateIpAddress
 		configuration.PrivateIpAddress = &privateIpAddress
 	}
 
-	// Set property ‘PrivateIpAllocationMethod’:
+	// Set property "PrivateIpAllocationMethod":
 	if typedInput.PrivateIpAllocationMethod != nil {
 		privateIpAllocationMethod := *typedInput.PrivateIpAllocationMethod
 		configuration.PrivateIpAllocationMethod = &privateIpAllocationMethod
 	}
 
-	// Set property ‘Subnet’:
+	// Set property "Subnet":
 	if typedInput.Subnet != nil {
 		var subnet1 DnsresolverSubResource_STATUS
 		err := subnet1.PopulateFromARM(owner, *typedInput.Subnet)

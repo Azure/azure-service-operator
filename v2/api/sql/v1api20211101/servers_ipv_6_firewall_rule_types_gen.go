@@ -338,10 +338,10 @@ func (rule *Servers_Ipv6FirewallRule_Spec) ConvertToARM(resolved genruntime.Conv
 	}
 	result := &Servers_Ipv6FirewallRule_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if rule.EndIPv6Address != nil || rule.StartIPv6Address != nil {
 		result.Properties = &IPv6ServerFirewallRuleProperties_ARM{}
 	}
@@ -368,10 +368,10 @@ func (rule *Servers_Ipv6FirewallRule_Spec) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Ipv6FirewallRule_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	rule.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘EndIPv6Address’:
+	// Set property "EndIPv6Address":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EndIPv6Address != nil {
@@ -380,10 +380,10 @@ func (rule *Servers_Ipv6FirewallRule_Spec) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	rule.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘StartIPv6Address’:
+	// Set property "StartIPv6Address":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StartIPv6Address != nil {
@@ -612,9 +612,9 @@ func (rule *Servers_Ipv6FirewallRule_STATUS) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_Ipv6FirewallRule_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘EndIPv6Address’:
+	// Set property "EndIPv6Address":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EndIPv6Address != nil {
@@ -623,19 +623,19 @@ func (rule *Servers_Ipv6FirewallRule_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		rule.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		rule.Name = &name
 	}
 
-	// Set property ‘StartIPv6Address’:
+	// Set property "StartIPv6Address":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StartIPv6Address != nil {
@@ -644,7 +644,7 @@ func (rule *Servers_Ipv6FirewallRule_STATUS) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		rule.Type = &typeVar

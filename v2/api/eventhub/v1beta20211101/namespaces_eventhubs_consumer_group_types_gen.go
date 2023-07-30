@@ -333,10 +333,10 @@ func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) ConvertToARM(resol
 	}
 	result := &Namespaces_Eventhubs_Consumergroup_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if consumergroup.UserMetadata != nil {
 		result.Properties = &Namespaces_Eventhubs_Consumergroup_Properties_Spec_ARM{}
 	}
@@ -359,13 +359,13 @@ func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) PopulateFromARM(ow
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Eventhubs_Consumergroup_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	consumergroup.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	consumergroup.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘UserMetadata’:
+	// Set property "UserMetadata":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.UserMetadata != nil {
@@ -570,9 +570,9 @@ func (consumergroup *Namespaces_Eventhubs_Consumergroup_STATUS) PopulateFromARM(
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Eventhubs_Consumergroup_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘CreatedAt’:
+	// Set property "CreatedAt":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreatedAt != nil {
@@ -581,25 +581,25 @@ func (consumergroup *Namespaces_Eventhubs_Consumergroup_STATUS) PopulateFromARM(
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		consumergroup.Id = &id
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		consumergroup.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		consumergroup.Name = &name
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -610,13 +610,13 @@ func (consumergroup *Namespaces_Eventhubs_Consumergroup_STATUS) PopulateFromARM(
 		consumergroup.SystemData = &systemData
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		consumergroup.Type = &typeVar
 	}
 
-	// Set property ‘UpdatedAt’:
+	// Set property "UpdatedAt":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.UpdatedAt != nil {
@@ -625,7 +625,7 @@ func (consumergroup *Namespaces_Eventhubs_Consumergroup_STATUS) PopulateFromARM(
 		}
 	}
 
-	// Set property ‘UserMetadata’:
+	// Set property "UserMetadata":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.UserMetadata != nil {

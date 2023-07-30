@@ -352,16 +352,16 @@ func (gateway *NatGateway_Spec) ConvertToARM(resolved genruntime.ConvertToARMRes
 	}
 	result := &NatGateway_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if gateway.Location != nil {
 		location := *gateway.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if gateway.IdleTimeoutInMinutes != nil ||
 		gateway.PublicIpAddresses != nil ||
 		gateway.PublicIpPrefixes != nil {
@@ -386,7 +386,7 @@ func (gateway *NatGateway_Spec) ConvertToARM(resolved genruntime.ConvertToARMRes
 		result.Properties.PublicIpPrefixes = append(result.Properties.PublicIpPrefixes, *item_ARM.(*ApplicationGatewaySubResource_ARM))
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if gateway.Sku != nil {
 		sku_ARM, err := (*gateway.Sku).ConvertToARM(resolved)
 		if err != nil {
@@ -396,7 +396,7 @@ func (gateway *NatGateway_Spec) ConvertToARM(resolved genruntime.ConvertToARMRes
 		result.Sku = &sku
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if gateway.Tags != nil {
 		result.Tags = make(map[string]string, len(gateway.Tags))
 		for key, value := range gateway.Tags {
@@ -404,7 +404,7 @@ func (gateway *NatGateway_Spec) ConvertToARM(resolved genruntime.ConvertToARMRes
 		}
 	}
 
-	// Set property ‘Zones’:
+	// Set property "Zones":
 	for _, item := range gateway.Zones {
 		result.Zones = append(result.Zones, item)
 	}
@@ -423,10 +423,10 @@ func (gateway *NatGateway_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NatGateway_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	gateway.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘IdleTimeoutInMinutes’:
+	// Set property "IdleTimeoutInMinutes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IdleTimeoutInMinutes != nil {
@@ -435,16 +435,16 @@ func (gateway *NatGateway_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		gateway.Location = &location
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	gateway.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘PublicIpAddresses’:
+	// Set property "PublicIpAddresses":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PublicIpAddresses {
@@ -457,7 +457,7 @@ func (gateway *NatGateway_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘PublicIpPrefixes’:
+	// Set property "PublicIpPrefixes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PublicIpPrefixes {
@@ -470,7 +470,7 @@ func (gateway *NatGateway_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 NatGatewaySku
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -481,7 +481,7 @@ func (gateway *NatGateway_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		gateway.Sku = &sku
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		gateway.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -489,7 +489,7 @@ func (gateway *NatGateway_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		}
 	}
 
-	// Set property ‘Zones’:
+	// Set property "Zones":
 	for _, item := range typedInput.Zones {
 		gateway.Zones = append(gateway.Zones, item)
 	}
@@ -903,21 +903,21 @@ func (gateway *NatGateway_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NatGateway_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		gateway.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		gateway.Id = &id
 	}
 
-	// Set property ‘IdleTimeoutInMinutes’:
+	// Set property "IdleTimeoutInMinutes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IdleTimeoutInMinutes != nil {
@@ -926,19 +926,19 @@ func (gateway *NatGateway_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		gateway.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		gateway.Name = &name
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -947,7 +947,7 @@ func (gateway *NatGateway_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘PublicIpAddresses’:
+	// Set property "PublicIpAddresses":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PublicIpAddresses {
@@ -960,7 +960,7 @@ func (gateway *NatGateway_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘PublicIpPrefixes’:
+	// Set property "PublicIpPrefixes":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PublicIpPrefixes {
@@ -973,7 +973,7 @@ func (gateway *NatGateway_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘ResourceGuid’:
+	// Set property "ResourceGuid":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceGuid != nil {
@@ -982,7 +982,7 @@ func (gateway *NatGateway_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 NatGatewaySku_STATUS
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -993,7 +993,7 @@ func (gateway *NatGateway_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		gateway.Sku = &sku
 	}
 
-	// Set property ‘Subnets’:
+	// Set property "Subnets":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Subnets {
@@ -1006,7 +1006,7 @@ func (gateway *NatGateway_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		gateway.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1014,13 +1014,13 @@ func (gateway *NatGateway_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		gateway.Type = &typeVar
 	}
 
-	// Set property ‘Zones’:
+	// Set property "Zones":
 	for _, item := range typedInput.Zones {
 		gateway.Zones = append(gateway.Zones, item)
 	}
@@ -1285,7 +1285,7 @@ func (resource *ApplicationGatewaySubResource) ConvertToARM(resolved genruntime.
 	}
 	result := &ApplicationGatewaySubResource_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if resource.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*resource.Reference)
 		if err != nil {
@@ -1309,7 +1309,7 @@ func (resource *ApplicationGatewaySubResource) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewaySubResource_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil
@@ -1389,7 +1389,7 @@ func (resource *ApplicationGatewaySubResource_STATUS) PopulateFromARM(owner genr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewaySubResource_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		resource.Id = &id
@@ -1443,7 +1443,7 @@ func (gatewaySku *NatGatewaySku) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &NatGatewaySku_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if gatewaySku.Name != nil {
 		name := *gatewaySku.Name
 		result.Name = &name
@@ -1463,7 +1463,7 @@ func (gatewaySku *NatGatewaySku) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NatGatewaySku_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		gatewaySku.Name = &name
@@ -1547,7 +1547,7 @@ func (gatewaySku *NatGatewaySku_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NatGatewaySku_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		gatewaySku.Name = &name

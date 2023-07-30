@@ -365,10 +365,10 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Conve
 	}
 	result := &UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if credential.Audiences != nil ||
 		credential.Issuer != nil ||
 		credential.IssuerFromConfig != nil ||
@@ -418,7 +418,7 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Popul
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Audiences’:
+	// Set property "Audiences":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Audiences {
@@ -426,10 +426,10 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Popul
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	credential.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Issuer’:
+	// Set property "Issuer":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Issuer != nil {
@@ -438,12 +438,12 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Popul
 		}
 	}
 
-	// no assignment for property ‘IssuerFromConfig’
+	// no assignment for property "IssuerFromConfig"
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	credential.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Subject’:
+	// Set property "Subject":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Subject != nil {
@@ -452,7 +452,7 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Popul
 		}
 	}
 
-	// no assignment for property ‘SubjectFromConfig’
+	// no assignment for property "SubjectFromConfig"
 
 	// No error
 	return nil
@@ -720,7 +720,7 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) Pop
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Audiences’:
+	// Set property "Audiences":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Audiences {
@@ -728,15 +728,15 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) Pop
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		credential.Id = &id
 	}
 
-	// Set property ‘Issuer’:
+	// Set property "Issuer":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Issuer != nil {
@@ -745,13 +745,13 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) Pop
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		credential.Name = &name
 	}
 
-	// Set property ‘Subject’:
+	// Set property "Subject":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Subject != nil {
@@ -760,7 +760,7 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) Pop
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		credential.Type = &typeVar

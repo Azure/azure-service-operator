@@ -331,10 +331,10 @@ func (service *StorageAccounts_FileService_Spec) ConvertToARM(resolved genruntim
 	}
 	result := &StorageAccounts_FileService_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if service.Cors != nil ||
 		service.ProtocolSettings != nil ||
 		service.ShareDeleteRetentionPolicy != nil {
@@ -379,7 +379,7 @@ func (service *StorageAccounts_FileService_Spec) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_FileService_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Cors’:
+	// Set property "Cors":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Cors != nil {
@@ -393,10 +393,10 @@ func (service *StorageAccounts_FileService_Spec) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	service.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘ProtocolSettings’:
+	// Set property "ProtocolSettings":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProtocolSettings != nil {
@@ -410,7 +410,7 @@ func (service *StorageAccounts_FileService_Spec) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// Set property ‘ShareDeleteRetentionPolicy’:
+	// Set property "ShareDeleteRetentionPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ShareDeleteRetentionPolicy != nil {
@@ -733,9 +733,9 @@ func (service *StorageAccounts_FileService_STATUS) PopulateFromARM(owner genrunt
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_FileService_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Cors’:
+	// Set property "Cors":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Cors != nil {
@@ -749,19 +749,19 @@ func (service *StorageAccounts_FileService_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		service.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		service.Name = &name
 	}
 
-	// Set property ‘ProtocolSettings’:
+	// Set property "ProtocolSettings":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProtocolSettings != nil {
@@ -775,7 +775,7 @@ func (service *StorageAccounts_FileService_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// Set property ‘ShareDeleteRetentionPolicy’:
+	// Set property "ShareDeleteRetentionPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ShareDeleteRetentionPolicy != nil {
@@ -789,7 +789,7 @@ func (service *StorageAccounts_FileService_STATUS) PopulateFromARM(owner genrunt
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 Sku_STATUS
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -800,7 +800,7 @@ func (service *StorageAccounts_FileService_STATUS) PopulateFromARM(owner genrunt
 		service.Sku = &sku
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		service.Type = &typeVar
@@ -968,7 +968,7 @@ func (settings *ProtocolSettings) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &ProtocolSettings_ARM{}
 
-	// Set property ‘Smb’:
+	// Set property "Smb":
 	if settings.Smb != nil {
 		smb_ARM, err := (*settings.Smb).ConvertToARM(resolved)
 		if err != nil {
@@ -992,7 +992,7 @@ func (settings *ProtocolSettings) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ProtocolSettings_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Smb’:
+	// Set property "Smb":
 	if typedInput.Smb != nil {
 		var smb1 SmbSetting
 		err := smb1.PopulateFromARM(owner, *typedInput.Smb)
@@ -1093,7 +1093,7 @@ func (settings *ProtocolSettings_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ProtocolSettings_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Smb’:
+	// Set property "Smb":
 	if typedInput.Smb != nil {
 		var smb1 SmbSetting_STATUS
 		err := smb1.PopulateFromARM(owner, *typedInput.Smb)
@@ -1186,25 +1186,25 @@ func (setting *SmbSetting) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	}
 	result := &SmbSetting_ARM{}
 
-	// Set property ‘AuthenticationMethods’:
+	// Set property "AuthenticationMethods":
 	if setting.AuthenticationMethods != nil {
 		authenticationMethods := *setting.AuthenticationMethods
 		result.AuthenticationMethods = &authenticationMethods
 	}
 
-	// Set property ‘ChannelEncryption’:
+	// Set property "ChannelEncryption":
 	if setting.ChannelEncryption != nil {
 		channelEncryption := *setting.ChannelEncryption
 		result.ChannelEncryption = &channelEncryption
 	}
 
-	// Set property ‘KerberosTicketEncryption’:
+	// Set property "KerberosTicketEncryption":
 	if setting.KerberosTicketEncryption != nil {
 		kerberosTicketEncryption := *setting.KerberosTicketEncryption
 		result.KerberosTicketEncryption = &kerberosTicketEncryption
 	}
 
-	// Set property ‘Multichannel’:
+	// Set property "Multichannel":
 	if setting.Multichannel != nil {
 		multichannel_ARM, err := (*setting.Multichannel).ConvertToARM(resolved)
 		if err != nil {
@@ -1214,7 +1214,7 @@ func (setting *SmbSetting) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		result.Multichannel = &multichannel
 	}
 
-	// Set property ‘Versions’:
+	// Set property "Versions":
 	if setting.Versions != nil {
 		versions := *setting.Versions
 		result.Versions = &versions
@@ -1234,25 +1234,25 @@ func (setting *SmbSetting) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SmbSetting_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AuthenticationMethods’:
+	// Set property "AuthenticationMethods":
 	if typedInput.AuthenticationMethods != nil {
 		authenticationMethods := *typedInput.AuthenticationMethods
 		setting.AuthenticationMethods = &authenticationMethods
 	}
 
-	// Set property ‘ChannelEncryption’:
+	// Set property "ChannelEncryption":
 	if typedInput.ChannelEncryption != nil {
 		channelEncryption := *typedInput.ChannelEncryption
 		setting.ChannelEncryption = &channelEncryption
 	}
 
-	// Set property ‘KerberosTicketEncryption’:
+	// Set property "KerberosTicketEncryption":
 	if typedInput.KerberosTicketEncryption != nil {
 		kerberosTicketEncryption := *typedInput.KerberosTicketEncryption
 		setting.KerberosTicketEncryption = &kerberosTicketEncryption
 	}
 
-	// Set property ‘Multichannel’:
+	// Set property "Multichannel":
 	if typedInput.Multichannel != nil {
 		var multichannel1 Multichannel
 		err := multichannel1.PopulateFromARM(owner, *typedInput.Multichannel)
@@ -1263,7 +1263,7 @@ func (setting *SmbSetting) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		setting.Multichannel = &multichannel
 	}
 
-	// Set property ‘Versions’:
+	// Set property "Versions":
 	if typedInput.Versions != nil {
 		versions := *typedInput.Versions
 		setting.Versions = &versions
@@ -1411,25 +1411,25 @@ func (setting *SmbSetting_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SmbSetting_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AuthenticationMethods’:
+	// Set property "AuthenticationMethods":
 	if typedInput.AuthenticationMethods != nil {
 		authenticationMethods := *typedInput.AuthenticationMethods
 		setting.AuthenticationMethods = &authenticationMethods
 	}
 
-	// Set property ‘ChannelEncryption’:
+	// Set property "ChannelEncryption":
 	if typedInput.ChannelEncryption != nil {
 		channelEncryption := *typedInput.ChannelEncryption
 		setting.ChannelEncryption = &channelEncryption
 	}
 
-	// Set property ‘KerberosTicketEncryption’:
+	// Set property "KerberosTicketEncryption":
 	if typedInput.KerberosTicketEncryption != nil {
 		kerberosTicketEncryption := *typedInput.KerberosTicketEncryption
 		setting.KerberosTicketEncryption = &kerberosTicketEncryption
 	}
 
-	// Set property ‘Multichannel’:
+	// Set property "Multichannel":
 	if typedInput.Multichannel != nil {
 		var multichannel1 Multichannel_STATUS
 		err := multichannel1.PopulateFromARM(owner, *typedInput.Multichannel)
@@ -1440,7 +1440,7 @@ func (setting *SmbSetting_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 		setting.Multichannel = &multichannel
 	}
 
-	// Set property ‘Versions’:
+	// Set property "Versions":
 	if typedInput.Versions != nil {
 		versions := *typedInput.Versions
 		setting.Versions = &versions
@@ -1536,7 +1536,7 @@ func (multichannel *Multichannel) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &Multichannel_ARM{}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if multichannel.Enabled != nil {
 		enabled := *multichannel.Enabled
 		result.Enabled = &enabled
@@ -1556,7 +1556,7 @@ func (multichannel *Multichannel) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Multichannel_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		multichannel.Enabled = &enabled
@@ -1640,7 +1640,7 @@ func (multichannel *Multichannel_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Multichannel_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		multichannel.Enabled = &enabled

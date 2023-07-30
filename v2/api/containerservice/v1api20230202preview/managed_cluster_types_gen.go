@@ -540,7 +540,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &ManagedCluster_Spec_ARM{}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if cluster.ExtendedLocation != nil {
 		extendedLocation_ARM, err := (*cluster.ExtendedLocation).ConvertToARM(resolved)
 		if err != nil {
@@ -550,7 +550,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if cluster.Identity != nil {
 		identity_ARM, err := (*cluster.Identity).ConvertToARM(resolved)
 		if err != nil {
@@ -560,16 +560,16 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Identity = &identity
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if cluster.Location != nil {
 		location := *cluster.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if cluster.AadProfile != nil ||
 		cluster.AddonProfiles != nil ||
 		cluster.AgentPoolProfiles != nil ||
@@ -854,7 +854,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.WorkloadAutoScalerProfile = &workloadAutoScalerProfile
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if cluster.Sku != nil {
 		sku_ARM, err := (*cluster.Sku).ConvertToARM(resolved)
 		if err != nil {
@@ -864,7 +864,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Sku = &sku
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if cluster.Tags != nil {
 		result.Tags = make(map[string]string, len(cluster.Tags))
 		for key, value := range cluster.Tags {
@@ -886,7 +886,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedCluster_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AadProfile’:
+	// Set property "AadProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AadProfile != nil {
@@ -900,7 +900,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘AddonProfiles’:
+	// Set property "AddonProfiles":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AddonProfiles != nil {
@@ -916,7 +916,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘AgentPoolProfiles’:
+	// Set property "AgentPoolProfiles":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.AgentPoolProfiles {
@@ -929,7 +929,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘ApiServerAccessProfile’:
+	// Set property "ApiServerAccessProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ApiServerAccessProfile != nil {
@@ -943,7 +943,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘AutoScalerProfile’:
+	// Set property "AutoScalerProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutoScalerProfile != nil {
@@ -957,7 +957,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘AutoUpgradeProfile’:
+	// Set property "AutoUpgradeProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutoUpgradeProfile != nil {
@@ -971,7 +971,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘AzureMonitorProfile’:
+	// Set property "AzureMonitorProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AzureMonitorProfile != nil {
@@ -985,10 +985,10 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	cluster.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘CreationData’:
+	// Set property "CreationData":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreationData != nil {
@@ -1002,7 +1002,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘DisableLocalAccounts’:
+	// Set property "DisableLocalAccounts":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DisableLocalAccounts != nil {
@@ -1011,9 +1011,9 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// no assignment for property ‘DiskEncryptionSetReference’
+	// no assignment for property "DiskEncryptionSetReference"
 
-	// Set property ‘DnsPrefix’:
+	// Set property "DnsPrefix":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DnsPrefix != nil {
@@ -1022,7 +1022,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘EnableNamespaceResources’:
+	// Set property "EnableNamespaceResources":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableNamespaceResources != nil {
@@ -1031,7 +1031,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘EnablePodSecurityPolicy’:
+	// Set property "EnablePodSecurityPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnablePodSecurityPolicy != nil {
@@ -1040,7 +1040,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘EnableRBAC’:
+	// Set property "EnableRBAC":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableRBAC != nil {
@@ -1049,7 +1049,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if typedInput.ExtendedLocation != nil {
 		var extendedLocation1 ExtendedLocation
 		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
@@ -1060,7 +1060,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		cluster.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘FqdnSubdomain’:
+	// Set property "FqdnSubdomain":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FqdnSubdomain != nil {
@@ -1069,7 +1069,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘GuardrailsProfile’:
+	// Set property "GuardrailsProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.GuardrailsProfile != nil {
@@ -1083,7 +1083,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘HttpProxyConfig’:
+	// Set property "HttpProxyConfig":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HttpProxyConfig != nil {
@@ -1097,7 +1097,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 ManagedClusterIdentity
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -1108,7 +1108,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		cluster.Identity = &identity
 	}
 
-	// Set property ‘IdentityProfile’:
+	// Set property "IdentityProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IdentityProfile != nil {
@@ -1124,7 +1124,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘IngressProfile’:
+	// Set property "IngressProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IngressProfile != nil {
@@ -1138,7 +1138,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘KubernetesVersion’:
+	// Set property "KubernetesVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.KubernetesVersion != nil {
@@ -1147,7 +1147,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘LinuxProfile’:
+	// Set property "LinuxProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LinuxProfile != nil {
@@ -1161,13 +1161,13 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		cluster.Location = &location
 	}
 
-	// Set property ‘NetworkProfile’:
+	// Set property "NetworkProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NetworkProfile != nil {
@@ -1181,7 +1181,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘NodeResourceGroup’:
+	// Set property "NodeResourceGroup":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NodeResourceGroup != nil {
@@ -1190,7 +1190,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘NodeResourceGroupProfile’:
+	// Set property "NodeResourceGroupProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NodeResourceGroupProfile != nil {
@@ -1204,7 +1204,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘OidcIssuerProfile’:
+	// Set property "OidcIssuerProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OidcIssuerProfile != nil {
@@ -1218,12 +1218,12 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// no assignment for property ‘OperatorSpec’
+	// no assignment for property "OperatorSpec"
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	cluster.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘PodIdentityProfile’:
+	// Set property "PodIdentityProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PodIdentityProfile != nil {
@@ -1237,7 +1237,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘PrivateLinkResources’:
+	// Set property "PrivateLinkResources":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PrivateLinkResources {
@@ -1250,7 +1250,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
@@ -1259,7 +1259,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘SecurityProfile’:
+	// Set property "SecurityProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SecurityProfile != nil {
@@ -1273,7 +1273,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘ServiceMeshProfile’:
+	// Set property "ServiceMeshProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ServiceMeshProfile != nil {
@@ -1287,7 +1287,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘ServicePrincipalProfile’:
+	// Set property "ServicePrincipalProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ServicePrincipalProfile != nil {
@@ -1301,7 +1301,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 ManagedClusterSKU
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -1312,7 +1312,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		cluster.Sku = &sku
 	}
 
-	// Set property ‘StorageProfile’:
+	// Set property "StorageProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StorageProfile != nil {
@@ -1326,7 +1326,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		cluster.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1334,7 +1334,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘UpgradeSettings’:
+	// Set property "UpgradeSettings":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.UpgradeSettings != nil {
@@ -1348,7 +1348,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘WindowsProfile’:
+	// Set property "WindowsProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.WindowsProfile != nil {
@@ -1362,7 +1362,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘WorkloadAutoScalerProfile’:
+	// Set property "WorkloadAutoScalerProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.WorkloadAutoScalerProfile != nil {
@@ -2601,7 +2601,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedCluster_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AadProfile’:
+	// Set property "AadProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AadProfile != nil {
@@ -2615,7 +2615,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘AddonProfiles’:
+	// Set property "AddonProfiles":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AddonProfiles != nil {
@@ -2631,7 +2631,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘AgentPoolProfiles’:
+	// Set property "AgentPoolProfiles":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.AgentPoolProfiles {
@@ -2644,7 +2644,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘ApiServerAccessProfile’:
+	// Set property "ApiServerAccessProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ApiServerAccessProfile != nil {
@@ -2658,7 +2658,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘AutoScalerProfile’:
+	// Set property "AutoScalerProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutoScalerProfile != nil {
@@ -2672,7 +2672,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘AutoUpgradeProfile’:
+	// Set property "AutoUpgradeProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutoUpgradeProfile != nil {
@@ -2686,7 +2686,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘AzureMonitorProfile’:
+	// Set property "AzureMonitorProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AzureMonitorProfile != nil {
@@ -2700,7 +2700,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘AzurePortalFQDN’:
+	// Set property "AzurePortalFQDN":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AzurePortalFQDN != nil {
@@ -2709,9 +2709,9 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘CreationData’:
+	// Set property "CreationData":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreationData != nil {
@@ -2725,7 +2725,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘CurrentKubernetesVersion’:
+	// Set property "CurrentKubernetesVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CurrentKubernetesVersion != nil {
@@ -2734,7 +2734,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘DisableLocalAccounts’:
+	// Set property "DisableLocalAccounts":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DisableLocalAccounts != nil {
@@ -2743,7 +2743,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘DiskEncryptionSetID’:
+	// Set property "DiskEncryptionSetID":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DiskEncryptionSetID != nil {
@@ -2752,7 +2752,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘DnsPrefix’:
+	// Set property "DnsPrefix":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DnsPrefix != nil {
@@ -2761,7 +2761,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘EnableNamespaceResources’:
+	// Set property "EnableNamespaceResources":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableNamespaceResources != nil {
@@ -2770,7 +2770,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘EnablePodSecurityPolicy’:
+	// Set property "EnablePodSecurityPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnablePodSecurityPolicy != nil {
@@ -2779,7 +2779,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘EnableRBAC’:
+	// Set property "EnableRBAC":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableRBAC != nil {
@@ -2788,7 +2788,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if typedInput.ExtendedLocation != nil {
 		var extendedLocation1 ExtendedLocation_STATUS
 		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
@@ -2799,7 +2799,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		cluster.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘Fqdn’:
+	// Set property "Fqdn":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Fqdn != nil {
@@ -2808,7 +2808,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘FqdnSubdomain’:
+	// Set property "FqdnSubdomain":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FqdnSubdomain != nil {
@@ -2817,7 +2817,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘GuardrailsProfile’:
+	// Set property "GuardrailsProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.GuardrailsProfile != nil {
@@ -2831,7 +2831,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘HttpProxyConfig’:
+	// Set property "HttpProxyConfig":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HttpProxyConfig != nil {
@@ -2845,13 +2845,13 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		cluster.Id = &id
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 ManagedClusterIdentity_STATUS
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -2862,7 +2862,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		cluster.Identity = &identity
 	}
 
-	// Set property ‘IdentityProfile’:
+	// Set property "IdentityProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IdentityProfile != nil {
@@ -2878,7 +2878,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘IngressProfile’:
+	// Set property "IngressProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IngressProfile != nil {
@@ -2892,7 +2892,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘KubernetesVersion’:
+	// Set property "KubernetesVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.KubernetesVersion != nil {
@@ -2901,7 +2901,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘LinuxProfile’:
+	// Set property "LinuxProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LinuxProfile != nil {
@@ -2915,13 +2915,13 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		cluster.Location = &location
 	}
 
-	// Set property ‘MaxAgentPools’:
+	// Set property "MaxAgentPools":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxAgentPools != nil {
@@ -2930,13 +2930,13 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		cluster.Name = &name
 	}
 
-	// Set property ‘NetworkProfile’:
+	// Set property "NetworkProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NetworkProfile != nil {
@@ -2950,7 +2950,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘NodeResourceGroup’:
+	// Set property "NodeResourceGroup":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NodeResourceGroup != nil {
@@ -2959,7 +2959,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘NodeResourceGroupProfile’:
+	// Set property "NodeResourceGroupProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NodeResourceGroupProfile != nil {
@@ -2973,7 +2973,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘OidcIssuerProfile’:
+	// Set property "OidcIssuerProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OidcIssuerProfile != nil {
@@ -2987,7 +2987,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘PodIdentityProfile’:
+	// Set property "PodIdentityProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PodIdentityProfile != nil {
@@ -3001,7 +3001,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘PowerState’:
+	// Set property "PowerState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PowerState != nil {
@@ -3015,7 +3015,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘PrivateFQDN’:
+	// Set property "PrivateFQDN":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateFQDN != nil {
@@ -3024,7 +3024,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘PrivateLinkResources’:
+	// Set property "PrivateLinkResources":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PrivateLinkResources {
@@ -3037,7 +3037,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -3046,7 +3046,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘PublicNetworkAccess’:
+	// Set property "PublicNetworkAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
@@ -3055,7 +3055,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘SecurityProfile’:
+	// Set property "SecurityProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SecurityProfile != nil {
@@ -3069,7 +3069,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘ServiceMeshProfile’:
+	// Set property "ServiceMeshProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ServiceMeshProfile != nil {
@@ -3083,7 +3083,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘ServicePrincipalProfile’:
+	// Set property "ServicePrincipalProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ServicePrincipalProfile != nil {
@@ -3097,7 +3097,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 ManagedClusterSKU_STATUS
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -3108,7 +3108,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		cluster.Sku = &sku
 	}
 
-	// Set property ‘StorageProfile’:
+	// Set property "StorageProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StorageProfile != nil {
@@ -3122,7 +3122,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -3133,7 +3133,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		cluster.SystemData = &systemData
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		cluster.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -3141,13 +3141,13 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		cluster.Type = &typeVar
 	}
 
-	// Set property ‘UpgradeSettings’:
+	// Set property "UpgradeSettings":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.UpgradeSettings != nil {
@@ -3161,7 +3161,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘WindowsProfile’:
+	// Set property "WindowsProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.WindowsProfile != nil {
@@ -3175,7 +3175,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘WorkloadAutoScalerProfile’:
+	// Set property "WorkloadAutoScalerProfile":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.WorkloadAutoScalerProfile != nil {
@@ -4181,7 +4181,7 @@ func (settings *ClusterUpgradeSettings) ConvertToARM(resolved genruntime.Convert
 	}
 	result := &ClusterUpgradeSettings_ARM{}
 
-	// Set property ‘OverrideSettings’:
+	// Set property "OverrideSettings":
 	if settings.OverrideSettings != nil {
 		overrideSettings_ARM, err := (*settings.OverrideSettings).ConvertToARM(resolved)
 		if err != nil {
@@ -4205,7 +4205,7 @@ func (settings *ClusterUpgradeSettings) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ClusterUpgradeSettings_ARM, got %T", armInput)
 	}
 
-	// Set property ‘OverrideSettings’:
+	// Set property "OverrideSettings":
 	if typedInput.OverrideSettings != nil {
 		var overrideSettings1 UpgradeOverrideSettings
 		err := overrideSettings1.PopulateFromARM(owner, *typedInput.OverrideSettings)
@@ -4287,7 +4287,7 @@ func (settings *ClusterUpgradeSettings_STATUS) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ClusterUpgradeSettings_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘OverrideSettings’:
+	// Set property "OverrideSettings":
 	if typedInput.OverrideSettings != nil {
 		var overrideSettings1 UpgradeOverrideSettings_STATUS
 		err := overrideSettings1.PopulateFromARM(owner, *typedInput.OverrideSettings)
@@ -4370,13 +4370,13 @@ func (profile *ContainerServiceLinuxProfile) ConvertToARM(resolved genruntime.Co
 	}
 	result := &ContainerServiceLinuxProfile_ARM{}
 
-	// Set property ‘AdminUsername’:
+	// Set property "AdminUsername":
 	if profile.AdminUsername != nil {
 		adminUsername := *profile.AdminUsername
 		result.AdminUsername = &adminUsername
 	}
 
-	// Set property ‘Ssh’:
+	// Set property "Ssh":
 	if profile.Ssh != nil {
 		ssh_ARM, err := (*profile.Ssh).ConvertToARM(resolved)
 		if err != nil {
@@ -4400,13 +4400,13 @@ func (profile *ContainerServiceLinuxProfile) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerServiceLinuxProfile_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdminUsername’:
+	// Set property "AdminUsername":
 	if typedInput.AdminUsername != nil {
 		adminUsername := *typedInput.AdminUsername
 		profile.AdminUsername = &adminUsername
 	}
 
-	// Set property ‘Ssh’:
+	// Set property "Ssh":
 	if typedInput.Ssh != nil {
 		var ssh1 ContainerServiceSshConfiguration
 		err := ssh1.PopulateFromARM(owner, *typedInput.Ssh)
@@ -4507,13 +4507,13 @@ func (profile *ContainerServiceLinuxProfile_STATUS) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerServiceLinuxProfile_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdminUsername’:
+	// Set property "AdminUsername":
 	if typedInput.AdminUsername != nil {
 		adminUsername := *typedInput.AdminUsername
 		profile.AdminUsername = &adminUsername
 	}
 
-	// Set property ‘Ssh’:
+	// Set property "Ssh":
 	if typedInput.Ssh != nil {
 		var ssh1 ContainerServiceSshConfiguration_STATUS
 		err := ssh1.PopulateFromARM(owner, *typedInput.Ssh)
@@ -4659,24 +4659,24 @@ func (profile *ContainerServiceNetworkProfile) ConvertToARM(resolved genruntime.
 	}
 	result := &ContainerServiceNetworkProfile_ARM{}
 
-	// Set property ‘DnsServiceIP’:
+	// Set property "DnsServiceIP":
 	if profile.DnsServiceIP != nil {
 		dnsServiceIP := *profile.DnsServiceIP
 		result.DnsServiceIP = &dnsServiceIP
 	}
 
-	// Set property ‘DockerBridgeCidr’:
+	// Set property "DockerBridgeCidr":
 	if profile.DockerBridgeCidr != nil {
 		dockerBridgeCidr := *profile.DockerBridgeCidr
 		result.DockerBridgeCidr = &dockerBridgeCidr
 	}
 
-	// Set property ‘IpFamilies’:
+	// Set property "IpFamilies":
 	for _, item := range profile.IpFamilies {
 		result.IpFamilies = append(result.IpFamilies, item)
 	}
 
-	// Set property ‘KubeProxyConfig’:
+	// Set property "KubeProxyConfig":
 	if profile.KubeProxyConfig != nil {
 		kubeProxyConfig_ARM, err := (*profile.KubeProxyConfig).ConvertToARM(resolved)
 		if err != nil {
@@ -4686,7 +4686,7 @@ func (profile *ContainerServiceNetworkProfile) ConvertToARM(resolved genruntime.
 		result.KubeProxyConfig = &kubeProxyConfig
 	}
 
-	// Set property ‘LoadBalancerProfile’:
+	// Set property "LoadBalancerProfile":
 	if profile.LoadBalancerProfile != nil {
 		loadBalancerProfile_ARM, err := (*profile.LoadBalancerProfile).ConvertToARM(resolved)
 		if err != nil {
@@ -4696,13 +4696,13 @@ func (profile *ContainerServiceNetworkProfile) ConvertToARM(resolved genruntime.
 		result.LoadBalancerProfile = &loadBalancerProfile
 	}
 
-	// Set property ‘LoadBalancerSku’:
+	// Set property "LoadBalancerSku":
 	if profile.LoadBalancerSku != nil {
 		loadBalancerSku := *profile.LoadBalancerSku
 		result.LoadBalancerSku = &loadBalancerSku
 	}
 
-	// Set property ‘NatGatewayProfile’:
+	// Set property "NatGatewayProfile":
 	if profile.NatGatewayProfile != nil {
 		natGatewayProfile_ARM, err := (*profile.NatGatewayProfile).ConvertToARM(resolved)
 		if err != nil {
@@ -4712,60 +4712,60 @@ func (profile *ContainerServiceNetworkProfile) ConvertToARM(resolved genruntime.
 		result.NatGatewayProfile = &natGatewayProfile
 	}
 
-	// Set property ‘NetworkDataplane’:
+	// Set property "NetworkDataplane":
 	if profile.NetworkDataplane != nil {
 		networkDataplane := *profile.NetworkDataplane
 		result.NetworkDataplane = &networkDataplane
 	}
 
-	// Set property ‘NetworkMode’:
+	// Set property "NetworkMode":
 	if profile.NetworkMode != nil {
 		networkMode := *profile.NetworkMode
 		result.NetworkMode = &networkMode
 	}
 
-	// Set property ‘NetworkPlugin’:
+	// Set property "NetworkPlugin":
 	if profile.NetworkPlugin != nil {
 		networkPlugin := *profile.NetworkPlugin
 		result.NetworkPlugin = &networkPlugin
 	}
 
-	// Set property ‘NetworkPluginMode’:
+	// Set property "NetworkPluginMode":
 	if profile.NetworkPluginMode != nil {
 		networkPluginMode := *profile.NetworkPluginMode
 		result.NetworkPluginMode = &networkPluginMode
 	}
 
-	// Set property ‘NetworkPolicy’:
+	// Set property "NetworkPolicy":
 	if profile.NetworkPolicy != nil {
 		networkPolicy := *profile.NetworkPolicy
 		result.NetworkPolicy = &networkPolicy
 	}
 
-	// Set property ‘OutboundType’:
+	// Set property "OutboundType":
 	if profile.OutboundType != nil {
 		outboundType := *profile.OutboundType
 		result.OutboundType = &outboundType
 	}
 
-	// Set property ‘PodCidr’:
+	// Set property "PodCidr":
 	if profile.PodCidr != nil {
 		podCidr := *profile.PodCidr
 		result.PodCidr = &podCidr
 	}
 
-	// Set property ‘PodCidrs’:
+	// Set property "PodCidrs":
 	for _, item := range profile.PodCidrs {
 		result.PodCidrs = append(result.PodCidrs, item)
 	}
 
-	// Set property ‘ServiceCidr’:
+	// Set property "ServiceCidr":
 	if profile.ServiceCidr != nil {
 		serviceCidr := *profile.ServiceCidr
 		result.ServiceCidr = &serviceCidr
 	}
 
-	// Set property ‘ServiceCidrs’:
+	// Set property "ServiceCidrs":
 	for _, item := range profile.ServiceCidrs {
 		result.ServiceCidrs = append(result.ServiceCidrs, item)
 	}
@@ -4784,24 +4784,24 @@ func (profile *ContainerServiceNetworkProfile) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerServiceNetworkProfile_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DnsServiceIP’:
+	// Set property "DnsServiceIP":
 	if typedInput.DnsServiceIP != nil {
 		dnsServiceIP := *typedInput.DnsServiceIP
 		profile.DnsServiceIP = &dnsServiceIP
 	}
 
-	// Set property ‘DockerBridgeCidr’:
+	// Set property "DockerBridgeCidr":
 	if typedInput.DockerBridgeCidr != nil {
 		dockerBridgeCidr := *typedInput.DockerBridgeCidr
 		profile.DockerBridgeCidr = &dockerBridgeCidr
 	}
 
-	// Set property ‘IpFamilies’:
+	// Set property "IpFamilies":
 	for _, item := range typedInput.IpFamilies {
 		profile.IpFamilies = append(profile.IpFamilies, item)
 	}
 
-	// Set property ‘KubeProxyConfig’:
+	// Set property "KubeProxyConfig":
 	if typedInput.KubeProxyConfig != nil {
 		var kubeProxyConfig1 ContainerServiceNetworkProfile_KubeProxyConfig
 		err := kubeProxyConfig1.PopulateFromARM(owner, *typedInput.KubeProxyConfig)
@@ -4812,7 +4812,7 @@ func (profile *ContainerServiceNetworkProfile) PopulateFromARM(owner genruntime.
 		profile.KubeProxyConfig = &kubeProxyConfig
 	}
 
-	// Set property ‘LoadBalancerProfile’:
+	// Set property "LoadBalancerProfile":
 	if typedInput.LoadBalancerProfile != nil {
 		var loadBalancerProfile1 ManagedClusterLoadBalancerProfile
 		err := loadBalancerProfile1.PopulateFromARM(owner, *typedInput.LoadBalancerProfile)
@@ -4823,13 +4823,13 @@ func (profile *ContainerServiceNetworkProfile) PopulateFromARM(owner genruntime.
 		profile.LoadBalancerProfile = &loadBalancerProfile
 	}
 
-	// Set property ‘LoadBalancerSku’:
+	// Set property "LoadBalancerSku":
 	if typedInput.LoadBalancerSku != nil {
 		loadBalancerSku := *typedInput.LoadBalancerSku
 		profile.LoadBalancerSku = &loadBalancerSku
 	}
 
-	// Set property ‘NatGatewayProfile’:
+	// Set property "NatGatewayProfile":
 	if typedInput.NatGatewayProfile != nil {
 		var natGatewayProfile1 ManagedClusterNATGatewayProfile
 		err := natGatewayProfile1.PopulateFromARM(owner, *typedInput.NatGatewayProfile)
@@ -4840,60 +4840,60 @@ func (profile *ContainerServiceNetworkProfile) PopulateFromARM(owner genruntime.
 		profile.NatGatewayProfile = &natGatewayProfile
 	}
 
-	// Set property ‘NetworkDataplane’:
+	// Set property "NetworkDataplane":
 	if typedInput.NetworkDataplane != nil {
 		networkDataplane := *typedInput.NetworkDataplane
 		profile.NetworkDataplane = &networkDataplane
 	}
 
-	// Set property ‘NetworkMode’:
+	// Set property "NetworkMode":
 	if typedInput.NetworkMode != nil {
 		networkMode := *typedInput.NetworkMode
 		profile.NetworkMode = &networkMode
 	}
 
-	// Set property ‘NetworkPlugin’:
+	// Set property "NetworkPlugin":
 	if typedInput.NetworkPlugin != nil {
 		networkPlugin := *typedInput.NetworkPlugin
 		profile.NetworkPlugin = &networkPlugin
 	}
 
-	// Set property ‘NetworkPluginMode’:
+	// Set property "NetworkPluginMode":
 	if typedInput.NetworkPluginMode != nil {
 		networkPluginMode := *typedInput.NetworkPluginMode
 		profile.NetworkPluginMode = &networkPluginMode
 	}
 
-	// Set property ‘NetworkPolicy’:
+	// Set property "NetworkPolicy":
 	if typedInput.NetworkPolicy != nil {
 		networkPolicy := *typedInput.NetworkPolicy
 		profile.NetworkPolicy = &networkPolicy
 	}
 
-	// Set property ‘OutboundType’:
+	// Set property "OutboundType":
 	if typedInput.OutboundType != nil {
 		outboundType := *typedInput.OutboundType
 		profile.OutboundType = &outboundType
 	}
 
-	// Set property ‘PodCidr’:
+	// Set property "PodCidr":
 	if typedInput.PodCidr != nil {
 		podCidr := *typedInput.PodCidr
 		profile.PodCidr = &podCidr
 	}
 
-	// Set property ‘PodCidrs’:
+	// Set property "PodCidrs":
 	for _, item := range typedInput.PodCidrs {
 		profile.PodCidrs = append(profile.PodCidrs, item)
 	}
 
-	// Set property ‘ServiceCidr’:
+	// Set property "ServiceCidr":
 	if typedInput.ServiceCidr != nil {
 		serviceCidr := *typedInput.ServiceCidr
 		profile.ServiceCidr = &serviceCidr
 	}
 
-	// Set property ‘ServiceCidrs’:
+	// Set property "ServiceCidrs":
 	for _, item := range typedInput.ServiceCidrs {
 		profile.ServiceCidrs = append(profile.ServiceCidrs, item)
 	}
@@ -5290,24 +5290,24 @@ func (profile *ContainerServiceNetworkProfile_STATUS) PopulateFromARM(owner genr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerServiceNetworkProfile_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DnsServiceIP’:
+	// Set property "DnsServiceIP":
 	if typedInput.DnsServiceIP != nil {
 		dnsServiceIP := *typedInput.DnsServiceIP
 		profile.DnsServiceIP = &dnsServiceIP
 	}
 
-	// Set property ‘DockerBridgeCidr’:
+	// Set property "DockerBridgeCidr":
 	if typedInput.DockerBridgeCidr != nil {
 		dockerBridgeCidr := *typedInput.DockerBridgeCidr
 		profile.DockerBridgeCidr = &dockerBridgeCidr
 	}
 
-	// Set property ‘IpFamilies’:
+	// Set property "IpFamilies":
 	for _, item := range typedInput.IpFamilies {
 		profile.IpFamilies = append(profile.IpFamilies, item)
 	}
 
-	// Set property ‘KubeProxyConfig’:
+	// Set property "KubeProxyConfig":
 	if typedInput.KubeProxyConfig != nil {
 		var kubeProxyConfig1 ContainerServiceNetworkProfile_KubeProxyConfig_STATUS
 		err := kubeProxyConfig1.PopulateFromARM(owner, *typedInput.KubeProxyConfig)
@@ -5318,7 +5318,7 @@ func (profile *ContainerServiceNetworkProfile_STATUS) PopulateFromARM(owner genr
 		profile.KubeProxyConfig = &kubeProxyConfig
 	}
 
-	// Set property ‘LoadBalancerProfile’:
+	// Set property "LoadBalancerProfile":
 	if typedInput.LoadBalancerProfile != nil {
 		var loadBalancerProfile1 ManagedClusterLoadBalancerProfile_STATUS
 		err := loadBalancerProfile1.PopulateFromARM(owner, *typedInput.LoadBalancerProfile)
@@ -5329,13 +5329,13 @@ func (profile *ContainerServiceNetworkProfile_STATUS) PopulateFromARM(owner genr
 		profile.LoadBalancerProfile = &loadBalancerProfile
 	}
 
-	// Set property ‘LoadBalancerSku’:
+	// Set property "LoadBalancerSku":
 	if typedInput.LoadBalancerSku != nil {
 		loadBalancerSku := *typedInput.LoadBalancerSku
 		profile.LoadBalancerSku = &loadBalancerSku
 	}
 
-	// Set property ‘NatGatewayProfile’:
+	// Set property "NatGatewayProfile":
 	if typedInput.NatGatewayProfile != nil {
 		var natGatewayProfile1 ManagedClusterNATGatewayProfile_STATUS
 		err := natGatewayProfile1.PopulateFromARM(owner, *typedInput.NatGatewayProfile)
@@ -5346,60 +5346,60 @@ func (profile *ContainerServiceNetworkProfile_STATUS) PopulateFromARM(owner genr
 		profile.NatGatewayProfile = &natGatewayProfile
 	}
 
-	// Set property ‘NetworkDataplane’:
+	// Set property "NetworkDataplane":
 	if typedInput.NetworkDataplane != nil {
 		networkDataplane := *typedInput.NetworkDataplane
 		profile.NetworkDataplane = &networkDataplane
 	}
 
-	// Set property ‘NetworkMode’:
+	// Set property "NetworkMode":
 	if typedInput.NetworkMode != nil {
 		networkMode := *typedInput.NetworkMode
 		profile.NetworkMode = &networkMode
 	}
 
-	// Set property ‘NetworkPlugin’:
+	// Set property "NetworkPlugin":
 	if typedInput.NetworkPlugin != nil {
 		networkPlugin := *typedInput.NetworkPlugin
 		profile.NetworkPlugin = &networkPlugin
 	}
 
-	// Set property ‘NetworkPluginMode’:
+	// Set property "NetworkPluginMode":
 	if typedInput.NetworkPluginMode != nil {
 		networkPluginMode := *typedInput.NetworkPluginMode
 		profile.NetworkPluginMode = &networkPluginMode
 	}
 
-	// Set property ‘NetworkPolicy’:
+	// Set property "NetworkPolicy":
 	if typedInput.NetworkPolicy != nil {
 		networkPolicy := *typedInput.NetworkPolicy
 		profile.NetworkPolicy = &networkPolicy
 	}
 
-	// Set property ‘OutboundType’:
+	// Set property "OutboundType":
 	if typedInput.OutboundType != nil {
 		outboundType := *typedInput.OutboundType
 		profile.OutboundType = &outboundType
 	}
 
-	// Set property ‘PodCidr’:
+	// Set property "PodCidr":
 	if typedInput.PodCidr != nil {
 		podCidr := *typedInput.PodCidr
 		profile.PodCidr = &podCidr
 	}
 
-	// Set property ‘PodCidrs’:
+	// Set property "PodCidrs":
 	for _, item := range typedInput.PodCidrs {
 		profile.PodCidrs = append(profile.PodCidrs, item)
 	}
 
-	// Set property ‘ServiceCidr’:
+	// Set property "ServiceCidr":
 	if typedInput.ServiceCidr != nil {
 		serviceCidr := *typedInput.ServiceCidr
 		profile.ServiceCidr = &serviceCidr
 	}
 
-	// Set property ‘ServiceCidrs’:
+	// Set property "ServiceCidrs":
 	for _, item := range typedInput.ServiceCidrs {
 		profile.ServiceCidrs = append(profile.ServiceCidrs, item)
 	}
@@ -5692,7 +5692,7 @@ func (data *CreationData) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	}
 	result := &CreationData_ARM{}
 
-	// Set property ‘SourceResourceId’:
+	// Set property "SourceResourceId":
 	if data.SourceResourceReference != nil {
 		sourceResourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*data.SourceResourceReference)
 		if err != nil {
@@ -5716,7 +5716,7 @@ func (data *CreationData) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CreationData_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘SourceResourceReference’
+	// no assignment for property "SourceResourceReference"
 
 	// No error
 	return nil
@@ -5781,7 +5781,7 @@ func (data *CreationData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CreationData_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘SourceResourceId’:
+	// Set property "SourceResourceId":
 	if typedInput.SourceResourceId != nil {
 		sourceResourceId := *typedInput.SourceResourceId
 		data.SourceResourceId = &sourceResourceId
@@ -5838,13 +5838,13 @@ func (location *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &ExtendedLocation_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if location.Name != nil {
 		name := *location.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if location.Type != nil {
 		typeVar := *location.Type
 		result.Type = &typeVar
@@ -5864,13 +5864,13 @@ func (location *ExtendedLocation) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExtendedLocation_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		location.Name = &name
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		location.Type = &typeVar
@@ -5948,13 +5948,13 @@ func (location *ExtendedLocation_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExtendedLocation_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		location.Name = &name
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		location.Type = &typeVar
@@ -6033,18 +6033,18 @@ func (profile *GuardrailsProfile) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &GuardrailsProfile_ARM{}
 
-	// Set property ‘ExcludedNamespaces’:
+	// Set property "ExcludedNamespaces":
 	for _, item := range profile.ExcludedNamespaces {
 		result.ExcludedNamespaces = append(result.ExcludedNamespaces, item)
 	}
 
-	// Set property ‘Level’:
+	// Set property "Level":
 	if profile.Level != nil {
 		level := *profile.Level
 		result.Level = &level
 	}
 
-	// Set property ‘Version’:
+	// Set property "Version":
 	if profile.Version != nil {
 		version := *profile.Version
 		result.Version = &version
@@ -6064,18 +6064,18 @@ func (profile *GuardrailsProfile) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected GuardrailsProfile_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ExcludedNamespaces’:
+	// Set property "ExcludedNamespaces":
 	for _, item := range typedInput.ExcludedNamespaces {
 		profile.ExcludedNamespaces = append(profile.ExcludedNamespaces, item)
 	}
 
-	// Set property ‘Level’:
+	// Set property "Level":
 	if typedInput.Level != nil {
 		level := *typedInput.Level
 		profile.Level = &level
 	}
 
-	// Set property ‘Version’:
+	// Set property "Version":
 	if typedInput.Version != nil {
 		version := *typedInput.Version
 		profile.Version = &version
@@ -6166,23 +6166,23 @@ func (profile *GuardrailsProfile_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected GuardrailsProfile_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ExcludedNamespaces’:
+	// Set property "ExcludedNamespaces":
 	for _, item := range typedInput.ExcludedNamespaces {
 		profile.ExcludedNamespaces = append(profile.ExcludedNamespaces, item)
 	}
 
-	// Set property ‘Level’:
+	// Set property "Level":
 	if typedInput.Level != nil {
 		level := *typedInput.Level
 		profile.Level = &level
 	}
 
-	// Set property ‘SystemExcludedNamespaces’:
+	// Set property "SystemExcludedNamespaces":
 	for _, item := range typedInput.SystemExcludedNamespaces {
 		profile.SystemExcludedNamespaces = append(profile.SystemExcludedNamespaces, item)
 	}
 
-	// Set property ‘Version’:
+	// Set property "Version":
 	if typedInput.Version != nil {
 		version := *typedInput.Version
 		profile.Version = &version
@@ -6283,42 +6283,42 @@ func (profile *ManagedClusterAADProfile) ConvertToARM(resolved genruntime.Conver
 	}
 	result := &ManagedClusterAADProfile_ARM{}
 
-	// Set property ‘AdminGroupObjectIDs’:
+	// Set property "AdminGroupObjectIDs":
 	for _, item := range profile.AdminGroupObjectIDs {
 		result.AdminGroupObjectIDs = append(result.AdminGroupObjectIDs, item)
 	}
 
-	// Set property ‘ClientAppID’:
+	// Set property "ClientAppID":
 	if profile.ClientAppID != nil {
 		clientAppID := *profile.ClientAppID
 		result.ClientAppID = &clientAppID
 	}
 
-	// Set property ‘EnableAzureRBAC’:
+	// Set property "EnableAzureRBAC":
 	if profile.EnableAzureRBAC != nil {
 		enableAzureRBAC := *profile.EnableAzureRBAC
 		result.EnableAzureRBAC = &enableAzureRBAC
 	}
 
-	// Set property ‘Managed’:
+	// Set property "Managed":
 	if profile.Managed != nil {
 		managed := *profile.Managed
 		result.Managed = &managed
 	}
 
-	// Set property ‘ServerAppID’:
+	// Set property "ServerAppID":
 	if profile.ServerAppID != nil {
 		serverAppID := *profile.ServerAppID
 		result.ServerAppID = &serverAppID
 	}
 
-	// Set property ‘ServerAppSecret’:
+	// Set property "ServerAppSecret":
 	if profile.ServerAppSecret != nil {
 		serverAppSecret := *profile.ServerAppSecret
 		result.ServerAppSecret = &serverAppSecret
 	}
 
-	// Set property ‘TenantID’:
+	// Set property "TenantID":
 	if profile.TenantID != nil {
 		tenantID := *profile.TenantID
 		result.TenantID = &tenantID
@@ -6338,42 +6338,42 @@ func (profile *ManagedClusterAADProfile) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterAADProfile_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdminGroupObjectIDs’:
+	// Set property "AdminGroupObjectIDs":
 	for _, item := range typedInput.AdminGroupObjectIDs {
 		profile.AdminGroupObjectIDs = append(profile.AdminGroupObjectIDs, item)
 	}
 
-	// Set property ‘ClientAppID’:
+	// Set property "ClientAppID":
 	if typedInput.ClientAppID != nil {
 		clientAppID := *typedInput.ClientAppID
 		profile.ClientAppID = &clientAppID
 	}
 
-	// Set property ‘EnableAzureRBAC’:
+	// Set property "EnableAzureRBAC":
 	if typedInput.EnableAzureRBAC != nil {
 		enableAzureRBAC := *typedInput.EnableAzureRBAC
 		profile.EnableAzureRBAC = &enableAzureRBAC
 	}
 
-	// Set property ‘Managed’:
+	// Set property "Managed":
 	if typedInput.Managed != nil {
 		managed := *typedInput.Managed
 		profile.Managed = &managed
 	}
 
-	// Set property ‘ServerAppID’:
+	// Set property "ServerAppID":
 	if typedInput.ServerAppID != nil {
 		serverAppID := *typedInput.ServerAppID
 		profile.ServerAppID = &serverAppID
 	}
 
-	// Set property ‘ServerAppSecret’:
+	// Set property "ServerAppSecret":
 	if typedInput.ServerAppSecret != nil {
 		serverAppSecret := *typedInput.ServerAppSecret
 		profile.ServerAppSecret = &serverAppSecret
 	}
 
-	// Set property ‘TenantID’:
+	// Set property "TenantID":
 	if typedInput.TenantID != nil {
 		tenantID := *typedInput.TenantID
 		profile.TenantID = &tenantID
@@ -6507,42 +6507,42 @@ func (profile *ManagedClusterAADProfile_STATUS) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterAADProfile_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdminGroupObjectIDs’:
+	// Set property "AdminGroupObjectIDs":
 	for _, item := range typedInput.AdminGroupObjectIDs {
 		profile.AdminGroupObjectIDs = append(profile.AdminGroupObjectIDs, item)
 	}
 
-	// Set property ‘ClientAppID’:
+	// Set property "ClientAppID":
 	if typedInput.ClientAppID != nil {
 		clientAppID := *typedInput.ClientAppID
 		profile.ClientAppID = &clientAppID
 	}
 
-	// Set property ‘EnableAzureRBAC’:
+	// Set property "EnableAzureRBAC":
 	if typedInput.EnableAzureRBAC != nil {
 		enableAzureRBAC := *typedInput.EnableAzureRBAC
 		profile.EnableAzureRBAC = &enableAzureRBAC
 	}
 
-	// Set property ‘Managed’:
+	// Set property "Managed":
 	if typedInput.Managed != nil {
 		managed := *typedInput.Managed
 		profile.Managed = &managed
 	}
 
-	// Set property ‘ServerAppID’:
+	// Set property "ServerAppID":
 	if typedInput.ServerAppID != nil {
 		serverAppID := *typedInput.ServerAppID
 		profile.ServerAppID = &serverAppID
 	}
 
-	// Set property ‘ServerAppSecret’:
+	// Set property "ServerAppSecret":
 	if typedInput.ServerAppSecret != nil {
 		serverAppSecret := *typedInput.ServerAppSecret
 		profile.ServerAppSecret = &serverAppSecret
 	}
 
-	// Set property ‘TenantID’:
+	// Set property "TenantID":
 	if typedInput.TenantID != nil {
 		tenantID := *typedInput.TenantID
 		profile.TenantID = &tenantID
@@ -6656,7 +6656,7 @@ func (profile *ManagedClusterAddonProfile) ConvertToARM(resolved genruntime.Conv
 	}
 	result := &ManagedClusterAddonProfile_ARM{}
 
-	// Set property ‘Config’:
+	// Set property "Config":
 	if profile.Config != nil {
 		result.Config = make(map[string]string, len(profile.Config))
 		for key, value := range profile.Config {
@@ -6664,7 +6664,7 @@ func (profile *ManagedClusterAddonProfile) ConvertToARM(resolved genruntime.Conv
 		}
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if profile.Enabled != nil {
 		enabled := *profile.Enabled
 		result.Enabled = &enabled
@@ -6684,7 +6684,7 @@ func (profile *ManagedClusterAddonProfile) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterAddonProfile_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Config’:
+	// Set property "Config":
 	if typedInput.Config != nil {
 		profile.Config = make(map[string]string, len(typedInput.Config))
 		for key, value := range typedInput.Config {
@@ -6692,7 +6692,7 @@ func (profile *ManagedClusterAddonProfile) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		profile.Enabled = &enabled
@@ -6773,7 +6773,7 @@ func (profile *ManagedClusterAddonProfile_STATUS) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterAddonProfile_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Config’:
+	// Set property "Config":
 	if typedInput.Config != nil {
 		profile.Config = make(map[string]string, len(typedInput.Config))
 		for key, value := range typedInput.Config {
@@ -6781,13 +6781,13 @@ func (profile *ManagedClusterAddonProfile_STATUS) PopulateFromARM(owner genrunti
 		}
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		profile.Enabled = &enabled
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 UserAssignedIdentity_STATUS
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -7055,24 +7055,24 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 	}
 	result := &ManagedClusterAgentPoolProfile_ARM{}
 
-	// Set property ‘AvailabilityZones’:
+	// Set property "AvailabilityZones":
 	for _, item := range profile.AvailabilityZones {
 		result.AvailabilityZones = append(result.AvailabilityZones, item)
 	}
 
-	// Set property ‘CapacityReservationGroupID’:
+	// Set property "CapacityReservationGroupID":
 	if profile.CapacityReservationGroupID != nil {
 		capacityReservationGroupID := *profile.CapacityReservationGroupID
 		result.CapacityReservationGroupID = &capacityReservationGroupID
 	}
 
-	// Set property ‘Count’:
+	// Set property "Count":
 	if profile.Count != nil {
 		count := *profile.Count
 		result.Count = &count
 	}
 
-	// Set property ‘CreationData’:
+	// Set property "CreationData":
 	if profile.CreationData != nil {
 		creationData_ARM, err := (*profile.CreationData).ConvertToARM(resolved)
 		if err != nil {
@@ -7082,49 +7082,49 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 		result.CreationData = &creationData
 	}
 
-	// Set property ‘EnableAutoScaling’:
+	// Set property "EnableAutoScaling":
 	if profile.EnableAutoScaling != nil {
 		enableAutoScaling := *profile.EnableAutoScaling
 		result.EnableAutoScaling = &enableAutoScaling
 	}
 
-	// Set property ‘EnableCustomCATrust’:
+	// Set property "EnableCustomCATrust":
 	if profile.EnableCustomCATrust != nil {
 		enableCustomCATrust := *profile.EnableCustomCATrust
 		result.EnableCustomCATrust = &enableCustomCATrust
 	}
 
-	// Set property ‘EnableEncryptionAtHost’:
+	// Set property "EnableEncryptionAtHost":
 	if profile.EnableEncryptionAtHost != nil {
 		enableEncryptionAtHost := *profile.EnableEncryptionAtHost
 		result.EnableEncryptionAtHost = &enableEncryptionAtHost
 	}
 
-	// Set property ‘EnableFIPS’:
+	// Set property "EnableFIPS":
 	if profile.EnableFIPS != nil {
 		enableFIPS := *profile.EnableFIPS
 		result.EnableFIPS = &enableFIPS
 	}
 
-	// Set property ‘EnableNodePublicIP’:
+	// Set property "EnableNodePublicIP":
 	if profile.EnableNodePublicIP != nil {
 		enableNodePublicIP := *profile.EnableNodePublicIP
 		result.EnableNodePublicIP = &enableNodePublicIP
 	}
 
-	// Set property ‘EnableUltraSSD’:
+	// Set property "EnableUltraSSD":
 	if profile.EnableUltraSSD != nil {
 		enableUltraSSD := *profile.EnableUltraSSD
 		result.EnableUltraSSD = &enableUltraSSD
 	}
 
-	// Set property ‘GpuInstanceProfile’:
+	// Set property "GpuInstanceProfile":
 	if profile.GpuInstanceProfile != nil {
 		gpuInstanceProfile := *profile.GpuInstanceProfile
 		result.GpuInstanceProfile = &gpuInstanceProfile
 	}
 
-	// Set property ‘HostGroupID’:
+	// Set property "HostGroupID":
 	if profile.HostGroupReference != nil {
 		hostGroupReferenceARMID, err := resolved.ResolvedReferences.Lookup(*profile.HostGroupReference)
 		if err != nil {
@@ -7134,7 +7134,7 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 		result.HostGroupID = &hostGroupReference
 	}
 
-	// Set property ‘KubeletConfig’:
+	// Set property "KubeletConfig":
 	if profile.KubeletConfig != nil {
 		kubeletConfig_ARM, err := (*profile.KubeletConfig).ConvertToARM(resolved)
 		if err != nil {
@@ -7144,13 +7144,13 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 		result.KubeletConfig = &kubeletConfig
 	}
 
-	// Set property ‘KubeletDiskType’:
+	// Set property "KubeletDiskType":
 	if profile.KubeletDiskType != nil {
 		kubeletDiskType := *profile.KubeletDiskType
 		result.KubeletDiskType = &kubeletDiskType
 	}
 
-	// Set property ‘LinuxOSConfig’:
+	// Set property "LinuxOSConfig":
 	if profile.LinuxOSConfig != nil {
 		linuxOSConfig_ARM, err := (*profile.LinuxOSConfig).ConvertToARM(resolved)
 		if err != nil {
@@ -7160,43 +7160,43 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 		result.LinuxOSConfig = &linuxOSConfig
 	}
 
-	// Set property ‘MaxCount’:
+	// Set property "MaxCount":
 	if profile.MaxCount != nil {
 		maxCount := *profile.MaxCount
 		result.MaxCount = &maxCount
 	}
 
-	// Set property ‘MaxPods’:
+	// Set property "MaxPods":
 	if profile.MaxPods != nil {
 		maxPods := *profile.MaxPods
 		result.MaxPods = &maxPods
 	}
 
-	// Set property ‘MessageOfTheDay’:
+	// Set property "MessageOfTheDay":
 	if profile.MessageOfTheDay != nil {
 		messageOfTheDay := *profile.MessageOfTheDay
 		result.MessageOfTheDay = &messageOfTheDay
 	}
 
-	// Set property ‘MinCount’:
+	// Set property "MinCount":
 	if profile.MinCount != nil {
 		minCount := *profile.MinCount
 		result.MinCount = &minCount
 	}
 
-	// Set property ‘Mode’:
+	// Set property "Mode":
 	if profile.Mode != nil {
 		mode := *profile.Mode
 		result.Mode = &mode
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if profile.Name != nil {
 		name := *profile.Name
 		result.Name = &name
 	}
 
-	// Set property ‘NetworkProfile’:
+	// Set property "NetworkProfile":
 	if profile.NetworkProfile != nil {
 		networkProfile_ARM, err := (*profile.NetworkProfile).ConvertToARM(resolved)
 		if err != nil {
@@ -7206,7 +7206,7 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 		result.NetworkProfile = &networkProfile
 	}
 
-	// Set property ‘NodeLabels’:
+	// Set property "NodeLabels":
 	if profile.NodeLabels != nil {
 		result.NodeLabels = make(map[string]string, len(profile.NodeLabels))
 		for key, value := range profile.NodeLabels {
@@ -7214,7 +7214,7 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 		}
 	}
 
-	// Set property ‘NodePublicIPPrefixID’:
+	// Set property "NodePublicIPPrefixID":
 	if profile.NodePublicIPPrefixReference != nil {
 		nodePublicIPPrefixReferenceARMID, err := resolved.ResolvedReferences.Lookup(*profile.NodePublicIPPrefixReference)
 		if err != nil {
@@ -7224,42 +7224,42 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 		result.NodePublicIPPrefixID = &nodePublicIPPrefixReference
 	}
 
-	// Set property ‘NodeTaints’:
+	// Set property "NodeTaints":
 	for _, item := range profile.NodeTaints {
 		result.NodeTaints = append(result.NodeTaints, item)
 	}
 
-	// Set property ‘OrchestratorVersion’:
+	// Set property "OrchestratorVersion":
 	if profile.OrchestratorVersion != nil {
 		orchestratorVersion := *profile.OrchestratorVersion
 		result.OrchestratorVersion = &orchestratorVersion
 	}
 
-	// Set property ‘OsDiskSizeGB’:
+	// Set property "OsDiskSizeGB":
 	if profile.OsDiskSizeGB != nil {
 		osDiskSizeGB := *profile.OsDiskSizeGB
 		result.OsDiskSizeGB = &osDiskSizeGB
 	}
 
-	// Set property ‘OsDiskType’:
+	// Set property "OsDiskType":
 	if profile.OsDiskType != nil {
 		osDiskType := *profile.OsDiskType
 		result.OsDiskType = &osDiskType
 	}
 
-	// Set property ‘OsSKU’:
+	// Set property "OsSKU":
 	if profile.OsSKU != nil {
 		osSKU := *profile.OsSKU
 		result.OsSKU = &osSKU
 	}
 
-	// Set property ‘OsType’:
+	// Set property "OsType":
 	if profile.OsType != nil {
 		osType := *profile.OsType
 		result.OsType = &osType
 	}
 
-	// Set property ‘PodSubnetID’:
+	// Set property "PodSubnetID":
 	if profile.PodSubnetReference != nil {
 		podSubnetReferenceARMID, err := resolved.ResolvedReferences.Lookup(*profile.PodSubnetReference)
 		if err != nil {
@@ -7269,7 +7269,7 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 		result.PodSubnetID = &podSubnetReference
 	}
 
-	// Set property ‘PowerState’:
+	// Set property "PowerState":
 	if profile.PowerState != nil {
 		powerState_ARM, err := (*profile.PowerState).ConvertToARM(resolved)
 		if err != nil {
@@ -7279,7 +7279,7 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 		result.PowerState = &powerState
 	}
 
-	// Set property ‘ProximityPlacementGroupID’:
+	// Set property "ProximityPlacementGroupID":
 	if profile.ProximityPlacementGroupReference != nil {
 		proximityPlacementGroupReferenceARMID, err := resolved.ResolvedReferences.Lookup(*profile.ProximityPlacementGroupReference)
 		if err != nil {
@@ -7289,31 +7289,31 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 		result.ProximityPlacementGroupID = &proximityPlacementGroupReference
 	}
 
-	// Set property ‘ScaleDownMode’:
+	// Set property "ScaleDownMode":
 	if profile.ScaleDownMode != nil {
 		scaleDownMode := *profile.ScaleDownMode
 		result.ScaleDownMode = &scaleDownMode
 	}
 
-	// Set property ‘ScaleSetEvictionPolicy’:
+	// Set property "ScaleSetEvictionPolicy":
 	if profile.ScaleSetEvictionPolicy != nil {
 		scaleSetEvictionPolicy := *profile.ScaleSetEvictionPolicy
 		result.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
 	}
 
-	// Set property ‘ScaleSetPriority’:
+	// Set property "ScaleSetPriority":
 	if profile.ScaleSetPriority != nil {
 		scaleSetPriority := *profile.ScaleSetPriority
 		result.ScaleSetPriority = &scaleSetPriority
 	}
 
-	// Set property ‘SpotMaxPrice’:
+	// Set property "SpotMaxPrice":
 	if profile.SpotMaxPrice != nil {
 		spotMaxPrice := *profile.SpotMaxPrice
 		result.SpotMaxPrice = &spotMaxPrice
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if profile.Tags != nil {
 		result.Tags = make(map[string]string, len(profile.Tags))
 		for key, value := range profile.Tags {
@@ -7321,13 +7321,13 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if profile.Type != nil {
 		typeVar := *profile.Type
 		result.Type = &typeVar
 	}
 
-	// Set property ‘UpgradeSettings’:
+	// Set property "UpgradeSettings":
 	if profile.UpgradeSettings != nil {
 		upgradeSettings_ARM, err := (*profile.UpgradeSettings).ConvertToARM(resolved)
 		if err != nil {
@@ -7337,13 +7337,13 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 		result.UpgradeSettings = &upgradeSettings
 	}
 
-	// Set property ‘VmSize’:
+	// Set property "VmSize":
 	if profile.VmSize != nil {
 		vmSize := *profile.VmSize
 		result.VmSize = &vmSize
 	}
 
-	// Set property ‘VnetSubnetID’:
+	// Set property "VnetSubnetID":
 	if profile.VnetSubnetReference != nil {
 		vnetSubnetReferenceARMID, err := resolved.ResolvedReferences.Lookup(*profile.VnetSubnetReference)
 		if err != nil {
@@ -7353,7 +7353,7 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 		result.VnetSubnetID = &vnetSubnetReference
 	}
 
-	// Set property ‘WindowsProfile’:
+	// Set property "WindowsProfile":
 	if profile.WindowsProfile != nil {
 		windowsProfile_ARM, err := (*profile.WindowsProfile).ConvertToARM(resolved)
 		if err != nil {
@@ -7363,7 +7363,7 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 		result.WindowsProfile = &windowsProfile
 	}
 
-	// Set property ‘WorkloadRuntime’:
+	// Set property "WorkloadRuntime":
 	if profile.WorkloadRuntime != nil {
 		workloadRuntime := *profile.WorkloadRuntime
 		result.WorkloadRuntime = &workloadRuntime
@@ -7383,24 +7383,24 @@ func (profile *ManagedClusterAgentPoolProfile) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterAgentPoolProfile_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AvailabilityZones’:
+	// Set property "AvailabilityZones":
 	for _, item := range typedInput.AvailabilityZones {
 		profile.AvailabilityZones = append(profile.AvailabilityZones, item)
 	}
 
-	// Set property ‘CapacityReservationGroupID’:
+	// Set property "CapacityReservationGroupID":
 	if typedInput.CapacityReservationGroupID != nil {
 		capacityReservationGroupID := *typedInput.CapacityReservationGroupID
 		profile.CapacityReservationGroupID = &capacityReservationGroupID
 	}
 
-	// Set property ‘Count’:
+	// Set property "Count":
 	if typedInput.Count != nil {
 		count := *typedInput.Count
 		profile.Count = &count
 	}
 
-	// Set property ‘CreationData’:
+	// Set property "CreationData":
 	if typedInput.CreationData != nil {
 		var creationData1 CreationData
 		err := creationData1.PopulateFromARM(owner, *typedInput.CreationData)
@@ -7411,51 +7411,51 @@ func (profile *ManagedClusterAgentPoolProfile) PopulateFromARM(owner genruntime.
 		profile.CreationData = &creationData
 	}
 
-	// Set property ‘EnableAutoScaling’:
+	// Set property "EnableAutoScaling":
 	if typedInput.EnableAutoScaling != nil {
 		enableAutoScaling := *typedInput.EnableAutoScaling
 		profile.EnableAutoScaling = &enableAutoScaling
 	}
 
-	// Set property ‘EnableCustomCATrust’:
+	// Set property "EnableCustomCATrust":
 	if typedInput.EnableCustomCATrust != nil {
 		enableCustomCATrust := *typedInput.EnableCustomCATrust
 		profile.EnableCustomCATrust = &enableCustomCATrust
 	}
 
-	// Set property ‘EnableEncryptionAtHost’:
+	// Set property "EnableEncryptionAtHost":
 	if typedInput.EnableEncryptionAtHost != nil {
 		enableEncryptionAtHost := *typedInput.EnableEncryptionAtHost
 		profile.EnableEncryptionAtHost = &enableEncryptionAtHost
 	}
 
-	// Set property ‘EnableFIPS’:
+	// Set property "EnableFIPS":
 	if typedInput.EnableFIPS != nil {
 		enableFIPS := *typedInput.EnableFIPS
 		profile.EnableFIPS = &enableFIPS
 	}
 
-	// Set property ‘EnableNodePublicIP’:
+	// Set property "EnableNodePublicIP":
 	if typedInput.EnableNodePublicIP != nil {
 		enableNodePublicIP := *typedInput.EnableNodePublicIP
 		profile.EnableNodePublicIP = &enableNodePublicIP
 	}
 
-	// Set property ‘EnableUltraSSD’:
+	// Set property "EnableUltraSSD":
 	if typedInput.EnableUltraSSD != nil {
 		enableUltraSSD := *typedInput.EnableUltraSSD
 		profile.EnableUltraSSD = &enableUltraSSD
 	}
 
-	// Set property ‘GpuInstanceProfile’:
+	// Set property "GpuInstanceProfile":
 	if typedInput.GpuInstanceProfile != nil {
 		gpuInstanceProfile := *typedInput.GpuInstanceProfile
 		profile.GpuInstanceProfile = &gpuInstanceProfile
 	}
 
-	// no assignment for property ‘HostGroupReference’
+	// no assignment for property "HostGroupReference"
 
-	// Set property ‘KubeletConfig’:
+	// Set property "KubeletConfig":
 	if typedInput.KubeletConfig != nil {
 		var kubeletConfig1 KubeletConfig
 		err := kubeletConfig1.PopulateFromARM(owner, *typedInput.KubeletConfig)
@@ -7466,13 +7466,13 @@ func (profile *ManagedClusterAgentPoolProfile) PopulateFromARM(owner genruntime.
 		profile.KubeletConfig = &kubeletConfig
 	}
 
-	// Set property ‘KubeletDiskType’:
+	// Set property "KubeletDiskType":
 	if typedInput.KubeletDiskType != nil {
 		kubeletDiskType := *typedInput.KubeletDiskType
 		profile.KubeletDiskType = &kubeletDiskType
 	}
 
-	// Set property ‘LinuxOSConfig’:
+	// Set property "LinuxOSConfig":
 	if typedInput.LinuxOSConfig != nil {
 		var linuxOSConfig1 LinuxOSConfig
 		err := linuxOSConfig1.PopulateFromARM(owner, *typedInput.LinuxOSConfig)
@@ -7483,43 +7483,43 @@ func (profile *ManagedClusterAgentPoolProfile) PopulateFromARM(owner genruntime.
 		profile.LinuxOSConfig = &linuxOSConfig
 	}
 
-	// Set property ‘MaxCount’:
+	// Set property "MaxCount":
 	if typedInput.MaxCount != nil {
 		maxCount := *typedInput.MaxCount
 		profile.MaxCount = &maxCount
 	}
 
-	// Set property ‘MaxPods’:
+	// Set property "MaxPods":
 	if typedInput.MaxPods != nil {
 		maxPods := *typedInput.MaxPods
 		profile.MaxPods = &maxPods
 	}
 
-	// Set property ‘MessageOfTheDay’:
+	// Set property "MessageOfTheDay":
 	if typedInput.MessageOfTheDay != nil {
 		messageOfTheDay := *typedInput.MessageOfTheDay
 		profile.MessageOfTheDay = &messageOfTheDay
 	}
 
-	// Set property ‘MinCount’:
+	// Set property "MinCount":
 	if typedInput.MinCount != nil {
 		minCount := *typedInput.MinCount
 		profile.MinCount = &minCount
 	}
 
-	// Set property ‘Mode’:
+	// Set property "Mode":
 	if typedInput.Mode != nil {
 		mode := *typedInput.Mode
 		profile.Mode = &mode
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		profile.Name = &name
 	}
 
-	// Set property ‘NetworkProfile’:
+	// Set property "NetworkProfile":
 	if typedInput.NetworkProfile != nil {
 		var networkProfile1 AgentPoolNetworkProfile
 		err := networkProfile1.PopulateFromARM(owner, *typedInput.NetworkProfile)
@@ -7530,7 +7530,7 @@ func (profile *ManagedClusterAgentPoolProfile) PopulateFromARM(owner genruntime.
 		profile.NetworkProfile = &networkProfile
 	}
 
-	// Set property ‘NodeLabels’:
+	// Set property "NodeLabels":
 	if typedInput.NodeLabels != nil {
 		profile.NodeLabels = make(map[string]string, len(typedInput.NodeLabels))
 		for key, value := range typedInput.NodeLabels {
@@ -7538,46 +7538,46 @@ func (profile *ManagedClusterAgentPoolProfile) PopulateFromARM(owner genruntime.
 		}
 	}
 
-	// no assignment for property ‘NodePublicIPPrefixReference’
+	// no assignment for property "NodePublicIPPrefixReference"
 
-	// Set property ‘NodeTaints’:
+	// Set property "NodeTaints":
 	for _, item := range typedInput.NodeTaints {
 		profile.NodeTaints = append(profile.NodeTaints, item)
 	}
 
-	// Set property ‘OrchestratorVersion’:
+	// Set property "OrchestratorVersion":
 	if typedInput.OrchestratorVersion != nil {
 		orchestratorVersion := *typedInput.OrchestratorVersion
 		profile.OrchestratorVersion = &orchestratorVersion
 	}
 
-	// Set property ‘OsDiskSizeGB’:
+	// Set property "OsDiskSizeGB":
 	if typedInput.OsDiskSizeGB != nil {
 		osDiskSizeGB := *typedInput.OsDiskSizeGB
 		profile.OsDiskSizeGB = &osDiskSizeGB
 	}
 
-	// Set property ‘OsDiskType’:
+	// Set property "OsDiskType":
 	if typedInput.OsDiskType != nil {
 		osDiskType := *typedInput.OsDiskType
 		profile.OsDiskType = &osDiskType
 	}
 
-	// Set property ‘OsSKU’:
+	// Set property "OsSKU":
 	if typedInput.OsSKU != nil {
 		osSKU := *typedInput.OsSKU
 		profile.OsSKU = &osSKU
 	}
 
-	// Set property ‘OsType’:
+	// Set property "OsType":
 	if typedInput.OsType != nil {
 		osType := *typedInput.OsType
 		profile.OsType = &osType
 	}
 
-	// no assignment for property ‘PodSubnetReference’
+	// no assignment for property "PodSubnetReference"
 
-	// Set property ‘PowerState’:
+	// Set property "PowerState":
 	if typedInput.PowerState != nil {
 		var powerState1 PowerState
 		err := powerState1.PopulateFromARM(owner, *typedInput.PowerState)
@@ -7588,33 +7588,33 @@ func (profile *ManagedClusterAgentPoolProfile) PopulateFromARM(owner genruntime.
 		profile.PowerState = &powerState
 	}
 
-	// no assignment for property ‘ProximityPlacementGroupReference’
+	// no assignment for property "ProximityPlacementGroupReference"
 
-	// Set property ‘ScaleDownMode’:
+	// Set property "ScaleDownMode":
 	if typedInput.ScaleDownMode != nil {
 		scaleDownMode := *typedInput.ScaleDownMode
 		profile.ScaleDownMode = &scaleDownMode
 	}
 
-	// Set property ‘ScaleSetEvictionPolicy’:
+	// Set property "ScaleSetEvictionPolicy":
 	if typedInput.ScaleSetEvictionPolicy != nil {
 		scaleSetEvictionPolicy := *typedInput.ScaleSetEvictionPolicy
 		profile.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
 	}
 
-	// Set property ‘ScaleSetPriority’:
+	// Set property "ScaleSetPriority":
 	if typedInput.ScaleSetPriority != nil {
 		scaleSetPriority := *typedInput.ScaleSetPriority
 		profile.ScaleSetPriority = &scaleSetPriority
 	}
 
-	// Set property ‘SpotMaxPrice’:
+	// Set property "SpotMaxPrice":
 	if typedInput.SpotMaxPrice != nil {
 		spotMaxPrice := *typedInput.SpotMaxPrice
 		profile.SpotMaxPrice = &spotMaxPrice
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		profile.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -7622,13 +7622,13 @@ func (profile *ManagedClusterAgentPoolProfile) PopulateFromARM(owner genruntime.
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		profile.Type = &typeVar
 	}
 
-	// Set property ‘UpgradeSettings’:
+	// Set property "UpgradeSettings":
 	if typedInput.UpgradeSettings != nil {
 		var upgradeSettings1 AgentPoolUpgradeSettings
 		err := upgradeSettings1.PopulateFromARM(owner, *typedInput.UpgradeSettings)
@@ -7639,15 +7639,15 @@ func (profile *ManagedClusterAgentPoolProfile) PopulateFromARM(owner genruntime.
 		profile.UpgradeSettings = &upgradeSettings
 	}
 
-	// Set property ‘VmSize’:
+	// Set property "VmSize":
 	if typedInput.VmSize != nil {
 		vmSize := *typedInput.VmSize
 		profile.VmSize = &vmSize
 	}
 
-	// no assignment for property ‘VnetSubnetReference’
+	// no assignment for property "VnetSubnetReference"
 
-	// Set property ‘WindowsProfile’:
+	// Set property "WindowsProfile":
 	if typedInput.WindowsProfile != nil {
 		var windowsProfile1 AgentPoolWindowsProfile
 		err := windowsProfile1.PopulateFromARM(owner, *typedInput.WindowsProfile)
@@ -7658,7 +7658,7 @@ func (profile *ManagedClusterAgentPoolProfile) PopulateFromARM(owner genruntime.
 		profile.WindowsProfile = &windowsProfile
 	}
 
-	// Set property ‘WorkloadRuntime’:
+	// Set property "WorkloadRuntime":
 	if typedInput.WorkloadRuntime != nil {
 		workloadRuntime := *typedInput.WorkloadRuntime
 		profile.WorkloadRuntime = &workloadRuntime
@@ -8529,24 +8529,24 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) PopulateFromARM(owner genr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterAgentPoolProfile_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AvailabilityZones’:
+	// Set property "AvailabilityZones":
 	for _, item := range typedInput.AvailabilityZones {
 		profile.AvailabilityZones = append(profile.AvailabilityZones, item)
 	}
 
-	// Set property ‘CapacityReservationGroupID’:
+	// Set property "CapacityReservationGroupID":
 	if typedInput.CapacityReservationGroupID != nil {
 		capacityReservationGroupID := *typedInput.CapacityReservationGroupID
 		profile.CapacityReservationGroupID = &capacityReservationGroupID
 	}
 
-	// Set property ‘Count’:
+	// Set property "Count":
 	if typedInput.Count != nil {
 		count := *typedInput.Count
 		profile.Count = &count
 	}
 
-	// Set property ‘CreationData’:
+	// Set property "CreationData":
 	if typedInput.CreationData != nil {
 		var creationData1 CreationData_STATUS
 		err := creationData1.PopulateFromARM(owner, *typedInput.CreationData)
@@ -8557,61 +8557,61 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) PopulateFromARM(owner genr
 		profile.CreationData = &creationData
 	}
 
-	// Set property ‘CurrentOrchestratorVersion’:
+	// Set property "CurrentOrchestratorVersion":
 	if typedInput.CurrentOrchestratorVersion != nil {
 		currentOrchestratorVersion := *typedInput.CurrentOrchestratorVersion
 		profile.CurrentOrchestratorVersion = &currentOrchestratorVersion
 	}
 
-	// Set property ‘EnableAutoScaling’:
+	// Set property "EnableAutoScaling":
 	if typedInput.EnableAutoScaling != nil {
 		enableAutoScaling := *typedInput.EnableAutoScaling
 		profile.EnableAutoScaling = &enableAutoScaling
 	}
 
-	// Set property ‘EnableCustomCATrust’:
+	// Set property "EnableCustomCATrust":
 	if typedInput.EnableCustomCATrust != nil {
 		enableCustomCATrust := *typedInput.EnableCustomCATrust
 		profile.EnableCustomCATrust = &enableCustomCATrust
 	}
 
-	// Set property ‘EnableEncryptionAtHost’:
+	// Set property "EnableEncryptionAtHost":
 	if typedInput.EnableEncryptionAtHost != nil {
 		enableEncryptionAtHost := *typedInput.EnableEncryptionAtHost
 		profile.EnableEncryptionAtHost = &enableEncryptionAtHost
 	}
 
-	// Set property ‘EnableFIPS’:
+	// Set property "EnableFIPS":
 	if typedInput.EnableFIPS != nil {
 		enableFIPS := *typedInput.EnableFIPS
 		profile.EnableFIPS = &enableFIPS
 	}
 
-	// Set property ‘EnableNodePublicIP’:
+	// Set property "EnableNodePublicIP":
 	if typedInput.EnableNodePublicIP != nil {
 		enableNodePublicIP := *typedInput.EnableNodePublicIP
 		profile.EnableNodePublicIP = &enableNodePublicIP
 	}
 
-	// Set property ‘EnableUltraSSD’:
+	// Set property "EnableUltraSSD":
 	if typedInput.EnableUltraSSD != nil {
 		enableUltraSSD := *typedInput.EnableUltraSSD
 		profile.EnableUltraSSD = &enableUltraSSD
 	}
 
-	// Set property ‘GpuInstanceProfile’:
+	// Set property "GpuInstanceProfile":
 	if typedInput.GpuInstanceProfile != nil {
 		gpuInstanceProfile := *typedInput.GpuInstanceProfile
 		profile.GpuInstanceProfile = &gpuInstanceProfile
 	}
 
-	// Set property ‘HostGroupID’:
+	// Set property "HostGroupID":
 	if typedInput.HostGroupID != nil {
 		hostGroupID := *typedInput.HostGroupID
 		profile.HostGroupID = &hostGroupID
 	}
 
-	// Set property ‘KubeletConfig’:
+	// Set property "KubeletConfig":
 	if typedInput.KubeletConfig != nil {
 		var kubeletConfig1 KubeletConfig_STATUS
 		err := kubeletConfig1.PopulateFromARM(owner, *typedInput.KubeletConfig)
@@ -8622,13 +8622,13 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) PopulateFromARM(owner genr
 		profile.KubeletConfig = &kubeletConfig
 	}
 
-	// Set property ‘KubeletDiskType’:
+	// Set property "KubeletDiskType":
 	if typedInput.KubeletDiskType != nil {
 		kubeletDiskType := *typedInput.KubeletDiskType
 		profile.KubeletDiskType = &kubeletDiskType
 	}
 
-	// Set property ‘LinuxOSConfig’:
+	// Set property "LinuxOSConfig":
 	if typedInput.LinuxOSConfig != nil {
 		var linuxOSConfig1 LinuxOSConfig_STATUS
 		err := linuxOSConfig1.PopulateFromARM(owner, *typedInput.LinuxOSConfig)
@@ -8639,43 +8639,43 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) PopulateFromARM(owner genr
 		profile.LinuxOSConfig = &linuxOSConfig
 	}
 
-	// Set property ‘MaxCount’:
+	// Set property "MaxCount":
 	if typedInput.MaxCount != nil {
 		maxCount := *typedInput.MaxCount
 		profile.MaxCount = &maxCount
 	}
 
-	// Set property ‘MaxPods’:
+	// Set property "MaxPods":
 	if typedInput.MaxPods != nil {
 		maxPods := *typedInput.MaxPods
 		profile.MaxPods = &maxPods
 	}
 
-	// Set property ‘MessageOfTheDay’:
+	// Set property "MessageOfTheDay":
 	if typedInput.MessageOfTheDay != nil {
 		messageOfTheDay := *typedInput.MessageOfTheDay
 		profile.MessageOfTheDay = &messageOfTheDay
 	}
 
-	// Set property ‘MinCount’:
+	// Set property "MinCount":
 	if typedInput.MinCount != nil {
 		minCount := *typedInput.MinCount
 		profile.MinCount = &minCount
 	}
 
-	// Set property ‘Mode’:
+	// Set property "Mode":
 	if typedInput.Mode != nil {
 		mode := *typedInput.Mode
 		profile.Mode = &mode
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		profile.Name = &name
 	}
 
-	// Set property ‘NetworkProfile’:
+	// Set property "NetworkProfile":
 	if typedInput.NetworkProfile != nil {
 		var networkProfile1 AgentPoolNetworkProfile_STATUS
 		err := networkProfile1.PopulateFromARM(owner, *typedInput.NetworkProfile)
@@ -8686,13 +8686,13 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) PopulateFromARM(owner genr
 		profile.NetworkProfile = &networkProfile
 	}
 
-	// Set property ‘NodeImageVersion’:
+	// Set property "NodeImageVersion":
 	if typedInput.NodeImageVersion != nil {
 		nodeImageVersion := *typedInput.NodeImageVersion
 		profile.NodeImageVersion = &nodeImageVersion
 	}
 
-	// Set property ‘NodeLabels’:
+	// Set property "NodeLabels":
 	if typedInput.NodeLabels != nil {
 		profile.NodeLabels = make(map[string]string, len(typedInput.NodeLabels))
 		for key, value := range typedInput.NodeLabels {
@@ -8700,54 +8700,54 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) PopulateFromARM(owner genr
 		}
 	}
 
-	// Set property ‘NodePublicIPPrefixID’:
+	// Set property "NodePublicIPPrefixID":
 	if typedInput.NodePublicIPPrefixID != nil {
 		nodePublicIPPrefixID := *typedInput.NodePublicIPPrefixID
 		profile.NodePublicIPPrefixID = &nodePublicIPPrefixID
 	}
 
-	// Set property ‘NodeTaints’:
+	// Set property "NodeTaints":
 	for _, item := range typedInput.NodeTaints {
 		profile.NodeTaints = append(profile.NodeTaints, item)
 	}
 
-	// Set property ‘OrchestratorVersion’:
+	// Set property "OrchestratorVersion":
 	if typedInput.OrchestratorVersion != nil {
 		orchestratorVersion := *typedInput.OrchestratorVersion
 		profile.OrchestratorVersion = &orchestratorVersion
 	}
 
-	// Set property ‘OsDiskSizeGB’:
+	// Set property "OsDiskSizeGB":
 	if typedInput.OsDiskSizeGB != nil {
 		osDiskSizeGB := *typedInput.OsDiskSizeGB
 		profile.OsDiskSizeGB = &osDiskSizeGB
 	}
 
-	// Set property ‘OsDiskType’:
+	// Set property "OsDiskType":
 	if typedInput.OsDiskType != nil {
 		osDiskType := *typedInput.OsDiskType
 		profile.OsDiskType = &osDiskType
 	}
 
-	// Set property ‘OsSKU’:
+	// Set property "OsSKU":
 	if typedInput.OsSKU != nil {
 		osSKU := *typedInput.OsSKU
 		profile.OsSKU = &osSKU
 	}
 
-	// Set property ‘OsType’:
+	// Set property "OsType":
 	if typedInput.OsType != nil {
 		osType := *typedInput.OsType
 		profile.OsType = &osType
 	}
 
-	// Set property ‘PodSubnetID’:
+	// Set property "PodSubnetID":
 	if typedInput.PodSubnetID != nil {
 		podSubnetID := *typedInput.PodSubnetID
 		profile.PodSubnetID = &podSubnetID
 	}
 
-	// Set property ‘PowerState’:
+	// Set property "PowerState":
 	if typedInput.PowerState != nil {
 		var powerState1 PowerState_STATUS
 		err := powerState1.PopulateFromARM(owner, *typedInput.PowerState)
@@ -8758,43 +8758,43 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) PopulateFromARM(owner genr
 		profile.PowerState = &powerState
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
 		provisioningState := *typedInput.ProvisioningState
 		profile.ProvisioningState = &provisioningState
 	}
 
-	// Set property ‘ProximityPlacementGroupID’:
+	// Set property "ProximityPlacementGroupID":
 	if typedInput.ProximityPlacementGroupID != nil {
 		proximityPlacementGroupID := *typedInput.ProximityPlacementGroupID
 		profile.ProximityPlacementGroupID = &proximityPlacementGroupID
 	}
 
-	// Set property ‘ScaleDownMode’:
+	// Set property "ScaleDownMode":
 	if typedInput.ScaleDownMode != nil {
 		scaleDownMode := *typedInput.ScaleDownMode
 		profile.ScaleDownMode = &scaleDownMode
 	}
 
-	// Set property ‘ScaleSetEvictionPolicy’:
+	// Set property "ScaleSetEvictionPolicy":
 	if typedInput.ScaleSetEvictionPolicy != nil {
 		scaleSetEvictionPolicy := *typedInput.ScaleSetEvictionPolicy
 		profile.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
 	}
 
-	// Set property ‘ScaleSetPriority’:
+	// Set property "ScaleSetPriority":
 	if typedInput.ScaleSetPriority != nil {
 		scaleSetPriority := *typedInput.ScaleSetPriority
 		profile.ScaleSetPriority = &scaleSetPriority
 	}
 
-	// Set property ‘SpotMaxPrice’:
+	// Set property "SpotMaxPrice":
 	if typedInput.SpotMaxPrice != nil {
 		spotMaxPrice := *typedInput.SpotMaxPrice
 		profile.SpotMaxPrice = &spotMaxPrice
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		profile.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -8802,13 +8802,13 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) PopulateFromARM(owner genr
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		profile.Type = &typeVar
 	}
 
-	// Set property ‘UpgradeSettings’:
+	// Set property "UpgradeSettings":
 	if typedInput.UpgradeSettings != nil {
 		var upgradeSettings1 AgentPoolUpgradeSettings_STATUS
 		err := upgradeSettings1.PopulateFromARM(owner, *typedInput.UpgradeSettings)
@@ -8819,19 +8819,19 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) PopulateFromARM(owner genr
 		profile.UpgradeSettings = &upgradeSettings
 	}
 
-	// Set property ‘VmSize’:
+	// Set property "VmSize":
 	if typedInput.VmSize != nil {
 		vmSize := *typedInput.VmSize
 		profile.VmSize = &vmSize
 	}
 
-	// Set property ‘VnetSubnetID’:
+	// Set property "VnetSubnetID":
 	if typedInput.VnetSubnetID != nil {
 		vnetSubnetID := *typedInput.VnetSubnetID
 		profile.VnetSubnetID = &vnetSubnetID
 	}
 
-	// Set property ‘WindowsProfile’:
+	// Set property "WindowsProfile":
 	if typedInput.WindowsProfile != nil {
 		var windowsProfile1 AgentPoolWindowsProfile_STATUS
 		err := windowsProfile1.PopulateFromARM(owner, *typedInput.WindowsProfile)
@@ -8842,7 +8842,7 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) PopulateFromARM(owner genr
 		profile.WindowsProfile = &windowsProfile
 	}
 
-	// Set property ‘WorkloadRuntime’:
+	// Set property "WorkloadRuntime":
 	if typedInput.WorkloadRuntime != nil {
 		workloadRuntime := *typedInput.WorkloadRuntime
 		profile.WorkloadRuntime = &workloadRuntime
@@ -9502,42 +9502,42 @@ func (profile *ManagedClusterAPIServerAccessProfile) ConvertToARM(resolved genru
 	}
 	result := &ManagedClusterAPIServerAccessProfile_ARM{}
 
-	// Set property ‘AuthorizedIPRanges’:
+	// Set property "AuthorizedIPRanges":
 	for _, item := range profile.AuthorizedIPRanges {
 		result.AuthorizedIPRanges = append(result.AuthorizedIPRanges, item)
 	}
 
-	// Set property ‘DisableRunCommand’:
+	// Set property "DisableRunCommand":
 	if profile.DisableRunCommand != nil {
 		disableRunCommand := *profile.DisableRunCommand
 		result.DisableRunCommand = &disableRunCommand
 	}
 
-	// Set property ‘EnablePrivateCluster’:
+	// Set property "EnablePrivateCluster":
 	if profile.EnablePrivateCluster != nil {
 		enablePrivateCluster := *profile.EnablePrivateCluster
 		result.EnablePrivateCluster = &enablePrivateCluster
 	}
 
-	// Set property ‘EnablePrivateClusterPublicFQDN’:
+	// Set property "EnablePrivateClusterPublicFQDN":
 	if profile.EnablePrivateClusterPublicFQDN != nil {
 		enablePrivateClusterPublicFQDN := *profile.EnablePrivateClusterPublicFQDN
 		result.EnablePrivateClusterPublicFQDN = &enablePrivateClusterPublicFQDN
 	}
 
-	// Set property ‘EnableVnetIntegration’:
+	// Set property "EnableVnetIntegration":
 	if profile.EnableVnetIntegration != nil {
 		enableVnetIntegration := *profile.EnableVnetIntegration
 		result.EnableVnetIntegration = &enableVnetIntegration
 	}
 
-	// Set property ‘PrivateDNSZone’:
+	// Set property "PrivateDNSZone":
 	if profile.PrivateDNSZone != nil {
 		privateDNSZone := *profile.PrivateDNSZone
 		result.PrivateDNSZone = &privateDNSZone
 	}
 
-	// Set property ‘SubnetId’:
+	// Set property "SubnetId":
 	if profile.SubnetId != nil {
 		subnetId := *profile.SubnetId
 		result.SubnetId = &subnetId
@@ -9557,42 +9557,42 @@ func (profile *ManagedClusterAPIServerAccessProfile) PopulateFromARM(owner genru
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterAPIServerAccessProfile_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AuthorizedIPRanges’:
+	// Set property "AuthorizedIPRanges":
 	for _, item := range typedInput.AuthorizedIPRanges {
 		profile.AuthorizedIPRanges = append(profile.AuthorizedIPRanges, item)
 	}
 
-	// Set property ‘DisableRunCommand’:
+	// Set property "DisableRunCommand":
 	if typedInput.DisableRunCommand != nil {
 		disableRunCommand := *typedInput.DisableRunCommand
 		profile.DisableRunCommand = &disableRunCommand
 	}
 
-	// Set property ‘EnablePrivateCluster’:
+	// Set property "EnablePrivateCluster":
 	if typedInput.EnablePrivateCluster != nil {
 		enablePrivateCluster := *typedInput.EnablePrivateCluster
 		profile.EnablePrivateCluster = &enablePrivateCluster
 	}
 
-	// Set property ‘EnablePrivateClusterPublicFQDN’:
+	// Set property "EnablePrivateClusterPublicFQDN":
 	if typedInput.EnablePrivateClusterPublicFQDN != nil {
 		enablePrivateClusterPublicFQDN := *typedInput.EnablePrivateClusterPublicFQDN
 		profile.EnablePrivateClusterPublicFQDN = &enablePrivateClusterPublicFQDN
 	}
 
-	// Set property ‘EnableVnetIntegration’:
+	// Set property "EnableVnetIntegration":
 	if typedInput.EnableVnetIntegration != nil {
 		enableVnetIntegration := *typedInput.EnableVnetIntegration
 		profile.EnableVnetIntegration = &enableVnetIntegration
 	}
 
-	// Set property ‘PrivateDNSZone’:
+	// Set property "PrivateDNSZone":
 	if typedInput.PrivateDNSZone != nil {
 		privateDNSZone := *typedInput.PrivateDNSZone
 		profile.PrivateDNSZone = &privateDNSZone
 	}
 
-	// Set property ‘SubnetId’:
+	// Set property "SubnetId":
 	if typedInput.SubnetId != nil {
 		subnetId := *typedInput.SubnetId
 		profile.SubnetId = &subnetId
@@ -9751,42 +9751,42 @@ func (profile *ManagedClusterAPIServerAccessProfile_STATUS) PopulateFromARM(owne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterAPIServerAccessProfile_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AuthorizedIPRanges’:
+	// Set property "AuthorizedIPRanges":
 	for _, item := range typedInput.AuthorizedIPRanges {
 		profile.AuthorizedIPRanges = append(profile.AuthorizedIPRanges, item)
 	}
 
-	// Set property ‘DisableRunCommand’:
+	// Set property "DisableRunCommand":
 	if typedInput.DisableRunCommand != nil {
 		disableRunCommand := *typedInput.DisableRunCommand
 		profile.DisableRunCommand = &disableRunCommand
 	}
 
-	// Set property ‘EnablePrivateCluster’:
+	// Set property "EnablePrivateCluster":
 	if typedInput.EnablePrivateCluster != nil {
 		enablePrivateCluster := *typedInput.EnablePrivateCluster
 		profile.EnablePrivateCluster = &enablePrivateCluster
 	}
 
-	// Set property ‘EnablePrivateClusterPublicFQDN’:
+	// Set property "EnablePrivateClusterPublicFQDN":
 	if typedInput.EnablePrivateClusterPublicFQDN != nil {
 		enablePrivateClusterPublicFQDN := *typedInput.EnablePrivateClusterPublicFQDN
 		profile.EnablePrivateClusterPublicFQDN = &enablePrivateClusterPublicFQDN
 	}
 
-	// Set property ‘EnableVnetIntegration’:
+	// Set property "EnableVnetIntegration":
 	if typedInput.EnableVnetIntegration != nil {
 		enableVnetIntegration := *typedInput.EnableVnetIntegration
 		profile.EnableVnetIntegration = &enableVnetIntegration
 	}
 
-	// Set property ‘PrivateDNSZone’:
+	// Set property "PrivateDNSZone":
 	if typedInput.PrivateDNSZone != nil {
 		privateDNSZone := *typedInput.PrivateDNSZone
 		profile.PrivateDNSZone = &privateDNSZone
 	}
 
-	// Set property ‘SubnetId’:
+	// Set property "SubnetId":
 	if typedInput.SubnetId != nil {
 		subnetId := *typedInput.SubnetId
 		profile.SubnetId = &subnetId
@@ -9920,13 +9920,13 @@ func (profile *ManagedClusterAutoUpgradeProfile) ConvertToARM(resolved genruntim
 	}
 	result := &ManagedClusterAutoUpgradeProfile_ARM{}
 
-	// Set property ‘NodeOSUpgradeChannel’:
+	// Set property "NodeOSUpgradeChannel":
 	if profile.NodeOSUpgradeChannel != nil {
 		nodeOSUpgradeChannel := *profile.NodeOSUpgradeChannel
 		result.NodeOSUpgradeChannel = &nodeOSUpgradeChannel
 	}
 
-	// Set property ‘UpgradeChannel’:
+	// Set property "UpgradeChannel":
 	if profile.UpgradeChannel != nil {
 		upgradeChannel := *profile.UpgradeChannel
 		result.UpgradeChannel = &upgradeChannel
@@ -9946,13 +9946,13 @@ func (profile *ManagedClusterAutoUpgradeProfile) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterAutoUpgradeProfile_ARM, got %T", armInput)
 	}
 
-	// Set property ‘NodeOSUpgradeChannel’:
+	// Set property "NodeOSUpgradeChannel":
 	if typedInput.NodeOSUpgradeChannel != nil {
 		nodeOSUpgradeChannel := *typedInput.NodeOSUpgradeChannel
 		profile.NodeOSUpgradeChannel = &nodeOSUpgradeChannel
 	}
 
-	// Set property ‘UpgradeChannel’:
+	// Set property "UpgradeChannel":
 	if typedInput.UpgradeChannel != nil {
 		upgradeChannel := *typedInput.UpgradeChannel
 		profile.UpgradeChannel = &upgradeChannel
@@ -10041,13 +10041,13 @@ func (profile *ManagedClusterAutoUpgradeProfile_STATUS) PopulateFromARM(owner ge
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterAutoUpgradeProfile_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘NodeOSUpgradeChannel’:
+	// Set property "NodeOSUpgradeChannel":
 	if typedInput.NodeOSUpgradeChannel != nil {
 		nodeOSUpgradeChannel := *typedInput.NodeOSUpgradeChannel
 		profile.NodeOSUpgradeChannel = &nodeOSUpgradeChannel
 	}
 
-	// Set property ‘UpgradeChannel’:
+	// Set property "UpgradeChannel":
 	if typedInput.UpgradeChannel != nil {
 		upgradeChannel := *typedInput.UpgradeChannel
 		profile.UpgradeChannel = &upgradeChannel
@@ -10127,7 +10127,7 @@ func (profile *ManagedClusterAzureMonitorProfile) ConvertToARM(resolved genrunti
 	}
 	result := &ManagedClusterAzureMonitorProfile_ARM{}
 
-	// Set property ‘Metrics’:
+	// Set property "Metrics":
 	if profile.Metrics != nil {
 		metrics_ARM, err := (*profile.Metrics).ConvertToARM(resolved)
 		if err != nil {
@@ -10151,7 +10151,7 @@ func (profile *ManagedClusterAzureMonitorProfile) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterAzureMonitorProfile_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Metrics’:
+	// Set property "Metrics":
 	if typedInput.Metrics != nil {
 		var metrics1 ManagedClusterAzureMonitorProfileMetrics
 		err := metrics1.PopulateFromARM(owner, *typedInput.Metrics)
@@ -10233,7 +10233,7 @@ func (profile *ManagedClusterAzureMonitorProfile_STATUS) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterAzureMonitorProfile_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Metrics’:
+	// Set property "Metrics":
 	if typedInput.Metrics != nil {
 		var metrics1 ManagedClusterAzureMonitorProfileMetrics_STATUS
 		err := metrics1.PopulateFromARM(owner, *typedInput.Metrics)
@@ -10319,24 +10319,24 @@ func (config *ManagedClusterHTTPProxyConfig) ConvertToARM(resolved genruntime.Co
 	}
 	result := &ManagedClusterHTTPProxyConfig_ARM{}
 
-	// Set property ‘HttpProxy’:
+	// Set property "HttpProxy":
 	if config.HttpProxy != nil {
 		httpProxy := *config.HttpProxy
 		result.HttpProxy = &httpProxy
 	}
 
-	// Set property ‘HttpsProxy’:
+	// Set property "HttpsProxy":
 	if config.HttpsProxy != nil {
 		httpsProxy := *config.HttpsProxy
 		result.HttpsProxy = &httpsProxy
 	}
 
-	// Set property ‘NoProxy’:
+	// Set property "NoProxy":
 	for _, item := range config.NoProxy {
 		result.NoProxy = append(result.NoProxy, item)
 	}
 
-	// Set property ‘TrustedCa’:
+	// Set property "TrustedCa":
 	if config.TrustedCa != nil {
 		trustedCa := *config.TrustedCa
 		result.TrustedCa = &trustedCa
@@ -10356,24 +10356,24 @@ func (config *ManagedClusterHTTPProxyConfig) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterHTTPProxyConfig_ARM, got %T", armInput)
 	}
 
-	// Set property ‘HttpProxy’:
+	// Set property "HttpProxy":
 	if typedInput.HttpProxy != nil {
 		httpProxy := *typedInput.HttpProxy
 		config.HttpProxy = &httpProxy
 	}
 
-	// Set property ‘HttpsProxy’:
+	// Set property "HttpsProxy":
 	if typedInput.HttpsProxy != nil {
 		httpsProxy := *typedInput.HttpsProxy
 		config.HttpsProxy = &httpsProxy
 	}
 
-	// Set property ‘NoProxy’:
+	// Set property "NoProxy":
 	for _, item := range typedInput.NoProxy {
 		config.NoProxy = append(config.NoProxy, item)
 	}
 
-	// Set property ‘TrustedCa’:
+	// Set property "TrustedCa":
 	if typedInput.TrustedCa != nil {
 		trustedCa := *typedInput.TrustedCa
 		config.TrustedCa = &trustedCa
@@ -10463,29 +10463,29 @@ func (config *ManagedClusterHTTPProxyConfig_STATUS) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterHTTPProxyConfig_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EffectiveNoProxy’:
+	// Set property "EffectiveNoProxy":
 	for _, item := range typedInput.EffectiveNoProxy {
 		config.EffectiveNoProxy = append(config.EffectiveNoProxy, item)
 	}
 
-	// Set property ‘HttpProxy’:
+	// Set property "HttpProxy":
 	if typedInput.HttpProxy != nil {
 		httpProxy := *typedInput.HttpProxy
 		config.HttpProxy = &httpProxy
 	}
 
-	// Set property ‘HttpsProxy’:
+	// Set property "HttpsProxy":
 	if typedInput.HttpsProxy != nil {
 		httpsProxy := *typedInput.HttpsProxy
 		config.HttpsProxy = &httpsProxy
 	}
 
-	// Set property ‘NoProxy’:
+	// Set property "NoProxy":
 	for _, item := range typedInput.NoProxy {
 		config.NoProxy = append(config.NoProxy, item)
 	}
 
-	// Set property ‘TrustedCa’:
+	// Set property "TrustedCa":
 	if typedInput.TrustedCa != nil {
 		trustedCa := *typedInput.TrustedCa
 		config.TrustedCa = &trustedCa
@@ -10568,13 +10568,13 @@ func (identity *ManagedClusterIdentity) ConvertToARM(resolved genruntime.Convert
 	}
 	result := &ManagedClusterIdentity_ARM{}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if identity.Type != nil {
 		typeVar := *identity.Type
 		result.Type = &typeVar
 	}
 
-	// Set property ‘UserAssignedIdentities’:
+	// Set property "UserAssignedIdentities":
 	result.UserAssignedIdentities = make(map[string]UserAssignedIdentityDetails_ARM, len(identity.UserAssignedIdentities))
 	for _, ident := range identity.UserAssignedIdentities {
 		identARMID, err := resolved.ResolvedReferences.Lookup(ident.Reference)
@@ -10599,13 +10599,13 @@ func (identity *ManagedClusterIdentity) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterIdentity_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		identity.Type = &typeVar
 	}
 
-	// no assignment for property ‘UserAssignedIdentities’
+	// no assignment for property "UserAssignedIdentities"
 
 	// No error
 	return nil
@@ -10717,25 +10717,25 @@ func (identity *ManagedClusterIdentity_STATUS) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterIdentity_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘PrincipalId’:
+	// Set property "PrincipalId":
 	if typedInput.PrincipalId != nil {
 		principalId := *typedInput.PrincipalId
 		identity.PrincipalId = &principalId
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
 		identity.TenantId = &tenantId
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		identity.Type = &typeVar
 	}
 
-	// Set property ‘UserAssignedIdentities’:
+	// Set property "UserAssignedIdentities":
 	if typedInput.UserAssignedIdentities != nil {
 		identity.UserAssignedIdentities = make(map[string]ManagedClusterIdentity_UserAssignedIdentities_STATUS, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
@@ -10854,7 +10854,7 @@ func (profile *ManagedClusterIngressProfile) ConvertToARM(resolved genruntime.Co
 	}
 	result := &ManagedClusterIngressProfile_ARM{}
 
-	// Set property ‘WebAppRouting’:
+	// Set property "WebAppRouting":
 	if profile.WebAppRouting != nil {
 		webAppRouting_ARM, err := (*profile.WebAppRouting).ConvertToARM(resolved)
 		if err != nil {
@@ -10878,7 +10878,7 @@ func (profile *ManagedClusterIngressProfile) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterIngressProfile_ARM, got %T", armInput)
 	}
 
-	// Set property ‘WebAppRouting’:
+	// Set property "WebAppRouting":
 	if typedInput.WebAppRouting != nil {
 		var webAppRouting1 ManagedClusterIngressProfileWebAppRouting
 		err := webAppRouting1.PopulateFromARM(owner, *typedInput.WebAppRouting)
@@ -10960,7 +10960,7 @@ func (profile *ManagedClusterIngressProfile_STATUS) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterIngressProfile_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘WebAppRouting’:
+	// Set property "WebAppRouting":
 	if typedInput.WebAppRouting != nil {
 		var webAppRouting1 ManagedClusterIngressProfileWebAppRouting_STATUS
 		err := webAppRouting1.PopulateFromARM(owner, *typedInput.WebAppRouting)
@@ -11037,7 +11037,7 @@ func (profile *ManagedClusterNodeResourceGroupProfile) ConvertToARM(resolved gen
 	}
 	result := &ManagedClusterNodeResourceGroupProfile_ARM{}
 
-	// Set property ‘RestrictionLevel’:
+	// Set property "RestrictionLevel":
 	if profile.RestrictionLevel != nil {
 		restrictionLevel := *profile.RestrictionLevel
 		result.RestrictionLevel = &restrictionLevel
@@ -11057,7 +11057,7 @@ func (profile *ManagedClusterNodeResourceGroupProfile) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterNodeResourceGroupProfile_ARM, got %T", armInput)
 	}
 
-	// Set property ‘RestrictionLevel’:
+	// Set property "RestrictionLevel":
 	if typedInput.RestrictionLevel != nil {
 		restrictionLevel := *typedInput.RestrictionLevel
 		profile.RestrictionLevel = &restrictionLevel
@@ -11126,7 +11126,7 @@ func (profile *ManagedClusterNodeResourceGroupProfile_STATUS) PopulateFromARM(ow
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterNodeResourceGroupProfile_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘RestrictionLevel’:
+	// Set property "RestrictionLevel":
 	if typedInput.RestrictionLevel != nil {
 		restrictionLevel := *typedInput.RestrictionLevel
 		profile.RestrictionLevel = &restrictionLevel
@@ -11190,7 +11190,7 @@ func (profile *ManagedClusterOIDCIssuerProfile) ConvertToARM(resolved genruntime
 	}
 	result := &ManagedClusterOIDCIssuerProfile_ARM{}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if profile.Enabled != nil {
 		enabled := *profile.Enabled
 		result.Enabled = &enabled
@@ -11210,7 +11210,7 @@ func (profile *ManagedClusterOIDCIssuerProfile) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterOIDCIssuerProfile_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		profile.Enabled = &enabled
@@ -11282,13 +11282,13 @@ func (profile *ManagedClusterOIDCIssuerProfile_STATUS) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterOIDCIssuerProfile_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		profile.Enabled = &enabled
 	}
 
-	// Set property ‘IssuerURL’:
+	// Set property "IssuerURL":
 	if typedInput.IssuerURL != nil {
 		issuerURL := *typedInput.IssuerURL
 		profile.IssuerURL = &issuerURL
@@ -11451,19 +11451,19 @@ func (profile *ManagedClusterPodIdentityProfile) ConvertToARM(resolved genruntim
 	}
 	result := &ManagedClusterPodIdentityProfile_ARM{}
 
-	// Set property ‘AllowNetworkPluginKubenet’:
+	// Set property "AllowNetworkPluginKubenet":
 	if profile.AllowNetworkPluginKubenet != nil {
 		allowNetworkPluginKubenet := *profile.AllowNetworkPluginKubenet
 		result.AllowNetworkPluginKubenet = &allowNetworkPluginKubenet
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if profile.Enabled != nil {
 		enabled := *profile.Enabled
 		result.Enabled = &enabled
 	}
 
-	// Set property ‘UserAssignedIdentities’:
+	// Set property "UserAssignedIdentities":
 	for _, item := range profile.UserAssignedIdentities {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -11472,7 +11472,7 @@ func (profile *ManagedClusterPodIdentityProfile) ConvertToARM(resolved genruntim
 		result.UserAssignedIdentities = append(result.UserAssignedIdentities, *item_ARM.(*ManagedClusterPodIdentity_ARM))
 	}
 
-	// Set property ‘UserAssignedIdentityExceptions’:
+	// Set property "UserAssignedIdentityExceptions":
 	for _, item := range profile.UserAssignedIdentityExceptions {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -11495,19 +11495,19 @@ func (profile *ManagedClusterPodIdentityProfile) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterPodIdentityProfile_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AllowNetworkPluginKubenet’:
+	// Set property "AllowNetworkPluginKubenet":
 	if typedInput.AllowNetworkPluginKubenet != nil {
 		allowNetworkPluginKubenet := *typedInput.AllowNetworkPluginKubenet
 		profile.AllowNetworkPluginKubenet = &allowNetworkPluginKubenet
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		profile.Enabled = &enabled
 	}
 
-	// Set property ‘UserAssignedIdentities’:
+	// Set property "UserAssignedIdentities":
 	for _, item := range typedInput.UserAssignedIdentities {
 		var item1 ManagedClusterPodIdentity
 		err := item1.PopulateFromARM(owner, item)
@@ -11517,7 +11517,7 @@ func (profile *ManagedClusterPodIdentityProfile) PopulateFromARM(owner genruntim
 		profile.UserAssignedIdentities = append(profile.UserAssignedIdentities, item1)
 	}
 
-	// Set property ‘UserAssignedIdentityExceptions’:
+	// Set property "UserAssignedIdentityExceptions":
 	for _, item := range typedInput.UserAssignedIdentityExceptions {
 		var item1 ManagedClusterPodIdentityException
 		err := item1.PopulateFromARM(owner, item)
@@ -11691,19 +11691,19 @@ func (profile *ManagedClusterPodIdentityProfile_STATUS) PopulateFromARM(owner ge
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterPodIdentityProfile_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AllowNetworkPluginKubenet’:
+	// Set property "AllowNetworkPluginKubenet":
 	if typedInput.AllowNetworkPluginKubenet != nil {
 		allowNetworkPluginKubenet := *typedInput.AllowNetworkPluginKubenet
 		profile.AllowNetworkPluginKubenet = &allowNetworkPluginKubenet
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		profile.Enabled = &enabled
 	}
 
-	// Set property ‘UserAssignedIdentities’:
+	// Set property "UserAssignedIdentities":
 	for _, item := range typedInput.UserAssignedIdentities {
 		var item1 ManagedClusterPodIdentity_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -11713,7 +11713,7 @@ func (profile *ManagedClusterPodIdentityProfile_STATUS) PopulateFromARM(owner ge
 		profile.UserAssignedIdentities = append(profile.UserAssignedIdentities, item1)
 	}
 
-	// Set property ‘UserAssignedIdentityExceptions’:
+	// Set property "UserAssignedIdentityExceptions":
 	for _, item := range typedInput.UserAssignedIdentityExceptions {
 		var item1 ManagedClusterPodIdentityException_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -11926,103 +11926,103 @@ func (profile *ManagedClusterProperties_AutoScalerProfile) ConvertToARM(resolved
 	}
 	result := &ManagedClusterProperties_AutoScalerProfile_ARM{}
 
-	// Set property ‘BalanceSimilarNodeGroups’:
+	// Set property "BalanceSimilarNodeGroups":
 	if profile.BalanceSimilarNodeGroups != nil {
 		balanceSimilarNodeGroups := *profile.BalanceSimilarNodeGroups
 		result.BalanceSimilarNodeGroups = &balanceSimilarNodeGroups
 	}
 
-	// Set property ‘Expander’:
+	// Set property "Expander":
 	if profile.Expander != nil {
 		expander := *profile.Expander
 		result.Expander = &expander
 	}
 
-	// Set property ‘MaxEmptyBulkDelete’:
+	// Set property "MaxEmptyBulkDelete":
 	if profile.MaxEmptyBulkDelete != nil {
 		maxEmptyBulkDelete := *profile.MaxEmptyBulkDelete
 		result.MaxEmptyBulkDelete = &maxEmptyBulkDelete
 	}
 
-	// Set property ‘MaxGracefulTerminationSec’:
+	// Set property "MaxGracefulTerminationSec":
 	if profile.MaxGracefulTerminationSec != nil {
 		maxGracefulTerminationSec := *profile.MaxGracefulTerminationSec
 		result.MaxGracefulTerminationSec = &maxGracefulTerminationSec
 	}
 
-	// Set property ‘MaxNodeProvisionTime’:
+	// Set property "MaxNodeProvisionTime":
 	if profile.MaxNodeProvisionTime != nil {
 		maxNodeProvisionTime := *profile.MaxNodeProvisionTime
 		result.MaxNodeProvisionTime = &maxNodeProvisionTime
 	}
 
-	// Set property ‘MaxTotalUnreadyPercentage’:
+	// Set property "MaxTotalUnreadyPercentage":
 	if profile.MaxTotalUnreadyPercentage != nil {
 		maxTotalUnreadyPercentage := *profile.MaxTotalUnreadyPercentage
 		result.MaxTotalUnreadyPercentage = &maxTotalUnreadyPercentage
 	}
 
-	// Set property ‘NewPodScaleUpDelay’:
+	// Set property "NewPodScaleUpDelay":
 	if profile.NewPodScaleUpDelay != nil {
 		newPodScaleUpDelay := *profile.NewPodScaleUpDelay
 		result.NewPodScaleUpDelay = &newPodScaleUpDelay
 	}
 
-	// Set property ‘OkTotalUnreadyCount’:
+	// Set property "OkTotalUnreadyCount":
 	if profile.OkTotalUnreadyCount != nil {
 		okTotalUnreadyCount := *profile.OkTotalUnreadyCount
 		result.OkTotalUnreadyCount = &okTotalUnreadyCount
 	}
 
-	// Set property ‘ScaleDownDelayAfterAdd’:
+	// Set property "ScaleDownDelayAfterAdd":
 	if profile.ScaleDownDelayAfterAdd != nil {
 		scaleDownDelayAfterAdd := *profile.ScaleDownDelayAfterAdd
 		result.ScaleDownDelayAfterAdd = &scaleDownDelayAfterAdd
 	}
 
-	// Set property ‘ScaleDownDelayAfterDelete’:
+	// Set property "ScaleDownDelayAfterDelete":
 	if profile.ScaleDownDelayAfterDelete != nil {
 		scaleDownDelayAfterDelete := *profile.ScaleDownDelayAfterDelete
 		result.ScaleDownDelayAfterDelete = &scaleDownDelayAfterDelete
 	}
 
-	// Set property ‘ScaleDownDelayAfterFailure’:
+	// Set property "ScaleDownDelayAfterFailure":
 	if profile.ScaleDownDelayAfterFailure != nil {
 		scaleDownDelayAfterFailure := *profile.ScaleDownDelayAfterFailure
 		result.ScaleDownDelayAfterFailure = &scaleDownDelayAfterFailure
 	}
 
-	// Set property ‘ScaleDownUnneededTime’:
+	// Set property "ScaleDownUnneededTime":
 	if profile.ScaleDownUnneededTime != nil {
 		scaleDownUnneededTime := *profile.ScaleDownUnneededTime
 		result.ScaleDownUnneededTime = &scaleDownUnneededTime
 	}
 
-	// Set property ‘ScaleDownUnreadyTime’:
+	// Set property "ScaleDownUnreadyTime":
 	if profile.ScaleDownUnreadyTime != nil {
 		scaleDownUnreadyTime := *profile.ScaleDownUnreadyTime
 		result.ScaleDownUnreadyTime = &scaleDownUnreadyTime
 	}
 
-	// Set property ‘ScaleDownUtilizationThreshold’:
+	// Set property "ScaleDownUtilizationThreshold":
 	if profile.ScaleDownUtilizationThreshold != nil {
 		scaleDownUtilizationThreshold := *profile.ScaleDownUtilizationThreshold
 		result.ScaleDownUtilizationThreshold = &scaleDownUtilizationThreshold
 	}
 
-	// Set property ‘ScanInterval’:
+	// Set property "ScanInterval":
 	if profile.ScanInterval != nil {
 		scanInterval := *profile.ScanInterval
 		result.ScanInterval = &scanInterval
 	}
 
-	// Set property ‘SkipNodesWithLocalStorage’:
+	// Set property "SkipNodesWithLocalStorage":
 	if profile.SkipNodesWithLocalStorage != nil {
 		skipNodesWithLocalStorage := *profile.SkipNodesWithLocalStorage
 		result.SkipNodesWithLocalStorage = &skipNodesWithLocalStorage
 	}
 
-	// Set property ‘SkipNodesWithSystemPods’:
+	// Set property "SkipNodesWithSystemPods":
 	if profile.SkipNodesWithSystemPods != nil {
 		skipNodesWithSystemPods := *profile.SkipNodesWithSystemPods
 		result.SkipNodesWithSystemPods = &skipNodesWithSystemPods
@@ -12042,103 +12042,103 @@ func (profile *ManagedClusterProperties_AutoScalerProfile) PopulateFromARM(owner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterProperties_AutoScalerProfile_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BalanceSimilarNodeGroups’:
+	// Set property "BalanceSimilarNodeGroups":
 	if typedInput.BalanceSimilarNodeGroups != nil {
 		balanceSimilarNodeGroups := *typedInput.BalanceSimilarNodeGroups
 		profile.BalanceSimilarNodeGroups = &balanceSimilarNodeGroups
 	}
 
-	// Set property ‘Expander’:
+	// Set property "Expander":
 	if typedInput.Expander != nil {
 		expander := *typedInput.Expander
 		profile.Expander = &expander
 	}
 
-	// Set property ‘MaxEmptyBulkDelete’:
+	// Set property "MaxEmptyBulkDelete":
 	if typedInput.MaxEmptyBulkDelete != nil {
 		maxEmptyBulkDelete := *typedInput.MaxEmptyBulkDelete
 		profile.MaxEmptyBulkDelete = &maxEmptyBulkDelete
 	}
 
-	// Set property ‘MaxGracefulTerminationSec’:
+	// Set property "MaxGracefulTerminationSec":
 	if typedInput.MaxGracefulTerminationSec != nil {
 		maxGracefulTerminationSec := *typedInput.MaxGracefulTerminationSec
 		profile.MaxGracefulTerminationSec = &maxGracefulTerminationSec
 	}
 
-	// Set property ‘MaxNodeProvisionTime’:
+	// Set property "MaxNodeProvisionTime":
 	if typedInput.MaxNodeProvisionTime != nil {
 		maxNodeProvisionTime := *typedInput.MaxNodeProvisionTime
 		profile.MaxNodeProvisionTime = &maxNodeProvisionTime
 	}
 
-	// Set property ‘MaxTotalUnreadyPercentage’:
+	// Set property "MaxTotalUnreadyPercentage":
 	if typedInput.MaxTotalUnreadyPercentage != nil {
 		maxTotalUnreadyPercentage := *typedInput.MaxTotalUnreadyPercentage
 		profile.MaxTotalUnreadyPercentage = &maxTotalUnreadyPercentage
 	}
 
-	// Set property ‘NewPodScaleUpDelay’:
+	// Set property "NewPodScaleUpDelay":
 	if typedInput.NewPodScaleUpDelay != nil {
 		newPodScaleUpDelay := *typedInput.NewPodScaleUpDelay
 		profile.NewPodScaleUpDelay = &newPodScaleUpDelay
 	}
 
-	// Set property ‘OkTotalUnreadyCount’:
+	// Set property "OkTotalUnreadyCount":
 	if typedInput.OkTotalUnreadyCount != nil {
 		okTotalUnreadyCount := *typedInput.OkTotalUnreadyCount
 		profile.OkTotalUnreadyCount = &okTotalUnreadyCount
 	}
 
-	// Set property ‘ScaleDownDelayAfterAdd’:
+	// Set property "ScaleDownDelayAfterAdd":
 	if typedInput.ScaleDownDelayAfterAdd != nil {
 		scaleDownDelayAfterAdd := *typedInput.ScaleDownDelayAfterAdd
 		profile.ScaleDownDelayAfterAdd = &scaleDownDelayAfterAdd
 	}
 
-	// Set property ‘ScaleDownDelayAfterDelete’:
+	// Set property "ScaleDownDelayAfterDelete":
 	if typedInput.ScaleDownDelayAfterDelete != nil {
 		scaleDownDelayAfterDelete := *typedInput.ScaleDownDelayAfterDelete
 		profile.ScaleDownDelayAfterDelete = &scaleDownDelayAfterDelete
 	}
 
-	// Set property ‘ScaleDownDelayAfterFailure’:
+	// Set property "ScaleDownDelayAfterFailure":
 	if typedInput.ScaleDownDelayAfterFailure != nil {
 		scaleDownDelayAfterFailure := *typedInput.ScaleDownDelayAfterFailure
 		profile.ScaleDownDelayAfterFailure = &scaleDownDelayAfterFailure
 	}
 
-	// Set property ‘ScaleDownUnneededTime’:
+	// Set property "ScaleDownUnneededTime":
 	if typedInput.ScaleDownUnneededTime != nil {
 		scaleDownUnneededTime := *typedInput.ScaleDownUnneededTime
 		profile.ScaleDownUnneededTime = &scaleDownUnneededTime
 	}
 
-	// Set property ‘ScaleDownUnreadyTime’:
+	// Set property "ScaleDownUnreadyTime":
 	if typedInput.ScaleDownUnreadyTime != nil {
 		scaleDownUnreadyTime := *typedInput.ScaleDownUnreadyTime
 		profile.ScaleDownUnreadyTime = &scaleDownUnreadyTime
 	}
 
-	// Set property ‘ScaleDownUtilizationThreshold’:
+	// Set property "ScaleDownUtilizationThreshold":
 	if typedInput.ScaleDownUtilizationThreshold != nil {
 		scaleDownUtilizationThreshold := *typedInput.ScaleDownUtilizationThreshold
 		profile.ScaleDownUtilizationThreshold = &scaleDownUtilizationThreshold
 	}
 
-	// Set property ‘ScanInterval’:
+	// Set property "ScanInterval":
 	if typedInput.ScanInterval != nil {
 		scanInterval := *typedInput.ScanInterval
 		profile.ScanInterval = &scanInterval
 	}
 
-	// Set property ‘SkipNodesWithLocalStorage’:
+	// Set property "SkipNodesWithLocalStorage":
 	if typedInput.SkipNodesWithLocalStorage != nil {
 		skipNodesWithLocalStorage := *typedInput.SkipNodesWithLocalStorage
 		profile.SkipNodesWithLocalStorage = &skipNodesWithLocalStorage
 	}
 
-	// Set property ‘SkipNodesWithSystemPods’:
+	// Set property "SkipNodesWithSystemPods":
 	if typedInput.SkipNodesWithSystemPods != nil {
 		skipNodesWithSystemPods := *typedInput.SkipNodesWithSystemPods
 		profile.SkipNodesWithSystemPods = &skipNodesWithSystemPods
@@ -12360,103 +12360,103 @@ func (profile *ManagedClusterProperties_AutoScalerProfile_STATUS) PopulateFromAR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterProperties_AutoScalerProfile_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BalanceSimilarNodeGroups’:
+	// Set property "BalanceSimilarNodeGroups":
 	if typedInput.BalanceSimilarNodeGroups != nil {
 		balanceSimilarNodeGroups := *typedInput.BalanceSimilarNodeGroups
 		profile.BalanceSimilarNodeGroups = &balanceSimilarNodeGroups
 	}
 
-	// Set property ‘Expander’:
+	// Set property "Expander":
 	if typedInput.Expander != nil {
 		expander := *typedInput.Expander
 		profile.Expander = &expander
 	}
 
-	// Set property ‘MaxEmptyBulkDelete’:
+	// Set property "MaxEmptyBulkDelete":
 	if typedInput.MaxEmptyBulkDelete != nil {
 		maxEmptyBulkDelete := *typedInput.MaxEmptyBulkDelete
 		profile.MaxEmptyBulkDelete = &maxEmptyBulkDelete
 	}
 
-	// Set property ‘MaxGracefulTerminationSec’:
+	// Set property "MaxGracefulTerminationSec":
 	if typedInput.MaxGracefulTerminationSec != nil {
 		maxGracefulTerminationSec := *typedInput.MaxGracefulTerminationSec
 		profile.MaxGracefulTerminationSec = &maxGracefulTerminationSec
 	}
 
-	// Set property ‘MaxNodeProvisionTime’:
+	// Set property "MaxNodeProvisionTime":
 	if typedInput.MaxNodeProvisionTime != nil {
 		maxNodeProvisionTime := *typedInput.MaxNodeProvisionTime
 		profile.MaxNodeProvisionTime = &maxNodeProvisionTime
 	}
 
-	// Set property ‘MaxTotalUnreadyPercentage’:
+	// Set property "MaxTotalUnreadyPercentage":
 	if typedInput.MaxTotalUnreadyPercentage != nil {
 		maxTotalUnreadyPercentage := *typedInput.MaxTotalUnreadyPercentage
 		profile.MaxTotalUnreadyPercentage = &maxTotalUnreadyPercentage
 	}
 
-	// Set property ‘NewPodScaleUpDelay’:
+	// Set property "NewPodScaleUpDelay":
 	if typedInput.NewPodScaleUpDelay != nil {
 		newPodScaleUpDelay := *typedInput.NewPodScaleUpDelay
 		profile.NewPodScaleUpDelay = &newPodScaleUpDelay
 	}
 
-	// Set property ‘OkTotalUnreadyCount’:
+	// Set property "OkTotalUnreadyCount":
 	if typedInput.OkTotalUnreadyCount != nil {
 		okTotalUnreadyCount := *typedInput.OkTotalUnreadyCount
 		profile.OkTotalUnreadyCount = &okTotalUnreadyCount
 	}
 
-	// Set property ‘ScaleDownDelayAfterAdd’:
+	// Set property "ScaleDownDelayAfterAdd":
 	if typedInput.ScaleDownDelayAfterAdd != nil {
 		scaleDownDelayAfterAdd := *typedInput.ScaleDownDelayAfterAdd
 		profile.ScaleDownDelayAfterAdd = &scaleDownDelayAfterAdd
 	}
 
-	// Set property ‘ScaleDownDelayAfterDelete’:
+	// Set property "ScaleDownDelayAfterDelete":
 	if typedInput.ScaleDownDelayAfterDelete != nil {
 		scaleDownDelayAfterDelete := *typedInput.ScaleDownDelayAfterDelete
 		profile.ScaleDownDelayAfterDelete = &scaleDownDelayAfterDelete
 	}
 
-	// Set property ‘ScaleDownDelayAfterFailure’:
+	// Set property "ScaleDownDelayAfterFailure":
 	if typedInput.ScaleDownDelayAfterFailure != nil {
 		scaleDownDelayAfterFailure := *typedInput.ScaleDownDelayAfterFailure
 		profile.ScaleDownDelayAfterFailure = &scaleDownDelayAfterFailure
 	}
 
-	// Set property ‘ScaleDownUnneededTime’:
+	// Set property "ScaleDownUnneededTime":
 	if typedInput.ScaleDownUnneededTime != nil {
 		scaleDownUnneededTime := *typedInput.ScaleDownUnneededTime
 		profile.ScaleDownUnneededTime = &scaleDownUnneededTime
 	}
 
-	// Set property ‘ScaleDownUnreadyTime’:
+	// Set property "ScaleDownUnreadyTime":
 	if typedInput.ScaleDownUnreadyTime != nil {
 		scaleDownUnreadyTime := *typedInput.ScaleDownUnreadyTime
 		profile.ScaleDownUnreadyTime = &scaleDownUnreadyTime
 	}
 
-	// Set property ‘ScaleDownUtilizationThreshold’:
+	// Set property "ScaleDownUtilizationThreshold":
 	if typedInput.ScaleDownUtilizationThreshold != nil {
 		scaleDownUtilizationThreshold := *typedInput.ScaleDownUtilizationThreshold
 		profile.ScaleDownUtilizationThreshold = &scaleDownUtilizationThreshold
 	}
 
-	// Set property ‘ScanInterval’:
+	// Set property "ScanInterval":
 	if typedInput.ScanInterval != nil {
 		scanInterval := *typedInput.ScanInterval
 		profile.ScanInterval = &scanInterval
 	}
 
-	// Set property ‘SkipNodesWithLocalStorage’:
+	// Set property "SkipNodesWithLocalStorage":
 	if typedInput.SkipNodesWithLocalStorage != nil {
 		skipNodesWithLocalStorage := *typedInput.SkipNodesWithLocalStorage
 		profile.SkipNodesWithLocalStorage = &skipNodesWithLocalStorage
 	}
 
-	// Set property ‘SkipNodesWithSystemPods’:
+	// Set property "SkipNodesWithSystemPods":
 	if typedInput.SkipNodesWithSystemPods != nil {
 		skipNodesWithSystemPods := *typedInput.SkipNodesWithSystemPods
 		profile.SkipNodesWithSystemPods = &skipNodesWithSystemPods
@@ -12654,7 +12654,7 @@ func (profile *ManagedClusterSecurityProfile) ConvertToARM(resolved genruntime.C
 	}
 	result := &ManagedClusterSecurityProfile_ARM{}
 
-	// Set property ‘AzureKeyVaultKms’:
+	// Set property "AzureKeyVaultKms":
 	if profile.AzureKeyVaultKms != nil {
 		azureKeyVaultKms_ARM, err := (*profile.AzureKeyVaultKms).ConvertToARM(resolved)
 		if err != nil {
@@ -12664,10 +12664,10 @@ func (profile *ManagedClusterSecurityProfile) ConvertToARM(resolved genruntime.C
 		result.AzureKeyVaultKms = &azureKeyVaultKms
 	}
 
-	// Set property ‘CustomCATrustCertificates’:
+	// Set property "CustomCATrustCertificates":
 	result.CustomCATrustCertificates = profile.CustomCATrustCertificates
 
-	// Set property ‘Defender’:
+	// Set property "Defender":
 	if profile.Defender != nil {
 		defender_ARM, err := (*profile.Defender).ConvertToARM(resolved)
 		if err != nil {
@@ -12677,7 +12677,7 @@ func (profile *ManagedClusterSecurityProfile) ConvertToARM(resolved genruntime.C
 		result.Defender = &defender
 	}
 
-	// Set property ‘ImageCleaner’:
+	// Set property "ImageCleaner":
 	if profile.ImageCleaner != nil {
 		imageCleaner_ARM, err := (*profile.ImageCleaner).ConvertToARM(resolved)
 		if err != nil {
@@ -12687,7 +12687,7 @@ func (profile *ManagedClusterSecurityProfile) ConvertToARM(resolved genruntime.C
 		result.ImageCleaner = &imageCleaner
 	}
 
-	// Set property ‘NodeRestriction’:
+	// Set property "NodeRestriction":
 	if profile.NodeRestriction != nil {
 		nodeRestriction_ARM, err := (*profile.NodeRestriction).ConvertToARM(resolved)
 		if err != nil {
@@ -12697,7 +12697,7 @@ func (profile *ManagedClusterSecurityProfile) ConvertToARM(resolved genruntime.C
 		result.NodeRestriction = &nodeRestriction
 	}
 
-	// Set property ‘WorkloadIdentity’:
+	// Set property "WorkloadIdentity":
 	if profile.WorkloadIdentity != nil {
 		workloadIdentity_ARM, err := (*profile.WorkloadIdentity).ConvertToARM(resolved)
 		if err != nil {
@@ -12721,7 +12721,7 @@ func (profile *ManagedClusterSecurityProfile) PopulateFromARM(owner genruntime.A
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterSecurityProfile_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureKeyVaultKms’:
+	// Set property "AzureKeyVaultKms":
 	if typedInput.AzureKeyVaultKms != nil {
 		var azureKeyVaultKms1 AzureKeyVaultKms
 		err := azureKeyVaultKms1.PopulateFromARM(owner, *typedInput.AzureKeyVaultKms)
@@ -12732,10 +12732,10 @@ func (profile *ManagedClusterSecurityProfile) PopulateFromARM(owner genruntime.A
 		profile.AzureKeyVaultKms = &azureKeyVaultKms
 	}
 
-	// Set property ‘CustomCATrustCertificates’:
+	// Set property "CustomCATrustCertificates":
 	profile.CustomCATrustCertificates = typedInput.CustomCATrustCertificates
 
-	// Set property ‘Defender’:
+	// Set property "Defender":
 	if typedInput.Defender != nil {
 		var defender1 ManagedClusterSecurityProfileDefender
 		err := defender1.PopulateFromARM(owner, *typedInput.Defender)
@@ -12746,7 +12746,7 @@ func (profile *ManagedClusterSecurityProfile) PopulateFromARM(owner genruntime.A
 		profile.Defender = &defender
 	}
 
-	// Set property ‘ImageCleaner’:
+	// Set property "ImageCleaner":
 	if typedInput.ImageCleaner != nil {
 		var imageCleaner1 ManagedClusterSecurityProfileImageCleaner
 		err := imageCleaner1.PopulateFromARM(owner, *typedInput.ImageCleaner)
@@ -12757,7 +12757,7 @@ func (profile *ManagedClusterSecurityProfile) PopulateFromARM(owner genruntime.A
 		profile.ImageCleaner = &imageCleaner
 	}
 
-	// Set property ‘NodeRestriction’:
+	// Set property "NodeRestriction":
 	if typedInput.NodeRestriction != nil {
 		var nodeRestriction1 ManagedClusterSecurityProfileNodeRestriction
 		err := nodeRestriction1.PopulateFromARM(owner, *typedInput.NodeRestriction)
@@ -12768,7 +12768,7 @@ func (profile *ManagedClusterSecurityProfile) PopulateFromARM(owner genruntime.A
 		profile.NodeRestriction = &nodeRestriction
 	}
 
-	// Set property ‘WorkloadIdentity’:
+	// Set property "WorkloadIdentity":
 	if typedInput.WorkloadIdentity != nil {
 		var workloadIdentity1 ManagedClusterSecurityProfileWorkloadIdentity
 		err := workloadIdentity1.PopulateFromARM(owner, *typedInput.WorkloadIdentity)
@@ -12973,7 +12973,7 @@ func (profile *ManagedClusterSecurityProfile_STATUS) PopulateFromARM(owner genru
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterSecurityProfile_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureKeyVaultKms’:
+	// Set property "AzureKeyVaultKms":
 	if typedInput.AzureKeyVaultKms != nil {
 		var azureKeyVaultKms1 AzureKeyVaultKms_STATUS
 		err := azureKeyVaultKms1.PopulateFromARM(owner, *typedInput.AzureKeyVaultKms)
@@ -12984,12 +12984,12 @@ func (profile *ManagedClusterSecurityProfile_STATUS) PopulateFromARM(owner genru
 		profile.AzureKeyVaultKms = &azureKeyVaultKms
 	}
 
-	// Set property ‘CustomCATrustCertificates’:
+	// Set property "CustomCATrustCertificates":
 	for _, item := range typedInput.CustomCATrustCertificates {
 		profile.CustomCATrustCertificates = append(profile.CustomCATrustCertificates, item)
 	}
 
-	// Set property ‘Defender’:
+	// Set property "Defender":
 	if typedInput.Defender != nil {
 		var defender1 ManagedClusterSecurityProfileDefender_STATUS
 		err := defender1.PopulateFromARM(owner, *typedInput.Defender)
@@ -13000,7 +13000,7 @@ func (profile *ManagedClusterSecurityProfile_STATUS) PopulateFromARM(owner genru
 		profile.Defender = &defender
 	}
 
-	// Set property ‘ImageCleaner’:
+	// Set property "ImageCleaner":
 	if typedInput.ImageCleaner != nil {
 		var imageCleaner1 ManagedClusterSecurityProfileImageCleaner_STATUS
 		err := imageCleaner1.PopulateFromARM(owner, *typedInput.ImageCleaner)
@@ -13011,7 +13011,7 @@ func (profile *ManagedClusterSecurityProfile_STATUS) PopulateFromARM(owner genru
 		profile.ImageCleaner = &imageCleaner
 	}
 
-	// Set property ‘NodeRestriction’:
+	// Set property "NodeRestriction":
 	if typedInput.NodeRestriction != nil {
 		var nodeRestriction1 ManagedClusterSecurityProfileNodeRestriction_STATUS
 		err := nodeRestriction1.PopulateFromARM(owner, *typedInput.NodeRestriction)
@@ -13022,7 +13022,7 @@ func (profile *ManagedClusterSecurityProfile_STATUS) PopulateFromARM(owner genru
 		profile.NodeRestriction = &nodeRestriction
 	}
 
-	// Set property ‘WorkloadIdentity’:
+	// Set property "WorkloadIdentity":
 	if typedInput.WorkloadIdentity != nil {
 		var workloadIdentity1 ManagedClusterSecurityProfileWorkloadIdentity_STATUS
 		err := workloadIdentity1.PopulateFromARM(owner, *typedInput.WorkloadIdentity)
@@ -13205,13 +13205,13 @@ func (profile *ManagedClusterServicePrincipalProfile) ConvertToARM(resolved genr
 	}
 	result := &ManagedClusterServicePrincipalProfile_ARM{}
 
-	// Set property ‘ClientId’:
+	// Set property "ClientId":
 	if profile.ClientId != nil {
 		clientId := *profile.ClientId
 		result.ClientId = &clientId
 	}
 
-	// Set property ‘Secret’:
+	// Set property "Secret":
 	if profile.Secret != nil {
 		secretSecret, err := resolved.ResolvedSecrets.Lookup(*profile.Secret)
 		if err != nil {
@@ -13235,13 +13235,13 @@ func (profile *ManagedClusterServicePrincipalProfile) PopulateFromARM(owner genr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterServicePrincipalProfile_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ClientId’:
+	// Set property "ClientId":
 	if typedInput.ClientId != nil {
 		clientId := *typedInput.ClientId
 		profile.ClientId = &clientId
 	}
 
-	// no assignment for property ‘Secret’
+	// no assignment for property "Secret"
 
 	// No error
 	return nil
@@ -13312,7 +13312,7 @@ func (profile *ManagedClusterServicePrincipalProfile_STATUS) PopulateFromARM(own
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterServicePrincipalProfile_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ClientId’:
+	// Set property "ClientId":
 	if typedInput.ClientId != nil {
 		clientId := *typedInput.ClientId
 		profile.ClientId = &clientId
@@ -13370,13 +13370,13 @@ func (clusterSKU *ManagedClusterSKU) ConvertToARM(resolved genruntime.ConvertToA
 	}
 	result := &ManagedClusterSKU_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if clusterSKU.Name != nil {
 		name := *clusterSKU.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if clusterSKU.Tier != nil {
 		tier := *clusterSKU.Tier
 		result.Tier = &tier
@@ -13396,13 +13396,13 @@ func (clusterSKU *ManagedClusterSKU) PopulateFromARM(owner genruntime.ArbitraryO
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterSKU_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		clusterSKU.Name = &name
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if typedInput.Tier != nil {
 		tier := *typedInput.Tier
 		clusterSKU.Tier = &tier
@@ -13491,13 +13491,13 @@ func (clusterSKU *ManagedClusterSKU_STATUS) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterSKU_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		clusterSKU.Name = &name
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if typedInput.Tier != nil {
 		tier := *typedInput.Tier
 		clusterSKU.Tier = &tier
@@ -13586,7 +13586,7 @@ func (profile *ManagedClusterStorageProfile) ConvertToARM(resolved genruntime.Co
 	}
 	result := &ManagedClusterStorageProfile_ARM{}
 
-	// Set property ‘BlobCSIDriver’:
+	// Set property "BlobCSIDriver":
 	if profile.BlobCSIDriver != nil {
 		blobCSIDriver_ARM, err := (*profile.BlobCSIDriver).ConvertToARM(resolved)
 		if err != nil {
@@ -13596,7 +13596,7 @@ func (profile *ManagedClusterStorageProfile) ConvertToARM(resolved genruntime.Co
 		result.BlobCSIDriver = &blobCSIDriver
 	}
 
-	// Set property ‘DiskCSIDriver’:
+	// Set property "DiskCSIDriver":
 	if profile.DiskCSIDriver != nil {
 		diskCSIDriver_ARM, err := (*profile.DiskCSIDriver).ConvertToARM(resolved)
 		if err != nil {
@@ -13606,7 +13606,7 @@ func (profile *ManagedClusterStorageProfile) ConvertToARM(resolved genruntime.Co
 		result.DiskCSIDriver = &diskCSIDriver
 	}
 
-	// Set property ‘FileCSIDriver’:
+	// Set property "FileCSIDriver":
 	if profile.FileCSIDriver != nil {
 		fileCSIDriver_ARM, err := (*profile.FileCSIDriver).ConvertToARM(resolved)
 		if err != nil {
@@ -13616,7 +13616,7 @@ func (profile *ManagedClusterStorageProfile) ConvertToARM(resolved genruntime.Co
 		result.FileCSIDriver = &fileCSIDriver
 	}
 
-	// Set property ‘SnapshotController’:
+	// Set property "SnapshotController":
 	if profile.SnapshotController != nil {
 		snapshotController_ARM, err := (*profile.SnapshotController).ConvertToARM(resolved)
 		if err != nil {
@@ -13640,7 +13640,7 @@ func (profile *ManagedClusterStorageProfile) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterStorageProfile_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BlobCSIDriver’:
+	// Set property "BlobCSIDriver":
 	if typedInput.BlobCSIDriver != nil {
 		var blobCSIDriver1 ManagedClusterStorageProfileBlobCSIDriver
 		err := blobCSIDriver1.PopulateFromARM(owner, *typedInput.BlobCSIDriver)
@@ -13651,7 +13651,7 @@ func (profile *ManagedClusterStorageProfile) PopulateFromARM(owner genruntime.Ar
 		profile.BlobCSIDriver = &blobCSIDriver
 	}
 
-	// Set property ‘DiskCSIDriver’:
+	// Set property "DiskCSIDriver":
 	if typedInput.DiskCSIDriver != nil {
 		var diskCSIDriver1 ManagedClusterStorageProfileDiskCSIDriver
 		err := diskCSIDriver1.PopulateFromARM(owner, *typedInput.DiskCSIDriver)
@@ -13662,7 +13662,7 @@ func (profile *ManagedClusterStorageProfile) PopulateFromARM(owner genruntime.Ar
 		profile.DiskCSIDriver = &diskCSIDriver
 	}
 
-	// Set property ‘FileCSIDriver’:
+	// Set property "FileCSIDriver":
 	if typedInput.FileCSIDriver != nil {
 		var fileCSIDriver1 ManagedClusterStorageProfileFileCSIDriver
 		err := fileCSIDriver1.PopulateFromARM(owner, *typedInput.FileCSIDriver)
@@ -13673,7 +13673,7 @@ func (profile *ManagedClusterStorageProfile) PopulateFromARM(owner genruntime.Ar
 		profile.FileCSIDriver = &fileCSIDriver
 	}
 
-	// Set property ‘SnapshotController’:
+	// Set property "SnapshotController":
 	if typedInput.SnapshotController != nil {
 		var snapshotController1 ManagedClusterStorageProfileSnapshotController
 		err := snapshotController1.PopulateFromARM(owner, *typedInput.SnapshotController)
@@ -13836,7 +13836,7 @@ func (profile *ManagedClusterStorageProfile_STATUS) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterStorageProfile_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BlobCSIDriver’:
+	// Set property "BlobCSIDriver":
 	if typedInput.BlobCSIDriver != nil {
 		var blobCSIDriver1 ManagedClusterStorageProfileBlobCSIDriver_STATUS
 		err := blobCSIDriver1.PopulateFromARM(owner, *typedInput.BlobCSIDriver)
@@ -13847,7 +13847,7 @@ func (profile *ManagedClusterStorageProfile_STATUS) PopulateFromARM(owner genrun
 		profile.BlobCSIDriver = &blobCSIDriver
 	}
 
-	// Set property ‘DiskCSIDriver’:
+	// Set property "DiskCSIDriver":
 	if typedInput.DiskCSIDriver != nil {
 		var diskCSIDriver1 ManagedClusterStorageProfileDiskCSIDriver_STATUS
 		err := diskCSIDriver1.PopulateFromARM(owner, *typedInput.DiskCSIDriver)
@@ -13858,7 +13858,7 @@ func (profile *ManagedClusterStorageProfile_STATUS) PopulateFromARM(owner genrun
 		profile.DiskCSIDriver = &diskCSIDriver
 	}
 
-	// Set property ‘FileCSIDriver’:
+	// Set property "FileCSIDriver":
 	if typedInput.FileCSIDriver != nil {
 		var fileCSIDriver1 ManagedClusterStorageProfileFileCSIDriver_STATUS
 		err := fileCSIDriver1.PopulateFromARM(owner, *typedInput.FileCSIDriver)
@@ -13869,7 +13869,7 @@ func (profile *ManagedClusterStorageProfile_STATUS) PopulateFromARM(owner genrun
 		profile.FileCSIDriver = &fileCSIDriver
 	}
 
-	// Set property ‘SnapshotController’:
+	// Set property "SnapshotController":
 	if typedInput.SnapshotController != nil {
 		var snapshotController1 ManagedClusterStorageProfileSnapshotController_STATUS
 		err := snapshotController1.PopulateFromARM(owner, *typedInput.SnapshotController)
@@ -14048,25 +14048,25 @@ func (profile *ManagedClusterWindowsProfile) ConvertToARM(resolved genruntime.Co
 	}
 	result := &ManagedClusterWindowsProfile_ARM{}
 
-	// Set property ‘AdminPassword’:
+	// Set property "AdminPassword":
 	if profile.AdminPassword != nil {
 		adminPassword := *profile.AdminPassword
 		result.AdminPassword = &adminPassword
 	}
 
-	// Set property ‘AdminUsername’:
+	// Set property "AdminUsername":
 	if profile.AdminUsername != nil {
 		adminUsername := *profile.AdminUsername
 		result.AdminUsername = &adminUsername
 	}
 
-	// Set property ‘EnableCSIProxy’:
+	// Set property "EnableCSIProxy":
 	if profile.EnableCSIProxy != nil {
 		enableCSIProxy := *profile.EnableCSIProxy
 		result.EnableCSIProxy = &enableCSIProxy
 	}
 
-	// Set property ‘GmsaProfile’:
+	// Set property "GmsaProfile":
 	if profile.GmsaProfile != nil {
 		gmsaProfile_ARM, err := (*profile.GmsaProfile).ConvertToARM(resolved)
 		if err != nil {
@@ -14076,7 +14076,7 @@ func (profile *ManagedClusterWindowsProfile) ConvertToARM(resolved genruntime.Co
 		result.GmsaProfile = &gmsaProfile
 	}
 
-	// Set property ‘LicenseType’:
+	// Set property "LicenseType":
 	if profile.LicenseType != nil {
 		licenseType := *profile.LicenseType
 		result.LicenseType = &licenseType
@@ -14096,25 +14096,25 @@ func (profile *ManagedClusterWindowsProfile) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterWindowsProfile_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdminPassword’:
+	// Set property "AdminPassword":
 	if typedInput.AdminPassword != nil {
 		adminPassword := *typedInput.AdminPassword
 		profile.AdminPassword = &adminPassword
 	}
 
-	// Set property ‘AdminUsername’:
+	// Set property "AdminUsername":
 	if typedInput.AdminUsername != nil {
 		adminUsername := *typedInput.AdminUsername
 		profile.AdminUsername = &adminUsername
 	}
 
-	// Set property ‘EnableCSIProxy’:
+	// Set property "EnableCSIProxy":
 	if typedInput.EnableCSIProxy != nil {
 		enableCSIProxy := *typedInput.EnableCSIProxy
 		profile.EnableCSIProxy = &enableCSIProxy
 	}
 
-	// Set property ‘GmsaProfile’:
+	// Set property "GmsaProfile":
 	if typedInput.GmsaProfile != nil {
 		var gmsaProfile1 WindowsGmsaProfile
 		err := gmsaProfile1.PopulateFromARM(owner, *typedInput.GmsaProfile)
@@ -14125,7 +14125,7 @@ func (profile *ManagedClusterWindowsProfile) PopulateFromARM(owner genruntime.Ar
 		profile.GmsaProfile = &gmsaProfile
 	}
 
-	// Set property ‘LicenseType’:
+	// Set property "LicenseType":
 	if typedInput.LicenseType != nil {
 		licenseType := *typedInput.LicenseType
 		profile.LicenseType = &licenseType
@@ -14275,25 +14275,25 @@ func (profile *ManagedClusterWindowsProfile_STATUS) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterWindowsProfile_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdminPassword’:
+	// Set property "AdminPassword":
 	if typedInput.AdminPassword != nil {
 		adminPassword := *typedInput.AdminPassword
 		profile.AdminPassword = &adminPassword
 	}
 
-	// Set property ‘AdminUsername’:
+	// Set property "AdminUsername":
 	if typedInput.AdminUsername != nil {
 		adminUsername := *typedInput.AdminUsername
 		profile.AdminUsername = &adminUsername
 	}
 
-	// Set property ‘EnableCSIProxy’:
+	// Set property "EnableCSIProxy":
 	if typedInput.EnableCSIProxy != nil {
 		enableCSIProxy := *typedInput.EnableCSIProxy
 		profile.EnableCSIProxy = &enableCSIProxy
 	}
 
-	// Set property ‘GmsaProfile’:
+	// Set property "GmsaProfile":
 	if typedInput.GmsaProfile != nil {
 		var gmsaProfile1 WindowsGmsaProfile_STATUS
 		err := gmsaProfile1.PopulateFromARM(owner, *typedInput.GmsaProfile)
@@ -14304,7 +14304,7 @@ func (profile *ManagedClusterWindowsProfile_STATUS) PopulateFromARM(owner genrun
 		profile.GmsaProfile = &gmsaProfile
 	}
 
-	// Set property ‘LicenseType’:
+	// Set property "LicenseType":
 	if typedInput.LicenseType != nil {
 		licenseType := *typedInput.LicenseType
 		profile.LicenseType = &licenseType
@@ -14421,7 +14421,7 @@ func (profile *ManagedClusterWorkloadAutoScalerProfile) ConvertToARM(resolved ge
 	}
 	result := &ManagedClusterWorkloadAutoScalerProfile_ARM{}
 
-	// Set property ‘Keda’:
+	// Set property "Keda":
 	if profile.Keda != nil {
 		keda_ARM, err := (*profile.Keda).ConvertToARM(resolved)
 		if err != nil {
@@ -14431,7 +14431,7 @@ func (profile *ManagedClusterWorkloadAutoScalerProfile) ConvertToARM(resolved ge
 		result.Keda = &keda
 	}
 
-	// Set property ‘VerticalPodAutoscaler’:
+	// Set property "VerticalPodAutoscaler":
 	if profile.VerticalPodAutoscaler != nil {
 		verticalPodAutoscaler_ARM, err := (*profile.VerticalPodAutoscaler).ConvertToARM(resolved)
 		if err != nil {
@@ -14455,7 +14455,7 @@ func (profile *ManagedClusterWorkloadAutoScalerProfile) PopulateFromARM(owner ge
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterWorkloadAutoScalerProfile_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Keda’:
+	// Set property "Keda":
 	if typedInput.Keda != nil {
 		var keda1 ManagedClusterWorkloadAutoScalerProfileKeda
 		err := keda1.PopulateFromARM(owner, *typedInput.Keda)
@@ -14466,7 +14466,7 @@ func (profile *ManagedClusterWorkloadAutoScalerProfile) PopulateFromARM(owner ge
 		profile.Keda = &keda
 	}
 
-	// Set property ‘VerticalPodAutoscaler’:
+	// Set property "VerticalPodAutoscaler":
 	if typedInput.VerticalPodAutoscaler != nil {
 		var verticalPodAutoscaler1 ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
 		err := verticalPodAutoscaler1.PopulateFromARM(owner, *typedInput.VerticalPodAutoscaler)
@@ -14573,7 +14573,7 @@ func (profile *ManagedClusterWorkloadAutoScalerProfile_STATUS) PopulateFromARM(o
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterWorkloadAutoScalerProfile_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Keda’:
+	// Set property "Keda":
 	if typedInput.Keda != nil {
 		var keda1 ManagedClusterWorkloadAutoScalerProfileKeda_STATUS
 		err := keda1.PopulateFromARM(owner, *typedInput.Keda)
@@ -14584,7 +14584,7 @@ func (profile *ManagedClusterWorkloadAutoScalerProfile_STATUS) PopulateFromARM(o
 		profile.Keda = &keda
 	}
 
-	// Set property ‘VerticalPodAutoscaler’:
+	// Set property "VerticalPodAutoscaler":
 	if typedInput.VerticalPodAutoscaler != nil {
 		var verticalPodAutoscaler1 ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS
 		err := verticalPodAutoscaler1.PopulateFromARM(owner, *typedInput.VerticalPodAutoscaler)
@@ -14690,7 +14690,7 @@ func (state *PowerState_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PowerState_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Code’:
+	// Set property "Code":
 	if typedInput.Code != nil {
 		code := *typedInput.Code
 		state.Code = &code
@@ -14766,13 +14766,13 @@ func (resource *PrivateLinkResource) ConvertToARM(resolved genruntime.ConvertToA
 	}
 	result := &PrivateLinkResource_ARM{}
 
-	// Set property ‘GroupId’:
+	// Set property "GroupId":
 	if resource.GroupId != nil {
 		groupId := *resource.GroupId
 		result.GroupId = &groupId
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if resource.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*resource.Reference)
 		if err != nil {
@@ -14782,18 +14782,18 @@ func (resource *PrivateLinkResource) ConvertToARM(resolved genruntime.ConvertToA
 		result.Id = &reference
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if resource.Name != nil {
 		name := *resource.Name
 		result.Name = &name
 	}
 
-	// Set property ‘RequiredMembers’:
+	// Set property "RequiredMembers":
 	for _, item := range resource.RequiredMembers {
 		result.RequiredMembers = append(result.RequiredMembers, item)
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if resource.Type != nil {
 		typeVar := *resource.Type
 		result.Type = &typeVar
@@ -14813,26 +14813,26 @@ func (resource *PrivateLinkResource) PopulateFromARM(owner genruntime.ArbitraryO
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkResource_ARM, got %T", armInput)
 	}
 
-	// Set property ‘GroupId’:
+	// Set property "GroupId":
 	if typedInput.GroupId != nil {
 		groupId := *typedInput.GroupId
 		resource.GroupId = &groupId
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		resource.Name = &name
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
-	// Set property ‘RequiredMembers’:
+	// Set property "RequiredMembers":
 	for _, item := range typedInput.RequiredMembers {
 		resource.RequiredMembers = append(resource.RequiredMembers, item)
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		resource.Type = &typeVar
@@ -14940,36 +14940,36 @@ func (resource *PrivateLinkResource_STATUS) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkResource_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘GroupId’:
+	// Set property "GroupId":
 	if typedInput.GroupId != nil {
 		groupId := *typedInput.GroupId
 		resource.GroupId = &groupId
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		resource.Id = &id
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		resource.Name = &name
 	}
 
-	// Set property ‘PrivateLinkServiceID’:
+	// Set property "PrivateLinkServiceID":
 	if typedInput.PrivateLinkServiceID != nil {
 		privateLinkServiceID := *typedInput.PrivateLinkServiceID
 		resource.PrivateLinkServiceID = &privateLinkServiceID
 	}
 
-	// Set property ‘RequiredMembers’:
+	// Set property "RequiredMembers":
 	for _, item := range typedInput.RequiredMembers {
 		resource.RequiredMembers = append(resource.RequiredMembers, item)
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		resource.Type = &typeVar
@@ -15057,7 +15057,7 @@ func (profile *ServiceMeshProfile) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &ServiceMeshProfile_ARM{}
 
-	// Set property ‘Istio’:
+	// Set property "Istio":
 	if profile.Istio != nil {
 		istio_ARM, err := (*profile.Istio).ConvertToARM(resolved)
 		if err != nil {
@@ -15067,7 +15067,7 @@ func (profile *ServiceMeshProfile) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Istio = &istio
 	}
 
-	// Set property ‘Mode’:
+	// Set property "Mode":
 	if profile.Mode != nil {
 		mode := *profile.Mode
 		result.Mode = &mode
@@ -15087,7 +15087,7 @@ func (profile *ServiceMeshProfile) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServiceMeshProfile_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Istio’:
+	// Set property "Istio":
 	if typedInput.Istio != nil {
 		var istio1 IstioServiceMesh
 		err := istio1.PopulateFromARM(owner, *typedInput.Istio)
@@ -15098,7 +15098,7 @@ func (profile *ServiceMeshProfile) PopulateFromARM(owner genruntime.ArbitraryOwn
 		profile.Istio = &istio
 	}
 
-	// Set property ‘Mode’:
+	// Set property "Mode":
 	if typedInput.Mode != nil {
 		mode := *typedInput.Mode
 		profile.Mode = &mode
@@ -15194,7 +15194,7 @@ func (profile *ServiceMeshProfile_STATUS) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServiceMeshProfile_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Istio’:
+	// Set property "Istio":
 	if typedInput.Istio != nil {
 		var istio1 IstioServiceMesh_STATUS
 		err := istio1.PopulateFromARM(owner, *typedInput.Istio)
@@ -15205,7 +15205,7 @@ func (profile *ServiceMeshProfile_STATUS) PopulateFromARM(owner genruntime.Arbit
 		profile.Istio = &istio
 	}
 
-	// Set property ‘Mode’:
+	// Set property "Mode":
 	if typedInput.Mode != nil {
 		mode := *typedInput.Mode
 		profile.Mode = &mode
@@ -15313,37 +15313,37 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CreatedAt’:
+	// Set property "CreatedAt":
 	if typedInput.CreatedAt != nil {
 		createdAt := *typedInput.CreatedAt
 		data.CreatedAt = &createdAt
 	}
 
-	// Set property ‘CreatedBy’:
+	// Set property "CreatedBy":
 	if typedInput.CreatedBy != nil {
 		createdBy := *typedInput.CreatedBy
 		data.CreatedBy = &createdBy
 	}
 
-	// Set property ‘CreatedByType’:
+	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
 		createdByType := *typedInput.CreatedByType
 		data.CreatedByType = &createdByType
 	}
 
-	// Set property ‘LastModifiedAt’:
+	// Set property "LastModifiedAt":
 	if typedInput.LastModifiedAt != nil {
 		lastModifiedAt := *typedInput.LastModifiedAt
 		data.LastModifiedAt = &lastModifiedAt
 	}
 
-	// Set property ‘LastModifiedBy’:
+	// Set property "LastModifiedBy":
 	if typedInput.LastModifiedBy != nil {
 		lastModifiedBy := *typedInput.LastModifiedBy
 		data.LastModifiedBy = &lastModifiedBy
 	}
 
-	// Set property ‘LastModifiedByType’:
+	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
 		lastModifiedByType := *typedInput.LastModifiedByType
 		data.LastModifiedByType = &lastModifiedByType
@@ -15453,19 +15453,19 @@ func (identity *UserAssignedIdentity) ConvertToARM(resolved genruntime.ConvertTo
 	}
 	result := &UserAssignedIdentity_ARM{}
 
-	// Set property ‘ClientId’:
+	// Set property "ClientId":
 	if identity.ClientId != nil {
 		clientId := *identity.ClientId
 		result.ClientId = &clientId
 	}
 
-	// Set property ‘ObjectId’:
+	// Set property "ObjectId":
 	if identity.ObjectId != nil {
 		objectId := *identity.ObjectId
 		result.ObjectId = &objectId
 	}
 
-	// Set property ‘ResourceId’:
+	// Set property "ResourceId":
 	if identity.ResourceReference != nil {
 		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*identity.ResourceReference)
 		if err != nil {
@@ -15489,19 +15489,19 @@ func (identity *UserAssignedIdentity) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentity_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ClientId’:
+	// Set property "ClientId":
 	if typedInput.ClientId != nil {
 		clientId := *typedInput.ClientId
 		identity.ClientId = &clientId
 	}
 
-	// Set property ‘ObjectId’:
+	// Set property "ObjectId":
 	if typedInput.ObjectId != nil {
 		objectId := *typedInput.ObjectId
 		identity.ObjectId = &objectId
 	}
 
-	// no assignment for property ‘ResourceReference’
+	// no assignment for property "ResourceReference"
 
 	// No error
 	return nil
@@ -15584,19 +15584,19 @@ func (identity *UserAssignedIdentity_STATUS) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentity_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ClientId’:
+	// Set property "ClientId":
 	if typedInput.ClientId != nil {
 		clientId := *typedInput.ClientId
 		identity.ClientId = &clientId
 	}
 
-	// Set property ‘ObjectId’:
+	// Set property "ObjectId":
 	if typedInput.ObjectId != nil {
 		objectId := *typedInput.ObjectId
 		identity.ObjectId = &objectId
 	}
 
-	// Set property ‘ResourceId’:
+	// Set property "ResourceId":
 	if typedInput.ResourceId != nil {
 		resourceId := *typedInput.ResourceId
 		identity.ResourceId = &resourceId
@@ -15677,25 +15677,25 @@ func (vaultKms *AzureKeyVaultKms) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &AzureKeyVaultKms_ARM{}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if vaultKms.Enabled != nil {
 		enabled := *vaultKms.Enabled
 		result.Enabled = &enabled
 	}
 
-	// Set property ‘KeyId’:
+	// Set property "KeyId":
 	if vaultKms.KeyId != nil {
 		keyId := *vaultKms.KeyId
 		result.KeyId = &keyId
 	}
 
-	// Set property ‘KeyVaultNetworkAccess’:
+	// Set property "KeyVaultNetworkAccess":
 	if vaultKms.KeyVaultNetworkAccess != nil {
 		keyVaultNetworkAccess := *vaultKms.KeyVaultNetworkAccess
 		result.KeyVaultNetworkAccess = &keyVaultNetworkAccess
 	}
 
-	// Set property ‘KeyVaultResourceId’:
+	// Set property "KeyVaultResourceId":
 	if vaultKms.KeyVaultResourceReference != nil {
 		keyVaultResourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*vaultKms.KeyVaultResourceReference)
 		if err != nil {
@@ -15719,25 +15719,25 @@ func (vaultKms *AzureKeyVaultKms) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureKeyVaultKms_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		vaultKms.Enabled = &enabled
 	}
 
-	// Set property ‘KeyId’:
+	// Set property "KeyId":
 	if typedInput.KeyId != nil {
 		keyId := *typedInput.KeyId
 		vaultKms.KeyId = &keyId
 	}
 
-	// Set property ‘KeyVaultNetworkAccess’:
+	// Set property "KeyVaultNetworkAccess":
 	if typedInput.KeyVaultNetworkAccess != nil {
 		keyVaultNetworkAccess := *typedInput.KeyVaultNetworkAccess
 		vaultKms.KeyVaultNetworkAccess = &keyVaultNetworkAccess
 	}
 
-	// no assignment for property ‘KeyVaultResourceReference’
+	// no assignment for property "KeyVaultResourceReference"
 
 	// No error
 	return nil
@@ -15855,25 +15855,25 @@ func (vaultKms *AzureKeyVaultKms_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureKeyVaultKms_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		vaultKms.Enabled = &enabled
 	}
 
-	// Set property ‘KeyId’:
+	// Set property "KeyId":
 	if typedInput.KeyId != nil {
 		keyId := *typedInput.KeyId
 		vaultKms.KeyId = &keyId
 	}
 
-	// Set property ‘KeyVaultNetworkAccess’:
+	// Set property "KeyVaultNetworkAccess":
 	if typedInput.KeyVaultNetworkAccess != nil {
 		keyVaultNetworkAccess := *typedInput.KeyVaultNetworkAccess
 		vaultKms.KeyVaultNetworkAccess = &keyVaultNetworkAccess
 	}
 
-	// Set property ‘KeyVaultResourceId’:
+	// Set property "KeyVaultResourceId":
 	if typedInput.KeyVaultResourceId != nil {
 		keyVaultResourceId := *typedInput.KeyVaultResourceId
 		vaultKms.KeyVaultResourceId = &keyVaultResourceId
@@ -15986,13 +15986,13 @@ func (config *ContainerServiceNetworkProfile_KubeProxyConfig) ConvertToARM(resol
 	}
 	result := &ContainerServiceNetworkProfile_KubeProxyConfig_ARM{}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if config.Enabled != nil {
 		enabled := *config.Enabled
 		result.Enabled = &enabled
 	}
 
-	// Set property ‘IpvsConfig’:
+	// Set property "IpvsConfig":
 	if config.IpvsConfig != nil {
 		ipvsConfig_ARM, err := (*config.IpvsConfig).ConvertToARM(resolved)
 		if err != nil {
@@ -16002,7 +16002,7 @@ func (config *ContainerServiceNetworkProfile_KubeProxyConfig) ConvertToARM(resol
 		result.IpvsConfig = &ipvsConfig
 	}
 
-	// Set property ‘Mode’:
+	// Set property "Mode":
 	if config.Mode != nil {
 		mode := *config.Mode
 		result.Mode = &mode
@@ -16022,13 +16022,13 @@ func (config *ContainerServiceNetworkProfile_KubeProxyConfig) PopulateFromARM(ow
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerServiceNetworkProfile_KubeProxyConfig_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		config.Enabled = &enabled
 	}
 
-	// Set property ‘IpvsConfig’:
+	// Set property "IpvsConfig":
 	if typedInput.IpvsConfig != nil {
 		var ipvsConfig1 ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig
 		err := ipvsConfig1.PopulateFromARM(owner, *typedInput.IpvsConfig)
@@ -16039,7 +16039,7 @@ func (config *ContainerServiceNetworkProfile_KubeProxyConfig) PopulateFromARM(ow
 		config.IpvsConfig = &ipvsConfig
 	}
 
-	// Set property ‘Mode’:
+	// Set property "Mode":
 	if typedInput.Mode != nil {
 		mode := *typedInput.Mode
 		config.Mode = &mode
@@ -16154,13 +16154,13 @@ func (config *ContainerServiceNetworkProfile_KubeProxyConfig_STATUS) PopulateFro
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerServiceNetworkProfile_KubeProxyConfig_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		config.Enabled = &enabled
 	}
 
-	// Set property ‘IpvsConfig’:
+	// Set property "IpvsConfig":
 	if typedInput.IpvsConfig != nil {
 		var ipvsConfig1 ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS
 		err := ipvsConfig1.PopulateFromARM(owner, *typedInput.IpvsConfig)
@@ -16171,7 +16171,7 @@ func (config *ContainerServiceNetworkProfile_KubeProxyConfig_STATUS) PopulateFro
 		config.IpvsConfig = &ipvsConfig
 	}
 
-	// Set property ‘Mode’:
+	// Set property "Mode":
 	if typedInput.Mode != nil {
 		mode := *typedInput.Mode
 		config.Mode = &mode
@@ -16295,7 +16295,7 @@ func (configuration *ContainerServiceSshConfiguration) ConvertToARM(resolved gen
 	}
 	result := &ContainerServiceSshConfiguration_ARM{}
 
-	// Set property ‘PublicKeys’:
+	// Set property "PublicKeys":
 	for _, item := range configuration.PublicKeys {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -16318,7 +16318,7 @@ func (configuration *ContainerServiceSshConfiguration) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerServiceSshConfiguration_ARM, got %T", armInput)
 	}
 
-	// Set property ‘PublicKeys’:
+	// Set property "PublicKeys":
 	for _, item := range typedInput.PublicKeys {
 		var item1 ContainerServiceSshPublicKey
 		err := item1.PopulateFromARM(owner, item)
@@ -16411,7 +16411,7 @@ func (configuration *ContainerServiceSshConfiguration_STATUS) PopulateFromARM(ow
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerServiceSshConfiguration_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘PublicKeys’:
+	// Set property "PublicKeys":
 	for _, item := range typedInput.PublicKeys {
 		var item1 ContainerServiceSshPublicKey_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -16516,7 +16516,7 @@ func (mesh *IstioServiceMesh) ConvertToARM(resolved genruntime.ConvertToARMResol
 	}
 	result := &IstioServiceMesh_ARM{}
 
-	// Set property ‘Components’:
+	// Set property "Components":
 	if mesh.Components != nil {
 		components_ARM, err := (*mesh.Components).ConvertToARM(resolved)
 		if err != nil {
@@ -16540,7 +16540,7 @@ func (mesh *IstioServiceMesh) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IstioServiceMesh_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Components’:
+	// Set property "Components":
 	if typedInput.Components != nil {
 		var components1 IstioComponents
 		err := components1.PopulateFromARM(owner, *typedInput.Components)
@@ -16622,7 +16622,7 @@ func (mesh *IstioServiceMesh_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IstioServiceMesh_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Components’:
+	// Set property "Components":
 	if typedInput.Components != nil {
 		var components1 IstioComponents_STATUS
 		err := components1.PopulateFromARM(owner, *typedInput.Components)
@@ -16762,13 +16762,13 @@ func (metrics *ManagedClusterAzureMonitorProfileMetrics) ConvertToARM(resolved g
 	}
 	result := &ManagedClusterAzureMonitorProfileMetrics_ARM{}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if metrics.Enabled != nil {
 		enabled := *metrics.Enabled
 		result.Enabled = &enabled
 	}
 
-	// Set property ‘KubeStateMetrics’:
+	// Set property "KubeStateMetrics":
 	if metrics.KubeStateMetrics != nil {
 		kubeStateMetrics_ARM, err := (*metrics.KubeStateMetrics).ConvertToARM(resolved)
 		if err != nil {
@@ -16792,13 +16792,13 @@ func (metrics *ManagedClusterAzureMonitorProfileMetrics) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterAzureMonitorProfileMetrics_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		metrics.Enabled = &enabled
 	}
 
-	// Set property ‘KubeStateMetrics’:
+	// Set property "KubeStateMetrics":
 	if typedInput.KubeStateMetrics != nil {
 		var kubeStateMetrics1 ManagedClusterAzureMonitorProfileKubeStateMetrics
 		err := kubeStateMetrics1.PopulateFromARM(owner, *typedInput.KubeStateMetrics)
@@ -16899,13 +16899,13 @@ func (metrics *ManagedClusterAzureMonitorProfileMetrics_STATUS) PopulateFromARM(
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterAzureMonitorProfileMetrics_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		metrics.Enabled = &enabled
 	}
 
-	// Set property ‘KubeStateMetrics’:
+	// Set property "KubeStateMetrics":
 	if typedInput.KubeStateMetrics != nil {
 		var kubeStateMetrics1 ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS
 		err := kubeStateMetrics1.PopulateFromARM(owner, *typedInput.KubeStateMetrics)
@@ -17005,13 +17005,13 @@ func (identities *ManagedClusterIdentity_UserAssignedIdentities_STATUS) Populate
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ClientId’:
+	// Set property "ClientId":
 	if typedInput.ClientId != nil {
 		clientId := *typedInput.ClientId
 		identities.ClientId = &clientId
 	}
 
-	// Set property ‘PrincipalId’:
+	// Set property "PrincipalId":
 	if typedInput.PrincipalId != nil {
 		principalId := *typedInput.PrincipalId
 		identities.PrincipalId = &principalId
@@ -17075,7 +17075,7 @@ func (routing *ManagedClusterIngressProfileWebAppRouting) ConvertToARM(resolved 
 	}
 	result := &ManagedClusterIngressProfileWebAppRouting_ARM{}
 
-	// Set property ‘DnsZoneResourceId’:
+	// Set property "DnsZoneResourceId":
 	if routing.DnsZoneResourceReference != nil {
 		dnsZoneResourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*routing.DnsZoneResourceReference)
 		if err != nil {
@@ -17085,7 +17085,7 @@ func (routing *ManagedClusterIngressProfileWebAppRouting) ConvertToARM(resolved 
 		result.DnsZoneResourceId = &dnsZoneResourceReference
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if routing.Enabled != nil {
 		enabled := *routing.Enabled
 		result.Enabled = &enabled
@@ -17105,9 +17105,9 @@ func (routing *ManagedClusterIngressProfileWebAppRouting) PopulateFromARM(owner 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterIngressProfileWebAppRouting_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘DnsZoneResourceReference’
+	// no assignment for property "DnsZoneResourceReference"
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		routing.Enabled = &enabled
@@ -17202,19 +17202,19 @@ func (routing *ManagedClusterIngressProfileWebAppRouting_STATUS) PopulateFromARM
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterIngressProfileWebAppRouting_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DnsZoneResourceId’:
+	// Set property "DnsZoneResourceId":
 	if typedInput.DnsZoneResourceId != nil {
 		dnsZoneResourceId := *typedInput.DnsZoneResourceId
 		routing.DnsZoneResourceId = &dnsZoneResourceId
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		routing.Enabled = &enabled
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 UserAssignedIdentity_STATUS
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -17340,19 +17340,19 @@ func (profile *ManagedClusterLoadBalancerProfile) ConvertToARM(resolved genrunti
 	}
 	result := &ManagedClusterLoadBalancerProfile_ARM{}
 
-	// Set property ‘AllocatedOutboundPorts’:
+	// Set property "AllocatedOutboundPorts":
 	if profile.AllocatedOutboundPorts != nil {
 		allocatedOutboundPorts := *profile.AllocatedOutboundPorts
 		result.AllocatedOutboundPorts = &allocatedOutboundPorts
 	}
 
-	// Set property ‘BackendPoolType’:
+	// Set property "BackendPoolType":
 	if profile.BackendPoolType != nil {
 		backendPoolType := *profile.BackendPoolType
 		result.BackendPoolType = &backendPoolType
 	}
 
-	// Set property ‘EffectiveOutboundIPs’:
+	// Set property "EffectiveOutboundIPs":
 	for _, item := range profile.EffectiveOutboundIPs {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -17361,19 +17361,19 @@ func (profile *ManagedClusterLoadBalancerProfile) ConvertToARM(resolved genrunti
 		result.EffectiveOutboundIPs = append(result.EffectiveOutboundIPs, *item_ARM.(*ResourceReference_ARM))
 	}
 
-	// Set property ‘EnableMultipleStandardLoadBalancers’:
+	// Set property "EnableMultipleStandardLoadBalancers":
 	if profile.EnableMultipleStandardLoadBalancers != nil {
 		enableMultipleStandardLoadBalancers := *profile.EnableMultipleStandardLoadBalancers
 		result.EnableMultipleStandardLoadBalancers = &enableMultipleStandardLoadBalancers
 	}
 
-	// Set property ‘IdleTimeoutInMinutes’:
+	// Set property "IdleTimeoutInMinutes":
 	if profile.IdleTimeoutInMinutes != nil {
 		idleTimeoutInMinutes := *profile.IdleTimeoutInMinutes
 		result.IdleTimeoutInMinutes = &idleTimeoutInMinutes
 	}
 
-	// Set property ‘ManagedOutboundIPs’:
+	// Set property "ManagedOutboundIPs":
 	if profile.ManagedOutboundIPs != nil {
 		managedOutboundIPs_ARM, err := (*profile.ManagedOutboundIPs).ConvertToARM(resolved)
 		if err != nil {
@@ -17383,7 +17383,7 @@ func (profile *ManagedClusterLoadBalancerProfile) ConvertToARM(resolved genrunti
 		result.ManagedOutboundIPs = &managedOutboundIPs
 	}
 
-	// Set property ‘OutboundIPPrefixes’:
+	// Set property "OutboundIPPrefixes":
 	if profile.OutboundIPPrefixes != nil {
 		outboundIPPrefixes_ARM, err := (*profile.OutboundIPPrefixes).ConvertToARM(resolved)
 		if err != nil {
@@ -17393,7 +17393,7 @@ func (profile *ManagedClusterLoadBalancerProfile) ConvertToARM(resolved genrunti
 		result.OutboundIPPrefixes = &outboundIPPrefixes
 	}
 
-	// Set property ‘OutboundIPs’:
+	// Set property "OutboundIPs":
 	if profile.OutboundIPs != nil {
 		outboundIPs_ARM, err := (*profile.OutboundIPs).ConvertToARM(resolved)
 		if err != nil {
@@ -17417,19 +17417,19 @@ func (profile *ManagedClusterLoadBalancerProfile) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterLoadBalancerProfile_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AllocatedOutboundPorts’:
+	// Set property "AllocatedOutboundPorts":
 	if typedInput.AllocatedOutboundPorts != nil {
 		allocatedOutboundPorts := *typedInput.AllocatedOutboundPorts
 		profile.AllocatedOutboundPorts = &allocatedOutboundPorts
 	}
 
-	// Set property ‘BackendPoolType’:
+	// Set property "BackendPoolType":
 	if typedInput.BackendPoolType != nil {
 		backendPoolType := *typedInput.BackendPoolType
 		profile.BackendPoolType = &backendPoolType
 	}
 
-	// Set property ‘EffectiveOutboundIPs’:
+	// Set property "EffectiveOutboundIPs":
 	for _, item := range typedInput.EffectiveOutboundIPs {
 		var item1 ResourceReference
 		err := item1.PopulateFromARM(owner, item)
@@ -17439,19 +17439,19 @@ func (profile *ManagedClusterLoadBalancerProfile) PopulateFromARM(owner genrunti
 		profile.EffectiveOutboundIPs = append(profile.EffectiveOutboundIPs, item1)
 	}
 
-	// Set property ‘EnableMultipleStandardLoadBalancers’:
+	// Set property "EnableMultipleStandardLoadBalancers":
 	if typedInput.EnableMultipleStandardLoadBalancers != nil {
 		enableMultipleStandardLoadBalancers := *typedInput.EnableMultipleStandardLoadBalancers
 		profile.EnableMultipleStandardLoadBalancers = &enableMultipleStandardLoadBalancers
 	}
 
-	// Set property ‘IdleTimeoutInMinutes’:
+	// Set property "IdleTimeoutInMinutes":
 	if typedInput.IdleTimeoutInMinutes != nil {
 		idleTimeoutInMinutes := *typedInput.IdleTimeoutInMinutes
 		profile.IdleTimeoutInMinutes = &idleTimeoutInMinutes
 	}
 
-	// Set property ‘ManagedOutboundIPs’:
+	// Set property "ManagedOutboundIPs":
 	if typedInput.ManagedOutboundIPs != nil {
 		var managedOutboundIPs1 ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
 		err := managedOutboundIPs1.PopulateFromARM(owner, *typedInput.ManagedOutboundIPs)
@@ -17462,7 +17462,7 @@ func (profile *ManagedClusterLoadBalancerProfile) PopulateFromARM(owner genrunti
 		profile.ManagedOutboundIPs = &managedOutboundIPs
 	}
 
-	// Set property ‘OutboundIPPrefixes’:
+	// Set property "OutboundIPPrefixes":
 	if typedInput.OutboundIPPrefixes != nil {
 		var outboundIPPrefixes1 ManagedClusterLoadBalancerProfile_OutboundIPPrefixes
 		err := outboundIPPrefixes1.PopulateFromARM(owner, *typedInput.OutboundIPPrefixes)
@@ -17473,7 +17473,7 @@ func (profile *ManagedClusterLoadBalancerProfile) PopulateFromARM(owner genrunti
 		profile.OutboundIPPrefixes = &outboundIPPrefixes
 	}
 
-	// Set property ‘OutboundIPs’:
+	// Set property "OutboundIPs":
 	if typedInput.OutboundIPs != nil {
 		var outboundIPs1 ManagedClusterLoadBalancerProfile_OutboundIPs
 		err := outboundIPs1.PopulateFromARM(owner, *typedInput.OutboundIPs)
@@ -17726,19 +17726,19 @@ func (profile *ManagedClusterLoadBalancerProfile_STATUS) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterLoadBalancerProfile_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AllocatedOutboundPorts’:
+	// Set property "AllocatedOutboundPorts":
 	if typedInput.AllocatedOutboundPorts != nil {
 		allocatedOutboundPorts := *typedInput.AllocatedOutboundPorts
 		profile.AllocatedOutboundPorts = &allocatedOutboundPorts
 	}
 
-	// Set property ‘BackendPoolType’:
+	// Set property "BackendPoolType":
 	if typedInput.BackendPoolType != nil {
 		backendPoolType := *typedInput.BackendPoolType
 		profile.BackendPoolType = &backendPoolType
 	}
 
-	// Set property ‘EffectiveOutboundIPs’:
+	// Set property "EffectiveOutboundIPs":
 	for _, item := range typedInput.EffectiveOutboundIPs {
 		var item1 ResourceReference_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -17748,19 +17748,19 @@ func (profile *ManagedClusterLoadBalancerProfile_STATUS) PopulateFromARM(owner g
 		profile.EffectiveOutboundIPs = append(profile.EffectiveOutboundIPs, item1)
 	}
 
-	// Set property ‘EnableMultipleStandardLoadBalancers’:
+	// Set property "EnableMultipleStandardLoadBalancers":
 	if typedInput.EnableMultipleStandardLoadBalancers != nil {
 		enableMultipleStandardLoadBalancers := *typedInput.EnableMultipleStandardLoadBalancers
 		profile.EnableMultipleStandardLoadBalancers = &enableMultipleStandardLoadBalancers
 	}
 
-	// Set property ‘IdleTimeoutInMinutes’:
+	// Set property "IdleTimeoutInMinutes":
 	if typedInput.IdleTimeoutInMinutes != nil {
 		idleTimeoutInMinutes := *typedInput.IdleTimeoutInMinutes
 		profile.IdleTimeoutInMinutes = &idleTimeoutInMinutes
 	}
 
-	// Set property ‘ManagedOutboundIPs’:
+	// Set property "ManagedOutboundIPs":
 	if typedInput.ManagedOutboundIPs != nil {
 		var managedOutboundIPs1 ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS
 		err := managedOutboundIPs1.PopulateFromARM(owner, *typedInput.ManagedOutboundIPs)
@@ -17771,7 +17771,7 @@ func (profile *ManagedClusterLoadBalancerProfile_STATUS) PopulateFromARM(owner g
 		profile.ManagedOutboundIPs = &managedOutboundIPs
 	}
 
-	// Set property ‘OutboundIPPrefixes’:
+	// Set property "OutboundIPPrefixes":
 	if typedInput.OutboundIPPrefixes != nil {
 		var outboundIPPrefixes1 ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS
 		err := outboundIPPrefixes1.PopulateFromARM(owner, *typedInput.OutboundIPPrefixes)
@@ -17782,7 +17782,7 @@ func (profile *ManagedClusterLoadBalancerProfile_STATUS) PopulateFromARM(owner g
 		profile.OutboundIPPrefixes = &outboundIPPrefixes
 	}
 
-	// Set property ‘OutboundIPs’:
+	// Set property "OutboundIPs":
 	if typedInput.OutboundIPs != nil {
 		var outboundIPs1 ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
 		err := outboundIPs1.PopulateFromARM(owner, *typedInput.OutboundIPs)
@@ -17996,7 +17996,7 @@ func (profile *ManagedClusterNATGatewayProfile) ConvertToARM(resolved genruntime
 	}
 	result := &ManagedClusterNATGatewayProfile_ARM{}
 
-	// Set property ‘EffectiveOutboundIPs’:
+	// Set property "EffectiveOutboundIPs":
 	for _, item := range profile.EffectiveOutboundIPs {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -18005,13 +18005,13 @@ func (profile *ManagedClusterNATGatewayProfile) ConvertToARM(resolved genruntime
 		result.EffectiveOutboundIPs = append(result.EffectiveOutboundIPs, *item_ARM.(*ResourceReference_ARM))
 	}
 
-	// Set property ‘IdleTimeoutInMinutes’:
+	// Set property "IdleTimeoutInMinutes":
 	if profile.IdleTimeoutInMinutes != nil {
 		idleTimeoutInMinutes := *profile.IdleTimeoutInMinutes
 		result.IdleTimeoutInMinutes = &idleTimeoutInMinutes
 	}
 
-	// Set property ‘ManagedOutboundIPProfile’:
+	// Set property "ManagedOutboundIPProfile":
 	if profile.ManagedOutboundIPProfile != nil {
 		managedOutboundIPProfile_ARM, err := (*profile.ManagedOutboundIPProfile).ConvertToARM(resolved)
 		if err != nil {
@@ -18035,7 +18035,7 @@ func (profile *ManagedClusterNATGatewayProfile) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterNATGatewayProfile_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EffectiveOutboundIPs’:
+	// Set property "EffectiveOutboundIPs":
 	for _, item := range typedInput.EffectiveOutboundIPs {
 		var item1 ResourceReference
 		err := item1.PopulateFromARM(owner, item)
@@ -18045,13 +18045,13 @@ func (profile *ManagedClusterNATGatewayProfile) PopulateFromARM(owner genruntime
 		profile.EffectiveOutboundIPs = append(profile.EffectiveOutboundIPs, item1)
 	}
 
-	// Set property ‘IdleTimeoutInMinutes’:
+	// Set property "IdleTimeoutInMinutes":
 	if typedInput.IdleTimeoutInMinutes != nil {
 		idleTimeoutInMinutes := *typedInput.IdleTimeoutInMinutes
 		profile.IdleTimeoutInMinutes = &idleTimeoutInMinutes
 	}
 
-	// Set property ‘ManagedOutboundIPProfile’:
+	// Set property "ManagedOutboundIPProfile":
 	if typedInput.ManagedOutboundIPProfile != nil {
 		var managedOutboundIPProfile1 ManagedClusterManagedOutboundIPProfile
 		err := managedOutboundIPProfile1.PopulateFromARM(owner, *typedInput.ManagedOutboundIPProfile)
@@ -18192,7 +18192,7 @@ func (profile *ManagedClusterNATGatewayProfile_STATUS) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterNATGatewayProfile_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EffectiveOutboundIPs’:
+	// Set property "EffectiveOutboundIPs":
 	for _, item := range typedInput.EffectiveOutboundIPs {
 		var item1 ResourceReference_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -18202,13 +18202,13 @@ func (profile *ManagedClusterNATGatewayProfile_STATUS) PopulateFromARM(owner gen
 		profile.EffectiveOutboundIPs = append(profile.EffectiveOutboundIPs, item1)
 	}
 
-	// Set property ‘IdleTimeoutInMinutes’:
+	// Set property "IdleTimeoutInMinutes":
 	if typedInput.IdleTimeoutInMinutes != nil {
 		idleTimeoutInMinutes := *typedInput.IdleTimeoutInMinutes
 		profile.IdleTimeoutInMinutes = &idleTimeoutInMinutes
 	}
 
-	// Set property ‘ManagedOutboundIPProfile’:
+	// Set property "ManagedOutboundIPProfile":
 	if typedInput.ManagedOutboundIPProfile != nil {
 		var managedOutboundIPProfile1 ManagedClusterManagedOutboundIPProfile_STATUS
 		err := managedOutboundIPProfile1.PopulateFromARM(owner, *typedInput.ManagedOutboundIPProfile)
@@ -18464,13 +18464,13 @@ func (identity *ManagedClusterPodIdentity) ConvertToARM(resolved genruntime.Conv
 	}
 	result := &ManagedClusterPodIdentity_ARM{}
 
-	// Set property ‘BindingSelector’:
+	// Set property "BindingSelector":
 	if identity.BindingSelector != nil {
 		bindingSelector := *identity.BindingSelector
 		result.BindingSelector = &bindingSelector
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if identity.Identity != nil {
 		identity_ARM, err := (*identity.Identity).ConvertToARM(resolved)
 		if err != nil {
@@ -18480,13 +18480,13 @@ func (identity *ManagedClusterPodIdentity) ConvertToARM(resolved genruntime.Conv
 		result.Identity = &identity1
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if identity.Name != nil {
 		name := *identity.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Namespace’:
+	// Set property "Namespace":
 	if identity.Namespace != nil {
 		namespace := *identity.Namespace
 		result.Namespace = &namespace
@@ -18506,13 +18506,13 @@ func (identity *ManagedClusterPodIdentity) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterPodIdentity_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BindingSelector’:
+	// Set property "BindingSelector":
 	if typedInput.BindingSelector != nil {
 		bindingSelector := *typedInput.BindingSelector
 		identity.BindingSelector = &bindingSelector
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity2 UserAssignedIdentity
 		err := identity2.PopulateFromARM(owner, *typedInput.Identity)
@@ -18523,13 +18523,13 @@ func (identity *ManagedClusterPodIdentity) PopulateFromARM(owner genruntime.Arbi
 		identity.Identity = &identity1
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		identity.Name = &name
 	}
 
-	// Set property ‘Namespace’:
+	// Set property "Namespace":
 	if typedInput.Namespace != nil {
 		namespace := *typedInput.Namespace
 		identity.Namespace = &namespace
@@ -18637,13 +18637,13 @@ func (identity *ManagedClusterPodIdentity_STATUS) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterPodIdentity_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BindingSelector’:
+	// Set property "BindingSelector":
 	if typedInput.BindingSelector != nil {
 		bindingSelector := *typedInput.BindingSelector
 		identity.BindingSelector = &bindingSelector
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity2 UserAssignedIdentity_STATUS
 		err := identity2.PopulateFromARM(owner, *typedInput.Identity)
@@ -18654,19 +18654,19 @@ func (identity *ManagedClusterPodIdentity_STATUS) PopulateFromARM(owner genrunti
 		identity.Identity = &identity1
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		identity.Name = &name
 	}
 
-	// Set property ‘Namespace’:
+	// Set property "Namespace":
 	if typedInput.Namespace != nil {
 		namespace := *typedInput.Namespace
 		identity.Namespace = &namespace
 	}
 
-	// Set property ‘ProvisioningInfo’:
+	// Set property "ProvisioningInfo":
 	if typedInput.ProvisioningInfo != nil {
 		var provisioningInfo1 ManagedClusterPodIdentity_ProvisioningInfo_STATUS
 		err := provisioningInfo1.PopulateFromARM(owner, *typedInput.ProvisioningInfo)
@@ -18677,7 +18677,7 @@ func (identity *ManagedClusterPodIdentity_STATUS) PopulateFromARM(owner genrunti
 		identity.ProvisioningInfo = &provisioningInfo
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	if typedInput.ProvisioningState != nil {
 		provisioningState := *typedInput.ProvisioningState
 		identity.ProvisioningState = &provisioningState
@@ -18817,19 +18817,19 @@ func (exception *ManagedClusterPodIdentityException) ConvertToARM(resolved genru
 	}
 	result := &ManagedClusterPodIdentityException_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if exception.Name != nil {
 		name := *exception.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Namespace’:
+	// Set property "Namespace":
 	if exception.Namespace != nil {
 		namespace := *exception.Namespace
 		result.Namespace = &namespace
 	}
 
-	// Set property ‘PodLabels’:
+	// Set property "PodLabels":
 	if exception.PodLabels != nil {
 		result.PodLabels = make(map[string]string, len(exception.PodLabels))
 		for key, value := range exception.PodLabels {
@@ -18851,19 +18851,19 @@ func (exception *ManagedClusterPodIdentityException) PopulateFromARM(owner genru
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterPodIdentityException_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		exception.Name = &name
 	}
 
-	// Set property ‘Namespace’:
+	// Set property "Namespace":
 	if typedInput.Namespace != nil {
 		namespace := *typedInput.Namespace
 		exception.Namespace = &namespace
 	}
 
-	// Set property ‘PodLabels’:
+	// Set property "PodLabels":
 	if typedInput.PodLabels != nil {
 		exception.PodLabels = make(map[string]string, len(typedInput.PodLabels))
 		for key, value := range typedInput.PodLabels {
@@ -18943,19 +18943,19 @@ func (exception *ManagedClusterPodIdentityException_STATUS) PopulateFromARM(owne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterPodIdentityException_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		exception.Name = &name
 	}
 
-	// Set property ‘Namespace’:
+	// Set property "Namespace":
 	if typedInput.Namespace != nil {
 		namespace := *typedInput.Namespace
 		exception.Namespace = &namespace
 	}
 
-	// Set property ‘PodLabels’:
+	// Set property "PodLabels":
 	if typedInput.PodLabels != nil {
 		exception.PodLabels = make(map[string]string, len(typedInput.PodLabels))
 		for key, value := range typedInput.PodLabels {
@@ -19051,7 +19051,7 @@ func (defender *ManagedClusterSecurityProfileDefender) ConvertToARM(resolved gen
 	}
 	result := &ManagedClusterSecurityProfileDefender_ARM{}
 
-	// Set property ‘LogAnalyticsWorkspaceResourceId’:
+	// Set property "LogAnalyticsWorkspaceResourceId":
 	if defender.LogAnalyticsWorkspaceResourceReference != nil {
 		logAnalyticsWorkspaceResourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*defender.LogAnalyticsWorkspaceResourceReference)
 		if err != nil {
@@ -19061,7 +19061,7 @@ func (defender *ManagedClusterSecurityProfileDefender) ConvertToARM(resolved gen
 		result.LogAnalyticsWorkspaceResourceId = &logAnalyticsWorkspaceResourceReference
 	}
 
-	// Set property ‘SecurityMonitoring’:
+	// Set property "SecurityMonitoring":
 	if defender.SecurityMonitoring != nil {
 		securityMonitoring_ARM, err := (*defender.SecurityMonitoring).ConvertToARM(resolved)
 		if err != nil {
@@ -19085,9 +19085,9 @@ func (defender *ManagedClusterSecurityProfileDefender) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterSecurityProfileDefender_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘LogAnalyticsWorkspaceResourceReference’
+	// no assignment for property "LogAnalyticsWorkspaceResourceReference"
 
-	// Set property ‘SecurityMonitoring’:
+	// Set property "SecurityMonitoring":
 	if typedInput.SecurityMonitoring != nil {
 		var securityMonitoring1 ManagedClusterSecurityProfileDefenderSecurityMonitoring
 		err := securityMonitoring1.PopulateFromARM(owner, *typedInput.SecurityMonitoring)
@@ -19190,13 +19190,13 @@ func (defender *ManagedClusterSecurityProfileDefender_STATUS) PopulateFromARM(ow
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterSecurityProfileDefender_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘LogAnalyticsWorkspaceResourceId’:
+	// Set property "LogAnalyticsWorkspaceResourceId":
 	if typedInput.LogAnalyticsWorkspaceResourceId != nil {
 		logAnalyticsWorkspaceResourceId := *typedInput.LogAnalyticsWorkspaceResourceId
 		defender.LogAnalyticsWorkspaceResourceId = &logAnalyticsWorkspaceResourceId
 	}
 
-	// Set property ‘SecurityMonitoring’:
+	// Set property "SecurityMonitoring":
 	if typedInput.SecurityMonitoring != nil {
 		var securityMonitoring1 ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS
 		err := securityMonitoring1.PopulateFromARM(owner, *typedInput.SecurityMonitoring)
@@ -19283,13 +19283,13 @@ func (cleaner *ManagedClusterSecurityProfileImageCleaner) ConvertToARM(resolved 
 	}
 	result := &ManagedClusterSecurityProfileImageCleaner_ARM{}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if cleaner.Enabled != nil {
 		enabled := *cleaner.Enabled
 		result.Enabled = &enabled
 	}
 
-	// Set property ‘IntervalHours’:
+	// Set property "IntervalHours":
 	if cleaner.IntervalHours != nil {
 		intervalHours := *cleaner.IntervalHours
 		result.IntervalHours = &intervalHours
@@ -19309,13 +19309,13 @@ func (cleaner *ManagedClusterSecurityProfileImageCleaner) PopulateFromARM(owner 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterSecurityProfileImageCleaner_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		cleaner.Enabled = &enabled
 	}
 
-	// Set property ‘IntervalHours’:
+	// Set property "IntervalHours":
 	if typedInput.IntervalHours != nil {
 		intervalHours := *typedInput.IntervalHours
 		cleaner.IntervalHours = &intervalHours
@@ -19394,13 +19394,13 @@ func (cleaner *ManagedClusterSecurityProfileImageCleaner_STATUS) PopulateFromARM
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterSecurityProfileImageCleaner_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		cleaner.Enabled = &enabled
 	}
 
-	// Set property ‘IntervalHours’:
+	// Set property "IntervalHours":
 	if typedInput.IntervalHours != nil {
 		intervalHours := *typedInput.IntervalHours
 		cleaner.IntervalHours = &intervalHours
@@ -19470,7 +19470,7 @@ func (restriction *ManagedClusterSecurityProfileNodeRestriction) ConvertToARM(re
 	}
 	result := &ManagedClusterSecurityProfileNodeRestriction_ARM{}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if restriction.Enabled != nil {
 		enabled := *restriction.Enabled
 		result.Enabled = &enabled
@@ -19490,7 +19490,7 @@ func (restriction *ManagedClusterSecurityProfileNodeRestriction) PopulateFromARM
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterSecurityProfileNodeRestriction_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		restriction.Enabled = &enabled
@@ -19559,7 +19559,7 @@ func (restriction *ManagedClusterSecurityProfileNodeRestriction_STATUS) Populate
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterSecurityProfileNodeRestriction_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		restriction.Enabled = &enabled
@@ -19623,7 +19623,7 @@ func (identity *ManagedClusterSecurityProfileWorkloadIdentity) ConvertToARM(reso
 	}
 	result := &ManagedClusterSecurityProfileWorkloadIdentity_ARM{}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if identity.Enabled != nil {
 		enabled := *identity.Enabled
 		result.Enabled = &enabled
@@ -19643,7 +19643,7 @@ func (identity *ManagedClusterSecurityProfileWorkloadIdentity) PopulateFromARM(o
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterSecurityProfileWorkloadIdentity_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		identity.Enabled = &enabled
@@ -19712,7 +19712,7 @@ func (identity *ManagedClusterSecurityProfileWorkloadIdentity_STATUS) PopulateFr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterSecurityProfileWorkloadIdentity_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		identity.Enabled = &enabled
@@ -19776,7 +19776,7 @@ func (driver *ManagedClusterStorageProfileBlobCSIDriver) ConvertToARM(resolved g
 	}
 	result := &ManagedClusterStorageProfileBlobCSIDriver_ARM{}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if driver.Enabled != nil {
 		enabled := *driver.Enabled
 		result.Enabled = &enabled
@@ -19796,7 +19796,7 @@ func (driver *ManagedClusterStorageProfileBlobCSIDriver) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterStorageProfileBlobCSIDriver_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		driver.Enabled = &enabled
@@ -19865,7 +19865,7 @@ func (driver *ManagedClusterStorageProfileBlobCSIDriver_STATUS) PopulateFromARM(
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterStorageProfileBlobCSIDriver_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		driver.Enabled = &enabled
@@ -19932,13 +19932,13 @@ func (driver *ManagedClusterStorageProfileDiskCSIDriver) ConvertToARM(resolved g
 	}
 	result := &ManagedClusterStorageProfileDiskCSIDriver_ARM{}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if driver.Enabled != nil {
 		enabled := *driver.Enabled
 		result.Enabled = &enabled
 	}
 
-	// Set property ‘Version’:
+	// Set property "Version":
 	if driver.Version != nil {
 		version := *driver.Version
 		result.Version = &version
@@ -19958,13 +19958,13 @@ func (driver *ManagedClusterStorageProfileDiskCSIDriver) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterStorageProfileDiskCSIDriver_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		driver.Enabled = &enabled
 	}
 
-	// Set property ‘Version’:
+	// Set property "Version":
 	if typedInput.Version != nil {
 		version := *typedInput.Version
 		driver.Version = &version
@@ -20042,13 +20042,13 @@ func (driver *ManagedClusterStorageProfileDiskCSIDriver_STATUS) PopulateFromARM(
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterStorageProfileDiskCSIDriver_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		driver.Enabled = &enabled
 	}
 
-	// Set property ‘Version’:
+	// Set property "Version":
 	if typedInput.Version != nil {
 		version := *typedInput.Version
 		driver.Version = &version
@@ -20118,7 +20118,7 @@ func (driver *ManagedClusterStorageProfileFileCSIDriver) ConvertToARM(resolved g
 	}
 	result := &ManagedClusterStorageProfileFileCSIDriver_ARM{}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if driver.Enabled != nil {
 		enabled := *driver.Enabled
 		result.Enabled = &enabled
@@ -20138,7 +20138,7 @@ func (driver *ManagedClusterStorageProfileFileCSIDriver) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterStorageProfileFileCSIDriver_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		driver.Enabled = &enabled
@@ -20207,7 +20207,7 @@ func (driver *ManagedClusterStorageProfileFileCSIDriver_STATUS) PopulateFromARM(
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterStorageProfileFileCSIDriver_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		driver.Enabled = &enabled
@@ -20271,7 +20271,7 @@ func (controller *ManagedClusterStorageProfileSnapshotController) ConvertToARM(r
 	}
 	result := &ManagedClusterStorageProfileSnapshotController_ARM{}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if controller.Enabled != nil {
 		enabled := *controller.Enabled
 		result.Enabled = &enabled
@@ -20291,7 +20291,7 @@ func (controller *ManagedClusterStorageProfileSnapshotController) PopulateFromAR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterStorageProfileSnapshotController_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		controller.Enabled = &enabled
@@ -20360,7 +20360,7 @@ func (controller *ManagedClusterStorageProfileSnapshotController_STATUS) Populat
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterStorageProfileSnapshotController_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		controller.Enabled = &enabled
@@ -20440,7 +20440,7 @@ func (keda *ManagedClusterWorkloadAutoScalerProfileKeda) ConvertToARM(resolved g
 	}
 	result := &ManagedClusterWorkloadAutoScalerProfileKeda_ARM{}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if keda.Enabled != nil {
 		enabled := *keda.Enabled
 		result.Enabled = &enabled
@@ -20460,7 +20460,7 @@ func (keda *ManagedClusterWorkloadAutoScalerProfileKeda) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterWorkloadAutoScalerProfileKeda_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		keda.Enabled = &enabled
@@ -20529,7 +20529,7 @@ func (keda *ManagedClusterWorkloadAutoScalerProfileKeda_STATUS) PopulateFromARM(
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterWorkloadAutoScalerProfileKeda_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		keda.Enabled = &enabled
@@ -20603,19 +20603,19 @@ func (autoscaler *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler) 
 	}
 	result := &ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_ARM{}
 
-	// Set property ‘ControlledValues’:
+	// Set property "ControlledValues":
 	if autoscaler.ControlledValues != nil {
 		controlledValues := *autoscaler.ControlledValues
 		result.ControlledValues = &controlledValues
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if autoscaler.Enabled != nil {
 		enabled := *autoscaler.Enabled
 		result.Enabled = &enabled
 	}
 
-	// Set property ‘UpdateMode’:
+	// Set property "UpdateMode":
 	if autoscaler.UpdateMode != nil {
 		updateMode := *autoscaler.UpdateMode
 		result.UpdateMode = &updateMode
@@ -20635,19 +20635,19 @@ func (autoscaler *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler) 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ControlledValues’:
+	// Set property "ControlledValues":
 	if typedInput.ControlledValues != nil {
 		controlledValues := *typedInput.ControlledValues
 		autoscaler.ControlledValues = &controlledValues
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		autoscaler.Enabled = &enabled
 	}
 
-	// Set property ‘UpdateMode’:
+	// Set property "UpdateMode":
 	if typedInput.UpdateMode != nil {
 		updateMode := *typedInput.UpdateMode
 		autoscaler.UpdateMode = &updateMode
@@ -20755,19 +20755,19 @@ func (autoscaler *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_S
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ControlledValues’:
+	// Set property "ControlledValues":
 	if typedInput.ControlledValues != nil {
 		controlledValues := *typedInput.ControlledValues
 		autoscaler.ControlledValues = &controlledValues
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		autoscaler.Enabled = &enabled
 	}
 
-	// Set property ‘UpdateMode’:
+	// Set property "UpdateMode":
 	if typedInput.UpdateMode != nil {
 		updateMode := *typedInput.UpdateMode
 		autoscaler.UpdateMode = &updateMode
@@ -20973,12 +20973,12 @@ func (settings *UpgradeOverrideSettings) ConvertToARM(resolved genruntime.Conver
 	}
 	result := &UpgradeOverrideSettings_ARM{}
 
-	// Set property ‘ControlPlaneOverrides’:
+	// Set property "ControlPlaneOverrides":
 	for _, item := range settings.ControlPlaneOverrides {
 		result.ControlPlaneOverrides = append(result.ControlPlaneOverrides, item)
 	}
 
-	// Set property ‘Until’:
+	// Set property "Until":
 	if settings.Until != nil {
 		until := *settings.Until
 		result.Until = &until
@@ -20998,12 +20998,12 @@ func (settings *UpgradeOverrideSettings) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UpgradeOverrideSettings_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ControlPlaneOverrides’:
+	// Set property "ControlPlaneOverrides":
 	for _, item := range typedInput.ControlPlaneOverrides {
 		settings.ControlPlaneOverrides = append(settings.ControlPlaneOverrides, item)
 	}
 
-	// Set property ‘Until’:
+	// Set property "Until":
 	if typedInput.Until != nil {
 		until := *typedInput.Until
 		settings.Until = &until
@@ -21093,12 +21093,12 @@ func (settings *UpgradeOverrideSettings_STATUS) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UpgradeOverrideSettings_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ControlPlaneOverrides’:
+	// Set property "ControlPlaneOverrides":
 	for _, item := range typedInput.ControlPlaneOverrides {
 		settings.ControlPlaneOverrides = append(settings.ControlPlaneOverrides, item)
 	}
 
-	// Set property ‘Until’:
+	// Set property "Until":
 	if typedInput.Until != nil {
 		until := *typedInput.Until
 		settings.Until = &until
@@ -21220,19 +21220,19 @@ func (profile *WindowsGmsaProfile) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &WindowsGmsaProfile_ARM{}
 
-	// Set property ‘DnsServer’:
+	// Set property "DnsServer":
 	if profile.DnsServer != nil {
 		dnsServer := *profile.DnsServer
 		result.DnsServer = &dnsServer
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if profile.Enabled != nil {
 		enabled := *profile.Enabled
 		result.Enabled = &enabled
 	}
 
-	// Set property ‘RootDomainName’:
+	// Set property "RootDomainName":
 	if profile.RootDomainName != nil {
 		rootDomainName := *profile.RootDomainName
 		result.RootDomainName = &rootDomainName
@@ -21252,19 +21252,19 @@ func (profile *WindowsGmsaProfile) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WindowsGmsaProfile_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DnsServer’:
+	// Set property "DnsServer":
 	if typedInput.DnsServer != nil {
 		dnsServer := *typedInput.DnsServer
 		profile.DnsServer = &dnsServer
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		profile.Enabled = &enabled
 	}
 
-	// Set property ‘RootDomainName’:
+	// Set property "RootDomainName":
 	if typedInput.RootDomainName != nil {
 		rootDomainName := *typedInput.RootDomainName
 		profile.RootDomainName = &rootDomainName
@@ -21353,19 +21353,19 @@ func (profile *WindowsGmsaProfile_STATUS) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WindowsGmsaProfile_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DnsServer’:
+	// Set property "DnsServer":
 	if typedInput.DnsServer != nil {
 		dnsServer := *typedInput.DnsServer
 		profile.DnsServer = &dnsServer
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		profile.Enabled = &enabled
 	}
 
-	// Set property ‘RootDomainName’:
+	// Set property "RootDomainName":
 	if typedInput.RootDomainName != nil {
 		rootDomainName := *typedInput.RootDomainName
 		profile.RootDomainName = &rootDomainName
@@ -21465,25 +21465,25 @@ func (config *ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig) Convert
 	}
 	result := &ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_ARM{}
 
-	// Set property ‘Scheduler’:
+	// Set property "Scheduler":
 	if config.Scheduler != nil {
 		scheduler := *config.Scheduler
 		result.Scheduler = &scheduler
 	}
 
-	// Set property ‘TcpFinTimeoutSeconds’:
+	// Set property "TcpFinTimeoutSeconds":
 	if config.TcpFinTimeoutSeconds != nil {
 		tcpFinTimeoutSeconds := *config.TcpFinTimeoutSeconds
 		result.TcpFinTimeoutSeconds = &tcpFinTimeoutSeconds
 	}
 
-	// Set property ‘TcpTimeoutSeconds’:
+	// Set property "TcpTimeoutSeconds":
 	if config.TcpTimeoutSeconds != nil {
 		tcpTimeoutSeconds := *config.TcpTimeoutSeconds
 		result.TcpTimeoutSeconds = &tcpTimeoutSeconds
 	}
 
-	// Set property ‘UdpTimeoutSeconds’:
+	// Set property "UdpTimeoutSeconds":
 	if config.UdpTimeoutSeconds != nil {
 		udpTimeoutSeconds := *config.UdpTimeoutSeconds
 		result.UdpTimeoutSeconds = &udpTimeoutSeconds
@@ -21503,25 +21503,25 @@ func (config *ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig) Populat
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Scheduler’:
+	// Set property "Scheduler":
 	if typedInput.Scheduler != nil {
 		scheduler := *typedInput.Scheduler
 		config.Scheduler = &scheduler
 	}
 
-	// Set property ‘TcpFinTimeoutSeconds’:
+	// Set property "TcpFinTimeoutSeconds":
 	if typedInput.TcpFinTimeoutSeconds != nil {
 		tcpFinTimeoutSeconds := *typedInput.TcpFinTimeoutSeconds
 		config.TcpFinTimeoutSeconds = &tcpFinTimeoutSeconds
 	}
 
-	// Set property ‘TcpTimeoutSeconds’:
+	// Set property "TcpTimeoutSeconds":
 	if typedInput.TcpTimeoutSeconds != nil {
 		tcpTimeoutSeconds := *typedInput.TcpTimeoutSeconds
 		config.TcpTimeoutSeconds = &tcpTimeoutSeconds
 	}
 
-	// Set property ‘UdpTimeoutSeconds’:
+	// Set property "UdpTimeoutSeconds":
 	if typedInput.UdpTimeoutSeconds != nil {
 		udpTimeoutSeconds := *typedInput.UdpTimeoutSeconds
 		config.UdpTimeoutSeconds = &udpTimeoutSeconds
@@ -21617,25 +21617,25 @@ func (config *ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS) 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerServiceNetworkProfile_KubeProxyConfig_IpvsConfig_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Scheduler’:
+	// Set property "Scheduler":
 	if typedInput.Scheduler != nil {
 		scheduler := *typedInput.Scheduler
 		config.Scheduler = &scheduler
 	}
 
-	// Set property ‘TcpFinTimeoutSeconds’:
+	// Set property "TcpFinTimeoutSeconds":
 	if typedInput.TcpFinTimeoutSeconds != nil {
 		tcpFinTimeoutSeconds := *typedInput.TcpFinTimeoutSeconds
 		config.TcpFinTimeoutSeconds = &tcpFinTimeoutSeconds
 	}
 
-	// Set property ‘TcpTimeoutSeconds’:
+	// Set property "TcpTimeoutSeconds":
 	if typedInput.TcpTimeoutSeconds != nil {
 		tcpTimeoutSeconds := *typedInput.TcpTimeoutSeconds
 		config.TcpTimeoutSeconds = &tcpTimeoutSeconds
 	}
 
-	// Set property ‘UdpTimeoutSeconds’:
+	// Set property "UdpTimeoutSeconds":
 	if typedInput.UdpTimeoutSeconds != nil {
 		udpTimeoutSeconds := *typedInput.UdpTimeoutSeconds
 		config.UdpTimeoutSeconds = &udpTimeoutSeconds
@@ -21734,7 +21734,7 @@ func (publicKey *ContainerServiceSshPublicKey) ConvertToARM(resolved genruntime.
 	}
 	result := &ContainerServiceSshPublicKey_ARM{}
 
-	// Set property ‘KeyData’:
+	// Set property "KeyData":
 	if publicKey.KeyData != nil {
 		keyData := *publicKey.KeyData
 		result.KeyData = &keyData
@@ -21754,7 +21754,7 @@ func (publicKey *ContainerServiceSshPublicKey) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerServiceSshPublicKey_ARM, got %T", armInput)
 	}
 
-	// Set property ‘KeyData’:
+	// Set property "KeyData":
 	if typedInput.KeyData != nil {
 		keyData := *typedInput.KeyData
 		publicKey.KeyData = &keyData
@@ -21814,7 +21814,7 @@ func (publicKey *ContainerServiceSshPublicKey_STATUS) PopulateFromARM(owner genr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerServiceSshPublicKey_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘KeyData’:
+	// Set property "KeyData":
 	if typedInput.KeyData != nil {
 		keyData := *typedInput.KeyData
 		publicKey.KeyData = &keyData
@@ -21879,7 +21879,7 @@ func (components *IstioComponents) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &IstioComponents_ARM{}
 
-	// Set property ‘IngressGateways’:
+	// Set property "IngressGateways":
 	for _, item := range components.IngressGateways {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -21902,7 +21902,7 @@ func (components *IstioComponents) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IstioComponents_ARM, got %T", armInput)
 	}
 
-	// Set property ‘IngressGateways’:
+	// Set property "IngressGateways":
 	for _, item := range typedInput.IngressGateways {
 		var item1 IstioIngressGateway
 		err := item1.PopulateFromARM(owner, item)
@@ -21995,7 +21995,7 @@ func (components *IstioComponents_STATUS) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IstioComponents_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘IngressGateways’:
+	// Set property "IngressGateways":
 	for _, item := range typedInput.IngressGateways {
 		var item1 IstioIngressGateway_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -22088,13 +22088,13 @@ func (metrics *ManagedClusterAzureMonitorProfileKubeStateMetrics) ConvertToARM(r
 	}
 	result := &ManagedClusterAzureMonitorProfileKubeStateMetrics_ARM{}
 
-	// Set property ‘MetricAnnotationsAllowList’:
+	// Set property "MetricAnnotationsAllowList":
 	if metrics.MetricAnnotationsAllowList != nil {
 		metricAnnotationsAllowList := *metrics.MetricAnnotationsAllowList
 		result.MetricAnnotationsAllowList = &metricAnnotationsAllowList
 	}
 
-	// Set property ‘MetricLabelsAllowlist’:
+	// Set property "MetricLabelsAllowlist":
 	if metrics.MetricLabelsAllowlist != nil {
 		metricLabelsAllowlist := *metrics.MetricLabelsAllowlist
 		result.MetricLabelsAllowlist = &metricLabelsAllowlist
@@ -22114,13 +22114,13 @@ func (metrics *ManagedClusterAzureMonitorProfileKubeStateMetrics) PopulateFromAR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterAzureMonitorProfileKubeStateMetrics_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MetricAnnotationsAllowList’:
+	// Set property "MetricAnnotationsAllowList":
 	if typedInput.MetricAnnotationsAllowList != nil {
 		metricAnnotationsAllowList := *typedInput.MetricAnnotationsAllowList
 		metrics.MetricAnnotationsAllowList = &metricAnnotationsAllowList
 	}
 
-	// Set property ‘MetricLabelsAllowlist’:
+	// Set property "MetricLabelsAllowlist":
 	if typedInput.MetricLabelsAllowlist != nil {
 		metricLabelsAllowlist := *typedInput.MetricLabelsAllowlist
 		metrics.MetricLabelsAllowlist = &metricLabelsAllowlist
@@ -22190,13 +22190,13 @@ func (metrics *ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS) Populat
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘MetricAnnotationsAllowList’:
+	// Set property "MetricAnnotationsAllowList":
 	if typedInput.MetricAnnotationsAllowList != nil {
 		metricAnnotationsAllowList := *typedInput.MetricAnnotationsAllowList
 		metrics.MetricAnnotationsAllowList = &metricAnnotationsAllowList
 	}
 
-	// Set property ‘MetricLabelsAllowlist’:
+	// Set property "MetricLabelsAllowlist":
 	if typedInput.MetricLabelsAllowlist != nil {
 		metricLabelsAllowlist := *typedInput.MetricLabelsAllowlist
 		metrics.MetricLabelsAllowlist = &metricLabelsAllowlist
@@ -22279,13 +22279,13 @@ func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) ConvertToARM(re
 	}
 	result := &ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_ARM{}
 
-	// Set property ‘Count’:
+	// Set property "Count":
 	if iPs.Count != nil {
 		count := *iPs.Count
 		result.Count = &count
 	}
 
-	// Set property ‘CountIPv6’:
+	// Set property "CountIPv6":
 	if iPs.CountIPv6 != nil {
 		countIPv6 := *iPs.CountIPv6
 		result.CountIPv6 = &countIPv6
@@ -22305,13 +22305,13 @@ func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) PopulateFromARM
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Count’:
+	// Set property "Count":
 	if typedInput.Count != nil {
 		count := *typedInput.Count
 		iPs.Count = &count
 	}
 
-	// Set property ‘CountIPv6’:
+	// Set property "CountIPv6":
 	if typedInput.CountIPv6 != nil {
 		countIPv6 := *typedInput.CountIPv6
 		iPs.CountIPv6 = &countIPv6
@@ -22400,13 +22400,13 @@ func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS) Populate
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Count’:
+	// Set property "Count":
 	if typedInput.Count != nil {
 		count := *typedInput.Count
 		iPs.Count = &count
 	}
 
-	// Set property ‘CountIPv6’:
+	// Set property "CountIPv6":
 	if typedInput.CountIPv6 != nil {
 		countIPv6 := *typedInput.CountIPv6
 		iPs.CountIPv6 = &countIPv6
@@ -22465,7 +22465,7 @@ func (prefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes) ConvertToA
 	}
 	result := &ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_ARM{}
 
-	// Set property ‘PublicIPPrefixes’:
+	// Set property "PublicIPPrefixes":
 	for _, item := range prefixes.PublicIPPrefixes {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -22488,7 +22488,7 @@ func (prefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes) PopulateFr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_ARM, got %T", armInput)
 	}
 
-	// Set property ‘PublicIPPrefixes’:
+	// Set property "PublicIPPrefixes":
 	for _, item := range typedInput.PublicIPPrefixes {
 		var item1 ResourceReference
 		err := item1.PopulateFromARM(owner, item)
@@ -22580,7 +22580,7 @@ func (prefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS) Pop
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘PublicIPPrefixes’:
+	// Set property "PublicIPPrefixes":
 	for _, item := range typedInput.PublicIPPrefixes {
 		var item1 ResourceReference_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -22667,7 +22667,7 @@ func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs) ConvertToARM(resolved 
 	}
 	result := &ManagedClusterLoadBalancerProfile_OutboundIPs_ARM{}
 
-	// Set property ‘PublicIPs’:
+	// Set property "PublicIPs":
 	for _, item := range iPs.PublicIPs {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -22690,7 +22690,7 @@ func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs) PopulateFromARM(owner 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterLoadBalancerProfile_OutboundIPs_ARM, got %T", armInput)
 	}
 
-	// Set property ‘PublicIPs’:
+	// Set property "PublicIPs":
 	for _, item := range typedInput.PublicIPs {
 		var item1 ResourceReference
 		err := item1.PopulateFromARM(owner, item)
@@ -22782,7 +22782,7 @@ func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS) PopulateFromARM
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘PublicIPs’:
+	// Set property "PublicIPs":
 	for _, item := range typedInput.PublicIPs {
 		var item1 ResourceReference_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -22873,7 +22873,7 @@ func (profile *ManagedClusterManagedOutboundIPProfile) ConvertToARM(resolved gen
 	}
 	result := &ManagedClusterManagedOutboundIPProfile_ARM{}
 
-	// Set property ‘Count’:
+	// Set property "Count":
 	if profile.Count != nil {
 		count := *profile.Count
 		result.Count = &count
@@ -22893,7 +22893,7 @@ func (profile *ManagedClusterManagedOutboundIPProfile) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterManagedOutboundIPProfile_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Count’:
+	// Set property "Count":
 	if typedInput.Count != nil {
 		count := *typedInput.Count
 		profile.Count = &count
@@ -22963,7 +22963,7 @@ func (profile *ManagedClusterManagedOutboundIPProfile_STATUS) PopulateFromARM(ow
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterManagedOutboundIPProfile_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Count’:
+	// Set property "Count":
 	if typedInput.Count != nil {
 		count := *typedInput.Count
 		profile.Count = &count
@@ -23021,7 +23021,7 @@ func (info *ManagedClusterPodIdentity_ProvisioningInfo_STATUS) PopulateFromARM(o
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Error’:
+	// Set property "Error":
 	if typedInput.Error != nil {
 		var error1 ManagedClusterPodIdentityProvisioningError_STATUS
 		err := error1.PopulateFromARM(owner, *typedInput.Error)
@@ -23109,7 +23109,7 @@ func (monitoring *ManagedClusterSecurityProfileDefenderSecurityMonitoring) Conve
 	}
 	result := &ManagedClusterSecurityProfileDefenderSecurityMonitoring_ARM{}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if monitoring.Enabled != nil {
 		enabled := *monitoring.Enabled
 		result.Enabled = &enabled
@@ -23129,7 +23129,7 @@ func (monitoring *ManagedClusterSecurityProfileDefenderSecurityMonitoring) Popul
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterSecurityProfileDefenderSecurityMonitoring_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		monitoring.Enabled = &enabled
@@ -23198,7 +23198,7 @@ func (monitoring *ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterSecurityProfileDefenderSecurityMonitoring_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		monitoring.Enabled = &enabled
@@ -23296,7 +23296,7 @@ func (reference *ResourceReference) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &ResourceReference_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if reference.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*reference.Reference)
 		if err != nil {
@@ -23320,7 +23320,7 @@ func (reference *ResourceReference) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceReference_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil
@@ -23385,7 +23385,7 @@ func (reference *ResourceReference_STATUS) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceReference_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		reference.Id = &id
@@ -23460,13 +23460,13 @@ func (gateway *IstioIngressGateway) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &IstioIngressGateway_ARM{}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if gateway.Enabled != nil {
 		enabled := *gateway.Enabled
 		result.Enabled = &enabled
 	}
 
-	// Set property ‘Mode’:
+	// Set property "Mode":
 	if gateway.Mode != nil {
 		mode := *gateway.Mode
 		result.Mode = &mode
@@ -23486,13 +23486,13 @@ func (gateway *IstioIngressGateway) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IstioIngressGateway_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		gateway.Enabled = &enabled
 	}
 
-	// Set property ‘Mode’:
+	// Set property "Mode":
 	if typedInput.Mode != nil {
 		mode := *typedInput.Mode
 		gateway.Mode = &mode
@@ -23581,13 +23581,13 @@ func (gateway *IstioIngressGateway_STATUS) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IstioIngressGateway_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		gateway.Enabled = &enabled
 	}
 
-	// Set property ‘Mode’:
+	// Set property "Mode":
 	if typedInput.Mode != nil {
 		mode := *typedInput.Mode
 		gateway.Mode = &mode
@@ -23672,7 +23672,7 @@ func (error *ManagedClusterPodIdentityProvisioningError_STATUS) PopulateFromARM(
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterPodIdentityProvisioningError_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Error’:
+	// Set property "Error":
 	if typedInput.Error != nil {
 		var error2 ManagedClusterPodIdentityProvisioningErrorBody_STATUS
 		err := error2.PopulateFromARM(owner, *typedInput.Error)
@@ -23778,13 +23778,13 @@ func (body *ManagedClusterPodIdentityProvisioningErrorBody_STATUS) PopulateFromA
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Code’:
+	// Set property "Code":
 	if typedInput.Code != nil {
 		code := *typedInput.Code
 		body.Code = &code
 	}
 
-	// Set property ‘Details’:
+	// Set property "Details":
 	for _, item := range typedInput.Details {
 		var item1 ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled
 		err := item1.PopulateFromARM(owner, item)
@@ -23794,13 +23794,13 @@ func (body *ManagedClusterPodIdentityProvisioningErrorBody_STATUS) PopulateFromA
 		body.Details = append(body.Details, item1)
 	}
 
-	// Set property ‘Message’:
+	// Set property "Message":
 	if typedInput.Message != nil {
 		message := *typedInput.Message
 		body.Message = &message
 	}
 
-	// Set property ‘Target’:
+	// Set property "Target":
 	if typedInput.Target != nil {
 		target := *typedInput.Target
 		body.Target = &target
@@ -23912,19 +23912,19 @@ func (unrolled *ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled) 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Code’:
+	// Set property "Code":
 	if typedInput.Code != nil {
 		code := *typedInput.Code
 		unrolled.Code = &code
 	}
 
-	// Set property ‘Message’:
+	// Set property "Message":
 	if typedInput.Message != nil {
 		message := *typedInput.Message
 		unrolled.Message = &message
 	}
 
-	// Set property ‘Target’:
+	// Set property "Target":
 	if typedInput.Target != nil {
 		target := *typedInput.Target
 		unrolled.Target = &target

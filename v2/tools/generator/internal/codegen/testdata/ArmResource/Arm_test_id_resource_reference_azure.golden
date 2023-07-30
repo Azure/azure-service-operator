@@ -314,13 +314,13 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &FakeResource_Spec_ARM{}
 
-	// Set property ‘APIVersion’:
+	// Set property "APIVersion":
 	result.APIVersion = resource.APIVersion
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if resource.Properties != nil {
 		properties_ARM, err := (*resource.Properties).ConvertToARM(resolved)
 		if err != nil {
@@ -330,7 +330,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Properties = &properties
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	result.Type = resource.Type
 	return result, nil
 }
@@ -347,16 +347,16 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘APIVersion’:
+	// Set property "APIVersion":
 	resource.APIVersion = typedInput.APIVersion
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	resource.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	resource.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if typedInput.Properties != nil {
 		var properties1 FakeResourceProperties
 		err := properties1.PopulateFromARM(owner, *typedInput.Properties)
@@ -367,7 +367,7 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		resource.Properties = &properties
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	resource.Type = typedInput.Type
 
 	// No error
@@ -567,7 +567,7 @@ func (properties *FakeResourceProperties) ConvertToARM(resolved genruntime.Conve
 	}
 	result := &FakeResourceProperties_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if properties.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.Reference)
 		if err != nil {
@@ -577,7 +577,7 @@ func (properties *FakeResourceProperties) ConvertToARM(resolved genruntime.Conve
 		result.Id = &reference
 	}
 
-	// Set property ‘NsgIds’:
+	// Set property "NsgIds":
 	for _, item := range properties.NsgReferences {
 		itemARMID, err := resolved.ResolvedReferences.Lookup(item)
 		if err != nil {
@@ -586,7 +586,7 @@ func (properties *FakeResourceProperties) ConvertToARM(resolved genruntime.Conve
 		result.NsgIds = append(result.NsgIds, itemARMID)
 	}
 
-	// Set property ‘NsgMap’:
+	// Set property "NsgMap":
 	if properties.NsgMapReferences != nil {
 		result.NsgMap = make(map[string]string, len(properties.NsgMapReferences))
 		for key, value := range properties.NsgMapReferences {
@@ -598,7 +598,7 @@ func (properties *FakeResourceProperties) ConvertToARM(resolved genruntime.Conve
 		}
 	}
 
-	// Set property ‘SubnetId’:
+	// Set property "SubnetId":
 	if properties.SubnetReference != nil {
 		subnetReferenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.SubnetReference)
 		if err != nil {
@@ -622,13 +622,13 @@ func (properties *FakeResourceProperties) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResourceProperties_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘NsgMapReferences’
+	// no assignment for property "NsgMapReferences"
 
-	// no assignment for property ‘NsgReferences’
+	// no assignment for property "NsgReferences"
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
-	// no assignment for property ‘SubnetReference’
+	// no assignment for property "SubnetReference"
 
 	// No error
 	return nil

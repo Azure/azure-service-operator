@@ -338,10 +338,10 @@ func (rule *Servers_VirtualNetworkRule_Spec) ConvertToARM(resolved genruntime.Co
 	}
 	result := &Servers_VirtualNetworkRule_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if rule.IgnoreMissingVnetServiceEndpoint != nil || rule.VirtualNetworkSubnetReference != nil {
 		result.Properties = &VirtualNetworkRuleProperties_ARM{}
 	}
@@ -372,10 +372,10 @@ func (rule *Servers_VirtualNetworkRule_Spec) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_VirtualNetworkRule_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	rule.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘IgnoreMissingVnetServiceEndpoint’:
+	// Set property "IgnoreMissingVnetServiceEndpoint":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IgnoreMissingVnetServiceEndpoint != nil {
@@ -384,10 +384,10 @@ func (rule *Servers_VirtualNetworkRule_Spec) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	rule.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// no assignment for property ‘VirtualNetworkSubnetReference’
+	// no assignment for property "VirtualNetworkSubnetReference"
 
 	// No error
 	return nil
@@ -643,15 +643,15 @@ func (rule *Servers_VirtualNetworkRule_STATUS) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_VirtualNetworkRule_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		rule.Id = &id
 	}
 
-	// Set property ‘IgnoreMissingVnetServiceEndpoint’:
+	// Set property "IgnoreMissingVnetServiceEndpoint":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IgnoreMissingVnetServiceEndpoint != nil {
@@ -660,13 +660,13 @@ func (rule *Servers_VirtualNetworkRule_STATUS) PopulateFromARM(owner genruntime.
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		rule.Name = &name
 	}
 
-	// Set property ‘State’:
+	// Set property "State":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.State != nil {
@@ -675,13 +675,13 @@ func (rule *Servers_VirtualNetworkRule_STATUS) PopulateFromARM(owner genruntime.
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		rule.Type = &typeVar
 	}
 
-	// Set property ‘VirtualNetworkSubnetId’:
+	// Set property "VirtualNetworkSubnetId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.VirtualNetworkSubnetId != nil {

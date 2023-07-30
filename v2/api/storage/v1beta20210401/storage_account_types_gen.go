@@ -477,7 +477,7 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &StorageAccount_Spec_ARM{}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if account.ExtendedLocation != nil {
 		extendedLocation_ARM, err := (*account.ExtendedLocation).ConvertToARM(resolved)
 		if err != nil {
@@ -487,7 +487,7 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if account.Identity != nil {
 		identity_ARM, err := (*account.Identity).ConvertToARM(resolved)
 		if err != nil {
@@ -497,22 +497,22 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Identity = &identity
 	}
 
-	// Set property ‘Kind’:
+	// Set property "Kind":
 	if account.Kind != nil {
 		kind := *account.Kind
 		result.Kind = &kind
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if account.Location != nil {
 		location := *account.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if account.AccessTier != nil ||
 		account.AllowBlobPublicAccess != nil ||
 		account.AllowCrossTenantReplication != nil ||
@@ -624,7 +624,7 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.SupportsHttpsTrafficOnly = &supportsHttpsTrafficOnly
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if account.Sku != nil {
 		sku_ARM, err := (*account.Sku).ConvertToARM(resolved)
 		if err != nil {
@@ -634,7 +634,7 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Sku = &sku
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if account.Tags != nil {
 		result.Tags = make(map[string]string, len(account.Tags))
 		for key, value := range account.Tags {
@@ -656,7 +656,7 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccount_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AccessTier’:
+	// Set property "AccessTier":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AccessTier != nil {
@@ -665,7 +665,7 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘AllowBlobPublicAccess’:
+	// Set property "AllowBlobPublicAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AllowBlobPublicAccess != nil {
@@ -674,7 +674,7 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘AllowCrossTenantReplication’:
+	// Set property "AllowCrossTenantReplication":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AllowCrossTenantReplication != nil {
@@ -683,7 +683,7 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘AllowSharedKeyAccess’:
+	// Set property "AllowSharedKeyAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AllowSharedKeyAccess != nil {
@@ -692,7 +692,7 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘AzureFilesIdentityBasedAuthentication’:
+	// Set property "AzureFilesIdentityBasedAuthentication":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AzureFilesIdentityBasedAuthentication != nil {
@@ -706,10 +706,10 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	account.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘CustomDomain’:
+	// Set property "CustomDomain":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CustomDomain != nil {
@@ -723,7 +723,7 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Encryption’:
+	// Set property "Encryption":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Encryption != nil {
@@ -737,7 +737,7 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if typedInput.ExtendedLocation != nil {
 		var extendedLocation1 ExtendedLocation
 		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
@@ -748,7 +748,7 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		account.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 Identity
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -759,7 +759,7 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		account.Identity = &identity
 	}
 
-	// Set property ‘IsHnsEnabled’:
+	// Set property "IsHnsEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsHnsEnabled != nil {
@@ -768,7 +768,7 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘IsNfsV3Enabled’:
+	// Set property "IsNfsV3Enabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsNfsV3Enabled != nil {
@@ -777,7 +777,7 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘KeyPolicy’:
+	// Set property "KeyPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.KeyPolicy != nil {
@@ -791,13 +791,13 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Kind’:
+	// Set property "Kind":
 	if typedInput.Kind != nil {
 		kind := *typedInput.Kind
 		account.Kind = &kind
 	}
 
-	// Set property ‘LargeFileSharesState’:
+	// Set property "LargeFileSharesState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LargeFileSharesState != nil {
@@ -806,13 +806,13 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		account.Location = &location
 	}
 
-	// Set property ‘MinimumTlsVersion’:
+	// Set property "MinimumTlsVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinimumTlsVersion != nil {
@@ -821,7 +821,7 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘NetworkAcls’:
+	// Set property "NetworkAcls":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NetworkAcls != nil {
@@ -835,12 +835,12 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// no assignment for property ‘OperatorSpec’
+	// no assignment for property "OperatorSpec"
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	account.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘RoutingPreference’:
+	// Set property "RoutingPreference":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RoutingPreference != nil {
@@ -854,7 +854,7 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘SasPolicy’:
+	// Set property "SasPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SasPolicy != nil {
@@ -868,7 +868,7 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 Sku
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -879,7 +879,7 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		account.Sku = &sku
 	}
 
-	// Set property ‘SupportsHttpsTrafficOnly’:
+	// Set property "SupportsHttpsTrafficOnly":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SupportsHttpsTrafficOnly != nil {
@@ -888,7 +888,7 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		account.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1552,7 +1552,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccount_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AccessTier’:
+	// Set property "AccessTier":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AccessTier != nil {
@@ -1561,7 +1561,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘AllowBlobPublicAccess’:
+	// Set property "AllowBlobPublicAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AllowBlobPublicAccess != nil {
@@ -1570,7 +1570,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘AllowCrossTenantReplication’:
+	// Set property "AllowCrossTenantReplication":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AllowCrossTenantReplication != nil {
@@ -1579,7 +1579,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘AllowSharedKeyAccess’:
+	// Set property "AllowSharedKeyAccess":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AllowSharedKeyAccess != nil {
@@ -1588,7 +1588,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘AzureFilesIdentityBasedAuthentication’:
+	// Set property "AzureFilesIdentityBasedAuthentication":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AzureFilesIdentityBasedAuthentication != nil {
@@ -1602,7 +1602,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘BlobRestoreStatus’:
+	// Set property "BlobRestoreStatus":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.BlobRestoreStatus != nil {
@@ -1616,9 +1616,9 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘CreationTime’:
+	// Set property "CreationTime":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreationTime != nil {
@@ -1627,7 +1627,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘CustomDomain’:
+	// Set property "CustomDomain":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CustomDomain != nil {
@@ -1641,7 +1641,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Encryption’:
+	// Set property "Encryption":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Encryption != nil {
@@ -1655,7 +1655,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘ExtendedLocation’:
+	// Set property "ExtendedLocation":
 	if typedInput.ExtendedLocation != nil {
 		var extendedLocation1 ExtendedLocation_STATUS
 		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
@@ -1666,7 +1666,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		account.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘FailoverInProgress’:
+	// Set property "FailoverInProgress":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.FailoverInProgress != nil {
@@ -1675,7 +1675,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘GeoReplicationStats’:
+	// Set property "GeoReplicationStats":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.GeoReplicationStats != nil {
@@ -1689,13 +1689,13 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		account.Id = &id
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 Identity_STATUS
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -1706,7 +1706,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		account.Identity = &identity
 	}
 
-	// Set property ‘IsHnsEnabled’:
+	// Set property "IsHnsEnabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsHnsEnabled != nil {
@@ -1715,7 +1715,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘IsNfsV3Enabled’:
+	// Set property "IsNfsV3Enabled":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsNfsV3Enabled != nil {
@@ -1724,7 +1724,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘KeyCreationTime’:
+	// Set property "KeyCreationTime":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.KeyCreationTime != nil {
@@ -1738,7 +1738,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘KeyPolicy’:
+	// Set property "KeyPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.KeyPolicy != nil {
@@ -1752,13 +1752,13 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Kind’:
+	// Set property "Kind":
 	if typedInput.Kind != nil {
 		kind := *typedInput.Kind
 		account.Kind = &kind
 	}
 
-	// Set property ‘LargeFileSharesState’:
+	// Set property "LargeFileSharesState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LargeFileSharesState != nil {
@@ -1767,7 +1767,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘LastGeoFailoverTime’:
+	// Set property "LastGeoFailoverTime":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LastGeoFailoverTime != nil {
@@ -1776,13 +1776,13 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		account.Location = &location
 	}
 
-	// Set property ‘MinimumTlsVersion’:
+	// Set property "MinimumTlsVersion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinimumTlsVersion != nil {
@@ -1791,13 +1791,13 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		account.Name = &name
 	}
 
-	// Set property ‘NetworkAcls’:
+	// Set property "NetworkAcls":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NetworkAcls != nil {
@@ -1811,7 +1811,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘PrimaryEndpoints’:
+	// Set property "PrimaryEndpoints":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrimaryEndpoints != nil {
@@ -1825,7 +1825,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘PrimaryLocation’:
+	// Set property "PrimaryLocation":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrimaryLocation != nil {
@@ -1834,7 +1834,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘PrivateEndpointConnections’:
+	// Set property "PrivateEndpointConnections":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PrivateEndpointConnections {
@@ -1847,7 +1847,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -1856,7 +1856,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘RoutingPreference’:
+	// Set property "RoutingPreference":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RoutingPreference != nil {
@@ -1870,7 +1870,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘SasPolicy’:
+	// Set property "SasPolicy":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SasPolicy != nil {
@@ -1884,7 +1884,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘SecondaryEndpoints’:
+	// Set property "SecondaryEndpoints":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SecondaryEndpoints != nil {
@@ -1898,7 +1898,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘SecondaryLocation’:
+	// Set property "SecondaryLocation":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SecondaryLocation != nil {
@@ -1907,7 +1907,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	if typedInput.Sku != nil {
 		var sku1 Sku_STATUS
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
@@ -1918,7 +1918,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		account.Sku = &sku
 	}
 
-	// Set property ‘StatusOfPrimary’:
+	// Set property "StatusOfPrimary":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StatusOfPrimary != nil {
@@ -1927,7 +1927,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘StatusOfSecondary’:
+	// Set property "StatusOfSecondary":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StatusOfSecondary != nil {
@@ -1936,7 +1936,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘SupportsHttpsTrafficOnly’:
+	// Set property "SupportsHttpsTrafficOnly":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SupportsHttpsTrafficOnly != nil {
@@ -1945,7 +1945,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		account.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1953,7 +1953,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		account.Type = &typeVar
@@ -2684,7 +2684,7 @@ func (authentication *AzureFilesIdentityBasedAuthentication) ConvertToARM(resolv
 	}
 	result := &AzureFilesIdentityBasedAuthentication_ARM{}
 
-	// Set property ‘ActiveDirectoryProperties’:
+	// Set property "ActiveDirectoryProperties":
 	if authentication.ActiveDirectoryProperties != nil {
 		activeDirectoryProperties_ARM, err := (*authentication.ActiveDirectoryProperties).ConvertToARM(resolved)
 		if err != nil {
@@ -2694,13 +2694,13 @@ func (authentication *AzureFilesIdentityBasedAuthentication) ConvertToARM(resolv
 		result.ActiveDirectoryProperties = &activeDirectoryProperties
 	}
 
-	// Set property ‘DefaultSharePermission’:
+	// Set property "DefaultSharePermission":
 	if authentication.DefaultSharePermission != nil {
 		defaultSharePermission := *authentication.DefaultSharePermission
 		result.DefaultSharePermission = &defaultSharePermission
 	}
 
-	// Set property ‘DirectoryServiceOptions’:
+	// Set property "DirectoryServiceOptions":
 	if authentication.DirectoryServiceOptions != nil {
 		directoryServiceOptions := *authentication.DirectoryServiceOptions
 		result.DirectoryServiceOptions = &directoryServiceOptions
@@ -2720,7 +2720,7 @@ func (authentication *AzureFilesIdentityBasedAuthentication) PopulateFromARM(own
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureFilesIdentityBasedAuthentication_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ActiveDirectoryProperties’:
+	// Set property "ActiveDirectoryProperties":
 	if typedInput.ActiveDirectoryProperties != nil {
 		var activeDirectoryProperties1 ActiveDirectoryProperties
 		err := activeDirectoryProperties1.PopulateFromARM(owner, *typedInput.ActiveDirectoryProperties)
@@ -2731,13 +2731,13 @@ func (authentication *AzureFilesIdentityBasedAuthentication) PopulateFromARM(own
 		authentication.ActiveDirectoryProperties = &activeDirectoryProperties
 	}
 
-	// Set property ‘DefaultSharePermission’:
+	// Set property "DefaultSharePermission":
 	if typedInput.DefaultSharePermission != nil {
 		defaultSharePermission := *typedInput.DefaultSharePermission
 		authentication.DefaultSharePermission = &defaultSharePermission
 	}
 
-	// Set property ‘DirectoryServiceOptions’:
+	// Set property "DirectoryServiceOptions":
 	if typedInput.DirectoryServiceOptions != nil {
 		directoryServiceOptions := *typedInput.DirectoryServiceOptions
 		authentication.DirectoryServiceOptions = &directoryServiceOptions
@@ -2847,7 +2847,7 @@ func (authentication *AzureFilesIdentityBasedAuthentication_STATUS) PopulateFrom
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureFilesIdentityBasedAuthentication_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ActiveDirectoryProperties’:
+	// Set property "ActiveDirectoryProperties":
 	if typedInput.ActiveDirectoryProperties != nil {
 		var activeDirectoryProperties1 ActiveDirectoryProperties_STATUS
 		err := activeDirectoryProperties1.PopulateFromARM(owner, *typedInput.ActiveDirectoryProperties)
@@ -2858,13 +2858,13 @@ func (authentication *AzureFilesIdentityBasedAuthentication_STATUS) PopulateFrom
 		authentication.ActiveDirectoryProperties = &activeDirectoryProperties
 	}
 
-	// Set property ‘DefaultSharePermission’:
+	// Set property "DefaultSharePermission":
 	if typedInput.DefaultSharePermission != nil {
 		defaultSharePermission := *typedInput.DefaultSharePermission
 		authentication.DefaultSharePermission = &defaultSharePermission
 	}
 
-	// Set property ‘DirectoryServiceOptions’:
+	// Set property "DirectoryServiceOptions":
 	if typedInput.DirectoryServiceOptions != nil {
 		directoryServiceOptions := *typedInput.DirectoryServiceOptions
 		authentication.DirectoryServiceOptions = &directoryServiceOptions
@@ -2975,13 +2975,13 @@ func (status *BlobRestoreStatus_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BlobRestoreStatus_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘FailureReason’:
+	// Set property "FailureReason":
 	if typedInput.FailureReason != nil {
 		failureReason := *typedInput.FailureReason
 		status.FailureReason = &failureReason
 	}
 
-	// Set property ‘Parameters’:
+	// Set property "Parameters":
 	if typedInput.Parameters != nil {
 		var parameters1 BlobRestoreParameters_STATUS
 		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
@@ -2992,13 +2992,13 @@ func (status *BlobRestoreStatus_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		status.Parameters = &parameters
 	}
 
-	// Set property ‘RestoreId’:
+	// Set property "RestoreId":
 	if typedInput.RestoreId != nil {
 		restoreId := *typedInput.RestoreId
 		status.RestoreId = &restoreId
 	}
 
-	// Set property ‘Status’:
+	// Set property "Status":
 	if typedInput.Status != nil {
 		status1 := *typedInput.Status
 		status.Status = &status1
@@ -3099,13 +3099,13 @@ func (domain *CustomDomain) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	}
 	result := &CustomDomain_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if domain.Name != nil {
 		name := *domain.Name
 		result.Name = &name
 	}
 
-	// Set property ‘UseSubDomainName’:
+	// Set property "UseSubDomainName":
 	if domain.UseSubDomainName != nil {
 		useSubDomainName := *domain.UseSubDomainName
 		result.UseSubDomainName = &useSubDomainName
@@ -3125,13 +3125,13 @@ func (domain *CustomDomain) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomDomain_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		domain.Name = &name
 	}
 
-	// Set property ‘UseSubDomainName’:
+	// Set property "UseSubDomainName":
 	if typedInput.UseSubDomainName != nil {
 		useSubDomainName := *typedInput.UseSubDomainName
 		domain.UseSubDomainName = &useSubDomainName
@@ -3206,13 +3206,13 @@ func (domain *CustomDomain_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomDomain_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		domain.Name = &name
 	}
 
-	// Set property ‘UseSubDomainName’:
+	// Set property "UseSubDomainName":
 	if typedInput.UseSubDomainName != nil {
 		useSubDomainName := *typedInput.UseSubDomainName
 		domain.UseSubDomainName = &useSubDomainName
@@ -3287,7 +3287,7 @@ func (encryption *Encryption) ConvertToARM(resolved genruntime.ConvertToARMResol
 	}
 	result := &Encryption_ARM{}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if encryption.Identity != nil {
 		identity_ARM, err := (*encryption.Identity).ConvertToARM(resolved)
 		if err != nil {
@@ -3297,13 +3297,13 @@ func (encryption *Encryption) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.Identity = &identity
 	}
 
-	// Set property ‘KeySource’:
+	// Set property "KeySource":
 	if encryption.KeySource != nil {
 		keySource := *encryption.KeySource
 		result.KeySource = &keySource
 	}
 
-	// Set property ‘Keyvaultproperties’:
+	// Set property "Keyvaultproperties":
 	if encryption.Keyvaultproperties != nil {
 		keyvaultproperties_ARM, err := (*encryption.Keyvaultproperties).ConvertToARM(resolved)
 		if err != nil {
@@ -3313,13 +3313,13 @@ func (encryption *Encryption) ConvertToARM(resolved genruntime.ConvertToARMResol
 		result.Keyvaultproperties = &keyvaultproperties
 	}
 
-	// Set property ‘RequireInfrastructureEncryption’:
+	// Set property "RequireInfrastructureEncryption":
 	if encryption.RequireInfrastructureEncryption != nil {
 		requireInfrastructureEncryption := *encryption.RequireInfrastructureEncryption
 		result.RequireInfrastructureEncryption = &requireInfrastructureEncryption
 	}
 
-	// Set property ‘Services’:
+	// Set property "Services":
 	if encryption.Services != nil {
 		services_ARM, err := (*encryption.Services).ConvertToARM(resolved)
 		if err != nil {
@@ -3343,7 +3343,7 @@ func (encryption *Encryption) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Encryption_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 EncryptionIdentity
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -3354,13 +3354,13 @@ func (encryption *Encryption) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		encryption.Identity = &identity
 	}
 
-	// Set property ‘KeySource’:
+	// Set property "KeySource":
 	if typedInput.KeySource != nil {
 		keySource := *typedInput.KeySource
 		encryption.KeySource = &keySource
 	}
 
-	// Set property ‘Keyvaultproperties’:
+	// Set property "Keyvaultproperties":
 	if typedInput.Keyvaultproperties != nil {
 		var keyvaultproperties1 KeyVaultProperties
 		err := keyvaultproperties1.PopulateFromARM(owner, *typedInput.Keyvaultproperties)
@@ -3371,13 +3371,13 @@ func (encryption *Encryption) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		encryption.Keyvaultproperties = &keyvaultproperties
 	}
 
-	// Set property ‘RequireInfrastructureEncryption’:
+	// Set property "RequireInfrastructureEncryption":
 	if typedInput.RequireInfrastructureEncryption != nil {
 		requireInfrastructureEncryption := *typedInput.RequireInfrastructureEncryption
 		encryption.RequireInfrastructureEncryption = &requireInfrastructureEncryption
 	}
 
-	// Set property ‘Services’:
+	// Set property "Services":
 	if typedInput.Services != nil {
 		var services1 EncryptionServices
 		err := services1.PopulateFromARM(owner, *typedInput.Services)
@@ -3542,7 +3542,7 @@ func (encryption *Encryption_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Encryption_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Identity’:
+	// Set property "Identity":
 	if typedInput.Identity != nil {
 		var identity1 EncryptionIdentity_STATUS
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
@@ -3553,13 +3553,13 @@ func (encryption *Encryption_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		encryption.Identity = &identity
 	}
 
-	// Set property ‘KeySource’:
+	// Set property "KeySource":
 	if typedInput.KeySource != nil {
 		keySource := *typedInput.KeySource
 		encryption.KeySource = &keySource
 	}
 
-	// Set property ‘Keyvaultproperties’:
+	// Set property "Keyvaultproperties":
 	if typedInput.Keyvaultproperties != nil {
 		var keyvaultproperties1 KeyVaultProperties_STATUS
 		err := keyvaultproperties1.PopulateFromARM(owner, *typedInput.Keyvaultproperties)
@@ -3570,13 +3570,13 @@ func (encryption *Encryption_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 		encryption.Keyvaultproperties = &keyvaultproperties
 	}
 
-	// Set property ‘RequireInfrastructureEncryption’:
+	// Set property "RequireInfrastructureEncryption":
 	if typedInput.RequireInfrastructureEncryption != nil {
 		requireInfrastructureEncryption := *typedInput.RequireInfrastructureEncryption
 		encryption.RequireInfrastructureEncryption = &requireInfrastructureEncryption
 	}
 
-	// Set property ‘Services’:
+	// Set property "Services":
 	if typedInput.Services != nil {
 		var services1 EncryptionServices_STATUS
 		err := services1.PopulateFromARM(owner, *typedInput.Services)
@@ -3744,25 +3744,25 @@ func (endpoints *Endpoints_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Endpoints_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Blob’:
+	// Set property "Blob":
 	if typedInput.Blob != nil {
 		blob := *typedInput.Blob
 		endpoints.Blob = &blob
 	}
 
-	// Set property ‘Dfs’:
+	// Set property "Dfs":
 	if typedInput.Dfs != nil {
 		dfs := *typedInput.Dfs
 		endpoints.Dfs = &dfs
 	}
 
-	// Set property ‘File’:
+	// Set property "File":
 	if typedInput.File != nil {
 		file := *typedInput.File
 		endpoints.File = &file
 	}
 
-	// Set property ‘InternetEndpoints’:
+	// Set property "InternetEndpoints":
 	if typedInput.InternetEndpoints != nil {
 		var internetEndpoints1 StorageAccountInternetEndpoints_STATUS
 		err := internetEndpoints1.PopulateFromARM(owner, *typedInput.InternetEndpoints)
@@ -3773,7 +3773,7 @@ func (endpoints *Endpoints_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		endpoints.InternetEndpoints = &internetEndpoints
 	}
 
-	// Set property ‘MicrosoftEndpoints’:
+	// Set property "MicrosoftEndpoints":
 	if typedInput.MicrosoftEndpoints != nil {
 		var microsoftEndpoints1 StorageAccountMicrosoftEndpoints_STATUS
 		err := microsoftEndpoints1.PopulateFromARM(owner, *typedInput.MicrosoftEndpoints)
@@ -3784,19 +3784,19 @@ func (endpoints *Endpoints_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		endpoints.MicrosoftEndpoints = &microsoftEndpoints
 	}
 
-	// Set property ‘Queue’:
+	// Set property "Queue":
 	if typedInput.Queue != nil {
 		queue := *typedInput.Queue
 		endpoints.Queue = &queue
 	}
 
-	// Set property ‘Table’:
+	// Set property "Table":
 	if typedInput.Table != nil {
 		table := *typedInput.Table
 		endpoints.Table = &table
 	}
 
-	// Set property ‘Web’:
+	// Set property "Web":
 	if typedInput.Web != nil {
 		web := *typedInput.Web
 		endpoints.Web = &web
@@ -3928,13 +3928,13 @@ func (location *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &ExtendedLocation_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if location.Name != nil {
 		name := *location.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if location.Type != nil {
 		typeVar := *location.Type
 		result.Type = &typeVar
@@ -3954,13 +3954,13 @@ func (location *ExtendedLocation) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExtendedLocation_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		location.Name = &name
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		location.Type = &typeVar
@@ -4035,13 +4035,13 @@ func (location *ExtendedLocation_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExtendedLocation_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		location.Name = &name
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		location.Type = &typeVar
@@ -4117,19 +4117,19 @@ func (stats *GeoReplicationStats_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected GeoReplicationStats_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CanFailover’:
+	// Set property "CanFailover":
 	if typedInput.CanFailover != nil {
 		canFailover := *typedInput.CanFailover
 		stats.CanFailover = &canFailover
 	}
 
-	// Set property ‘LastSyncTime’:
+	// Set property "LastSyncTime":
 	if typedInput.LastSyncTime != nil {
 		lastSyncTime := *typedInput.LastSyncTime
 		stats.LastSyncTime = &lastSyncTime
 	}
 
-	// Set property ‘Status’:
+	// Set property "Status":
 	if typedInput.Status != nil {
 		status := *typedInput.Status
 		stats.Status = &status
@@ -4216,13 +4216,13 @@ func (identity *Identity) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	}
 	result := &Identity_ARM{}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if identity.Type != nil {
 		typeVar := *identity.Type
 		result.Type = &typeVar
 	}
 
-	// Set property ‘UserAssignedIdentities’:
+	// Set property "UserAssignedIdentities":
 	result.UserAssignedIdentities = make(map[string]UserAssignedIdentityDetails_ARM, len(identity.UserAssignedIdentities))
 	for _, ident := range identity.UserAssignedIdentities {
 		identARMID, err := resolved.ResolvedReferences.Lookup(ident.Reference)
@@ -4247,13 +4247,13 @@ func (identity *Identity) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Identity_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		identity.Type = &typeVar
 	}
 
-	// no assignment for property ‘UserAssignedIdentities’
+	// no assignment for property "UserAssignedIdentities"
 
 	// No error
 	return nil
@@ -4356,25 +4356,25 @@ func (identity *Identity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Identity_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘PrincipalId’:
+	// Set property "PrincipalId":
 	if typedInput.PrincipalId != nil {
 		principalId := *typedInput.PrincipalId
 		identity.PrincipalId = &principalId
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
 		identity.TenantId = &tenantId
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		identity.Type = &typeVar
 	}
 
-	// Set property ‘UserAssignedIdentities’:
+	// Set property "UserAssignedIdentities":
 	if typedInput.UserAssignedIdentities != nil {
 		identity.UserAssignedIdentities = make(map[string]UserAssignedIdentity_STATUS, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
@@ -4498,13 +4498,13 @@ func (time *KeyCreationTime_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyCreationTime_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Key1’:
+	// Set property "Key1":
 	if typedInput.Key1 != nil {
 		key1 := *typedInput.Key1
 		time.Key1 = &key1
 	}
 
-	// Set property ‘Key2’:
+	// Set property "Key2":
 	if typedInput.Key2 != nil {
 		key2 := *typedInput.Key2
 		time.Key2 = &key2
@@ -4564,7 +4564,7 @@ func (policy *KeyPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	}
 	result := &KeyPolicy_ARM{}
 
-	// Set property ‘KeyExpirationPeriodInDays’:
+	// Set property "KeyExpirationPeriodInDays":
 	if policy.KeyExpirationPeriodInDays != nil {
 		keyExpirationPeriodInDays := *policy.KeyExpirationPeriodInDays
 		result.KeyExpirationPeriodInDays = &keyExpirationPeriodInDays
@@ -4584,7 +4584,7 @@ func (policy *KeyPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyPolicy_ARM, got %T", armInput)
 	}
 
-	// Set property ‘KeyExpirationPeriodInDays’:
+	// Set property "KeyExpirationPeriodInDays":
 	if typedInput.KeyExpirationPeriodInDays != nil {
 		keyExpirationPeriodInDays := *typedInput.KeyExpirationPeriodInDays
 		policy.KeyExpirationPeriodInDays = &keyExpirationPeriodInDays
@@ -4642,7 +4642,7 @@ func (policy *KeyPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyPolicy_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘KeyExpirationPeriodInDays’:
+	// Set property "KeyExpirationPeriodInDays":
 	if typedInput.KeyExpirationPeriodInDays != nil {
 		keyExpirationPeriodInDays := *typedInput.KeyExpirationPeriodInDays
 		policy.KeyExpirationPeriodInDays = &keyExpirationPeriodInDays
@@ -4701,19 +4701,19 @@ func (ruleSet *NetworkRuleSet) ConvertToARM(resolved genruntime.ConvertToARMReso
 	}
 	result := &NetworkRuleSet_ARM{}
 
-	// Set property ‘Bypass’:
+	// Set property "Bypass":
 	if ruleSet.Bypass != nil {
 		bypass := *ruleSet.Bypass
 		result.Bypass = &bypass
 	}
 
-	// Set property ‘DefaultAction’:
+	// Set property "DefaultAction":
 	if ruleSet.DefaultAction != nil {
 		defaultAction := *ruleSet.DefaultAction
 		result.DefaultAction = &defaultAction
 	}
 
-	// Set property ‘IpRules’:
+	// Set property "IpRules":
 	for _, item := range ruleSet.IpRules {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -4722,7 +4722,7 @@ func (ruleSet *NetworkRuleSet) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.IpRules = append(result.IpRules, *item_ARM.(*IPRule_ARM))
 	}
 
-	// Set property ‘ResourceAccessRules’:
+	// Set property "ResourceAccessRules":
 	for _, item := range ruleSet.ResourceAccessRules {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -4731,7 +4731,7 @@ func (ruleSet *NetworkRuleSet) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.ResourceAccessRules = append(result.ResourceAccessRules, *item_ARM.(*ResourceAccessRule_ARM))
 	}
 
-	// Set property ‘VirtualNetworkRules’:
+	// Set property "VirtualNetworkRules":
 	for _, item := range ruleSet.VirtualNetworkRules {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -4754,19 +4754,19 @@ func (ruleSet *NetworkRuleSet) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkRuleSet_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Bypass’:
+	// Set property "Bypass":
 	if typedInput.Bypass != nil {
 		bypass := *typedInput.Bypass
 		ruleSet.Bypass = &bypass
 	}
 
-	// Set property ‘DefaultAction’:
+	// Set property "DefaultAction":
 	if typedInput.DefaultAction != nil {
 		defaultAction := *typedInput.DefaultAction
 		ruleSet.DefaultAction = &defaultAction
 	}
 
-	// Set property ‘IpRules’:
+	// Set property "IpRules":
 	for _, item := range typedInput.IpRules {
 		var item1 IPRule
 		err := item1.PopulateFromARM(owner, item)
@@ -4776,7 +4776,7 @@ func (ruleSet *NetworkRuleSet) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		ruleSet.IpRules = append(ruleSet.IpRules, item1)
 	}
 
-	// Set property ‘ResourceAccessRules’:
+	// Set property "ResourceAccessRules":
 	for _, item := range typedInput.ResourceAccessRules {
 		var item1 ResourceAccessRule
 		err := item1.PopulateFromARM(owner, item)
@@ -4786,7 +4786,7 @@ func (ruleSet *NetworkRuleSet) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		ruleSet.ResourceAccessRules = append(ruleSet.ResourceAccessRules, item1)
 	}
 
-	// Set property ‘VirtualNetworkRules’:
+	// Set property "VirtualNetworkRules":
 	for _, item := range typedInput.VirtualNetworkRules {
 		var item1 VirtualNetworkRule
 		err := item1.PopulateFromARM(owner, item)
@@ -4986,19 +4986,19 @@ func (ruleSet *NetworkRuleSet_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkRuleSet_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Bypass’:
+	// Set property "Bypass":
 	if typedInput.Bypass != nil {
 		bypass := *typedInput.Bypass
 		ruleSet.Bypass = &bypass
 	}
 
-	// Set property ‘DefaultAction’:
+	// Set property "DefaultAction":
 	if typedInput.DefaultAction != nil {
 		defaultAction := *typedInput.DefaultAction
 		ruleSet.DefaultAction = &defaultAction
 	}
 
-	// Set property ‘IpRules’:
+	// Set property "IpRules":
 	for _, item := range typedInput.IpRules {
 		var item1 IPRule_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -5008,7 +5008,7 @@ func (ruleSet *NetworkRuleSet_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		ruleSet.IpRules = append(ruleSet.IpRules, item1)
 	}
 
-	// Set property ‘ResourceAccessRules’:
+	// Set property "ResourceAccessRules":
 	for _, item := range typedInput.ResourceAccessRules {
 		var item1 ResourceAccessRule_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -5018,7 +5018,7 @@ func (ruleSet *NetworkRuleSet_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		ruleSet.ResourceAccessRules = append(ruleSet.ResourceAccessRules, item1)
 	}
 
-	// Set property ‘VirtualNetworkRules’:
+	// Set property "VirtualNetworkRules":
 	for _, item := range typedInput.VirtualNetworkRules {
 		var item1 VirtualNetworkRule_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -5214,7 +5214,7 @@ func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		connection.Id = &id
@@ -5269,19 +5269,19 @@ func (preference *RoutingPreference) ConvertToARM(resolved genruntime.ConvertToA
 	}
 	result := &RoutingPreference_ARM{}
 
-	// Set property ‘PublishInternetEndpoints’:
+	// Set property "PublishInternetEndpoints":
 	if preference.PublishInternetEndpoints != nil {
 		publishInternetEndpoints := *preference.PublishInternetEndpoints
 		result.PublishInternetEndpoints = &publishInternetEndpoints
 	}
 
-	// Set property ‘PublishMicrosoftEndpoints’:
+	// Set property "PublishMicrosoftEndpoints":
 	if preference.PublishMicrosoftEndpoints != nil {
 		publishMicrosoftEndpoints := *preference.PublishMicrosoftEndpoints
 		result.PublishMicrosoftEndpoints = &publishMicrosoftEndpoints
 	}
 
-	// Set property ‘RoutingChoice’:
+	// Set property "RoutingChoice":
 	if preference.RoutingChoice != nil {
 		routingChoice := *preference.RoutingChoice
 		result.RoutingChoice = &routingChoice
@@ -5301,19 +5301,19 @@ func (preference *RoutingPreference) PopulateFromARM(owner genruntime.ArbitraryO
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingPreference_ARM, got %T", armInput)
 	}
 
-	// Set property ‘PublishInternetEndpoints’:
+	// Set property "PublishInternetEndpoints":
 	if typedInput.PublishInternetEndpoints != nil {
 		publishInternetEndpoints := *typedInput.PublishInternetEndpoints
 		preference.PublishInternetEndpoints = &publishInternetEndpoints
 	}
 
-	// Set property ‘PublishMicrosoftEndpoints’:
+	// Set property "PublishMicrosoftEndpoints":
 	if typedInput.PublishMicrosoftEndpoints != nil {
 		publishMicrosoftEndpoints := *typedInput.PublishMicrosoftEndpoints
 		preference.PublishMicrosoftEndpoints = &publishMicrosoftEndpoints
 	}
 
-	// Set property ‘RoutingChoice’:
+	// Set property "RoutingChoice":
 	if typedInput.RoutingChoice != nil {
 		routingChoice := *typedInput.RoutingChoice
 		preference.RoutingChoice = &routingChoice
@@ -5415,19 +5415,19 @@ func (preference *RoutingPreference_STATUS) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RoutingPreference_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘PublishInternetEndpoints’:
+	// Set property "PublishInternetEndpoints":
 	if typedInput.PublishInternetEndpoints != nil {
 		publishInternetEndpoints := *typedInput.PublishInternetEndpoints
 		preference.PublishInternetEndpoints = &publishInternetEndpoints
 	}
 
-	// Set property ‘PublishMicrosoftEndpoints’:
+	// Set property "PublishMicrosoftEndpoints":
 	if typedInput.PublishMicrosoftEndpoints != nil {
 		publishMicrosoftEndpoints := *typedInput.PublishMicrosoftEndpoints
 		preference.PublishMicrosoftEndpoints = &publishMicrosoftEndpoints
 	}
 
-	// Set property ‘RoutingChoice’:
+	// Set property "RoutingChoice":
 	if typedInput.RoutingChoice != nil {
 		routingChoice := *typedInput.RoutingChoice
 		preference.RoutingChoice = &routingChoice
@@ -5526,13 +5526,13 @@ func (policy *SasPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	}
 	result := &SasPolicy_ARM{}
 
-	// Set property ‘ExpirationAction’:
+	// Set property "ExpirationAction":
 	if policy.ExpirationAction != nil {
 		expirationAction := *policy.ExpirationAction
 		result.ExpirationAction = &expirationAction
 	}
 
-	// Set property ‘SasExpirationPeriod’:
+	// Set property "SasExpirationPeriod":
 	if policy.SasExpirationPeriod != nil {
 		sasExpirationPeriod := *policy.SasExpirationPeriod
 		result.SasExpirationPeriod = &sasExpirationPeriod
@@ -5552,13 +5552,13 @@ func (policy *SasPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SasPolicy_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ExpirationAction’:
+	// Set property "ExpirationAction":
 	if typedInput.ExpirationAction != nil {
 		expirationAction := *typedInput.ExpirationAction
 		policy.ExpirationAction = &expirationAction
 	}
 
-	// Set property ‘SasExpirationPeriod’:
+	// Set property "SasExpirationPeriod":
 	if typedInput.SasExpirationPeriod != nil {
 		sasExpirationPeriod := *typedInput.SasExpirationPeriod
 		policy.SasExpirationPeriod = &sasExpirationPeriod
@@ -5633,13 +5633,13 @@ func (policy *SasPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SasPolicy_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ExpirationAction’:
+	// Set property "ExpirationAction":
 	if typedInput.ExpirationAction != nil {
 		expirationAction := *typedInput.ExpirationAction
 		policy.ExpirationAction = &expirationAction
 	}
 
-	// Set property ‘SasExpirationPeriod’:
+	// Set property "SasExpirationPeriod":
 	if typedInput.SasExpirationPeriod != nil {
 		sasExpirationPeriod := *typedInput.SasExpirationPeriod
 		policy.SasExpirationPeriod = &sasExpirationPeriod
@@ -5710,13 +5710,13 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	}
 	result := &Sku_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if sku.Name != nil {
 		name := *sku.Name
 		result.Name = &name
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if sku.Tier != nil {
 		tier := *sku.Tier
 		result.Tier = &tier
@@ -5736,13 +5736,13 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		sku.Name = &name
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if typedInput.Tier != nil {
 		tier := *typedInput.Tier
 		sku.Tier = &tier
@@ -5827,13 +5827,13 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		sku.Name = &name
 	}
 
-	// Set property ‘Tier’:
+	// Set property "Tier":
 	if typedInput.Tier != nil {
 		tier := *typedInput.Tier
 		sku.Tier = &tier
@@ -6095,37 +6095,37 @@ func (properties *ActiveDirectoryProperties) ConvertToARM(resolved genruntime.Co
 	}
 	result := &ActiveDirectoryProperties_ARM{}
 
-	// Set property ‘AzureStorageSid’:
+	// Set property "AzureStorageSid":
 	if properties.AzureStorageSid != nil {
 		azureStorageSid := *properties.AzureStorageSid
 		result.AzureStorageSid = &azureStorageSid
 	}
 
-	// Set property ‘DomainGuid’:
+	// Set property "DomainGuid":
 	if properties.DomainGuid != nil {
 		domainGuid := *properties.DomainGuid
 		result.DomainGuid = &domainGuid
 	}
 
-	// Set property ‘DomainName’:
+	// Set property "DomainName":
 	if properties.DomainName != nil {
 		domainName := *properties.DomainName
 		result.DomainName = &domainName
 	}
 
-	// Set property ‘DomainSid’:
+	// Set property "DomainSid":
 	if properties.DomainSid != nil {
 		domainSid := *properties.DomainSid
 		result.DomainSid = &domainSid
 	}
 
-	// Set property ‘ForestName’:
+	// Set property "ForestName":
 	if properties.ForestName != nil {
 		forestName := *properties.ForestName
 		result.ForestName = &forestName
 	}
 
-	// Set property ‘NetBiosDomainName’:
+	// Set property "NetBiosDomainName":
 	if properties.NetBiosDomainName != nil {
 		netBiosDomainName := *properties.NetBiosDomainName
 		result.NetBiosDomainName = &netBiosDomainName
@@ -6145,37 +6145,37 @@ func (properties *ActiveDirectoryProperties) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ActiveDirectoryProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureStorageSid’:
+	// Set property "AzureStorageSid":
 	if typedInput.AzureStorageSid != nil {
 		azureStorageSid := *typedInput.AzureStorageSid
 		properties.AzureStorageSid = &azureStorageSid
 	}
 
-	// Set property ‘DomainGuid’:
+	// Set property "DomainGuid":
 	if typedInput.DomainGuid != nil {
 		domainGuid := *typedInput.DomainGuid
 		properties.DomainGuid = &domainGuid
 	}
 
-	// Set property ‘DomainName’:
+	// Set property "DomainName":
 	if typedInput.DomainName != nil {
 		domainName := *typedInput.DomainName
 		properties.DomainName = &domainName
 	}
 
-	// Set property ‘DomainSid’:
+	// Set property "DomainSid":
 	if typedInput.DomainSid != nil {
 		domainSid := *typedInput.DomainSid
 		properties.DomainSid = &domainSid
 	}
 
-	// Set property ‘ForestName’:
+	// Set property "ForestName":
 	if typedInput.ForestName != nil {
 		forestName := *typedInput.ForestName
 		properties.ForestName = &forestName
 	}
 
-	// Set property ‘NetBiosDomainName’:
+	// Set property "NetBiosDomainName":
 	if typedInput.NetBiosDomainName != nil {
 		netBiosDomainName := *typedInput.NetBiosDomainName
 		properties.NetBiosDomainName = &netBiosDomainName
@@ -6268,37 +6268,37 @@ func (properties *ActiveDirectoryProperties_STATUS) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ActiveDirectoryProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureStorageSid’:
+	// Set property "AzureStorageSid":
 	if typedInput.AzureStorageSid != nil {
 		azureStorageSid := *typedInput.AzureStorageSid
 		properties.AzureStorageSid = &azureStorageSid
 	}
 
-	// Set property ‘DomainGuid’:
+	// Set property "DomainGuid":
 	if typedInput.DomainGuid != nil {
 		domainGuid := *typedInput.DomainGuid
 		properties.DomainGuid = &domainGuid
 	}
 
-	// Set property ‘DomainName’:
+	// Set property "DomainName":
 	if typedInput.DomainName != nil {
 		domainName := *typedInput.DomainName
 		properties.DomainName = &domainName
 	}
 
-	// Set property ‘DomainSid’:
+	// Set property "DomainSid":
 	if typedInput.DomainSid != nil {
 		domainSid := *typedInput.DomainSid
 		properties.DomainSid = &domainSid
 	}
 
-	// Set property ‘ForestName’:
+	// Set property "ForestName":
 	if typedInput.ForestName != nil {
 		forestName := *typedInput.ForestName
 		properties.ForestName = &forestName
 	}
 
-	// Set property ‘NetBiosDomainName’:
+	// Set property "NetBiosDomainName":
 	if typedInput.NetBiosDomainName != nil {
 		netBiosDomainName := *typedInput.NetBiosDomainName
 		properties.NetBiosDomainName = &netBiosDomainName
@@ -6433,7 +6433,7 @@ func (parameters *BlobRestoreParameters_STATUS) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BlobRestoreParameters_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BlobRanges’:
+	// Set property "BlobRanges":
 	for _, item := range typedInput.BlobRanges {
 		var item1 BlobRestoreRange_STATUS
 		err := item1.PopulateFromARM(owner, item)
@@ -6443,7 +6443,7 @@ func (parameters *BlobRestoreParameters_STATUS) PopulateFromARM(owner genruntime
 		parameters.BlobRanges = append(parameters.BlobRanges, item1)
 	}
 
-	// Set property ‘TimeToRestore’:
+	// Set property "TimeToRestore":
 	if typedInput.TimeToRestore != nil {
 		timeToRestore := *typedInput.TimeToRestore
 		parameters.TimeToRestore = &timeToRestore
@@ -6558,7 +6558,7 @@ func (identity *EncryptionIdentity) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &EncryptionIdentity_ARM{}
 
-	// Set property ‘UserAssignedIdentity’:
+	// Set property "UserAssignedIdentity":
 	if identity.UserAssignedIdentityReference != nil {
 		userAssignedIdentityReferenceARMID, err := resolved.ResolvedReferences.Lookup(*identity.UserAssignedIdentityReference)
 		if err != nil {
@@ -6582,7 +6582,7 @@ func (identity *EncryptionIdentity) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EncryptionIdentity_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘UserAssignedIdentityReference’
+	// no assignment for property "UserAssignedIdentityReference"
 
 	// No error
 	return nil
@@ -6646,7 +6646,7 @@ func (identity *EncryptionIdentity_STATUS) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EncryptionIdentity_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘UserAssignedIdentity’:
+	// Set property "UserAssignedIdentity":
 	if typedInput.UserAssignedIdentity != nil {
 		userAssignedIdentity := *typedInput.UserAssignedIdentity
 		identity.UserAssignedIdentity = &userAssignedIdentity
@@ -6702,7 +6702,7 @@ func (services *EncryptionServices) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &EncryptionServices_ARM{}
 
-	// Set property ‘Blob’:
+	// Set property "Blob":
 	if services.Blob != nil {
 		blob_ARM, err := (*services.Blob).ConvertToARM(resolved)
 		if err != nil {
@@ -6712,7 +6712,7 @@ func (services *EncryptionServices) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Blob = &blob
 	}
 
-	// Set property ‘File’:
+	// Set property "File":
 	if services.File != nil {
 		file_ARM, err := (*services.File).ConvertToARM(resolved)
 		if err != nil {
@@ -6722,7 +6722,7 @@ func (services *EncryptionServices) ConvertToARM(resolved genruntime.ConvertToAR
 		result.File = &file
 	}
 
-	// Set property ‘Queue’:
+	// Set property "Queue":
 	if services.Queue != nil {
 		queue_ARM, err := (*services.Queue).ConvertToARM(resolved)
 		if err != nil {
@@ -6732,7 +6732,7 @@ func (services *EncryptionServices) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Queue = &queue
 	}
 
-	// Set property ‘Table’:
+	// Set property "Table":
 	if services.Table != nil {
 		table_ARM, err := (*services.Table).ConvertToARM(resolved)
 		if err != nil {
@@ -6756,7 +6756,7 @@ func (services *EncryptionServices) PopulateFromARM(owner genruntime.ArbitraryOw
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EncryptionServices_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Blob’:
+	// Set property "Blob":
 	if typedInput.Blob != nil {
 		var blob1 EncryptionService
 		err := blob1.PopulateFromARM(owner, *typedInput.Blob)
@@ -6767,7 +6767,7 @@ func (services *EncryptionServices) PopulateFromARM(owner genruntime.ArbitraryOw
 		services.Blob = &blob
 	}
 
-	// Set property ‘File’:
+	// Set property "File":
 	if typedInput.File != nil {
 		var file1 EncryptionService
 		err := file1.PopulateFromARM(owner, *typedInput.File)
@@ -6778,7 +6778,7 @@ func (services *EncryptionServices) PopulateFromARM(owner genruntime.ArbitraryOw
 		services.File = &file
 	}
 
-	// Set property ‘Queue’:
+	// Set property "Queue":
 	if typedInput.Queue != nil {
 		var queue1 EncryptionService
 		err := queue1.PopulateFromARM(owner, *typedInput.Queue)
@@ -6789,7 +6789,7 @@ func (services *EncryptionServices) PopulateFromARM(owner genruntime.ArbitraryOw
 		services.Queue = &queue
 	}
 
-	// Set property ‘Table’:
+	// Set property "Table":
 	if typedInput.Table != nil {
 		var table1 EncryptionService
 		err := table1.PopulateFromARM(owner, *typedInput.Table)
@@ -6945,7 +6945,7 @@ func (services *EncryptionServices_STATUS) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EncryptionServices_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Blob’:
+	// Set property "Blob":
 	if typedInput.Blob != nil {
 		var blob1 EncryptionService_STATUS
 		err := blob1.PopulateFromARM(owner, *typedInput.Blob)
@@ -6956,7 +6956,7 @@ func (services *EncryptionServices_STATUS) PopulateFromARM(owner genruntime.Arbi
 		services.Blob = &blob
 	}
 
-	// Set property ‘File’:
+	// Set property "File":
 	if typedInput.File != nil {
 		var file1 EncryptionService_STATUS
 		err := file1.PopulateFromARM(owner, *typedInput.File)
@@ -6967,7 +6967,7 @@ func (services *EncryptionServices_STATUS) PopulateFromARM(owner genruntime.Arbi
 		services.File = &file
 	}
 
-	// Set property ‘Queue’:
+	// Set property "Queue":
 	if typedInput.Queue != nil {
 		var queue1 EncryptionService_STATUS
 		err := queue1.PopulateFromARM(owner, *typedInput.Queue)
@@ -6978,7 +6978,7 @@ func (services *EncryptionServices_STATUS) PopulateFromARM(owner genruntime.Arbi
 		services.Queue = &queue
 	}
 
-	// Set property ‘Table’:
+	// Set property "Table":
 	if typedInput.Table != nil {
 		var table1 EncryptionService_STATUS
 		err := table1.PopulateFromARM(owner, *typedInput.Table)
@@ -7138,13 +7138,13 @@ func (rule *IPRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 	}
 	result := &IPRule_ARM{}
 
-	// Set property ‘Action’:
+	// Set property "Action":
 	if rule.Action != nil {
 		action := *rule.Action
 		result.Action = &action
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if rule.Value != nil {
 		value := *rule.Value
 		result.Value = &value
@@ -7164,13 +7164,13 @@ func (rule *IPRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IPRule_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Action’:
+	// Set property "Action":
 	if typedInput.Action != nil {
 		action := *typedInput.Action
 		rule.Action = &action
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		rule.Value = &value
@@ -7245,13 +7245,13 @@ func (rule *IPRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IPRule_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Action’:
+	// Set property "Action":
 	if typedInput.Action != nil {
 		action := *typedInput.Action
 		rule.Action = &action
 	}
 
-	// Set property ‘Value’:
+	// Set property "Value":
 	if typedInput.Value != nil {
 		value := *typedInput.Value
 		rule.Value = &value
@@ -7322,19 +7322,19 @@ func (properties *KeyVaultProperties) ConvertToARM(resolved genruntime.ConvertTo
 	}
 	result := &KeyVaultProperties_ARM{}
 
-	// Set property ‘Keyname’:
+	// Set property "Keyname":
 	if properties.Keyname != nil {
 		keyname := *properties.Keyname
 		result.Keyname = &keyname
 	}
 
-	// Set property ‘Keyvaulturi’:
+	// Set property "Keyvaulturi":
 	if properties.Keyvaulturi != nil {
 		keyvaulturi := *properties.Keyvaulturi
 		result.Keyvaulturi = &keyvaulturi
 	}
 
-	// Set property ‘Keyversion’:
+	// Set property "Keyversion":
 	if properties.Keyversion != nil {
 		keyversion := *properties.Keyversion
 		result.Keyversion = &keyversion
@@ -7354,19 +7354,19 @@ func (properties *KeyVaultProperties) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultProperties_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Keyname’:
+	// Set property "Keyname":
 	if typedInput.Keyname != nil {
 		keyname := *typedInput.Keyname
 		properties.Keyname = &keyname
 	}
 
-	// Set property ‘Keyvaulturi’:
+	// Set property "Keyvaulturi":
 	if typedInput.Keyvaulturi != nil {
 		keyvaulturi := *typedInput.Keyvaulturi
 		properties.Keyvaulturi = &keyvaulturi
 	}
 
-	// Set property ‘Keyversion’:
+	// Set property "Keyversion":
 	if typedInput.Keyversion != nil {
 		keyversion := *typedInput.Keyversion
 		properties.Keyversion = &keyversion
@@ -7440,31 +7440,31 @@ func (properties *KeyVaultProperties_STATUS) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultProperties_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CurrentVersionedKeyIdentifier’:
+	// Set property "CurrentVersionedKeyIdentifier":
 	if typedInput.CurrentVersionedKeyIdentifier != nil {
 		currentVersionedKeyIdentifier := *typedInput.CurrentVersionedKeyIdentifier
 		properties.CurrentVersionedKeyIdentifier = &currentVersionedKeyIdentifier
 	}
 
-	// Set property ‘Keyname’:
+	// Set property "Keyname":
 	if typedInput.Keyname != nil {
 		keyname := *typedInput.Keyname
 		properties.Keyname = &keyname
 	}
 
-	// Set property ‘Keyvaulturi’:
+	// Set property "Keyvaulturi":
 	if typedInput.Keyvaulturi != nil {
 		keyvaulturi := *typedInput.Keyvaulturi
 		properties.Keyvaulturi = &keyvaulturi
 	}
 
-	// Set property ‘Keyversion’:
+	// Set property "Keyversion":
 	if typedInput.Keyversion != nil {
 		keyversion := *typedInput.Keyversion
 		properties.Keyversion = &keyversion
 	}
 
-	// Set property ‘LastKeyRotationTimestamp’:
+	// Set property "LastKeyRotationTimestamp":
 	if typedInput.LastKeyRotationTimestamp != nil {
 		lastKeyRotationTimestamp := *typedInput.LastKeyRotationTimestamp
 		properties.LastKeyRotationTimestamp = &lastKeyRotationTimestamp
@@ -7580,7 +7580,7 @@ func (rule *ResourceAccessRule) ConvertToARM(resolved genruntime.ConvertToARMRes
 	}
 	result := &ResourceAccessRule_ARM{}
 
-	// Set property ‘ResourceId’:
+	// Set property "ResourceId":
 	if rule.ResourceReference != nil {
 		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*rule.ResourceReference)
 		if err != nil {
@@ -7590,7 +7590,7 @@ func (rule *ResourceAccessRule) ConvertToARM(resolved genruntime.ConvertToARMRes
 		result.ResourceId = &resourceReference
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if rule.TenantId != nil {
 		tenantId := *rule.TenantId
 		result.TenantId = &tenantId
@@ -7610,9 +7610,9 @@ func (rule *ResourceAccessRule) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceAccessRule_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘ResourceReference’
+	// no assignment for property "ResourceReference"
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
 		rule.TenantId = &tenantId
@@ -7687,13 +7687,13 @@ func (rule *ResourceAccessRule_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceAccessRule_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ResourceId’:
+	// Set property "ResourceId":
 	if typedInput.ResourceId != nil {
 		resourceId := *typedInput.ResourceId
 		rule.ResourceId = &resourceId
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
 		rule.TenantId = &tenantId
@@ -7789,25 +7789,25 @@ func (endpoints *StorageAccountInternetEndpoints_STATUS) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccountInternetEndpoints_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Blob’:
+	// Set property "Blob":
 	if typedInput.Blob != nil {
 		blob := *typedInput.Blob
 		endpoints.Blob = &blob
 	}
 
-	// Set property ‘Dfs’:
+	// Set property "Dfs":
 	if typedInput.Dfs != nil {
 		dfs := *typedInput.Dfs
 		endpoints.Dfs = &dfs
 	}
 
-	// Set property ‘File’:
+	// Set property "File":
 	if typedInput.File != nil {
 		file := *typedInput.File
 		endpoints.File = &file
 	}
 
-	// Set property ‘Web’:
+	// Set property "Web":
 	if typedInput.Web != nil {
 		web := *typedInput.Web
 		endpoints.Web = &web
@@ -7888,37 +7888,37 @@ func (endpoints *StorageAccountMicrosoftEndpoints_STATUS) PopulateFromARM(owner 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccountMicrosoftEndpoints_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Blob’:
+	// Set property "Blob":
 	if typedInput.Blob != nil {
 		blob := *typedInput.Blob
 		endpoints.Blob = &blob
 	}
 
-	// Set property ‘Dfs’:
+	// Set property "Dfs":
 	if typedInput.Dfs != nil {
 		dfs := *typedInput.Dfs
 		endpoints.Dfs = &dfs
 	}
 
-	// Set property ‘File’:
+	// Set property "File":
 	if typedInput.File != nil {
 		file := *typedInput.File
 		endpoints.File = &file
 	}
 
-	// Set property ‘Queue’:
+	// Set property "Queue":
 	if typedInput.Queue != nil {
 		queue := *typedInput.Queue
 		endpoints.Queue = &queue
 	}
 
-	// Set property ‘Table’:
+	// Set property "Table":
 	if typedInput.Table != nil {
 		table := *typedInput.Table
 		endpoints.Table = &table
 	}
 
-	// Set property ‘Web’:
+	// Set property "Web":
 	if typedInput.Web != nil {
 		web := *typedInput.Web
 		endpoints.Web = &web
@@ -8329,13 +8329,13 @@ func (identity *UserAssignedIdentity_STATUS) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentity_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ClientId’:
+	// Set property "ClientId":
 	if typedInput.ClientId != nil {
 		clientId := *typedInput.ClientId
 		identity.ClientId = &clientId
 	}
 
-	// Set property ‘PrincipalId’:
+	// Set property "PrincipalId":
 	if typedInput.PrincipalId != nil {
 		principalId := *typedInput.PrincipalId
 		identity.PrincipalId = &principalId
@@ -8432,13 +8432,13 @@ func (rule *VirtualNetworkRule) ConvertToARM(resolved genruntime.ConvertToARMRes
 	}
 	result := &VirtualNetworkRule_ARM{}
 
-	// Set property ‘Action’:
+	// Set property "Action":
 	if rule.Action != nil {
 		action := *rule.Action
 		result.Action = &action
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if rule.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*rule.Reference)
 		if err != nil {
@@ -8448,7 +8448,7 @@ func (rule *VirtualNetworkRule) ConvertToARM(resolved genruntime.ConvertToARMRes
 		result.Id = &reference
 	}
 
-	// Set property ‘State’:
+	// Set property "State":
 	if rule.State != nil {
 		state := *rule.State
 		result.State = &state
@@ -8468,15 +8468,15 @@ func (rule *VirtualNetworkRule) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkRule_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Action’:
+	// Set property "Action":
 	if typedInput.Action != nil {
 		action := *typedInput.Action
 		rule.Action = &action
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
-	// Set property ‘State’:
+	// Set property "State":
 	if typedInput.State != nil {
 		state := *typedInput.State
 		rule.State = &state
@@ -8578,19 +8578,19 @@ func (rule *VirtualNetworkRule_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkRule_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Action’:
+	// Set property "Action":
 	if typedInput.Action != nil {
 		action := *typedInput.Action
 		rule.Action = &action
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		rule.Id = &id
 	}
 
-	// Set property ‘State’:
+	// Set property "State":
 	if typedInput.State != nil {
 		state := *typedInput.State
 		rule.State = &state
@@ -8681,13 +8681,13 @@ func (restoreRange *BlobRestoreRange_STATUS) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BlobRestoreRange_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘EndRange’:
+	// Set property "EndRange":
 	if typedInput.EndRange != nil {
 		endRange := *typedInput.EndRange
 		restoreRange.EndRange = &endRange
 	}
 
-	// Set property ‘StartRange’:
+	// Set property "StartRange":
 	if typedInput.StartRange != nil {
 		startRange := *typedInput.StartRange
 		restoreRange.StartRange = &startRange
@@ -8747,13 +8747,13 @@ func (service *EncryptionService) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &EncryptionService_ARM{}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if service.Enabled != nil {
 		enabled := *service.Enabled
 		result.Enabled = &enabled
 	}
 
-	// Set property ‘KeyType’:
+	// Set property "KeyType":
 	if service.KeyType != nil {
 		keyType := *service.KeyType
 		result.KeyType = &keyType
@@ -8773,13 +8773,13 @@ func (service *EncryptionService) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EncryptionService_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		service.Enabled = &enabled
 	}
 
-	// Set property ‘KeyType’:
+	// Set property "KeyType":
 	if typedInput.KeyType != nil {
 		keyType := *typedInput.KeyType
 		service.KeyType = &keyType
@@ -8865,19 +8865,19 @@ func (service *EncryptionService_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EncryptionService_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Enabled’:
+	// Set property "Enabled":
 	if typedInput.Enabled != nil {
 		enabled := *typedInput.Enabled
 		service.Enabled = &enabled
 	}
 
-	// Set property ‘KeyType’:
+	// Set property "KeyType":
 	if typedInput.KeyType != nil {
 		keyType := *typedInput.KeyType
 		service.KeyType = &keyType
 	}
 
-	// Set property ‘LastEnabledTime’:
+	// Set property "LastEnabledTime":
 	if typedInput.LastEnabledTime != nil {
 		lastEnabledTime := *typedInput.LastEnabledTime
 		service.LastEnabledTime = &lastEnabledTime

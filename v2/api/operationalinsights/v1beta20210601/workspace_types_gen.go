@@ -352,22 +352,22 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &Workspace_Spec_ARM{}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if workspace.Etag != nil {
 		etag := *workspace.Etag
 		result.Etag = &etag
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if workspace.Location != nil {
 		location := *workspace.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if workspace.Features != nil ||
 		workspace.ForceCmkForQuery != nil ||
 		workspace.ProvisioningState != nil ||
@@ -423,7 +423,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.WorkspaceCapping = &workspaceCapping
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if workspace.Tags != nil {
 		result.Tags = make(map[string]string, len(workspace.Tags))
 		for key, value := range workspace.Tags {
@@ -445,16 +445,16 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspace_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	workspace.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		workspace.Etag = &etag
 	}
 
-	// Set property ‘Features’:
+	// Set property "Features":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Features != nil {
@@ -468,7 +468,7 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘ForceCmkForQuery’:
+	// Set property "ForceCmkForQuery":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ForceCmkForQuery != nil {
@@ -477,16 +477,16 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		workspace.Location = &location
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	workspace.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -495,7 +495,7 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘PublicNetworkAccessForIngestion’:
+	// Set property "PublicNetworkAccessForIngestion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccessForIngestion != nil {
@@ -504,7 +504,7 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘PublicNetworkAccessForQuery’:
+	// Set property "PublicNetworkAccessForQuery":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccessForQuery != nil {
@@ -513,7 +513,7 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘RetentionInDays’:
+	// Set property "RetentionInDays":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RetentionInDays != nil {
@@ -522,7 +522,7 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Sku != nil {
@@ -536,7 +536,7 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		workspace.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -544,7 +544,7 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘WorkspaceCapping’:
+	// Set property "WorkspaceCapping":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.WorkspaceCapping != nil {
@@ -916,9 +916,9 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspace_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘CreatedDate’:
+	// Set property "CreatedDate":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreatedDate != nil {
@@ -927,7 +927,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘CustomerId’:
+	// Set property "CustomerId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CustomerId != nil {
@@ -936,13 +936,13 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		workspace.Etag = &etag
 	}
 
-	// Set property ‘Features’:
+	// Set property "Features":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Features != nil {
@@ -956,7 +956,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘ForceCmkForQuery’:
+	// Set property "ForceCmkForQuery":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ForceCmkForQuery != nil {
@@ -965,19 +965,19 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		workspace.Id = &id
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		workspace.Location = &location
 	}
 
-	// Set property ‘ModifiedDate’:
+	// Set property "ModifiedDate":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ModifiedDate != nil {
@@ -986,13 +986,13 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		workspace.Name = &name
 	}
 
-	// Set property ‘PrivateLinkScopedResources’:
+	// Set property "PrivateLinkScopedResources":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PrivateLinkScopedResources {
@@ -1005,7 +1005,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -1014,7 +1014,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘PublicNetworkAccessForIngestion’:
+	// Set property "PublicNetworkAccessForIngestion":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccessForIngestion != nil {
@@ -1023,7 +1023,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘PublicNetworkAccessForQuery’:
+	// Set property "PublicNetworkAccessForQuery":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccessForQuery != nil {
@@ -1032,7 +1032,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘RetentionInDays’:
+	// Set property "RetentionInDays":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RetentionInDays != nil {
@@ -1041,7 +1041,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Sku’:
+	// Set property "Sku":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Sku != nil {
@@ -1055,7 +1055,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		workspace.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -1063,13 +1063,13 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		workspace.Type = &typeVar
 	}
 
-	// Set property ‘WorkspaceCapping’:
+	// Set property "WorkspaceCapping":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.WorkspaceCapping != nil {
@@ -1368,13 +1368,13 @@ func (resource *PrivateLinkScopedResource_STATUS) PopulateFromARM(owner genrunti
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkScopedResource_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ResourceId’:
+	// Set property "ResourceId":
 	if typedInput.ResourceId != nil {
 		resourceId := *typedInput.ResourceId
 		resource.ResourceId = &resourceId
 	}
 
-	// Set property ‘ScopeId’:
+	// Set property "ScopeId":
 	if typedInput.ScopeId != nil {
 		scopeId := *typedInput.ScopeId
 		resource.ScopeId = &scopeId
@@ -1450,7 +1450,7 @@ func (capping *WorkspaceCapping) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &WorkspaceCapping_ARM{}
 
-	// Set property ‘DailyQuotaGb’:
+	// Set property "DailyQuotaGb":
 	if capping.DailyQuotaGb != nil {
 		dailyQuotaGb := *capping.DailyQuotaGb
 		result.DailyQuotaGb = &dailyQuotaGb
@@ -1470,7 +1470,7 @@ func (capping *WorkspaceCapping) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceCapping_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DailyQuotaGb’:
+	// Set property "DailyQuotaGb":
 	if typedInput.DailyQuotaGb != nil {
 		dailyQuotaGb := *typedInput.DailyQuotaGb
 		capping.DailyQuotaGb = &dailyQuotaGb
@@ -1540,19 +1540,19 @@ func (capping *WorkspaceCapping_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceCapping_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DailyQuotaGb’:
+	// Set property "DailyQuotaGb":
 	if typedInput.DailyQuotaGb != nil {
 		dailyQuotaGb := *typedInput.DailyQuotaGb
 		capping.DailyQuotaGb = &dailyQuotaGb
 	}
 
-	// Set property ‘DataIngestionStatus’:
+	// Set property "DataIngestionStatus":
 	if typedInput.DataIngestionStatus != nil {
 		dataIngestionStatus := *typedInput.DataIngestionStatus
 		capping.DataIngestionStatus = &dataIngestionStatus
 	}
 
-	// Set property ‘QuotaNextResetTime’:
+	// Set property "QuotaNextResetTime":
 	if typedInput.QuotaNextResetTime != nil {
 		quotaNextResetTime := *typedInput.QuotaNextResetTime
 		capping.QuotaNextResetTime = &quotaNextResetTime
@@ -1641,7 +1641,7 @@ func (features *WorkspaceFeatures) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &WorkspaceFeatures_ARM{}
 
-	// Set property ‘ClusterResourceId’:
+	// Set property "ClusterResourceId":
 	if features.ClusterResourceReference != nil {
 		clusterResourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*features.ClusterResourceReference)
 		if err != nil {
@@ -1651,25 +1651,25 @@ func (features *WorkspaceFeatures) ConvertToARM(resolved genruntime.ConvertToARM
 		result.ClusterResourceId = &clusterResourceReference
 	}
 
-	// Set property ‘DisableLocalAuth’:
+	// Set property "DisableLocalAuth":
 	if features.DisableLocalAuth != nil {
 		disableLocalAuth := *features.DisableLocalAuth
 		result.DisableLocalAuth = &disableLocalAuth
 	}
 
-	// Set property ‘EnableDataExport’:
+	// Set property "EnableDataExport":
 	if features.EnableDataExport != nil {
 		enableDataExport := *features.EnableDataExport
 		result.EnableDataExport = &enableDataExport
 	}
 
-	// Set property ‘EnableLogAccessUsingOnlyResourcePermissions’:
+	// Set property "EnableLogAccessUsingOnlyResourcePermissions":
 	if features.EnableLogAccessUsingOnlyResourcePermissions != nil {
 		enableLogAccessUsingOnlyResourcePermissions := *features.EnableLogAccessUsingOnlyResourcePermissions
 		result.EnableLogAccessUsingOnlyResourcePermissions = &enableLogAccessUsingOnlyResourcePermissions
 	}
 
-	// Set property ‘ImmediatePurgeDataOn30Days’:
+	// Set property "ImmediatePurgeDataOn30Days":
 	if features.ImmediatePurgeDataOn30Days != nil {
 		immediatePurgeDataOn30Days := *features.ImmediatePurgeDataOn30Days
 		result.ImmediatePurgeDataOn30Days = &immediatePurgeDataOn30Days
@@ -1689,27 +1689,27 @@ func (features *WorkspaceFeatures) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceFeatures_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘ClusterResourceReference’
+	// no assignment for property "ClusterResourceReference"
 
-	// Set property ‘DisableLocalAuth’:
+	// Set property "DisableLocalAuth":
 	if typedInput.DisableLocalAuth != nil {
 		disableLocalAuth := *typedInput.DisableLocalAuth
 		features.DisableLocalAuth = &disableLocalAuth
 	}
 
-	// Set property ‘EnableDataExport’:
+	// Set property "EnableDataExport":
 	if typedInput.EnableDataExport != nil {
 		enableDataExport := *typedInput.EnableDataExport
 		features.EnableDataExport = &enableDataExport
 	}
 
-	// Set property ‘EnableLogAccessUsingOnlyResourcePermissions’:
+	// Set property "EnableLogAccessUsingOnlyResourcePermissions":
 	if typedInput.EnableLogAccessUsingOnlyResourcePermissions != nil {
 		enableLogAccessUsingOnlyResourcePermissions := *typedInput.EnableLogAccessUsingOnlyResourcePermissions
 		features.EnableLogAccessUsingOnlyResourcePermissions = &enableLogAccessUsingOnlyResourcePermissions
 	}
 
-	// Set property ‘ImmediatePurgeDataOn30Days’:
+	// Set property "ImmediatePurgeDataOn30Days":
 	if typedInput.ImmediatePurgeDataOn30Days != nil {
 		immediatePurgeDataOn30Days := *typedInput.ImmediatePurgeDataOn30Days
 		features.ImmediatePurgeDataOn30Days = &immediatePurgeDataOn30Days
@@ -1845,31 +1845,31 @@ func (features *WorkspaceFeatures_STATUS) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceFeatures_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ClusterResourceId’:
+	// Set property "ClusterResourceId":
 	if typedInput.ClusterResourceId != nil {
 		clusterResourceId := *typedInput.ClusterResourceId
 		features.ClusterResourceId = &clusterResourceId
 	}
 
-	// Set property ‘DisableLocalAuth’:
+	// Set property "DisableLocalAuth":
 	if typedInput.DisableLocalAuth != nil {
 		disableLocalAuth := *typedInput.DisableLocalAuth
 		features.DisableLocalAuth = &disableLocalAuth
 	}
 
-	// Set property ‘EnableDataExport’:
+	// Set property "EnableDataExport":
 	if typedInput.EnableDataExport != nil {
 		enableDataExport := *typedInput.EnableDataExport
 		features.EnableDataExport = &enableDataExport
 	}
 
-	// Set property ‘EnableLogAccessUsingOnlyResourcePermissions’:
+	// Set property "EnableLogAccessUsingOnlyResourcePermissions":
 	if typedInput.EnableLogAccessUsingOnlyResourcePermissions != nil {
 		enableLogAccessUsingOnlyResourcePermissions := *typedInput.EnableLogAccessUsingOnlyResourcePermissions
 		features.EnableLogAccessUsingOnlyResourcePermissions = &enableLogAccessUsingOnlyResourcePermissions
 	}
 
-	// Set property ‘ImmediatePurgeDataOn30Days’:
+	// Set property "ImmediatePurgeDataOn30Days":
 	if typedInput.ImmediatePurgeDataOn30Days != nil {
 		immediatePurgeDataOn30Days := *typedInput.ImmediatePurgeDataOn30Days
 		features.ImmediatePurgeDataOn30Days = &immediatePurgeDataOn30Days
@@ -2018,13 +2018,13 @@ func (workspaceSku *WorkspaceSku) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &WorkspaceSku_ARM{}
 
-	// Set property ‘CapacityReservationLevel’:
+	// Set property "CapacityReservationLevel":
 	if workspaceSku.CapacityReservationLevel != nil {
 		capacityReservationLevel := *workspaceSku.CapacityReservationLevel
 		result.CapacityReservationLevel = &capacityReservationLevel
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if workspaceSku.Name != nil {
 		name := *workspaceSku.Name
 		result.Name = &name
@@ -2044,13 +2044,13 @@ func (workspaceSku *WorkspaceSku) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceSku_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CapacityReservationLevel’:
+	// Set property "CapacityReservationLevel":
 	if typedInput.CapacityReservationLevel != nil {
 		capacityReservationLevel := *typedInput.CapacityReservationLevel
 		workspaceSku.CapacityReservationLevel = &capacityReservationLevel
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		workspaceSku.Name = &name
@@ -2136,19 +2136,19 @@ func (workspaceSku *WorkspaceSku_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceSku_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CapacityReservationLevel’:
+	// Set property "CapacityReservationLevel":
 	if typedInput.CapacityReservationLevel != nil {
 		capacityReservationLevel := *typedInput.CapacityReservationLevel
 		workspaceSku.CapacityReservationLevel = &capacityReservationLevel
 	}
 
-	// Set property ‘LastSkuUpdate’:
+	// Set property "LastSkuUpdate":
 	if typedInput.LastSkuUpdate != nil {
 		lastSkuUpdate := *typedInput.LastSkuUpdate
 		workspaceSku.LastSkuUpdate = &lastSkuUpdate
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		workspaceSku.Name = &name

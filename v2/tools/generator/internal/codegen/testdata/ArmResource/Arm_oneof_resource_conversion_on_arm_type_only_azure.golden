@@ -308,13 +308,13 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &FakeResource_Spec_ARM{}
 
-	// Set property ‘APIVersion’:
+	// Set property "APIVersion":
 	result.APIVersion = resource.APIVersion
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	result.Type = resource.Type
 	return result, nil
 }
@@ -331,16 +331,16 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘APIVersion’:
+	// Set property "APIVersion":
 	resource.APIVersion = typedInput.APIVersion
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	resource.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	resource.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	resource.Type = typedInput.Type
 
 	// No error

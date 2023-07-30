@@ -342,16 +342,16 @@ func (endpoint *DnsResolvers_OutboundEndpoint_Spec) ConvertToARM(resolved genrun
 	}
 	result := &DnsResolvers_OutboundEndpoint_Spec_ARM{}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if endpoint.Location != nil {
 		location := *endpoint.Location
 		result.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if endpoint.Subnet != nil {
 		result.Properties = &OutboundEndpointProperties_ARM{}
 	}
@@ -364,7 +364,7 @@ func (endpoint *DnsResolvers_OutboundEndpoint_Spec) ConvertToARM(resolved genrun
 		result.Properties.Subnet = &subnet
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if endpoint.Tags != nil {
 		result.Tags = make(map[string]string, len(endpoint.Tags))
 		for key, value := range endpoint.Tags {
@@ -386,19 +386,19 @@ func (endpoint *DnsResolvers_OutboundEndpoint_Spec) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsResolvers_OutboundEndpoint_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	endpoint.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		endpoint.Location = &location
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	endpoint.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Subnet’:
+	// Set property "Subnet":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Subnet != nil {
@@ -412,7 +412,7 @@ func (endpoint *DnsResolvers_OutboundEndpoint_Spec) PopulateFromARM(owner genrun
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		endpoint.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -694,33 +694,33 @@ func (endpoint *DnsResolvers_OutboundEndpoint_STATUS) PopulateFromARM(owner genr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DnsResolvers_OutboundEndpoint_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Etag’:
+	// Set property "Etag":
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
 		endpoint.Etag = &etag
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		endpoint.Id = &id
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		endpoint.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		endpoint.Name = &name
 	}
 
-	// Set property ‘ProvisioningState’:
+	// Set property "ProvisioningState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
@@ -729,7 +729,7 @@ func (endpoint *DnsResolvers_OutboundEndpoint_STATUS) PopulateFromARM(owner genr
 		}
 	}
 
-	// Set property ‘ResourceGuid’:
+	// Set property "ResourceGuid":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResourceGuid != nil {
@@ -738,7 +738,7 @@ func (endpoint *DnsResolvers_OutboundEndpoint_STATUS) PopulateFromARM(owner genr
 		}
 	}
 
-	// Set property ‘Subnet’:
+	// Set property "Subnet":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Subnet != nil {
@@ -752,7 +752,7 @@ func (endpoint *DnsResolvers_OutboundEndpoint_STATUS) PopulateFromARM(owner genr
 		}
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -763,7 +763,7 @@ func (endpoint *DnsResolvers_OutboundEndpoint_STATUS) PopulateFromARM(owner genr
 		endpoint.SystemData = &systemData
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		endpoint.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -771,7 +771,7 @@ func (endpoint *DnsResolvers_OutboundEndpoint_STATUS) PopulateFromARM(owner genr
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		endpoint.Type = &typeVar

@@ -344,10 +344,10 @@ func (subscription *Namespaces_Topics_Subscription_Spec) ConvertToARM(resolved g
 	}
 	result := &Namespaces_Topics_Subscription_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if subscription.AutoDeleteOnIdle != nil ||
 		subscription.DeadLetteringOnFilterEvaluationExceptions != nil ||
 		subscription.DeadLetteringOnMessageExpiration != nil ||
@@ -420,7 +420,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Topics_Subscription_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AutoDeleteOnIdle’:
+	// Set property "AutoDeleteOnIdle":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutoDeleteOnIdle != nil {
@@ -429,10 +429,10 @@ func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	subscription.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘DeadLetteringOnFilterEvaluationExceptions’:
+	// Set property "DeadLetteringOnFilterEvaluationExceptions":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeadLetteringOnFilterEvaluationExceptions != nil {
@@ -441,7 +441,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘DeadLetteringOnMessageExpiration’:
+	// Set property "DeadLetteringOnMessageExpiration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeadLetteringOnMessageExpiration != nil {
@@ -450,7 +450,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘DefaultMessageTimeToLive’:
+	// Set property "DefaultMessageTimeToLive":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultMessageTimeToLive != nil {
@@ -459,7 +459,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘DuplicateDetectionHistoryTimeWindow’:
+	// Set property "DuplicateDetectionHistoryTimeWindow":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DuplicateDetectionHistoryTimeWindow != nil {
@@ -468,7 +468,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘EnableBatchedOperations’:
+	// Set property "EnableBatchedOperations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableBatchedOperations != nil {
@@ -477,7 +477,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘ForwardDeadLetteredMessagesTo’:
+	// Set property "ForwardDeadLetteredMessagesTo":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ForwardDeadLetteredMessagesTo != nil {
@@ -486,7 +486,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘ForwardTo’:
+	// Set property "ForwardTo":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ForwardTo != nil {
@@ -495,7 +495,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘LockDuration’:
+	// Set property "LockDuration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LockDuration != nil {
@@ -504,7 +504,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘MaxDeliveryCount’:
+	// Set property "MaxDeliveryCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxDeliveryCount != nil {
@@ -513,10 +513,10 @@ func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	subscription.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘RequiresSession’:
+	// Set property "RequiresSession":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RequiresSession != nil {
@@ -835,7 +835,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Topics_Subscription_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AccessedAt’:
+	// Set property "AccessedAt":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AccessedAt != nil {
@@ -844,7 +844,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘AutoDeleteOnIdle’:
+	// Set property "AutoDeleteOnIdle":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutoDeleteOnIdle != nil {
@@ -853,9 +853,9 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘CountDetails’:
+	// Set property "CountDetails":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CountDetails != nil {
@@ -869,7 +869,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘CreatedAt’:
+	// Set property "CreatedAt":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreatedAt != nil {
@@ -878,7 +878,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘DeadLetteringOnFilterEvaluationExceptions’:
+	// Set property "DeadLetteringOnFilterEvaluationExceptions":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeadLetteringOnFilterEvaluationExceptions != nil {
@@ -887,7 +887,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘DeadLetteringOnMessageExpiration’:
+	// Set property "DeadLetteringOnMessageExpiration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeadLetteringOnMessageExpiration != nil {
@@ -896,7 +896,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘DefaultMessageTimeToLive’:
+	// Set property "DefaultMessageTimeToLive":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultMessageTimeToLive != nil {
@@ -905,7 +905,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘DuplicateDetectionHistoryTimeWindow’:
+	// Set property "DuplicateDetectionHistoryTimeWindow":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DuplicateDetectionHistoryTimeWindow != nil {
@@ -914,7 +914,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘EnableBatchedOperations’:
+	// Set property "EnableBatchedOperations":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableBatchedOperations != nil {
@@ -923,7 +923,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘ForwardDeadLetteredMessagesTo’:
+	// Set property "ForwardDeadLetteredMessagesTo":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ForwardDeadLetteredMessagesTo != nil {
@@ -932,7 +932,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘ForwardTo’:
+	// Set property "ForwardTo":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ForwardTo != nil {
@@ -941,13 +941,13 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		subscription.Id = &id
 	}
 
-	// Set property ‘LockDuration’:
+	// Set property "LockDuration":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LockDuration != nil {
@@ -956,7 +956,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘MaxDeliveryCount’:
+	// Set property "MaxDeliveryCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxDeliveryCount != nil {
@@ -965,7 +965,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘MessageCount’:
+	// Set property "MessageCount":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MessageCount != nil {
@@ -974,13 +974,13 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		subscription.Name = &name
 	}
 
-	// Set property ‘RequiresSession’:
+	// Set property "RequiresSession":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RequiresSession != nil {
@@ -989,7 +989,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘Status’:
+	// Set property "Status":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Status != nil {
@@ -998,7 +998,7 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -1009,13 +1009,13 @@ func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner
 		subscription.SystemData = &systemData
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		subscription.Type = &typeVar
 	}
 
-	// Set property ‘UpdatedAt’:
+	// Set property "UpdatedAt":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.UpdatedAt != nil {

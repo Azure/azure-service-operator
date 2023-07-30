@@ -359,10 +359,10 @@ func (administrator *FlexibleServers_Administrator_Spec) ConvertToARM(resolved g
 	}
 	result := &FlexibleServers_Administrator_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if administrator.AdministratorType != nil ||
 		administrator.IdentityResourceReference != nil ||
 		administrator.Login != nil ||
@@ -427,7 +427,7 @@ func (administrator *FlexibleServers_Administrator_Spec) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServers_Administrator_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdministratorType’:
+	// Set property "AdministratorType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AdministratorType != nil {
@@ -436,9 +436,9 @@ func (administrator *FlexibleServers_Administrator_Spec) PopulateFromARM(owner g
 		}
 	}
 
-	// no assignment for property ‘IdentityResourceReference’
+	// no assignment for property "IdentityResourceReference"
 
-	// Set property ‘Login’:
+	// Set property "Login":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Login != nil {
@@ -447,10 +447,10 @@ func (administrator *FlexibleServers_Administrator_Spec) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	administrator.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘Sid’:
+	// Set property "Sid":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Sid != nil {
@@ -459,9 +459,9 @@ func (administrator *FlexibleServers_Administrator_Spec) PopulateFromARM(owner g
 		}
 	}
 
-	// no assignment for property ‘SidFromConfig’
+	// no assignment for property "SidFromConfig"
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TenantId != nil {
@@ -470,7 +470,7 @@ func (administrator *FlexibleServers_Administrator_Spec) PopulateFromARM(owner g
 		}
 	}
 
-	// no assignment for property ‘TenantIdFromConfig’
+	// no assignment for property "TenantIdFromConfig"
 
 	// No error
 	return nil
@@ -784,7 +784,7 @@ func (administrator *FlexibleServers_Administrator_STATUS) PopulateFromARM(owner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServers_Administrator_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdministratorType’:
+	// Set property "AdministratorType":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AdministratorType != nil {
@@ -793,15 +793,15 @@ func (administrator *FlexibleServers_Administrator_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		administrator.Id = &id
 	}
 
-	// Set property ‘IdentityResourceId’:
+	// Set property "IdentityResourceId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IdentityResourceId != nil {
@@ -810,7 +810,7 @@ func (administrator *FlexibleServers_Administrator_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘Login’:
+	// Set property "Login":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Login != nil {
@@ -819,13 +819,13 @@ func (administrator *FlexibleServers_Administrator_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		administrator.Name = &name
 	}
 
-	// Set property ‘Sid’:
+	// Set property "Sid":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Sid != nil {
@@ -834,7 +834,7 @@ func (administrator *FlexibleServers_Administrator_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘SystemData’:
+	// Set property "SystemData":
 	if typedInput.SystemData != nil {
 		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
@@ -845,7 +845,7 @@ func (administrator *FlexibleServers_Administrator_STATUS) PopulateFromARM(owner
 		administrator.SystemData = &systemData
 	}
 
-	// Set property ‘TenantId’:
+	// Set property "TenantId":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TenantId != nil {
@@ -854,7 +854,7 @@ func (administrator *FlexibleServers_Administrator_STATUS) PopulateFromARM(owner
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		administrator.Type = &typeVar
@@ -1019,37 +1019,37 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CreatedAt’:
+	// Set property "CreatedAt":
 	if typedInput.CreatedAt != nil {
 		createdAt := *typedInput.CreatedAt
 		data.CreatedAt = &createdAt
 	}
 
-	// Set property ‘CreatedBy’:
+	// Set property "CreatedBy":
 	if typedInput.CreatedBy != nil {
 		createdBy := *typedInput.CreatedBy
 		data.CreatedBy = &createdBy
 	}
 
-	// Set property ‘CreatedByType’:
+	// Set property "CreatedByType":
 	if typedInput.CreatedByType != nil {
 		createdByType := *typedInput.CreatedByType
 		data.CreatedByType = &createdByType
 	}
 
-	// Set property ‘LastModifiedAt’:
+	// Set property "LastModifiedAt":
 	if typedInput.LastModifiedAt != nil {
 		lastModifiedAt := *typedInput.LastModifiedAt
 		data.LastModifiedAt = &lastModifiedAt
 	}
 
-	// Set property ‘LastModifiedBy’:
+	// Set property "LastModifiedBy":
 	if typedInput.LastModifiedBy != nil {
 		lastModifiedBy := *typedInput.LastModifiedBy
 		data.LastModifiedBy = &lastModifiedBy
 	}
 
-	// Set property ‘LastModifiedByType’:
+	// Set property "LastModifiedByType":
 	if typedInput.LastModifiedByType != nil {
 		lastModifiedByType := *typedInput.LastModifiedByType
 		data.LastModifiedByType = &lastModifiedByType

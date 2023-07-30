@@ -348,10 +348,10 @@ func (group *Servers_FailoverGroup_Spec) ConvertToARM(resolved genruntime.Conver
 	}
 	result := &Servers_FailoverGroup_Spec_ARM{}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
+	// Set property "Properties":
 	if group.DatabasesReferences != nil ||
 		group.PartnerServers != nil ||
 		group.ReadOnlyEndpoint != nil ||
@@ -389,7 +389,7 @@ func (group *Servers_FailoverGroup_Spec) ConvertToARM(resolved genruntime.Conver
 		result.Properties.ReadWriteEndpoint = &readWriteEndpoint
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if group.Tags != nil {
 		result.Tags = make(map[string]string, len(group.Tags))
 		for key, value := range group.Tags {
@@ -411,15 +411,15 @@ func (group *Servers_FailoverGroup_Spec) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_FailoverGroup_Spec_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AzureName’:
+	// Set property "AzureName":
 	group.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// no assignment for property ‘DatabasesReferences’
+	// no assignment for property "DatabasesReferences"
 
-	// Set property ‘Owner’:
+	// Set property "Owner":
 	group.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// Set property ‘PartnerServers’:
+	// Set property "PartnerServers":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PartnerServers {
@@ -432,7 +432,7 @@ func (group *Servers_FailoverGroup_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘ReadOnlyEndpoint’:
+	// Set property "ReadOnlyEndpoint":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ReadOnlyEndpoint != nil {
@@ -446,7 +446,7 @@ func (group *Servers_FailoverGroup_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘ReadWriteEndpoint’:
+	// Set property "ReadWriteEndpoint":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ReadWriteEndpoint != nil {
@@ -460,7 +460,7 @@ func (group *Servers_FailoverGroup_Spec) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		group.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -848,9 +848,9 @@ func (group *Servers_FailoverGroup_STATUS) PopulateFromARM(owner genruntime.Arbi
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Servers_FailoverGroup_STATUS_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Conditions’
+	// no assignment for property "Conditions"
 
-	// Set property ‘Databases’:
+	// Set property "Databases":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Databases {
@@ -858,25 +858,25 @@ func (group *Servers_FailoverGroup_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		group.Id = &id
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		group.Location = &location
 	}
 
-	// Set property ‘Name’:
+	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		group.Name = &name
 	}
 
-	// Set property ‘PartnerServers’:
+	// Set property "PartnerServers":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PartnerServers {
@@ -889,7 +889,7 @@ func (group *Servers_FailoverGroup_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘ReadOnlyEndpoint’:
+	// Set property "ReadOnlyEndpoint":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ReadOnlyEndpoint != nil {
@@ -903,7 +903,7 @@ func (group *Servers_FailoverGroup_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘ReadWriteEndpoint’:
+	// Set property "ReadWriteEndpoint":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ReadWriteEndpoint != nil {
@@ -917,7 +917,7 @@ func (group *Servers_FailoverGroup_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘ReplicationRole’:
+	// Set property "ReplicationRole":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ReplicationRole != nil {
@@ -926,7 +926,7 @@ func (group *Servers_FailoverGroup_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘ReplicationState’:
+	// Set property "ReplicationState":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ReplicationState != nil {
@@ -935,7 +935,7 @@ func (group *Servers_FailoverGroup_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘Tags’:
+	// Set property "Tags":
 	if typedInput.Tags != nil {
 		group.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
@@ -943,7 +943,7 @@ func (group *Servers_FailoverGroup_STATUS) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘Type’:
+	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		group.Type = &typeVar
@@ -1146,7 +1146,7 @@ func (endpoint *FailoverGroupReadOnlyEndpoint) ConvertToARM(resolved genruntime.
 	}
 	result := &FailoverGroupReadOnlyEndpoint_ARM{}
 
-	// Set property ‘FailoverPolicy’:
+	// Set property "FailoverPolicy":
 	if endpoint.FailoverPolicy != nil {
 		failoverPolicy := *endpoint.FailoverPolicy
 		result.FailoverPolicy = &failoverPolicy
@@ -1166,7 +1166,7 @@ func (endpoint *FailoverGroupReadOnlyEndpoint) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FailoverGroupReadOnlyEndpoint_ARM, got %T", armInput)
 	}
 
-	// Set property ‘FailoverPolicy’:
+	// Set property "FailoverPolicy":
 	if typedInput.FailoverPolicy != nil {
 		failoverPolicy := *typedInput.FailoverPolicy
 		endpoint.FailoverPolicy = &failoverPolicy
@@ -1250,7 +1250,7 @@ func (endpoint *FailoverGroupReadOnlyEndpoint_STATUS) PopulateFromARM(owner genr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FailoverGroupReadOnlyEndpoint_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘FailoverPolicy’:
+	// Set property "FailoverPolicy":
 	if typedInput.FailoverPolicy != nil {
 		failoverPolicy := *typedInput.FailoverPolicy
 		endpoint.FailoverPolicy = &failoverPolicy
@@ -1320,13 +1320,13 @@ func (endpoint *FailoverGroupReadWriteEndpoint) ConvertToARM(resolved genruntime
 	}
 	result := &FailoverGroupReadWriteEndpoint_ARM{}
 
-	// Set property ‘FailoverPolicy’:
+	// Set property "FailoverPolicy":
 	if endpoint.FailoverPolicy != nil {
 		failoverPolicy := *endpoint.FailoverPolicy
 		result.FailoverPolicy = &failoverPolicy
 	}
 
-	// Set property ‘FailoverWithDataLossGracePeriodMinutes’:
+	// Set property "FailoverWithDataLossGracePeriodMinutes":
 	if endpoint.FailoverWithDataLossGracePeriodMinutes != nil {
 		failoverWithDataLossGracePeriodMinutes := *endpoint.FailoverWithDataLossGracePeriodMinutes
 		result.FailoverWithDataLossGracePeriodMinutes = &failoverWithDataLossGracePeriodMinutes
@@ -1346,13 +1346,13 @@ func (endpoint *FailoverGroupReadWriteEndpoint) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FailoverGroupReadWriteEndpoint_ARM, got %T", armInput)
 	}
 
-	// Set property ‘FailoverPolicy’:
+	// Set property "FailoverPolicy":
 	if typedInput.FailoverPolicy != nil {
 		failoverPolicy := *typedInput.FailoverPolicy
 		endpoint.FailoverPolicy = &failoverPolicy
 	}
 
-	// Set property ‘FailoverWithDataLossGracePeriodMinutes’:
+	// Set property "FailoverWithDataLossGracePeriodMinutes":
 	if typedInput.FailoverWithDataLossGracePeriodMinutes != nil {
 		failoverWithDataLossGracePeriodMinutes := *typedInput.FailoverWithDataLossGracePeriodMinutes
 		endpoint.FailoverWithDataLossGracePeriodMinutes = &failoverWithDataLossGracePeriodMinutes
@@ -1450,13 +1450,13 @@ func (endpoint *FailoverGroupReadWriteEndpoint_STATUS) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FailoverGroupReadWriteEndpoint_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘FailoverPolicy’:
+	// Set property "FailoverPolicy":
 	if typedInput.FailoverPolicy != nil {
 		failoverPolicy := *typedInput.FailoverPolicy
 		endpoint.FailoverPolicy = &failoverPolicy
 	}
 
-	// Set property ‘FailoverWithDataLossGracePeriodMinutes’:
+	// Set property "FailoverWithDataLossGracePeriodMinutes":
 	if typedInput.FailoverWithDataLossGracePeriodMinutes != nil {
 		failoverWithDataLossGracePeriodMinutes := *typedInput.FailoverWithDataLossGracePeriodMinutes
 		endpoint.FailoverWithDataLossGracePeriodMinutes = &failoverWithDataLossGracePeriodMinutes
@@ -1527,7 +1527,7 @@ func (info *PartnerInfo) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	}
 	result := &PartnerInfo_ARM{}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if info.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*info.Reference)
 		if err != nil {
@@ -1551,7 +1551,7 @@ func (info *PartnerInfo) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PartnerInfo_ARM, got %T", armInput)
 	}
 
-	// no assignment for property ‘Reference’
+	// no assignment for property "Reference"
 
 	// No error
 	return nil
@@ -1637,19 +1637,19 @@ func (info *PartnerInfo_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PartnerInfo_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
+	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		info.Id = &id
 	}
 
-	// Set property ‘Location’:
+	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		info.Location = &location
 	}
 
-	// Set property ‘ReplicationRole’:
+	// Set property "ReplicationRole":
 	if typedInput.ReplicationRole != nil {
 		replicationRole := *typedInput.ReplicationRole
 		info.ReplicationRole = &replicationRole
