@@ -23,7 +23,7 @@ const (
 	FederatedTokenFilePath = "/var/run/secrets/tokens/azure-identity"
 )
 
-// =================== Annotation Constants ===================
+// =================== MultiTenant Constants ===================
 
 const (
 	PerResourceSecretAnnotation = "serviceoperator.azure.com/credential-from"
