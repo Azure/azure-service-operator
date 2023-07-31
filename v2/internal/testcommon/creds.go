@@ -12,7 +12,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/pkg/errors"
 
-	"github.com/Azure/azure-service-operator/v2/internal/config"
+	"github.com/Azure/azure-service-operator/v2/pkg/common"
 )
 
 // this is shared between tests because
@@ -39,14 +39,14 @@ func getCreds() (azcore.TokenCredential, AzureIDs, error) {
 		return nil, AzureIDs{}, errors.Wrapf(err, "creating default credential")
 	}
 
-	subscriptionID := os.Getenv(config.SubscriptionIDVar)
+	subscriptionID := os.Getenv(common.SubscriptionIDVar)
 	if subscriptionID == "" {
-		return nil, AzureIDs{}, errors.Errorf("required environment variable %q was not supplied", config.SubscriptionIDVar)
+		return nil, AzureIDs{}, errors.Errorf("required environment variable %q was not supplied", common.SubscriptionIDVar)
 	}
 
-	tenantID := os.Getenv(config.TenantIDVar)
+	tenantID := os.Getenv(common.TenantIDVar)
 	if tenantID == "" {
-		return nil, AzureIDs{}, errors.Errorf("required environment variable %q was not supplied", config.TenantIDVar)
+		return nil, AzureIDs{}, errors.Errorf("required environment variable %q was not supplied", common.TenantIDVar)
 	}
 
 	// This is test specific and doesn't have a corresponding config entry. It's also optional as it's only required for
