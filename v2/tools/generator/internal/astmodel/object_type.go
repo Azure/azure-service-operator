@@ -582,7 +582,7 @@ func extractEmbeddedTypeName(t Type) (TypeName, error) {
 		return typeName, nil
 	}
 
-	return TypeName{}, errors.Errorf("embedded property type must be TypeName, was: %T", t)
+	return nil, errors.Errorf("embedded property type must be TypeName, was: %T", t)
 }
 
 // WriteDebugDescription adds a description of the current type to the passed builder.

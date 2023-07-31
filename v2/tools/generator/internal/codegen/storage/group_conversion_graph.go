@@ -25,7 +25,7 @@ type GroupConversionGraph struct {
 func (graph *GroupConversionGraph) LookupTransition(name astmodel.TypeName) astmodel.TypeName {
 	subgraph, ok := graph.subGraphs[name.Name()]
 	if !ok {
-		return astmodel.EmptyTypeName
+		return nil
 	}
 
 	return subgraph.LookupTransition(name)
@@ -53,18 +53,18 @@ func (graph *GroupConversionGraph) searchForRenamedType(
 
 	// No configuration, or we're not looking at a storage package
 	if graph.configuration == nil || !astmodel.IsStoragePackageReference(name.PackageReference()) {
-		return astmodel.EmptyTypeName, nil
+		return nil, nil
 	}
 
 	rename, err := graph.configuration.TypeNameInNextVersion.Lookup(name)
 	if config.IsNotConfiguredError(err) {
 		// We found no configured rename, nothing to do
-		return astmodel.EmptyTypeName, nil
+		return nil, nil
 	}
 
 	// If we have any error other than a NotConfiguredError, something went wrong, and we must abort
 	if err != nil {
-		return astmodel.EmptyTypeName,
+		return nil,
 			errors.Wrapf(err, "finding next type after %s", name)
 	}
 
@@ -90,6 +90,6 @@ func (graph *GroupConversionGraph) searchForRenamedType(
 	}
 
 	// Didn't find the type we're looking for
-	return astmodel.EmptyTypeName,
+	return nil,
 		errors.Errorf("rename of %s invalid because no type with name %s was found in any later version", name, rename)
 }

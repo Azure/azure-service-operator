@@ -55,7 +55,7 @@ func InjectPropertyAssignmentFunctions(
 					return nil, errors.Wrapf(err, "finding next type after %s", name)
 				}
 
-				if nextName.IsEmpty() {
+				if nextName == nil {
 					// No next type, so nothing to do (this is expected if we have the hub storage package)
 					continue
 				}

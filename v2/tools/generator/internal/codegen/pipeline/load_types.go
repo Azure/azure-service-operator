@@ -876,7 +876,7 @@ func resolveDefAlias(defs astmodel.TypeDefinitionSet, def astmodel.TypeDefinitio
 
 		if name, ok := t.(astmodel.TypeName); ok {
 			found = true
-			result, err = resolveDefAlias(defs, astmodel.MakeTypeDefinition(astmodel.TypeName{}, name))
+			result, err = resolveDefAlias(defs, astmodel.MakeTypeDefinition(nil, name))
 		}
 	})
 

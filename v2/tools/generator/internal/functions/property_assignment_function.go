@@ -49,7 +49,7 @@ type PropertyAssignmentFunction struct {
 	writesToPropertyBag bool
 	// augmentationInterface is the conversion augmentation interface associated with this conversion.
 	// If this is nil, there is no augmented conversion associated with this conversion
-	augmentationInterface *astmodel.TypeName
+	augmentationInterface astmodel.TypeName
 	// packageReferences is our set of referenced packages
 	packageReferences *astmodel.PackageReferenceSet
 	// knownLocals is the set of local variables in the function
@@ -88,7 +88,7 @@ func (fn *PropertyAssignmentFunction) RequiredPackageReferences() *astmodel.Pack
 func (fn *PropertyAssignmentFunction) References() astmodel.TypeNameSet {
 	result := astmodel.NewTypeNameSet(fn.ParameterType())
 	if fn.augmentationInterface != nil {
-		result.Add(*fn.augmentationInterface)
+		result.Add(fn.augmentationInterface)
 	}
 
 	return result

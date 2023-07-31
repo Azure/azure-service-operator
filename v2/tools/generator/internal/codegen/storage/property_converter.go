@@ -121,7 +121,7 @@ func (_ *PropertyConverter) tryConvertToStoragePackage(name astmodel.TypeName) (
 	// Map the type name into our storage package
 	localRef, ok := name.PackageReference().(astmodel.LocalPackageReference)
 	if !ok {
-		return astmodel.EmptyTypeName, false
+		return nil, false
 	}
 
 	storageRef := astmodel.MakeStoragePackageReference(localRef)

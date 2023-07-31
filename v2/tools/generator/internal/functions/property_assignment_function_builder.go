@@ -41,7 +41,7 @@ type PropertyAssignmentFunctionBuilder struct {
 	writesToPropertyBag bool
 	// augmentationInterface is the conversion augmentation interface associated with this conversion.
 	// If this is nil, there is no augmented conversion associated with this conversion
-	augmentationInterface *astmodel.TypeName
+	augmentationInterface astmodel.TypeName
 	// assignmentSelectors is a list of functions that can be used to select a property to assign to
 	assignmentSelectors []assignmentSelector
 }
@@ -90,7 +90,7 @@ func NewPropertyAssignmentFunctionBuilder(
 
 // UseAugmentationInterface returns the property assignment function with a conversion augmentation interface set
 func (builder *PropertyAssignmentFunctionBuilder) UseAugmentationInterface(augmentation astmodel.TypeName) {
-	builder.augmentationInterface = &augmentation
+	builder.augmentationInterface = augmentation
 }
 
 // AddAssignmentSelector adds a new assignment selector to the list of assignment selectors.

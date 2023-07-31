@@ -149,7 +149,7 @@ func (t *TypeConverter) stripAllFlags(
 func (t *TypeConverter) tryConvertToStoragePackage(name astmodel.TypeName) (astmodel.TypeName, bool) {
 	local, ok := name.PackageReference().(astmodel.LocalPackageReference)
 	if !ok {
-		return astmodel.EmptyTypeName, false
+		return nil, false
 	}
 
 	storage := astmodel.MakeStoragePackageReference(local)

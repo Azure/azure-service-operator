@@ -1588,7 +1588,7 @@ func assignObjectDirectlyFromObject(
 				astmodel.DebugDescription(destinationEndpoint.Type()))
 		}
 
-		if !nextType.IsEmpty() && !astmodel.TypeEquals(nextType, sourceName) {
+		if nextType != nil && !astmodel.TypeEquals(nextType, sourceName) {
 			return nil, nil
 		}
 
@@ -1713,7 +1713,7 @@ func assignObjectDirectlyToObject(
 				astmodel.DebugDescription(sourceEndpoint.Type()))
 		}
 
-		if !nextType.IsEmpty() && !astmodel.TypeEquals(nextType, destinationName) {
+		if nextType != nil && !astmodel.TypeEquals(nextType, destinationName) {
 			return nil, nil
 		}
 
@@ -1840,7 +1840,7 @@ func assignObjectsViaIntermediateObject(
 			astmodel.DebugDescription(destinationEndpoint.Type()))
 	}
 
-	if intermediateName.IsEmpty() || astmodel.TypeEquals(intermediateName, sourceName) {
+	if intermediateName == nil || astmodel.TypeEquals(intermediateName, sourceName) {
 		return nil, nil
 	}
 

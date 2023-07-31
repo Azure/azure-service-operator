@@ -334,7 +334,7 @@ func (schema *OpenAPISchema) isRef() bool {
 func (schema *OpenAPISchema) refTypeName() (astmodel.TypeName, error) {
 	absRefPath, err := findFileForRef(schema.fileName, schema.inner.Ref)
 	if err != nil {
-		return astmodel.EmptyTypeName, err
+		return nil, err
 	}
 
 	// this is the basic type name for the reference
@@ -343,7 +343,7 @@ func (schema *OpenAPISchema) refTypeName() (astmodel.TypeName, error) {
 	// now locate the package name for the reference
 	packageAndSwagger, err := schema.loader.loadFile(absRefPath)
 	if err != nil {
-		return astmodel.EmptyTypeName, err
+		return nil, err
 	}
 
 	// default to using same package as the referring type
@@ -371,7 +371,7 @@ func (schema *OpenAPISchema) refTypeName() (astmodel.TypeName, error) {
 			// or is nil (so could be set to the pulling-in package)
 			if otherSchema.Package == nil || otherSchema.Package.Equals(schema.outputPackage) {
 				if _, ok := otherSchema.Swagger.Definitions[name]; ok {
-					return astmodel.EmptyTypeName, errors.Errorf(
+					return nil, errors.Errorf(
 						"importing type %s from file %s into package %s could generate collision with type in %s",
 						name,
 						absRefPath,

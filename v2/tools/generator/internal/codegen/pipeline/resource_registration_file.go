@@ -458,7 +458,7 @@ func (r *ResourceRegistrationFile) defineIndexFunctions(codeGenerationContext *a
 
 	result := make([]dst.Decl, 0, len(indexFunctions))
 	for _, f := range indexFunctions {
-		result = append(result, f.AsFunc(codeGenerationContext, astmodel.TypeName{}))
+		result = append(result, f.AsFunc(codeGenerationContext, nil))
 	}
 
 	return result

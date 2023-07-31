@@ -186,7 +186,7 @@ func DiffTypes(x, y interface{}) string {
 		ResourceType{},
 		EnumType{},
 		FlaggedType{},
-		TypeName{},
+		typeName{},
 		LocalPackageReference{},
 		InterfaceImplementer{},
 		TypeSet{},

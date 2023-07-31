@@ -23,13 +23,13 @@ func CollectARMSpecAndStatusDefinitions(definitions TypeDefinitionSet) TypeNameS
 	findARMType := func(t Type) (TypeName, error) {
 		name, ok := t.(TypeName)
 		if !ok {
-			return TypeName{}, errors.Errorf("type was not of type TypeName, instead %T", t)
+			return nil, errors.Errorf("type was not of type TypeName, instead %T", t)
 		}
 
 		armName := CreateARMTypeName(name)
 
 		if _, ok = definitions[armName]; !ok {
-			return TypeName{}, errors.Errorf("couldn't find ARM type %q", armName)
+			return nil, errors.Errorf("couldn't find ARM type %q", armName)
 		}
 
 		return armName, nil

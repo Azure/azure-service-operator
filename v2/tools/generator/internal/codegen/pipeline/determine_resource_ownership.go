@@ -143,7 +143,7 @@ func updateChildResourceDefinitionsWithOwner(
 			return errors.Errorf("child resource %s not of type *astmodel.ResourceType, instead %T", typeName, childResourceDef.Type())
 		}
 
-		childResourceDef = childResourceDef.WithType(childResource.WithOwner(&owningResourceName))
+		childResourceDef = childResourceDef.WithType(childResource.WithOwner(owningResourceName))
 		err := updatedDefs.AddAllowDuplicates(childResourceDef)
 		if err != nil {
 			// workaround: StorSimple has the same URIs on multiple "different" types
@@ -193,7 +193,7 @@ func setDefaultOwner(
 				// resource group really
 				configuration.MakeLocalPackageReference("resources", "v20191001"),
 				"ResourceGroup")
-			updatedType := resourceType.WithOwner(&ownerTypeName) // TODO: Note that right now... this type doesn't actually exist...
+			updatedType := resourceType.WithOwner(ownerTypeName) // TODO: Note that right now... this type doesn't actually exist...
 			// This can overwrite because a resource with no owner may have had child resources,
 			// and earlier on in this process we removed the resources property from the parent resource,
 			// so it may already be in updatedDefs. In this case, that's okay so we allow it to overwrite.

@@ -106,10 +106,13 @@ func lookupOwners(defs astmodel.TypeDefinitionSet, resourceDef astmodel.TypeDefi
 	}
 
 	if resourceType.Owner().Name() == "ResourceGroup" {
-		return []astmodel.TypeName{*resourceType.Owner(), resourceDef.Name()}, nil
+		return []astmodel.TypeName{
+			resourceType.Owner(),
+			resourceDef.Name(),
+		}, nil
 	}
 
-	owner := *resourceType.Owner()
+	owner := resourceType.Owner()
 	ownerDef, ok := defs[owner]
 	if !ok {
 		return nil, errors.Errorf("couldn't find definition for owner %s", owner)

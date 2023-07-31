@@ -37,7 +37,7 @@ type ResourceType struct {
 	spec                Type
 	status              Type
 	isStorageVersion    bool
-	owner               *TypeName
+	owner               TypeName
 	properties          PropertySet
 	functions           map[string]Function
 	testcases           map[string]TestCase
@@ -434,7 +434,7 @@ func (resource *ResourceType) ARMType() string {
 }
 
 func (resource *ResourceType) HasAPIVersion() bool {
-	return !resource.apiVersionTypeName.IsEmpty()
+	return resource.apiVersionTypeName != nil
 }
 
 // APIVersionTypeName returns the type name of the API version
@@ -494,7 +494,7 @@ func (resource *ResourceType) References() TypeNameSet {
 }
 
 // Owner returns the name of the owner type
-func (resource *ResourceType) Owner() *TypeName {
+func (resource *ResourceType) Owner() TypeName {
 	return resource.owner
 }
 
@@ -506,7 +506,7 @@ func (resource *ResourceType) MarkAsStorageVersion() *ResourceType {
 }
 
 // WithOwner updates the owner of the resource and returns a copy of the resource
-func (resource *ResourceType) WithOwner(owner *TypeName) *ResourceType {
+func (resource *ResourceType) WithOwner(owner TypeName) *ResourceType {
 	result := resource.copy()
 	result.owner = owner
 	return result

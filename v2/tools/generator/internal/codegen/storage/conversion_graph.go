@@ -26,7 +26,7 @@ func (graph *ConversionGraph) LookupTransition(name astmodel.TypeName) astmodel.
 	group, _ := name.PackageReference().GroupVersion()
 	subgraph, ok := graph.subGraphs[group]
 	if !ok {
-		return astmodel.EmptyTypeName
+		return nil
 	}
 
 	return subgraph.LookupTransition(name)
@@ -42,7 +42,7 @@ func (graph *ConversionGraph) FindNextType(name astmodel.TypeName, definitions a
 	group, _ := name.PackageReference().GroupVersion()
 	subgraph, ok := graph.subGraphs[group]
 	if !ok {
-		return astmodel.EmptyTypeName, nil
+		return nil, nil
 	}
 
 	// Look for a next type with the same name
@@ -52,23 +52,23 @@ func (graph *ConversionGraph) FindNextType(name astmodel.TypeName, definitions a
 	renamedType, err := subgraph.searchForRenamedType(name, definitions)
 	if err != nil {
 		// Something went wrong
-		return astmodel.EmptyTypeName, errors.Wrapf(err, "searching for type renamed from %s", name)
+		return nil, errors.Wrapf(err, "searching for type renamed from %s", name)
 	}
 
 	// If we have no renamed type, return the next type (if any)
-	if renamedType.IsEmpty() {
+	if renamedType == nil {
 		return nextType, nil
 	}
 
 	// If we have no next type, return the renamed type (if any)
-	if nextType.IsEmpty() {
+	if nextType == nil {
 		return renamedType, nil
 	}
 
 	// We have both a next type and a renamed type
 	// If they're in the same package, the type-rename has been configured on the wrong version (or the wrong type)
 	if nextType.PackageReference().Equals(renamedType.PackageReference()) {
-		return astmodel.EmptyTypeName, errors.Errorf("confict between rename of %s to %s and existing type %s", name, renamedType, nextType)
+		return nil, errors.Errorf("confict between rename of %s to %s and existing type %s", name, renamedType, nextType)
 	}
 
 	// Now we need to return the earlier type. We can do this by comparing the package paths.
@@ -102,13 +102,13 @@ func (graph *ConversionGraph) FindHubAndDistance(name astmodel.TypeName, definit
 	for {
 		hub, err := graph.FindNextType(result, definitions)
 		if err != nil {
-			return astmodel.EmptyTypeName,
+			return nil,
 				-1,
 				errors.Wrapf(err, "finding hub for %s",
 					name)
 		}
 
-		if hub.IsEmpty() {
+		if hub == nil {
 			break
 		}
 
@@ -146,7 +146,7 @@ func (graph *ConversionGraph) FindNextProperty(
 	}
 
 	// If no next type, no next property either
-	if nextType.IsEmpty() {
+	if nextType == nil {
 		return astmodel.EmptyPropertyReference, nil
 	}
 
