@@ -27,7 +27,7 @@ func SortTypeName(left, right TypeName) bool {
 	leftRef := left.PackageReference()
 	rightRef := right.PackageReference()
 	return leftRef.PackagePath() < rightRef.PackagePath() ||
-		(leftRef.PackagePath() == rightRef.PackagePath() && left.name < right.name)
+		(leftRef.PackagePath() == rightRef.PackagePath() && left.Name() < right.Name())
 }
 
 // MakeTypeName is a factory method for creating a TypeName

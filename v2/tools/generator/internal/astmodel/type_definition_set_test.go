@@ -102,7 +102,7 @@ func Test_TypesWhere_GivenPredicate_ReturnsExpectedSet(t *testing.T) {
 
 	defs := createTestTypes(alphaDefinition, betaDefinition, gammaDefinition, deltaDefinition).
 		Where(func(def TypeDefinition) bool {
-			return len(def.name.name) == 5
+			return len(def.name.Name()) == 5
 		})
 
 	g.Expect(defs).To(ContainElements(alphaDefinition, gammaDefinition, deltaDefinition))

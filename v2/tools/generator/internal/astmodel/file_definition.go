@@ -43,9 +43,9 @@ func NewFileDefinition(
 			return iRank < jRank
 		}
 
-		// Case insensitive sort
-		iName := definitions[i].Name().name
-		jName := definitions[j].Name().name
+		// Case-insensitive sort
+		iName := definitions[i].Name().Name()
+		jName := definitions[j].Name().Name()
 
 		iKey := strings.ToLower(iName)
 		jKey := strings.ToLower(jName)

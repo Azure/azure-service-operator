@@ -41,7 +41,7 @@ func TestSingular_GivesExpectedResults(t *testing.T) {
 
 			name := MakeTypeName(ref, c.name)
 			result := name.Singular()
-			g.Expect(result.name).To(Equal(c.expected))
+			g.Expect(result.Name()).To(Equal(c.expected))
 		})
 	}
 }
@@ -72,7 +72,7 @@ func TestPlural_GivesExpectedResults(t *testing.T) {
 
 			name := MakeTypeName(ref, c.name)
 			result := name.Plural()
-			g.Expect(result.name).To(Equal(c.expected))
+			g.Expect(result.Name()).To(Equal(c.expected))
 		})
 	}
 }
