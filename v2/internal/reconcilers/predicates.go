@@ -12,17 +12,16 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
 
 	"github.com/Azure/azure-service-operator/v2/internal/util/predicates"
+	"github.com/Azure/azure-service-operator/v2/pkg/common"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
-
-const PerResourceSecretAnnotation = "serviceoperator.azure.com/credential-from"
 
 // ARMReconcilerAnnotationChangedPredicate creates a predicate that emits events when annotations
 // interesting to the generic ARM reconciler are changed
 func ARMReconcilerAnnotationChangedPredicate() predicate.Predicate {
 	return predicates.MakeSelectAnnotationChangedPredicate(
 		map[string]predicates.HasAnnotationChanged{
-			ReconcilePolicyAnnotation: HasReconcilePolicyAnnotationChanged,
+			common.ReconcilePolicyAnnotation: HasReconcilePolicyAnnotationChanged,
 		})
 }
 
@@ -31,13 +30,13 @@ func ARMReconcilerAnnotationChangedPredicate() predicate.Predicate {
 func ARMPerResourceSecretAnnotationChangedPredicate() predicate.Predicate {
 	return predicates.MakeSelectAnnotationChangedPredicate(
 		map[string]predicates.HasAnnotationChanged{
-			PerResourceSecretAnnotation: HasAnnotationChanged,
+			common.PerResourceSecretAnnotation: HasAnnotationChanged,
 		})
 }
 
 // GetReconcilePolicy gets the reconcile-policy from the ReconcilePolicyAnnotation
 func GetReconcilePolicy(obj genruntime.MetaObject, log logr.Logger) ReconcilePolicy {
-	policyStr := obj.GetAnnotations()[ReconcilePolicyAnnotation]
+	policyStr := obj.GetAnnotations()[common.ReconcilePolicyAnnotation]
 	policy, err := ParseReconcilePolicy(policyStr)
 	if err != nil {
 		log.Error(

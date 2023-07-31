@@ -18,9 +18,8 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
-	"github.com/Azure/azure-service-operator/v2/internal/config"
-	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/pkg/common"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
@@ -96,7 +95,7 @@ func NewCredentialProvider(
 // If no matching credential can be found, an error is returned.
 func (c *credentialProvider) GetCredential(ctx context.Context, obj genruntime.MetaObject) (*Credential, error) {
 	// Resource annotation
-	cred, err := c.getCredentialFromAnnotation(ctx, obj, reconcilers.PerResourceSecretAnnotation)
+	cred, err := c.getCredentialFromAnnotation(ctx, obj, common.PerResourceSecretAnnotation)
 	if err != nil {
 		return nil, err
 	}
@@ -185,36 +184,36 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 
 	nsName := types.NamespacedName{Namespace: secret.GetNamespace(), Name: secret.GetName()}
 
-	subscriptionID, ok := secret.Data[config.SubscriptionIDVar]
+	subscriptionID, ok := secret.Data[common.SubscriptionIDVar]
 	if !ok {
 		err := core.NewSecretNotFoundError(
 			nsName,
 			errors.Errorf(
 				"credential Secret %q does not contain key %q",
 				nsName,
-				config.SubscriptionIDVar))
+				common.SubscriptionIDVar))
 		errs = append(errs, err)
 	}
 
-	tenantID, ok := secret.Data[config.TenantIDVar]
+	tenantID, ok := secret.Data[common.TenantIDVar]
 	if !ok {
 		err := core.NewSecretNotFoundError(
 			nsName,
 			errors.Errorf(
 				"credential Secret %q does not contain key %q",
 				nsName,
-				config.TenantIDVar))
+				common.TenantIDVar))
 		errs = append(errs, err)
 	}
 
-	clientID, ok := secret.Data[config.ClientIDVar]
+	clientID, ok := secret.Data[common.ClientIDVar]
 	if !ok {
 		err := core.NewSecretNotFoundError(
 			nsName,
 			errors.Errorf(
 				"credential Secret %q does not contain key %q",
 				nsName,
-				config.ClientIDVar))
+				common.ClientIDVar))
 		errs = append(errs, err)
 	}
 
@@ -223,7 +222,7 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 		return nil, kerrors.NewAggregate(errs)
 	}
 
-	if clientSecret, hasClientSecret := secret.Data[config.ClientSecretVar]; hasClientSecret {
+	if clientSecret, hasClientSecret := secret.Data[common.ClientSecretVar]; hasClientSecret {
 		tokenCredential, err := azidentity.NewClientSecretCredential(string(tenantID), string(clientID), string(clientSecret), nil)
 		if err != nil {
 			return nil, errors.Wrap(err, errors.Errorf("invalid Client Secret Credential for %q encountered", nsName).Error())
@@ -237,9 +236,9 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 		}, nil
 	}
 
-	if clientCert, hasClientCert := secret.Data[config.ClientCertificateVar]; hasClientCert {
+	if clientCert, hasClientCert := secret.Data[common.ClientCertificateVar]; hasClientCert {
 		var clientCertPassword []byte
-		if p, hasClientCertPassword := secret.Data[config.ClientCertificatePasswordVar]; hasClientCertPassword {
+		if p, hasClientCertPassword := secret.Data[common.ClientCertificatePasswordVar]; hasClientCertPassword {
 			clientCertPassword = p
 		}
 
@@ -260,16 +259,16 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 	tokenCredential, err := azidentity.NewWorkloadIdentityCredential(&azidentity.WorkloadIdentityCredentialOptions{
 		ClientID:      string(clientID),
 		TenantID:      string(tenantID),
-		TokenFilePath: config.FederatedTokenFilePath,
+		TokenFilePath: common.FederatedTokenFilePath,
 	})
 	if err != nil {
 		err = errors.Wrapf(
 			err,
 			"credential secret %q does not contain key %q and failed to get workload identity credential for clientID %q from %q ",
 			nsName,
-			config.ClientSecretVar,
+			common.ClientSecretVar,
 			string(clientID),
-			config.FederatedTokenFilePath)
+			common.FederatedTokenFilePath)
 		return nil, err
 	}
 

@@ -19,10 +19,10 @@ import (
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
-	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/common"
 )
 
 const testPodNamespace = "azureserviceoperator-system-test"
@@ -103,7 +103,7 @@ func TestCredentialProvider_ResourceScopeCredentialAndNamespaceCredential_Prefer
 	g.Expect(err).ToNot(HaveOccurred())
 
 	rg := newResourceGroup("test-namespace")
-	rg.Annotations = map[string]string{reconcilers.PerResourceSecretAnnotation: perResourceCredentialName.Name}
+	rg.Annotations = map[string]string{common.PerResourceSecretAnnotation: perResourceCredentialName.Name}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
@@ -128,7 +128,7 @@ func TestCredentialProvider_SecretDoesNotExist_ReturnsError(t *testing.T) {
 	}
 
 	rg := newResourceGroup("test-namespace")
-	rg.Annotations = map[string]string{reconcilers.PerResourceSecretAnnotation: credentialNamespacedName.Name}
+	rg.Annotations = map[string]string{common.PerResourceSecretAnnotation: credentialNamespacedName.Name}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 

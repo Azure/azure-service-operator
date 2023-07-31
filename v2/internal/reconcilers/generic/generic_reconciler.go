@@ -28,6 +28,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/pkg/common"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
@@ -333,7 +334,7 @@ func (gr *GenericReconciler) handleSkipReconcile(ctx context.Context, log logr.L
 	reconcilePolicy := reconcilers.GetReconcilePolicy(obj, log) // TODO: Pull this whole method up here
 	log.V(Status).Info(
 		"Skipping creation/update of resource due to policy",
-		reconcilers.ReconcilePolicyAnnotation, reconcilePolicy)
+		common.ReconcilePolicyAnnotation, reconcilePolicy)
 
 	err := gr.Reconciler.UpdateStatus(ctx, log, gr.Recorder, obj)
 	if err != nil {

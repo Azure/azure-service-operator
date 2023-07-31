@@ -23,10 +23,10 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
 	"github.com/Azure/azure-service-operator/v2/internal/metrics"
-	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/common"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
@@ -141,7 +141,7 @@ func Test_ARMClientCache_ReturnsPerResourceScopedClientOverNamespacedClient(t *t
 	g.Expect(err).ToNot(HaveOccurred())
 
 	rg := newResourceGroup("test-namespace")
-	rg.Annotations = map[string]string{reconcilers.PerResourceSecretAnnotation: perResourceCredentialName.Name}
+	rg.Annotations = map[string]string{common.PerResourceSecretAnnotation: perResourceCredentialName.Name}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
@@ -173,7 +173,7 @@ func Test_ARMClientCache_PerResourceSecretInDifferentNamespace_ReturnsError(t *t
 	g.Expect(err).ToNot(HaveOccurred())
 
 	rg := newResourceGroup("test-namespace")
-	rg.Annotations = map[string]string{reconcilers.PerResourceSecretAnnotation: perResourceCredentialName.String()}
+	rg.Annotations = map[string]string{common.PerResourceSecretAnnotation: perResourceCredentialName.String()}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
@@ -198,7 +198,7 @@ func Test_ARMClientCache_ReturnsError_IfSecretNotFound(t *testing.T) {
 	}
 
 	rg := newResourceGroup("")
-	rg.Annotations = map[string]string{reconcilers.PerResourceSecretAnnotation: credentialNamespacedName.Name}
+	rg.Annotations = map[string]string{common.PerResourceSecretAnnotation: credentialNamespacedName.Name}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
@@ -229,7 +229,7 @@ func Test_ARMClientCache_ReturnsPerResourceScopedClient(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 
 	rg := newResourceGroup("test-namespace")
-	rg.Annotations = map[string]string{reconcilers.PerResourceSecretAnnotation: credentialNamespacedName.Name}
+	rg.Annotations = map[string]string{common.PerResourceSecretAnnotation: credentialNamespacedName.Name}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
