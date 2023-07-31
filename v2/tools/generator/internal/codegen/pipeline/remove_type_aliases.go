@@ -55,7 +55,7 @@ func RemoveTypeAliases() *Stage {
 
 func resolveTypeName(visitor *astmodel.TypeVisitor, name astmodel.TypeName, definitions astmodel.TypeDefinitionSet) (astmodel.Type, error) {
 	// Don't try to remove external refs
-	if _, _, ok := name.PackageReference.TryGroupVersion(); !ok {
+	if _, _, ok := name.PackageReference().TryGroupVersion(); !ok {
 		return name, nil
 	}
 

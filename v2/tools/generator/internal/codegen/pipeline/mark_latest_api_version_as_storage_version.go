@@ -44,8 +44,8 @@ func MarkLatestResourceVersionsForStorage(definitions astmodel.TypeDefinitionSet
 			allVersionsOfResource := resourceLookup[unversionedName]
 			latestVersionOfResource := allVersionsOfResource[len(allVersionsOfResource)-1]
 
-			thisPackagePath := def.Name().PackageReference.PackagePath()
-			latestPackagePath := latestVersionOfResource.Name().PackageReference.PackagePath()
+			thisPackagePath := def.Name().PackageReference().PackagePath()
+			latestPackagePath := latestVersionOfResource.Name().PackageReference().PackagePath()
 
 			// mark as storage version if it's the latest version
 			isLatestVersion := thisPackagePath == latestPackagePath
@@ -67,7 +67,7 @@ func groupResourcesByVersion(definitions astmodel.TypeDefinitionSet) map[unversi
 
 		// We want to explicitly avoid storage definitions, as this approach for flagging the hub version is
 		// used when we aren't leveraging the conversions between storage versions.
-		if astmodel.IsStoragePackageReference(def.Name().PackageReference) {
+		if astmodel.IsStoragePackageReference(def.Name().PackageReference()) {
 			continue
 		}
 
@@ -81,8 +81,8 @@ func groupResourcesByVersion(definitions astmodel.TypeDefinitionSet) map[unversi
 	for _, slice := range result {
 		sort.Slice(slice, func(i, j int) bool {
 			return astmodel.ComparePathAndVersion(
-				slice[i].Name().PackageReference.PackagePath(),
-				slice[j].Name().PackageReference.PackagePath())
+				slice[i].Name().PackageReference().PackagePath(),
+				slice[j].Name().PackageReference().PackagePath())
 		})
 	}
 
@@ -90,7 +90,7 @@ func groupResourcesByVersion(definitions astmodel.TypeDefinitionSet) map[unversi
 }
 
 func getUnversionedName(name astmodel.TypeName) unversionedName {
-	ref := name.PackageReference
+	ref := name.PackageReference()
 	group, _ := ref.GroupVersion()
 	return unversionedName{group, name.Name()}
 }

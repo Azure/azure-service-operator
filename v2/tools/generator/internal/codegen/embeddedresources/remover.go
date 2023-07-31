@@ -394,7 +394,7 @@ type resourceKey struct {
 }
 
 func getResourceKey(name astmodel.TypeName) resourceKey {
-	group, _ := name.PackageReference.GroupVersion()
+	group, _ := name.PackageReference().GroupVersion()
 
 	return resourceKey{
 		group: group,

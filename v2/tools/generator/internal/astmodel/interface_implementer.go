@@ -127,7 +127,7 @@ func (i InterfaceImplementer) generateInterfaceImplAssertion(
 	iface *InterfaceImplementation,
 	typeName TypeName,
 ) dst.Decl {
-	ifacePackageName, err := codeGenerationContext.GetImportedPackageName(iface.name.PackageReference)
+	ifacePackageName, err := codeGenerationContext.GetImportedPackageName(iface.name.PackageReference())
 	if err != nil {
 		panic(err)
 	}

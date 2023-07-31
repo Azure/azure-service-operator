@@ -124,7 +124,7 @@ func (target *TransformTarget) appliesToTypeName(tn astmodel.TypeName) bool {
 		return false
 	}
 
-	g, v := tn.PackageReference.GroupVersion()
+	g, v := tn.PackageReference().GroupVersion()
 
 	if target.Group.IsRestrictive() {
 		if !target.Group.Matches(g).Matched {
@@ -136,7 +136,7 @@ func (target *TransformTarget) appliesToTypeName(tn astmodel.TypeName) bool {
 	if target.Version.IsRestrictive() {
 
 		// Need to handle both full (v1beta20200101) and API (2020-01-01) formats
-		switch ref := tn.PackageReference.(type) {
+		switch ref := tn.PackageReference().(type) {
 		case astmodel.LocalPackageReference:
 			if !ref.HasApiVersion(target.Version.String()) && !target.Version.Matches(v).Matched {
 				return false

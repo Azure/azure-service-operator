@@ -132,7 +132,7 @@ func (r *ResourceRegistrationFile) generateImports() *astmodel.PackageImportSet 
 	typeSet := append(r.resources, r.storageVersionResources...)
 	typeSet = append(typeSet, r.resourceExtensions...)
 	for _, typeName := range typeSet {
-		requiredImports.AddImportOfReference(typeName.PackageReference)
+		requiredImports.AddImportOfReference(typeName.PackageReference())
 	}
 
 	// We require these imports
@@ -151,11 +151,11 @@ func orderByImportedTypeName(codeGenerationContext *astmodel.CodeGenerationConte
 		iVal := resources[i]
 		jVal := resources[j]
 
-		iPkgName, err := codeGenerationContext.GetImportedPackageName(iVal.PackageReference)
+		iPkgName, err := codeGenerationContext.GetImportedPackageName(iVal.PackageReference())
 		if err != nil {
 			panic(err)
 		}
-		jPkgName, err := codeGenerationContext.GetImportedPackageName(jVal.PackageReference)
+		jPkgName, err := codeGenerationContext.GetImportedPackageName(jVal.PackageReference())
 		if err != nil {
 			panic(err)
 		}
@@ -205,14 +205,14 @@ func createGetKnownTypesFunc(codeGenerationContext *astmodel.CodeGenerationConte
 	batch := make([]dst.Expr, 0, 10)
 	var lastPkg astmodel.PackageReference
 	for _, typeName := range resources {
-		if len(batch) > 0 && typeName.PackageReference != lastPkg {
+		if len(batch) > 0 && typeName.PackageReference() != lastPkg {
 			appendStmt := astbuilder.AppendItemsToSlice(resultIdent, batch...)
 			resourceAppendStatements = append(resourceAppendStatements, appendStmt)
 			batch = batch[:0]
 		}
 
 		batch = append(batch, astbuilder.CallFunc("new", typeName.AsType(codeGenerationContext)))
-		lastPkg = typeName.PackageReference
+		lastPkg = typeName.PackageReference()
 	}
 
 	if len(batch) > 0 {
@@ -467,7 +467,7 @@ func (r *ResourceRegistrationFile) defineIndexFunctions(codeGenerationContext *a
 func (r *ResourceRegistrationFile) getImportedPackages() map[astmodel.PackageReference]struct{} {
 	result := make(map[astmodel.PackageReference]struct{})
 	for _, typeName := range r.resources {
-		result[typeName.PackageReference] = struct{}{}
+		result[typeName.PackageReference()] = struct{}{}
 	}
 
 	return result

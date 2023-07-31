@@ -147,7 +147,7 @@ func (t *TypeConverter) stripAllFlags(
 // tryConvertToStoragePackage converts the supplied TypeName to reference the parallel type in a storage package if it
 // is a local reference; if not, it returns false.
 func (t *TypeConverter) tryConvertToStoragePackage(name astmodel.TypeName) (astmodel.TypeName, bool) {
-	local, ok := name.PackageReference.(astmodel.LocalPackageReference)
+	local, ok := name.PackageReference().(astmodel.LocalPackageReference)
 	if !ok {
 		return astmodel.EmptyTypeName, false
 	}
@@ -159,7 +159,7 @@ func (t *TypeConverter) tryConvertToStoragePackage(name astmodel.TypeName) (astm
 // descriptionForStorageVariant creates a description for a storage variant, indicating which
 // original type it is based upon
 func (_ *TypeConverter) descriptionForStorageVariant(definition astmodel.TypeDefinition) []string {
-	pkg := definition.Name().PackageReference.PackageName()
+	pkg := definition.Name().PackageReference().PackageName()
 
 	result := []string{
 		fmt.Sprintf("Storage version of %s.%s", pkg, definition.Name().Name()),

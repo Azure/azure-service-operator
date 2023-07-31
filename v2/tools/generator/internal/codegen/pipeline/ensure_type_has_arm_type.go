@@ -47,7 +47,7 @@ func validateExpectedTypesHaveARMType(definitions astmodel.TypeDefinitionSet) er
 
 	for name, def := range definitions {
 
-		if astmodel.IsStoragePackageReference(name.PackageReference) {
+		if astmodel.IsStoragePackageReference(name.PackageReference()) {
 			// Don't need ARM types within Storage Packages
 			continue
 		}

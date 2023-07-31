@@ -90,7 +90,7 @@ func findChildren(rt *astmodel.ResourceType, resourceName astmodel.TypeName, oth
 		// Ownership transcends APIVersion, but in order for things like $exportAs to work, it's best if
 		// ownership for each resource points to the owner in the same package. This ensures that standard tools
 		// like renamingVisitor work.
-		if !otherDef.Name().PackageReference.Equals(resourceName.PackageReference) {
+		if !otherDef.Name().PackageReference().Equals(resourceName.PackageReference()) {
 			continue // Don't own if in a different package
 		}
 
@@ -148,7 +148,7 @@ func updateChildResourceDefinitionsWithOwner(
 		if err != nil {
 			// workaround: StorSimple has the same URIs on multiple "different" types
 			// resolve in favour of the one that has a matching package
-			if childResourceDef.Name().PackageReference.Equals(owningResourceName.PackageReference) {
+			if childResourceDef.Name().PackageReference().Equals(owningResourceName.PackageReference()) {
 				// override
 				updatedDefs[childResourceDef.Name()] = childResourceDef
 				continue // okay!
@@ -156,7 +156,7 @@ func updateChildResourceDefinitionsWithOwner(
 				// double-check that existing one matches
 				existingDef := updatedDefs[childResourceDef.Name()]
 				rt := existingDef.Type().(*astmodel.ResourceType)
-				if existingDef.Name().PackageReference.Equals(rt.Owner().PackageReference) {
+				if existingDef.Name().PackageReference().Equals(rt.Owner().PackageReference()) {
 					continue // okay!
 				}
 			}

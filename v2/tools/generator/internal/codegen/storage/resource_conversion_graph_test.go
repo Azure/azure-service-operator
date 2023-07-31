@@ -36,7 +36,7 @@ func TestResourceConversionGraph_WithSingleReference_HasExpectedTransition(t *te
 	// Check for single expected transition
 	next := graph.LookupTransition(person2020)
 	g.Expect(next).NotTo(Equal(astmodel.EmptyTypeName))
-	g.Expect(astmodel.IsStoragePackageReference(next.PackageReference)).To(BeTrue())
+	g.Expect(astmodel.IsStoragePackageReference(next.PackageReference())).To(BeTrue())
 }
 
 func TestResourceConversionGraph_WithTwoGAReferences_HasExpectedTransitions(t *testing.T) {

@@ -52,7 +52,7 @@ func (graph *GroupConversionGraph) searchForRenamedType(
 	definitions astmodel.TypeDefinitionSet) (astmodel.TypeName, error) {
 
 	// No configuration, or we're not looking at a storage package
-	if graph.configuration == nil || !astmodel.IsStoragePackageReference(name.PackageReference) {
+	if graph.configuration == nil || !astmodel.IsStoragePackageReference(name.PackageReference()) {
 		return astmodel.EmptyTypeName, nil
 	}
 
@@ -72,7 +72,7 @@ func (graph *GroupConversionGraph) searchForRenamedType(
 	foundStart := false
 	for _, pkg := range graph.storagePackages {
 		// Look for the package that contains the type we're converting from
-		if pkg.Equals(name.PackageReference) {
+		if pkg.Equals(name.PackageReference()) {
 			foundStart = true
 			continue
 		}

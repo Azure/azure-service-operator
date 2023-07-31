@@ -149,7 +149,7 @@ func (builder *PropertyAssignmentFunctionBuilder) Build(
 	packageReferences := astmodel.NewPackageReferenceSet(
 		astmodel.GitHubErrorsReference,
 		astmodel.GenRuntimeReference,
-		builder.otherDefinition.Name().PackageReference)
+		builder.otherDefinition.Name().PackageReference())
 
 	cc := conversionContext.WithDirection(builder.direction).
 		WithPropertyBag(propertyBagName).
@@ -160,7 +160,7 @@ func (builder *PropertyAssignmentFunctionBuilder) Build(
 	err := builder.createConversions(sourceEndpoints, destinationEndpoints, cc, propertyConversions)
 	if err != nil {
 		parameterType := astmodel.DebugDescription(
-			builder.otherDefinition.Name(), builder.receiverDefinition.Name().PackageReference)
+			builder.otherDefinition.Name(), builder.receiverDefinition.Name().PackageReference())
 		return nil, errors.Wrapf(err, "creating '%s(%s)'", fnName, parameterType)
 	}
 

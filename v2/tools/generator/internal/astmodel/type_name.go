@@ -17,15 +17,15 @@ import (
 
 // TypeName is a name associated with another Type (it also is usable as a Type)
 type TypeName struct {
-	PackageReference PackageReference // Note: This has to be a value and not a ptr because this type is used as the key in a map
+	packageReference PackageReference // Note: This has to be a value and not a ptr because this type is used as the key in a map
 	name             string
 }
 
 var EmptyTypeName TypeName = TypeName{}
 
 func SortTypeName(left, right TypeName) bool {
-	leftRef := left.PackageReference
-	rightRef := right.PackageReference
+	leftRef := left.PackageReference()
+	rightRef := right.PackageReference()
 	return leftRef.PackagePath() < rightRef.PackagePath() ||
 		(leftRef.PackagePath() == rightRef.PackagePath() && left.name < right.name)
 }
@@ -38,6 +38,11 @@ func MakeTypeName(pr PackageReference, name string) TypeName {
 // Name returns the package-local name of the type
 func (typeName TypeName) Name() string {
 	return typeName.name
+}
+
+// PackageReference returns the package to which the type belongs
+func (typeName TypeName) PackageReference() PackageReference {
+	return typeName.packageReference
 }
 
 // WithName returns a new TypeName in the same package but with a different name
@@ -212,7 +217,7 @@ func (typeName TypeName) IsStatus() bool {
 
 // CreateARMTypeName creates an ARM object type name
 func CreateARMTypeName(name TypeName) TypeName {
-	return MakeTypeName(name.PackageReference, name.Name()+ARMSuffix)
+	return MakeTypeName(name.PackageReference(), name.Name()+ARMSuffix)
 }
 
 // IsARMType returns true if the TypeName identifies an ARM specific type, false otherwise.

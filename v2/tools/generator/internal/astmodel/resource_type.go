@@ -579,7 +579,7 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 
 	// Add required RBAC annotations, only on storage version
 	if resource.isStorageVersion {
-		group, _ := declContext.Name.PackageReference.GroupVersion()
+		group, _ := declContext.Name.PackageReference().GroupVersion()
 		group = strings.ToLower(group + GroupSuffix)
 		resourceName := strings.ToLower(declContext.Name.Plural().Name())
 
@@ -642,7 +642,7 @@ func (resource *ResourceType) generateMethodDecls(codeGenerationContext *CodeGen
 
 func (resource *ResourceType) makeResourceListTypeName(name TypeName) TypeName {
 	return MakeTypeName(
-		name.PackageReference,
+		name.PackageReference(),
 		name.Name()+"List")
 }
 

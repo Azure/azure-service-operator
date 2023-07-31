@@ -60,7 +60,7 @@ func (v *ValidatorBuilder) AddValidation(kind ValidationKind, f *ResourceFunctio
 // as well as helper functions that allow additional handcrafted validations to be injected by
 // implementing the genruntime.Validator interface.
 func (v *ValidatorBuilder) ToInterfaceImplementation() *astmodel.InterfaceImplementation {
-	group, version := v.resourceName.PackageReference.GroupVersion()
+	group, version := v.resourceName.PackageReference().GroupVersion()
 
 	// e.g. group = "microsoft.network.azure.com"
 	// e.g. resource = "backendaddresspools"

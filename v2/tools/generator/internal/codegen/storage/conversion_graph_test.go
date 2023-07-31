@@ -42,12 +42,12 @@ func TestConversionGraph_WithTwoUnrelatedReferences_HasExpectedTransitions(t *te
 	// Check for the expected transition from Person2020
 	next := graph.LookupTransition(person2020)
 	g.Expect(next).NotTo(Equal(astmodel.EmptyTypeName))
-	g.Expect(astmodel.IsStoragePackageReference(next.PackageReference)).To(BeTrue())
+	g.Expect(astmodel.IsStoragePackageReference(next.PackageReference())).To(BeTrue())
 
 	// Check for the expected transition from Account2020
 	next = graph.LookupTransition(account2020)
 	g.Expect(next).NotTo(Equal(astmodel.EmptyTypeName))
-	g.Expect(astmodel.IsStoragePackageReference(next.PackageReference)).To(BeTrue())
+	g.Expect(astmodel.IsStoragePackageReference(next.PackageReference())).To(BeTrue())
 }
 
 func TestConversionGraph_GivenTypeName_ReturnsExpectedHubTypeName(t *testing.T) {

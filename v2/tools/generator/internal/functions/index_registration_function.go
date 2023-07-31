@@ -112,7 +112,7 @@ func (f *IndexRegistrationFunction) AsFunc(
 
 	fn.AddReturn(&dst.ArrayType{Elt: dst.NewIdent("string")})
 
-	pkg := genContext.MustGetImportedPackageName(f.resourceTypeName.PackageReference)
+	pkg := genContext.MustGetImportedPackageName(f.resourceTypeName.PackageReference())
 
 	fn.AddComments(fmt.Sprintf("an index function for %s.%s %s", pkg, f.resourceTypeName.Name(), f.indexKey))
 	return fn.DefineFunc()

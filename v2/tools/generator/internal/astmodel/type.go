@@ -94,7 +94,7 @@ func DebugDescription(t Type, pkgs ...PackageReference) string {
 		currentPackage = pkgs[0]
 	} else if tn, ok := AsTypeName(t); ok {
 		// Otherwise, If we're given a TypeName, use it's package as "current" to simplify what we write
-		currentPackage = tn.PackageReference
+		currentPackage = tn.PackageReference()
 	}
 
 	var builder strings.Builder

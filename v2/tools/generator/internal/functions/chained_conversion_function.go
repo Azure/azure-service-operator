@@ -108,8 +108,8 @@ func (fn *ChainedConversionFunction) RequiredPackageReferences() *astmodel.Packa
 		astmodel.ControllerRuntimeConversion,
 		astmodel.FmtReference,
 		astmodel.GenRuntimeReference,
-		fn.parameterType.PackageReference,
-		fn.propertyAssignmentParameterType.PackageReference)
+		fn.parameterType.PackageReference(),
+		fn.propertyAssignmentParameterType.PackageReference())
 }
 
 func (fn *ChainedConversionFunction) References() astmodel.TypeNameSet {

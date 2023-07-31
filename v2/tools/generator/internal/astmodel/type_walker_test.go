@@ -330,7 +330,7 @@ func TestTypeWalker_CanChangeNameInOnlyCertainPlaces(t *testing.T) {
 	visitor := TypeVisitorBuilder{}.Build()
 	walker := NewTypeWalker(types, visitor)
 
-	left2TypeName := MakeTypeName(leftTypeName.PackageReference, "Left2")
+	left2TypeName := MakeTypeName(leftTypeName.PackageReference(), "Left2")
 
 	changed := false
 	walker.AfterVisit = func(original TypeDefinition, updated TypeDefinition, ctx interface{}) (TypeDefinition, error) {

@@ -54,7 +54,7 @@ func (f *optionalCollectionAliasFixer) fixOptionalCollectionAliases(this *astmod
 	}
 
 	// Make sure we're a local reference
-	_, _, ok = typeName.PackageReference.TryGroupVersion()
+	_, _, ok = typeName.PackageReference().TryGroupVersion()
 	if !ok {
 		return astmodel.IdentityVisitOfOptionalType(this, it, ctx)
 	}

@@ -146,8 +146,8 @@ func (tcr *TypeCatalogReport) writeDefinition(
 ) {
 	name := definition.Name()
 	parentTypes := astmodel.NewTypeNameSet(name)
-	sub := rpt.Addf("%s: %s", name.Name(), tcr.asShortNameForType(definition.Type(), name.PackageReference, parentTypes))
-	tcr.writeType(sub, definition.Type(), name.PackageReference, parentTypes)
+	sub := rpt.Addf("%s: %s", name.Name(), tcr.asShortNameForType(definition.Type(), name.PackageReference(), parentTypes))
+	tcr.writeType(sub, definition.Type(), name.PackageReference(), parentTypes)
 }
 
 // writeType writes the type to the debug report.
@@ -527,7 +527,7 @@ func (tcr *TypeCatalogReport) writeAllOfType(
 func (tcr *TypeCatalogReport) findPackages() []astmodel.PackageReference {
 	packages := astmodel.NewPackageReferenceSet()
 	for _, def := range tcr.defs {
-		packages.AddReference(def.Name().PackageReference)
+		packages.AddReference(def.Name().PackageReference())
 	}
 
 	result := packages.AsSortedSlice(
@@ -543,7 +543,7 @@ func (tcr *TypeCatalogReport) inPackage(
 ) astmodel.TypeDefinitionSet {
 	result := make(astmodel.TypeDefinitionSet)
 	for _, def := range tcr.defs {
-		if def.Name().PackageReference == ref {
+		if def.Name().PackageReference() == ref {
 			result.Add(def)
 		}
 	}
