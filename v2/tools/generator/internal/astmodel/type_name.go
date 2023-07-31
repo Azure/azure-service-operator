@@ -191,7 +191,7 @@ func (tn typeName) Plural() TypeName {
 	return tn.WithName(name)
 }
 
-// WriteDebugDescription adds a description of the current type to the passed builder
+// WriteDebugDescription adds a description of the current type to the passed builder.
 // builder receives the full description, including nested types
 // definitions is a dictionary for resolving named types
 func (tn typeName) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {

@@ -99,7 +99,7 @@ func (reachable ReachableTypes) Contains(tn TypeName) bool {
 
 // Connected returns the set of types that are reachable from the roots.
 func (c ReferenceGraph) Connected() ReachableTypes {
-	// Make a non-nil set so we don't need to worry about passing it back down.
+	// Make a non-nil set, so we don't need to worry about passing it back down.
 	connectedTypes := make(ReachableTypes)
 	for node := range c.roots {
 		c.collectTypes(0, node, connectedTypes)

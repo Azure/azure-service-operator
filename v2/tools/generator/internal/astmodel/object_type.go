@@ -587,7 +587,7 @@ func extractEmbeddedTypeName(t Type) (TypeName, error) {
 
 // WriteDebugDescription adds a description of the current type to the passed builder.
 // builder receives the full description, including nested types.
-func (objectType *ObjectType) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {
+func (objectType *ObjectType) WriteDebugDescription(builder *strings.Builder, _ PackageReference) {
 	if objectType == nil {
 		builder.WriteString("<nilObject>")
 	} else {

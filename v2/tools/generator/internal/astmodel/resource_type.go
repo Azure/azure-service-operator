@@ -177,7 +177,7 @@ func (resource *ResourceType) WithSpec(specType Type) *ResourceType {
 	}
 
 	if specResource, ok := specType.(*ResourceType); ok {
-		// type is a resource, take its SpecType instead
+		// type is a resource, take its SpecType instead,
 		// so we don't nest resources
 		return resource.WithSpec(specResource.SpecType())
 	}
@@ -586,7 +586,7 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 		astbuilder.AddComment(&comments, fmt.Sprintf("// +kubebuilder:rbac:groups=%s,resources=%s,verbs=get;list;watch;create;update;patch;delete", group, resourceName))
 		astbuilder.AddComment(&comments, fmt.Sprintf("// +kubebuilder:rbac:groups=%s,resources={%s/status,%s/finalizers},verbs=get;update;patch", group, resourceName, resourceName))
 
-		// This newline is REQUIRED for controller-gen to realize these comments are here. Without it they are silently ignored, see:
+		// This newline is REQUIRED for controller-gen to realize these comments are here. Without it, they are silently ignored, see:
 		// https://github.com/kubernetes-sigs/controller-tools/issues/436
 		comments = append(comments, "\n")
 	}
@@ -740,9 +740,9 @@ func (resource *ResourceType) HasTestCases() bool {
 	return len(resource.testcases) > 0
 }
 
-// WriteDebugDescription adds a description of the current type to the passed builder
-// builder receives the full description, including nested types
-// definitions is a dictionary for resolving named types
+// WriteDebugDescription adds a description of the current type to the passed builder.
+// builder receives the full description, including nested types.
+// definitions is a dictionary for resolving named types.
 func (resource *ResourceType) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {
 	if resource == nil {
 		builder.WriteString("<nilResource>")
