@@ -18,7 +18,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
-	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
@@ -204,10 +203,10 @@ func newResourceGroup(namespace string) *resources.ResourceGroup {
 
 func newSecret(namespacedName types.NamespacedName) *v1.Secret {
 	secretData := make(map[string][]byte)
-	secretData[config.ClientIDVar] = []byte(fakeID)
-	secretData[config.ClientSecretVar] = []byte(fakeID)
-	secretData[config.TenantIDVar] = []byte(fakeID)
-	secretData[config.SubscriptionIDVar] = []byte(fakeID)
+	secretData[common.ClientIDVar] = []byte(fakeID)
+	secretData[common.ClientSecretVar] = []byte(fakeID)
+	secretData[common.TenantIDVar] = []byte(fakeID)
+	secretData[common.SubscriptionIDVar] = []byte(fakeID)
 
 	return &v1.Secret{
 		ObjectMeta: metav1.ObjectMeta{

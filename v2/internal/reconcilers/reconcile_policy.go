@@ -16,31 +16,46 @@ import (
 
 type ReconcilePolicy string
 
+const (
+	// ReconcilePolicyManage instructs the operator to manage the resource in question.
+	// This includes issuing PUTs to update it and DELETE's to delete it from Azure if deleted in Kubernetes.
+	// This is the default policy when no policy is specified.
+	ReconcilePolicyManage = ReconcilePolicy(common.ReconcilePolicyManage)
+
+	// ReconcilePolicySkip instructs the operator to skip all reconciliation actions. This includes creating
+	// the resource.
+	ReconcilePolicySkip = ReconcilePolicy(common.ReconcilePolicySkip)
+
+	// ReconcilePolicyDetachOnDelete instructs the operator to skip deletion of resources in Azure. This allows
+	// deletion of the resource in Kubernetes to go through but does not delete the underlying Azure resource.
+	ReconcilePolicyDetachOnDelete = ReconcilePolicy(common.ReconcilePolicyDetachOnDelete)
+)
+
 // ParseReconcilePolicy parses the provided reconcile policy.
 func ParseReconcilePolicy(policy string) (ReconcilePolicy, error) {
 	switch policy {
 	case "":
-		return common.ReconcilePolicyManage, nil
-	case string(common.ReconcilePolicyManage):
-		return common.ReconcilePolicyManage, nil
-	case string(common.ReconcilePolicySkip):
-		return common.ReconcilePolicySkip, nil
-	case string(common.ReconcilePolicyDetachOnDelete):
-		return common.ReconcilePolicyDetachOnDelete, nil
+		return ReconcilePolicyManage, nil
+	case string(ReconcilePolicyManage):
+		return ReconcilePolicyManage, nil
+	case string(ReconcilePolicySkip):
+		return ReconcilePolicySkip, nil
+	case string(ReconcilePolicyDetachOnDelete):
+		return ReconcilePolicyDetachOnDelete, nil
 	default:
 		// Defaulting to manage.
-		return common.ReconcilePolicyManage, errors.Errorf("%q is not a known reconcile policy", policy)
+		return ReconcilePolicyManage, errors.Errorf("%q is not a known reconcile policy", policy)
 	}
 }
 
 // AllowsDelete determines if the policy allows deletion of the backing Azure resource
 func (r ReconcilePolicy) AllowsDelete() bool {
-	return r == common.ReconcilePolicyManage
+	return r == ReconcilePolicyManage
 }
 
 // AllowsModify determines if the policy allows modification of the backing Azure resource
 func (r ReconcilePolicy) AllowsModify() bool {
-	return r == common.ReconcilePolicyManage || r == common.ReconcilePolicyDetachOnDelete
+	return r == ReconcilePolicyManage || r == ReconcilePolicyDetachOnDelete
 }
 
 // HasReconcilePolicyAnnotationChanged returns true if the reconcile-policy annotation has
@@ -58,5 +73,5 @@ func HasReconcilePolicyAnnotationChanged(old *string, new *string) bool {
 	// We only care about transitions to or from ReconcilePolicySkip. We don't need to
 	// trigger an event if ReconcilePolicyDetachOnDelete is added or removed, as that annotation
 	// only applies on delete (which we will always run reconcile on).
-	return oldStr == string(common.ReconcilePolicySkip) || newStr == string(common.ReconcilePolicySkip)
+	return oldStr == string(ReconcilePolicySkip) || newStr == string(ReconcilePolicySkip)
 }

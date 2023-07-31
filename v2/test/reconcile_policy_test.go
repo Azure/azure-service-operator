@@ -11,6 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/pkg/common"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -27,7 +28,7 @@ func Test_ReconcilePolicy_SkipReconcile_DoesntCreateResourceInAzure(t *testing.T
 	// Create a resource group
 	rg := tc.NewTestResourceGroup()
 	rg.Annotations = map[string]string{
-		common.ReconcilePolicyAnnotation: string(common.ReconcilePolicySkip),
+		common.ReconcilePolicyAnnotation: string(reconcilers.ReconcilePolicySkip),
 	}
 	tc.CreateResourceAndWaitForState(rg, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
 
