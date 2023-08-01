@@ -52,8 +52,7 @@ func NewPackagesMatrixReport() *PackagesMatrixReport {
 func (report *PackagesMatrixReport) Summarize(definitions astmodel.TypeDefinitionSet) {
 	for _, t := range definitions {
 		typeName := t.Name().Name()
-		packageName := report.ServiceName(t.Name().PackageReference)
-		packageVersion := t.Name().PackageReference.PackageName()
+		packageName, packageVersion := t.Name().PackageReference.GroupVersion()
 		table, ok := report.tables[packageName]
 		if !ok {
 			table = reporting.NewSparseTable(fmt.Sprintf("Type Definitions in package %q", packageName))
@@ -77,13 +76,8 @@ func (report *PackagesMatrixReport) WriteTo(outputPath string) error {
 }
 
 func (report *PackagesMatrixReport) ServiceName(ref astmodel.PackageReference) string {
-	pathBits := strings.Split(ref.PackagePath(), "/")
-	index := len(pathBits) - 1
-	if index > 0 {
-		index--
-	}
-
-	return pathBits[index]
+	grp, _ := ref.GroupVersion()
+	return grp
 }
 
 func (report *PackagesMatrixReport) WriteTableTo(table *reporting.SparseTable, pkg string, outputPath string) error {

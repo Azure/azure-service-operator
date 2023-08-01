@@ -5,7 +5,7 @@ package v1beta20210601storage
 
 import (
 	"fmt"
-	v1api20210601s "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601storage"
+	v20210601s "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -45,7 +45,7 @@ var _ conversion.Convertible = &Workspace{}
 
 // ConvertFrom populates our Workspace from the provided hub Workspace
 func (workspace *Workspace) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20210601s.Workspace)
+	source, ok := hub.(*v20210601s.Workspace)
 	if !ok {
 		return fmt.Errorf("expected operationalinsights/v1api20210601storage/Workspace but received %T instead", hub)
 	}
@@ -55,7 +55,7 @@ func (workspace *Workspace) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub Workspace from our Workspace
 func (workspace *Workspace) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20210601s.Workspace)
+	destination, ok := hub.(*v20210601s.Workspace)
 	if !ok {
 		return fmt.Errorf("expected operationalinsights/v1api20210601storage/Workspace but received %T instead", hub)
 	}
@@ -130,7 +130,7 @@ func (workspace *Workspace) SetStatus(status genruntime.ConvertibleStatus) error
 }
 
 // AssignProperties_From_Workspace populates our Workspace from the provided source Workspace
-func (workspace *Workspace) AssignProperties_From_Workspace(source *v1api20210601s.Workspace) error {
+func (workspace *Workspace) AssignProperties_From_Workspace(source *v20210601s.Workspace) error {
 
 	// ObjectMeta
 	workspace.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -165,13 +165,13 @@ func (workspace *Workspace) AssignProperties_From_Workspace(source *v1api2021060
 }
 
 // AssignProperties_To_Workspace populates the provided destination Workspace from our Workspace
-func (workspace *Workspace) AssignProperties_To_Workspace(destination *v1api20210601s.Workspace) error {
+func (workspace *Workspace) AssignProperties_To_Workspace(destination *v20210601s.Workspace) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *workspace.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20210601s.Workspace_Spec
+	var spec v20210601s.Workspace_Spec
 	err := workspace.Spec.AssignProperties_To_Workspace_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Workspace_Spec() to populate field Spec")
@@ -179,7 +179,7 @@ func (workspace *Workspace) AssignProperties_To_Workspace(destination *v1api2021
 	destination.Spec = spec
 
 	// Status
-	var status v1api20210601s.Workspace_STATUS
+	var status v20210601s.Workspace_STATUS
 	err = workspace.Status.AssignProperties_To_Workspace_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Workspace_STATUS() to populate field Status")
@@ -225,8 +225,8 @@ type APIVersion string
 const APIVersion_Value = APIVersion("2021-06-01")
 
 type augmentConversionForWorkspace interface {
-	AssignPropertiesFrom(src *v1api20210601s.Workspace) error
-	AssignPropertiesTo(dst *v1api20210601s.Workspace) error
+	AssignPropertiesFrom(src *v20210601s.Workspace) error
+	AssignPropertiesTo(dst *v20210601s.Workspace) error
 }
 
 // Storage version of v1beta20210601.Workspace_Spec
@@ -262,14 +262,14 @@ var _ genruntime.ConvertibleSpec = &Workspace_Spec{}
 
 // ConvertSpecFrom populates our Workspace_Spec from the provided source
 func (workspace *Workspace_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20210601s.Workspace_Spec)
+	src, ok := source.(*v20210601s.Workspace_Spec)
 	if ok {
 		// Populate our instance from source
 		return workspace.AssignProperties_From_Workspace_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20210601s.Workspace_Spec{}
+	src = &v20210601s.Workspace_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -286,14 +286,14 @@ func (workspace *Workspace_Spec) ConvertSpecFrom(source genruntime.ConvertibleSp
 
 // ConvertSpecTo populates the provided destination from our Workspace_Spec
 func (workspace *Workspace_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20210601s.Workspace_Spec)
+	dst, ok := destination.(*v20210601s.Workspace_Spec)
 	if ok {
 		// Populate destination from our instance
 		return workspace.AssignProperties_To_Workspace_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20210601s.Workspace_Spec{}
+	dst = &v20210601s.Workspace_Spec{}
 	err := workspace.AssignProperties_To_Workspace_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -309,7 +309,7 @@ func (workspace *Workspace_Spec) ConvertSpecTo(destination genruntime.Convertibl
 }
 
 // AssignProperties_From_Workspace_Spec populates our Workspace_Spec from the provided source Workspace_Spec
-func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *v1api20210601s.Workspace_Spec) error {
+func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *v20210601s.Workspace_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -413,7 +413,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *v1
 }
 
 // AssignProperties_To_Workspace_Spec populates the provided destination Workspace_Spec from our Workspace_Spec
-func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination *v1api20210601s.Workspace_Spec) error {
+func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination *v20210601s.Workspace_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(workspace.PropertyBag)
 
@@ -425,7 +425,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 
 	// Features
 	if workspace.Features != nil {
-		var feature v1api20210601s.WorkspaceFeatures
+		var feature v20210601s.WorkspaceFeatures
 		err := workspace.Features.AssignProperties_To_WorkspaceFeatures(&feature)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceFeatures() to populate field Features")
@@ -471,7 +471,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 
 	// Sku
 	if workspace.Sku != nil {
-		var sku v1api20210601s.WorkspaceSku
+		var sku v20210601s.WorkspaceSku
 		err := workspace.Sku.AssignProperties_To_WorkspaceSku(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceSku() to populate field Sku")
@@ -486,7 +486,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 
 	// WorkspaceCapping
 	if workspace.WorkspaceCapping != nil {
-		var workspaceCapping v1api20210601s.WorkspaceCapping
+		var workspaceCapping v20210601s.WorkspaceCapping
 		err := workspace.WorkspaceCapping.AssignProperties_To_WorkspaceCapping(&workspaceCapping)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceCapping() to populate field WorkspaceCapping")
@@ -545,14 +545,14 @@ var _ genruntime.ConvertibleStatus = &Workspace_STATUS{}
 
 // ConvertStatusFrom populates our Workspace_STATUS from the provided source
 func (workspace *Workspace_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20210601s.Workspace_STATUS)
+	src, ok := source.(*v20210601s.Workspace_STATUS)
 	if ok {
 		// Populate our instance from source
 		return workspace.AssignProperties_From_Workspace_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20210601s.Workspace_STATUS{}
+	src = &v20210601s.Workspace_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -569,14 +569,14 @@ func (workspace *Workspace_STATUS) ConvertStatusFrom(source genruntime.Convertib
 
 // ConvertStatusTo populates the provided destination from our Workspace_STATUS
 func (workspace *Workspace_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20210601s.Workspace_STATUS)
+	dst, ok := destination.(*v20210601s.Workspace_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return workspace.AssignProperties_To_Workspace_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20210601s.Workspace_STATUS{}
+	dst = &v20210601s.Workspace_STATUS{}
 	err := workspace.AssignProperties_To_Workspace_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -592,7 +592,7 @@ func (workspace *Workspace_STATUS) ConvertStatusTo(destination genruntime.Conver
 }
 
 // AssignProperties_From_Workspace_STATUS populates our Workspace_STATUS from the provided source Workspace_STATUS
-func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source *v1api20210601s.Workspace_STATUS) error {
+func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source *v20210601s.Workspace_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -721,7 +721,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 }
 
 // AssignProperties_To_Workspace_STATUS populates the provided destination Workspace_STATUS from our Workspace_STATUS
-func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destination *v1api20210601s.Workspace_STATUS) error {
+func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destination *v20210601s.Workspace_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(workspace.PropertyBag)
 
@@ -739,7 +739,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 
 	// Features
 	if workspace.Features != nil {
-		var feature v1api20210601s.WorkspaceFeatures_STATUS
+		var feature v20210601s.WorkspaceFeatures_STATUS
 		err := workspace.Features.AssignProperties_To_WorkspaceFeatures_STATUS(&feature)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceFeatures_STATUS() to populate field Features")
@@ -771,11 +771,11 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 
 	// PrivateLinkScopedResources
 	if workspace.PrivateLinkScopedResources != nil {
-		privateLinkScopedResourceList := make([]v1api20210601s.PrivateLinkScopedResource_STATUS, len(workspace.PrivateLinkScopedResources))
+		privateLinkScopedResourceList := make([]v20210601s.PrivateLinkScopedResource_STATUS, len(workspace.PrivateLinkScopedResources))
 		for privateLinkScopedResourceIndex, privateLinkScopedResourceItem := range workspace.PrivateLinkScopedResources {
 			// Shadow the loop variable to avoid aliasing
 			privateLinkScopedResourceItem := privateLinkScopedResourceItem
-			var privateLinkScopedResource v1api20210601s.PrivateLinkScopedResource_STATUS
+			var privateLinkScopedResource v20210601s.PrivateLinkScopedResource_STATUS
 			err := privateLinkScopedResourceItem.AssignProperties_To_PrivateLinkScopedResource_STATUS(&privateLinkScopedResource)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkScopedResource_STATUS() to populate field PrivateLinkScopedResources")
@@ -801,7 +801,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 
 	// Sku
 	if workspace.Sku != nil {
-		var sku v1api20210601s.WorkspaceSku_STATUS
+		var sku v20210601s.WorkspaceSku_STATUS
 		err := workspace.Sku.AssignProperties_To_WorkspaceSku_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceSku_STATUS() to populate field Sku")
@@ -819,7 +819,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 
 	// WorkspaceCapping
 	if workspace.WorkspaceCapping != nil {
-		var workspaceCapping v1api20210601s.WorkspaceCapping_STATUS
+		var workspaceCapping v20210601s.WorkspaceCapping_STATUS
 		err := workspace.WorkspaceCapping.AssignProperties_To_WorkspaceCapping_STATUS(&workspaceCapping)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceCapping_STATUS() to populate field WorkspaceCapping")
@@ -850,13 +850,13 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 }
 
 type augmentConversionForWorkspace_Spec interface {
-	AssignPropertiesFrom(src *v1api20210601s.Workspace_Spec) error
-	AssignPropertiesTo(dst *v1api20210601s.Workspace_Spec) error
+	AssignPropertiesFrom(src *v20210601s.Workspace_Spec) error
+	AssignPropertiesTo(dst *v20210601s.Workspace_Spec) error
 }
 
 type augmentConversionForWorkspace_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.Workspace_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.Workspace_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.Workspace_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.Workspace_STATUS) error
 }
 
 // Storage version of v1beta20210601.PrivateLinkScopedResource_STATUS
@@ -868,7 +868,7 @@ type PrivateLinkScopedResource_STATUS struct {
 }
 
 // AssignProperties_From_PrivateLinkScopedResource_STATUS populates our PrivateLinkScopedResource_STATUS from the provided source PrivateLinkScopedResource_STATUS
-func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_From_PrivateLinkScopedResource_STATUS(source *v1api20210601s.PrivateLinkScopedResource_STATUS) error {
+func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_From_PrivateLinkScopedResource_STATUS(source *v20210601s.PrivateLinkScopedResource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -899,7 +899,7 @@ func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_From_PrivateL
 }
 
 // AssignProperties_To_PrivateLinkScopedResource_STATUS populates the provided destination PrivateLinkScopedResource_STATUS from our PrivateLinkScopedResource_STATUS
-func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_To_PrivateLinkScopedResource_STATUS(destination *v1api20210601s.PrivateLinkScopedResource_STATUS) error {
+func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_To_PrivateLinkScopedResource_STATUS(destination *v20210601s.PrivateLinkScopedResource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 
@@ -937,7 +937,7 @@ type WorkspaceCapping struct {
 }
 
 // AssignProperties_From_WorkspaceCapping populates our WorkspaceCapping from the provided source WorkspaceCapping
-func (capping *WorkspaceCapping) AssignProperties_From_WorkspaceCapping(source *v1api20210601s.WorkspaceCapping) error {
+func (capping *WorkspaceCapping) AssignProperties_From_WorkspaceCapping(source *v20210601s.WorkspaceCapping) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -970,7 +970,7 @@ func (capping *WorkspaceCapping) AssignProperties_From_WorkspaceCapping(source *
 }
 
 // AssignProperties_To_WorkspaceCapping populates the provided destination WorkspaceCapping from our WorkspaceCapping
-func (capping *WorkspaceCapping) AssignProperties_To_WorkspaceCapping(destination *v1api20210601s.WorkspaceCapping) error {
+func (capping *WorkspaceCapping) AssignProperties_To_WorkspaceCapping(destination *v20210601s.WorkspaceCapping) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(capping.PropertyBag)
 
@@ -1012,7 +1012,7 @@ type WorkspaceCapping_STATUS struct {
 }
 
 // AssignProperties_From_WorkspaceCapping_STATUS populates our WorkspaceCapping_STATUS from the provided source WorkspaceCapping_STATUS
-func (capping *WorkspaceCapping_STATUS) AssignProperties_From_WorkspaceCapping_STATUS(source *v1api20210601s.WorkspaceCapping_STATUS) error {
+func (capping *WorkspaceCapping_STATUS) AssignProperties_From_WorkspaceCapping_STATUS(source *v20210601s.WorkspaceCapping_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1051,7 +1051,7 @@ func (capping *WorkspaceCapping_STATUS) AssignProperties_From_WorkspaceCapping_S
 }
 
 // AssignProperties_To_WorkspaceCapping_STATUS populates the provided destination WorkspaceCapping_STATUS from our WorkspaceCapping_STATUS
-func (capping *WorkspaceCapping_STATUS) AssignProperties_To_WorkspaceCapping_STATUS(destination *v1api20210601s.WorkspaceCapping_STATUS) error {
+func (capping *WorkspaceCapping_STATUS) AssignProperties_To_WorkspaceCapping_STATUS(destination *v20210601s.WorkspaceCapping_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(capping.PropertyBag)
 
@@ -1101,7 +1101,7 @@ type WorkspaceFeatures struct {
 }
 
 // AssignProperties_From_WorkspaceFeatures populates our WorkspaceFeatures from the provided source WorkspaceFeatures
-func (features *WorkspaceFeatures) AssignProperties_From_WorkspaceFeatures(source *v1api20210601s.WorkspaceFeatures) error {
+func (features *WorkspaceFeatures) AssignProperties_From_WorkspaceFeatures(source *v20210601s.WorkspaceFeatures) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1166,7 +1166,7 @@ func (features *WorkspaceFeatures) AssignProperties_From_WorkspaceFeatures(sourc
 }
 
 // AssignProperties_To_WorkspaceFeatures populates the provided destination WorkspaceFeatures from our WorkspaceFeatures
-func (features *WorkspaceFeatures) AssignProperties_To_WorkspaceFeatures(destination *v1api20210601s.WorkspaceFeatures) error {
+func (features *WorkspaceFeatures) AssignProperties_To_WorkspaceFeatures(destination *v20210601s.WorkspaceFeatures) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(features.PropertyBag)
 
@@ -1242,7 +1242,7 @@ type WorkspaceFeatures_STATUS struct {
 }
 
 // AssignProperties_From_WorkspaceFeatures_STATUS populates our WorkspaceFeatures_STATUS from the provided source WorkspaceFeatures_STATUS
-func (features *WorkspaceFeatures_STATUS) AssignProperties_From_WorkspaceFeatures_STATUS(source *v1api20210601s.WorkspaceFeatures_STATUS) error {
+func (features *WorkspaceFeatures_STATUS) AssignProperties_From_WorkspaceFeatures_STATUS(source *v20210601s.WorkspaceFeatures_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1302,7 +1302,7 @@ func (features *WorkspaceFeatures_STATUS) AssignProperties_From_WorkspaceFeature
 }
 
 // AssignProperties_To_WorkspaceFeatures_STATUS populates the provided destination WorkspaceFeatures_STATUS from our WorkspaceFeatures_STATUS
-func (features *WorkspaceFeatures_STATUS) AssignProperties_To_WorkspaceFeatures_STATUS(destination *v1api20210601s.WorkspaceFeatures_STATUS) error {
+func (features *WorkspaceFeatures_STATUS) AssignProperties_To_WorkspaceFeatures_STATUS(destination *v20210601s.WorkspaceFeatures_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(features.PropertyBag)
 
@@ -1370,7 +1370,7 @@ type WorkspaceSku struct {
 }
 
 // AssignProperties_From_WorkspaceSku populates our WorkspaceSku from the provided source WorkspaceSku
-func (workspaceSku *WorkspaceSku) AssignProperties_From_WorkspaceSku(source *v1api20210601s.WorkspaceSku) error {
+func (workspaceSku *WorkspaceSku) AssignProperties_From_WorkspaceSku(source *v20210601s.WorkspaceSku) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1401,7 +1401,7 @@ func (workspaceSku *WorkspaceSku) AssignProperties_From_WorkspaceSku(source *v1a
 }
 
 // AssignProperties_To_WorkspaceSku populates the provided destination WorkspaceSku from our WorkspaceSku
-func (workspaceSku *WorkspaceSku) AssignProperties_To_WorkspaceSku(destination *v1api20210601s.WorkspaceSku) error {
+func (workspaceSku *WorkspaceSku) AssignProperties_To_WorkspaceSku(destination *v20210601s.WorkspaceSku) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(workspaceSku.PropertyBag)
 
@@ -1441,7 +1441,7 @@ type WorkspaceSku_STATUS struct {
 }
 
 // AssignProperties_From_WorkspaceSku_STATUS populates our WorkspaceSku_STATUS from the provided source WorkspaceSku_STATUS
-func (workspaceSku *WorkspaceSku_STATUS) AssignProperties_From_WorkspaceSku_STATUS(source *v1api20210601s.WorkspaceSku_STATUS) error {
+func (workspaceSku *WorkspaceSku_STATUS) AssignProperties_From_WorkspaceSku_STATUS(source *v20210601s.WorkspaceSku_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1475,7 +1475,7 @@ func (workspaceSku *WorkspaceSku_STATUS) AssignProperties_From_WorkspaceSku_STAT
 }
 
 // AssignProperties_To_WorkspaceSku_STATUS populates the provided destination WorkspaceSku_STATUS from our WorkspaceSku_STATUS
-func (workspaceSku *WorkspaceSku_STATUS) AssignProperties_To_WorkspaceSku_STATUS(destination *v1api20210601s.WorkspaceSku_STATUS) error {
+func (workspaceSku *WorkspaceSku_STATUS) AssignProperties_To_WorkspaceSku_STATUS(destination *v20210601s.WorkspaceSku_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(workspaceSku.PropertyBag)
 
@@ -1509,38 +1509,38 @@ func (workspaceSku *WorkspaceSku_STATUS) AssignProperties_To_WorkspaceSku_STATUS
 }
 
 type augmentConversionForPrivateLinkScopedResource_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.PrivateLinkScopedResource_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.PrivateLinkScopedResource_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.PrivateLinkScopedResource_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.PrivateLinkScopedResource_STATUS) error
 }
 
 type augmentConversionForWorkspaceCapping interface {
-	AssignPropertiesFrom(src *v1api20210601s.WorkspaceCapping) error
-	AssignPropertiesTo(dst *v1api20210601s.WorkspaceCapping) error
+	AssignPropertiesFrom(src *v20210601s.WorkspaceCapping) error
+	AssignPropertiesTo(dst *v20210601s.WorkspaceCapping) error
 }
 
 type augmentConversionForWorkspaceCapping_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.WorkspaceCapping_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.WorkspaceCapping_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.WorkspaceCapping_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.WorkspaceCapping_STATUS) error
 }
 
 type augmentConversionForWorkspaceFeatures interface {
-	AssignPropertiesFrom(src *v1api20210601s.WorkspaceFeatures) error
-	AssignPropertiesTo(dst *v1api20210601s.WorkspaceFeatures) error
+	AssignPropertiesFrom(src *v20210601s.WorkspaceFeatures) error
+	AssignPropertiesTo(dst *v20210601s.WorkspaceFeatures) error
 }
 
 type augmentConversionForWorkspaceFeatures_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.WorkspaceFeatures_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.WorkspaceFeatures_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.WorkspaceFeatures_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.WorkspaceFeatures_STATUS) error
 }
 
 type augmentConversionForWorkspaceSku interface {
-	AssignPropertiesFrom(src *v1api20210601s.WorkspaceSku) error
-	AssignPropertiesTo(dst *v1api20210601s.WorkspaceSku) error
+	AssignPropertiesFrom(src *v20210601s.WorkspaceSku) error
+	AssignPropertiesTo(dst *v20210601s.WorkspaceSku) error
 }
 
 type augmentConversionForWorkspaceSku_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210601s.WorkspaceSku_STATUS) error
-	AssignPropertiesTo(dst *v1api20210601s.WorkspaceSku_STATUS) error
+	AssignPropertiesFrom(src *v20210601s.WorkspaceSku_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.WorkspaceSku_STATUS) error
 }
 
 func init() {

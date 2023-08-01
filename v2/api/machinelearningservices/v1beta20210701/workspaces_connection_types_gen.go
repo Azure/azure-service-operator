@@ -5,7 +5,7 @@ package v1beta20210701
 
 import (
 	"fmt"
-	v20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701storage"
+	v1beta20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -48,7 +48,7 @@ var _ conversion.Convertible = &WorkspacesConnection{}
 // ConvertFrom populates our WorkspacesConnection from the provided hub WorkspacesConnection
 func (connection *WorkspacesConnection) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var source v20210701s.WorkspacesConnection
+	var source v1beta20210701s.WorkspacesConnection
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
@@ -66,7 +66,7 @@ func (connection *WorkspacesConnection) ConvertFrom(hub conversion.Hub) error {
 // ConvertTo populates the provided hub WorkspacesConnection from our WorkspacesConnection
 func (connection *WorkspacesConnection) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var destination v20210701s.WorkspacesConnection
+	var destination v1beta20210701s.WorkspacesConnection
 	err := connection.AssignProperties_To_WorkspacesConnection(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from connection")
@@ -241,7 +241,7 @@ func (connection *WorkspacesConnection) validateWriteOnceProperties(old runtime.
 }
 
 // AssignProperties_From_WorkspacesConnection populates our WorkspacesConnection from the provided source WorkspacesConnection
-func (connection *WorkspacesConnection) AssignProperties_From_WorkspacesConnection(source *v20210701s.WorkspacesConnection) error {
+func (connection *WorkspacesConnection) AssignProperties_From_WorkspacesConnection(source *v1beta20210701s.WorkspacesConnection) error {
 
 	// ObjectMeta
 	connection.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -267,13 +267,13 @@ func (connection *WorkspacesConnection) AssignProperties_From_WorkspacesConnecti
 }
 
 // AssignProperties_To_WorkspacesConnection populates the provided destination WorkspacesConnection from our WorkspacesConnection
-func (connection *WorkspacesConnection) AssignProperties_To_WorkspacesConnection(destination *v20210701s.WorkspacesConnection) error {
+func (connection *WorkspacesConnection) AssignProperties_To_WorkspacesConnection(destination *v1beta20210701s.WorkspacesConnection) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *connection.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210701s.Workspaces_Connection_Spec
+	var spec v1beta20210701s.Workspaces_Connection_Spec
 	err := connection.Spec.AssignProperties_To_Workspaces_Connection_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Workspaces_Connection_Spec() to populate field Spec")
@@ -281,7 +281,7 @@ func (connection *WorkspacesConnection) AssignProperties_To_WorkspacesConnection
 	destination.Spec = spec
 
 	// Status
-	var status v20210701s.Workspaces_Connection_STATUS
+	var status v1beta20210701s.Workspaces_Connection_STATUS
 	err = connection.Status.AssignProperties_To_Workspaces_Connection_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Workspaces_Connection_STATUS() to populate field Status")
@@ -441,14 +441,14 @@ var _ genruntime.ConvertibleSpec = &Workspaces_Connection_Spec{}
 
 // ConvertSpecFrom populates our Workspaces_Connection_Spec from the provided source
 func (connection *Workspaces_Connection_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210701s.Workspaces_Connection_Spec)
+	src, ok := source.(*v1beta20210701s.Workspaces_Connection_Spec)
 	if ok {
 		// Populate our instance from source
 		return connection.AssignProperties_From_Workspaces_Connection_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210701s.Workspaces_Connection_Spec{}
+	src = &v1beta20210701s.Workspaces_Connection_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -465,14 +465,14 @@ func (connection *Workspaces_Connection_Spec) ConvertSpecFrom(source genruntime.
 
 // ConvertSpecTo populates the provided destination from our Workspaces_Connection_Spec
 func (connection *Workspaces_Connection_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210701s.Workspaces_Connection_Spec)
+	dst, ok := destination.(*v1beta20210701s.Workspaces_Connection_Spec)
 	if ok {
 		// Populate destination from our instance
 		return connection.AssignProperties_To_Workspaces_Connection_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210701s.Workspaces_Connection_Spec{}
+	dst = &v1beta20210701s.Workspaces_Connection_Spec{}
 	err := connection.AssignProperties_To_Workspaces_Connection_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -488,7 +488,7 @@ func (connection *Workspaces_Connection_Spec) ConvertSpecTo(destination genrunti
 }
 
 // AssignProperties_From_Workspaces_Connection_Spec populates our Workspaces_Connection_Spec from the provided source Workspaces_Connection_Spec
-func (connection *Workspaces_Connection_Spec) AssignProperties_From_Workspaces_Connection_Spec(source *v20210701s.Workspaces_Connection_Spec) error {
+func (connection *Workspaces_Connection_Spec) AssignProperties_From_Workspaces_Connection_Spec(source *v1beta20210701s.Workspaces_Connection_Spec) error {
 
 	// AuthType
 	connection.AuthType = genruntime.ClonePointerToString(source.AuthType)
@@ -526,7 +526,7 @@ func (connection *Workspaces_Connection_Spec) AssignProperties_From_Workspaces_C
 }
 
 // AssignProperties_To_Workspaces_Connection_Spec populates the provided destination Workspaces_Connection_Spec from our Workspaces_Connection_Spec
-func (connection *Workspaces_Connection_Spec) AssignProperties_To_Workspaces_Connection_Spec(destination *v20210701s.Workspaces_Connection_Spec) error {
+func (connection *Workspaces_Connection_Spec) AssignProperties_To_Workspaces_Connection_Spec(destination *v1beta20210701s.Workspaces_Connection_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -604,14 +604,14 @@ var _ genruntime.ConvertibleStatus = &Workspaces_Connection_STATUS{}
 
 // ConvertStatusFrom populates our Workspaces_Connection_STATUS from the provided source
 func (connection *Workspaces_Connection_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210701s.Workspaces_Connection_STATUS)
+	src, ok := source.(*v1beta20210701s.Workspaces_Connection_STATUS)
 	if ok {
 		// Populate our instance from source
 		return connection.AssignProperties_From_Workspaces_Connection_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210701s.Workspaces_Connection_STATUS{}
+	src = &v1beta20210701s.Workspaces_Connection_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -628,14 +628,14 @@ func (connection *Workspaces_Connection_STATUS) ConvertStatusFrom(source genrunt
 
 // ConvertStatusTo populates the provided destination from our Workspaces_Connection_STATUS
 func (connection *Workspaces_Connection_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210701s.Workspaces_Connection_STATUS)
+	dst, ok := destination.(*v1beta20210701s.Workspaces_Connection_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return connection.AssignProperties_To_Workspaces_Connection_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210701s.Workspaces_Connection_STATUS{}
+	dst = &v1beta20210701s.Workspaces_Connection_STATUS{}
 	err := connection.AssignProperties_To_Workspaces_Connection_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -734,7 +734,7 @@ func (connection *Workspaces_Connection_STATUS) PopulateFromARM(owner genruntime
 }
 
 // AssignProperties_From_Workspaces_Connection_STATUS populates our Workspaces_Connection_STATUS from the provided source Workspaces_Connection_STATUS
-func (connection *Workspaces_Connection_STATUS) AssignProperties_From_Workspaces_Connection_STATUS(source *v20210701s.Workspaces_Connection_STATUS) error {
+func (connection *Workspaces_Connection_STATUS) AssignProperties_From_Workspaces_Connection_STATUS(source *v1beta20210701s.Workspaces_Connection_STATUS) error {
 
 	// AuthType
 	connection.AuthType = genruntime.ClonePointerToString(source.AuthType)
@@ -773,7 +773,7 @@ func (connection *Workspaces_Connection_STATUS) AssignProperties_From_Workspaces
 }
 
 // AssignProperties_To_Workspaces_Connection_STATUS populates the provided destination Workspaces_Connection_STATUS from our Workspaces_Connection_STATUS
-func (connection *Workspaces_Connection_STATUS) AssignProperties_To_Workspaces_Connection_STATUS(destination *v20210701s.Workspaces_Connection_STATUS) error {
+func (connection *Workspaces_Connection_STATUS) AssignProperties_To_Workspaces_Connection_STATUS(destination *v1beta20210701s.Workspaces_Connection_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

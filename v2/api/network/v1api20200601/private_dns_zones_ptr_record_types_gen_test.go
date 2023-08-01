@@ -5,7 +5,7 @@ package v1api20200601
 
 import (
 	"encoding/json"
-	v1api20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601storage"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForPrivateDnsZonesPTRRecord(subject PrivateDnsZone
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20200601s.PrivateDnsZonesPTRRecord
+	var hub v20200601s.PrivateDnsZonesPTRRecord
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForPrivateDnsZonesPTRRecord(subject PrivateDnsZone
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.PrivateDnsZonesPTRRecord
+	var other v20200601s.PrivateDnsZonesPTRRecord
 	err := copied.AssignProperties_To_PrivateDnsZonesPTRRecord(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForPrivateDnsZones_PTR_Spec(subject PrivateDnsZone
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.PrivateDnsZones_PTR_Spec
+	var other v20200601s.PrivateDnsZones_PTR_Spec
 	err := copied.AssignProperties_To_PrivateDnsZones_PTR_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -309,7 +309,7 @@ func RunPropertyAssignmentTestForPrivateDnsZones_PTR_STATUS(subject PrivateDnsZo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.PrivateDnsZones_PTR_STATUS
+	var other v20200601s.PrivateDnsZones_PTR_STATUS
 	err := copied.AssignProperties_To_PrivateDnsZones_PTR_STATUS(&other)
 	if err != nil {
 		return err.Error()

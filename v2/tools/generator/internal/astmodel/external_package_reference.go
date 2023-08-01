@@ -63,3 +63,9 @@ func (pr ExternalPackageReference) TryGroupVersion() (string, string, bool) {
 func (pr ExternalPackageReference) GroupVersion() (string, string) {
 	panic(fmt.Sprintf("external package reference %s doesn't have a group or version", pr))
 }
+
+// ImportAlias returns the import alias to use for this package reference
+func (pr ExternalPackageReference) ImportAlias(style PackageImportStyle) string {
+	msg := fmt.Sprintf("cannot create import alias for external package reference %s", pr.packagePath)
+	panic(msg)
+}

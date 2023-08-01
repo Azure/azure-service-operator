@@ -4,7 +4,7 @@
 package v1beta20210601storage
 
 import (
-	v20220120ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120previewstorage"
+	v1beta20220120ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120previewstorage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -45,7 +45,7 @@ var _ conversion.Convertible = &FlexibleServersConfiguration{}
 // ConvertFrom populates our FlexibleServersConfiguration from the provided hub FlexibleServersConfiguration
 func (configuration *FlexibleServersConfiguration) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var source v20220120ps.FlexibleServersConfiguration
+	var source v1beta20220120ps.FlexibleServersConfiguration
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
@@ -63,7 +63,7 @@ func (configuration *FlexibleServersConfiguration) ConvertFrom(hub conversion.Hu
 // ConvertTo populates the provided hub FlexibleServersConfiguration from our FlexibleServersConfiguration
 func (configuration *FlexibleServersConfiguration) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var destination v20220120ps.FlexibleServersConfiguration
+	var destination v1beta20220120ps.FlexibleServersConfiguration
 	err := configuration.AssignProperties_To_FlexibleServersConfiguration(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from configuration")
@@ -143,7 +143,7 @@ func (configuration *FlexibleServersConfiguration) SetStatus(status genruntime.C
 }
 
 // AssignProperties_From_FlexibleServersConfiguration populates our FlexibleServersConfiguration from the provided source FlexibleServersConfiguration
-func (configuration *FlexibleServersConfiguration) AssignProperties_From_FlexibleServersConfiguration(source *v20220120ps.FlexibleServersConfiguration) error {
+func (configuration *FlexibleServersConfiguration) AssignProperties_From_FlexibleServersConfiguration(source *v1beta20220120ps.FlexibleServersConfiguration) error {
 
 	// ObjectMeta
 	configuration.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -178,13 +178,13 @@ func (configuration *FlexibleServersConfiguration) AssignProperties_From_Flexibl
 }
 
 // AssignProperties_To_FlexibleServersConfiguration populates the provided destination FlexibleServersConfiguration from our FlexibleServersConfiguration
-func (configuration *FlexibleServersConfiguration) AssignProperties_To_FlexibleServersConfiguration(destination *v20220120ps.FlexibleServersConfiguration) error {
+func (configuration *FlexibleServersConfiguration) AssignProperties_To_FlexibleServersConfiguration(destination *v1beta20220120ps.FlexibleServersConfiguration) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *configuration.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20220120ps.FlexibleServers_Configuration_Spec
+	var spec v1beta20220120ps.FlexibleServers_Configuration_Spec
 	err := configuration.Spec.AssignProperties_To_FlexibleServers_Configuration_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_FlexibleServers_Configuration_Spec() to populate field Spec")
@@ -192,7 +192,7 @@ func (configuration *FlexibleServersConfiguration) AssignProperties_To_FlexibleS
 	destination.Spec = spec
 
 	// Status
-	var status v20220120ps.FlexibleServers_Configuration_STATUS
+	var status v1beta20220120ps.FlexibleServers_Configuration_STATUS
 	err = configuration.Status.AssignProperties_To_FlexibleServers_Configuration_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_FlexibleServers_Configuration_STATUS() to populate field Status")
@@ -231,8 +231,8 @@ type FlexibleServersConfigurationList struct {
 }
 
 type augmentConversionForFlexibleServersConfiguration interface {
-	AssignPropertiesFrom(src *v20220120ps.FlexibleServersConfiguration) error
-	AssignPropertiesTo(dst *v20220120ps.FlexibleServersConfiguration) error
+	AssignPropertiesFrom(src *v1beta20220120ps.FlexibleServersConfiguration) error
+	AssignPropertiesTo(dst *v1beta20220120ps.FlexibleServersConfiguration) error
 }
 
 // Storage version of v1beta20210601.FlexibleServers_Configuration_Spec
@@ -256,14 +256,14 @@ var _ genruntime.ConvertibleSpec = &FlexibleServers_Configuration_Spec{}
 
 // ConvertSpecFrom populates our FlexibleServers_Configuration_Spec from the provided source
 func (configuration *FlexibleServers_Configuration_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20220120ps.FlexibleServers_Configuration_Spec)
+	src, ok := source.(*v1beta20220120ps.FlexibleServers_Configuration_Spec)
 	if ok {
 		// Populate our instance from source
 		return configuration.AssignProperties_From_FlexibleServers_Configuration_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220120ps.FlexibleServers_Configuration_Spec{}
+	src = &v1beta20220120ps.FlexibleServers_Configuration_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -280,14 +280,14 @@ func (configuration *FlexibleServers_Configuration_Spec) ConvertSpecFrom(source 
 
 // ConvertSpecTo populates the provided destination from our FlexibleServers_Configuration_Spec
 func (configuration *FlexibleServers_Configuration_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20220120ps.FlexibleServers_Configuration_Spec)
+	dst, ok := destination.(*v1beta20220120ps.FlexibleServers_Configuration_Spec)
 	if ok {
 		// Populate destination from our instance
 		return configuration.AssignProperties_To_FlexibleServers_Configuration_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220120ps.FlexibleServers_Configuration_Spec{}
+	dst = &v1beta20220120ps.FlexibleServers_Configuration_Spec{}
 	err := configuration.AssignProperties_To_FlexibleServers_Configuration_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -303,7 +303,7 @@ func (configuration *FlexibleServers_Configuration_Spec) ConvertSpecTo(destinati
 }
 
 // AssignProperties_From_FlexibleServers_Configuration_Spec populates our FlexibleServers_Configuration_Spec from the provided source FlexibleServers_Configuration_Spec
-func (configuration *FlexibleServers_Configuration_Spec) AssignProperties_From_FlexibleServers_Configuration_Spec(source *v20220120ps.FlexibleServers_Configuration_Spec) error {
+func (configuration *FlexibleServers_Configuration_Spec) AssignProperties_From_FlexibleServers_Configuration_Spec(source *v1beta20220120ps.FlexibleServers_Configuration_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -348,7 +348,7 @@ func (configuration *FlexibleServers_Configuration_Spec) AssignProperties_From_F
 }
 
 // AssignProperties_To_FlexibleServers_Configuration_Spec populates the provided destination FlexibleServers_Configuration_Spec from our FlexibleServers_Configuration_Spec
-func (configuration *FlexibleServers_Configuration_Spec) AssignProperties_To_FlexibleServers_Configuration_Spec(destination *v20220120ps.FlexibleServers_Configuration_Spec) error {
+func (configuration *FlexibleServers_Configuration_Spec) AssignProperties_To_FlexibleServers_Configuration_Spec(destination *v1beta20220120ps.FlexibleServers_Configuration_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
@@ -418,14 +418,14 @@ var _ genruntime.ConvertibleStatus = &FlexibleServers_Configuration_STATUS{}
 
 // ConvertStatusFrom populates our FlexibleServers_Configuration_STATUS from the provided source
 func (configuration *FlexibleServers_Configuration_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20220120ps.FlexibleServers_Configuration_STATUS)
+	src, ok := source.(*v1beta20220120ps.FlexibleServers_Configuration_STATUS)
 	if ok {
 		// Populate our instance from source
 		return configuration.AssignProperties_From_FlexibleServers_Configuration_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220120ps.FlexibleServers_Configuration_STATUS{}
+	src = &v1beta20220120ps.FlexibleServers_Configuration_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -442,14 +442,14 @@ func (configuration *FlexibleServers_Configuration_STATUS) ConvertStatusFrom(sou
 
 // ConvertStatusTo populates the provided destination from our FlexibleServers_Configuration_STATUS
 func (configuration *FlexibleServers_Configuration_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20220120ps.FlexibleServers_Configuration_STATUS)
+	dst, ok := destination.(*v1beta20220120ps.FlexibleServers_Configuration_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return configuration.AssignProperties_To_FlexibleServers_Configuration_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220120ps.FlexibleServers_Configuration_STATUS{}
+	dst = &v1beta20220120ps.FlexibleServers_Configuration_STATUS{}
 	err := configuration.AssignProperties_To_FlexibleServers_Configuration_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -465,7 +465,7 @@ func (configuration *FlexibleServers_Configuration_STATUS) ConvertStatusTo(desti
 }
 
 // AssignProperties_From_FlexibleServers_Configuration_STATUS populates our FlexibleServers_Configuration_STATUS from the provided source FlexibleServers_Configuration_STATUS
-func (configuration *FlexibleServers_Configuration_STATUS) AssignProperties_From_FlexibleServers_Configuration_STATUS(source *v20220120ps.FlexibleServers_Configuration_STATUS) error {
+func (configuration *FlexibleServers_Configuration_STATUS) AssignProperties_From_FlexibleServers_Configuration_STATUS(source *v1beta20220120ps.FlexibleServers_Configuration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -562,7 +562,7 @@ func (configuration *FlexibleServers_Configuration_STATUS) AssignProperties_From
 }
 
 // AssignProperties_To_FlexibleServers_Configuration_STATUS populates the provided destination FlexibleServers_Configuration_STATUS from our FlexibleServers_Configuration_STATUS
-func (configuration *FlexibleServers_Configuration_STATUS) AssignProperties_To_FlexibleServers_Configuration_STATUS(destination *v20220120ps.FlexibleServers_Configuration_STATUS) error {
+func (configuration *FlexibleServers_Configuration_STATUS) AssignProperties_To_FlexibleServers_Configuration_STATUS(destination *v1beta20220120ps.FlexibleServers_Configuration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
@@ -619,7 +619,7 @@ func (configuration *FlexibleServers_Configuration_STATUS) AssignProperties_To_F
 
 	// SystemData
 	if configuration.SystemData != nil {
-		var systemDatum v20220120ps.SystemData_STATUS
+		var systemDatum v1beta20220120ps.SystemData_STATUS
 		err := configuration.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
@@ -659,13 +659,13 @@ func (configuration *FlexibleServers_Configuration_STATUS) AssignProperties_To_F
 }
 
 type augmentConversionForFlexibleServers_Configuration_Spec interface {
-	AssignPropertiesFrom(src *v20220120ps.FlexibleServers_Configuration_Spec) error
-	AssignPropertiesTo(dst *v20220120ps.FlexibleServers_Configuration_Spec) error
+	AssignPropertiesFrom(src *v1beta20220120ps.FlexibleServers_Configuration_Spec) error
+	AssignPropertiesTo(dst *v1beta20220120ps.FlexibleServers_Configuration_Spec) error
 }
 
 type augmentConversionForFlexibleServers_Configuration_STATUS interface {
-	AssignPropertiesFrom(src *v20220120ps.FlexibleServers_Configuration_STATUS) error
-	AssignPropertiesTo(dst *v20220120ps.FlexibleServers_Configuration_STATUS) error
+	AssignPropertiesFrom(src *v1beta20220120ps.FlexibleServers_Configuration_STATUS) error
+	AssignPropertiesTo(dst *v1beta20220120ps.FlexibleServers_Configuration_STATUS) error
 }
 
 func init() {

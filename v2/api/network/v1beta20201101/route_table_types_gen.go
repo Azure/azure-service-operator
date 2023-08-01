@@ -5,7 +5,7 @@ package v1beta20201101
 
 import (
 	"fmt"
-	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
+	v1beta20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -48,7 +48,7 @@ var _ conversion.Convertible = &RouteTable{}
 // ConvertFrom populates our RouteTable from the provided hub RouteTable
 func (table *RouteTable) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var source v20201101s.RouteTable
+	var source v1beta20201101s.RouteTable
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
@@ -66,7 +66,7 @@ func (table *RouteTable) ConvertFrom(hub conversion.Hub) error {
 // ConvertTo populates the provided hub RouteTable from our RouteTable
 func (table *RouteTable) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var destination v20201101s.RouteTable
+	var destination v1beta20201101s.RouteTable
 	err := table.AssignProperties_To_RouteTable(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from table")
@@ -241,7 +241,7 @@ func (table *RouteTable) validateWriteOnceProperties(old runtime.Object) (admiss
 }
 
 // AssignProperties_From_RouteTable populates our RouteTable from the provided source RouteTable
-func (table *RouteTable) AssignProperties_From_RouteTable(source *v20201101s.RouteTable) error {
+func (table *RouteTable) AssignProperties_From_RouteTable(source *v1beta20201101s.RouteTable) error {
 
 	// ObjectMeta
 	table.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -267,13 +267,13 @@ func (table *RouteTable) AssignProperties_From_RouteTable(source *v20201101s.Rou
 }
 
 // AssignProperties_To_RouteTable populates the provided destination RouteTable from our RouteTable
-func (table *RouteTable) AssignProperties_To_RouteTable(destination *v20201101s.RouteTable) error {
+func (table *RouteTable) AssignProperties_To_RouteTable(destination *v1beta20201101s.RouteTable) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *table.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20201101s.RouteTable_Spec
+	var spec v1beta20201101s.RouteTable_Spec
 	err := table.Spec.AssignProperties_To_RouteTable_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_RouteTable_Spec() to populate field Spec")
@@ -281,7 +281,7 @@ func (table *RouteTable) AssignProperties_To_RouteTable(destination *v20201101s.
 	destination.Spec = spec
 
 	// Status
-	var status v20201101s.RouteTable_STATUS
+	var status v1beta20201101s.RouteTable_STATUS
 	err = table.Status.AssignProperties_To_RouteTable_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_RouteTable_STATUS() to populate field Status")
@@ -410,14 +410,14 @@ var _ genruntime.ConvertibleSpec = &RouteTable_Spec{}
 
 // ConvertSpecFrom populates our RouteTable_Spec from the provided source
 func (table *RouteTable_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20201101s.RouteTable_Spec)
+	src, ok := source.(*v1beta20201101s.RouteTable_Spec)
 	if ok {
 		// Populate our instance from source
 		return table.AssignProperties_From_RouteTable_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20201101s.RouteTable_Spec{}
+	src = &v1beta20201101s.RouteTable_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -434,14 +434,14 @@ func (table *RouteTable_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec)
 
 // ConvertSpecTo populates the provided destination from our RouteTable_Spec
 func (table *RouteTable_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20201101s.RouteTable_Spec)
+	dst, ok := destination.(*v1beta20201101s.RouteTable_Spec)
 	if ok {
 		// Populate destination from our instance
 		return table.AssignProperties_To_RouteTable_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20201101s.RouteTable_Spec{}
+	dst = &v1beta20201101s.RouteTable_Spec{}
 	err := table.AssignProperties_To_RouteTable_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -457,7 +457,7 @@ func (table *RouteTable_Spec) ConvertSpecTo(destination genruntime.ConvertibleSp
 }
 
 // AssignProperties_From_RouteTable_Spec populates our RouteTable_Spec from the provided source RouteTable_Spec
-func (table *RouteTable_Spec) AssignProperties_From_RouteTable_Spec(source *v20201101s.RouteTable_Spec) error {
+func (table *RouteTable_Spec) AssignProperties_From_RouteTable_Spec(source *v1beta20201101s.RouteTable_Spec) error {
 
 	// AzureName
 	table.AzureName = source.AzureName
@@ -489,7 +489,7 @@ func (table *RouteTable_Spec) AssignProperties_From_RouteTable_Spec(source *v202
 }
 
 // AssignProperties_To_RouteTable_Spec populates the provided destination RouteTable_Spec from our RouteTable_Spec
-func (table *RouteTable_Spec) AssignProperties_To_RouteTable_Spec(destination *v20201101s.RouteTable_Spec) error {
+func (table *RouteTable_Spec) AssignProperties_To_RouteTable_Spec(destination *v1beta20201101s.RouteTable_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -559,14 +559,14 @@ var _ genruntime.ConvertibleStatus = &RouteTable_STATUS{}
 
 // ConvertStatusFrom populates our RouteTable_STATUS from the provided source
 func (table *RouteTable_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20201101s.RouteTable_STATUS)
+	src, ok := source.(*v1beta20201101s.RouteTable_STATUS)
 	if ok {
 		// Populate our instance from source
 		return table.AssignProperties_From_RouteTable_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20201101s.RouteTable_STATUS{}
+	src = &v1beta20201101s.RouteTable_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -583,14 +583,14 @@ func (table *RouteTable_STATUS) ConvertStatusFrom(source genruntime.ConvertibleS
 
 // ConvertStatusTo populates the provided destination from our RouteTable_STATUS
 func (table *RouteTable_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20201101s.RouteTable_STATUS)
+	dst, ok := destination.(*v1beta20201101s.RouteTable_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return table.AssignProperties_To_RouteTable_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20201101s.RouteTable_STATUS{}
+	dst = &v1beta20201101s.RouteTable_STATUS{}
 	err := table.AssignProperties_To_RouteTable_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -691,7 +691,7 @@ func (table *RouteTable_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 }
 
 // AssignProperties_From_RouteTable_STATUS populates our RouteTable_STATUS from the provided source RouteTable_STATUS
-func (table *RouteTable_STATUS) AssignProperties_From_RouteTable_STATUS(source *v20201101s.RouteTable_STATUS) error {
+func (table *RouteTable_STATUS) AssignProperties_From_RouteTable_STATUS(source *v1beta20201101s.RouteTable_STATUS) error {
 
 	// Conditions
 	table.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -738,7 +738,7 @@ func (table *RouteTable_STATUS) AssignProperties_From_RouteTable_STATUS(source *
 }
 
 // AssignProperties_To_RouteTable_STATUS populates the provided destination RouteTable_STATUS from our RouteTable_STATUS
-func (table *RouteTable_STATUS) AssignProperties_To_RouteTable_STATUS(destination *v20201101s.RouteTable_STATUS) error {
+func (table *RouteTable_STATUS) AssignProperties_To_RouteTable_STATUS(destination *v1beta20201101s.RouteTable_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

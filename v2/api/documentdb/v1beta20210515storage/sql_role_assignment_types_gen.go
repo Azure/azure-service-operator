@@ -5,7 +5,7 @@ package v1beta20210515storage
 
 import (
 	"fmt"
-	v1api20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515storage"
+	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -45,7 +45,7 @@ var _ conversion.Convertible = &SqlRoleAssignment{}
 
 // ConvertFrom populates our SqlRoleAssignment from the provided hub SqlRoleAssignment
 func (assignment *SqlRoleAssignment) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20210515s.SqlRoleAssignment)
+	source, ok := hub.(*v20210515s.SqlRoleAssignment)
 	if !ok {
 		return fmt.Errorf("expected documentdb/v1api20210515storage/SqlRoleAssignment but received %T instead", hub)
 	}
@@ -55,7 +55,7 @@ func (assignment *SqlRoleAssignment) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub SqlRoleAssignment from our SqlRoleAssignment
 func (assignment *SqlRoleAssignment) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20210515s.SqlRoleAssignment)
+	destination, ok := hub.(*v20210515s.SqlRoleAssignment)
 	if !ok {
 		return fmt.Errorf("expected documentdb/v1api20210515storage/SqlRoleAssignment but received %T instead", hub)
 	}
@@ -130,7 +130,7 @@ func (assignment *SqlRoleAssignment) SetStatus(status genruntime.ConvertibleStat
 }
 
 // AssignProperties_From_SqlRoleAssignment populates our SqlRoleAssignment from the provided source SqlRoleAssignment
-func (assignment *SqlRoleAssignment) AssignProperties_From_SqlRoleAssignment(source *v1api20210515s.SqlRoleAssignment) error {
+func (assignment *SqlRoleAssignment) AssignProperties_From_SqlRoleAssignment(source *v20210515s.SqlRoleAssignment) error {
 
 	// ObjectMeta
 	assignment.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -165,13 +165,13 @@ func (assignment *SqlRoleAssignment) AssignProperties_From_SqlRoleAssignment(sou
 }
 
 // AssignProperties_To_SqlRoleAssignment populates the provided destination SqlRoleAssignment from our SqlRoleAssignment
-func (assignment *SqlRoleAssignment) AssignProperties_To_SqlRoleAssignment(destination *v1api20210515s.SqlRoleAssignment) error {
+func (assignment *SqlRoleAssignment) AssignProperties_To_SqlRoleAssignment(destination *v20210515s.SqlRoleAssignment) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *assignment.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20210515s.DatabaseAccounts_SqlRoleAssignment_Spec
+	var spec v20210515s.DatabaseAccounts_SqlRoleAssignment_Spec
 	err := assignment.Spec.AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_Spec() to populate field Spec")
@@ -179,7 +179,7 @@ func (assignment *SqlRoleAssignment) AssignProperties_To_SqlRoleAssignment(desti
 	destination.Spec = spec
 
 	// Status
-	var status v1api20210515s.DatabaseAccounts_SqlRoleAssignment_STATUS
+	var status v20210515s.DatabaseAccounts_SqlRoleAssignment_STATUS
 	err = assignment.Status.AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_STATUS() to populate field Status")
@@ -218,8 +218,8 @@ type SqlRoleAssignmentList struct {
 }
 
 type augmentConversionForSqlRoleAssignment interface {
-	AssignPropertiesFrom(src *v1api20210515s.SqlRoleAssignment) error
-	AssignPropertiesTo(dst *v1api20210515s.SqlRoleAssignment) error
+	AssignPropertiesFrom(src *v20210515s.SqlRoleAssignment) error
+	AssignPropertiesTo(dst *v20210515s.SqlRoleAssignment) error
 }
 
 // Storage version of v1beta20210515.DatabaseAccounts_SqlRoleAssignment_Spec
@@ -245,14 +245,14 @@ var _ genruntime.ConvertibleSpec = &DatabaseAccounts_SqlRoleAssignment_Spec{}
 
 // ConvertSpecFrom populates our DatabaseAccounts_SqlRoleAssignment_Spec from the provided source
 func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20210515s.DatabaseAccounts_SqlRoleAssignment_Spec)
+	src, ok := source.(*v20210515s.DatabaseAccounts_SqlRoleAssignment_Spec)
 	if ok {
 		// Populate our instance from source
 		return assignment.AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20210515s.DatabaseAccounts_SqlRoleAssignment_Spec{}
+	src = &v20210515s.DatabaseAccounts_SqlRoleAssignment_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -269,14 +269,14 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) ConvertSpecFrom(sourc
 
 // ConvertSpecTo populates the provided destination from our DatabaseAccounts_SqlRoleAssignment_Spec
 func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20210515s.DatabaseAccounts_SqlRoleAssignment_Spec)
+	dst, ok := destination.(*v20210515s.DatabaseAccounts_SqlRoleAssignment_Spec)
 	if ok {
 		// Populate destination from our instance
 		return assignment.AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20210515s.DatabaseAccounts_SqlRoleAssignment_Spec{}
+	dst = &v20210515s.DatabaseAccounts_SqlRoleAssignment_Spec{}
 	err := assignment.AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -292,7 +292,7 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) ConvertSpecTo(destina
 }
 
 // AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_Spec populates our DatabaseAccounts_SqlRoleAssignment_Spec from the provided source DatabaseAccounts_SqlRoleAssignment_Spec
-func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_Spec(source *v1api20210515s.DatabaseAccounts_SqlRoleAssignment_Spec) error {
+func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_Spec(source *v20210515s.DatabaseAccounts_SqlRoleAssignment_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -348,7 +348,7 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) AssignProperties_From
 }
 
 // AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_Spec populates the provided destination DatabaseAccounts_SqlRoleAssignment_Spec from our DatabaseAccounts_SqlRoleAssignment_Spec
-func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_Spec(destination *v1api20210515s.DatabaseAccounts_SqlRoleAssignment_Spec) error {
+func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_Spec(destination *v20210515s.DatabaseAccounts_SqlRoleAssignment_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(assignment.PropertyBag)
 
@@ -420,14 +420,14 @@ var _ genruntime.ConvertibleStatus = &DatabaseAccounts_SqlRoleAssignment_STATUS{
 
 // ConvertStatusFrom populates our DatabaseAccounts_SqlRoleAssignment_STATUS from the provided source
 func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20210515s.DatabaseAccounts_SqlRoleAssignment_STATUS)
+	src, ok := source.(*v20210515s.DatabaseAccounts_SqlRoleAssignment_STATUS)
 	if ok {
 		// Populate our instance from source
 		return assignment.AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20210515s.DatabaseAccounts_SqlRoleAssignment_STATUS{}
+	src = &v20210515s.DatabaseAccounts_SqlRoleAssignment_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -444,14 +444,14 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) ConvertStatusFrom(s
 
 // ConvertStatusTo populates the provided destination from our DatabaseAccounts_SqlRoleAssignment_STATUS
 func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20210515s.DatabaseAccounts_SqlRoleAssignment_STATUS)
+	dst, ok := destination.(*v20210515s.DatabaseAccounts_SqlRoleAssignment_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return assignment.AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20210515s.DatabaseAccounts_SqlRoleAssignment_STATUS{}
+	dst = &v20210515s.DatabaseAccounts_SqlRoleAssignment_STATUS{}
 	err := assignment.AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -467,7 +467,7 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) ConvertStatusTo(des
 }
 
 // AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_STATUS populates our DatabaseAccounts_SqlRoleAssignment_STATUS from the provided source DatabaseAccounts_SqlRoleAssignment_STATUS
-func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_STATUS(source *v1api20210515s.DatabaseAccounts_SqlRoleAssignment_STATUS) error {
+func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_STATUS(source *v20210515s.DatabaseAccounts_SqlRoleAssignment_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -513,7 +513,7 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) AssignProperties_Fr
 }
 
 // AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_STATUS populates the provided destination DatabaseAccounts_SqlRoleAssignment_STATUS from our DatabaseAccounts_SqlRoleAssignment_STATUS
-func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_STATUS(destination *v1api20210515s.DatabaseAccounts_SqlRoleAssignment_STATUS) error {
+func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_STATUS(destination *v20210515s.DatabaseAccounts_SqlRoleAssignment_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(assignment.PropertyBag)
 
@@ -559,13 +559,13 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) AssignProperties_To
 }
 
 type augmentConversionForDatabaseAccounts_SqlRoleAssignment_Spec interface {
-	AssignPropertiesFrom(src *v1api20210515s.DatabaseAccounts_SqlRoleAssignment_Spec) error
-	AssignPropertiesTo(dst *v1api20210515s.DatabaseAccounts_SqlRoleAssignment_Spec) error
+	AssignPropertiesFrom(src *v20210515s.DatabaseAccounts_SqlRoleAssignment_Spec) error
+	AssignPropertiesTo(dst *v20210515s.DatabaseAccounts_SqlRoleAssignment_Spec) error
 }
 
 type augmentConversionForDatabaseAccounts_SqlRoleAssignment_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210515s.DatabaseAccounts_SqlRoleAssignment_STATUS) error
-	AssignPropertiesTo(dst *v1api20210515s.DatabaseAccounts_SqlRoleAssignment_STATUS) error
+	AssignPropertiesFrom(src *v20210515s.DatabaseAccounts_SqlRoleAssignment_STATUS) error
+	AssignPropertiesTo(dst *v20210515s.DatabaseAccounts_SqlRoleAssignment_STATUS) error
 }
 
 func init() {

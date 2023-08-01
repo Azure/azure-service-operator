@@ -4,7 +4,7 @@
 package v1api20201201storage
 
 import (
-	v1api20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301storage"
+	v20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -253,7 +253,7 @@ type PrivateEndpointConnection_STATUS struct {
 }
 
 // AssignProperties_From_PrivateEndpointConnection_STATUS populates our PrivateEndpointConnection_STATUS from the provided source PrivateEndpointConnection_STATUS
-func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_PrivateEndpointConnection_STATUS(source *v1api20210301s.PrivateEndpointConnection_STATUS) error {
+func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_PrivateEndpointConnection_STATUS(source *v20210301s.PrivateEndpointConnection_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -281,7 +281,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_Privat
 }
 
 // AssignProperties_To_PrivateEndpointConnection_STATUS populates the provided destination PrivateEndpointConnection_STATUS from our PrivateEndpointConnection_STATUS
-func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateEndpointConnection_STATUS(destination *v1api20210301s.PrivateEndpointConnection_STATUS) error {
+func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateEndpointConnection_STATUS(destination *v20210301s.PrivateEndpointConnection_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(connection.PropertyBag)
 
@@ -382,7 +382,7 @@ type Sku struct {
 }
 
 // AssignProperties_From_Sku populates our Sku from the provided source Sku
-func (sku *Sku) AssignProperties_From_Sku(source *v1api20210301s.Sku) error {
+func (sku *Sku) AssignProperties_From_Sku(source *v20210301s.Sku) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -426,7 +426,7 @@ func (sku *Sku) AssignProperties_From_Sku(source *v1api20210301s.Sku) error {
 }
 
 // AssignProperties_To_Sku populates the provided destination Sku from our Sku
-func (sku *Sku) AssignProperties_To_Sku(destination *v1api20210301s.Sku) error {
+func (sku *Sku) AssignProperties_To_Sku(destination *v20210301s.Sku) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(sku.PropertyBag)
 
@@ -473,7 +473,7 @@ type Sku_STATUS struct {
 }
 
 // AssignProperties_From_Sku_STATUS populates our Sku_STATUS from the provided source Sku_STATUS
-func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v1api20210301s.Sku_STATUS) error {
+func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20210301s.Sku_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -517,7 +517,7 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v1api20210301s.S
 }
 
 // AssignProperties_To_Sku_STATUS populates the provided destination Sku_STATUS from our Sku_STATUS
-func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v1api20210301s.Sku_STATUS) error {
+func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20210301s.Sku_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(sku.PropertyBag)
 
@@ -555,18 +555,18 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v1api20210301
 }
 
 type augmentConversionForPrivateEndpointConnection_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210301s.PrivateEndpointConnection_STATUS) error
-	AssignPropertiesTo(dst *v1api20210301s.PrivateEndpointConnection_STATUS) error
+	AssignPropertiesFrom(src *v20210301s.PrivateEndpointConnection_STATUS) error
+	AssignPropertiesTo(dst *v20210301s.PrivateEndpointConnection_STATUS) error
 }
 
 type augmentConversionForSku interface {
-	AssignPropertiesFrom(src *v1api20210301s.Sku) error
-	AssignPropertiesTo(dst *v1api20210301s.Sku) error
+	AssignPropertiesFrom(src *v20210301s.Sku) error
+	AssignPropertiesTo(dst *v20210301s.Sku) error
 }
 
 type augmentConversionForSku_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210301s.Sku_STATUS) error
-	AssignPropertiesTo(dst *v1api20210301s.Sku_STATUS) error
+	AssignPropertiesFrom(src *v20210301s.Sku_STATUS) error
+	AssignPropertiesTo(dst *v20210301s.Sku_STATUS) error
 }
 
 // Storage version of v1api20201201.RedisOperatorSecrets

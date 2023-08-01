@@ -5,7 +5,7 @@ package v1beta20210101previewstorage
 
 import (
 	"fmt"
-	v1api20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
+	v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -45,7 +45,7 @@ var _ conversion.Convertible = &Namespace{}
 
 // ConvertFrom populates our Namespace from the provided hub Namespace
 func (namespace *Namespace) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20210101ps.Namespace)
+	source, ok := hub.(*v20210101ps.Namespace)
 	if !ok {
 		return fmt.Errorf("expected servicebus/v1api20210101previewstorage/Namespace but received %T instead", hub)
 	}
@@ -55,7 +55,7 @@ func (namespace *Namespace) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub Namespace from our Namespace
 func (namespace *Namespace) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20210101ps.Namespace)
+	destination, ok := hub.(*v20210101ps.Namespace)
 	if !ok {
 		return fmt.Errorf("expected servicebus/v1api20210101previewstorage/Namespace but received %T instead", hub)
 	}
@@ -130,7 +130,7 @@ func (namespace *Namespace) SetStatus(status genruntime.ConvertibleStatus) error
 }
 
 // AssignProperties_From_Namespace populates our Namespace from the provided source Namespace
-func (namespace *Namespace) AssignProperties_From_Namespace(source *v1api20210101ps.Namespace) error {
+func (namespace *Namespace) AssignProperties_From_Namespace(source *v20210101ps.Namespace) error {
 
 	// ObjectMeta
 	namespace.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -165,13 +165,13 @@ func (namespace *Namespace) AssignProperties_From_Namespace(source *v1api2021010
 }
 
 // AssignProperties_To_Namespace populates the provided destination Namespace from our Namespace
-func (namespace *Namespace) AssignProperties_To_Namespace(destination *v1api20210101ps.Namespace) error {
+func (namespace *Namespace) AssignProperties_To_Namespace(destination *v20210101ps.Namespace) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *namespace.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20210101ps.Namespace_Spec
+	var spec v20210101ps.Namespace_Spec
 	err := namespace.Spec.AssignProperties_To_Namespace_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Namespace_Spec() to populate field Spec")
@@ -179,7 +179,7 @@ func (namespace *Namespace) AssignProperties_To_Namespace(destination *v1api2021
 	destination.Spec = spec
 
 	// Status
-	var status v1api20210101ps.Namespace_STATUS
+	var status v20210101ps.Namespace_STATUS
 	err = namespace.Status.AssignProperties_To_Namespace_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Namespace_STATUS() to populate field Status")
@@ -225,8 +225,8 @@ type APIVersion string
 const APIVersion_Value = APIVersion("2021-01-01-preview")
 
 type augmentConversionForNamespace interface {
-	AssignPropertiesFrom(src *v1api20210101ps.Namespace) error
-	AssignPropertiesTo(dst *v1api20210101ps.Namespace) error
+	AssignPropertiesFrom(src *v20210101ps.Namespace) error
+	AssignPropertiesTo(dst *v20210101ps.Namespace) error
 }
 
 // Storage version of v1beta20210101preview.Namespace_Spec
@@ -255,14 +255,14 @@ var _ genruntime.ConvertibleSpec = &Namespace_Spec{}
 
 // ConvertSpecFrom populates our Namespace_Spec from the provided source
 func (namespace *Namespace_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20210101ps.Namespace_Spec)
+	src, ok := source.(*v20210101ps.Namespace_Spec)
 	if ok {
 		// Populate our instance from source
 		return namespace.AssignProperties_From_Namespace_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20210101ps.Namespace_Spec{}
+	src = &v20210101ps.Namespace_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -279,14 +279,14 @@ func (namespace *Namespace_Spec) ConvertSpecFrom(source genruntime.ConvertibleSp
 
 // ConvertSpecTo populates the provided destination from our Namespace_Spec
 func (namespace *Namespace_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20210101ps.Namespace_Spec)
+	dst, ok := destination.(*v20210101ps.Namespace_Spec)
 	if ok {
 		// Populate destination from our instance
 		return namespace.AssignProperties_To_Namespace_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20210101ps.Namespace_Spec{}
+	dst = &v20210101ps.Namespace_Spec{}
 	err := namespace.AssignProperties_To_Namespace_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -302,7 +302,7 @@ func (namespace *Namespace_Spec) ConvertSpecTo(destination genruntime.Convertibl
 }
 
 // AssignProperties_From_Namespace_Spec populates our Namespace_Spec from the provided source Namespace_Spec
-func (namespace *Namespace_Spec) AssignProperties_From_Namespace_Spec(source *v1api20210101ps.Namespace_Spec) error {
+func (namespace *Namespace_Spec) AssignProperties_From_Namespace_Spec(source *v20210101ps.Namespace_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -403,7 +403,7 @@ func (namespace *Namespace_Spec) AssignProperties_From_Namespace_Spec(source *v1
 }
 
 // AssignProperties_To_Namespace_Spec populates the provided destination Namespace_Spec from our Namespace_Spec
-func (namespace *Namespace_Spec) AssignProperties_To_Namespace_Spec(destination *v1api20210101ps.Namespace_Spec) error {
+func (namespace *Namespace_Spec) AssignProperties_To_Namespace_Spec(destination *v20210101ps.Namespace_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(namespace.PropertyBag)
 
@@ -412,7 +412,7 @@ func (namespace *Namespace_Spec) AssignProperties_To_Namespace_Spec(destination 
 
 	// Encryption
 	if namespace.Encryption != nil {
-		var encryption v1api20210101ps.Encryption
+		var encryption v20210101ps.Encryption
 		err := namespace.Encryption.AssignProperties_To_Encryption(&encryption)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Encryption() to populate field Encryption")
@@ -424,7 +424,7 @@ func (namespace *Namespace_Spec) AssignProperties_To_Namespace_Spec(destination 
 
 	// Identity
 	if namespace.Identity != nil {
-		var identity v1api20210101ps.Identity
+		var identity v20210101ps.Identity
 		err := namespace.Identity.AssignProperties_To_Identity(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Identity() to populate field Identity")
@@ -439,7 +439,7 @@ func (namespace *Namespace_Spec) AssignProperties_To_Namespace_Spec(destination 
 
 	// OperatorSpec
 	if namespace.OperatorSpec != nil {
-		var operatorSpec v1api20210101ps.NamespaceOperatorSpec
+		var operatorSpec v20210101ps.NamespaceOperatorSpec
 		err := namespace.OperatorSpec.AssignProperties_To_NamespaceOperatorSpec(&operatorSpec)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_NamespaceOperatorSpec() to populate field OperatorSpec")
@@ -462,7 +462,7 @@ func (namespace *Namespace_Spec) AssignProperties_To_Namespace_Spec(destination 
 
 	// Sku
 	if namespace.Sku != nil {
-		var sku v1api20210101ps.SBSku
+		var sku v20210101ps.SBSku
 		err := namespace.Sku.AssignProperties_To_SBSku(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SBSku() to populate field Sku")
@@ -531,14 +531,14 @@ var _ genruntime.ConvertibleStatus = &Namespace_STATUS{}
 
 // ConvertStatusFrom populates our Namespace_STATUS from the provided source
 func (namespace *Namespace_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20210101ps.Namespace_STATUS)
+	src, ok := source.(*v20210101ps.Namespace_STATUS)
 	if ok {
 		// Populate our instance from source
 		return namespace.AssignProperties_From_Namespace_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20210101ps.Namespace_STATUS{}
+	src = &v20210101ps.Namespace_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -555,14 +555,14 @@ func (namespace *Namespace_STATUS) ConvertStatusFrom(source genruntime.Convertib
 
 // ConvertStatusTo populates the provided destination from our Namespace_STATUS
 func (namespace *Namespace_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20210101ps.Namespace_STATUS)
+	dst, ok := destination.(*v20210101ps.Namespace_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return namespace.AssignProperties_To_Namespace_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20210101ps.Namespace_STATUS{}
+	dst = &v20210101ps.Namespace_STATUS{}
 	err := namespace.AssignProperties_To_Namespace_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -578,7 +578,7 @@ func (namespace *Namespace_STATUS) ConvertStatusTo(destination genruntime.Conver
 }
 
 // AssignProperties_From_Namespace_STATUS populates our Namespace_STATUS from the provided source Namespace_STATUS
-func (namespace *Namespace_STATUS) AssignProperties_From_Namespace_STATUS(source *v1api20210101ps.Namespace_STATUS) error {
+func (namespace *Namespace_STATUS) AssignProperties_From_Namespace_STATUS(source *v20210101ps.Namespace_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -713,7 +713,7 @@ func (namespace *Namespace_STATUS) AssignProperties_From_Namespace_STATUS(source
 }
 
 // AssignProperties_To_Namespace_STATUS populates the provided destination Namespace_STATUS from our Namespace_STATUS
-func (namespace *Namespace_STATUS) AssignProperties_To_Namespace_STATUS(destination *v1api20210101ps.Namespace_STATUS) error {
+func (namespace *Namespace_STATUS) AssignProperties_To_Namespace_STATUS(destination *v20210101ps.Namespace_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(namespace.PropertyBag)
 
@@ -725,7 +725,7 @@ func (namespace *Namespace_STATUS) AssignProperties_To_Namespace_STATUS(destinat
 
 	// Encryption
 	if namespace.Encryption != nil {
-		var encryption v1api20210101ps.Encryption_STATUS
+		var encryption v20210101ps.Encryption_STATUS
 		err := namespace.Encryption.AssignProperties_To_Encryption_STATUS(&encryption)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Encryption_STATUS() to populate field Encryption")
@@ -740,7 +740,7 @@ func (namespace *Namespace_STATUS) AssignProperties_To_Namespace_STATUS(destinat
 
 	// Identity
 	if namespace.Identity != nil {
-		var identity v1api20210101ps.Identity_STATUS
+		var identity v20210101ps.Identity_STATUS
 		err := namespace.Identity.AssignProperties_To_Identity_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Identity_STATUS() to populate field Identity")
@@ -761,11 +761,11 @@ func (namespace *Namespace_STATUS) AssignProperties_To_Namespace_STATUS(destinat
 
 	// PrivateEndpointConnections
 	if namespace.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v1api20210101ps.PrivateEndpointConnection_STATUS, len(namespace.PrivateEndpointConnections))
+		privateEndpointConnectionList := make([]v20210101ps.PrivateEndpointConnection_STATUS, len(namespace.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range namespace.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v1api20210101ps.PrivateEndpointConnection_STATUS
+			var privateEndpointConnection v20210101ps.PrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
@@ -785,7 +785,7 @@ func (namespace *Namespace_STATUS) AssignProperties_To_Namespace_STATUS(destinat
 
 	// Sku
 	if namespace.Sku != nil {
-		var sku v1api20210101ps.SBSku_STATUS
+		var sku v20210101ps.SBSku_STATUS
 		err := namespace.Sku.AssignProperties_To_SBSku_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SBSku_STATUS() to populate field Sku")
@@ -800,7 +800,7 @@ func (namespace *Namespace_STATUS) AssignProperties_To_Namespace_STATUS(destinat
 
 	// SystemData
 	if namespace.SystemData != nil {
-		var systemDatum v1api20210101ps.SystemData_STATUS
+		var systemDatum v20210101ps.SystemData_STATUS
 		err := namespace.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
@@ -848,13 +848,13 @@ func (namespace *Namespace_STATUS) AssignProperties_To_Namespace_STATUS(destinat
 }
 
 type augmentConversionForNamespace_Spec interface {
-	AssignPropertiesFrom(src *v1api20210101ps.Namespace_Spec) error
-	AssignPropertiesTo(dst *v1api20210101ps.Namespace_Spec) error
+	AssignPropertiesFrom(src *v20210101ps.Namespace_Spec) error
+	AssignPropertiesTo(dst *v20210101ps.Namespace_Spec) error
 }
 
 type augmentConversionForNamespace_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210101ps.Namespace_STATUS) error
-	AssignPropertiesTo(dst *v1api20210101ps.Namespace_STATUS) error
+	AssignPropertiesFrom(src *v20210101ps.Namespace_STATUS) error
+	AssignPropertiesTo(dst *v20210101ps.Namespace_STATUS) error
 }
 
 // Storage version of v1beta20210101preview.Encryption
@@ -867,7 +867,7 @@ type Encryption struct {
 }
 
 // AssignProperties_From_Encryption populates our Encryption from the provided source Encryption
-func (encryption *Encryption) AssignProperties_From_Encryption(source *v1api20210101ps.Encryption) error {
+func (encryption *Encryption) AssignProperties_From_Encryption(source *v20210101ps.Encryption) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -921,7 +921,7 @@ func (encryption *Encryption) AssignProperties_From_Encryption(source *v1api2021
 }
 
 // AssignProperties_To_Encryption populates the provided destination Encryption from our Encryption
-func (encryption *Encryption) AssignProperties_To_Encryption(destination *v1api20210101ps.Encryption) error {
+func (encryption *Encryption) AssignProperties_To_Encryption(destination *v20210101ps.Encryption) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(encryption.PropertyBag)
 
@@ -930,11 +930,11 @@ func (encryption *Encryption) AssignProperties_To_Encryption(destination *v1api2
 
 	// KeyVaultProperties
 	if encryption.KeyVaultProperties != nil {
-		keyVaultPropertyList := make([]v1api20210101ps.KeyVaultProperties, len(encryption.KeyVaultProperties))
+		keyVaultPropertyList := make([]v20210101ps.KeyVaultProperties, len(encryption.KeyVaultProperties))
 		for keyVaultPropertyIndex, keyVaultPropertyItem := range encryption.KeyVaultProperties {
 			// Shadow the loop variable to avoid aliasing
 			keyVaultPropertyItem := keyVaultPropertyItem
-			var keyVaultProperty v1api20210101ps.KeyVaultProperties
+			var keyVaultProperty v20210101ps.KeyVaultProperties
 			err := keyVaultPropertyItem.AssignProperties_To_KeyVaultProperties(&keyVaultProperty)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_KeyVaultProperties() to populate field KeyVaultProperties")
@@ -984,7 +984,7 @@ type Encryption_STATUS struct {
 }
 
 // AssignProperties_From_Encryption_STATUS populates our Encryption_STATUS from the provided source Encryption_STATUS
-func (encryption *Encryption_STATUS) AssignProperties_From_Encryption_STATUS(source *v1api20210101ps.Encryption_STATUS) error {
+func (encryption *Encryption_STATUS) AssignProperties_From_Encryption_STATUS(source *v20210101ps.Encryption_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1038,7 +1038,7 @@ func (encryption *Encryption_STATUS) AssignProperties_From_Encryption_STATUS(sou
 }
 
 // AssignProperties_To_Encryption_STATUS populates the provided destination Encryption_STATUS from our Encryption_STATUS
-func (encryption *Encryption_STATUS) AssignProperties_To_Encryption_STATUS(destination *v1api20210101ps.Encryption_STATUS) error {
+func (encryption *Encryption_STATUS) AssignProperties_To_Encryption_STATUS(destination *v20210101ps.Encryption_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(encryption.PropertyBag)
 
@@ -1047,11 +1047,11 @@ func (encryption *Encryption_STATUS) AssignProperties_To_Encryption_STATUS(desti
 
 	// KeyVaultProperties
 	if encryption.KeyVaultProperties != nil {
-		keyVaultPropertyList := make([]v1api20210101ps.KeyVaultProperties_STATUS, len(encryption.KeyVaultProperties))
+		keyVaultPropertyList := make([]v20210101ps.KeyVaultProperties_STATUS, len(encryption.KeyVaultProperties))
 		for keyVaultPropertyIndex, keyVaultPropertyItem := range encryption.KeyVaultProperties {
 			// Shadow the loop variable to avoid aliasing
 			keyVaultPropertyItem := keyVaultPropertyItem
-			var keyVaultProperty v1api20210101ps.KeyVaultProperties_STATUS
+			var keyVaultProperty v20210101ps.KeyVaultProperties_STATUS
 			err := keyVaultPropertyItem.AssignProperties_To_KeyVaultProperties_STATUS(&keyVaultProperty)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_KeyVaultProperties_STATUS() to populate field KeyVaultProperties")
@@ -1100,7 +1100,7 @@ type Identity struct {
 }
 
 // AssignProperties_From_Identity populates our Identity from the provided source Identity
-func (identity *Identity) AssignProperties_From_Identity(source *v1api20210101ps.Identity) error {
+func (identity *Identity) AssignProperties_From_Identity(source *v20210101ps.Identity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1146,7 +1146,7 @@ func (identity *Identity) AssignProperties_From_Identity(source *v1api20210101ps
 }
 
 // AssignProperties_To_Identity populates the provided destination Identity from our Identity
-func (identity *Identity) AssignProperties_To_Identity(destination *v1api20210101ps.Identity) error {
+func (identity *Identity) AssignProperties_To_Identity(destination *v20210101ps.Identity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
 
@@ -1155,11 +1155,11 @@ func (identity *Identity) AssignProperties_To_Identity(destination *v1api2021010
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]v1api20210101ps.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
+		userAssignedIdentityList := make([]v20210101ps.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityItem := userAssignedIdentityItem
-			var userAssignedIdentity v1api20210101ps.UserAssignedIdentityDetails
+			var userAssignedIdentity v20210101ps.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
@@ -1202,7 +1202,7 @@ type Identity_STATUS struct {
 }
 
 // AssignProperties_From_Identity_STATUS populates our Identity_STATUS from the provided source Identity_STATUS
-func (identity *Identity_STATUS) AssignProperties_From_Identity_STATUS(source *v1api20210101ps.Identity_STATUS) error {
+func (identity *Identity_STATUS) AssignProperties_From_Identity_STATUS(source *v20210101ps.Identity_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1254,7 +1254,7 @@ func (identity *Identity_STATUS) AssignProperties_From_Identity_STATUS(source *v
 }
 
 // AssignProperties_To_Identity_STATUS populates the provided destination Identity_STATUS from our Identity_STATUS
-func (identity *Identity_STATUS) AssignProperties_To_Identity_STATUS(destination *v1api20210101ps.Identity_STATUS) error {
+func (identity *Identity_STATUS) AssignProperties_To_Identity_STATUS(destination *v20210101ps.Identity_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
 
@@ -1269,11 +1269,11 @@ func (identity *Identity_STATUS) AssignProperties_To_Identity_STATUS(destination
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v1api20210101ps.DictionaryValue_STATUS, len(identity.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]v20210101ps.DictionaryValue_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity v1api20210101ps.DictionaryValue_STATUS
+			var userAssignedIdentity v20210101ps.DictionaryValue_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_DictionaryValue_STATUS(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_DictionaryValue_STATUS() to populate field UserAssignedIdentities")
@@ -1313,7 +1313,7 @@ type NamespaceOperatorSpec struct {
 }
 
 // AssignProperties_From_NamespaceOperatorSpec populates our NamespaceOperatorSpec from the provided source NamespaceOperatorSpec
-func (operator *NamespaceOperatorSpec) AssignProperties_From_NamespaceOperatorSpec(source *v1api20210101ps.NamespaceOperatorSpec) error {
+func (operator *NamespaceOperatorSpec) AssignProperties_From_NamespaceOperatorSpec(source *v20210101ps.NamespaceOperatorSpec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1350,13 +1350,13 @@ func (operator *NamespaceOperatorSpec) AssignProperties_From_NamespaceOperatorSp
 }
 
 // AssignProperties_To_NamespaceOperatorSpec populates the provided destination NamespaceOperatorSpec from our NamespaceOperatorSpec
-func (operator *NamespaceOperatorSpec) AssignProperties_To_NamespaceOperatorSpec(destination *v1api20210101ps.NamespaceOperatorSpec) error {
+func (operator *NamespaceOperatorSpec) AssignProperties_To_NamespaceOperatorSpec(destination *v20210101ps.NamespaceOperatorSpec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
 
 	// Secrets
 	if operator.Secrets != nil {
-		var secret v1api20210101ps.NamespaceOperatorSecrets
+		var secret v20210101ps.NamespaceOperatorSecrets
 		err := operator.Secrets.AssignProperties_To_NamespaceOperatorSecrets(&secret)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_NamespaceOperatorSecrets() to populate field Secrets")
@@ -1394,7 +1394,7 @@ type PrivateEndpointConnection_STATUS struct {
 }
 
 // AssignProperties_From_PrivateEndpointConnection_STATUS populates our PrivateEndpointConnection_STATUS from the provided source PrivateEndpointConnection_STATUS
-func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_PrivateEndpointConnection_STATUS(source *v1api20210101ps.PrivateEndpointConnection_STATUS) error {
+func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_PrivateEndpointConnection_STATUS(source *v20210101ps.PrivateEndpointConnection_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1422,7 +1422,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_Privat
 }
 
 // AssignProperties_To_PrivateEndpointConnection_STATUS populates the provided destination PrivateEndpointConnection_STATUS from our PrivateEndpointConnection_STATUS
-func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateEndpointConnection_STATUS(destination *v1api20210101ps.PrivateEndpointConnection_STATUS) error {
+func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateEndpointConnection_STATUS(destination *v20210101ps.PrivateEndpointConnection_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(connection.PropertyBag)
 
@@ -1459,7 +1459,7 @@ type SBSku struct {
 }
 
 // AssignProperties_From_SBSku populates our SBSku from the provided source SBSku
-func (sbSku *SBSku) AssignProperties_From_SBSku(source *v1api20210101ps.SBSku) error {
+func (sbSku *SBSku) AssignProperties_From_SBSku(source *v20210101ps.SBSku) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1493,7 +1493,7 @@ func (sbSku *SBSku) AssignProperties_From_SBSku(source *v1api20210101ps.SBSku) e
 }
 
 // AssignProperties_To_SBSku populates the provided destination SBSku from our SBSku
-func (sbSku *SBSku) AssignProperties_To_SBSku(destination *v1api20210101ps.SBSku) error {
+func (sbSku *SBSku) AssignProperties_To_SBSku(destination *v20210101ps.SBSku) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(sbSku.PropertyBag)
 
@@ -1536,7 +1536,7 @@ type SBSku_STATUS struct {
 }
 
 // AssignProperties_From_SBSku_STATUS populates our SBSku_STATUS from the provided source SBSku_STATUS
-func (sbSku *SBSku_STATUS) AssignProperties_From_SBSku_STATUS(source *v1api20210101ps.SBSku_STATUS) error {
+func (sbSku *SBSku_STATUS) AssignProperties_From_SBSku_STATUS(source *v20210101ps.SBSku_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1570,7 +1570,7 @@ func (sbSku *SBSku_STATUS) AssignProperties_From_SBSku_STATUS(source *v1api20210
 }
 
 // AssignProperties_To_SBSku_STATUS populates the provided destination SBSku_STATUS from our SBSku_STATUS
-func (sbSku *SBSku_STATUS) AssignProperties_To_SBSku_STATUS(destination *v1api20210101ps.SBSku_STATUS) error {
+func (sbSku *SBSku_STATUS) AssignProperties_To_SBSku_STATUS(destination *v20210101ps.SBSku_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(sbSku.PropertyBag)
 
@@ -1616,7 +1616,7 @@ type SystemData_STATUS struct {
 }
 
 // AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v1api20210101ps.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v20210101ps.SystemData_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1659,7 +1659,7 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 }
 
 // AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v1api20210101ps.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v20210101ps.SystemData_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(data.PropertyBag)
 
@@ -1702,48 +1702,48 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 }
 
 type augmentConversionForEncryption interface {
-	AssignPropertiesFrom(src *v1api20210101ps.Encryption) error
-	AssignPropertiesTo(dst *v1api20210101ps.Encryption) error
+	AssignPropertiesFrom(src *v20210101ps.Encryption) error
+	AssignPropertiesTo(dst *v20210101ps.Encryption) error
 }
 
 type augmentConversionForEncryption_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210101ps.Encryption_STATUS) error
-	AssignPropertiesTo(dst *v1api20210101ps.Encryption_STATUS) error
+	AssignPropertiesFrom(src *v20210101ps.Encryption_STATUS) error
+	AssignPropertiesTo(dst *v20210101ps.Encryption_STATUS) error
 }
 
 type augmentConversionForIdentity interface {
-	AssignPropertiesFrom(src *v1api20210101ps.Identity) error
-	AssignPropertiesTo(dst *v1api20210101ps.Identity) error
+	AssignPropertiesFrom(src *v20210101ps.Identity) error
+	AssignPropertiesTo(dst *v20210101ps.Identity) error
 }
 
 type augmentConversionForIdentity_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210101ps.Identity_STATUS) error
-	AssignPropertiesTo(dst *v1api20210101ps.Identity_STATUS) error
+	AssignPropertiesFrom(src *v20210101ps.Identity_STATUS) error
+	AssignPropertiesTo(dst *v20210101ps.Identity_STATUS) error
 }
 
 type augmentConversionForNamespaceOperatorSpec interface {
-	AssignPropertiesFrom(src *v1api20210101ps.NamespaceOperatorSpec) error
-	AssignPropertiesTo(dst *v1api20210101ps.NamespaceOperatorSpec) error
+	AssignPropertiesFrom(src *v20210101ps.NamespaceOperatorSpec) error
+	AssignPropertiesTo(dst *v20210101ps.NamespaceOperatorSpec) error
 }
 
 type augmentConversionForPrivateEndpointConnection_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210101ps.PrivateEndpointConnection_STATUS) error
-	AssignPropertiesTo(dst *v1api20210101ps.PrivateEndpointConnection_STATUS) error
+	AssignPropertiesFrom(src *v20210101ps.PrivateEndpointConnection_STATUS) error
+	AssignPropertiesTo(dst *v20210101ps.PrivateEndpointConnection_STATUS) error
 }
 
 type augmentConversionForSBSku interface {
-	AssignPropertiesFrom(src *v1api20210101ps.SBSku) error
-	AssignPropertiesTo(dst *v1api20210101ps.SBSku) error
+	AssignPropertiesFrom(src *v20210101ps.SBSku) error
+	AssignPropertiesTo(dst *v20210101ps.SBSku) error
 }
 
 type augmentConversionForSBSku_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210101ps.SBSku_STATUS) error
-	AssignPropertiesTo(dst *v1api20210101ps.SBSku_STATUS) error
+	AssignPropertiesFrom(src *v20210101ps.SBSku_STATUS) error
+	AssignPropertiesTo(dst *v20210101ps.SBSku_STATUS) error
 }
 
 type augmentConversionForSystemData_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210101ps.SystemData_STATUS) error
-	AssignPropertiesTo(dst *v1api20210101ps.SystemData_STATUS) error
+	AssignPropertiesFrom(src *v20210101ps.SystemData_STATUS) error
+	AssignPropertiesTo(dst *v20210101ps.SystemData_STATUS) error
 }
 
 // Storage version of v1beta20210101preview.DictionaryValue_STATUS
@@ -1755,7 +1755,7 @@ type DictionaryValue_STATUS struct {
 }
 
 // AssignProperties_From_DictionaryValue_STATUS populates our DictionaryValue_STATUS from the provided source DictionaryValue_STATUS
-func (value *DictionaryValue_STATUS) AssignProperties_From_DictionaryValue_STATUS(source *v1api20210101ps.DictionaryValue_STATUS) error {
+func (value *DictionaryValue_STATUS) AssignProperties_From_DictionaryValue_STATUS(source *v20210101ps.DictionaryValue_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1786,7 +1786,7 @@ func (value *DictionaryValue_STATUS) AssignProperties_From_DictionaryValue_STATU
 }
 
 // AssignProperties_To_DictionaryValue_STATUS populates the provided destination DictionaryValue_STATUS from our DictionaryValue_STATUS
-func (value *DictionaryValue_STATUS) AssignProperties_To_DictionaryValue_STATUS(destination *v1api20210101ps.DictionaryValue_STATUS) error {
+func (value *DictionaryValue_STATUS) AssignProperties_To_DictionaryValue_STATUS(destination *v20210101ps.DictionaryValue_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(value.PropertyBag)
 
@@ -1827,7 +1827,7 @@ type KeyVaultProperties struct {
 }
 
 // AssignProperties_From_KeyVaultProperties populates our KeyVaultProperties from the provided source KeyVaultProperties
-func (properties *KeyVaultProperties) AssignProperties_From_KeyVaultProperties(source *v1api20210101ps.KeyVaultProperties) error {
+func (properties *KeyVaultProperties) AssignProperties_From_KeyVaultProperties(source *v20210101ps.KeyVaultProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1873,13 +1873,13 @@ func (properties *KeyVaultProperties) AssignProperties_From_KeyVaultProperties(s
 }
 
 // AssignProperties_To_KeyVaultProperties populates the provided destination KeyVaultProperties from our KeyVaultProperties
-func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(destination *v1api20210101ps.KeyVaultProperties) error {
+func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(destination *v20210101ps.KeyVaultProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
 	// Identity
 	if properties.Identity != nil {
-		var identity v1api20210101ps.UserAssignedIdentityProperties
+		var identity v20210101ps.UserAssignedIdentityProperties
 		err := properties.Identity.AssignProperties_To_UserAssignedIdentityProperties(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityProperties() to populate field Identity")
@@ -1929,7 +1929,7 @@ type KeyVaultProperties_STATUS struct {
 }
 
 // AssignProperties_From_KeyVaultProperties_STATUS populates our KeyVaultProperties_STATUS from the provided source KeyVaultProperties_STATUS
-func (properties *KeyVaultProperties_STATUS) AssignProperties_From_KeyVaultProperties_STATUS(source *v1api20210101ps.KeyVaultProperties_STATUS) error {
+func (properties *KeyVaultProperties_STATUS) AssignProperties_From_KeyVaultProperties_STATUS(source *v20210101ps.KeyVaultProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1975,13 +1975,13 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_From_KeyVaultPrope
 }
 
 // AssignProperties_To_KeyVaultProperties_STATUS populates the provided destination KeyVaultProperties_STATUS from our KeyVaultProperties_STATUS
-func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultProperties_STATUS(destination *v1api20210101ps.KeyVaultProperties_STATUS) error {
+func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultProperties_STATUS(destination *v20210101ps.KeyVaultProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
 	// Identity
 	if properties.Identity != nil {
-		var identity v1api20210101ps.UserAssignedIdentityProperties_STATUS
+		var identity v20210101ps.UserAssignedIdentityProperties_STATUS
 		err := properties.Identity.AssignProperties_To_UserAssignedIdentityProperties_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityProperties_STATUS() to populate field Identity")
@@ -2031,7 +2031,7 @@ type NamespaceOperatorSecrets struct {
 }
 
 // AssignProperties_From_NamespaceOperatorSecrets populates our NamespaceOperatorSecrets from the provided source NamespaceOperatorSecrets
-func (secrets *NamespaceOperatorSecrets) AssignProperties_From_NamespaceOperatorSecrets(source *v1api20210101ps.NamespaceOperatorSecrets) error {
+func (secrets *NamespaceOperatorSecrets) AssignProperties_From_NamespaceOperatorSecrets(source *v20210101ps.NamespaceOperatorSecrets) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2096,7 +2096,7 @@ func (secrets *NamespaceOperatorSecrets) AssignProperties_From_NamespaceOperator
 }
 
 // AssignProperties_To_NamespaceOperatorSecrets populates the provided destination NamespaceOperatorSecrets from our NamespaceOperatorSecrets
-func (secrets *NamespaceOperatorSecrets) AssignProperties_To_NamespaceOperatorSecrets(destination *v1api20210101ps.NamespaceOperatorSecrets) error {
+func (secrets *NamespaceOperatorSecrets) AssignProperties_To_NamespaceOperatorSecrets(destination *v20210101ps.NamespaceOperatorSecrets) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(secrets.PropertyBag)
 
@@ -2168,7 +2168,7 @@ type UserAssignedIdentityDetails struct {
 }
 
 // AssignProperties_From_UserAssignedIdentityDetails populates our UserAssignedIdentityDetails from the provided source UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v1api20210101ps.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v20210101ps.UserAssignedIdentityDetails) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2196,7 +2196,7 @@ func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedId
 }
 
 // AssignProperties_To_UserAssignedIdentityDetails populates the provided destination UserAssignedIdentityDetails from our UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v1api20210101ps.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v20210101ps.UserAssignedIdentityDetails) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(details.PropertyBag)
 
@@ -2224,28 +2224,28 @@ func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIden
 }
 
 type augmentConversionForDictionaryValue_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210101ps.DictionaryValue_STATUS) error
-	AssignPropertiesTo(dst *v1api20210101ps.DictionaryValue_STATUS) error
+	AssignPropertiesFrom(src *v20210101ps.DictionaryValue_STATUS) error
+	AssignPropertiesTo(dst *v20210101ps.DictionaryValue_STATUS) error
 }
 
 type augmentConversionForKeyVaultProperties interface {
-	AssignPropertiesFrom(src *v1api20210101ps.KeyVaultProperties) error
-	AssignPropertiesTo(dst *v1api20210101ps.KeyVaultProperties) error
+	AssignPropertiesFrom(src *v20210101ps.KeyVaultProperties) error
+	AssignPropertiesTo(dst *v20210101ps.KeyVaultProperties) error
 }
 
 type augmentConversionForKeyVaultProperties_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210101ps.KeyVaultProperties_STATUS) error
-	AssignPropertiesTo(dst *v1api20210101ps.KeyVaultProperties_STATUS) error
+	AssignPropertiesFrom(src *v20210101ps.KeyVaultProperties_STATUS) error
+	AssignPropertiesTo(dst *v20210101ps.KeyVaultProperties_STATUS) error
 }
 
 type augmentConversionForNamespaceOperatorSecrets interface {
-	AssignPropertiesFrom(src *v1api20210101ps.NamespaceOperatorSecrets) error
-	AssignPropertiesTo(dst *v1api20210101ps.NamespaceOperatorSecrets) error
+	AssignPropertiesFrom(src *v20210101ps.NamespaceOperatorSecrets) error
+	AssignPropertiesTo(dst *v20210101ps.NamespaceOperatorSecrets) error
 }
 
 type augmentConversionForUserAssignedIdentityDetails interface {
-	AssignPropertiesFrom(src *v1api20210101ps.UserAssignedIdentityDetails) error
-	AssignPropertiesTo(dst *v1api20210101ps.UserAssignedIdentityDetails) error
+	AssignPropertiesFrom(src *v20210101ps.UserAssignedIdentityDetails) error
+	AssignPropertiesTo(dst *v20210101ps.UserAssignedIdentityDetails) error
 }
 
 // Storage version of v1beta20210101preview.UserAssignedIdentityProperties
@@ -2256,7 +2256,7 @@ type UserAssignedIdentityProperties struct {
 }
 
 // AssignProperties_From_UserAssignedIdentityProperties populates our UserAssignedIdentityProperties from the provided source UserAssignedIdentityProperties
-func (properties *UserAssignedIdentityProperties) AssignProperties_From_UserAssignedIdentityProperties(source *v1api20210101ps.UserAssignedIdentityProperties) error {
+func (properties *UserAssignedIdentityProperties) AssignProperties_From_UserAssignedIdentityProperties(source *v20210101ps.UserAssignedIdentityProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2289,7 +2289,7 @@ func (properties *UserAssignedIdentityProperties) AssignProperties_From_UserAssi
 }
 
 // AssignProperties_To_UserAssignedIdentityProperties populates the provided destination UserAssignedIdentityProperties from our UserAssignedIdentityProperties
-func (properties *UserAssignedIdentityProperties) AssignProperties_To_UserAssignedIdentityProperties(destination *v1api20210101ps.UserAssignedIdentityProperties) error {
+func (properties *UserAssignedIdentityProperties) AssignProperties_To_UserAssignedIdentityProperties(destination *v20210101ps.UserAssignedIdentityProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -2329,7 +2329,7 @@ type UserAssignedIdentityProperties_STATUS struct {
 }
 
 // AssignProperties_From_UserAssignedIdentityProperties_STATUS populates our UserAssignedIdentityProperties_STATUS from the provided source UserAssignedIdentityProperties_STATUS
-func (properties *UserAssignedIdentityProperties_STATUS) AssignProperties_From_UserAssignedIdentityProperties_STATUS(source *v1api20210101ps.UserAssignedIdentityProperties_STATUS) error {
+func (properties *UserAssignedIdentityProperties_STATUS) AssignProperties_From_UserAssignedIdentityProperties_STATUS(source *v20210101ps.UserAssignedIdentityProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2357,7 +2357,7 @@ func (properties *UserAssignedIdentityProperties_STATUS) AssignProperties_From_U
 }
 
 // AssignProperties_To_UserAssignedIdentityProperties_STATUS populates the provided destination UserAssignedIdentityProperties_STATUS from our UserAssignedIdentityProperties_STATUS
-func (properties *UserAssignedIdentityProperties_STATUS) AssignProperties_To_UserAssignedIdentityProperties_STATUS(destination *v1api20210101ps.UserAssignedIdentityProperties_STATUS) error {
+func (properties *UserAssignedIdentityProperties_STATUS) AssignProperties_To_UserAssignedIdentityProperties_STATUS(destination *v20210101ps.UserAssignedIdentityProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -2385,13 +2385,13 @@ func (properties *UserAssignedIdentityProperties_STATUS) AssignProperties_To_Use
 }
 
 type augmentConversionForUserAssignedIdentityProperties interface {
-	AssignPropertiesFrom(src *v1api20210101ps.UserAssignedIdentityProperties) error
-	AssignPropertiesTo(dst *v1api20210101ps.UserAssignedIdentityProperties) error
+	AssignPropertiesFrom(src *v20210101ps.UserAssignedIdentityProperties) error
+	AssignPropertiesTo(dst *v20210101ps.UserAssignedIdentityProperties) error
 }
 
 type augmentConversionForUserAssignedIdentityProperties_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210101ps.UserAssignedIdentityProperties_STATUS) error
-	AssignPropertiesTo(dst *v1api20210101ps.UserAssignedIdentityProperties_STATUS) error
+	AssignPropertiesFrom(src *v20210101ps.UserAssignedIdentityProperties_STATUS) error
+	AssignPropertiesTo(dst *v20210101ps.UserAssignedIdentityProperties_STATUS) error
 }
 
 func init() {

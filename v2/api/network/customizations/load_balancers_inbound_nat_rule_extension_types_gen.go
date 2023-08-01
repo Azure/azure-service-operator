@@ -4,8 +4,8 @@
 package customizations
 
 import (
-	v1api20201101 "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
-	v1api20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
+	v20201101 "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +15,6 @@ type LoadBalancersInboundNatRuleExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *LoadBalancersInboundNatRuleExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1api20201101.LoadBalancersInboundNatRule{},
-		&v1api20201101s.LoadBalancersInboundNatRule{}}
+		&v20201101.LoadBalancersInboundNatRule{},
+		&v20201101s.LoadBalancersInboundNatRule{}}
 }

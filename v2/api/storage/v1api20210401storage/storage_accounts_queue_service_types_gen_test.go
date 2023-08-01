@@ -5,7 +5,7 @@ package v1api20210401storage
 
 import (
 	"encoding/json"
-	v1api20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
+	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForStorageAccountsQueueService(subject StorageAcco
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20220901s.StorageAccountsQueueService
+	var hub v20220901s.StorageAccountsQueueService
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForStorageAccountsQueueService(subject StorageAcco
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220901s.StorageAccountsQueueService
+	var other v20220901s.StorageAccountsQueueService
 	err := copied.AssignProperties_To_StorageAccountsQueueService(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForStorageAccounts_QueueService_Spec(subject Stora
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220901s.StorageAccounts_QueueService_Spec
+	var other v20220901s.StorageAccounts_QueueService_Spec
 	err := copied.AssignProperties_To_StorageAccounts_QueueService_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -299,7 +299,7 @@ func RunPropertyAssignmentTestForStorageAccounts_QueueService_STATUS(subject Sto
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220901s.StorageAccounts_QueueService_STATUS
+	var other v20220901s.StorageAccounts_QueueService_STATUS
 	err := copied.AssignProperties_To_StorageAccounts_QueueService_STATUS(&other)
 	if err != nil {
 		return err.Error()

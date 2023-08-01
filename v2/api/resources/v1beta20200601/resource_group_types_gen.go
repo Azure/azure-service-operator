@@ -5,7 +5,7 @@ package v1beta20200601
 
 import (
 	"fmt"
-	v20200601s "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601storage"
+	v1beta20200601s "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -48,7 +48,7 @@ var _ conversion.Convertible = &ResourceGroup{}
 // ConvertFrom populates our ResourceGroup from the provided hub ResourceGroup
 func (group *ResourceGroup) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var source v20200601s.ResourceGroup
+	var source v1beta20200601s.ResourceGroup
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
@@ -66,7 +66,7 @@ func (group *ResourceGroup) ConvertFrom(hub conversion.Hub) error {
 // ConvertTo populates the provided hub ResourceGroup from our ResourceGroup
 func (group *ResourceGroup) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var destination v20200601s.ResourceGroup
+	var destination v1beta20200601s.ResourceGroup
 	err := group.AssignProperties_To_ResourceGroup(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from group")
@@ -246,7 +246,7 @@ func (group *ResourceGroup) validateWriteOnceProperties(old runtime.Object) (adm
 }
 
 // AssignProperties_From_ResourceGroup populates our ResourceGroup from the provided source ResourceGroup
-func (group *ResourceGroup) AssignProperties_From_ResourceGroup(source *v20200601s.ResourceGroup) error {
+func (group *ResourceGroup) AssignProperties_From_ResourceGroup(source *v1beta20200601s.ResourceGroup) error {
 
 	// ObjectMeta
 	group.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -272,13 +272,13 @@ func (group *ResourceGroup) AssignProperties_From_ResourceGroup(source *v2020060
 }
 
 // AssignProperties_To_ResourceGroup populates the provided destination ResourceGroup from our ResourceGroup
-func (group *ResourceGroup) AssignProperties_To_ResourceGroup(destination *v20200601s.ResourceGroup) error {
+func (group *ResourceGroup) AssignProperties_To_ResourceGroup(destination *v1beta20200601s.ResourceGroup) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *group.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20200601s.ResourceGroup_Spec
+	var spec v1beta20200601s.ResourceGroup_Spec
 	err := group.Spec.AssignProperties_To_ResourceGroup_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_ResourceGroup_Spec() to populate field Spec")
@@ -286,7 +286,7 @@ func (group *ResourceGroup) AssignProperties_To_ResourceGroup(destination *v2020
 	destination.Spec = spec
 
 	// Status
-	var status v20200601s.ResourceGroup_STATUS
+	var status v1beta20200601s.ResourceGroup_STATUS
 	err = group.Status.AssignProperties_To_ResourceGroup_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_ResourceGroup_STATUS() to populate field Status")
@@ -410,14 +410,14 @@ var _ genruntime.ConvertibleSpec = &ResourceGroup_Spec{}
 
 // ConvertSpecFrom populates our ResourceGroup_Spec from the provided source
 func (group *ResourceGroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20200601s.ResourceGroup_Spec)
+	src, ok := source.(*v1beta20200601s.ResourceGroup_Spec)
 	if ok {
 		// Populate our instance from source
 		return group.AssignProperties_From_ResourceGroup_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20200601s.ResourceGroup_Spec{}
+	src = &v1beta20200601s.ResourceGroup_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -434,14 +434,14 @@ func (group *ResourceGroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSp
 
 // ConvertSpecTo populates the provided destination from our ResourceGroup_Spec
 func (group *ResourceGroup_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20200601s.ResourceGroup_Spec)
+	dst, ok := destination.(*v1beta20200601s.ResourceGroup_Spec)
 	if ok {
 		// Populate destination from our instance
 		return group.AssignProperties_To_ResourceGroup_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20200601s.ResourceGroup_Spec{}
+	dst = &v1beta20200601s.ResourceGroup_Spec{}
 	err := group.AssignProperties_To_ResourceGroup_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -457,7 +457,7 @@ func (group *ResourceGroup_Spec) ConvertSpecTo(destination genruntime.Convertibl
 }
 
 // AssignProperties_From_ResourceGroup_Spec populates our ResourceGroup_Spec from the provided source ResourceGroup_Spec
-func (group *ResourceGroup_Spec) AssignProperties_From_ResourceGroup_Spec(source *v20200601s.ResourceGroup_Spec) error {
+func (group *ResourceGroup_Spec) AssignProperties_From_ResourceGroup_Spec(source *v1beta20200601s.ResourceGroup_Spec) error {
 
 	// AzureName
 	group.AzureName = source.AzureName
@@ -476,7 +476,7 @@ func (group *ResourceGroup_Spec) AssignProperties_From_ResourceGroup_Spec(source
 }
 
 // AssignProperties_To_ResourceGroup_Spec populates the provided destination ResourceGroup_Spec from our ResourceGroup_Spec
-func (group *ResourceGroup_Spec) AssignProperties_To_ResourceGroup_Spec(destination *v20200601s.ResourceGroup_Spec) error {
+func (group *ResourceGroup_Spec) AssignProperties_To_ResourceGroup_Spec(destination *v1beta20200601s.ResourceGroup_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -531,14 +531,14 @@ var _ genruntime.ConvertibleStatus = &ResourceGroup_STATUS{}
 
 // ConvertStatusFrom populates our ResourceGroup_STATUS from the provided source
 func (group *ResourceGroup_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20200601s.ResourceGroup_STATUS)
+	src, ok := source.(*v1beta20200601s.ResourceGroup_STATUS)
 	if ok {
 		// Populate our instance from source
 		return group.AssignProperties_From_ResourceGroup_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20200601s.ResourceGroup_STATUS{}
+	src = &v1beta20200601s.ResourceGroup_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -555,14 +555,14 @@ func (group *ResourceGroup_STATUS) ConvertStatusFrom(source genruntime.Convertib
 
 // ConvertStatusTo populates the provided destination from our ResourceGroup_STATUS
 func (group *ResourceGroup_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20200601s.ResourceGroup_STATUS)
+	dst, ok := destination.(*v1beta20200601s.ResourceGroup_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return group.AssignProperties_To_ResourceGroup_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20200601s.ResourceGroup_STATUS{}
+	dst = &v1beta20200601s.ResourceGroup_STATUS{}
 	err := group.AssignProperties_To_ResourceGroup_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -647,7 +647,7 @@ func (group *ResourceGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 }
 
 // AssignProperties_From_ResourceGroup_STATUS populates our ResourceGroup_STATUS from the provided source ResourceGroup_STATUS
-func (group *ResourceGroup_STATUS) AssignProperties_From_ResourceGroup_STATUS(source *v20200601s.ResourceGroup_STATUS) error {
+func (group *ResourceGroup_STATUS) AssignProperties_From_ResourceGroup_STATUS(source *v1beta20200601s.ResourceGroup_STATUS) error {
 
 	// Conditions
 	group.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -687,7 +687,7 @@ func (group *ResourceGroup_STATUS) AssignProperties_From_ResourceGroup_STATUS(so
 }
 
 // AssignProperties_To_ResourceGroup_STATUS populates the provided destination ResourceGroup_STATUS from our ResourceGroup_STATUS
-func (group *ResourceGroup_STATUS) AssignProperties_To_ResourceGroup_STATUS(destination *v20200601s.ResourceGroup_STATUS) error {
+func (group *ResourceGroup_STATUS) AssignProperties_To_ResourceGroup_STATUS(destination *v1beta20200601s.ResourceGroup_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -708,7 +708,7 @@ func (group *ResourceGroup_STATUS) AssignProperties_To_ResourceGroup_STATUS(dest
 
 	// Properties
 	if group.Properties != nil {
-		var property v20200601s.ResourceGroupProperties_STATUS
+		var property v1beta20200601s.ResourceGroupProperties_STATUS
 		err := group.Properties.AssignProperties_To_ResourceGroupProperties_STATUS(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResourceGroupProperties_STATUS() to populate field Properties")
@@ -765,7 +765,7 @@ func (properties *ResourceGroupProperties_STATUS) PopulateFromARM(owner genrunti
 }
 
 // AssignProperties_From_ResourceGroupProperties_STATUS populates our ResourceGroupProperties_STATUS from the provided source ResourceGroupProperties_STATUS
-func (properties *ResourceGroupProperties_STATUS) AssignProperties_From_ResourceGroupProperties_STATUS(source *v20200601s.ResourceGroupProperties_STATUS) error {
+func (properties *ResourceGroupProperties_STATUS) AssignProperties_From_ResourceGroupProperties_STATUS(source *v1beta20200601s.ResourceGroupProperties_STATUS) error {
 
 	// ProvisioningState
 	properties.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
@@ -775,7 +775,7 @@ func (properties *ResourceGroupProperties_STATUS) AssignProperties_From_Resource
 }
 
 // AssignProperties_To_ResourceGroupProperties_STATUS populates the provided destination ResourceGroupProperties_STATUS from our ResourceGroupProperties_STATUS
-func (properties *ResourceGroupProperties_STATUS) AssignProperties_To_ResourceGroupProperties_STATUS(destination *v20200601s.ResourceGroupProperties_STATUS) error {
+func (properties *ResourceGroupProperties_STATUS) AssignProperties_To_ResourceGroupProperties_STATUS(destination *v1beta20200601s.ResourceGroupProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

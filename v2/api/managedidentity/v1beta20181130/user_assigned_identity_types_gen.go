@@ -6,7 +6,7 @@ package v1beta20181130
 import (
 	"context"
 	"fmt"
-	v20181130s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20181130storage"
+	v1beta20181130s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20181130storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -53,7 +53,7 @@ var _ conversion.Convertible = &UserAssignedIdentity{}
 // ConvertFrom populates our UserAssignedIdentity from the provided hub UserAssignedIdentity
 func (identity *UserAssignedIdentity) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var source v20181130s.UserAssignedIdentity
+	var source v1beta20181130s.UserAssignedIdentity
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
@@ -71,7 +71,7 @@ func (identity *UserAssignedIdentity) ConvertFrom(hub conversion.Hub) error {
 // ConvertTo populates the provided hub UserAssignedIdentity from our UserAssignedIdentity
 func (identity *UserAssignedIdentity) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var destination v20181130s.UserAssignedIdentity
+	var destination v1beta20181130s.UserAssignedIdentity
 	err := identity.AssignProperties_To_UserAssignedIdentity(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from identity")
@@ -293,7 +293,7 @@ func (identity *UserAssignedIdentity) validateWriteOnceProperties(old runtime.Ob
 }
 
 // AssignProperties_From_UserAssignedIdentity populates our UserAssignedIdentity from the provided source UserAssignedIdentity
-func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity(source *v20181130s.UserAssignedIdentity) error {
+func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity(source *v1beta20181130s.UserAssignedIdentity) error {
 
 	// ObjectMeta
 	identity.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -319,13 +319,13 @@ func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity
 }
 
 // AssignProperties_To_UserAssignedIdentity populates the provided destination UserAssignedIdentity from our UserAssignedIdentity
-func (identity *UserAssignedIdentity) AssignProperties_To_UserAssignedIdentity(destination *v20181130s.UserAssignedIdentity) error {
+func (identity *UserAssignedIdentity) AssignProperties_To_UserAssignedIdentity(destination *v1beta20181130s.UserAssignedIdentity) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *identity.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20181130s.UserAssignedIdentity_Spec
+	var spec v1beta20181130s.UserAssignedIdentity_Spec
 	err := identity.Spec.AssignProperties_To_UserAssignedIdentity_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_Spec() to populate field Spec")
@@ -333,7 +333,7 @@ func (identity *UserAssignedIdentity) AssignProperties_To_UserAssignedIdentity(d
 	destination.Spec = spec
 
 	// Status
-	var status v20181130s.UserAssignedIdentity_STATUS
+	var status v1beta20181130s.UserAssignedIdentity_STATUS
 	err = identity.Status.AssignProperties_To_UserAssignedIdentity_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field Status")
@@ -457,14 +457,14 @@ var _ genruntime.ConvertibleSpec = &UserAssignedIdentity_Spec{}
 
 // ConvertSpecFrom populates our UserAssignedIdentity_Spec from the provided source
 func (identity *UserAssignedIdentity_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20181130s.UserAssignedIdentity_Spec)
+	src, ok := source.(*v1beta20181130s.UserAssignedIdentity_Spec)
 	if ok {
 		// Populate our instance from source
 		return identity.AssignProperties_From_UserAssignedIdentity_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20181130s.UserAssignedIdentity_Spec{}
+	src = &v1beta20181130s.UserAssignedIdentity_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -481,14 +481,14 @@ func (identity *UserAssignedIdentity_Spec) ConvertSpecFrom(source genruntime.Con
 
 // ConvertSpecTo populates the provided destination from our UserAssignedIdentity_Spec
 func (identity *UserAssignedIdentity_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20181130s.UserAssignedIdentity_Spec)
+	dst, ok := destination.(*v1beta20181130s.UserAssignedIdentity_Spec)
 	if ok {
 		// Populate destination from our instance
 		return identity.AssignProperties_To_UserAssignedIdentity_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20181130s.UserAssignedIdentity_Spec{}
+	dst = &v1beta20181130s.UserAssignedIdentity_Spec{}
 	err := identity.AssignProperties_To_UserAssignedIdentity_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -504,7 +504,7 @@ func (identity *UserAssignedIdentity_Spec) ConvertSpecTo(destination genruntime.
 }
 
 // AssignProperties_From_UserAssignedIdentity_Spec populates our UserAssignedIdentity_Spec from the provided source UserAssignedIdentity_Spec
-func (identity *UserAssignedIdentity_Spec) AssignProperties_From_UserAssignedIdentity_Spec(source *v20181130s.UserAssignedIdentity_Spec) error {
+func (identity *UserAssignedIdentity_Spec) AssignProperties_From_UserAssignedIdentity_Spec(source *v1beta20181130s.UserAssignedIdentity_Spec) error {
 
 	// AzureName
 	identity.AzureName = source.AzureName
@@ -540,7 +540,7 @@ func (identity *UserAssignedIdentity_Spec) AssignProperties_From_UserAssignedIde
 }
 
 // AssignProperties_To_UserAssignedIdentity_Spec populates the provided destination UserAssignedIdentity_Spec from our UserAssignedIdentity_Spec
-func (identity *UserAssignedIdentity_Spec) AssignProperties_To_UserAssignedIdentity_Spec(destination *v20181130s.UserAssignedIdentity_Spec) error {
+func (identity *UserAssignedIdentity_Spec) AssignProperties_To_UserAssignedIdentity_Spec(destination *v1beta20181130s.UserAssignedIdentity_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -552,7 +552,7 @@ func (identity *UserAssignedIdentity_Spec) AssignProperties_To_UserAssignedIdent
 
 	// OperatorSpec
 	if identity.OperatorSpec != nil {
-		var operatorSpec v20181130s.UserAssignedIdentityOperatorSpec
+		var operatorSpec v1beta20181130s.UserAssignedIdentityOperatorSpec
 		err := identity.OperatorSpec.AssignProperties_To_UserAssignedIdentityOperatorSpec(&operatorSpec)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityOperatorSpec() to populate field OperatorSpec")
@@ -616,14 +616,14 @@ var _ genruntime.ConvertibleStatus = &UserAssignedIdentity_STATUS{}
 
 // ConvertStatusFrom populates our UserAssignedIdentity_STATUS from the provided source
 func (identity *UserAssignedIdentity_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20181130s.UserAssignedIdentity_STATUS)
+	src, ok := source.(*v1beta20181130s.UserAssignedIdentity_STATUS)
 	if ok {
 		// Populate our instance from source
 		return identity.AssignProperties_From_UserAssignedIdentity_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20181130s.UserAssignedIdentity_STATUS{}
+	src = &v1beta20181130s.UserAssignedIdentity_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -640,14 +640,14 @@ func (identity *UserAssignedIdentity_STATUS) ConvertStatusFrom(source genruntime
 
 // ConvertStatusTo populates the provided destination from our UserAssignedIdentity_STATUS
 func (identity *UserAssignedIdentity_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20181130s.UserAssignedIdentity_STATUS)
+	dst, ok := destination.(*v1beta20181130s.UserAssignedIdentity_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return identity.AssignProperties_To_UserAssignedIdentity_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20181130s.UserAssignedIdentity_STATUS{}
+	dst = &v1beta20181130s.UserAssignedIdentity_STATUS{}
 	err := identity.AssignProperties_To_UserAssignedIdentity_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -742,7 +742,7 @@ func (identity *UserAssignedIdentity_STATUS) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignProperties_From_UserAssignedIdentity_STATUS populates our UserAssignedIdentity_STATUS from the provided source UserAssignedIdentity_STATUS
-func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedIdentity_STATUS(source *v20181130s.UserAssignedIdentity_STATUS) error {
+func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedIdentity_STATUS(source *v1beta20181130s.UserAssignedIdentity_STATUS) error {
 
 	// ClientId
 	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
@@ -776,7 +776,7 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedI
 }
 
 // AssignProperties_To_UserAssignedIdentity_STATUS populates the provided destination UserAssignedIdentity_STATUS from our UserAssignedIdentity_STATUS
-func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIdentity_STATUS(destination *v20181130s.UserAssignedIdentity_STATUS) error {
+func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIdentity_STATUS(destination *v1beta20181130s.UserAssignedIdentity_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -825,7 +825,7 @@ type UserAssignedIdentityOperatorSpec struct {
 }
 
 // AssignProperties_From_UserAssignedIdentityOperatorSpec populates our UserAssignedIdentityOperatorSpec from the provided source UserAssignedIdentityOperatorSpec
-func (operator *UserAssignedIdentityOperatorSpec) AssignProperties_From_UserAssignedIdentityOperatorSpec(source *v20181130s.UserAssignedIdentityOperatorSpec) error {
+func (operator *UserAssignedIdentityOperatorSpec) AssignProperties_From_UserAssignedIdentityOperatorSpec(source *v1beta20181130s.UserAssignedIdentityOperatorSpec) error {
 
 	// ConfigMaps
 	if source.ConfigMaps != nil {
@@ -844,13 +844,13 @@ func (operator *UserAssignedIdentityOperatorSpec) AssignProperties_From_UserAssi
 }
 
 // AssignProperties_To_UserAssignedIdentityOperatorSpec populates the provided destination UserAssignedIdentityOperatorSpec from our UserAssignedIdentityOperatorSpec
-func (operator *UserAssignedIdentityOperatorSpec) AssignProperties_To_UserAssignedIdentityOperatorSpec(destination *v20181130s.UserAssignedIdentityOperatorSpec) error {
+func (operator *UserAssignedIdentityOperatorSpec) AssignProperties_To_UserAssignedIdentityOperatorSpec(destination *v1beta20181130s.UserAssignedIdentityOperatorSpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ConfigMaps
 	if operator.ConfigMaps != nil {
-		var configMap v20181130s.UserAssignedIdentityOperatorConfigMaps
+		var configMap v1beta20181130s.UserAssignedIdentityOperatorConfigMaps
 		err := operator.ConfigMaps.AssignProperties_To_UserAssignedIdentityOperatorConfigMaps(&configMap)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityOperatorConfigMaps() to populate field ConfigMaps")
@@ -883,7 +883,7 @@ type UserAssignedIdentityOperatorConfigMaps struct {
 }
 
 // AssignProperties_From_UserAssignedIdentityOperatorConfigMaps populates our UserAssignedIdentityOperatorConfigMaps from the provided source UserAssignedIdentityOperatorConfigMaps
-func (maps *UserAssignedIdentityOperatorConfigMaps) AssignProperties_From_UserAssignedIdentityOperatorConfigMaps(source *v20181130s.UserAssignedIdentityOperatorConfigMaps) error {
+func (maps *UserAssignedIdentityOperatorConfigMaps) AssignProperties_From_UserAssignedIdentityOperatorConfigMaps(source *v1beta20181130s.UserAssignedIdentityOperatorConfigMaps) error {
 
 	// ClientId
 	if source.ClientId != nil {
@@ -914,7 +914,7 @@ func (maps *UserAssignedIdentityOperatorConfigMaps) AssignProperties_From_UserAs
 }
 
 // AssignProperties_To_UserAssignedIdentityOperatorConfigMaps populates the provided destination UserAssignedIdentityOperatorConfigMaps from our UserAssignedIdentityOperatorConfigMaps
-func (maps *UserAssignedIdentityOperatorConfigMaps) AssignProperties_To_UserAssignedIdentityOperatorConfigMaps(destination *v20181130s.UserAssignedIdentityOperatorConfigMaps) error {
+func (maps *UserAssignedIdentityOperatorConfigMaps) AssignProperties_To_UserAssignedIdentityOperatorConfigMaps(destination *v1beta20181130s.UserAssignedIdentityOperatorConfigMaps) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

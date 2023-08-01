@@ -5,8 +5,8 @@ package v1beta20210701
 
 import (
 	"encoding/json"
-	v1api20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701storage"
-	v20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701storage"
+	v20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701storage"
+	v1beta20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -37,7 +37,7 @@ func RunResourceConversionTestForWorkspacesConnection(subject WorkspacesConnecti
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20210701s.WorkspacesConnection
+	var hub v20210701s.WorkspacesConnection
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -79,7 +79,7 @@ func RunPropertyAssignmentTestForWorkspacesConnection(subject WorkspacesConnecti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210701s.WorkspacesConnection
+	var other v1beta20210701s.WorkspacesConnection
 	err := copied.AssignProperties_To_WorkspacesConnection(&other)
 	if err != nil {
 		return err.Error()
@@ -183,7 +183,7 @@ func RunPropertyAssignmentTestForWorkspaces_Connection_Spec(subject Workspaces_C
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210701s.Workspaces_Connection_Spec
+	var other v1beta20210701s.Workspaces_Connection_Spec
 	err := copied.AssignProperties_To_Workspaces_Connection_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -291,7 +291,7 @@ func RunPropertyAssignmentTestForWorkspaces_Connection_STATUS(subject Workspaces
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210701s.Workspaces_Connection_STATUS
+	var other v1beta20210701s.Workspaces_Connection_STATUS
 	err := copied.AssignProperties_To_Workspaces_Connection_STATUS(&other)
 	if err != nil {
 		return err.Error()

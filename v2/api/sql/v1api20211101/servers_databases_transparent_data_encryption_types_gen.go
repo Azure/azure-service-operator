@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
-	v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &ServersDatabasesTransparentDataEncryption{}
 
 // ConvertFrom populates our ServersDatabasesTransparentDataEncryption from the provided hub ServersDatabasesTransparentDataEncryption
 func (encryption *ServersDatabasesTransparentDataEncryption) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20211101s.ServersDatabasesTransparentDataEncryption)
+	source, ok := hub.(*v20211101s.ServersDatabasesTransparentDataEncryption)
 	if !ok {
 		return fmt.Errorf("expected sql/v1api20211101storage/ServersDatabasesTransparentDataEncryption but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (encryption *ServersDatabasesTransparentDataEncryption) ConvertFrom(hub con
 
 // ConvertTo populates the provided hub ServersDatabasesTransparentDataEncryption from our ServersDatabasesTransparentDataEncryption
 func (encryption *ServersDatabasesTransparentDataEncryption) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20211101s.ServersDatabasesTransparentDataEncryption)
+	destination, ok := hub.(*v20211101s.ServersDatabasesTransparentDataEncryption)
 	if !ok {
 		return fmt.Errorf("expected sql/v1api20211101storage/ServersDatabasesTransparentDataEncryption but received %T instead", hub)
 	}
@@ -233,7 +233,7 @@ func (encryption *ServersDatabasesTransparentDataEncryption) validateWriteOncePr
 }
 
 // AssignProperties_From_ServersDatabasesTransparentDataEncryption populates our ServersDatabasesTransparentDataEncryption from the provided source ServersDatabasesTransparentDataEncryption
-func (encryption *ServersDatabasesTransparentDataEncryption) AssignProperties_From_ServersDatabasesTransparentDataEncryption(source *v1api20211101s.ServersDatabasesTransparentDataEncryption) error {
+func (encryption *ServersDatabasesTransparentDataEncryption) AssignProperties_From_ServersDatabasesTransparentDataEncryption(source *v20211101s.ServersDatabasesTransparentDataEncryption) error {
 
 	// ObjectMeta
 	encryption.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -259,13 +259,13 @@ func (encryption *ServersDatabasesTransparentDataEncryption) AssignProperties_Fr
 }
 
 // AssignProperties_To_ServersDatabasesTransparentDataEncryption populates the provided destination ServersDatabasesTransparentDataEncryption from our ServersDatabasesTransparentDataEncryption
-func (encryption *ServersDatabasesTransparentDataEncryption) AssignProperties_To_ServersDatabasesTransparentDataEncryption(destination *v1api20211101s.ServersDatabasesTransparentDataEncryption) error {
+func (encryption *ServersDatabasesTransparentDataEncryption) AssignProperties_To_ServersDatabasesTransparentDataEncryption(destination *v20211101s.ServersDatabasesTransparentDataEncryption) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *encryption.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20211101s.Servers_Databases_TransparentDataEncryption_Spec
+	var spec v20211101s.Servers_Databases_TransparentDataEncryption_Spec
 	err := encryption.Spec.AssignProperties_To_Servers_Databases_TransparentDataEncryption_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Servers_Databases_TransparentDataEncryption_Spec() to populate field Spec")
@@ -273,7 +273,7 @@ func (encryption *ServersDatabasesTransparentDataEncryption) AssignProperties_To
 	destination.Spec = spec
 
 	// Status
-	var status v1api20211101s.Servers_Databases_TransparentDataEncryption_STATUS
+	var status v20211101s.Servers_Databases_TransparentDataEncryption_STATUS
 	err = encryption.Status.AssignProperties_To_Servers_Databases_TransparentDataEncryption_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Servers_Databases_TransparentDataEncryption_STATUS() to populate field Status")
@@ -370,14 +370,14 @@ var _ genruntime.ConvertibleSpec = &Servers_Databases_TransparentDataEncryption_
 
 // ConvertSpecFrom populates our Servers_Databases_TransparentDataEncryption_Spec from the provided source
 func (encryption *Servers_Databases_TransparentDataEncryption_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20211101s.Servers_Databases_TransparentDataEncryption_Spec)
+	src, ok := source.(*v20211101s.Servers_Databases_TransparentDataEncryption_Spec)
 	if ok {
 		// Populate our instance from source
 		return encryption.AssignProperties_From_Servers_Databases_TransparentDataEncryption_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20211101s.Servers_Databases_TransparentDataEncryption_Spec{}
+	src = &v20211101s.Servers_Databases_TransparentDataEncryption_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -394,14 +394,14 @@ func (encryption *Servers_Databases_TransparentDataEncryption_Spec) ConvertSpecF
 
 // ConvertSpecTo populates the provided destination from our Servers_Databases_TransparentDataEncryption_Spec
 func (encryption *Servers_Databases_TransparentDataEncryption_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20211101s.Servers_Databases_TransparentDataEncryption_Spec)
+	dst, ok := destination.(*v20211101s.Servers_Databases_TransparentDataEncryption_Spec)
 	if ok {
 		// Populate destination from our instance
 		return encryption.AssignProperties_To_Servers_Databases_TransparentDataEncryption_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20211101s.Servers_Databases_TransparentDataEncryption_Spec{}
+	dst = &v20211101s.Servers_Databases_TransparentDataEncryption_Spec{}
 	err := encryption.AssignProperties_To_Servers_Databases_TransparentDataEncryption_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -417,7 +417,7 @@ func (encryption *Servers_Databases_TransparentDataEncryption_Spec) ConvertSpecT
 }
 
 // AssignProperties_From_Servers_Databases_TransparentDataEncryption_Spec populates our Servers_Databases_TransparentDataEncryption_Spec from the provided source Servers_Databases_TransparentDataEncryption_Spec
-func (encryption *Servers_Databases_TransparentDataEncryption_Spec) AssignProperties_From_Servers_Databases_TransparentDataEncryption_Spec(source *v1api20211101s.Servers_Databases_TransparentDataEncryption_Spec) error {
+func (encryption *Servers_Databases_TransparentDataEncryption_Spec) AssignProperties_From_Servers_Databases_TransparentDataEncryption_Spec(source *v20211101s.Servers_Databases_TransparentDataEncryption_Spec) error {
 
 	// Owner
 	if source.Owner != nil {
@@ -440,7 +440,7 @@ func (encryption *Servers_Databases_TransparentDataEncryption_Spec) AssignProper
 }
 
 // AssignProperties_To_Servers_Databases_TransparentDataEncryption_Spec populates the provided destination Servers_Databases_TransparentDataEncryption_Spec from our Servers_Databases_TransparentDataEncryption_Spec
-func (encryption *Servers_Databases_TransparentDataEncryption_Spec) AssignProperties_To_Servers_Databases_TransparentDataEncryption_Spec(destination *v1api20211101s.Servers_Databases_TransparentDataEncryption_Spec) error {
+func (encryption *Servers_Databases_TransparentDataEncryption_Spec) AssignProperties_To_Servers_Databases_TransparentDataEncryption_Spec(destination *v20211101s.Servers_Databases_TransparentDataEncryption_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -515,14 +515,14 @@ var _ genruntime.ConvertibleStatus = &Servers_Databases_TransparentDataEncryptio
 
 // ConvertStatusFrom populates our Servers_Databases_TransparentDataEncryption_STATUS from the provided source
 func (encryption *Servers_Databases_TransparentDataEncryption_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20211101s.Servers_Databases_TransparentDataEncryption_STATUS)
+	src, ok := source.(*v20211101s.Servers_Databases_TransparentDataEncryption_STATUS)
 	if ok {
 		// Populate our instance from source
 		return encryption.AssignProperties_From_Servers_Databases_TransparentDataEncryption_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20211101s.Servers_Databases_TransparentDataEncryption_STATUS{}
+	src = &v20211101s.Servers_Databases_TransparentDataEncryption_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -539,14 +539,14 @@ func (encryption *Servers_Databases_TransparentDataEncryption_STATUS) ConvertSta
 
 // ConvertStatusTo populates the provided destination from our Servers_Databases_TransparentDataEncryption_STATUS
 func (encryption *Servers_Databases_TransparentDataEncryption_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20211101s.Servers_Databases_TransparentDataEncryption_STATUS)
+	dst, ok := destination.(*v20211101s.Servers_Databases_TransparentDataEncryption_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return encryption.AssignProperties_To_Servers_Databases_TransparentDataEncryption_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20211101s.Servers_Databases_TransparentDataEncryption_STATUS{}
+	dst = &v20211101s.Servers_Databases_TransparentDataEncryption_STATUS{}
 	err := encryption.AssignProperties_To_Servers_Databases_TransparentDataEncryption_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -609,7 +609,7 @@ func (encryption *Servers_Databases_TransparentDataEncryption_STATUS) PopulateFr
 }
 
 // AssignProperties_From_Servers_Databases_TransparentDataEncryption_STATUS populates our Servers_Databases_TransparentDataEncryption_STATUS from the provided source Servers_Databases_TransparentDataEncryption_STATUS
-func (encryption *Servers_Databases_TransparentDataEncryption_STATUS) AssignProperties_From_Servers_Databases_TransparentDataEncryption_STATUS(source *v1api20211101s.Servers_Databases_TransparentDataEncryption_STATUS) error {
+func (encryption *Servers_Databases_TransparentDataEncryption_STATUS) AssignProperties_From_Servers_Databases_TransparentDataEncryption_STATUS(source *v20211101s.Servers_Databases_TransparentDataEncryption_STATUS) error {
 
 	// Conditions
 	encryption.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -636,7 +636,7 @@ func (encryption *Servers_Databases_TransparentDataEncryption_STATUS) AssignProp
 }
 
 // AssignProperties_To_Servers_Databases_TransparentDataEncryption_STATUS populates the provided destination Servers_Databases_TransparentDataEncryption_STATUS from our Servers_Databases_TransparentDataEncryption_STATUS
-func (encryption *Servers_Databases_TransparentDataEncryption_STATUS) AssignProperties_To_Servers_Databases_TransparentDataEncryption_STATUS(destination *v1api20211101s.Servers_Databases_TransparentDataEncryption_STATUS) error {
+func (encryption *Servers_Databases_TransparentDataEncryption_STATUS) AssignProperties_To_Servers_Databases_TransparentDataEncryption_STATUS(destination *v20211101s.Servers_Databases_TransparentDataEncryption_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

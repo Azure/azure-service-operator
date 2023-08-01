@@ -5,7 +5,7 @@ package v1api20210701
 
 import (
 	"fmt"
-	v1api20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701storage"
+	v20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &Workspace{}
 
 // ConvertFrom populates our Workspace from the provided hub Workspace
 func (workspace *Workspace) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20210701s.Workspace)
+	source, ok := hub.(*v20210701s.Workspace)
 	if !ok {
 		return fmt.Errorf("expected machinelearningservices/v1api20210701storage/Workspace but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (workspace *Workspace) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub Workspace from our Workspace
 func (workspace *Workspace) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20210701s.Workspace)
+	destination, ok := hub.(*v20210701s.Workspace)
 	if !ok {
 		return fmt.Errorf("expected machinelearningservices/v1api20210701storage/Workspace but received %T instead", hub)
 	}
@@ -264,7 +264,7 @@ func (workspace *Workspace) validateWriteOnceProperties(old runtime.Object) (adm
 }
 
 // AssignProperties_From_Workspace populates our Workspace from the provided source Workspace
-func (workspace *Workspace) AssignProperties_From_Workspace(source *v1api20210701s.Workspace) error {
+func (workspace *Workspace) AssignProperties_From_Workspace(source *v20210701s.Workspace) error {
 
 	// ObjectMeta
 	workspace.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -290,13 +290,13 @@ func (workspace *Workspace) AssignProperties_From_Workspace(source *v1api2021070
 }
 
 // AssignProperties_To_Workspace populates the provided destination Workspace from our Workspace
-func (workspace *Workspace) AssignProperties_To_Workspace(destination *v1api20210701s.Workspace) error {
+func (workspace *Workspace) AssignProperties_To_Workspace(destination *v20210701s.Workspace) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *workspace.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20210701s.Workspace_Spec
+	var spec v20210701s.Workspace_Spec
 	err := workspace.Spec.AssignProperties_To_Workspace_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Workspace_Spec() to populate field Spec")
@@ -304,7 +304,7 @@ func (workspace *Workspace) AssignProperties_To_Workspace(destination *v1api2021
 	destination.Spec = spec
 
 	// Status
-	var status v1api20210701s.Workspace_STATUS
+	var status v20210701s.Workspace_STATUS
 	err = workspace.Status.AssignProperties_To_Workspace_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Workspace_STATUS() to populate field Status")
@@ -776,14 +776,14 @@ var _ genruntime.ConvertibleSpec = &Workspace_Spec{}
 
 // ConvertSpecFrom populates our Workspace_Spec from the provided source
 func (workspace *Workspace_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20210701s.Workspace_Spec)
+	src, ok := source.(*v20210701s.Workspace_Spec)
 	if ok {
 		// Populate our instance from source
 		return workspace.AssignProperties_From_Workspace_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20210701s.Workspace_Spec{}
+	src = &v20210701s.Workspace_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -800,14 +800,14 @@ func (workspace *Workspace_Spec) ConvertSpecFrom(source genruntime.ConvertibleSp
 
 // ConvertSpecTo populates the provided destination from our Workspace_Spec
 func (workspace *Workspace_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20210701s.Workspace_Spec)
+	dst, ok := destination.(*v20210701s.Workspace_Spec)
 	if ok {
 		// Populate destination from our instance
 		return workspace.AssignProperties_To_Workspace_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20210701s.Workspace_Spec{}
+	dst = &v20210701s.Workspace_Spec{}
 	err := workspace.AssignProperties_To_Workspace_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -823,7 +823,7 @@ func (workspace *Workspace_Spec) ConvertSpecTo(destination genruntime.Convertibl
 }
 
 // AssignProperties_From_Workspace_Spec populates our Workspace_Spec from the provided source Workspace_Spec
-func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *v1api20210701s.Workspace_Spec) error {
+func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *v20210701s.Workspace_Spec) error {
 
 	// AllowPublicAccessWhenBehindVnet
 	if source.AllowPublicAccessWhenBehindVnet != nil {
@@ -1013,7 +1013,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *v1
 }
 
 // AssignProperties_To_Workspace_Spec populates the provided destination Workspace_Spec from our Workspace_Spec
-func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination *v1api20210701s.Workspace_Spec) error {
+func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination *v20210701s.Workspace_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1052,7 +1052,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 
 	// Encryption
 	if workspace.Encryption != nil {
-		var encryption v1api20210701s.EncryptionProperty
+		var encryption v20210701s.EncryptionProperty
 		err := workspace.Encryption.AssignProperties_To_EncryptionProperty(&encryption)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EncryptionProperty() to populate field Encryption")
@@ -1075,7 +1075,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 
 	// Identity
 	if workspace.Identity != nil {
-		var identity v1api20210701s.Identity
+		var identity v20210701s.Identity
 		err := workspace.Identity.AssignProperties_To_Identity(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Identity() to populate field Identity")
@@ -1101,7 +1101,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 
 	// OperatorSpec
 	if workspace.OperatorSpec != nil {
-		var operatorSpec v1api20210701s.WorkspaceOperatorSpec
+		var operatorSpec v20210701s.WorkspaceOperatorSpec
 		err := workspace.OperatorSpec.AssignProperties_To_WorkspaceOperatorSpec(&operatorSpec)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceOperatorSpec() to populate field OperatorSpec")
@@ -1140,7 +1140,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 
 	// ServiceManagedResourcesSettings
 	if workspace.ServiceManagedResourcesSettings != nil {
-		var serviceManagedResourcesSetting v1api20210701s.ServiceManagedResourcesSettings
+		var serviceManagedResourcesSetting v20210701s.ServiceManagedResourcesSettings
 		err := workspace.ServiceManagedResourcesSettings.AssignProperties_To_ServiceManagedResourcesSettings(&serviceManagedResourcesSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ServiceManagedResourcesSettings() to populate field ServiceManagedResourcesSettings")
@@ -1152,11 +1152,11 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 
 	// SharedPrivateLinkResources
 	if workspace.SharedPrivateLinkResources != nil {
-		sharedPrivateLinkResourceList := make([]v1api20210701s.SharedPrivateLinkResource, len(workspace.SharedPrivateLinkResources))
+		sharedPrivateLinkResourceList := make([]v20210701s.SharedPrivateLinkResource, len(workspace.SharedPrivateLinkResources))
 		for sharedPrivateLinkResourceIndex, sharedPrivateLinkResourceItem := range workspace.SharedPrivateLinkResources {
 			// Shadow the loop variable to avoid aliasing
 			sharedPrivateLinkResourceItem := sharedPrivateLinkResourceItem
-			var sharedPrivateLinkResource v1api20210701s.SharedPrivateLinkResource
+			var sharedPrivateLinkResource v20210701s.SharedPrivateLinkResource
 			err := sharedPrivateLinkResourceItem.AssignProperties_To_SharedPrivateLinkResource(&sharedPrivateLinkResource)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SharedPrivateLinkResource() to populate field SharedPrivateLinkResources")
@@ -1170,7 +1170,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 
 	// Sku
 	if workspace.Sku != nil {
-		var sku v1api20210701s.Sku
+		var sku v20210701s.Sku
 		err := workspace.Sku.AssignProperties_To_Sku(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
@@ -1190,7 +1190,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 
 	// SystemData
 	if workspace.SystemData != nil {
-		var systemDatum v1api20210701s.SystemData
+		var systemDatum v20210701s.SystemData
 		err := workspace.SystemData.AssignProperties_To_SystemData(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData() to populate field SystemData")
@@ -1462,14 +1462,14 @@ var _ genruntime.ConvertibleStatus = &Workspace_STATUS{}
 
 // ConvertStatusFrom populates our Workspace_STATUS from the provided source
 func (workspace *Workspace_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20210701s.Workspace_STATUS)
+	src, ok := source.(*v20210701s.Workspace_STATUS)
 	if ok {
 		// Populate our instance from source
 		return workspace.AssignProperties_From_Workspace_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20210701s.Workspace_STATUS{}
+	src = &v20210701s.Workspace_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1486,14 +1486,14 @@ func (workspace *Workspace_STATUS) ConvertStatusFrom(source genruntime.Convertib
 
 // ConvertStatusTo populates the provided destination from our Workspace_STATUS
 func (workspace *Workspace_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20210701s.Workspace_STATUS)
+	dst, ok := destination.(*v20210701s.Workspace_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return workspace.AssignProperties_To_Workspace_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20210701s.Workspace_STATUS{}
+	dst = &v20210701s.Workspace_STATUS{}
 	err := workspace.AssignProperties_To_Workspace_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1833,7 +1833,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 }
 
 // AssignProperties_From_Workspace_STATUS populates our Workspace_STATUS from the provided source Workspace_STATUS
-func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source *v1api20210701s.Workspace_STATUS) error {
+func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source *v20210701s.Workspace_STATUS) error {
 
 	// AllowPublicAccessWhenBehindVnet
 	if source.AllowPublicAccessWhenBehindVnet != nil {
@@ -2048,7 +2048,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 }
 
 // AssignProperties_To_Workspace_STATUS populates the provided destination Workspace_STATUS from our Workspace_STATUS
-func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destination *v1api20210701s.Workspace_STATUS) error {
+func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destination *v20210701s.Workspace_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2077,7 +2077,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 
 	// Encryption
 	if workspace.Encryption != nil {
-		var encryption v1api20210701s.EncryptionProperty_STATUS
+		var encryption v20210701s.EncryptionProperty_STATUS
 		err := workspace.Encryption.AssignProperties_To_EncryptionProperty_STATUS(&encryption)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EncryptionProperty_STATUS() to populate field Encryption")
@@ -2103,7 +2103,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 
 	// Identity
 	if workspace.Identity != nil {
-		var identity v1api20210701s.Identity_STATUS
+		var identity v20210701s.Identity_STATUS
 		err := workspace.Identity.AssignProperties_To_Identity_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Identity_STATUS() to populate field Identity")
@@ -2130,7 +2130,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 
 	// NotebookInfo
 	if workspace.NotebookInfo != nil {
-		var notebookInfo v1api20210701s.NotebookResourceInfo_STATUS
+		var notebookInfo v20210701s.NotebookResourceInfo_STATUS
 		err := workspace.NotebookInfo.AssignProperties_To_NotebookResourceInfo_STATUS(&notebookInfo)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_NotebookResourceInfo_STATUS() to populate field NotebookInfo")
@@ -2145,11 +2145,11 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 
 	// PrivateEndpointConnections
 	if workspace.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v1api20210701s.PrivateEndpointConnection_STATUS, len(workspace.PrivateEndpointConnections))
+		privateEndpointConnectionList := make([]v20210701s.PrivateEndpointConnection_STATUS, len(workspace.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range workspace.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v1api20210701s.PrivateEndpointConnection_STATUS
+			var privateEndpointConnection v20210701s.PrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
@@ -2182,7 +2182,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 
 	// ServiceManagedResourcesSettings
 	if workspace.ServiceManagedResourcesSettings != nil {
-		var serviceManagedResourcesSetting v1api20210701s.ServiceManagedResourcesSettings_STATUS
+		var serviceManagedResourcesSetting v20210701s.ServiceManagedResourcesSettings_STATUS
 		err := workspace.ServiceManagedResourcesSettings.AssignProperties_To_ServiceManagedResourcesSettings_STATUS(&serviceManagedResourcesSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ServiceManagedResourcesSettings_STATUS() to populate field ServiceManagedResourcesSettings")
@@ -2197,11 +2197,11 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 
 	// SharedPrivateLinkResources
 	if workspace.SharedPrivateLinkResources != nil {
-		sharedPrivateLinkResourceList := make([]v1api20210701s.SharedPrivateLinkResource_STATUS, len(workspace.SharedPrivateLinkResources))
+		sharedPrivateLinkResourceList := make([]v20210701s.SharedPrivateLinkResource_STATUS, len(workspace.SharedPrivateLinkResources))
 		for sharedPrivateLinkResourceIndex, sharedPrivateLinkResourceItem := range workspace.SharedPrivateLinkResources {
 			// Shadow the loop variable to avoid aliasing
 			sharedPrivateLinkResourceItem := sharedPrivateLinkResourceItem
-			var sharedPrivateLinkResource v1api20210701s.SharedPrivateLinkResource_STATUS
+			var sharedPrivateLinkResource v20210701s.SharedPrivateLinkResource_STATUS
 			err := sharedPrivateLinkResourceItem.AssignProperties_To_SharedPrivateLinkResource_STATUS(&sharedPrivateLinkResource)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SharedPrivateLinkResource_STATUS() to populate field SharedPrivateLinkResources")
@@ -2215,7 +2215,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 
 	// Sku
 	if workspace.Sku != nil {
-		var sku v1api20210701s.Sku_STATUS
+		var sku v20210701s.Sku_STATUS
 		err := workspace.Sku.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
@@ -2238,7 +2238,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 
 	// SystemData
 	if workspace.SystemData != nil {
-		var systemDatum v1api20210701s.SystemData_STATUS
+		var systemDatum v20210701s.SystemData_STATUS
 		err := workspace.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
@@ -2366,7 +2366,7 @@ func (property *EncryptionProperty) PopulateFromARM(owner genruntime.ArbitraryOw
 }
 
 // AssignProperties_From_EncryptionProperty populates our EncryptionProperty from the provided source EncryptionProperty
-func (property *EncryptionProperty) AssignProperties_From_EncryptionProperty(source *v1api20210701s.EncryptionProperty) error {
+func (property *EncryptionProperty) AssignProperties_From_EncryptionProperty(source *v20210701s.EncryptionProperty) error {
 
 	// Identity
 	if source.Identity != nil {
@@ -2405,13 +2405,13 @@ func (property *EncryptionProperty) AssignProperties_From_EncryptionProperty(sou
 }
 
 // AssignProperties_To_EncryptionProperty populates the provided destination EncryptionProperty from our EncryptionProperty
-func (property *EncryptionProperty) AssignProperties_To_EncryptionProperty(destination *v1api20210701s.EncryptionProperty) error {
+func (property *EncryptionProperty) AssignProperties_To_EncryptionProperty(destination *v20210701s.EncryptionProperty) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Identity
 	if property.Identity != nil {
-		var identity v1api20210701s.IdentityForCmk
+		var identity v20210701s.IdentityForCmk
 		err := property.Identity.AssignProperties_To_IdentityForCmk(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IdentityForCmk() to populate field Identity")
@@ -2423,7 +2423,7 @@ func (property *EncryptionProperty) AssignProperties_To_EncryptionProperty(desti
 
 	// KeyVaultProperties
 	if property.KeyVaultProperties != nil {
-		var keyVaultProperty v1api20210701s.KeyVaultProperties
+		var keyVaultProperty v20210701s.KeyVaultProperties
 		err := property.KeyVaultProperties.AssignProperties_To_KeyVaultProperties(&keyVaultProperty)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultProperties() to populate field KeyVaultProperties")
@@ -2549,7 +2549,7 @@ func (property *EncryptionProperty_STATUS) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_EncryptionProperty_STATUS populates our EncryptionProperty_STATUS from the provided source EncryptionProperty_STATUS
-func (property *EncryptionProperty_STATUS) AssignProperties_From_EncryptionProperty_STATUS(source *v1api20210701s.EncryptionProperty_STATUS) error {
+func (property *EncryptionProperty_STATUS) AssignProperties_From_EncryptionProperty_STATUS(source *v20210701s.EncryptionProperty_STATUS) error {
 
 	// Identity
 	if source.Identity != nil {
@@ -2588,13 +2588,13 @@ func (property *EncryptionProperty_STATUS) AssignProperties_From_EncryptionPrope
 }
 
 // AssignProperties_To_EncryptionProperty_STATUS populates the provided destination EncryptionProperty_STATUS from our EncryptionProperty_STATUS
-func (property *EncryptionProperty_STATUS) AssignProperties_To_EncryptionProperty_STATUS(destination *v1api20210701s.EncryptionProperty_STATUS) error {
+func (property *EncryptionProperty_STATUS) AssignProperties_To_EncryptionProperty_STATUS(destination *v20210701s.EncryptionProperty_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Identity
 	if property.Identity != nil {
-		var identity v1api20210701s.IdentityForCmk_STATUS
+		var identity v20210701s.IdentityForCmk_STATUS
 		err := property.Identity.AssignProperties_To_IdentityForCmk_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IdentityForCmk_STATUS() to populate field Identity")
@@ -2606,7 +2606,7 @@ func (property *EncryptionProperty_STATUS) AssignProperties_To_EncryptionPropert
 
 	// KeyVaultProperties
 	if property.KeyVaultProperties != nil {
-		var keyVaultProperty v1api20210701s.KeyVaultProperties_STATUS
+		var keyVaultProperty v20210701s.KeyVaultProperties_STATUS
 		err := property.KeyVaultProperties.AssignProperties_To_KeyVaultProperties_STATUS(&keyVaultProperty)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultProperties_STATUS() to populate field KeyVaultProperties")
@@ -2697,7 +2697,7 @@ func (identity *Identity) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 }
 
 // AssignProperties_From_Identity populates our Identity from the provided source Identity
-func (identity *Identity) AssignProperties_From_Identity(source *v1api20210701s.Identity) error {
+func (identity *Identity) AssignProperties_From_Identity(source *v20210701s.Identity) error {
 
 	// Type
 	if source.Type != nil {
@@ -2730,7 +2730,7 @@ func (identity *Identity) AssignProperties_From_Identity(source *v1api20210701s.
 }
 
 // AssignProperties_To_Identity populates the provided destination Identity from our Identity
-func (identity *Identity) AssignProperties_To_Identity(destination *v1api20210701s.Identity) error {
+func (identity *Identity) AssignProperties_To_Identity(destination *v20210701s.Identity) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2744,11 +2744,11 @@ func (identity *Identity) AssignProperties_To_Identity(destination *v1api2021070
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]v1api20210701s.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
+		userAssignedIdentityList := make([]v20210701s.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityItem := userAssignedIdentityItem
-			var userAssignedIdentity v1api20210701s.UserAssignedIdentityDetails
+			var userAssignedIdentity v20210701s.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
@@ -2863,7 +2863,7 @@ func (identity *Identity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_Identity_STATUS populates our Identity_STATUS from the provided source Identity_STATUS
-func (identity *Identity_STATUS) AssignProperties_From_Identity_STATUS(source *v1api20210701s.Identity_STATUS) error {
+func (identity *Identity_STATUS) AssignProperties_From_Identity_STATUS(source *v20210701s.Identity_STATUS) error {
 
 	// PrincipalId
 	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
@@ -2902,7 +2902,7 @@ func (identity *Identity_STATUS) AssignProperties_From_Identity_STATUS(source *v
 }
 
 // AssignProperties_To_Identity_STATUS populates the provided destination Identity_STATUS from our Identity_STATUS
-func (identity *Identity_STATUS) AssignProperties_To_Identity_STATUS(destination *v1api20210701s.Identity_STATUS) error {
+func (identity *Identity_STATUS) AssignProperties_To_Identity_STATUS(destination *v20210701s.Identity_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2922,11 +2922,11 @@ func (identity *Identity_STATUS) AssignProperties_To_Identity_STATUS(destination
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v1api20210701s.UserAssignedIdentity_STATUS, len(identity.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]v20210701s.UserAssignedIdentity_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity v1api20210701s.UserAssignedIdentity_STATUS
+			var userAssignedIdentity v20210701s.UserAssignedIdentity_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_UserAssignedIdentity_STATUS(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field UserAssignedIdentities")
@@ -3001,7 +3001,7 @@ func (info *NotebookResourceInfo_STATUS) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_NotebookResourceInfo_STATUS populates our NotebookResourceInfo_STATUS from the provided source NotebookResourceInfo_STATUS
-func (info *NotebookResourceInfo_STATUS) AssignProperties_From_NotebookResourceInfo_STATUS(source *v1api20210701s.NotebookResourceInfo_STATUS) error {
+func (info *NotebookResourceInfo_STATUS) AssignProperties_From_NotebookResourceInfo_STATUS(source *v20210701s.NotebookResourceInfo_STATUS) error {
 
 	// Fqdn
 	info.Fqdn = genruntime.ClonePointerToString(source.Fqdn)
@@ -3026,7 +3026,7 @@ func (info *NotebookResourceInfo_STATUS) AssignProperties_From_NotebookResourceI
 }
 
 // AssignProperties_To_NotebookResourceInfo_STATUS populates the provided destination NotebookResourceInfo_STATUS from our NotebookResourceInfo_STATUS
-func (info *NotebookResourceInfo_STATUS) AssignProperties_To_NotebookResourceInfo_STATUS(destination *v1api20210701s.NotebookResourceInfo_STATUS) error {
+func (info *NotebookResourceInfo_STATUS) AssignProperties_To_NotebookResourceInfo_STATUS(destination *v20210701s.NotebookResourceInfo_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3035,7 +3035,7 @@ func (info *NotebookResourceInfo_STATUS) AssignProperties_To_NotebookResourceInf
 
 	// NotebookPreparationError
 	if info.NotebookPreparationError != nil {
-		var notebookPreparationError v1api20210701s.NotebookPreparationError_STATUS
+		var notebookPreparationError v20210701s.NotebookPreparationError_STATUS
 		err := info.NotebookPreparationError.AssignProperties_To_NotebookPreparationError_STATUS(&notebookPreparationError)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_NotebookPreparationError_STATUS() to populate field NotebookPreparationError")
@@ -3091,7 +3091,7 @@ func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genrun
 }
 
 // AssignProperties_From_PrivateEndpointConnection_STATUS populates our PrivateEndpointConnection_STATUS from the provided source PrivateEndpointConnection_STATUS
-func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_PrivateEndpointConnection_STATUS(source *v1api20210701s.PrivateEndpointConnection_STATUS) error {
+func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_PrivateEndpointConnection_STATUS(source *v20210701s.PrivateEndpointConnection_STATUS) error {
 
 	// Id
 	connection.Id = genruntime.ClonePointerToString(source.Id)
@@ -3101,7 +3101,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_Privat
 }
 
 // AssignProperties_To_PrivateEndpointConnection_STATUS populates the provided destination PrivateEndpointConnection_STATUS from our PrivateEndpointConnection_STATUS
-func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateEndpointConnection_STATUS(destination *v1api20210701s.PrivateEndpointConnection_STATUS) error {
+func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateEndpointConnection_STATUS(destination *v20210701s.PrivateEndpointConnection_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3173,7 +3173,7 @@ func (settings *ServiceManagedResourcesSettings) PopulateFromARM(owner genruntim
 }
 
 // AssignProperties_From_ServiceManagedResourcesSettings populates our ServiceManagedResourcesSettings from the provided source ServiceManagedResourcesSettings
-func (settings *ServiceManagedResourcesSettings) AssignProperties_From_ServiceManagedResourcesSettings(source *v1api20210701s.ServiceManagedResourcesSettings) error {
+func (settings *ServiceManagedResourcesSettings) AssignProperties_From_ServiceManagedResourcesSettings(source *v20210701s.ServiceManagedResourcesSettings) error {
 
 	// CosmosDb
 	if source.CosmosDb != nil {
@@ -3192,13 +3192,13 @@ func (settings *ServiceManagedResourcesSettings) AssignProperties_From_ServiceMa
 }
 
 // AssignProperties_To_ServiceManagedResourcesSettings populates the provided destination ServiceManagedResourcesSettings from our ServiceManagedResourcesSettings
-func (settings *ServiceManagedResourcesSettings) AssignProperties_To_ServiceManagedResourcesSettings(destination *v1api20210701s.ServiceManagedResourcesSettings) error {
+func (settings *ServiceManagedResourcesSettings) AssignProperties_To_ServiceManagedResourcesSettings(destination *v20210701s.ServiceManagedResourcesSettings) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CosmosDb
 	if settings.CosmosDb != nil {
-		var cosmosDb v1api20210701s.CosmosDbSettings
+		var cosmosDb v20210701s.CosmosDbSettings
 		err := settings.CosmosDb.AssignProperties_To_CosmosDbSettings(&cosmosDb)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CosmosDbSettings() to populate field CosmosDb")
@@ -3273,7 +3273,7 @@ func (settings *ServiceManagedResourcesSettings_STATUS) PopulateFromARM(owner ge
 }
 
 // AssignProperties_From_ServiceManagedResourcesSettings_STATUS populates our ServiceManagedResourcesSettings_STATUS from the provided source ServiceManagedResourcesSettings_STATUS
-func (settings *ServiceManagedResourcesSettings_STATUS) AssignProperties_From_ServiceManagedResourcesSettings_STATUS(source *v1api20210701s.ServiceManagedResourcesSettings_STATUS) error {
+func (settings *ServiceManagedResourcesSettings_STATUS) AssignProperties_From_ServiceManagedResourcesSettings_STATUS(source *v20210701s.ServiceManagedResourcesSettings_STATUS) error {
 
 	// CosmosDb
 	if source.CosmosDb != nil {
@@ -3292,13 +3292,13 @@ func (settings *ServiceManagedResourcesSettings_STATUS) AssignProperties_From_Se
 }
 
 // AssignProperties_To_ServiceManagedResourcesSettings_STATUS populates the provided destination ServiceManagedResourcesSettings_STATUS from our ServiceManagedResourcesSettings_STATUS
-func (settings *ServiceManagedResourcesSettings_STATUS) AssignProperties_To_ServiceManagedResourcesSettings_STATUS(destination *v1api20210701s.ServiceManagedResourcesSettings_STATUS) error {
+func (settings *ServiceManagedResourcesSettings_STATUS) AssignProperties_To_ServiceManagedResourcesSettings_STATUS(destination *v20210701s.ServiceManagedResourcesSettings_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CosmosDb
 	if settings.CosmosDb != nil {
-		var cosmosDb v1api20210701s.CosmosDbSettings_STATUS
+		var cosmosDb v20210701s.CosmosDbSettings_STATUS
 		err := settings.CosmosDb.AssignProperties_To_CosmosDbSettings_STATUS(&cosmosDb)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CosmosDbSettings_STATUS() to populate field CosmosDb")
@@ -3433,7 +3433,7 @@ func (resource *SharedPrivateLinkResource) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_SharedPrivateLinkResource populates our SharedPrivateLinkResource from the provided source SharedPrivateLinkResource
-func (resource *SharedPrivateLinkResource) AssignProperties_From_SharedPrivateLinkResource(source *v1api20210701s.SharedPrivateLinkResource) error {
+func (resource *SharedPrivateLinkResource) AssignProperties_From_SharedPrivateLinkResource(source *v20210701s.SharedPrivateLinkResource) error {
 
 	// GroupId
 	resource.GroupId = genruntime.ClonePointerToString(source.GroupId)
@@ -3465,7 +3465,7 @@ func (resource *SharedPrivateLinkResource) AssignProperties_From_SharedPrivateLi
 }
 
 // AssignProperties_To_SharedPrivateLinkResource populates the provided destination SharedPrivateLinkResource from our SharedPrivateLinkResource
-func (resource *SharedPrivateLinkResource) AssignProperties_To_SharedPrivateLinkResource(destination *v1api20210701s.SharedPrivateLinkResource) error {
+func (resource *SharedPrivateLinkResource) AssignProperties_To_SharedPrivateLinkResource(destination *v20210701s.SharedPrivateLinkResource) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3615,7 +3615,7 @@ func (resource *SharedPrivateLinkResource_STATUS) PopulateFromARM(owner genrunti
 }
 
 // AssignProperties_From_SharedPrivateLinkResource_STATUS populates our SharedPrivateLinkResource_STATUS from the provided source SharedPrivateLinkResource_STATUS
-func (resource *SharedPrivateLinkResource_STATUS) AssignProperties_From_SharedPrivateLinkResource_STATUS(source *v1api20210701s.SharedPrivateLinkResource_STATUS) error {
+func (resource *SharedPrivateLinkResource_STATUS) AssignProperties_From_SharedPrivateLinkResource_STATUS(source *v20210701s.SharedPrivateLinkResource_STATUS) error {
 
 	// GroupId
 	resource.GroupId = genruntime.ClonePointerToString(source.GroupId)
@@ -3642,7 +3642,7 @@ func (resource *SharedPrivateLinkResource_STATUS) AssignProperties_From_SharedPr
 }
 
 // AssignProperties_To_SharedPrivateLinkResource_STATUS populates the provided destination SharedPrivateLinkResource_STATUS from our SharedPrivateLinkResource_STATUS
-func (resource *SharedPrivateLinkResource_STATUS) AssignProperties_To_SharedPrivateLinkResource_STATUS(destination *v1api20210701s.SharedPrivateLinkResource_STATUS) error {
+func (resource *SharedPrivateLinkResource_STATUS) AssignProperties_To_SharedPrivateLinkResource_STATUS(destination *v20210701s.SharedPrivateLinkResource_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3738,7 +3738,7 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 }
 
 // AssignProperties_From_Sku populates our Sku from the provided source Sku
-func (sku *Sku) AssignProperties_From_Sku(source *v1api20210701s.Sku) error {
+func (sku *Sku) AssignProperties_From_Sku(source *v20210701s.Sku) error {
 
 	// Name
 	sku.Name = genruntime.ClonePointerToString(source.Name)
@@ -3751,7 +3751,7 @@ func (sku *Sku) AssignProperties_From_Sku(source *v1api20210701s.Sku) error {
 }
 
 // AssignProperties_To_Sku populates the provided destination Sku from our Sku
-func (sku *Sku) AssignProperties_To_Sku(destination *v1api20210701s.Sku) error {
+func (sku *Sku) AssignProperties_To_Sku(destination *v20210701s.Sku) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3825,7 +3825,7 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 }
 
 // AssignProperties_From_Sku_STATUS populates our Sku_STATUS from the provided source Sku_STATUS
-func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v1api20210701s.Sku_STATUS) error {
+func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20210701s.Sku_STATUS) error {
 
 	// Name
 	sku.Name = genruntime.ClonePointerToString(source.Name)
@@ -3838,7 +3838,7 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v1api20210701s.S
 }
 
 // AssignProperties_To_Sku_STATUS populates the provided destination Sku_STATUS from our Sku_STATUS
-func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v1api20210701s.Sku_STATUS) error {
+func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20210701s.Sku_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3980,7 +3980,7 @@ func (data *SystemData) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 }
 
 // AssignProperties_From_SystemData populates our SystemData from the provided source SystemData
-func (data *SystemData) AssignProperties_From_SystemData(source *v1api20210701s.SystemData) error {
+func (data *SystemData) AssignProperties_From_SystemData(source *v20210701s.SystemData) error {
 
 	// CreatedAt
 	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
@@ -4015,7 +4015,7 @@ func (data *SystemData) AssignProperties_From_SystemData(source *v1api20210701s.
 }
 
 // AssignProperties_To_SystemData populates the provided destination SystemData from our SystemData
-func (data *SystemData) AssignProperties_To_SystemData(destination *v1api20210701s.SystemData) error {
+func (data *SystemData) AssignProperties_To_SystemData(destination *v20210701s.SystemData) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4169,7 +4169,7 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v1api20210701s.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v20210701s.SystemData_STATUS) error {
 
 	// CreatedAt
 	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
@@ -4204,7 +4204,7 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 }
 
 // AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v1api20210701s.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v20210701s.SystemData_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4254,7 +4254,7 @@ type WorkspaceOperatorSpec struct {
 }
 
 // AssignProperties_From_WorkspaceOperatorSpec populates our WorkspaceOperatorSpec from the provided source WorkspaceOperatorSpec
-func (operator *WorkspaceOperatorSpec) AssignProperties_From_WorkspaceOperatorSpec(source *v1api20210701s.WorkspaceOperatorSpec) error {
+func (operator *WorkspaceOperatorSpec) AssignProperties_From_WorkspaceOperatorSpec(source *v20210701s.WorkspaceOperatorSpec) error {
 
 	// Secrets
 	if source.Secrets != nil {
@@ -4273,13 +4273,13 @@ func (operator *WorkspaceOperatorSpec) AssignProperties_From_WorkspaceOperatorSp
 }
 
 // AssignProperties_To_WorkspaceOperatorSpec populates the provided destination WorkspaceOperatorSpec from our WorkspaceOperatorSpec
-func (operator *WorkspaceOperatorSpec) AssignProperties_To_WorkspaceOperatorSpec(destination *v1api20210701s.WorkspaceOperatorSpec) error {
+func (operator *WorkspaceOperatorSpec) AssignProperties_To_WorkspaceOperatorSpec(destination *v20210701s.WorkspaceOperatorSpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Secrets
 	if operator.Secrets != nil {
-		var secret v1api20210701s.WorkspaceOperatorSecrets
+		var secret v20210701s.WorkspaceOperatorSecrets
 		err := operator.Secrets.AssignProperties_To_WorkspaceOperatorSecrets(&secret)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceOperatorSecrets() to populate field Secrets")
@@ -4372,7 +4372,7 @@ func (settings *CosmosDbSettings) PopulateFromARM(owner genruntime.ArbitraryOwne
 }
 
 // AssignProperties_From_CosmosDbSettings populates our CosmosDbSettings from the provided source CosmosDbSettings
-func (settings *CosmosDbSettings) AssignProperties_From_CosmosDbSettings(source *v1api20210701s.CosmosDbSettings) error {
+func (settings *CosmosDbSettings) AssignProperties_From_CosmosDbSettings(source *v20210701s.CosmosDbSettings) error {
 
 	// CollectionsThroughput
 	settings.CollectionsThroughput = genruntime.ClonePointerToInt(source.CollectionsThroughput)
@@ -4382,7 +4382,7 @@ func (settings *CosmosDbSettings) AssignProperties_From_CosmosDbSettings(source 
 }
 
 // AssignProperties_To_CosmosDbSettings populates the provided destination CosmosDbSettings from our CosmosDbSettings
-func (settings *CosmosDbSettings) AssignProperties_To_CosmosDbSettings(destination *v1api20210701s.CosmosDbSettings) error {
+func (settings *CosmosDbSettings) AssignProperties_To_CosmosDbSettings(destination *v20210701s.CosmosDbSettings) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4440,7 +4440,7 @@ func (settings *CosmosDbSettings_STATUS) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignProperties_From_CosmosDbSettings_STATUS populates our CosmosDbSettings_STATUS from the provided source CosmosDbSettings_STATUS
-func (settings *CosmosDbSettings_STATUS) AssignProperties_From_CosmosDbSettings_STATUS(source *v1api20210701s.CosmosDbSettings_STATUS) error {
+func (settings *CosmosDbSettings_STATUS) AssignProperties_From_CosmosDbSettings_STATUS(source *v20210701s.CosmosDbSettings_STATUS) error {
 
 	// CollectionsThroughput
 	settings.CollectionsThroughput = genruntime.ClonePointerToInt(source.CollectionsThroughput)
@@ -4450,7 +4450,7 @@ func (settings *CosmosDbSettings_STATUS) AssignProperties_From_CosmosDbSettings_
 }
 
 // AssignProperties_To_CosmosDbSettings_STATUS populates the provided destination CosmosDbSettings_STATUS from our CosmosDbSettings_STATUS
-func (settings *CosmosDbSettings_STATUS) AssignProperties_To_CosmosDbSettings_STATUS(destination *v1api20210701s.CosmosDbSettings_STATUS) error {
+func (settings *CosmosDbSettings_STATUS) AssignProperties_To_CosmosDbSettings_STATUS(destination *v20210701s.CosmosDbSettings_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4529,7 +4529,7 @@ func (forCmk *IdentityForCmk) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 }
 
 // AssignProperties_From_IdentityForCmk populates our IdentityForCmk from the provided source IdentityForCmk
-func (forCmk *IdentityForCmk) AssignProperties_From_IdentityForCmk(source *v1api20210701s.IdentityForCmk) error {
+func (forCmk *IdentityForCmk) AssignProperties_From_IdentityForCmk(source *v20210701s.IdentityForCmk) error {
 
 	// UserAssignedIdentity
 	forCmk.UserAssignedIdentity = genruntime.ClonePointerToString(source.UserAssignedIdentity)
@@ -4539,7 +4539,7 @@ func (forCmk *IdentityForCmk) AssignProperties_From_IdentityForCmk(source *v1api
 }
 
 // AssignProperties_To_IdentityForCmk populates the provided destination IdentityForCmk from our IdentityForCmk
-func (forCmk *IdentityForCmk) AssignProperties_To_IdentityForCmk(destination *v1api20210701s.IdentityForCmk) error {
+func (forCmk *IdentityForCmk) AssignProperties_To_IdentityForCmk(destination *v20210701s.IdentityForCmk) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4598,7 +4598,7 @@ func (forCmk *IdentityForCmk_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 }
 
 // AssignProperties_From_IdentityForCmk_STATUS populates our IdentityForCmk_STATUS from the provided source IdentityForCmk_STATUS
-func (forCmk *IdentityForCmk_STATUS) AssignProperties_From_IdentityForCmk_STATUS(source *v1api20210701s.IdentityForCmk_STATUS) error {
+func (forCmk *IdentityForCmk_STATUS) AssignProperties_From_IdentityForCmk_STATUS(source *v20210701s.IdentityForCmk_STATUS) error {
 
 	// UserAssignedIdentity
 	forCmk.UserAssignedIdentity = genruntime.ClonePointerToString(source.UserAssignedIdentity)
@@ -4608,7 +4608,7 @@ func (forCmk *IdentityForCmk_STATUS) AssignProperties_From_IdentityForCmk_STATUS
 }
 
 // AssignProperties_To_IdentityForCmk_STATUS populates the provided destination IdentityForCmk_STATUS from our IdentityForCmk_STATUS
-func (forCmk *IdentityForCmk_STATUS) AssignProperties_To_IdentityForCmk_STATUS(destination *v1api20210701s.IdentityForCmk_STATUS) error {
+func (forCmk *IdentityForCmk_STATUS) AssignProperties_To_IdentityForCmk_STATUS(destination *v20210701s.IdentityForCmk_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4703,7 +4703,7 @@ func (properties *KeyVaultProperties) PopulateFromARM(owner genruntime.Arbitrary
 }
 
 // AssignProperties_From_KeyVaultProperties populates our KeyVaultProperties from the provided source KeyVaultProperties
-func (properties *KeyVaultProperties) AssignProperties_From_KeyVaultProperties(source *v1api20210701s.KeyVaultProperties) error {
+func (properties *KeyVaultProperties) AssignProperties_From_KeyVaultProperties(source *v20210701s.KeyVaultProperties) error {
 
 	// IdentityClientId
 	properties.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
@@ -4719,7 +4719,7 @@ func (properties *KeyVaultProperties) AssignProperties_From_KeyVaultProperties(s
 }
 
 // AssignProperties_To_KeyVaultProperties populates the provided destination KeyVaultProperties from our KeyVaultProperties
-func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(destination *v1api20210701s.KeyVaultProperties) error {
+func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(destination *v20210701s.KeyVaultProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4807,7 +4807,7 @@ func (properties *KeyVaultProperties_STATUS) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignProperties_From_KeyVaultProperties_STATUS populates our KeyVaultProperties_STATUS from the provided source KeyVaultProperties_STATUS
-func (properties *KeyVaultProperties_STATUS) AssignProperties_From_KeyVaultProperties_STATUS(source *v1api20210701s.KeyVaultProperties_STATUS) error {
+func (properties *KeyVaultProperties_STATUS) AssignProperties_From_KeyVaultProperties_STATUS(source *v20210701s.KeyVaultProperties_STATUS) error {
 
 	// IdentityClientId
 	properties.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
@@ -4823,7 +4823,7 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_From_KeyVaultPrope
 }
 
 // AssignProperties_To_KeyVaultProperties_STATUS populates the provided destination KeyVaultProperties_STATUS from our KeyVaultProperties_STATUS
-func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultProperties_STATUS(destination *v1api20210701s.KeyVaultProperties_STATUS) error {
+func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultProperties_STATUS(destination *v20210701s.KeyVaultProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4883,7 +4883,7 @@ func (error *NotebookPreparationError_STATUS) PopulateFromARM(owner genruntime.A
 }
 
 // AssignProperties_From_NotebookPreparationError_STATUS populates our NotebookPreparationError_STATUS from the provided source NotebookPreparationError_STATUS
-func (error *NotebookPreparationError_STATUS) AssignProperties_From_NotebookPreparationError_STATUS(source *v1api20210701s.NotebookPreparationError_STATUS) error {
+func (error *NotebookPreparationError_STATUS) AssignProperties_From_NotebookPreparationError_STATUS(source *v20210701s.NotebookPreparationError_STATUS) error {
 
 	// ErrorMessage
 	error.ErrorMessage = genruntime.ClonePointerToString(source.ErrorMessage)
@@ -4896,7 +4896,7 @@ func (error *NotebookPreparationError_STATUS) AssignProperties_From_NotebookPrep
 }
 
 // AssignProperties_To_NotebookPreparationError_STATUS populates the provided destination NotebookPreparationError_STATUS from our NotebookPreparationError_STATUS
-func (error *NotebookPreparationError_STATUS) AssignProperties_To_NotebookPreparationError_STATUS(destination *v1api20210701s.NotebookPreparationError_STATUS) error {
+func (error *NotebookPreparationError_STATUS) AssignProperties_To_NotebookPreparationError_STATUS(destination *v20210701s.NotebookPreparationError_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4989,7 +4989,7 @@ func (identity *UserAssignedIdentity_STATUS) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignProperties_From_UserAssignedIdentity_STATUS populates our UserAssignedIdentity_STATUS from the provided source UserAssignedIdentity_STATUS
-func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedIdentity_STATUS(source *v1api20210701s.UserAssignedIdentity_STATUS) error {
+func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedIdentity_STATUS(source *v20210701s.UserAssignedIdentity_STATUS) error {
 
 	// ClientId
 	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
@@ -5005,7 +5005,7 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedI
 }
 
 // AssignProperties_To_UserAssignedIdentity_STATUS populates the provided destination UserAssignedIdentity_STATUS from our UserAssignedIdentity_STATUS
-func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIdentity_STATUS(destination *v1api20210701s.UserAssignedIdentity_STATUS) error {
+func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIdentity_STATUS(destination *v20210701s.UserAssignedIdentity_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5035,7 +5035,7 @@ type UserAssignedIdentityDetails struct {
 }
 
 // AssignProperties_From_UserAssignedIdentityDetails populates our UserAssignedIdentityDetails from the provided source UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v1api20210701s.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v20210701s.UserAssignedIdentityDetails) error {
 
 	// Reference
 	details.Reference = source.Reference.Copy()
@@ -5045,7 +5045,7 @@ func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedId
 }
 
 // AssignProperties_To_UserAssignedIdentityDetails populates the provided destination UserAssignedIdentityDetails from our UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v1api20210701s.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v20210701s.UserAssignedIdentityDetails) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5094,7 +5094,7 @@ type WorkspaceOperatorSecrets struct {
 }
 
 // AssignProperties_From_WorkspaceOperatorSecrets populates our WorkspaceOperatorSecrets from the provided source WorkspaceOperatorSecrets
-func (secrets *WorkspaceOperatorSecrets) AssignProperties_From_WorkspaceOperatorSecrets(source *v1api20210701s.WorkspaceOperatorSecrets) error {
+func (secrets *WorkspaceOperatorSecrets) AssignProperties_From_WorkspaceOperatorSecrets(source *v20210701s.WorkspaceOperatorSecrets) error {
 
 	// AppInsightsInstrumentationKey
 	if source.AppInsightsInstrumentationKey != nil {
@@ -5157,7 +5157,7 @@ func (secrets *WorkspaceOperatorSecrets) AssignProperties_From_WorkspaceOperator
 }
 
 // AssignProperties_To_WorkspaceOperatorSecrets populates the provided destination WorkspaceOperatorSecrets from our WorkspaceOperatorSecrets
-func (secrets *WorkspaceOperatorSecrets) AssignProperties_To_WorkspaceOperatorSecrets(destination *v1api20210701s.WorkspaceOperatorSecrets) error {
+func (secrets *WorkspaceOperatorSecrets) AssignProperties_To_WorkspaceOperatorSecrets(destination *v20210701s.WorkspaceOperatorSecrets) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

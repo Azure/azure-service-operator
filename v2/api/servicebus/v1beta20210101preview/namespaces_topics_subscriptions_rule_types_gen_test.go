@@ -5,8 +5,8 @@ package v1beta20210101preview
 
 import (
 	"encoding/json"
-	v1api20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
-	v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previewstorage"
+	v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
+	v1beta20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previewstorage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -37,7 +37,7 @@ func RunResourceConversionTestForNamespacesTopicsSubscriptionsRule(subject Names
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20210101ps.NamespacesTopicsSubscriptionsRule
+	var hub v20210101ps.NamespacesTopicsSubscriptionsRule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -79,7 +79,7 @@ func RunPropertyAssignmentTestForNamespacesTopicsSubscriptionsRule(subject Names
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210101ps.NamespacesTopicsSubscriptionsRule
+	var other v1beta20210101ps.NamespacesTopicsSubscriptionsRule
 	err := copied.AssignProperties_To_NamespacesTopicsSubscriptionsRule(&other)
 	if err != nil {
 		return err.Error()
@@ -183,7 +183,7 @@ func RunPropertyAssignmentTestForNamespaces_Topics_Subscriptions_Rule_Spec(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec
+	var other v1beta20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec
 	err := copied.AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -303,7 +303,7 @@ func RunPropertyAssignmentTestForNamespaces_Topics_Subscriptions_Rule_STATUS(sub
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS
+	var other v1beta20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS
 	err := copied.AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -426,7 +426,7 @@ func RunPropertyAssignmentTestForAction(subject Action) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210101ps.Action
+	var other v1beta20210101ps.Action
 	err := copied.AssignProperties_To_Action(&other)
 	if err != nil {
 		return err.Error()
@@ -530,7 +530,7 @@ func RunPropertyAssignmentTestForAction_STATUS(subject Action_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210101ps.Action_STATUS
+	var other v1beta20210101ps.Action_STATUS
 	err := copied.AssignProperties_To_Action_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -634,7 +634,7 @@ func RunPropertyAssignmentTestForCorrelationFilter(subject CorrelationFilter) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210101ps.CorrelationFilter
+	var other v1beta20210101ps.CorrelationFilter
 	err := copied.AssignProperties_To_CorrelationFilter(&other)
 	if err != nil {
 		return err.Error()
@@ -745,7 +745,7 @@ func RunPropertyAssignmentTestForCorrelationFilter_STATUS(subject CorrelationFil
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210101ps.CorrelationFilter_STATUS
+	var other v1beta20210101ps.CorrelationFilter_STATUS
 	err := copied.AssignProperties_To_CorrelationFilter_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -857,7 +857,7 @@ func RunPropertyAssignmentTestForSqlFilter(subject SqlFilter) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210101ps.SqlFilter
+	var other v1beta20210101ps.SqlFilter
 	err := copied.AssignProperties_To_SqlFilter(&other)
 	if err != nil {
 		return err.Error()
@@ -961,7 +961,7 @@ func RunPropertyAssignmentTestForSqlFilter_STATUS(subject SqlFilter_STATUS) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210101ps.SqlFilter_STATUS
+	var other v1beta20210101ps.SqlFilter_STATUS
 	err := copied.AssignProperties_To_SqlFilter_STATUS(&other)
 	if err != nil {
 		return err.Error()

@@ -4,7 +4,7 @@
 package v1api20201101storage
 
 import (
-	v1api20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
+	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -263,7 +263,7 @@ type ExtendedLocation struct {
 }
 
 // AssignProperties_From_ExtendedLocation populates our ExtendedLocation from the provided source ExtendedLocation
-func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source *v1api20220701s.ExtendedLocation) error {
+func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source *v20220701s.ExtendedLocation) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -294,7 +294,7 @@ func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source 
 }
 
 // AssignProperties_To_ExtendedLocation populates the provided destination ExtendedLocation from our ExtendedLocation
-func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destination *v1api20220701s.ExtendedLocation) error {
+func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destination *v20220701s.ExtendedLocation) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(location.PropertyBag)
 
@@ -333,7 +333,7 @@ type ExtendedLocation_STATUS struct {
 }
 
 // AssignProperties_From_ExtendedLocation_STATUS populates our ExtendedLocation_STATUS from the provided source ExtendedLocation_STATUS
-func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_STATUS(source *v1api20220701s.ExtendedLocation_STATUS) error {
+func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_STATUS(source *v20220701s.ExtendedLocation_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -364,7 +364,7 @@ func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_
 }
 
 // AssignProperties_To_ExtendedLocation_STATUS populates the provided destination ExtendedLocation_STATUS from our ExtendedLocation_STATUS
-func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_STATUS(destination *v1api20220701s.ExtendedLocation_STATUS) error {
+func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_STATUS(destination *v20220701s.ExtendedLocation_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(location.PropertyBag)
 
@@ -613,13 +613,13 @@ type Probe_STATUS struct {
 }
 
 type augmentConversionForExtendedLocation interface {
-	AssignPropertiesFrom(src *v1api20220701s.ExtendedLocation) error
-	AssignPropertiesTo(dst *v1api20220701s.ExtendedLocation) error
+	AssignPropertiesFrom(src *v20220701s.ExtendedLocation) error
+	AssignPropertiesTo(dst *v20220701s.ExtendedLocation) error
 }
 
 type augmentConversionForExtendedLocation_STATUS interface {
-	AssignPropertiesFrom(src *v1api20220701s.ExtendedLocation_STATUS) error
-	AssignPropertiesTo(dst *v1api20220701s.ExtendedLocation_STATUS) error
+	AssignPropertiesFrom(src *v20220701s.ExtendedLocation_STATUS) error
+	AssignPropertiesTo(dst *v20220701s.ExtendedLocation_STATUS) error
 }
 
 // Storage version of v1api20201101.LoadBalancerBackendAddress

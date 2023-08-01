@@ -5,7 +5,7 @@ package v1api20211101
 
 import (
 	"fmt"
-	v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &ServersAuditingSetting{}
 
 // ConvertFrom populates our ServersAuditingSetting from the provided hub ServersAuditingSetting
 func (setting *ServersAuditingSetting) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20211101s.ServersAuditingSetting)
+	source, ok := hub.(*v20211101s.ServersAuditingSetting)
 	if !ok {
 		return fmt.Errorf("expected sql/v1api20211101storage/ServersAuditingSetting but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (setting *ServersAuditingSetting) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub ServersAuditingSetting from our ServersAuditingSetting
 func (setting *ServersAuditingSetting) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20211101s.ServersAuditingSetting)
+	destination, ok := hub.(*v20211101s.ServersAuditingSetting)
 	if !ok {
 		return fmt.Errorf("expected sql/v1api20211101storage/ServersAuditingSetting but received %T instead", hub)
 	}
@@ -233,7 +233,7 @@ func (setting *ServersAuditingSetting) validateWriteOnceProperties(old runtime.O
 }
 
 // AssignProperties_From_ServersAuditingSetting populates our ServersAuditingSetting from the provided source ServersAuditingSetting
-func (setting *ServersAuditingSetting) AssignProperties_From_ServersAuditingSetting(source *v1api20211101s.ServersAuditingSetting) error {
+func (setting *ServersAuditingSetting) AssignProperties_From_ServersAuditingSetting(source *v20211101s.ServersAuditingSetting) error {
 
 	// ObjectMeta
 	setting.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -259,13 +259,13 @@ func (setting *ServersAuditingSetting) AssignProperties_From_ServersAuditingSett
 }
 
 // AssignProperties_To_ServersAuditingSetting populates the provided destination ServersAuditingSetting from our ServersAuditingSetting
-func (setting *ServersAuditingSetting) AssignProperties_To_ServersAuditingSetting(destination *v1api20211101s.ServersAuditingSetting) error {
+func (setting *ServersAuditingSetting) AssignProperties_To_ServersAuditingSetting(destination *v20211101s.ServersAuditingSetting) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *setting.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20211101s.Servers_AuditingSetting_Spec
+	var spec v20211101s.Servers_AuditingSetting_Spec
 	err := setting.Spec.AssignProperties_To_Servers_AuditingSetting_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Servers_AuditingSetting_Spec() to populate field Spec")
@@ -273,7 +273,7 @@ func (setting *ServersAuditingSetting) AssignProperties_To_ServersAuditingSettin
 	destination.Spec = spec
 
 	// Status
-	var status v1api20211101s.Servers_AuditingSetting_STATUS
+	var status v20211101s.Servers_AuditingSetting_STATUS
 	err = setting.Status.AssignProperties_To_Servers_AuditingSetting_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Servers_AuditingSetting_STATUS() to populate field Status")
@@ -622,14 +622,14 @@ var _ genruntime.ConvertibleSpec = &Servers_AuditingSetting_Spec{}
 
 // ConvertSpecFrom populates our Servers_AuditingSetting_Spec from the provided source
 func (setting *Servers_AuditingSetting_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20211101s.Servers_AuditingSetting_Spec)
+	src, ok := source.(*v20211101s.Servers_AuditingSetting_Spec)
 	if ok {
 		// Populate our instance from source
 		return setting.AssignProperties_From_Servers_AuditingSetting_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20211101s.Servers_AuditingSetting_Spec{}
+	src = &v20211101s.Servers_AuditingSetting_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -646,14 +646,14 @@ func (setting *Servers_AuditingSetting_Spec) ConvertSpecFrom(source genruntime.C
 
 // ConvertSpecTo populates the provided destination from our Servers_AuditingSetting_Spec
 func (setting *Servers_AuditingSetting_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20211101s.Servers_AuditingSetting_Spec)
+	dst, ok := destination.(*v20211101s.Servers_AuditingSetting_Spec)
 	if ok {
 		// Populate destination from our instance
 		return setting.AssignProperties_To_Servers_AuditingSetting_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20211101s.Servers_AuditingSetting_Spec{}
+	dst = &v20211101s.Servers_AuditingSetting_Spec{}
 	err := setting.AssignProperties_To_Servers_AuditingSetting_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -669,7 +669,7 @@ func (setting *Servers_AuditingSetting_Spec) ConvertSpecTo(destination genruntim
 }
 
 // AssignProperties_From_Servers_AuditingSetting_Spec populates our Servers_AuditingSetting_Spec from the provided source Servers_AuditingSetting_Spec
-func (setting *Servers_AuditingSetting_Spec) AssignProperties_From_Servers_AuditingSetting_Spec(source *v1api20211101s.Servers_AuditingSetting_Spec) error {
+func (setting *Servers_AuditingSetting_Spec) AssignProperties_From_Servers_AuditingSetting_Spec(source *v20211101s.Servers_AuditingSetting_Spec) error {
 
 	// AuditActionsAndGroups
 	setting.AuditActionsAndGroups = genruntime.CloneSliceOfString(source.AuditActionsAndGroups)
@@ -752,7 +752,7 @@ func (setting *Servers_AuditingSetting_Spec) AssignProperties_From_Servers_Audit
 }
 
 // AssignProperties_To_Servers_AuditingSetting_Spec populates the provided destination Servers_AuditingSetting_Spec from our Servers_AuditingSetting_Spec
-func (setting *Servers_AuditingSetting_Spec) AssignProperties_To_Servers_AuditingSetting_Spec(destination *v1api20211101s.Servers_AuditingSetting_Spec) error {
+func (setting *Servers_AuditingSetting_Spec) AssignProperties_To_Servers_AuditingSetting_Spec(destination *v20211101s.Servers_AuditingSetting_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1044,14 +1044,14 @@ var _ genruntime.ConvertibleStatus = &Servers_AuditingSetting_STATUS{}
 
 // ConvertStatusFrom populates our Servers_AuditingSetting_STATUS from the provided source
 func (setting *Servers_AuditingSetting_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20211101s.Servers_AuditingSetting_STATUS)
+	src, ok := source.(*v20211101s.Servers_AuditingSetting_STATUS)
 	if ok {
 		// Populate our instance from source
 		return setting.AssignProperties_From_Servers_AuditingSetting_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20211101s.Servers_AuditingSetting_STATUS{}
+	src = &v20211101s.Servers_AuditingSetting_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1068,14 +1068,14 @@ func (setting *Servers_AuditingSetting_STATUS) ConvertStatusFrom(source genrunti
 
 // ConvertStatusTo populates the provided destination from our Servers_AuditingSetting_STATUS
 func (setting *Servers_AuditingSetting_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20211101s.Servers_AuditingSetting_STATUS)
+	dst, ok := destination.(*v20211101s.Servers_AuditingSetting_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return setting.AssignProperties_To_Servers_AuditingSetting_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20211101s.Servers_AuditingSetting_STATUS{}
+	dst = &v20211101s.Servers_AuditingSetting_STATUS{}
 	err := setting.AssignProperties_To_Servers_AuditingSetting_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1218,7 +1218,7 @@ func (setting *Servers_AuditingSetting_STATUS) PopulateFromARM(owner genruntime.
 }
 
 // AssignProperties_From_Servers_AuditingSetting_STATUS populates our Servers_AuditingSetting_STATUS from the provided source Servers_AuditingSetting_STATUS
-func (setting *Servers_AuditingSetting_STATUS) AssignProperties_From_Servers_AuditingSetting_STATUS(source *v1api20211101s.Servers_AuditingSetting_STATUS) error {
+func (setting *Servers_AuditingSetting_STATUS) AssignProperties_From_Servers_AuditingSetting_STATUS(source *v20211101s.Servers_AuditingSetting_STATUS) error {
 
 	// AuditActionsAndGroups
 	setting.AuditActionsAndGroups = genruntime.CloneSliceOfString(source.AuditActionsAndGroups)
@@ -1292,7 +1292,7 @@ func (setting *Servers_AuditingSetting_STATUS) AssignProperties_From_Servers_Aud
 }
 
 // AssignProperties_To_Servers_AuditingSetting_STATUS populates the provided destination Servers_AuditingSetting_STATUS from our Servers_AuditingSetting_STATUS
-func (setting *Servers_AuditingSetting_STATUS) AssignProperties_To_Servers_AuditingSetting_STATUS(destination *v1api20211101s.Servers_AuditingSetting_STATUS) error {
+func (setting *Servers_AuditingSetting_STATUS) AssignProperties_To_Servers_AuditingSetting_STATUS(destination *v20211101s.Servers_AuditingSetting_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -5,7 +5,7 @@ package v1api20201101
 
 import (
 	"encoding/json"
-	v1api20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForVirtualNetworksVirtualNetworkPeering(subject Vi
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20201101s.VirtualNetworksVirtualNetworkPeering
+	var hub v20201101s.VirtualNetworksVirtualNetworkPeering
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeering(subject Vi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.VirtualNetworksVirtualNetworkPeering
+	var other v20201101s.VirtualNetworksVirtualNetworkPeering
 	err := copied.AssignProperties_To_VirtualNetworksVirtualNetworkPeering(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForVirtualNetworks_VirtualNetworkPeering_Spec(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.VirtualNetworks_VirtualNetworkPeering_Spec
+	var other v20201101s.VirtualNetworks_VirtualNetworkPeering_Spec
 	err := copied.AssignProperties_To_VirtualNetworks_VirtualNetworkPeering_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -307,7 +307,7 @@ func RunPropertyAssignmentTestForVirtualNetworks_VirtualNetworkPeering_STATUS(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.VirtualNetworks_VirtualNetworkPeering_STATUS
+	var other v20201101s.VirtualNetworks_VirtualNetworkPeering_STATUS
 	err := copied.AssignProperties_To_VirtualNetworks_VirtualNetworkPeering_STATUS(&other)
 	if err != nil {
 		return err.Error()

@@ -5,7 +5,7 @@ package v1api20180501
 
 import (
 	"fmt"
-	v1api20180501s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501storage"
+	v20180501s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &DnsZone{}
 
 // ConvertFrom populates our DnsZone from the provided hub DnsZone
 func (zone *DnsZone) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20180501s.DnsZone)
+	source, ok := hub.(*v20180501s.DnsZone)
 	if !ok {
 		return fmt.Errorf("expected network/v1api20180501storage/DnsZone but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (zone *DnsZone) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub DnsZone from our DnsZone
 func (zone *DnsZone) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20180501s.DnsZone)
+	destination, ok := hub.(*v20180501s.DnsZone)
 	if !ok {
 		return fmt.Errorf("expected network/v1api20180501storage/DnsZone but received %T instead", hub)
 	}
@@ -240,7 +240,7 @@ func (zone *DnsZone) validateWriteOnceProperties(old runtime.Object) (admission.
 }
 
 // AssignProperties_From_DnsZone populates our DnsZone from the provided source DnsZone
-func (zone *DnsZone) AssignProperties_From_DnsZone(source *v1api20180501s.DnsZone) error {
+func (zone *DnsZone) AssignProperties_From_DnsZone(source *v20180501s.DnsZone) error {
 
 	// ObjectMeta
 	zone.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -266,13 +266,13 @@ func (zone *DnsZone) AssignProperties_From_DnsZone(source *v1api20180501s.DnsZon
 }
 
 // AssignProperties_To_DnsZone populates the provided destination DnsZone from our DnsZone
-func (zone *DnsZone) AssignProperties_To_DnsZone(destination *v1api20180501s.DnsZone) error {
+func (zone *DnsZone) AssignProperties_To_DnsZone(destination *v20180501s.DnsZone) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *zone.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20180501s.DnsZone_Spec
+	var spec v20180501s.DnsZone_Spec
 	err := zone.Spec.AssignProperties_To_DnsZone_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_DnsZone_Spec() to populate field Spec")
@@ -280,7 +280,7 @@ func (zone *DnsZone) AssignProperties_To_DnsZone(destination *v1api20180501s.Dns
 	destination.Spec = spec
 
 	// Status
-	var status v1api20180501s.DnsZone_STATUS
+	var status v20180501s.DnsZone_STATUS
 	err = zone.Status.AssignProperties_To_DnsZone_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_DnsZone_STATUS() to populate field Status")
@@ -473,14 +473,14 @@ var _ genruntime.ConvertibleSpec = &DnsZone_Spec{}
 
 // ConvertSpecFrom populates our DnsZone_Spec from the provided source
 func (zone *DnsZone_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20180501s.DnsZone_Spec)
+	src, ok := source.(*v20180501s.DnsZone_Spec)
 	if ok {
 		// Populate our instance from source
 		return zone.AssignProperties_From_DnsZone_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20180501s.DnsZone_Spec{}
+	src = &v20180501s.DnsZone_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -497,14 +497,14 @@ func (zone *DnsZone_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) err
 
 // ConvertSpecTo populates the provided destination from our DnsZone_Spec
 func (zone *DnsZone_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20180501s.DnsZone_Spec)
+	dst, ok := destination.(*v20180501s.DnsZone_Spec)
 	if ok {
 		// Populate destination from our instance
 		return zone.AssignProperties_To_DnsZone_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20180501s.DnsZone_Spec{}
+	dst = &v20180501s.DnsZone_Spec{}
 	err := zone.AssignProperties_To_DnsZone_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -520,7 +520,7 @@ func (zone *DnsZone_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) 
 }
 
 // AssignProperties_From_DnsZone_Spec populates our DnsZone_Spec from the provided source DnsZone_Spec
-func (zone *DnsZone_Spec) AssignProperties_From_DnsZone_Spec(source *v1api20180501s.DnsZone_Spec) error {
+func (zone *DnsZone_Spec) AssignProperties_From_DnsZone_Spec(source *v20180501s.DnsZone_Spec) error {
 
 	// AzureName
 	zone.AzureName = source.AzureName
@@ -588,7 +588,7 @@ func (zone *DnsZone_Spec) AssignProperties_From_DnsZone_Spec(source *v1api201805
 }
 
 // AssignProperties_To_DnsZone_Spec populates the provided destination DnsZone_Spec from our DnsZone_Spec
-func (zone *DnsZone_Spec) AssignProperties_To_DnsZone_Spec(destination *v1api20180501s.DnsZone_Spec) error {
+func (zone *DnsZone_Spec) AssignProperties_To_DnsZone_Spec(destination *v20180501s.DnsZone_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -611,11 +611,11 @@ func (zone *DnsZone_Spec) AssignProperties_To_DnsZone_Spec(destination *v1api201
 
 	// RegistrationVirtualNetworks
 	if zone.RegistrationVirtualNetworks != nil {
-		registrationVirtualNetworkList := make([]v1api20180501s.SubResource, len(zone.RegistrationVirtualNetworks))
+		registrationVirtualNetworkList := make([]v20180501s.SubResource, len(zone.RegistrationVirtualNetworks))
 		for registrationVirtualNetworkIndex, registrationVirtualNetworkItem := range zone.RegistrationVirtualNetworks {
 			// Shadow the loop variable to avoid aliasing
 			registrationVirtualNetworkItem := registrationVirtualNetworkItem
-			var registrationVirtualNetwork v1api20180501s.SubResource
+			var registrationVirtualNetwork v20180501s.SubResource
 			err := registrationVirtualNetworkItem.AssignProperties_To_SubResource(&registrationVirtualNetwork)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field RegistrationVirtualNetworks")
@@ -629,11 +629,11 @@ func (zone *DnsZone_Spec) AssignProperties_To_DnsZone_Spec(destination *v1api201
 
 	// ResolutionVirtualNetworks
 	if zone.ResolutionVirtualNetworks != nil {
-		resolutionVirtualNetworkList := make([]v1api20180501s.SubResource, len(zone.ResolutionVirtualNetworks))
+		resolutionVirtualNetworkList := make([]v20180501s.SubResource, len(zone.ResolutionVirtualNetworks))
 		for resolutionVirtualNetworkIndex, resolutionVirtualNetworkItem := range zone.ResolutionVirtualNetworks {
 			// Shadow the loop variable to avoid aliasing
 			resolutionVirtualNetworkItem := resolutionVirtualNetworkItem
-			var resolutionVirtualNetwork v1api20180501s.SubResource
+			var resolutionVirtualNetwork v20180501s.SubResource
 			err := resolutionVirtualNetworkItem.AssignProperties_To_SubResource(&resolutionVirtualNetwork)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field ResolutionVirtualNetworks")
@@ -786,14 +786,14 @@ var _ genruntime.ConvertibleStatus = &DnsZone_STATUS{}
 
 // ConvertStatusFrom populates our DnsZone_STATUS from the provided source
 func (zone *DnsZone_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20180501s.DnsZone_STATUS)
+	src, ok := source.(*v20180501s.DnsZone_STATUS)
 	if ok {
 		// Populate our instance from source
 		return zone.AssignProperties_From_DnsZone_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20180501s.DnsZone_STATUS{}
+	src = &v20180501s.DnsZone_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -810,14 +810,14 @@ func (zone *DnsZone_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatu
 
 // ConvertStatusTo populates the provided destination from our DnsZone_STATUS
 func (zone *DnsZone_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20180501s.DnsZone_STATUS)
+	dst, ok := destination.(*v20180501s.DnsZone_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return zone.AssignProperties_To_DnsZone_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20180501s.DnsZone_STATUS{}
+	dst = &v20180501s.DnsZone_STATUS{}
 	err := zone.AssignProperties_To_DnsZone_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -961,7 +961,7 @@ func (zone *DnsZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 }
 
 // AssignProperties_From_DnsZone_STATUS populates our DnsZone_STATUS from the provided source DnsZone_STATUS
-func (zone *DnsZone_STATUS) AssignProperties_From_DnsZone_STATUS(source *v1api20180501s.DnsZone_STATUS) error {
+func (zone *DnsZone_STATUS) AssignProperties_From_DnsZone_STATUS(source *v20180501s.DnsZone_STATUS) error {
 
 	// Conditions
 	zone.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -1045,7 +1045,7 @@ func (zone *DnsZone_STATUS) AssignProperties_From_DnsZone_STATUS(source *v1api20
 }
 
 // AssignProperties_To_DnsZone_STATUS populates the provided destination DnsZone_STATUS from our DnsZone_STATUS
-func (zone *DnsZone_STATUS) AssignProperties_To_DnsZone_STATUS(destination *v1api20180501s.DnsZone_STATUS) error {
+func (zone *DnsZone_STATUS) AssignProperties_To_DnsZone_STATUS(destination *v20180501s.DnsZone_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1078,11 +1078,11 @@ func (zone *DnsZone_STATUS) AssignProperties_To_DnsZone_STATUS(destination *v1ap
 
 	// RegistrationVirtualNetworks
 	if zone.RegistrationVirtualNetworks != nil {
-		registrationVirtualNetworkList := make([]v1api20180501s.SubResource_STATUS, len(zone.RegistrationVirtualNetworks))
+		registrationVirtualNetworkList := make([]v20180501s.SubResource_STATUS, len(zone.RegistrationVirtualNetworks))
 		for registrationVirtualNetworkIndex, registrationVirtualNetworkItem := range zone.RegistrationVirtualNetworks {
 			// Shadow the loop variable to avoid aliasing
 			registrationVirtualNetworkItem := registrationVirtualNetworkItem
-			var registrationVirtualNetwork v1api20180501s.SubResource_STATUS
+			var registrationVirtualNetwork v20180501s.SubResource_STATUS
 			err := registrationVirtualNetworkItem.AssignProperties_To_SubResource_STATUS(&registrationVirtualNetwork)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field RegistrationVirtualNetworks")
@@ -1096,11 +1096,11 @@ func (zone *DnsZone_STATUS) AssignProperties_To_DnsZone_STATUS(destination *v1ap
 
 	// ResolutionVirtualNetworks
 	if zone.ResolutionVirtualNetworks != nil {
-		resolutionVirtualNetworkList := make([]v1api20180501s.SubResource_STATUS, len(zone.ResolutionVirtualNetworks))
+		resolutionVirtualNetworkList := make([]v20180501s.SubResource_STATUS, len(zone.ResolutionVirtualNetworks))
 		for resolutionVirtualNetworkIndex, resolutionVirtualNetworkItem := range zone.ResolutionVirtualNetworks {
 			// Shadow the loop variable to avoid aliasing
 			resolutionVirtualNetworkItem := resolutionVirtualNetworkItem
-			var resolutionVirtualNetwork v1api20180501s.SubResource_STATUS
+			var resolutionVirtualNetwork v20180501s.SubResource_STATUS
 			err := resolutionVirtualNetworkItem.AssignProperties_To_SubResource_STATUS(&resolutionVirtualNetwork)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field ResolutionVirtualNetworks")
@@ -1183,7 +1183,7 @@ func (resource *SubResource) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 }
 
 // AssignProperties_From_SubResource populates our SubResource from the provided source SubResource
-func (resource *SubResource) AssignProperties_From_SubResource(source *v1api20180501s.SubResource) error {
+func (resource *SubResource) AssignProperties_From_SubResource(source *v20180501s.SubResource) error {
 
 	// Reference
 	if source.Reference != nil {
@@ -1198,7 +1198,7 @@ func (resource *SubResource) AssignProperties_From_SubResource(source *v1api2018
 }
 
 // AssignProperties_To_SubResource populates the provided destination SubResource from our SubResource
-func (resource *SubResource) AssignProperties_To_SubResource(destination *v1api20180501s.SubResource) error {
+func (resource *SubResource) AssignProperties_To_SubResource(destination *v20180501s.SubResource) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1267,7 +1267,7 @@ func (resource *SubResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 }
 
 // AssignProperties_From_SubResource_STATUS populates our SubResource_STATUS from the provided source SubResource_STATUS
-func (resource *SubResource_STATUS) AssignProperties_From_SubResource_STATUS(source *v1api20180501s.SubResource_STATUS) error {
+func (resource *SubResource_STATUS) AssignProperties_From_SubResource_STATUS(source *v20180501s.SubResource_STATUS) error {
 
 	// Id
 	resource.Id = genruntime.ClonePointerToString(source.Id)
@@ -1277,7 +1277,7 @@ func (resource *SubResource_STATUS) AssignProperties_From_SubResource_STATUS(sou
 }
 
 // AssignProperties_To_SubResource_STATUS populates the provided destination SubResource_STATUS from our SubResource_STATUS
-func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(destination *v1api20180501s.SubResource_STATUS) error {
+func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(destination *v20180501s.SubResource_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
