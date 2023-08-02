@@ -216,22 +216,6 @@ func (gateway *NatGateway_STATUS) ConvertStatusTo(destination genruntime.Convert
 	return destination.ConvertStatusFrom(gateway)
 }
 
-// Storage version of v1api20220701.ApplicationGatewaySubResource
-// Reference to another subresource.
-type ApplicationGatewaySubResource struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
-// Storage version of v1api20220701.ApplicationGatewaySubResource_STATUS
-// Reference to another subresource.
-type ApplicationGatewaySubResource_STATUS struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
 // Storage version of v1api20220701.NatGatewaySku
 // SKU of nat gateway.
 type NatGatewaySku struct {

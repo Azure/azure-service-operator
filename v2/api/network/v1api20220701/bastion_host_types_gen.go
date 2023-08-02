@@ -310,11 +310,6 @@ type BastionHostList struct {
 	Items           []BastionHost `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2022-07-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2022-07-01")
-
 type BastionHost_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -1975,15 +1970,6 @@ func (resource *BastionHostSubResource) AssignProperties_To_BastionHostSubResour
 	// No error
 	return nil
 }
-
-// IP address allocation method.
-// +kubebuilder:validation:Enum={"Dynamic","Static"}
-type IPAllocationMethod string
-
-const (
-	IPAllocationMethod_Dynamic = IPAllocationMethod("Dynamic")
-	IPAllocationMethod_Static  = IPAllocationMethod("Static")
-)
 
 func init() {
 	SchemeBuilder.Register(&BastionHost{}, &BastionHostList{})

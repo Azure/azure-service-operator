@@ -2,6 +2,494 @@
 github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage
 ├── APIVersion: Enum (1 value)
 │   └── "2022-07-01"
+├── ApplicationGateway: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
+│   ├── Spec: Object (39 properties)
+│   │   ├── AuthenticationCertificates: Object (3 properties)[]
+│   │   │   ├── Data: *string
+│   │   │   ├── Name: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── AutoscaleConfiguration: *Object (3 properties)
+│   │   │   ├── MaxCapacity: *int
+│   │   │   ├── MinCapacity: *int
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── AzureName: string
+│   │   ├── BackendAddressPools: Object (3 properties)[]
+│   │   │   ├── BackendAddresses: Object (3 properties)[]
+│   │   │   │   ├── Fqdn: *string
+│   │   │   │   ├── IpAddress: *string
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── Name: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── BackendHttpSettingsCollection: Object (15 properties)[]
+│   │   │   ├── AffinityCookieName: *string
+│   │   │   ├── AuthenticationCertificates: Object (2 properties)[]
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── ConnectionDraining: *Object (3 properties)
+│   │   │   │   ├── DrainTimeoutInSec: *int
+│   │   │   │   ├── Enabled: *bool
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── CookieBasedAffinity: *string
+│   │   │   ├── HostName: *string
+│   │   │   ├── Name: *string
+│   │   │   ├── Path: *string
+│   │   │   ├── PickHostNameFromBackendAddress: *bool
+│   │   │   ├── Port: *int
+│   │   │   ├── Probe: *Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── ProbeEnabled: *bool
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── Protocol: *string
+│   │   │   ├── RequestTimeout: *int
+│   │   │   └── TrustedRootCertificates: Object (2 properties)[]
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: *genruntime.ResourceReference
+│   │   ├── BackendSettingsCollection: Object (9 properties)[]
+│   │   │   ├── HostName: *string
+│   │   │   ├── Name: *string
+│   │   │   ├── PickHostNameFromBackendAddress: *bool
+│   │   │   ├── Port: *int
+│   │   │   ├── Probe: *Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── Protocol: *string
+│   │   │   ├── Timeout: *int
+│   │   │   └── TrustedRootCertificates: Object (2 properties)[]
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: *genruntime.ResourceReference
+│   │   ├── CustomErrorConfigurations: Object (3 properties)[]
+│   │   │   ├── CustomErrorPageUrl: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── StatusCode: *string
+│   │   ├── EnableFips: *bool
+│   │   ├── EnableHttp2: *bool
+│   │   ├── FirewallPolicy: *Object (2 properties)
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── ForceFirewallPolicyAssociation: *bool
+│   │   ├── FrontendIPConfigurations: Object (7 properties)[]
+│   │   │   ├── Name: *string
+│   │   │   ├── PrivateIPAddress: *string
+│   │   │   ├── PrivateIPAllocationMethod: *string
+│   │   │   ├── PrivateLinkConfiguration: *Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PublicIPAddress: *Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   └── Subnet: *Object (2 properties)
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: *genruntime.ResourceReference
+│   │   ├── FrontendPorts: Object (3 properties)[]
+│   │   │   ├── Name: *string
+│   │   │   ├── Port: *int
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── GatewayIPConfigurations: Object (3 properties)[]
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Subnet: *Object (2 properties)
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: *genruntime.ResourceReference
+│   │   ├── GlobalConfiguration: *Object (3 properties)
+│   │   │   ├── EnableRequestBuffering: *bool
+│   │   │   ├── EnableResponseBuffering: *bool
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── HttpListeners: Object (12 properties)[]
+│   │   │   ├── CustomErrorConfigurations: Object (3 properties)[]
+│   │   │   │   ├── CustomErrorPageUrl: *string
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── StatusCode: *string
+│   │   │   ├── FirewallPolicy: *Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── FrontendIPConfiguration: *Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── FrontendPort: *Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── HostName: *string
+│   │   │   ├── HostNames: string[]
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── Protocol: *string
+│   │   │   ├── RequireServerNameIndication: *bool
+│   │   │   ├── SslCertificate: *Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   └── SslProfile: *Object (2 properties)
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: *genruntime.ResourceReference
+│   │   ├── Identity: *Object (3 properties)
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── Type: *string
+│   │   │   └── UserAssignedIdentities: Object (2 properties)[]
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: genruntime.ResourceReference
+│   │   ├── Listeners: Object (7 properties)[]
+│   │   │   ├── FrontendIPConfiguration: *Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── FrontendPort: *Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── Protocol: *string
+│   │   │   ├── SslCertificate: *Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   └── SslProfile: *Object (2 properties)
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: *genruntime.ResourceReference
+│   │   ├── LoadDistributionPolicies: Object (4 properties)[]
+│   │   │   ├── LoadDistributionAlgorithm: *string
+│   │   │   ├── LoadDistributionTargets: Object (2 properties)[]
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── Name: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PrivateLinkConfigurations: Object (3 properties)[]
+│   │   │   ├── IpConfigurations: Object (2 properties)[]
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── Name: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── Probes: Object (13 properties)[]
+│   │   │   ├── Host: *string
+│   │   │   ├── Interval: *int
+│   │   │   ├── Match: *Object (3 properties)
+│   │   │   │   ├── Body: *string
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── StatusCodes: string[]
+│   │   │   ├── MinServers: *int
+│   │   │   ├── Name: *string
+│   │   │   ├── Path: *string
+│   │   │   ├── PickHostNameFromBackendHttpSettings: *bool
+│   │   │   ├── PickHostNameFromBackendSettings: *bool
+│   │   │   ├── Port: *int
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── Protocol: *string
+│   │   │   ├── Timeout: *int
+│   │   │   └── UnhealthyThreshold: *int
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── RedirectConfigurations: Object (10 properties)[]
+│   │   │   ├── IncludePath: *bool
+│   │   │   ├── IncludeQueryString: *bool
+│   │   │   ├── Name: *string
+│   │   │   ├── PathRules: Object (2 properties)[]
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── RedirectType: *string
+│   │   │   ├── RequestRoutingRules: Object (2 properties)[]
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── TargetListener: *Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── TargetUrl: *string
+│   │   │   └── UrlPathMaps: Object (2 properties)[]
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: *genruntime.ResourceReference
+│   │   ├── RequestRoutingRules: Object (11 properties)[]
+│   │   │   ├── BackendAddressPool: *Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── BackendHttpSettings: *Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── HttpListener: *Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── LoadDistributionPolicy: *Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── Name: *string
+│   │   │   ├── Priority: *int
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── RedirectConfiguration: *Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── RewriteRuleSet: *Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── RuleType: *string
+│   │   │   └── UrlPathMap: *Object (2 properties)
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: *genruntime.ResourceReference
+│   │   ├── RewriteRuleSets: Object (3 properties)[]
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── RewriteRules: Object (5 properties)[]
+│   │   │       ├── ActionSet: *Object (4 properties)
+│   │   │       │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │       │   ├── RequestHeaderConfigurations: Object (3 properties)[]
+│   │   │       │   │   ├── HeaderName: *string
+│   │   │       │   │   ├── HeaderValue: *string
+│   │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │       │   ├── ResponseHeaderConfigurations: Object (3 properties)[]
+│   │   │       │   │   ├── HeaderName: *string
+│   │   │       │   │   ├── HeaderValue: *string
+│   │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │       │   └── UrlConfiguration: *Object (4 properties)
+│   │   │       │       ├── ModifiedPath: *string
+│   │   │       │       ├── ModifiedQueryString: *string
+│   │   │       │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       │       └── Reroute: *bool
+│   │   │       ├── Conditions: Object (5 properties)[]
+│   │   │       │   ├── IgnoreCase: *bool
+│   │   │       │   ├── Negate: *bool
+│   │   │       │   ├── Pattern: *string
+│   │   │       │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │       │   └── Variable: *string
+│   │   │       ├── Name: *string
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── RuleSequence: *int
+│   │   ├── RoutingRules: Object (7 properties)[]
+│   │   │   ├── BackendAddressPool: *Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── BackendSettings: *Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── Listener: *Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── Name: *string
+│   │   │   ├── Priority: *int
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── RuleType: *string
+│   │   ├── Sku: *Object (4 properties)
+│   │   │   ├── Capacity: *int
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Tier: *string
+│   │   ├── SslCertificates: Object (5 properties)[]
+│   │   │   ├── Data: *string
+│   │   │   ├── KeyVaultSecretId: *string
+│   │   │   ├── Name: *string
+│   │   │   ├── Password: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── SslPolicy: *Object (6 properties)
+│   │   │   ├── CipherSuites: string[]
+│   │   │   ├── DisabledSslProtocols: string[]
+│   │   │   ├── MinProtocolVersion: *string
+│   │   │   ├── PolicyName: *string
+│   │   │   ├── PolicyType: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── SslProfiles: Object (5 properties)[]
+│   │   │   ├── ClientAuthConfiguration: *Object (3 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── VerifyClientCertIssuerDN: *bool
+│   │   │   │   └── VerifyClientRevocation: *string
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── SslPolicy: *Object (6 properties)
+│   │   │   │   ├── CipherSuites: string[]
+│   │   │   │   ├── DisabledSslProtocols: string[]
+│   │   │   │   ├── MinProtocolVersion: *string
+│   │   │   │   ├── PolicyName: *string
+│   │   │   │   ├── PolicyType: *string
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   └── TrustedClientCertificates: Object (2 properties)[]
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: *genruntime.ResourceReference
+│   │   ├── Tags: map[string]string
+│   │   ├── TrustedClientCertificates: Object (3 properties)[]
+│   │   │   ├── Data: *string
+│   │   │   ├── Name: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── TrustedRootCertificates: Object (4 properties)[]
+│   │   │   ├── Data: *string
+│   │   │   ├── KeyVaultSecretId: *string
+│   │   │   ├── Name: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── UrlPathMaps: Object (8 properties)[]
+│   │   │   ├── DefaultBackendAddressPool: *Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── DefaultBackendHttpSettings: *Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── DefaultLoadDistributionPolicy: *Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── DefaultRedirectConfiguration: *Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── DefaultRewriteRuleSet: *Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── Name: *string
+│   │   │   ├── PathRules: Object (2 properties)[]
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── WebApplicationFirewallConfiguration: *Object (11 properties)
+│   │   │   ├── DisabledRuleGroups: Object (3 properties)[]
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── RuleGroupName: *string
+│   │   │   │   └── Rules: int[]
+│   │   │   ├── Enabled: *bool
+│   │   │   ├── Exclusions: Object (4 properties)[]
+│   │   │   │   ├── MatchVariable: *string
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── Selector: *string
+│   │   │   │   └── SelectorMatchOperator: *string
+│   │   │   ├── FileUploadLimitInMb: *int
+│   │   │   ├── FirewallMode: *string
+│   │   │   ├── MaxRequestBodySize: *int
+│   │   │   ├── MaxRequestBodySizeInKb: *int
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── RequestBodyCheck: *bool
+│   │   │   ├── RuleSetType: *string
+│   │   │   └── RuleSetVersion: *string
+│   │   └── Zones: string[]
+│   └── Status: Object (45 properties)
+│       ├── AuthenticationCertificates: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── AutoscaleConfiguration: *Object (3 properties)
+│       │   ├── MaxCapacity: *int
+│       │   ├── MinCapacity: *int
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── BackendAddressPools: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── BackendHttpSettingsCollection: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── BackendSettingsCollection: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Conditions: conditions.Condition[]
+│       ├── CustomErrorConfigurations: Object (3 properties)[]
+│       │   ├── CustomErrorPageUrl: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── StatusCode: *string
+│       ├── EnableFips: *bool
+│       ├── EnableHttp2: *bool
+│       ├── Etag: *string
+│       ├── FirewallPolicy: *Object (2 properties)
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── ForceFirewallPolicyAssociation: *bool
+│       ├── FrontendIPConfigurations: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── FrontendPorts: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── GatewayIPConfigurations: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── GlobalConfiguration: *Object (3 properties)
+│       │   ├── EnableRequestBuffering: *bool
+│       │   ├── EnableResponseBuffering: *bool
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── HttpListeners: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Id: *string
+│       ├── Identity: *Object (5 properties)
+│       │   ├── PrincipalId: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── TenantId: *string
+│       │   ├── Type: *string
+│       │   └── UserAssignedIdentities: map[string]Object (3 properties)
+│       │       ├── ClientId: *string
+│       │       ├── PrincipalId: *string
+│       │       └── PropertyBag: genruntime.PropertyBag
+│       ├── Listeners: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── LoadDistributionPolicies: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── OperationalState: *string
+│       ├── PrivateEndpointConnections: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── PrivateLinkConfigurations: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Probes: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── RedirectConfigurations: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── RequestRoutingRules: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── ResourceGuid: *string
+│       ├── RewriteRuleSets: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── RoutingRules: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Sku: *Object (4 properties)
+│       │   ├── Capacity: *int
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Tier: *string
+│       ├── SslCertificates: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── SslPolicy: *Object (6 properties)
+│       │   ├── CipherSuites: string[]
+│       │   ├── DisabledSslProtocols: string[]
+│       │   ├── MinProtocolVersion: *string
+│       │   ├── PolicyName: *string
+│       │   ├── PolicyType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── SslProfiles: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Tags: map[string]string
+│       ├── TrustedClientCertificates: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── TrustedRootCertificates: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Type: *string
+│       ├── UrlPathMaps: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── WebApplicationFirewallConfiguration: *Object (11 properties)
+│       │   ├── DisabledRuleGroups: Object (3 properties)[]
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── RuleGroupName: *string
+│       │   │   └── Rules: int[]
+│       │   ├── Enabled: *bool
+│       │   ├── Exclusions: Object (4 properties)[]
+│       │   │   ├── MatchVariable: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── Selector: *string
+│       │   │   └── SelectorMatchOperator: *string
+│       │   ├── FileUploadLimitInMb: *int
+│       │   ├── FirewallMode: *string
+│       │   ├── MaxRequestBodySize: *int
+│       │   ├── MaxRequestBodySizeInKb: *int
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── RequestBodyCheck: *bool
+│       │   ├── RuleSetType: *string
+│       │   └── RuleSetVersion: *string
+│       └── Zones: string[]
 ├── BastionHost: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (15 properties)

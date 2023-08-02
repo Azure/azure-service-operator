@@ -590,6 +590,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20201101s.VirtualNetworkGateway)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20201101s.VirtualNetworksSubnet)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20201101s.VirtualNetworksVirtualNetworkPeering)})
+	result = append(result, &registration.StorageType{Obj: new(network_v1api20220701s.ApplicationGateway)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20220701s.BastionHost)})
 	result = append(result, &registration.StorageType{
 		Obj: new(network_v1api20220701s.DnsForwardingRuleSetsForwardingRule),
@@ -1268,6 +1269,7 @@ func getKnownTypes() []client.Object {
 		new(network_v1api20201101s.VirtualNetworksVirtualNetworkPeering))
 	result = append(
 		result,
+		new(network_v1api20220701.ApplicationGateway),
 		new(network_v1api20220701.BastionHost),
 		new(network_v1api20220701.DnsForwardingRuleSetsForwardingRule),
 		new(network_v1api20220701.DnsForwardingRuleset),
@@ -1281,6 +1283,7 @@ func getKnownTypes() []client.Object {
 		new(network_v1api20220701.PublicIPPrefix))
 	result = append(
 		result,
+		new(network_v1api20220701s.ApplicationGateway),
 		new(network_v1api20220701s.BastionHost),
 		new(network_v1api20220701s.DnsForwardingRuleSetsForwardingRule),
 		new(network_v1api20220701s.DnsForwardingRuleset),
@@ -1724,6 +1727,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &machinelearningservices_customizations.WorkspacesConnectionExtension{})
 	result = append(result, &managedidentity_customizations.FederatedIdentityCredentialExtension{})
 	result = append(result, &managedidentity_customizations.UserAssignedIdentityExtension{})
+	result = append(result, &network_customizations.ApplicationGatewayExtension{})
 	result = append(result, &network_customizations.BastionHostExtension{})
 	result = append(result, &network_customizations.DnsForwardingRuleSetsForwardingRuleExtension{})
 	result = append(result, &network_customizations.DnsForwardingRulesetExtension{})

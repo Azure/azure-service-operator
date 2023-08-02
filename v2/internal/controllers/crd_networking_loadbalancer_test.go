@@ -56,7 +56,7 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 	lbFrontendName := "LoadBalancerFrontend"
 	protocol := network.TransportProtocol_Tcp
 
-	frontendIPConfigurationARMID, err := getFrontendIPConfigurationARMID(tc, rg, lbName, lbFrontendName)
+	frontendIPConfigurationARMID, err := getfrontendIPConfigurationARMID(tc, rg, lbName, lbFrontendName)
 	tc.Expect(err).To(BeNil())
 
 	loadBalancer := &network.LoadBalancer{

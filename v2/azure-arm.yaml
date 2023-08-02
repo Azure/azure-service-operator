@@ -1561,6 +1561,51 @@ objectModelConfiguration:
         $exportAs: VirtualNetworksVirtualNetworkPeering
         $supportedFrom: v2.0.0-alpha.1
     2022-07-01:
+      ApplicationGateway:
+        $export: true
+        $supportedFrom: v2.3.0
+      ApplicationGatewayBackendAddressPool:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayBackendHttpSettings:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayBackendSettings:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayFrontendIPConfiguration:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayFrontendPort:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayIPConfiguration:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayHttpListener:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayListener:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayLoadDistributionPolicy:
+         $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayPrivateLinkConfiguration:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayProbe:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayRedirectConfiguration:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayRequestRoutingRule:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayRewriteRuleSet:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayRoutingRule:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewaySslCertificate:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewaySslProfile:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayTrustedClientCertificate:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayTrustedRootCertificate:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayUrlPathMap:
+        $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayAuthenticationCertificate:
+        $resourceEmbeddedInParent: ApplicationGateway
       BastionHost:
         # This technically supports 2022-09-01 API version too, but it's identical to the 2022-07-01 version
         # so limiting proliferation of APIVersions and using 2022-07-01 for it

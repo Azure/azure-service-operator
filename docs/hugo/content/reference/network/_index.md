@@ -5,6 +5,14 @@ no_list: true
 ---
 To install the CRDs for these resources, your ASO configuration must include `network.azure.com/*` as a one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                                                                                                                                                 | ARM Version | CRD Version   | Supported From | Sample |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|--------|
+| [ApplicationGateway](https://azure.github.io/azure-service-operator/reference/network/v1api20220701/#network.azure.com/v1api20220701.ApplicationGateway) | 2022-07-01  | v1api20220701 | v2.3.0         | -      |
+
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.

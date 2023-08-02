@@ -7,14 +7,128 @@
 | AaaaRecord_STATUS                                                                       | v1api20180501 |               | v1api20200601 |               |               |                |                |
 | AddressSpace                                                                            |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | AddressSpace_STATUS                                                                     |               |               |               | v1api20201101 |               |                | v1beta20201101 |
+| ApplicationGateway                                                                      |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayAuthenticationCertificate                                             |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayAuthenticationCertificatePropertiesFormat                             |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayAuthenticationCertificate_STATUS                                      |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayAutoscaleConfiguration                                                |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayAutoscaleConfiguration_STATUS                                         |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayBackendAddress                                                        |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayBackendAddressPool                                                    |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayBackendAddressPoolPropertiesFormat                                    |               |               |               |               | v1api20220701 |                |                |
 | ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded               |               |               |               | v1api20201101 |               |                | v1beta20201101 |
+| ApplicationGatewayBackendAddressPool_STATUS                                             |               |               |               |               | v1api20220701 |                |                |
 | ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded        |               |               |               | v1api20201101 |               |                | v1beta20201101 |
+| ApplicationGatewayBackendHttpSettings                                                   |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayBackendHttpSettingsPropertiesFormat                                   |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayBackendHttpSettingsPropertiesFormat_CookieBasedAffinity               |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayBackendHttpSettings_STATUS                                            |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayBackendSettings                                                       |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayBackendSettingsPropertiesFormat                                       |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayBackendSettings_STATUS                                                |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayClientAuthConfiguration                                               |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayClientAuthConfiguration_VerifyClientRevocation                        |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayConnectionDraining                                                    |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayCustomError                                                           |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayCustomError_STATUS                                                    |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayCustomError_StatusCode                                                |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayCustomError_StatusCode_STATUS                                         |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayFirewallDisabledRuleGroup                                             |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayFirewallDisabledRuleGroup_STATUS                                      |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayFirewallExclusion                                                     |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayFirewallExclusion_STATUS                                              |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayFrontendIPConfiguration                                               |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayFrontendIPConfigurationPropertiesFormat                               |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayFrontendIPConfiguration_STATUS                                        |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayFrontendPort                                                          |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayFrontendPortPropertiesFormat                                          |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayFrontendPort_STATUS                                                   |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayGlobalConfiguration                                                   |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayGlobalConfiguration_STATUS                                            |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayHeaderConfiguration                                                   |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayHttpListener                                                          |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayHttpListenerPropertiesFormat                                          |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayHttpListener_STATUS                                                   |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayIPConfigurationPropertiesFormat                                       |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded                |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded         |               |               |               |               | v1api20220701 |                |                |
 | ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded     |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | ApplicationGatewayIPConfiguration_VirtualNetwork_SubResourceEmbedded                    |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded            |               |               |               | v1api20201101 |               |                | v1beta20201101 |
+| ApplicationGatewayListener                                                              |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayListenerPropertiesFormat                                              |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayListener_STATUS                                                       |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayLoadDistributionAlgorithmEnum                                         |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayLoadDistributionPolicy                                                |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayLoadDistributionPolicyPropertiesFormat                                |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayLoadDistributionPolicy_STATUS                                         |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayLoadDistributionTarget                                                |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayPathRule                                                              |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayPrivateEndpointConnection_STATUS                                      |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayPrivateLinkConfiguration                                              |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayPrivateLinkConfigurationProperties                                    |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayPrivateLinkConfiguration_STATUS                                       |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayPrivateLinkIpConfiguration                                            |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayProbe                                                                 |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayProbeHealthResponseMatch                                              |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayProbePropertiesFormat                                                 |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayProbe_STATUS                                                          |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayPropertiesFormat                                                      |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayPropertiesFormat_OperationalState_STATUS                              |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayPropertiesFormat_STATUS                                               |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayProtocol                                                              |               |               |               |               | v1api20220701 |                |                |
 | ApplicationGatewayProvisioningState_STATUS                                              |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayRedirectConfiguration                                                 |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayRedirectConfigurationPropertiesFormat                                 |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayRedirectConfiguration_STATUS                                          |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayRequestRoutingRule                                                    |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayRequestRoutingRulePropertiesFormat                                    |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType                           |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayRequestRoutingRule_STATUS                                             |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayRewriteRule                                                           |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayRewriteRuleActionSet                                                  |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayRewriteRuleCondition                                                  |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayRewriteRuleSet                                                        |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayRewriteRuleSetPropertiesFormat                                        |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayRewriteRuleSet_STATUS                                                 |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayRoutingRule                                                           |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayRoutingRulePropertiesFormat                                           |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayRoutingRulePropertiesFormat_RuleType                                  |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayRoutingRule_STATUS                                                    |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewaySku                                                                   |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewaySku_Name                                                              |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewaySku_Name_STATUS                                                       |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewaySku_STATUS                                                            |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewaySku_Tier                                                              |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewaySku_Tier_STATUS                                                       |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewaySslCertificate                                                        |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewaySslCertificatePropertiesFormat                                        |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewaySslCertificate_STATUS                                                 |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewaySslPolicy                                                             |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewaySslPolicy_PolicyType                                                  |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewaySslPolicy_PolicyType_STATUS                                           |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewaySslPolicy_STATUS                                                      |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewaySslProfile                                                            |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewaySslProfilePropertiesFormat                                            |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewaySslProfile_STATUS                                                     |               |               |               |               | v1api20220701 |                |                |
 | ApplicationGatewaySubResource                                                           |               |               |               |               | v1api20220701 |                |                |
 | ApplicationGatewaySubResource_STATUS                                                    |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayTrustedClientCertificate                                              |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayTrustedClientCertificatePropertiesFormat                              |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayTrustedClientCertificate_STATUS                                       |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayTrustedRootCertificate                                                |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayTrustedRootCertificatePropertiesFormat                                |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayTrustedRootCertificate_STATUS                                         |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayUrlConfiguration                                                      |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayUrlPathMap                                                            |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayUrlPathMapPropertiesFormat                                            |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayUrlPathMap_STATUS                                                     |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayWebApplicationFirewallConfiguration                                   |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode                      |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayWebApplicationFirewallConfiguration_FirewallMode_STATUS               |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewayWebApplicationFirewallConfiguration_STATUS                            |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded                        |               |               |               |               | v1api20220701 |                |                |
+| ApplicationGateway_Spec                                                                 |               |               |               |               | v1api20220701 |                |                |
 | ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded                       |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | ApplicationSecurityGroupSpec_NetworkSecurityGroup_SubResourceEmbedded                   |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded     |               |               |               | v1api20201101 |               |                | v1beta20201101 |
@@ -42,6 +156,8 @@
 | BgpSettings_STATUS                                                                      |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | CaaRecord                                                                               | v1api20180501 |               |               |               |               |                |                |
 | CaaRecord_STATUS                                                                        | v1api20180501 |               |               |               |               |                |                |
+| CipherSuitesEnum                                                                        |               |               |               |               | v1api20220701 |                |                |
+| CipherSuitesEnum_STATUS                                                                 |               |               |               |               | v1api20220701 |                |                |
 | CnameRecord                                                                             | v1api20180501 |               | v1api20200601 |               |               |                |                |
 | CnameRecord_STATUS                                                                      | v1api20180501 |               | v1api20200601 |               |               |                |                |
 | CustomDnsConfigPropertiesFormat_STATUS                                                  |               |               |               |               | v1api20220701 |                |                |
@@ -185,6 +301,11 @@
 | LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS                               |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | LoadBalancingRulePropertiesFormat_STATUS                                                |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | LoadBalancingRule_STATUS                                                                |               |               |               | v1api20201101 |               |                | v1beta20201101 |
+| ManagedServiceIdentity                                                                  |               |               |               |               | v1api20220701 |                |                |
+| ManagedServiceIdentity_STATUS                                                           |               |               |               |               | v1api20220701 |                |                |
+| ManagedServiceIdentity_Type                                                             |               |               |               |               | v1api20220701 |                |                |
+| ManagedServiceIdentity_Type_STATUS                                                      |               |               |               |               | v1api20220701 |                |                |
+| ManagedServiceIdentity_UserAssignedIdentities_STATUS                                    |               |               |               |               | v1api20220701 |                |                |
 | MxRecord                                                                                | v1api20180501 |               | v1api20200601 |               |               |                |                |
 | MxRecord_STATUS                                                                         | v1api20180501 |               | v1api20200601 |               |               |                |                |
 | NatGateway                                                                              |               |               |               |               | v1api20220701 |                |                |
@@ -246,6 +367,8 @@
 | OutboundRule_STATUS                                                                     |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | PfsGroup                                                                                |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | PfsGroup_STATUS                                                                         |               |               |               | v1api20201101 |               |                | v1beta20201101 |
+| PolicyNameEnum                                                                          |               |               |               |               | v1api20220701 |                |                |
+| PolicyNameEnum_STATUS                                                                   |               |               |               |               | v1api20220701 |                |                |
 | PrivateDnsZone                                                                          |               | v1api20180901 |               |               |               | v1beta20180901 |                |
 | PrivateDnsZoneConfig                                                                    |               |               |               |               | v1api20220701 |                |                |
 | PrivateDnsZoneConfig_STATUS                                                             |               |               |               |               | v1api20220701 |                |                |
@@ -320,6 +443,8 @@
 | ProbePropertiesFormat_Protocol_STATUS                                                   |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | ProbePropertiesFormat_STATUS                                                            |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | Probe_STATUS                                                                            |               |               |               | v1api20201101 |               |                | v1beta20201101 |
+| ProtocolsEnum                                                                           |               |               |               |               | v1api20220701 |                |                |
+| ProtocolsEnum_STATUS                                                                    |               |               |               |               | v1api20220701 |                |                |
 | ProvisioningState_STATUS                                                                |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | PtrRecord                                                                               | v1api20180501 |               | v1api20200601 |               |               |                |                |
 | PtrRecord_STATUS                                                                        | v1api20180501 |               | v1api20200601 |               |               |                |                |
@@ -361,6 +486,7 @@
 | RecordSetProperties                                                                     | v1api20180501 |               | v1api20200601 |               |               |                |                |
 | RecordSetProperties_STATUS                                                              | v1api20180501 |               | v1api20200601 |               |               |                |                |
 | RecordSet_STATUS                                                                        |               |               |               |               | v1api20220701 |                |                |
+| RedirectTypeEnum                                                                        |               |               |               |               | v1api20220701 |                |                |
 | ReferencedPublicIpAddress_STATUS                                                        |               |               |               |               | v1api20220701 |                |                |
 | ResourceNavigationLink_STATUS                                                           |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | ResourceSet                                                                             |               |               |               |               | v1api20220701 |                |                |
@@ -436,6 +562,7 @@
 | TransportProtocol_STATUS                                                                |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | TxtRecord                                                                               | v1api20180501 |               | v1api20200601 |               |               |                |                |
 | TxtRecord_STATUS                                                                        | v1api20180501 |               | v1api20200601 |               |               |                |                |
+| UserAssignedIdentityDetails                                                             |               |               |               |               | v1api20220701 |                |                |
 | VirtualNetwork                                                                          |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | VirtualNetworkBgpCommunities                                                            |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | VirtualNetworkBgpCommunities_STATUS                                                     |               |               |               | v1api20201101 |               |                | v1beta20201101 |
