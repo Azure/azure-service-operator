@@ -7,6 +7,109 @@ spec:
   location: westus2
   owner:
     name: aso-sample-rg
+  azureName: aso-sample-application-gateway
   autoscaleConfiguration:
     maxCapacity: 2
     minCapacity: 1
+  sku:
+    name: WAF_v2
+    tier: WAF_v2
+  gatewayIPConfigurations:
+  - name: app-gw-ip-config-1
+    subnet:
+      reference:  
+        group: network.azure.com
+        kind: VirtualNetworksSubnet
+        name: aso-sample-subnet
+  frontendIPConfigurations:
+  - name: app-gw-fip-config-1
+    privateIPAddress: "10.0.0.10"
+    privateIPAllocationMethod: Static
+    subnet:
+      reference:  
+        group: network.azure.com
+        kind: VirtualNetworksSubnet
+        name: aso-sample-subnet
+  - name: app-gw-fip-config-2
+    publicIPAddress:
+      reference:  
+        group: network.azure.com
+        kind: PublicIPAddress
+        name: aso-sample-publicip
+  frontendPorts:
+  - name: app-gw-fe-port-1
+    port: 443
+  sslCertificates:
+  - name: app-gw-sslcert-1
+    data: |
+      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
+  sslProfiles:
+  - name: app-gw-ssl-profile-1
+    sslPolicy:
+      policyName: AppGwSslPolicy20220101S
+      policyType: Predefined
+  sslPolicy:
+      policyName: AppGwSslPolicy20220101S
+      policyType: Predefined
+  webApplicationFirewallConfiguration:
+    enabled: true
+    firewallMode: Detection
+    ruleSetType: OWASP
+    ruleSetVersion: 3.2
+  backendAddressPools:
+  - name: app-gw-be-pool-1
+    backendAddresses:
+    - IpAddress: 10.0.1.1
