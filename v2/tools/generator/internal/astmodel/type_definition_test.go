@@ -26,7 +26,7 @@ func Test_MakeTypeDefinition_GivenValues_InitializesProperties(t *testing.T) {
 	const version = "2020-01-01"
 	const pkg = "v20200101"
 
-	ref := MakeTypeName(makeTestLocalPackageReference(group, version), name)
+	ref := MakeInternalTypeName(makeTestLocalPackageReference(group, version), name)
 	objectType := NewObjectType().WithProperties(fullName, familyName, knownAs)
 	objectDefinition := MakeTypeDefinition(ref, objectType)
 
@@ -55,7 +55,7 @@ func Test_TypeDefinitionWithDescription_GivenDescription_ReturnsExpected(t *test
 
 	description := []string{"This is my test description"}
 
-	ref := MakeTypeName(makeTestLocalPackageReference(group, version), name)
+	ref := MakeInternalTypeName(makeTestLocalPackageReference(group, version), name)
 	objectType := NewObjectType().WithProperties(fullName, familyName, knownAs)
 	objectDefinition := MakeTypeDefinition(ref, objectType).WithDescription(description...)
 
@@ -70,7 +70,7 @@ func Test_TypeDefinitionAsAst_GivenValidStruct_ReturnsNonNilResult(t *testing.T)
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	ref := MakeTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "name")
+	ref := MakeInternalTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "name")
 	definition := MakeTypeDefinition(ref, NewObjectType())
 	node := definition.AsDeclarations(nil)
 
@@ -93,7 +93,7 @@ func TestApplyObjectTransformation_GivenObjectAndTransformation_AppliesTransform
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	ref := MakeTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "name")
+	ref := MakeInternalTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "name")
 	original := MakeTypeDefinition(ref, NewObjectType())
 	property := NewStringPropertyDefinition("FullName")
 
@@ -117,7 +117,7 @@ func TestApplyObjectTransformation_GivenObjectAndTransformationReturningError_Re
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	ref := MakeTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "name")
+	ref := MakeInternalTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "name")
 	original := MakeTypeDefinition(ref, NewObjectType())
 
 	_, err := original.ApplyObjectTransformation(func(objectType *ObjectType) (Type, error) {
@@ -131,7 +131,7 @@ func TestApplyObjectTransformation_GivenNonObjectAndTransformation_ReturnsError(
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	ref := MakeTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "name")
+	ref := MakeInternalTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "name")
 	original := MakeTypeDefinition(ref, StringType)
 	property := NewStringPropertyDefinition("FullName")
 
@@ -167,7 +167,7 @@ func TestApplyObjectTransformations_GivenObjectAndTransformations_AppliesTransfo
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	ref := MakeTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "name")
+	ref := MakeInternalTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "name")
 	original := MakeTypeDefinition(ref, NewObjectType())
 
 	transformed, err := original.ApplyObjectTransformations(injectFullName, injectKnownAs)
@@ -191,7 +191,7 @@ func TestApplyObjectTransformations_GivenObjectAndFirstTransformationReturningEr
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	ref := MakeTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "name")
+	ref := MakeInternalTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "name")
 	original := MakeTypeDefinition(ref, NewObjectType())
 
 	_, err := original.ApplyObjectTransformations(failingTransform, injectKnownAs)
@@ -203,7 +203,7 @@ func TestApplyObjectTransformations_GivenObjectAndSecondTransformationReturningE
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	ref := MakeTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "name")
+	ref := MakeInternalTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "name")
 	original := MakeTypeDefinition(ref, NewObjectType())
 
 	_, err := original.ApplyObjectTransformations(injectFullName, failingTransform)
@@ -215,7 +215,7 @@ func TestApplyObjectTransformations_GivenNonObjectAndTransformations_ReturnsErro
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	ref := MakeTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "name")
+	ref := MakeInternalTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "name")
 	original := MakeTypeDefinition(ref, StringType)
 
 	_, err := original.ApplyObjectTransformations(injectFullName, injectKnownAs)

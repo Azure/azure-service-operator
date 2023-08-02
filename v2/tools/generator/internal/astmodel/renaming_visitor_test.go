@@ -53,7 +53,7 @@ func TestRenamingVisitor_RewritesResourceOwner(t *testing.T) {
 	childResource := NewResourceType(childSpecDef.Name(), childStatusDef.Name()).
 		WithOwner(badName)
 	childDef := MakeTypeDefinition(
-		MakeTypeName(badObject.name.PackageReference(), "ChildResource"),
+		MakeInternalTypeName(badObject.name.PackageReference(), "ChildResource"),
 		childResource,
 	)
 

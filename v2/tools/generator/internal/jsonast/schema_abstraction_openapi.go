@@ -383,7 +383,7 @@ func (schema *OpenAPISchema) refTypeName() (astmodel.TypeName, error) {
 		}
 	}
 
-	return astmodel.MakeTypeName(pkg, schema.idFactory.CreateIdentifier(name, astmodel.Exported)), nil
+	return astmodel.MakeInternalTypeName(pkg, schema.idFactory.CreateIdentifier(name, astmodel.Exported)), nil
 }
 
 func (schema *OpenAPISchema) readOnly() bool {

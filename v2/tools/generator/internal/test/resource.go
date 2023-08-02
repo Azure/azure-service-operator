@@ -24,7 +24,7 @@ func CreateResource(
 		resourceType = resourceType.WithFunction(fn)
 	}
 
-	return astmodel.MakeTypeDefinition(astmodel.MakeTypeName(pkg, name), resourceType)
+	return astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(pkg, name), resourceType)
 }
 
 func CreateARMResource(
@@ -50,13 +50,13 @@ func CreateARMResource(
 	apiVersionValue := enumType.Options()[0]
 	resourceType = resourceType.WithAPIVersion(apiVersion.Name(), apiVersionValue)
 
-	return astmodel.MakeTypeDefinition(astmodel.MakeTypeName(pkg, name), resourceType)
+	return astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(pkg, name), resourceType)
 }
 
 func MakeSpecName(
 	pkg astmodel.PackageReference,
 	name string) astmodel.TypeName {
-	return astmodel.MakeTypeName(pkg, name+astmodel.SpecSuffix)
+	return astmodel.MakeInternalTypeName(pkg, name+astmodel.SpecSuffix)
 }
 
 // CreateSpec makes a spec for testing
@@ -73,7 +73,7 @@ func CreateSpec(
 func MakeStatusName(
 	pkg astmodel.PackageReference,
 	name string) astmodel.TypeName {
-	return astmodel.MakeTypeName(pkg, name+astmodel.StatusSuffix)
+	return astmodel.MakeInternalTypeName(pkg, name+astmodel.StatusSuffix)
 }
 
 // CreateStatus makes a status for testing
@@ -93,7 +93,7 @@ func CreateObjectDefinition(
 	name string,
 	properties ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {
 
-	typeName := astmodel.MakeTypeName(pkg, name)
+	typeName := astmodel.MakeInternalTypeName(pkg, name)
 	return astmodel.MakeTypeDefinition(
 		typeName,
 		CreateObjectType(properties...))
@@ -106,7 +106,7 @@ func CreateObjectDefinitionWithFunction(
 	function astmodel.Function,
 	properties ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {
 
-	typeName := astmodel.MakeTypeName(pkg, name)
+	typeName := astmodel.MakeInternalTypeName(pkg, name)
 	return astmodel.MakeTypeDefinition(
 		typeName,
 		CreateObjectType(properties...).WithFunction(function))

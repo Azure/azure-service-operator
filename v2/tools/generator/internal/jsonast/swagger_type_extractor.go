@@ -292,7 +292,7 @@ func (extractor *SwaggerTypeExtractor) ExtractOneOfTypes(
 			continue
 		}
 
-		typeName := astmodel.MakeTypeName(extractor.outputPackage, name)
+		typeName := astmodel.MakeInternalTypeName(extractor.outputPackage, name)
 
 		if action, _ := scanner.configuration.ShouldPrune(typeName); action == config.Prune {
 			// Pruned type
@@ -720,7 +720,7 @@ func (extractor *SwaggerTypeExtractor) resourceNameFromOperationPath(operationPa
 		return "", nil, errors.Wrapf(err, "unable to infer name from path %q", operationPath)
 	}
 
-	return group + "/" + resource, astmodel.MakeTypeName(extractor.outputPackage, name), nil
+	return group + "/" + resource, astmodel.MakeInternalTypeName(extractor.outputPackage, name), nil
 }
 
 // extractResourceSubpath gets the subpath focused on the actual resource.

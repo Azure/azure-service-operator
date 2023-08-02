@@ -21,7 +21,7 @@ func AddCrossplaneEmbeddedResourceSpec(idFactory astmodel.IdentifierFactory) *St
 		"addCrossplaneEmbeddedResourceSpec",
 		"Add an embedded runtimev1alpha1.ResourceSpec to every spec type",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			specTypeName := astmodel.MakeTypeName(
+			specTypeName := astmodel.MakeInternalTypeName(
 				CrossplaneRuntimeV1Package,
 				idFactory.CreateIdentifier("ResourceSpec", astmodel.Exported))
 			embeddedSpec := astmodel.NewPropertyDefinition("", ",inline", specTypeName)

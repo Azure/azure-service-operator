@@ -57,7 +57,7 @@ func (vs apiVersions) Get(pr astmodel.PackageReference) apiVersion {
 		return v
 	}
 
-	name := astmodel.MakeTypeName(pr, "APIVersion") // TODO: constant?
+	name := astmodel.MakeInternalTypeName(pr, "APIVersion") // TODO: constant?
 	value := astmodel.MakeEnumValue(
 		"Value",
 		fmt.Sprintf("%q", apiVersionFromPackageReference(pr)))

@@ -36,7 +36,7 @@ func CreateResourceExtensions(localPath string, idFactory astmodel.IdentifierFac
 					group,
 					"", // no prefix needed (or wanted!) for customizations
 					"customizations")
-				extensionTypeName := astmodel.MakeTypeName(packageRef, typeDef.Name().Name()+"Extension")
+				extensionTypeName := astmodel.MakeInternalTypeName(packageRef, typeDef.Name().Name()+"Extension")
 				extendedResourceTypesMapping[extensionTypeName] = append(extendedResourceTypesMapping[extensionTypeName], typeDef.Name())
 			}
 

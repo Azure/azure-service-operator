@@ -22,7 +22,7 @@ var (
 )
 
 func newTestName(name string) astmodel.TypeName {
-	return astmodel.MakeTypeName(test.MakeLocalPackageReference("group", "2020-01-01"), name)
+	return astmodel.MakeInternalTypeName(test.MakeLocalPackageReference("group", "2020-01-01"), name)
 }
 
 func newTestObject(name astmodel.TypeName, fields ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {

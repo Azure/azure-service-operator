@@ -269,7 +269,7 @@ func (schema GoJSONSchema) refTypeName() (astmodel.TypeName, error) {
 	}
 
 	// produce a usable name:
-	return astmodel.MakeTypeName(
+	return astmodel.MakeInternalTypeName(
 		schema.makeLocalPackageReference(
 			schema.idFactory.CreateGroupName(group),
 			version),

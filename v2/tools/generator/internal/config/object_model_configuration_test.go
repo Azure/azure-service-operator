@@ -50,7 +50,7 @@ func TestObjectModelConfiguration_TypeRename_WhenTypeFound_ReturnsExpectedResult
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	typeName := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
 	omc := NewObjectModelConfiguration()
 
 	g.Expect(
@@ -71,7 +71,7 @@ func TestObjectModelConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedErr
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	typeName := astmodel.MakeTypeName(test.Pkg2020, "Address")
+	typeName := astmodel.MakeInternalTypeName(test.Pkg2020, "Address")
 	omc := NewObjectModelConfiguration()
 	g.Expect(
 		omc.ModifyType(
@@ -82,7 +82,7 @@ func TestObjectModelConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedErr
 			})).
 		To(Succeed())
 
-	otherName := astmodel.MakeTypeName(test.Pkg2020, "Location")
+	otherName := astmodel.MakeInternalTypeName(test.Pkg2020, "Location")
 	nextName, err := omc.TypeNameInNextVersion.Lookup(otherName)
 
 	g.Expect(err).NotTo(Succeed())
@@ -94,7 +94,7 @@ func TestObjectModelConfiguration_VerifyTypeRenamesConsumed_WhenRenameUsed_Retur
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	typeName := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
 	omc := NewObjectModelConfiguration()
 	g.Expect(
 		omc.ModifyType(
@@ -114,7 +114,7 @@ func TestObjectModelConfiguration_VerifyTypeRenamesConsumed_WhenRenameUnused_Ret
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	typeName := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
 	omc := NewObjectModelConfiguration()
 	g.Expect(
 		omc.ModifyType(
@@ -136,7 +136,7 @@ func TestObjectModelConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsEx
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	typeName := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
 	omc := NewObjectModelConfiguration()
 	g.Expect(
 		omc.ModifyProperty(
@@ -156,7 +156,7 @@ func TestObjectModelConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsEx
 func TestObjectModelConfiguration_ARMReference_WhenFullNamePropertyFound_ReturnsExpectedResult(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
-	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	typeName := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
 
 	omc := NewObjectModelConfiguration()
 	g.Expect(
@@ -177,7 +177,7 @@ func TestObjectModelConfiguration_ARMReference_WhenFullNamePropertyFound_Returns
 func TestObjectModelConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpectedResult(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
-	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	typeName := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
 
 	omc := NewObjectModelConfiguration()
 	g.Expect(
@@ -198,7 +198,7 @@ func TestObjectModelConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpec
 func TestObjectModelConfiguration_VerifyARMReferencesConsumed_WhenReferenceUsed_ReturnsNil(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
-	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	typeName := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
 
 	omc := NewObjectModelConfiguration()
 	g.Expect(
@@ -221,7 +221,7 @@ func TestObjectModelConfiguration_VerifyARMReferencesConsumed_WhenReferenceNotUs
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	typeName := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
 	omc := NewObjectModelConfiguration()
 	g.Expect(
 		omc.ModifyProperty(
@@ -245,7 +245,7 @@ func TestObjectModelConfiguration_LookupExportAs_AfterConsumption_CanLookupUsing
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	typeName := astmodel.MakeTypeName(test.Pkg2020, "People")
+	typeName := astmodel.MakeInternalTypeName(test.Pkg2020, "People")
 	omc := NewObjectModelConfiguration()
 	g.Expect(
 		omc.ModifyType(
@@ -376,7 +376,7 @@ func TestObjectModelConfiguration_ModifyType_WhenTypeDoesNotExist_CallsActionWit
 	g := NewGomegaWithT(t)
 
 	omc := NewObjectModelConfiguration()
-	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	typeName := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
 	var cfg *TypeConfiguration
 
 	g.Expect(
@@ -395,7 +395,7 @@ func TestObjectModelConfiguration_ModifyType_WhenTypeExists_CallsActionWithExist
 	g := NewGomegaWithT(t)
 
 	omc := NewObjectModelConfiguration()
-	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	typeName := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
 	var first *TypeConfiguration
 	var second *TypeConfiguration
 
@@ -427,7 +427,7 @@ func TestObjectModelConfiguration_ModifyProperty_WhenPropertyDoesNotExist_CallsA
 	g := NewGomegaWithT(t)
 
 	omc := NewObjectModelConfiguration()
-	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	typeName := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
 	var cfg *PropertyConfiguration
 
 	g.Expect(
@@ -447,7 +447,7 @@ func TestObjectModelConfiguration_ModifyProperty_WhenPropertyExists_CallsActionW
 	g := NewGomegaWithT(t)
 
 	omc := NewObjectModelConfiguration()
-	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	typeName := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
 	var first *PropertyConfiguration
 	var second *PropertyConfiguration
 
@@ -480,7 +480,7 @@ func TestObjectModelConfiguration_LookupSupportedFrom_WhenConfigured_ReturnsExpe
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	name := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	name := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
 	omc := NewObjectModelConfiguration()
 	g.Expect(
 		omc.ModifyType(
@@ -500,7 +500,7 @@ func TestObjectModelConfiguration_LookupSupportedFrom_WhenNotConfigured_ReturnsE
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	name := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	name := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
 	omc := NewObjectModelConfiguration()
 	g.Expect(
 		omc.ModifyType(
@@ -519,7 +519,7 @@ func TestObjectModelConfiguration_LookupSupportedFrom_WhenConsumed_ReturnsNoErro
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	name := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	name := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
 	omc := NewObjectModelConfiguration()
 	g.Expect(
 		omc.ModifyType(
@@ -541,7 +541,7 @@ func TestObjectModelConfiguration_LookupSupportedFrom_WhenUnconsumed_ReturnsErro
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	name := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	name := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
 	omc := NewObjectModelConfiguration()
 	g.Expect(
 		omc.ModifyType(
@@ -564,7 +564,7 @@ func TestObjectModelConfiguration_LookupPayloadType_WhenConfigured_ReturnsExpect
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	name := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	name := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
 	omc := NewObjectModelConfiguration()
 	g.Expect(
 		omc.ModifyGroup(
@@ -584,7 +584,7 @@ func TestObjectModelConfiguration_LookupPayloadType_WhenNotConfigured_ReturnsExp
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	name := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	name := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
 	omc := NewObjectModelConfiguration()
 	g.Expect(
 		omc.ModifyGroup(
@@ -603,7 +603,7 @@ func TestObjectModelConfiguration_VerifyPayloadTypeConsumed_WhenConsumed_Returns
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	name := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	name := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
 	omc := NewObjectModelConfiguration()
 	g.Expect(
 		omc.ModifyGroup(
@@ -625,7 +625,7 @@ func TestObjectModelConfiguration_VerifyPayloadTypeConsumed_WhenUnconsumed_Retur
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	name := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	name := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
 	omc := NewObjectModelConfiguration()
 	g.Expect(
 		omc.ModifyGroup(

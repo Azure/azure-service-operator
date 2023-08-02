@@ -19,8 +19,8 @@ func TestReplacingAnyTypes(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	p1 := test.MakeLocalPackageReference("horo.logy", "v20200730")
-	aName := astmodel.MakeTypeName(p1, "A")
-	bName := astmodel.MakeTypeName(p1, "B")
+	aName := astmodel.MakeInternalTypeName(p1, "A")
+	bName := astmodel.MakeInternalTypeName(p1, "B")
 
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.Add(astmodel.MakeTypeDefinition(aName, astmodel.AnyType))
@@ -38,7 +38,7 @@ func TestReplacingAnyTypes(t *testing.T) {
 
 	finalDefs := finalState.Definitions()
 	a := finalDefs[aName]
-	expectedType := astmodel.MakeTypeName(
+	expectedType := astmodel.MakeInternalTypeName(
 		astmodel.MakeExternalPackageReference("k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"),
 		"JSON",
 	)
@@ -57,7 +57,7 @@ func TestReplacingMapMapInterface(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	p1 := test.MakeLocalPackageReference("horo.logy", "v20200730")
-	aName := astmodel.MakeTypeName(p1, "A")
+	aName := astmodel.MakeInternalTypeName(p1, "A")
 
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.Add(astmodel.MakeTypeDefinition(
@@ -82,7 +82,7 @@ func TestReplacingMapMapInterface(t *testing.T) {
 	// A should be a map[string]JSON.
 	expectedType := astmodel.NewMapType(
 		astmodel.StringType,
-		astmodel.MakeTypeName(
+		astmodel.MakeInternalTypeName(
 			astmodel.MakeExternalPackageReference("k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"),
 			"JSON",
 		),

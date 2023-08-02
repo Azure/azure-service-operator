@@ -19,7 +19,7 @@ func TestConnectionChecker_Avoids_Cycles(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	makeName := func(name string) astmodel.TypeName {
-		return astmodel.MakeTypeName(astmodel.MakeExternalPackageReference(packagePath), name)
+		return astmodel.MakeInternalTypeName(astmodel.MakeExternalPackageReference(packagePath), name)
 	}
 
 	makeSet := func(names ...string) astmodel.TypeNameSet {

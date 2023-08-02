@@ -82,33 +82,33 @@ var (
 	LionCub               = astmodel.MakeTypeDefinition(LionCubName, LionCubResourceType)
 
 	LionRef = astmodel.MakeTypeDefinition(
-		astmodel.MakeTypeName(LionsPkg, "LionRef"),
+		astmodel.MakeInternalTypeName(LionsPkg, "LionRef"),
 		LionSpecType.WithProperty(IDProperty))
 	LionCubRef = astmodel.MakeTypeDefinition(
-		astmodel.MakeTypeName(LionsPkg, "LionCubRef"),
+		astmodel.MakeInternalTypeName(LionsPkg, "LionCubRef"),
 		LionCubSpecType.WithProperty(IDProperty))
 
 	LionPrideTypeEnumDef = astmodel.MakeTypeDefinition(
-		astmodel.MakeTypeName(LionsPkg, "LionPrideType"),
+		astmodel.MakeInternalTypeName(LionsPkg, "LionPrideType"),
 		astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("type", "Microsoft.Lions/lionPride")))
 	LionTypeEnumDef = astmodel.MakeTypeDefinition(
-		astmodel.MakeTypeName(LionsPkg, "LionType"),
+		astmodel.MakeInternalTypeName(LionsPkg, "LionType"),
 		astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("type", "Microsoft.Lions/lion")))
 	LionCubTypeEnumDef = astmodel.MakeTypeDefinition(
-		astmodel.MakeTypeName(LionsPkg, "LionCubType"),
+		astmodel.MakeInternalTypeName(LionsPkg, "LionCubType"),
 		astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("type", "Microsoft.Lions/cub")))
 	APIVersionTypeEnumDef = astmodel.MakeTypeDefinition(
-		astmodel.MakeTypeName(LionsPkg, "APIVersion"),
+		astmodel.MakeInternalTypeName(LionsPkg, "APIVersion"),
 		astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("apiVersion", "2020-06-01")))
 
 	LionPropertiesDef = astmodel.MakeTypeDefinition(
-		astmodel.MakeTypeName(LionsPkg, "LionProperties"),
+		astmodel.MakeInternalTypeName(LionsPkg, "LionProperties"),
 		astmodel.NewObjectType().WithProperty(RoarVolumeProperty))
 	LionPridePropertiesDef = astmodel.MakeTypeDefinition(
-		astmodel.MakeTypeName(LionsPkg, "LionPrideProperties"),
+		astmodel.MakeInternalTypeName(LionsPkg, "LionPrideProperties"),
 		astmodel.NewObjectType().WithProperties(LionPrideLionsProperty, HuntsProperty))
 	LionCubPropertiesDef = astmodel.MakeTypeDefinition(
-		astmodel.MakeTypeName(LionsPkg, "LionCubProperties"),
+		astmodel.MakeInternalTypeName(LionsPkg, "LionCubProperties"),
 		astmodel.NewObjectType().WithProperties(LionCubCutenessProperty))
 
 	// Properties
@@ -129,13 +129,13 @@ var (
 	CubsProperty                = astmodel.NewPropertyDefinition("Cubs", "cubs", astmodel.NewArrayType(LionCubRef.Name()))
 
 	// Names
-	LionName            = astmodel.MakeTypeName(LionsPkg, "Lion")
+	LionName            = astmodel.MakeInternalTypeName(LionsPkg, "Lion")
 	LionSpecName        = test.MakeSpecName(LionsPkg, "Lion")
 	LionStatusName      = test.MakeStatusName(LionsPkg, "Lion")
-	LionPrideName       = astmodel.MakeTypeName(LionsPkg, "LionPride")
+	LionPrideName       = astmodel.MakeInternalTypeName(LionsPkg, "LionPride")
 	LionPrideSpecName   = test.MakeSpecName(LionsPkg, "LionPride")
 	LionPrideStatusName = test.MakeStatusName(LionsPkg, "LionPride")
-	LionCubName         = astmodel.MakeTypeName(LionsPkg, "LionCub")
+	LionCubName         = astmodel.MakeInternalTypeName(LionsPkg, "LionCub")
 	LionCubSpecName     = test.MakeSpecName(LionsPkg, "LionCub")
 	LionCubStatusName   = test.MakeStatusName(LionsPkg, "LionCub")
 )
@@ -255,13 +255,13 @@ func TestGolden_EmbeddedResourceWithCyclesAndResourceLookalikes_RemovesCycles(t 
 
 	refProperty := astmodel.NewPropertyDefinition("Ref", "ref", unlabelledRef.Name())
 	left := astmodel.MakeTypeDefinition(
-		astmodel.MakeTypeName(LionsPkg, "Left"),
+		astmodel.MakeInternalTypeName(LionsPkg, "Left"),
 		astmodel.NewObjectType().WithProperties(
 			NameProperty,
 			dummyPropertiesProperty,
 			refProperty))
 	right := astmodel.MakeTypeDefinition(
-		astmodel.MakeTypeName(LionsPkg, "Right"),
+		astmodel.MakeInternalTypeName(LionsPkg, "Right"),
 		astmodel.NewObjectType().WithProperties(
 			NameProperty,
 			dummyPropertiesProperty,

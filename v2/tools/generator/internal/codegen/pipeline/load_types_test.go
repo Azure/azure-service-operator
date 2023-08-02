@@ -74,7 +74,7 @@ func Test_StructurallyIdentical_RecursesIntoTypeNames(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	pkg := test.MakeLocalPackageReference("abc", "123")
-	name := func(n string) astmodel.TypeName { return astmodel.MakeTypeName(pkg, n) }
+	name := func(n string) astmodel.TypeName { return astmodel.MakeInternalTypeName(pkg, n) }
 
 	types1 := astmodel.MakeTypeDefinitionSet(map[astmodel.TypeName]astmodel.Type{
 		name("LeafInt"): astmodel.IntType,
@@ -106,7 +106,7 @@ func Test_StructurallyIdentical_DistinguishesIdenticalTypeNames(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	pkg := test.MakeLocalPackageReference("abc", "123")
-	name := func(n string) astmodel.TypeName { return astmodel.MakeTypeName(pkg, n) }
+	name := func(n string) astmodel.TypeName { return astmodel.MakeInternalTypeName(pkg, n) }
 
 	types1 := astmodel.MakeTypeDefinitionSet(map[astmodel.TypeName]astmodel.Type{
 		name("Leaf"): astmodel.IntType,

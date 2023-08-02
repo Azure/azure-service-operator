@@ -261,7 +261,7 @@ func (n nameHint) String() string {
 
 func (n nameHint) AsTypeName(ref astmodel.PackageReference) astmodel.TypeName {
 	if n.suffix != "" {
-		return astmodel.MakeTypeName(ref, n.baseName+"_"+n.suffix)
+		return astmodel.MakeInternalTypeName(ref, n.baseName+"_"+n.suffix)
 	}
-	return astmodel.MakeTypeName(ref, n.baseName)
+	return astmodel.MakeInternalTypeName(ref, n.baseName)
 }

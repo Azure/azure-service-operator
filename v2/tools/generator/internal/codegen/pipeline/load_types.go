@@ -537,7 +537,7 @@ func generateRenaming(
 	name = strings.TrimSuffix(name, filepath.Ext(name))
 
 	// Prefix the typename with the filename
-	result := astmodel.MakeTypeName(
+	result := astmodel.MakeInternalTypeName(
 		original.PackageReference(),
 		idFactory.CreateIdentifier(name+original.Name(), astmodel.Exported))
 
@@ -545,7 +545,7 @@ func generateRenaming(
 	// TODO: this might result in non-determinism depending on iteration order
 	// in the calling method
 	for _, ok := typeNames[result]; ok; _, ok = typeNames[result] {
-		result = astmodel.MakeTypeName(
+		result = astmodel.MakeInternalTypeName(
 			result.PackageReference(),
 			result.Name()+"X",
 		)

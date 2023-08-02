@@ -14,7 +14,7 @@ import (
 func makeInterfaceImplForTest() *InterfaceImplementation {
 	pr := makeTestLocalPackageReference("group", "package")
 
-	return NewInterfaceImplementation(MakeTypeName(pr, "foo"))
+	return NewInterfaceImplementation(MakeInternalTypeName(pr, "foo"))
 }
 
 func Test_InterfaceImplementerWithInterface_ReturnsNewInstance(t *testing.T) {

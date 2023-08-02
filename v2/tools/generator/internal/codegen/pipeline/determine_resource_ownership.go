@@ -188,7 +188,7 @@ func setDefaultOwner(
 		}
 
 		if resourceType.Owner() == nil && resourceType.Scope() == astmodel.ResourceScopeResourceGroup {
-			ownerTypeName := astmodel.MakeTypeName(
+			ownerTypeName := astmodel.MakeInternalTypeName(
 				// Note that the version doesn't really matter here -- it's removed later. We just need to refer to the logical
 				// resource group really
 				configuration.MakeLocalPackageReference("resources", "v20191001"),

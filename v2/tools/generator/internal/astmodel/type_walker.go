@@ -15,7 +15,7 @@ import (
 
 // typeWalkerRemoveType is a special TypeName that informs the type walker to remove the property containing this TypeName
 // entirely.
-var typeWalkerRemoveType = MakeTypeName(LocalPackageReference{}, "TypeWalkerRemoveProperty")
+var typeWalkerRemoveType = MakeInternalTypeName(LocalPackageReference{}, "TypeWalkerRemoveProperty")
 
 // TypeWalker performs a depth first traversal across the types provided, applying the visitor to each TypeDefinition.
 // MakeContext is called before each visit, and AfterVisit is called after each visit. ShouldRemoveCycle is called
