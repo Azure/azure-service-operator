@@ -23,7 +23,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	mysqlutil "github.com/Azure/azure-service-operator/v2/internal/util/mysql"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
-	"github.com/Azure/azure-service-operator/v2/pkg/common"
+	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -214,7 +214,7 @@ func MySQL_AADUser_CRUD(
 	tc.CreateResource(secret)
 
 	old = user.DeepCopy()
-	user.Annotations[common.PerResourceSecretAnnotation] = secret.Name
+	user.Annotations[annotations.PerResourceSecretAnnotation] = secret.Name
 	user.Spec.Privileges = []string{
 		"SHOW DATABASES",
 	}

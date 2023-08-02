@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/pkg/errors"
 
-	"github.com/Azure/azure-service-operator/v2/pkg/common"
+	"github.com/Azure/azure-service-operator/v2/pkg/common/config"
 )
 
 // These are hardcoded because the init function that initializes them in azcore isn't in /cloud it's in /arm which
@@ -148,7 +148,7 @@ func (v Values) Cloud() cloud.Configuration {
 // environment variables.
 func ReadFromEnvironment() (Values, error) {
 	var result Values
-	modeValue := os.Getenv(common.OperatorModeVar)
+	modeValue := os.Getenv(config.OperatorMode)
 	if modeValue == "" {
 		result.OperatorMode = OperatorModeBoth
 	} else {
@@ -161,21 +161,21 @@ func ReadFromEnvironment() (Values, error) {
 
 	var err error
 
-	result.SubscriptionID = os.Getenv(common.SubscriptionIDVar)
-	result.PodNamespace = os.Getenv(common.PodNamespaceVar)
-	result.TargetNamespaces = parseTargetNamespaces(os.Getenv(common.TargetNamespacesVar))
+	result.SubscriptionID = os.Getenv(config.AzureSubscriptionID)
+	result.PodNamespace = os.Getenv(config.PodNamespace)
+	result.TargetNamespaces = parseTargetNamespaces(os.Getenv(config.TargetNamespaces))
 	result.SyncPeriod, err = parseSyncPeriod()
-	result.ResourceManagerEndpoint = envOrDefault(common.ResourceManagerEndpointVar, DefaultEndpoint)
-	result.ResourceManagerAudience = envOrDefault(common.ResourceManagerAudienceVar, DefaultAudience)
-	result.AzureAuthorityHost = envOrDefault(common.AzureAuthorityHostVar, DefaultAADAuthorityHost)
-	result.ClientID = os.Getenv(common.ClientIDVar)
-	result.TenantID = os.Getenv(common.TenantIDVar)
+	result.ResourceManagerEndpoint = envOrDefault(config.ResourceManagerEndpoint, DefaultEndpoint)
+	result.ResourceManagerAudience = envOrDefault(config.ResourceManagerAudience, DefaultAudience)
+	result.AzureAuthorityHost = envOrDefault(config.AzureAuthorityHost, DefaultAADAuthorityHost)
+	result.ClientID = os.Getenv(config.AzureClientID)
+	result.TenantID = os.Getenv(config.AzureTenantID)
 
 	// Ignoring error here, as any other value or empty value means we should default to false
-	result.UseWorkloadIdentityAuth, _ = strconv.ParseBool(os.Getenv(common.UseWorkloadIdentityAuth))
+	result.UseWorkloadIdentityAuth, _ = strconv.ParseBool(os.Getenv(config.UseWorkloadIdentityAuth))
 
 	if err != nil {
-		return result, errors.Wrapf(err, "parsing %q", common.SyncPeriodVar)
+		return result, errors.Wrapf(err, "parsing %q", config.SyncPeriod)
 	}
 
 	// Not calling validate here to support using from tests where we
@@ -200,10 +200,10 @@ func ReadAndValidate() (Values, error) {
 // Validate checks whether the configuration settings are consistent.
 func (v Values) Validate() error {
 	if v.PodNamespace == "" {
-		return errors.Errorf("missing value for %s", common.PodNamespaceVar)
+		return errors.Errorf("missing value for %s", config.PodNamespace)
 	}
 	if !v.OperatorMode.IncludesWatchers() && len(v.TargetNamespaces) > 0 {
-		return errors.Errorf("%s must include watchers to specify target namespaces", common.TargetNamespacesVar)
+		return errors.Errorf("%s must include watchers to specify target namespaces", config.TargetNamespaces)
 	}
 	return nil
 }
@@ -224,7 +224,7 @@ func parseTargetNamespaces(fromEnv string) []string {
 
 // parseSyncPeriod parses the sync period from the environment
 func parseSyncPeriod() (*time.Duration, error) {
-	syncPeriodStr := envOrDefault(common.SyncPeriodVar, "1h")
+	syncPeriodStr := envOrDefault(config.SyncPeriod, "1h")
 	if syncPeriodStr == "" {
 		return nil, nil
 	}

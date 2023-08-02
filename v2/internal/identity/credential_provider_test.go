@@ -21,7 +21,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
-	"github.com/Azure/azure-service-operator/v2/pkg/common"
+	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
+	"github.com/Azure/azure-service-operator/v2/pkg/common/config"
 )
 
 const testPodNamespace = "azureserviceoperator-system-test"
@@ -102,7 +103,7 @@ func TestCredentialProvider_ResourceScopeCredentialAndNamespaceCredential_Prefer
 	g.Expect(err).ToNot(HaveOccurred())
 
 	rg := newResourceGroup("test-namespace")
-	rg.Annotations = map[string]string{common.PerResourceSecretAnnotation: perResourceCredentialName.Name}
+	rg.Annotations = map[string]string{annotations.PerResourceSecretAnnotation: perResourceCredentialName.Name}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
@@ -127,7 +128,7 @@ func TestCredentialProvider_SecretDoesNotExist_ReturnsError(t *testing.T) {
 	}
 
 	rg := newResourceGroup("test-namespace")
-	rg.Annotations = map[string]string{common.PerResourceSecretAnnotation: credentialNamespacedName.Name}
+	rg.Annotations = map[string]string{annotations.PerResourceSecretAnnotation: credentialNamespacedName.Name}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
@@ -203,10 +204,10 @@ func newResourceGroup(namespace string) *resources.ResourceGroup {
 
 func newSecret(namespacedName types.NamespacedName) *v1.Secret {
 	secretData := make(map[string][]byte)
-	secretData[common.ClientIDVar] = []byte(fakeID)
-	secretData[common.ClientSecretVar] = []byte(fakeID)
-	secretData[common.TenantIDVar] = []byte(fakeID)
-	secretData[common.SubscriptionIDVar] = []byte(fakeID)
+	secretData[config.AzureClientID] = []byte(fakeID)
+	secretData[config.AzureClientSecret] = []byte(fakeID)
+	secretData[config.AzureTenantID] = []byte(fakeID)
+	secretData[config.AzureSubscriptionID] = []byte(fakeID)
 
 	return &v1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
