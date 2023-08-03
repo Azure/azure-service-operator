@@ -33,7 +33,7 @@ What resources can be code generated? Any ARM resource can be generated. If you&
 <meta itemprop="description" content="This document discusses how to add a new resource to the ASO v2 code generation configuration. Check out this PR if you&rsquo;d like to see what the end product looks like.
 What resources can be code generated? Any ARM resource can be generated. If you&rsquo;re not sure if the resource you are interested in is an ARM resource, check if it is defined in a resource-manager folder in the Azure REST API specs repo.">
 
-<meta itemprop="wordCount" content="1813">
+<meta itemprop="wordCount" content="1843">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Adding a new code generated resource to ASO v2"/>
 <meta name="twitter:description" content="This document discusses how to add a new resource to the ASO v2 code generation configuration. Check out this PR if you&rsquo;d like to see what the end product looks like.
@@ -894,16 +894,16 @@ our <code>azure-arm.yaml</code> to force a particular property to be treated as 
 <h2 id="add-a-new-sample">Add a new sample</h2>
 <p>The samples are located in the <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/samples">samples directory</a>. There should be at least one sample for each kind of supported resource. These currently need to be added manually. It&rsquo;s possible in the future we will automatically generate samples similar to how we automatically generate CRDs and types, but that doesn&rsquo;t happen today.</p>
 <h2 id="run-test-for-added-sample-and-commit-the-recording">Run test for added sample and commit the recording</h2>
-<p>The added new sample needs to be tested and recorded. To perform that, follow the steps below:</p>
-<ol>
-<li>If a recording for the test already exists, delete it.<br>
+<p>The added new sample needs to be tested and recorded.</p>
+<p>If a recording for the test already exists, delete it.<br>
 Look in the <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/internal/controllers/recordings/Test_Samples_CreationAndDeletion">recordings directory</a> for a file with the same name as your new test.<br>
 Typically these are named <code>Test_&lt;GROUP&gt;_&lt;VERSION_PREFIX&gt;_CreationAndDeletion.yaml</code>.
-For example,  If we&rsquo;re adding sample for NetworkSecurityGroup resource, check for <code>Test_Network_v1beta_CreationAndDeletion.yaml</code></li>
-<li>if recording exists, delete it. Else move to next step</li>
-<li>run <code>TEST_FILTER=Test_Samples_CreationAndDeletion task controller:test-integration-envtest</code> to re-record the test.</li>
-</ol>
-<h2 id="send-a-pr">Send a PR</h2>
+For example, if we&rsquo;re adding sample for NetworkSecurityGroup resource, check for <code>Test_Network_v1beta_CreationAndDeletion.yaml</code></p>
+<p>Run the test and record it:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ TEST_FILTER<span style="color:#f92672">=</span>Test_Samples_CreationAndDeletion task controller:test-integration-envtest
+</code></pre></div><p>Some Azure resources take longer to provision or delete than the default test timeout of 15m, so you may need to add the <code>TIMEOUT</code> environment variable to the command above. For example, to give your test a 60m timeout, use:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ TIMEOUT<span style="color:#f92672">=</span>60m TEST_FILTER<span style="color:#f92672">=</span>Test_Samples_CreationAndDeletion task controller:test-integration-envtest
+</code></pre></div><h2 id="send-a-pr">Send a PR</h2>
 <p>You&rsquo;re all done!</p>
 
 	
