@@ -5,7 +5,7 @@ package v1api20230202preview
 
 import (
 	"fmt"
-	v1api20230202ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202previewstorage"
+	v20230202ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202previewstorage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &TrustedAccessRoleBinding{}
 
 // ConvertFrom populates our TrustedAccessRoleBinding from the provided hub TrustedAccessRoleBinding
 func (binding *TrustedAccessRoleBinding) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20230202ps.TrustedAccessRoleBinding)
+	source, ok := hub.(*v20230202ps.TrustedAccessRoleBinding)
 	if !ok {
 		return fmt.Errorf("expected containerservice/v1api20230202previewstorage/TrustedAccessRoleBinding but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (binding *TrustedAccessRoleBinding) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub TrustedAccessRoleBinding from our TrustedAccessRoleBinding
 func (binding *TrustedAccessRoleBinding) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20230202ps.TrustedAccessRoleBinding)
+	destination, ok := hub.(*v20230202ps.TrustedAccessRoleBinding)
 	if !ok {
 		return fmt.Errorf("expected containerservice/v1api20230202previewstorage/TrustedAccessRoleBinding but received %T instead", hub)
 	}
@@ -240,7 +240,7 @@ func (binding *TrustedAccessRoleBinding) validateWriteOnceProperties(old runtime
 }
 
 // AssignProperties_From_TrustedAccessRoleBinding populates our TrustedAccessRoleBinding from the provided source TrustedAccessRoleBinding
-func (binding *TrustedAccessRoleBinding) AssignProperties_From_TrustedAccessRoleBinding(source *v1api20230202ps.TrustedAccessRoleBinding) error {
+func (binding *TrustedAccessRoleBinding) AssignProperties_From_TrustedAccessRoleBinding(source *v20230202ps.TrustedAccessRoleBinding) error {
 
 	// ObjectMeta
 	binding.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -266,13 +266,13 @@ func (binding *TrustedAccessRoleBinding) AssignProperties_From_TrustedAccessRole
 }
 
 // AssignProperties_To_TrustedAccessRoleBinding populates the provided destination TrustedAccessRoleBinding from our TrustedAccessRoleBinding
-func (binding *TrustedAccessRoleBinding) AssignProperties_To_TrustedAccessRoleBinding(destination *v1api20230202ps.TrustedAccessRoleBinding) error {
+func (binding *TrustedAccessRoleBinding) AssignProperties_To_TrustedAccessRoleBinding(destination *v20230202ps.TrustedAccessRoleBinding) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *binding.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20230202ps.ManagedClusters_TrustedAccessRoleBinding_Spec
+	var spec v20230202ps.ManagedClusters_TrustedAccessRoleBinding_Spec
 	err := binding.Spec.AssignProperties_To_ManagedClusters_TrustedAccessRoleBinding_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_ManagedClusters_TrustedAccessRoleBinding_Spec() to populate field Spec")
@@ -280,7 +280,7 @@ func (binding *TrustedAccessRoleBinding) AssignProperties_To_TrustedAccessRoleBi
 	destination.Spec = spec
 
 	// Status
-	var status v1api20230202ps.ManagedClusters_TrustedAccessRoleBinding_STATUS
+	var status v20230202ps.ManagedClusters_TrustedAccessRoleBinding_STATUS
 	err = binding.Status.AssignProperties_To_ManagedClusters_TrustedAccessRoleBinding_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_ManagedClusters_TrustedAccessRoleBinding_STATUS() to populate field Status")
@@ -400,14 +400,14 @@ var _ genruntime.ConvertibleSpec = &ManagedClusters_TrustedAccessRoleBinding_Spe
 
 // ConvertSpecFrom populates our ManagedClusters_TrustedAccessRoleBinding_Spec from the provided source
 func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20230202ps.ManagedClusters_TrustedAccessRoleBinding_Spec)
+	src, ok := source.(*v20230202ps.ManagedClusters_TrustedAccessRoleBinding_Spec)
 	if ok {
 		// Populate our instance from source
 		return binding.AssignProperties_From_ManagedClusters_TrustedAccessRoleBinding_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20230202ps.ManagedClusters_TrustedAccessRoleBinding_Spec{}
+	src = &v20230202ps.ManagedClusters_TrustedAccessRoleBinding_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -424,14 +424,14 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) ConvertSpecFrom(so
 
 // ConvertSpecTo populates the provided destination from our ManagedClusters_TrustedAccessRoleBinding_Spec
 func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20230202ps.ManagedClusters_TrustedAccessRoleBinding_Spec)
+	dst, ok := destination.(*v20230202ps.ManagedClusters_TrustedAccessRoleBinding_Spec)
 	if ok {
 		// Populate destination from our instance
 		return binding.AssignProperties_To_ManagedClusters_TrustedAccessRoleBinding_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20230202ps.ManagedClusters_TrustedAccessRoleBinding_Spec{}
+	dst = &v20230202ps.ManagedClusters_TrustedAccessRoleBinding_Spec{}
 	err := binding.AssignProperties_To_ManagedClusters_TrustedAccessRoleBinding_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -447,7 +447,7 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) ConvertSpecTo(dest
 }
 
 // AssignProperties_From_ManagedClusters_TrustedAccessRoleBinding_Spec populates our ManagedClusters_TrustedAccessRoleBinding_Spec from the provided source ManagedClusters_TrustedAccessRoleBinding_Spec
-func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) AssignProperties_From_ManagedClusters_TrustedAccessRoleBinding_Spec(source *v1api20230202ps.ManagedClusters_TrustedAccessRoleBinding_Spec) error {
+func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) AssignProperties_From_ManagedClusters_TrustedAccessRoleBinding_Spec(source *v20230202ps.ManagedClusters_TrustedAccessRoleBinding_Spec) error {
 
 	// AzureName
 	binding.AzureName = source.AzureName
@@ -476,7 +476,7 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) AssignProperties_F
 }
 
 // AssignProperties_To_ManagedClusters_TrustedAccessRoleBinding_Spec populates the provided destination ManagedClusters_TrustedAccessRoleBinding_Spec from our ManagedClusters_TrustedAccessRoleBinding_Spec
-func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) AssignProperties_To_ManagedClusters_TrustedAccessRoleBinding_Spec(destination *v1api20230202ps.ManagedClusters_TrustedAccessRoleBinding_Spec) error {
+func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) AssignProperties_To_ManagedClusters_TrustedAccessRoleBinding_Spec(destination *v20230202ps.ManagedClusters_TrustedAccessRoleBinding_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -576,14 +576,14 @@ var _ genruntime.ConvertibleStatus = &ManagedClusters_TrustedAccessRoleBinding_S
 
 // ConvertStatusFrom populates our ManagedClusters_TrustedAccessRoleBinding_STATUS from the provided source
 func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20230202ps.ManagedClusters_TrustedAccessRoleBinding_STATUS)
+	src, ok := source.(*v20230202ps.ManagedClusters_TrustedAccessRoleBinding_STATUS)
 	if ok {
 		// Populate our instance from source
 		return binding.AssignProperties_From_ManagedClusters_TrustedAccessRoleBinding_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20230202ps.ManagedClusters_TrustedAccessRoleBinding_STATUS{}
+	src = &v20230202ps.ManagedClusters_TrustedAccessRoleBinding_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -600,14 +600,14 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) ConvertStatusFro
 
 // ConvertStatusTo populates the provided destination from our ManagedClusters_TrustedAccessRoleBinding_STATUS
 func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20230202ps.ManagedClusters_TrustedAccessRoleBinding_STATUS)
+	dst, ok := destination.(*v20230202ps.ManagedClusters_TrustedAccessRoleBinding_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return binding.AssignProperties_To_ManagedClusters_TrustedAccessRoleBinding_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20230202ps.ManagedClusters_TrustedAccessRoleBinding_STATUS{}
+	dst = &v20230202ps.ManagedClusters_TrustedAccessRoleBinding_STATUS{}
 	err := binding.AssignProperties_To_ManagedClusters_TrustedAccessRoleBinding_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -698,7 +698,7 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) PopulateFromARM(
 }
 
 // AssignProperties_From_ManagedClusters_TrustedAccessRoleBinding_STATUS populates our ManagedClusters_TrustedAccessRoleBinding_STATUS from the provided source ManagedClusters_TrustedAccessRoleBinding_STATUS
-func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) AssignProperties_From_ManagedClusters_TrustedAccessRoleBinding_STATUS(source *v1api20230202ps.ManagedClusters_TrustedAccessRoleBinding_STATUS) error {
+func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) AssignProperties_From_ManagedClusters_TrustedAccessRoleBinding_STATUS(source *v20230202ps.ManagedClusters_TrustedAccessRoleBinding_STATUS) error {
 
 	// Conditions
 	binding.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -743,7 +743,7 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) AssignProperties
 }
 
 // AssignProperties_To_ManagedClusters_TrustedAccessRoleBinding_STATUS populates the provided destination ManagedClusters_TrustedAccessRoleBinding_STATUS from our ManagedClusters_TrustedAccessRoleBinding_STATUS
-func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) AssignProperties_To_ManagedClusters_TrustedAccessRoleBinding_STATUS(destination *v1api20230202ps.ManagedClusters_TrustedAccessRoleBinding_STATUS) error {
+func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) AssignProperties_To_ManagedClusters_TrustedAccessRoleBinding_STATUS(destination *v20230202ps.ManagedClusters_TrustedAccessRoleBinding_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -772,7 +772,7 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_STATUS) AssignProperties
 
 	// SystemData
 	if binding.SystemData != nil {
-		var systemDatum v1api20230202ps.SystemData_STATUS
+		var systemDatum v20230202ps.SystemData_STATUS
 		err := binding.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")

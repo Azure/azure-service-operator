@@ -152,9 +152,49 @@ func TestLocalPackageReferenceIsPreview(t *testing.T) {
 			g := NewGomegaWithT(t)
 
 			// Using GeneratorVersion here to make sure IsPreview isn't fooled
-			ref := MakeLocalPackageReference("prefix", "microsoft.storage", GeneratorVersion, c.version)
+			ref := MakeLocalPackageReference("prefix", "storage", GeneratorVersion, c.version)
 
 			g.Expect(ref.IsPreview()).To(Equal(c.isPreview))
+		})
+	}
+}
+
+func Test_LocalPackageReference_ImportAlias_ReturnsExpectedAlias(t *testing.T) {
+	t.Parallel()
+
+	cases := []struct {
+		name             string
+		group            string
+		generatorVersion string
+		apiVersion       string
+		style            PackageImportStyle
+		expected         string
+	}{
+		// Current generator version
+		{"GeneratorVersionOnly", "storage", GeneratorVersion, "20200901", VersionOnly, "v20200901"},
+		{"GeneratorGroupOnly", "storage", GeneratorVersion, "20200901", GroupOnly, "storage"},
+		{"GeneratorGroupAndVersion", "storage", GeneratorVersion, "20200901", GroupAndVersion, "storage_v20200901"},
+		{"GeneratorPreviewVersionOnly", "storage", GeneratorVersion, "20200901preview", VersionOnly, "v20200901p"},
+		{"GeneratorPreviewGroupOnly", "storage", GeneratorVersion, "20200901preview", GroupOnly, "storage"},
+		{"GeneratorPreviewGroupAndVersion", "storage", GeneratorVersion, "20200901preview", GroupAndVersion, "storage_v20200901p"},
+		// Hard coded to v1api
+		{"v1apiVersionOnly", "storage", "v1api", "20200901", VersionOnly, "v20200901"},
+		{"v1apiGroupOnly", "storage", "v1api", "20200901", GroupOnly, "storage"},
+		{"v1apiGroupAndVersion", "storage", "v1api", "20200901", GroupAndVersion, "storage_v20200901"},
+		// Hard coded to v1beta
+		{"v1betaVersionOnly", "storage", "v1beta", "20200901", VersionOnly, "v1beta20200901"},
+		{"v1betaGroupOnly", "storage", "v1beta", "20200901", GroupOnly, "storage"},
+		{"v1betaGroupAndVersion", "storage", "v1beta", "20200901", GroupAndVersion, "storage_v1beta20200901"},
+	}
+
+	for _, c := range cases {
+		c := c
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			ref := MakeLocalPackageReference("v", c.group, c.generatorVersion, c.apiVersion)
+			g.Expect(ref.ImportAlias(c.style)).To(Equal(c.expected))
 		})
 	}
 }

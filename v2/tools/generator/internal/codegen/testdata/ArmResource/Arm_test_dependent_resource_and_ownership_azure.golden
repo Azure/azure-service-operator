@@ -5,7 +5,7 @@ package v1api20200101
 
 import (
 	"fmt"
-	v1api20200101s "github.com/Azure/azure-service-operator/testing/test/v1api20200101storage"
+	v20200101s "github.com/Azure/azure-service-operator/testing/test/v1api20200101storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -43,7 +43,7 @@ var _ conversion.Convertible = &A{}
 
 // ConvertFrom populates our A from the provided hub A
 func (a *A) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20200101s.A)
+	source, ok := hub.(*v20200101s.A)
 	if !ok {
 		return fmt.Errorf("expected test/v1api20200101storage/A but received %T instead", hub)
 	}
@@ -53,7 +53,7 @@ func (a *A) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub A from our A
 func (a *A) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20200101s.A)
+	destination, ok := hub.(*v20200101s.A)
 	if !ok {
 		return fmt.Errorf("expected test/v1api20200101storage/A but received %T instead", hub)
 	}
@@ -194,7 +194,7 @@ func (a *A) validateWriteOnceProperties(old runtime.Object) (admission.Warnings,
 }
 
 // AssignProperties_From_A populates our A from the provided source A
-func (a *A) AssignProperties_From_A(source *v1api20200101s.A) error {
+func (a *A) AssignProperties_From_A(source *v20200101s.A) error {
 
 	// ObjectMeta
 	a.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -212,13 +212,13 @@ func (a *A) AssignProperties_From_A(source *v1api20200101s.A) error {
 }
 
 // AssignProperties_To_A populates the provided destination A from our A
-func (a *A) AssignProperties_To_A(destination *v1api20200101s.A) error {
+func (a *A) AssignProperties_To_A(destination *v20200101s.A) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *a.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20200101s.A_Spec
+	var spec v20200101s.A_Spec
 	err := a.Spec.AssignProperties_To_A_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_A_Spec() to populate field Spec")
@@ -295,7 +295,7 @@ var _ conversion.Convertible = &B{}
 
 // ConvertFrom populates our B from the provided hub B
 func (b *B) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20200101s.B)
+	source, ok := hub.(*v20200101s.B)
 	if !ok {
 		return fmt.Errorf("expected test/v1api20200101storage/B but received %T instead", hub)
 	}
@@ -305,7 +305,7 @@ func (b *B) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub B from our B
 func (b *B) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20200101s.B)
+	destination, ok := hub.(*v20200101s.B)
 	if !ok {
 		return fmt.Errorf("expected test/v1api20200101storage/B but received %T instead", hub)
 	}
@@ -446,7 +446,7 @@ func (b *B) validateWriteOnceProperties(old runtime.Object) (admission.Warnings,
 }
 
 // AssignProperties_From_B populates our B from the provided source B
-func (b *B) AssignProperties_From_B(source *v1api20200101s.B) error {
+func (b *B) AssignProperties_From_B(source *v20200101s.B) error {
 
 	// ObjectMeta
 	b.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -464,13 +464,13 @@ func (b *B) AssignProperties_From_B(source *v1api20200101s.B) error {
 }
 
 // AssignProperties_To_B populates the provided destination B from our B
-func (b *B) AssignProperties_To_B(destination *v1api20200101s.B) error {
+func (b *B) AssignProperties_To_B(destination *v20200101s.B) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *b.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20200101s.B_Spec
+	var spec v20200101s.B_Spec
 	err := b.Spec.AssignProperties_To_B_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_B_Spec() to populate field Spec")
@@ -547,7 +547,7 @@ var _ conversion.Convertible = &C{}
 
 // ConvertFrom populates our C from the provided hub C
 func (c *C) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20200101s.C)
+	source, ok := hub.(*v20200101s.C)
 	if !ok {
 		return fmt.Errorf("expected test/v1api20200101storage/C but received %T instead", hub)
 	}
@@ -557,7 +557,7 @@ func (c *C) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub C from our C
 func (c *C) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20200101s.C)
+	destination, ok := hub.(*v20200101s.C)
 	if !ok {
 		return fmt.Errorf("expected test/v1api20200101storage/C but received %T instead", hub)
 	}
@@ -698,7 +698,7 @@ func (c *C) validateWriteOnceProperties(old runtime.Object) (admission.Warnings,
 }
 
 // AssignProperties_From_C populates our C from the provided source C
-func (c *C) AssignProperties_From_C(source *v1api20200101s.C) error {
+func (c *C) AssignProperties_From_C(source *v20200101s.C) error {
 
 	// ObjectMeta
 	c.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -716,13 +716,13 @@ func (c *C) AssignProperties_From_C(source *v1api20200101s.C) error {
 }
 
 // AssignProperties_To_C populates the provided destination C from our C
-func (c *C) AssignProperties_To_C(destination *v1api20200101s.C) error {
+func (c *C) AssignProperties_To_C(destination *v20200101s.C) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *c.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20200101s.C_Spec
+	var spec v20200101s.C_Spec
 	err := c.Spec.AssignProperties_To_C_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_C_Spec() to populate field Spec")
@@ -799,7 +799,7 @@ var _ conversion.Convertible = &D{}
 
 // ConvertFrom populates our D from the provided hub D
 func (d *D) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20200101s.D)
+	source, ok := hub.(*v20200101s.D)
 	if !ok {
 		return fmt.Errorf("expected test/v1api20200101storage/D but received %T instead", hub)
 	}
@@ -809,7 +809,7 @@ func (d *D) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub D from our D
 func (d *D) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20200101s.D)
+	destination, ok := hub.(*v20200101s.D)
 	if !ok {
 		return fmt.Errorf("expected test/v1api20200101storage/D but received %T instead", hub)
 	}
@@ -950,7 +950,7 @@ func (d *D) validateWriteOnceProperties(old runtime.Object) (admission.Warnings,
 }
 
 // AssignProperties_From_D populates our D from the provided source D
-func (d *D) AssignProperties_From_D(source *v1api20200101s.D) error {
+func (d *D) AssignProperties_From_D(source *v20200101s.D) error {
 
 	// ObjectMeta
 	d.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -968,13 +968,13 @@ func (d *D) AssignProperties_From_D(source *v1api20200101s.D) error {
 }
 
 // AssignProperties_To_D populates the provided destination D from our D
-func (d *D) AssignProperties_To_D(destination *v1api20200101s.D) error {
+func (d *D) AssignProperties_To_D(destination *v20200101s.D) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *d.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20200101s.D_Spec
+	var spec v20200101s.D_Spec
 	err := d.Spec.AssignProperties_To_D_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_D_Spec() to populate field Spec")
@@ -1100,14 +1100,14 @@ var _ genruntime.ConvertibleSpec = &A_Spec{}
 
 // ConvertSpecFrom populates our A_Spec from the provided source
 func (a *A_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20200101s.A_Spec)
+	src, ok := source.(*v20200101s.A_Spec)
 	if ok {
 		// Populate our instance from source
 		return a.AssignProperties_From_A_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20200101s.A_Spec{}
+	src = &v20200101s.A_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -1124,14 +1124,14 @@ func (a *A_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 
 // ConvertSpecTo populates the provided destination from our A_Spec
 func (a *A_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20200101s.A_Spec)
+	dst, ok := destination.(*v20200101s.A_Spec)
 	if ok {
 		// Populate destination from our instance
 		return a.AssignProperties_To_A_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20200101s.A_Spec{}
+	dst = &v20200101s.A_Spec{}
 	err := a.AssignProperties_To_A_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -1147,7 +1147,7 @@ func (a *A_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 }
 
 // AssignProperties_From_A_Spec populates our A_Spec from the provided source A_Spec
-func (a *A_Spec) AssignProperties_From_A_Spec(source *v1api20200101s.A_Spec) error {
+func (a *A_Spec) AssignProperties_From_A_Spec(source *v20200101s.A_Spec) error {
 
 	// APIVersion
 	if source.APIVersion != nil {
@@ -1179,7 +1179,7 @@ func (a *A_Spec) AssignProperties_From_A_Spec(source *v1api20200101s.A_Spec) err
 }
 
 // AssignProperties_To_A_Spec populates the provided destination A_Spec from our A_Spec
-func (a *A_Spec) AssignProperties_To_A_Spec(destination *v1api20200101s.A_Spec) error {
+func (a *A_Spec) AssignProperties_To_A_Spec(destination *v20200101s.A_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1309,14 +1309,14 @@ var _ genruntime.ConvertibleSpec = &B_Spec{}
 
 // ConvertSpecFrom populates our B_Spec from the provided source
 func (b *B_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20200101s.B_Spec)
+	src, ok := source.(*v20200101s.B_Spec)
 	if ok {
 		// Populate our instance from source
 		return b.AssignProperties_From_B_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20200101s.B_Spec{}
+	src = &v20200101s.B_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -1333,14 +1333,14 @@ func (b *B_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 
 // ConvertSpecTo populates the provided destination from our B_Spec
 func (b *B_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20200101s.B_Spec)
+	dst, ok := destination.(*v20200101s.B_Spec)
 	if ok {
 		// Populate destination from our instance
 		return b.AssignProperties_To_B_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20200101s.B_Spec{}
+	dst = &v20200101s.B_Spec{}
 	err := b.AssignProperties_To_B_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -1356,7 +1356,7 @@ func (b *B_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 }
 
 // AssignProperties_From_B_Spec populates our B_Spec from the provided source B_Spec
-func (b *B_Spec) AssignProperties_From_B_Spec(source *v1api20200101s.B_Spec) error {
+func (b *B_Spec) AssignProperties_From_B_Spec(source *v20200101s.B_Spec) error {
 
 	// APIVersion
 	if source.APIVersion != nil {
@@ -1388,7 +1388,7 @@ func (b *B_Spec) AssignProperties_From_B_Spec(source *v1api20200101s.B_Spec) err
 }
 
 // AssignProperties_To_B_Spec populates the provided destination B_Spec from our B_Spec
-func (b *B_Spec) AssignProperties_To_B_Spec(destination *v1api20200101s.B_Spec) error {
+func (b *B_Spec) AssignProperties_To_B_Spec(destination *v20200101s.B_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1513,14 +1513,14 @@ var _ genruntime.ConvertibleSpec = &C_Spec{}
 
 // ConvertSpecFrom populates our C_Spec from the provided source
 func (c *C_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20200101s.C_Spec)
+	src, ok := source.(*v20200101s.C_Spec)
 	if ok {
 		// Populate our instance from source
 		return c.AssignProperties_From_C_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20200101s.C_Spec{}
+	src = &v20200101s.C_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -1537,14 +1537,14 @@ func (c *C_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 
 // ConvertSpecTo populates the provided destination from our C_Spec
 func (c *C_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20200101s.C_Spec)
+	dst, ok := destination.(*v20200101s.C_Spec)
 	if ok {
 		// Populate destination from our instance
 		return c.AssignProperties_To_C_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20200101s.C_Spec{}
+	dst = &v20200101s.C_Spec{}
 	err := c.AssignProperties_To_C_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -1560,7 +1560,7 @@ func (c *C_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 }
 
 // AssignProperties_From_C_Spec populates our C_Spec from the provided source C_Spec
-func (c *C_Spec) AssignProperties_From_C_Spec(source *v1api20200101s.C_Spec) error {
+func (c *C_Spec) AssignProperties_From_C_Spec(source *v20200101s.C_Spec) error {
 
 	// APIVersion
 	if source.APIVersion != nil {
@@ -1592,7 +1592,7 @@ func (c *C_Spec) AssignProperties_From_C_Spec(source *v1api20200101s.C_Spec) err
 }
 
 // AssignProperties_To_C_Spec populates the provided destination C_Spec from our C_Spec
-func (c *C_Spec) AssignProperties_To_C_Spec(destination *v1api20200101s.C_Spec) error {
+func (c *C_Spec) AssignProperties_To_C_Spec(destination *v20200101s.C_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1717,14 +1717,14 @@ var _ genruntime.ConvertibleSpec = &D_Spec{}
 
 // ConvertSpecFrom populates our D_Spec from the provided source
 func (d *D_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20200101s.D_Spec)
+	src, ok := source.(*v20200101s.D_Spec)
 	if ok {
 		// Populate our instance from source
 		return d.AssignProperties_From_D_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20200101s.D_Spec{}
+	src = &v20200101s.D_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -1741,14 +1741,14 @@ func (d *D_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 
 // ConvertSpecTo populates the provided destination from our D_Spec
 func (d *D_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20200101s.D_Spec)
+	dst, ok := destination.(*v20200101s.D_Spec)
 	if ok {
 		// Populate destination from our instance
 		return d.AssignProperties_To_D_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20200101s.D_Spec{}
+	dst = &v20200101s.D_Spec{}
 	err := d.AssignProperties_To_D_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -1764,7 +1764,7 @@ func (d *D_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 }
 
 // AssignProperties_From_D_Spec populates our D_Spec from the provided source D_Spec
-func (d *D_Spec) AssignProperties_From_D_Spec(source *v1api20200101s.D_Spec) error {
+func (d *D_Spec) AssignProperties_From_D_Spec(source *v20200101s.D_Spec) error {
 
 	// APIVersion
 	if source.APIVersion != nil {
@@ -1796,7 +1796,7 @@ func (d *D_Spec) AssignProperties_From_D_Spec(source *v1api20200101s.D_Spec) err
 }
 
 // AssignProperties_To_D_Spec populates the provided destination D_Spec from our D_Spec
-func (d *D_Spec) AssignProperties_To_D_Spec(destination *v1api20200101s.D_Spec) error {
+func (d *D_Spec) AssignProperties_To_D_Spec(destination *v20200101s.D_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

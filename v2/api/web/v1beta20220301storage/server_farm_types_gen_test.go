@@ -5,7 +5,7 @@ package v1beta20220301storage
 
 import (
 	"encoding/json"
-	v1api20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301storage"
+	v20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForServerFarm(subject ServerFarm) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20220301s.ServerFarm
+	var hub v20220301s.ServerFarm
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForServerFarm(subject ServerFarm) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220301s.ServerFarm
+	var other v20220301s.ServerFarm
 	err := copied.AssignProperties_To_ServerFarm(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForServerfarm_Spec(subject Serverfarm_Spec) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220301s.Serverfarm_Spec
+	var other v20220301s.Serverfarm_Spec
 	err := copied.AssignProperties_To_Serverfarm_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -317,7 +317,7 @@ func RunPropertyAssignmentTestForServerfarm_STATUS(subject Serverfarm_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220301s.Serverfarm_STATUS
+	var other v20220301s.Serverfarm_STATUS
 	err := copied.AssignProperties_To_Serverfarm_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -462,7 +462,7 @@ func RunPropertyAssignmentTestForExtendedLocation(subject ExtendedLocation) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220301s.ExtendedLocation
+	var other v20220301s.ExtendedLocation
 	err := copied.AssignProperties_To_ExtendedLocation(&other)
 	if err != nil {
 		return err.Error()
@@ -564,7 +564,7 @@ func RunPropertyAssignmentTestForExtendedLocation_STATUS(subject ExtendedLocatio
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220301s.ExtendedLocation_STATUS
+	var other v20220301s.ExtendedLocation_STATUS
 	err := copied.AssignProperties_To_ExtendedLocation_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -668,7 +668,7 @@ func RunPropertyAssignmentTestForHostingEnvironmentProfile(subject HostingEnviro
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220301s.HostingEnvironmentProfile
+	var other v20220301s.HostingEnvironmentProfile
 	err := copied.AssignProperties_To_HostingEnvironmentProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -765,7 +765,7 @@ func RunPropertyAssignmentTestForHostingEnvironmentProfile_STATUS(subject Hostin
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220301s.HostingEnvironmentProfile_STATUS
+	var other v20220301s.HostingEnvironmentProfile_STATUS
 	err := copied.AssignProperties_To_HostingEnvironmentProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -870,7 +870,7 @@ func RunPropertyAssignmentTestForKubeEnvironmentProfile(subject KubeEnvironmentP
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220301s.KubeEnvironmentProfile
+	var other v20220301s.KubeEnvironmentProfile
 	err := copied.AssignProperties_To_KubeEnvironmentProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -967,7 +967,7 @@ func RunPropertyAssignmentTestForKubeEnvironmentProfile_STATUS(subject KubeEnvir
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220301s.KubeEnvironmentProfile_STATUS
+	var other v20220301s.KubeEnvironmentProfile_STATUS
 	err := copied.AssignProperties_To_KubeEnvironmentProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1072,7 +1072,7 @@ func RunPropertyAssignmentTestForSkuDescription(subject SkuDescription) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220301s.SkuDescription
+	var other v20220301s.SkuDescription
 	err := copied.AssignProperties_To_SkuDescription(&other)
 	if err != nil {
 		return err.Error()
@@ -1194,7 +1194,7 @@ func RunPropertyAssignmentTestForSkuDescription_STATUS(subject SkuDescription_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220301s.SkuDescription_STATUS
+	var other v20220301s.SkuDescription_STATUS
 	err := copied.AssignProperties_To_SkuDescription_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1317,7 +1317,7 @@ func RunPropertyAssignmentTestForCapability(subject Capability) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220301s.Capability
+	var other v20220301s.Capability
 	err := copied.AssignProperties_To_Capability(&other)
 	if err != nil {
 		return err.Error()
@@ -1421,7 +1421,7 @@ func RunPropertyAssignmentTestForCapability_STATUS(subject Capability_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220301s.Capability_STATUS
+	var other v20220301s.Capability_STATUS
 	err := copied.AssignProperties_To_Capability_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1525,7 +1525,7 @@ func RunPropertyAssignmentTestForSkuCapacity(subject SkuCapacity) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220301s.SkuCapacity
+	var other v20220301s.SkuCapacity
 	err := copied.AssignProperties_To_SkuCapacity(&other)
 	if err != nil {
 		return err.Error()
@@ -1631,7 +1631,7 @@ func RunPropertyAssignmentTestForSkuCapacity_STATUS(subject SkuCapacity_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220301s.SkuCapacity_STATUS
+	var other v20220301s.SkuCapacity_STATUS
 	err := copied.AssignProperties_To_SkuCapacity_STATUS(&other)
 	if err != nil {
 		return err.Error()

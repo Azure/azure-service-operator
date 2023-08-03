@@ -5,7 +5,7 @@ package v1api20200101
 
 import (
 	"fmt"
-	v1api20200101s "github.com/Azure/azure-service-operator/testing/test/v1api20200101storage"
+	v20200101s "github.com/Azure/azure-service-operator/testing/test/v1api20200101storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -45,7 +45,7 @@ var _ conversion.Convertible = &FakeResource{}
 
 // ConvertFrom populates our FakeResource from the provided hub FakeResource
 func (resource *FakeResource) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20200101s.FakeResource)
+	source, ok := hub.(*v20200101s.FakeResource)
 	if !ok {
 		return fmt.Errorf("expected test/v1api20200101storage/FakeResource but received %T instead", hub)
 	}
@@ -55,7 +55,7 @@ func (resource *FakeResource) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub FakeResource from our FakeResource
 func (resource *FakeResource) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20200101s.FakeResource)
+	destination, ok := hub.(*v20200101s.FakeResource)
 	if !ok {
 		return fmt.Errorf("expected test/v1api20200101storage/FakeResource but received %T instead", hub)
 	}
@@ -196,7 +196,7 @@ func (resource *FakeResource) validateWriteOnceProperties(old runtime.Object) (a
 }
 
 // AssignProperties_From_FakeResource populates our FakeResource from the provided source FakeResource
-func (resource *FakeResource) AssignProperties_From_FakeResource(source *v1api20200101s.FakeResource) error {
+func (resource *FakeResource) AssignProperties_From_FakeResource(source *v20200101s.FakeResource) error {
 
 	// ObjectMeta
 	resource.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -214,13 +214,13 @@ func (resource *FakeResource) AssignProperties_From_FakeResource(source *v1api20
 }
 
 // AssignProperties_To_FakeResource populates the provided destination FakeResource from our FakeResource
-func (resource *FakeResource) AssignProperties_To_FakeResource(destination *v1api20200101s.FakeResource) error {
+func (resource *FakeResource) AssignProperties_To_FakeResource(destination *v20200101s.FakeResource) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *resource.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20200101s.FakeResource_Spec
+	var spec v20200101s.FakeResource_Spec
 	err := resource.Spec.AssignProperties_To_FakeResource_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_FakeResource_Spec() to populate field Spec")
@@ -436,14 +436,14 @@ var _ genruntime.ConvertibleSpec = &FakeResource_Spec{}
 
 // ConvertSpecFrom populates our FakeResource_Spec from the provided source
 func (resource *FakeResource_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20200101s.FakeResource_Spec)
+	src, ok := source.(*v20200101s.FakeResource_Spec)
 	if ok {
 		// Populate our instance from source
 		return resource.AssignProperties_From_FakeResource_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20200101s.FakeResource_Spec{}
+	src = &v20200101s.FakeResource_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -460,14 +460,14 @@ func (resource *FakeResource_Spec) ConvertSpecFrom(source genruntime.Convertible
 
 // ConvertSpecTo populates the provided destination from our FakeResource_Spec
 func (resource *FakeResource_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20200101s.FakeResource_Spec)
+	dst, ok := destination.(*v20200101s.FakeResource_Spec)
 	if ok {
 		// Populate destination from our instance
 		return resource.AssignProperties_To_FakeResource_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20200101s.FakeResource_Spec{}
+	dst = &v20200101s.FakeResource_Spec{}
 	err := resource.AssignProperties_To_FakeResource_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -483,7 +483,7 @@ func (resource *FakeResource_Spec) ConvertSpecTo(destination genruntime.Converti
 }
 
 // AssignProperties_From_FakeResource_Spec populates our FakeResource_Spec from the provided source FakeResource_Spec
-func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(source *v1api20200101s.FakeResource_Spec) error {
+func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(source *v20200101s.FakeResource_Spec) error {
 
 	// APIVersion
 	if source.APIVersion != nil {
@@ -547,7 +547,7 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 }
 
 // AssignProperties_To_FakeResource_Spec populates the provided destination FakeResource_Spec from our FakeResource_Spec
-func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destination *v1api20200101s.FakeResource_Spec) error {
+func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destination *v20200101s.FakeResource_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -568,7 +568,7 @@ func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destina
 
 	// Foo
 	if resource.Foo != nil {
-		var foo v1api20200101s.Foo
+		var foo v20200101s.Foo
 		err := resource.Foo.AssignProperties_To_Foo(&foo)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Foo() to populate field Foo")
@@ -580,7 +580,7 @@ func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destina
 
 	// OptionalFoo
 	if resource.OptionalFoo != nil {
-		var optionalFoo v1api20200101s.Foo
+		var optionalFoo v20200101s.Foo
 		err := resource.OptionalFoo.AssignProperties_To_Foo(&optionalFoo)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Foo() to populate field OptionalFoo")
@@ -673,7 +673,7 @@ func (testType *EmbeddedTestType) PopulateFromARM(owner genruntime.ArbitraryOwne
 }
 
 // AssignProperties_From_EmbeddedTestType populates our EmbeddedTestType from the provided source EmbeddedTestType
-func (testType *EmbeddedTestType) AssignProperties_From_EmbeddedTestType(source *v1api20200101s.EmbeddedTestType) error {
+func (testType *EmbeddedTestType) AssignProperties_From_EmbeddedTestType(source *v20200101s.EmbeddedTestType) error {
 
 	// FancyProp
 	testType.FancyProp = genruntime.GetOptionalIntValue(source.FancyProp)
@@ -683,7 +683,7 @@ func (testType *EmbeddedTestType) AssignProperties_From_EmbeddedTestType(source 
 }
 
 // AssignProperties_To_EmbeddedTestType populates the provided destination EmbeddedTestType from our EmbeddedTestType
-func (testType *EmbeddedTestType) AssignProperties_To_EmbeddedTestType(destination *v1api20200101s.EmbeddedTestType) error {
+func (testType *EmbeddedTestType) AssignProperties_To_EmbeddedTestType(destination *v20200101s.EmbeddedTestType) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -748,7 +748,7 @@ func (foo *Foo) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 }
 
 // AssignProperties_From_Foo populates our Foo from the provided source Foo
-func (foo *Foo) AssignProperties_From_Foo(source *v1api20200101s.Foo) error {
+func (foo *Foo) AssignProperties_From_Foo(source *v20200101s.Foo) error {
 
 	// Name
 	foo.Name = genruntime.ClonePointerToString(source.Name)
@@ -758,7 +758,7 @@ func (foo *Foo) AssignProperties_From_Foo(source *v1api20200101s.Foo) error {
 }
 
 // AssignProperties_To_Foo populates the provided destination Foo from our Foo
-func (foo *Foo) AssignProperties_To_Foo(destination *v1api20200101s.Foo) error {
+func (foo *Foo) AssignProperties_To_Foo(destination *v20200101s.Foo) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

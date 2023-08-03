@@ -5,7 +5,7 @@ package v1api20200930storage
 
 import (
 	"encoding/json"
-	v1api20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201storage"
+	v20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -849,7 +849,7 @@ func RunPropertyAssignmentTestForExtendedLocation(subject ExtendedLocation) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201201s.ExtendedLocation
+	var other v20201201s.ExtendedLocation
 	err := copied.AssignProperties_To_ExtendedLocation(&other)
 	if err != nil {
 		return err.Error()
@@ -952,7 +952,7 @@ func RunPropertyAssignmentTestForExtendedLocation_STATUS(subject ExtendedLocatio
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201201s.ExtendedLocation_STATUS
+	var other v20201201s.ExtendedLocation_STATUS
 	err := copied.AssignProperties_To_ExtendedLocation_STATUS(&other)
 	if err != nil {
 		return err.Error()

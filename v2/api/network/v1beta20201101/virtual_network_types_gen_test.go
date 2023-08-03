@@ -5,8 +5,8 @@ package v1beta20201101
 
 import (
 	"encoding/json"
-	v1api20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
-	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
+	v1beta20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -37,7 +37,7 @@ func RunResourceConversionTestForVirtualNetwork(subject VirtualNetwork) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20201101s.VirtualNetwork
+	var hub v20201101s.VirtualNetwork
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -79,7 +79,7 @@ func RunPropertyAssignmentTestForVirtualNetwork(subject VirtualNetwork) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.VirtualNetwork
+	var other v1beta20201101s.VirtualNetwork
 	err := copied.AssignProperties_To_VirtualNetwork(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForVirtualNetwork_Spec(subject VirtualNetwork_Spec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.VirtualNetwork_Spec
+	var other v1beta20201101s.VirtualNetwork_Spec
 	err := copied.AssignProperties_To_VirtualNetwork_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -308,7 +308,7 @@ func RunPropertyAssignmentTestForVirtualNetwork_STATUS(subject VirtualNetwork_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.VirtualNetwork_STATUS
+	var other v1beta20201101s.VirtualNetwork_STATUS
 	err := copied.AssignProperties_To_VirtualNetwork_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -443,7 +443,7 @@ func RunPropertyAssignmentTestForAddressSpace(subject AddressSpace) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.AddressSpace
+	var other v1beta20201101s.AddressSpace
 	err := copied.AssignProperties_To_AddressSpace(&other)
 	if err != nil {
 		return err.Error()
@@ -545,7 +545,7 @@ func RunPropertyAssignmentTestForAddressSpace_STATUS(subject AddressSpace_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.AddressSpace_STATUS
+	var other v1beta20201101s.AddressSpace_STATUS
 	err := copied.AssignProperties_To_AddressSpace_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -648,7 +648,7 @@ func RunPropertyAssignmentTestForDhcpOptions(subject DhcpOptions) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.DhcpOptions
+	var other v1beta20201101s.DhcpOptions
 	err := copied.AssignProperties_To_DhcpOptions(&other)
 	if err != nil {
 		return err.Error()
@@ -750,7 +750,7 @@ func RunPropertyAssignmentTestForDhcpOptions_STATUS(subject DhcpOptions_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.DhcpOptions_STATUS
+	var other v1beta20201101s.DhcpOptions_STATUS
 	err := copied.AssignProperties_To_DhcpOptions_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -852,7 +852,7 @@ func RunPropertyAssignmentTestForVirtualNetworkBgpCommunities(subject VirtualNet
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.VirtualNetworkBgpCommunities
+	var other v1beta20201101s.VirtualNetworkBgpCommunities
 	err := copied.AssignProperties_To_VirtualNetworkBgpCommunities(&other)
 	if err != nil {
 		return err.Error()
@@ -955,7 +955,7 @@ func RunPropertyAssignmentTestForVirtualNetworkBgpCommunities_STATUS(subject Vir
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.VirtualNetworkBgpCommunities_STATUS
+	var other v1beta20201101s.VirtualNetworkBgpCommunities_STATUS
 	err := copied.AssignProperties_To_VirtualNetworkBgpCommunities_STATUS(&other)
 	if err != nil {
 		return err.Error()

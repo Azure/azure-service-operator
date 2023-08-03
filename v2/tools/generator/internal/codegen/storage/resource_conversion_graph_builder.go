@@ -97,8 +97,8 @@ func (b *ResourceConversionGraphBuilder) compatibilityReferencesConvertForward(n
 // apiReferencesConvertToStorage links each API type to the associated storage package
 func (b *ResourceConversionGraphBuilder) apiReferencesConvertToStorage(names []astmodel.TypeName) {
 	for _, name := range names {
-		if s, ok := name.PackageReference.(astmodel.StoragePackageReference); ok {
-			n := name.WithPackageReference(s.Local())
+		if s, ok := name.PackageReference.(astmodel.DerivedPackageReference); ok {
+			n := name.WithPackageReference(s.Base())
 			b.links[n] = name
 		}
 	}

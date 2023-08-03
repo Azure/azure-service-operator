@@ -5,8 +5,8 @@ package v1beta20210515
 
 import (
 	"encoding/json"
-	v1api20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515storage"
-	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
+	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515storage"
+	v1beta20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -37,7 +37,7 @@ func RunResourceConversionTestForSqlDatabase(subject SqlDatabase) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20210515s.SqlDatabase
+	var hub v20210515s.SqlDatabase
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -79,7 +79,7 @@ func RunPropertyAssignmentTestForSqlDatabase(subject SqlDatabase) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210515s.SqlDatabase
+	var other v1beta20210515s.SqlDatabase
 	err := copied.AssignProperties_To_SqlDatabase(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabase_Spec(subject Datab
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210515s.DatabaseAccounts_SqlDatabase_Spec
+	var other v1beta20210515s.DatabaseAccounts_SqlDatabase_Spec
 	err := copied.AssignProperties_To_DatabaseAccounts_SqlDatabase_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -302,7 +302,7 @@ func RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabase_STATUS(subject Dat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210515s.DatabaseAccounts_SqlDatabase_STATUS
+	var other v1beta20210515s.DatabaseAccounts_SqlDatabase_STATUS
 	err := copied.AssignProperties_To_DatabaseAccounts_SqlDatabase_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -424,7 +424,7 @@ func RunPropertyAssignmentTestForSqlDatabaseGetProperties_Resource_STATUS(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210515s.SqlDatabaseGetProperties_Resource_STATUS
+	var other v1beta20210515s.SqlDatabaseGetProperties_Resource_STATUS
 	err := copied.AssignProperties_To_SqlDatabaseGetProperties_Resource_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -532,7 +532,7 @@ func RunPropertyAssignmentTestForSqlDatabaseResource(subject SqlDatabaseResource
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210515s.SqlDatabaseResource
+	var other v1beta20210515s.SqlDatabaseResource
 	err := copied.AssignProperties_To_SqlDatabaseResource(&other)
 	if err != nil {
 		return err.Error()

@@ -5,7 +5,7 @@ package v1api20180501storage
 
 import (
 	"encoding/json"
-	v1api20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601storage"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -275,7 +275,7 @@ func RunPropertyAssignmentTestForAaaaRecord(subject AaaaRecord) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.AaaaRecord
+	var other v20200601s.AaaaRecord
 	err := copied.AssignProperties_To_AaaaRecord(&other)
 	if err != nil {
 		return err.Error()
@@ -377,7 +377,7 @@ func RunPropertyAssignmentTestForAaaaRecord_STATUS(subject AaaaRecord_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.AaaaRecord_STATUS
+	var other v20200601s.AaaaRecord_STATUS
 	err := copied.AssignProperties_To_AaaaRecord_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -479,7 +479,7 @@ func RunPropertyAssignmentTestForARecord(subject ARecord) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.ARecord
+	var other v20200601s.ARecord
 	err := copied.AssignProperties_To_ARecord(&other)
 	if err != nil {
 		return err.Error()
@@ -581,7 +581,7 @@ func RunPropertyAssignmentTestForARecord_STATUS(subject ARecord_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.ARecord_STATUS
+	var other v20200601s.ARecord_STATUS
 	err := copied.AssignProperties_To_ARecord_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -807,7 +807,7 @@ func RunPropertyAssignmentTestForCnameRecord(subject CnameRecord) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.CnameRecord
+	var other v20200601s.CnameRecord
 	err := copied.AssignProperties_To_CnameRecord(&other)
 	if err != nil {
 		return err.Error()
@@ -909,7 +909,7 @@ func RunPropertyAssignmentTestForCnameRecord_STATUS(subject CnameRecord_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.CnameRecord_STATUS
+	var other v20200601s.CnameRecord_STATUS
 	err := copied.AssignProperties_To_CnameRecord_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1011,7 +1011,7 @@ func RunPropertyAssignmentTestForMxRecord(subject MxRecord) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.MxRecord
+	var other v20200601s.MxRecord
 	err := copied.AssignProperties_To_MxRecord(&other)
 	if err != nil {
 		return err.Error()
@@ -1114,7 +1114,7 @@ func RunPropertyAssignmentTestForMxRecord_STATUS(subject MxRecord_STATUS) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.MxRecord_STATUS
+	var other v20200601s.MxRecord_STATUS
 	err := copied.AssignProperties_To_MxRecord_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1337,7 +1337,7 @@ func RunPropertyAssignmentTestForPtrRecord(subject PtrRecord) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.PtrRecord
+	var other v20200601s.PtrRecord
 	err := copied.AssignProperties_To_PtrRecord(&other)
 	if err != nil {
 		return err.Error()
@@ -1439,7 +1439,7 @@ func RunPropertyAssignmentTestForPtrRecord_STATUS(subject PtrRecord_STATUS) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.PtrRecord_STATUS
+	var other v20200601s.PtrRecord_STATUS
 	err := copied.AssignProperties_To_PtrRecord_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1541,7 +1541,7 @@ func RunPropertyAssignmentTestForSoaRecord(subject SoaRecord) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.SoaRecord
+	var other v20200601s.SoaRecord
 	err := copied.AssignProperties_To_SoaRecord(&other)
 	if err != nil {
 		return err.Error()
@@ -1649,7 +1649,7 @@ func RunPropertyAssignmentTestForSoaRecord_STATUS(subject SoaRecord_STATUS) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.SoaRecord_STATUS
+	var other v20200601s.SoaRecord_STATUS
 	err := copied.AssignProperties_To_SoaRecord_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1757,7 +1757,7 @@ func RunPropertyAssignmentTestForSrvRecord(subject SrvRecord) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.SrvRecord
+	var other v20200601s.SrvRecord
 	err := copied.AssignProperties_To_SrvRecord(&other)
 	if err != nil {
 		return err.Error()
@@ -1862,7 +1862,7 @@ func RunPropertyAssignmentTestForSrvRecord_STATUS(subject SrvRecord_STATUS) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.SrvRecord_STATUS
+	var other v20200601s.SrvRecord_STATUS
 	err := copied.AssignProperties_To_SrvRecord_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1967,7 +1967,7 @@ func RunPropertyAssignmentTestForTxtRecord(subject TxtRecord) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.TxtRecord
+	var other v20200601s.TxtRecord
 	err := copied.AssignProperties_To_TxtRecord(&other)
 	if err != nil {
 		return err.Error()
@@ -2069,7 +2069,7 @@ func RunPropertyAssignmentTestForTxtRecord_STATUS(subject TxtRecord_STATUS) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20200601s.TxtRecord_STATUS
+	var other v20200601s.TxtRecord_STATUS
 	err := copied.AssignProperties_To_TxtRecord_STATUS(&other)
 	if err != nil {
 		return err.Error()

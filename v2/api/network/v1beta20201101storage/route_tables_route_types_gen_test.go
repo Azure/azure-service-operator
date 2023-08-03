@@ -5,7 +5,7 @@ package v1beta20201101storage
 
 import (
 	"encoding/json"
-	v1api20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForRouteTablesRoute(subject RouteTablesRoute) stri
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20201101s.RouteTablesRoute
+	var hub v20201101s.RouteTablesRoute
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForRouteTablesRoute(subject RouteTablesRoute) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.RouteTablesRoute
+	var other v20201101s.RouteTablesRoute
 	err := copied.AssignProperties_To_RouteTablesRoute(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForRouteTables_Route_Spec(subject RouteTables_Rout
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.RouteTables_Route_Spec
+	var other v20201101s.RouteTables_Route_Spec
 	err := copied.AssignProperties_To_RouteTables_Route_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -289,7 +289,7 @@ func RunPropertyAssignmentTestForRouteTables_Route_STATUS(subject RouteTables_Ro
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20201101s.RouteTables_Route_STATUS
+	var other v20201101s.RouteTables_Route_STATUS
 	err := copied.AssignProperties_To_RouteTables_Route_STATUS(&other)
 	if err != nil {
 		return err.Error()

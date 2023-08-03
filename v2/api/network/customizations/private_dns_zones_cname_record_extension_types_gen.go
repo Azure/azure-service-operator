@@ -4,8 +4,8 @@
 package customizations
 
 import (
-	v1api20200601 "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601"
-	v1api20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601storage"
+	v20200601 "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +15,6 @@ type PrivateDnsZonesCNAMERecordExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *PrivateDnsZonesCNAMERecordExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1api20200601.PrivateDnsZonesCNAMERecord{},
-		&v1api20200601s.PrivateDnsZonesCNAMERecord{}}
+		&v20200601.PrivateDnsZonesCNAMERecord{},
+		&v20200601s.PrivateDnsZonesCNAMERecord{}}
 }

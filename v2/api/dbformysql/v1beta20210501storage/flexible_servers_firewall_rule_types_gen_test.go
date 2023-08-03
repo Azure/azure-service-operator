@@ -5,7 +5,7 @@ package v1beta20210501storage
 
 import (
 	"encoding/json"
-	v1api20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501storage"
+	v20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForFlexibleServersFirewallRule(subject FlexibleSer
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20210501s.FlexibleServersFirewallRule
+	var hub v20210501s.FlexibleServersFirewallRule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForFlexibleServersFirewallRule(subject FlexibleSer
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210501s.FlexibleServersFirewallRule
+	var other v20210501s.FlexibleServersFirewallRule
 	err := copied.AssignProperties_To_FlexibleServersFirewallRule(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForFlexibleServers_FirewallRule_Spec(subject Flexi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210501s.FlexibleServers_FirewallRule_Spec
+	var other v20210501s.FlexibleServers_FirewallRule_Spec
 	err := copied.AssignProperties_To_FlexibleServers_FirewallRule_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -288,7 +288,7 @@ func RunPropertyAssignmentTestForFlexibleServers_FirewallRule_STATUS(subject Fle
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210501s.FlexibleServers_FirewallRule_STATUS
+	var other v20210501s.FlexibleServers_FirewallRule_STATUS
 	err := copied.AssignProperties_To_FlexibleServers_FirewallRule_STATUS(&other)
 	if err != nil {
 		return err.Error()

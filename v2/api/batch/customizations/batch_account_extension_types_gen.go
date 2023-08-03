@@ -4,10 +4,10 @@
 package customizations
 
 import (
-	v1api20210101 "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101"
-	v1api20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101storage"
-	v20210101 "github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101"
-	v20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101storage"
+	v20210101 "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101"
+	v20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101storage"
+	v1beta20210101 "github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101"
+	v1beta20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -17,8 +17,8 @@ type BatchAccountExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *BatchAccountExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1api20210101.BatchAccount{},
-		&v1api20210101s.BatchAccount{},
 		&v20210101.BatchAccount{},
-		&v20210101s.BatchAccount{}}
+		&v20210101s.BatchAccount{},
+		&v1beta20210101.BatchAccount{},
+		&v1beta20210101s.BatchAccount{}}
 }

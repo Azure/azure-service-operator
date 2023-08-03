@@ -4,10 +4,10 @@
 package customizations
 
 import (
-	v1api20201201 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201"
-	v1api20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201storage"
-	v20201201 "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201"
-	v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage"
+	v20201201 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201"
+	v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201storage"
+	v1beta20201201 "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201"
+	v1beta20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -17,8 +17,8 @@ type RedisExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *RedisExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1api20201201.Redis{},
-		&v1api20201201s.Redis{},
 		&v20201201.Redis{},
-		&v20201201s.Redis{}}
+		&v20201201s.Redis{},
+		&v1beta20201201.Redis{},
+		&v1beta20201201s.Redis{}}
 }

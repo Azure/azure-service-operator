@@ -5,7 +5,7 @@ package v1beta20210901
 
 import (
 	"fmt"
-	v20210901s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1beta20210901storage"
+	v1beta20210901s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1beta20210901storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -48,7 +48,7 @@ var _ conversion.Convertible = &Registry{}
 // ConvertFrom populates our Registry from the provided hub Registry
 func (registry *Registry) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var source v20210901s.Registry
+	var source v1beta20210901s.Registry
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
@@ -66,7 +66,7 @@ func (registry *Registry) ConvertFrom(hub conversion.Hub) error {
 // ConvertTo populates the provided hub Registry from our Registry
 func (registry *Registry) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var destination v20210901s.Registry
+	var destination v1beta20210901s.Registry
 	err := registry.AssignProperties_To_Registry(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from registry")
@@ -241,7 +241,7 @@ func (registry *Registry) validateWriteOnceProperties(old runtime.Object) (admis
 }
 
 // AssignProperties_From_Registry populates our Registry from the provided source Registry
-func (registry *Registry) AssignProperties_From_Registry(source *v20210901s.Registry) error {
+func (registry *Registry) AssignProperties_From_Registry(source *v1beta20210901s.Registry) error {
 
 	// ObjectMeta
 	registry.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -267,13 +267,13 @@ func (registry *Registry) AssignProperties_From_Registry(source *v20210901s.Regi
 }
 
 // AssignProperties_To_Registry populates the provided destination Registry from our Registry
-func (registry *Registry) AssignProperties_To_Registry(destination *v20210901s.Registry) error {
+func (registry *Registry) AssignProperties_To_Registry(destination *v1beta20210901s.Registry) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *registry.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210901s.Registry_Spec
+	var spec v1beta20210901s.Registry_Spec
 	err := registry.Spec.AssignProperties_To_Registry_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Registry_Spec() to populate field Spec")
@@ -281,7 +281,7 @@ func (registry *Registry) AssignProperties_To_Registry(destination *v20210901s.R
 	destination.Spec = spec
 
 	// Status
-	var status v20210901s.Registry_STATUS
+	var status v1beta20210901s.Registry_STATUS
 	err = registry.Status.AssignProperties_To_Registry_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Registry_STATUS() to populate field Status")
@@ -600,14 +600,14 @@ var _ genruntime.ConvertibleSpec = &Registry_Spec{}
 
 // ConvertSpecFrom populates our Registry_Spec from the provided source
 func (registry *Registry_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210901s.Registry_Spec)
+	src, ok := source.(*v1beta20210901s.Registry_Spec)
 	if ok {
 		// Populate our instance from source
 		return registry.AssignProperties_From_Registry_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210901s.Registry_Spec{}
+	src = &v1beta20210901s.Registry_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -624,14 +624,14 @@ func (registry *Registry_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec
 
 // ConvertSpecTo populates the provided destination from our Registry_Spec
 func (registry *Registry_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210901s.Registry_Spec)
+	dst, ok := destination.(*v1beta20210901s.Registry_Spec)
 	if ok {
 		// Populate destination from our instance
 		return registry.AssignProperties_To_Registry_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210901s.Registry_Spec{}
+	dst = &v1beta20210901s.Registry_Spec{}
 	err := registry.AssignProperties_To_Registry_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -647,7 +647,7 @@ func (registry *Registry_Spec) ConvertSpecTo(destination genruntime.ConvertibleS
 }
 
 // AssignProperties_From_Registry_Spec populates our Registry_Spec from the provided source Registry_Spec
-func (registry *Registry_Spec) AssignProperties_From_Registry_Spec(source *v20210901s.Registry_Spec) error {
+func (registry *Registry_Spec) AssignProperties_From_Registry_Spec(source *v1beta20210901s.Registry_Spec) error {
 
 	// AdminUserEnabled
 	if source.AdminUserEnabled != nil {
@@ -771,7 +771,7 @@ func (registry *Registry_Spec) AssignProperties_From_Registry_Spec(source *v2021
 }
 
 // AssignProperties_To_Registry_Spec populates the provided destination Registry_Spec from our Registry_Spec
-func (registry *Registry_Spec) AssignProperties_To_Registry_Spec(destination *v20210901s.Registry_Spec) error {
+func (registry *Registry_Spec) AssignProperties_To_Registry_Spec(destination *v1beta20210901s.Registry_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -796,7 +796,7 @@ func (registry *Registry_Spec) AssignProperties_To_Registry_Spec(destination *v2
 
 	// Encryption
 	if registry.Encryption != nil {
-		var encryption v20210901s.EncryptionProperty
+		var encryption v1beta20210901s.EncryptionProperty
 		err := registry.Encryption.AssignProperties_To_EncryptionProperty(&encryption)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EncryptionProperty() to populate field Encryption")
@@ -808,7 +808,7 @@ func (registry *Registry_Spec) AssignProperties_To_Registry_Spec(destination *v2
 
 	// Identity
 	if registry.Identity != nil {
-		var identity v20210901s.IdentityProperties
+		var identity v1beta20210901s.IdentityProperties
 		err := registry.Identity.AssignProperties_To_IdentityProperties(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IdentityProperties() to populate field Identity")
@@ -831,7 +831,7 @@ func (registry *Registry_Spec) AssignProperties_To_Registry_Spec(destination *v2
 
 	// NetworkRuleSet
 	if registry.NetworkRuleSet != nil {
-		var networkRuleSet v20210901s.NetworkRuleSet
+		var networkRuleSet v1beta20210901s.NetworkRuleSet
 		err := registry.NetworkRuleSet.AssignProperties_To_NetworkRuleSet(&networkRuleSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_NetworkRuleSet() to populate field NetworkRuleSet")
@@ -854,7 +854,7 @@ func (registry *Registry_Spec) AssignProperties_To_Registry_Spec(destination *v2
 
 	// Policies
 	if registry.Policies != nil {
-		var policy v20210901s.Policies
+		var policy v1beta20210901s.Policies
 		err := registry.Policies.AssignProperties_To_Policies(&policy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Policies() to populate field Policies")
@@ -874,7 +874,7 @@ func (registry *Registry_Spec) AssignProperties_To_Registry_Spec(destination *v2
 
 	// Sku
 	if registry.Sku != nil {
-		var sku v20210901s.Sku
+		var sku v1beta20210901s.Sku
 		err := registry.Sku.AssignProperties_To_Sku(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
@@ -947,14 +947,14 @@ var _ genruntime.ConvertibleStatus = &Registry_STATUS{}
 
 // ConvertStatusFrom populates our Registry_STATUS from the provided source
 func (registry *Registry_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210901s.Registry_STATUS)
+	src, ok := source.(*v1beta20210901s.Registry_STATUS)
 	if ok {
 		// Populate our instance from source
 		return registry.AssignProperties_From_Registry_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210901s.Registry_STATUS{}
+	src = &v1beta20210901s.Registry_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -971,14 +971,14 @@ func (registry *Registry_STATUS) ConvertStatusFrom(source genruntime.Convertible
 
 // ConvertStatusTo populates the provided destination from our Registry_STATUS
 func (registry *Registry_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210901s.Registry_STATUS)
+	dst, ok := destination.(*v1beta20210901s.Registry_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return registry.AssignProperties_To_Registry_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210901s.Registry_STATUS{}
+	dst = &v1beta20210901s.Registry_STATUS{}
 	err := registry.AssignProperties_To_Registry_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1228,7 +1228,7 @@ func (registry *Registry_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_Registry_STATUS populates our Registry_STATUS from the provided source Registry_STATUS
-func (registry *Registry_STATUS) AssignProperties_From_Registry_STATUS(source *v20210901s.Registry_STATUS) error {
+func (registry *Registry_STATUS) AssignProperties_From_Registry_STATUS(source *v1beta20210901s.Registry_STATUS) error {
 
 	// AdminUserEnabled
 	if source.AdminUserEnabled != nil {
@@ -1412,7 +1412,7 @@ func (registry *Registry_STATUS) AssignProperties_From_Registry_STATUS(source *v
 }
 
 // AssignProperties_To_Registry_STATUS populates the provided destination Registry_STATUS from our Registry_STATUS
-func (registry *Registry_STATUS) AssignProperties_To_Registry_STATUS(destination *v20210901s.Registry_STATUS) error {
+func (registry *Registry_STATUS) AssignProperties_To_Registry_STATUS(destination *v1beta20210901s.Registry_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1443,7 +1443,7 @@ func (registry *Registry_STATUS) AssignProperties_To_Registry_STATUS(destination
 
 	// Encryption
 	if registry.Encryption != nil {
-		var encryption v20210901s.EncryptionProperty_STATUS
+		var encryption v1beta20210901s.EncryptionProperty_STATUS
 		err := registry.Encryption.AssignProperties_To_EncryptionProperty_STATUS(&encryption)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_EncryptionProperty_STATUS() to populate field Encryption")
@@ -1458,7 +1458,7 @@ func (registry *Registry_STATUS) AssignProperties_To_Registry_STATUS(destination
 
 	// Identity
 	if registry.Identity != nil {
-		var identity v20210901s.IdentityProperties_STATUS
+		var identity v1beta20210901s.IdentityProperties_STATUS
 		err := registry.Identity.AssignProperties_To_IdentityProperties_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_IdentityProperties_STATUS() to populate field Identity")
@@ -1487,7 +1487,7 @@ func (registry *Registry_STATUS) AssignProperties_To_Registry_STATUS(destination
 
 	// NetworkRuleSet
 	if registry.NetworkRuleSet != nil {
-		var networkRuleSet v20210901s.NetworkRuleSet_STATUS
+		var networkRuleSet v1beta20210901s.NetworkRuleSet_STATUS
 		err := registry.NetworkRuleSet.AssignProperties_To_NetworkRuleSet_STATUS(&networkRuleSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_NetworkRuleSet_STATUS() to populate field NetworkRuleSet")
@@ -1499,7 +1499,7 @@ func (registry *Registry_STATUS) AssignProperties_To_Registry_STATUS(destination
 
 	// Policies
 	if registry.Policies != nil {
-		var policy v20210901s.Policies_STATUS
+		var policy v1beta20210901s.Policies_STATUS
 		err := registry.Policies.AssignProperties_To_Policies_STATUS(&policy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Policies_STATUS() to populate field Policies")
@@ -1511,11 +1511,11 @@ func (registry *Registry_STATUS) AssignProperties_To_Registry_STATUS(destination
 
 	// PrivateEndpointConnections
 	if registry.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v20210901s.PrivateEndpointConnection_STATUS, len(registry.PrivateEndpointConnections))
+		privateEndpointConnectionList := make([]v1beta20210901s.PrivateEndpointConnection_STATUS, len(registry.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range registry.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v20210901s.PrivateEndpointConnection_STATUS
+			var privateEndpointConnection v1beta20210901s.PrivateEndpointConnection_STATUS
 			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
@@ -1545,7 +1545,7 @@ func (registry *Registry_STATUS) AssignProperties_To_Registry_STATUS(destination
 
 	// Sku
 	if registry.Sku != nil {
-		var sku v20210901s.Sku_STATUS
+		var sku v1beta20210901s.Sku_STATUS
 		err := registry.Sku.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
@@ -1557,7 +1557,7 @@ func (registry *Registry_STATUS) AssignProperties_To_Registry_STATUS(destination
 
 	// Status
 	if registry.Status != nil {
-		var status v20210901s.Status_STATUS
+		var status v1beta20210901s.Status_STATUS
 		err := registry.Status.AssignProperties_To_Status_STATUS(&status)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Status_STATUS() to populate field Status")
@@ -1569,7 +1569,7 @@ func (registry *Registry_STATUS) AssignProperties_To_Registry_STATUS(destination
 
 	// SystemData
 	if registry.SystemData != nil {
-		var systemDatum v20210901s.SystemData_STATUS
+		var systemDatum v1beta20210901s.SystemData_STATUS
 		err := registry.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
@@ -1671,7 +1671,7 @@ func (property *EncryptionProperty) PopulateFromARM(owner genruntime.ArbitraryOw
 }
 
 // AssignProperties_From_EncryptionProperty populates our EncryptionProperty from the provided source EncryptionProperty
-func (property *EncryptionProperty) AssignProperties_From_EncryptionProperty(source *v20210901s.EncryptionProperty) error {
+func (property *EncryptionProperty) AssignProperties_From_EncryptionProperty(source *v1beta20210901s.EncryptionProperty) error {
 
 	// KeyVaultProperties
 	if source.KeyVaultProperties != nil {
@@ -1698,13 +1698,13 @@ func (property *EncryptionProperty) AssignProperties_From_EncryptionProperty(sou
 }
 
 // AssignProperties_To_EncryptionProperty populates the provided destination EncryptionProperty from our EncryptionProperty
-func (property *EncryptionProperty) AssignProperties_To_EncryptionProperty(destination *v20210901s.EncryptionProperty) error {
+func (property *EncryptionProperty) AssignProperties_To_EncryptionProperty(destination *v1beta20210901s.EncryptionProperty) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// KeyVaultProperties
 	if property.KeyVaultProperties != nil {
-		var keyVaultProperty v20210901s.KeyVaultProperties
+		var keyVaultProperty v1beta20210901s.KeyVaultProperties
 		err := property.KeyVaultProperties.AssignProperties_To_KeyVaultProperties(&keyVaultProperty)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultProperties() to populate field KeyVaultProperties")
@@ -1775,7 +1775,7 @@ func (property *EncryptionProperty_STATUS) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignProperties_From_EncryptionProperty_STATUS populates our EncryptionProperty_STATUS from the provided source EncryptionProperty_STATUS
-func (property *EncryptionProperty_STATUS) AssignProperties_From_EncryptionProperty_STATUS(source *v20210901s.EncryptionProperty_STATUS) error {
+func (property *EncryptionProperty_STATUS) AssignProperties_From_EncryptionProperty_STATUS(source *v1beta20210901s.EncryptionProperty_STATUS) error {
 
 	// KeyVaultProperties
 	if source.KeyVaultProperties != nil {
@@ -1802,13 +1802,13 @@ func (property *EncryptionProperty_STATUS) AssignProperties_From_EncryptionPrope
 }
 
 // AssignProperties_To_EncryptionProperty_STATUS populates the provided destination EncryptionProperty_STATUS from our EncryptionProperty_STATUS
-func (property *EncryptionProperty_STATUS) AssignProperties_To_EncryptionProperty_STATUS(destination *v20210901s.EncryptionProperty_STATUS) error {
+func (property *EncryptionProperty_STATUS) AssignProperties_To_EncryptionProperty_STATUS(destination *v1beta20210901s.EncryptionProperty_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// KeyVaultProperties
 	if property.KeyVaultProperties != nil {
-		var keyVaultProperty v20210901s.KeyVaultProperties_STATUS
+		var keyVaultProperty v1beta20210901s.KeyVaultProperties_STATUS
 		err := property.KeyVaultProperties.AssignProperties_To_KeyVaultProperties_STATUS(&keyVaultProperty)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultProperties_STATUS() to populate field KeyVaultProperties")
@@ -1922,7 +1922,7 @@ func (properties *IdentityProperties) PopulateFromARM(owner genruntime.Arbitrary
 }
 
 // AssignProperties_From_IdentityProperties populates our IdentityProperties from the provided source IdentityProperties
-func (properties *IdentityProperties) AssignProperties_From_IdentityProperties(source *v20210901s.IdentityProperties) error {
+func (properties *IdentityProperties) AssignProperties_From_IdentityProperties(source *v1beta20210901s.IdentityProperties) error {
 
 	// PrincipalId
 	properties.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
@@ -1961,7 +1961,7 @@ func (properties *IdentityProperties) AssignProperties_From_IdentityProperties(s
 }
 
 // AssignProperties_To_IdentityProperties populates the provided destination IdentityProperties from our IdentityProperties
-func (properties *IdentityProperties) AssignProperties_To_IdentityProperties(destination *v20210901s.IdentityProperties) error {
+func (properties *IdentityProperties) AssignProperties_To_IdentityProperties(destination *v1beta20210901s.IdentityProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1981,11 +1981,11 @@ func (properties *IdentityProperties) AssignProperties_To_IdentityProperties(des
 
 	// UserAssignedIdentities
 	if properties.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]v20210901s.UserAssignedIdentityDetails, len(properties.UserAssignedIdentities))
+		userAssignedIdentityList := make([]v1beta20210901s.UserAssignedIdentityDetails, len(properties.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range properties.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityItem := userAssignedIdentityItem
-			var userAssignedIdentity v20210901s.UserAssignedIdentityDetails
+			var userAssignedIdentity v1beta20210901s.UserAssignedIdentityDetails
 			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
@@ -2066,7 +2066,7 @@ func (properties *IdentityProperties_STATUS) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignProperties_From_IdentityProperties_STATUS populates our IdentityProperties_STATUS from the provided source IdentityProperties_STATUS
-func (properties *IdentityProperties_STATUS) AssignProperties_From_IdentityProperties_STATUS(source *v20210901s.IdentityProperties_STATUS) error {
+func (properties *IdentityProperties_STATUS) AssignProperties_From_IdentityProperties_STATUS(source *v1beta20210901s.IdentityProperties_STATUS) error {
 
 	// PrincipalId
 	properties.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
@@ -2105,7 +2105,7 @@ func (properties *IdentityProperties_STATUS) AssignProperties_From_IdentityPrope
 }
 
 // AssignProperties_To_IdentityProperties_STATUS populates the provided destination IdentityProperties_STATUS from our IdentityProperties_STATUS
-func (properties *IdentityProperties_STATUS) AssignProperties_To_IdentityProperties_STATUS(destination *v20210901s.IdentityProperties_STATUS) error {
+func (properties *IdentityProperties_STATUS) AssignProperties_To_IdentityProperties_STATUS(destination *v1beta20210901s.IdentityProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2125,11 +2125,11 @@ func (properties *IdentityProperties_STATUS) AssignProperties_To_IdentityPropert
 
 	// UserAssignedIdentities
 	if properties.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v20210901s.UserIdentityProperties_STATUS, len(properties.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]v1beta20210901s.UserIdentityProperties_STATUS, len(properties.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range properties.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity v20210901s.UserIdentityProperties_STATUS
+			var userAssignedIdentity v1beta20210901s.UserIdentityProperties_STATUS
 			err := userAssignedIdentityValue.AssignProperties_To_UserIdentityProperties_STATUS(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_UserIdentityProperties_STATUS() to populate field UserAssignedIdentities")
@@ -2218,7 +2218,7 @@ func (ruleSet *NetworkRuleSet) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_NetworkRuleSet populates our NetworkRuleSet from the provided source NetworkRuleSet
-func (ruleSet *NetworkRuleSet) AssignProperties_From_NetworkRuleSet(source *v20210901s.NetworkRuleSet) error {
+func (ruleSet *NetworkRuleSet) AssignProperties_From_NetworkRuleSet(source *v1beta20210901s.NetworkRuleSet) error {
 
 	// DefaultAction
 	if source.DefaultAction != nil {
@@ -2251,7 +2251,7 @@ func (ruleSet *NetworkRuleSet) AssignProperties_From_NetworkRuleSet(source *v202
 }
 
 // AssignProperties_To_NetworkRuleSet populates the provided destination NetworkRuleSet from our NetworkRuleSet
-func (ruleSet *NetworkRuleSet) AssignProperties_To_NetworkRuleSet(destination *v20210901s.NetworkRuleSet) error {
+func (ruleSet *NetworkRuleSet) AssignProperties_To_NetworkRuleSet(destination *v1beta20210901s.NetworkRuleSet) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2265,11 +2265,11 @@ func (ruleSet *NetworkRuleSet) AssignProperties_To_NetworkRuleSet(destination *v
 
 	// IpRules
 	if ruleSet.IpRules != nil {
-		ipRuleList := make([]v20210901s.IPRule, len(ruleSet.IpRules))
+		ipRuleList := make([]v1beta20210901s.IPRule, len(ruleSet.IpRules))
 		for ipRuleIndex, ipRuleItem := range ruleSet.IpRules {
 			// Shadow the loop variable to avoid aliasing
 			ipRuleItem := ipRuleItem
-			var ipRule v20210901s.IPRule
+			var ipRule v1beta20210901s.IPRule
 			err := ipRuleItem.AssignProperties_To_IPRule(&ipRule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_IPRule() to populate field IpRules")
@@ -2333,7 +2333,7 @@ func (ruleSet *NetworkRuleSet_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 }
 
 // AssignProperties_From_NetworkRuleSet_STATUS populates our NetworkRuleSet_STATUS from the provided source NetworkRuleSet_STATUS
-func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_From_NetworkRuleSet_STATUS(source *v20210901s.NetworkRuleSet_STATUS) error {
+func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_From_NetworkRuleSet_STATUS(source *v1beta20210901s.NetworkRuleSet_STATUS) error {
 
 	// DefaultAction
 	if source.DefaultAction != nil {
@@ -2366,7 +2366,7 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_From_NetworkRuleSet_STATU
 }
 
 // AssignProperties_To_NetworkRuleSet_STATUS populates the provided destination NetworkRuleSet_STATUS from our NetworkRuleSet_STATUS
-func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_To_NetworkRuleSet_STATUS(destination *v20210901s.NetworkRuleSet_STATUS) error {
+func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_To_NetworkRuleSet_STATUS(destination *v1beta20210901s.NetworkRuleSet_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2380,11 +2380,11 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_To_NetworkRuleSet_STATUS(
 
 	// IpRules
 	if ruleSet.IpRules != nil {
-		ipRuleList := make([]v20210901s.IPRule_STATUS, len(ruleSet.IpRules))
+		ipRuleList := make([]v1beta20210901s.IPRule_STATUS, len(ruleSet.IpRules))
 		for ipRuleIndex, ipRuleItem := range ruleSet.IpRules {
 			// Shadow the loop variable to avoid aliasing
 			ipRuleItem := ipRuleItem
-			var ipRule v20210901s.IPRule_STATUS
+			var ipRule v1beta20210901s.IPRule_STATUS
 			err := ipRuleItem.AssignProperties_To_IPRule_STATUS(&ipRule)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_IPRule_STATUS() to populate field IpRules")
@@ -2527,7 +2527,7 @@ func (policies *Policies) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 }
 
 // AssignProperties_From_Policies populates our Policies from the provided source Policies
-func (policies *Policies) AssignProperties_From_Policies(source *v20210901s.Policies) error {
+func (policies *Policies) AssignProperties_From_Policies(source *v1beta20210901s.Policies) error {
 
 	// ExportPolicy
 	if source.ExportPolicy != nil {
@@ -2582,13 +2582,13 @@ func (policies *Policies) AssignProperties_From_Policies(source *v20210901s.Poli
 }
 
 // AssignProperties_To_Policies populates the provided destination Policies from our Policies
-func (policies *Policies) AssignProperties_To_Policies(destination *v20210901s.Policies) error {
+func (policies *Policies) AssignProperties_To_Policies(destination *v1beta20210901s.Policies) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ExportPolicy
 	if policies.ExportPolicy != nil {
-		var exportPolicy v20210901s.ExportPolicy
+		var exportPolicy v1beta20210901s.ExportPolicy
 		err := policies.ExportPolicy.AssignProperties_To_ExportPolicy(&exportPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ExportPolicy() to populate field ExportPolicy")
@@ -2600,7 +2600,7 @@ func (policies *Policies) AssignProperties_To_Policies(destination *v20210901s.P
 
 	// QuarantinePolicy
 	if policies.QuarantinePolicy != nil {
-		var quarantinePolicy v20210901s.QuarantinePolicy
+		var quarantinePolicy v1beta20210901s.QuarantinePolicy
 		err := policies.QuarantinePolicy.AssignProperties_To_QuarantinePolicy(&quarantinePolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_QuarantinePolicy() to populate field QuarantinePolicy")
@@ -2612,7 +2612,7 @@ func (policies *Policies) AssignProperties_To_Policies(destination *v20210901s.P
 
 	// RetentionPolicy
 	if policies.RetentionPolicy != nil {
-		var retentionPolicy v20210901s.RetentionPolicy
+		var retentionPolicy v1beta20210901s.RetentionPolicy
 		err := policies.RetentionPolicy.AssignProperties_To_RetentionPolicy(&retentionPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RetentionPolicy() to populate field RetentionPolicy")
@@ -2624,7 +2624,7 @@ func (policies *Policies) AssignProperties_To_Policies(destination *v20210901s.P
 
 	// TrustPolicy
 	if policies.TrustPolicy != nil {
-		var trustPolicy v20210901s.TrustPolicy
+		var trustPolicy v1beta20210901s.TrustPolicy
 		err := policies.TrustPolicy.AssignProperties_To_TrustPolicy(&trustPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_TrustPolicy() to populate field TrustPolicy")
@@ -2716,7 +2716,7 @@ func (policies *Policies_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_Policies_STATUS populates our Policies_STATUS from the provided source Policies_STATUS
-func (policies *Policies_STATUS) AssignProperties_From_Policies_STATUS(source *v20210901s.Policies_STATUS) error {
+func (policies *Policies_STATUS) AssignProperties_From_Policies_STATUS(source *v1beta20210901s.Policies_STATUS) error {
 
 	// ExportPolicy
 	if source.ExportPolicy != nil {
@@ -2771,13 +2771,13 @@ func (policies *Policies_STATUS) AssignProperties_From_Policies_STATUS(source *v
 }
 
 // AssignProperties_To_Policies_STATUS populates the provided destination Policies_STATUS from our Policies_STATUS
-func (policies *Policies_STATUS) AssignProperties_To_Policies_STATUS(destination *v20210901s.Policies_STATUS) error {
+func (policies *Policies_STATUS) AssignProperties_To_Policies_STATUS(destination *v1beta20210901s.Policies_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ExportPolicy
 	if policies.ExportPolicy != nil {
-		var exportPolicy v20210901s.ExportPolicy_STATUS
+		var exportPolicy v1beta20210901s.ExportPolicy_STATUS
 		err := policies.ExportPolicy.AssignProperties_To_ExportPolicy_STATUS(&exportPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ExportPolicy_STATUS() to populate field ExportPolicy")
@@ -2789,7 +2789,7 @@ func (policies *Policies_STATUS) AssignProperties_To_Policies_STATUS(destination
 
 	// QuarantinePolicy
 	if policies.QuarantinePolicy != nil {
-		var quarantinePolicy v20210901s.QuarantinePolicy_STATUS
+		var quarantinePolicy v1beta20210901s.QuarantinePolicy_STATUS
 		err := policies.QuarantinePolicy.AssignProperties_To_QuarantinePolicy_STATUS(&quarantinePolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_QuarantinePolicy_STATUS() to populate field QuarantinePolicy")
@@ -2801,7 +2801,7 @@ func (policies *Policies_STATUS) AssignProperties_To_Policies_STATUS(destination
 
 	// RetentionPolicy
 	if policies.RetentionPolicy != nil {
-		var retentionPolicy v20210901s.RetentionPolicy_STATUS
+		var retentionPolicy v1beta20210901s.RetentionPolicy_STATUS
 		err := policies.RetentionPolicy.AssignProperties_To_RetentionPolicy_STATUS(&retentionPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_RetentionPolicy_STATUS() to populate field RetentionPolicy")
@@ -2813,7 +2813,7 @@ func (policies *Policies_STATUS) AssignProperties_To_Policies_STATUS(destination
 
 	// TrustPolicy
 	if policies.TrustPolicy != nil {
-		var trustPolicy v20210901s.TrustPolicy_STATUS
+		var trustPolicy v1beta20210901s.TrustPolicy_STATUS
 		err := policies.TrustPolicy.AssignProperties_To_TrustPolicy_STATUS(&trustPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_TrustPolicy_STATUS() to populate field TrustPolicy")
@@ -2864,7 +2864,7 @@ func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genrun
 }
 
 // AssignProperties_From_PrivateEndpointConnection_STATUS populates our PrivateEndpointConnection_STATUS from the provided source PrivateEndpointConnection_STATUS
-func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_PrivateEndpointConnection_STATUS(source *v20210901s.PrivateEndpointConnection_STATUS) error {
+func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_PrivateEndpointConnection_STATUS(source *v1beta20210901s.PrivateEndpointConnection_STATUS) error {
 
 	// Id
 	connection.Id = genruntime.ClonePointerToString(source.Id)
@@ -2874,7 +2874,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_Privat
 }
 
 // AssignProperties_To_PrivateEndpointConnection_STATUS populates the provided destination PrivateEndpointConnection_STATUS from our PrivateEndpointConnection_STATUS
-func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateEndpointConnection_STATUS(destination *v20210901s.PrivateEndpointConnection_STATUS) error {
+func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateEndpointConnection_STATUS(destination *v1beta20210901s.PrivateEndpointConnection_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3007,7 +3007,7 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 }
 
 // AssignProperties_From_Sku populates our Sku from the provided source Sku
-func (sku *Sku) AssignProperties_From_Sku(source *v20210901s.Sku) error {
+func (sku *Sku) AssignProperties_From_Sku(source *v1beta20210901s.Sku) error {
 
 	// Name
 	if source.Name != nil {
@@ -3022,7 +3022,7 @@ func (sku *Sku) AssignProperties_From_Sku(source *v20210901s.Sku) error {
 }
 
 // AssignProperties_To_Sku populates the provided destination Sku from our Sku
-func (sku *Sku) AssignProperties_To_Sku(destination *v20210901s.Sku) error {
+func (sku *Sku) AssignProperties_To_Sku(destination *v1beta20210901s.Sku) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3082,7 +3082,7 @@ func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 }
 
 // AssignProperties_From_Sku_STATUS populates our Sku_STATUS from the provided source Sku_STATUS
-func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20210901s.Sku_STATUS) error {
+func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v1beta20210901s.Sku_STATUS) error {
 
 	// Name
 	if source.Name != nil {
@@ -3105,7 +3105,7 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20210901s.Sku_S
 }
 
 // AssignProperties_To_Sku_STATUS populates the provided destination Sku_STATUS from our Sku_STATUS
-func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20210901s.Sku_STATUS) error {
+func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v1beta20210901s.Sku_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3180,7 +3180,7 @@ func (status *Status_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 }
 
 // AssignProperties_From_Status_STATUS populates our Status_STATUS from the provided source Status_STATUS
-func (status *Status_STATUS) AssignProperties_From_Status_STATUS(source *v20210901s.Status_STATUS) error {
+func (status *Status_STATUS) AssignProperties_From_Status_STATUS(source *v1beta20210901s.Status_STATUS) error {
 
 	// DisplayStatus
 	status.DisplayStatus = genruntime.ClonePointerToString(source.DisplayStatus)
@@ -3196,7 +3196,7 @@ func (status *Status_STATUS) AssignProperties_From_Status_STATUS(source *v202109
 }
 
 // AssignProperties_To_Status_STATUS populates the provided destination Status_STATUS from our Status_STATUS
-func (status *Status_STATUS) AssignProperties_To_Status_STATUS(destination *v20210901s.Status_STATUS) error {
+func (status *Status_STATUS) AssignProperties_To_Status_STATUS(destination *v1beta20210901s.Status_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3285,7 +3285,7 @@ func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v20210901s.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v1beta20210901s.SystemData_STATUS) error {
 
 	// CreatedAt
 	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
@@ -3320,7 +3320,7 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 }
 
 // AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v20210901s.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v1beta20210901s.SystemData_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3425,7 +3425,7 @@ func (policy *ExportPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 }
 
 // AssignProperties_From_ExportPolicy populates our ExportPolicy from the provided source ExportPolicy
-func (policy *ExportPolicy) AssignProperties_From_ExportPolicy(source *v20210901s.ExportPolicy) error {
+func (policy *ExportPolicy) AssignProperties_From_ExportPolicy(source *v1beta20210901s.ExportPolicy) error {
 
 	// Status
 	if source.Status != nil {
@@ -3440,7 +3440,7 @@ func (policy *ExportPolicy) AssignProperties_From_ExportPolicy(source *v20210901
 }
 
 // AssignProperties_To_ExportPolicy populates the provided destination ExportPolicy from our ExportPolicy
-func (policy *ExportPolicy) AssignProperties_To_ExportPolicy(destination *v20210901s.ExportPolicy) error {
+func (policy *ExportPolicy) AssignProperties_To_ExportPolicy(destination *v1beta20210901s.ExportPolicy) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3493,7 +3493,7 @@ func (policy *ExportPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 }
 
 // AssignProperties_From_ExportPolicy_STATUS populates our ExportPolicy_STATUS from the provided source ExportPolicy_STATUS
-func (policy *ExportPolicy_STATUS) AssignProperties_From_ExportPolicy_STATUS(source *v20210901s.ExportPolicy_STATUS) error {
+func (policy *ExportPolicy_STATUS) AssignProperties_From_ExportPolicy_STATUS(source *v1beta20210901s.ExportPolicy_STATUS) error {
 
 	// Status
 	if source.Status != nil {
@@ -3508,7 +3508,7 @@ func (policy *ExportPolicy_STATUS) AssignProperties_From_ExportPolicy_STATUS(sou
 }
 
 // AssignProperties_To_ExportPolicy_STATUS populates the provided destination ExportPolicy_STATUS from our ExportPolicy_STATUS
-func (policy *ExportPolicy_STATUS) AssignProperties_To_ExportPolicy_STATUS(destination *v20210901s.ExportPolicy_STATUS) error {
+func (policy *ExportPolicy_STATUS) AssignProperties_To_ExportPolicy_STATUS(destination *v1beta20210901s.ExportPolicy_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3591,7 +3591,7 @@ func (rule *IPRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 }
 
 // AssignProperties_From_IPRule populates our IPRule from the provided source IPRule
-func (rule *IPRule) AssignProperties_From_IPRule(source *v20210901s.IPRule) error {
+func (rule *IPRule) AssignProperties_From_IPRule(source *v1beta20210901s.IPRule) error {
 
 	// Action
 	if source.Action != nil {
@@ -3609,7 +3609,7 @@ func (rule *IPRule) AssignProperties_From_IPRule(source *v20210901s.IPRule) erro
 }
 
 // AssignProperties_To_IPRule populates the provided destination IPRule from our IPRule
-func (rule *IPRule) AssignProperties_To_IPRule(destination *v20210901s.IPRule) error {
+func (rule *IPRule) AssignProperties_To_IPRule(destination *v1beta20210901s.IPRule) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3672,7 +3672,7 @@ func (rule *IPRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 }
 
 // AssignProperties_From_IPRule_STATUS populates our IPRule_STATUS from the provided source IPRule_STATUS
-func (rule *IPRule_STATUS) AssignProperties_From_IPRule_STATUS(source *v20210901s.IPRule_STATUS) error {
+func (rule *IPRule_STATUS) AssignProperties_From_IPRule_STATUS(source *v1beta20210901s.IPRule_STATUS) error {
 
 	// Action
 	if source.Action != nil {
@@ -3690,7 +3690,7 @@ func (rule *IPRule_STATUS) AssignProperties_From_IPRule_STATUS(source *v20210901
 }
 
 // AssignProperties_To_IPRule_STATUS populates the provided destination IPRule_STATUS from our IPRule_STATUS
-func (rule *IPRule_STATUS) AssignProperties_To_IPRule_STATUS(destination *v20210901s.IPRule_STATUS) error {
+func (rule *IPRule_STATUS) AssignProperties_To_IPRule_STATUS(destination *v1beta20210901s.IPRule_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3774,7 +3774,7 @@ func (properties *KeyVaultProperties) PopulateFromARM(owner genruntime.Arbitrary
 }
 
 // AssignProperties_From_KeyVaultProperties populates our KeyVaultProperties from the provided source KeyVaultProperties
-func (properties *KeyVaultProperties) AssignProperties_From_KeyVaultProperties(source *v20210901s.KeyVaultProperties) error {
+func (properties *KeyVaultProperties) AssignProperties_From_KeyVaultProperties(source *v1beta20210901s.KeyVaultProperties) error {
 
 	// Identity
 	properties.Identity = genruntime.ClonePointerToString(source.Identity)
@@ -3787,7 +3787,7 @@ func (properties *KeyVaultProperties) AssignProperties_From_KeyVaultProperties(s
 }
 
 // AssignProperties_To_KeyVaultProperties populates the provided destination KeyVaultProperties from our KeyVaultProperties
-func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(destination *v20210901s.KeyVaultProperties) error {
+func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(destination *v1beta20210901s.KeyVaultProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3866,7 +3866,7 @@ func (properties *KeyVaultProperties_STATUS) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignProperties_From_KeyVaultProperties_STATUS populates our KeyVaultProperties_STATUS from the provided source KeyVaultProperties_STATUS
-func (properties *KeyVaultProperties_STATUS) AssignProperties_From_KeyVaultProperties_STATUS(source *v20210901s.KeyVaultProperties_STATUS) error {
+func (properties *KeyVaultProperties_STATUS) AssignProperties_From_KeyVaultProperties_STATUS(source *v1beta20210901s.KeyVaultProperties_STATUS) error {
 
 	// Identity
 	properties.Identity = genruntime.ClonePointerToString(source.Identity)
@@ -3893,7 +3893,7 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_From_KeyVaultPrope
 }
 
 // AssignProperties_To_KeyVaultProperties_STATUS populates the provided destination KeyVaultProperties_STATUS from our KeyVaultProperties_STATUS
-func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultProperties_STATUS(destination *v20210901s.KeyVaultProperties_STATUS) error {
+func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultProperties_STATUS(destination *v1beta20210901s.KeyVaultProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3990,7 +3990,7 @@ func (policy *QuarantinePolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 }
 
 // AssignProperties_From_QuarantinePolicy populates our QuarantinePolicy from the provided source QuarantinePolicy
-func (policy *QuarantinePolicy) AssignProperties_From_QuarantinePolicy(source *v20210901s.QuarantinePolicy) error {
+func (policy *QuarantinePolicy) AssignProperties_From_QuarantinePolicy(source *v1beta20210901s.QuarantinePolicy) error {
 
 	// Status
 	if source.Status != nil {
@@ -4005,7 +4005,7 @@ func (policy *QuarantinePolicy) AssignProperties_From_QuarantinePolicy(source *v
 }
 
 // AssignProperties_To_QuarantinePolicy populates the provided destination QuarantinePolicy from our QuarantinePolicy
-func (policy *QuarantinePolicy) AssignProperties_To_QuarantinePolicy(destination *v20210901s.QuarantinePolicy) error {
+func (policy *QuarantinePolicy) AssignProperties_To_QuarantinePolicy(destination *v1beta20210901s.QuarantinePolicy) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4058,7 +4058,7 @@ func (policy *QuarantinePolicy_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 }
 
 // AssignProperties_From_QuarantinePolicy_STATUS populates our QuarantinePolicy_STATUS from the provided source QuarantinePolicy_STATUS
-func (policy *QuarantinePolicy_STATUS) AssignProperties_From_QuarantinePolicy_STATUS(source *v20210901s.QuarantinePolicy_STATUS) error {
+func (policy *QuarantinePolicy_STATUS) AssignProperties_From_QuarantinePolicy_STATUS(source *v1beta20210901s.QuarantinePolicy_STATUS) error {
 
 	// Status
 	if source.Status != nil {
@@ -4073,7 +4073,7 @@ func (policy *QuarantinePolicy_STATUS) AssignProperties_From_QuarantinePolicy_ST
 }
 
 // AssignProperties_To_QuarantinePolicy_STATUS populates the provided destination QuarantinePolicy_STATUS from our QuarantinePolicy_STATUS
-func (policy *QuarantinePolicy_STATUS) AssignProperties_To_QuarantinePolicy_STATUS(destination *v20210901s.QuarantinePolicy_STATUS) error {
+func (policy *QuarantinePolicy_STATUS) AssignProperties_To_QuarantinePolicy_STATUS(destination *v1beta20210901s.QuarantinePolicy_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4154,7 +4154,7 @@ func (policy *RetentionPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 }
 
 // AssignProperties_From_RetentionPolicy populates our RetentionPolicy from the provided source RetentionPolicy
-func (policy *RetentionPolicy) AssignProperties_From_RetentionPolicy(source *v20210901s.RetentionPolicy) error {
+func (policy *RetentionPolicy) AssignProperties_From_RetentionPolicy(source *v1beta20210901s.RetentionPolicy) error {
 
 	// Days
 	policy.Days = genruntime.ClonePointerToInt(source.Days)
@@ -4172,7 +4172,7 @@ func (policy *RetentionPolicy) AssignProperties_From_RetentionPolicy(source *v20
 }
 
 // AssignProperties_To_RetentionPolicy populates the provided destination RetentionPolicy from our RetentionPolicy
-func (policy *RetentionPolicy) AssignProperties_To_RetentionPolicy(destination *v20210901s.RetentionPolicy) error {
+func (policy *RetentionPolicy) AssignProperties_To_RetentionPolicy(destination *v1beta20210901s.RetentionPolicy) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4242,7 +4242,7 @@ func (policy *RetentionPolicy_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 }
 
 // AssignProperties_From_RetentionPolicy_STATUS populates our RetentionPolicy_STATUS from the provided source RetentionPolicy_STATUS
-func (policy *RetentionPolicy_STATUS) AssignProperties_From_RetentionPolicy_STATUS(source *v20210901s.RetentionPolicy_STATUS) error {
+func (policy *RetentionPolicy_STATUS) AssignProperties_From_RetentionPolicy_STATUS(source *v1beta20210901s.RetentionPolicy_STATUS) error {
 
 	// Days
 	policy.Days = genruntime.ClonePointerToInt(source.Days)
@@ -4263,7 +4263,7 @@ func (policy *RetentionPolicy_STATUS) AssignProperties_From_RetentionPolicy_STAT
 }
 
 // AssignProperties_To_RetentionPolicy_STATUS populates the provided destination RetentionPolicy_STATUS from our RetentionPolicy_STATUS
-func (policy *RetentionPolicy_STATUS) AssignProperties_To_RetentionPolicy_STATUS(destination *v20210901s.RetentionPolicy_STATUS) error {
+func (policy *RetentionPolicy_STATUS) AssignProperties_To_RetentionPolicy_STATUS(destination *v1beta20210901s.RetentionPolicy_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4350,7 +4350,7 @@ func (policy *TrustPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 }
 
 // AssignProperties_From_TrustPolicy populates our TrustPolicy from the provided source TrustPolicy
-func (policy *TrustPolicy) AssignProperties_From_TrustPolicy(source *v20210901s.TrustPolicy) error {
+func (policy *TrustPolicy) AssignProperties_From_TrustPolicy(source *v1beta20210901s.TrustPolicy) error {
 
 	// Status
 	if source.Status != nil {
@@ -4373,7 +4373,7 @@ func (policy *TrustPolicy) AssignProperties_From_TrustPolicy(source *v20210901s.
 }
 
 // AssignProperties_To_TrustPolicy populates the provided destination TrustPolicy from our TrustPolicy
-func (policy *TrustPolicy) AssignProperties_To_TrustPolicy(destination *v20210901s.TrustPolicy) error {
+func (policy *TrustPolicy) AssignProperties_To_TrustPolicy(destination *v1beta20210901s.TrustPolicy) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4441,7 +4441,7 @@ func (policy *TrustPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 }
 
 // AssignProperties_From_TrustPolicy_STATUS populates our TrustPolicy_STATUS from the provided source TrustPolicy_STATUS
-func (policy *TrustPolicy_STATUS) AssignProperties_From_TrustPolicy_STATUS(source *v20210901s.TrustPolicy_STATUS) error {
+func (policy *TrustPolicy_STATUS) AssignProperties_From_TrustPolicy_STATUS(source *v1beta20210901s.TrustPolicy_STATUS) error {
 
 	// Status
 	if source.Status != nil {
@@ -4464,7 +4464,7 @@ func (policy *TrustPolicy_STATUS) AssignProperties_From_TrustPolicy_STATUS(sourc
 }
 
 // AssignProperties_To_TrustPolicy_STATUS populates the provided destination TrustPolicy_STATUS from our TrustPolicy_STATUS
-func (policy *TrustPolicy_STATUS) AssignProperties_To_TrustPolicy_STATUS(destination *v20210901s.TrustPolicy_STATUS) error {
+func (policy *TrustPolicy_STATUS) AssignProperties_To_TrustPolicy_STATUS(destination *v1beta20210901s.TrustPolicy_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4501,7 +4501,7 @@ type UserAssignedIdentityDetails struct {
 }
 
 // AssignProperties_From_UserAssignedIdentityDetails populates our UserAssignedIdentityDetails from the provided source UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v20210901s.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v1beta20210901s.UserAssignedIdentityDetails) error {
 
 	// Reference
 	details.Reference = source.Reference.Copy()
@@ -4511,7 +4511,7 @@ func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedId
 }
 
 // AssignProperties_To_UserAssignedIdentityDetails populates the provided destination UserAssignedIdentityDetails from our UserAssignedIdentityDetails
-func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v20210901s.UserAssignedIdentityDetails) error {
+func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v1beta20210901s.UserAssignedIdentityDetails) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4566,7 +4566,7 @@ func (properties *UserIdentityProperties_STATUS) PopulateFromARM(owner genruntim
 }
 
 // AssignProperties_From_UserIdentityProperties_STATUS populates our UserIdentityProperties_STATUS from the provided source UserIdentityProperties_STATUS
-func (properties *UserIdentityProperties_STATUS) AssignProperties_From_UserIdentityProperties_STATUS(source *v20210901s.UserIdentityProperties_STATUS) error {
+func (properties *UserIdentityProperties_STATUS) AssignProperties_From_UserIdentityProperties_STATUS(source *v1beta20210901s.UserIdentityProperties_STATUS) error {
 
 	// ClientId
 	properties.ClientId = genruntime.ClonePointerToString(source.ClientId)
@@ -4579,7 +4579,7 @@ func (properties *UserIdentityProperties_STATUS) AssignProperties_From_UserIdent
 }
 
 // AssignProperties_To_UserIdentityProperties_STATUS populates the provided destination UserIdentityProperties_STATUS from our UserIdentityProperties_STATUS
-func (properties *UserIdentityProperties_STATUS) AssignProperties_To_UserIdentityProperties_STATUS(destination *v20210901s.UserIdentityProperties_STATUS) error {
+func (properties *UserIdentityProperties_STATUS) AssignProperties_To_UserIdentityProperties_STATUS(destination *v1beta20210901s.UserIdentityProperties_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

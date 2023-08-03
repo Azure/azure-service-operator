@@ -4,8 +4,8 @@
 package customizations
 
 import (
-	v1api20180501 "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501"
-	v1api20180501s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501storage"
+	v20180501 "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501"
+	v20180501s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +15,6 @@ type DnsZonesARecordExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *DnsZonesARecordExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1api20180501.DnsZonesARecord{},
-		&v1api20180501s.DnsZonesARecord{}}
+		&v20180501.DnsZonesARecord{},
+		&v20180501s.DnsZonesARecord{}}
 }

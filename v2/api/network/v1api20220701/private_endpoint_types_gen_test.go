@@ -5,7 +5,7 @@ package v1api20220701
 
 import (
 	"encoding/json"
-	v1api20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
+	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForPrivateEndpoint(subject PrivateEndpoint) string
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20220701s.PrivateEndpoint
+	var hub v20220701s.PrivateEndpoint
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForPrivateEndpoint(subject PrivateEndpoint) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.PrivateEndpoint
+	var other v20220701s.PrivateEndpoint
 	err := copied.AssignProperties_To_PrivateEndpoint(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForPrivateEndpoint_Spec(subject PrivateEndpoint_Sp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.PrivateEndpoint_Spec
+	var other v20220701s.PrivateEndpoint_Spec
 	err := copied.AssignProperties_To_PrivateEndpoint_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -306,7 +306,7 @@ func RunPropertyAssignmentTestForPrivateEndpoint_STATUS_PrivateEndpoint_SubResou
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded
+	var other v20220701s.PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded
 	err := copied.AssignProperties_To_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -441,7 +441,7 @@ func RunPropertyAssignmentTestForApplicationSecurityGroup_STATUS_PrivateEndpoint
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded
+	var other v20220701s.ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded
 	err := copied.AssignProperties_To_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -544,7 +544,7 @@ func RunPropertyAssignmentTestForApplicationSecurityGroupSpec_PrivateEndpoint_Su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
+	var other v20220701s.ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
 	err := copied.AssignProperties_To_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -641,7 +641,7 @@ func RunPropertyAssignmentTestForCustomDnsConfigPropertiesFormat_STATUS(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.CustomDnsConfigPropertiesFormat_STATUS
+	var other v20220701s.CustomDnsConfigPropertiesFormat_STATUS
 	err := copied.AssignProperties_To_CustomDnsConfigPropertiesFormat_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -745,7 +745,7 @@ func RunPropertyAssignmentTestForExtendedLocation(subject ExtendedLocation) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ExtendedLocation
+	var other v20220701s.ExtendedLocation
 	err := copied.AssignProperties_To_ExtendedLocation(&other)
 	if err != nil {
 		return err.Error()
@@ -848,7 +848,7 @@ func RunPropertyAssignmentTestForExtendedLocation_STATUS(subject ExtendedLocatio
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.ExtendedLocation_STATUS
+	var other v20220701s.ExtendedLocation_STATUS
 	err := copied.AssignProperties_To_ExtendedLocation_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -952,7 +952,7 @@ func RunPropertyAssignmentTestForNetworkInterface_STATUS_PrivateEndpoint_SubReso
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded
+	var other v20220701s.NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded
 	err := copied.AssignProperties_To_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -1055,7 +1055,7 @@ func RunPropertyAssignmentTestForPrivateEndpointIPConfiguration(subject PrivateE
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.PrivateEndpointIPConfiguration
+	var other v20220701s.PrivateEndpointIPConfiguration
 	err := copied.AssignProperties_To_PrivateEndpointIPConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -1161,7 +1161,7 @@ func RunPropertyAssignmentTestForPrivateEndpointIPConfiguration_STATUS(subject P
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.PrivateEndpointIPConfiguration_STATUS
+	var other v20220701s.PrivateEndpointIPConfiguration_STATUS
 	err := copied.AssignProperties_To_PrivateEndpointIPConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1269,7 +1269,7 @@ func RunPropertyAssignmentTestForPrivateLinkServiceConnection(subject PrivateLin
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.PrivateLinkServiceConnection
+	var other v20220701s.PrivateLinkServiceConnection
 	err := copied.AssignProperties_To_PrivateLinkServiceConnection(&other)
 	if err != nil {
 		return err.Error()
@@ -1388,7 +1388,7 @@ func RunPropertyAssignmentTestForPrivateLinkServiceConnection_STATUS(subject Pri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.PrivateLinkServiceConnection_STATUS
+	var other v20220701s.PrivateLinkServiceConnection_STATUS
 	err := copied.AssignProperties_To_PrivateLinkServiceConnection_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1516,7 +1516,7 @@ func RunPropertyAssignmentTestForSubnet_PrivateEndpoint_SubResourceEmbedded(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.Subnet_PrivateEndpoint_SubResourceEmbedded
+	var other v20220701s.Subnet_PrivateEndpoint_SubResourceEmbedded
 	err := copied.AssignProperties_To_Subnet_PrivateEndpoint_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -1613,7 +1613,7 @@ func RunPropertyAssignmentTestForSubnet_STATUS_PrivateEndpoint_SubResourceEmbedd
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded
+	var other v20220701s.Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded
 	err := copied.AssignProperties_To_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -1716,7 +1716,7 @@ func RunPropertyAssignmentTestForPrivateLinkServiceConnectionState(subject Priva
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.PrivateLinkServiceConnectionState
+	var other v20220701s.PrivateLinkServiceConnectionState
 	err := copied.AssignProperties_To_PrivateLinkServiceConnectionState(&other)
 	if err != nil {
 		return err.Error()
@@ -1821,7 +1821,7 @@ func RunPropertyAssignmentTestForPrivateLinkServiceConnectionState_STATUS(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20220701s.PrivateLinkServiceConnectionState_STATUS
+	var other v20220701s.PrivateLinkServiceConnectionState_STATUS
 	err := copied.AssignProperties_To_PrivateLinkServiceConnectionState_STATUS(&other)
 	if err != nil {
 		return err.Error()

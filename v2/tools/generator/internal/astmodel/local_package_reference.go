@@ -138,6 +138,48 @@ func (pr LocalPackageReference) GroupVersion() (string, string) {
 	return pr.group, pr.Version()
 }
 
+// ImportAlias returns the import alias to use for this package reference
+func (pr LocalPackageReference) ImportAlias(style PackageImportStyle) string {
+	switch style {
+	case VersionOnly:
+		return fmt.Sprintf(
+			"%s%s",
+			pr.simplifiedGeneratorVersion(pr.generatorVersion),
+			pr.simplifiedApiVersion(pr.apiVersion))
+	case GroupOnly:
+		return pr.group
+	case GroupAndVersion:
+		return fmt.Sprintf(
+			"%s_%s%s",
+			pr.group,
+			pr.simplifiedGeneratorVersion(pr.generatorVersion),
+			pr.simplifiedApiVersion(pr.apiVersion))
+	default:
+		panic(fmt.Sprintf("didn't expect PackageImportStyle %q", style))
+	}
+}
+
+var apiVersionSimplifier = strings.NewReplacer(
+	"alpha", "a",
+	"beta", "b",
+	"preview", "p",
+	"-", "",
+)
+
+func (pr LocalPackageReference) simplifiedApiVersion(version string) string {
+	return strings.ToLower(apiVersionSimplifier.Replace(version))
+}
+
+var generatorVersionSimplifier = strings.NewReplacer(
+	"v1alpha1api", "alpha",
+	"v1beta1api", "beta",
+	"v1api", "v",
+)
+
+func (pr LocalPackageReference) simplifiedGeneratorVersion(version string) string {
+	return generatorVersionSimplifier.Replace(version)
+}
+
 // sanitizePackageName removes all non-alphanumeric characters and converts to lower case
 func sanitizePackageName(input string) string {
 	builder := make([]rune, 0, len(input))

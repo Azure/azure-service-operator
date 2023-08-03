@@ -5,7 +5,7 @@ package v1api20200601
 
 import (
 	"fmt"
-	v1api20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601storage"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &PrivateDnsZonesMXRecord{}
 
 // ConvertFrom populates our PrivateDnsZonesMXRecord from the provided hub PrivateDnsZonesMXRecord
 func (record *PrivateDnsZonesMXRecord) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20200601s.PrivateDnsZonesMXRecord)
+	source, ok := hub.(*v20200601s.PrivateDnsZonesMXRecord)
 	if !ok {
 		return fmt.Errorf("expected network/v1api20200601storage/PrivateDnsZonesMXRecord but received %T instead", hub)
 	}
@@ -59,7 +59,7 @@ func (record *PrivateDnsZonesMXRecord) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub PrivateDnsZonesMXRecord from our PrivateDnsZonesMXRecord
 func (record *PrivateDnsZonesMXRecord) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20200601s.PrivateDnsZonesMXRecord)
+	destination, ok := hub.(*v20200601s.PrivateDnsZonesMXRecord)
 	if !ok {
 		return fmt.Errorf("expected network/v1api20200601storage/PrivateDnsZonesMXRecord but received %T instead", hub)
 	}
@@ -240,7 +240,7 @@ func (record *PrivateDnsZonesMXRecord) validateWriteOnceProperties(old runtime.O
 }
 
 // AssignProperties_From_PrivateDnsZonesMXRecord populates our PrivateDnsZonesMXRecord from the provided source PrivateDnsZonesMXRecord
-func (record *PrivateDnsZonesMXRecord) AssignProperties_From_PrivateDnsZonesMXRecord(source *v1api20200601s.PrivateDnsZonesMXRecord) error {
+func (record *PrivateDnsZonesMXRecord) AssignProperties_From_PrivateDnsZonesMXRecord(source *v20200601s.PrivateDnsZonesMXRecord) error {
 
 	// ObjectMeta
 	record.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -266,13 +266,13 @@ func (record *PrivateDnsZonesMXRecord) AssignProperties_From_PrivateDnsZonesMXRe
 }
 
 // AssignProperties_To_PrivateDnsZonesMXRecord populates the provided destination PrivateDnsZonesMXRecord from our PrivateDnsZonesMXRecord
-func (record *PrivateDnsZonesMXRecord) AssignProperties_To_PrivateDnsZonesMXRecord(destination *v1api20200601s.PrivateDnsZonesMXRecord) error {
+func (record *PrivateDnsZonesMXRecord) AssignProperties_To_PrivateDnsZonesMXRecord(destination *v20200601s.PrivateDnsZonesMXRecord) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *record.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20200601s.PrivateDnsZones_MX_Spec
+	var spec v20200601s.PrivateDnsZones_MX_Spec
 	err := record.Spec.AssignProperties_To_PrivateDnsZones_MX_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_PrivateDnsZones_MX_Spec() to populate field Spec")
@@ -280,7 +280,7 @@ func (record *PrivateDnsZonesMXRecord) AssignProperties_To_PrivateDnsZonesMXReco
 	destination.Spec = spec
 
 	// Status
-	var status v1api20200601s.PrivateDnsZones_MX_STATUS
+	var status v20200601s.PrivateDnsZones_MX_STATUS
 	err = record.Status.AssignProperties_To_PrivateDnsZones_MX_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_PrivateDnsZones_MX_STATUS() to populate field Status")
@@ -615,14 +615,14 @@ var _ genruntime.ConvertibleSpec = &PrivateDnsZones_MX_Spec{}
 
 // ConvertSpecFrom populates our PrivateDnsZones_MX_Spec from the provided source
 func (zonesMX *PrivateDnsZones_MX_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20200601s.PrivateDnsZones_MX_Spec)
+	src, ok := source.(*v20200601s.PrivateDnsZones_MX_Spec)
 	if ok {
 		// Populate our instance from source
 		return zonesMX.AssignProperties_From_PrivateDnsZones_MX_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20200601s.PrivateDnsZones_MX_Spec{}
+	src = &v20200601s.PrivateDnsZones_MX_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -639,14 +639,14 @@ func (zonesMX *PrivateDnsZones_MX_Spec) ConvertSpecFrom(source genruntime.Conver
 
 // ConvertSpecTo populates the provided destination from our PrivateDnsZones_MX_Spec
 func (zonesMX *PrivateDnsZones_MX_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20200601s.PrivateDnsZones_MX_Spec)
+	dst, ok := destination.(*v20200601s.PrivateDnsZones_MX_Spec)
 	if ok {
 		// Populate destination from our instance
 		return zonesMX.AssignProperties_To_PrivateDnsZones_MX_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20200601s.PrivateDnsZones_MX_Spec{}
+	dst = &v20200601s.PrivateDnsZones_MX_Spec{}
 	err := zonesMX.AssignProperties_To_PrivateDnsZones_MX_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -662,7 +662,7 @@ func (zonesMX *PrivateDnsZones_MX_Spec) ConvertSpecTo(destination genruntime.Con
 }
 
 // AssignProperties_From_PrivateDnsZones_MX_Spec populates our PrivateDnsZones_MX_Spec from the provided source PrivateDnsZones_MX_Spec
-func (zonesMX *PrivateDnsZones_MX_Spec) AssignProperties_From_PrivateDnsZones_MX_Spec(source *v1api20200601s.PrivateDnsZones_MX_Spec) error {
+func (zonesMX *PrivateDnsZones_MX_Spec) AssignProperties_From_PrivateDnsZones_MX_Spec(source *v20200601s.PrivateDnsZones_MX_Spec) error {
 
 	// ARecords
 	if source.ARecords != nil {
@@ -821,17 +821,17 @@ func (zonesMX *PrivateDnsZones_MX_Spec) AssignProperties_From_PrivateDnsZones_MX
 }
 
 // AssignProperties_To_PrivateDnsZones_MX_Spec populates the provided destination PrivateDnsZones_MX_Spec from our PrivateDnsZones_MX_Spec
-func (zonesMX *PrivateDnsZones_MX_Spec) AssignProperties_To_PrivateDnsZones_MX_Spec(destination *v1api20200601s.PrivateDnsZones_MX_Spec) error {
+func (zonesMX *PrivateDnsZones_MX_Spec) AssignProperties_To_PrivateDnsZones_MX_Spec(destination *v20200601s.PrivateDnsZones_MX_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ARecords
 	if zonesMX.ARecords != nil {
-		aRecordList := make([]v1api20200601s.ARecord, len(zonesMX.ARecords))
+		aRecordList := make([]v20200601s.ARecord, len(zonesMX.ARecords))
 		for aRecordIndex, aRecordItem := range zonesMX.ARecords {
 			// Shadow the loop variable to avoid aliasing
 			aRecordItem := aRecordItem
-			var aRecord v1api20200601s.ARecord
+			var aRecord v20200601s.ARecord
 			err := aRecordItem.AssignProperties_To_ARecord(&aRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ARecord() to populate field ARecords")
@@ -845,11 +845,11 @@ func (zonesMX *PrivateDnsZones_MX_Spec) AssignProperties_To_PrivateDnsZones_MX_S
 
 	// AaaaRecords
 	if zonesMX.AaaaRecords != nil {
-		aaaaRecordList := make([]v1api20200601s.AaaaRecord, len(zonesMX.AaaaRecords))
+		aaaaRecordList := make([]v20200601s.AaaaRecord, len(zonesMX.AaaaRecords))
 		for aaaaRecordIndex, aaaaRecordItem := range zonesMX.AaaaRecords {
 			// Shadow the loop variable to avoid aliasing
 			aaaaRecordItem := aaaaRecordItem
-			var aaaaRecord v1api20200601s.AaaaRecord
+			var aaaaRecord v20200601s.AaaaRecord
 			err := aaaaRecordItem.AssignProperties_To_AaaaRecord(&aaaaRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_AaaaRecord() to populate field AaaaRecords")
@@ -866,7 +866,7 @@ func (zonesMX *PrivateDnsZones_MX_Spec) AssignProperties_To_PrivateDnsZones_MX_S
 
 	// CnameRecord
 	if zonesMX.CnameRecord != nil {
-		var cnameRecord v1api20200601s.CnameRecord
+		var cnameRecord v20200601s.CnameRecord
 		err := zonesMX.CnameRecord.AssignProperties_To_CnameRecord(&cnameRecord)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CnameRecord() to populate field CnameRecord")
@@ -884,11 +884,11 @@ func (zonesMX *PrivateDnsZones_MX_Spec) AssignProperties_To_PrivateDnsZones_MX_S
 
 	// MxRecords
 	if zonesMX.MxRecords != nil {
-		mxRecordList := make([]v1api20200601s.MxRecord, len(zonesMX.MxRecords))
+		mxRecordList := make([]v20200601s.MxRecord, len(zonesMX.MxRecords))
 		for mxRecordIndex, mxRecordItem := range zonesMX.MxRecords {
 			// Shadow the loop variable to avoid aliasing
 			mxRecordItem := mxRecordItem
-			var mxRecord v1api20200601s.MxRecord
+			var mxRecord v20200601s.MxRecord
 			err := mxRecordItem.AssignProperties_To_MxRecord(&mxRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_MxRecord() to populate field MxRecords")
@@ -913,11 +913,11 @@ func (zonesMX *PrivateDnsZones_MX_Spec) AssignProperties_To_PrivateDnsZones_MX_S
 
 	// PtrRecords
 	if zonesMX.PtrRecords != nil {
-		ptrRecordList := make([]v1api20200601s.PtrRecord, len(zonesMX.PtrRecords))
+		ptrRecordList := make([]v20200601s.PtrRecord, len(zonesMX.PtrRecords))
 		for ptrRecordIndex, ptrRecordItem := range zonesMX.PtrRecords {
 			// Shadow the loop variable to avoid aliasing
 			ptrRecordItem := ptrRecordItem
-			var ptrRecord v1api20200601s.PtrRecord
+			var ptrRecord v20200601s.PtrRecord
 			err := ptrRecordItem.AssignProperties_To_PtrRecord(&ptrRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PtrRecord() to populate field PtrRecords")
@@ -931,7 +931,7 @@ func (zonesMX *PrivateDnsZones_MX_Spec) AssignProperties_To_PrivateDnsZones_MX_S
 
 	// SoaRecord
 	if zonesMX.SoaRecord != nil {
-		var soaRecord v1api20200601s.SoaRecord
+		var soaRecord v20200601s.SoaRecord
 		err := zonesMX.SoaRecord.AssignProperties_To_SoaRecord(&soaRecord)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SoaRecord() to populate field SoaRecord")
@@ -943,11 +943,11 @@ func (zonesMX *PrivateDnsZones_MX_Spec) AssignProperties_To_PrivateDnsZones_MX_S
 
 	// SrvRecords
 	if zonesMX.SrvRecords != nil {
-		srvRecordList := make([]v1api20200601s.SrvRecord, len(zonesMX.SrvRecords))
+		srvRecordList := make([]v20200601s.SrvRecord, len(zonesMX.SrvRecords))
 		for srvRecordIndex, srvRecordItem := range zonesMX.SrvRecords {
 			// Shadow the loop variable to avoid aliasing
 			srvRecordItem := srvRecordItem
-			var srvRecord v1api20200601s.SrvRecord
+			var srvRecord v20200601s.SrvRecord
 			err := srvRecordItem.AssignProperties_To_SrvRecord(&srvRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SrvRecord() to populate field SrvRecords")
@@ -964,11 +964,11 @@ func (zonesMX *PrivateDnsZones_MX_Spec) AssignProperties_To_PrivateDnsZones_MX_S
 
 	// TxtRecords
 	if zonesMX.TxtRecords != nil {
-		txtRecordList := make([]v1api20200601s.TxtRecord, len(zonesMX.TxtRecords))
+		txtRecordList := make([]v20200601s.TxtRecord, len(zonesMX.TxtRecords))
 		for txtRecordIndex, txtRecordItem := range zonesMX.TxtRecords {
 			// Shadow the loop variable to avoid aliasing
 			txtRecordItem := txtRecordItem
-			var txtRecord v1api20200601s.TxtRecord
+			var txtRecord v20200601s.TxtRecord
 			err := txtRecordItem.AssignProperties_To_TxtRecord(&txtRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_TxtRecord() to populate field TxtRecords")
@@ -1205,14 +1205,14 @@ var _ genruntime.ConvertibleStatus = &PrivateDnsZones_MX_STATUS{}
 
 // ConvertStatusFrom populates our PrivateDnsZones_MX_STATUS from the provided source
 func (zonesMX *PrivateDnsZones_MX_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20200601s.PrivateDnsZones_MX_STATUS)
+	src, ok := source.(*v20200601s.PrivateDnsZones_MX_STATUS)
 	if ok {
 		// Populate our instance from source
 		return zonesMX.AssignProperties_From_PrivateDnsZones_MX_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20200601s.PrivateDnsZones_MX_STATUS{}
+	src = &v20200601s.PrivateDnsZones_MX_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -1229,14 +1229,14 @@ func (zonesMX *PrivateDnsZones_MX_STATUS) ConvertStatusFrom(source genruntime.Co
 
 // ConvertStatusTo populates the provided destination from our PrivateDnsZones_MX_STATUS
 func (zonesMX *PrivateDnsZones_MX_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20200601s.PrivateDnsZones_MX_STATUS)
+	dst, ok := destination.(*v20200601s.PrivateDnsZones_MX_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return zonesMX.AssignProperties_To_PrivateDnsZones_MX_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20200601s.PrivateDnsZones_MX_STATUS{}
+	dst = &v20200601s.PrivateDnsZones_MX_STATUS{}
 	err := zonesMX.AssignProperties_To_PrivateDnsZones_MX_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -1440,7 +1440,7 @@ func (zonesMX *PrivateDnsZones_MX_STATUS) PopulateFromARM(owner genruntime.Arbit
 }
 
 // AssignProperties_From_PrivateDnsZones_MX_STATUS populates our PrivateDnsZones_MX_STATUS from the provided source PrivateDnsZones_MX_STATUS
-func (zonesMX *PrivateDnsZones_MX_STATUS) AssignProperties_From_PrivateDnsZones_MX_STATUS(source *v1api20200601s.PrivateDnsZones_MX_STATUS) error {
+func (zonesMX *PrivateDnsZones_MX_STATUS) AssignProperties_From_PrivateDnsZones_MX_STATUS(source *v20200601s.PrivateDnsZones_MX_STATUS) error {
 
 	// ARecords
 	if source.ARecords != nil {
@@ -1611,17 +1611,17 @@ func (zonesMX *PrivateDnsZones_MX_STATUS) AssignProperties_From_PrivateDnsZones_
 }
 
 // AssignProperties_To_PrivateDnsZones_MX_STATUS populates the provided destination PrivateDnsZones_MX_STATUS from our PrivateDnsZones_MX_STATUS
-func (zonesMX *PrivateDnsZones_MX_STATUS) AssignProperties_To_PrivateDnsZones_MX_STATUS(destination *v1api20200601s.PrivateDnsZones_MX_STATUS) error {
+func (zonesMX *PrivateDnsZones_MX_STATUS) AssignProperties_To_PrivateDnsZones_MX_STATUS(destination *v20200601s.PrivateDnsZones_MX_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ARecords
 	if zonesMX.ARecords != nil {
-		aRecordList := make([]v1api20200601s.ARecord_STATUS, len(zonesMX.ARecords))
+		aRecordList := make([]v20200601s.ARecord_STATUS, len(zonesMX.ARecords))
 		for aRecordIndex, aRecordItem := range zonesMX.ARecords {
 			// Shadow the loop variable to avoid aliasing
 			aRecordItem := aRecordItem
-			var aRecord v1api20200601s.ARecord_STATUS
+			var aRecord v20200601s.ARecord_STATUS
 			err := aRecordItem.AssignProperties_To_ARecord_STATUS(&aRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ARecord_STATUS() to populate field ARecords")
@@ -1635,11 +1635,11 @@ func (zonesMX *PrivateDnsZones_MX_STATUS) AssignProperties_To_PrivateDnsZones_MX
 
 	// AaaaRecords
 	if zonesMX.AaaaRecords != nil {
-		aaaaRecordList := make([]v1api20200601s.AaaaRecord_STATUS, len(zonesMX.AaaaRecords))
+		aaaaRecordList := make([]v20200601s.AaaaRecord_STATUS, len(zonesMX.AaaaRecords))
 		for aaaaRecordIndex, aaaaRecordItem := range zonesMX.AaaaRecords {
 			// Shadow the loop variable to avoid aliasing
 			aaaaRecordItem := aaaaRecordItem
-			var aaaaRecord v1api20200601s.AaaaRecord_STATUS
+			var aaaaRecord v20200601s.AaaaRecord_STATUS
 			err := aaaaRecordItem.AssignProperties_To_AaaaRecord_STATUS(&aaaaRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_AaaaRecord_STATUS() to populate field AaaaRecords")
@@ -1653,7 +1653,7 @@ func (zonesMX *PrivateDnsZones_MX_STATUS) AssignProperties_To_PrivateDnsZones_MX
 
 	// CnameRecord
 	if zonesMX.CnameRecord != nil {
-		var cnameRecord v1api20200601s.CnameRecord_STATUS
+		var cnameRecord v20200601s.CnameRecord_STATUS
 		err := zonesMX.CnameRecord.AssignProperties_To_CnameRecord_STATUS(&cnameRecord)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_CnameRecord_STATUS() to populate field CnameRecord")
@@ -1688,11 +1688,11 @@ func (zonesMX *PrivateDnsZones_MX_STATUS) AssignProperties_To_PrivateDnsZones_MX
 
 	// MxRecords
 	if zonesMX.MxRecords != nil {
-		mxRecordList := make([]v1api20200601s.MxRecord_STATUS, len(zonesMX.MxRecords))
+		mxRecordList := make([]v20200601s.MxRecord_STATUS, len(zonesMX.MxRecords))
 		for mxRecordIndex, mxRecordItem := range zonesMX.MxRecords {
 			// Shadow the loop variable to avoid aliasing
 			mxRecordItem := mxRecordItem
-			var mxRecord v1api20200601s.MxRecord_STATUS
+			var mxRecord v20200601s.MxRecord_STATUS
 			err := mxRecordItem.AssignProperties_To_MxRecord_STATUS(&mxRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_MxRecord_STATUS() to populate field MxRecords")
@@ -1709,11 +1709,11 @@ func (zonesMX *PrivateDnsZones_MX_STATUS) AssignProperties_To_PrivateDnsZones_MX
 
 	// PtrRecords
 	if zonesMX.PtrRecords != nil {
-		ptrRecordList := make([]v1api20200601s.PtrRecord_STATUS, len(zonesMX.PtrRecords))
+		ptrRecordList := make([]v20200601s.PtrRecord_STATUS, len(zonesMX.PtrRecords))
 		for ptrRecordIndex, ptrRecordItem := range zonesMX.PtrRecords {
 			// Shadow the loop variable to avoid aliasing
 			ptrRecordItem := ptrRecordItem
-			var ptrRecord v1api20200601s.PtrRecord_STATUS
+			var ptrRecord v20200601s.PtrRecord_STATUS
 			err := ptrRecordItem.AssignProperties_To_PtrRecord_STATUS(&ptrRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_PtrRecord_STATUS() to populate field PtrRecords")
@@ -1727,7 +1727,7 @@ func (zonesMX *PrivateDnsZones_MX_STATUS) AssignProperties_To_PrivateDnsZones_MX
 
 	// SoaRecord
 	if zonesMX.SoaRecord != nil {
-		var soaRecord v1api20200601s.SoaRecord_STATUS
+		var soaRecord v20200601s.SoaRecord_STATUS
 		err := zonesMX.SoaRecord.AssignProperties_To_SoaRecord_STATUS(&soaRecord)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SoaRecord_STATUS() to populate field SoaRecord")
@@ -1739,11 +1739,11 @@ func (zonesMX *PrivateDnsZones_MX_STATUS) AssignProperties_To_PrivateDnsZones_MX
 
 	// SrvRecords
 	if zonesMX.SrvRecords != nil {
-		srvRecordList := make([]v1api20200601s.SrvRecord_STATUS, len(zonesMX.SrvRecords))
+		srvRecordList := make([]v20200601s.SrvRecord_STATUS, len(zonesMX.SrvRecords))
 		for srvRecordIndex, srvRecordItem := range zonesMX.SrvRecords {
 			// Shadow the loop variable to avoid aliasing
 			srvRecordItem := srvRecordItem
-			var srvRecord v1api20200601s.SrvRecord_STATUS
+			var srvRecord v20200601s.SrvRecord_STATUS
 			err := srvRecordItem.AssignProperties_To_SrvRecord_STATUS(&srvRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SrvRecord_STATUS() to populate field SrvRecords")
@@ -1760,11 +1760,11 @@ func (zonesMX *PrivateDnsZones_MX_STATUS) AssignProperties_To_PrivateDnsZones_MX
 
 	// TxtRecords
 	if zonesMX.TxtRecords != nil {
-		txtRecordList := make([]v1api20200601s.TxtRecord_STATUS, len(zonesMX.TxtRecords))
+		txtRecordList := make([]v20200601s.TxtRecord_STATUS, len(zonesMX.TxtRecords))
 		for txtRecordIndex, txtRecordItem := range zonesMX.TxtRecords {
 			// Shadow the loop variable to avoid aliasing
 			txtRecordItem := txtRecordItem
-			var txtRecord v1api20200601s.TxtRecord_STATUS
+			var txtRecord v20200601s.TxtRecord_STATUS
 			err := txtRecordItem.AssignProperties_To_TxtRecord_STATUS(&txtRecord)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_TxtRecord_STATUS() to populate field TxtRecords")

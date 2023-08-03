@@ -5,7 +5,7 @@ package v1beta20210701storage
 
 import (
 	"fmt"
-	v1api20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701storage"
+	v20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -46,7 +46,7 @@ var _ conversion.Convertible = &WorkspacesCompute{}
 
 // ConvertFrom populates our WorkspacesCompute from the provided hub WorkspacesCompute
 func (compute *WorkspacesCompute) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20210701s.WorkspacesCompute)
+	source, ok := hub.(*v20210701s.WorkspacesCompute)
 	if !ok {
 		return fmt.Errorf("expected machinelearningservices/v1api20210701storage/WorkspacesCompute but received %T instead", hub)
 	}
@@ -56,7 +56,7 @@ func (compute *WorkspacesCompute) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub WorkspacesCompute from our WorkspacesCompute
 func (compute *WorkspacesCompute) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20210701s.WorkspacesCompute)
+	destination, ok := hub.(*v20210701s.WorkspacesCompute)
 	if !ok {
 		return fmt.Errorf("expected machinelearningservices/v1api20210701storage/WorkspacesCompute but received %T instead", hub)
 	}
@@ -131,7 +131,7 @@ func (compute *WorkspacesCompute) SetStatus(status genruntime.ConvertibleStatus)
 }
 
 // AssignProperties_From_WorkspacesCompute populates our WorkspacesCompute from the provided source WorkspacesCompute
-func (compute *WorkspacesCompute) AssignProperties_From_WorkspacesCompute(source *v1api20210701s.WorkspacesCompute) error {
+func (compute *WorkspacesCompute) AssignProperties_From_WorkspacesCompute(source *v20210701s.WorkspacesCompute) error {
 
 	// ObjectMeta
 	compute.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -166,13 +166,13 @@ func (compute *WorkspacesCompute) AssignProperties_From_WorkspacesCompute(source
 }
 
 // AssignProperties_To_WorkspacesCompute populates the provided destination WorkspacesCompute from our WorkspacesCompute
-func (compute *WorkspacesCompute) AssignProperties_To_WorkspacesCompute(destination *v1api20210701s.WorkspacesCompute) error {
+func (compute *WorkspacesCompute) AssignProperties_To_WorkspacesCompute(destination *v20210701s.WorkspacesCompute) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *compute.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1api20210701s.Workspaces_Compute_Spec
+	var spec v20210701s.Workspaces_Compute_Spec
 	err := compute.Spec.AssignProperties_To_Workspaces_Compute_Spec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Workspaces_Compute_Spec() to populate field Spec")
@@ -180,7 +180,7 @@ func (compute *WorkspacesCompute) AssignProperties_To_WorkspacesCompute(destinat
 	destination.Spec = spec
 
 	// Status
-	var status v1api20210701s.Workspaces_Compute_STATUS
+	var status v20210701s.Workspaces_Compute_STATUS
 	err = compute.Status.AssignProperties_To_Workspaces_Compute_STATUS(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignProperties_To_Workspaces_Compute_STATUS() to populate field Status")
@@ -219,8 +219,8 @@ type WorkspacesComputeList struct {
 }
 
 type augmentConversionForWorkspacesCompute interface {
-	AssignPropertiesFrom(src *v1api20210701s.WorkspacesCompute) error
-	AssignPropertiesTo(dst *v1api20210701s.WorkspacesCompute) error
+	AssignPropertiesFrom(src *v20210701s.WorkspacesCompute) error
+	AssignPropertiesTo(dst *v20210701s.WorkspacesCompute) error
 }
 
 // Storage version of v1beta20210701.Workspaces_Compute_Spec
@@ -248,14 +248,14 @@ var _ genruntime.ConvertibleSpec = &Workspaces_Compute_Spec{}
 
 // ConvertSpecFrom populates our Workspaces_Compute_Spec from the provided source
 func (compute *Workspaces_Compute_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1api20210701s.Workspaces_Compute_Spec)
+	src, ok := source.(*v20210701s.Workspaces_Compute_Spec)
 	if ok {
 		// Populate our instance from source
 		return compute.AssignProperties_From_Workspaces_Compute_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20210701s.Workspaces_Compute_Spec{}
+	src = &v20210701s.Workspaces_Compute_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -272,14 +272,14 @@ func (compute *Workspaces_Compute_Spec) ConvertSpecFrom(source genruntime.Conver
 
 // ConvertSpecTo populates the provided destination from our Workspaces_Compute_Spec
 func (compute *Workspaces_Compute_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1api20210701s.Workspaces_Compute_Spec)
+	dst, ok := destination.(*v20210701s.Workspaces_Compute_Spec)
 	if ok {
 		// Populate destination from our instance
 		return compute.AssignProperties_To_Workspaces_Compute_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20210701s.Workspaces_Compute_Spec{}
+	dst = &v20210701s.Workspaces_Compute_Spec{}
 	err := compute.AssignProperties_To_Workspaces_Compute_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -295,7 +295,7 @@ func (compute *Workspaces_Compute_Spec) ConvertSpecTo(destination genruntime.Con
 }
 
 // AssignProperties_From_Workspaces_Compute_Spec populates our Workspaces_Compute_Spec from the provided source Workspaces_Compute_Spec
-func (compute *Workspaces_Compute_Spec) AssignProperties_From_Workspaces_Compute_Spec(source *v1api20210701s.Workspaces_Compute_Spec) error {
+func (compute *Workspaces_Compute_Spec) AssignProperties_From_Workspaces_Compute_Spec(source *v20210701s.Workspaces_Compute_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -388,7 +388,7 @@ func (compute *Workspaces_Compute_Spec) AssignProperties_From_Workspaces_Compute
 }
 
 // AssignProperties_To_Workspaces_Compute_Spec populates the provided destination Workspaces_Compute_Spec from our Workspaces_Compute_Spec
-func (compute *Workspaces_Compute_Spec) AssignProperties_To_Workspaces_Compute_Spec(destination *v1api20210701s.Workspaces_Compute_Spec) error {
+func (compute *Workspaces_Compute_Spec) AssignProperties_To_Workspaces_Compute_Spec(destination *v20210701s.Workspaces_Compute_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(compute.PropertyBag)
 
@@ -397,7 +397,7 @@ func (compute *Workspaces_Compute_Spec) AssignProperties_To_Workspaces_Compute_S
 
 	// Identity
 	if compute.Identity != nil {
-		var identity v1api20210701s.Identity
+		var identity v20210701s.Identity
 		err := compute.Identity.AssignProperties_To_Identity(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Identity() to populate field Identity")
@@ -423,7 +423,7 @@ func (compute *Workspaces_Compute_Spec) AssignProperties_To_Workspaces_Compute_S
 
 	// Properties
 	if compute.Properties != nil {
-		var property v1api20210701s.Compute
+		var property v20210701s.Compute
 		err := compute.Properties.AssignProperties_To_Compute(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Compute() to populate field Properties")
@@ -435,7 +435,7 @@ func (compute *Workspaces_Compute_Spec) AssignProperties_To_Workspaces_Compute_S
 
 	// Sku
 	if compute.Sku != nil {
-		var sku v1api20210701s.Sku
+		var sku v20210701s.Sku
 		err := compute.Sku.AssignProperties_To_Sku(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
@@ -447,7 +447,7 @@ func (compute *Workspaces_Compute_Spec) AssignProperties_To_Workspaces_Compute_S
 
 	// SystemData
 	if compute.SystemData != nil {
-		var systemDatum v1api20210701s.SystemData
+		var systemDatum v20210701s.SystemData
 		err := compute.SystemData.AssignProperties_To_SystemData(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData() to populate field SystemData")
@@ -500,14 +500,14 @@ var _ genruntime.ConvertibleStatus = &Workspaces_Compute_STATUS{}
 
 // ConvertStatusFrom populates our Workspaces_Compute_STATUS from the provided source
 func (compute *Workspaces_Compute_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1api20210701s.Workspaces_Compute_STATUS)
+	src, ok := source.(*v20210701s.Workspaces_Compute_STATUS)
 	if ok {
 		// Populate our instance from source
 		return compute.AssignProperties_From_Workspaces_Compute_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1api20210701s.Workspaces_Compute_STATUS{}
+	src = &v20210701s.Workspaces_Compute_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -524,14 +524,14 @@ func (compute *Workspaces_Compute_STATUS) ConvertStatusFrom(source genruntime.Co
 
 // ConvertStatusTo populates the provided destination from our Workspaces_Compute_STATUS
 func (compute *Workspaces_Compute_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1api20210701s.Workspaces_Compute_STATUS)
+	dst, ok := destination.(*v20210701s.Workspaces_Compute_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return compute.AssignProperties_To_Workspaces_Compute_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1api20210701s.Workspaces_Compute_STATUS{}
+	dst = &v20210701s.Workspaces_Compute_STATUS{}
 	err := compute.AssignProperties_To_Workspaces_Compute_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -547,7 +547,7 @@ func (compute *Workspaces_Compute_STATUS) ConvertStatusTo(destination genruntime
 }
 
 // AssignProperties_From_Workspaces_Compute_STATUS populates our Workspaces_Compute_STATUS from the provided source Workspaces_Compute_STATUS
-func (compute *Workspaces_Compute_STATUS) AssignProperties_From_Workspaces_Compute_STATUS(source *v1api20210701s.Workspaces_Compute_STATUS) error {
+func (compute *Workspaces_Compute_STATUS) AssignProperties_From_Workspaces_Compute_STATUS(source *v20210701s.Workspaces_Compute_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -638,7 +638,7 @@ func (compute *Workspaces_Compute_STATUS) AssignProperties_From_Workspaces_Compu
 }
 
 // AssignProperties_To_Workspaces_Compute_STATUS populates the provided destination Workspaces_Compute_STATUS from our Workspaces_Compute_STATUS
-func (compute *Workspaces_Compute_STATUS) AssignProperties_To_Workspaces_Compute_STATUS(destination *v1api20210701s.Workspaces_Compute_STATUS) error {
+func (compute *Workspaces_Compute_STATUS) AssignProperties_To_Workspaces_Compute_STATUS(destination *v20210701s.Workspaces_Compute_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(compute.PropertyBag)
 
@@ -650,7 +650,7 @@ func (compute *Workspaces_Compute_STATUS) AssignProperties_To_Workspaces_Compute
 
 	// Identity
 	if compute.Identity != nil {
-		var identity v1api20210701s.Identity_STATUS
+		var identity v20210701s.Identity_STATUS
 		err := compute.Identity.AssignProperties_To_Identity_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Identity_STATUS() to populate field Identity")
@@ -668,7 +668,7 @@ func (compute *Workspaces_Compute_STATUS) AssignProperties_To_Workspaces_Compute
 
 	// Properties
 	if compute.Properties != nil {
-		var property v1api20210701s.Compute_STATUS
+		var property v20210701s.Compute_STATUS
 		err := compute.Properties.AssignProperties_To_Compute_STATUS(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Compute_STATUS() to populate field Properties")
@@ -680,7 +680,7 @@ func (compute *Workspaces_Compute_STATUS) AssignProperties_To_Workspaces_Compute
 
 	// Sku
 	if compute.Sku != nil {
-		var sku v1api20210701s.Sku_STATUS
+		var sku v20210701s.Sku_STATUS
 		err := compute.Sku.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
@@ -692,7 +692,7 @@ func (compute *Workspaces_Compute_STATUS) AssignProperties_To_Workspaces_Compute
 
 	// SystemData
 	if compute.SystemData != nil {
-		var systemDatum v1api20210701s.SystemData_STATUS
+		var systemDatum v20210701s.SystemData_STATUS
 		err := compute.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
@@ -729,13 +729,13 @@ func (compute *Workspaces_Compute_STATUS) AssignProperties_To_Workspaces_Compute
 }
 
 type augmentConversionForWorkspaces_Compute_Spec interface {
-	AssignPropertiesFrom(src *v1api20210701s.Workspaces_Compute_Spec) error
-	AssignPropertiesTo(dst *v1api20210701s.Workspaces_Compute_Spec) error
+	AssignPropertiesFrom(src *v20210701s.Workspaces_Compute_Spec) error
+	AssignPropertiesTo(dst *v20210701s.Workspaces_Compute_Spec) error
 }
 
 type augmentConversionForWorkspaces_Compute_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.Workspaces_Compute_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.Workspaces_Compute_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.Workspaces_Compute_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.Workspaces_Compute_STATUS) error
 }
 
 // Storage version of v1beta20210701.Compute
@@ -755,7 +755,7 @@ type Compute struct {
 }
 
 // AssignProperties_From_Compute populates our Compute from the provided source Compute
-func (compute *Compute) AssignProperties_From_Compute(source *v1api20210701s.Compute) error {
+func (compute *Compute) AssignProperties_From_Compute(source *v20210701s.Compute) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -900,13 +900,13 @@ func (compute *Compute) AssignProperties_From_Compute(source *v1api20210701s.Com
 }
 
 // AssignProperties_To_Compute populates the provided destination Compute from our Compute
-func (compute *Compute) AssignProperties_To_Compute(destination *v1api20210701s.Compute) error {
+func (compute *Compute) AssignProperties_To_Compute(destination *v20210701s.Compute) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(compute.PropertyBag)
 
 	// AKS
 	if compute.AKS != nil {
-		var aks v1api20210701s.AKS
+		var aks v20210701s.AKS
 		err := compute.AKS.AssignProperties_To_AKS(&aks)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AKS() to populate field AKS")
@@ -918,7 +918,7 @@ func (compute *Compute) AssignProperties_To_Compute(destination *v1api20210701s.
 
 	// AmlCompute
 	if compute.AmlCompute != nil {
-		var amlCompute v1api20210701s.AmlCompute
+		var amlCompute v20210701s.AmlCompute
 		err := compute.AmlCompute.AssignProperties_To_AmlCompute(&amlCompute)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AmlCompute() to populate field AmlCompute")
@@ -930,7 +930,7 @@ func (compute *Compute) AssignProperties_To_Compute(destination *v1api20210701s.
 
 	// ComputeInstance
 	if compute.ComputeInstance != nil {
-		var computeInstance v1api20210701s.ComputeInstance
+		var computeInstance v20210701s.ComputeInstance
 		err := compute.ComputeInstance.AssignProperties_To_ComputeInstance(&computeInstance)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ComputeInstance() to populate field ComputeInstance")
@@ -942,7 +942,7 @@ func (compute *Compute) AssignProperties_To_Compute(destination *v1api20210701s.
 
 	// DataFactory
 	if compute.DataFactory != nil {
-		var dataFactory v1api20210701s.DataFactory
+		var dataFactory v20210701s.DataFactory
 		err := compute.DataFactory.AssignProperties_To_DataFactory(&dataFactory)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DataFactory() to populate field DataFactory")
@@ -954,7 +954,7 @@ func (compute *Compute) AssignProperties_To_Compute(destination *v1api20210701s.
 
 	// DataLakeAnalytics
 	if compute.DataLakeAnalytics != nil {
-		var dataLakeAnalytic v1api20210701s.DataLakeAnalytics
+		var dataLakeAnalytic v20210701s.DataLakeAnalytics
 		err := compute.DataLakeAnalytics.AssignProperties_To_DataLakeAnalytics(&dataLakeAnalytic)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DataLakeAnalytics() to populate field DataLakeAnalytics")
@@ -966,7 +966,7 @@ func (compute *Compute) AssignProperties_To_Compute(destination *v1api20210701s.
 
 	// Databricks
 	if compute.Databricks != nil {
-		var databrick v1api20210701s.Databricks
+		var databrick v20210701s.Databricks
 		err := compute.Databricks.AssignProperties_To_Databricks(&databrick)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Databricks() to populate field Databricks")
@@ -978,7 +978,7 @@ func (compute *Compute) AssignProperties_To_Compute(destination *v1api20210701s.
 
 	// HDInsight
 	if compute.HDInsight != nil {
-		var hdInsight v1api20210701s.HDInsight
+		var hdInsight v20210701s.HDInsight
 		err := compute.HDInsight.AssignProperties_To_HDInsight(&hdInsight)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HDInsight() to populate field HDInsight")
@@ -990,7 +990,7 @@ func (compute *Compute) AssignProperties_To_Compute(destination *v1api20210701s.
 
 	// Kubernetes
 	if compute.Kubernetes != nil {
-		var kubernete v1api20210701s.Kubernetes
+		var kubernete v20210701s.Kubernetes
 		err := compute.Kubernetes.AssignProperties_To_Kubernetes(&kubernete)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Kubernetes() to populate field Kubernetes")
@@ -1002,7 +1002,7 @@ func (compute *Compute) AssignProperties_To_Compute(destination *v1api20210701s.
 
 	// SynapseSpark
 	if compute.SynapseSpark != nil {
-		var synapseSpark v1api20210701s.SynapseSpark
+		var synapseSpark v20210701s.SynapseSpark
 		err := compute.SynapseSpark.AssignProperties_To_SynapseSpark(&synapseSpark)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SynapseSpark() to populate field SynapseSpark")
@@ -1014,7 +1014,7 @@ func (compute *Compute) AssignProperties_To_Compute(destination *v1api20210701s.
 
 	// VirtualMachine
 	if compute.VirtualMachine != nil {
-		var virtualMachine v1api20210701s.VirtualMachine
+		var virtualMachine v20210701s.VirtualMachine
 		err := compute.VirtualMachine.AssignProperties_To_VirtualMachine(&virtualMachine)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine() to populate field VirtualMachine")
@@ -1061,7 +1061,7 @@ type Compute_STATUS struct {
 }
 
 // AssignProperties_From_Compute_STATUS populates our Compute_STATUS from the provided source Compute_STATUS
-func (compute *Compute_STATUS) AssignProperties_From_Compute_STATUS(source *v1api20210701s.Compute_STATUS) error {
+func (compute *Compute_STATUS) AssignProperties_From_Compute_STATUS(source *v20210701s.Compute_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1206,13 +1206,13 @@ func (compute *Compute_STATUS) AssignProperties_From_Compute_STATUS(source *v1ap
 }
 
 // AssignProperties_To_Compute_STATUS populates the provided destination Compute_STATUS from our Compute_STATUS
-func (compute *Compute_STATUS) AssignProperties_To_Compute_STATUS(destination *v1api20210701s.Compute_STATUS) error {
+func (compute *Compute_STATUS) AssignProperties_To_Compute_STATUS(destination *v20210701s.Compute_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(compute.PropertyBag)
 
 	// AKS
 	if compute.AKS != nil {
-		var aks v1api20210701s.AKS_STATUS
+		var aks v20210701s.AKS_STATUS
 		err := compute.AKS.AssignProperties_To_AKS_STATUS(&aks)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AKS_STATUS() to populate field AKS")
@@ -1224,7 +1224,7 @@ func (compute *Compute_STATUS) AssignProperties_To_Compute_STATUS(destination *v
 
 	// AmlCompute
 	if compute.AmlCompute != nil {
-		var amlCompute v1api20210701s.AmlCompute_STATUS
+		var amlCompute v20210701s.AmlCompute_STATUS
 		err := compute.AmlCompute.AssignProperties_To_AmlCompute_STATUS(&amlCompute)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AmlCompute_STATUS() to populate field AmlCompute")
@@ -1236,7 +1236,7 @@ func (compute *Compute_STATUS) AssignProperties_To_Compute_STATUS(destination *v
 
 	// ComputeInstance
 	if compute.ComputeInstance != nil {
-		var computeInstance v1api20210701s.ComputeInstance_STATUS
+		var computeInstance v20210701s.ComputeInstance_STATUS
 		err := compute.ComputeInstance.AssignProperties_To_ComputeInstance_STATUS(&computeInstance)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ComputeInstance_STATUS() to populate field ComputeInstance")
@@ -1248,7 +1248,7 @@ func (compute *Compute_STATUS) AssignProperties_To_Compute_STATUS(destination *v
 
 	// DataFactory
 	if compute.DataFactory != nil {
-		var dataFactory v1api20210701s.DataFactory_STATUS
+		var dataFactory v20210701s.DataFactory_STATUS
 		err := compute.DataFactory.AssignProperties_To_DataFactory_STATUS(&dataFactory)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DataFactory_STATUS() to populate field DataFactory")
@@ -1260,7 +1260,7 @@ func (compute *Compute_STATUS) AssignProperties_To_Compute_STATUS(destination *v
 
 	// DataLakeAnalytics
 	if compute.DataLakeAnalytics != nil {
-		var dataLakeAnalytic v1api20210701s.DataLakeAnalytics_STATUS
+		var dataLakeAnalytic v20210701s.DataLakeAnalytics_STATUS
 		err := compute.DataLakeAnalytics.AssignProperties_To_DataLakeAnalytics_STATUS(&dataLakeAnalytic)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DataLakeAnalytics_STATUS() to populate field DataLakeAnalytics")
@@ -1272,7 +1272,7 @@ func (compute *Compute_STATUS) AssignProperties_To_Compute_STATUS(destination *v
 
 	// Databricks
 	if compute.Databricks != nil {
-		var databrick v1api20210701s.Databricks_STATUS
+		var databrick v20210701s.Databricks_STATUS
 		err := compute.Databricks.AssignProperties_To_Databricks_STATUS(&databrick)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Databricks_STATUS() to populate field Databricks")
@@ -1284,7 +1284,7 @@ func (compute *Compute_STATUS) AssignProperties_To_Compute_STATUS(destination *v
 
 	// HDInsight
 	if compute.HDInsight != nil {
-		var hdInsight v1api20210701s.HDInsight_STATUS
+		var hdInsight v20210701s.HDInsight_STATUS
 		err := compute.HDInsight.AssignProperties_To_HDInsight_STATUS(&hdInsight)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HDInsight_STATUS() to populate field HDInsight")
@@ -1296,7 +1296,7 @@ func (compute *Compute_STATUS) AssignProperties_To_Compute_STATUS(destination *v
 
 	// Kubernetes
 	if compute.Kubernetes != nil {
-		var kubernete v1api20210701s.Kubernetes_STATUS
+		var kubernete v20210701s.Kubernetes_STATUS
 		err := compute.Kubernetes.AssignProperties_To_Kubernetes_STATUS(&kubernete)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Kubernetes_STATUS() to populate field Kubernetes")
@@ -1308,7 +1308,7 @@ func (compute *Compute_STATUS) AssignProperties_To_Compute_STATUS(destination *v
 
 	// SynapseSpark
 	if compute.SynapseSpark != nil {
-		var synapseSpark v1api20210701s.SynapseSpark_STATUS
+		var synapseSpark v20210701s.SynapseSpark_STATUS
 		err := compute.SynapseSpark.AssignProperties_To_SynapseSpark_STATUS(&synapseSpark)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SynapseSpark_STATUS() to populate field SynapseSpark")
@@ -1320,7 +1320,7 @@ func (compute *Compute_STATUS) AssignProperties_To_Compute_STATUS(destination *v
 
 	// VirtualMachine
 	if compute.VirtualMachine != nil {
-		var virtualMachine v1api20210701s.VirtualMachine_STATUS
+		var virtualMachine v20210701s.VirtualMachine_STATUS
 		err := compute.VirtualMachine.AssignProperties_To_VirtualMachine_STATUS(&virtualMachine)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_STATUS() to populate field VirtualMachine")
@@ -1363,7 +1363,7 @@ type AKS struct {
 }
 
 // AssignProperties_From_AKS populates our AKS from the provided source AKS
-func (aks *AKS) AssignProperties_From_AKS(source *v1api20210701s.AKS) error {
+func (aks *AKS) AssignProperties_From_AKS(source *v20210701s.AKS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1425,7 +1425,7 @@ func (aks *AKS) AssignProperties_From_AKS(source *v1api20210701s.AKS) error {
 }
 
 // AssignProperties_To_AKS populates the provided destination AKS from our AKS
-func (aks *AKS) AssignProperties_To_AKS(destination *v1api20210701s.AKS) error {
+func (aks *AKS) AssignProperties_To_AKS(destination *v20210701s.AKS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(aks.PropertyBag)
 
@@ -1448,7 +1448,7 @@ func (aks *AKS) AssignProperties_To_AKS(destination *v1api20210701s.AKS) error {
 
 	// Properties
 	if aks.Properties != nil {
-		var property v1api20210701s.AKS_Properties
+		var property v20210701s.AKS_Properties
 		err := aks.Properties.AssignProperties_To_AKS_Properties(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AKS_Properties() to populate field Properties")
@@ -1504,7 +1504,7 @@ type AKS_STATUS struct {
 }
 
 // AssignProperties_From_AKS_STATUS populates our AKS_STATUS from the provided source AKS_STATUS
-func (aks *AKS_STATUS) AssignProperties_From_AKS_STATUS(source *v1api20210701s.AKS_STATUS) error {
+func (aks *AKS_STATUS) AssignProperties_From_AKS_STATUS(source *v20210701s.AKS_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1596,7 +1596,7 @@ func (aks *AKS_STATUS) AssignProperties_From_AKS_STATUS(source *v1api20210701s.A
 }
 
 // AssignProperties_To_AKS_STATUS populates the provided destination AKS_STATUS from our AKS_STATUS
-func (aks *AKS_STATUS) AssignProperties_To_AKS_STATUS(destination *v1api20210701s.AKS_STATUS) error {
+func (aks *AKS_STATUS) AssignProperties_To_AKS_STATUS(destination *v20210701s.AKS_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(aks.PropertyBag)
 
@@ -1633,7 +1633,7 @@ func (aks *AKS_STATUS) AssignProperties_To_AKS_STATUS(destination *v1api20210701
 
 	// Properties
 	if aks.Properties != nil {
-		var property v1api20210701s.AKS_Properties_STATUS
+		var property v20210701s.AKS_Properties_STATUS
 		err := aks.Properties.AssignProperties_To_AKS_Properties_STATUS(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AKS_Properties_STATUS() to populate field Properties")
@@ -1645,11 +1645,11 @@ func (aks *AKS_STATUS) AssignProperties_To_AKS_STATUS(destination *v1api20210701
 
 	// ProvisioningErrors
 	if aks.ProvisioningErrors != nil {
-		provisioningErrorList := make([]v1api20210701s.ErrorResponse_STATUS, len(aks.ProvisioningErrors))
+		provisioningErrorList := make([]v20210701s.ErrorResponse_STATUS, len(aks.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range aks.ProvisioningErrors {
 			// Shadow the loop variable to avoid aliasing
 			provisioningErrorItem := provisioningErrorItem
-			var provisioningError v1api20210701s.ErrorResponse_STATUS
+			var provisioningError v20210701s.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
@@ -1700,7 +1700,7 @@ type AmlCompute struct {
 }
 
 // AssignProperties_From_AmlCompute populates our AmlCompute from the provided source AmlCompute
-func (compute *AmlCompute) AssignProperties_From_AmlCompute(source *v1api20210701s.AmlCompute) error {
+func (compute *AmlCompute) AssignProperties_From_AmlCompute(source *v20210701s.AmlCompute) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1762,7 +1762,7 @@ func (compute *AmlCompute) AssignProperties_From_AmlCompute(source *v1api2021070
 }
 
 // AssignProperties_To_AmlCompute populates the provided destination AmlCompute from our AmlCompute
-func (compute *AmlCompute) AssignProperties_To_AmlCompute(destination *v1api20210701s.AmlCompute) error {
+func (compute *AmlCompute) AssignProperties_To_AmlCompute(destination *v20210701s.AmlCompute) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(compute.PropertyBag)
 
@@ -1785,7 +1785,7 @@ func (compute *AmlCompute) AssignProperties_To_AmlCompute(destination *v1api2021
 
 	// Properties
 	if compute.Properties != nil {
-		var property v1api20210701s.AmlComputeProperties
+		var property v20210701s.AmlComputeProperties
 		err := compute.Properties.AssignProperties_To_AmlComputeProperties(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AmlComputeProperties() to populate field Properties")
@@ -1841,7 +1841,7 @@ type AmlCompute_STATUS struct {
 }
 
 // AssignProperties_From_AmlCompute_STATUS populates our AmlCompute_STATUS from the provided source AmlCompute_STATUS
-func (compute *AmlCompute_STATUS) AssignProperties_From_AmlCompute_STATUS(source *v1api20210701s.AmlCompute_STATUS) error {
+func (compute *AmlCompute_STATUS) AssignProperties_From_AmlCompute_STATUS(source *v20210701s.AmlCompute_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1933,7 +1933,7 @@ func (compute *AmlCompute_STATUS) AssignProperties_From_AmlCompute_STATUS(source
 }
 
 // AssignProperties_To_AmlCompute_STATUS populates the provided destination AmlCompute_STATUS from our AmlCompute_STATUS
-func (compute *AmlCompute_STATUS) AssignProperties_To_AmlCompute_STATUS(destination *v1api20210701s.AmlCompute_STATUS) error {
+func (compute *AmlCompute_STATUS) AssignProperties_To_AmlCompute_STATUS(destination *v20210701s.AmlCompute_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(compute.PropertyBag)
 
@@ -1970,7 +1970,7 @@ func (compute *AmlCompute_STATUS) AssignProperties_To_AmlCompute_STATUS(destinat
 
 	// Properties
 	if compute.Properties != nil {
-		var property v1api20210701s.AmlComputeProperties_STATUS
+		var property v20210701s.AmlComputeProperties_STATUS
 		err := compute.Properties.AssignProperties_To_AmlComputeProperties_STATUS(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AmlComputeProperties_STATUS() to populate field Properties")
@@ -1982,11 +1982,11 @@ func (compute *AmlCompute_STATUS) AssignProperties_To_AmlCompute_STATUS(destinat
 
 	// ProvisioningErrors
 	if compute.ProvisioningErrors != nil {
-		provisioningErrorList := make([]v1api20210701s.ErrorResponse_STATUS, len(compute.ProvisioningErrors))
+		provisioningErrorList := make([]v20210701s.ErrorResponse_STATUS, len(compute.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range compute.ProvisioningErrors {
 			// Shadow the loop variable to avoid aliasing
 			provisioningErrorItem := provisioningErrorItem
-			var provisioningError v1api20210701s.ErrorResponse_STATUS
+			var provisioningError v20210701s.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
@@ -2025,13 +2025,13 @@ func (compute *AmlCompute_STATUS) AssignProperties_To_AmlCompute_STATUS(destinat
 }
 
 type augmentConversionForCompute interface {
-	AssignPropertiesFrom(src *v1api20210701s.Compute) error
-	AssignPropertiesTo(dst *v1api20210701s.Compute) error
+	AssignPropertiesFrom(src *v20210701s.Compute) error
+	AssignPropertiesTo(dst *v20210701s.Compute) error
 }
 
 type augmentConversionForCompute_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.Compute_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.Compute_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.Compute_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.Compute_STATUS) error
 }
 
 // Storage version of v1beta20210701.ComputeInstance
@@ -2047,7 +2047,7 @@ type ComputeInstance struct {
 }
 
 // AssignProperties_From_ComputeInstance populates our ComputeInstance from the provided source ComputeInstance
-func (instance *ComputeInstance) AssignProperties_From_ComputeInstance(source *v1api20210701s.ComputeInstance) error {
+func (instance *ComputeInstance) AssignProperties_From_ComputeInstance(source *v20210701s.ComputeInstance) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2109,7 +2109,7 @@ func (instance *ComputeInstance) AssignProperties_From_ComputeInstance(source *v
 }
 
 // AssignProperties_To_ComputeInstance populates the provided destination ComputeInstance from our ComputeInstance
-func (instance *ComputeInstance) AssignProperties_To_ComputeInstance(destination *v1api20210701s.ComputeInstance) error {
+func (instance *ComputeInstance) AssignProperties_To_ComputeInstance(destination *v20210701s.ComputeInstance) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(instance.PropertyBag)
 
@@ -2132,7 +2132,7 @@ func (instance *ComputeInstance) AssignProperties_To_ComputeInstance(destination
 
 	// Properties
 	if instance.Properties != nil {
-		var property v1api20210701s.ComputeInstanceProperties
+		var property v20210701s.ComputeInstanceProperties
 		err := instance.Properties.AssignProperties_To_ComputeInstanceProperties(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ComputeInstanceProperties() to populate field Properties")
@@ -2188,7 +2188,7 @@ type ComputeInstance_STATUS struct {
 }
 
 // AssignProperties_From_ComputeInstance_STATUS populates our ComputeInstance_STATUS from the provided source ComputeInstance_STATUS
-func (instance *ComputeInstance_STATUS) AssignProperties_From_ComputeInstance_STATUS(source *v1api20210701s.ComputeInstance_STATUS) error {
+func (instance *ComputeInstance_STATUS) AssignProperties_From_ComputeInstance_STATUS(source *v20210701s.ComputeInstance_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2280,7 +2280,7 @@ func (instance *ComputeInstance_STATUS) AssignProperties_From_ComputeInstance_ST
 }
 
 // AssignProperties_To_ComputeInstance_STATUS populates the provided destination ComputeInstance_STATUS from our ComputeInstance_STATUS
-func (instance *ComputeInstance_STATUS) AssignProperties_To_ComputeInstance_STATUS(destination *v1api20210701s.ComputeInstance_STATUS) error {
+func (instance *ComputeInstance_STATUS) AssignProperties_To_ComputeInstance_STATUS(destination *v20210701s.ComputeInstance_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(instance.PropertyBag)
 
@@ -2317,7 +2317,7 @@ func (instance *ComputeInstance_STATUS) AssignProperties_To_ComputeInstance_STAT
 
 	// Properties
 	if instance.Properties != nil {
-		var property v1api20210701s.ComputeInstanceProperties_STATUS
+		var property v20210701s.ComputeInstanceProperties_STATUS
 		err := instance.Properties.AssignProperties_To_ComputeInstanceProperties_STATUS(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ComputeInstanceProperties_STATUS() to populate field Properties")
@@ -2329,11 +2329,11 @@ func (instance *ComputeInstance_STATUS) AssignProperties_To_ComputeInstance_STAT
 
 	// ProvisioningErrors
 	if instance.ProvisioningErrors != nil {
-		provisioningErrorList := make([]v1api20210701s.ErrorResponse_STATUS, len(instance.ProvisioningErrors))
+		provisioningErrorList := make([]v20210701s.ErrorResponse_STATUS, len(instance.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range instance.ProvisioningErrors {
 			// Shadow the loop variable to avoid aliasing
 			provisioningErrorItem := provisioningErrorItem
-			var provisioningError v1api20210701s.ErrorResponse_STATUS
+			var provisioningError v20210701s.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
@@ -2384,7 +2384,7 @@ type Databricks struct {
 }
 
 // AssignProperties_From_Databricks populates our Databricks from the provided source Databricks
-func (databricks *Databricks) AssignProperties_From_Databricks(source *v1api20210701s.Databricks) error {
+func (databricks *Databricks) AssignProperties_From_Databricks(source *v20210701s.Databricks) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2446,7 +2446,7 @@ func (databricks *Databricks) AssignProperties_From_Databricks(source *v1api2021
 }
 
 // AssignProperties_To_Databricks populates the provided destination Databricks from our Databricks
-func (databricks *Databricks) AssignProperties_To_Databricks(destination *v1api20210701s.Databricks) error {
+func (databricks *Databricks) AssignProperties_To_Databricks(destination *v20210701s.Databricks) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(databricks.PropertyBag)
 
@@ -2469,7 +2469,7 @@ func (databricks *Databricks) AssignProperties_To_Databricks(destination *v1api2
 
 	// Properties
 	if databricks.Properties != nil {
-		var property v1api20210701s.DatabricksProperties
+		var property v20210701s.DatabricksProperties
 		err := databricks.Properties.AssignProperties_To_DatabricksProperties(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DatabricksProperties() to populate field Properties")
@@ -2525,7 +2525,7 @@ type Databricks_STATUS struct {
 }
 
 // AssignProperties_From_Databricks_STATUS populates our Databricks_STATUS from the provided source Databricks_STATUS
-func (databricks *Databricks_STATUS) AssignProperties_From_Databricks_STATUS(source *v1api20210701s.Databricks_STATUS) error {
+func (databricks *Databricks_STATUS) AssignProperties_From_Databricks_STATUS(source *v20210701s.Databricks_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2617,7 +2617,7 @@ func (databricks *Databricks_STATUS) AssignProperties_From_Databricks_STATUS(sou
 }
 
 // AssignProperties_To_Databricks_STATUS populates the provided destination Databricks_STATUS from our Databricks_STATUS
-func (databricks *Databricks_STATUS) AssignProperties_To_Databricks_STATUS(destination *v1api20210701s.Databricks_STATUS) error {
+func (databricks *Databricks_STATUS) AssignProperties_To_Databricks_STATUS(destination *v20210701s.Databricks_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(databricks.PropertyBag)
 
@@ -2654,7 +2654,7 @@ func (databricks *Databricks_STATUS) AssignProperties_To_Databricks_STATUS(desti
 
 	// Properties
 	if databricks.Properties != nil {
-		var property v1api20210701s.DatabricksProperties_STATUS
+		var property v20210701s.DatabricksProperties_STATUS
 		err := databricks.Properties.AssignProperties_To_DatabricksProperties_STATUS(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DatabricksProperties_STATUS() to populate field Properties")
@@ -2666,11 +2666,11 @@ func (databricks *Databricks_STATUS) AssignProperties_To_Databricks_STATUS(desti
 
 	// ProvisioningErrors
 	if databricks.ProvisioningErrors != nil {
-		provisioningErrorList := make([]v1api20210701s.ErrorResponse_STATUS, len(databricks.ProvisioningErrors))
+		provisioningErrorList := make([]v20210701s.ErrorResponse_STATUS, len(databricks.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range databricks.ProvisioningErrors {
 			// Shadow the loop variable to avoid aliasing
 			provisioningErrorItem := provisioningErrorItem
-			var provisioningError v1api20210701s.ErrorResponse_STATUS
+			var provisioningError v20210701s.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
@@ -2720,7 +2720,7 @@ type DataFactory struct {
 }
 
 // AssignProperties_From_DataFactory populates our DataFactory from the provided source DataFactory
-func (factory *DataFactory) AssignProperties_From_DataFactory(source *v1api20210701s.DataFactory) error {
+func (factory *DataFactory) AssignProperties_From_DataFactory(source *v20210701s.DataFactory) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2770,7 +2770,7 @@ func (factory *DataFactory) AssignProperties_From_DataFactory(source *v1api20210
 }
 
 // AssignProperties_To_DataFactory populates the provided destination DataFactory from our DataFactory
-func (factory *DataFactory) AssignProperties_To_DataFactory(destination *v1api20210701s.DataFactory) error {
+func (factory *DataFactory) AssignProperties_To_DataFactory(destination *v20210701s.DataFactory) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(factory.PropertyBag)
 
@@ -2836,7 +2836,7 @@ type DataFactory_STATUS struct {
 }
 
 // AssignProperties_From_DataFactory_STATUS populates our DataFactory_STATUS from the provided source DataFactory_STATUS
-func (factory *DataFactory_STATUS) AssignProperties_From_DataFactory_STATUS(source *v1api20210701s.DataFactory_STATUS) error {
+func (factory *DataFactory_STATUS) AssignProperties_From_DataFactory_STATUS(source *v20210701s.DataFactory_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2916,7 +2916,7 @@ func (factory *DataFactory_STATUS) AssignProperties_From_DataFactory_STATUS(sour
 }
 
 // AssignProperties_To_DataFactory_STATUS populates the provided destination DataFactory_STATUS from our DataFactory_STATUS
-func (factory *DataFactory_STATUS) AssignProperties_To_DataFactory_STATUS(destination *v1api20210701s.DataFactory_STATUS) error {
+func (factory *DataFactory_STATUS) AssignProperties_To_DataFactory_STATUS(destination *v20210701s.DataFactory_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(factory.PropertyBag)
 
@@ -2953,11 +2953,11 @@ func (factory *DataFactory_STATUS) AssignProperties_To_DataFactory_STATUS(destin
 
 	// ProvisioningErrors
 	if factory.ProvisioningErrors != nil {
-		provisioningErrorList := make([]v1api20210701s.ErrorResponse_STATUS, len(factory.ProvisioningErrors))
+		provisioningErrorList := make([]v20210701s.ErrorResponse_STATUS, len(factory.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range factory.ProvisioningErrors {
 			// Shadow the loop variable to avoid aliasing
 			provisioningErrorItem := provisioningErrorItem
-			var provisioningError v1api20210701s.ErrorResponse_STATUS
+			var provisioningError v20210701s.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
@@ -3008,7 +3008,7 @@ type DataLakeAnalytics struct {
 }
 
 // AssignProperties_From_DataLakeAnalytics populates our DataLakeAnalytics from the provided source DataLakeAnalytics
-func (analytics *DataLakeAnalytics) AssignProperties_From_DataLakeAnalytics(source *v1api20210701s.DataLakeAnalytics) error {
+func (analytics *DataLakeAnalytics) AssignProperties_From_DataLakeAnalytics(source *v20210701s.DataLakeAnalytics) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3070,7 +3070,7 @@ func (analytics *DataLakeAnalytics) AssignProperties_From_DataLakeAnalytics(sour
 }
 
 // AssignProperties_To_DataLakeAnalytics populates the provided destination DataLakeAnalytics from our DataLakeAnalytics
-func (analytics *DataLakeAnalytics) AssignProperties_To_DataLakeAnalytics(destination *v1api20210701s.DataLakeAnalytics) error {
+func (analytics *DataLakeAnalytics) AssignProperties_To_DataLakeAnalytics(destination *v20210701s.DataLakeAnalytics) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(analytics.PropertyBag)
 
@@ -3093,7 +3093,7 @@ func (analytics *DataLakeAnalytics) AssignProperties_To_DataLakeAnalytics(destin
 
 	// Properties
 	if analytics.Properties != nil {
-		var property v1api20210701s.DataLakeAnalytics_Properties
+		var property v20210701s.DataLakeAnalytics_Properties
 		err := analytics.Properties.AssignProperties_To_DataLakeAnalytics_Properties(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DataLakeAnalytics_Properties() to populate field Properties")
@@ -3149,7 +3149,7 @@ type DataLakeAnalytics_STATUS struct {
 }
 
 // AssignProperties_From_DataLakeAnalytics_STATUS populates our DataLakeAnalytics_STATUS from the provided source DataLakeAnalytics_STATUS
-func (analytics *DataLakeAnalytics_STATUS) AssignProperties_From_DataLakeAnalytics_STATUS(source *v1api20210701s.DataLakeAnalytics_STATUS) error {
+func (analytics *DataLakeAnalytics_STATUS) AssignProperties_From_DataLakeAnalytics_STATUS(source *v20210701s.DataLakeAnalytics_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3241,7 +3241,7 @@ func (analytics *DataLakeAnalytics_STATUS) AssignProperties_From_DataLakeAnalyti
 }
 
 // AssignProperties_To_DataLakeAnalytics_STATUS populates the provided destination DataLakeAnalytics_STATUS from our DataLakeAnalytics_STATUS
-func (analytics *DataLakeAnalytics_STATUS) AssignProperties_To_DataLakeAnalytics_STATUS(destination *v1api20210701s.DataLakeAnalytics_STATUS) error {
+func (analytics *DataLakeAnalytics_STATUS) AssignProperties_To_DataLakeAnalytics_STATUS(destination *v20210701s.DataLakeAnalytics_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(analytics.PropertyBag)
 
@@ -3278,7 +3278,7 @@ func (analytics *DataLakeAnalytics_STATUS) AssignProperties_To_DataLakeAnalytics
 
 	// Properties
 	if analytics.Properties != nil {
-		var property v1api20210701s.DataLakeAnalytics_Properties_STATUS
+		var property v20210701s.DataLakeAnalytics_Properties_STATUS
 		err := analytics.Properties.AssignProperties_To_DataLakeAnalytics_Properties_STATUS(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DataLakeAnalytics_Properties_STATUS() to populate field Properties")
@@ -3290,11 +3290,11 @@ func (analytics *DataLakeAnalytics_STATUS) AssignProperties_To_DataLakeAnalytics
 
 	// ProvisioningErrors
 	if analytics.ProvisioningErrors != nil {
-		provisioningErrorList := make([]v1api20210701s.ErrorResponse_STATUS, len(analytics.ProvisioningErrors))
+		provisioningErrorList := make([]v20210701s.ErrorResponse_STATUS, len(analytics.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range analytics.ProvisioningErrors {
 			// Shadow the loop variable to avoid aliasing
 			provisioningErrorItem := provisioningErrorItem
-			var provisioningError v1api20210701s.ErrorResponse_STATUS
+			var provisioningError v20210701s.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
@@ -3345,7 +3345,7 @@ type HDInsight struct {
 }
 
 // AssignProperties_From_HDInsight populates our HDInsight from the provided source HDInsight
-func (insight *HDInsight) AssignProperties_From_HDInsight(source *v1api20210701s.HDInsight) error {
+func (insight *HDInsight) AssignProperties_From_HDInsight(source *v20210701s.HDInsight) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3407,7 +3407,7 @@ func (insight *HDInsight) AssignProperties_From_HDInsight(source *v1api20210701s
 }
 
 // AssignProperties_To_HDInsight populates the provided destination HDInsight from our HDInsight
-func (insight *HDInsight) AssignProperties_To_HDInsight(destination *v1api20210701s.HDInsight) error {
+func (insight *HDInsight) AssignProperties_To_HDInsight(destination *v20210701s.HDInsight) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(insight.PropertyBag)
 
@@ -3430,7 +3430,7 @@ func (insight *HDInsight) AssignProperties_To_HDInsight(destination *v1api202107
 
 	// Properties
 	if insight.Properties != nil {
-		var property v1api20210701s.HDInsightProperties
+		var property v20210701s.HDInsightProperties
 		err := insight.Properties.AssignProperties_To_HDInsightProperties(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HDInsightProperties() to populate field Properties")
@@ -3486,7 +3486,7 @@ type HDInsight_STATUS struct {
 }
 
 // AssignProperties_From_HDInsight_STATUS populates our HDInsight_STATUS from the provided source HDInsight_STATUS
-func (insight *HDInsight_STATUS) AssignProperties_From_HDInsight_STATUS(source *v1api20210701s.HDInsight_STATUS) error {
+func (insight *HDInsight_STATUS) AssignProperties_From_HDInsight_STATUS(source *v20210701s.HDInsight_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3578,7 +3578,7 @@ func (insight *HDInsight_STATUS) AssignProperties_From_HDInsight_STATUS(source *
 }
 
 // AssignProperties_To_HDInsight_STATUS populates the provided destination HDInsight_STATUS from our HDInsight_STATUS
-func (insight *HDInsight_STATUS) AssignProperties_To_HDInsight_STATUS(destination *v1api20210701s.HDInsight_STATUS) error {
+func (insight *HDInsight_STATUS) AssignProperties_To_HDInsight_STATUS(destination *v20210701s.HDInsight_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(insight.PropertyBag)
 
@@ -3615,7 +3615,7 @@ func (insight *HDInsight_STATUS) AssignProperties_To_HDInsight_STATUS(destinatio
 
 	// Properties
 	if insight.Properties != nil {
-		var property v1api20210701s.HDInsightProperties_STATUS
+		var property v20210701s.HDInsightProperties_STATUS
 		err := insight.Properties.AssignProperties_To_HDInsightProperties_STATUS(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_HDInsightProperties_STATUS() to populate field Properties")
@@ -3627,11 +3627,11 @@ func (insight *HDInsight_STATUS) AssignProperties_To_HDInsight_STATUS(destinatio
 
 	// ProvisioningErrors
 	if insight.ProvisioningErrors != nil {
-		provisioningErrorList := make([]v1api20210701s.ErrorResponse_STATUS, len(insight.ProvisioningErrors))
+		provisioningErrorList := make([]v20210701s.ErrorResponse_STATUS, len(insight.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range insight.ProvisioningErrors {
 			// Shadow the loop variable to avoid aliasing
 			provisioningErrorItem := provisioningErrorItem
-			var provisioningError v1api20210701s.ErrorResponse_STATUS
+			var provisioningError v20210701s.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
@@ -3682,7 +3682,7 @@ type Kubernetes struct {
 }
 
 // AssignProperties_From_Kubernetes populates our Kubernetes from the provided source Kubernetes
-func (kubernetes *Kubernetes) AssignProperties_From_Kubernetes(source *v1api20210701s.Kubernetes) error {
+func (kubernetes *Kubernetes) AssignProperties_From_Kubernetes(source *v20210701s.Kubernetes) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3744,7 +3744,7 @@ func (kubernetes *Kubernetes) AssignProperties_From_Kubernetes(source *v1api2021
 }
 
 // AssignProperties_To_Kubernetes populates the provided destination Kubernetes from our Kubernetes
-func (kubernetes *Kubernetes) AssignProperties_To_Kubernetes(destination *v1api20210701s.Kubernetes) error {
+func (kubernetes *Kubernetes) AssignProperties_To_Kubernetes(destination *v20210701s.Kubernetes) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(kubernetes.PropertyBag)
 
@@ -3767,7 +3767,7 @@ func (kubernetes *Kubernetes) AssignProperties_To_Kubernetes(destination *v1api2
 
 	// Properties
 	if kubernetes.Properties != nil {
-		var property v1api20210701s.KubernetesProperties
+		var property v20210701s.KubernetesProperties
 		err := kubernetes.Properties.AssignProperties_To_KubernetesProperties(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_KubernetesProperties() to populate field Properties")
@@ -3823,7 +3823,7 @@ type Kubernetes_STATUS struct {
 }
 
 // AssignProperties_From_Kubernetes_STATUS populates our Kubernetes_STATUS from the provided source Kubernetes_STATUS
-func (kubernetes *Kubernetes_STATUS) AssignProperties_From_Kubernetes_STATUS(source *v1api20210701s.Kubernetes_STATUS) error {
+func (kubernetes *Kubernetes_STATUS) AssignProperties_From_Kubernetes_STATUS(source *v20210701s.Kubernetes_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3915,7 +3915,7 @@ func (kubernetes *Kubernetes_STATUS) AssignProperties_From_Kubernetes_STATUS(sou
 }
 
 // AssignProperties_To_Kubernetes_STATUS populates the provided destination Kubernetes_STATUS from our Kubernetes_STATUS
-func (kubernetes *Kubernetes_STATUS) AssignProperties_To_Kubernetes_STATUS(destination *v1api20210701s.Kubernetes_STATUS) error {
+func (kubernetes *Kubernetes_STATUS) AssignProperties_To_Kubernetes_STATUS(destination *v20210701s.Kubernetes_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(kubernetes.PropertyBag)
 
@@ -3952,7 +3952,7 @@ func (kubernetes *Kubernetes_STATUS) AssignProperties_To_Kubernetes_STATUS(desti
 
 	// Properties
 	if kubernetes.Properties != nil {
-		var property v1api20210701s.KubernetesProperties_STATUS
+		var property v20210701s.KubernetesProperties_STATUS
 		err := kubernetes.Properties.AssignProperties_To_KubernetesProperties_STATUS(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_KubernetesProperties_STATUS() to populate field Properties")
@@ -3964,11 +3964,11 @@ func (kubernetes *Kubernetes_STATUS) AssignProperties_To_Kubernetes_STATUS(desti
 
 	// ProvisioningErrors
 	if kubernetes.ProvisioningErrors != nil {
-		provisioningErrorList := make([]v1api20210701s.ErrorResponse_STATUS, len(kubernetes.ProvisioningErrors))
+		provisioningErrorList := make([]v20210701s.ErrorResponse_STATUS, len(kubernetes.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range kubernetes.ProvisioningErrors {
 			// Shadow the loop variable to avoid aliasing
 			provisioningErrorItem := provisioningErrorItem
-			var provisioningError v1api20210701s.ErrorResponse_STATUS
+			var provisioningError v20210701s.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
@@ -4019,7 +4019,7 @@ type SynapseSpark struct {
 }
 
 // AssignProperties_From_SynapseSpark populates our SynapseSpark from the provided source SynapseSpark
-func (spark *SynapseSpark) AssignProperties_From_SynapseSpark(source *v1api20210701s.SynapseSpark) error {
+func (spark *SynapseSpark) AssignProperties_From_SynapseSpark(source *v20210701s.SynapseSpark) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4081,7 +4081,7 @@ func (spark *SynapseSpark) AssignProperties_From_SynapseSpark(source *v1api20210
 }
 
 // AssignProperties_To_SynapseSpark populates the provided destination SynapseSpark from our SynapseSpark
-func (spark *SynapseSpark) AssignProperties_To_SynapseSpark(destination *v1api20210701s.SynapseSpark) error {
+func (spark *SynapseSpark) AssignProperties_To_SynapseSpark(destination *v20210701s.SynapseSpark) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(spark.PropertyBag)
 
@@ -4104,7 +4104,7 @@ func (spark *SynapseSpark) AssignProperties_To_SynapseSpark(destination *v1api20
 
 	// Properties
 	if spark.Properties != nil {
-		var property v1api20210701s.SynapseSpark_Properties
+		var property v20210701s.SynapseSpark_Properties
 		err := spark.Properties.AssignProperties_To_SynapseSpark_Properties(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SynapseSpark_Properties() to populate field Properties")
@@ -4160,7 +4160,7 @@ type SynapseSpark_STATUS struct {
 }
 
 // AssignProperties_From_SynapseSpark_STATUS populates our SynapseSpark_STATUS from the provided source SynapseSpark_STATUS
-func (spark *SynapseSpark_STATUS) AssignProperties_From_SynapseSpark_STATUS(source *v1api20210701s.SynapseSpark_STATUS) error {
+func (spark *SynapseSpark_STATUS) AssignProperties_From_SynapseSpark_STATUS(source *v20210701s.SynapseSpark_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4252,7 +4252,7 @@ func (spark *SynapseSpark_STATUS) AssignProperties_From_SynapseSpark_STATUS(sour
 }
 
 // AssignProperties_To_SynapseSpark_STATUS populates the provided destination SynapseSpark_STATUS from our SynapseSpark_STATUS
-func (spark *SynapseSpark_STATUS) AssignProperties_To_SynapseSpark_STATUS(destination *v1api20210701s.SynapseSpark_STATUS) error {
+func (spark *SynapseSpark_STATUS) AssignProperties_To_SynapseSpark_STATUS(destination *v20210701s.SynapseSpark_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(spark.PropertyBag)
 
@@ -4289,7 +4289,7 @@ func (spark *SynapseSpark_STATUS) AssignProperties_To_SynapseSpark_STATUS(destin
 
 	// Properties
 	if spark.Properties != nil {
-		var property v1api20210701s.SynapseSpark_Properties_STATUS
+		var property v20210701s.SynapseSpark_Properties_STATUS
 		err := spark.Properties.AssignProperties_To_SynapseSpark_Properties_STATUS(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SynapseSpark_Properties_STATUS() to populate field Properties")
@@ -4301,11 +4301,11 @@ func (spark *SynapseSpark_STATUS) AssignProperties_To_SynapseSpark_STATUS(destin
 
 	// ProvisioningErrors
 	if spark.ProvisioningErrors != nil {
-		provisioningErrorList := make([]v1api20210701s.ErrorResponse_STATUS, len(spark.ProvisioningErrors))
+		provisioningErrorList := make([]v20210701s.ErrorResponse_STATUS, len(spark.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range spark.ProvisioningErrors {
 			// Shadow the loop variable to avoid aliasing
 			provisioningErrorItem := provisioningErrorItem
-			var provisioningError v1api20210701s.ErrorResponse_STATUS
+			var provisioningError v20210701s.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
@@ -4356,7 +4356,7 @@ type VirtualMachine struct {
 }
 
 // AssignProperties_From_VirtualMachine populates our VirtualMachine from the provided source VirtualMachine
-func (machine *VirtualMachine) AssignProperties_From_VirtualMachine(source *v1api20210701s.VirtualMachine) error {
+func (machine *VirtualMachine) AssignProperties_From_VirtualMachine(source *v20210701s.VirtualMachine) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4418,7 +4418,7 @@ func (machine *VirtualMachine) AssignProperties_From_VirtualMachine(source *v1ap
 }
 
 // AssignProperties_To_VirtualMachine populates the provided destination VirtualMachine from our VirtualMachine
-func (machine *VirtualMachine) AssignProperties_To_VirtualMachine(destination *v1api20210701s.VirtualMachine) error {
+func (machine *VirtualMachine) AssignProperties_To_VirtualMachine(destination *v20210701s.VirtualMachine) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(machine.PropertyBag)
 
@@ -4441,7 +4441,7 @@ func (machine *VirtualMachine) AssignProperties_To_VirtualMachine(destination *v
 
 	// Properties
 	if machine.Properties != nil {
-		var property v1api20210701s.VirtualMachine_Properties
+		var property v20210701s.VirtualMachine_Properties
 		err := machine.Properties.AssignProperties_To_VirtualMachine_Properties(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_Properties() to populate field Properties")
@@ -4497,7 +4497,7 @@ type VirtualMachine_STATUS struct {
 }
 
 // AssignProperties_From_VirtualMachine_STATUS populates our VirtualMachine_STATUS from the provided source VirtualMachine_STATUS
-func (machine *VirtualMachine_STATUS) AssignProperties_From_VirtualMachine_STATUS(source *v1api20210701s.VirtualMachine_STATUS) error {
+func (machine *VirtualMachine_STATUS) AssignProperties_From_VirtualMachine_STATUS(source *v20210701s.VirtualMachine_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4589,7 +4589,7 @@ func (machine *VirtualMachine_STATUS) AssignProperties_From_VirtualMachine_STATU
 }
 
 // AssignProperties_To_VirtualMachine_STATUS populates the provided destination VirtualMachine_STATUS from our VirtualMachine_STATUS
-func (machine *VirtualMachine_STATUS) AssignProperties_To_VirtualMachine_STATUS(destination *v1api20210701s.VirtualMachine_STATUS) error {
+func (machine *VirtualMachine_STATUS) AssignProperties_To_VirtualMachine_STATUS(destination *v20210701s.VirtualMachine_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(machine.PropertyBag)
 
@@ -4626,7 +4626,7 @@ func (machine *VirtualMachine_STATUS) AssignProperties_To_VirtualMachine_STATUS(
 
 	// Properties
 	if machine.Properties != nil {
-		var property v1api20210701s.VirtualMachine_Properties_STATUS
+		var property v20210701s.VirtualMachine_Properties_STATUS
 		err := machine.Properties.AssignProperties_To_VirtualMachine_Properties_STATUS(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_Properties_STATUS() to populate field Properties")
@@ -4638,11 +4638,11 @@ func (machine *VirtualMachine_STATUS) AssignProperties_To_VirtualMachine_STATUS(
 
 	// ProvisioningErrors
 	if machine.ProvisioningErrors != nil {
-		provisioningErrorList := make([]v1api20210701s.ErrorResponse_STATUS, len(machine.ProvisioningErrors))
+		provisioningErrorList := make([]v20210701s.ErrorResponse_STATUS, len(machine.ProvisioningErrors))
 		for provisioningErrorIndex, provisioningErrorItem := range machine.ProvisioningErrors {
 			// Shadow the loop variable to avoid aliasing
 			provisioningErrorItem := provisioningErrorItem
-			var provisioningError v1api20210701s.ErrorResponse_STATUS
+			var provisioningError v20210701s.ErrorResponse_STATUS
 			err := provisioningErrorItem.AssignProperties_To_ErrorResponse_STATUS(&provisioningError)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field ProvisioningErrors")
@@ -4695,7 +4695,7 @@ type AKS_Properties struct {
 }
 
 // AssignProperties_From_AKS_Properties populates our AKS_Properties from the provided source AKS_Properties
-func (properties *AKS_Properties) AssignProperties_From_AKS_Properties(source *v1api20210701s.AKS_Properties) error {
+func (properties *AKS_Properties) AssignProperties_From_AKS_Properties(source *v20210701s.AKS_Properties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4762,7 +4762,7 @@ func (properties *AKS_Properties) AssignProperties_From_AKS_Properties(source *v
 }
 
 // AssignProperties_To_AKS_Properties populates the provided destination AKS_Properties from our AKS_Properties
-func (properties *AKS_Properties) AssignProperties_To_AKS_Properties(destination *v1api20210701s.AKS_Properties) error {
+func (properties *AKS_Properties) AssignProperties_To_AKS_Properties(destination *v20210701s.AKS_Properties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -4774,7 +4774,7 @@ func (properties *AKS_Properties) AssignProperties_To_AKS_Properties(destination
 
 	// AksNetworkingConfiguration
 	if properties.AksNetworkingConfiguration != nil {
-		var aksNetworkingConfiguration v1api20210701s.AksNetworkingConfiguration
+		var aksNetworkingConfiguration v20210701s.AksNetworkingConfiguration
 		err := properties.AksNetworkingConfiguration.AssignProperties_To_AksNetworkingConfiguration(&aksNetworkingConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AksNetworkingConfiguration() to populate field AksNetworkingConfiguration")
@@ -4798,7 +4798,7 @@ func (properties *AKS_Properties) AssignProperties_To_AKS_Properties(destination
 
 	// SslConfiguration
 	if properties.SslConfiguration != nil {
-		var sslConfiguration v1api20210701s.SslConfiguration
+		var sslConfiguration v20210701s.SslConfiguration
 		err := properties.SslConfiguration.AssignProperties_To_SslConfiguration(&sslConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SslConfiguration() to populate field SslConfiguration")
@@ -4844,7 +4844,7 @@ type AKS_Properties_STATUS struct {
 }
 
 // AssignProperties_From_AKS_Properties_STATUS populates our AKS_Properties_STATUS from the provided source AKS_Properties_STATUS
-func (properties *AKS_Properties_STATUS) AssignProperties_From_AKS_Properties_STATUS(source *v1api20210701s.AKS_Properties_STATUS) error {
+func (properties *AKS_Properties_STATUS) AssignProperties_From_AKS_Properties_STATUS(source *v20210701s.AKS_Properties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4929,7 +4929,7 @@ func (properties *AKS_Properties_STATUS) AssignProperties_From_AKS_Properties_ST
 }
 
 // AssignProperties_To_AKS_Properties_STATUS populates the provided destination AKS_Properties_STATUS from our AKS_Properties_STATUS
-func (properties *AKS_Properties_STATUS) AssignProperties_To_AKS_Properties_STATUS(destination *v1api20210701s.AKS_Properties_STATUS) error {
+func (properties *AKS_Properties_STATUS) AssignProperties_To_AKS_Properties_STATUS(destination *v20210701s.AKS_Properties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -4941,7 +4941,7 @@ func (properties *AKS_Properties_STATUS) AssignProperties_To_AKS_Properties_STAT
 
 	// AksNetworkingConfiguration
 	if properties.AksNetworkingConfiguration != nil {
-		var aksNetworkingConfiguration v1api20210701s.AksNetworkingConfiguration_STATUS
+		var aksNetworkingConfiguration v20210701s.AksNetworkingConfiguration_STATUS
 		err := properties.AksNetworkingConfiguration.AssignProperties_To_AksNetworkingConfiguration_STATUS(&aksNetworkingConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AksNetworkingConfiguration_STATUS() to populate field AksNetworkingConfiguration")
@@ -4965,7 +4965,7 @@ func (properties *AKS_Properties_STATUS) AssignProperties_To_AKS_Properties_STAT
 
 	// SslConfiguration
 	if properties.SslConfiguration != nil {
-		var sslConfiguration v1api20210701s.SslConfiguration_STATUS
+		var sslConfiguration v20210701s.SslConfiguration_STATUS
 		err := properties.SslConfiguration.AssignProperties_To_SslConfiguration_STATUS(&sslConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SslConfiguration_STATUS() to populate field SslConfiguration")
@@ -4977,11 +4977,11 @@ func (properties *AKS_Properties_STATUS) AssignProperties_To_AKS_Properties_STAT
 
 	// SystemServices
 	if properties.SystemServices != nil {
-		systemServiceList := make([]v1api20210701s.SystemService_STATUS, len(properties.SystemServices))
+		systemServiceList := make([]v20210701s.SystemService_STATUS, len(properties.SystemServices))
 		for systemServiceIndex, systemServiceItem := range properties.SystemServices {
 			// Shadow the loop variable to avoid aliasing
 			systemServiceItem := systemServiceItem
-			var systemService v1api20210701s.SystemService_STATUS
+			var systemService v20210701s.SystemService_STATUS
 			err := systemServiceItem.AssignProperties_To_SystemService_STATUS(&systemService)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SystemService_STATUS() to populate field SystemServices")
@@ -5030,7 +5030,7 @@ type AmlComputeProperties struct {
 }
 
 // AssignProperties_From_AmlComputeProperties populates our AmlComputeProperties from the provided source AmlComputeProperties
-func (properties *AmlComputeProperties) AssignProperties_From_AmlComputeProperties(source *v1api20210701s.AmlComputeProperties) error {
+func (properties *AmlComputeProperties) AssignProperties_From_AmlComputeProperties(source *v20210701s.AmlComputeProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5131,7 +5131,7 @@ func (properties *AmlComputeProperties) AssignProperties_From_AmlComputeProperti
 }
 
 // AssignProperties_To_AmlComputeProperties populates the provided destination AmlComputeProperties from our AmlComputeProperties
-func (properties *AmlComputeProperties) AssignProperties_To_AmlComputeProperties(destination *v1api20210701s.AmlComputeProperties) error {
+func (properties *AmlComputeProperties) AssignProperties_To_AmlComputeProperties(destination *v20210701s.AmlComputeProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -5159,7 +5159,7 @@ func (properties *AmlComputeProperties) AssignProperties_To_AmlComputeProperties
 
 	// ScaleSettings
 	if properties.ScaleSettings != nil {
-		var scaleSetting v1api20210701s.ScaleSettings
+		var scaleSetting v20210701s.ScaleSettings
 		err := properties.ScaleSettings.AssignProperties_To_ScaleSettings(&scaleSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ScaleSettings() to populate field ScaleSettings")
@@ -5171,7 +5171,7 @@ func (properties *AmlComputeProperties) AssignProperties_To_AmlComputeProperties
 
 	// Subnet
 	if properties.Subnet != nil {
-		var subnet v1api20210701s.ResourceId
+		var subnet v20210701s.ResourceId
 		err := properties.Subnet.AssignProperties_To_ResourceId(&subnet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResourceId() to populate field Subnet")
@@ -5183,7 +5183,7 @@ func (properties *AmlComputeProperties) AssignProperties_To_AmlComputeProperties
 
 	// UserAccountCredentials
 	if properties.UserAccountCredentials != nil {
-		var userAccountCredential v1api20210701s.UserAccountCredentials
+		var userAccountCredential v20210701s.UserAccountCredentials
 		err := properties.UserAccountCredentials.AssignProperties_To_UserAccountCredentials(&userAccountCredential)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UserAccountCredentials() to populate field UserAccountCredentials")
@@ -5195,7 +5195,7 @@ func (properties *AmlComputeProperties) AssignProperties_To_AmlComputeProperties
 
 	// VirtualMachineImage
 	if properties.VirtualMachineImage != nil {
-		var virtualMachineImage v1api20210701s.VirtualMachineImage
+		var virtualMachineImage v20210701s.VirtualMachineImage
 		err := properties.VirtualMachineImage.AssignProperties_To_VirtualMachineImage(&virtualMachineImage)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineImage() to populate field VirtualMachineImage")
@@ -5254,7 +5254,7 @@ type AmlComputeProperties_STATUS struct {
 }
 
 // AssignProperties_From_AmlComputeProperties_STATUS populates our AmlComputeProperties_STATUS from the provided source AmlComputeProperties_STATUS
-func (properties *AmlComputeProperties_STATUS) AssignProperties_From_AmlComputeProperties_STATUS(source *v1api20210701s.AmlComputeProperties_STATUS) error {
+func (properties *AmlComputeProperties_STATUS) AssignProperties_From_AmlComputeProperties_STATUS(source *v20210701s.AmlComputeProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5397,7 +5397,7 @@ func (properties *AmlComputeProperties_STATUS) AssignProperties_From_AmlComputeP
 }
 
 // AssignProperties_To_AmlComputeProperties_STATUS populates the provided destination AmlComputeProperties_STATUS from our AmlComputeProperties_STATUS
-func (properties *AmlComputeProperties_STATUS) AssignProperties_To_AmlComputeProperties_STATUS(destination *v1api20210701s.AmlComputeProperties_STATUS) error {
+func (properties *AmlComputeProperties_STATUS) AssignProperties_To_AmlComputeProperties_STATUS(destination *v20210701s.AmlComputeProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -5420,11 +5420,11 @@ func (properties *AmlComputeProperties_STATUS) AssignProperties_To_AmlComputePro
 
 	// Errors
 	if properties.Errors != nil {
-		errorList := make([]v1api20210701s.ErrorResponse_STATUS, len(properties.Errors))
+		errorList := make([]v20210701s.ErrorResponse_STATUS, len(properties.Errors))
 		for errorIndex, errorItem := range properties.Errors {
 			// Shadow the loop variable to avoid aliasing
 			errorItem := errorItem
-			var error v1api20210701s.ErrorResponse_STATUS
+			var error v20210701s.ErrorResponse_STATUS
 			err := errorItem.AssignProperties_To_ErrorResponse_STATUS(&error)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field Errors")
@@ -5446,7 +5446,7 @@ func (properties *AmlComputeProperties_STATUS) AssignProperties_To_AmlComputePro
 
 	// NodeStateCounts
 	if properties.NodeStateCounts != nil {
-		var nodeStateCount v1api20210701s.NodeStateCounts_STATUS
+		var nodeStateCount v20210701s.NodeStateCounts_STATUS
 		err := properties.NodeStateCounts.AssignProperties_To_NodeStateCounts_STATUS(&nodeStateCount)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_NodeStateCounts_STATUS() to populate field NodeStateCounts")
@@ -5464,7 +5464,7 @@ func (properties *AmlComputeProperties_STATUS) AssignProperties_To_AmlComputePro
 
 	// ScaleSettings
 	if properties.ScaleSettings != nil {
-		var scaleSetting v1api20210701s.ScaleSettings_STATUS
+		var scaleSetting v20210701s.ScaleSettings_STATUS
 		err := properties.ScaleSettings.AssignProperties_To_ScaleSettings_STATUS(&scaleSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ScaleSettings_STATUS() to populate field ScaleSettings")
@@ -5476,7 +5476,7 @@ func (properties *AmlComputeProperties_STATUS) AssignProperties_To_AmlComputePro
 
 	// Subnet
 	if properties.Subnet != nil {
-		var subnet v1api20210701s.ResourceId_STATUS
+		var subnet v20210701s.ResourceId_STATUS
 		err := properties.Subnet.AssignProperties_To_ResourceId_STATUS(&subnet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResourceId_STATUS() to populate field Subnet")
@@ -5491,7 +5491,7 @@ func (properties *AmlComputeProperties_STATUS) AssignProperties_To_AmlComputePro
 
 	// UserAccountCredentials
 	if properties.UserAccountCredentials != nil {
-		var userAccountCredential v1api20210701s.UserAccountCredentials_STATUS
+		var userAccountCredential v20210701s.UserAccountCredentials_STATUS
 		err := properties.UserAccountCredentials.AssignProperties_To_UserAccountCredentials_STATUS(&userAccountCredential)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_UserAccountCredentials_STATUS() to populate field UserAccountCredentials")
@@ -5503,7 +5503,7 @@ func (properties *AmlComputeProperties_STATUS) AssignProperties_To_AmlComputePro
 
 	// VirtualMachineImage
 	if properties.VirtualMachineImage != nil {
-		var virtualMachineImage v1api20210701s.VirtualMachineImage_STATUS
+		var virtualMachineImage v20210701s.VirtualMachineImage_STATUS
 		err := properties.VirtualMachineImage.AssignProperties_To_VirtualMachineImage_STATUS(&virtualMachineImage)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineImage_STATUS() to populate field VirtualMachineImage")
@@ -5540,103 +5540,103 @@ func (properties *AmlComputeProperties_STATUS) AssignProperties_To_AmlComputePro
 }
 
 type augmentConversionForAKS interface {
-	AssignPropertiesFrom(src *v1api20210701s.AKS) error
-	AssignPropertiesTo(dst *v1api20210701s.AKS) error
+	AssignPropertiesFrom(src *v20210701s.AKS) error
+	AssignPropertiesTo(dst *v20210701s.AKS) error
 }
 
 type augmentConversionForAKS_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.AKS_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.AKS_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.AKS_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.AKS_STATUS) error
 }
 
 type augmentConversionForAmlCompute interface {
-	AssignPropertiesFrom(src *v1api20210701s.AmlCompute) error
-	AssignPropertiesTo(dst *v1api20210701s.AmlCompute) error
+	AssignPropertiesFrom(src *v20210701s.AmlCompute) error
+	AssignPropertiesTo(dst *v20210701s.AmlCompute) error
 }
 
 type augmentConversionForAmlCompute_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.AmlCompute_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.AmlCompute_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.AmlCompute_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.AmlCompute_STATUS) error
 }
 
 type augmentConversionForComputeInstance interface {
-	AssignPropertiesFrom(src *v1api20210701s.ComputeInstance) error
-	AssignPropertiesTo(dst *v1api20210701s.ComputeInstance) error
+	AssignPropertiesFrom(src *v20210701s.ComputeInstance) error
+	AssignPropertiesTo(dst *v20210701s.ComputeInstance) error
 }
 
 type augmentConversionForComputeInstance_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.ComputeInstance_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.ComputeInstance_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.ComputeInstance_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.ComputeInstance_STATUS) error
 }
 
 type augmentConversionForDatabricks interface {
-	AssignPropertiesFrom(src *v1api20210701s.Databricks) error
-	AssignPropertiesTo(dst *v1api20210701s.Databricks) error
+	AssignPropertiesFrom(src *v20210701s.Databricks) error
+	AssignPropertiesTo(dst *v20210701s.Databricks) error
 }
 
 type augmentConversionForDatabricks_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.Databricks_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.Databricks_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.Databricks_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.Databricks_STATUS) error
 }
 
 type augmentConversionForDataFactory interface {
-	AssignPropertiesFrom(src *v1api20210701s.DataFactory) error
-	AssignPropertiesTo(dst *v1api20210701s.DataFactory) error
+	AssignPropertiesFrom(src *v20210701s.DataFactory) error
+	AssignPropertiesTo(dst *v20210701s.DataFactory) error
 }
 
 type augmentConversionForDataFactory_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.DataFactory_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.DataFactory_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.DataFactory_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.DataFactory_STATUS) error
 }
 
 type augmentConversionForDataLakeAnalytics interface {
-	AssignPropertiesFrom(src *v1api20210701s.DataLakeAnalytics) error
-	AssignPropertiesTo(dst *v1api20210701s.DataLakeAnalytics) error
+	AssignPropertiesFrom(src *v20210701s.DataLakeAnalytics) error
+	AssignPropertiesTo(dst *v20210701s.DataLakeAnalytics) error
 }
 
 type augmentConversionForDataLakeAnalytics_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.DataLakeAnalytics_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.DataLakeAnalytics_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.DataLakeAnalytics_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.DataLakeAnalytics_STATUS) error
 }
 
 type augmentConversionForHDInsight interface {
-	AssignPropertiesFrom(src *v1api20210701s.HDInsight) error
-	AssignPropertiesTo(dst *v1api20210701s.HDInsight) error
+	AssignPropertiesFrom(src *v20210701s.HDInsight) error
+	AssignPropertiesTo(dst *v20210701s.HDInsight) error
 }
 
 type augmentConversionForHDInsight_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.HDInsight_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.HDInsight_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.HDInsight_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.HDInsight_STATUS) error
 }
 
 type augmentConversionForKubernetes interface {
-	AssignPropertiesFrom(src *v1api20210701s.Kubernetes) error
-	AssignPropertiesTo(dst *v1api20210701s.Kubernetes) error
+	AssignPropertiesFrom(src *v20210701s.Kubernetes) error
+	AssignPropertiesTo(dst *v20210701s.Kubernetes) error
 }
 
 type augmentConversionForKubernetes_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.Kubernetes_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.Kubernetes_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.Kubernetes_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.Kubernetes_STATUS) error
 }
 
 type augmentConversionForSynapseSpark interface {
-	AssignPropertiesFrom(src *v1api20210701s.SynapseSpark) error
-	AssignPropertiesTo(dst *v1api20210701s.SynapseSpark) error
+	AssignPropertiesFrom(src *v20210701s.SynapseSpark) error
+	AssignPropertiesTo(dst *v20210701s.SynapseSpark) error
 }
 
 type augmentConversionForSynapseSpark_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.SynapseSpark_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.SynapseSpark_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.SynapseSpark_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.SynapseSpark_STATUS) error
 }
 
 type augmentConversionForVirtualMachine interface {
-	AssignPropertiesFrom(src *v1api20210701s.VirtualMachine) error
-	AssignPropertiesTo(dst *v1api20210701s.VirtualMachine) error
+	AssignPropertiesFrom(src *v20210701s.VirtualMachine) error
+	AssignPropertiesTo(dst *v20210701s.VirtualMachine) error
 }
 
 type augmentConversionForVirtualMachine_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.VirtualMachine_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.VirtualMachine_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.VirtualMachine_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.VirtualMachine_STATUS) error
 }
 
 // Storage version of v1beta20210701.ComputeInstanceProperties
@@ -5653,7 +5653,7 @@ type ComputeInstanceProperties struct {
 }
 
 // AssignProperties_From_ComputeInstanceProperties populates our ComputeInstanceProperties from the provided source ComputeInstanceProperties
-func (properties *ComputeInstanceProperties) AssignProperties_From_ComputeInstanceProperties(source *v1api20210701s.ComputeInstanceProperties) error {
+func (properties *ComputeInstanceProperties) AssignProperties_From_ComputeInstanceProperties(source *v20210701s.ComputeInstanceProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5735,7 +5735,7 @@ func (properties *ComputeInstanceProperties) AssignProperties_From_ComputeInstan
 }
 
 // AssignProperties_To_ComputeInstanceProperties populates the provided destination ComputeInstanceProperties from our ComputeInstanceProperties
-func (properties *ComputeInstanceProperties) AssignProperties_To_ComputeInstanceProperties(destination *v1api20210701s.ComputeInstanceProperties) error {
+func (properties *ComputeInstanceProperties) AssignProperties_To_ComputeInstanceProperties(destination *v20210701s.ComputeInstanceProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -5747,7 +5747,7 @@ func (properties *ComputeInstanceProperties) AssignProperties_To_ComputeInstance
 
 	// PersonalComputeInstanceSettings
 	if properties.PersonalComputeInstanceSettings != nil {
-		var personalComputeInstanceSetting v1api20210701s.PersonalComputeInstanceSettings
+		var personalComputeInstanceSetting v20210701s.PersonalComputeInstanceSettings
 		err := properties.PersonalComputeInstanceSettings.AssignProperties_To_PersonalComputeInstanceSettings(&personalComputeInstanceSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PersonalComputeInstanceSettings() to populate field PersonalComputeInstanceSettings")
@@ -5759,7 +5759,7 @@ func (properties *ComputeInstanceProperties) AssignProperties_To_ComputeInstance
 
 	// SetupScripts
 	if properties.SetupScripts != nil {
-		var setupScript v1api20210701s.SetupScripts
+		var setupScript v20210701s.SetupScripts
 		err := properties.SetupScripts.AssignProperties_To_SetupScripts(&setupScript)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SetupScripts() to populate field SetupScripts")
@@ -5771,7 +5771,7 @@ func (properties *ComputeInstanceProperties) AssignProperties_To_ComputeInstance
 
 	// SshSettings
 	if properties.SshSettings != nil {
-		var sshSetting v1api20210701s.ComputeInstanceSshSettings
+		var sshSetting v20210701s.ComputeInstanceSshSettings
 		err := properties.SshSettings.AssignProperties_To_ComputeInstanceSshSettings(&sshSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ComputeInstanceSshSettings() to populate field SshSettings")
@@ -5783,7 +5783,7 @@ func (properties *ComputeInstanceProperties) AssignProperties_To_ComputeInstance
 
 	// Subnet
 	if properties.Subnet != nil {
-		var subnet v1api20210701s.ResourceId
+		var subnet v20210701s.ResourceId
 		err := properties.Subnet.AssignProperties_To_ResourceId(&subnet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResourceId() to populate field Subnet")
@@ -5836,7 +5836,7 @@ type ComputeInstanceProperties_STATUS struct {
 }
 
 // AssignProperties_From_ComputeInstanceProperties_STATUS populates our ComputeInstanceProperties_STATUS from the provided source ComputeInstanceProperties_STATUS
-func (properties *ComputeInstanceProperties_STATUS) AssignProperties_From_ComputeInstanceProperties_STATUS(source *v1api20210701s.ComputeInstanceProperties_STATUS) error {
+func (properties *ComputeInstanceProperties_STATUS) AssignProperties_From_ComputeInstanceProperties_STATUS(source *v20210701s.ComputeInstanceProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5993,7 +5993,7 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_From_Comput
 }
 
 // AssignProperties_To_ComputeInstanceProperties_STATUS populates the provided destination ComputeInstanceProperties_STATUS from our ComputeInstanceProperties_STATUS
-func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeInstanceProperties_STATUS(destination *v1api20210701s.ComputeInstanceProperties_STATUS) error {
+func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeInstanceProperties_STATUS(destination *v20210701s.ComputeInstanceProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -6002,11 +6002,11 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 
 	// Applications
 	if properties.Applications != nil {
-		applicationList := make([]v1api20210701s.ComputeInstanceApplication_STATUS, len(properties.Applications))
+		applicationList := make([]v20210701s.ComputeInstanceApplication_STATUS, len(properties.Applications))
 		for applicationIndex, applicationItem := range properties.Applications {
 			// Shadow the loop variable to avoid aliasing
 			applicationItem := applicationItem
-			var application v1api20210701s.ComputeInstanceApplication_STATUS
+			var application v20210701s.ComputeInstanceApplication_STATUS
 			err := applicationItem.AssignProperties_To_ComputeInstanceApplication_STATUS(&application)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ComputeInstanceApplication_STATUS() to populate field Applications")
@@ -6023,7 +6023,7 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 
 	// ConnectivityEndpoints
 	if properties.ConnectivityEndpoints != nil {
-		var connectivityEndpoint v1api20210701s.ComputeInstanceConnectivityEndpoints_STATUS
+		var connectivityEndpoint v20210701s.ComputeInstanceConnectivityEndpoints_STATUS
 		err := properties.ConnectivityEndpoints.AssignProperties_To_ComputeInstanceConnectivityEndpoints_STATUS(&connectivityEndpoint)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ComputeInstanceConnectivityEndpoints_STATUS() to populate field ConnectivityEndpoints")
@@ -6035,7 +6035,7 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 
 	// CreatedBy
 	if properties.CreatedBy != nil {
-		var createdBy v1api20210701s.ComputeInstanceCreatedBy_STATUS
+		var createdBy v20210701s.ComputeInstanceCreatedBy_STATUS
 		err := properties.CreatedBy.AssignProperties_To_ComputeInstanceCreatedBy_STATUS(&createdBy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ComputeInstanceCreatedBy_STATUS() to populate field CreatedBy")
@@ -6047,11 +6047,11 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 
 	// Errors
 	if properties.Errors != nil {
-		errorList := make([]v1api20210701s.ErrorResponse_STATUS, len(properties.Errors))
+		errorList := make([]v20210701s.ErrorResponse_STATUS, len(properties.Errors))
 		for errorIndex, errorItem := range properties.Errors {
 			// Shadow the loop variable to avoid aliasing
 			errorItem := errorItem
-			var error v1api20210701s.ErrorResponse_STATUS
+			var error v20210701s.ErrorResponse_STATUS
 			err := errorItem.AssignProperties_To_ErrorResponse_STATUS(&error)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ErrorResponse_STATUS() to populate field Errors")
@@ -6065,7 +6065,7 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 
 	// LastOperation
 	if properties.LastOperation != nil {
-		var lastOperation v1api20210701s.ComputeInstanceLastOperation_STATUS
+		var lastOperation v20210701s.ComputeInstanceLastOperation_STATUS
 		err := properties.LastOperation.AssignProperties_To_ComputeInstanceLastOperation_STATUS(&lastOperation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ComputeInstanceLastOperation_STATUS() to populate field LastOperation")
@@ -6077,7 +6077,7 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 
 	// PersonalComputeInstanceSettings
 	if properties.PersonalComputeInstanceSettings != nil {
-		var personalComputeInstanceSetting v1api20210701s.PersonalComputeInstanceSettings_STATUS
+		var personalComputeInstanceSetting v20210701s.PersonalComputeInstanceSettings_STATUS
 		err := properties.PersonalComputeInstanceSettings.AssignProperties_To_PersonalComputeInstanceSettings_STATUS(&personalComputeInstanceSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_PersonalComputeInstanceSettings_STATUS() to populate field PersonalComputeInstanceSettings")
@@ -6089,7 +6089,7 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 
 	// SetupScripts
 	if properties.SetupScripts != nil {
-		var setupScript v1api20210701s.SetupScripts_STATUS
+		var setupScript v20210701s.SetupScripts_STATUS
 		err := properties.SetupScripts.AssignProperties_To_SetupScripts_STATUS(&setupScript)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SetupScripts_STATUS() to populate field SetupScripts")
@@ -6101,7 +6101,7 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 
 	// SshSettings
 	if properties.SshSettings != nil {
-		var sshSetting v1api20210701s.ComputeInstanceSshSettings_STATUS
+		var sshSetting v20210701s.ComputeInstanceSshSettings_STATUS
 		err := properties.SshSettings.AssignProperties_To_ComputeInstanceSshSettings_STATUS(&sshSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ComputeInstanceSshSettings_STATUS() to populate field SshSettings")
@@ -6116,7 +6116,7 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 
 	// Subnet
 	if properties.Subnet != nil {
-		var subnet v1api20210701s.ResourceId_STATUS
+		var subnet v20210701s.ResourceId_STATUS
 		err := properties.Subnet.AssignProperties_To_ResourceId_STATUS(&subnet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ResourceId_STATUS() to populate field Subnet")
@@ -6158,7 +6158,7 @@ type DatabricksProperties struct {
 }
 
 // AssignProperties_From_DatabricksProperties populates our DatabricksProperties from the provided source DatabricksProperties
-func (properties *DatabricksProperties) AssignProperties_From_DatabricksProperties(source *v1api20210701s.DatabricksProperties) error {
+func (properties *DatabricksProperties) AssignProperties_From_DatabricksProperties(source *v20210701s.DatabricksProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6189,7 +6189,7 @@ func (properties *DatabricksProperties) AssignProperties_From_DatabricksProperti
 }
 
 // AssignProperties_To_DatabricksProperties populates the provided destination DatabricksProperties from our DatabricksProperties
-func (properties *DatabricksProperties) AssignProperties_To_DatabricksProperties(destination *v1api20210701s.DatabricksProperties) error {
+func (properties *DatabricksProperties) AssignProperties_To_DatabricksProperties(destination *v20210701s.DatabricksProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -6228,7 +6228,7 @@ type DatabricksProperties_STATUS struct {
 }
 
 // AssignProperties_From_DatabricksProperties_STATUS populates our DatabricksProperties_STATUS from the provided source DatabricksProperties_STATUS
-func (properties *DatabricksProperties_STATUS) AssignProperties_From_DatabricksProperties_STATUS(source *v1api20210701s.DatabricksProperties_STATUS) error {
+func (properties *DatabricksProperties_STATUS) AssignProperties_From_DatabricksProperties_STATUS(source *v20210701s.DatabricksProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6259,7 +6259,7 @@ func (properties *DatabricksProperties_STATUS) AssignProperties_From_DatabricksP
 }
 
 // AssignProperties_To_DatabricksProperties_STATUS populates the provided destination DatabricksProperties_STATUS from our DatabricksProperties_STATUS
-func (properties *DatabricksProperties_STATUS) AssignProperties_To_DatabricksProperties_STATUS(destination *v1api20210701s.DatabricksProperties_STATUS) error {
+func (properties *DatabricksProperties_STATUS) AssignProperties_To_DatabricksProperties_STATUS(destination *v20210701s.DatabricksProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -6297,7 +6297,7 @@ type DataLakeAnalytics_Properties struct {
 }
 
 // AssignProperties_From_DataLakeAnalytics_Properties populates our DataLakeAnalytics_Properties from the provided source DataLakeAnalytics_Properties
-func (properties *DataLakeAnalytics_Properties) AssignProperties_From_DataLakeAnalytics_Properties(source *v1api20210701s.DataLakeAnalytics_Properties) error {
+func (properties *DataLakeAnalytics_Properties) AssignProperties_From_DataLakeAnalytics_Properties(source *v20210701s.DataLakeAnalytics_Properties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6325,7 +6325,7 @@ func (properties *DataLakeAnalytics_Properties) AssignProperties_From_DataLakeAn
 }
 
 // AssignProperties_To_DataLakeAnalytics_Properties populates the provided destination DataLakeAnalytics_Properties from our DataLakeAnalytics_Properties
-func (properties *DataLakeAnalytics_Properties) AssignProperties_To_DataLakeAnalytics_Properties(destination *v1api20210701s.DataLakeAnalytics_Properties) error {
+func (properties *DataLakeAnalytics_Properties) AssignProperties_To_DataLakeAnalytics_Properties(destination *v20210701s.DataLakeAnalytics_Properties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -6360,7 +6360,7 @@ type DataLakeAnalytics_Properties_STATUS struct {
 }
 
 // AssignProperties_From_DataLakeAnalytics_Properties_STATUS populates our DataLakeAnalytics_Properties_STATUS from the provided source DataLakeAnalytics_Properties_STATUS
-func (properties *DataLakeAnalytics_Properties_STATUS) AssignProperties_From_DataLakeAnalytics_Properties_STATUS(source *v1api20210701s.DataLakeAnalytics_Properties_STATUS) error {
+func (properties *DataLakeAnalytics_Properties_STATUS) AssignProperties_From_DataLakeAnalytics_Properties_STATUS(source *v20210701s.DataLakeAnalytics_Properties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6388,7 +6388,7 @@ func (properties *DataLakeAnalytics_Properties_STATUS) AssignProperties_From_Dat
 }
 
 // AssignProperties_To_DataLakeAnalytics_Properties_STATUS populates the provided destination DataLakeAnalytics_Properties_STATUS from our DataLakeAnalytics_Properties_STATUS
-func (properties *DataLakeAnalytics_Properties_STATUS) AssignProperties_To_DataLakeAnalytics_Properties_STATUS(destination *v1api20210701s.DataLakeAnalytics_Properties_STATUS) error {
+func (properties *DataLakeAnalytics_Properties_STATUS) AssignProperties_To_DataLakeAnalytics_Properties_STATUS(destination *v20210701s.DataLakeAnalytics_Properties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -6423,7 +6423,7 @@ type ErrorResponse_STATUS struct {
 }
 
 // AssignProperties_From_ErrorResponse_STATUS populates our ErrorResponse_STATUS from the provided source ErrorResponse_STATUS
-func (response *ErrorResponse_STATUS) AssignProperties_From_ErrorResponse_STATUS(source *v1api20210701s.ErrorResponse_STATUS) error {
+func (response *ErrorResponse_STATUS) AssignProperties_From_ErrorResponse_STATUS(source *v20210701s.ErrorResponse_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6460,13 +6460,13 @@ func (response *ErrorResponse_STATUS) AssignProperties_From_ErrorResponse_STATUS
 }
 
 // AssignProperties_To_ErrorResponse_STATUS populates the provided destination ErrorResponse_STATUS from our ErrorResponse_STATUS
-func (response *ErrorResponse_STATUS) AssignProperties_To_ErrorResponse_STATUS(destination *v1api20210701s.ErrorResponse_STATUS) error {
+func (response *ErrorResponse_STATUS) AssignProperties_To_ErrorResponse_STATUS(destination *v20210701s.ErrorResponse_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(response.PropertyBag)
 
 	// Error
 	if response.Error != nil {
-		var error v1api20210701s.ErrorDetail_STATUS
+		var error v20210701s.ErrorDetail_STATUS
 		err := response.Error.AssignProperties_To_ErrorDetail_STATUS(&error)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ErrorDetail_STATUS() to populate field Error")
@@ -6506,7 +6506,7 @@ type HDInsightProperties struct {
 }
 
 // AssignProperties_From_HDInsightProperties populates our HDInsightProperties from the provided source HDInsightProperties
-func (properties *HDInsightProperties) AssignProperties_From_HDInsightProperties(source *v1api20210701s.HDInsightProperties) error {
+func (properties *HDInsightProperties) AssignProperties_From_HDInsightProperties(source *v20210701s.HDInsightProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6549,7 +6549,7 @@ func (properties *HDInsightProperties) AssignProperties_From_HDInsightProperties
 }
 
 // AssignProperties_To_HDInsightProperties populates the provided destination HDInsightProperties from our HDInsightProperties
-func (properties *HDInsightProperties) AssignProperties_To_HDInsightProperties(destination *v1api20210701s.HDInsightProperties) error {
+func (properties *HDInsightProperties) AssignProperties_To_HDInsightProperties(destination *v20210701s.HDInsightProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -6558,7 +6558,7 @@ func (properties *HDInsightProperties) AssignProperties_To_HDInsightProperties(d
 
 	// AdministratorAccount
 	if properties.AdministratorAccount != nil {
-		var administratorAccount v1api20210701s.VirtualMachineSshCredentials
+		var administratorAccount v20210701s.VirtualMachineSshCredentials
 		err := properties.AdministratorAccount.AssignProperties_To_VirtualMachineSshCredentials(&administratorAccount)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineSshCredentials() to populate field AdministratorAccount")
@@ -6601,7 +6601,7 @@ type HDInsightProperties_STATUS struct {
 }
 
 // AssignProperties_From_HDInsightProperties_STATUS populates our HDInsightProperties_STATUS from the provided source HDInsightProperties_STATUS
-func (properties *HDInsightProperties_STATUS) AssignProperties_From_HDInsightProperties_STATUS(source *v1api20210701s.HDInsightProperties_STATUS) error {
+func (properties *HDInsightProperties_STATUS) AssignProperties_From_HDInsightProperties_STATUS(source *v20210701s.HDInsightProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6644,7 +6644,7 @@ func (properties *HDInsightProperties_STATUS) AssignProperties_From_HDInsightPro
 }
 
 // AssignProperties_To_HDInsightProperties_STATUS populates the provided destination HDInsightProperties_STATUS from our HDInsightProperties_STATUS
-func (properties *HDInsightProperties_STATUS) AssignProperties_To_HDInsightProperties_STATUS(destination *v1api20210701s.HDInsightProperties_STATUS) error {
+func (properties *HDInsightProperties_STATUS) AssignProperties_To_HDInsightProperties_STATUS(destination *v20210701s.HDInsightProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -6653,7 +6653,7 @@ func (properties *HDInsightProperties_STATUS) AssignProperties_To_HDInsightPrope
 
 	// AdministratorAccount
 	if properties.AdministratorAccount != nil {
-		var administratorAccount v1api20210701s.VirtualMachineSshCredentials_STATUS
+		var administratorAccount v20210701s.VirtualMachineSshCredentials_STATUS
 		err := properties.AdministratorAccount.AssignProperties_To_VirtualMachineSshCredentials_STATUS(&administratorAccount)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineSshCredentials_STATUS() to populate field AdministratorAccount")
@@ -6701,7 +6701,7 @@ type KubernetesProperties struct {
 }
 
 // AssignProperties_From_KubernetesProperties populates our KubernetesProperties from the provided source KubernetesProperties
-func (properties *KubernetesProperties) AssignProperties_From_KubernetesProperties(source *v1api20210701s.KubernetesProperties) error {
+func (properties *KubernetesProperties) AssignProperties_From_KubernetesProperties(source *v20210701s.KubernetesProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6775,7 +6775,7 @@ func (properties *KubernetesProperties) AssignProperties_From_KubernetesProperti
 }
 
 // AssignProperties_To_KubernetesProperties populates the provided destination KubernetesProperties from our KubernetesProperties
-func (properties *KubernetesProperties) AssignProperties_To_KubernetesProperties(destination *v1api20210701s.KubernetesProperties) error {
+func (properties *KubernetesProperties) AssignProperties_To_KubernetesProperties(destination *v20210701s.KubernetesProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -6790,11 +6790,11 @@ func (properties *KubernetesProperties) AssignProperties_To_KubernetesProperties
 
 	// InstanceTypes
 	if properties.InstanceTypes != nil {
-		instanceTypeMap := make(map[string]v1api20210701s.InstanceTypeSchema, len(properties.InstanceTypes))
+		instanceTypeMap := make(map[string]v20210701s.InstanceTypeSchema, len(properties.InstanceTypes))
 		for instanceTypeKey, instanceTypeValue := range properties.InstanceTypes {
 			// Shadow the loop variable to avoid aliasing
 			instanceTypeValue := instanceTypeValue
-			var instanceType v1api20210701s.InstanceTypeSchema
+			var instanceType v20210701s.InstanceTypeSchema
 			err := instanceTypeValue.AssignProperties_To_InstanceTypeSchema(&instanceType)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_InstanceTypeSchema() to populate field InstanceTypes")
@@ -6861,7 +6861,7 @@ type KubernetesProperties_STATUS struct {
 }
 
 // AssignProperties_From_KubernetesProperties_STATUS populates our KubernetesProperties_STATUS from the provided source KubernetesProperties_STATUS
-func (properties *KubernetesProperties_STATUS) AssignProperties_From_KubernetesProperties_STATUS(source *v1api20210701s.KubernetesProperties_STATUS) error {
+func (properties *KubernetesProperties_STATUS) AssignProperties_From_KubernetesProperties_STATUS(source *v20210701s.KubernetesProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6919,7 +6919,7 @@ func (properties *KubernetesProperties_STATUS) AssignProperties_From_KubernetesP
 }
 
 // AssignProperties_To_KubernetesProperties_STATUS populates the provided destination KubernetesProperties_STATUS from our KubernetesProperties_STATUS
-func (properties *KubernetesProperties_STATUS) AssignProperties_To_KubernetesProperties_STATUS(destination *v1api20210701s.KubernetesProperties_STATUS) error {
+func (properties *KubernetesProperties_STATUS) AssignProperties_To_KubernetesProperties_STATUS(destination *v20210701s.KubernetesProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -6934,11 +6934,11 @@ func (properties *KubernetesProperties_STATUS) AssignProperties_To_KubernetesPro
 
 	// InstanceTypes
 	if properties.InstanceTypes != nil {
-		instanceTypeMap := make(map[string]v1api20210701s.InstanceTypeSchema_STATUS, len(properties.InstanceTypes))
+		instanceTypeMap := make(map[string]v20210701s.InstanceTypeSchema_STATUS, len(properties.InstanceTypes))
 		for instanceTypeKey, instanceTypeValue := range properties.InstanceTypes {
 			// Shadow the loop variable to avoid aliasing
 			instanceTypeValue := instanceTypeValue
-			var instanceType v1api20210701s.InstanceTypeSchema_STATUS
+			var instanceType v20210701s.InstanceTypeSchema_STATUS
 			err := instanceTypeValue.AssignProperties_To_InstanceTypeSchema_STATUS(&instanceType)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_InstanceTypeSchema_STATUS() to populate field InstanceTypes")
@@ -6993,7 +6993,7 @@ type SynapseSpark_Properties struct {
 }
 
 // AssignProperties_From_SynapseSpark_Properties populates our SynapseSpark_Properties from the provided source SynapseSpark_Properties
-func (properties *SynapseSpark_Properties) AssignProperties_From_SynapseSpark_Properties(source *v1api20210701s.SynapseSpark_Properties) error {
+func (properties *SynapseSpark_Properties) AssignProperties_From_SynapseSpark_Properties(source *v20210701s.SynapseSpark_Properties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7066,13 +7066,13 @@ func (properties *SynapseSpark_Properties) AssignProperties_From_SynapseSpark_Pr
 }
 
 // AssignProperties_To_SynapseSpark_Properties populates the provided destination SynapseSpark_Properties from our SynapseSpark_Properties
-func (properties *SynapseSpark_Properties) AssignProperties_To_SynapseSpark_Properties(destination *v1api20210701s.SynapseSpark_Properties) error {
+func (properties *SynapseSpark_Properties) AssignProperties_To_SynapseSpark_Properties(destination *v20210701s.SynapseSpark_Properties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
 	// AutoPauseProperties
 	if properties.AutoPauseProperties != nil {
-		var autoPauseProperty v1api20210701s.AutoPauseProperties
+		var autoPauseProperty v20210701s.AutoPauseProperties
 		err := properties.AutoPauseProperties.AssignProperties_To_AutoPauseProperties(&autoPauseProperty)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AutoPauseProperties() to populate field AutoPauseProperties")
@@ -7084,7 +7084,7 @@ func (properties *SynapseSpark_Properties) AssignProperties_To_SynapseSpark_Prop
 
 	// AutoScaleProperties
 	if properties.AutoScaleProperties != nil {
-		var autoScaleProperty v1api20210701s.AutoScaleProperties
+		var autoScaleProperty v20210701s.AutoScaleProperties
 		err := properties.AutoScaleProperties.AssignProperties_To_AutoScaleProperties(&autoScaleProperty)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AutoScaleProperties() to populate field AutoScaleProperties")
@@ -7155,7 +7155,7 @@ type SynapseSpark_Properties_STATUS struct {
 }
 
 // AssignProperties_From_SynapseSpark_Properties_STATUS populates our SynapseSpark_Properties_STATUS from the provided source SynapseSpark_Properties_STATUS
-func (properties *SynapseSpark_Properties_STATUS) AssignProperties_From_SynapseSpark_Properties_STATUS(source *v1api20210701s.SynapseSpark_Properties_STATUS) error {
+func (properties *SynapseSpark_Properties_STATUS) AssignProperties_From_SynapseSpark_Properties_STATUS(source *v20210701s.SynapseSpark_Properties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7228,13 +7228,13 @@ func (properties *SynapseSpark_Properties_STATUS) AssignProperties_From_SynapseS
 }
 
 // AssignProperties_To_SynapseSpark_Properties_STATUS populates the provided destination SynapseSpark_Properties_STATUS from our SynapseSpark_Properties_STATUS
-func (properties *SynapseSpark_Properties_STATUS) AssignProperties_To_SynapseSpark_Properties_STATUS(destination *v1api20210701s.SynapseSpark_Properties_STATUS) error {
+func (properties *SynapseSpark_Properties_STATUS) AssignProperties_To_SynapseSpark_Properties_STATUS(destination *v20210701s.SynapseSpark_Properties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
 	// AutoPauseProperties
 	if properties.AutoPauseProperties != nil {
-		var autoPauseProperty v1api20210701s.AutoPauseProperties_STATUS
+		var autoPauseProperty v20210701s.AutoPauseProperties_STATUS
 		err := properties.AutoPauseProperties.AssignProperties_To_AutoPauseProperties_STATUS(&autoPauseProperty)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AutoPauseProperties_STATUS() to populate field AutoPauseProperties")
@@ -7246,7 +7246,7 @@ func (properties *SynapseSpark_Properties_STATUS) AssignProperties_To_SynapseSpa
 
 	// AutoScaleProperties
 	if properties.AutoScaleProperties != nil {
-		var autoScaleProperty v1api20210701s.AutoScaleProperties_STATUS
+		var autoScaleProperty v20210701s.AutoScaleProperties_STATUS
 		err := properties.AutoScaleProperties.AssignProperties_To_AutoScaleProperties_STATUS(&autoScaleProperty)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AutoScaleProperties_STATUS() to populate field AutoScaleProperties")
@@ -7312,7 +7312,7 @@ type VirtualMachine_Properties struct {
 }
 
 // AssignProperties_From_VirtualMachine_Properties populates our VirtualMachine_Properties from the provided source VirtualMachine_Properties
-func (properties *VirtualMachine_Properties) AssignProperties_From_VirtualMachine_Properties(source *v1api20210701s.VirtualMachine_Properties) error {
+func (properties *VirtualMachine_Properties) AssignProperties_From_VirtualMachine_Properties(source *v20210701s.VirtualMachine_Properties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7366,7 +7366,7 @@ func (properties *VirtualMachine_Properties) AssignProperties_From_VirtualMachin
 }
 
 // AssignProperties_To_VirtualMachine_Properties populates the provided destination VirtualMachine_Properties from our VirtualMachine_Properties
-func (properties *VirtualMachine_Properties) AssignProperties_To_VirtualMachine_Properties(destination *v1api20210701s.VirtualMachine_Properties) error {
+func (properties *VirtualMachine_Properties) AssignProperties_To_VirtualMachine_Properties(destination *v20210701s.VirtualMachine_Properties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -7375,7 +7375,7 @@ func (properties *VirtualMachine_Properties) AssignProperties_To_VirtualMachine_
 
 	// AdministratorAccount
 	if properties.AdministratorAccount != nil {
-		var administratorAccount v1api20210701s.VirtualMachineSshCredentials
+		var administratorAccount v20210701s.VirtualMachineSshCredentials
 		err := properties.AdministratorAccount.AssignProperties_To_VirtualMachineSshCredentials(&administratorAccount)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineSshCredentials() to populate field AdministratorAccount")
@@ -7431,7 +7431,7 @@ type VirtualMachine_Properties_STATUS struct {
 }
 
 // AssignProperties_From_VirtualMachine_Properties_STATUS populates our VirtualMachine_Properties_STATUS from the provided source VirtualMachine_Properties_STATUS
-func (properties *VirtualMachine_Properties_STATUS) AssignProperties_From_VirtualMachine_Properties_STATUS(source *v1api20210701s.VirtualMachine_Properties_STATUS) error {
+func (properties *VirtualMachine_Properties_STATUS) AssignProperties_From_VirtualMachine_Properties_STATUS(source *v20210701s.VirtualMachine_Properties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7485,7 +7485,7 @@ func (properties *VirtualMachine_Properties_STATUS) AssignProperties_From_Virtua
 }
 
 // AssignProperties_To_VirtualMachine_Properties_STATUS populates the provided destination VirtualMachine_Properties_STATUS from our VirtualMachine_Properties_STATUS
-func (properties *VirtualMachine_Properties_STATUS) AssignProperties_To_VirtualMachine_Properties_STATUS(destination *v1api20210701s.VirtualMachine_Properties_STATUS) error {
+func (properties *VirtualMachine_Properties_STATUS) AssignProperties_To_VirtualMachine_Properties_STATUS(destination *v20210701s.VirtualMachine_Properties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -7494,7 +7494,7 @@ func (properties *VirtualMachine_Properties_STATUS) AssignProperties_To_VirtualM
 
 	// AdministratorAccount
 	if properties.AdministratorAccount != nil {
-		var administratorAccount v1api20210701s.VirtualMachineSshCredentials_STATUS
+		var administratorAccount v20210701s.VirtualMachineSshCredentials_STATUS
 		err := properties.AdministratorAccount.AssignProperties_To_VirtualMachineSshCredentials_STATUS(&administratorAccount)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineSshCredentials_STATUS() to populate field AdministratorAccount")
@@ -7549,7 +7549,7 @@ type AksNetworkingConfiguration struct {
 }
 
 // AssignProperties_From_AksNetworkingConfiguration populates our AksNetworkingConfiguration from the provided source AksNetworkingConfiguration
-func (configuration *AksNetworkingConfiguration) AssignProperties_From_AksNetworkingConfiguration(source *v1api20210701s.AksNetworkingConfiguration) error {
+func (configuration *AksNetworkingConfiguration) AssignProperties_From_AksNetworkingConfiguration(source *v20210701s.AksNetworkingConfiguration) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7591,7 +7591,7 @@ func (configuration *AksNetworkingConfiguration) AssignProperties_From_AksNetwor
 }
 
 // AssignProperties_To_AksNetworkingConfiguration populates the provided destination AksNetworkingConfiguration from our AksNetworkingConfiguration
-func (configuration *AksNetworkingConfiguration) AssignProperties_To_AksNetworkingConfiguration(destination *v1api20210701s.AksNetworkingConfiguration) error {
+func (configuration *AksNetworkingConfiguration) AssignProperties_To_AksNetworkingConfiguration(destination *v20210701s.AksNetworkingConfiguration) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
@@ -7643,7 +7643,7 @@ type AksNetworkingConfiguration_STATUS struct {
 }
 
 // AssignProperties_From_AksNetworkingConfiguration_STATUS populates our AksNetworkingConfiguration_STATUS from the provided source AksNetworkingConfiguration_STATUS
-func (configuration *AksNetworkingConfiguration_STATUS) AssignProperties_From_AksNetworkingConfiguration_STATUS(source *v1api20210701s.AksNetworkingConfiguration_STATUS) error {
+func (configuration *AksNetworkingConfiguration_STATUS) AssignProperties_From_AksNetworkingConfiguration_STATUS(source *v20210701s.AksNetworkingConfiguration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7680,7 +7680,7 @@ func (configuration *AksNetworkingConfiguration_STATUS) AssignProperties_From_Ak
 }
 
 // AssignProperties_To_AksNetworkingConfiguration_STATUS populates the provided destination AksNetworkingConfiguration_STATUS from our AksNetworkingConfiguration_STATUS
-func (configuration *AksNetworkingConfiguration_STATUS) AssignProperties_To_AksNetworkingConfiguration_STATUS(destination *v1api20210701s.AksNetworkingConfiguration_STATUS) error {
+func (configuration *AksNetworkingConfiguration_STATUS) AssignProperties_To_AksNetworkingConfiguration_STATUS(destination *v20210701s.AksNetworkingConfiguration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
@@ -7717,98 +7717,98 @@ func (configuration *AksNetworkingConfiguration_STATUS) AssignProperties_To_AksN
 }
 
 type augmentConversionForAKS_Properties interface {
-	AssignPropertiesFrom(src *v1api20210701s.AKS_Properties) error
-	AssignPropertiesTo(dst *v1api20210701s.AKS_Properties) error
+	AssignPropertiesFrom(src *v20210701s.AKS_Properties) error
+	AssignPropertiesTo(dst *v20210701s.AKS_Properties) error
 }
 
 type augmentConversionForAKS_Properties_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.AKS_Properties_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.AKS_Properties_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.AKS_Properties_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.AKS_Properties_STATUS) error
 }
 
 type augmentConversionForAmlComputeProperties interface {
-	AssignPropertiesFrom(src *v1api20210701s.AmlComputeProperties) error
-	AssignPropertiesTo(dst *v1api20210701s.AmlComputeProperties) error
+	AssignPropertiesFrom(src *v20210701s.AmlComputeProperties) error
+	AssignPropertiesTo(dst *v20210701s.AmlComputeProperties) error
 }
 
 type augmentConversionForAmlComputeProperties_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.AmlComputeProperties_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.AmlComputeProperties_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.AmlComputeProperties_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.AmlComputeProperties_STATUS) error
 }
 
 type augmentConversionForComputeInstanceProperties interface {
-	AssignPropertiesFrom(src *v1api20210701s.ComputeInstanceProperties) error
-	AssignPropertiesTo(dst *v1api20210701s.ComputeInstanceProperties) error
+	AssignPropertiesFrom(src *v20210701s.ComputeInstanceProperties) error
+	AssignPropertiesTo(dst *v20210701s.ComputeInstanceProperties) error
 }
 
 type augmentConversionForComputeInstanceProperties_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.ComputeInstanceProperties_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.ComputeInstanceProperties_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.ComputeInstanceProperties_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.ComputeInstanceProperties_STATUS) error
 }
 
 type augmentConversionForDatabricksProperties interface {
-	AssignPropertiesFrom(src *v1api20210701s.DatabricksProperties) error
-	AssignPropertiesTo(dst *v1api20210701s.DatabricksProperties) error
+	AssignPropertiesFrom(src *v20210701s.DatabricksProperties) error
+	AssignPropertiesTo(dst *v20210701s.DatabricksProperties) error
 }
 
 type augmentConversionForDatabricksProperties_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.DatabricksProperties_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.DatabricksProperties_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.DatabricksProperties_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.DatabricksProperties_STATUS) error
 }
 
 type augmentConversionForDataLakeAnalytics_Properties interface {
-	AssignPropertiesFrom(src *v1api20210701s.DataLakeAnalytics_Properties) error
-	AssignPropertiesTo(dst *v1api20210701s.DataLakeAnalytics_Properties) error
+	AssignPropertiesFrom(src *v20210701s.DataLakeAnalytics_Properties) error
+	AssignPropertiesTo(dst *v20210701s.DataLakeAnalytics_Properties) error
 }
 
 type augmentConversionForDataLakeAnalytics_Properties_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.DataLakeAnalytics_Properties_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.DataLakeAnalytics_Properties_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.DataLakeAnalytics_Properties_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.DataLakeAnalytics_Properties_STATUS) error
 }
 
 type augmentConversionForErrorResponse_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.ErrorResponse_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.ErrorResponse_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.ErrorResponse_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.ErrorResponse_STATUS) error
 }
 
 type augmentConversionForHDInsightProperties interface {
-	AssignPropertiesFrom(src *v1api20210701s.HDInsightProperties) error
-	AssignPropertiesTo(dst *v1api20210701s.HDInsightProperties) error
+	AssignPropertiesFrom(src *v20210701s.HDInsightProperties) error
+	AssignPropertiesTo(dst *v20210701s.HDInsightProperties) error
 }
 
 type augmentConversionForHDInsightProperties_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.HDInsightProperties_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.HDInsightProperties_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.HDInsightProperties_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.HDInsightProperties_STATUS) error
 }
 
 type augmentConversionForKubernetesProperties interface {
-	AssignPropertiesFrom(src *v1api20210701s.KubernetesProperties) error
-	AssignPropertiesTo(dst *v1api20210701s.KubernetesProperties) error
+	AssignPropertiesFrom(src *v20210701s.KubernetesProperties) error
+	AssignPropertiesTo(dst *v20210701s.KubernetesProperties) error
 }
 
 type augmentConversionForKubernetesProperties_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.KubernetesProperties_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.KubernetesProperties_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.KubernetesProperties_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.KubernetesProperties_STATUS) error
 }
 
 type augmentConversionForSynapseSpark_Properties interface {
-	AssignPropertiesFrom(src *v1api20210701s.SynapseSpark_Properties) error
-	AssignPropertiesTo(dst *v1api20210701s.SynapseSpark_Properties) error
+	AssignPropertiesFrom(src *v20210701s.SynapseSpark_Properties) error
+	AssignPropertiesTo(dst *v20210701s.SynapseSpark_Properties) error
 }
 
 type augmentConversionForSynapseSpark_Properties_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.SynapseSpark_Properties_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.SynapseSpark_Properties_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.SynapseSpark_Properties_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.SynapseSpark_Properties_STATUS) error
 }
 
 type augmentConversionForVirtualMachine_Properties interface {
-	AssignPropertiesFrom(src *v1api20210701s.VirtualMachine_Properties) error
-	AssignPropertiesTo(dst *v1api20210701s.VirtualMachine_Properties) error
+	AssignPropertiesFrom(src *v20210701s.VirtualMachine_Properties) error
+	AssignPropertiesTo(dst *v20210701s.VirtualMachine_Properties) error
 }
 
 type augmentConversionForVirtualMachine_Properties_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.VirtualMachine_Properties_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.VirtualMachine_Properties_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.VirtualMachine_Properties_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.VirtualMachine_Properties_STATUS) error
 }
 
 // Storage version of v1beta20210701.AutoPauseProperties
@@ -7820,7 +7820,7 @@ type AutoPauseProperties struct {
 }
 
 // AssignProperties_From_AutoPauseProperties populates our AutoPauseProperties from the provided source AutoPauseProperties
-func (properties *AutoPauseProperties) AssignProperties_From_AutoPauseProperties(source *v1api20210701s.AutoPauseProperties) error {
+func (properties *AutoPauseProperties) AssignProperties_From_AutoPauseProperties(source *v20210701s.AutoPauseProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7856,7 +7856,7 @@ func (properties *AutoPauseProperties) AssignProperties_From_AutoPauseProperties
 }
 
 // AssignProperties_To_AutoPauseProperties populates the provided destination AutoPauseProperties from our AutoPauseProperties
-func (properties *AutoPauseProperties) AssignProperties_To_AutoPauseProperties(destination *v1api20210701s.AutoPauseProperties) error {
+func (properties *AutoPauseProperties) AssignProperties_To_AutoPauseProperties(destination *v20210701s.AutoPauseProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -7900,7 +7900,7 @@ type AutoPauseProperties_STATUS struct {
 }
 
 // AssignProperties_From_AutoPauseProperties_STATUS populates our AutoPauseProperties_STATUS from the provided source AutoPauseProperties_STATUS
-func (properties *AutoPauseProperties_STATUS) AssignProperties_From_AutoPauseProperties_STATUS(source *v1api20210701s.AutoPauseProperties_STATUS) error {
+func (properties *AutoPauseProperties_STATUS) AssignProperties_From_AutoPauseProperties_STATUS(source *v20210701s.AutoPauseProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7936,7 +7936,7 @@ func (properties *AutoPauseProperties_STATUS) AssignProperties_From_AutoPausePro
 }
 
 // AssignProperties_To_AutoPauseProperties_STATUS populates the provided destination AutoPauseProperties_STATUS from our AutoPauseProperties_STATUS
-func (properties *AutoPauseProperties_STATUS) AssignProperties_To_AutoPauseProperties_STATUS(destination *v1api20210701s.AutoPauseProperties_STATUS) error {
+func (properties *AutoPauseProperties_STATUS) AssignProperties_To_AutoPauseProperties_STATUS(destination *v20210701s.AutoPauseProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -7981,7 +7981,7 @@ type AutoScaleProperties struct {
 }
 
 // AssignProperties_From_AutoScaleProperties populates our AutoScaleProperties from the provided source AutoScaleProperties
-func (properties *AutoScaleProperties) AssignProperties_From_AutoScaleProperties(source *v1api20210701s.AutoScaleProperties) error {
+func (properties *AutoScaleProperties) AssignProperties_From_AutoScaleProperties(source *v20210701s.AutoScaleProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8020,7 +8020,7 @@ func (properties *AutoScaleProperties) AssignProperties_From_AutoScaleProperties
 }
 
 // AssignProperties_To_AutoScaleProperties populates the provided destination AutoScaleProperties from our AutoScaleProperties
-func (properties *AutoScaleProperties) AssignProperties_To_AutoScaleProperties(destination *v1api20210701s.AutoScaleProperties) error {
+func (properties *AutoScaleProperties) AssignProperties_To_AutoScaleProperties(destination *v20210701s.AutoScaleProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -8068,7 +8068,7 @@ type AutoScaleProperties_STATUS struct {
 }
 
 // AssignProperties_From_AutoScaleProperties_STATUS populates our AutoScaleProperties_STATUS from the provided source AutoScaleProperties_STATUS
-func (properties *AutoScaleProperties_STATUS) AssignProperties_From_AutoScaleProperties_STATUS(source *v1api20210701s.AutoScaleProperties_STATUS) error {
+func (properties *AutoScaleProperties_STATUS) AssignProperties_From_AutoScaleProperties_STATUS(source *v20210701s.AutoScaleProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8107,7 +8107,7 @@ func (properties *AutoScaleProperties_STATUS) AssignProperties_From_AutoScalePro
 }
 
 // AssignProperties_To_AutoScaleProperties_STATUS populates the provided destination AutoScaleProperties_STATUS from our AutoScaleProperties_STATUS
-func (properties *AutoScaleProperties_STATUS) AssignProperties_To_AutoScaleProperties_STATUS(destination *v1api20210701s.AutoScaleProperties_STATUS) error {
+func (properties *AutoScaleProperties_STATUS) AssignProperties_To_AutoScaleProperties_STATUS(destination *v20210701s.AutoScaleProperties_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
@@ -8154,7 +8154,7 @@ type ComputeInstanceApplication_STATUS struct {
 }
 
 // AssignProperties_From_ComputeInstanceApplication_STATUS populates our ComputeInstanceApplication_STATUS from the provided source ComputeInstanceApplication_STATUS
-func (application *ComputeInstanceApplication_STATUS) AssignProperties_From_ComputeInstanceApplication_STATUS(source *v1api20210701s.ComputeInstanceApplication_STATUS) error {
+func (application *ComputeInstanceApplication_STATUS) AssignProperties_From_ComputeInstanceApplication_STATUS(source *v20210701s.ComputeInstanceApplication_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8185,7 +8185,7 @@ func (application *ComputeInstanceApplication_STATUS) AssignProperties_From_Comp
 }
 
 // AssignProperties_To_ComputeInstanceApplication_STATUS populates the provided destination ComputeInstanceApplication_STATUS from our ComputeInstanceApplication_STATUS
-func (application *ComputeInstanceApplication_STATUS) AssignProperties_To_ComputeInstanceApplication_STATUS(destination *v1api20210701s.ComputeInstanceApplication_STATUS) error {
+func (application *ComputeInstanceApplication_STATUS) AssignProperties_To_ComputeInstanceApplication_STATUS(destination *v20210701s.ComputeInstanceApplication_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(application.PropertyBag)
 
@@ -8224,7 +8224,7 @@ type ComputeInstanceConnectivityEndpoints_STATUS struct {
 }
 
 // AssignProperties_From_ComputeInstanceConnectivityEndpoints_STATUS populates our ComputeInstanceConnectivityEndpoints_STATUS from the provided source ComputeInstanceConnectivityEndpoints_STATUS
-func (endpoints *ComputeInstanceConnectivityEndpoints_STATUS) AssignProperties_From_ComputeInstanceConnectivityEndpoints_STATUS(source *v1api20210701s.ComputeInstanceConnectivityEndpoints_STATUS) error {
+func (endpoints *ComputeInstanceConnectivityEndpoints_STATUS) AssignProperties_From_ComputeInstanceConnectivityEndpoints_STATUS(source *v20210701s.ComputeInstanceConnectivityEndpoints_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8255,7 +8255,7 @@ func (endpoints *ComputeInstanceConnectivityEndpoints_STATUS) AssignProperties_F
 }
 
 // AssignProperties_To_ComputeInstanceConnectivityEndpoints_STATUS populates the provided destination ComputeInstanceConnectivityEndpoints_STATUS from our ComputeInstanceConnectivityEndpoints_STATUS
-func (endpoints *ComputeInstanceConnectivityEndpoints_STATUS) AssignProperties_To_ComputeInstanceConnectivityEndpoints_STATUS(destination *v1api20210701s.ComputeInstanceConnectivityEndpoints_STATUS) error {
+func (endpoints *ComputeInstanceConnectivityEndpoints_STATUS) AssignProperties_To_ComputeInstanceConnectivityEndpoints_STATUS(destination *v20210701s.ComputeInstanceConnectivityEndpoints_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(endpoints.PropertyBag)
 
@@ -8295,7 +8295,7 @@ type ComputeInstanceCreatedBy_STATUS struct {
 }
 
 // AssignProperties_From_ComputeInstanceCreatedBy_STATUS populates our ComputeInstanceCreatedBy_STATUS from the provided source ComputeInstanceCreatedBy_STATUS
-func (createdBy *ComputeInstanceCreatedBy_STATUS) AssignProperties_From_ComputeInstanceCreatedBy_STATUS(source *v1api20210701s.ComputeInstanceCreatedBy_STATUS) error {
+func (createdBy *ComputeInstanceCreatedBy_STATUS) AssignProperties_From_ComputeInstanceCreatedBy_STATUS(source *v20210701s.ComputeInstanceCreatedBy_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8329,7 +8329,7 @@ func (createdBy *ComputeInstanceCreatedBy_STATUS) AssignProperties_From_ComputeI
 }
 
 // AssignProperties_To_ComputeInstanceCreatedBy_STATUS populates the provided destination ComputeInstanceCreatedBy_STATUS from our ComputeInstanceCreatedBy_STATUS
-func (createdBy *ComputeInstanceCreatedBy_STATUS) AssignProperties_To_ComputeInstanceCreatedBy_STATUS(destination *v1api20210701s.ComputeInstanceCreatedBy_STATUS) error {
+func (createdBy *ComputeInstanceCreatedBy_STATUS) AssignProperties_To_ComputeInstanceCreatedBy_STATUS(destination *v20210701s.ComputeInstanceCreatedBy_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(createdBy.PropertyBag)
 
@@ -8372,7 +8372,7 @@ type ComputeInstanceLastOperation_STATUS struct {
 }
 
 // AssignProperties_From_ComputeInstanceLastOperation_STATUS populates our ComputeInstanceLastOperation_STATUS from the provided source ComputeInstanceLastOperation_STATUS
-func (operation *ComputeInstanceLastOperation_STATUS) AssignProperties_From_ComputeInstanceLastOperation_STATUS(source *v1api20210701s.ComputeInstanceLastOperation_STATUS) error {
+func (operation *ComputeInstanceLastOperation_STATUS) AssignProperties_From_ComputeInstanceLastOperation_STATUS(source *v20210701s.ComputeInstanceLastOperation_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8406,7 +8406,7 @@ func (operation *ComputeInstanceLastOperation_STATUS) AssignProperties_From_Comp
 }
 
 // AssignProperties_To_ComputeInstanceLastOperation_STATUS populates the provided destination ComputeInstanceLastOperation_STATUS from our ComputeInstanceLastOperation_STATUS
-func (operation *ComputeInstanceLastOperation_STATUS) AssignProperties_To_ComputeInstanceLastOperation_STATUS(destination *v1api20210701s.ComputeInstanceLastOperation_STATUS) error {
+func (operation *ComputeInstanceLastOperation_STATUS) AssignProperties_To_ComputeInstanceLastOperation_STATUS(destination *v20210701s.ComputeInstanceLastOperation_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(operation.PropertyBag)
 
@@ -8448,7 +8448,7 @@ type ComputeInstanceSshSettings struct {
 }
 
 // AssignProperties_From_ComputeInstanceSshSettings populates our ComputeInstanceSshSettings from the provided source ComputeInstanceSshSettings
-func (settings *ComputeInstanceSshSettings) AssignProperties_From_ComputeInstanceSshSettings(source *v1api20210701s.ComputeInstanceSshSettings) error {
+func (settings *ComputeInstanceSshSettings) AssignProperties_From_ComputeInstanceSshSettings(source *v20210701s.ComputeInstanceSshSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8479,7 +8479,7 @@ func (settings *ComputeInstanceSshSettings) AssignProperties_From_ComputeInstanc
 }
 
 // AssignProperties_To_ComputeInstanceSshSettings populates the provided destination ComputeInstanceSshSettings from our ComputeInstanceSshSettings
-func (settings *ComputeInstanceSshSettings) AssignProperties_To_ComputeInstanceSshSettings(destination *v1api20210701s.ComputeInstanceSshSettings) error {
+func (settings *ComputeInstanceSshSettings) AssignProperties_To_ComputeInstanceSshSettings(destination *v20210701s.ComputeInstanceSshSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
@@ -8520,7 +8520,7 @@ type ComputeInstanceSshSettings_STATUS struct {
 }
 
 // AssignProperties_From_ComputeInstanceSshSettings_STATUS populates our ComputeInstanceSshSettings_STATUS from the provided source ComputeInstanceSshSettings_STATUS
-func (settings *ComputeInstanceSshSettings_STATUS) AssignProperties_From_ComputeInstanceSshSettings_STATUS(source *v1api20210701s.ComputeInstanceSshSettings_STATUS) error {
+func (settings *ComputeInstanceSshSettings_STATUS) AssignProperties_From_ComputeInstanceSshSettings_STATUS(source *v20210701s.ComputeInstanceSshSettings_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8557,7 +8557,7 @@ func (settings *ComputeInstanceSshSettings_STATUS) AssignProperties_From_Compute
 }
 
 // AssignProperties_To_ComputeInstanceSshSettings_STATUS populates the provided destination ComputeInstanceSshSettings_STATUS from our ComputeInstanceSshSettings_STATUS
-func (settings *ComputeInstanceSshSettings_STATUS) AssignProperties_To_ComputeInstanceSshSettings_STATUS(destination *v1api20210701s.ComputeInstanceSshSettings_STATUS) error {
+func (settings *ComputeInstanceSshSettings_STATUS) AssignProperties_To_ComputeInstanceSshSettings_STATUS(destination *v20210701s.ComputeInstanceSshSettings_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
@@ -8605,7 +8605,7 @@ type ErrorDetail_STATUS struct {
 }
 
 // AssignProperties_From_ErrorDetail_STATUS populates our ErrorDetail_STATUS from the provided source ErrorDetail_STATUS
-func (detail *ErrorDetail_STATUS) AssignProperties_From_ErrorDetail_STATUS(source *v1api20210701s.ErrorDetail_STATUS) error {
+func (detail *ErrorDetail_STATUS) AssignProperties_From_ErrorDetail_STATUS(source *v20210701s.ErrorDetail_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8675,17 +8675,17 @@ func (detail *ErrorDetail_STATUS) AssignProperties_From_ErrorDetail_STATUS(sourc
 }
 
 // AssignProperties_To_ErrorDetail_STATUS populates the provided destination ErrorDetail_STATUS from our ErrorDetail_STATUS
-func (detail *ErrorDetail_STATUS) AssignProperties_To_ErrorDetail_STATUS(destination *v1api20210701s.ErrorDetail_STATUS) error {
+func (detail *ErrorDetail_STATUS) AssignProperties_To_ErrorDetail_STATUS(destination *v20210701s.ErrorDetail_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(detail.PropertyBag)
 
 	// AdditionalInfo
 	if detail.AdditionalInfo != nil {
-		additionalInfoList := make([]v1api20210701s.ErrorAdditionalInfo_STATUS, len(detail.AdditionalInfo))
+		additionalInfoList := make([]v20210701s.ErrorAdditionalInfo_STATUS, len(detail.AdditionalInfo))
 		for additionalInfoIndex, additionalInfoItem := range detail.AdditionalInfo {
 			// Shadow the loop variable to avoid aliasing
 			additionalInfoItem := additionalInfoItem
-			var additionalInfo v1api20210701s.ErrorAdditionalInfo_STATUS
+			var additionalInfo v20210701s.ErrorAdditionalInfo_STATUS
 			err := additionalInfoItem.AssignProperties_To_ErrorAdditionalInfo_STATUS(&additionalInfo)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ErrorAdditionalInfo_STATUS() to populate field AdditionalInfo")
@@ -8702,11 +8702,11 @@ func (detail *ErrorDetail_STATUS) AssignProperties_To_ErrorDetail_STATUS(destina
 
 	// Details
 	if detail.Details != nil {
-		detailList := make([]v1api20210701s.ErrorDetail_STATUS_Unrolled, len(detail.Details))
+		detailList := make([]v20210701s.ErrorDetail_STATUS_Unrolled, len(detail.Details))
 		for detailIndex, detailItem := range detail.Details {
 			// Shadow the loop variable to avoid aliasing
 			detailItem := detailItem
-			var detailLocal v1api20210701s.ErrorDetail_STATUS_Unrolled
+			var detailLocal v20210701s.ErrorDetail_STATUS_Unrolled
 			err := detailItem.AssignProperties_To_ErrorDetail_STATUS_Unrolled(&detailLocal)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ErrorDetail_STATUS_Unrolled() to populate field Details")
@@ -8753,7 +8753,7 @@ type InstanceTypeSchema struct {
 }
 
 // AssignProperties_From_InstanceTypeSchema populates our InstanceTypeSchema from the provided source InstanceTypeSchema
-func (schema *InstanceTypeSchema) AssignProperties_From_InstanceTypeSchema(source *v1api20210701s.InstanceTypeSchema) error {
+func (schema *InstanceTypeSchema) AssignProperties_From_InstanceTypeSchema(source *v20210701s.InstanceTypeSchema) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8793,7 +8793,7 @@ func (schema *InstanceTypeSchema) AssignProperties_From_InstanceTypeSchema(sourc
 }
 
 // AssignProperties_To_InstanceTypeSchema populates the provided destination InstanceTypeSchema from our InstanceTypeSchema
-func (schema *InstanceTypeSchema) AssignProperties_To_InstanceTypeSchema(destination *v1api20210701s.InstanceTypeSchema) error {
+func (schema *InstanceTypeSchema) AssignProperties_To_InstanceTypeSchema(destination *v20210701s.InstanceTypeSchema) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(schema.PropertyBag)
 
@@ -8802,7 +8802,7 @@ func (schema *InstanceTypeSchema) AssignProperties_To_InstanceTypeSchema(destina
 
 	// Resources
 	if schema.Resources != nil {
-		var resource v1api20210701s.InstanceTypeSchema_Resources
+		var resource v20210701s.InstanceTypeSchema_Resources
 		err := schema.Resources.AssignProperties_To_InstanceTypeSchema_Resources(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_InstanceTypeSchema_Resources() to populate field Resources")
@@ -8841,7 +8841,7 @@ type InstanceTypeSchema_STATUS struct {
 }
 
 // AssignProperties_From_InstanceTypeSchema_STATUS populates our InstanceTypeSchema_STATUS from the provided source InstanceTypeSchema_STATUS
-func (schema *InstanceTypeSchema_STATUS) AssignProperties_From_InstanceTypeSchema_STATUS(source *v1api20210701s.InstanceTypeSchema_STATUS) error {
+func (schema *InstanceTypeSchema_STATUS) AssignProperties_From_InstanceTypeSchema_STATUS(source *v20210701s.InstanceTypeSchema_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8881,7 +8881,7 @@ func (schema *InstanceTypeSchema_STATUS) AssignProperties_From_InstanceTypeSchem
 }
 
 // AssignProperties_To_InstanceTypeSchema_STATUS populates the provided destination InstanceTypeSchema_STATUS from our InstanceTypeSchema_STATUS
-func (schema *InstanceTypeSchema_STATUS) AssignProperties_To_InstanceTypeSchema_STATUS(destination *v1api20210701s.InstanceTypeSchema_STATUS) error {
+func (schema *InstanceTypeSchema_STATUS) AssignProperties_To_InstanceTypeSchema_STATUS(destination *v20210701s.InstanceTypeSchema_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(schema.PropertyBag)
 
@@ -8890,7 +8890,7 @@ func (schema *InstanceTypeSchema_STATUS) AssignProperties_To_InstanceTypeSchema_
 
 	// Resources
 	if schema.Resources != nil {
-		var resource v1api20210701s.InstanceTypeSchema_Resources_STATUS
+		var resource v20210701s.InstanceTypeSchema_Resources_STATUS
 		err := schema.Resources.AssignProperties_To_InstanceTypeSchema_Resources_STATUS(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_InstanceTypeSchema_Resources_STATUS() to populate field Resources")
@@ -8933,7 +8933,7 @@ type NodeStateCounts_STATUS struct {
 }
 
 // AssignProperties_From_NodeStateCounts_STATUS populates our NodeStateCounts_STATUS from the provided source NodeStateCounts_STATUS
-func (counts *NodeStateCounts_STATUS) AssignProperties_From_NodeStateCounts_STATUS(source *v1api20210701s.NodeStateCounts_STATUS) error {
+func (counts *NodeStateCounts_STATUS) AssignProperties_From_NodeStateCounts_STATUS(source *v20210701s.NodeStateCounts_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8976,7 +8976,7 @@ func (counts *NodeStateCounts_STATUS) AssignProperties_From_NodeStateCounts_STAT
 }
 
 // AssignProperties_To_NodeStateCounts_STATUS populates the provided destination NodeStateCounts_STATUS from our NodeStateCounts_STATUS
-func (counts *NodeStateCounts_STATUS) AssignProperties_To_NodeStateCounts_STATUS(destination *v1api20210701s.NodeStateCounts_STATUS) error {
+func (counts *NodeStateCounts_STATUS) AssignProperties_To_NodeStateCounts_STATUS(destination *v20210701s.NodeStateCounts_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(counts.PropertyBag)
 
@@ -9026,7 +9026,7 @@ type PersonalComputeInstanceSettings struct {
 }
 
 // AssignProperties_From_PersonalComputeInstanceSettings populates our PersonalComputeInstanceSettings from the provided source PersonalComputeInstanceSettings
-func (settings *PersonalComputeInstanceSettings) AssignProperties_From_PersonalComputeInstanceSettings(source *v1api20210701s.PersonalComputeInstanceSettings) error {
+func (settings *PersonalComputeInstanceSettings) AssignProperties_From_PersonalComputeInstanceSettings(source *v20210701s.PersonalComputeInstanceSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9063,13 +9063,13 @@ func (settings *PersonalComputeInstanceSettings) AssignProperties_From_PersonalC
 }
 
 // AssignProperties_To_PersonalComputeInstanceSettings populates the provided destination PersonalComputeInstanceSettings from our PersonalComputeInstanceSettings
-func (settings *PersonalComputeInstanceSettings) AssignProperties_To_PersonalComputeInstanceSettings(destination *v1api20210701s.PersonalComputeInstanceSettings) error {
+func (settings *PersonalComputeInstanceSettings) AssignProperties_To_PersonalComputeInstanceSettings(destination *v20210701s.PersonalComputeInstanceSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
 	// AssignedUser
 	if settings.AssignedUser != nil {
-		var assignedUser v1api20210701s.AssignedUser
+		var assignedUser v20210701s.AssignedUser
 		err := settings.AssignedUser.AssignProperties_To_AssignedUser(&assignedUser)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AssignedUser() to populate field AssignedUser")
@@ -9107,7 +9107,7 @@ type PersonalComputeInstanceSettings_STATUS struct {
 }
 
 // AssignProperties_From_PersonalComputeInstanceSettings_STATUS populates our PersonalComputeInstanceSettings_STATUS from the provided source PersonalComputeInstanceSettings_STATUS
-func (settings *PersonalComputeInstanceSettings_STATUS) AssignProperties_From_PersonalComputeInstanceSettings_STATUS(source *v1api20210701s.PersonalComputeInstanceSettings_STATUS) error {
+func (settings *PersonalComputeInstanceSettings_STATUS) AssignProperties_From_PersonalComputeInstanceSettings_STATUS(source *v20210701s.PersonalComputeInstanceSettings_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9144,13 +9144,13 @@ func (settings *PersonalComputeInstanceSettings_STATUS) AssignProperties_From_Pe
 }
 
 // AssignProperties_To_PersonalComputeInstanceSettings_STATUS populates the provided destination PersonalComputeInstanceSettings_STATUS from our PersonalComputeInstanceSettings_STATUS
-func (settings *PersonalComputeInstanceSettings_STATUS) AssignProperties_To_PersonalComputeInstanceSettings_STATUS(destination *v1api20210701s.PersonalComputeInstanceSettings_STATUS) error {
+func (settings *PersonalComputeInstanceSettings_STATUS) AssignProperties_To_PersonalComputeInstanceSettings_STATUS(destination *v20210701s.PersonalComputeInstanceSettings_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
 	// AssignedUser
 	if settings.AssignedUser != nil {
-		var assignedUser v1api20210701s.AssignedUser_STATUS
+		var assignedUser v20210701s.AssignedUser_STATUS
 		err := settings.AssignedUser.AssignProperties_To_AssignedUser_STATUS(&assignedUser)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_AssignedUser_STATUS() to populate field AssignedUser")
@@ -9190,7 +9190,7 @@ type ResourceId struct {
 }
 
 // AssignProperties_From_ResourceId populates our ResourceId from the provided source ResourceId
-func (resourceId *ResourceId) AssignProperties_From_ResourceId(source *v1api20210701s.ResourceId) error {
+func (resourceId *ResourceId) AssignProperties_From_ResourceId(source *v20210701s.ResourceId) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9223,7 +9223,7 @@ func (resourceId *ResourceId) AssignProperties_From_ResourceId(source *v1api2021
 }
 
 // AssignProperties_To_ResourceId populates the provided destination ResourceId from our ResourceId
-func (resourceId *ResourceId) AssignProperties_To_ResourceId(destination *v1api20210701s.ResourceId) error {
+func (resourceId *ResourceId) AssignProperties_To_ResourceId(destination *v20210701s.ResourceId) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resourceId.PropertyBag)
 
@@ -9263,7 +9263,7 @@ type ResourceId_STATUS struct {
 }
 
 // AssignProperties_From_ResourceId_STATUS populates our ResourceId_STATUS from the provided source ResourceId_STATUS
-func (resourceId *ResourceId_STATUS) AssignProperties_From_ResourceId_STATUS(source *v1api20210701s.ResourceId_STATUS) error {
+func (resourceId *ResourceId_STATUS) AssignProperties_From_ResourceId_STATUS(source *v20210701s.ResourceId_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9291,7 +9291,7 @@ func (resourceId *ResourceId_STATUS) AssignProperties_From_ResourceId_STATUS(sou
 }
 
 // AssignProperties_To_ResourceId_STATUS populates the provided destination ResourceId_STATUS from our ResourceId_STATUS
-func (resourceId *ResourceId_STATUS) AssignProperties_To_ResourceId_STATUS(destination *v1api20210701s.ResourceId_STATUS) error {
+func (resourceId *ResourceId_STATUS) AssignProperties_To_ResourceId_STATUS(destination *v20210701s.ResourceId_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resourceId.PropertyBag)
 
@@ -9328,7 +9328,7 @@ type ScaleSettings struct {
 }
 
 // AssignProperties_From_ScaleSettings populates our ScaleSettings from the provided source ScaleSettings
-func (settings *ScaleSettings) AssignProperties_From_ScaleSettings(source *v1api20210701s.ScaleSettings) error {
+func (settings *ScaleSettings) AssignProperties_From_ScaleSettings(source *v20210701s.ScaleSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9362,7 +9362,7 @@ func (settings *ScaleSettings) AssignProperties_From_ScaleSettings(source *v1api
 }
 
 // AssignProperties_To_ScaleSettings populates the provided destination ScaleSettings from our ScaleSettings
-func (settings *ScaleSettings) AssignProperties_To_ScaleSettings(destination *v1api20210701s.ScaleSettings) error {
+func (settings *ScaleSettings) AssignProperties_To_ScaleSettings(destination *v20210701s.ScaleSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
@@ -9405,7 +9405,7 @@ type ScaleSettings_STATUS struct {
 }
 
 // AssignProperties_From_ScaleSettings_STATUS populates our ScaleSettings_STATUS from the provided source ScaleSettings_STATUS
-func (settings *ScaleSettings_STATUS) AssignProperties_From_ScaleSettings_STATUS(source *v1api20210701s.ScaleSettings_STATUS) error {
+func (settings *ScaleSettings_STATUS) AssignProperties_From_ScaleSettings_STATUS(source *v20210701s.ScaleSettings_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9439,7 +9439,7 @@ func (settings *ScaleSettings_STATUS) AssignProperties_From_ScaleSettings_STATUS
 }
 
 // AssignProperties_To_ScaleSettings_STATUS populates the provided destination ScaleSettings_STATUS from our ScaleSettings_STATUS
-func (settings *ScaleSettings_STATUS) AssignProperties_To_ScaleSettings_STATUS(destination *v1api20210701s.ScaleSettings_STATUS) error {
+func (settings *ScaleSettings_STATUS) AssignProperties_To_ScaleSettings_STATUS(destination *v20210701s.ScaleSettings_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
@@ -9480,7 +9480,7 @@ type SetupScripts struct {
 }
 
 // AssignProperties_From_SetupScripts populates our SetupScripts from the provided source SetupScripts
-func (scripts *SetupScripts) AssignProperties_From_SetupScripts(source *v1api20210701s.SetupScripts) error {
+func (scripts *SetupScripts) AssignProperties_From_SetupScripts(source *v20210701s.SetupScripts) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9517,13 +9517,13 @@ func (scripts *SetupScripts) AssignProperties_From_SetupScripts(source *v1api202
 }
 
 // AssignProperties_To_SetupScripts populates the provided destination SetupScripts from our SetupScripts
-func (scripts *SetupScripts) AssignProperties_To_SetupScripts(destination *v1api20210701s.SetupScripts) error {
+func (scripts *SetupScripts) AssignProperties_To_SetupScripts(destination *v20210701s.SetupScripts) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(scripts.PropertyBag)
 
 	// Scripts
 	if scripts.Scripts != nil {
-		var script v1api20210701s.ScriptsToExecute
+		var script v20210701s.ScriptsToExecute
 		err := scripts.Scripts.AssignProperties_To_ScriptsToExecute(&script)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ScriptsToExecute() to populate field Scripts")
@@ -9561,7 +9561,7 @@ type SetupScripts_STATUS struct {
 }
 
 // AssignProperties_From_SetupScripts_STATUS populates our SetupScripts_STATUS from the provided source SetupScripts_STATUS
-func (scripts *SetupScripts_STATUS) AssignProperties_From_SetupScripts_STATUS(source *v1api20210701s.SetupScripts_STATUS) error {
+func (scripts *SetupScripts_STATUS) AssignProperties_From_SetupScripts_STATUS(source *v20210701s.SetupScripts_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9598,13 +9598,13 @@ func (scripts *SetupScripts_STATUS) AssignProperties_From_SetupScripts_STATUS(so
 }
 
 // AssignProperties_To_SetupScripts_STATUS populates the provided destination SetupScripts_STATUS from our SetupScripts_STATUS
-func (scripts *SetupScripts_STATUS) AssignProperties_To_SetupScripts_STATUS(destination *v1api20210701s.SetupScripts_STATUS) error {
+func (scripts *SetupScripts_STATUS) AssignProperties_To_SetupScripts_STATUS(destination *v20210701s.SetupScripts_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(scripts.PropertyBag)
 
 	// Scripts
 	if scripts.Scripts != nil {
-		var script v1api20210701s.ScriptsToExecute_STATUS
+		var script v20210701s.ScriptsToExecute_STATUS
 		err := scripts.Scripts.AssignProperties_To_ScriptsToExecute_STATUS(&script)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ScriptsToExecute_STATUS() to populate field Scripts")
@@ -9647,7 +9647,7 @@ type SslConfiguration struct {
 }
 
 // AssignProperties_From_SslConfiguration populates our SslConfiguration from the provided source SslConfiguration
-func (configuration *SslConfiguration) AssignProperties_From_SslConfiguration(source *v1api20210701s.SslConfiguration) error {
+func (configuration *SslConfiguration) AssignProperties_From_SslConfiguration(source *v20210701s.SslConfiguration) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9695,7 +9695,7 @@ func (configuration *SslConfiguration) AssignProperties_From_SslConfiguration(so
 }
 
 // AssignProperties_To_SslConfiguration populates the provided destination SslConfiguration from our SslConfiguration
-func (configuration *SslConfiguration) AssignProperties_To_SslConfiguration(destination *v1api20210701s.SslConfiguration) error {
+func (configuration *SslConfiguration) AssignProperties_To_SslConfiguration(destination *v20210701s.SslConfiguration) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
@@ -9755,7 +9755,7 @@ type SslConfiguration_STATUS struct {
 }
 
 // AssignProperties_From_SslConfiguration_STATUS populates our SslConfiguration_STATUS from the provided source SslConfiguration_STATUS
-func (configuration *SslConfiguration_STATUS) AssignProperties_From_SslConfiguration_STATUS(source *v1api20210701s.SslConfiguration_STATUS) error {
+func (configuration *SslConfiguration_STATUS) AssignProperties_From_SslConfiguration_STATUS(source *v20210701s.SslConfiguration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9803,7 +9803,7 @@ func (configuration *SslConfiguration_STATUS) AssignProperties_From_SslConfigura
 }
 
 // AssignProperties_To_SslConfiguration_STATUS populates the provided destination SslConfiguration_STATUS from our SslConfiguration_STATUS
-func (configuration *SslConfiguration_STATUS) AssignProperties_To_SslConfiguration_STATUS(destination *v1api20210701s.SslConfiguration_STATUS) error {
+func (configuration *SslConfiguration_STATUS) AssignProperties_To_SslConfiguration_STATUS(destination *v20210701s.SslConfiguration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
@@ -9860,7 +9860,7 @@ type SystemService_STATUS struct {
 }
 
 // AssignProperties_From_SystemService_STATUS populates our SystemService_STATUS from the provided source SystemService_STATUS
-func (service *SystemService_STATUS) AssignProperties_From_SystemService_STATUS(source *v1api20210701s.SystemService_STATUS) error {
+func (service *SystemService_STATUS) AssignProperties_From_SystemService_STATUS(source *v20210701s.SystemService_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9894,7 +9894,7 @@ func (service *SystemService_STATUS) AssignProperties_From_SystemService_STATUS(
 }
 
 // AssignProperties_To_SystemService_STATUS populates the provided destination SystemService_STATUS from our SystemService_STATUS
-func (service *SystemService_STATUS) AssignProperties_To_SystemService_STATUS(destination *v1api20210701s.SystemService_STATUS) error {
+func (service *SystemService_STATUS) AssignProperties_To_SystemService_STATUS(destination *v20210701s.SystemService_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(service.PropertyBag)
 
@@ -9937,7 +9937,7 @@ type UserAccountCredentials struct {
 }
 
 // AssignProperties_From_UserAccountCredentials populates our UserAccountCredentials from the provided source UserAccountCredentials
-func (credentials *UserAccountCredentials) AssignProperties_From_UserAccountCredentials(source *v1api20210701s.UserAccountCredentials) error {
+func (credentials *UserAccountCredentials) AssignProperties_From_UserAccountCredentials(source *v20210701s.UserAccountCredentials) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9981,7 +9981,7 @@ func (credentials *UserAccountCredentials) AssignProperties_From_UserAccountCred
 }
 
 // AssignProperties_To_UserAccountCredentials populates the provided destination UserAccountCredentials from our UserAccountCredentials
-func (credentials *UserAccountCredentials) AssignProperties_To_UserAccountCredentials(destination *v1api20210701s.UserAccountCredentials) error {
+func (credentials *UserAccountCredentials) AssignProperties_To_UserAccountCredentials(destination *v20210701s.UserAccountCredentials) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(credentials.PropertyBag)
 
@@ -10032,7 +10032,7 @@ type UserAccountCredentials_STATUS struct {
 }
 
 // AssignProperties_From_UserAccountCredentials_STATUS populates our UserAccountCredentials_STATUS from the provided source UserAccountCredentials_STATUS
-func (credentials *UserAccountCredentials_STATUS) AssignProperties_From_UserAccountCredentials_STATUS(source *v1api20210701s.UserAccountCredentials_STATUS) error {
+func (credentials *UserAccountCredentials_STATUS) AssignProperties_From_UserAccountCredentials_STATUS(source *v20210701s.UserAccountCredentials_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -10060,7 +10060,7 @@ func (credentials *UserAccountCredentials_STATUS) AssignProperties_From_UserAcco
 }
 
 // AssignProperties_To_UserAccountCredentials_STATUS populates the provided destination UserAccountCredentials_STATUS from our UserAccountCredentials_STATUS
-func (credentials *UserAccountCredentials_STATUS) AssignProperties_To_UserAccountCredentials_STATUS(destination *v1api20210701s.UserAccountCredentials_STATUS) error {
+func (credentials *UserAccountCredentials_STATUS) AssignProperties_To_UserAccountCredentials_STATUS(destination *v20210701s.UserAccountCredentials_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(credentials.PropertyBag)
 
@@ -10097,7 +10097,7 @@ type VirtualMachineImage struct {
 }
 
 // AssignProperties_From_VirtualMachineImage populates our VirtualMachineImage from the provided source VirtualMachineImage
-func (image *VirtualMachineImage) AssignProperties_From_VirtualMachineImage(source *v1api20210701s.VirtualMachineImage) error {
+func (image *VirtualMachineImage) AssignProperties_From_VirtualMachineImage(source *v20210701s.VirtualMachineImage) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -10130,7 +10130,7 @@ func (image *VirtualMachineImage) AssignProperties_From_VirtualMachineImage(sour
 }
 
 // AssignProperties_To_VirtualMachineImage populates the provided destination VirtualMachineImage from our VirtualMachineImage
-func (image *VirtualMachineImage) AssignProperties_To_VirtualMachineImage(destination *v1api20210701s.VirtualMachineImage) error {
+func (image *VirtualMachineImage) AssignProperties_To_VirtualMachineImage(destination *v20210701s.VirtualMachineImage) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(image.PropertyBag)
 
@@ -10170,7 +10170,7 @@ type VirtualMachineImage_STATUS struct {
 }
 
 // AssignProperties_From_VirtualMachineImage_STATUS populates our VirtualMachineImage_STATUS from the provided source VirtualMachineImage_STATUS
-func (image *VirtualMachineImage_STATUS) AssignProperties_From_VirtualMachineImage_STATUS(source *v1api20210701s.VirtualMachineImage_STATUS) error {
+func (image *VirtualMachineImage_STATUS) AssignProperties_From_VirtualMachineImage_STATUS(source *v20210701s.VirtualMachineImage_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -10198,7 +10198,7 @@ func (image *VirtualMachineImage_STATUS) AssignProperties_From_VirtualMachineIma
 }
 
 // AssignProperties_To_VirtualMachineImage_STATUS populates the provided destination VirtualMachineImage_STATUS from our VirtualMachineImage_STATUS
-func (image *VirtualMachineImage_STATUS) AssignProperties_To_VirtualMachineImage_STATUS(destination *v1api20210701s.VirtualMachineImage_STATUS) error {
+func (image *VirtualMachineImage_STATUS) AssignProperties_To_VirtualMachineImage_STATUS(destination *v20210701s.VirtualMachineImage_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(image.PropertyBag)
 
@@ -10236,7 +10236,7 @@ type VirtualMachineSshCredentials struct {
 }
 
 // AssignProperties_From_VirtualMachineSshCredentials populates our VirtualMachineSshCredentials from the provided source VirtualMachineSshCredentials
-func (credentials *VirtualMachineSshCredentials) AssignProperties_From_VirtualMachineSshCredentials(source *v1api20210701s.VirtualMachineSshCredentials) error {
+func (credentials *VirtualMachineSshCredentials) AssignProperties_From_VirtualMachineSshCredentials(source *v20210701s.VirtualMachineSshCredentials) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -10278,7 +10278,7 @@ func (credentials *VirtualMachineSshCredentials) AssignProperties_From_VirtualMa
 }
 
 // AssignProperties_To_VirtualMachineSshCredentials populates the provided destination VirtualMachineSshCredentials from our VirtualMachineSshCredentials
-func (credentials *VirtualMachineSshCredentials) AssignProperties_To_VirtualMachineSshCredentials(destination *v1api20210701s.VirtualMachineSshCredentials) error {
+func (credentials *VirtualMachineSshCredentials) AssignProperties_To_VirtualMachineSshCredentials(destination *v20210701s.VirtualMachineSshCredentials) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(credentials.PropertyBag)
 
@@ -10329,7 +10329,7 @@ type VirtualMachineSshCredentials_STATUS struct {
 }
 
 // AssignProperties_From_VirtualMachineSshCredentials_STATUS populates our VirtualMachineSshCredentials_STATUS from the provided source VirtualMachineSshCredentials_STATUS
-func (credentials *VirtualMachineSshCredentials_STATUS) AssignProperties_From_VirtualMachineSshCredentials_STATUS(source *v1api20210701s.VirtualMachineSshCredentials_STATUS) error {
+func (credentials *VirtualMachineSshCredentials_STATUS) AssignProperties_From_VirtualMachineSshCredentials_STATUS(source *v20210701s.VirtualMachineSshCredentials_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -10363,7 +10363,7 @@ func (credentials *VirtualMachineSshCredentials_STATUS) AssignProperties_From_Vi
 }
 
 // AssignProperties_To_VirtualMachineSshCredentials_STATUS populates the provided destination VirtualMachineSshCredentials_STATUS from our VirtualMachineSshCredentials_STATUS
-func (credentials *VirtualMachineSshCredentials_STATUS) AssignProperties_To_VirtualMachineSshCredentials_STATUS(destination *v1api20210701s.VirtualMachineSshCredentials_STATUS) error {
+func (credentials *VirtualMachineSshCredentials_STATUS) AssignProperties_To_VirtualMachineSshCredentials_STATUS(destination *v20210701s.VirtualMachineSshCredentials_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(credentials.PropertyBag)
 
@@ -10405,7 +10405,7 @@ type AssignedUser struct {
 }
 
 // AssignProperties_From_AssignedUser populates our AssignedUser from the provided source AssignedUser
-func (user *AssignedUser) AssignProperties_From_AssignedUser(source *v1api20210701s.AssignedUser) error {
+func (user *AssignedUser) AssignProperties_From_AssignedUser(source *v20210701s.AssignedUser) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -10436,7 +10436,7 @@ func (user *AssignedUser) AssignProperties_From_AssignedUser(source *v1api202107
 }
 
 // AssignProperties_To_AssignedUser populates the provided destination AssignedUser from our AssignedUser
-func (user *AssignedUser) AssignProperties_To_AssignedUser(destination *v1api20210701s.AssignedUser) error {
+func (user *AssignedUser) AssignProperties_To_AssignedUser(destination *v20210701s.AssignedUser) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(user.PropertyBag)
 
@@ -10475,7 +10475,7 @@ type AssignedUser_STATUS struct {
 }
 
 // AssignProperties_From_AssignedUser_STATUS populates our AssignedUser_STATUS from the provided source AssignedUser_STATUS
-func (user *AssignedUser_STATUS) AssignProperties_From_AssignedUser_STATUS(source *v1api20210701s.AssignedUser_STATUS) error {
+func (user *AssignedUser_STATUS) AssignProperties_From_AssignedUser_STATUS(source *v20210701s.AssignedUser_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -10506,7 +10506,7 @@ func (user *AssignedUser_STATUS) AssignProperties_From_AssignedUser_STATUS(sourc
 }
 
 // AssignProperties_To_AssignedUser_STATUS populates the provided destination AssignedUser_STATUS from our AssignedUser_STATUS
-func (user *AssignedUser_STATUS) AssignProperties_To_AssignedUser_STATUS(destination *v1api20210701s.AssignedUser_STATUS) error {
+func (user *AssignedUser_STATUS) AssignProperties_To_AssignedUser_STATUS(destination *v20210701s.AssignedUser_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(user.PropertyBag)
 
@@ -10537,168 +10537,168 @@ func (user *AssignedUser_STATUS) AssignProperties_To_AssignedUser_STATUS(destina
 }
 
 type augmentConversionForAksNetworkingConfiguration interface {
-	AssignPropertiesFrom(src *v1api20210701s.AksNetworkingConfiguration) error
-	AssignPropertiesTo(dst *v1api20210701s.AksNetworkingConfiguration) error
+	AssignPropertiesFrom(src *v20210701s.AksNetworkingConfiguration) error
+	AssignPropertiesTo(dst *v20210701s.AksNetworkingConfiguration) error
 }
 
 type augmentConversionForAksNetworkingConfiguration_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.AksNetworkingConfiguration_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.AksNetworkingConfiguration_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.AksNetworkingConfiguration_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.AksNetworkingConfiguration_STATUS) error
 }
 
 type augmentConversionForAutoPauseProperties interface {
-	AssignPropertiesFrom(src *v1api20210701s.AutoPauseProperties) error
-	AssignPropertiesTo(dst *v1api20210701s.AutoPauseProperties) error
+	AssignPropertiesFrom(src *v20210701s.AutoPauseProperties) error
+	AssignPropertiesTo(dst *v20210701s.AutoPauseProperties) error
 }
 
 type augmentConversionForAutoPauseProperties_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.AutoPauseProperties_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.AutoPauseProperties_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.AutoPauseProperties_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.AutoPauseProperties_STATUS) error
 }
 
 type augmentConversionForAutoScaleProperties interface {
-	AssignPropertiesFrom(src *v1api20210701s.AutoScaleProperties) error
-	AssignPropertiesTo(dst *v1api20210701s.AutoScaleProperties) error
+	AssignPropertiesFrom(src *v20210701s.AutoScaleProperties) error
+	AssignPropertiesTo(dst *v20210701s.AutoScaleProperties) error
 }
 
 type augmentConversionForAutoScaleProperties_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.AutoScaleProperties_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.AutoScaleProperties_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.AutoScaleProperties_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.AutoScaleProperties_STATUS) error
 }
 
 type augmentConversionForComputeInstanceApplication_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.ComputeInstanceApplication_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.ComputeInstanceApplication_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.ComputeInstanceApplication_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.ComputeInstanceApplication_STATUS) error
 }
 
 type augmentConversionForComputeInstanceConnectivityEndpoints_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.ComputeInstanceConnectivityEndpoints_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.ComputeInstanceConnectivityEndpoints_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.ComputeInstanceConnectivityEndpoints_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.ComputeInstanceConnectivityEndpoints_STATUS) error
 }
 
 type augmentConversionForComputeInstanceCreatedBy_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.ComputeInstanceCreatedBy_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.ComputeInstanceCreatedBy_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.ComputeInstanceCreatedBy_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.ComputeInstanceCreatedBy_STATUS) error
 }
 
 type augmentConversionForComputeInstanceLastOperation_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.ComputeInstanceLastOperation_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.ComputeInstanceLastOperation_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.ComputeInstanceLastOperation_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.ComputeInstanceLastOperation_STATUS) error
 }
 
 type augmentConversionForComputeInstanceSshSettings interface {
-	AssignPropertiesFrom(src *v1api20210701s.ComputeInstanceSshSettings) error
-	AssignPropertiesTo(dst *v1api20210701s.ComputeInstanceSshSettings) error
+	AssignPropertiesFrom(src *v20210701s.ComputeInstanceSshSettings) error
+	AssignPropertiesTo(dst *v20210701s.ComputeInstanceSshSettings) error
 }
 
 type augmentConversionForComputeInstanceSshSettings_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.ComputeInstanceSshSettings_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.ComputeInstanceSshSettings_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.ComputeInstanceSshSettings_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.ComputeInstanceSshSettings_STATUS) error
 }
 
 type augmentConversionForErrorDetail_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.ErrorDetail_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.ErrorDetail_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.ErrorDetail_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.ErrorDetail_STATUS) error
 }
 
 type augmentConversionForInstanceTypeSchema interface {
-	AssignPropertiesFrom(src *v1api20210701s.InstanceTypeSchema) error
-	AssignPropertiesTo(dst *v1api20210701s.InstanceTypeSchema) error
+	AssignPropertiesFrom(src *v20210701s.InstanceTypeSchema) error
+	AssignPropertiesTo(dst *v20210701s.InstanceTypeSchema) error
 }
 
 type augmentConversionForInstanceTypeSchema_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.InstanceTypeSchema_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.InstanceTypeSchema_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.InstanceTypeSchema_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.InstanceTypeSchema_STATUS) error
 }
 
 type augmentConversionForNodeStateCounts_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.NodeStateCounts_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.NodeStateCounts_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.NodeStateCounts_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.NodeStateCounts_STATUS) error
 }
 
 type augmentConversionForPersonalComputeInstanceSettings interface {
-	AssignPropertiesFrom(src *v1api20210701s.PersonalComputeInstanceSettings) error
-	AssignPropertiesTo(dst *v1api20210701s.PersonalComputeInstanceSettings) error
+	AssignPropertiesFrom(src *v20210701s.PersonalComputeInstanceSettings) error
+	AssignPropertiesTo(dst *v20210701s.PersonalComputeInstanceSettings) error
 }
 
 type augmentConversionForPersonalComputeInstanceSettings_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.PersonalComputeInstanceSettings_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.PersonalComputeInstanceSettings_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.PersonalComputeInstanceSettings_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.PersonalComputeInstanceSettings_STATUS) error
 }
 
 type augmentConversionForResourceId interface {
-	AssignPropertiesFrom(src *v1api20210701s.ResourceId) error
-	AssignPropertiesTo(dst *v1api20210701s.ResourceId) error
+	AssignPropertiesFrom(src *v20210701s.ResourceId) error
+	AssignPropertiesTo(dst *v20210701s.ResourceId) error
 }
 
 type augmentConversionForResourceId_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.ResourceId_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.ResourceId_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.ResourceId_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.ResourceId_STATUS) error
 }
 
 type augmentConversionForScaleSettings interface {
-	AssignPropertiesFrom(src *v1api20210701s.ScaleSettings) error
-	AssignPropertiesTo(dst *v1api20210701s.ScaleSettings) error
+	AssignPropertiesFrom(src *v20210701s.ScaleSettings) error
+	AssignPropertiesTo(dst *v20210701s.ScaleSettings) error
 }
 
 type augmentConversionForScaleSettings_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.ScaleSettings_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.ScaleSettings_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.ScaleSettings_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.ScaleSettings_STATUS) error
 }
 
 type augmentConversionForSetupScripts interface {
-	AssignPropertiesFrom(src *v1api20210701s.SetupScripts) error
-	AssignPropertiesTo(dst *v1api20210701s.SetupScripts) error
+	AssignPropertiesFrom(src *v20210701s.SetupScripts) error
+	AssignPropertiesTo(dst *v20210701s.SetupScripts) error
 }
 
 type augmentConversionForSetupScripts_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.SetupScripts_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.SetupScripts_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.SetupScripts_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.SetupScripts_STATUS) error
 }
 
 type augmentConversionForSslConfiguration interface {
-	AssignPropertiesFrom(src *v1api20210701s.SslConfiguration) error
-	AssignPropertiesTo(dst *v1api20210701s.SslConfiguration) error
+	AssignPropertiesFrom(src *v20210701s.SslConfiguration) error
+	AssignPropertiesTo(dst *v20210701s.SslConfiguration) error
 }
 
 type augmentConversionForSslConfiguration_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.SslConfiguration_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.SslConfiguration_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.SslConfiguration_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.SslConfiguration_STATUS) error
 }
 
 type augmentConversionForSystemService_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.SystemService_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.SystemService_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.SystemService_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.SystemService_STATUS) error
 }
 
 type augmentConversionForUserAccountCredentials interface {
-	AssignPropertiesFrom(src *v1api20210701s.UserAccountCredentials) error
-	AssignPropertiesTo(dst *v1api20210701s.UserAccountCredentials) error
+	AssignPropertiesFrom(src *v20210701s.UserAccountCredentials) error
+	AssignPropertiesTo(dst *v20210701s.UserAccountCredentials) error
 }
 
 type augmentConversionForUserAccountCredentials_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.UserAccountCredentials_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.UserAccountCredentials_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.UserAccountCredentials_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.UserAccountCredentials_STATUS) error
 }
 
 type augmentConversionForVirtualMachineImage interface {
-	AssignPropertiesFrom(src *v1api20210701s.VirtualMachineImage) error
-	AssignPropertiesTo(dst *v1api20210701s.VirtualMachineImage) error
+	AssignPropertiesFrom(src *v20210701s.VirtualMachineImage) error
+	AssignPropertiesTo(dst *v20210701s.VirtualMachineImage) error
 }
 
 type augmentConversionForVirtualMachineImage_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.VirtualMachineImage_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.VirtualMachineImage_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.VirtualMachineImage_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.VirtualMachineImage_STATUS) error
 }
 
 type augmentConversionForVirtualMachineSshCredentials interface {
-	AssignPropertiesFrom(src *v1api20210701s.VirtualMachineSshCredentials) error
-	AssignPropertiesTo(dst *v1api20210701s.VirtualMachineSshCredentials) error
+	AssignPropertiesFrom(src *v20210701s.VirtualMachineSshCredentials) error
+	AssignPropertiesTo(dst *v20210701s.VirtualMachineSshCredentials) error
 }
 
 type augmentConversionForVirtualMachineSshCredentials_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.VirtualMachineSshCredentials_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.VirtualMachineSshCredentials_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.VirtualMachineSshCredentials_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.VirtualMachineSshCredentials_STATUS) error
 }
 
 // Storage version of v1beta20210701.ErrorAdditionalInfo_STATUS
@@ -10710,7 +10710,7 @@ type ErrorAdditionalInfo_STATUS struct {
 }
 
 // AssignProperties_From_ErrorAdditionalInfo_STATUS populates our ErrorAdditionalInfo_STATUS from the provided source ErrorAdditionalInfo_STATUS
-func (info *ErrorAdditionalInfo_STATUS) AssignProperties_From_ErrorAdditionalInfo_STATUS(source *v1api20210701s.ErrorAdditionalInfo_STATUS) error {
+func (info *ErrorAdditionalInfo_STATUS) AssignProperties_From_ErrorAdditionalInfo_STATUS(source *v20210701s.ErrorAdditionalInfo_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -10751,7 +10751,7 @@ func (info *ErrorAdditionalInfo_STATUS) AssignProperties_From_ErrorAdditionalInf
 }
 
 // AssignProperties_To_ErrorAdditionalInfo_STATUS populates the provided destination ErrorAdditionalInfo_STATUS from our ErrorAdditionalInfo_STATUS
-func (info *ErrorAdditionalInfo_STATUS) AssignProperties_To_ErrorAdditionalInfo_STATUS(destination *v1api20210701s.ErrorAdditionalInfo_STATUS) error {
+func (info *ErrorAdditionalInfo_STATUS) AssignProperties_To_ErrorAdditionalInfo_STATUS(destination *v20210701s.ErrorAdditionalInfo_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(info.PropertyBag)
 
@@ -10802,7 +10802,7 @@ type ErrorDetail_STATUS_Unrolled struct {
 }
 
 // AssignProperties_From_ErrorDetail_STATUS_Unrolled populates our ErrorDetail_STATUS_Unrolled from the provided source ErrorDetail_STATUS_Unrolled
-func (unrolled *ErrorDetail_STATUS_Unrolled) AssignProperties_From_ErrorDetail_STATUS_Unrolled(source *v1api20210701s.ErrorDetail_STATUS_Unrolled) error {
+func (unrolled *ErrorDetail_STATUS_Unrolled) AssignProperties_From_ErrorDetail_STATUS_Unrolled(source *v20210701s.ErrorDetail_STATUS_Unrolled) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -10854,17 +10854,17 @@ func (unrolled *ErrorDetail_STATUS_Unrolled) AssignProperties_From_ErrorDetail_S
 }
 
 // AssignProperties_To_ErrorDetail_STATUS_Unrolled populates the provided destination ErrorDetail_STATUS_Unrolled from our ErrorDetail_STATUS_Unrolled
-func (unrolled *ErrorDetail_STATUS_Unrolled) AssignProperties_To_ErrorDetail_STATUS_Unrolled(destination *v1api20210701s.ErrorDetail_STATUS_Unrolled) error {
+func (unrolled *ErrorDetail_STATUS_Unrolled) AssignProperties_To_ErrorDetail_STATUS_Unrolled(destination *v20210701s.ErrorDetail_STATUS_Unrolled) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(unrolled.PropertyBag)
 
 	// AdditionalInfo
 	if unrolled.AdditionalInfo != nil {
-		additionalInfoList := make([]v1api20210701s.ErrorAdditionalInfo_STATUS, len(unrolled.AdditionalInfo))
+		additionalInfoList := make([]v20210701s.ErrorAdditionalInfo_STATUS, len(unrolled.AdditionalInfo))
 		for additionalInfoIndex, additionalInfoItem := range unrolled.AdditionalInfo {
 			// Shadow the loop variable to avoid aliasing
 			additionalInfoItem := additionalInfoItem
-			var additionalInfo v1api20210701s.ErrorAdditionalInfo_STATUS
+			var additionalInfo v20210701s.ErrorAdditionalInfo_STATUS
 			err := additionalInfoItem.AssignProperties_To_ErrorAdditionalInfo_STATUS(&additionalInfo)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ErrorAdditionalInfo_STATUS() to populate field AdditionalInfo")
@@ -10914,7 +10914,7 @@ type InstanceTypeSchema_Resources struct {
 }
 
 // AssignProperties_From_InstanceTypeSchema_Resources populates our InstanceTypeSchema_Resources from the provided source InstanceTypeSchema_Resources
-func (resources *InstanceTypeSchema_Resources) AssignProperties_From_InstanceTypeSchema_Resources(source *v1api20210701s.InstanceTypeSchema_Resources) error {
+func (resources *InstanceTypeSchema_Resources) AssignProperties_From_InstanceTypeSchema_Resources(source *v20210701s.InstanceTypeSchema_Resources) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -10945,7 +10945,7 @@ func (resources *InstanceTypeSchema_Resources) AssignProperties_From_InstanceTyp
 }
 
 // AssignProperties_To_InstanceTypeSchema_Resources populates the provided destination InstanceTypeSchema_Resources from our InstanceTypeSchema_Resources
-func (resources *InstanceTypeSchema_Resources) AssignProperties_To_InstanceTypeSchema_Resources(destination *v1api20210701s.InstanceTypeSchema_Resources) error {
+func (resources *InstanceTypeSchema_Resources) AssignProperties_To_InstanceTypeSchema_Resources(destination *v20210701s.InstanceTypeSchema_Resources) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resources.PropertyBag)
 
@@ -10984,7 +10984,7 @@ type InstanceTypeSchema_Resources_STATUS struct {
 }
 
 // AssignProperties_From_InstanceTypeSchema_Resources_STATUS populates our InstanceTypeSchema_Resources_STATUS from the provided source InstanceTypeSchema_Resources_STATUS
-func (resources *InstanceTypeSchema_Resources_STATUS) AssignProperties_From_InstanceTypeSchema_Resources_STATUS(source *v1api20210701s.InstanceTypeSchema_Resources_STATUS) error {
+func (resources *InstanceTypeSchema_Resources_STATUS) AssignProperties_From_InstanceTypeSchema_Resources_STATUS(source *v20210701s.InstanceTypeSchema_Resources_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -11015,7 +11015,7 @@ func (resources *InstanceTypeSchema_Resources_STATUS) AssignProperties_From_Inst
 }
 
 // AssignProperties_To_InstanceTypeSchema_Resources_STATUS populates the provided destination InstanceTypeSchema_Resources_STATUS from our InstanceTypeSchema_Resources_STATUS
-func (resources *InstanceTypeSchema_Resources_STATUS) AssignProperties_To_InstanceTypeSchema_Resources_STATUS(destination *v1api20210701s.InstanceTypeSchema_Resources_STATUS) error {
+func (resources *InstanceTypeSchema_Resources_STATUS) AssignProperties_To_InstanceTypeSchema_Resources_STATUS(destination *v20210701s.InstanceTypeSchema_Resources_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resources.PropertyBag)
 
@@ -11054,7 +11054,7 @@ type ScriptsToExecute struct {
 }
 
 // AssignProperties_From_ScriptsToExecute populates our ScriptsToExecute from the provided source ScriptsToExecute
-func (execute *ScriptsToExecute) AssignProperties_From_ScriptsToExecute(source *v1api20210701s.ScriptsToExecute) error {
+func (execute *ScriptsToExecute) AssignProperties_From_ScriptsToExecute(source *v20210701s.ScriptsToExecute) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -11103,13 +11103,13 @@ func (execute *ScriptsToExecute) AssignProperties_From_ScriptsToExecute(source *
 }
 
 // AssignProperties_To_ScriptsToExecute populates the provided destination ScriptsToExecute from our ScriptsToExecute
-func (execute *ScriptsToExecute) AssignProperties_To_ScriptsToExecute(destination *v1api20210701s.ScriptsToExecute) error {
+func (execute *ScriptsToExecute) AssignProperties_To_ScriptsToExecute(destination *v20210701s.ScriptsToExecute) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(execute.PropertyBag)
 
 	// CreationScript
 	if execute.CreationScript != nil {
-		var creationScript v1api20210701s.ScriptReference
+		var creationScript v20210701s.ScriptReference
 		err := execute.CreationScript.AssignProperties_To_ScriptReference(&creationScript)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ScriptReference() to populate field CreationScript")
@@ -11121,7 +11121,7 @@ func (execute *ScriptsToExecute) AssignProperties_To_ScriptsToExecute(destinatio
 
 	// StartupScript
 	if execute.StartupScript != nil {
-		var startupScript v1api20210701s.ScriptReference
+		var startupScript v20210701s.ScriptReference
 		err := execute.StartupScript.AssignProperties_To_ScriptReference(&startupScript)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ScriptReference() to populate field StartupScript")
@@ -11160,7 +11160,7 @@ type ScriptsToExecute_STATUS struct {
 }
 
 // AssignProperties_From_ScriptsToExecute_STATUS populates our ScriptsToExecute_STATUS from the provided source ScriptsToExecute_STATUS
-func (execute *ScriptsToExecute_STATUS) AssignProperties_From_ScriptsToExecute_STATUS(source *v1api20210701s.ScriptsToExecute_STATUS) error {
+func (execute *ScriptsToExecute_STATUS) AssignProperties_From_ScriptsToExecute_STATUS(source *v20210701s.ScriptsToExecute_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -11209,13 +11209,13 @@ func (execute *ScriptsToExecute_STATUS) AssignProperties_From_ScriptsToExecute_S
 }
 
 // AssignProperties_To_ScriptsToExecute_STATUS populates the provided destination ScriptsToExecute_STATUS from our ScriptsToExecute_STATUS
-func (execute *ScriptsToExecute_STATUS) AssignProperties_To_ScriptsToExecute_STATUS(destination *v1api20210701s.ScriptsToExecute_STATUS) error {
+func (execute *ScriptsToExecute_STATUS) AssignProperties_To_ScriptsToExecute_STATUS(destination *v20210701s.ScriptsToExecute_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(execute.PropertyBag)
 
 	// CreationScript
 	if execute.CreationScript != nil {
-		var creationScript v1api20210701s.ScriptReference_STATUS
+		var creationScript v20210701s.ScriptReference_STATUS
 		err := execute.CreationScript.AssignProperties_To_ScriptReference_STATUS(&creationScript)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ScriptReference_STATUS() to populate field CreationScript")
@@ -11227,7 +11227,7 @@ func (execute *ScriptsToExecute_STATUS) AssignProperties_To_ScriptsToExecute_STA
 
 	// StartupScript
 	if execute.StartupScript != nil {
-		var startupScript v1api20210701s.ScriptReference_STATUS
+		var startupScript v20210701s.ScriptReference_STATUS
 		err := execute.StartupScript.AssignProperties_To_ScriptReference_STATUS(&startupScript)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ScriptReference_STATUS() to populate field StartupScript")
@@ -11258,43 +11258,43 @@ func (execute *ScriptsToExecute_STATUS) AssignProperties_To_ScriptsToExecute_STA
 }
 
 type augmentConversionForAssignedUser interface {
-	AssignPropertiesFrom(src *v1api20210701s.AssignedUser) error
-	AssignPropertiesTo(dst *v1api20210701s.AssignedUser) error
+	AssignPropertiesFrom(src *v20210701s.AssignedUser) error
+	AssignPropertiesTo(dst *v20210701s.AssignedUser) error
 }
 
 type augmentConversionForAssignedUser_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.AssignedUser_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.AssignedUser_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.AssignedUser_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.AssignedUser_STATUS) error
 }
 
 type augmentConversionForErrorAdditionalInfo_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.ErrorAdditionalInfo_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.ErrorAdditionalInfo_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.ErrorAdditionalInfo_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.ErrorAdditionalInfo_STATUS) error
 }
 
 type augmentConversionForErrorDetail_STATUS_Unrolled interface {
-	AssignPropertiesFrom(src *v1api20210701s.ErrorDetail_STATUS_Unrolled) error
-	AssignPropertiesTo(dst *v1api20210701s.ErrorDetail_STATUS_Unrolled) error
+	AssignPropertiesFrom(src *v20210701s.ErrorDetail_STATUS_Unrolled) error
+	AssignPropertiesTo(dst *v20210701s.ErrorDetail_STATUS_Unrolled) error
 }
 
 type augmentConversionForInstanceTypeSchema_Resources interface {
-	AssignPropertiesFrom(src *v1api20210701s.InstanceTypeSchema_Resources) error
-	AssignPropertiesTo(dst *v1api20210701s.InstanceTypeSchema_Resources) error
+	AssignPropertiesFrom(src *v20210701s.InstanceTypeSchema_Resources) error
+	AssignPropertiesTo(dst *v20210701s.InstanceTypeSchema_Resources) error
 }
 
 type augmentConversionForInstanceTypeSchema_Resources_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.InstanceTypeSchema_Resources_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.InstanceTypeSchema_Resources_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.InstanceTypeSchema_Resources_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.InstanceTypeSchema_Resources_STATUS) error
 }
 
 type augmentConversionForScriptsToExecute interface {
-	AssignPropertiesFrom(src *v1api20210701s.ScriptsToExecute) error
-	AssignPropertiesTo(dst *v1api20210701s.ScriptsToExecute) error
+	AssignPropertiesFrom(src *v20210701s.ScriptsToExecute) error
+	AssignPropertiesTo(dst *v20210701s.ScriptsToExecute) error
 }
 
 type augmentConversionForScriptsToExecute_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.ScriptsToExecute_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.ScriptsToExecute_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.ScriptsToExecute_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.ScriptsToExecute_STATUS) error
 }
 
 // Storage version of v1beta20210701.ScriptReference
@@ -11308,7 +11308,7 @@ type ScriptReference struct {
 }
 
 // AssignProperties_From_ScriptReference populates our ScriptReference from the provided source ScriptReference
-func (reference *ScriptReference) AssignProperties_From_ScriptReference(source *v1api20210701s.ScriptReference) error {
+func (reference *ScriptReference) AssignProperties_From_ScriptReference(source *v20210701s.ScriptReference) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -11345,7 +11345,7 @@ func (reference *ScriptReference) AssignProperties_From_ScriptReference(source *
 }
 
 // AssignProperties_To_ScriptReference populates the provided destination ScriptReference from our ScriptReference
-func (reference *ScriptReference) AssignProperties_To_ScriptReference(destination *v1api20210701s.ScriptReference) error {
+func (reference *ScriptReference) AssignProperties_To_ScriptReference(destination *v20210701s.ScriptReference) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(reference.PropertyBag)
 
@@ -11392,7 +11392,7 @@ type ScriptReference_STATUS struct {
 }
 
 // AssignProperties_From_ScriptReference_STATUS populates our ScriptReference_STATUS from the provided source ScriptReference_STATUS
-func (reference *ScriptReference_STATUS) AssignProperties_From_ScriptReference_STATUS(source *v1api20210701s.ScriptReference_STATUS) error {
+func (reference *ScriptReference_STATUS) AssignProperties_From_ScriptReference_STATUS(source *v20210701s.ScriptReference_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -11429,7 +11429,7 @@ func (reference *ScriptReference_STATUS) AssignProperties_From_ScriptReference_S
 }
 
 // AssignProperties_To_ScriptReference_STATUS populates the provided destination ScriptReference_STATUS from our ScriptReference_STATUS
-func (reference *ScriptReference_STATUS) AssignProperties_To_ScriptReference_STATUS(destination *v1api20210701s.ScriptReference_STATUS) error {
+func (reference *ScriptReference_STATUS) AssignProperties_To_ScriptReference_STATUS(destination *v20210701s.ScriptReference_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(reference.PropertyBag)
 
@@ -11466,13 +11466,13 @@ func (reference *ScriptReference_STATUS) AssignProperties_To_ScriptReference_STA
 }
 
 type augmentConversionForScriptReference interface {
-	AssignPropertiesFrom(src *v1api20210701s.ScriptReference) error
-	AssignPropertiesTo(dst *v1api20210701s.ScriptReference) error
+	AssignPropertiesFrom(src *v20210701s.ScriptReference) error
+	AssignPropertiesTo(dst *v20210701s.ScriptReference) error
 }
 
 type augmentConversionForScriptReference_STATUS interface {
-	AssignPropertiesFrom(src *v1api20210701s.ScriptReference_STATUS) error
-	AssignPropertiesTo(dst *v1api20210701s.ScriptReference_STATUS) error
+	AssignPropertiesFrom(src *v20210701s.ScriptReference_STATUS) error
+	AssignPropertiesTo(dst *v20210701s.ScriptReference_STATUS) error
 }
 
 func init() {

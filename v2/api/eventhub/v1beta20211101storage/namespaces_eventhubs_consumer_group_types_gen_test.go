@@ -5,7 +5,7 @@ package v1beta20211101storage
 
 import (
 	"encoding/json"
-	v1api20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForNamespacesEventhubsConsumerGroup(subject Namesp
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20211101s.NamespacesEventhubsConsumerGroup
+	var hub v20211101s.NamespacesEventhubsConsumerGroup
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForNamespacesEventhubsConsumerGroup(subject Namesp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20211101s.NamespacesEventhubsConsumerGroup
+	var other v20211101s.NamespacesEventhubsConsumerGroup
 	err := copied.AssignProperties_To_NamespacesEventhubsConsumerGroup(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForNamespaces_Eventhubs_Consumergroup_Spec(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20211101s.Namespaces_Eventhubs_Consumergroup_Spec
+	var other v20211101s.Namespaces_Eventhubs_Consumergroup_Spec
 	err := copied.AssignProperties_To_Namespaces_Eventhubs_Consumergroup_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -287,7 +287,7 @@ func RunPropertyAssignmentTestForNamespaces_Eventhubs_Consumergroup_STATUS(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20211101s.Namespaces_Eventhubs_Consumergroup_STATUS
+	var other v20211101s.Namespaces_Eventhubs_Consumergroup_STATUS
 	err := copied.AssignProperties_To_Namespaces_Eventhubs_Consumergroup_STATUS(&other)
 	if err != nil {
 		return err.Error()

@@ -5,7 +5,7 @@ package v1api20180501
 
 import (
 	"encoding/json"
-	v1api20180501s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501storage"
+	v20180501s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForDnsZonesNSRecord(subject DnsZonesNSRecord) stri
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1api20180501s.DnsZonesNSRecord
+	var hub v20180501s.DnsZonesNSRecord
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForDnsZonesNSRecord(subject DnsZonesNSRecord) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20180501s.DnsZonesNSRecord
+	var other v20180501s.DnsZonesNSRecord
 	err := copied.AssignProperties_To_DnsZonesNSRecord(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForDnsZones_NS_Spec(subject DnsZones_NS_Spec) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20180501s.DnsZones_NS_Spec
+	var other v20180501s.DnsZones_NS_Spec
 	err := copied.AssignProperties_To_DnsZones_NS_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -309,7 +309,7 @@ func RunPropertyAssignmentTestForDnsZones_NS_STATUS(subject DnsZones_NS_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20180501s.DnsZones_NS_STATUS
+	var other v20180501s.DnsZones_NS_STATUS
 	err := copied.AssignProperties_To_DnsZones_NS_STATUS(&other)
 	if err != nil {
 		return err.Error()
