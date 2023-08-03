@@ -61,7 +61,7 @@ func newUserAssignedIdentityTransformer() *userAssignedIdentityTransformer {
 }
 
 func (t *userAssignedIdentityTransformer) transformUserAssignedIdentityProperty(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-	name := ctx.(astmodel.TypeName)
+	name := ctx.(astmodel.InternalTypeName)
 
 	// Doesn't apply to status types
 	if name.IsStatus() {

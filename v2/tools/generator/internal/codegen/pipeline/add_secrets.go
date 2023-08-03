@@ -52,7 +52,7 @@ func applyConfigSecretOverrides(config *config.Configuration, definitions astmod
 	result := make(astmodel.TypeDefinitionSet)
 
 	applyConfigSecrets := func(_ *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-		typeName := ctx.(astmodel.TypeName)
+		typeName := ctx.(astmodel.InternalTypeName)
 		strippedTypeName := typeName.WithName(strings.TrimSuffix(typeName.Name(), astmodel.StatusSuffix))
 
 		for _, prop := range it.Properties().Copy() {

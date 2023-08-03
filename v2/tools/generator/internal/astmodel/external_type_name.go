@@ -180,20 +180,3 @@ func (tn ExternalTypeName) WriteDebugDescription(builder *strings.Builder, curre
 
 	builder.WriteString(tn.name)
 }
-
-// IsSpec returns true if the type name specifies a spec
-// Sometimes we build type names by adding a suffix after _Spec, so we need to use a contains check
-func (tn ExternalTypeName) IsSpec() bool {
-	return strings.Contains(tn.Name(), SpecSuffix)
-}
-
-// IsStatus returns true if the type name specifies a status
-// Sometimes we build type names by adding a suffix after _STATUS, so we need to use a contains check
-func (tn ExternalTypeName) IsStatus() bool {
-	return strings.Contains(tn.Name(), StatusSuffix)
-}
-
-// IsARMType returns true if the TypeName identifies an ARM specific type, false otherwise.
-func (tn ExternalTypeName) IsARMType() bool {
-	return strings.HasSuffix(tn.Name(), ARMSuffix)
-}

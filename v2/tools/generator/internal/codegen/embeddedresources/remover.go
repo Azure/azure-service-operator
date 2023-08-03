@@ -151,9 +151,11 @@ func (e EmbeddedResourceRemover) makeEmbeddedResourceRemovalTypeVisitor() astmod
 				// Remove the ID field if there is one, and it's not a status type.
 				// The expectation is that these resources must be created through
 				// their parent, so you won't ever use the ID field
-				if !typedCtx.name.IsStatus() {
+				tn, ok := astmodel.AsInternalTypeName(typedCtx.name)
+				if !ok || !tn.IsStatus() {
 					it = it.WithoutSpecificProperties("Id")
 				}
+
 				return astmodel.OrderedIdentityVisitOfObjectType(this, it, ctx)
 			}
 

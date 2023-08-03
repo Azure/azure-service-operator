@@ -26,9 +26,6 @@ type TypeName interface {
 	Singular() TypeName
 	Plural() TypeName
 	WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference)
-	IsSpec() bool
-	IsStatus() bool
-	IsARMType() bool
 }
 
 func SortTypeName(left, right TypeName) bool {
