@@ -51,7 +51,7 @@ func Test_Networking_ApplicationGateway_HTTPS_Listener_CRUD(t *testing.T) {
 	}
 	appGtwFHttpListnerID, err := getFrontendPortsARMID(tc, rg, httpListnerParams)
 	tc.Expect(err).To(BeNil())
-	appGtwFIPConfig := defineApplicationGatewayIPConfiguration(tc, rg, appGatewayName, tc.MakeReferenceFromResource(subnet))
+	appGtwFIPConfig := defineApplicationGatewayIPConfiguration(tc.MakeReferenceFromResource(subnet))
 	appGtwFeIpConfig, appGtwFeIpConfigID := defineApplicationGatewayFrontendIPConfiguration(tc, rg, appGatewayName, tc.MakeReferenceFromResource(subnet), tc.MakeReferenceFromResource(publicIPAddress))
 	appGtwFEPorts, appGtwFePortsID := defineApplicationGatewayFrontendPort(tc, rg, appGatewayName)
 	appGtwSslCerts, appGtwSslCertsID := defineApplicationGatewaySslCertificate(tc, rg, appGatewayName)
@@ -87,7 +87,7 @@ func Test_Networking_ApplicationGateway_HTTPS_Listener_CRUD(t *testing.T) {
 			}),
 			WebApplicationFirewallConfiguration: appGtwWafConfig,
 			HttpListeners: []network.ApplicationGatewayHttpListener{
-				network.ApplicationGatewayHttpListener{
+				{
 					Name: to.Ptr[string](appGtsListnerName),
 					FrontendIPConfiguration: &network.ApplicationGatewaySubResource{
 						Reference: &genruntime.ResourceReference{
@@ -97,7 +97,8 @@ func Test_Networking_ApplicationGateway_HTTPS_Listener_CRUD(t *testing.T) {
 					FrontendPort: &network.ApplicationGatewaySubResource{
 						Reference: &genruntime.ResourceReference{
 							ARMID: appGtwFePortsID,
-						}},
+						},
+					},
 					Protocol:  to.Ptr[network.ApplicationGatewayProtocol](network.ApplicationGatewayProtocol(network.ApplicationGatewayProtocol_Https)),
 					HostNames: []string{"test.contoso.com"},
 					SslCertificate: &network.ApplicationGatewaySubResource{
@@ -110,7 +111,7 @@ func Test_Networking_ApplicationGateway_HTTPS_Listener_CRUD(t *testing.T) {
 			BackendAddressPools:           appGtwBackendPools,
 			BackendHttpSettingsCollection: appGtwBackendHttpSettings,
 			RequestRoutingRules: []network.ApplicationGatewayRequestRoutingRule{
-				network.ApplicationGatewayRequestRoutingRule{
+				{
 					Name: to.Ptr[string]("app-gtw-routing-rule-1"),
 					BackendAddressPool: &network.ApplicationGatewaySubResource{
 						Reference: &genruntime.ResourceReference{
@@ -136,19 +137,22 @@ func Test_Networking_ApplicationGateway_HTTPS_Listener_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(applicationGateway)
 	tc.Expect(applicationGateway.Status.Id).ToNot(BeNil())
 	tc.Expect(applicationGateway.Status.Sku.Tier).To(Equal(network.ApplicationGatewaySku_Tier_STATUS_WAF_V2))
-	//armId := *applicationGateway.Status.Id
-	//tc.DeleteResourceAndWait(applicationGateway)
+	armId := *applicationGateway.Status.Id
+	tc.DeleteResourceAndWait(applicationGateway)
+	tc.DeleteResourceAndWait(publicIPAddress)
+	tc.DeleteResourceAndWait(subnet)
+	tc.DeleteResourceAndWait(vnet)
 	// Ensure that the resource was really deleted in Azure
-	/*exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersion_Value))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
-	tc.Expect(exists).To(BeFalse())*/
+	tc.Expect(exists).To(BeFalse())
 }
 
-func defineApplicationGatewayIPConfiguration(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, appGatewayName string, subnet *genruntime.ResourceReference) []network.ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded {
+func defineApplicationGatewayIPConfiguration(subnet *genruntime.ResourceReference) []network.ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded {
 	subResName := "app-gw-ip-config-1"
 	appGtwFeIpConfig := []network.ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded{
-		network.ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded{
+		{
 			Name: to.Ptr[string](subResName),
 			Subnet: &network.ApplicationGatewaySubResource{
 				Reference: subnet,
@@ -182,7 +186,7 @@ func defineApplicationGatewayFrontendIPConfiguration(tc *testcommon.KubePerTestC
 	appGtwFeIpName := "app-gw-fip-config-1"
 	appGtwFeIpName2 := "app-gw-fip-config-2"
 	appGtwFeIpConfig := []network.ApplicationGatewayFrontendIPConfiguration{
-		network.ApplicationGatewayFrontendIPConfiguration{
+		{
 			Name:                      to.Ptr[string](appGtwFeIpName),
 			PrivateIPAddress:          to.Ptr[string]("10.0.0.10"),
 			PrivateIPAllocationMethod: to.Ptr[network.IPAllocationMethod](network.IPAllocationMethod("Static")),
@@ -190,7 +194,7 @@ func defineApplicationGatewayFrontendIPConfiguration(tc *testcommon.KubePerTestC
 				Reference: subnet,
 			},
 		},
-		network.ApplicationGatewayFrontendIPConfiguration{
+		{
 			Name: to.Ptr[string](appGtwFeIpName2),
 			PublicIPAddress: &network.ApplicationGatewaySubResource{
 				Reference: publicIP,
@@ -211,7 +215,7 @@ func defineApplicationGatewayFrontendIPConfiguration(tc *testcommon.KubePerTestC
 func defineApplicationGatewayFrontendPort(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, appGatewayName string) ([]network.ApplicationGatewayFrontendPort, string) {
 	appGtwFePortName := "app-gw-fe-port-1"
 	AppGtwFEPorts := []network.ApplicationGatewayFrontendPort{
-		network.ApplicationGatewayFrontendPort{
+		{
 			Name: to.Ptr[string](appGtwFePortName),
 			Port: to.Ptr[int](443),
 		},
@@ -230,7 +234,7 @@ func defineApplicationGatewayFrontendPort(tc *testcommon.KubePerTestContext, rg 
 func defineApplicationGatewaySslCertificate(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, appGatewayName string) ([]network.ApplicationGatewaySslCertificate, string) {
 	subResname := "app-gw-sslcert-1"
 	subRes := []network.ApplicationGatewaySslCertificate{
-		network.ApplicationGatewaySslCertificate{
+		{
 			//KeyVaultSecretId: to.Ptr[string]("https://keyvaultname.vault.azure.net/secrets/secretname"),
 			Name: to.Ptr[string](subResname),
 			Data: to.Ptr[string](`MIIKEQIBAzCCCdcGCSqGSIb3DQEHAaCCCcgEggnEMIIJwDCCBHcGCSqGSIb3DQEH
@@ -303,7 +307,7 @@ func defineApplicationGatewaySslCertificate(tc *testcommon.KubePerTestContext, r
 func defineApplicationGatewaySslProfile(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, appGatewayName string) ([]network.ApplicationGatewaySslProfile, string) {
 	subResname := "app-gw-ssl-profile-1"
 	subRes := []network.ApplicationGatewaySslProfile{
-		network.ApplicationGatewaySslProfile{
+		{
 			Name: to.Ptr[string](subResname),
 			SslPolicy: &network.ApplicationGatewaySslPolicy{
 				//MinProtocolVersion: to.Ptr[network.ProtocolsEnum](network.ProtocolsEnum(network.ProtocolsEnum_STATUS_TLSv1_2)),
@@ -330,10 +334,10 @@ func defineApplicationGatewaySslProfile(tc *testcommon.KubePerTestContext, rg *r
 func defineApplicationGatewayBackendAddressPool(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, appGatewayName string) ([]network.ApplicationGatewayBackendAddressPool, string) {
 	subResname := "app-gw-be-pool-1"
 	subRes := []network.ApplicationGatewayBackendAddressPool{
-		network.ApplicationGatewayBackendAddressPool{
+		{
 			Name: to.Ptr[string](subResname),
 			BackendAddresses: []network.ApplicationGatewayBackendAddress{
-				network.ApplicationGatewayBackendAddress{
+				{
 					IpAddress: to.Ptr[string]("10.0.1.1"),
 				},
 			},
@@ -353,7 +357,7 @@ func defineApplicationGatewayBackendAddressPool(tc *testcommon.KubePerTestContex
 func defineApplicationGatewayBackendHttpSettings(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, appGatewayName string) ([]network.ApplicationGatewayBackendHttpSettings, string) {
 	subResname := "app-gw-be-pool-1"
 	subRes := []network.ApplicationGatewayBackendHttpSettings{
-		network.ApplicationGatewayBackendHttpSettings{
+		{
 			Name:                           to.Ptr[string](subResname),
 			Port:                           to.Ptr[int](8443),
 			Protocol:                       to.Ptr[network.ApplicationGatewayProtocol](network.ApplicationGatewayProtocol(network.ApplicationGatewayProtocol_Https)),

@@ -548,9 +548,9 @@ To install the CRDs for these resources, your ASO configuration must include `ne
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource                                                                                                                                                 | ARM Version | CRD Version   | Supported From | Sample |
-|----------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|--------|
-| [ApplicationGateway](https://azure.github.io/azure-service-operator/reference/network/v1api20220701/#network.azure.com/v1api20220701.ApplicationGateway) | 2022-07-01  | v1api20220701 | v2.3.0         | -      |
+| Resource                                                                                                                                                 | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                   |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------|
+| [ApplicationGateway](https://azure.github.io/azure-service-operator/reference/network/v1api20220701/#network.azure.com/v1api20220701.ApplicationGateway) | 2022-07-01  | v1api20220701 | v2.3.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_applicationgateway.yaml) |
 
 ### Released
 

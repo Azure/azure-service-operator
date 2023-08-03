@@ -113,3 +113,36 @@ spec:
   - name: app-gw-be-pool-1
     backendAddresses:
     - IpAddress: 10.0.1.1
+  backendHttpSettingsCollection:
+  - name: app-gw-be-pool-1
+    port: 8443
+    protocol: Https
+    cookieBasedAffinity: Disabled
+    pickHostNameFromBackendAddress: false
+  httpListeners:
+  - name: app-gw-http-listner-1
+    frontendIPConfiguration:
+      reference:  
+        armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/<rgName>/providers/Microsoft.Network/applicationGateways/<appgatewayname>/frontendIPConfigurations/<feIpConfigName>
+    frontendPort:
+      reference:  
+        armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/<rgName>/providers/Microsoft.Network/applicationGateways/<appgatewayname>/frontendPorts/<fePortName>
+    protocol: Https
+    hostNames:
+    - "test.contoso.com"
+    sslCertificate:
+      reference:  
+        armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/<rgName>/providers/Microsoft.Network/applicationGateways/<appgatewayname>/sslCertificates/<sslCertName>
+    requestRoutingRules:
+    - name:
+      backendAddressPool:
+        reference:  
+          armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/<rgName>/providers/Microsoft.Network/applicationGateways/<appgatewayname>/backendAddressPools/<backendAddressPoolName>
+      backendHttpSettings:
+        reference:  
+          armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/<rgName>/providers/Microsoft.Network/applicationGateways/<appgatewayname>/backendHttpSettingsCollection/<backendHttpSettingsName>
+      httpListener:
+        reference:  
+          armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/<rgName>/providers/Microsoft.Network/applicationGateways/<appgatewayname>/httpListeners/<httpListnerName>
+      ruleType: Basic
+      priority: 100
