@@ -18,7 +18,7 @@ type StoragePackageReference struct {
 }
 
 var _ PackageReference = StoragePackageReference{}
-var _ LocalLikePackageReference = StoragePackageReference{}
+var _ InternalPackageReference = StoragePackageReference{}
 var _ DerivedPackageReference = StoragePackageReference{}
 
 // MakeStoragePackageReference creates a new storage package reference from a local package reference
