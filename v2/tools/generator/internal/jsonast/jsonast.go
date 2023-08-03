@@ -644,7 +644,7 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, log 
 func generateDefinitionsFor(
 	ctx context.Context,
 	scanner *SchemaScanner,
-	typeName astmodel.TypeName,
+	typeName astmodel.InternalTypeName,
 	schema Schema,
 ) (astmodel.TypeName, error) {
 	schemaType, err := getSubSchemaType(schema)

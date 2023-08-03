@@ -29,7 +29,9 @@ func TestGolden_GetExtendedResourceFunction_oneVersion_GeneratesExpectedCode(t *
 	testPackage := test.MakeLocalPackageReference(testGroup, "v20200101")
 
 	testResource := astmodel.MakeInternalTypeName(testPackage, "PersonA")
-	testSlice := []astmodel.TypeName{testResource}
+	testSlice := []astmodel.InternalTypeName{
+		testResource,
+	}
 
 	ExtendedResourceFunction := NewGetExtendedResourcesFunction(idFactory, testSlice)
 
@@ -51,7 +53,10 @@ func TestGolden_GetExtendedResourceFunction_moreThanOneVersion_GeneratesExpected
 	testPackageB := test.MakeLocalPackageReference(testGroup, "v20200801")
 	testResourceB := astmodel.MakeInternalTypeName(testPackageB, resourceName)
 
-	testSlice := []astmodel.TypeName{testResourceA, testResourceB}
+	testSlice := []astmodel.InternalTypeName{
+		testResourceA,
+		testResourceB,
+	}
 
 	ExtendedResourceFunction := NewGetExtendedResourcesFunction(idFactory, testSlice)
 

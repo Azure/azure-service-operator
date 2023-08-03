@@ -55,7 +55,7 @@ func CreateARMResource(
 
 func MakeSpecName(
 	pkg astmodel.PackageReference,
-	name string) astmodel.TypeName {
+	name string) astmodel.InternalTypeName {
 	return astmodel.MakeInternalTypeName(pkg, name+astmodel.SpecSuffix)
 }
 
@@ -72,7 +72,7 @@ func CreateSpec(
 
 func MakeStatusName(
 	pkg astmodel.PackageReference,
-	name string) astmodel.TypeName {
+	name string) astmodel.InternalTypeName {
 	return astmodel.MakeInternalTypeName(pkg, name+astmodel.StatusSuffix)
 }
 
@@ -99,7 +99,7 @@ func CreateObjectDefinition(
 		CreateObjectType(properties...))
 }
 
-// CreateObjectDefinition makes an object with function for testing
+// CreateObjectDefinitionWithFunction makes an object with function for testing
 func CreateObjectDefinitionWithFunction(
 	pkg astmodel.PackageReference,
 	name string,

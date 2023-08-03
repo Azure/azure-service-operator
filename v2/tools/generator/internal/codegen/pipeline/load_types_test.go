@@ -74,16 +74,18 @@ func Test_StructurallyIdentical_RecursesIntoTypeNames(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	pkg := test.MakeLocalPackageReference("abc", "123")
-	name := func(n string) astmodel.TypeName { return astmodel.MakeInternalTypeName(pkg, n) }
+	name := func(n string) astmodel.InternalTypeName {
+		return astmodel.MakeInternalTypeName(pkg, n)
+	}
 
-	types1 := astmodel.MakeTypeDefinitionSet(map[astmodel.TypeName]astmodel.Type{
+	types1 := astmodel.MakeTypeDefinitionSet(map[astmodel.InternalTypeName]astmodel.Type{
 		name("LeafInt"): astmodel.IntType,
 		name("X"): astmodel.NewObjectType().WithProperties(
 			astmodel.NewPropertyDefinition("Prop", "prop", name("LeafInt")),
 		),
 	})
 
-	types2 := astmodel.MakeTypeDefinitionSet(map[astmodel.TypeName]astmodel.Type{
+	types2 := astmodel.MakeTypeDefinitionSet(map[astmodel.InternalTypeName]astmodel.Type{
 		name("AnotherLeafInt"): astmodel.IntType,
 		name("X"): astmodel.NewObjectType().WithProperties(
 			astmodel.NewPropertyDefinition("Prop", "prop", name("AnotherLeafInt")),
@@ -106,16 +108,18 @@ func Test_StructurallyIdentical_DistinguishesIdenticalTypeNames(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	pkg := test.MakeLocalPackageReference("abc", "123")
-	name := func(n string) astmodel.TypeName { return astmodel.MakeInternalTypeName(pkg, n) }
+	name := func(n string) astmodel.InternalTypeName {
+		return astmodel.MakeInternalTypeName(pkg, n)
+	}
 
-	types1 := astmodel.MakeTypeDefinitionSet(map[astmodel.TypeName]astmodel.Type{
+	types1 := astmodel.MakeTypeDefinitionSet(map[astmodel.InternalTypeName]astmodel.Type{
 		name("Leaf"): astmodel.IntType,
 		name("X"): astmodel.NewObjectType().WithProperties(
 			astmodel.NewPropertyDefinition("Prop", "prop", name("Leaf")),
 		),
 	})
 
-	types2 := astmodel.MakeTypeDefinitionSet(map[astmodel.TypeName]astmodel.Type{
+	types2 := astmodel.MakeTypeDefinitionSet(map[astmodel.InternalTypeName]astmodel.Type{
 		name("Leaf"): astmodel.StringType, // string, not int
 		name("X"): astmodel.NewObjectType().WithProperties(
 			astmodel.NewPropertyDefinition("Prop", "prop", name("Leaf")),

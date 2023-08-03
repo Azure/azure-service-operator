@@ -242,16 +242,16 @@ func isURLPathSeparator(c rune) bool {
 	return c == '/'
 }
 
-func (schema GoJSONSchema) refTypeName() (astmodel.TypeName, error) {
+func (schema GoJSONSchema) refTypeName() (astmodel.InternalTypeName, error) {
 	// make a new topic based on the ref URL
 	name, err := schema.refObjectName()
 	if err != nil {
-		return nil, err
+		return astmodel.InternalTypeName{}, err
 	}
 
 	group, err := schema.refGroupName()
 	if err != nil {
-		return nil, err
+		return astmodel.InternalTypeName{}, err
 	}
 
 	version := schema.refVersion()

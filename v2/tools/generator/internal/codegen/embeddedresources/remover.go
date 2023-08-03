@@ -214,7 +214,7 @@ func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(visitor astmodel.T
 		// A particular type may be used in multiple contexts in the same resource, or in multiple contexts in different resources. Since the pruning we are
 		// doing is context specific, a single type may end up with multiple shapes after pruning. In order to cater for this possibility we generate a
 		// unique name below and then collapse unneeded uniqueness away with simplifyTypeNames.
-		var newName astmodel.TypeName
+		var newName astmodel.InternalTypeName
 		var embeddedName embeddedResourceTypeName
 		exists := false
 		for count := 0; ; count++ {

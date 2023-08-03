@@ -94,7 +94,7 @@ func LoadTypes(
 
 				scope := categorizeResourceScope(resourceInfo.ARMURI)
 				resourceType = resourceType.WithScope(scope)
-				resourceDefinition := astmodel.MakeTypeDefinition(resourceName, resourceType)
+				resourceDefinition := astmodel.MakeTypeDefinition(resourceName.(astmodel.InternalTypeName), resourceType)
 
 				// document origin of resource
 				sourceFile := strings.TrimPrefix(resourceInfo.SourceFile, config.SchemaRoot)
@@ -168,7 +168,7 @@ func generateStatusTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefini
 	// we'll try to substitute that with a better name here
 	for resourceName, resourceDef := range resourceLookup {
 		statusTypeName := resourceDef.Type().(astmodel.TypeName) // always a TypeName, see 'renamed' comment
-		desiredStatusName := resourceName.WithName(resourceName.Name() + astmodel.StatusSuffix)
+		desiredStatusName := resourceName.WithName(resourceName.Name() + astmodel.StatusSuffix).(astmodel.InternalTypeName)
 
 		if statusTypeName == desiredStatusName {
 			newResources.Add(resourceDef)
@@ -185,7 +185,7 @@ func generateStatusTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefini
 			// unable to use desiredName
 			newResources.Add(resourceDef)
 		} else {
-			newResources.Add(astmodel.MakeTypeDefinition(resourceName, desiredStatusName))
+			newResources.Add(astmodel.MakeTypeDefinition(resourceName.(astmodel.InternalTypeName), desiredStatusName))
 		}
 	}
 
@@ -221,7 +221,7 @@ func renamed(swaggerTypes jsonast.SwaggerTypes, status bool, suffix string) (ast
 		if err != nil {
 			errs = append(errs, err)
 		} else {
-			resources.Add(astmodel.MakeTypeDefinition(resourceName, renamedType))
+			resources.Add(astmodel.MakeTypeDefinition(resourceName.(astmodel.InternalTypeName), renamedType))
 		}
 	}
 
@@ -269,7 +269,7 @@ func generateSpecTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefiniti
 			if renameErr != nil {
 				panic(renameErr)
 			}
-			newResources.Add(astmodel.MakeTypeDefinition(rName, newType))
+			newResources.Add(astmodel.MakeTypeDefinition(rName.(astmodel.InternalTypeName), newType))
 		}
 
 		rewriter := astmodel.TypeVisitorBuilder{
@@ -876,7 +876,7 @@ func resolveDefAlias(defs astmodel.TypeDefinitionSet, def astmodel.TypeDefinitio
 
 		if name, ok := t.(astmodel.TypeName); ok {
 			found = true
-			result, err = resolveDefAlias(defs, astmodel.MakeTypeDefinition(nil, name))
+			result, err = resolveDefAlias(defs, astmodel.MakeTypeDefinition(astmodel.InternalTypeName{}, name))
 		}
 	})
 

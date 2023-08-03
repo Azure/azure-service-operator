@@ -21,11 +21,11 @@ var (
 	resourceTypeName2 = newTestName("Resource2")
 )
 
-func newTestName(name string) astmodel.TypeName {
+func newTestName(name string) astmodel.InternalTypeName {
 	return astmodel.MakeInternalTypeName(test.MakeLocalPackageReference("group", "2020-01-01"), name)
 }
 
-func newTestObject(name astmodel.TypeName, fields ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {
+func newTestObject(name astmodel.InternalTypeName, fields ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {
 	return astmodel.MakeTypeDefinition(name, astmodel.NewObjectType().WithProperties(fields...))
 }
 

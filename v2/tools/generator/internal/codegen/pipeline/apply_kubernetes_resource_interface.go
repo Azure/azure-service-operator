@@ -43,7 +43,7 @@ func ApplyKubernetesResourceInterface(
 				if _, ok := newResource.SpecType().(astmodel.TypeName); !ok {
 					// the resource Spec was replaced with a new definition; update it
 					// by replacing the named definition:
-					specName := resource.SpecType().(astmodel.TypeName)
+					specName := resource.SpecType().(astmodel.InternalTypeName)
 					updatedDefs.Add(astmodel.MakeTypeDefinition(specName, newResource.SpecType()))
 					newResource = newResource.WithSpec(specName)
 				}

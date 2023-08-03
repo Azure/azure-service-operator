@@ -76,7 +76,7 @@ type Schema interface {
 
 	// ref things
 	isRef() bool
-	refTypeName() (astmodel.TypeName, error)
+	refTypeName() (astmodel.InternalTypeName, error)
 	refSchema() Schema
 }
 

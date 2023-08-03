@@ -232,7 +232,7 @@ type embeddedResourceTypeName struct {
 	count    int
 }
 
-func (e embeddedResourceTypeName) ToTypeName() astmodel.TypeName {
+func (e embeddedResourceTypeName) ToTypeName() astmodel.InternalTypeName {
 	if e.context == "" {
 		panic("context cannot be empty when making embedded resource type name")
 	}
@@ -263,6 +263,11 @@ func (e embeddedResourceTypeName) ToSimplifiedTypeName() astmodel.TypeName {
 	return makeContextualTypeName(e.original, nameContext, suffix, countString)
 }
 
-func makeContextualTypeName(original astmodel.TypeName, context string, suffix string, count string) astmodel.TypeName {
+func makeContextualTypeName(
+	original astmodel.TypeName,
+	context string,
+	suffix string,
+	count string,
+) astmodel.InternalTypeName {
 	return astmodel.MakeInternalTypeName(original.PackageReference(), original.Name()+context+suffix+count)
 }

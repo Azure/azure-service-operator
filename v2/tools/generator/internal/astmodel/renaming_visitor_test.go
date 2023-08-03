@@ -30,7 +30,7 @@ func TestRenamingVisitor_RenamesTypeAndReferences(t *testing.T) {
 	renamer := NewRenamingVisitor(renames)
 	result, err := renamer.RenameAll(defs)
 
-	expectedRenamedTypeName := badObject.Name().WithName("GoodName")
+	expectedRenamedTypeName := badObject.Name().WithName("GoodName").(InternalTypeName)
 	expectedOtherObject := otherObject.Type().(*ObjectType).WithProperty(prop.WithType(expectedRenamedTypeName))
 	expectedResult := make(TypeDefinitionSet)
 
@@ -67,7 +67,7 @@ func TestRenamingVisitor_RewritesResourceOwner(t *testing.T) {
 	renamer := NewRenamingVisitor(renames)
 	result, err := renamer.RenameAll(defs)
 
-	expectedRenamedTypeName := badObject.Name().WithName("GoodName")
+	expectedRenamedTypeName := badObject.Name().WithName("GoodName").(InternalTypeName)
 
 	expectedChildDef := MakeTypeDefinition(
 		childDef.Name(),
