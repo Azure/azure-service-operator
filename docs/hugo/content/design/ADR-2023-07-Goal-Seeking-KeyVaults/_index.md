@@ -134,7 +134,7 @@ If someone soft-deleted a KeyVault (whether maliciously or accidentally), automa
 
 ## Decision
 
-TBC
+Reccommendation: Option 1 - Reinterpretation of createMode
 
 ## Status
 
