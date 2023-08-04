@@ -11,6 +11,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/pkg/errors"
 	"golang.org/x/exp/slices"
@@ -125,6 +126,8 @@ func (*ResourceImportResult) writeTo(resources []genruntime.MetaObject, destinat
 			return errors.Wrap(err, "unable to save to writer")
 		}
 
+		data = redact(data)
+
 		_, err = buf.Write(data)
 		if err != nil {
 			return errors.Wrap(err, "unable to save to writer")
@@ -137,4 +140,11 @@ func (*ResourceImportResult) writeTo(resources []genruntime.MetaObject, destinat
 	}
 
 	return nil
+}
+
+// redact removes any empty `status { }` blocks from the yaml
+func redact(data []byte) []byte {
+	content := string(data)
+	content = strings.Replace(content, "status: {}", "", -1)
+	return []byte(content)
 }
