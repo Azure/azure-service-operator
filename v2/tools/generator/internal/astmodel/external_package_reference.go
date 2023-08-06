@@ -40,6 +40,7 @@ func (pr ExternalPackageReference) ImportPath() string {
 	return pr.packagePath
 }
 
+// FolderPath returns the relative path to this package on disk.
 func (pr ExternalPackageReference) FolderPath() string {
 	panic("external package references don't have a folder path")
 }

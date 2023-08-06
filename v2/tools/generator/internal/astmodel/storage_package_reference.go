@@ -44,7 +44,7 @@ func (s StoragePackageReference) ImportPath() string {
 	return s.inner.ImportPath() + StoragePackageSuffix
 }
 
-// FolderPath returns the path to this package on disk
+// FolderPath returns the relative path to this package on disk.
 func (s StoragePackageReference) FolderPath() string {
 	return s.inner.FolderPath() + StoragePackageSuffix
 }

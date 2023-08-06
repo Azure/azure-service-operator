@@ -49,7 +49,7 @@ func (s SubPackageReference) ImportPath() string {
 	return path.Join(s.parent.ImportPath(), s.name)
 }
 
-// FolderPath returns the path to this package on disk.
+// FolderPath returns the relative path to this package on disk.
 func (s SubPackageReference) FolderPath() string {
 	return path.Join(s.parent.FolderPath(), s.name)
 }
