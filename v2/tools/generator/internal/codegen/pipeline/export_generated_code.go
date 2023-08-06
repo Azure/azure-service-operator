@@ -40,7 +40,7 @@ func ExportPackages(
 				return nil, errors.Wrapf(err, "failed to assign generated definitions to packages")
 			}
 
-			err = writeFiles(ctx, packages, outputPath, emitDocFiles, log)
+			err = writeFiles(packages, outputPath, emitDocFiles, log)
 			if err != nil {
 				return nil, errors.Wrapf(err, "unable to write files into %q", outputPath)
 			}
@@ -72,7 +72,6 @@ func CreatePackagesForDefinitions(definitions astmodel.TypeDefinitionSet) (map[a
 }
 
 func writeFiles(
-	ctx context.Context,
 	packages map[astmodel.PackageReference]*astmodel.PackageDefinition,
 	outputPath string,
 	emitDocFiles bool,
