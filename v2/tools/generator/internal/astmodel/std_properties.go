@@ -30,21 +30,21 @@ func IsKubernetesResourceProperty(name PropertyName) bool {
 
 func IsUserAssignedIdentityProperty(prop *PropertyDefinition) (TypeName, bool) {
 	if !prop.HasName(UserAssignedIdentitiesProperty) {
-		return EmptyTypeName, false
+		return nil, false
 	}
 
 	arrayType, isArray := prop.PropertyType().(*ArrayType)
 	if !isArray {
-		return EmptyTypeName, false
+		return nil, false
 	}
 
 	typeName, ok := AsTypeName(arrayType.Element())
 	if !ok {
-		return EmptyTypeName, false
+		return nil, false
 	}
 
 	if typeName.Name() != UserAssignedIdentitiesTypeName {
-		return EmptyTypeName, false
+		return nil, false
 	}
 
 	return typeName, true

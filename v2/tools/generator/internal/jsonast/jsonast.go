@@ -649,7 +649,7 @@ func generateDefinitionsFor(
 ) (astmodel.TypeName, error) {
 	schemaType, err := getSubSchemaType(schema)
 	if err != nil {
-		return astmodel.EmptyTypeName, err
+		return nil, err
 	}
 
 	schemaUrl := schema.url()
@@ -665,7 +665,7 @@ func generateDefinitionsFor(
 	result, err := scanner.RunHandler(ctx, schemaType, schema)
 	if err != nil {
 		scanner.removeTypeDefinition(typeName) // we weren't able to generate it, remove placeholder
-		return astmodel.EmptyTypeName, err
+		return nil, err
 	}
 
 	// TODO: This code and below does nothing in the Swagger path as schema.url() is always empty.

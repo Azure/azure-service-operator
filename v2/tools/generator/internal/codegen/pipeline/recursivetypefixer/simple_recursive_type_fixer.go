@@ -86,7 +86,7 @@ func (s *SimpleRecursiveTypeFixer) unrollObjectTypeProperty(ot *astmodel.ObjectT
 	for propName := range toRemove {
 		unrolledType = unrolledType.WithoutProperty(propName)
 	}
-	unrolledName := astmodel.MakeTypeName(name.PackageReference, name.Name()+"_Unrolled")
+	unrolledName := astmodel.MakeTypeName(name.PackageReference(), name.Name()+"_Unrolled")
 	unrolledDef := astmodel.MakeTypeDefinition(unrolledName, unrolledType)
 
 	err := s.newDefinitions.AddAllowDuplicates(unrolledDef)
@@ -130,7 +130,7 @@ func asTypeName(t astmodel.Type) (astmodel.TypeName, bool) {
 		return asTypeName(mapType.ValueType())
 	}
 
-	return astmodel.EmptyTypeName, false
+	return nil, false
 }
 
 func isPropertyMatchingTypeName(name astmodel.TypeName, prop *astmodel.PropertyDefinition) bool {

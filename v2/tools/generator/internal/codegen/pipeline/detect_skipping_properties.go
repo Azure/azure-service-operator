@@ -315,7 +315,7 @@ func areTypeSetsEqual(left astmodel.TypeDefinitionSet, right astmodel.TypeDefini
 
 	packageRefs := set.Make[astmodel.PackageReference]()
 	for name := range right {
-		packageRefs.Add(name.PackageReference)
+		packageRefs.Add(name.PackageReference())
 	}
 
 	if len(packageRefs) != 1 {
@@ -342,8 +342,8 @@ func areTypeSetsEqual(left astmodel.TypeDefinitionSet, right astmodel.TypeDefini
 }
 
 func compareTypeNamesIgnoreVersion(left astmodel.TypeName, right astmodel.TypeName) bool {
-	leftLPR, isLeftLocalRef := left.PackageReference.(astmodel.LocalLikePackageReference)
-	rightLPR, isRightLocalRef := right.PackageReference.(astmodel.LocalLikePackageReference)
+	leftLPR, isLeftLocalRef := left.PackageReference().(astmodel.LocalLikePackageReference)
+	rightLPR, isRightLocalRef := right.PackageReference().(astmodel.LocalLikePackageReference)
 
 	// If we're not looking at local references, use the standard equality comparison
 	if !isLeftLocalRef || !isRightLocalRef {

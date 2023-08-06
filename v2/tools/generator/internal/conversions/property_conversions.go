@@ -1577,7 +1577,7 @@ func assignObjectDirectlyFromObject(
 
 	// If the source and destination types are in different packages, we must consult the conversion graph to make sure
 	// this is an expected conversion.
-	if !sourceName.PackageReference.Equals(destinationName.PackageReference) {
+	if !sourceName.PackageReference().Equals(destinationName.PackageReference()) {
 
 		// If our two types are not adjacent in our conversion graph, this is not the conversion you're looking for
 		nextType, err := conversionContext.FindNextType(destinationName)
@@ -1588,7 +1588,7 @@ func assignObjectDirectlyFromObject(
 				astmodel.DebugDescription(destinationEndpoint.Type()))
 		}
 
-		if !nextType.IsEmpty() && !astmodel.TypeEquals(nextType, sourceName) {
+		if nextType != nil && !astmodel.TypeEquals(nextType, sourceName) {
 			return nil, nil
 		}
 
@@ -1701,7 +1701,7 @@ func assignObjectDirectlyToObject(
 
 	// If the source and destination types are in different packages, we must consult the conversion graph to make sure
 	// this is an expected conversion.
-	if !sourceName.PackageReference.Equals(destinationName.PackageReference) {
+	if !sourceName.PackageReference().Equals(destinationName.PackageReference()) {
 
 		// If our two types are not adjacent in our conversion graph, this is not the conversion you're looking for
 		// Check that
@@ -1713,7 +1713,7 @@ func assignObjectDirectlyToObject(
 				astmodel.DebugDescription(sourceEndpoint.Type()))
 		}
 
-		if !nextType.IsEmpty() && !astmodel.TypeEquals(nextType, destinationName) {
+		if nextType != nil && !astmodel.TypeEquals(nextType, destinationName) {
 			return nil, nil
 		}
 
@@ -1840,12 +1840,12 @@ func assignObjectsViaIntermediateObject(
 			astmodel.DebugDescription(destinationEndpoint.Type()))
 	}
 
-	if intermediateName.IsEmpty() || astmodel.TypeEquals(intermediateName, sourceName) {
+	if intermediateName == nil || astmodel.TypeEquals(intermediateName, sourceName) {
 		return nil, nil
 	}
 
 	// Make sure we can reference our intermediate type when needed
-	conversionContext.AddPackageReference(intermediateName.PackageReference)
+	conversionContext.AddPackageReference(intermediateName.PackageReference())
 
 	// Need a pair of conversions, using our intermediate type
 	intermediateEndpoint := NewTypedConversionEndpoint(
@@ -2035,11 +2035,11 @@ func copyKnownType(name astmodel.TypeName, methodName string, returnKind knownTy
 }
 
 func createTypeDeclaration(name astmodel.TypeName, generationContext *astmodel.CodeGenerationContext) dst.Expr {
-	if name.PackageReference.Equals(generationContext.CurrentPackage()) {
+	if name.PackageReference().Equals(generationContext.CurrentPackage()) {
 		return dst.NewIdent(name.Name())
 	}
 
-	packageName := generationContext.MustGetImportedPackageName(name.PackageReference)
+	packageName := generationContext.MustGetImportedPackageName(name.PackageReference())
 	return astbuilder.Selector(dst.NewIdent(packageName), name.Name())
 }
 

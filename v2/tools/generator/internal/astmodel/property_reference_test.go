@@ -23,10 +23,10 @@ func TestPropertyReference_IsEmpty_ReturnsExpectedResult(t *testing.T) {
 		property      PropertyName
 		expected      bool
 	}{
-		{"Property name present means not empty", EmptyTypeName, "property", false},
+		{"Property name present means not empty", nil, "property", false},
 		{"Declaring type present means not empty", declaringType, "", false},
 		{"Fully populated means not empty", declaringType, "property", false},
-		{"Totally empty not empty", EmptyTypeName, "", true},
+		{"Totally empty not empty", nil, "", true},
 	}
 
 	for _, c := range cases {

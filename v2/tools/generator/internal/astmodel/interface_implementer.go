@@ -73,7 +73,7 @@ func (i InterfaceImplementer) AsDeclarations(
 	}
 
 	sort.Slice(interfaces, func(i int, j int) bool {
-		return interfaces[i].Name().name < interfaces[j].Name().name
+		return interfaces[i].Name().Name() < interfaces[j].Name().Name()
 	})
 
 	result := make([]dst.Decl, 0, len(interfaces))
@@ -127,7 +127,7 @@ func (i InterfaceImplementer) generateInterfaceImplAssertion(
 	iface *InterfaceImplementation,
 	typeName TypeName,
 ) dst.Decl {
-	ifacePackageName, err := codeGenerationContext.GetImportedPackageName(iface.name.PackageReference)
+	ifacePackageName, err := codeGenerationContext.GetImportedPackageName(iface.name.PackageReference())
 	if err != nil {
 		panic(err)
 	}
@@ -150,14 +150,14 @@ func (i InterfaceImplementer) generateInterfaceImplAssertion(
 			&dst.ValueSpec{
 				Type: astbuilder.Selector(
 					dst.NewIdent(ifacePackageName),
-					iface.name.name),
+					iface.name.Name()),
 				Names: []*dst.Ident{
 					dst.NewIdent("_"),
 				},
 				Values: astbuilder.Expressions(
 					astbuilder.AddrOf(
 						&dst.CompositeLit{
-							Type: dst.NewIdent(typeName.name),
+							Type: dst.NewIdent(typeName.Name()),
 						})),
 			},
 		},

@@ -118,7 +118,7 @@ func (p *PackageDefinition) writeCodeFile(
 	defs []TypeDefinition,
 	packages map[PackageReference]*PackageDefinition,
 ) error {
-	ref := defs[0].Name().PackageReference
+	ref := defs[0].Name().PackageReference()
 	genFile := NewFileDefinition(ref, defs, packages)
 
 	fileWriter := NewGoSourceFileWriter(genFile)
@@ -149,7 +149,7 @@ func (p *PackageDefinition) writeTestFile(
 		return nil
 	}
 
-	ref := defs[0].Name().PackageReference
+	ref := defs[0].Name().PackageReference()
 	genFile := NewTestFileDefinition(ref, defs, packages)
 
 	fileWriter := NewGoSourceFileWriter(genFile)

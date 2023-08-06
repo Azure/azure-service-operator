@@ -299,7 +299,7 @@ func findResourceSubResources(definitions astmodel.TypeDefinitionSet) map[resour
 			continue
 		}
 
-		owner := *resource.Owner()
+		owner := resource.Owner()
 		ownerKey := getResourceKey(owner)
 		if result[ownerKey] == nil {
 			result[ownerKey] = astmodel.NewTypeNameSet()
@@ -394,7 +394,7 @@ type resourceKey struct {
 }
 
 func getResourceKey(name astmodel.TypeName) resourceKey {
-	group, _ := name.PackageReference.GroupVersion()
+	group, _ := name.PackageReference().GroupVersion()
 
 	return resourceKey{
 		group: group,

@@ -89,6 +89,6 @@ func (fn *PureFunction) AddPackageReference(refs ...astmodel.PackageReference) {
 func (fn *PureFunction) AddReferencedTypes(types ...astmodel.TypeName) {
 	for _, t := range types {
 		fn.referencedTypes.Add(t)
-		fn.requiredPackages.AddReference(t.PackageReference)
+		fn.requiredPackages.AddReference(t.PackageReference())
 	}
 }

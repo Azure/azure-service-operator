@@ -23,10 +23,10 @@ type ConversionGraph struct {
 // Returns the next version and true if it's found, or an empty type name and false if not.
 func (graph *ConversionGraph) LookupTransition(name astmodel.TypeName) astmodel.TypeName {
 	// Expect to get either a local or a storage reference, not an external one
-	group, _ := name.PackageReference.GroupVersion()
+	group, _ := name.PackageReference().GroupVersion()
 	subgraph, ok := graph.subGraphs[group]
 	if !ok {
-		return astmodel.EmptyTypeName
+		return nil
 	}
 
 	return subgraph.LookupTransition(name)
@@ -39,10 +39,10 @@ func (graph *ConversionGraph) LookupTransition(name astmodel.TypeName) astmodel.
 // This is used to identify the next type needed for property assignment functions, and is a building block for
 // identification of hub definitions.
 func (graph *ConversionGraph) FindNextType(name astmodel.TypeName, definitions astmodel.TypeDefinitionSet) (astmodel.TypeName, error) {
-	group, _ := name.PackageReference.GroupVersion()
+	group, _ := name.PackageReference().GroupVersion()
 	subgraph, ok := graph.subGraphs[group]
 	if !ok {
-		return astmodel.EmptyTypeName, nil
+		return nil, nil
 	}
 
 	// Look for a next type with the same name
@@ -52,29 +52,29 @@ func (graph *ConversionGraph) FindNextType(name astmodel.TypeName, definitions a
 	renamedType, err := subgraph.searchForRenamedType(name, definitions)
 	if err != nil {
 		// Something went wrong
-		return astmodel.EmptyTypeName, errors.Wrapf(err, "searching for type renamed from %s", name)
+		return nil, errors.Wrapf(err, "searching for type renamed from %s", name)
 	}
 
 	// If we have no renamed type, return the next type (if any)
-	if renamedType.IsEmpty() {
+	if renamedType == nil {
 		return nextType, nil
 	}
 
 	// If we have no next type, return the renamed type (if any)
-	if nextType.IsEmpty() {
+	if nextType == nil {
 		return renamedType, nil
 	}
 
 	// We have both a next type and a renamed type
 	// If they're in the same package, the type-rename has been configured on the wrong version (or the wrong type)
-	if nextType.PackageReference.Equals(renamedType.PackageReference) {
-		return astmodel.EmptyTypeName, errors.Errorf("confict between rename of %s to %s and existing type %s", name, renamedType, nextType)
+	if nextType.PackageReference().Equals(renamedType.PackageReference()) {
+		return nil, errors.Errorf("confict between rename of %s to %s and existing type %s", name, renamedType, nextType)
 	}
 
 	// Now we need to return the earlier type. We can do this by comparing the package paths.
 	// (this be needed if a different type is introduced with the same name in a later version, or if a type is
 	// renamed in one version and renamed back in a later one)
-	if astmodel.ComparePathAndVersion(nextType.PackageReference.PackagePath(), renamedType.PackageReference.PackagePath()) {
+	if astmodel.ComparePathAndVersion(nextType.PackageReference().PackagePath(), renamedType.PackageReference().PackagePath()) {
 		// nextType came first
 		return nextType, nil
 	}
@@ -102,13 +102,13 @@ func (graph *ConversionGraph) FindHubAndDistance(name astmodel.TypeName, definit
 	for {
 		hub, err := graph.FindNextType(result, definitions)
 		if err != nil {
-			return astmodel.EmptyTypeName,
+			return nil,
 				-1,
 				errors.Wrapf(err, "finding hub for %s",
 					name)
 		}
 
-		if hub.IsEmpty() {
+		if hub == nil {
 			break
 		}
 
@@ -146,7 +146,7 @@ func (graph *ConversionGraph) FindNextProperty(
 	}
 
 	// If no next type, no next property either
-	if nextType.IsEmpty() {
+	if nextType == nil {
 		return astmodel.EmptyPropertyReference, nil
 	}
 

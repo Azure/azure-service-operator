@@ -43,8 +43,8 @@ func (b *GroupConversionGraphBuilder) Add(names ...astmodel.TypeName) {
 		subBuilder := b.getSubBuilder(name)
 		subBuilder.Add(name)
 
-		if astmodel.IsStoragePackageReference(name.PackageReference) {
-			b.storagePackages.AddReference(name.PackageReference)
+		if astmodel.IsStoragePackageReference(name.PackageReference()) {
+			b.storagePackages.AddReference(name.PackageReference())
 		}
 	}
 }

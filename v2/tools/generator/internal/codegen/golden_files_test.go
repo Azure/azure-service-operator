@@ -265,7 +265,7 @@ func exportPackagesTestPipelineStage(t *testing.T, testName string) *pipeline.St
 			pkgs := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
 			nonStoragePackageCount := 0
 			for _, def := range state.Definitions() {
-				ref := def.Name().PackageReference
+				ref := def.Name().PackageReference()
 				pkg, ok := pkgs[ref]
 				if !ok {
 					g, v := ref.GroupVersion()

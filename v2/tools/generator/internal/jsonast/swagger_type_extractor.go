@@ -717,7 +717,7 @@ func (extractor *SwaggerTypeExtractor) expandAndCanonicalizePath(
 func (extractor *SwaggerTypeExtractor) resourceNameFromOperationPath(operationPath string) (string, astmodel.TypeName, error) {
 	group, resource, name, err := extractor.inferNameFromURLPath(operationPath)
 	if err != nil {
-		return "", astmodel.EmptyTypeName, errors.Wrapf(err, "unable to infer name from path %q", operationPath)
+		return "", nil, errors.Wrapf(err, "unable to infer name from path %q", operationPath)
 	}
 
 	return group + "/" + resource, astmodel.MakeTypeName(extractor.outputPackage, name), nil

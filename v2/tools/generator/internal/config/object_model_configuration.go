@@ -148,7 +148,7 @@ func (omc *ObjectModelConfiguration) IsGroupConfigured(pkg astmodel.PackageRefer
 // allowing configuration related to the type to be accessed via the new name.
 func (omc *ObjectModelConfiguration) AddTypeAlias(name astmodel.TypeName, alias string) {
 	versionVisitor := newSingleVersionConfigurationVisitor(
-		name.PackageReference,
+		name.PackageReference(),
 		func(configuration *VersionConfiguration) error {
 			return configuration.addTypeAlias(name.Name(), alias)
 		})
@@ -365,7 +365,7 @@ func (omc *ObjectModelConfiguration) ModifyType(
 	action func(typeConfiguration *TypeConfiguration) error,
 ) error {
 	return omc.ModifyVersion(
-		name.PackageReference,
+		name.PackageReference(),
 		func(versionConfiguration *VersionConfiguration) error {
 			typeName := name.Name()
 			typ, err := versionConfiguration.findType(typeName)

@@ -60,7 +60,7 @@ func (report *ResourceStructureReport) SaveReports(baseFolder string) error {
 // summarize collates a list of all definitions, grouped by package
 func (report *ResourceStructureReport) summarize(definitions astmodel.TypeDefinitionSet) {
 	for name, def := range definitions {
-		pkg := name.PackageReference
+		pkg := name.PackageReference()
 
 		if _, ok := report.lists[pkg]; !ok {
 			report.lists[pkg] = make(astmodel.TypeDefinitionSet)
