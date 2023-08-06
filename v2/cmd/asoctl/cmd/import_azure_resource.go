@@ -7,7 +7,6 @@ package cmd
 
 import (
 	"context"
-	"os"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
@@ -118,7 +117,7 @@ func importAzureResource(ctx context.Context, armIDs []string, options importAzu
 			return errors.Wrapf(err, "failed to write into folder %s", folder)
 		}
 	} else {
-		err := result.SaveToWriter(os.Stdout)
+		err := result.SaveToWriter(progress)
 		if err != nil {
 			return errors.Wrapf(err, "failed to write to stdout")
 		}
