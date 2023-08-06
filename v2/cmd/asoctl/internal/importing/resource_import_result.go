@@ -126,7 +126,7 @@ func (*ResourceImportResult) writeTo(resources []genruntime.MetaObject, destinat
 			return errors.Wrap(err, "unable to save to writer")
 		}
 
-		data = redact(data)
+		data = redactStatus(data)
 
 		_, err = buf.Write(data)
 		if err != nil {
@@ -142,8 +142,11 @@ func (*ResourceImportResult) writeTo(resources []genruntime.MetaObject, destinat
 	return nil
 }
 
-// redact removes any empty `status { }` blocks from the yaml
-func redact(data []byte) []byte {
+// redactStatus removes any empty `status { }` blocks from the yaml.
+// If we start redacting other things, we should rename this method
+// and possibly consider using a more general purpose technique,
+// such as a yaml parser.
+func redactStatus(data []byte) []byte {
 	content := string(data)
 	content = strings.Replace(content, "status: {}", "", -1)
 	return []byte(content)
