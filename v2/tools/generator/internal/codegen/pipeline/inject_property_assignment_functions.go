@@ -55,7 +55,7 @@ func InjectPropertyAssignmentFunctions(
 					return nil, errors.Wrapf(err, "finding next type after %s", name)
 				}
 
-				if nextName.IsEmpty() {
+				if nextName == nil {
 					// No next type, so nothing to do (this is expected if we have the hub storage package)
 					continue
 				}
@@ -68,20 +68,20 @@ func InjectPropertyAssignmentFunctions(
 				}
 
 				var augmentationInterface *astmodel.TypeName
-				if astmodel.IsStoragePackageReference(def.Name().PackageReference) {
+				if astmodel.IsStoragePackageReference(def.Name().PackageReference()) {
 					ifaceType := astmodel.NewInterfaceType()
 
 					assignPropertiesToFunc := functions.NewObjectFunction(
 						"AssignPropertiesTo",
 						idFactory,
 						createAssignPropertiesOverrideStub("dst", astmodel.NewOptionalType(nextDef.Name())))
-					assignPropertiesToFunc.AddPackageReference(nextDef.Name().PackageReference)
+					assignPropertiesToFunc.AddPackageReference(nextDef.Name().PackageReference())
 
 					assignPropertiesFromFunc := functions.NewObjectFunction(
 						"AssignPropertiesFrom",
 						idFactory,
 						createAssignPropertiesOverrideStub("src", astmodel.NewOptionalType(nextDef.Name())))
-					assignPropertiesFromFunc.AddPackageReference(nextDef.Name().PackageReference)
+					assignPropertiesFromFunc.AddPackageReference(nextDef.Name().PackageReference())
 
 					ifaceType = ifaceType.WithFunction(assignPropertiesToFunc).WithFunction(assignPropertiesFromFunc)
 

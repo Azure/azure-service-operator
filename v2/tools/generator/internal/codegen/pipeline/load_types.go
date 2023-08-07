@@ -538,7 +538,7 @@ func generateRenaming(
 
 	// Prefix the typename with the filename
 	result := astmodel.MakeTypeName(
-		original.PackageReference,
+		original.PackageReference(),
 		idFactory.CreateIdentifier(name+original.Name(), astmodel.Exported))
 
 	// see if there are any collisions: add Xs until there are no collisions
@@ -546,7 +546,7 @@ func generateRenaming(
 	// in the calling method
 	for _, ok := typeNames[result]; ok; _, ok = typeNames[result] {
 		result = astmodel.MakeTypeName(
-			result.PackageReference,
+			result.PackageReference(),
 			result.Name()+"X",
 		)
 	}
@@ -876,7 +876,7 @@ func resolveDefAlias(defs astmodel.TypeDefinitionSet, def astmodel.TypeDefinitio
 
 		if name, ok := t.(astmodel.TypeName); ok {
 			found = true
-			result, err = resolveDefAlias(defs, astmodel.MakeTypeDefinition(astmodel.TypeName{}, name))
+			result, err = resolveDefAlias(defs, astmodel.MakeTypeDefinition(nil, name))
 		}
 	})
 

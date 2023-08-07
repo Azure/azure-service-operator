@@ -96,11 +96,11 @@ func containsAnyType(theType astmodel.Type) bool {
 }
 
 func packageName(name astmodel.TypeName) string {
-	if group, version, ok := name.PackageReference.TryGroupVersion(); ok {
+	if group, version, ok := name.PackageReference().TryGroupVersion(); ok {
 		return group + "/" + version
 	}
 
-	return name.PackageReference.PackageName()
+	return name.PackageReference().PackageName()
 }
 
 func collectBadPackages(

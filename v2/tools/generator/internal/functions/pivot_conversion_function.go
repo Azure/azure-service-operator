@@ -123,7 +123,7 @@ func (fn *PivotConversionFunction) RequiredPackageReferences() *astmodel.Package
 		astmodel.ControllerRuntimeConversion,
 		astmodel.FmtReference,
 		astmodel.GenRuntimeReference,
-		fn.parameterType.PackageReference)
+		fn.parameterType.PackageReference())
 }
 
 func (fn *PivotConversionFunction) References() astmodel.TypeNameSet {

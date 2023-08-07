@@ -39,6 +39,16 @@ func (s StoragePackageReference) PackagePath() string {
 	return url
 }
 
+// ImportPath returns the path to use when importing this package
+func (s StoragePackageReference) ImportPath() string {
+	return s.inner.ImportPath() + StoragePackageSuffix
+}
+
+// FolderPath returns the relative path to this package on disk.
+func (s StoragePackageReference) FolderPath() string {
+	return s.inner.FolderPath() + StoragePackageSuffix
+}
+
 func (s StoragePackageReference) Version() string {
 	return s.inner.Version() + StoragePackageSuffix
 }
@@ -83,7 +93,7 @@ func (s StoragePackageReference) TryGroupVersion() (string, string, bool) {
 	return g, v + StoragePackageSuffix, true
 }
 
-// MustGroupVersion returns the group and version of this storage reference.
+// GroupVersion returns the group and version of this storage reference.
 func (s StoragePackageReference) GroupVersion() (string, string) {
 	g, v := s.inner.GroupVersion()
 	return g, v + StoragePackageSuffix

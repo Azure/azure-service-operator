@@ -181,7 +181,7 @@ func TestGolden_EmbeddedSubresource_IsRemoved(t *testing.T) {
 	defs := LionDefs()
 
 	// Add owner
-	defs[Lion.Name()] = Lion.WithType(LionResourceType.WithOwner(&LionPrideName))
+	defs[Lion.Name()] = Lion.WithType(LionResourceType.WithOwner(LionPrideName))
 
 	// TODO: Take this bit and put it into a helper?
 	// Define stages to run

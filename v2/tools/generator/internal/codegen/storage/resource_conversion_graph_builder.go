@@ -56,8 +56,8 @@ func (b *ResourceConversionGraphBuilder) Build() (*ResourceConversionGraph, erro
 
 	sort.Slice(toProcess, func(i, j int) bool {
 		return astmodel.ComparePathAndVersion(
-			toProcess[i].PackageReference.PackagePath(),
-			toProcess[j].PackageReference.PackagePath())
+			toProcess[i].PackageReference().ImportPath(),
+			toProcess[j].PackageReference().ImportPath())
 	})
 
 	for _, s := range stages {
@@ -84,7 +84,7 @@ func (b *ResourceConversionGraphBuilder) Build() (*ResourceConversionGraph, erro
 // compatibilityReferencesConvertForward links any compatibility references forward to the following version
 func (b *ResourceConversionGraphBuilder) compatibilityReferencesConvertForward(names []astmodel.TypeName) {
 	for i, name := range names {
-		if !b.isCompatibilityPackage(name.PackageReference) {
+		if !b.isCompatibilityPackage(name.PackageReference()) {
 			continue
 		}
 
@@ -97,7 +97,7 @@ func (b *ResourceConversionGraphBuilder) compatibilityReferencesConvertForward(n
 // apiReferencesConvertToStorage links each API type to the associated storage package
 func (b *ResourceConversionGraphBuilder) apiReferencesConvertToStorage(names []astmodel.TypeName) {
 	for _, name := range names {
-		if s, ok := name.PackageReference.(astmodel.DerivedPackageReference); ok {
+		if s, ok := name.PackageReference().(astmodel.DerivedPackageReference); ok {
 			n := name.WithPackageReference(s.Base())
 			b.links[n] = name
 		}
@@ -108,7 +108,7 @@ func (b *ResourceConversionGraphBuilder) apiReferencesConvertToStorage(names []a
 // preview or GA.
 func (b *ResourceConversionGraphBuilder) previewReferencesConvertBackward(names []astmodel.TypeName) {
 	for i, name := range names {
-		if i == 0 || !name.PackageReference.IsPreview() {
+		if i == 0 || !name.PackageReference().IsPreview() {
 			continue
 		}
 
@@ -152,6 +152,8 @@ func (b *ResourceConversionGraphBuilder) isCompatibilityPackage(ref astmodel.Pac
 		return !r.HasVersionPrefix(b.versionPrefix)
 	case astmodel.StoragePackageReference:
 		return b.isCompatibilityPackage(r.Local())
+	case astmodel.SubPackageReference:
+		return b.isCompatibilityPackage(r.Parent())
 	default:
 		msg := fmt.Sprintf(
 			"unexpected PackageReference implementation %T",

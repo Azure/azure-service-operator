@@ -542,7 +542,7 @@ func (c *armTypeCreator) createSpecConversionContext(name astmodel.TypeName) (*a
 }
 
 func (c *armTypeCreator) createConversionContext(name astmodel.TypeName) (*armPropertyTypeConversionContext, error) {
-	payloadType, err := c.configuration.PayloadType.Lookup(name.PackageReference)
+	payloadType, err := c.configuration.PayloadType.Lookup(name.PackageReference())
 	if err != nil {
 		if config.IsNotConfiguredError(err) {
 			// Default to 'omitempty' if not configured

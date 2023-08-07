@@ -28,7 +28,7 @@ func AddAPIVersionEnums() *Stage {
 
 			for name, def := range state.Definitions() {
 				if rt, ok := astmodel.AsResourceType(def.Type()); ok {
-					version := apiVersions.Get(name.PackageReference)
+					version := apiVersions.Get(name.PackageReference())
 					def = def.WithType(rt.WithAPIVersion(version.name, version.value))
 				}
 

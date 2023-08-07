@@ -108,12 +108,12 @@ func (c *PropertyConversionContext) WithPackageReferenceSet(set *astmodel.Packag
 func (c *PropertyConversionContext) ResolveType(t astmodel.Type) (astmodel.TypeName, astmodel.Type, bool) {
 	name, ok := astmodel.AsTypeName(t)
 	if !ok {
-		return astmodel.EmptyTypeName, nil, false
+		return nil, nil, false
 	}
 
 	actualType, err := c.definitions.FullyResolve(name)
 	if err != nil {
-		return astmodel.EmptyTypeName, nil, false
+		return nil, nil, false
 	}
 
 	return name, actualType, true
@@ -139,7 +139,7 @@ func (c *PropertyConversionContext) TypeRename(name astmodel.TypeName) (string, 
 // If no conversion graph is available, returns an empty type name and no error.
 func (c *PropertyConversionContext) FindNextType(name astmodel.TypeName) (astmodel.TypeName, error) {
 	if c.conversionGraph == nil {
-		return astmodel.EmptyTypeName, nil
+		return nil, nil
 	}
 
 	return c.conversionGraph.FindNextType(name, c.definitions)

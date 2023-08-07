@@ -41,7 +41,7 @@ type PropertyAssignmentFunctionBuilder struct {
 	writesToPropertyBag bool
 	// augmentationInterface is the conversion augmentation interface associated with this conversion.
 	// If this is nil, there is no augmented conversion associated with this conversion
-	augmentationInterface *astmodel.TypeName
+	augmentationInterface astmodel.TypeName
 	// assignmentSelectors is a list of functions that can be used to select a property to assign to
 	assignmentSelectors []assignmentSelector
 }
@@ -90,7 +90,7 @@ func NewPropertyAssignmentFunctionBuilder(
 
 // UseAugmentationInterface returns the property assignment function with a conversion augmentation interface set
 func (builder *PropertyAssignmentFunctionBuilder) UseAugmentationInterface(augmentation astmodel.TypeName) {
-	builder.augmentationInterface = &augmentation
+	builder.augmentationInterface = augmentation
 }
 
 // AddAssignmentSelector adds a new assignment selector to the list of assignment selectors.
@@ -149,7 +149,7 @@ func (builder *PropertyAssignmentFunctionBuilder) Build(
 	packageReferences := astmodel.NewPackageReferenceSet(
 		astmodel.GitHubErrorsReference,
 		astmodel.GenRuntimeReference,
-		builder.otherDefinition.Name().PackageReference)
+		builder.otherDefinition.Name().PackageReference())
 
 	cc := conversionContext.WithDirection(builder.direction).
 		WithPropertyBag(propertyBagName).
@@ -160,7 +160,7 @@ func (builder *PropertyAssignmentFunctionBuilder) Build(
 	err := builder.createConversions(sourceEndpoints, destinationEndpoints, cc, propertyConversions)
 	if err != nil {
 		parameterType := astmodel.DebugDescription(
-			builder.otherDefinition.Name(), builder.receiverDefinition.Name().PackageReference)
+			builder.otherDefinition.Name(), builder.receiverDefinition.Name().PackageReference())
 		return nil, errors.Wrapf(err, "creating '%s(%s)'", fnName, parameterType)
 	}
 

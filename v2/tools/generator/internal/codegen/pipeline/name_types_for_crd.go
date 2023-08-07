@@ -64,7 +64,7 @@ func nameInnerTypes(
 	builder.VisitEnumType = func(this *astmodel.TypeVisitor, it *astmodel.EnumType, ctx interface{}) (astmodel.Type, error) {
 		hint := ctx.(nameHint)
 
-		enumName := hint.AsTypeName(def.Name().PackageReference)
+		enumName := hint.AsTypeName(def.Name().PackageReference())
 		namedEnum := astmodel.MakeTypeDefinition(enumName, it)
 		namedEnum = namedEnum.WithDescription(getDescription(enumName)...)
 
@@ -82,7 +82,7 @@ func nameInnerTypes(
 			return nil, err
 		}
 
-		name := hint.AsTypeName(def.Name().PackageReference)
+		name := hint.AsTypeName(def.Name().PackageReference())
 		namedType := astmodel.MakeTypeDefinition(name, v.WithType(newElementType))
 		resultTypes = append(resultTypes, namedType)
 		return namedType.Name(), nil
@@ -148,7 +148,7 @@ func nameInnerTypes(
 			return nil, kerrors.NewAggregate(errs)
 		}
 
-		objectName := hint.AsTypeName(def.Name().PackageReference)
+		objectName := hint.AsTypeName(def.Name().PackageReference())
 
 		namedObjectType := astmodel.MakeTypeDefinition(objectName, it.WithProperties(props...))
 		namedObjectType = namedObjectType.WithDescription(getDescription(objectName)...)
@@ -174,7 +174,7 @@ func nameInnerTypes(
 			}
 		}
 
-		resourceName := hint.AsTypeName(def.Name().PackageReference)
+		resourceName := hint.AsTypeName(def.Name().PackageReference())
 
 		it = it.WithSpec(spec).WithStatus(status)
 		resource := astmodel.MakeTypeDefinition(resourceName, it).WithDescription(getDescription(resourceName)...)

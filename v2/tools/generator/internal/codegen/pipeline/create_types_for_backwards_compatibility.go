@@ -154,7 +154,7 @@ func addCompatibilityComments(defs astmodel.TypeDefinitionSet) (astmodel.TypeDef
 			fmt.Sprintf(
 				"Deprecated version of %s. Use %s.%s instead",
 				name.Name(),
-				name.PackageReference.PackageName(),
+				name.PackageReference().PackageName(),
 				name.Name()),
 		}
 
@@ -202,7 +202,7 @@ func createBackwardCompatibilityRenameMap(
 func createBackwardCompatibilityRename(name astmodel.TypeName, versionPrefix string) astmodel.TypeName {
 	var ref astmodel.PackageReference
 
-	switch r := name.PackageReference.(type) {
+	switch r := name.PackageReference().(type) {
 	case astmodel.LocalPackageReference:
 		ref = r.WithVersionPrefix(versionPrefix)
 	case astmodel.StoragePackageReference:

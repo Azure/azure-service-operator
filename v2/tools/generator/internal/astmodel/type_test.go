@@ -104,9 +104,6 @@ func TestWriteDebugDescriptionNils(t *testing.T) {
 	var f *FlaggedType
 	g.Expect(func() { f.WriteDebugDescription(&buffer, nil) }).ShouldNot(Panic())
 
-	var n TypeName
-	g.Expect(func() { n.WriteDebugDescription(&buffer, nil) }).ShouldNot(Panic())
-
 	var all *AllOfType
 	g.Expect(func() { all.WriteDebugDescription(&buffer, nil) }).ShouldNot(Panic())
 

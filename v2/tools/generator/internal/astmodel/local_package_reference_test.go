@@ -50,11 +50,12 @@ func TestLocalPackageReferences_ReturnExpectedProperties(t *testing.T) {
 	t.Parallel()
 
 	cases := []struct {
-		name         string
-		group        string
-		version      string
-		pkg          string
-		expectedPath string
+		name        string
+		group       string
+		version     string
+		pkg         string
+		packagePath string
+		folderPath  string
 	}{
 		{
 			"Networking",
@@ -62,6 +63,7 @@ func TestLocalPackageReferences_ReturnExpectedProperties(t *testing.T) {
 			"2020-09-01",
 			"v20200901",
 			"github.com/Azure/azure-service-operator/v2/api/microsoft.networking/v20200901",
+			"microsoft.networking/v20200901",
 		},
 		{
 			"Batch (new)",
@@ -69,6 +71,7 @@ func TestLocalPackageReferences_ReturnExpectedProperties(t *testing.T) {
 			"2020-09-01",
 			"v20200901",
 			"github.com/Azure/azure-service-operator/v2/api/microsoft.batch/v20200901",
+			"microsoft.batch/v20200901",
 		},
 		{
 			"Batch (old)",
@@ -76,6 +79,7 @@ func TestLocalPackageReferences_ReturnExpectedProperties(t *testing.T) {
 			"2015-01-01",
 			"v20150101",
 			"github.com/Azure/azure-service-operator/v2/api/microsoft.batch/v20150101",
+			"microsoft.batch/v20150101",
 		},
 	}
 	for _, c := range cases {
@@ -85,11 +89,11 @@ func TestLocalPackageReferences_ReturnExpectedProperties(t *testing.T) {
 			g := NewGomegaWithT(t)
 
 			ref := makeTestLocalPackageReference(c.group, c.version)
-			grp := ref.Group()
 			g.Expect(ref.PackageName()).To(Equal(c.pkg))
-			g.Expect(ref.PackagePath()).To(Equal(c.expectedPath))
-			g.Expect(ref.String()).To(Equal(c.expectedPath))
-			g.Expect(grp).To(Equal(c.group))
+			g.Expect(ref.PackagePath()).To(Equal(c.packagePath))
+			g.Expect(ref.String()).To(Equal(c.packagePath))
+			g.Expect(ref.Group()).To(Equal(c.group))
+			g.Expect(ref.FolderPath()).To(Equal(c.folderPath))
 		})
 	}
 }

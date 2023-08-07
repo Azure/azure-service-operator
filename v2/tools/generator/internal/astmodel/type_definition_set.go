@@ -22,7 +22,7 @@ import (
 // TypeDefinitionSet is a map of TypeName to TypeDefinition, representing a set of type definitions.
 type TypeDefinitionSet map[TypeName]TypeDefinition
 
-// A restricted interface to indicate that the
+// ReadonlyTypeDefinitions is a restricted interface to indicate that the
 // consumer won’t modify the contained types.
 type ReadonlyTypeDefinitions interface {
 	MustGetDefinition(name TypeName) TypeDefinition
@@ -186,7 +186,7 @@ func DiffTypes(x, y interface{}) string {
 		ResourceType{},
 		EnumType{},
 		FlaggedType{},
-		TypeName{},
+		typeName{},
 		LocalPackageReference{},
 		InterfaceImplementer{},
 		TypeSet{},

@@ -246,12 +246,12 @@ func (schema GoJSONSchema) refTypeName() (astmodel.TypeName, error) {
 	// make a new topic based on the ref URL
 	name, err := schema.refObjectName()
 	if err != nil {
-		return astmodel.EmptyTypeName, err
+		return nil, err
 	}
 
 	group, err := schema.refGroupName()
 	if err != nil {
-		return astmodel.EmptyTypeName, err
+		return nil, err
 	}
 
 	version := schema.refVersion()

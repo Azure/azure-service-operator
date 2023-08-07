@@ -98,7 +98,7 @@ func (t *userAssignedIdentityTransformer) transformUserAssignedIdentityProperty(
 	// key in CRDs, so we have to special case this property transform it to the correct shape
 	// during ARM serialization
 
-	userAssignedIdentityDef := newUserAssignedIdentityDefinition(name.PackageReference)
+	userAssignedIdentityDef := newUserAssignedIdentityDefinition(name.PackageReference())
 	err := t.typesToAdd.AddAllowDuplicates(userAssignedIdentityDef)
 	if err != nil {
 		return nil, err

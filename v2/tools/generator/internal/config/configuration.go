@@ -380,8 +380,8 @@ func (config *Configuration) ShouldPrune(typeName astmodel.TypeName) (result Sho
 	// point we haven't done that yet, so it's premature to filter by version.
 	// Sometimes in testing, configuration will be empty, and we don't want to do any filtering when that's the case
 	if !config.ObjectModelConfiguration.IsEmpty() &&
-		!config.ObjectModelConfiguration.IsGroupConfigured(typeName.PackageReference) {
-		return Prune, fmt.Sprintf("No resources configured for export from %s", typeName.PackageReference.PackagePath())
+		!config.ObjectModelConfiguration.IsGroupConfigured(typeName.PackageReference()) {
+		return Prune, fmt.Sprintf("No resources configured for export from %s", typeName.PackageReference().PackagePath())
 	}
 
 	// By default, we include all types

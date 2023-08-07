@@ -44,7 +44,7 @@ func (t *TypeMatcher) Initialize() error {
 
 // AppliesToType indicates whether this filter should be applied to the supplied type definition
 func (t *TypeMatcher) AppliesToType(typeName astmodel.TypeName) bool {
-	group, version, ok := typeName.PackageReference.TryGroupVersion()
+	group, version, ok := typeName.PackageReference().TryGroupVersion()
 	if !ok {
 		// Never match external references
 		return false

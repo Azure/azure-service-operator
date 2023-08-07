@@ -109,7 +109,7 @@ func AsTypeName(aType Type) (TypeName, bool) {
 		return AsTypeName(wrapper.Unwrap())
 	}
 
-	return TypeName{}, false
+	return nil, false
 }
 
 // AsResourceType unwraps any wrappers around the provided type and returns either the underlying ResourceType and true,
@@ -159,5 +159,5 @@ func ExtractTypeName(aType Type) (TypeName, bool) {
 		return ExtractTypeName(mapType.ValueType())
 	}
 
-	return TypeName{}, false
+	return nil, false
 }

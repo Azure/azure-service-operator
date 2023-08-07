@@ -155,8 +155,10 @@ func (m *TypeMerger) MergeWithContext(ctx interface{}, left, right Type) (Type, 
 	rightType := reflect.TypeOf(right)
 
 	for _, merger := range m.mergers {
-		leftTypeMatches := merger.left == leftType || merger.left == typeInterface
-		rightTypeMatches := merger.right == rightType || merger.right == typeInterface
+		leftTypeMatches := merger.left == leftType ||
+			(merger.left.Kind() == reflect.Interface && leftType.Implements(merger.left))
+		rightTypeMatches := merger.right == rightType ||
+			(merger.right.Kind() == reflect.Interface && rightType.Implements(merger.right))
 
 		if leftTypeMatches && rightTypeMatches {
 			result, err := merger.merge(ctx, left, right)

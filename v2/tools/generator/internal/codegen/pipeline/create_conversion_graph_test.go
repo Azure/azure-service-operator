@@ -65,7 +65,7 @@ func TestCreateConversionGraph(t *testing.T) {
 
 	// Expect NOT to have a link from Storage2022
 	missing := graph.LookupTransition(storage2022)
-	g.Expect(missing.IsEmpty()).To(BeTrue())
+	g.Expect(missing).To(BeNil())
 
 	// Finally, check that the five links we've verified are the only ones there
 	// We check this last, so that a failure doesn't block more detailed checks

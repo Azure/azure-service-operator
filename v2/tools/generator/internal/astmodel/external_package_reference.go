@@ -35,6 +35,16 @@ func (pr ExternalPackageReference) PackagePath() string {
 	return pr.packagePath
 }
 
+// ImportPath returns the path to use when importing this package
+func (pr ExternalPackageReference) ImportPath() string {
+	return pr.packagePath
+}
+
+// FolderPath returns the relative path to this package on disk.
+func (pr ExternalPackageReference) FolderPath() string {
+	panic("external package references don't have a folder path")
+}
+
 // Equals returns true if the passed package reference references the same package, false otherwise
 func (pr ExternalPackageReference) Equals(ref PackageReference) bool {
 	if other, ok := ref.(ExternalPackageReference); ok {
@@ -68,4 +78,9 @@ func (pr ExternalPackageReference) GroupVersion() (string, string) {
 func (pr ExternalPackageReference) ImportAlias(style PackageImportStyle) string {
 	msg := fmt.Sprintf("cannot create import alias for external package reference %s", pr.packagePath)
 	panic(msg)
+}
+
+// Group triggers a panic because external references don't have a group
+func (pr ExternalPackageReference) Group() string {
+	panic(fmt.Sprintf("external package reference %s doesn't have a group", pr))
 }

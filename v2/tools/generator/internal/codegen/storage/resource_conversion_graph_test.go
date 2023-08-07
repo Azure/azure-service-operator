@@ -35,8 +35,8 @@ func TestResourceConversionGraph_WithSingleReference_HasExpectedTransition(t *te
 
 	// Check for single expected transition
 	next := graph.LookupTransition(person2020)
-	g.Expect(next).NotTo(Equal(astmodel.EmptyTypeName))
-	g.Expect(astmodel.IsStoragePackageReference(next.PackageReference)).To(BeTrue())
+	g.Expect(next).NotTo(BeNil())
+	g.Expect(astmodel.IsStoragePackageReference(next.PackageReference())).To(BeTrue())
 }
 
 func TestResourceConversionGraph_WithTwoGAReferences_HasExpectedTransitions(t *testing.T) {
@@ -64,15 +64,15 @@ func TestResourceConversionGraph_WithTwoGAReferences_HasExpectedTransitions(t *t
 
 	// Check for expected transition for Person2020
 	after2020 := graph.LookupTransition(person2020)
-	g.Expect(after2020).NotTo(Equal(astmodel.EmptyTypeName))
+	g.Expect(after2020).NotTo(BeNil())
 
 	// Check for expected transition for Person2021
 	after2021 := graph.LookupTransition(person2021)
-	g.Expect(after2021).NotTo(Equal(astmodel.EmptyTypeName))
+	g.Expect(after2021).NotTo(BeNil())
 
 	// Check for expected transition for the storage variant of Person2020s
 	after2020s := graph.LookupTransition(after2020)
-	g.Expect(after2020s).NotTo(Equal(astmodel.EmptyTypeName))
+	g.Expect(after2020s).NotTo(BeNil())
 }
 func TestResourceConversionGraph_WithGAAndPreviewReferences_HasExpectedTransitions(t *testing.T) {
 	/*
@@ -103,11 +103,11 @@ func TestResourceConversionGraph_WithGAAndPreviewReferences_HasExpectedTransitio
 
 	// Check for expected transition for Person2020
 	after2020 := graph.LookupTransition(person2020)
-	g.Expect(after2020).NotTo(Equal(astmodel.EmptyTypeName))
+	g.Expect(after2020).NotTo(BeNil())
 
 	// Check for expected transition for Person2021Preview
 	after2021p := graph.LookupTransition(person2021p)
-	g.Expect(after2021p).NotTo(Equal(astmodel.EmptyTypeName))
+	g.Expect(after2021p).NotTo(BeNil())
 
 	// Check for expected transition for the storage variant of Person2021Preview - it goes BACK to Person2020
 	ref := graph.LookupTransition(after2021p)
