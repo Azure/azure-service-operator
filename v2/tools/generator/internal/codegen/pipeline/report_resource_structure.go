@@ -47,8 +47,8 @@ func NewResourceStructureReport(defs astmodel.TypeDefinitionSet) *ResourceStruct
 // SaveReports writes the reports to the specified files
 func (report *ResourceStructureReport) SaveReports(baseFolder string) error {
 	for pkg, defs := range report.lists {
-		filePath := report.getFilePath(baseFolder, pkg)
-		err := report.saveReport(filePath, defs)
+		folder := filepath.Join(baseFolder, pkg.FolderPath(), "structure.txt")
+		err := report.saveReport(folder, defs)
 		if err != nil {
 			return err
 		}
@@ -68,11 +68,6 @@ func (report *ResourceStructureReport) summarize(definitions astmodel.TypeDefini
 
 		report.lists[pkg].Add(def)
 	}
-}
-
-func (report *ResourceStructureReport) getFilePath(baseFolder string, pkg astmodel.PackageReference) string {
-	grp, ver := pkg.GroupVersion()
-	return filepath.Join(baseFolder, grp, ver, "structure.txt")
 }
 
 func (report *ResourceStructureReport) saveReport(filePath string, defs astmodel.TypeDefinitionSet) error {

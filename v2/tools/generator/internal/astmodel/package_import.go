@@ -7,7 +7,6 @@ package astmodel
 
 import (
 	"fmt"
-
 	"github.com/dave/dst"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
@@ -42,7 +41,7 @@ func (pi PackageImport) AsImportSpec() *dst.ImportSpec {
 
 	return &dst.ImportSpec{
 		Name: name,
-		Path: astbuilder.StringLiteral(pi.packageReference.PackagePath()),
+		Path: astbuilder.StringLiteral(pi.packageReference.ImportPath()),
 	}
 }
 

@@ -194,7 +194,7 @@ func (report *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinit
 }
 
 func (report *ResourceVersionsReport) addItem(item ResourceVersionsReportResourceItem) {
-	grp, _ := item.name.PackageReference().GroupVersion()
+	grp := item.name.PackageReference().Group()
 	report.groups.Add(grp)
 
 	items, ok := report.items[grp]
@@ -495,7 +495,7 @@ func (report *ResourceVersionsReport) createTable(
 		}
 
 		// Reversed parameters because we want more recent versions listed first
-		return astmodel.ComparePathAndVersion(right.PackageReference().PackagePath(), left.PackageReference().PackagePath())
+		return astmodel.ComparePathAndVersion(right.PackageReference().ImportPath(), left.PackageReference().ImportPath())
 	})
 
 	sampleLinks, err := report.FindSampleLinks(info.Group)

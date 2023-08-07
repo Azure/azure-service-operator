@@ -249,7 +249,7 @@ func (omc *ObjectModelConfiguration) visitGroups(visitor *configurationVisitor) 
 
 // findGroup uses the provided TypeName to work out which nested GroupConfiguration should be used
 func (omc *ObjectModelConfiguration) findGroup(ref astmodel.PackageReference) (*GroupConfiguration, error) {
-	group, _ := ref.GroupVersion()
+	group := ref.Group()
 
 	if omc == nil || omc.groups == nil {
 		msg := fmt.Sprintf("no configuration for group %s", group)
@@ -318,7 +318,7 @@ func (omc *ObjectModelConfiguration) ModifyGroup(
 	ref astmodel.PackageReference,
 	action func(configuration *GroupConfiguration) error,
 ) error {
-	groupName, _ := ref.GroupVersion()
+	groupName := ref.Group()
 	grp, err := omc.findGroup(ref)
 	if err != nil && !IsNotConfiguredError(err) {
 		return errors.Wrapf(err, "configuring groupName %s", groupName)

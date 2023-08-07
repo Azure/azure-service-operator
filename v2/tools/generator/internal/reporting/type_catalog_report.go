@@ -532,7 +532,7 @@ func (tcr *TypeCatalogReport) findPackages() []astmodel.PackageReference {
 
 	result := packages.AsSortedSlice(
 		func(left astmodel.PackageReference, right astmodel.PackageReference) bool {
-			return astmodel.ComparePathAndVersion(left.PackagePath(), right.PackagePath())
+			return astmodel.ComparePathAndVersion(left.ImportPath(), right.ImportPath())
 		})
 
 	return result

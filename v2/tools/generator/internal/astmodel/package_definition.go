@@ -8,7 +8,7 @@ package astmodel
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"strings"
 	"text/template"
@@ -20,14 +20,20 @@ import (
 
 // PackageDefinition is the definition of a package
 type PackageDefinition struct {
-	GroupName   string
-	PackageName string
-	definitions TypeDefinitionSet
+	PackageName string            // Name  of the package
+	GroupName   string            // Group to which the package belongs
+	Path        string            // relative Path to the package
+	definitions TypeDefinitionSet // set of definitions in this package
 }
 
 // NewPackageDefinition constructs a new package definition
-func NewPackageDefinition(groupName string, packageName string) *PackageDefinition {
-	return &PackageDefinition{groupName, packageName, make(TypeDefinitionSet)}
+func NewPackageDefinition(ref PackageReference) *PackageDefinition {
+	return &PackageDefinition{
+		PackageName: ref.PackageName(),
+		GroupName:   ref.Group(),
+		Path:        ref.FolderPath(),
+		definitions: make(TypeDefinitionSet),
+	}
 }
 
 func (p *PackageDefinition) Definitions() TypeDefinitionSet {
@@ -266,7 +272,7 @@ func emitTemplateFile(pkgDef *PackageDefinition, template *template.Template, fi
 		return err
 	}
 
-	err = ioutil.WriteFile(fileRef, buf.Bytes(), 0o600)
+	err = os.WriteFile(fileRef, buf.Bytes(), 0o600)
 	if err != nil {
 		return errors.Wrapf(err, "error writing file %q", fileRef)
 	}

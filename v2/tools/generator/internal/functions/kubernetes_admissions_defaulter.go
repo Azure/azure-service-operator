@@ -46,34 +46,34 @@ func (d *DefaulterBuilder) AddDefault(f *ResourceFunction) {
 // as well as helper functions that allow additional handcrafted defaults to be injected by
 // implementing the genruntime.Defaulter interface.
 func (d *DefaulterBuilder) ToInterfaceImplementation() *astmodel.InterfaceImplementation {
-	group, version := d.resourceName.PackageReference().GroupVersion()
+	grp, ver := d.resourceName.PackageReference().GroupVersion()
 
-	// e.g. group = "microsoft.network.azure.com"
+	// e.g. grp = "microsoft.network.azure.com"
 	// e.g. resource = "backendaddresspools"
-	// e.g. version = "v1"
+	// e.g. ver = "v1"
 
 	resource := d.resourceName.Name()
 
-	group = strings.ToLower(group + astmodel.GroupSuffix)
+	grp = strings.ToLower(grp + astmodel.GroupSuffix)
 	nonPluralResource := strings.ToLower(resource)
 	resource = strings.ToLower(d.resourceName.Plural().Name())
 
 	// e.g. "mutate-microsoft-network-azure-com-v1-backendaddresspool"
 	// note that this must match _exactly_ how controller-runtime generates the path
 	// or it will not work!
-	path := fmt.Sprintf("/mutate-%s-%s-%s", strings.ReplaceAll(group, ".", "-"), version, nonPluralResource)
+	path := fmt.Sprintf("/mutate-%s-%s-%s", strings.ReplaceAll(grp, ".", "-"), ver, nonPluralResource)
 
 	// e.g.  "default.v123.backendaddresspool.azure.com"
-	name := fmt.Sprintf("default.%s.%s.%s", version, resource, group)
+	name := fmt.Sprintf("default.%s.%s.%s", ver, resource, grp)
 
 	annotation := fmt.Sprintf(
 		"+kubebuilder:webhook:path=%s,mutating=true,sideEffects=None,"+
 			"matchPolicy=Exact,failurePolicy=fail,groups=%s,resources=%s,"+
 			"verbs=create;update,versions=%s,name=%s,admissionReviewVersions=v1",
 		path,
-		group,
+		grp,
 		resource,
-		version,
+		ver,
 		name)
 
 	funcs := []astmodel.Function{

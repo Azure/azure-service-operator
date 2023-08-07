@@ -44,8 +44,8 @@ func MarkLatestResourceVersionsForStorage(definitions astmodel.TypeDefinitionSet
 			allVersionsOfResource := resourceLookup[unversionedName]
 			latestVersionOfResource := allVersionsOfResource[len(allVersionsOfResource)-1]
 
-			thisPackagePath := def.Name().PackageReference().PackagePath()
-			latestPackagePath := latestVersionOfResource.Name().PackageReference().PackagePath()
+			thisPackagePath := def.Name().PackageReference().ImportPath()
+			latestPackagePath := latestVersionOfResource.Name().PackageReference().ImportPath()
 
 			// mark as storage version if it's the latest version
 			isLatestVersion := thisPackagePath == latestPackagePath
@@ -81,8 +81,8 @@ func groupResourcesByVersion(definitions astmodel.TypeDefinitionSet) map[unversi
 	for _, slice := range result {
 		sort.Slice(slice, func(i, j int) bool {
 			return astmodel.ComparePathAndVersion(
-				slice[i].Name().PackageReference().PackagePath(),
-				slice[j].Name().PackageReference().PackagePath())
+				slice[i].Name().PackageReference().ImportPath(),
+				slice[j].Name().PackageReference().ImportPath())
 		})
 	}
 
@@ -91,7 +91,7 @@ func groupResourcesByVersion(definitions astmodel.TypeDefinitionSet) map[unversi
 
 func getUnversionedName(name astmodel.TypeName) unversionedName {
 	ref := name.PackageReference()
-	group, _ := ref.GroupVersion()
+	group := ref.Group()
 	return unversionedName{group, name.Name()}
 }
 

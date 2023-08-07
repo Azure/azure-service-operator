@@ -11,8 +11,7 @@ import (
 
 func CreateFileDefinition(definitions ...astmodel.TypeDefinition) *astmodel.FileDefinition {
 	ref := definitions[0].Name().PackageReference()
-	group, version := ref.GroupVersion()
-	pkgDefinition := astmodel.NewPackageDefinition(group, version)
+	pkgDefinition := astmodel.NewPackageDefinition(ref)
 	for _, def := range definitions {
 		pkgDefinition.AddDefinition(def)
 	}
@@ -31,8 +30,7 @@ func CreateTestFileDefinition(definitions ...astmodel.TypeDefinition) *astmodel.
 	// Use the package reference of the first definition for the whole file
 	ref := definitions[0].Name().PackageReference()
 
-	group, version := ref.GroupVersion()
-	pkgDefinition := astmodel.NewPackageDefinition(group, version)
+	pkgDefinition := astmodel.NewPackageDefinition(ref)
 	for _, def := range definitions {
 		pkgDefinition.AddDefinition(def)
 	}

@@ -23,7 +23,7 @@ type ConversionGraph struct {
 // Returns the next version and true if it's found, or an empty type name and false if not.
 func (graph *ConversionGraph) LookupTransition(name astmodel.TypeName) astmodel.TypeName {
 	// Expect to get either a local or a storage reference, not an external one
-	group, _ := name.PackageReference().GroupVersion()
+	group := name.PackageReference().Group()
 	subgraph, ok := graph.subGraphs[group]
 	if !ok {
 		return nil
@@ -39,7 +39,7 @@ func (graph *ConversionGraph) LookupTransition(name astmodel.TypeName) astmodel.
 // This is used to identify the next type needed for property assignment functions, and is a building block for
 // identification of hub definitions.
 func (graph *ConversionGraph) FindNextType(name astmodel.TypeName, definitions astmodel.TypeDefinitionSet) (astmodel.TypeName, error) {
-	group, _ := name.PackageReference().GroupVersion()
+	group := name.PackageReference().Group()
 	subgraph, ok := graph.subGraphs[group]
 	if !ok {
 		return nil, nil
@@ -74,7 +74,9 @@ func (graph *ConversionGraph) FindNextType(name astmodel.TypeName, definitions a
 	// Now we need to return the earlier type. We can do this by comparing the package paths.
 	// (this be needed if a different type is introduced with the same name in a later version, or if a type is
 	// renamed in one version and renamed back in a later one)
-	if astmodel.ComparePathAndVersion(nextType.PackageReference().PackagePath(), renamedType.PackageReference().PackagePath()) {
+	if astmodel.ComparePathAndVersion(
+		nextType.PackageReference().ImportPath(),
+		renamedType.PackageReference().ImportPath()) {
 		// nextType came first
 		return nextType, nil
 	}
