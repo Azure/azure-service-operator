@@ -11,6 +11,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/pkg/errors"
 	"golang.org/x/exp/slices"
@@ -125,6 +126,8 @@ func (*ResourceImportResult) writeTo(resources []genruntime.MetaObject, destinat
 			return errors.Wrap(err, "unable to save to writer")
 		}
 
+		data = redactStatus(data)
+
 		_, err = buf.Write(data)
 		if err != nil {
 			return errors.Wrap(err, "unable to save to writer")
@@ -137,4 +140,14 @@ func (*ResourceImportResult) writeTo(resources []genruntime.MetaObject, destinat
 	}
 
 	return nil
+}
+
+// redactStatus removes any empty `status { }` blocks from the yaml.
+// If we start redacting other things, we should rename this method
+// and possibly consider using a more general purpose technique,
+// such as a yaml parser.
+func redactStatus(data []byte) []byte {
+	content := string(data)
+	content = strings.Replace(content, "status: {}", "", -1)
+	return []byte(content)
 }

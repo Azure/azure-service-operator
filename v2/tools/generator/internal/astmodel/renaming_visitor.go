@@ -54,8 +54,7 @@ func (r *RenamingVisitor) updateTypeName(this *TypeVisitor, it TypeName, ctx int
 func (r *RenamingVisitor) updateResourceOwner(this *TypeVisitor, it *ResourceType, ctx interface{}) (Type, error) {
 	if it.Owner() != nil {
 		// TODO: Should this actually happen in TypeVisitor itself?
-		newOwner := r.f(*it.Owner())
-		it = it.WithOwner(&newOwner)
+		it = it.WithOwner(r.f(it.Owner()))
 	}
 	return IdentityVisitOfResourceType(this, it, ctx)
 }

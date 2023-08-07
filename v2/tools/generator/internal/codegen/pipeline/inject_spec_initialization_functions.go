@@ -146,7 +146,7 @@ func (s *specInitializationScanner) findResources() (astmodel.TypeDefinitionSet,
 	result := make(astmodel.TypeDefinitionSet, capacity)
 	for _, def := range astmodel.FindResourceDefinitions(s.defs) {
 		// Skip storage types, only need spec initialization on API resources
-		if astmodel.IsStoragePackageReference(def.Name().PackageReference) {
+		if astmodel.IsStoragePackageReference(def.Name().PackageReference()) {
 			continue
 		}
 

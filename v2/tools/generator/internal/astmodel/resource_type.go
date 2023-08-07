@@ -37,7 +37,7 @@ type ResourceType struct {
 	spec                Type
 	status              Type
 	isStorageVersion    bool
-	owner               *TypeName
+	owner               TypeName
 	properties          PropertySet
 	functions           map[string]Function
 	testcases           map[string]TestCase
@@ -177,7 +177,7 @@ func (resource *ResourceType) WithSpec(specType Type) *ResourceType {
 	}
 
 	if specResource, ok := specType.(*ResourceType); ok {
-		// type is a resource, take its SpecType instead
+		// type is a resource, take its SpecType instead,
 		// so we don't nest resources
 		return resource.WithSpec(specResource.SpecType())
 	}
@@ -434,7 +434,7 @@ func (resource *ResourceType) ARMType() string {
 }
 
 func (resource *ResourceType) HasAPIVersion() bool {
-	return !resource.apiVersionTypeName.IsEmpty()
+	return resource.apiVersionTypeName != nil
 }
 
 // APIVersionTypeName returns the type name of the API version
@@ -494,7 +494,7 @@ func (resource *ResourceType) References() TypeNameSet {
 }
 
 // Owner returns the name of the owner type
-func (resource *ResourceType) Owner() *TypeName {
+func (resource *ResourceType) Owner() TypeName {
 	return resource.owner
 }
 
@@ -506,7 +506,7 @@ func (resource *ResourceType) MarkAsStorageVersion() *ResourceType {
 }
 
 // WithOwner updates the owner of the resource and returns a copy of the resource
-func (resource *ResourceType) WithOwner(owner *TypeName) *ResourceType {
+func (resource *ResourceType) WithOwner(owner TypeName) *ResourceType {
 	result := resource.copy()
 	result.owner = owner
 	return result
@@ -579,14 +579,14 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 
 	// Add required RBAC annotations, only on storage version
 	if resource.isStorageVersion {
-		group, _ := declContext.Name.PackageReference.GroupVersion()
+		group := declContext.Name.PackageReference().Group()
 		group = strings.ToLower(group + GroupSuffix)
 		resourceName := strings.ToLower(declContext.Name.Plural().Name())
 
 		astbuilder.AddComment(&comments, fmt.Sprintf("// +kubebuilder:rbac:groups=%s,resources=%s,verbs=get;list;watch;create;update;patch;delete", group, resourceName))
 		astbuilder.AddComment(&comments, fmt.Sprintf("// +kubebuilder:rbac:groups=%s,resources={%s/status,%s/finalizers},verbs=get;update;patch", group, resourceName, resourceName))
 
-		// This newline is REQUIRED for controller-gen to realize these comments are here. Without it they are silently ignored, see:
+		// This newline is REQUIRED for controller-gen to realize these comments are here. Without it, they are silently ignored, see:
 		// https://github.com/kubernetes-sigs/controller-tools/issues/436
 		comments = append(comments, "\n")
 	}
@@ -642,7 +642,7 @@ func (resource *ResourceType) generateMethodDecls(codeGenerationContext *CodeGen
 
 func (resource *ResourceType) makeResourceListTypeName(name TypeName) TypeName {
 	return MakeTypeName(
-		name.PackageReference,
+		name.PackageReference(),
 		name.Name()+"List")
 }
 
@@ -740,9 +740,9 @@ func (resource *ResourceType) HasTestCases() bool {
 	return len(resource.testcases) > 0
 }
 
-// WriteDebugDescription adds a description of the current type to the passed builder
-// builder receives the full description, including nested types
-// definitions is a dictionary for resolving named types
+// WriteDebugDescription adds a description of the current type to the passed builder.
+// builder receives the full description, including nested types.
+// definitions is a dictionary for resolving named types.
 func (resource *ResourceType) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {
 	if resource == nil {
 		builder.WriteString("<nilResource>")

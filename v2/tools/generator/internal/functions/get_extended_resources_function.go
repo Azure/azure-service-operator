@@ -41,10 +41,10 @@ func NewGetExtendedResourcesFunction(idFactory astmodel.IdentifierFactory, resou
 func getPackageRefs(resources []astmodel.TypeName) []astmodel.PackageReference {
 	packageRefs := make([]astmodel.PackageReference, 0, len(resources)+1)
 	// Package reference for return type
-	packageRefs = append(packageRefs, astmodel.KubernetesResourceType.PackageReference)
+	packageRefs = append(packageRefs, astmodel.KubernetesResourceType.PackageReference())
 
 	for _, typeDef := range resources {
-		packageRefs = append(packageRefs, typeDef.PackageReference)
+		packageRefs = append(packageRefs, typeDef.PackageReference())
 	}
 
 	return packageRefs
@@ -56,8 +56,8 @@ func sortResources(resources []astmodel.TypeName) []astmodel.TypeName {
 		iVal := resources[i]
 		jVal := resources[j]
 
-		return iVal.PackageReference.PackageName() < jVal.PackageReference.PackageName() ||
-			iVal.PackageReference.PackageName() < jVal.PackageReference.PackageName() && iVal.Name() < jVal.Name()
+		return iVal.PackageReference().PackageName() < jVal.PackageReference().PackageName() ||
+			iVal.PackageReference().PackageName() < jVal.PackageReference().PackageName() && iVal.Name() < jVal.Name()
 	})
 
 	return resources

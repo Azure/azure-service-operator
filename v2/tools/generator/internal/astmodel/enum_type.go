@@ -122,7 +122,7 @@ func (enum *EnumType) createBaseDeclaration(
 
 func (enum *EnumType) createValueDeclaration(name TypeName, value EnumValue) dst.Spec {
 	valueSpec := &dst.ValueSpec{
-		Names: []*dst.Ident{dst.NewIdent(GetEnumValueId(name.name, value))},
+		Names: []*dst.Ident{dst.NewIdent(GetEnumValueId(name.Name(), value))},
 		Values: []dst.Expr{
 			astbuilder.CallFunc(name.Name(), astbuilder.TextLiteral(value.Value)),
 		},
@@ -228,7 +228,7 @@ func (enum *EnumType) String() string {
 // WriteDebugDescription adds a description of the current enum type, including option names, to the
 // passed builder.
 // builder receives the full description.
-// definitions is for resolving named types.
+// currentPackage is the package that the enum is being written into.
 func (enum *EnumType) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {
 	if enum == nil {
 		builder.WriteString("<nilEnum>")

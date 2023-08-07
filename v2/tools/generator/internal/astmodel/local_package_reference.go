@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"fmt"
+	"path"
 	"strings"
 	"unicode"
 )
@@ -65,6 +66,16 @@ func (pr LocalPackageReference) PackageName() string {
 func (pr LocalPackageReference) PackagePath() string {
 	url := pr.localPathPrefix + "/" + pr.group + "/" + pr.PackageName()
 	return url
+}
+
+// ImportPath returns the path to use when importing this package
+func (pr LocalPackageReference) ImportPath() string {
+	return path.Join(pr.localPathPrefix, pr.group, pr.version)
+}
+
+// FolderPath returns the relative path to this package on disk.
+func (pr LocalPackageReference) FolderPath() string {
+	return path.Join(pr.group, pr.version)
 }
 
 // Equals returns true if the passed package reference references the same package, false otherwise

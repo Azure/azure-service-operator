@@ -43,8 +43,8 @@ func (b *GroupConversionGraphBuilder) Add(names ...astmodel.TypeName) {
 		subBuilder := b.getSubBuilder(name)
 		subBuilder.Add(name)
 
-		if astmodel.IsStoragePackageReference(name.PackageReference) {
-			b.storagePackages.AddReference(name.PackageReference)
+		if astmodel.IsStoragePackageReference(name.PackageReference()) {
+			b.storagePackages.AddReference(name.PackageReference())
 		}
 	}
 }
@@ -69,7 +69,7 @@ func (b *GroupConversionGraphBuilder) Build() (*GroupConversionGraph, error) {
 	}
 
 	storagePackagesInOrder := b.storagePackages.AsSortedSlice(func(left astmodel.PackageReference, right astmodel.PackageReference) bool {
-		return astmodel.ComparePathAndVersion(left.PackagePath(), right.PackagePath())
+		return astmodel.ComparePathAndVersion(left.ImportPath(), right.ImportPath())
 	})
 
 	result := &GroupConversionGraph{

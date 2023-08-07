@@ -213,7 +213,7 @@ func makeResourceReferenceProperty(
 	_, isMap := astmodel.AsMapType(existing.PropertyType())
 	var referencePropertyName string
 	// This is hacky but works
-	if group, version, ok := typeName.PackageReference.TryGroupVersion(); ok && group == "containerservice" && strings.Contains(version, "20210501") {
+	if group, version, ok := typeName.PackageReference().TryGroupVersion(); ok && group == "containerservice" && strings.Contains(version, "20210501") {
 		referencePropertyName = makeLegacyReferencePropertyName(existing, isSlice, isMap)
 	} else {
 		referencePropertyName = makeReferencePropertyName(existing, isSlice, isMap)

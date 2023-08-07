@@ -81,10 +81,10 @@ func (fn *ResourceConversionFunction) RequiredPackageReferences() *astmodel.Pack
 		astmodel.GitHubErrorsReference,
 		astmodel.ControllerRuntimeConversion,
 		astmodel.FmtReference,
-		fn.hub.PackageReference)
+		fn.hub.PackageReference())
 
 	// Include the package required by the parameter of the property assignment function
-	result.AddReference(fn.propertyFunction.ParameterType().PackageReference)
+	result.AddReference(fn.propertyFunction.ParameterType().PackageReference())
 
 	return result
 }
@@ -150,7 +150,7 @@ func (fn *ResourceConversionFunction) directConversion(
 	receiverName string, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 	fmtPackage := generationContext.MustGetImportedPackageName(astmodel.FmtReference)
 
-	hubGroup, hubVersion := fn.hub.PackageReference.GroupVersion()
+	hubGroup, hubVersion := fn.hub.PackageReference().GroupVersion()
 	localId := fn.localVariableId()
 	localIdent := dst.NewIdent(localId)
 	hubIdent := dst.NewIdent("hub")

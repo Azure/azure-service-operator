@@ -43,14 +43,11 @@ func NewFileDefinition(
 			return iRank < jRank
 		}
 
-		// Case insensitive sort
-		iName := definitions[i].Name().name
-		jName := definitions[j].Name().name
+		// Case-insensitive sort
+		iName := definitions[i].Name().Name()
+		jName := definitions[j].Name().Name()
 
-		iKey := strings.ToLower(iName)
-		jKey := strings.ToLower(jName)
-
-		return iKey < jKey
+		return strings.ToLower(iName) < strings.ToLower(jName)
 	})
 
 	// TODO: check that all definitions are from same package
@@ -64,10 +61,10 @@ func calcRanks(definitions []TypeDefinition) map[TypeName]int {
 
 	// First need a way to identify all the root type definers
 	// These are the ones not referenced by any other in this file
-	nonroots := make(map[TypeName]bool)
+	nonRoots := make(map[TypeName]bool)
 	for _, d := range definitions {
 		for ref := range d.References() {
-			nonroots[ref] = true
+			nonRoots[ref] = true
 		}
 	}
 
@@ -77,7 +74,7 @@ func calcRanks(definitions []TypeDefinition) map[TypeName]int {
 		if _, ok := d.Type().(*ResourceType); ok {
 			// Resources have rank 0
 			ranks[d.Name()] = 0
-		} else if _, ok := nonroots[d.Name()]; !ok {
+		} else if _, ok := nonRoots[d.Name()]; !ok {
 			// Roots have rank 0
 			ranks[d.Name()] = 0
 		}

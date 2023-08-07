@@ -89,7 +89,7 @@ func removeReferencesToTypes(
 }
 
 type visitorCtx struct {
-	typeName *astmodel.TypeName
+	typeName astmodel.TypeName
 }
 
 func makeRemovedTypeVisitor(
@@ -106,13 +106,13 @@ func makeRemovedTypeVisitor(
 			p, err := this.Visit(prop.PropertyType(), ctx)
 			if err != nil {
 				errs = append(errs, err)
-			} else if ctx.typeName == nil || !toRemove.Contains(*ctx.typeName) {
+			} else if ctx.typeName == nil || !toRemove.Contains(ctx.typeName) {
 				newProps = append(newProps, prop.WithType(p))
-			} else if toRemove.Contains(*ctx.typeName) {
+			} else if toRemove.Contains(ctx.typeName) {
 				log.V(1).Info(
 					"Removing reference to empty type",
 					"property", prop.PropertyName(),
-					"referencing", *ctx.typeName)
+					"referencing", ctx.typeName)
 			}
 		})
 
@@ -127,7 +127,7 @@ func makeRemovedTypeVisitor(
 			p, err := this.Visit(prop.PropertyType(), ctx)
 			if err != nil {
 				errs = append(errs, err)
-			} else if ctx.typeName != nil && !toRemove.Contains(*ctx.typeName) {
+			} else if ctx.typeName != nil && !toRemove.Contains(ctx.typeName) {
 				newEmbeddedProps = append(newEmbeddedProps, prop.WithType(p))
 			}
 		}
@@ -154,7 +154,7 @@ func makeRemovedTypeVisitor(
 			if typedCtx.typeName != nil {
 				return nil, errors.Errorf("would've overwritten ctx.typeName %q", typedCtx.typeName)
 			}
-			typedCtx.typeName = &it
+			typedCtx.typeName = it
 		}
 		return astmodel.IdentityVisitOfTypeName(this, it, ctx)
 	}

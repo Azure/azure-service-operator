@@ -84,13 +84,13 @@ func (p *PropertyConverter) useBaseTypeForEnumerations(
 //	o  If a TypeName points into an API package, it is redirected into the appropriate storage package
 //	o  If a TypeName references an enumeration, it is replaced with the underlying type of the enumeration as our
 //	   storage definitions don't use enumerations, they use primitive definitions
-//	o  If a TypeName references an alias for a primitive type (these are used to specify validations), it is replace
+//	o  If a TypeName references an alias for a primitive type (these are used to specify validations), it is replaced
 //	   with the primitive type
 func (p *PropertyConverter) shortCircuitNamesOfSimpleTypes(
 	tv *astmodel.TypeVisitor, tn astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
 
 	// for nonlocal packages, preserve the name as is
-	if astmodel.IsExternalPackageReference(tn.PackageReference) {
+	if astmodel.IsExternalPackageReference(tn.PackageReference()) {
 		return tn, nil
 	}
 
@@ -119,9 +119,9 @@ func (p *PropertyConverter) shortCircuitNamesOfSimpleTypes(
 
 func (_ *PropertyConverter) tryConvertToStoragePackage(name astmodel.TypeName) (astmodel.TypeName, bool) {
 	// Map the type name into our storage package
-	localRef, ok := name.PackageReference.(astmodel.LocalPackageReference)
+	localRef, ok := name.PackageReference().(astmodel.LocalPackageReference)
 	if !ok {
-		return astmodel.EmptyTypeName, false
+		return nil, false
 	}
 
 	storageRef := astmodel.MakeStoragePackageReference(localRef)

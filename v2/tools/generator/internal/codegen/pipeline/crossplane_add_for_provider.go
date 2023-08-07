@@ -94,7 +94,7 @@ func nestType(
 
 	// Copy outer type properties onto new "nesting type" with name nestedTypeName
 	nestedDef := astmodel.MakeTypeDefinition(
-		astmodel.MakeTypeName(outerTypeName.PackageReference, nestedTypeName),
+		astmodel.MakeTypeName(outerTypeName.PackageReference(), nestedTypeName),
 		outerObject)
 	result = append(result, nestedDef)
 

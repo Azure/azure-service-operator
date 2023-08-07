@@ -148,7 +148,7 @@ func (omc *ObjectModelConfiguration) IsGroupConfigured(pkg astmodel.PackageRefer
 // allowing configuration related to the type to be accessed via the new name.
 func (omc *ObjectModelConfiguration) AddTypeAlias(name astmodel.TypeName, alias string) {
 	versionVisitor := newSingleVersionConfigurationVisitor(
-		name.PackageReference,
+		name.PackageReference(),
 		func(configuration *VersionConfiguration) error {
 			return configuration.addTypeAlias(name.Name(), alias)
 		})
@@ -249,7 +249,7 @@ func (omc *ObjectModelConfiguration) visitGroups(visitor *configurationVisitor) 
 
 // findGroup uses the provided TypeName to work out which nested GroupConfiguration should be used
 func (omc *ObjectModelConfiguration) findGroup(ref astmodel.PackageReference) (*GroupConfiguration, error) {
-	group, _ := ref.GroupVersion()
+	group := ref.Group()
 
 	if omc == nil || omc.groups == nil {
 		msg := fmt.Sprintf("no configuration for group %s", group)
@@ -318,7 +318,7 @@ func (omc *ObjectModelConfiguration) ModifyGroup(
 	ref astmodel.PackageReference,
 	action func(configuration *GroupConfiguration) error,
 ) error {
-	groupName, _ := ref.GroupVersion()
+	groupName := ref.Group()
 	grp, err := omc.findGroup(ref)
 	if err != nil && !IsNotConfiguredError(err) {
 		return errors.Wrapf(err, "configuring groupName %s", groupName)
@@ -365,7 +365,7 @@ func (omc *ObjectModelConfiguration) ModifyType(
 	action func(typeConfiguration *TypeConfiguration) error,
 ) error {
 	return omc.ModifyVersion(
-		name.PackageReference,
+		name.PackageReference(),
 		func(versionConfiguration *VersionConfiguration) error {
 			typeName := name.Name()
 			typ, err := versionConfiguration.findType(typeName)

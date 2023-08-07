@@ -51,9 +51,9 @@ func TestRenamingVisitor_RewritesResourceOwner(t *testing.T) {
 	childSpecDef := NewTestObject("ChildSpec")
 	childStatusDef := NewTestObject("ChildStatus")
 	childResource := NewResourceType(childSpecDef.Name(), childStatusDef.Name()).
-		WithOwner(&badName)
+		WithOwner(badName)
 	childDef := MakeTypeDefinition(
-		MakeTypeName(badObject.name.PackageReference, "ChildResource"),
+		MakeTypeName(badObject.name.PackageReference(), "ChildResource"),
 		childResource,
 	)
 
@@ -72,7 +72,7 @@ func TestRenamingVisitor_RewritesResourceOwner(t *testing.T) {
 	expectedChildDef := MakeTypeDefinition(
 		childDef.Name(),
 		NewResourceType(childSpecDef.Name(), childStatusDef.Name()).
-			WithOwner(&expectedRenamedTypeName),
+			WithOwner(expectedRenamedTypeName),
 	)
 	expectedResult := make(TypeDefinitionSet)
 

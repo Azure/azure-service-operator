@@ -23,21 +23,21 @@ func resolveOneOfMemberToObjectType(
 
 	tn, ok := AsTypeName(t)
 	if !ok {
-		return EmptyTypeName,
+		return nil,
 			nil,
 			errors.Errorf("expected oneOf member to be a TypeName, instead was %s", DebugDescription(t))
 	}
 
 	propType, err := definitions.FullyResolve(tn)
 	if err != nil {
-		return EmptyTypeName,
+		return nil,
 			nil,
 			errors.Wrapf(err, "unable to resolve oneOf member type %s", tn)
 	}
 
 	propObjType, ok := AsObjectType(propType)
 	if !ok {
-		return EmptyTypeName,
+		return nil,
 			nil,
 			errors.Errorf("OneOf %s referenced non-object type %s", t, DebugDescription(propType))
 	}

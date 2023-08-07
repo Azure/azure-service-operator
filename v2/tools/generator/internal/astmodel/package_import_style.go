@@ -9,7 +9,10 @@ package astmodel
 type PackageImportStyle string
 
 const (
-	VersionOnly     PackageImportStyle = "VersionOnly"     // Only need the version of the package to be unique
-	GroupOnly       PackageImportStyle = "GroupOnly"       // Only need the group of the package to be unique
-	GroupAndVersion PackageImportStyle = "GroupAndVersion" // Need both group and version of the package to be unique
+	// VersionOnly is used when using just the version of the package is sufficiently unique
+	VersionOnly PackageImportStyle = "VersionOnly"
+	// GroupOnly is used when using just the group of the package sufficiently unique
+	GroupOnly PackageImportStyle = "GroupOnly"
+	// GroupAndVersion is used when both the group and version of the package are required for it to be unique
+	GroupAndVersion PackageImportStyle = "GroupAndVersion"
 )

@@ -36,7 +36,7 @@ func newSinglePropertyConfigurationVisitor(
 	property astmodel.PropertyName,
 	action func(configuration *PropertyConfiguration) error) *configurationVisitor {
 	return &configurationVisitor{
-		ref:            typeName.PackageReference,
+		ref:            typeName.PackageReference(),
 		typeName:       typeName.Name(),
 		property:       &property,
 		handleProperty: action,
@@ -64,7 +64,7 @@ func newSingleTypeConfigurationVisitor(
 	typeName astmodel.TypeName,
 	action func(configuration *TypeConfiguration) error) *configurationVisitor {
 	return &configurationVisitor{
-		ref:        typeName.PackageReference,
+		ref:        typeName.PackageReference(),
 		typeName:   typeName.Name(),
 		handleType: action,
 	}

@@ -308,7 +308,7 @@ func (chain *propertyChain) indexMethodName(
 	idFactory astmodel.IdentifierFactory,
 	resourceTypeName astmodel.TypeName,
 ) string {
-	group, _ := resourceTypeName.PackageReference.GroupVersion()
+	group := resourceTypeName.PackageReference().Group()
 	return fmt.Sprintf("index%s%s%s",
 		idFactory.CreateIdentifier(group, astmodel.Exported),
 		resourceTypeName.Name(),

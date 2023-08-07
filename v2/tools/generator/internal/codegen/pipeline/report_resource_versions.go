@@ -166,7 +166,7 @@ func (report *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinit
 	resources := astmodel.FindResourceDefinitions(definitions)
 	for _, rsrc := range resources {
 		name := rsrc.Name()
-		pkg := name.PackageReference
+		pkg := name.PackageReference()
 
 		defType := astmodel.MustBeResourceType(rsrc.Type())
 		armVersion := strings.Trim(defType.APIVersionEnumValue().Value, "\"")
@@ -194,7 +194,7 @@ func (report *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinit
 }
 
 func (report *ResourceVersionsReport) addItem(item ResourceVersionsReportResourceItem) {
-	grp, _ := item.name.PackageReference.GroupVersion()
+	grp := item.name.PackageReference().Group()
 	report.groups.Add(grp)
 
 	items, ok := report.items[grp]
@@ -417,7 +417,7 @@ func (report *ResourceVersionsReport) isUnreleasedResource(item ResourceVersions
 
 // isDeprecatedResource returns true if the type definition is for a deprecated resource
 func (report *ResourceVersionsReport) isDeprecatedResource(item ResourceVersionsReportResourceItem) bool {
-	_, ver := item.name.PackageReference.GroupVersion()
+	_, ver := item.name.PackageReference().GroupVersion()
 
 	// Handcrafted versions are never deprecated
 	// (reusing the regex from config to ensure consistency)
@@ -495,7 +495,7 @@ func (report *ResourceVersionsReport) createTable(
 		}
 
 		// Reversed parameters because we want more recent versions listed first
-		return astmodel.ComparePathAndVersion(right.PackageReference.PackagePath(), left.PackageReference.PackagePath())
+		return astmodel.ComparePathAndVersion(right.PackageReference().ImportPath(), left.PackageReference().ImportPath())
 	})
 
 	sampleLinks, err := report.FindSampleLinks(info.Group)
@@ -506,7 +506,7 @@ func (report *ResourceVersionsReport) createTable(
 	for _, item := range toIterate {
 		name := item.name
 
-		crdVersion := name.PackageReference.PackageName()
+		crdVersion := name.PackageReference().PackageName()
 		armVersion := item.armVersion
 		if armVersion == "" {
 			armVersion = crdVersion
@@ -610,7 +610,7 @@ func (report *ResourceVersionsReport) resourceDocFile(name astmodel.TypeName) st
 
 func (report *ResourceVersionsReport) expandPlaceholders(template string, rsrc astmodel.TypeName) string {
 	crdKind := rsrc.Name()
-	crdGroup, crdVersion := rsrc.PackageReference.GroupVersion()
+	crdGroup, crdVersion := rsrc.PackageReference().GroupVersion()
 
 	result := template
 	result = strings.Replace(result, "{group}", crdGroup, -1)
@@ -620,7 +620,7 @@ func (report *ResourceVersionsReport) expandPlaceholders(template string, rsrc a
 }
 
 func (report *ResourceVersionsReport) generateSampleLink(name astmodel.TypeName, sampleLinks map[string]string) string {
-	crdVersion := name.PackageReference.PackageName()
+	crdVersion := name.PackageReference().PackageName()
 	key := fmt.Sprintf("%s_%s.yaml", crdVersion, strings.ToLower(name.Name()))
 	sampleLink, ok := sampleLinks[key]
 
@@ -638,7 +638,7 @@ func (report *ResourceVersionsReport) supportedFrom(typeName astmodel.TypeName) 
 		return "" // Leave it blank
 	}
 
-	_, ver := typeName.PackageReference.GroupVersion()
+	_, ver := typeName.PackageReference().GroupVersion()
 
 	// Special case for resources that existed prior to beta.0
 	// the `v1beta` versions of those resources are only available from "beta.0"
