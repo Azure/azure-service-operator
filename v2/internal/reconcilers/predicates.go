@@ -13,7 +13,6 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/internal/util/predicates"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
-	"github.com/Azure/azure-service-operator/v2/pkg/common/reconciler"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -22,7 +21,7 @@ import (
 func ARMReconcilerAnnotationChangedPredicate() predicate.Predicate {
 	return predicates.MakeSelectAnnotationChangedPredicate(
 		map[string]predicates.HasAnnotationChanged{
-			annotations.ReconcilePolicyAnnotation: HasReconcilePolicyAnnotationChanged,
+			annotations.ReconcilePolicy: HasReconcilePolicyAnnotationChanged,
 		})
 }
 
@@ -31,13 +30,13 @@ func ARMReconcilerAnnotationChangedPredicate() predicate.Predicate {
 func ARMPerResourceSecretAnnotationChangedPredicate() predicate.Predicate {
 	return predicates.MakeSelectAnnotationChangedPredicate(
 		map[string]predicates.HasAnnotationChanged{
-			annotations.PerResourceSecretAnnotation: HasAnnotationChanged,
+			annotations.PerResourceSecret: HasAnnotationChanged,
 		})
 }
 
-// GetReconcilePolicy gets the reconcile-policy from the ReconcilePolicyAnnotation
-func GetReconcilePolicy(obj genruntime.MetaObject, log logr.Logger) reconciler.ReconcilePolicy {
-	policyStr := obj.GetAnnotations()[annotations.ReconcilePolicyAnnotation]
+// GetReconcilePolicy gets the reconcile-policy from the ReconcilePolicy
+func GetReconcilePolicy(obj genruntime.MetaObject, log logr.Logger) annotations.ReconcilePolicyValue {
+	policyStr := obj.GetAnnotations()[annotations.ReconcilePolicy]
 	policy, err := ParseReconcilePolicy(policyStr)
 	if err != nil {
 		log.Error(

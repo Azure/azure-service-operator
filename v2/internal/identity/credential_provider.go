@@ -98,7 +98,7 @@ func NewCredentialProvider(
 // If no matching credential can be found, an error is returned.
 func (c *credentialProvider) GetCredential(ctx context.Context, obj genruntime.MetaObject) (*Credential, error) {
 	// Resource annotation
-	cred, err := c.getCredentialFromAnnotation(ctx, obj, annotations.PerResourceSecretAnnotation)
+	cred, err := c.getCredentialFromAnnotation(ctx, obj, annotations.PerResourceSecret)
 	if err != nil {
 		return nil, err
 	}

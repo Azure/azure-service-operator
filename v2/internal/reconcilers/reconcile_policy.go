@@ -11,23 +11,23 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
-	"github.com/Azure/azure-service-operator/v2/pkg/common/reconciler"
+	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 )
 
 // ParseReconcilePolicy parses the provided reconcile policy.
-func ParseReconcilePolicy(policy string) (reconciler.ReconcilePolicy, error) {
+func ParseReconcilePolicy(policy string) (annotations.ReconcilePolicyValue, error) {
 	switch policy {
 	case "":
-		return reconciler.ReconcilePolicyManage, nil
-	case string(reconciler.ReconcilePolicyManage):
-		return reconciler.ReconcilePolicyManage, nil
-	case string(reconciler.ReconcilePolicySkip):
-		return reconciler.ReconcilePolicySkip, nil
-	case string(reconciler.ReconcilePolicyDetachOnDelete):
-		return reconciler.ReconcilePolicyDetachOnDelete, nil
+		return annotations.ReconcilePolicyManage, nil
+	case string(annotations.ReconcilePolicyManage):
+		return annotations.ReconcilePolicyManage, nil
+	case string(annotations.ReconcilePolicySkip):
+		return annotations.ReconcilePolicySkip, nil
+	case string(annotations.ReconcilePolicyDetachOnDelete):
+		return annotations.ReconcilePolicyDetachOnDelete, nil
 	default:
 		// Defaulting to manage.
-		return reconciler.ReconcilePolicyManage, errors.Errorf("%q is not a known reconcile policy", policy)
+		return annotations.ReconcilePolicyManage, errors.Errorf("%q is not a known reconcile policy", policy)
 	}
 }
 
@@ -46,5 +46,5 @@ func HasReconcilePolicyAnnotationChanged(old *string, new *string) bool {
 	// We only care about transitions to or from ReconcilePolicySkip. We don't need to
 	// trigger an event if ReconcilePolicyDetachOnDelete is added or removed, as that annotation
 	// only applies on delete (which we will always run reconcile on).
-	return oldStr == string(reconciler.ReconcilePolicySkip) || newStr == string(reconciler.ReconcilePolicySkip)
+	return oldStr == string(annotations.ReconcilePolicySkip) || newStr == string(annotations.ReconcilePolicySkip)
 }

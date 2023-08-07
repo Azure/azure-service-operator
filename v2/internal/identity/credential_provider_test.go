@@ -103,7 +103,7 @@ func TestCredentialProvider_ResourceScopeCredentialAndNamespaceCredential_Prefer
 	g.Expect(err).ToNot(HaveOccurred())
 
 	rg := newResourceGroup("test-namespace")
-	rg.Annotations = map[string]string{annotations.PerResourceSecretAnnotation: perResourceCredentialName.Name}
+	rg.Annotations = map[string]string{annotations.PerResourceSecret: perResourceCredentialName.Name}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
@@ -128,7 +128,7 @@ func TestCredentialProvider_SecretDoesNotExist_ReturnsError(t *testing.T) {
 	}
 
 	rg := newResourceGroup("test-namespace")
-	rg.Annotations = map[string]string{annotations.PerResourceSecretAnnotation: credentialNamespacedName.Name}
+	rg.Annotations = map[string]string{annotations.PerResourceSecret: credentialNamespacedName.Name}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 

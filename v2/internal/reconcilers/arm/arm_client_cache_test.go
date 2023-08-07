@@ -143,7 +143,7 @@ func Test_ARMClientCache_ReturnsPerResourceScopedClientOverNamespacedClient(t *t
 
 	rg := newResourceGroup("test-namespace")
 	rg.Annotations = map[string]string{
-		annotations.PerResourceSecretAnnotation: perResourceCredentialName.Name,
+		annotations.PerResourceSecret: perResourceCredentialName.Name,
 	}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
@@ -177,7 +177,7 @@ func Test_ARMClientCache_PerResourceSecretInDifferentNamespace_ReturnsError(t *t
 
 	rg := newResourceGroup("test-namespace")
 	rg.Annotations = map[string]string{
-		annotations.PerResourceSecretAnnotation: perResourceCredentialName.String(),
+		annotations.PerResourceSecret: perResourceCredentialName.String(),
 	}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
@@ -204,7 +204,7 @@ func Test_ARMClientCache_ReturnsError_IfSecretNotFound(t *testing.T) {
 
 	rg := newResourceGroup("")
 	rg.Annotations = map[string]string{
-		annotations.PerResourceSecretAnnotation: credentialNamespacedName.Name,
+		annotations.PerResourceSecret: credentialNamespacedName.Name,
 	}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
@@ -237,7 +237,7 @@ func Test_ARMClientCache_ReturnsPerResourceScopedClient(t *testing.T) {
 
 	rg := newResourceGroup("test-namespace")
 	rg.Annotations = map[string]string{
-		annotations.PerResourceSecretAnnotation: credentialNamespacedName.Name,
+		annotations.PerResourceSecret: credentialNamespacedName.Name,
 	}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())

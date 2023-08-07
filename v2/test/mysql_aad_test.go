@@ -214,7 +214,7 @@ func MySQL_AADUser_CRUD(
 	tc.CreateResource(secret)
 
 	old = user.DeepCopy()
-	user.Annotations[annotations.PerResourceSecretAnnotation] = secret.Name
+	user.Annotations[annotations.PerResourceSecret] = secret.Name
 	user.Spec.Privileges = []string{
 		"SHOW DATABASES",
 	}

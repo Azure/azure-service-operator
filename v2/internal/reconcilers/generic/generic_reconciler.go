@@ -334,7 +334,7 @@ func (gr *GenericReconciler) handleSkipReconcile(ctx context.Context, log logr.L
 	reconcilePolicy := reconcilers.GetReconcilePolicy(obj, log) // TODO: Pull this whole method up here
 	log.V(Status).Info(
 		"Skipping creation/update of resource due to policy",
-		annotations.ReconcilePolicyAnnotation, reconcilePolicy)
+		annotations.ReconcilePolicy, reconcilePolicy)
 
 	err := gr.Reconciler.UpdateStatus(ctx, log, gr.Recorder, obj)
 	if err != nil {

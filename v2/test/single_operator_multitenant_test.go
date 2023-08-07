@@ -107,7 +107,7 @@ func Test_Multitenant_SingleOperator_PerResourceCredential(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	acct := newStorageAccount(tc, rg)
-	acct.Annotations = map[string]string{annotations.PerResourceSecretAnnotation: secret.Name}
+	acct.Annotations = map[string]string{annotations.PerResourceSecret: secret.Name}
 
 	// Creating new storage account in with restricted permissions per resource secret should fail.
 	tc.CreateResourceAndWaitForState(acct, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
@@ -115,14 +115,14 @@ func Test_Multitenant_SingleOperator_PerResourceCredential(t *testing.T) {
 
 	// Deleting the per-resource credential annotation would default to applying the global credential with all permissions
 	old := acct.DeepCopy()
-	delete(acct.Annotations, annotations.PerResourceSecretAnnotation)
+	delete(acct.Annotations, annotations.PerResourceSecret)
 	tc.Patch(old, acct)
 
 	tc.Eventually(acct).Should(tc.Match.BeProvisioned(0))
 
 	objKey := client.ObjectKeyFromObject(acct)
 	tc.GetResource(objKey, acct)
-	tc.Expect(acct.Annotations).ToNot(HaveKey(annotations.PerResourceSecretAnnotation))
+	tc.Expect(acct.Annotations).ToNot(HaveKey(annotations.PerResourceSecret))
 
 	resID := genruntime.GetResourceIDOrDefault(acct)
 
