@@ -9,14 +9,17 @@ import (
 	"fmt"
 )
 
-// TypeNameSet stores type names in no particular order without
-// duplicates.
-type TypeNameSet map[TypeName]struct{}
+type TypeNameSet[N comparableTypeName] map[N]struct{}
+
+type comparableTypeName interface {
+	comparable
+	TypeName
+}
 
 // NewTypeNameSet makes a TypeNameSet containing the specified
 // names. If no elements are passed it might be nil.
-func NewTypeNameSet(initial ...TypeName) TypeNameSet {
-	result := make(TypeNameSet)
+func NewTypeNameSet[N comparableTypeName](initial ...N) TypeNameSet[N] {
+	result := make(TypeNameSet[N])
 	for _, name := range initial {
 		result.Add(name)
 	}
@@ -25,13 +28,13 @@ func NewTypeNameSet(initial ...TypeName) TypeNameSet {
 }
 
 // Add includes the passed name in the set
-func (ts TypeNameSet) Add(val TypeName) {
+func (ts TypeNameSet[N]) Add(val N) {
 	ts[val] = struct{}{}
 }
 
 // Contains returns whether this name is in the set. Works for nil
 // sets too.
-func (ts TypeNameSet) Contains(val TypeName) bool {
+func (ts TypeNameSet[N]) Contains(val N) bool {
 	if ts == nil {
 		return false
 	}
@@ -41,7 +44,7 @@ func (ts TypeNameSet) Contains(val TypeName) bool {
 
 // ContainsAll returns whether all the names are in the set. Works for nil
 // sets too.
-func (ts TypeNameSet) ContainsAll(other TypeNameSet) bool {
+func (ts TypeNameSet[N]) ContainsAll(other TypeNameSet[N]) bool {
 	if ts == nil {
 		return false
 	}
@@ -55,7 +58,7 @@ func (ts TypeNameSet) ContainsAll(other TypeNameSet) bool {
 
 // ContainsAny returns whether any item of other is contained in the set. Works for nil
 // sets too.
-func (ts TypeNameSet) ContainsAny(other TypeNameSet) bool {
+func (ts TypeNameSet[N]) ContainsAny(other TypeNameSet[N]) bool {
 	if ts == nil {
 		return false
 	}
@@ -68,11 +71,11 @@ func (ts TypeNameSet) ContainsAny(other TypeNameSet) bool {
 }
 
 // Remove removes the specified item if it is in the set. If it is not in the set this is a no-op.
-func (ts TypeNameSet) Remove(val TypeName) {
+func (ts TypeNameSet[N]) Remove(val N) {
 	delete(ts, val)
 }
 
-func (ts TypeNameSet) Equals(set TypeNameSet) bool {
+func (ts TypeNameSet[N]) Equals(set TypeNameSet[N]) bool {
 	if len(ts) != len(set) {
 		// Different sizes, not equal
 		return false
@@ -89,14 +92,14 @@ func (ts TypeNameSet) Equals(set TypeNameSet) bool {
 }
 
 // AddAll adds the provided TypeNameSet to the set
-func (ts TypeNameSet) AddAll(other TypeNameSet) {
+func (ts TypeNameSet[N]) AddAll(other TypeNameSet[N]) {
 	for val := range other {
 		ts[val] = struct{}{}
 	}
 }
 
 // Single returns the single TypeName in the set. This panics if there is not a single item in the set.
-func (ts TypeNameSet) Single() TypeName {
+func (ts TypeNameSet[N]) Single() TypeName {
 	if len(ts) == 1 {
 		for name := range ts {
 			return name
@@ -106,8 +109,8 @@ func (ts TypeNameSet) Single() TypeName {
 	panic(fmt.Sprintf("Single() cannot be called with %d types in the set", len(ts)))
 }
 
-func (ts TypeNameSet) Copy() TypeNameSet {
-	result := make(TypeNameSet, len(ts))
+func (ts TypeNameSet[N]) Copy() TypeNameSet[N] {
+	result := make(TypeNameSet[N], len(ts))
 	for k := range ts {
 		result.Add(k)
 	}
@@ -116,8 +119,8 @@ func (ts TypeNameSet) Copy() TypeNameSet {
 }
 
 // SetUnion returns a new set with all of the names in s1 or s2.
-func SetUnion(s1, s2 TypeNameSet) TypeNameSet {
-	result := NewTypeNameSet()
+func SetUnion[N comparableTypeName](s1 TypeNameSet[N], s2 TypeNameSet[N]) TypeNameSet[N] {
+	result := NewTypeNameSet[N]()
 	for val := range s1 {
 		result.Add(val)
 	}
