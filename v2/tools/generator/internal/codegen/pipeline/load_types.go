@@ -185,7 +185,7 @@ func generateStatusTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefini
 			// unable to use desiredName
 			newResources.Add(resourceDef)
 		} else {
-			newResources.Add(astmodel.MakeTypeDefinition(resourceName.(astmodel.InternalTypeName), desiredStatusName))
+			newResources.Add(astmodel.MakeTypeDefinition(resourceName, desiredStatusName))
 		}
 	}
 
@@ -221,7 +221,7 @@ func renamed(swaggerTypes jsonast.SwaggerTypes, status bool, suffix string) (ast
 		if err != nil {
 			errs = append(errs, err)
 		} else {
-			resources.Add(astmodel.MakeTypeDefinition(resourceName.(astmodel.InternalTypeName), renamedType))
+			resources.Add(astmodel.MakeTypeDefinition(resourceName, renamedType))
 		}
 	}
 
@@ -269,7 +269,7 @@ func generateSpecTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefiniti
 			if renameErr != nil {
 				panic(renameErr)
 			}
-			newResources.Add(astmodel.MakeTypeDefinition(rName.(astmodel.InternalTypeName), newType))
+			newResources.Add(astmodel.MakeTypeDefinition(rName, newType))
 		}
 
 		rewriter := astmodel.TypeVisitorBuilder{
