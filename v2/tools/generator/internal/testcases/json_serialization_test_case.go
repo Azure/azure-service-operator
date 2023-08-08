@@ -54,9 +54,8 @@ func (o *JSONSerializationTestCase) Name() string {
 }
 
 // References returns the set of types to which this test case refers.
-func (o *JSONSerializationTestCase) References() astmodel.TypeNameSet {
-	result := astmodel.NewTypeNameSet()
-	return result
+func (o *JSONSerializationTestCase) References() astmodel.TypeNameSet[astmodel.TypeName] {
+	return nil
 }
 
 // AsFuncs renders the current test case and supporting methods as Go abstract syntax trees

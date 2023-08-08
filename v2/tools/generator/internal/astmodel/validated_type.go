@@ -192,7 +192,7 @@ func (v *ValidatedType) AsZero(definitions TypeDefinitionSet, ctx *CodeGeneratio
 	return v.element.AsZero(definitions, ctx)
 }
 
-func (v *ValidatedType) References() TypeNameSet {
+func (v *ValidatedType) References() TypeNameSet[TypeName] {
 	return v.element.References()
 }
 

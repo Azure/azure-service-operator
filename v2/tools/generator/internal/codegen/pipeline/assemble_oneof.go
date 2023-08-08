@@ -45,7 +45,7 @@ type oneOfAssembler struct {
 
 	// A set of all the changes we're going to make to TypeDefinitions
 	// We batch these up for processing at the end.
-	updates map[astmodel.TypeName]*astmodel.OneOfType
+	updates map[astmodel.InternalTypeName]*astmodel.OneOfType
 }
 
 // newOneOfAssembler creates a new assembler to build our oneOf types
@@ -60,7 +60,7 @@ func newOneOfAssembler(
 	result := &oneOfAssembler{
 		defs:      defs,
 		idFactory: idFactory,
-		updates:   make(map[astmodel.TypeName]*astmodel.OneOfType, updateSize),
+		updates:   make(map[astmodel.InternalTypeName]*astmodel.OneOfType, updateSize),
 	}
 
 	return result

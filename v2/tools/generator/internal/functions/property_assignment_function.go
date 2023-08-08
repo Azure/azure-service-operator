@@ -85,7 +85,7 @@ func (fn *PropertyAssignmentFunction) RequiredPackageReferences() *astmodel.Pack
 }
 
 // References returns the set of types referenced by this function
-func (fn *PropertyAssignmentFunction) References() astmodel.TypeNameSet {
+func (fn *PropertyAssignmentFunction) References() astmodel.TypeNameSet[astmodel.TypeName] {
 	result := astmodel.NewTypeNameSet(fn.ParameterType())
 	if fn.augmentationInterface != nil {
 		result.Add(fn.augmentationInterface)

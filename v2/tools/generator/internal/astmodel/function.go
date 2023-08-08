@@ -20,7 +20,7 @@ type Function interface {
 	// References returns the set of types to which this function refers.
 	// SHOULD include any types which this function references but its receiver doesn't.
 	// SHOULD NOT include the receiver of this function.
-	References() TypeNameSet
+	References() TypeNameSet[TypeName]
 
 	// AsFunc renders the current instance as a Go abstract syntax tree
 	AsFunc(codeGenerationContext *CodeGenerationContext, receiver TypeName) *dst.FuncDecl

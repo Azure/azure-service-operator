@@ -83,7 +83,7 @@ func (p *PropertyAssignmentTestCase) Name() string {
 }
 
 // References returns the set of types to which this test case refers.
-func (p *PropertyAssignmentTestCase) References() astmodel.TypeNameSet {
+func (p *PropertyAssignmentTestCase) References() astmodel.TypeNameSet[astmodel.TypeName] {
 	return astmodel.NewTypeNameSet(
 		p.subject,
 		p.toFn.ParameterType())

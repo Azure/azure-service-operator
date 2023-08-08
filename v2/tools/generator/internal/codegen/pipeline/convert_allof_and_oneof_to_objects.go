@@ -116,7 +116,7 @@ type synthesizer struct {
 	idFactory       astmodel.IdentifierFactory
 	defs            astmodel.TypeDefinitionSet
 	referenceCounts map[astmodel.TypeName]int
-	activeNames     astmodel.TypeNameSet
+	activeNames     astmodel.TypeNameSet[astmodel.InternalTypeName]
 	updatedDefs     astmodel.TypeDefinitionSet
 }
 
@@ -129,7 +129,7 @@ func newSynthesizer(
 		defs:            defs,
 		idFactory:       idFactory,
 		referenceCounts: countTypeReferences(defs),
-		activeNames:     make(astmodel.TypeNameSet),
+		activeNames:     make(astmodel.TypeNameSet[astmodel.InternalTypeName]),
 		updatedDefs:     make(astmodel.TypeDefinitionSet),
 	}
 }

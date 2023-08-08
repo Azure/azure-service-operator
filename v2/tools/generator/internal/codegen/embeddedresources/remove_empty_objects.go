@@ -37,8 +37,8 @@ func RemoveEmptyObjects(
 func findEmptyObjectTypes(
 	definitions astmodel.TypeDefinitionSet,
 	log logr.Logger,
-) astmodel.TypeNameSet {
-	result := astmodel.NewTypeNameSet()
+) astmodel.TypeNameSet[astmodel.TypeName] {
+	result := astmodel.NewTypeNameSet[astmodel.TypeName]()
 
 	for _, def := range definitions {
 		ot, ok := astmodel.AsObjectType(def.Type())
@@ -67,7 +67,7 @@ func findEmptyObjectTypes(
 
 func removeReferencesToTypes(
 	definitions astmodel.TypeDefinitionSet,
-	toRemove astmodel.TypeNameSet,
+	toRemove astmodel.TypeNameSet[astmodel.TypeName],
 	log logr.Logger,
 ) (astmodel.TypeDefinitionSet, error) {
 	result := make(astmodel.TypeDefinitionSet)
@@ -93,7 +93,7 @@ type visitorCtx struct {
 }
 
 func makeRemovedTypeVisitor(
-	toRemove astmodel.TypeNameSet,
+	toRemove astmodel.TypeNameSet[astmodel.TypeName],
 	log logr.Logger,
 ) astmodel.TypeVisitor {
 	// This is basically copied from IdentityVisitOfObjectType, but since it has/needs a per-property context we can't use that

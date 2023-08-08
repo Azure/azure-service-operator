@@ -26,7 +26,7 @@ type ObjectType struct {
 	testcases  readonly.Map[string, TestCase]
 	InterfaceImplementer
 	isResource bool
-	resources  TypeNameSet
+	resources  TypeNameSet[InternalTypeName]
 }
 
 // for want of a better place for this to live…
@@ -180,7 +180,7 @@ func (objectType *ObjectType) WithResource(resource TypeName) *ObjectType {
 	return result
 }
 
-func (objectType *ObjectType) WithResources(resources TypeNameSet) *ObjectType {
+func (objectType *ObjectType) WithResources(resources TypeNameSet[InternalTypeName]) *ObjectType {
 	if objectType.resources.ContainsAll(resources) {
 		return objectType
 	}
@@ -196,7 +196,7 @@ func (objectType *ObjectType) ClearResources() *ObjectType {
 	}
 
 	result := objectType.copy()
-	result.resources = make(TypeNameSet)
+	result.resources = make(TypeNameSet[InternalTypeName])
 	return result
 }
 
@@ -273,8 +273,8 @@ func (objectType *ObjectType) RequiredPackageReferences() *PackageReferenceSet {
 }
 
 // References returns the set of all the types referred to by any property.
-func (objectType *ObjectType) References() TypeNameSet {
-	results := NewTypeNameSet()
+func (objectType *ObjectType) References() TypeNameSet[TypeName] {
+	results := NewTypeNameSet[TypeName]()
 	objectType.properties.ForEach(func(property *PropertyDefinition) {
 		results.AddAll(property.PropertyType().References())
 	})

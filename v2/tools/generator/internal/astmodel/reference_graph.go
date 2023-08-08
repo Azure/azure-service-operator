@@ -13,15 +13,15 @@ import (
 
 // ReferenceGraph is a graph of references between types
 type ReferenceGraph struct {
-	roots      TypeNameSet
-	references map[TypeName]TypeNameSet
+	roots      TypeNameSet[InternalTypeName]
+	references map[InternalTypeName]TypeNameSet[InternalTypeName]
 }
 
 // CollectARMSpecAndStatusDefinitions returns a TypeNameSet of all of the ARM spec definitions
 // passed in.
-func CollectARMSpecAndStatusDefinitions(definitions TypeDefinitionSet) TypeNameSet {
 	findARMType := func(t Type) (TypeName, error) {
 		name, ok := t.(TypeName)
+func CollectARMSpecAndStatusDefinitions(definitions TypeDefinitionSet) TypeNameSet[InternalTypeName] {
 		if !ok {
 			return nil, errors.Errorf("type was not of type TypeName, instead %T", t)
 		}
@@ -35,7 +35,7 @@ func CollectARMSpecAndStatusDefinitions(definitions TypeDefinitionSet) TypeNameS
 		return armName, nil
 	}
 
-	armSpecAndStatus := NewTypeNameSet()
+	armSpecAndStatus := NewTypeNameSet[InternalTypeName]()
 	resources := FindResourceDefinitions(definitions)
 	for _, def := range resources {
 		resourceType, ok := AsResourceType(def.Type())
@@ -62,7 +62,10 @@ func CollectARMSpecAndStatusDefinitions(definitions TypeDefinitionSet) TypeNameS
 }
 
 // MakeReferenceGraph produces a new ReferenceGraph with the given roots and references
-func MakeReferenceGraph(roots TypeNameSet, references map[TypeName]TypeNameSet) ReferenceGraph {
+func MakeReferenceGraph(
+	roots TypeNameSet[InternalTypeName],
+	references map[InternalTypeName]TypeNameSet[InternalTypeName],
+) ReferenceGraph {
 	return ReferenceGraph{
 		roots:      roots,
 		references: references,
@@ -71,10 +74,21 @@ func MakeReferenceGraph(roots TypeNameSet, references map[TypeName]TypeNameSet) 
 
 // MakeReferenceGraphWithRoots produces a ReferenceGraph with the given roots, and references
 // derived from the provided types collection.
-func MakeReferenceGraphWithRoots(roots TypeNameSet, definitions TypeDefinitionSet) ReferenceGraph {
-	references := make(map[TypeName]TypeNameSet, len(definitions))
+func MakeReferenceGraphWithRoots(
+	roots TypeNameSet[InternalTypeName],
+	definitions TypeDefinitionSet,
+) ReferenceGraph {
+	references := make(map[InternalTypeName]TypeNameSet[InternalTypeName], len(definitions))
 	for _, def := range definitions {
-		references[def.Name()] = def.References()
+		refs := def.References()
+		set := make(TypeNameSet[InternalTypeName], len(refs))
+		for ref := range refs {
+			if itn, ok := ref.(InternalTypeName); ok {
+				set.Add(itn)
+			}
+		}
+
+		references[def.Name()] = set
 	}
 
 	return MakeReferenceGraph(roots, references)

@@ -60,7 +60,7 @@ func (c *ARMConversionFunction) RequiredPackageReferences() *astmodel.PackageRef
 // References returns the set of types to which this function refers.
 // SHOULD include any types which this function references but its receiver doesn't.
 // SHOULD NOT include the receiver of this function.
-func (c *ARMConversionFunction) References() astmodel.TypeNameSet {
+func (c *ARMConversionFunction) References() astmodel.TypeNameSet[astmodel.TypeName] {
 	return c.armType.References()
 }
 

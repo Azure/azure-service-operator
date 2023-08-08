@@ -62,8 +62,8 @@ func (o *OriginalGVKFunction) RequiredPackageReferences() *astmodel.PackageRefer
 }
 
 // References shows that OriginalGVK() references no other generated types
-func (o *OriginalGVKFunction) References() astmodel.TypeNameSet {
-	return astmodel.NewTypeNameSet()
+func (o *OriginalGVKFunction) References() astmodel.TypeNameSet[astmodel.TypeName] {
+	return nil
 }
 
 // AsFunc returns the generated code for the OriginalGVK() function

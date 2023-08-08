@@ -77,8 +77,8 @@ func (ext *GetExtendedResourcesFunction) RequiredPackageReferences() *astmodel.P
 }
 
 // References shows that GetExtendedResources() references other generated types
-func (ext *GetExtendedResourcesFunction) References() astmodel.TypeNameSet {
-	return astmodel.NewTypeNameSet()
+func (ext *GetExtendedResourcesFunction) References() astmodel.TypeNameSet[astmodel.TypeName] {
+	return nil
 }
 
 // AsFunc returns the generated code for the GetExtendedResources() function

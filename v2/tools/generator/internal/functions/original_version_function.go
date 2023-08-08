@@ -44,8 +44,8 @@ func (o *OriginalVersionFunction) RequiredPackageReferences() *astmodel.PackageR
 }
 
 // References shows that OriginalVersion() references no other generated types
-func (o *OriginalVersionFunction) References() astmodel.TypeNameSet {
-	return astmodel.NewTypeNameSet()
+func (o *OriginalVersionFunction) References() astmodel.TypeNameSet[astmodel.TypeName] {
+	return nil
 }
 
 // AsFunc returns the generated code for the OriginalVersion() function

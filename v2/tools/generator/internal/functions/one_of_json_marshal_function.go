@@ -47,7 +47,7 @@ func (f *OneOfJSONMarshalFunction) Equals(other astmodel.Function, overrides ast
 // References returns the set of types to which this function refers.
 // SHOULD include any types which this function references but its receiver doesn't.
 // SHOULD NOT include the receiver of this function.
-func (f *OneOfJSONMarshalFunction) References() astmodel.TypeNameSet {
+func (f *OneOfJSONMarshalFunction) References() astmodel.TypeNameSet[astmodel.TypeName] {
 	return nil
 }
 

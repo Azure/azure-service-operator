@@ -65,8 +65,8 @@ func (i *InterfaceType) Functions() []Function {
 }
 
 // References returns any type referenced by this interface
-func (i *InterfaceType) References() TypeNameSet {
-	result := NewTypeNameSet()
+func (i *InterfaceType) References() TypeNameSet[TypeName] {
+	result := NewTypeNameSet[TypeName]()
 	i.functions.ForEach(
 		func(name string, method Function) {
 			result.AddAll(method.References())

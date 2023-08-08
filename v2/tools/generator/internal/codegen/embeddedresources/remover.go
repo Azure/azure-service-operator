@@ -55,7 +55,7 @@ func (e resourceRemovalVisitorContext) WithName(name astmodel.TypeName) resource
 //     The Routes property is of type RouteTableRoutes  which is a child resource of RouteTable.
 type EmbeddedResourceRemover struct {
 	definitions              astmodel.TypeDefinitionSet
-	resourceToSubresourceMap map[resourceKey]astmodel.TypeNameSet
+	resourceToSubresourceMap map[resourceKey]astmodel.TypeNameSet[astmodel.InternalTypeName]
 	typeSuffix               string
 	typeFlag                 astmodel.TypeFlag
 
@@ -286,8 +286,10 @@ func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(visitor astmodel.T
 	return typeWalker
 }
 
-func findResourceSubResources(definitions astmodel.TypeDefinitionSet) map[resourceKey]astmodel.TypeNameSet {
-	result := make(map[resourceKey]astmodel.TypeNameSet)
+func findResourceSubResources(
+	definitions astmodel.TypeDefinitionSet,
+) map[resourceKey]astmodel.TypeNameSet[astmodel.InternalTypeName] {
+	result := make(map[resourceKey]astmodel.TypeNameSet[astmodel.InternalTypeName])
 
 	resources := astmodel.FindResourceDefinitions(definitions)
 	for _, def := range resources {
@@ -304,9 +306,10 @@ func findResourceSubResources(definitions astmodel.TypeDefinitionSet) map[resour
 		owner := resource.Owner()
 		ownerKey := getResourceKey(owner)
 		if result[ownerKey] == nil {
-			result[ownerKey] = astmodel.NewTypeNameSet()
+			result[ownerKey] = astmodel.NewTypeNameSet(def.Name())
+		} else {
+			result[ownerKey].Add(def.Name())
 		}
-		result[ownerKey].Add(def.Name())
 	}
 
 	return result

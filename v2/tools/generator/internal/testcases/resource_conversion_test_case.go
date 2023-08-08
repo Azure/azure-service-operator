@@ -88,7 +88,7 @@ func (tc *ResourceConversionTestCase) Name() string {
 }
 
 // References returns the set of types to which this test case refers.
-func (tc *ResourceConversionTestCase) References() astmodel.TypeNameSet {
+func (tc *ResourceConversionTestCase) References() astmodel.TypeNameSet[astmodel.TypeName] {
 	return astmodel.NewTypeNameSet(
 		tc.subject,
 		tc.toFn.Hub())

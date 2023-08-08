@@ -164,8 +164,10 @@ var VersionRegex = regexp.MustCompile(`^v\d\d?$`)
 
 // FindHandCraftedTypeNames returns the set of typenames that are hand-crafted.
 // These are identified by having `v<n>` as their version.
-func (omc *ObjectModelConfiguration) FindHandCraftedTypeNames(localPath string) (astmodel.TypeNameSet, error) {
-	result := make(astmodel.TypeNameSet)
+func (omc *ObjectModelConfiguration) FindHandCraftedTypeNames(
+	localPath string,
+) (astmodel.TypeNameSet[astmodel.InternalTypeName], error) {
+	result := make(astmodel.TypeNameSet[astmodel.InternalTypeName])
 	var currentGroup string
 	var currentPackage astmodel.PackageReference
 

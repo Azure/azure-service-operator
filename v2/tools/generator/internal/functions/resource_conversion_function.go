@@ -89,7 +89,7 @@ func (fn *ResourceConversionFunction) RequiredPackageReferences() *astmodel.Pack
 	return result
 }
 
-func (fn *ResourceConversionFunction) References() astmodel.TypeNameSet {
+func (fn *ResourceConversionFunction) References() astmodel.TypeNameSet[astmodel.TypeName] {
 	result := astmodel.NewTypeNameSet(fn.hub, fn.propertyFunction.ParameterType())
 	return result
 }

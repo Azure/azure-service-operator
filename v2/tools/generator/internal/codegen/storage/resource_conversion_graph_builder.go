@@ -17,10 +17,10 @@ import (
 // ResourceConversionGraphBuilder is used to construct a group conversion graph with all the required conversions
 // to/from/between storage variants of the packages
 type ResourceConversionGraphBuilder struct {
-	name          string                                  // Name of the resources needing conversions
-	versionPrefix string                                  // Prefix expected on core LocalPackageReferences
-	references    astmodel.TypeNameSet                    // Set of all Type Names that make up this group
-	links         map[astmodel.TypeName]astmodel.TypeName // A collection of links that make up the graph
+	name          string                                                  // Name of the resources needing conversions
+	versionPrefix string                                                  // Prefix expected on core LocalPackageReferences
+	references    astmodel.TypeNameSet[astmodel.InternalTypeName]         // Set of all Type Names that make up this group
+	links         map[astmodel.InternalTypeName]astmodel.InternalTypeName // A collection of links that make up the graph
 }
 
 // NewResourceConversionGraphBuilder creates a new builder for a specific resource/type
@@ -28,8 +28,8 @@ func NewResourceConversionGraphBuilder(name string, versionPrefix string) *Resou
 	return &ResourceConversionGraphBuilder{
 		name:          name,
 		versionPrefix: versionPrefix,
-		references:    astmodel.NewTypeNameSet(),
-		links:         make(map[astmodel.TypeName]astmodel.TypeName),
+		references:    astmodel.NewTypeNameSet[astmodel.InternalTypeName](),
+		links:         make(map[astmodel.InternalTypeName]astmodel.InternalTypeName),
 	}
 }
 

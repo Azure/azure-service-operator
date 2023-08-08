@@ -66,7 +66,7 @@ func (f *IndexRegistrationFunction) Equals(other astmodel.Function, overrides as
 // References returns the set of types to which this function refers.
 // SHOULD include any types which this function references but its receiver doesn't.
 // SHOULD NOT include the receiver of this function.
-func (f *IndexRegistrationFunction) References() astmodel.TypeNameSet {
+func (f *IndexRegistrationFunction) References() astmodel.TypeNameSet[astmodel.TypeName] {
 	return nil
 }
 

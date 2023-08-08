@@ -51,8 +51,9 @@ func (fn ResourceStatusSetterFunction) RequiredPackageReferences() *astmodel.Pac
 }
 
 // References returns the set of other types required by this function
-func (fn ResourceStatusSetterFunction) References() astmodel.TypeNameSet {
-	return astmodel.NewTypeNameSet(astmodel.ConvertibleStatusInterfaceType)
+func (fn ResourceStatusSetterFunction) References() astmodel.TypeNameSet[astmodel.TypeName] {
+	return astmodel.NewTypeNameSet[astmodel.TypeName](
+		astmodel.ConvertibleStatusInterfaceType)
 }
 
 // AsFunc generates the required function declaration

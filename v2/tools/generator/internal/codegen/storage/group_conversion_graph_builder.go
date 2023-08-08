@@ -50,7 +50,7 @@ func (b *GroupConversionGraphBuilder) Add(names ...astmodel.TypeName) {
 }
 
 // AddAll includes all the supplied types names in the conversion graph
-func (b *GroupConversionGraphBuilder) AddAll(names astmodel.TypeNameSet) {
+func (b *GroupConversionGraphBuilder) AddAll(names astmodel.TypeNameSet[astmodel.InternalTypeName]) {
 	for name := range names {
 		b.Add(name)
 	}

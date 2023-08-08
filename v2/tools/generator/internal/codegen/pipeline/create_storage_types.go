@@ -42,7 +42,7 @@ func CreateStorageTypes() *Stage {
 			// HACK: include the APIVersion in the storage types package.
 			// really we don't want storage types to have API Version at all,
 			// but it's difficult to remove the GetApiVersion() Function at the moment
-			storageAPIVersions := make(astmodel.TypeNameSet)
+			storageAPIVersions := make(astmodel.TypeNameSet[astmodel.InternalTypeName])
 			for _, tdef := range typesToConvert {
 				if rt, ok := astmodel.AsResourceType(tdef.Type()); ok && rt.HasAPIVersion() {
 					storageAPIVersions.Add(rt.APIVersionTypeName())

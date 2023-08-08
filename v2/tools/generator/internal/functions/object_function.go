@@ -18,7 +18,7 @@ type ObjectFunction struct {
 	idFactory        astmodel.IdentifierFactory
 	asFunc           ObjectFunctionHandler
 	requiredPackages *astmodel.PackageReferenceSet
-	referencedTypes  astmodel.TypeNameSet
+	referencedTypes  astmodel.TypeNameSet[astmodel.TypeName]
 }
 
 var _ astmodel.Function = &ObjectFunction{}
@@ -32,7 +32,7 @@ func NewObjectFunction(
 		name:             name,
 		asFunc:           asFunc,
 		requiredPackages: astmodel.NewPackageReferenceSet(),
-		referencedTypes:  astmodel.NewTypeNameSet(),
+		referencedTypes:  astmodel.NewTypeNameSet[astmodel.TypeName](),
 		idFactory:        idFactory,
 	}
 }
@@ -57,7 +57,7 @@ func (fn *ObjectFunction) RequiredPackageReferences() *astmodel.PackageReference
 // References returns the set of types to which this function refers.
 // SHOULD include any types which this function references but its receiver doesn't.
 // SHOULD NOT include the receiver of this function.
-func (fn *ObjectFunction) References() astmodel.TypeNameSet {
+func (fn *ObjectFunction) References() astmodel.TypeNameSet[astmodel.TypeName] {
 	return fn.referencedTypes
 }
 

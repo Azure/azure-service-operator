@@ -55,7 +55,7 @@ func (b *PropertyBagMemberType) RequiredPackageReferences() *astmodel.PackageRef
 }
 
 // References returns the names of all definitions that the element type we wrap references.
-func (b *PropertyBagMemberType) References() astmodel.TypeNameSet {
+func (b *PropertyBagMemberType) References() astmodel.TypeNameSet[astmodel.TypeName] {
 	return b.element.References()
 }
 

@@ -31,7 +31,7 @@ func StripUnreferencedTypeDefinitions() *Stage {
 // referred to by the types in roots, for example types that are
 // generated as a byproduct of an allOf element.
 func StripUnusedDefinitions(
-	roots astmodel.TypeNameSet,
+	roots astmodel.TypeNameSet[astmodel.InternalTypeName],
 	defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 	graph := astmodel.MakeReferenceGraphWithRoots(roots, defs)
 	connectedDefinitions := graph.Connected()

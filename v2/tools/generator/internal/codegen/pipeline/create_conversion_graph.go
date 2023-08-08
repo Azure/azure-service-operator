@@ -28,7 +28,7 @@ func CreateConversionGraph(
 		"Create the graph of conversions between versions of each resource group",
 		func(ctx context.Context, state *State) (*State, error) {
 			// Collect all distinct references
-			allNames := astmodel.NewTypeNameSet()
+			allNames := astmodel.NewTypeNameSet[astmodel.InternalTypeName]()
 			for _, def := range state.Definitions() {
 				if def.Name().IsARMType() {
 					// ARM types don't participate in the conversion graph

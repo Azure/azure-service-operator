@@ -39,7 +39,7 @@ type TypeWalker struct {
 
 type typeWalkerState struct {
 	result     TypeDefinitionSet
-	processing TypeNameSet
+	processing TypeNameSet[InternalTypeName]
 }
 
 // NewTypeWalker returns a TypeWalker.
@@ -77,17 +77,18 @@ func (t *TypeWalker) visitTypeName(this *TypeVisitor, it TypeName, ctx interface
 		return nil, errors.Wrapf(err, "visitTypeName failed for name %q", it)
 	}
 
-	it, ok := visitedTypeName.(TypeName)
+	tn, ok := visitedTypeName.(TypeName)
 	if !ok {
 		panic(fmt.Sprintf("TypeWalker visitor visitTypeName must return a TypeName, instead returned %T", visitedTypeName))
 	}
 
-	if IsExternalPackageReference(it.PackageReference()) {
+	if IsExternalTypeName(tn) {
 		// Non-local type names are fine, we can exit early
-		return it, nil
+		return visitedTypeName, nil
 	}
 
 	def, err := t.allDefinitions.GetDefinition(it)
+	def, err := t.allDefinitions.GetDefinition(tn.(InternalTypeName))
 	if err != nil {
 		return nil, err
 	}
@@ -156,7 +157,7 @@ func (t *TypeWalker) visitObjectType(this *TypeVisitor, it *ObjectType, ctx inte
 func (t *TypeWalker) Walk(def TypeDefinition) (TypeDefinitionSet, error) {
 	t.state = typeWalkerState{
 		result:     make(TypeDefinitionSet),
-		processing: make(TypeNameSet),
+		processing: make(TypeNameSet[InternalTypeName]),
 	}
 
 	// Visit our own name to start the walk.

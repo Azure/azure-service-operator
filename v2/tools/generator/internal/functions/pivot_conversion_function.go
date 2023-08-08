@@ -126,7 +126,7 @@ func (fn *PivotConversionFunction) RequiredPackageReferences() *astmodel.Package
 		fn.parameterType.PackageReference())
 }
 
-func (fn *PivotConversionFunction) References() astmodel.TypeNameSet {
+func (fn *PivotConversionFunction) References() astmodel.TypeNameSet[astmodel.TypeName] {
 	return astmodel.NewTypeNameSet(
 		fn.parameterType)
 }

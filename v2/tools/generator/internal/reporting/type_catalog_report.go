@@ -19,7 +19,7 @@ import (
 type TypeCatalogReport struct {
 	title                  string
 	defs                   astmodel.TypeDefinitionSet
-	inlinedTypes           astmodel.TypeNameSet // Set of types that we inline when generating the report
+	inlinedTypes           astmodel.TypeNameSet[astmodel.InternalTypeName] // Set of types that we inline when generating the report
 	optionIncludeFunctions bool
 	header                 []string
 }
@@ -27,7 +27,7 @@ type TypeCatalogReport struct {
 func NewTypeCatalogReport(defs astmodel.TypeDefinitionSet) *TypeCatalogReport {
 	return &TypeCatalogReport{
 		defs:         defs,
-		inlinedTypes: astmodel.NewTypeNameSet(),
+		inlinedTypes: astmodel.NewTypeNameSet[astmodel.InternalTypeName](),
 	}
 }
 
@@ -82,7 +82,7 @@ func (tcr *TypeCatalogReport) InlineTypes() {
 
 // inlineTypesFrom ensures we will inline any candidate types referenced by the property container
 func (tcr *TypeCatalogReport) inlineTypesFrom(container astmodel.PropertyContainer) {
-	emptySet := astmodel.NewTypeNameSet()
+	emptySet := astmodel.NewTypeNameSet[astmodel.InternalTypeName]()
 	for _, prop := range container.Properties().AsSlice() {
 		// Check to see if this property references a definition that can be inlined
 		if def, ok := tcr.asDefinitionToInline(prop.PropertyType(), emptySet); ok {
@@ -160,7 +160,7 @@ func (tcr *TypeCatalogReport) writeType(
 	rpt *StructureReport,
 	t astmodel.Type,
 	currentPackage astmodel.PackageReference,
-	parentTypes astmodel.TypeNameSet,
+	parentTypes astmodel.TypeNameSet[astmodel.InternalTypeName],
 ) {
 	// Generate a subreport for each kind of type
 	// We switch on exact types because we don't want to accidentally unwrap a detail we need
@@ -200,7 +200,7 @@ func (tcr *TypeCatalogReport) writeResourceType(
 	rpt *StructureReport,
 	resource *astmodel.ResourceType,
 	currentPackage astmodel.PackageReference,
-	parentTypes astmodel.TypeNameSet,
+	parentTypes astmodel.TypeNameSet[astmodel.InternalTypeName],
 ) {
 	// Write the expected owner of the resource, if we have one
 	if owner := resource.Owner(); owner != nil {
@@ -228,7 +228,7 @@ func (tcr *TypeCatalogReport) writeObjectType(
 	rpt *StructureReport,
 	obj *astmodel.ObjectType,
 	currentPackage astmodel.PackageReference,
-	parentTypes astmodel.TypeNameSet,
+	parentTypes astmodel.TypeNameSet[astmodel.InternalTypeName],
 ) {
 	for _, prop := range obj.Properties().AsSlice() {
 		tcr.writeProperty(rpt, prop, currentPackage, parentTypes)
@@ -250,7 +250,7 @@ func (tcr *TypeCatalogReport) writeProperty(
 	rpt *StructureReport,
 	prop *astmodel.PropertyDefinition,
 	currentPackage astmodel.PackageReference,
-	parentTypes astmodel.TypeNameSet,
+	parentTypes astmodel.TypeNameSet[astmodel.InternalTypeName],
 ) {
 	sub := rpt.Addf(
 		"%s: %s",
@@ -275,7 +275,7 @@ func (tcr *TypeCatalogReport) writeInterfaceType(
 	rpt *StructureReport,
 	i *astmodel.InterfaceType,
 	_ astmodel.PackageReference,
-	_ astmodel.TypeNameSet,
+	_ astmodel.TypeNameSet[astmodel.InternalTypeName],
 ) {
 	if tcr.optionIncludeFunctions {
 		for _, fn := range i.Functions() {
@@ -288,7 +288,7 @@ func (tcr *TypeCatalogReport) writeComplexType(
 	rpt *StructureReport,
 	propertyType astmodel.Type,
 	currentPackage astmodel.PackageReference,
-	parentTypes astmodel.TypeNameSet) {
+	parentTypes astmodel.TypeNameSet[astmodel.InternalTypeName]) {
 
 	// If we have a complex type, we may need to write it out in detail
 	switch t := propertyType.(type) {
@@ -308,7 +308,7 @@ func (tcr *TypeCatalogReport) writeErroredType(
 	rpt *StructureReport,
 	et *astmodel.ErroredType,
 	currentPackage astmodel.PackageReference,
-	types astmodel.TypeNameSet,
+	types astmodel.TypeNameSet[astmodel.InternalTypeName],
 ) {
 	for _, err := range et.Errors() {
 		rpt.Addf("Error: %s", err)
@@ -325,7 +325,7 @@ func (tcr *TypeCatalogReport) writeValidatedType(
 	rpt *StructureReport,
 	vt *astmodel.ValidatedType,
 	_ astmodel.PackageReference,
-	_ astmodel.TypeNameSet,
+	_ astmodel.TypeNameSet[astmodel.InternalTypeName],
 ) {
 	for index, rule := range vt.Validations().ToKubeBuilderValidations() {
 		rpt.Addf("Rule %d: %s", index, rule)
@@ -337,7 +337,7 @@ func (tcr *TypeCatalogReport) writeValidatedType(
 // parentTypes is a set of all the types we're already inlining (to avoid infinite recursion).
 func (tcr *TypeCatalogReport) asDefinitionToInline(
 	t astmodel.Type,
-	parentTypes astmodel.TypeNameSet,
+	parentTypes astmodel.TypeNameSet[astmodel.InternalTypeName],
 ) (*astmodel.TypeDefinition, bool) {
 
 	// We can inline a typename if we have a definition for it, and if it's not already inlined
@@ -373,7 +373,7 @@ func (tcr *TypeCatalogReport) asDefinitionToInline(
 func (tcr *TypeCatalogReport) asShortNameForType(
 	t astmodel.Type,
 	currentPackage astmodel.PackageReference,
-	parentTypes astmodel.TypeNameSet,
+	parentTypes astmodel.TypeNameSet[astmodel.InternalTypeName],
 ) string {
 	// We switch on exact types because we don't want to accidentally unwrap a detail we need
 	switch t := t.(type) {
@@ -445,7 +445,7 @@ func (tcr *TypeCatalogReport) writeEnumType(
 	rpt *StructureReport,
 	enum *astmodel.EnumType,
 	currentPackage astmodel.PackageReference,
-	parentTypes astmodel.TypeNameSet,
+	parentTypes astmodel.TypeNameSet[astmodel.InternalTypeName],
 ) {
 	tcr.writeType(rpt, enum.BaseType(), currentPackage, parentTypes)
 	for _, v := range enum.Options() {
@@ -462,7 +462,7 @@ func (tcr *TypeCatalogReport) writeOneOfType(
 	rpt *StructureReport,
 	oneOf *astmodel.OneOfType,
 	currentPackage astmodel.PackageReference,
-	parentTypes astmodel.TypeNameSet,
+	parentTypes astmodel.TypeNameSet[astmodel.InternalTypeName],
 ) {
 	if oneOf.HasDiscriminatorProperty() {
 		rpt.Addf("discriminator: %s", oneOf.DiscriminatorProperty())
@@ -516,7 +516,7 @@ func (tcr *TypeCatalogReport) writeAllOfType(
 	rpt *StructureReport,
 	allOf *astmodel.AllOfType,
 	currentPackage astmodel.PackageReference,
-	parentTypes astmodel.TypeNameSet,
+	parentTypes astmodel.TypeNameSet[astmodel.InternalTypeName],
 ) {
 	allOf.Types().ForEach(func(t astmodel.Type, index int) {
 		sub := rpt.Addf("option %d: %s", index, tcr.asShortNameForType(t, currentPackage, parentTypes))

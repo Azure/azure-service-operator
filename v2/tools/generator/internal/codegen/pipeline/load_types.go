@@ -94,7 +94,7 @@ func LoadTypes(
 
 				scope := categorizeResourceScope(resourceInfo.ARMURI)
 				resourceType = resourceType.WithScope(scope)
-				resourceDefinition := astmodel.MakeTypeDefinition(resourceName.(astmodel.InternalTypeName), resourceType)
+				resourceDefinition := astmodel.MakeTypeDefinition(resourceName, resourceType)
 
 				// document origin of resource
 				sourceFile := strings.TrimPrefix(resourceInfo.SourceFile, config.SchemaRoot)
@@ -412,7 +412,7 @@ func (s typesFromFilesSorter) Less(i, j int) bool { return s.x[i].filePath < s.x
 func mergeTypesForPackage(idFactory astmodel.IdentifierFactory, typesFromFiles []typesFromFile) jsonast.SwaggerTypes {
 	sort.Sort(typesFromFilesSorter{typesFromFiles})
 
-	typeNameCounts := make(map[astmodel.TypeName]int)
+	typeNameCounts := make(map[astmodel.InternalTypeName]int)
 	for _, typesFromFile := range typesFromFiles {
 		for name := range typesFromFile.OtherDefinitions {
 			typeNameCounts[name] += 1
@@ -531,7 +531,7 @@ func generateRenaming(
 	idFactory astmodel.IdentifierFactory,
 	original astmodel.TypeName,
 	filePath string,
-	typeNames map[astmodel.TypeName]int,
+	typeNames map[astmodel.InternalTypeName]int,
 ) astmodel.TypeName {
 	name := filepath.Base(filePath)
 	name = strings.TrimSuffix(name, filepath.Ext(name))

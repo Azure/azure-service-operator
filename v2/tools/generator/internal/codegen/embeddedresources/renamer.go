@@ -19,15 +19,15 @@ type renamer struct {
 }
 
 type renameAction func(
-	original astmodel.TypeName, // Original name of the resource type
-	associatedNames astmodel.TypeNameSet, // all the subresource names that copies have acquired
+	original astmodel.InternalTypeName, // Original name of the resource type
+	associatedNames astmodel.TypeNameSet[astmodel.InternalTypeName], // all the subresource names that copies have acquired
 	originalNames map[astmodel.TypeName]embeddedResourceTypeName, // map from the new names back to the original
 	log logr.Logger, // Log to use for reporting
 ) (astmodel.TypeAssociation, error)
 
 func (r renamer) simplifyEmbeddedNameToOriginalName(
-	original astmodel.TypeName,
-	associatedNames astmodel.TypeNameSet,
+	original astmodel.InternalTypeName,
+	associatedNames astmodel.TypeNameSet[astmodel.InternalTypeName],
 	_ map[astmodel.TypeName]embeddedResourceTypeName,
 	log logr.Logger,
 ) (astmodel.TypeAssociation, error) {
@@ -48,8 +48,8 @@ func (r renamer) simplifyEmbeddedNameToOriginalName(
 }
 
 func (r renamer) simplifyEmbeddedNameRemoveContextAndCount(
-	_ astmodel.TypeName,
-	associatedNames astmodel.TypeNameSet,
+	_ astmodel.InternalTypeName,
+	associatedNames astmodel.TypeNameSet[astmodel.InternalTypeName],
 	originalNames map[astmodel.TypeName]embeddedResourceTypeName,
 	log logr.Logger,
 ) (astmodel.TypeAssociation, error) {
@@ -78,8 +78,8 @@ func (r renamer) simplifyEmbeddedNameRemoveContextAndCount(
 }
 
 func (r renamer) simplifyEmbeddedNameRemoveContext(
-	_ astmodel.TypeName,
-	associatedNames astmodel.TypeNameSet,
+	_ astmodel.InternalTypeName,
+	associatedNames astmodel.TypeNameSet[astmodel.InternalTypeName],
 	originalNames map[astmodel.TypeName]embeddedResourceTypeName,
 	log logr.Logger,
 ) (astmodel.TypeAssociation, error) {
@@ -117,8 +117,8 @@ func (r renamer) simplifyEmbeddedNameRemoveContext(
 }
 
 func (r renamer) simplifyEmbeddedName(
-	_ astmodel.TypeName,
-	associatedNames astmodel.TypeNameSet,
+	_ astmodel.InternalTypeName,
+	associatedNames astmodel.TypeNameSet[astmodel.InternalTypeName],
 	originalNames map[astmodel.TypeName]embeddedResourceTypeName,
 	log logr.Logger,
 ) (astmodel.TypeAssociation, error) {
@@ -180,7 +180,7 @@ func simplifyTypeNames(
 	log logr.Logger,
 ) (astmodel.TypeDefinitionSet, error) {
 	// Find all of the type names that have the flag we're interested in
-	updatedNames := make(map[astmodel.TypeName]astmodel.TypeNameSet)
+	updatedNames := make(map[astmodel.InternalTypeName]astmodel.TypeNameSet[astmodel.InternalTypeName])
 	for _, def := range definitions {
 		if flag.IsOn(def.Type()) {
 			en, ok := originalNames[def.Name()]

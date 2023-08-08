@@ -41,7 +41,7 @@ func (set WritableConversionEndpointSet) addForEachProperty(
 		// This is made up of all regular properties, plus specific kinds of embedded properties
 
 		properties := container.Properties().Copy()
-		typesToCopy := astmodel.NewTypeNameSet(astmodel.ObjectMetaType)
+		typesToCopy := astmodel.NewTypeNameSet[astmodel.TypeName](astmodel.ObjectMetaType)
 		for _, prop := range container.EmbeddedProperties() {
 			name, ok := astmodel.AsTypeName(prop.PropertyType())
 			if !ok {
