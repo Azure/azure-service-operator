@@ -176,3 +176,8 @@ func (tn ExternalTypeName) WriteDebugDescription(builder *strings.Builder, curre
 
 	builder.WriteString(tn.name)
 }
+
+func IsExternalTypeName(t Type) bool {
+	_, ok := t.(ExternalTypeName)
+	return ok
+}
