@@ -96,7 +96,7 @@ func (ft *FlaggedType) RequiredPackageReferences() *PackageReferenceSet {
 
 // References returns the names of all types that this type
 // references.
-func (ft *FlaggedType) References() TypeNameSet {
+func (ft *FlaggedType) References() TypeNameSet[TypeName] {
 	return ft.element.References()
 }
 

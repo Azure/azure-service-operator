@@ -161,8 +161,13 @@ func (objectType *ObjectType) WithIsResource(isResource bool) *ObjectType {
 	return result
 }
 
-func (objectType *ObjectType) Resources() TypeNameSet {
-	return objectType.resources
+func (objectType *ObjectType) Resources() TypeNameSet[InternalTypeName] {
+	var result = make(TypeNameSet[InternalTypeName], len(objectType.resources))
+	for r := range objectType.resources {
+		result.Add(r)
+	}
+
+	return result
 }
 
 func (objectType *ObjectType) WithResource(resource TypeName) *ObjectType {

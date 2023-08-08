@@ -146,7 +146,7 @@ func (optional *OptionalType) RequiredPackageReferences() *PackageReferenceSet {
 }
 
 // References returns the set of types that the underlying type refers to directly.
-func (optional *OptionalType) References() TypeNameSet {
+func (optional *OptionalType) References() TypeNameSet[TypeName] {
 	return optional.element.References()
 }
 

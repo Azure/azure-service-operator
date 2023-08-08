@@ -140,8 +140,8 @@ func (oneOf *OneOfType) WithoutAnyPropertyObjects() *OneOfType {
 }
 
 // References returns any type referenced by the OneOf types
-func (oneOf *OneOfType) References() TypeNameSet {
-	result := NewTypeNameSet()
+func (oneOf *OneOfType) References() TypeNameSet[TypeName] {
+	result := NewTypeNameSet[TypeName]()
 	oneOf.types.ForEach(func(t Type, _ int) {
 		result = SetUnion(result, t.References())
 	})

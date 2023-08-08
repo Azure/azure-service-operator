@@ -44,7 +44,7 @@ func (def TypeDefinition) Description() []string {
 	return result
 }
 
-func (def TypeDefinition) References() TypeNameSet {
+func (def TypeDefinition) References() TypeNameSet[TypeName] {
 	if def.theType == nil {
 		panic(fmt.Sprintf("uh..., %s", def.name))
 	}

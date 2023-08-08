@@ -89,7 +89,7 @@ func (m *MapType) RequiredPackageReferences() *PackageReferenceSet {
 }
 
 // References returns all of the types referenced by either the the key or value types.
-func (m *MapType) References() TypeNameSet {
+func (m *MapType) References() TypeNameSet[TypeName] {
 	return SetUnion(m.key.References(), m.value.References())
 }
 

@@ -112,7 +112,7 @@ func stringSlicesEqual(l, r []string) bool {
 	return true
 }
 
-func (e *ErroredType) References() TypeNameSet {
+func (e *ErroredType) References() TypeNameSet[TypeName] {
 	if e.inner == nil {
 		return nil
 	}

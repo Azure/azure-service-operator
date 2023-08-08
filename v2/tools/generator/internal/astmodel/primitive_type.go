@@ -72,7 +72,7 @@ func (prim *PrimitiveType) AsZero(definitions TypeDefinitionSet, ctx *CodeGenera
 
 // References always returns nil because primitive types don't refer to
 // any other types.
-func (prim *PrimitiveType) References() TypeNameSet {
+func (prim *PrimitiveType) References() TypeNameSet[TypeName] {
 	return nil
 }
 

@@ -20,7 +20,7 @@ type Type interface {
 	// References returns the names of all types that this type
 	// references. For example, an Array of Persons references a
 	// Person.
-	References() TypeNameSet
+	References() TypeNameSet[TypeName]
 
 	// AsType renders as a Go abstract syntax tree for a type
 	// (yes this says dst.Expr but that is what the Go 'dst' package uses for types)

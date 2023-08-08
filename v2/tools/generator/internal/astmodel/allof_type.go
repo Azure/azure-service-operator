@@ -96,8 +96,8 @@ func (allOf *AllOfType) Types() ReadonlyTypeSet {
 }
 
 // References returns any type referenced by the AllOf types
-func (allOf *AllOfType) References() TypeNameSet {
-	result := NewTypeNameSet()
+func (allOf *AllOfType) References() TypeNameSet[TypeName] {
+	result := NewTypeNameSet[TypeName]()
 	allOf.types.ForEach(func(t Type, _ int) {
 		result = SetUnion(result, t.References())
 	})

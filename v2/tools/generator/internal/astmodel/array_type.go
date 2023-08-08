@@ -67,7 +67,7 @@ func (array *ArrayType) RequiredPackageReferences() *PackageReferenceSet {
 }
 
 // References returns the references of the type this array contains.
-func (array *ArrayType) References() TypeNameSet {
+func (array *ArrayType) References() TypeNameSet[TypeName] {
 	return array.element.References()
 }
 

@@ -19,7 +19,7 @@ type TypeName interface {
 	AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []dst.Decl
 	AsType(codeGenerationContext *CodeGenerationContext) dst.Expr
 	AsZero(definitions TypeDefinitionSet, ctx *CodeGenerationContext) dst.Expr
-	References() TypeNameSet
+	References() TypeNameSet[TypeName]
 	RequiredPackageReferences() *PackageReferenceSet
 	Equals(t Type, override EqualityOverrides) bool
 	String() string

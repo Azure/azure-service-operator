@@ -120,8 +120,8 @@ func (tn InternalTypeName) AsZero(definitions TypeDefinitionSet, ctx *CodeGenera
 }
 
 // References returns a set containing this type name.
-func (tn InternalTypeName) References() TypeNameSet {
-	return NewTypeNameSet(tn)
+func (tn InternalTypeName) References() TypeNameSet[TypeName] {
+	return NewTypeNameSet[TypeName](tn)
 }
 
 // RequiredPackageReferences returns all the imports required for this definition

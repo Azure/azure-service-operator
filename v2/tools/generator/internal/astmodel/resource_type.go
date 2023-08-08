@@ -470,10 +470,10 @@ func (resource *ResourceType) HasFunctionWithName(name string) bool {
 }
 
 // References returns the types referenced by Status or Spec parts of the resource
-func (resource *ResourceType) References() TypeNameSet {
+func (resource *ResourceType) References() TypeNameSet[TypeName] {
 	spec := resource.spec.References()
 
-	var status TypeNameSet
+	var status TypeNameSet[TypeName]
 	if resource.status != nil {
 		status = resource.status.References()
 	}

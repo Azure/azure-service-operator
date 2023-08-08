@@ -144,7 +144,7 @@ func (enum *EnumType) AsZero(definitions TypeDefinitionSet, ctx *CodeGenerationC
 }
 
 // References returns any types the underlying type refers to.
-func (enum *EnumType) References() TypeNameSet {
+func (enum *EnumType) References() TypeNameSet[TypeName] {
 	return enum.baseType.References()
 }
 

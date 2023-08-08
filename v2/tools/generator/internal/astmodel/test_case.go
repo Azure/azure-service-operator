@@ -13,7 +13,7 @@ type TestCase interface {
 	Name() string
 
 	// References returns the set of types to which this test case refers.
-	References() TypeNameSet
+	References() TypeNameSet[TypeName]
 
 	// RequiredImports returns a set of the package imports required by this test case
 	RequiredImports() *PackageImportSet
