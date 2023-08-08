@@ -261,7 +261,7 @@ func generateSpecTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefiniti
 
 		otherTypes = newOtherTypes
 
-		// for resources we must only rename the Type not the Name,
+		// for resources, we must only rename the Type not the Name,
 		// since this is used as a lookup:
 		newResources := make(astmodel.TypeDefinitionSet)
 		for rName, rType := range resources {

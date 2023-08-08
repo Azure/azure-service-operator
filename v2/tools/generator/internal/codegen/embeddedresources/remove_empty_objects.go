@@ -154,6 +154,7 @@ func makeRemovedTypeVisitor(
 			if typedCtx.typeName != nil {
 				return nil, errors.Errorf("would've overwritten ctx.typeName %q", typedCtx.typeName)
 			}
+
 			typedCtx.typeName = it
 		}
 		return astmodel.IdentityVisitOfTypeName(this, it, ctx)

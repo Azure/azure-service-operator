@@ -61,7 +61,7 @@ func (o *JSONSerializationTestCase) References() astmodel.TypeNameSet[astmodel.T
 // AsFuncs renders the current test case and supporting methods as Go abstract syntax trees
 // subject is the name of the type under test
 // codeGenerationContext contains reference material to use when generating
-func (o *JSONSerializationTestCase) AsFuncs(name astmodel.TypeName, genContext *astmodel.CodeGenerationContext) []dst.Decl {
+func (o *JSONSerializationTestCase) AsFuncs(_ astmodel.TypeName, genContext *astmodel.CodeGenerationContext) []dst.Decl {
 	properties := o.container.Properties().Copy()
 
 	// Special handling for large objects with more than 50 properties - we skip testing primitive properties

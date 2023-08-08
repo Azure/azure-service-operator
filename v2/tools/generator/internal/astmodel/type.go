@@ -37,13 +37,13 @@ type Type interface {
 	// Equals returns true if the passed type is the same as this one, false otherwise
 	Equals(t Type, overrides EqualityOverrides) bool
 
-	// Make sure all TypeDefinitionSet have a printable version for debugging/user info.
+	// Stringer ensures every Type has a printable version for debugging/user info.
 	// This doesn't need to be a full representation of the type.
 	fmt.Stringer
 
-	// WriteDebugDescription adds a description of the current type to the passed builder
-	// builder receives the full description, including nested types
-	// definitions is a dictionary for resolving named types
+	// WriteDebugDescription adds a description of the current type to the passed builder.
+	// builder receives the full description, including nested types.
+	// definitions is a dictionary for resolving named types.
 	WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference)
 }
 

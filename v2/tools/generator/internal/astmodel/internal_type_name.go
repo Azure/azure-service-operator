@@ -117,7 +117,7 @@ func (tn InternalTypeName) AsZero(definitions TypeDefinitionSet, ctx *CodeGenera
 		}
 	}
 
-	// Otherwise we need the underlying type (e.g. enums, primitive type, etc)
+	// Otherwise we need the underlying type (e.g. enums, primitive type, etc.)
 	return actualType.AsZero(definitions, ctx)
 }
 

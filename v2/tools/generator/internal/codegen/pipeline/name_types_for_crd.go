@@ -16,7 +16,7 @@ import (
 )
 
 // NameTypesForCRD - for CRDs all inner enums and objects and validated types must be named, so we do it here
-func NameTypesForCRD(idFactory astmodel.IdentifierFactory) *Stage {
+func NameTypesForCRD(_ astmodel.IdentifierFactory) *Stage {
 	return NewLegacyStage(
 		"nameTypes",
 		"Name inner types for CRD",

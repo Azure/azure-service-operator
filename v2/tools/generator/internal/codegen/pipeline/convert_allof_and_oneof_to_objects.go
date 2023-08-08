@@ -758,7 +758,7 @@ func (s synthesizer) handleTypeName(leftName astmodel.InternalTypeName, right as
 	}
 
 	// Check to see if we've already redefined this type even though there is only one references
-	//// (this can happen with nesting of typenames and allOfs because we process things interatively pair-by-pair).
+	//// (this can happen with nesting of typenames and allOfs because we process things interactively pair-by-pair).
 	// If we have, we need to merge our new changes with the changes already made.
 	redefined, ok := s.updatedDefs[leftName]
 	for ok {
