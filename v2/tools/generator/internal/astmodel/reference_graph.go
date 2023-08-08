@@ -19,17 +19,17 @@ type ReferenceGraph struct {
 
 // CollectARMSpecAndStatusDefinitions returns a TypeNameSet of all of the ARM spec definitions
 // passed in.
-	findARMType := func(t Type) (TypeName, error) {
-		name, ok := t.(TypeName)
 func CollectARMSpecAndStatusDefinitions(definitions TypeDefinitionSet) TypeNameSet[InternalTypeName] {
+	findARMType := func(t Type) (InternalTypeName, error) {
+		name, ok := t.(InternalTypeName)
 		if !ok {
-			return nil, errors.Errorf("type was not of type TypeName, instead %T", t)
+			return EmptyInternalTypeName, errors.Errorf("type was not of type InternalTypeName, instead %T", t)
 		}
 
 		armName := CreateARMTypeName(name)
 
 		if _, ok = definitions[armName]; !ok {
-			return nil, errors.Errorf("couldn't find ARM type %q", armName)
+			return EmptyInternalTypeName, errors.Errorf("couldn't find ARM type %q", armName)
 		}
 
 		return armName, nil
@@ -124,7 +124,7 @@ func (c ReferenceGraph) Connected() ReachableTypes {
 
 // collectTypes returns the set of types that are reachable from the given
 // 'node' (and places them in 'collected').
-func (c ReferenceGraph) collectTypes(depth int, node TypeName, collected ReachableTypes) {
+func (c ReferenceGraph) collectTypes(depth int, node InternalTypeName, collected ReachableTypes) {
 	if currentDepth, ok := collected[node]; ok {
 		// We can stop here - we've already visited this node.
 		// But first, see if we are at a lower depth:

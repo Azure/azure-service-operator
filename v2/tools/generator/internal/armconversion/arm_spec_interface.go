@@ -60,7 +60,7 @@ func NewARMSpecInterfaceImpl(
 func getNameFunction(
 	fn *functions.ObjectFunction,
 	genContext *astmodel.CodeGenerationContext,
-	receiver astmodel.TypeName,
+	receiver astmodel.InternalTypeName,
 	methodName string,
 ) *dst.FuncDecl {
 	return armSpecInterfaceSimpleGetFunction(

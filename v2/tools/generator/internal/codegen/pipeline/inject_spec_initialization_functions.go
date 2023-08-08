@@ -201,14 +201,19 @@ func (s *specInitializationScanner) visitTypeName(
 		return specName, nil
 	}
 
-	statusName, ok := astmodel.AsTypeName(statusType)
+	statusName, ok := astmodel.AsInternalTypeName(statusType)
 	if !ok {
 		// Don't have a type name, nothing to do
 		return specName, nil
 	}
 
+	sn, ok := astmodel.AsInternalTypeName(specName)
+	if !ok {
+		return specName, nil
+	}
+
 	// Look to see if we have a definition for that spec type (we may not, if it identifies an external type)
-	specDef, ok := s.defs[specName]
+	specDef, ok := s.defs[sn]
 	if !ok {
 		return specName, nil
 	}
@@ -223,12 +228,12 @@ func (s *specInitializationScanner) visitTypeName(
 	// If we already have this specToStatus, we're done (as we've already visited their underlying definitions).
 	// If we have a different specToStatus, we have an error.
 	// If we have no specToStatus, we need to add one.
-	if existing, ok := s.specToStatus[specName]; ok {
+	if existing, ok := s.specToStatus[sn]; ok {
 		if existing != statusName {
 			return nil, errors.Errorf("found multiple status types %q and %q for spec type %q", existing, statusName, specName)
 		}
 	} else {
-		s.specToStatus[specName] = statusName
+		s.specToStatus[sn] = statusName
 	}
 
 	// Recursively visit the definitions of these types

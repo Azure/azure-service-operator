@@ -59,7 +59,13 @@ func resolveTypeName(visitor *astmodel.TypeVisitor, name astmodel.TypeName, defi
 		return name, nil
 	}
 
-	def, ok := definitions[name]
+	if _, ok := astmodel.AsExternalTypeName(name); ok {
+		// Don't try to remove external refs
+		return name, nil
+	}
+
+	// TODO (theunrepentantgeek): Remove this cast when we change TypeVisitor to return work with InternalTypeName
+	def, ok := definitions[name.(astmodel.InternalTypeName)]
 	if !ok {
 		return nil, errors.Errorf("couldn't find definition for type name %s", name)
 	}

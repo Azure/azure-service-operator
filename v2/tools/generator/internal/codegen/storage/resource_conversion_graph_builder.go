@@ -34,7 +34,7 @@ func NewResourceConversionGraphBuilder(name string, versionPrefix string) *Resou
 }
 
 // Add includes the supplied package reference(s) in the conversion graph for this group
-func (b *ResourceConversionGraphBuilder) Add(names ...astmodel.TypeName) {
+func (b *ResourceConversionGraphBuilder) Add(names ...astmodel.InternalTypeName) {
 	for _, name := range names {
 		b.references.Add(name)
 	}
@@ -42,14 +42,14 @@ func (b *ResourceConversionGraphBuilder) Add(names ...astmodel.TypeName) {
 
 // Build connects all the provided API definitions together into a single conversion graph
 func (b *ResourceConversionGraphBuilder) Build() (*ResourceConversionGraph, error) {
-	stages := []func([]astmodel.TypeName){
+	stages := []func([]astmodel.InternalTypeName){
 		b.apiReferencesConvertToStorage,
 		b.compatibilityReferencesConvertForward,
 		b.previewReferencesConvertBackward,
 		b.nonPreviewReferencesConvertForward,
 	}
 
-	toProcess := make([]astmodel.TypeName, 0, len(b.references))
+	toProcess := make([]astmodel.InternalTypeName, 0, len(b.references))
 	for name := range b.references {
 		toProcess = append(toProcess, name)
 	}
@@ -82,7 +82,7 @@ func (b *ResourceConversionGraphBuilder) Build() (*ResourceConversionGraph, erro
 }
 
 // compatibilityReferencesConvertForward links any compatibility references forward to the following version
-func (b *ResourceConversionGraphBuilder) compatibilityReferencesConvertForward(names []astmodel.TypeName) {
+func (b *ResourceConversionGraphBuilder) compatibilityReferencesConvertForward(names []astmodel.InternalTypeName) {
 	for i, name := range names {
 		if !b.isCompatibilityPackage(name.PackageReference()) {
 			continue
@@ -95,10 +95,10 @@ func (b *ResourceConversionGraphBuilder) compatibilityReferencesConvertForward(n
 }
 
 // apiReferencesConvertToStorage links each API type to the associated storage package
-func (b *ResourceConversionGraphBuilder) apiReferencesConvertToStorage(names []astmodel.TypeName) {
+func (b *ResourceConversionGraphBuilder) apiReferencesConvertToStorage(names []astmodel.InternalTypeName) {
 	for _, name := range names {
 		if s, ok := name.PackageReference().(astmodel.DerivedPackageReference); ok {
-			n := name.WithPackageReference(s.Base())
+			n := name.WithPackageReference(s.Base()).(astmodel.InternalTypeName)
 			b.links[n] = name
 		}
 	}
@@ -106,7 +106,7 @@ func (b *ResourceConversionGraphBuilder) apiReferencesConvertToStorage(names []a
 
 // previewReferencesConvertBackward links each preview version to the immediately prior version, no matter whether it's
 // preview or GA.
-func (b *ResourceConversionGraphBuilder) previewReferencesConvertBackward(names []astmodel.TypeName) {
+func (b *ResourceConversionGraphBuilder) previewReferencesConvertBackward(names []astmodel.InternalTypeName) {
 	for i, name := range names {
 		if i == 0 || !name.PackageReference().IsPreview() {
 			continue
@@ -118,7 +118,7 @@ func (b *ResourceConversionGraphBuilder) previewReferencesConvertBackward(names 
 
 // nonPreviewReferencesConvertForward links each version with the immediately following version.
 // By the time we run this stage, we should only have non-preview (aka GA) releases left
-func (b *ResourceConversionGraphBuilder) nonPreviewReferencesConvertForward(names []astmodel.TypeName) {
+func (b *ResourceConversionGraphBuilder) nonPreviewReferencesConvertForward(names []astmodel.InternalTypeName) {
 	for i, name := range names {
 		// Links are created from the current index to the next;
 		// if we're at the end of the sequence, there's nothing to do.
@@ -132,9 +132,9 @@ func (b *ResourceConversionGraphBuilder) nonPreviewReferencesConvertForward(name
 
 // withoutLinkedNames returns a new slice of references, omitting any that are already linked into our graph
 func (b *ResourceConversionGraphBuilder) withoutLinkedNames(
-	names []astmodel.TypeName,
-) []astmodel.TypeName {
-	result := make([]astmodel.TypeName, 0, len(names))
+	names []astmodel.InternalTypeName,
+) []astmodel.InternalTypeName {
+	result := make([]astmodel.InternalTypeName, 0, len(names))
 	for _, ref := range names {
 		if _, ok := b.links[ref]; !ok {
 			result = append(result, ref)

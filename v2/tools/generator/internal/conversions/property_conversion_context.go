@@ -105,15 +105,15 @@ func (c *PropertyConversionContext) WithPackageReferenceSet(set *astmodel.Packag
 
 // ResolveType resolves a type that might be a type name into both the name and the actual
 // type it references, returning true iff it was a TypeName that could be resolved
-func (c *PropertyConversionContext) ResolveType(t astmodel.Type) (astmodel.TypeName, astmodel.Type, bool) {
-	name, ok := astmodel.AsTypeName(t)
+func (c *PropertyConversionContext) ResolveType(t astmodel.Type) (astmodel.InternalTypeName, astmodel.Type, bool) {
+	name, ok := astmodel.AsInternalTypeName(t)
 	if !ok {
-		return nil, nil, false
+		return astmodel.EmptyInternalTypeName, nil, false
 	}
 
 	actualType, err := c.definitions.FullyResolve(name)
 	if err != nil {
-		return nil, nil, false
+		return astmodel.EmptyInternalTypeName, nil, false
 	}
 
 	return name, actualType, true
@@ -137,9 +137,11 @@ func (c *PropertyConversionContext) TypeRename(name astmodel.TypeName) (string, 
 
 // FindNextType returns the next type in the storage conversion graph, if any.
 // If no conversion graph is available, returns an empty type name and no error.
-func (c *PropertyConversionContext) FindNextType(name astmodel.TypeName) (astmodel.TypeName, error) {
+func (c *PropertyConversionContext) FindNextType(
+	name astmodel.InternalTypeName,
+) (astmodel.InternalTypeName, error) {
 	if c.conversionGraph == nil {
-		return nil, nil
+		return astmodel.EmptyInternalTypeName, nil
 	}
 
 	return c.conversionGraph.FindNextType(name, c.definitions)

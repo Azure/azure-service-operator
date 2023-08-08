@@ -174,8 +174,8 @@ func Unwrap(aType Type) Type {
 
 // ExtractTypeName extracts a TypeName from the specified type if possible. This includes unwrapping
 // MetaType's like ValidatedType as well as checking the element type of types such as ArrayType and MapType.
-func ExtractTypeName(aType Type) (TypeName, bool) {
-	if typeName, ok := AsTypeName(aType); ok {
+func ExtractTypeName(aType Type) (InternalTypeName, bool) {
+	if typeName, ok := AsInternalTypeName(aType); ok {
 		return typeName, ok
 	}
 
@@ -187,5 +187,5 @@ func ExtractTypeName(aType Type) (TypeName, bool) {
 		return ExtractTypeName(mapType.ValueType())
 	}
 
-	return nil, false
+	return EmptyInternalTypeName, false
 }

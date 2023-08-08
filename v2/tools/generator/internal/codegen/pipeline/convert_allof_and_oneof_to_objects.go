@@ -250,7 +250,7 @@ func commonUppercasedSuffix(x, y string) string {
 
 func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames, error) {
 	switch concreteType := t.(type) {
-	case astmodel.TypeName:
+	case astmodel.InternalTypeName:
 
 		if def, ok := s.defs[concreteType]; ok {
 			// TypeName represents one of our definitions; if we can get a good name from the content
@@ -711,7 +711,7 @@ func (s synthesizer) handleOneOf(leftOneOf *astmodel.OneOfType, right astmodel.T
 	return s.oneOfToObject(oneOf)
 }
 
-func (s synthesizer) handleTypeName(leftName astmodel.TypeName, right astmodel.Type) (astmodel.Type, error) {
+func (s synthesizer) handleTypeName(leftName astmodel.InternalTypeName, right astmodel.Type) (astmodel.Type, error) {
 	found, ok := s.defs[leftName]
 	if !ok {
 		return nil, errors.Errorf("couldn't find type %s", leftName)
@@ -881,7 +881,7 @@ func (s synthesizer) allOfSlice(types []astmodel.Type) (astmodel.Type, error) {
 	foundName := false
 	for i, t := range types {
 		// if we find a type name, resolve it to the underlying type
-		if tn, ok := astmodel.AsTypeName(t); ok {
+		if tn, ok := astmodel.AsInternalTypeName(t); ok {
 			if def, ok := s.defs[tn]; ok {
 				toMerge[i] = def.Type()
 				foundName = true

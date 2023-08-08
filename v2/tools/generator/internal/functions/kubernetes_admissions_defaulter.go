@@ -17,7 +17,7 @@ import (
 
 // DefaulterBuilder helps in building an interface implementation for admissions.Defaulter.
 type DefaulterBuilder struct {
-	resourceName astmodel.TypeName
+	resourceName astmodel.InternalTypeName
 	resource     *astmodel.ResourceType
 	idFactory    astmodel.IdentifierFactory
 
@@ -25,7 +25,11 @@ type DefaulterBuilder struct {
 }
 
 // NewDefaulterBuilder creates a new DefaulterBuilder for the given object type.
-func NewDefaulterBuilder(resourceName astmodel.TypeName, resource *astmodel.ResourceType, idFactory astmodel.IdentifierFactory) *DefaulterBuilder {
+func NewDefaulterBuilder(
+	resourceName astmodel.InternalTypeName,
+	resource *astmodel.ResourceType,
+	idFactory astmodel.IdentifierFactory,
+) *DefaulterBuilder {
 	return &DefaulterBuilder{
 		resourceName: resourceName,
 		resource:     resource,
@@ -59,7 +63,7 @@ func (d *DefaulterBuilder) ToInterfaceImplementation() *astmodel.InterfaceImplem
 	resource = strings.ToLower(d.resourceName.Plural().Name())
 
 	// e.g. "mutate-microsoft-network-azure-com-v1-backendaddresspool"
-	// note that this must match _exactly_ how controller-runtime generates the path
+	// note that this must match _exactly_ how controller-runtime generates the path,
 	// or it will not work!
 	path := fmt.Sprintf("/mutate-%s-%s-%s", strings.ReplaceAll(grp, ".", "-"), ver, nonPluralResource)
 
@@ -101,7 +105,7 @@ func (d *DefaulterBuilder) ToInterfaceImplementation() *astmodel.InterfaceImplem
 		funcs...).WithAnnotation(annotation)
 }
 
-func (d *DefaulterBuilder) localDefault(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func (d *DefaulterBuilder) localDefault(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.InternalTypeName, methodName string) *dst.FuncDecl {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -123,7 +127,7 @@ func (d *DefaulterBuilder) localDefault(k *ResourceFunction, codeGenerationConte
 	return fn.DefineFunc()
 }
 
-func (d *DefaulterBuilder) defaultFunction(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func (d *DefaulterBuilder) defaultFunction(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.InternalTypeName, methodName string) *dst.FuncDecl {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 	tempVarIdent := "temp"

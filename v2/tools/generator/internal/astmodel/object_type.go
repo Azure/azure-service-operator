@@ -86,7 +86,10 @@ func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerati
 	return result
 }
 
-func (objectType *ObjectType) generateMethodDecls(codeGenerationContext *CodeGenerationContext, typeName TypeName) []dst.Decl {
+func (objectType *ObjectType) generateMethodDecls(
+	codeGenerationContext *CodeGenerationContext,
+	typeName InternalTypeName,
+) []dst.Decl {
 	funcs := objectType.Functions()
 	result := make([]dst.Decl, 0, len(funcs))
 	for _, f := range funcs {
@@ -170,7 +173,7 @@ func (objectType *ObjectType) Resources() TypeNameSet[InternalTypeName] {
 	return result
 }
 
-func (objectType *ObjectType) WithResource(resource TypeName) *ObjectType {
+func (objectType *ObjectType) WithResource(resource InternalTypeName) *ObjectType {
 	if objectType.resources.Contains(resource) {
 		return objectType
 	}

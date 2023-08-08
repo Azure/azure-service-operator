@@ -655,7 +655,7 @@ func (o *JSONSerializationTestCase) createIndependentGenerator(
 	}
 
 	switch t := propertyType.(type) {
-	case astmodel.TypeName:
+	case astmodel.InternalTypeName:
 		defs := genContext.GetDefinitionsInCurrentPackage()
 		def, ok := defs[t]
 		if ok {
@@ -690,6 +690,9 @@ func (o *JSONSerializationTestCase) createIndependentGenerator(
 
 			return genMap
 		}
+		return nil
+
+	case astmodel.ExternalTypeName:
 		return nil
 
 	case *astmodel.EnumType:

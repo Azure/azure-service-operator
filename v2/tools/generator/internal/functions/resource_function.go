@@ -11,7 +11,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
-type ResourceFunctionHandler func(f *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl
+type ResourceFunctionHandler func(f *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.InternalTypeName, methodName string) *dst.FuncDecl
 
 // ResourceFunction is a simple helper that implements the Function interface. It is intended for use for functions
 // that only need information about the resource they are operating on
@@ -69,7 +69,7 @@ func (fn *ResourceFunction) Resource() *astmodel.ResourceType {
 }
 
 // AsFunc renders the current instance as a Go abstract syntax tree
-func (fn *ResourceFunction) AsFunc(codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
+func (fn *ResourceFunction) AsFunc(codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.InternalTypeName) *dst.FuncDecl {
 	return fn.asFunc(fn, codeGenerationContext, receiver, fn.name)
 }
 

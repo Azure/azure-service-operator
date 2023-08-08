@@ -59,7 +59,7 @@ type SwaggerTypes struct {
 	OtherDefinitions    astmodel.TypeDefinitionSet
 }
 
-type ResourceDefinitionSet map[astmodel.TypeName]ResourceDefinition
+type ResourceDefinitionSet map[astmodel.InternalTypeName]ResourceDefinition
 
 type ResourceDefinition struct {
 	SpecType   astmodel.Type
@@ -714,10 +714,10 @@ func (extractor *SwaggerTypeExtractor) expandAndCanonicalizePath(
 	return results
 }
 
-func (extractor *SwaggerTypeExtractor) resourceNameFromOperationPath(operationPath string) (string, astmodel.TypeName, error) {
+func (extractor *SwaggerTypeExtractor) resourceNameFromOperationPath(operationPath string) (string, astmodel.InternalTypeName, error) {
 	group, resource, name, err := extractor.inferNameFromURLPath(operationPath)
 	if err != nil {
-		return "", nil, errors.Wrapf(err, "unable to infer name from path %q", operationPath)
+		return "", astmodel.EmptyInternalTypeName, errors.Wrapf(err, "unable to infer name from path %q", operationPath)
 	}
 
 	return group + "/" + resource, astmodel.MakeInternalTypeName(extractor.outputPackage, name), nil

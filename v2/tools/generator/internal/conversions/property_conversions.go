@@ -1588,7 +1588,7 @@ func assignObjectDirectlyFromObject(
 				astmodel.DebugDescription(destinationEndpoint.Type()))
 		}
 
-		if nextType != nil && !astmodel.TypeEquals(nextType, sourceName) {
+		if !nextType.IsEmpty() && !astmodel.TypeEquals(nextType, sourceName) {
 			return nil, nil
 		}
 
@@ -1713,7 +1713,7 @@ func assignObjectDirectlyToObject(
 				astmodel.DebugDescription(sourceEndpoint.Type()))
 		}
 
-		if nextType != nil && !astmodel.TypeEquals(nextType, destinationName) {
+		if !nextType.IsEmpty() && !astmodel.TypeEquals(nextType, destinationName) {
 			return nil, nil
 		}
 
@@ -1831,7 +1831,7 @@ func assignObjectsViaIntermediateObject(
 	}
 
 	// If our two types are not adjacent in our conversion graph, this *IS* the conversion you're looking for
-	earlierName := conversionContext.direction.SelectType(destinationName, sourceName).(astmodel.TypeName)
+	earlierName := conversionContext.direction.SelectType(destinationName, sourceName).(astmodel.InternalTypeName)
 	intermediateName, err := conversionContext.FindNextType(earlierName)
 	if err != nil {
 		return nil, errors.Wrapf(
@@ -1840,7 +1840,7 @@ func assignObjectsViaIntermediateObject(
 			astmodel.DebugDescription(destinationEndpoint.Type()))
 	}
 
-	if intermediateName == nil || astmodel.TypeEquals(intermediateName, sourceName) {
+	if intermediateName.IsEmpty() || astmodel.TypeEquals(intermediateName, sourceName) {
 		return nil, nil
 	}
 

@@ -83,7 +83,7 @@ func (ext *GetExtendedResourcesFunction) References() astmodel.TypeNameSet[astmo
 
 // AsFunc returns the generated code for the GetExtendedResources() function
 func (ext *GetExtendedResourcesFunction) AsFunc(
-	generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName,
+	generationContext *astmodel.CodeGenerationContext, receiver astmodel.InternalTypeName,
 ) *dst.FuncDecl {
 	krType := astmodel.NewArrayType(astmodel.KubernetesResourceType).AsType(generationContext)
 	krLiteral := astbuilder.NewCompositeLiteralBuilder(krType).Build()

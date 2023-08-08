@@ -48,7 +48,7 @@ type Type interface {
 }
 
 type EqualityOverrides struct {
-	TypeName   func(left TypeName, right TypeName) bool
+	TypeName   func(left InternalTypeName, right InternalTypeName) bool
 	ObjectType func(left *ObjectType, right *ObjectType) bool
 }
 
@@ -63,7 +63,7 @@ func IgnoringErrors(t Type) Type {
 
 // DeclarationContext represents some metadata about a specific declaration
 type DeclarationContext struct {
-	Name        TypeName
+	Name        InternalTypeName
 	Description []string
 	Validations []KubeBuilderValidation
 }

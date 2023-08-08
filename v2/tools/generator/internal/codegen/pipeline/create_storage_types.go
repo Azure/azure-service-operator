@@ -45,7 +45,7 @@ func CreateStorageTypes() *Stage {
 			storageAPIVersions := make(astmodel.TypeNameSet[astmodel.InternalTypeName])
 			for _, tdef := range typesToConvert {
 				if rt, ok := astmodel.AsResourceType(tdef.Type()); ok && rt.HasAPIVersion() {
-					storageAPIVersions.Add(rt.APIVersionTypeName())
+					storageAPIVersions.Add(rt.APIVersionTypeName().(astmodel.InternalTypeName))
 				}
 			}
 

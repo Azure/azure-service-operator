@@ -22,10 +22,10 @@ type GroupConversionGraph struct {
 
 // LookupTransition accepts a type name and looks up the transition to the next version in the graph
 // Returns the next version if it's found, or an empty type name if not.
-func (graph *GroupConversionGraph) LookupTransition(name astmodel.TypeName) astmodel.TypeName {
+func (graph *GroupConversionGraph) LookupTransition(name astmodel.InternalTypeName) astmodel.InternalTypeName {
 	subgraph, ok := graph.subGraphs[name.Name()]
 	if !ok {
-		return nil
+		return astmodel.EmptyInternalTypeName
 	}
 
 	return subgraph.LookupTransition(name)
@@ -83,7 +83,7 @@ func (graph *GroupConversionGraph) searchForRenamedType(
 		}
 
 		// Does our target type exist in this package?
-		newType := name.WithPackageReference(pkg).WithName(rename)
+		newType := name.WithPackageReference(pkg).WithName(rename).(astmodel.InternalTypeName)
 		if definitions.Contains(newType) {
 			return newType, nil
 		}

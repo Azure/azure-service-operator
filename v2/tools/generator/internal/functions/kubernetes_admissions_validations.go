@@ -41,7 +41,7 @@ func NewValidateOptionalConfigMapReferenceFunction(resource *astmodel.ResourceTy
 		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference, astmodel.ReflectHelpersReference))
 }
 
-func validateResourceReferences(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func validateResourceReferences(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.InternalTypeName, methodName string) *dst.FuncDecl {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -92,7 +92,7 @@ func validateResourceReferencesBody(codeGenerationContext *astmodel.CodeGenerati
 	return body
 }
 
-func validateWriteOncePropertiesFunction(resourceFn *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func validateWriteOncePropertiesFunction(resourceFn *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.InternalTypeName, methodName string) *dst.FuncDecl {
 
 	receiverIdent := resourceFn.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
@@ -122,7 +122,7 @@ func validateWriteOncePropertiesFunction(resourceFn *ResourceFunction, codeGener
 //	}
 //
 // return genruntime.ValidateWriteOnceProperties(oldObj, <receiverIndent>)
-func validateWriteOncePropertiesFunctionBody(receiver astmodel.TypeName, codeGenerationContext *astmodel.CodeGenerationContext, receiverIdent string) []dst.Stmt {
+func validateWriteOncePropertiesFunctionBody(receiver astmodel.InternalTypeName, codeGenerationContext *astmodel.CodeGenerationContext, receiverIdent string) []dst.Stmt {
 
 	genRuntime := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
 
@@ -145,7 +145,7 @@ func validateWriteOncePropertiesFunctionBody(receiver astmodel.TypeName, codeGen
 		returnStmt)
 }
 
-func validateOptionalConfigMapReferences(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func validateOptionalConfigMapReferences(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.InternalTypeName, methodName string) *dst.FuncDecl {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 

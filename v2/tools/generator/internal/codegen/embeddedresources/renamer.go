@@ -226,7 +226,7 @@ func simplifyTypeNames(
 }
 
 type embeddedResourceTypeName struct {
-	original astmodel.TypeName
+	original astmodel.InternalTypeName
 	context  string
 	suffix   string
 	count    int

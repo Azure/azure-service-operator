@@ -54,7 +54,7 @@ func (f *OneOfJSONMarshalFunction) References() astmodel.TypeNameSet[astmodel.Ty
 // AsFunc returns the function as a go dst
 func (f *OneOfJSONMarshalFunction) AsFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
-	receiver astmodel.TypeName,
+	receiver astmodel.InternalTypeName,
 ) *dst.FuncDecl {
 	jsonPackage := codeGenerationContext.MustGetImportedPackageName(astmodel.JsonReference)
 

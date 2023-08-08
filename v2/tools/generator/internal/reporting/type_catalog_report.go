@@ -341,7 +341,7 @@ func (tcr *TypeCatalogReport) asDefinitionToInline(
 ) (*astmodel.TypeDefinition, bool) {
 
 	// We can inline a typename if we have a definition for it, and if it's not already inlined
-	if n, ok := astmodel.AsTypeName(t); ok {
+	if n, ok := astmodel.AsInternalTypeName(t); ok {
 		if parentTypes.Contains(n) {
 			return nil, false
 		}
@@ -377,13 +377,15 @@ func (tcr *TypeCatalogReport) asShortNameForType(
 ) string {
 	// We switch on exact types because we don't want to accidentally unwrap a detail we need
 	switch t := t.(type) {
-	case astmodel.TypeName:
+	case astmodel.InternalTypeName:
 		// If an inlined type, we use what it points to, otherwise we use the name
 		if tcr.inlinedTypes.Contains(t) && !parentTypes.Contains(t) {
 			def := tcr.defs[t]
 			return tcr.asShortNameForType(def.Type(), currentPackage, parentTypes)
 		}
 
+		return astmodel.DebugDescription(t, currentPackage)
+	case astmodel.ExternalTypeName:
 		return astmodel.DebugDescription(t, currentPackage)
 	case *astmodel.OptionalType:
 		return fmt.Sprintf(

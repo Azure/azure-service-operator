@@ -28,7 +28,7 @@ type convertFromARMBuilder struct {
 func newConvertFromARMFunctionBuilder(
 	c *ARMConversionFunction,
 	codeGenerationContext *astmodel.CodeGenerationContext,
-	receiver astmodel.TypeName,
+	receiver astmodel.InternalTypeName,
 	methodName string,
 ) *convertFromARMBuilder {
 	result := &convertFromARMBuilder{

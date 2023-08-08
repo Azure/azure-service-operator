@@ -172,7 +172,12 @@ func NewValidateSecretDestinationsFunction(resource *astmodel.ResourceType, idFa
 		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference))
 }
 
-func validateSecretDestinations(k *functions.ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func validateSecretDestinations(
+	k *functions.ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.InternalTypeName,
+	methodName string,
+) *dst.FuncDecl {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -204,7 +209,12 @@ func NewValidateConfigMapDestinationsFunction(resource *astmodel.ResourceType, i
 		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference))
 }
 
-func validateConfigMapDestinations(k *functions.ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func validateConfigMapDestinations(
+	k *functions.ResourceFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.InternalTypeName,
+	methodName string,
+) *dst.FuncDecl {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -315,7 +325,7 @@ func getOperatorSpecType(defs astmodel.ReadonlyTypeDefinitions, resource *astmod
 		// No OperatorSpec property - this means no secrets
 		return nil, nil
 	}
-	operatorSpecTypeName, ok := astmodel.AsTypeName(operatorSpecProp.PropertyType())
+	operatorSpecTypeName, ok := astmodel.AsInternalTypeName(operatorSpecProp.PropertyType())
 	if !ok {
 		return nil, errors.Errorf(
 			"expected %s to be an astmodel.TypeName, but it was %T",
@@ -354,7 +364,7 @@ func getOperatorSpecSubType(defs astmodel.ReadonlyTypeDefinitions, resource *ast
 		return nil, nil
 	}
 
-	secretsTypeName, ok := astmodel.AsTypeName(secretsProp.PropertyType())
+	secretsTypeName, ok := astmodel.AsInternalTypeName(secretsProp.PropertyType())
 	if !ok {
 		return nil, errors.Errorf(
 			"expected %s to be an astmodel.TypeName, but it was %T",

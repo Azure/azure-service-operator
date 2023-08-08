@@ -25,8 +25,8 @@ func NewNewEmptyARMValueFunc(
 	return result
 }
 
-func newEmptyARMValueBody(instanceType astmodel.TypeName) func(fn *ObjectFunction, genContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
-	return func(fn *ObjectFunction, genContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func newEmptyARMValueBody(instanceType astmodel.TypeName) func(fn *ObjectFunction, genContext *astmodel.CodeGenerationContext, receiver astmodel.InternalTypeName, methodName string) *dst.FuncDecl {
+	return func(fn *ObjectFunction, genContext *astmodel.CodeGenerationContext, receiver astmodel.InternalTypeName, methodName string) *dst.FuncDecl {
 		receiverName := fn.IdFactory().CreateReceiver(receiver.Name())
 		receiverType := astbuilder.PointerTo(receiver.AsType(genContext))
 		instance := astbuilder.NewCompositeLiteralBuilder(dst.NewIdent(instanceType.Name()))

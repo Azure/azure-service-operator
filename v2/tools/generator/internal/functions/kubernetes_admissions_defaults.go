@@ -24,7 +24,7 @@ func NewDefaultAzureNameFunction(resource *astmodel.ResourceType, idFactory astm
 
 // defaultAzureNameFunction returns a function that defaults the AzureName property of the resource spec
 // to the Name property of the resource spec
-func defaultAzureNameFunction(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func defaultAzureNameFunction(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.InternalTypeName, methodName string) *dst.FuncDecl {
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 

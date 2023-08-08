@@ -55,7 +55,7 @@ func InjectPropertyAssignmentFunctions(
 					return nil, errors.Wrapf(err, "finding next type after %s", name)
 				}
 
-				if nextName == nil {
+				if nextName.IsEmpty() {
 					// No next type, so nothing to do (this is expected if we have the hub storage package)
 					continue
 				}
@@ -181,8 +181,8 @@ func (f propertyAssignmentFunctionsFactory) injectBetween(
 
 func createAssignPropertiesOverrideStub(
 	paramName string,
-	paramType astmodel.Type) func(f *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
-	return func(f *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+	paramType astmodel.Type) functions.ObjectFunctionHandler {
+	return func(f *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.InternalTypeName, methodName string) *dst.FuncDecl {
 		funcDetails := &astbuilder.FuncDetails{
 			Name: methodName,
 		}

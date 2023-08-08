@@ -22,7 +22,7 @@ func NewGetStatusFunction(idFactory astmodel.IdentifierFactory) *ObjectFunction 
 func createGetStatusFunction(
 	f *ObjectFunction,
 	genContext *astmodel.CodeGenerationContext,
-	receiver astmodel.TypeName,
+	receiver astmodel.InternalTypeName,
 	_ string) *dst.FuncDecl {
 	receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := astmodel.NewOptionalType(receiver)

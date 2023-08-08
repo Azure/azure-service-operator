@@ -507,6 +507,7 @@ func (c *armTypeCreator) visitARMTypeName(this *astmodel.TypeVisitor, it astmode
 
 	// Look up the definition
 	def, err := c.definitions.GetDefinition(it)
+	def, err := c.definitions.GetDefinition(it.(astmodel.InternalTypeName))
 	if err != nil {
 		// Don't need to wrap, it already has everything we want in the error
 		return nil, err

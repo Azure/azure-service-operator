@@ -68,7 +68,7 @@ func (o *OriginalGVKFunction) References() astmodel.TypeNameSet[astmodel.TypeNam
 
 // AsFunc returns the generated code for the OriginalGVK() function
 func (o *OriginalGVKFunction) AsFunc(
-	generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
+	generationContext *astmodel.CodeGenerationContext, receiver astmodel.InternalTypeName) *dst.FuncDecl {
 	gvkType := astmodel.GroupVersionKindType.AsType(generationContext)
 	groupVersionPackageGlobal := dst.NewIdent("GroupVersion")
 

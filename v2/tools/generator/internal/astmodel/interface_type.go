@@ -200,7 +200,7 @@ func functionToField(codeGenerationContext *CodeGenerationContext, name string, 
 		names = []*dst.Ident{dst.NewIdent(name)}
 	}
 
-	f := function.AsFunc(codeGenerationContext, nil) // Empty typename here because we have no receiver
+	f := function.AsFunc(codeGenerationContext, EmptyInternalTypeName) // Empty typename here because we have no receiver
 
 	return &dst.Field{
 		Names: names,

@@ -21,6 +21,8 @@ type InternalTypeName struct {
 	name             string
 }
 
+var EmptyInternalTypeName = InternalTypeName{}
+
 // MakeInternalTypeName is a factory method for creating a TypeName
 func MakeInternalTypeName(ref PackageReference, name string) InternalTypeName {
 	return InternalTypeName{
@@ -135,7 +137,7 @@ func (tn InternalTypeName) Equals(t Type, override EqualityOverrides) bool {
 		return true
 	}
 
-	other, ok := t.(TypeName)
+	other, ok := t.(InternalTypeName)
 	if !ok {
 		return false
 	}

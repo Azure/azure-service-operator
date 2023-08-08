@@ -25,9 +25,9 @@ func createNewEmptyStatusFunction(
 	statusType astmodel.TypeName) func(
 	f *ObjectFunction,
 	genContext *astmodel.CodeGenerationContext,
-	receiver astmodel.TypeName,
+	receiver astmodel.InternalTypeName,
 	_ string) *dst.FuncDecl {
-	return func(f *ObjectFunction, genContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, _ string) *dst.FuncDecl {
+	return func(f *ObjectFunction, genContext *astmodel.CodeGenerationContext, receiver astmodel.InternalTypeName, _ string) *dst.FuncDecl {
 		receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
 		receiverType := astmodel.NewOptionalType(receiver)
 

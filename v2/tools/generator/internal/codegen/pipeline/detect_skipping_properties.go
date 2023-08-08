@@ -93,7 +93,7 @@ func newSkippingPropertyDetector(definitions astmodel.TypeDefinitionSet, convers
 
 // AddProperties adds all the properties from the specified type to the graph.
 func (detector *skippingPropertyDetector) AddProperties(
-	name astmodel.TypeName,
+	name astmodel.InternalTypeName,
 	properties ...*astmodel.PropertyDefinition,
 ) error {
 	var errs []error
@@ -113,7 +113,7 @@ func (detector *skippingPropertyDetector) AddProperties(
 
 // AddProperty adds a single property from a type to the graph, marking it as observed
 func (detector *skippingPropertyDetector) AddProperty(
-	name astmodel.TypeName,
+	name astmodel.InternalTypeName,
 	property *astmodel.PropertyDefinition,
 ) error {
 	ref := astmodel.MakePropertyReference(name, property.PropertyName())
@@ -329,7 +329,7 @@ func areTypeSetsEqual(left astmodel.TypeDefinitionSet, right astmodel.TypeDefini
 	}
 
 	for leftName, leftDef := range left {
-		rightName := leftName.WithPackageReference(rightPackageRef)
+		rightName := leftName.WithPackageReference(rightPackageRef).(astmodel.InternalTypeName)
 		rightDef := right[rightName]
 
 		equal := leftDef.Type().Equals(rightDef.Type(), equalityOverrides)
@@ -341,7 +341,10 @@ func areTypeSetsEqual(left astmodel.TypeDefinitionSet, right astmodel.TypeDefini
 	return true
 }
 
-func compareTypeNamesIgnoreVersion(left astmodel.TypeName, right astmodel.TypeName) bool {
+func compareTypeNamesIgnoreVersion(
+	left astmodel.InternalTypeName,
+	right astmodel.InternalTypeName,
+) bool {
 	leftLPR, isLeftLocalRef := left.PackageReference().(astmodel.InternalPackageReference)
 	rightLPR, isRightLocalRef := right.PackageReference().(astmodel.InternalPackageReference)
 

@@ -17,7 +17,7 @@ import (
 )
 
 type resourceRemovalVisitorContext struct {
-	resource            astmodel.TypeName
+	resource            astmodel.InternalTypeName
 	name                astmodel.TypeName
 	depth               int
 	modifiedDefinitions astmodel.TypeDefinitionSet
@@ -176,7 +176,12 @@ func (e EmbeddedResourceRemover) makeEmbeddedResourceRemovalTypeVisitor() astmod
 
 			if subResources, ok := e.resourceToSubresourceMap[getResourceKey(typedCtx.resource)]; ok {
 				isSubresource := it.IsResource() && it.Resources() != nil && subResources.ContainsAny(it.Resources())
-				if subResources.Contains(typedCtx.name) || isSubresource {
+				if isSubresource {
+					it = astmodel.EmptyObjectType // Remove this object
+					return it, nil
+				}
+
+				if tn, ok := astmodel.AsInternalTypeName(typedCtx.name); ok && subResources.Contains(tn) {
 					it = astmodel.EmptyObjectType // Remove this object
 					return it, nil
 				}
@@ -370,7 +375,7 @@ func findResourcesEmbeddedInParent(configuration *config.Configuration, defs ast
 			continue
 		}
 		parentTypeName := name.WithName(parentResource)
-		if !defs.Contains(parentTypeName) {
+		if !defs.Contains(parentTypeName.(astmodel.InternalTypeName)) {
 			errs = append(errs, errors.Errorf("cannot find %s parent %s", name, parentTypeName))
 			continue
 		}

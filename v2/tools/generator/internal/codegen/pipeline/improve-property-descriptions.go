@@ -50,7 +50,7 @@ func createPropertyImprovingVisitor(defs astmodel.TypeDefinitionSet) astmodel.Ty
 				}
 
 				// If the property type isn't a typename, we can't do anything
-				tn, haveTypeName := astmodel.AsTypeName(prop.PropertyType())
+				tn, haveTypeName := astmodel.AsInternalTypeName(prop.PropertyType())
 				if !haveTypeName {
 					continue
 				}

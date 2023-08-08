@@ -7,9 +7,10 @@ package functions
 
 import (
 	"fmt"
-	"github.com/pkg/errors"
 	"go/token"
 	"sort"
+
+	"github.com/pkg/errors"
 
 	"github.com/dave/dst"
 	"golang.org/x/exp/maps"
@@ -126,7 +127,7 @@ func (fn *PropertyAssignmentFunction) Direction() conversions.Direction {
 }
 
 // AsFunc renders this function as an AST for serialization to a Go source file
-func (fn *PropertyAssignmentFunction) AsFunc(generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
+func (fn *PropertyAssignmentFunction) AsFunc(generationContext *astmodel.CodeGenerationContext, receiver astmodel.InternalTypeName) *dst.FuncDecl {
 	description := fn.direction.SelectString(
 		fmt.Sprintf("populates our %s from the provided source %s", receiver.Name(), fn.ParameterType().Name()),
 		fmt.Sprintf("populates the provided destination %s from our %s", fn.ParameterType().Name(), receiver.Name()))

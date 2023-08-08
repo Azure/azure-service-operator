@@ -481,7 +481,11 @@ type typeAndSource struct {
 
 // findCollidingTypeNames finds any types with the given name that collide, and returns
 // the definition as well as the index of the file it was found in
-func findCollidingTypeNames(typesFromFiles []typesFromFile, name astmodel.TypeName, duplicateCount int) []typeAndSource {
+func findCollidingTypeNames(
+	typesFromFiles []typesFromFile,
+	name astmodel.InternalTypeName,
+	duplicateCount int,
+) []typeAndSource {
 	if duplicateCount == 1 {
 		// cannot collide
 		return nil
@@ -601,12 +605,12 @@ func structurallyIdentical(
 	// we cannot simply recurse when we hit TypeNames as there can be cycles in types.
 	// instead we store all TypeNames that need to be checked in here, and
 	// check them one at a time until there is nothing left to be checked:
-	type pair struct{ left, right astmodel.TypeName }
+	type pair struct{ left, right astmodel.InternalTypeName }
 	toCheck := []pair{}            // queue of pairs to check
 	checked := map[pair]struct{}{} // set of pairs that have been enqueued
 
 	override := astmodel.EqualityOverrides{}
-	override.TypeName = func(left, right astmodel.TypeName) bool {
+	override.TypeName = func(left astmodel.InternalTypeName, right astmodel.InternalTypeName) bool {
 		// note that this relies on Equals implementations preserving the left/right order
 		p := pair{left, right}
 		if _, ok := checked[p]; !ok {
@@ -794,7 +798,10 @@ func versionFromPath(filePath string, rootPath string) string {
 	return strings.Trim(swaggerVersionRegex.FindString(fp), "/")
 }
 
-func addResource(spec astmodel.TypeDefinition, resourceName astmodel.TypeName) (astmodel.TypeDefinition, error) {
+func addResource(
+	spec astmodel.TypeDefinition,
+	resourceName astmodel.InternalTypeName,
+) (astmodel.TypeDefinition, error) {
 	visitor := astmodel.TypeVisitorBuilder{
 		VisitObjectType: func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 			it = it.WithResource(resourceName).WithIsResource(true)
@@ -816,7 +823,11 @@ func compareObjectTypeIgnoreIsResource(left *astmodel.ObjectType, right *astmode
 	return astmodel.TypeEquals(left, right)
 }
 
-func addObjectResourceLinkIfNeeded(defs astmodel.TypeDefinitionSet, def astmodel.TypeDefinition, resourceName astmodel.TypeName) error {
+func addObjectResourceLinkIfNeeded(
+	defs astmodel.TypeDefinitionSet,
+	def astmodel.TypeDefinition,
+	resourceName astmodel.InternalTypeName,
+) error {
 	resolvedDef, err := resolveDefAlias(defs, def)
 	if err != nil {
 		return err

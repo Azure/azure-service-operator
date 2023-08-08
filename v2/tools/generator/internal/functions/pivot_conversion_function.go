@@ -132,7 +132,7 @@ func (fn *PivotConversionFunction) References() astmodel.TypeNameSet[astmodel.Ty
 }
 
 func (fn *PivotConversionFunction) AsFunc(
-	generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
+	generationContext *astmodel.CodeGenerationContext, receiver astmodel.InternalTypeName) *dst.FuncDecl {
 
 	// Create a sensible name for our receiver
 	receiverName := fn.idFactory.CreateReceiver(receiver.Name())
@@ -186,7 +186,7 @@ func (fn *PivotConversionFunction) bodyForPivot(
 	return astbuilder.Statements(recursionCheck, callAndReturn)
 }
 
-func (fn *PivotConversionFunction) declarationDocComment(receiver astmodel.TypeName, parameter string) string {
+func (fn *PivotConversionFunction) declarationDocComment(receiver astmodel.InternalTypeName, parameter string) string {
 	return fn.direction.SelectString(
 		fmt.Sprintf("populates our %s from the provided %s", receiver.Name(), parameter),
 		fmt.Sprintf("populates the provided %s from our %s", parameter, receiver.Name()))

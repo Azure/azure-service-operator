@@ -95,7 +95,7 @@ func (fn *ResourceConversionFunction) References() astmodel.TypeNameSet[astmodel
 }
 
 func (fn *ResourceConversionFunction) AsFunc(
-	generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
+	generationContext *astmodel.CodeGenerationContext, receiver astmodel.InternalTypeName) *dst.FuncDecl {
 
 	// Create a sensible name for our receiver
 	receiverName := fn.idFactory.CreateReceiver(receiver.Name())
@@ -298,7 +298,7 @@ func (fn *ResourceConversionFunction) localVariableId() string {
 	return fn.propertyFunction.direction.SelectString("source", "destination")
 }
 
-func (fn *ResourceConversionFunction) declarationDocComment(receiver astmodel.TypeName) string {
+func (fn *ResourceConversionFunction) declarationDocComment(receiver astmodel.InternalTypeName) string {
 	return fn.propertyFunction.direction.SelectString(
 		fmt.Sprintf("populates our %s from the provided hub %s", receiver.Name(), fn.hub.Name()),
 		fmt.Sprintf("populates the provided hub %s from our %s", fn.hub.Name(), receiver.Name()))

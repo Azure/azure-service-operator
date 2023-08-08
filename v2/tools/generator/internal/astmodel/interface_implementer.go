@@ -62,7 +62,7 @@ func (i InterfaceImplementer) References() TypeNameSet[TypeName] {
 
 func (i InterfaceImplementer) AsDeclarations(
 	codeGenerationContext *CodeGenerationContext,
-	typeName TypeName,
+	typeName InternalTypeName,
 	_ []string,
 ) []dst.Decl {
 	// interfaces must be ordered by name for deterministic output

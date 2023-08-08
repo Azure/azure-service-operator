@@ -112,14 +112,14 @@ func (fn *ChainedConversionFunction) RequiredPackageReferences() *astmodel.Packa
 		fn.propertyAssignmentParameterType.PackageReference())
 }
 
-func (fn *ChainedConversionFunction) References() astmodel.TypeNameSet {
+func (fn *ChainedConversionFunction) References() astmodel.TypeNameSet[astmodel.TypeName] {
 	return astmodel.NewTypeNameSet(
 		fn.parameterType,
 		fn.propertyAssignmentParameterType)
 }
 
 func (fn *ChainedConversionFunction) AsFunc(
-	generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
+	generationContext *astmodel.CodeGenerationContext, receiver astmodel.InternalTypeName) *dst.FuncDecl {
 
 	// Create a sensible name for our receiver
 	receiverName := fn.idFactory.CreateReceiver(receiver.Name())
@@ -262,7 +262,7 @@ func (fn *ChainedConversionFunction) localVariableId() string {
 	return fn.direction.SelectString("src", "dst")
 }
 
-func (fn *ChainedConversionFunction) declarationDocComment(receiver astmodel.TypeName, parameter string) string {
+func (fn *ChainedConversionFunction) declarationDocComment(receiver astmodel.InternalTypeName, parameter string) string {
 	return fn.direction.SelectString(
 		fmt.Sprintf("populates our %s from the provided %s", receiver.Name(), parameter),
 		fmt.Sprintf("populates the provided %s from our %s", parameter, receiver.Name()))

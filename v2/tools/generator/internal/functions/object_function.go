@@ -37,7 +37,7 @@ func NewObjectFunction(
 	}
 }
 
-type ObjectFunctionHandler func(f *ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl
+type ObjectFunctionHandler func(f *ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.InternalTypeName, methodName string) *dst.FuncDecl
 
 // Name returns the unique name of this function
 // (You can't have two functions with the same name on the same object or resource)
@@ -62,7 +62,7 @@ func (fn *ObjectFunction) References() astmodel.TypeNameSet[astmodel.TypeName] {
 }
 
 // AsFunc renders the current instance as a Go abstract syntax tree
-func (fn *ObjectFunction) AsFunc(codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
+func (fn *ObjectFunction) AsFunc(codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.InternalTypeName) *dst.FuncDecl {
 	return fn.asFunc(fn, codeGenerationContext, receiver, fn.name)
 }
 

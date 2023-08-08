@@ -19,7 +19,7 @@ import (
 //	func (r *<receiver>) GetConditions() genruntime.Conditions {
 //	    return r.Status.Conditions
 //	}
-func GetConditionsFunction(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func GetConditionsFunction(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.InternalTypeName, methodName string) *dst.FuncDecl {
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -45,7 +45,7 @@ func GetConditionsFunction(k *ResourceFunction, codeGenerationContext *astmodel.
 //	func (r *<receiver>) SetConditions(conditions genruntime.Conditions) {
 //	    r.Status.Conditions = conditions
 //	}
-func SetConditionsFunction(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func SetConditionsFunction(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.InternalTypeName, methodName string) *dst.FuncDecl {
 	conditionsParameterName := k.IdFactory().CreateIdentifier(astmodel.ConditionsProperty, astmodel.NotExported)
 
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())

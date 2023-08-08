@@ -11,33 +11,33 @@ import (
 
 type PropertyNameAndType struct {
 	PropertyName PropertyName
-	TypeName     TypeName // the name of the type inside the pointer type
+	TypeName     InternalTypeName // the name of the type inside the pointer type
 }
 
 func resolveOneOfMemberToObjectType(
 	t Type,
 	definitions TypeDefinitionSet,
-) (TypeName, *ObjectType, error) {
+) (InternalTypeName, *ObjectType, error) {
 	// OneOfs are expected to contain properties that are:
 	// pointer to typename to objectType
 
-	tn, ok := AsTypeName(t)
+	tn, ok := AsInternalTypeName(t)
 	if !ok {
-		return nil,
+		return EmptyInternalTypeName,
 			nil,
 			errors.Errorf("expected oneOf member to be a TypeName, instead was %s", DebugDescription(t))
 	}
 
 	propType, err := definitions.FullyResolve(tn)
 	if err != nil {
-		return nil,
+		return EmptyInternalTypeName,
 			nil,
 			errors.Wrapf(err, "unable to resolve oneOf member type %s", tn)
 	}
 
 	propObjType, ok := AsObjectType(propType)
 	if !ok {
-		return nil,
+		return EmptyInternalTypeName,
 			nil,
 			errors.Errorf("OneOf %s referenced non-object type %s", t, DebugDescription(propType))
 	}

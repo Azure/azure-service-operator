@@ -65,7 +65,11 @@ func determineOwnership(
 
 var urlParamRegex = regexp.MustCompile("\\{.*?}")
 
-func findChildren(rt *astmodel.ResourceType, resourceName astmodel.TypeName, others astmodel.TypeDefinitionSet) []astmodel.TypeName {
+func findChildren(
+	rt *astmodel.ResourceType,
+	resourceName astmodel.TypeName,
+	others astmodel.TypeDefinitionSet,
+) []astmodel.InternalTypeName {
 	// append "/" to the ARM URI so that if this is (e.g.):
 	//     /resource/name
 	// it doesn't match as a prefix of:
@@ -75,7 +79,7 @@ func findChildren(rt *astmodel.ResourceType, resourceName astmodel.TypeName, oth
 	myPrefix := rt.ARMURI() + "/"
 	myPrefix = canonicalizeURI(myPrefix)
 
-	var result []astmodel.TypeName
+	var result []astmodel.InternalTypeName
 	for otherName, otherDef := range others {
 		other, ok := astmodel.AsResourceType(otherDef.Type())
 		if !ok {
@@ -123,13 +127,13 @@ func canonicalizeURI(uri string) string {
 
 func updateChildResourceDefinitionsWithOwner(
 	definitions astmodel.TypeDefinitionSet,
-	childResourceTypeNames []astmodel.TypeName,
+	childResourceTypeNames []astmodel.InternalTypeName,
 	owningResourceName astmodel.TypeName,
 	updatedDefs astmodel.TypeDefinitionSet,
 ) error {
 	for _, typeName := range childResourceTypeNames {
 		// Use the singular form of the name
-		typeName = typeName.Singular()
+		typeName = typeName.Singular().(astmodel.InternalTypeName)
 
 		// Confirm the type really exists
 		childResourceDef, ok := definitions[typeName]

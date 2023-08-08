@@ -42,7 +42,7 @@ func NewInitializeSpecFunction(
 	createFn := func(
 		fn *ResourceFunction,
 		codeGenerationContext *astmodel.CodeGenerationContext,
-		receiver astmodel.TypeName,
+		receiver astmodel.InternalTypeName,
 		methodName string,
 	) *dst.FuncDecl {
 		fmtPackage := codeGenerationContext.MustGetImportedPackageName(astmodel.FmtReference)
