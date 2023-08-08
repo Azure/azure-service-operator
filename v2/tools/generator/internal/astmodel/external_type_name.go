@@ -140,10 +140,6 @@ func (tn ExternalTypeName) Equals(t Type, override EqualityOverrides) bool {
 		return false
 	}
 
-	if override.TypeName != nil {
-		return override.TypeName(tn, other)
-	}
-
 	return tn.name == other.Name() && tn.packageReference.Equals(other.PackageReference())
 }
 
