@@ -27,9 +27,13 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/match"
 )
 
-// ServiceOperatorVersionLabel is the label the CRDs have on them containing the ASO version. This value must match the value
+// ServiceOperatorVersionLabelOld is the label the CRDs have on them containing the ASO version. This value must match the value
 // injected by config/crd/labels.yaml
-const ServiceOperatorVersionLabel = "serviceoperator.azure.com/version"
+const ServiceOperatorVersionLabelOld = "serviceoperator.azure.com/version"
+const ServiceOperatorVersionLabel = "app.kubernetes.io/version"
+const ServiceOperatorAppLabel = "app.kubernetes.io/name"
+const ServiceOperatorAppValue = "azure-service-operator"
+
 const CRDLocation = "crds"
 
 const certMgrInjectCAFromAnnotation = "cert-manager.io/inject-ca-from"
@@ -52,7 +56,7 @@ func (m *Manager) ListOperatorCRDs(ctx context.Context) ([]apiextensions.CustomR
 	list := apiextensions.CustomResourceDefinitionList{}
 
 	selector := labels.NewSelector()
-	requirement, err := labels.NewRequirement(ServiceOperatorVersionLabel, selection.Exists, nil)
+	requirement, err := labels.NewRequirement(ServiceOperatorAppLabel, selection.Equals, []string{ServiceOperatorAppValue})
 	if err != nil {
 		return nil, err
 	}

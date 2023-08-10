@@ -3,7 +3,8 @@ kind: LabelTransformer
 metadata:
     name: global-labels
 labels:
-  serviceoperator.azure.com/version: ${VERSION}
+  app.kubernetes.io/name: azure-service-operator
+  app.kubernetes.io/version: ${VERSION}
 fieldSpecs:
     - path: metadata/labels
       create: true
