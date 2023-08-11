@@ -129,6 +129,6 @@ networkPolicies:
   # Destination CIDR for talking to the Kubernetes API
   kubernetesApiCIDR: 0.0.0.0/0
   # Destination CIDR for talking to MySQL servers
-  kubernetesApiCIDR: 0.0.0.0/0
+  mysqlCIDR: 0.0.0.0/0
   # Destination CIDR for talking to PostgreSQL servers
-  kubernetesApiCIDR: 0.0.0.0/0
+  postgresqlCIDR: 0.0.0.0/0
