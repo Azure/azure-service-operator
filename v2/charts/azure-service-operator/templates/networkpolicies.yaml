@@ -34,19 +34,19 @@ spec:
       protocol: TCP
     to:
     - ipBlock:
-        cidr: {{ .Values.networkpolicies.kubernetesApiCIDR }}
+        cidr: {{ .Values.networkPolicies.kubernetesApiCIDR }}
     # Required for communication with MySQL servers when using MySQL user object
     - port: 3306
       protocol: TCP
     to:
     - ipBlock:
-        cidr: {{ .Values.networkpolicies.mysqlCIDR }}
+        cidr: {{ .Values.networkPolicies.mysqlCIDR }}
     # Required for communication with PostgreSQL servers when using PostgreSQL user object
     - port: 5432
       protocol: TCP
     to:
     - ipBlock:
-        cidr: {{ .Values.networkpolicies.postgresqlCIDR }}
+        cidr: {{ .Values.networkPolicies.postgresqlCIDR }}
   podSelector:
     matchLabels:
       control-plane: controller-manager
