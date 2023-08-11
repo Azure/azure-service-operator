@@ -26,12 +26,27 @@ spec:
     # Required for communication with the Azure API
     - port: 443
       protocol: TCP
+    to:
+    - ipBlock:
+        cidr: 0.0.0.0/0
     # Required for communication with the Kubernetes API
     - port: {{ .Values.networkPolicies.kubernetesApiPort }}
       protocol: TCP
     to:
     - ipBlock:
-        cidr: 0.0.0.0/0
+        cidr: {{ .Values.networkpolicies.kubernetesApiCIDR }}
+    # Required for communication with MySQL servers when using MySQL user object
+    - port: 3306
+      protocol: TCP
+    to:
+    - ipBlock:
+        cidr: {{ .Values.networkpolicies.mysqlCIDR }}
+    # Required for communication with PostgreSQL servers when using PostgreSQL user object
+    - port: 5432
+      protocol: TCP
+    to:
+    - ipBlock:
+        cidr: {{ .Values.networkpolicies.postgresqlCIDR }}
   podSelector:
     matchLabels:
       control-plane: controller-manager

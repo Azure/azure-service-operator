@@ -126,4 +126,9 @@ networkPolicies:
   enable: true
   # TCP port to be configured for talking to the Kubernetes API
   kubernetesApiPort: 6443
-
+  # Destination CIDR for talking to the Kubernetes API
+  kubernetesApiCIDR: 0.0.0.0/0
+  # Destination CIDR for talking to MySQL servers
+  kubernetesApiCIDR: 0.0.0.0/0
+  # Destination CIDR for talking to PostgreSQL servers
+  kubernetesApiCIDR: 0.0.0.0/0
