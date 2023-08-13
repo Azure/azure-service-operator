@@ -8,6 +8,7 @@ package identity
 import (
 	"context"
 	"reflect"
+	"strconv"
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
@@ -256,6 +257,26 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 			credentialFrom:  nsName,
 			secretData:      secret.Data,
 		}, nil
+	}
+
+	if usePodIdentity, hasUsePodIdentity := secret.Data[config.UseAzurePodIdentityAuth]; hasUsePodIdentity {
+		if usePodIdentityBool, _ := strconv.ParseBool(string(usePodIdentity)); usePodIdentityBool {
+			tokenCredential, err := azidentity.NewManagedIdentityCredential(&azidentity.ManagedIdentityCredentialOptions{
+				ClientOptions: azcore.ClientOptions{},
+				ID:            azidentity.ClientID(usePodIdentity),
+			})
+
+			if err != nil {
+				return nil, errors.Wrap(err, errors.Errorf("invalid Identity for %q encountered", nsName).Error())
+			}
+
+			return &Credential{
+				tokenCredential: tokenCredential,
+				subscriptionID:  string(subscriptionID),
+				credentialFrom:  nsName,
+				secretData:      secret.Data,
+			}, nil
+		}
 	}
 
 	// Here we check for workload identity if client secret is not provided.

@@ -53,6 +53,8 @@ const (
 	AzureAuthorityHost = "AZURE_AUTHORITY_HOST"
 	// PodNamespace is the namespace the operator pods are running in.
 	PodNamespace = "POD_NAMESPACE"
+	// UseAzurePodIdentityAuth boolean is used to determine if we're using Pod Identity authentication for namespace and per-resource scoped credentials
+	UseAzurePodIdentityAuth = "USE_POD_IDENTITY_AUTH"
 	// UseWorkloadIdentityAuth boolean is used to determine if we're using Workload Identity authentication for global credential
 	UseWorkloadIdentityAuth = "USE_WORKLOAD_IDENTITY_AUTH"
 )
