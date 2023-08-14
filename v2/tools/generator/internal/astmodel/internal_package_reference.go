@@ -12,8 +12,5 @@ type InternalPackageReference interface {
 
 	// LocalPathPrefix returns the prefix (everything up to the group name)
 	LocalPathPrefix() string
-	Group() string
 	Version() string
-	PackageName() string
-	PackagePath() string
 }
