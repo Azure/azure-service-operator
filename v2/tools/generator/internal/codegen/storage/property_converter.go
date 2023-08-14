@@ -125,7 +125,7 @@ func (_ *PropertyConverter) tryConvertToStoragePackage(name astmodel.TypeName) (
 	}
 
 	storageRef := astmodel.MakeStoragePackageReference(localRef)
-	visitedName := astmodel.MakeTypeName(storageRef, name.Name())
+	visitedName := astmodel.MakeInternalTypeName(storageRef, name.Name())
 	return visitedName, true
 }
 

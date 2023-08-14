@@ -30,7 +30,7 @@ func TestDuplicateNamesAreCaughtAndRenamed(t *testing.T) {
 	objType := astmodel.NewObjectType().WithProperties(prop, innerObjProp)
 
 	defs := make(astmodel.TypeDefinitionSet)
-	defs.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(placeholderPackage, "ObjType"), objType))
+	defs.Add(astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(placeholderPackage, "ObjType"), objType))
 
 	state := NewState(defs)
 	stage := FlattenProperties(logr.Discard())
@@ -48,7 +48,7 @@ func TestDuplicateNamesAreCaughtAndRenamed(t *testing.T) {
 			prop,
 			prop.WithName(newName).WithJsonName(newJsonName).AddFlattenedFrom("Inner"))
 	expectedDefs := make(astmodel.TypeDefinitionSet)
-	expectedDefs.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(placeholderPackage, "ObjType"), newObjType))
+	expectedDefs.Add(astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(placeholderPackage, "ObjType"), newObjType))
 
 	g.Expect(result.Definitions()).To(Equal(expectedDefs))
 }
@@ -69,7 +69,7 @@ func TestFlatteningWorks(t *testing.T) {
 		astmodel.NewPropertyDefinition("z", "z", astmodel.IntType))
 
 	defs := make(astmodel.TypeDefinitionSet)
-	defs.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(placeholderPackage, "objType"), objType))
+	defs.Add(astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(placeholderPackage, "objType"), objType))
 
 	state := NewState(defs)
 	stage := FlattenProperties(logr.Discard())

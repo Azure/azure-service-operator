@@ -17,17 +17,17 @@ import (
 
 // TypeDefinition is a name paired with a type
 type TypeDefinition struct {
-	name        TypeName
+	name        InternalTypeName
 	description []string
 	theType     Type
 }
 
-func MakeTypeDefinition(name TypeName, theType Type) TypeDefinition {
+func MakeTypeDefinition(name InternalTypeName, theType Type) TypeDefinition {
 	return TypeDefinition{name: name, theType: theType}
 }
 
 // Name returns the name being associated with the type
-func (def TypeDefinition) Name() TypeName {
+func (def TypeDefinition) Name() InternalTypeName {
 	return def.name
 }
 
@@ -67,7 +67,7 @@ func (def TypeDefinition) WithType(t Type) TypeDefinition {
 }
 
 // WithName returns an updated TypeDefinition with the specified name
-func (def TypeDefinition) WithName(typeName TypeName) TypeDefinition {
+func (def TypeDefinition) WithName(typeName InternalTypeName) TypeDefinition {
 	result := def
 	result.name = typeName
 	return result

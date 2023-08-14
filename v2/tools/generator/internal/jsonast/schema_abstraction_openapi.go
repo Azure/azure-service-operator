@@ -331,10 +331,10 @@ func (schema *OpenAPISchema) isRef() bool {
 	return schema.inner.Ref.GetURL() != nil
 }
 
-func (schema *OpenAPISchema) refTypeName() (astmodel.TypeName, error) {
+func (schema *OpenAPISchema) refTypeName() (astmodel.InternalTypeName, error) {
 	absRefPath, err := findFileForRef(schema.fileName, schema.inner.Ref)
 	if err != nil {
-		return nil, err
+		return astmodel.InternalTypeName{}, err
 	}
 
 	// this is the basic type name for the reference
@@ -343,7 +343,7 @@ func (schema *OpenAPISchema) refTypeName() (astmodel.TypeName, error) {
 	// now locate the package name for the reference
 	packageAndSwagger, err := schema.loader.loadFile(absRefPath)
 	if err != nil {
-		return nil, err
+		return astmodel.InternalTypeName{}, err
 	}
 
 	// default to using same package as the referring type
@@ -371,7 +371,7 @@ func (schema *OpenAPISchema) refTypeName() (astmodel.TypeName, error) {
 			// or is nil (so could be set to the pulling-in package)
 			if otherSchema.Package == nil || otherSchema.Package.Equals(schema.outputPackage) {
 				if _, ok := otherSchema.Swagger.Definitions[name]; ok {
-					return nil, errors.Errorf(
+					return astmodel.InternalTypeName{}, errors.Errorf(
 						"importing type %s from file %s into package %s could generate collision with type in %s",
 						name,
 						absRefPath,
@@ -383,7 +383,7 @@ func (schema *OpenAPISchema) refTypeName() (astmodel.TypeName, error) {
 		}
 	}
 
-	return astmodel.MakeTypeName(pkg, schema.idFactory.CreateIdentifier(name, astmodel.Exported)), nil
+	return astmodel.MakeInternalTypeName(pkg, schema.idFactory.CreateIdentifier(name, astmodel.Exported)), nil
 }
 
 func (schema *OpenAPISchema) readOnly() bool {

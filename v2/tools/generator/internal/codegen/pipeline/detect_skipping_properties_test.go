@@ -219,6 +219,6 @@ func AssertLinkExists(
 }
 
 func createPropertyRef(version string, name astmodel.PropertyName) astmodel.PropertyReference {
-	tn := astmodel.MakeTypeName(test.MakeLocalPackageReference("greek", version), "test")
+	tn := astmodel.MakeInternalTypeName(test.MakeLocalPackageReference("greek", version), "test")
 	return astmodel.MakePropertyReference(tn, name)
 }

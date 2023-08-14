@@ -18,10 +18,10 @@ import (
 
 // Shared test values -- note that these are used by type_transformer_test.go too
 var (
-	person2020  = astmodel.MakeTypeName(test.MakeLocalPackageReference("party", "2020-01-01"), "person")
-	post2019    = astmodel.MakeTypeName(test.MakeLocalPackageReference("thing", "2019-01-01"), "post")
-	student2019 = astmodel.MakeTypeName(test.MakeLocalPackageReference("role", "2019-01-01"), "student")
-	tutor2019   = astmodel.MakeTypeName(test.MakeLocalPackageReference("role", "2019-01-01"), "tutor")
+	person2020  = astmodel.MakeInternalTypeName(test.MakeLocalPackageReference("party", "2020-01-01"), "person")
+	post2019    = astmodel.MakeInternalTypeName(test.MakeLocalPackageReference("thing", "2019-01-01"), "post")
+	student2019 = astmodel.MakeInternalTypeName(test.MakeLocalPackageReference("role", "2019-01-01"), "student")
+	tutor2019   = astmodel.MakeInternalTypeName(test.MakeLocalPackageReference("role", "2019-01-01"), "tutor")
 )
 
 func Test_FilterByGroup_CorrectlySelectsStructs(t *testing.T) {

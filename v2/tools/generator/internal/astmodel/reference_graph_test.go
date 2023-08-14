@@ -18,7 +18,7 @@ func Test_ReferenceGraph_Gives_Correct_Depth(t *testing.T) {
 	pr := makeTestLocalPackageReference("group", "package")
 
 	name := func(name string) TypeName {
-		return MakeTypeName(pr, name)
+		return MakeInternalTypeName(pr, name)
 	}
 
 	names := func(ns ...string) TypeNameSet {

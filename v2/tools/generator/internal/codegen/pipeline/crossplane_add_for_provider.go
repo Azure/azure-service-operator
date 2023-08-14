@@ -54,7 +54,7 @@ func nestSpecIntoForProvider(
 	}
 	resourceName := typeDef.Name()
 
-	specName, ok := astmodel.AsTypeName(resource.SpecType())
+	specName, ok := astmodel.AsInternalTypeName(resource.SpecType())
 	if !ok {
 		return nil, errors.Errorf("resource %q spec was not of type TypeName, instead: %T", resourceName, resource.SpecType())
 	}
@@ -76,7 +76,7 @@ func nestSpecIntoForProvider(
 func nestType(
 	idFactory astmodel.IdentifierFactory,
 	definitions astmodel.TypeDefinitionSet,
-	outerTypeName astmodel.TypeName,
+	outerTypeName astmodel.InternalTypeName,
 	nestedTypeName string,
 	nestedPropertyName string) ([]astmodel.TypeDefinition, error) {
 
@@ -94,7 +94,7 @@ func nestType(
 
 	// Copy outer type properties onto new "nesting type" with name nestedTypeName
 	nestedDef := astmodel.MakeTypeDefinition(
-		astmodel.MakeTypeName(outerTypeName.PackageReference(), nestedTypeName),
+		astmodel.MakeInternalTypeName(outerTypeName.PackageReference(), nestedTypeName),
 		outerObject)
 	result = append(result, nestedDef)
 
