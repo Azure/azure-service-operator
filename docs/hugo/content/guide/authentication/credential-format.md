@@ -448,7 +448,29 @@ export IDENTITY_CLIENT_ID="$(az identity show -g ${IDENTITY_RESOURCE_GROUP} -n $
 export IDENTITY_RESOURCE_ID="$(az identity show -g ${IDENTITY_RESOURCE_GROUP} -n ${IDENTITY_NAME} --query id -otsv)"
 ```
 
-#### Manual Deployment
+See [CRD management]( {{< relref "crd-management" >}} ) for more details about `crdPattern`.
+
+### Create the secret
+
+{{< tabpane text=true left=true >}}
+{{% tab header="**Scope**:" disabled=true /%}}
+{{% tab header="Global" %}}
+
+If installing ASO for the first time, you can pass these values via Helm arguments:
+```bash
+helm upgrade --install --devel aso2 aso2/azure-service-operator \
+     --create-namespace \
+     --namespace=azureserviceoperator-system \
+     --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
+     --set aadPodIdentity.enable=true \
+     --set aadPodIdentity.azureManagedIdentityResourceId=${IDENTITY_RESOURCE_ID} \
+     --set azureClientID=${IDENTITY_CLIENT_ID} \
+     --set crdPattern='resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*'
+```
+
+See [CRD management]( {{< relref "crd-management" >}} ) for more details about `crdPattern`.
+
+Otherwise, if deploying manually: 
 
 Deploy an `AzureIdentity`:
 ```bash
@@ -479,46 +501,7 @@ spec:
 EOF
 ```
 
-#### Helm Chart Deployment
-
-```bash
-helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
-helm repo update
-
-helm upgrade --install --devel aso2 aso2/azure-service-operator \
-     --create-namespace \
-     --namespace=azureserviceoperator-system \
-     --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
-     --set aadPodIdentity.enable=true \
-     --set aadPodIdentity.azureManagedIdentityResourceId=${IDENTITY_RESOURCE_ID} \
-     --set azureClientID=${IDENTITY_CLIENT_ID} \
-     --set crdPattern='resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*'
-```
-
-See [CRD management]( {{< relref "crd-management" >}} ) for more details about `crdPattern`.
-
-#### Create the secret
-
-{{< tabpane text=true left=true >}}
-{{% tab header="**Scope**:" disabled=true /%}}
-{{% tab header="Global" %}}
-
-If installing ASO for the first time, you can pass these values via Helm arguments:
-```bash
-helm upgrade --install --devel aso2 aso2/azure-service-operator \
-     --create-namespace \
-     --namespace=azureserviceoperator-system \
-     --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
-     --set aadPodIdentity.enable=true \
-     --set aadPodIdentity.azureManagedIdentityResourceId=${IDENTITY_RESOURCE_ID} \
-     --set azureClientID=${IDENTITY_CLIENT_ID} \
-     --set crdPattern='resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*'
-```
-
-See [CRD management]( {{< relref "crd-management" >}} ) for more details about `crdPattern`.
-
-Otherwise, create or update the `aso-controller-settings` secret:
-
+Create or update the `aso-controller-settings` secret:
 ```bash
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
@@ -540,6 +523,35 @@ If ASO was already installed on your cluster and you are updating the `aso-contr
 {{% /tab %}}
 {{% tab header="Namespace" %}}
 
+Deploy an `AzureIdentity`:
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: "aadpodidentity.k8s.io/v1"
+kind: AzureIdentity
+metadata:
+  name: aso-identity
+  namespace: azureserviceoperator-system
+spec:
+  type: 0
+  resourceID: ${IDENTITY_RESOURCE_ID}
+  clientID: ${IDENTITY_CLIENT_ID}
+EOF
+```
+
+Deploy an `AzureIdentityBinding` to bind this identity to the Azure Service Operator manager pod:
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: "aadpodidentity.k8s.io/v1"
+kind: AzureIdentityBinding
+metadata:
+  name: aso-identity-binding
+  namespace: azureserviceoperator-system
+spec:
+  azureIdentity: aso-identity
+  selector: aso-manager-binding
+EOF
+```
+
 Create the `aso-credential` secret in your namespace:
 ```bash
 cat <<EOF | kubectl apply -f -
@@ -551,13 +563,42 @@ metadata:
 stringData:
  AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
  AZURE_TENANT_ID:       "$AZURE_TENANT_ID"
- AZURE_CLIENT_ID:       "$AZURE_CLIENT_ID"
+ AZURE_CLIENT_ID:       "$IDENTITY_CLIENT_ID"
  USE_POD_IDENTITY_AUTH: "true"
 EOF
 ```
 
 {{% /tab %}}
 {{% tab header="Resource" %}}
+
+Deploy an `AzureIdentity`:
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: "aadpodidentity.k8s.io/v1"
+kind: AzureIdentity
+metadata:
+  name: aso-identity
+  namespace: azureserviceoperator-system
+spec:
+  type: 0
+  resourceID: ${IDENTITY_RESOURCE_ID}
+  clientID: ${IDENTITY_CLIENT_ID}
+EOF
+```
+
+Deploy an `AzureIdentityBinding` to bind this identity to the Azure Service Operator manager pod:
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: "aadpodidentity.k8s.io/v1"
+kind: AzureIdentityBinding
+metadata:
+  name: aso-identity-binding
+  namespace: azureserviceoperator-system
+spec:
+  azureIdentity: aso-identity
+  selector: aso-manager-binding
+EOF
+```
 
 Create a per-resource secret. We'll use `my-resource-secret`:
 ```bash
@@ -570,7 +611,7 @@ metadata:
 stringData:
  AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
  AZURE_TENANT_ID:       "$AZURE_TENANT_ID"
- AZURE_CLIENT_ID:       "$AZURE_CLIENT_ID"
+ AZURE_CLIENT_ID:       "$IDENTITY_CLIENT_ID"
  USE_POD_IDENTITY_AUTH: "true"
 EOF
 ```
