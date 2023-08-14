@@ -18,10 +18,10 @@ import (
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
-	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
-	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
+	"github.com/Azure/azure-service-operator/v2/pkg/common/config"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
@@ -107,7 +107,7 @@ func Test_Multitenant_SingleOperator_PerResourceCredential(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	acct := newStorageAccount(tc, rg)
-	acct.Annotations = map[string]string{reconcilers.PerResourceSecretAnnotation: secret.Name}
+	acct.Annotations = map[string]string{annotations.PerResourceSecret: secret.Name}
 
 	// Creating new storage account in with restricted permissions per resource secret should fail.
 	tc.CreateResourceAndWaitForState(acct, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
@@ -115,14 +115,14 @@ func Test_Multitenant_SingleOperator_PerResourceCredential(t *testing.T) {
 
 	// Deleting the per-resource credential annotation would default to applying the global credential with all permissions
 	old := acct.DeepCopy()
-	delete(acct.Annotations, reconcilers.PerResourceSecretAnnotation)
+	delete(acct.Annotations, annotations.PerResourceSecret)
 	tc.Patch(old, acct)
 
 	tc.Eventually(acct).Should(tc.Match.BeProvisioned(0))
 
 	objKey := client.ObjectKeyFromObject(acct)
 	tc.GetResource(objKey, acct)
-	tc.Expect(acct.Annotations).ToNot(HaveKey(reconcilers.PerResourceSecretAnnotation))
+	tc.Expect(acct.Annotations).ToNot(HaveKey(annotations.PerResourceSecret))
 
 	resID := genruntime.GetResourceIDOrDefault(acct)
 
@@ -147,8 +147,8 @@ func newClientSecretCredential(subscriptionID, tenantID, name, namespace string)
 		return nil, errors.Errorf("required environment variable %q was not supplied", AzureClientIDMultitenantVar)
 	}
 
-	secret.Data[config.ClientIDVar] = []byte(clientID)
-	secret.Data[config.ClientSecretVar] = []byte(clientSecret)
+	secret.Data[config.AzureClientID] = []byte(clientID)
+	secret.Data[config.AzureClientSecret] = []byte(clientSecret)
 
 	return secret, nil
 }
@@ -166,8 +166,8 @@ func newClientCertificateCredential(subscriptionID, tenantID, name, namespace st
 		return nil, errors.Errorf("required environment variable %q was not supplied", AzureClientIDMultitenantCertAuthVar)
 	}
 
-	secret.Data[config.ClientIDVar] = []byte(clientID)
-	secret.Data[config.ClientCertificateVar] = []byte(clientCert)
+	secret.Data[config.AzureClientID] = []byte(clientID)
+	secret.Data[config.AzureClientCertificate] = []byte(clientCert)
 
 	return secret, nil
 }
@@ -175,7 +175,7 @@ func newClientCertificateCredential(subscriptionID, tenantID, name, namespace st
 func newManagedIdentityCredential(subscriptionID, tenantID, clientID, name, namespace string) *v1.Secret {
 	secret := newCredentialSecret(subscriptionID, tenantID, name, namespace)
 
-	secret.Data[config.ClientIDVar] = []byte(clientID)
+	secret.Data[config.AzureClientID] = []byte(clientID)
 
 	return secret
 }
@@ -183,8 +183,8 @@ func newManagedIdentityCredential(subscriptionID, tenantID, clientID, name, name
 func newCredentialSecret(subscriptionID, tenantID, name, namespace string) *v1.Secret {
 	secretData := make(map[string][]byte)
 
-	secretData[config.TenantIDVar] = []byte(tenantID)
-	secretData[config.SubscriptionIDVar] = []byte(subscriptionID)
+	secretData[config.AzureTenantID] = []byte(tenantID)
+	secretData[config.AzureSubscriptionID] = []byte(subscriptionID)
 
 	return &v1.Secret{
 		ObjectMeta: metav1.ObjectMeta{

@@ -18,11 +18,11 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
-	"github.com/Azure/azure-service-operator/v2/internal/config"
-	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
+	"github.com/Azure/azure-service-operator/v2/pkg/common/config"
 )
 
 const testPodNamespace = "azureserviceoperator-system-test"
@@ -103,7 +103,7 @@ func TestCredentialProvider_ResourceScopeCredentialAndNamespaceCredential_Prefer
 	g.Expect(err).ToNot(HaveOccurred())
 
 	rg := newResourceGroup("test-namespace")
-	rg.Annotations = map[string]string{reconcilers.PerResourceSecretAnnotation: perResourceCredentialName.Name}
+	rg.Annotations = map[string]string{annotations.PerResourceSecret: perResourceCredentialName.Name}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
@@ -128,7 +128,7 @@ func TestCredentialProvider_SecretDoesNotExist_ReturnsError(t *testing.T) {
 	}
 
 	rg := newResourceGroup("test-namespace")
-	rg.Annotations = map[string]string{reconcilers.PerResourceSecretAnnotation: credentialNamespacedName.Name}
+	rg.Annotations = map[string]string{annotations.PerResourceSecret: credentialNamespacedName.Name}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
@@ -204,10 +204,10 @@ func newResourceGroup(namespace string) *resources.ResourceGroup {
 
 func newSecret(namespacedName types.NamespacedName) *v1.Secret {
 	secretData := make(map[string][]byte)
-	secretData[config.ClientIDVar] = []byte(fakeID)
-	secretData[config.ClientSecretVar] = []byte(fakeID)
-	secretData[config.TenantIDVar] = []byte(fakeID)
-	secretData[config.SubscriptionIDVar] = []byte(fakeID)
+	secretData[config.AzureClientID] = []byte(fakeID)
+	secretData[config.AzureClientSecret] = []byte(fakeID)
+	secretData[config.AzureTenantID] = []byte(fakeID)
+	secretData[config.AzureSubscriptionID] = []byte(fakeID)
 
 	return &v1.Secret{
 		ObjectMeta: metav1.ObjectMeta{

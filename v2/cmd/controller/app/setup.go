@@ -37,6 +37,7 @@ import (
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
 	armreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
+	common "github.com/Azure/azure-service-operator/v2/pkg/common/config"
 
 	"github.com/Azure/azure-service-operator/v2/api"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
@@ -253,7 +254,7 @@ func getDefaultAzureTokenCredential(cfg config.Values, setupLog logr.Logger) (az
 		credential, err := azidentity.NewWorkloadIdentityCredential(&azidentity.WorkloadIdentityCredentialOptions{
 			ClientID:      cfg.ClientID,
 			TenantID:      cfg.TenantID,
-			TokenFilePath: config.FederatedTokenFilePath,
+			TokenFilePath: identity.FederatedTokenFilePath,
 		})
 		if err != nil {
 			return nil, errors.Wrapf(err, "unable to get workload identity credential")
@@ -262,8 +263,8 @@ func getDefaultAzureTokenCredential(cfg config.Values, setupLog logr.Logger) (az
 		return credential, nil
 	}
 
-	if cert := os.Getenv(config.ClientCertificateVar); cert != "" {
-		certPassword := os.Getenv(config.ClientCertificatePasswordVar)
+	if cert := os.Getenv(common.AzureClientCertificate); cert != "" {
+		certPassword := os.Getenv(common.AzureClientCertificatePassword)
 		credential, err := identity.NewClientCertificateCredential(cfg.TenantID, cfg.ClientID, []byte(cert), []byte(certPassword))
 		if err != nil {
 			return nil, errors.Wrapf(err, "unable to get client certificate credential")
