@@ -260,14 +260,15 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 	}
 
 	if usePodIdentity, hasUsePodIdentity := secret.Data[config.UseAzurePodIdentityAuth]; hasUsePodIdentity {
+		// Ignoring error here, as any other value or empty value means we should default to false
 		if usePodIdentityBool, _ := strconv.ParseBool(string(usePodIdentity)); usePodIdentityBool {
 			tokenCredential, err := azidentity.NewManagedIdentityCredential(&azidentity.ManagedIdentityCredentialOptions{
 				ClientOptions: azcore.ClientOptions{},
-				ID:            azidentity.ClientID(usePodIdentity),
+				ID:            azidentity.ClientID(clientID),
 			})
 
 			if err != nil {
-				return nil, errors.Wrap(err, errors.Errorf("invalid Identity for %q encountered", nsName).Error())
+				return nil, errors.Wrap(err, errors.Errorf("invalid Managed Identity for %q encountered", nsName).Error())
 			}
 
 			return &Credential{
