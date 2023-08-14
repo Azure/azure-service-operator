@@ -120,3 +120,15 @@ podAnnotations: {}
 # NOTE: 'installCRDs' should be set to false while installing a tenant.
 multitenant:
   enable: false
+
+# networkPolicies allows you to configure the NetworkPolicies deployed as part of the Chart
+networkPolicies:
+  enable: true
+  # TCP port to be configured for talking to the Kubernetes API
+  kubernetesApiPort: 6443
+  # Destination CIDR for talking to the Kubernetes API
+  kubernetesApiCIDR: 0.0.0.0/0
+  # Destination CIDR for talking to MySQL servers
+  mysqlCIDR: 0.0.0.0/0
+  # Destination CIDR for talking to PostgreSQL servers
+  postgresqlCIDR: 0.0.0.0/0
