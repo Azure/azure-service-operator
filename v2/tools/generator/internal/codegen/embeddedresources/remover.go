@@ -151,9 +151,11 @@ func (e EmbeddedResourceRemover) makeEmbeddedResourceRemovalTypeVisitor() astmod
 				// Remove the ID field if there is one, and it's not a status type.
 				// The expectation is that these resources must be created through
 				// their parent, so you won't ever use the ID field
-				if !typedCtx.name.IsStatus() {
+				tn, ok := astmodel.AsInternalTypeName(typedCtx.name)
+				if !ok || !tn.IsStatus() {
 					it = it.WithoutSpecificProperties("Id")
 				}
+
 				return astmodel.OrderedIdentityVisitOfObjectType(this, it, ctx)
 			}
 
@@ -214,7 +216,7 @@ func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(visitor astmodel.T
 		// A particular type may be used in multiple contexts in the same resource, or in multiple contexts in different resources. Since the pruning we are
 		// doing is context specific, a single type may end up with multiple shapes after pruning. In order to cater for this possibility we generate a
 		// unique name below and then collapse unneeded uniqueness away with simplifyTypeNames.
-		var newName astmodel.TypeName
+		var newName astmodel.InternalTypeName
 		var embeddedName embeddedResourceTypeName
 		exists := false
 		for count := 0; ; count++ {

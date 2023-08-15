@@ -16,7 +16,7 @@ type SubPackageReference struct {
 }
 
 var _ PackageReference = SubPackageReference{}
-var _ LocalLikePackageReference = SubPackageReference{}
+var _ InternalPackageReference = SubPackageReference{}
 var _ DerivedPackageReference = SubPackageReference{}
 
 var _ fmt.Stringer = SubPackageReference{}
@@ -99,19 +99,19 @@ func (s SubPackageReference) Parent() PackageReference {
 }
 
 func (s SubPackageReference) LocalPathPrefix() string {
-	if lpr, ok := s.parent.(LocalLikePackageReference); ok {
+	if lpr, ok := s.parent.(InternalPackageReference); ok {
 		return lpr.LocalPathPrefix()
 	}
 
-	panic("SubPackageReference parent is not a LocalLikePackageReference")
+	panic("SubPackageReference parent is not a InternalPackageReference")
 }
 
 func (s SubPackageReference) Version() string {
-	if lpr, ok := s.parent.(LocalLikePackageReference); ok {
+	if lpr, ok := s.parent.(InternalPackageReference); ok {
 		return lpr.Version()
 	}
 
-	panic("SubPackageReference parent is not a LocalLikePackageReference")
+	panic("SubPackageReference parent is not a InternalPackageReference")
 }
 
 // ImportAlias returns the import alias to use for this package reference.

@@ -12,8 +12,8 @@ import (
 )
 
 var (
-	oneTypeName = MakeTypeName(GenRuntimeReference, "One")
-	twoTypeName = MakeTypeName(GenRuntimeReference, "Two")
+	oneTypeName = MakeInternalTypeName(GenRuntimeReference, "One")
+	twoTypeName = MakeInternalTypeName(GenRuntimeReference, "Two")
 )
 
 /*

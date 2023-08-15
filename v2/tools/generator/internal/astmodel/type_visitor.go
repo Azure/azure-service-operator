@@ -87,7 +87,7 @@ func (tv *TypeVisitor) VisitDefinition(td TypeDefinition, ctx interface{}) (Type
 		return TypeDefinition{}, errors.Wrapf(err, "visit of %q failed", td.Name())
 	}
 
-	name, ok := visitedName.(TypeName)
+	name, ok := visitedName.(InternalTypeName)
 	if !ok {
 		return TypeDefinition{}, errors.Errorf("expected visit of %q to return TypeName, not %T", td.Name(), visitedName)
 	}

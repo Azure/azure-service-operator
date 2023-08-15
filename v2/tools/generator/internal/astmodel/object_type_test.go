@@ -20,8 +20,8 @@ var (
 	familyName           = NewPropertyDefinition("FamilyName", "family-name", StringType)
 	knownAs              = NewPropertyDefinition("KnownAs", "known-as", StringType)
 	gender               = NewPropertyDefinition("Gender", "gender", StringType)
-	embeddedProp         = NewPropertyDefinition("", "-", MakeTypeName(GenRuntimeReference, "DummyType"))
-	optionalEmbeddedProp = NewPropertyDefinition("", "-", MakeTypeName(GenRuntimeReference, "DummyType")).MakeTypeOptional()
+	embeddedProp         = NewPropertyDefinition("", "-", MakeInternalTypeName(GenRuntimeReference, "DummyType"))
+	optionalEmbeddedProp = NewPropertyDefinition("", "-", MakeInternalTypeName(GenRuntimeReference, "DummyType")).MakeTypeOptional()
 )
 
 /*
@@ -295,7 +295,7 @@ func Test_WithInterface_ReturnsExpectedObject(t *testing.T) {
 	empty := EmptyObjectType
 
 	// This is just a simple interface which actually has no functions
-	ifaceName := MakeTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "SampleInterface")
+	ifaceName := MakeInternalTypeName(makeTestLocalPackageReference("group", "2020-01-01"), "SampleInterface")
 	iface := NewInterfaceImplementation(ifaceName)
 
 	object := empty.WithInterface(iface)

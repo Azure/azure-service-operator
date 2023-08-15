@@ -54,7 +54,7 @@ func Test_TypeCatalogReport_GivenDirectlyRecursiveType_WhenInlined_ShowsExpected
 	golden := goldie.New(t)
 	g := gomega.NewWithT(t)
 
-	personName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	personName := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
 
 	parentProperty := astmodel.NewPropertyDefinition(
 		"Parent",
@@ -101,10 +101,10 @@ func Test_TypeCatalogReport_GivenMapsAndArrays_ShowsExpectedDetails(t *testing.T
 	golden := goldie.New(t)
 	g := gomega.NewWithT(t)
 
-	personName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	personName := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
 
 	name := astmodel.MakeTypeDefinition(
-		astmodel.MakeTypeName(test.Pkg2020, "Name"),
+		astmodel.MakeInternalTypeName(test.Pkg2020, "Name"),
 		astmodel.StringType)
 
 	aliasesProperty := astmodel.NewPropertyDefinition(
@@ -150,12 +150,12 @@ func Test_TypeCatalogReport_GivenValidatedAndOptionalTypes_ShowsExpectedDetails(
 	golden := goldie.New(t)
 	g := gomega.NewWithT(t)
 
-	personName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	personName := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
 
 	maxLength := int64(100)
 	minLength := int64(1)
 	name := astmodel.MakeTypeDefinition(
-		astmodel.MakeTypeName(test.Pkg2020, "Name"),
+		astmodel.MakeInternalTypeName(test.Pkg2020, "Name"),
 		astmodel.NewValidatedType(
 			astmodel.StringType,
 			astmodel.StringValidations{
@@ -246,7 +246,7 @@ func Test_TypeCatalogReport_GivenInterface_ShowsExpectedDetails(t *testing.T) {
 	golden := goldie.New(t)
 	g := gomega.NewWithT(t)
 
-	personName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	personName := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
 
 	idFactory := astmodel.NewIdentifierFactory()
 	f1 := test.NewFakeFunction("Hello", idFactory)
@@ -278,7 +278,7 @@ func Test_TypeCatalogReport_GivenObject_ShowsExpectedDetails(t *testing.T) {
 	g := gomega.NewWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()
-	personName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	personName := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
 
 	personObj := astmodel.NewObjectType().
 		WithProperties(

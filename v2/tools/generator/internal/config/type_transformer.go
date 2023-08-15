@@ -195,7 +195,7 @@ func (target *TransformTarget) produceTargetType(
 
 	if target.Name.IsRestrictive() {
 		if target.Group.IsRestrictive() || target.Version.IsRestrictive() {
-			result = astmodel.MakeTypeName(
+			result = astmodel.MakeInternalTypeName(
 				makeLocalPackageReferenceFunc(target.Group.String(), target.Version.String()),
 				target.Name.String())
 		} else {

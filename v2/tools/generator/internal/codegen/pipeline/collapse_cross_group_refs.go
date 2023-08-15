@@ -52,7 +52,7 @@ func newTypeWalker(definitions astmodel.TypeDefinitionSet, resourceName astmodel
 		if !resourceName.PackageReference().Equals(updated.Name().PackageReference()) {
 			// Note: If we ever find this generating colliding names, we might need to introduce a unique suffix.
 			// For now though it doesn't seem to, so preserving the shorter names as they're clearer.
-			updated = updated.WithName(astmodel.MakeTypeName(resourceName.PackageReference(), updated.Name().Name()))
+			updated = updated.WithName(astmodel.MakeInternalTypeName(resourceName.PackageReference(), updated.Name().Name()))
 		}
 		return astmodel.IdentityAfterVisit(original, updated, ctx)
 	}

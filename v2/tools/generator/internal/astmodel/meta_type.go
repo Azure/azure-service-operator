@@ -112,6 +112,34 @@ func AsTypeName(aType Type) (TypeName, bool) {
 	return nil, false
 }
 
+// AsInternalTypeName unwraps any wrappers around the provided type and returns either the underlying TypeName and true, or a
+// blank and false.
+func AsInternalTypeName(aType Type) (InternalTypeName, bool) {
+	if name, ok := aType.(InternalTypeName); ok {
+		return name, true
+	}
+
+	if wrapper, ok := aType.(MetaType); ok {
+		return AsInternalTypeName(wrapper.Unwrap())
+	}
+
+	return InternalTypeName{}, false
+}
+
+// AsExternalTypeName unwraps any wrappers around the provided type and returns either the underlying TypeName and true, or a
+// blank and false.
+func AsExternalTypeName(aType Type) (ExternalTypeName, bool) {
+	if name, ok := aType.(ExternalTypeName); ok {
+		return name, true
+	}
+
+	if wrapper, ok := aType.(MetaType); ok {
+		return AsExternalTypeName(wrapper.Unwrap())
+	}
+
+	return ExternalTypeName{}, false
+}
+
 // AsResourceType unwraps any wrappers around the provided type and returns either the underlying ResourceType and true,
 // or a nil and false.
 func AsResourceType(aType Type) (*ResourceType, bool) {

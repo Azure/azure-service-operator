@@ -174,7 +174,7 @@ func (scanner *SchemaScanner) GenerateAllDefinitions(ctx context.Context, schema
 	rootPackage := scanner.configuration.MakeLocalPackageReference(
 		scanner.idFactory.CreateGroupName(rootGroup),
 		rootVersion)
-	rootTypeName := astmodel.MakeTypeName(rootPackage, rootName)
+	rootTypeName := astmodel.MakeInternalTypeName(rootPackage, rootName)
 
 	_, err = generateDefinitionsFor(ctx, scanner, rootTypeName, schema)
 	if err != nil {
@@ -644,7 +644,7 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, log 
 func generateDefinitionsFor(
 	ctx context.Context,
 	scanner *SchemaScanner,
-	typeName astmodel.TypeName,
+	typeName astmodel.InternalTypeName,
 	schema Schema,
 ) (astmodel.TypeName, error) {
 	schemaType, err := getSubSchemaType(schema)

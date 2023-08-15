@@ -495,7 +495,7 @@ func TestTransformProperty_CanRemoveProperty(t *testing.T) {
 		Remove:   true,
 	}
 
-	resourceCopyType := astmodel.MakeTypeName(
+	resourceCopyType := astmodel.MakeInternalTypeName(
 		test.MakeLocalPackageReference("deploymenttemplate", "2019-04-01"),
 		"ResourceCopy")
 	copyProperty := astmodel.NewPropertyDefinition("Copy", "copy", astmodel.NewOptionalType(resourceCopyType))
@@ -596,7 +596,7 @@ func TestTypeTarget_AppliesToType_ReturnsExpectedResult(t *testing.T) {
 	}
 
 	nameType := astmodel.NewOptionalType(
-		astmodel.MakeTypeName(
+		astmodel.MakeInternalTypeName(
 			test.MakeLocalPackageReference("definitions", "v1"),
 			"ResourceCopy"))
 
