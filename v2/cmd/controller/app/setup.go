@@ -13,18 +13,16 @@ import (
 	"regexp"
 	"time"
 
-	apiextensionsclient "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
-	"sigs.k8s.io/controller-runtime/pkg/manager"
-
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/benbjohnson/clock"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+	apiextensionsclient "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
+	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/client-go/rest"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/cache"
@@ -32,22 +30,22 @@ import (
 	clientconfig "sigs.k8s.io/controller-runtime/pkg/client/config"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
+	"sigs.k8s.io/controller-runtime/pkg/manager"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
-
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
-	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
-	armreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
-	common "github.com/Azure/azure-service-operator/v2/pkg/common/config"
 
 	"github.com/Azure/azure-service-operator/v2/api"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/crdmanagement"
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
+	armreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/generic"
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/lockedrand"
+	common "github.com/Azure/azure-service-operator/v2/pkg/common/config"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
@@ -84,8 +82,11 @@ func SetupPreUpgradeCheck(ctx context.Context) error {
 		}
 
 		// If this CRD is annotated with "serviceoperator.azure.com/version", it must be >=2.0.0 and so safe
-		// as we didn't start using this label until 2.0.0
-		if _, ok := crd.Labels[crdmanagement.ServiceOperatorVersionLabel]; ok {
+		// as we didn't start using this label until 2.0.0. Same with "app.kubernetes.io/version" which was added in 2.3.0
+		// in favor of our custom serviceoperator.azure.com
+		_, hasOldLabel := crd.Labels[crdmanagement.ServiceOperatorVersionLabelOld]
+		_, hasNewLabel := crd.Labels[crdmanagement.ServiceOperatorVersionLabel]
+		if hasOldLabel || hasNewLabel {
 			continue
 		}
 

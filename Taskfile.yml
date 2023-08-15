@@ -32,7 +32,8 @@ vars:
     # Version tags for the v2 controller must start with "v2", e.g. "v2.0.0-alpha.0".
     sh: "{{.SCRIPTS_ROOT}}/build_version.py v2"
 
-  LATEST_VERSION_TAG: $(git describe --tags $(git rev-list --tags=v2* --max-count=1))
+  LATEST_VERSION_TAG:
+    sh: git describe --tags $(git rev-list --tags=v2* --max-count=1)
 
   VERSION_FLAGS: -ldflags "-X {{.PACKAGE}}/internal/version.BuildVersion={{.VERSION}}"
 
@@ -341,6 +342,8 @@ tasks:
       --set crdPattern=*"
       - "kubectl create namespace pre-release"
       - task: controller:wait-for-operator-ready
+        vars:
+          ARGS: "-o"
       - "go test -timeout 15m -count=1 -v -run Test_Pre_Release_ResourceCanBeCreated_BeforeUpgrade ./test/pre-release"
 
   controller:test-upgrade-post:
@@ -615,7 +618,7 @@ tasks:
     dir: "v2/"
     cmds:
       - mkdir -p bin # in case it doesn't exist
-      - "{{.SCRIPTS_ROOT}}/kustomize-build.sh -k operator -v {{.VERSION}} | sed -e 's@localhost:5000/azureserviceoperator:latest@{{.PUBLIC_REGISTRY}}{{.CONTROLLER_DOCKER_IMAGE}}@g' > bin/azureserviceoperator_{{.VERSION}}.yaml"
+      - "{{.SCRIPTS_ROOT}}/kustomize-build.sh -k operator -v {{.VERSION}} | sed -e 's@{{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}}@{{.PUBLIC_REGISTRY}}{{.CONTROLLER_DOCKER_IMAGE}}@g' > bin/azureserviceoperator_{{.VERSION}}.yaml"
       - "{{.SCRIPTS_ROOT}}/kustomize-build.sh -k crd -v {{.VERSION}} > bin/azureserviceoperator_customresourcedefinitions_{{.VERSION}}.yaml"
 
   controller:make-multitenant-files:
