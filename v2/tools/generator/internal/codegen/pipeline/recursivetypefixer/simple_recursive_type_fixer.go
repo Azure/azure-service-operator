@@ -13,9 +13,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
+// SimpleRecursiveTypeFixer removes circular references from types that refer to themselves directly.
 // TODO: If we end up needing more complex cycle detection we can rework TypeWalker to do it, but for now this
 // TODO: is simpler and seems to cover all the cases we need.
-// SimpleRecursiveTypeFixer removes circular references from types that refer to themselves directly.
 type SimpleRecursiveTypeFixer struct {
 	visitor        *astmodel.TypeVisitor[simpleRecursiveTypeFixerContext]
 	newDefinitions astmodel.TypeDefinitionSet

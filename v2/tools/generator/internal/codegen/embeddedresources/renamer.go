@@ -97,7 +97,7 @@ func (r renamer) simplifyEmbeddedNameRemoveContext(
 		return nil, nil
 	}
 
-	// If all updated names share the same context, the context is not adding any disambiguation value so we can remove it
+	// If all updated names share the same context, the context is not adding any disambiguation value, so we can remove it
 	renames := make(astmodel.TypeAssociation)
 	for associated := range associatedNames {
 		embeddedName, ok := originalNames[associated]
@@ -120,7 +120,7 @@ func (r renamer) simplifyEmbeddedName(
 	_ astmodel.TypeName,
 	associatedNames astmodel.TypeNameSet,
 	originalNames map[astmodel.TypeName]embeddedResourceTypeName,
-	log logr.Logger,
+	_ logr.Logger,
 ) (astmodel.TypeAssociation, error) {
 	// remove _0, which especially for the cases where there's only a single
 	// kind of usage will make the type name much clearer
@@ -180,7 +180,7 @@ func simplifyTypeNames(
 	originalNames map[astmodel.TypeName]embeddedResourceTypeName,
 	log logr.Logger,
 ) (astmodel.TypeDefinitionSet, error) {
-	// Find all of the type names that have the flag we're interested in
+	// Find all type names that have the flag we're interested in
 	updatedNames := make(map[astmodel.TypeName]astmodel.TypeNameSet)
 	for _, def := range definitions {
 		if flag.IsOn(def.Type()) {

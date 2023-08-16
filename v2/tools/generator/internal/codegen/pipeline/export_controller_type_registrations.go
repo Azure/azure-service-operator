@@ -120,7 +120,7 @@ func ensureIndexPropertyPathsUnique(chains []*propertyChain) {
 		chain.requiredForPropertyPath = true
 	}
 
-	// Look until either we have no collisions, or we can't resolve them
+	// Loop until either we have no collisions, or we can't resolve them
 	for {
 		// Look for collisions
 		chainsByName := make(map[string][]*propertyChain)

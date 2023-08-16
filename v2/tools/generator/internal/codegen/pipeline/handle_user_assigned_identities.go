@@ -117,7 +117,7 @@ func newUserAssignedIdentityDefinition(pr astmodel.PackageReference) astmodel.Ty
 
 	prop := astmodel.NewPropertyDefinition("Reference", "reference", astmodel.ResourceReferenceType)
 
-	// This type is special but we have to set an ARMReferenceTag anyway for downstream consumers to be happy.
+	// This type is special, but we have to set an ARMReferenceTag anyway for downstream consumers to be happy.
 	prop = prop.WithTag(astmodel.ARMReferenceTag, "Reference")
 	t := astmodel.NewObjectType().WithProperty(prop)
 
