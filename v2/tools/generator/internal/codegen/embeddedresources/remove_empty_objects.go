@@ -95,9 +95,13 @@ type visitorCtx struct {
 func makeRemovedTypeVisitor(
 	toRemove astmodel.TypeNameSet,
 	log logr.Logger,
-) astmodel.TypeVisitor {
+) astmodel.TypeVisitor[*visitorCtx] {
 	// This is basically copied from IdentityVisitOfObjectType, but since it has/needs a per-property context we can't use that
-	removeReferencesToEmptyTypes := func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
+	removeReferencesToEmptyTypes := func(
+		this *astmodel.TypeVisitor[*visitorCtx],
+		it *astmodel.ObjectType,
+		ctx *visitorCtx,
+	) (astmodel.Type, error) {
 		// just map the property types
 		var errs []error
 		var newProps []*astmodel.PropertyDefinition
@@ -147,19 +151,24 @@ func makeRemovedTypeVisitor(
 		return result, nil
 	}
 
-	typeNameVisitWithSafetyCheck := func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
-		typedCtx, ok := ctx.(*visitorCtx)
-		if ok {
-			// Safety check that we're not overwriting typeName
-			if typedCtx.typeName != nil {
-				return nil, errors.Errorf("would've overwritten ctx.typeName %q", typedCtx.typeName)
+	typeNameVisitWithSafetyCheck := func(
+		this *astmodel.TypeVisitor[*visitorCtx],
+		it astmodel.TypeName,
+		ctx *visitorCtx,
+	) (astmodel.Type, error) {
+		// Safety check that we're not overwriting typeName
+		if ctx != nil {
+			if ctx.typeName != nil {
+				return nil, errors.Errorf("would've overwritten ctx.typeName %q", ctx.typeName)
 			}
-			typedCtx.typeName = it
+
+			ctx.typeName = it
 		}
+
 		return astmodel.IdentityVisitOfTypeName(this, it, ctx)
 	}
 
-	visitor := astmodel.TypeVisitorBuilder{
+	visitor := astmodel.TypeVisitorBuilder[*visitorCtx]{
 		VisitObjectType: removeReferencesToEmptyTypes,
 		VisitTypeName:   typeNameVisitWithSafetyCheck,
 	}.Build()

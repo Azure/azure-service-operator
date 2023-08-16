@@ -59,12 +59,16 @@ func ConvertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) *Stage 
 		})
 }
 
-func createVisitorForSynthesizer(baseSynthesizer synthesizer) astmodel.TypeVisitor {
-	builder := astmodel.TypeVisitorBuilder{}
+func createVisitorForSynthesizer(baseSynthesizer synthesizer) astmodel.TypeVisitor[resourceFieldSelector] {
+	builder := astmodel.TypeVisitorBuilder[resourceFieldSelector]{}
 
 	// the context here is whether we are selecting spec or status fields
-	builder.VisitAllOfType = func(this *astmodel.TypeVisitor, it *astmodel.AllOfType, ctx interface{}) (astmodel.Type, error) {
-		synth := baseSynthesizer.forField(ctx.(resourceFieldSelector))
+	builder.VisitAllOfType = func(
+		this *astmodel.TypeVisitor[resourceFieldSelector],
+		it *astmodel.AllOfType,
+		ctx resourceFieldSelector,
+	) (astmodel.Type, error) {
+		synth := baseSynthesizer.forField(ctx)
 
 		object, err := synth.allOfObject(it)
 		if err != nil {
@@ -76,8 +80,12 @@ func createVisitorForSynthesizer(baseSynthesizer synthesizer) astmodel.TypeVisit
 		return this.Visit(object, ctx)
 	}
 
-	builder.VisitOneOfType = func(this *astmodel.TypeVisitor, it *astmodel.OneOfType, ctx interface{}) (astmodel.Type, error) {
-		synth := baseSynthesizer.forField(ctx.(resourceFieldSelector))
+	builder.VisitOneOfType = func(
+		this *astmodel.TypeVisitor[resourceFieldSelector],
+		it *astmodel.OneOfType,
+		ctx resourceFieldSelector,
+	) (astmodel.Type, error) {
+		synth := baseSynthesizer.forField(ctx)
 
 		t, err := synth.oneOfToObject(it)
 		if err != nil {
@@ -88,7 +96,11 @@ func createVisitorForSynthesizer(baseSynthesizer synthesizer) astmodel.TypeVisit
 		return this.Visit(t, ctx)
 	}
 
-	builder.VisitResourceType = func(this *astmodel.TypeVisitor, it *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
+	builder.VisitResourceType = func(
+		this *astmodel.TypeVisitor[resourceFieldSelector],
+		it *astmodel.ResourceType,
+		ctx resourceFieldSelector,
+	) (astmodel.Type, error) {
 		spec, err := this.Visit(it.SpecType(), chooseSpec)
 		if err != nil {
 			return nil, errors.Wrapf(err, "visiting resource spec type")
@@ -102,7 +114,9 @@ func createVisitorForSynthesizer(baseSynthesizer synthesizer) astmodel.TypeVisit
 		return it.WithSpec(spec).WithStatus(status), nil
 	}
 
-	builder.VisitErroredType = func(_ *astmodel.TypeVisitor, it *astmodel.ErroredType, ctx interface{}) (astmodel.Type, error) {
+	builder.VisitErroredType = func(
+		it *astmodel.ErroredType,
+	) (astmodel.Type, error) {
 		// Nothing we can do to resolve errors, so just return the type as-is
 		return it, nil
 	}

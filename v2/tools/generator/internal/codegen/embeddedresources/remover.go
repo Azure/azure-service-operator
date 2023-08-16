@@ -140,19 +140,20 @@ func (e EmbeddedResourceRemover) RemoveEmbeddedResources(
 	return RemoveEmptyObjects(result, log)
 }
 
-func (e EmbeddedResourceRemover) makeEmbeddedResourceRemovalTypeVisitor() astmodel.TypeVisitor {
-	visitor := astmodel.TypeVisitorBuilder{
-		VisitObjectType: func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-			typedCtx := ctx.(resourceRemovalVisitorContext)
-
-			parent := e.resourcesEmbeddedInParent[typedCtx.name]
-			isResourceEmbeddedInParent := astmodel.TypeEquals(parent, typedCtx.resource)
+func (e EmbeddedResourceRemover) makeEmbeddedResourceRemovalTypeVisitor() astmodel.TypeVisitor[resourceRemovalVisitorContext] {
+	visitor := astmodel.TypeVisitorBuilder[resourceRemovalVisitorContext]{
+		VisitObjectType: func(
+			this *astmodel.TypeVisitor[resourceRemovalVisitorContext],
+			it *astmodel.ObjectType,
+			ctx resourceRemovalVisitorContext,
+		) (astmodel.Type, error) {
+			parent := e.resourcesEmbeddedInParent[ctx.name]
+			isResourceEmbeddedInParent := astmodel.TypeEquals(parent, ctx.resource)
 			if isResourceEmbeddedInParent {
 				// Remove the ID field if there is one, and it's not a status type.
 				// The expectation is that these resources must be created through
 				// their parent, so you won't ever use the ID field
-				tn, ok := astmodel.AsInternalTypeName(typedCtx.name)
-				if !ok || !tn.IsStatus() {
+				if !ctx.name.IsStatus() {
 					it = it.WithoutSpecificProperties("Id")
 				}
 
@@ -161,22 +162,22 @@ func (e EmbeddedResourceRemover) makeEmbeddedResourceRemovalTypeVisitor() astmod
 
 			// If this resource has any properties that are flagged as misbehaving embedded resources, we have to skip
 			// pruning that property
-			if detailsCollection, ok := e.resourcesWhichOwnSubresourceLifecycle[typedCtx.resource]; ok {
+			if detailsCollection, ok := e.resourcesWhichOwnSubresourceLifecycle[ctx.resource]; ok {
 				for _, details := range detailsCollection {
-					if details.propertyType == typedCtx.name {
+					if details.propertyType == ctx.name {
 						return astmodel.OrderedIdentityVisitOfObjectType(this, it, ctx)
 					}
 				}
 			}
 
-			if typedCtx.depth <= 1 || !it.IsResource() {
+			if ctx.depth <= 1 || !it.IsResource() {
 				// Avoid removing top level Spec
 				return astmodel.OrderedIdentityVisitOfObjectType(this, it, ctx)
 			}
 
-			if subResources, ok := e.resourceToSubresourceMap[getResourceKey(typedCtx.resource)]; ok {
+			if subResources, ok := e.resourceToSubresourceMap[getResourceKey(ctx.resource)]; ok {
 				isSubresource := it.IsResource() && it.Resources() != nil && subResources.ContainsAny(it.Resources())
-				if subResources.Contains(typedCtx.name) || isSubresource {
+				if subResources.Contains(ctx.name) || isSubresource {
 					it = astmodel.EmptyObjectType // Remove this object
 					return it, nil
 				}
@@ -197,11 +198,12 @@ func (e EmbeddedResourceRemover) makeEmbeddedResourceRemovalTypeVisitor() astmod
 	return visitor
 }
 
-func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(visitor astmodel.TypeVisitor, def astmodel.TypeDefinition) *astmodel.TypeWalker {
+func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(
+	visitor astmodel.TypeVisitor[resourceRemovalVisitorContext],
+	def astmodel.TypeDefinition,
+) *astmodel.TypeWalker[resourceRemovalVisitorContext] {
 	typeWalker := astmodel.NewTypeWalker(e.definitions, visitor)
-	typeWalker.AfterVisit = func(original astmodel.TypeDefinition, updated astmodel.TypeDefinition, ctx interface{}) (astmodel.TypeDefinition, error) {
-		typedCtx := ctx.(resourceRemovalVisitorContext)
-
+	typeWalker.AfterVisit = func(original astmodel.TypeDefinition, updated astmodel.TypeDefinition, ctx resourceRemovalVisitorContext) (astmodel.TypeDefinition, error) {
 		if !astmodel.TypeEquals(original.Name(), updated.Name()) {
 			panic(fmt.Sprintf("Unexpected name mismatch during type walk: %q -> %q", original.Name(), updated.Name()))
 		}
@@ -222,12 +224,12 @@ func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(visitor astmodel.T
 		for count := 0; ; count++ {
 			embeddedName = embeddedResourceTypeName{
 				original: original.Name(),
-				context:  typedCtx.resource.Name(),
+				context:  ctx.resource.Name(),
 				suffix:   e.typeSuffix,
 				count:    count,
 			}
 			newName = embeddedName.ToTypeName()
-			existing, ok := typedCtx.modifiedDefinitions[newName]
+			existing, ok := ctx.modifiedDefinitions[newName]
 			if !ok {
 				break
 			}
@@ -243,13 +245,13 @@ func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(visitor astmodel.T
 		updated = updated.WithName(newName)
 		updated = updated.WithType(flaggedType)
 		if !exists {
-			typedCtx.modifiedDefinitions.Add(updated)
+			ctx.modifiedDefinitions.Add(updated)
 		}
 
 		return updated, nil
 	}
 
-	typeWalker.ShouldRemoveCycle = func(def astmodel.TypeDefinition, ctx interface{}) (bool, error) {
+	typeWalker.ShouldRemoveCycle = func(def astmodel.TypeDefinition, ctx resourceRemovalVisitorContext) (bool, error) {
 		ot, ok := astmodel.AsObjectType(def.Type())
 		if !ok {
 			return false, nil
@@ -275,12 +277,16 @@ func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(visitor astmodel.T
 		return false, nil // Leave other cycles for now
 	}
 
-	typeWalker.MakeContext = func(it astmodel.TypeName, ctx interface{}) (interface{}, error) {
-		if ctx == nil {
-			return resourceRemovalVisitorContext{resource: def.Name(), depth: 0, modifiedDefinitions: make(astmodel.TypeDefinitionSet)}, nil
+	typeWalker.MakeContext = func(it astmodel.TypeName, ctx resourceRemovalVisitorContext) (resourceRemovalVisitorContext, error) {
+		if ctx.resource == nil {
+			return resourceRemovalVisitorContext{
+				resource:            def.Name(),
+				depth:               0,
+				modifiedDefinitions: make(astmodel.TypeDefinitionSet),
+			}, nil
 		}
-		typedCtx := ctx.(resourceRemovalVisitorContext)
-		return typedCtx.WithMoreDepth().WithName(it), nil
+
+		return ctx.WithMoreDepth().WithName(it), nil
 	}
 
 	return typeWalker

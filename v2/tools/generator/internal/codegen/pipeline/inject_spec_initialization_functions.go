@@ -85,7 +85,7 @@ type specInitializationScanner struct {
 	conversionGraph *storage.ConversionGraph                // Conversion graph between resource versions
 	config          *config.ObjectModelConfiguration        // Configuration for which resources are importable and which are not
 	specToStatus    map[astmodel.TypeName]astmodel.TypeName // maps spec types to corresponding status types
-	visitor         astmodel.TypeVisitor                    // used to walk resources to find the mappings
+	visitor         astmodel.TypeVisitor[astmodel.Type]     // used to walk resources to find the mappings
 }
 
 func newSpecInitializationScanner(
@@ -104,7 +104,7 @@ func newSpecInitializationScanner(
 		specToStatus:    make(map[astmodel.TypeName]astmodel.TypeName, capacity),
 	}
 
-	builder := astmodel.TypeVisitorBuilder{
+	builder := astmodel.TypeVisitorBuilder[astmodel.Type]{
 		VisitTypeName:   result.visitTypeName,
 		VisitObjectType: result.visitObjectType,
 		VisitMapType:    result.visitMapType,
@@ -191,17 +191,11 @@ func (s *specInitializationScanner) findResources() (astmodel.TypeDefinitionSet,
 
 // visitTypeName is called for each TypeName in the spec and status types of a resource
 func (s *specInitializationScanner) visitTypeName(
-	visitor *astmodel.TypeVisitor,
+	visitor *astmodel.TypeVisitor[astmodel.Type],
 	specName astmodel.TypeName,
-	statusAny interface{},
+	ctx astmodel.Type,
 ) (astmodel.Type, error) {
-	statusType, isType := statusAny.(astmodel.Type)
-	if !isType {
-		// Don't have a type name, nothing to do
-		return specName, nil
-	}
-
-	statusName, ok := astmodel.AsTypeName(statusType)
+	statusName, ok := astmodel.AsTypeName(ctx)
 	if !ok {
 		// Don't have a type name, nothing to do
 		return specName, nil
@@ -242,11 +236,11 @@ func (s *specInitializationScanner) visitTypeName(
 
 // visitObjectType is called for each Object pair in the spec and status types of a resource
 func (s *specInitializationScanner) visitObjectType(
-	visitor *astmodel.TypeVisitor,
+	visitor *astmodel.TypeVisitor[astmodel.Type],
 	spec *astmodel.ObjectType,
-	statusAny interface{},
+	ctx astmodel.Type,
 ) (astmodel.Type, error) {
-	status, ok := astmodel.AsObjectType(statusAny.(astmodel.Type))
+	status, ok := astmodel.AsObjectType(ctx)
 	if !ok {
 		// Don't have an object, nothing to do
 		return spec, nil
@@ -277,11 +271,11 @@ func (s *specInitializationScanner) visitObjectType(
 
 // visitMapType is called for each Map pair in the spec and status types of a resource
 func (s *specInitializationScanner) visitMapType(
-	visitor *astmodel.TypeVisitor,
+	visitor *astmodel.TypeVisitor[astmodel.Type],
 	spec *astmodel.MapType,
-	statusAny interface{},
+	ctx astmodel.Type,
 ) (astmodel.Type, error) {
-	status, ok := astmodel.AsMapType(statusAny.(astmodel.Type))
+	status, ok := astmodel.AsMapType(ctx)
 	if !ok {
 		// If the status type DOESN'T have a map here, something is awry - they should have very similar structures
 		// as they're both created from the same Swagger spec
@@ -304,15 +298,15 @@ func (s *specInitializationScanner) visitMapType(
 
 // visitArrayType is called for each Array pair in the spec and status types of a resource
 func (s *specInitializationScanner) visitArrayType(
-	visitor *astmodel.TypeVisitor,
+	visitor *astmodel.TypeVisitor[astmodel.Type],
 	spec *astmodel.ArrayType,
-	statusAny interface{},
+	ctx astmodel.Type,
 ) (astmodel.Type, error) {
-	status, ok := astmodel.AsArrayType(statusAny.(astmodel.Type))
+	status, ok := astmodel.AsArrayType(ctx)
 	if !ok {
 		// If the conversion is map -> array, we allow it but only for the special UserAssignedIdentityDetails type (for now).
 		// We can expand this in the future if there are other map->array scenarios we want to support
-		if _, ok := astmodel.AsMapType(statusAny.(astmodel.Type)); ok {
+		if _, ok := astmodel.AsMapType(ctx); ok {
 			typeName, ok := astmodel.AsTypeName(spec.Element())
 			if ok {
 				if typeName.Name() == astmodel.UserAssignedIdentitiesTypeName {

@@ -51,17 +51,20 @@ func AddSecrets(config *config.Configuration) *Stage {
 func applyConfigSecretOverrides(config *config.Configuration, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 	result := make(astmodel.TypeDefinitionSet)
 
-	applyConfigSecrets := func(_ *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-		typeName := ctx.(astmodel.InternalTypeName)
-		strippedTypeName := typeName.WithName(strings.TrimSuffix(typeName.Name(), astmodel.StatusSuffix))
+	applyConfigSecrets := func(
+		_ *astmodel.TypeVisitor[astmodel.TypeName],
+		it *astmodel.ObjectType,
+		ctx astmodel.TypeName,
+	) (astmodel.Type, error) {
+		strippedTypeName := ctx.WithName(strings.TrimSuffix(ctx.Name(), astmodel.StatusSuffix))
 
 		for _, prop := range it.Properties().Copy() {
-			isSecret, _ := config.IsSecret(typeName, prop.PropertyName())
+			isSecret, _ := config.IsSecret(ctx, prop.PropertyName())
 			if isSecret {
 				it = it.WithProperty(prop.WithIsSecret(true))
 			}
 
-			if typeName.IsStatus() {
+			if ctx.IsStatus() {
 				isSecret, _ = config.IsSecret(strippedTypeName, prop.PropertyName())
 				if isSecret {
 					it = it.WithProperty(prop.WithIsSecret(true))
@@ -72,7 +75,7 @@ func applyConfigSecretOverrides(config *config.Configuration, definitions astmod
 		return it, nil
 	}
 
-	visitor := astmodel.TypeVisitorBuilder{
+	visitor := astmodel.TypeVisitorBuilder[astmodel.TypeName]{
 		VisitObjectType: applyConfigSecrets,
 	}.Build()
 
@@ -97,7 +100,7 @@ func applyConfigSecretOverrides(config *config.Configuration, definitions astmod
 }
 
 func transformSpecSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-	specVisitor := astmodel.TypeVisitorBuilder{
+	specVisitor := astmodel.TypeVisitorBuilder[any]{
 		VisitObjectType: transformSecretProperties,
 	}.Build()
 
@@ -121,7 +124,7 @@ func transformSpecSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.Type
 }
 
 func removeStatusSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-	specVisitor := astmodel.TypeVisitorBuilder{
+	specVisitor := astmodel.TypeVisitorBuilder[any]{
 		VisitObjectType: removeSecretProperties,
 	}.Build()
 
@@ -144,7 +147,7 @@ func removeStatusSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.TypeD
 	return result, nil
 }
 
-func removeSecretProperties(_ *astmodel.TypeVisitor, it *astmodel.ObjectType, _ interface{}) (astmodel.Type, error) {
+func removeSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.ObjectType, _ any) (astmodel.Type, error) {
 	for _, prop := range it.Properties().Copy() {
 		if prop.IsSecret() {
 			// The expectation is that this is a string
@@ -160,7 +163,7 @@ func removeSecretProperties(_ *astmodel.TypeVisitor, it *astmodel.ObjectType, _ 
 	return it, nil
 }
 
-func transformSecretProperties(_ *astmodel.TypeVisitor, it *astmodel.ObjectType, _ interface{}) (astmodel.Type, error) {
+func transformSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.ObjectType, _ any) (astmodel.Type, error) {
 	for _, prop := range it.Properties().Copy() {
 		if prop.IsSecret() {
 			// The expectation is that this is a string

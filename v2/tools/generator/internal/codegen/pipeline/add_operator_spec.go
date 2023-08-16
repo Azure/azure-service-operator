@@ -135,17 +135,16 @@ func (ctx configMapContext) withTypeName(typeName astmodel.TypeName) configMapCo
 	}
 }
 
-var identityConfigMapObjectTypeVisit = astmodel.MakeIdentityVisitOfObjectType(func(ot *astmodel.ObjectType, prop *astmodel.PropertyDefinition, ctx interface{}) (interface{}, error) {
-	typedCtx := ctx.(configMapContext)
-	typedCtx = typedCtx.withPathElement(prop)
-	return typedCtx, nil
-})
+var identityConfigMapObjectTypeVisit = astmodel.MakeIdentityVisitOfObjectType(
+	func(ot *astmodel.ObjectType, prop *astmodel.PropertyDefinition, ctx configMapContext) (configMapContext, error) {
+		return ctx.withPathElement(prop), nil
+	})
 
 type configMapTypeWalker struct {
 	configuration        *config.Configuration
 	configuredProperties map[string]string
 	exportedProperties   ExportedProperties
-	walker               *astmodel.TypeWalker
+	walker               *astmodel.TypeWalker[configMapContext]
 }
 
 func newConfigMapTypeWalker(
@@ -158,35 +157,36 @@ func newConfigMapTypeWalker(
 		exportedProperties:   make(ExportedProperties),
 	}
 
-	visitor := astmodel.TypeVisitorBuilder{
+	visitor := astmodel.TypeVisitorBuilder[configMapContext]{
 		VisitObjectType:   result.catalogObjectConfigMapProperties,
 		VisitResourceType: result.includeSpecStatus,
 	}.Build()
 	walker := astmodel.NewTypeWalker(defs, visitor)
-	walker.MakeContext = func(it astmodel.TypeName, ctx interface{}) (interface{}, error) {
-		if ctx == nil {
+	walker.MakeContext = func(it astmodel.TypeName, ctx configMapContext) (configMapContext, error) {
+		if ctx.typeName == nil {
 			return configMapContext{
 				typeName: it,
 				path:     nil,
 			}, nil
 		}
 
-		typedCtx := ctx.(configMapContext)
-		return typedCtx.withTypeName(it), nil
+		return ctx.withTypeName(it), nil
 	}
 	result.walker = walker
 
 	return result
 }
 
-func (w *configMapTypeWalker) includeSpecStatus(this *astmodel.TypeVisitor, it *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
-	typedCtx := ctx.(configMapContext)
-
+func (w *configMapTypeWalker) includeSpecStatus(
+	this *astmodel.TypeVisitor[configMapContext],
+	it *astmodel.ResourceType,
+	ctx configMapContext,
+) (astmodel.Type, error) {
 	specProp, ok := it.Property("Spec")
 	if !ok {
 		return nil, errors.Errorf("couldn't find resource spec")
 	}
-	_, err := this.Visit(it.SpecType(), typedCtx.withPathElement(specProp))
+	_, err := this.Visit(it.SpecType(), ctx.withPathElement(specProp))
 	if err != nil {
 		return nil, errors.Wrapf(err, "failed to visit resource spec type %q", it.SpecType())
 	}
@@ -195,7 +195,7 @@ func (w *configMapTypeWalker) includeSpecStatus(this *astmodel.TypeVisitor, it *
 	if !ok {
 		return nil, errors.Errorf("couldn't find resource status")
 	}
-	_, err = this.Visit(it.StatusType(), typedCtx.withPathElement(statusProp))
+	_, err = this.Visit(it.StatusType(), ctx.withPathElement(statusProp))
 	if err != nil {
 		return nil, errors.Wrapf(err, "failed to visit resource status type %q", it.StatusType())
 	}
@@ -204,13 +204,14 @@ func (w *configMapTypeWalker) includeSpecStatus(this *astmodel.TypeVisitor, it *
 	return it, nil
 }
 
-func (w *configMapTypeWalker) catalogObjectConfigMapProperties(this *astmodel.TypeVisitor, ot *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-	typedCtx := ctx.(configMapContext)
-
+func (w *configMapTypeWalker) catalogObjectConfigMapProperties(
+	this *astmodel.TypeVisitor[configMapContext],
+	ot *astmodel.ObjectType,
+	ctx configMapContext,
+) (astmodel.Type, error) {
 	var errs []error
-
 	ot.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
-		path := append(typedCtx.path, prop)
+		path := append(ctx.path, prop)
 
 		// Transform the path into a string and check if we have that path configured
 		pathStr := makeJSONPathFromProps(path)

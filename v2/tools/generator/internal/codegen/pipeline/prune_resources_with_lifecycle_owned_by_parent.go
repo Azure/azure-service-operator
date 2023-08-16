@@ -76,7 +76,7 @@ func PruneResourcesWithLifecycleOwnedByParent(configuration *config.Configuratio
 }
 
 func flagPrunedEmptyProperties(defs astmodel.TypeDefinitionSet, emptyPrunedProps astmodel.TypeNameSet) (astmodel.TypeDefinitionSet, error) {
-	emptyObjectVisitor := astmodel.TypeVisitorBuilder{
+	emptyObjectVisitor := astmodel.TypeVisitorBuilder[astmodel.TypeNameSet]{
 		VisitObjectType: tagEmptyObjectARMProperty,
 	}.Build()
 
@@ -102,7 +102,7 @@ func flagPrunedEmptyProperties(defs astmodel.TypeDefinitionSet, emptyPrunedProps
 type misbehavingEmbeddedTypePruner struct {
 	configuration         *config.Configuration
 	emptyPrunedProperties astmodel.TypeNameSet
-	visitor               astmodel.TypeVisitor
+	visitor               astmodel.TypeVisitor[astmodel.TypeName]
 }
 
 func newMisbehavingEmbeddedTypeVisitor(configuration *config.Configuration) *misbehavingEmbeddedTypePruner {
@@ -111,7 +111,7 @@ func newMisbehavingEmbeddedTypeVisitor(configuration *config.Configuration) *mis
 		emptyPrunedProperties: astmodel.NewTypeNameSet(),
 	}
 
-	visitor := astmodel.TypeVisitorBuilder{
+	visitor := astmodel.TypeVisitorBuilder[astmodel.TypeName]{
 		VisitObjectType: pruner.pruneMisbehavingEmbeddedResourceProperties,
 	}.Build()
 
@@ -120,16 +120,18 @@ func newMisbehavingEmbeddedTypeVisitor(configuration *config.Configuration) *mis
 }
 
 // tagEmptyObjectARMProperty finds the empty properties in an Object and adds the ConversionTag:NoARMConversionValue property tag.
-func tagEmptyObjectARMProperty(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-	typeNameSet := ctx.(astmodel.TypeNameSet)
-
+func tagEmptyObjectARMProperty(
+	this *astmodel.TypeVisitor[astmodel.TypeNameSet],
+	it *astmodel.ObjectType,
+	ctx astmodel.TypeNameSet,
+) (astmodel.Type, error) {
 	prop, ok := it.Properties().Find(func(prop *astmodel.PropertyDefinition) bool {
 		typeName, ok := astmodel.ExtractTypeName(prop.PropertyType())
 		if !ok {
 			return false
 		}
 
-		return typeNameSet.Contains(typeName)
+		return ctx.Contains(typeName)
 	})
 
 	if ok {
@@ -140,7 +142,11 @@ func tagEmptyObjectARMProperty(this *astmodel.TypeVisitor, it *astmodel.ObjectTy
 	return astmodel.IdentityVisitOfObjectType(this, it, ctx)
 }
 
-func (m *misbehavingEmbeddedTypePruner) pruneMisbehavingEmbeddedResourceProperties(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
+func (m *misbehavingEmbeddedTypePruner) pruneMisbehavingEmbeddedResourceProperties(
+	this *astmodel.TypeVisitor[astmodel.TypeName],
+	it *astmodel.ObjectType,
+	ctx astmodel.TypeName,
+) (astmodel.Type, error) {
 	typeName := ctx.(astmodel.TypeName)
 	for _, prop := range it.Properties().Copy() {
 		_, err := m.configuration.ResourceLifecycleOwnedByParent(typeName, prop.PropertyName())

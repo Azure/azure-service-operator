@@ -39,11 +39,13 @@ func FlattenProperties(log logr.Logger) *Stage {
 		})
 }
 
-func makeFlatteningVisitor(defs astmodel.TypeDefinitionSet, log logr.Logger) astmodel.TypeVisitor {
-	return astmodel.TypeVisitorBuilder{
-		VisitObjectType: func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-			name := ctx.(astmodel.TypeName)
-
+func makeFlatteningVisitor(defs astmodel.TypeDefinitionSet, log logr.Logger) astmodel.TypeVisitor[astmodel.TypeName] {
+	return astmodel.TypeVisitorBuilder[astmodel.TypeName]{
+		VisitObjectType: func(
+			this *astmodel.TypeVisitor[astmodel.TypeName],
+			it *astmodel.ObjectType,
+			ctx astmodel.TypeName,
+		) (astmodel.Type, error) {
 			newIt, err := astmodel.IdentityVisitOfObjectType(this, it, ctx)
 			if err != nil {
 				return nil, err
@@ -51,7 +53,7 @@ func makeFlatteningVisitor(defs astmodel.TypeDefinitionSet, log logr.Logger) ast
 
 			it = newIt.(*astmodel.ObjectType)
 
-			newProps, err := collectAndFlattenProperties(name, it, defs, log)
+			newProps, err := collectAndFlattenProperties(ctx, it, defs, log)
 			if err != nil {
 				return nil, err
 			}

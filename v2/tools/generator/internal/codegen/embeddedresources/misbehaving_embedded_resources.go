@@ -25,11 +25,10 @@ type misbehavingResourceDetails struct {
 
 func findMisbehavingResources(configuration *config.Configuration, defs astmodel.TypeDefinitionSet) (map[astmodel.TypeName][]misbehavingResourceDetails, error) {
 	resources := make(map[astmodel.TypeName][]misbehavingResourceDetails)
-	visitor := astmodel.TypeVisitorBuilder{
-		VisitObjectType: func(this *astmodel.TypeVisitor, ot *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-			typedCtx := ctx.(misbehavingResourceCtx)
+	visitor := astmodel.TypeVisitorBuilder[misbehavingResourceCtx]{
+		VisitObjectType: func(this *astmodel.TypeVisitor[misbehavingResourceCtx], ot *astmodel.ObjectType, ctx misbehavingResourceCtx) (astmodel.Type, error) {
 			for _, prop := range ot.Properties().Copy() {
-				resourceLifecycleOwnedByParent, err := configuration.ResourceLifecycleOwnedByParent(typedCtx.typeName, prop.PropertyName())
+				resourceLifecycleOwnedByParent, err := configuration.ResourceLifecycleOwnedByParent(ctx.typeName, prop.PropertyName())
 				if err != nil {
 					if config.IsNotConfiguredError(err) {
 						continue
@@ -39,25 +38,25 @@ func findMisbehavingResources(configuration *config.Configuration, defs astmodel
 
 				// If the property is a subresource whose lifecycle is owned by a parent resource, but we're not
 				// examining the parent resource in question, continue
-				if typedCtx.resourceName.Name() != resourceLifecycleOwnedByParent {
+				if ctx.resourceName.Name() != resourceLifecycleOwnedByParent {
 					continue
 				}
 
 				// Expected that the property in question is a TypeName
 				propertyType, ok := astmodel.ExtractTypeName(prop.PropertyType())
 				if !ok {
-					return nil, errors.Errorf("property %s of %s doesn't look like a resource because it is not a TypeName", prop.PropertyName(), typedCtx.typeName.String())
+					return nil, errors.Errorf("property %s of %s doesn't look like a resource because it is not a TypeName", prop.PropertyName(), ctx.typeName.String())
 				}
 
-				if _, ok = resources[typedCtx.resourceName]; !ok {
-					resources[typedCtx.resourceName] = []misbehavingResourceDetails{}
+				if _, ok = resources[ctx.resourceName]; !ok {
+					resources[ctx.resourceName] = []misbehavingResourceDetails{}
 				}
 
-				resources[typedCtx.resourceName] = append(
-					resources[typedCtx.resourceName],
+				resources[ctx.resourceName] = append(
+					resources[ctx.resourceName],
 					misbehavingResourceDetails{
-						typeName:     typedCtx.typeName,
-						resourceName: typedCtx.resourceName,
+						typeName:     ctx.typeName,
+						resourceName: ctx.resourceName,
 						propertyType: propertyType,
 					})
 			}
@@ -67,14 +66,13 @@ func findMisbehavingResources(configuration *config.Configuration, defs astmodel
 	}.Build()
 
 	typeWalker := astmodel.NewTypeWalker(defs, visitor)
-	typeWalker.MakeContext = func(it astmodel.TypeName, ctx interface{}) (interface{}, error) {
-		if ctx == nil {
-			ctx = misbehavingResourceCtx{resourceName: it}
+	typeWalker.MakeContext = func(it astmodel.TypeName, ctx misbehavingResourceCtx) (misbehavingResourceCtx, error) {
+		if ctx.resourceName == nil {
+			ctx.resourceName = it
 		}
 
-		typedCtx := ctx.(misbehavingResourceCtx)
-		typedCtx.typeName = it
-		return typedCtx, nil
+		ctx.typeName = it
+		return ctx, nil
 	}
 
 	for _, def := range astmodel.FindResourceDefinitions(defs) {
