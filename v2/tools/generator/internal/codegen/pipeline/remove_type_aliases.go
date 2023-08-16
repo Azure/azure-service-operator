@@ -59,7 +59,7 @@ func resolveTypeName(
 	definitions astmodel.TypeDefinitionSet,
 ) (astmodel.Type, error) {
 	// Don't try to remove external refs
-	if _, _, ok := name.PackageReference().TryGroupVersion(); !ok {
+	if astmodel.IsExternalPackageReference(name.PackageReference()) {
 		return name, nil
 	}
 
