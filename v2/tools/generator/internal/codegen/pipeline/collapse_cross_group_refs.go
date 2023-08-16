@@ -45,8 +45,8 @@ func CollapseCrossGroupReferences() *Stage {
 		})
 }
 
-func newTypeWalker(definitions astmodel.TypeDefinitionSet, resourceName astmodel.TypeName) *astmodel.TypeWalker {
-	visitor := astmodel.TypeVisitorBuilder{}.Build()
+func newTypeWalker(definitions astmodel.TypeDefinitionSet, resourceName astmodel.TypeName) *astmodel.TypeWalker[any] {
+	visitor := astmodel.TypeVisitorBuilder[any]{}.Build()
 	walker := astmodel.NewTypeWalker(definitions, visitor)
 	walker.AfterVisit = func(original astmodel.TypeDefinition, updated astmodel.TypeDefinition, ctx interface{}) (astmodel.TypeDefinition, error) {
 		if !resourceName.PackageReference().Equals(updated.Name().PackageReference()) {

@@ -41,8 +41,8 @@ func SimplifyDefinitions() *Stage {
 		})
 }
 
-func createSimplifyingVisitor() astmodel.TypeVisitor {
-	removeFlags := func(tv *astmodel.TypeVisitor, ft *astmodel.FlaggedType, ctx interface{}) (astmodel.Type, error) {
+func createSimplifyingVisitor() astmodel.TypeVisitor[any] {
+	removeFlags := func(tv *astmodel.TypeVisitor[any], ft *astmodel.FlaggedType, ctx any) (astmodel.Type, error) {
 		element := ft.Element()
 		return tv.Visit(element, ctx)
 	}
@@ -51,7 +51,7 @@ func createSimplifyingVisitor() astmodel.TypeVisitor {
 		return ot
 	}
 
-	result := astmodel.TypeVisitorBuilder{
+	result := astmodel.TypeVisitorBuilder[any]{
 		VisitFlaggedType: removeFlags,
 		VisitObjectType:  skipComplexTypes,
 	}.Build()

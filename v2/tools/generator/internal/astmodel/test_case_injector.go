@@ -8,14 +8,14 @@ package astmodel
 // TestCaseInjector is a utility for injecting function definitions into resources and objects
 type TestCaseInjector struct {
 	// visitor is used to do the actual injection
-	visitor TypeVisitor
+	visitor TypeVisitor[any]
 }
 
 // NewTestCaseInjector creates a new function injector for modifying resources and objects
 func NewTestCaseInjector() *TestCaseInjector {
 	result := &TestCaseInjector{}
 
-	result.visitor = TypeVisitorBuilder{
+	result.visitor = TypeVisitorBuilder[any]{
 		VisitObjectType:   result.injectTestCaseIntoObject,
 		VisitResourceType: result.injectTestCaseIntoResource,
 	}.Build()
@@ -41,7 +41,7 @@ func (fi *TestCaseInjector) Inject(def TypeDefinition, cases ...TestCase) (TypeD
 // injectTestCaseIntoObject takes the function provided as a context and includes it on the
 // provided object type
 func (_ *TestCaseInjector) injectTestCaseIntoObject(
-	_ *TypeVisitor, ot *ObjectType, ctx interface{}) (Type, error) {
+	_ *TypeVisitor[any], ot *ObjectType, ctx any) (Type, error) {
 	fn := ctx.(TestCase)
 	return ot.WithTestCase(fn), nil
 }
@@ -49,7 +49,7 @@ func (_ *TestCaseInjector) injectTestCaseIntoObject(
 // injectTestCaseIntoResource takes the function provided as a context and includes it on the
 // provided resource type
 func (_ *TestCaseInjector) injectTestCaseIntoResource(
-	_ *TypeVisitor, rt *ResourceType, ctx interface{}) (Type, error) {
+	_ *TypeVisitor[any], rt *ResourceType, ctx any) (Type, error) {
 	fn := ctx.(TestCase)
 	return rt.WithTestCase(fn), nil
 }

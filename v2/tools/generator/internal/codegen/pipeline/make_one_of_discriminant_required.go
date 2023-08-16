@@ -43,7 +43,7 @@ func MakeOneOfDiscriminantRequired() *Stage {
 }
 
 type propertyModifier struct {
-	visitor astmodel.TypeVisitor
+	visitor astmodel.TypeVisitor[any]
 	json    string
 }
 
@@ -52,7 +52,7 @@ func newPropertyModifier(json string) *propertyModifier {
 		json: json,
 	}
 
-	modifier.visitor = astmodel.TypeVisitorBuilder{
+	modifier.visitor = astmodel.TypeVisitorBuilder[any]{
 		VisitObjectType: modifier.makeDiscriminatorPropertiesRequired,
 	}.Build()
 
@@ -60,7 +60,9 @@ func newPropertyModifier(json string) *propertyModifier {
 }
 
 func (r *propertyModifier) makeDiscriminatorPropertiesRequired(
-	this *astmodel.TypeVisitor, ot *astmodel.ObjectType, ctx interface{},
+	this *astmodel.TypeVisitor[any],
+	ot *astmodel.ObjectType,
+	ctx any,
 ) (astmodel.Type, error) {
 	ot.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
 		if json, ok := prop.JSONName(); ok && r.json == json {

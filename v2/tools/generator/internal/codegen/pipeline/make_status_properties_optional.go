@@ -53,7 +53,7 @@ func MakeStatusPropertiesOptional() *Stage {
 
 // makeStatusPropertiesOptional makes all properties optional on top level Status types
 func makeStatusPropertiesOptional(statusDef astmodel.TypeDefinition) (astmodel.Type, error) {
-	visitor := astmodel.TypeVisitorBuilder{
+	visitor := astmodel.TypeVisitorBuilder[any]{
 		VisitObjectType: makeObjectPropertiesOptional,
 	}.Build()
 
@@ -61,7 +61,11 @@ func makeStatusPropertiesOptional(statusDef astmodel.TypeDefinition) (astmodel.T
 }
 
 // makeObjectPropertiesOptional makes properties optional for the object
-func makeObjectPropertiesOptional(this *astmodel.TypeVisitor, ot *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
+func makeObjectPropertiesOptional(
+	this *astmodel.TypeVisitor[any],
+	ot *astmodel.ObjectType,
+	ctx any,
+) (astmodel.Type, error) {
 	ot.Properties().ForEach(func(property *astmodel.PropertyDefinition) {
 		ot = ot.WithProperty(property.MakeOptional().MakeTypeOptional())
 	})

@@ -159,7 +159,7 @@ func (def TypeDefinition) ApplyObjectTransformation(transform func(*ObjectType) 
 		return rt, nil
 	}
 
-	visitor := TypeVisitorBuilder{
+	visitor := TypeVisitorBuilder[any]{
 		VisitObjectType: transformObject,
 	}.Build()
 

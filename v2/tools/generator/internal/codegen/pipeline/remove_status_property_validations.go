@@ -62,7 +62,7 @@ func removeStatusTypeValidations(definitions astmodel.TypeDefinitionSet) (astmod
 
 	walker := astmodel.NewTypeWalker(
 		definitions,
-		astmodel.TypeVisitorBuilder{
+		astmodel.TypeVisitorBuilder[any]{
 			VisitEnumType:      removeEnumValidations,
 			VisitValidatedType: removeValidatedType,
 			VisitObjectType:    removeKubebuilderRequired,
@@ -149,16 +149,16 @@ func errorIfSpecStatusOverlap(statusDefinitions astmodel.TypeDefinitionSet, defi
 }
 
 // removeValidatedType returns the validated types element. This assumes that there aren't deeply nested validations.
-func removeValidatedType(this *astmodel.TypeVisitor, vt *astmodel.ValidatedType, _ interface{}) (astmodel.Type, error) {
+func removeValidatedType(this *astmodel.TypeVisitor[any], vt *astmodel.ValidatedType, _ any) (astmodel.Type, error) {
 	return vt.ElementType(), nil
 }
 
-func removeEnumValidations(this *astmodel.TypeVisitor, et *astmodel.EnumType, _ interface{}) (astmodel.Type, error) {
+func removeEnumValidations(this *astmodel.TypeVisitor[any], et *astmodel.EnumType, _ any) (astmodel.Type, error) {
 	return et.WithoutValidation(), nil
 }
 
 // removeKubebuilderRequired removes kubebuilder:validation:Required from all properties
-func removeKubebuilderRequired(this *astmodel.TypeVisitor, ot *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
+func removeKubebuilderRequired(this *astmodel.TypeVisitor[any], ot *astmodel.ObjectType, ctx any) (astmodel.Type, error) {
 	ot.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
 		ot = ot.WithProperty(prop.MakeOptional())
 	})

@@ -141,7 +141,7 @@ func findResourcesRequiringCompatibilityVersion(
 }
 
 func addCompatibilityComments(defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-	visitor := astmodel.TypeVisitorBuilder{
+	visitor := astmodel.TypeVisitorBuilder[any]{
 		VisitObjectType: removePropertyDescriptions,
 	}.Build()
 

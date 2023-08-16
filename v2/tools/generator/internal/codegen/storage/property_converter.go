@@ -16,7 +16,7 @@ import (
 // PropertyConverter is used to convert the properties of object definitions as required for storage variants
 type PropertyConverter struct {
 	// visitor is used to apply the modification
-	visitor astmodel.TypeVisitor
+	visitor astmodel.TypeVisitor[any]
 	// definitions contains all the definitions for this group
 	definitions astmodel.TypeDefinitionSet
 	// propertyConversions is an ordered list of all our conversion rules for creating storage variants
@@ -35,7 +35,7 @@ func NewPropertyConverter(definitions astmodel.TypeDefinitionSet) *PropertyConve
 		result.defaultPropertyConversion,
 	}
 
-	result.visitor = astmodel.TypeVisitorBuilder{
+	result.visitor = astmodel.TypeVisitorBuilder[any]{
 		VisitEnumType:      result.useBaseTypeForEnumerations,
 		VisitValidatedType: result.stripAllValidations,
 		VisitTypeName:      result.shortCircuitNamesOfSimpleTypes,
@@ -67,7 +67,7 @@ func (p *PropertyConverter) ConvertProperty(property *astmodel.PropertyDefinitio
 
 // stripAllValidations removes all validations
 func (p *PropertyConverter) stripAllValidations(
-	this *astmodel.TypeVisitor, v *astmodel.ValidatedType, ctx interface{}) (astmodel.Type, error) {
+	this *astmodel.TypeVisitor[any], v *astmodel.ValidatedType, ctx any) (astmodel.Type, error) {
 	// strip all type validations from storage properties
 	// act as if they do not exist
 	return this.Visit(v.ElementType(), ctx)
@@ -75,7 +75,7 @@ func (p *PropertyConverter) stripAllValidations(
 
 // useBaseTypeForEnumerations replaces an enumeration with its underlying base type
 func (p *PropertyConverter) useBaseTypeForEnumerations(
-	tv *astmodel.TypeVisitor, et *astmodel.EnumType, ctx interface{}) (astmodel.Type, error) {
+	tv *astmodel.TypeVisitor[any], et *astmodel.EnumType, ctx any) (astmodel.Type, error) {
 	return tv.Visit(et.BaseType(), ctx)
 }
 
@@ -87,7 +87,7 @@ func (p *PropertyConverter) useBaseTypeForEnumerations(
 //	o  If a TypeName references an alias for a primitive type (these are used to specify validations), it is replaced
 //	   with the primitive type
 func (p *PropertyConverter) shortCircuitNamesOfSimpleTypes(
-	tv *astmodel.TypeVisitor, tn astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
+	tv *astmodel.TypeVisitor[any], tn astmodel.TypeName, ctx any) (astmodel.Type, error) {
 
 	// for nonlocal packages, preserve the name as is
 	if astmodel.IsExternalPackageReference(tn.PackageReference()) {

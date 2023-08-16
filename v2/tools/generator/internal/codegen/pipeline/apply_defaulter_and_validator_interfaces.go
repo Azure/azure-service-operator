@@ -376,14 +376,15 @@ func getOperatorSpecSubType(defs astmodel.ReadonlyTypeDefinitions, resource *ast
 // hasOptionalConfigMapReferencePairs returns true if the type has optional genruntime.ConfigMapReference pairs
 func hasOptionalConfigMapReferencePairs(resourceDef astmodel.TypeDefinition, defs astmodel.TypeDefinitionSet) (bool, error) {
 	result := false
-	visitor := astmodel.TypeVisitorBuilder{
-		VisitObjectType: astmodel.MakeIdentityVisitOfObjectType(func(ot *astmodel.ObjectType, prop *astmodel.PropertyDefinition, ctx interface{}) (interface{}, error) {
-			if prop.HasTag(astmodel.OptionalConfigMapPairTag) {
-				result = true
-			}
+	visitor := astmodel.TypeVisitorBuilder[any]{
+		VisitObjectType: astmodel.MakeIdentityVisitOfObjectType(
+			func(ot *astmodel.ObjectType, prop *astmodel.PropertyDefinition, ctx any) (any, error) {
+				if prop.HasTag(astmodel.OptionalConfigMapPairTag) {
+					result = true
+				}
 
-			return ctx, nil
-		}),
+				return ctx, nil
+			}),
 	}.Build()
 
 	walker := astmodel.NewTypeWalker(defs, visitor)

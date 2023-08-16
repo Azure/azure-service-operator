@@ -922,7 +922,7 @@ func (s synthesizer) handleFlaggedType(left *astmodel.FlaggedType, right astmode
 func countTypeReferences(defs astmodel.TypeDefinitionSet) map[astmodel.TypeName]int {
 	referenceCounts := make(map[astmodel.TypeName]int)
 
-	visitor := astmodel.TypeVisitorBuilder{
+	visitor := astmodel.TypeVisitorBuilder[any]{
 		VisitTypeName: func(tn astmodel.TypeName) astmodel.Type {
 			referenceCounts[tn]++
 			return tn

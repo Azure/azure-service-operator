@@ -38,9 +38,13 @@ func ImprovePropertyDescriptions() *Stage {
 	return stage
 }
 
-func createPropertyImprovingVisitor(defs astmodel.TypeDefinitionSet) astmodel.TypeVisitor {
-	visitor := astmodel.TypeVisitorBuilder{
-		VisitObjectType: func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
+func createPropertyImprovingVisitor(defs astmodel.TypeDefinitionSet) astmodel.TypeVisitor[any] {
+	visitor := astmodel.TypeVisitorBuilder[any]{
+		VisitObjectType: func(
+			this *astmodel.TypeVisitor[any],
+			it *astmodel.ObjectType,
+			ctx any,
+		) (astmodel.Type, error) {
 			result := it
 			for _, prop := range it.Properties().AsSlice() {
 

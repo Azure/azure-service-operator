@@ -39,8 +39,8 @@ func FixIDFields() *Stage {
 }
 
 func removeSpecIDField(defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-	removeIDVisitor := astmodel.TypeVisitorBuilder{
-		VisitObjectType: func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
+	removeIDVisitor := astmodel.TypeVisitorBuilder[any]{
+		VisitObjectType: func(this *astmodel.TypeVisitor[any], it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 			it.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
 				prim, isPrimitive := astmodel.AsPrimitiveType(prop.PropertyType())
 				if prop.HasName("Id") && isPrimitive && prim == astmodel.ARMIDType {
@@ -61,8 +61,8 @@ func removeSpecIDField(defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinition
 }
 
 func replaceStatusARMIDWithString(defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-	replaceARMIDWithStringVisitor := astmodel.TypeVisitorBuilder{
-		VisitPrimitive: func(_ *astmodel.TypeVisitor, it *astmodel.PrimitiveType, _ interface{}) (astmodel.Type, error) {
+	replaceARMIDWithStringVisitor := astmodel.TypeVisitorBuilder[any]{
+		VisitPrimitive: func(_ *astmodel.TypeVisitor[any], it *astmodel.PrimitiveType, _ interface{}) (astmodel.Type, error) {
 			if it == astmodel.ARMIDType {
 				return astmodel.StringType, nil
 			}

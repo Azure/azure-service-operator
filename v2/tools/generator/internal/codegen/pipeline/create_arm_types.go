@@ -72,7 +72,7 @@ type armTypeCreator struct {
 	newDefs       astmodel.TypeDefinitionSet
 	skipTypes     []func(it astmodel.TypeDefinition) bool
 	log           logr.Logger
-	visitor       astmodel.TypeVisitor
+	visitor       astmodel.TypeVisitor[any]
 	configuration *config.ObjectModelConfiguration
 }
 
@@ -92,7 +92,7 @@ func newARMTypeCreator(
 		configuration: configuration,
 	}
 
-	result.visitor = astmodel.TypeVisitorBuilder{
+	result.visitor = astmodel.TypeVisitorBuilder[any]{
 		VisitTypeName: result.visitARMTypeName,
 	}.Build()
 
@@ -499,7 +499,11 @@ func (c *armTypeCreator) convertObjectPropertiesForARM(
 	return result, nil
 }
 
-func (c *armTypeCreator) visitARMTypeName(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
+func (c *armTypeCreator) visitARMTypeName(
+	this *astmodel.TypeVisitor[any],
+	it astmodel.TypeName,
+	ctx any,
+) (astmodel.Type, error) {
 	// Allow json type to pass through.
 	if it == astmodel.JSONType {
 		return it, nil

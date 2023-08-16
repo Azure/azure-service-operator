@@ -25,11 +25,11 @@ func RemoveTypeAliases() *Stage {
 		RemoveTypeAliasesStageID,
 		"Remove type aliases",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			simplifyAliases := func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
+			simplifyAliases := func(this *astmodel.TypeVisitor[any], it astmodel.TypeName, ctx any) (astmodel.Type, error) {
 				return resolveTypeName(this, it, definitions)
 			}
 
-			visitor := astmodel.TypeVisitorBuilder{
+			visitor := astmodel.TypeVisitorBuilder[any]{
 				VisitTypeName: simplifyAliases,
 			}.Build()
 
@@ -53,7 +53,11 @@ func RemoveTypeAliases() *Stage {
 		})
 }
 
-func resolveTypeName(visitor *astmodel.TypeVisitor, name astmodel.TypeName, definitions astmodel.TypeDefinitionSet) (astmodel.Type, error) {
+func resolveTypeName(
+	visitor *astmodel.TypeVisitor[any],
+	name astmodel.TypeName,
+	definitions astmodel.TypeDefinitionSet,
+) (astmodel.Type, error) {
 	// Don't try to remove external refs
 	if _, _, ok := name.PackageReference().TryGroupVersion(); !ok {
 		return name, nil

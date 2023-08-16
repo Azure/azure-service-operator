@@ -19,7 +19,7 @@ func AssertTypesCollectionValid() *Stage {
 		"assertTypesStructureValid",
 		"Verify that all local TypeNames refer to a type",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			visitor := astmodel.TypeVisitorBuilder{}.Build()
+			visitor := astmodel.TypeVisitorBuilder[any]{}.Build()
 			typeWalker := astmodel.NewTypeWalker(definitions, visitor)
 
 			for _, def := range definitions {
