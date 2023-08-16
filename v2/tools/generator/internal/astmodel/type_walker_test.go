@@ -105,12 +105,12 @@ func TestTypeWalker_IdentityWalkReturnsIdenticalTypes(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	types := makeSimpleTestTypeGraph()
-	visitor := TypeVisitorBuilder{}.Build()
+	visitor := TypeVisitorBuilder[any]{}.Build()
 	walker := NewTypeWalker(types, visitor)
 
 	var walked []string
 
-	walker.AfterVisit = func(original TypeDefinition, updated TypeDefinition, ctx interface{}) (TypeDefinition, error) {
+	walker.AfterVisit = func(original TypeDefinition, updated TypeDefinition, ctx any) (TypeDefinition, error) {
 		walked = append(walked, original.Name().Name())
 		return IdentityAfterVisit(original, updated, ctx)
 	}
@@ -136,12 +136,12 @@ func TestTypeWalker_DuplicateTypesAreWalkedOnceEach_ReturnedOnce(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	types := makeDuplicateReferencesTypeGraph()
-	visitor := TypeVisitorBuilder{}.Build()
+	visitor := TypeVisitorBuilder[any]{}.Build()
 	walker := NewTypeWalker(types, visitor)
 
 	var walked []TypeDefinition
 
-	walker.AfterVisit = func(original TypeDefinition, updated TypeDefinition, ctx interface{}) (TypeDefinition, error) {
+	walker.AfterVisit = func(original TypeDefinition, updated TypeDefinition, ctx any) (TypeDefinition, error) {
 		walked = append(walked, original)
 		return IdentityAfterVisit(original, updated, ctx)
 	}
@@ -167,12 +167,12 @@ func TestTypeWalker_CyclesAllowed_AreNotWalked(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	types := makeCycleTypeGraph()
-	visitor := TypeVisitorBuilder{}.Build()
+	visitor := TypeVisitorBuilder[any]{}.Build()
 	walker := NewTypeWalker(types, visitor)
 
 	var walked []string
 
-	walker.AfterVisit = func(original TypeDefinition, updated TypeDefinition, ctx interface{}) (TypeDefinition, error) {
+	walker.AfterVisit = func(original TypeDefinition, updated TypeDefinition, ctx any) (TypeDefinition, error) {
 		walked = append(walked, original.Name().Name())
 		return IdentityAfterVisit(original, updated, ctx)
 	}
@@ -198,17 +198,17 @@ func TestTypeWalker_CanPruneCycles(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	types := makeCycleTypeGraph()
-	visitor := TypeVisitorBuilder{}.Build()
+	visitor := TypeVisitorBuilder[any]{}.Build()
 	walker := NewTypeWalker(types, visitor)
 
 	var walked []string
 
-	walker.AfterVisit = func(original TypeDefinition, updated TypeDefinition, ctx interface{}) (TypeDefinition, error) {
+	walker.AfterVisit = func(original TypeDefinition, updated TypeDefinition, ctx any) (TypeDefinition, error) {
 		walked = append(walked, original.Name().Name())
 		return IdentityAfterVisit(original, updated, ctx)
 	}
 
-	walker.ShouldRemoveCycle = func(original TypeDefinition, ctx interface{}) (bool, error) {
+	walker.ShouldRemoveCycle = func(original TypeDefinition, ctx any) (bool, error) {
 		// Prune all cycles
 		return true, nil
 	}
@@ -242,17 +242,17 @@ func TestTypeWalker_ContextPropagated(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	types := makeSimpleTestTypeGraph()
-	visitor := TypeVisitorBuilder{}.Build()
+	visitor := TypeVisitorBuilder[any]{}.Build()
 	walker := NewTypeWalker(types, visitor)
 
 	walked := make(map[TypeName]int)
 
-	walker.AfterVisit = func(original TypeDefinition, updated TypeDefinition, ctx interface{}) (TypeDefinition, error) {
+	walker.AfterVisit = func(original TypeDefinition, updated TypeDefinition, ctx any) (TypeDefinition, error) {
 		typedCtx := ctx.(int)
 		walked[updated.Name()] = typedCtx
 		return IdentityAfterVisit(original, updated, ctx)
 	}
-	walker.MakeContext = func(_ TypeName, ctx interface{}) (interface{}, error) {
+	walker.MakeContext = func(_ TypeName, ctx any) (any, error) {
 		if ctx == nil {
 			return 0, nil
 		}
@@ -283,8 +283,8 @@ func TestTypeWalker_VisitorApplied(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	types := makeSimpleTestTypeGraph()
-	visitor := TypeVisitorBuilder{
-		VisitObjectType: func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error) {
+	visitor := TypeVisitorBuilder[any]{
+		VisitObjectType: func(this *TypeVisitor[any], it *ObjectType, ctx any) (Type, error) {
 			_ = ctx.(int) // Ensure context is the right shape
 
 			// Find any properties of type string and remove them
@@ -299,7 +299,7 @@ func TestTypeWalker_VisitorApplied(t *testing.T) {
 	}.Build()
 
 	walker := NewTypeWalker(types, visitor)
-	walker.MakeContext = func(_ TypeName, _ interface{}) (interface{}, error) {
+	walker.MakeContext = func(_ TypeName, _ any) (any, error) {
 		return 0, nil
 	}
 
@@ -327,13 +327,13 @@ func TestTypeWalker_CanChangeNameInOnlyCertainPlaces(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	types := makeDuplicateReferencesTypeGraph()
-	visitor := TypeVisitorBuilder{}.Build()
+	visitor := TypeVisitorBuilder[any]{}.Build()
 	walker := NewTypeWalker(types, visitor)
 
 	left2TypeName := MakeInternalTypeName(leftTypeName.PackageReference(), "Left2")
 
 	changed := false
-	walker.AfterVisit = func(original TypeDefinition, updated TypeDefinition, ctx interface{}) (TypeDefinition, error) {
+	walker.AfterVisit = func(original TypeDefinition, updated TypeDefinition, ctx any) (TypeDefinition, error) {
 		if updated.Name().Name() == "Left" && !changed {
 			changed = true
 			updated = updated.WithName(left2TypeName)

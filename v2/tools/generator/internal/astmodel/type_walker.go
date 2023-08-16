@@ -20,21 +20,23 @@ var typeWalkerRemoveType = MakeInternalTypeName(LocalPackageReference{}, "TypeWa
 // TypeWalker performs a depth first traversal across the types provided, applying the visitor to each TypeDefinition.
 // MakeContext is called before each visit, and AfterVisit is called after each visit. ShouldRemoveCycle is called
 // if a cycle is detected.
-type TypeWalker struct {
+type TypeWalker[C any] struct {
 	allDefinitions TypeDefinitionSet
-	visitor        TypeVisitor
+	visitor        TypeVisitor[C]
 
 	// MakeContext is called before any type is visited - including before the root type is visited. It is given the current context and returns
 	// a new context for use in the upcoming Visit. When visiting the root type, the ctx parameter is always nil.
-	MakeContext func(it TypeName, ctx interface{}) (interface{}, error)
+	MakeContext func(it TypeName, ctx C) (C, error)
+
 	// AfterVisit is called after the type walker has applied the visitor to a TypeDefinition.
-	AfterVisit func(original TypeDefinition, updated TypeDefinition, ctx interface{}) (TypeDefinition, error)
+	AfterVisit func(original TypeDefinition, updated TypeDefinition, ctx C) (TypeDefinition, error)
+
 	// ShouldRemoveCycle is called if a cycle is detected. If true is returned the cycle will be pruned, otherwise it will be preserved as-is.
-	ShouldRemoveCycle func(def TypeDefinition, ctx interface{}) (bool, error)
+	ShouldRemoveCycle func(def TypeDefinition, ctx C) (bool, error)
 
 	state                   typeWalkerState
-	originalVisitTypeName   func(this *TypeVisitor, it TypeName, ctx interface{}) (Type, error)
-	originalVisitObjectType func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error)
+	originalVisitTypeName   func(this *TypeVisitor[C], it TypeName, ctx C) (Type, error)
+	originalVisitObjectType func(this *TypeVisitor[C], it *ObjectType, ctx C) (Type, error)
 }
 
 type typeWalkerState struct {
@@ -45,14 +47,14 @@ type typeWalkerState struct {
 // NewTypeWalker returns a TypeWalker.
 // The provided visitor visitTypeName function must return a TypeName and visitObjectType must return an ObjectType or calls to
 // Walk will panic.
-func NewTypeWalker(allDefs TypeDefinitionSet, visitor TypeVisitor) *TypeWalker {
-	typeWalker := TypeWalker{
+func NewTypeWalker[C any](allDefs TypeDefinitionSet, visitor TypeVisitor[C]) *TypeWalker[C] {
+	typeWalker := TypeWalker[C]{
 		allDefinitions:          allDefs,
 		originalVisitTypeName:   visitor.visitTypeName,
 		originalVisitObjectType: visitor.visitObjectType,
-		AfterVisit:              IdentityAfterVisit,
-		MakeContext:             IdentityMakeContext,
-		ShouldRemoveCycle:       IdentityShouldRemoveCycle,
+		AfterVisit:              IdentityAfterVisit[C],
+		MakeContext:             IdentityMakeContext[C],
+		ShouldRemoveCycle:       IdentityShouldRemoveCycle[C],
 	}
 
 	// visitor is a copy - modifications won't impact passed visitor
@@ -66,7 +68,7 @@ func NewTypeWalker(allDefs TypeDefinitionSet, visitor TypeVisitor) *TypeWalker {
 	return &typeWalker
 }
 
-func (t *TypeWalker) visitTypeName(this *TypeVisitor, it TypeName, ctx interface{}) (Type, error) {
+func (t *TypeWalker[C]) visitTypeName(this *TypeVisitor[C], it TypeName, ctx C) (Type, error) {
 	updatedCtx, err := t.MakeContext(it, ctx)
 	if err != nil {
 		return nil, errors.Wrapf(err, "MakeContext failed for name %q", it)
@@ -126,7 +128,7 @@ func (t *TypeWalker) visitTypeName(this *TypeVisitor, it TypeName, ctx interface
 	return updatedDef.Name(), nil
 }
 
-func (t *TypeWalker) visitObjectType(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error) {
+func (t *TypeWalker[C]) visitObjectType(this *TypeVisitor[C], it *ObjectType, ctx C) (Type, error) {
 	result, err := t.originalVisitObjectType(this, it, ctx)
 	if err != nil {
 		return nil, err
@@ -153,7 +155,7 @@ func (t *TypeWalker) visitObjectType(this *TypeVisitor, it *ObjectType, ctx inte
 // Walk returns a type definition collection constructed by applying the Visitor to each type in the graph of types
 // reachable from the provided TypeDefinition 'def'. TypeDefinitionSet are visited in a depth-first order. Cycles are
 // not followed (so each type in a cycle will be visited only once).
-func (t *TypeWalker) Walk(def TypeDefinition) (TypeDefinitionSet, error) {
+func (t *TypeWalker[C]) Walk(def TypeDefinition) (TypeDefinitionSet, error) {
 	t.state = typeWalkerState{
 		result:     make(TypeDefinitionSet),
 		processing: make(TypeNameSet),
@@ -161,7 +163,8 @@ func (t *TypeWalker) Walk(def TypeDefinition) (TypeDefinitionSet, error) {
 
 	// Visit our own name to start the walk.
 	// Initial ctx is nil -- MakeContext will get called and fabricate a context if needed
-	_, err := t.visitor.Visit(def.Name(), nil)
+	var ctx C
+	_, err := t.visitor.Visit(def.Name(), ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -170,17 +173,17 @@ func (t *TypeWalker) Walk(def TypeDefinition) (TypeDefinitionSet, error) {
 }
 
 // IdentityAfterVisit is the default AfterVisit function for TypeWalker. It returns the TypeDefinition from Visit unmodified.
-func IdentityAfterVisit(_ TypeDefinition, updated TypeDefinition, _ interface{}) (TypeDefinition, error) {
+func IdentityAfterVisit[C any](_ TypeDefinition, updated TypeDefinition, _ C) (TypeDefinition, error) {
 	return updated, nil
 }
 
 // IdentityMakeContext returns the context unmodified
-func IdentityMakeContext(_ TypeName, ctx interface{}) (interface{}, error) {
+func IdentityMakeContext[C any](_ TypeName, ctx C) (C, error) {
 	return ctx, nil
 }
 
 // IdentityShouldRemoveCycle is the default cycle removal behavior. It preserves all cycles unmodified.
-func IdentityShouldRemoveCycle(_ TypeDefinition, _ interface{}) (bool, error) {
+func IdentityShouldRemoveCycle[C any](_ TypeDefinition, _ C) (bool, error) {
 	return false, nil
 }
 
