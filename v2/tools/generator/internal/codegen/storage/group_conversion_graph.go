@@ -84,7 +84,7 @@ func (graph *GroupConversionGraph) searchForRenamedType(
 		}
 
 		// Does our target type exist in this package?
-		newType := name.WithPackageReference(pkg).WithName(rename).(astmodel.InternalTypeName)
+		newType := name.WithPackageReference(pkg).(astmodel.InternalTypeName).WithName(rename)
 		if definitions.Contains(newType) {
 			return newType, nil
 		}

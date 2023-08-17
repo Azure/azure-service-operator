@@ -168,7 +168,7 @@ func generateStatusTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefini
 	// we'll try to substitute that with a better name here
 	for resourceName, resourceDef := range resourceLookup {
 		statusTypeName := resourceDef.Type().(astmodel.TypeName) // always a TypeName, see 'renamed' comment
-		desiredStatusName := resourceName.WithName(resourceName.Name() + astmodel.StatusSuffix).(astmodel.InternalTypeName)
+		desiredStatusName := resourceName.WithName(resourceName.Name() + astmodel.StatusSuffix)
 
 		if statusTypeName == desiredStatusName {
 			newResources.Add(resourceDef)

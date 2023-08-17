@@ -40,7 +40,7 @@ func (tn InternalTypeName) PackageReference() PackageReference {
 }
 
 // WithName returns a new TypeName in the same package but with a different name
-func (tn InternalTypeName) WithName(name string) TypeName {
+func (tn InternalTypeName) WithName(name string) InternalTypeName {
 	return MakeInternalTypeName(tn.packageReference, name)
 }
 

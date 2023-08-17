@@ -42,7 +42,7 @@ func PruneResourcesWithLifecycleOwnedByParent(configuration *config.Configuratio
 			// TODO: as an extra precaution.
 			for _, def := range state.Definitions() {
 				if def.Name().Name() == "VirtualNetwork" {
-					subnetName := def.Name().WithName("VirtualNetworksSubnet").(astmodel.InternalTypeName)
+					subnetName := def.Name().WithName("VirtualNetworksSubnet")
 					if !state.Definitions().Contains(subnetName) {
 						return nil, errors.Errorf("Couldn't find subnet type matching %s. VirtualNetwork and VirtualNetworksSubnet must always be exported together", def.Name())
 					}
