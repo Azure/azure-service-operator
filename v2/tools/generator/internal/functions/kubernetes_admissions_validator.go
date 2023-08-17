@@ -26,7 +26,7 @@ const (
 
 // ValidatorBuilder helps in building an interface implementation for admissions.Validator.
 type ValidatorBuilder struct {
-	resourceName astmodel.TypeName
+	resourceName astmodel.InternalTypeName
 	resource     *astmodel.ResourceType
 	idFactory    astmodel.IdentifierFactory
 
@@ -34,7 +34,11 @@ type ValidatorBuilder struct {
 }
 
 // NewValidatorBuilder creates a new ValidatorBuilder for the given object type.
-func NewValidatorBuilder(resourceName astmodel.TypeName, resource *astmodel.ResourceType, idFactory astmodel.IdentifierFactory) *ValidatorBuilder {
+func NewValidatorBuilder(
+	resourceName astmodel.InternalTypeName,
+	resource *astmodel.ResourceType,
+	idFactory astmodel.IdentifierFactory,
+) *ValidatorBuilder {
 	return &ValidatorBuilder{
 		resourceName: resourceName,
 		resource:     resource,
@@ -47,7 +51,7 @@ func NewValidatorBuilder(resourceName astmodel.TypeName, resource *astmodel.Reso
 	}
 }
 
-// AddValidation adds an additional validation function to the set of validation functions to be applied to the given object.
+// AddValidation adds a validation function to the set of validation functions to be applied to the given object.
 func (v *ValidatorBuilder) AddValidation(kind ValidationKind, f *ResourceFunction) {
 	if !v.resource.Equals(f.resource, astmodel.EqualityOverrides{}) {
 		panic("cannot add validation function on non-matching object types")
@@ -73,7 +77,7 @@ func (v *ValidatorBuilder) ToInterfaceImplementation() *astmodel.InterfaceImplem
 	resource = strings.ToLower(v.resourceName.Plural().Name())
 
 	// e.g. "validate-microsoft-network-azure-com-v1-backendaddresspool"
-	// note that this must match _exactly_ how controller-runtime generates the path
+	// note that this must match _exactly_ how controller-runtime generates the path,
 	// or it will not work!
 	path := fmt.Sprintf("/validate-%s-%s-%s", strings.ReplaceAll(group, ".", "-"), version, nonPluralResource)
 

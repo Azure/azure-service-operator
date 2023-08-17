@@ -24,7 +24,6 @@ type TypeName interface {
 	Equals(t Type, override EqualityOverrides) bool
 	String() string
 	Singular() TypeName
-	Plural() TypeName
 	WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference)
 }
 
