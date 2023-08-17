@@ -199,7 +199,7 @@ func createBackwardCompatibilityRenameMap(
 	return result
 }
 
-func createBackwardCompatibilityRename(name astmodel.TypeName, versionPrefix string) astmodel.InternalTypeName {
+func createBackwardCompatibilityRename(name astmodel.InternalTypeName, versionPrefix string) astmodel.InternalTypeName {
 	var ref astmodel.PackageReference
 
 	switch r := name.PackageReference().(type) {
@@ -211,5 +211,5 @@ func createBackwardCompatibilityRename(name astmodel.TypeName, versionPrefix str
 	default:
 		panic(fmt.Sprintf("unexpected package reference type %T", r))
 	}
-	return name.WithPackageReference(ref).(astmodel.InternalTypeName)
+	return name.WithPackageReference(ref)
 }

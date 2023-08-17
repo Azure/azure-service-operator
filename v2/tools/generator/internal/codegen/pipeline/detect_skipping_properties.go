@@ -329,7 +329,7 @@ func areTypeSetsEqual(left astmodel.TypeDefinitionSet, right astmodel.TypeDefini
 	}
 
 	for leftName, leftDef := range left {
-		rightName := leftName.WithPackageReference(rightPackageRef).(astmodel.InternalTypeName)
+		rightName := leftName.WithPackageReference(rightPackageRef)
 		rightDef := right[rightName]
 
 		equal := leftDef.Type().Equals(rightDef.Type(), equalityOverrides)

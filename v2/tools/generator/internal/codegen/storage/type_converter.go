@@ -144,10 +144,10 @@ func (t *TypeConverter) stripAllFlags(
 
 // tryConvertToStoragePackage converts the supplied TypeName to reference the parallel type in a storage package if it
 // is a local reference; if not, it returns false.
-func (t *TypeConverter) tryConvertToStoragePackage(name astmodel.TypeName) (astmodel.TypeName, bool) {
+func (t *TypeConverter) tryConvertToStoragePackage(name astmodel.InternalTypeName) (astmodel.InternalTypeName, bool) {
 	local, ok := name.PackageReference().(astmodel.LocalPackageReference)
 	if !ok {
-		return nil, false
+		return astmodel.InternalTypeName{}, false
 	}
 
 	storage := astmodel.MakeStoragePackageReference(local)

@@ -98,7 +98,7 @@ func (b *ResourceConversionGraphBuilder) compatibilityReferencesConvertForward(n
 func (b *ResourceConversionGraphBuilder) apiReferencesConvertToStorage(names []astmodel.InternalTypeName) {
 	for _, name := range names {
 		if s, ok := name.PackageReference().(astmodel.DerivedPackageReference); ok {
-			n := name.WithPackageReference(s.Base()).(astmodel.InternalTypeName)
+			n := name.WithPackageReference(s.Base())
 			b.links[n] = name
 		}
 	}
