@@ -247,7 +247,7 @@ const (
 
 func skipPropertiesFlaggedWithNoARMConversion(
 	toProp *astmodel.PropertyDefinition,
-	fromType *astmodel.ObjectType,
+	_ *astmodel.ObjectType,
 ) (propertyConversionHandlerResult, error) {
 	// If the property has been flagged as not being convertible, skip it
 	if toProp.HasTagValue(ConversionTag, NoARMConversionValue) {

@@ -770,12 +770,12 @@ func (extractor *SwaggerTypeExtractor) inferNameFromURLPath(operationPath string
 
 		// If default was defined as an enum in the Swagger, this check is not needed as it wouldn't have been expanded by
 		// the expandEnumsInPath method, but some services hardcode default into their URLs like : blobService/default/containers/{containerName}
-		// and we don't want the "default" name to be part of the resource type name for those cases so we ignore it here.
+		// and we don't want the "default" name to be part of the resource type name for those cases, so we ignore it here.
 		if strings.EqualFold(urlPart, "default") {
 			// skip; shouldn’t be part of name
 			// TODO: I haven’t yet found where this is done in autorest/autorest.armresource to document this
 		} else if urlPart[0] == '{' {
-			// this is a url parameter
+			// this is a URL parameter
 			if skippedLast {
 				// this means two {parameters} in a row
 				return "", "", "", errors.Errorf("multiple parameters in path")

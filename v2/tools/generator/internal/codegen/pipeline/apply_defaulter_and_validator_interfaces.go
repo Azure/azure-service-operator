@@ -232,7 +232,7 @@ func validateConfigMapDestinations(k *functions.ResourceFunction, codeGeneration
 
 	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
 	fn.AddReturn(dst.NewIdent("error"))
-	fn.AddComments("validates there are no colliding genruntime.ConfigMapDestinations's")
+	fn.AddComments("validates there are no colliding genruntime.ConfigMapDestinations")
 	return fn.DefineFunc()
 }
 

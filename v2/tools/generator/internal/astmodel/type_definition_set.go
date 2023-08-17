@@ -156,7 +156,7 @@ func (set TypeDefinitionSet) AddTypesAllowDuplicates(definitions TypeDefinitionS
 	return nil
 }
 
-// AddAllowDuplicates attempts to add the specified definition to the types collection.
+// AddAllowDuplicates attempts to add the specified definition to the collection of types.
 // Multiple adds of a type with the same shape are allowed, but attempting to add two
 // types with the same name but different shape will trigger an error.
 func (set TypeDefinitionSet) AddAllowDuplicates(def TypeDefinition) error {
