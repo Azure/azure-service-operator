@@ -152,16 +152,6 @@ func (tn ExternalTypeName) String() string {
 	return fmt.Sprintf("%s/%s", tn.packageReference, tn.name)
 }
 
-// Singular returns a TypeName with the name singularized.
-func (tn ExternalTypeName) Singular() TypeName {
-	panic("not implemented")
-}
-
-// Plural returns a TypeName with the name pluralized.
-func (tn ExternalTypeName) Plural() TypeName {
-	panic("not implemented")
-}
-
 // WriteDebugDescription adds a description of the current type to the passed builder.
 // builder receives the full description, including nested types
 // definitions is a dictionary for resolving named types
