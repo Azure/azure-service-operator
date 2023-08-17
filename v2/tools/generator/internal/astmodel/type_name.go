@@ -14,7 +14,6 @@ import (
 type TypeName interface {
 	Name() string
 	PackageReference() PackageReference
-	WithPackageReference(ref PackageReference) TypeName
 	AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []dst.Decl
 	AsType(codeGenerationContext *CodeGenerationContext) dst.Expr
 	AsZero(definitions TypeDefinitionSet, ctx *CodeGenerationContext) dst.Expr

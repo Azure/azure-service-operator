@@ -43,11 +43,6 @@ func (tn ExternalTypeName) PackageReference() PackageReference {
 	return tn.packageReference
 }
 
-// WithPackageReference returns a new TypeName in a different package but with the same name
-func (tn ExternalTypeName) WithPackageReference(_ PackageReference) TypeName {
-	panic("not implemented")
-}
-
 func (tn ExternalTypeName) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []dst.Decl {
 	return AsSimpleDeclarations(codeGenerationContext, declContext, tn)
 }
