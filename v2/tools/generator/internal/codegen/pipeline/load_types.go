@@ -250,7 +250,7 @@ func generateSpecTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefiniti
 	// always points to a _Spec type.
 	// TODO: remove once preceding TODO is resolved and everything is consistently named _Spec #Naming
 	{
-		renames := make(map[astmodel.TypeName]astmodel.TypeName)
+		renames := make(astmodel.TypeAssociation)
 		for typeName := range otherTypes {
 			if _, ok := resources[typeName]; ok {
 				// would be a clash with resource name
@@ -425,9 +425,9 @@ func mergeTypesForPackage(idFactory astmodel.IdentifierFactory, typesFromFiles [
 	}
 
 	// a set of renamings, one per file
-	renames := make([]map[astmodel.TypeName]astmodel.TypeName, len(typesFromFiles))
+	renames := make([]astmodel.TypeAssociation, len(typesFromFiles))
 	for ix := range typesFromFiles {
-		renames[ix] = make(map[astmodel.TypeName]astmodel.TypeName)
+		renames[ix] = make(astmodel.TypeAssociation)
 	}
 
 	for name, count := range typeNameCounts {
@@ -563,7 +563,10 @@ func generateRenaming(
 	return result
 }
 
-func applyRenames(renames map[astmodel.TypeName]astmodel.TypeName, typesFromFile typesFromFile) typesFromFile {
+func applyRenames(
+	renames astmodel.TypeAssociation,
+	typesFromFile typesFromFile,
+) typesFromFile {
 	visitor := astmodel.NewRenamingVisitor(renames)
 
 	// visit all other types

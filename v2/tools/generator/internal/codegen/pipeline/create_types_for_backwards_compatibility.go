@@ -186,8 +186,8 @@ func removePropertyDescriptions(ot *astmodel.ObjectType) astmodel.Type {
 func createBackwardCompatibilityRenameMap(
 	set astmodel.TypeDefinitionSet,
 	versionPrefix string,
-) map[astmodel.TypeName]astmodel.TypeName {
-	result := make(map[astmodel.TypeName]astmodel.TypeName)
+) astmodel.TypeAssociation {
+	result := make(astmodel.TypeAssociation)
 
 	for name := range set {
 		if _, ok := result[name]; !ok {

@@ -70,7 +70,7 @@ func filterTypes(
 	}
 
 	// Find and apply renames
-	renames := make(map[astmodel.TypeName]astmodel.TypeName)
+	renames := make(astmodel.TypeAssociation)
 	for n := range typesToExport {
 		if as, asErr := configuration.ObjectModelConfiguration.ExportAs.Lookup(n); asErr == nil {
 			configuration.ObjectModelConfiguration.AddTypeAlias(n, as)
