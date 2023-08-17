@@ -81,11 +81,11 @@ func InjectSpecInitializationFunctions(
 }
 
 type specInitializationScanner struct {
-	defs            astmodel.TypeDefinitionSet              // A set of all known types, used to follow references
-	conversionGraph *storage.ConversionGraph                // Conversion graph between resource versions
-	config          *config.ObjectModelConfiguration        // Configuration for which resources are importable and which are not
-	specToStatus    map[astmodel.TypeName]astmodel.TypeName // maps spec types to corresponding status types
-	visitor         astmodel.TypeVisitor[astmodel.Type]     // used to walk resources to find the mappings
+	defs            astmodel.TypeDefinitionSet          // A set of all known types, used to follow references
+	conversionGraph *storage.ConversionGraph            // Conversion graph between resource versions
+	config          *config.ObjectModelConfiguration    // Configuration for which resources are importable and which are not
+	specToStatus    astmodel.TypeAssociation            // maps spec types to corresponding status types
+	visitor         astmodel.TypeVisitor[astmodel.Type] // used to walk resources to find the mappings
 }
 
 func newSpecInitializationScanner(
@@ -101,7 +101,7 @@ func newSpecInitializationScanner(
 		defs:            defs,
 		conversionGraph: conversionGraph,
 		config:          config.ObjectModelConfiguration,
-		specToStatus:    make(map[astmodel.TypeName]astmodel.TypeName, capacity),
+		specToStatus:    make(astmodel.TypeAssociation, capacity),
 	}
 
 	builder := astmodel.TypeVisitorBuilder[astmodel.Type]{
@@ -116,7 +116,7 @@ func newSpecInitializationScanner(
 }
 
 // scanResources does a scan for all the non-storage ResourceTypes in the supplied set
-func (s *specInitializationScanner) scanResources() (map[astmodel.TypeName]astmodel.TypeName, error) {
+func (s *specInitializationScanner) scanResources() (astmodel.TypeAssociation, error) {
 	rsrcs, err := s.findResources()
 	if err != nil {
 		// Don't need to wrap this error, it's already wrapped
@@ -195,7 +195,7 @@ func (s *specInitializationScanner) visitInternalTypeName(
 	specName astmodel.InternalTypeName,
 	ctx astmodel.Type,
 ) (astmodel.Type, error) {
-	statusName, ok := astmodel.AsTypeName(ctx)
+	statusName, ok := astmodel.AsInternalTypeName(ctx)
 	if !ok {
 		// Don't have a type name, nothing to do
 		return specName, nil
