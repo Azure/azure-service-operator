@@ -128,7 +128,7 @@ func (fn *PropertyAssignmentFunction) Direction() conversions.Direction {
 // AsFunc renders this function as an AST for serialization to a Go source file
 func (fn *PropertyAssignmentFunction) AsFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
-	receiver astmodel.TypeName,
+	receiver astmodel.InternalTypeName,
 ) (*dst.FuncDecl, error) {
 	description := fn.direction.SelectString(
 		fmt.Sprintf("populates our %s from the provided source %s", receiver.Name(), fn.ParameterType().Name()),

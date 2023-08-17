@@ -68,7 +68,7 @@ func (c *ARMConversionFunction) References() astmodel.TypeNameSet {
 // AsFunc returns the function as a Go AST
 func (c *ConvertToARMFunction) AsFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
-	receiver astmodel.TypeName,
+	receiver astmodel.InternalTypeName,
 ) (*dst.FuncDecl, error) {
 	builder := newConvertToARMFunctionBuilder(
 		&c.ARMConversionFunction,
@@ -89,7 +89,7 @@ func (c *ConvertToARMFunction) AsFunc(
 
 func (c *PopulateFromARMFunction) AsFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
-	receiver astmodel.TypeName,
+	receiver astmodel.InternalTypeName,
 ) (*dst.FuncDecl, error) {
 	builder := newConvertFromARMFunctionBuilder(
 		&c.ARMConversionFunction,

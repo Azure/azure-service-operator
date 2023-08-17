@@ -51,7 +51,7 @@ func (fake *FakeFunction) References() astmodel.TypeNameSet {
 
 func (fake *FakeFunction) AsFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
-	receiver astmodel.TypeName,
+	receiver astmodel.InternalTypeName,
 ) (*dst.FuncDecl, error) {
 	receiverName := fake.idFactory.CreateReceiver(receiver.Name())
 	details := astbuilder.FuncDetails{
