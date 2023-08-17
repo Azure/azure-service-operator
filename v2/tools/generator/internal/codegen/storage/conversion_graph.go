@@ -59,12 +59,12 @@ func (graph *ConversionGraph) FindNextType(
 	}
 
 	// If we have no renamed type, return the next type (if any)
-	if renamedType == nil {
+	if renamedType.IsEmpty() {
 		return nextType, nil
 	}
 
 	// If we have no next type, return the renamed type (if any)
-	if nextType == nil {
+	if nextType.IsEmpty() {
 		return renamedType, nil
 	}
 
@@ -120,7 +120,7 @@ func (graph *ConversionGraph) FindHubAndDistance(
 					name)
 		}
 
-		if hub == nil {
+		if hub.IsEmpty() {
 			break
 		}
 
@@ -158,7 +158,7 @@ func (graph *ConversionGraph) FindNextProperty(
 	}
 
 	// If no next type, no next property either
-	if nextType == nil {
+	if nextType.IsEmpty() {
 		return astmodel.EmptyPropertyReference, nil
 	}
 
