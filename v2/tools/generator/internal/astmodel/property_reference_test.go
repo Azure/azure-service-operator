@@ -19,14 +19,14 @@ func TestPropertyReference_IsEmpty_ReturnsExpectedResult(t *testing.T) {
 
 	cases := []struct {
 		name          string
-		declaringType TypeName
+		declaringType InternalTypeName
 		property      PropertyName
 		expected      bool
 	}{
-		{"Property name present means not empty", nil, "property", false},
+		{"Property name present means not empty", InternalTypeName{}, "property", false},
 		{"Declaring type present means not empty", declaringType, "", false},
 		{"Fully populated means not empty", declaringType, "property", false},
-		{"Totally empty not empty", nil, "", true},
+		{"Totally empty not empty", InternalTypeName{}, "", true},
 	}
 
 	for _, c := range cases {

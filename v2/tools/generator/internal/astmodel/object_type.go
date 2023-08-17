@@ -97,7 +97,7 @@ func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerati
 
 func (objectType *ObjectType) generateMethodDecls(
 	codeGenerationContext *CodeGenerationContext,
-	typeName TypeName,
+	typeName InternalTypeName,
 ) ([]dst.Decl, error) {
 	funcs := objectType.Functions()
 	result := make([]dst.Decl, 0, len(funcs))

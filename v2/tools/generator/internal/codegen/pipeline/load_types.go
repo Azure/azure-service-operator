@@ -94,7 +94,7 @@ func LoadTypes(
 
 				scope := categorizeResourceScope(resourceInfo.ARMURI)
 				resourceType = resourceType.WithScope(scope)
-				resourceDefinition := astmodel.MakeTypeDefinition(resourceName.(astmodel.InternalTypeName), resourceType)
+				resourceDefinition := astmodel.MakeTypeDefinition(resourceName, resourceType)
 
 				// document origin of resource
 				sourceFile := strings.TrimPrefix(resourceInfo.SourceFile, config.SchemaRoot)
@@ -185,7 +185,7 @@ func generateStatusTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefini
 			// unable to use desiredName
 			newResources.Add(resourceDef)
 		} else {
-			newResources.Add(astmodel.MakeTypeDefinition(resourceName.(astmodel.InternalTypeName), desiredStatusName))
+			newResources.Add(astmodel.MakeTypeDefinition(resourceName, desiredStatusName))
 		}
 	}
 
@@ -221,7 +221,7 @@ func renamed(swaggerTypes jsonast.SwaggerTypes, status bool, suffix string) (ast
 		if err != nil {
 			errs = append(errs, err)
 		} else {
-			resources.Add(astmodel.MakeTypeDefinition(resourceName.(astmodel.InternalTypeName), renamedType))
+			resources.Add(astmodel.MakeTypeDefinition(resourceName, renamedType))
 		}
 	}
 
@@ -269,7 +269,7 @@ func generateSpecTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefiniti
 			if renameErr != nil {
 				panic(renameErr)
 			}
-			newResources.Add(astmodel.MakeTypeDefinition(rName.(astmodel.InternalTypeName), newType))
+			newResources.Add(astmodel.MakeTypeDefinition(rName, newType))
 		}
 
 		rewriter := astmodel.TypeVisitorBuilder[any]{
@@ -412,7 +412,7 @@ func (s typesFromFilesSorter) Less(i, j int) bool { return s.x[i].filePath < s.x
 func mergeTypesForPackage(idFactory astmodel.IdentifierFactory, typesFromFiles []typesFromFile) jsonast.SwaggerTypes {
 	sort.Sort(typesFromFilesSorter{typesFromFiles})
 
-	typeNameCounts := make(map[astmodel.TypeName]int)
+	typeNameCounts := make(map[astmodel.InternalTypeName]int)
 	for _, typesFromFile := range typesFromFiles {
 		for name := range typesFromFile.OtherDefinitions {
 			typeNameCounts[name] += 1
@@ -481,7 +481,11 @@ type typeAndSource struct {
 
 // findCollidingTypeNames finds any types with the given name that collide, and returns
 // the definition as well as the index of the file it was found in
-func findCollidingTypeNames(typesFromFiles []typesFromFile, name astmodel.TypeName, duplicateCount int) []typeAndSource {
+func findCollidingTypeNames(
+	typesFromFiles []typesFromFile,
+	name astmodel.InternalTypeName,
+	duplicateCount int,
+) []typeAndSource {
 	if duplicateCount == 1 {
 		// cannot collide
 		return nil
@@ -531,7 +535,7 @@ func generateRenaming(
 	idFactory astmodel.IdentifierFactory,
 	original astmodel.TypeName,
 	filePath string,
-	typeNames map[astmodel.TypeName]int,
+	typeNames map[astmodel.InternalTypeName]int,
 ) astmodel.TypeName {
 	name := filepath.Base(filePath)
 	name = strings.TrimSuffix(name, filepath.Ext(name))
@@ -628,8 +632,8 @@ func structurallyIdentical(
 		next := toCheck[0]
 		toCheck = toCheck[1:]
 		if !astmodel.TypeEquals(
-			leftDefinitions[next.left].Type(),
-			rightDefinitions[next.right].Type(),
+			leftDefinitions[next.left.(astmodel.InternalTypeName)].Type(),
+			rightDefinitions[next.right.(astmodel.InternalTypeName)].Type(),
 			override) {
 			return false
 		}

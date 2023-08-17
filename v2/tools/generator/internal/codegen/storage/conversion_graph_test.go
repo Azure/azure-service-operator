@@ -102,8 +102,8 @@ func TestConversionGraph_GivenTypeName_ReturnsExpectedHubTypeName(t *testing.T) 
 
 	cases := []struct {
 		name         string
-		start        astmodel.TypeName
-		expectedName astmodel.TypeName
+		start        astmodel.InternalTypeName
+		expectedName astmodel.InternalTypeName
 	}{
 		{"Hub type returns self", personHub, personHub},
 		{"Directly linked api resolves", person2022.Name(), personHub},
@@ -300,8 +300,8 @@ func TestConversionGraph_WithAResourceOnlyInPreviewVersions_HasExpectedTransitio
 	g.Expect(graph.TransitionCount()).To(Equal(6))
 
 	expectedTransitions := []struct {
-		from astmodel.TypeName
-		to   astmodel.TypeName
+		from astmodel.InternalTypeName
+		to   astmodel.InternalTypeName
 	}{
 		{person2020, person2020s},
 		{person2021, person2021s},

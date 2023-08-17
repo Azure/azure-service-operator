@@ -324,7 +324,7 @@ func getOperatorSpecType(defs astmodel.ReadonlyTypeDefinitions, resource *astmod
 		// No OperatorSpec property - this means no secrets
 		return nil, nil
 	}
-	operatorSpecTypeName, ok := astmodel.AsTypeName(operatorSpecProp.PropertyType())
+	operatorSpecTypeName, ok := astmodel.AsInternalTypeName(operatorSpecProp.PropertyType())
 	if !ok {
 		return nil, errors.Errorf(
 			"expected %s to be an astmodel.TypeName, but it was %T",
@@ -363,7 +363,7 @@ func getOperatorSpecSubType(defs astmodel.ReadonlyTypeDefinitions, resource *ast
 		return nil, nil
 	}
 
-	secretsTypeName, ok := astmodel.AsTypeName(secretsProp.PropertyType())
+	secretsTypeName, ok := astmodel.AsInternalTypeName(secretsProp.PropertyType())
 	if !ok {
 		return nil, errors.Errorf(
 			"expected %s to be an astmodel.TypeName, but it was %T",

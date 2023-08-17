@@ -50,7 +50,7 @@ func CreateStorageTypes() *Stage {
 			}
 
 			for name := range storageAPIVersions {
-				typesToConvert.Add(state.Definitions()[name])
+				typesToConvert.Add(state.Definitions()[name.(astmodel.InternalTypeName)])
 			}
 
 			storageDefs := make(astmodel.TypeDefinitionSet)

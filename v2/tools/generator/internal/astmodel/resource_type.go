@@ -645,7 +645,7 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 
 func (resource *ResourceType) generateMethodDecls(
 	codeGenerationContext *CodeGenerationContext,
-	typeName TypeName,
+	typeName InternalTypeName,
 ) ([]dst.Decl, error) {
 	funcs := resource.Functions()
 	result := make([]dst.Decl, 0, len(funcs))
@@ -786,7 +786,7 @@ func (resource *ResourceType) WriteDebugDescription(builder *strings.Builder, cu
 // generateMethodDeclForFunction generates the AST for a function; if a panic occurs, the identity of the type and
 // function being generated will be wrapped around the existing panic details to aid in debugging.
 func generateMethodDeclForFunction(
-	typeName TypeName,
+	typeName InternalTypeName,
 	f Function,
 	codeGenerationContext *CodeGenerationContext,
 ) (decl *dst.FuncDecl, err error) {

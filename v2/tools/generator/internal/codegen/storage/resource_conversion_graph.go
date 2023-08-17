@@ -17,7 +17,7 @@ type ResourceConversionGraph struct {
 
 // LookupTransition accepts a type name and looks up the transition to the next version in the graph
 // Returns the next version, or an empty type name if not.
-func (graph *ResourceConversionGraph) LookupTransition(name astmodel.TypeName) astmodel.TypeName {
+func (graph *ResourceConversionGraph) LookupTransition(name astmodel.InternalTypeName) astmodel.InternalTypeName {
 	next, _ := graph.links[name]
 	return next
 }

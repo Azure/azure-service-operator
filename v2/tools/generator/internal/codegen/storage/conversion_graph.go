@@ -21,12 +21,12 @@ type ConversionGraph struct {
 
 // LookupTransition accepts a type name and looks up the transition to the next version in the graph
 // Returns the next version and true if it's found, or an empty type name and false if not.
-func (graph *ConversionGraph) LookupTransition(name astmodel.TypeName) astmodel.TypeName {
+func (graph *ConversionGraph) LookupTransition(name astmodel.InternalTypeName) astmodel.InternalTypeName {
 	// Expect to get either a local or a storage reference, not an external one
 	group := name.PackageReference().Group()
 	subgraph, ok := graph.subGraphs[group]
 	if !ok {
-		return nil
+		return astmodel.InternalTypeName{}
 	}
 
 	return subgraph.LookupTransition(name)
@@ -38,11 +38,14 @@ func (graph *ConversionGraph) LookupTransition(name astmodel.TypeName) astmodel.
 // If the name passed in is for the hub type for the given resource, no next type will be found.
 // This is used to identify the next type needed for property assignment functions, and is a building block for
 // identification of hub definitions.
-func (graph *ConversionGraph) FindNextType(name astmodel.TypeName, definitions astmodel.TypeDefinitionSet) (astmodel.TypeName, error) {
+func (graph *ConversionGraph) FindNextType(
+	name astmodel.InternalTypeName,
+	definitions astmodel.TypeDefinitionSet,
+) (astmodel.InternalTypeName, error) {
 	group := name.PackageReference().Group()
 	subgraph, ok := graph.subGraphs[group]
 	if !ok {
-		return nil, nil
+		return astmodel.InternalTypeName{}, nil
 	}
 
 	// Look for a next type with the same name
@@ -52,7 +55,7 @@ func (graph *ConversionGraph) FindNextType(name astmodel.TypeName, definitions a
 	renamedType, err := subgraph.searchForRenamedType(name, definitions)
 	if err != nil {
 		// Something went wrong
-		return nil, errors.Wrapf(err, "searching for type renamed from %s", name)
+		return astmodel.InternalTypeName{}, errors.Wrapf(err, "searching for type renamed from %s", name)
 	}
 
 	// If we have no renamed type, return the next type (if any)
@@ -68,7 +71,8 @@ func (graph *ConversionGraph) FindNextType(name astmodel.TypeName, definitions a
 	// We have both a next type and a renamed type
 	// If they're in the same package, the type-rename has been configured on the wrong version (or the wrong type)
 	if nextType.PackageReference().Equals(renamedType.PackageReference()) {
-		return nil, errors.Errorf("confict between rename of %s to %s and existing type %s", name, renamedType, nextType)
+		return astmodel.InternalTypeName{},
+			errors.Errorf("confict between rename of %s to %s and existing type %s", name, renamedType, nextType)
 	}
 
 	// Now we need to return the earlier type. We can do this by comparing the package paths.
@@ -88,7 +92,10 @@ func (graph *ConversionGraph) FindNextType(name astmodel.TypeName, definitions a
 // persisted using that hub type. This is done by following links in the conversion graph until we either reach the end
 // or we find that a newer version of the type does not exist.
 // Returns the hub type if found; an empty name and an error if not.
-func (graph *ConversionGraph) FindHub(name astmodel.TypeName, definitions astmodel.TypeDefinitionSet) (astmodel.TypeName, error) {
+func (graph *ConversionGraph) FindHub(
+	name astmodel.InternalTypeName,
+	definitions astmodel.TypeDefinitionSet,
+) (astmodel.InternalTypeName, error) {
 	result, _, err := graph.FindHubAndDistance(name, definitions)
 	return result, err
 }
@@ -97,14 +104,17 @@ func (graph *ConversionGraph) FindHub(name astmodel.TypeName, definitions astmod
 // persisted using that hub type. This is done by following links in the conversion graph until we either reach the end
 // or we find that a newer version of the type does not exist.
 // Returns the distance if a hub was found, an error if not.
-func (graph *ConversionGraph) FindHubAndDistance(name astmodel.TypeName, definitions astmodel.TypeDefinitionSet) (astmodel.TypeName, int, error) {
+func (graph *ConversionGraph) FindHubAndDistance(
+	name astmodel.InternalTypeName,
+	definitions astmodel.TypeDefinitionSet,
+) (astmodel.InternalTypeName, int, error) {
 	// Look for the hub step
 	result := name
 	distance := 0
 	for {
 		hub, err := graph.FindNextType(result, definitions)
 		if err != nil {
-			return nil,
+			return astmodel.InternalTypeName{},
 				-1,
 				errors.Wrapf(err, "finding hub for %s",
 					name)

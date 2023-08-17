@@ -64,15 +64,15 @@ type EmbeddedResourceRemover struct {
 	// the property subnets/routes on the parent will delete subresources if that collection doesn't include all existing
 	// subnets/routes.
 	// This is a map of resource name to details about the owned resource
-	resourcesWhichOwnSubresourceLifecycle map[astmodel.TypeName][]misbehavingResourceDetails
+	resourcesWhichOwnSubresourceLifecycle map[astmodel.InternalTypeName][]misbehavingResourceDetails
 
 	// resourcesEmbeddedInParent is a collection of subresources whose IsResource() is conditional based on the context it's used in.
 	// In some places, it is a resource and should be pruned. In other places, it must not be pruned. This usually boils down
 	// to pseudo-resources in networking that while they look like a resource can only be created as properties on another
 	// resource and so must NOT be pruned from that context as otherwise they cannot be created anywhere.
 	// This map is from subresource type name to resource type name.
-	resourcesEmbeddedInParent map[astmodel.TypeName]astmodel.TypeName
-	renames                   map[astmodel.TypeName]embeddedResourceTypeName // A set of all the type renames made, indexed by the new name
+	resourcesEmbeddedInParent map[astmodel.InternalTypeName]astmodel.InternalTypeName
+	renames                   map[astmodel.InternalTypeName]embeddedResourceTypeName // A set of all the type renames made, indexed by the new name
 }
 
 // MakeEmbeddedResourceRemover creates an EmbeddedResourceRemover for the specified astmodel.TypeDefinitionSet collection.
@@ -96,7 +96,7 @@ func MakeEmbeddedResourceRemover(configuration *config.Configuration, definition
 		resourceToSubresourceMap:              resourceToSubresourceMap,
 		typeSuffix:                            "SubResourceEmbedded",
 		typeFlag:                              astmodel.TypeFlag("embeddedSubResource"),
-		renames:                               make(map[astmodel.TypeName]embeddedResourceTypeName),
+		renames:                               make(map[astmodel.InternalTypeName]embeddedResourceTypeName),
 	}
 
 	return remover, nil
@@ -108,7 +108,7 @@ func (e EmbeddedResourceRemover) RemoveEmbeddedResources(
 ) (astmodel.TypeDefinitionSet, error) {
 	result := make(astmodel.TypeDefinitionSet)
 
-	originalNames := make(map[astmodel.TypeName]embeddedResourceTypeName)
+	originalNames := make(map[astmodel.InternalTypeName]embeddedResourceTypeName)
 
 	visitor := e.makeEmbeddedResourceRemovalTypeVisitor()
 	for _, def := range astmodel.FindResourceDefinitions(e.definitions) {
@@ -348,8 +348,11 @@ func isObjectResourceLookalike(o *astmodel.ObjectType) bool {
 	return hasRequiredProperties
 }
 
-func findResourcesEmbeddedInParent(configuration *config.Configuration, defs astmodel.TypeDefinitionSet) (map[astmodel.TypeName]astmodel.TypeName, error) {
-	result := make(map[astmodel.TypeName]astmodel.TypeName)
+func findResourcesEmbeddedInParent(
+	configuration *config.Configuration,
+	defs astmodel.TypeDefinitionSet,
+) (astmodel.TypeAssociation, error) {
+	result := make(astmodel.TypeAssociation)
 
 	var errs []error
 	for name, def := range defs {
@@ -375,7 +378,7 @@ func findResourcesEmbeddedInParent(configuration *config.Configuration, defs ast
 			errs = append(errs, errors.Errorf("%s is not labelled as a resource, so cannot be a resource embedded in a parent", name))
 			continue
 		}
-		parentTypeName := name.WithName(parentResource)
+		parentTypeName := name.WithName(parentResource).(astmodel.InternalTypeName)
 		if !defs.Contains(parentTypeName) {
 			errs = append(errs, errors.Errorf("cannot find %s parent %s", name, parentTypeName))
 			continue
