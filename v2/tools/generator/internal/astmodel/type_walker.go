@@ -72,19 +72,18 @@ func (t *TypeWalker[C]) visitInternalTypeName(this *TypeVisitor[C], it InternalT
 		return nil, errors.Wrapf(err, "MakeContext failed for name %q", it)
 	}
 
-	visitedTypeName := it
 	if t.originalVisitInternalTypeName != nil {
-		tn, err := t.originalVisitInternalTypeName(this, it, updatedCtx)
-		if err != nil {
-			return nil, errors.Wrapf(err, "visitTypeName failed for name %q", it)
+		visitedTypeName, terr := t.originalVisitInternalTypeName(this, it, updatedCtx)
+		if terr != nil {
+			return nil, errors.Wrapf(terr, "visitTypeName failed for name %q", it)
 		}
 
-		itn, ok := tn.(InternalTypeName)
+		itn, ok := visitedTypeName.(InternalTypeName)
 		if !ok {
 			panic(fmt.Sprintf("TypeWalker visitor visitTypeName must return a TypeName, instead returned %T", visitedTypeName))
 		}
 
-		visitedTypeName = itn
+		it = itn
 	}
 
 	if IsExternalPackageReference(it.PackageReference()) {
