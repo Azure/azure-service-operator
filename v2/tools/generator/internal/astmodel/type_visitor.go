@@ -16,22 +16,21 @@ import (
 // TypeVisitor represents a visitor for a tree of types.
 // The `ctx` argument can be used to “smuggle” additional data down the call-chain.
 type TypeVisitor[C any] struct {
-	visitTypeNameIsIdentity bool // performance optimization to avoid reboxing TypeNames constantly
-	visitTypeName           func(this *TypeVisitor[C], it TypeName, ctx C) (Type, error)
-
-	visitOneOfType     func(this *TypeVisitor[C], it *OneOfType, ctx C) (Type, error)
-	visitAllOfType     func(this *TypeVisitor[C], it *AllOfType, ctx C) (Type, error)
-	visitArrayType     func(this *TypeVisitor[C], it *ArrayType, ctx C) (Type, error)
-	visitPrimitive     func(this *TypeVisitor[C], it *PrimitiveType, ctx C) (Type, error)
-	visitObjectType    func(this *TypeVisitor[C], it *ObjectType, ctx C) (Type, error)
-	visitMapType       func(this *TypeVisitor[C], it *MapType, ctx C) (Type, error)
-	visitOptionalType  func(this *TypeVisitor[C], it *OptionalType, ctx C) (Type, error)
-	visitEnumType      func(this *TypeVisitor[C], it *EnumType, ctx C) (Type, error)
-	visitResourceType  func(this *TypeVisitor[C], it *ResourceType, ctx C) (Type, error)
-	visitFlaggedType   func(this *TypeVisitor[C], it *FlaggedType, ctx C) (Type, error)
-	visitValidatedType func(this *TypeVisitor[C], it *ValidatedType, ctx C) (Type, error)
-	visitErroredType   func(this *TypeVisitor[C], it *ErroredType, ctx C) (Type, error)
-	visitInterfaceType func(this *TypeVisitor[C], it *InterfaceType, ctx C) (Type, error)
+	visitInternalTypeName func(this *TypeVisitor[C], it InternalTypeName, ctx C) (Type, error)
+	visitExternalTypeName func(this *TypeVisitor[C], it ExternalTypeName, ctx C) (Type, error)
+	visitOneOfType        func(this *TypeVisitor[C], it *OneOfType, ctx C) (Type, error)
+	visitAllOfType        func(this *TypeVisitor[C], it *AllOfType, ctx C) (Type, error)
+	visitArrayType        func(this *TypeVisitor[C], it *ArrayType, ctx C) (Type, error)
+	visitPrimitive        func(this *TypeVisitor[C], it *PrimitiveType, ctx C) (Type, error)
+	visitObjectType       func(this *TypeVisitor[C], it *ObjectType, ctx C) (Type, error)
+	visitMapType          func(this *TypeVisitor[C], it *MapType, ctx C) (Type, error)
+	visitOptionalType     func(this *TypeVisitor[C], it *OptionalType, ctx C) (Type, error)
+	visitEnumType         func(this *TypeVisitor[C], it *EnumType, ctx C) (Type, error)
+	visitResourceType     func(this *TypeVisitor[C], it *ResourceType, ctx C) (Type, error)
+	visitFlaggedType      func(this *TypeVisitor[C], it *FlaggedType, ctx C) (Type, error)
+	visitValidatedType    func(this *TypeVisitor[C], it *ValidatedType, ctx C) (Type, error)
+	visitErroredType      func(this *TypeVisitor[C], it *ErroredType, ctx C) (Type, error)
+	visitInterfaceType    func(this *TypeVisitor[C], it *InterfaceType, ctx C) (Type, error)
 }
 
 // Visit invokes the appropriate VisitX on TypeVisitor
@@ -41,13 +40,20 @@ func (tv *TypeVisitor[C]) Visit(t Type, ctx C) (Type, error) {
 	}
 
 	switch it := t.(type) {
-	case TypeName:
-		// IdentityVisitOfTypeName will re-box the TypeName
+	case InternalTypeName:
+		// calling visitInternalTypeName will re-box the TypeName
 		// avoid this allocation if possible by short-cutting
-		if tv.visitTypeNameIsIdentity {
+		if tv.visitInternalTypeName == nil {
 			return t, nil
 		}
-		return tv.visitTypeName(tv, it, ctx)
+		return tv.visitInternalTypeName(tv, it, ctx)
+	case ExternalTypeName:
+		// calling visitExternalTypeName will re-box the TypeName
+		// avoid this allocation if possible by short-cutting
+		if tv.visitExternalTypeName == nil {
+			return t, nil
+		}
+		return tv.visitExternalTypeName(tv, it, ctx)
 	case *OneOfType:
 		return tv.visitOneOfType(tv, it, ctx)
 	case *AllOfType:
@@ -79,18 +85,22 @@ func (tv *TypeVisitor[C]) Visit(t Type, ctx C) (Type, error) {
 	panic(fmt.Sprintf("unhandled type: (%T) %s", t, t))
 }
 
-// VisitTypeName invokes the TypeVisitor on the TypeName, returning a TypeName.
-// name is the TypeName to visit.
-// This is a convenience method for when a TypeName is expected as the result.
-func (tv *TypeVisitor[C]) VisitTypeName(name TypeName, ctx C) (TypeName, error) {
-	t, err := tv.visitTypeName(tv, name, ctx)
-	if err != nil {
-		return nil, errors.Wrapf(err, "visit of TypeName %q failed", name)
+// VisitInternalTypeName invokes the TypeVisitor on the InternalTypeName, returning an InternalTypeName.
+// name is the InternalTypeName to visit.
+// This is a convenience method for when an InternalTypeName is expected as the result.
+func (tv *TypeVisitor[C]) VisitInternalTypeName(name InternalTypeName, ctx C) (InternalTypeName, error) {
+	if tv.visitInternalTypeName == nil {
+		return name, nil
 	}
 
-	n, ok := t.(TypeName)
+	t, err := tv.visitInternalTypeName(tv, name, ctx)
+	if err != nil {
+		return InternalTypeName{}, errors.Wrapf(err, "visit of TypeName %q failed", name)
+	}
+
+	n, ok := t.(InternalTypeName)
 	if !ok {
-		return nil, errors.Errorf("expected visit of TypeName %q to return TypeName, not %T", name, t)
+		return InternalTypeName{}, errors.Errorf("expected visit of TypeName %q to return TypeName, not %T", name, t)
 	}
 
 	return n, nil
@@ -99,14 +109,9 @@ func (tv *TypeVisitor[C]) VisitTypeName(name TypeName, ctx C) (TypeName, error) 
 // VisitDefinition invokes the TypeVisitor on both the name and type of the definition
 // NB: this is only valid if visitTypeName returns a TypeName and not generally a Type
 func (tv *TypeVisitor[C]) VisitDefinition(td TypeDefinition, ctx C) (TypeDefinition, error) {
-	visitedName, err := tv.visitTypeName(tv, td.Name(), ctx)
+	visitedName, err := tv.VisitInternalTypeName(td.Name(), ctx)
 	if err != nil {
 		return TypeDefinition{}, errors.Wrapf(err, "visit of %q failed", td.Name())
-	}
-
-	name, ok := visitedName.(InternalTypeName)
-	if !ok {
-		return TypeDefinition{}, errors.Errorf("expected visit of %q to return TypeName, not %T", td.Name(), visitedName)
 	}
 
 	visitedType, err := tv.Visit(td.Type(), ctx)
@@ -114,7 +119,7 @@ func (tv *TypeVisitor[C]) VisitDefinition(td TypeDefinition, ctx C) (TypeDefinit
 		return TypeDefinition{}, errors.Wrapf(err, "visit of type of %q failed", td.Name())
 	}
 
-	def := td.WithName(name).WithType(visitedType)
+	def := td.WithName(visitedName).WithType(visitedType)
 	return def, nil
 }
 
@@ -380,17 +385,13 @@ func IdentityVisitOfResourceType[C any](this *TypeVisitor[C], it *ResourceType, 
 	changedAPIVersionName := false
 	if it.HasAPIVersion() {
 		originalAPIVersionTypeName := it.APIVersionTypeName()
-		newAPIVersion, err := this.visitTypeName(this, originalAPIVersionTypeName, ctx)
+		newAPIVersion, err := this.VisitInternalTypeName(originalAPIVersionTypeName, ctx)
 		if err != nil {
 			return nil, errors.Wrapf(err, "failed to visit resource API version name %q", originalAPIVersionTypeName)
 		}
 
 		if !TypeEquals(originalAPIVersionTypeName, newAPIVersion) {
-			newAPIVersionName, ok := newAPIVersion.(TypeName)
-			if !ok {
-				return nil, errors.Wrapf(err, "attempted to change API Version type name into non-type name %q", newAPIVersion)
-			}
-
+			newAPIVersionName := newAPIVersion
 			changedAPIVersionName = true
 			it = it.WithAPIVersion(newAPIVersionName, it.APIVersionEnumValue())
 		}

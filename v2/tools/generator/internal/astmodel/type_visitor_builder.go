@@ -20,80 +20,101 @@ import "fmt"
 //
 // Some examples:
 //
-// VisitTypeName = func(it TypeName) Type                                   // Works
-// VisitTypeName = func(this TypeVisitor, it TypeName, ctx C) (Type, error) // Works
-// VisitTypeName = func(it *ObjectType) Type                                // Fails - parameter is not a TypeName
-// VisitTypeName = func(it TypeName) TypeName                               // Fails - return type is not Type
+// VisitInternalTypeName = func(it InternalTypeName) Type                                   // Works
+// VisitInternalTypeName = func(this TypeVisitor, it InternalTypeName, ctx C) (Type, error) // Works
+// VisitInternalTypeName = func(it *ObjectType) Type                                        // Fails - parameter is not a TypeName
+// VisitInternalTypeName = func(it TypeName) TypeName                                       // Fails - return type is not Type
 //
 // VisitObjectType = func(it *ObjectType) Type                                      // Works
 // VisitObjectType = func(this TypeVisitor, it *ObjectType, ctx C) (Type, error)    // Works
 // VisitObjectType = func(it TypeName) Type                                         // Fails - parameter is not an *ObjectType
 // VisitObjectType = func(this TypeVisitor, it TypeName, ctx C) (ObjectType, error) // Fails -return is not Type
 type TypeVisitorBuilder[C any] struct {
-	VisitTypeName      any
-	VisitOneOfType     any
-	VisitAllOfType     any
-	VisitArrayType     any
-	VisitPrimitive     any
-	VisitObjectType    any
-	VisitMapType       any
-	VisitOptionalType  any
-	VisitEnumType      any
-	VisitResourceType  any
-	VisitFlaggedType   any
-	VisitValidatedType any
-	VisitErroredType   any
-	VisitInterfaceType any
+	VisitInternalTypeName any
+	VisitExternalTypeName any
+	VisitOneOfType        any
+	VisitAllOfType        any
+	VisitArrayType        any
+	VisitPrimitive        any
+	VisitObjectType       any
+	VisitMapType          any
+	VisitOptionalType     any
+	VisitEnumType         any
+	VisitResourceType     any
+	VisitFlaggedType      any
+	VisitValidatedType    any
+	VisitErroredType      any
+	VisitInterfaceType    any
 }
 
 func (b TypeVisitorBuilder[C]) Build() TypeVisitor[C] {
-	visitTypeNameIsIdentity, visitTypeName := b.buildVisitTypeName()
 	return TypeVisitor[C]{
-		visitTypeNameIsIdentity: visitTypeNameIsIdentity,
-		visitTypeName:           visitTypeName,
-
-		visitOneOfType:     b.buildVisitOneOfType(),
-		visitAllOfType:     b.buildVisitAllOfType(),
-		visitArrayType:     b.buildVisitArrayType(),
-		visitPrimitive:     b.buildVisitPrimitive(),
-		visitObjectType:    b.buildVisitObjectType(),
-		visitMapType:       b.buildVisitMapType(),
-		visitOptionalType:  b.buildVisitOptionalType(),
-		visitEnumType:      b.buildVisitEnumType(),
-		visitResourceType:  b.buildVisitResourceType(),
-		visitFlaggedType:   b.buildVisitFlaggedType(),
-		visitValidatedType: b.buildVisitValidatedType(),
-		visitErroredType:   b.buildVisitErroredType(),
-		visitInterfaceType: b.buildVisitInterfaceType(),
+		visitInternalTypeName: b.buildVisitInternalTypeName(),
+		visitExternalTypeName: b.buildVisitExternalTypeName(),
+		visitOneOfType:        b.buildVisitOneOfType(),
+		visitAllOfType:        b.buildVisitAllOfType(),
+		visitArrayType:        b.buildVisitArrayType(),
+		visitPrimitive:        b.buildVisitPrimitive(),
+		visitObjectType:       b.buildVisitObjectType(),
+		visitMapType:          b.buildVisitMapType(),
+		visitOptionalType:     b.buildVisitOptionalType(),
+		visitEnumType:         b.buildVisitEnumType(),
+		visitResourceType:     b.buildVisitResourceType(),
+		visitFlaggedType:      b.buildVisitFlaggedType(),
+		visitValidatedType:    b.buildVisitValidatedType(),
+		visitErroredType:      b.buildVisitErroredType(),
+		visitInterfaceType:    b.buildVisitInterfaceType(),
 	}
 }
 
-// buildVisitTypeName returns a function to use in the TypeVisitor
-// If the field VisitTypeName is nil, we return an identity visitor. Otherwise we attempt to
-// convert the func found in the field, triggering a panic if no suitable func is found.
-//
-// The boolean result indicates if this visitor is the identity visitor,
-// which allows it to be skipped in many cases. (See TypeVisitor.Visit & uses
-// of the field visitTypeNameIsIdentity for details).
-func (b *TypeVisitorBuilder[C]) buildVisitTypeName() (bool, func(*TypeVisitor[C], TypeName, C) (Type, error)) {
-	if b.VisitTypeName == nil {
-		return true, IdentityVisitOfTypeName[C]
+// buildVisitInternalTypeName returns a function to use in the TypeVisitor
+// If the field VisitInternalTypeName is nil, we return nil, unlike other build functions.
+// We do this to avoid the boxing inherent with passing an InternalTypeName if there's nothing to be done.
+// Otherwise, we attempt to convert the func found in the field, triggering a panic if no suitable func is found.
+func (b *TypeVisitorBuilder[C]) buildVisitInternalTypeName() func(*TypeVisitor[C], InternalTypeName, C) (Type, error) {
+	if b.VisitInternalTypeName == nil {
+		return nil
 	}
 
-	switch v := b.VisitTypeName.(type) {
-	case func(*TypeVisitor[C], TypeName, C) (Type, error):
-		return false, v
-	case func(TypeName) (Type, error):
-		return false, func(_ *TypeVisitor[C], it TypeName, _ C) (Type, error) {
+	switch v := b.VisitInternalTypeName.(type) {
+	case func(*TypeVisitor[C], InternalTypeName, C) (Type, error):
+		return v
+	case func(InternalTypeName) (Type, error):
+		return func(_ *TypeVisitor[C], it InternalTypeName, _ C) (Type, error) {
 			return v(it)
 		}
-	case func(TypeName) Type:
-		return false, func(_ *TypeVisitor[C], it TypeName, _ C) (Type, error) {
+	case func(InternalTypeName) Type:
+		return func(_ *TypeVisitor[C], it InternalTypeName, _ C) (Type, error) {
 			return v(it), nil
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected TypeName func %#v", b.VisitTypeName))
+	panic(fmt.Sprintf("unexpected InternalTypeName func %#v", b.VisitInternalTypeName))
+}
+
+// buildVisitExternalTypeName returns a function to use in the TypeVisitor
+// If the field VisitExternalTypeName is nil, we return nil, unlike other build functions.
+// We do this to avoid the boxing inherent with passing an ExternalTypeName if there's nothing to be done.
+// Otherwise, we attempt to convert the func found in the field, triggering a panic if no suitable func is found.
+func (b *TypeVisitorBuilder[C]) buildVisitExternalTypeName() func(*TypeVisitor[C], ExternalTypeName, C) (Type, error) {
+	if b.VisitExternalTypeName == nil {
+		return nil
+	}
+
+	switch v := b.VisitExternalTypeName.(type) {
+	case func(*TypeVisitor[C], ExternalTypeName, C) (Type, error):
+		return v
+	case func(ExternalTypeName) (Type, error):
+		return func(_ *TypeVisitor[C], it ExternalTypeName, _ C) (Type, error) {
+			return v(it)
+		}
+	case func(ExternalTypeName) Type:
+		return func(_ *TypeVisitor[C], it ExternalTypeName, _ C) (Type, error) {
+			return v(it), nil
+		}
+	}
+
+	panic(fmt.Sprintf("unexpected ExternalTypeName func %#v", b.VisitExternalTypeName))
 }
 
 // buildVisitOneOfType returns a function to use in the TypeVisitor

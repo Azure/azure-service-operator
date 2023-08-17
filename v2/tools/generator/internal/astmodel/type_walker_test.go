@@ -252,7 +252,7 @@ func TestTypeWalker_ContextPropagated(t *testing.T) {
 		walked[updated.Name()] = typedCtx
 		return IdentityAfterVisit(original, updated, ctx)
 	}
-	walker.MakeContext = func(_ TypeName, ctx any) (any, error) {
+	walker.MakeContext = func(_ InternalTypeName, ctx any) (any, error) {
 		if ctx == nil {
 			return 0, nil
 		}
@@ -299,7 +299,7 @@ func TestTypeWalker_VisitorApplied(t *testing.T) {
 	}.Build()
 
 	walker := NewTypeWalker(types, visitor)
-	walker.MakeContext = func(_ TypeName, _ any) (any, error) {
+	walker.MakeContext = func(_ InternalTypeName, _ any) (any, error) {
 		return 0, nil
 	}
 

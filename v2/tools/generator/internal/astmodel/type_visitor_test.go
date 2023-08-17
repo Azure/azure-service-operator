@@ -70,7 +70,12 @@ type CountingTypeVisitor struct {
 func MakeCountingTypeVisitor() *CountingTypeVisitor {
 	result := &CountingTypeVisitor{}
 
-	countEachName := func(this *TypeVisitor[any], it TypeName, ctx interface{}) (Type, error) {
+	countEachInternalName := func(this *TypeVisitor[any], it InternalTypeName, ctx interface{}) (Type, error) {
+		result.VisitCount++
+		return IdentityVisitOfTypeName(this, it, ctx)
+	}
+
+	countEachExternalName := func(this *TypeVisitor[any], it ExternalTypeName, ctx interface{}) (Type, error) {
 		result.VisitCount++
 		return IdentityVisitOfTypeName(this, it, ctx)
 	}
@@ -111,14 +116,15 @@ func MakeCountingTypeVisitor() *CountingTypeVisitor {
 	}
 
 	result.TypeVisitor = TypeVisitorBuilder[any]{
-		VisitTypeName:     countEachName,
-		VisitArrayType:    countEachArray,
-		VisitPrimitive:    countEachPrimitive,
-		VisitObjectType:   countEachObject,
-		VisitMapType:      countEachMap,
-		VisitEnumType:     countEachEnum,
-		VisitOptionalType: countEachOptional,
-		VisitResourceType: countEachResource,
+		VisitInternalTypeName: countEachInternalName,
+		VisitExternalTypeName: countEachExternalName,
+		VisitArrayType:        countEachArray,
+		VisitPrimitive:        countEachPrimitive,
+		VisitObjectType:       countEachObject,
+		VisitMapType:          countEachMap,
+		VisitEnumType:         countEachEnum,
+		VisitOptionalType:     countEachOptional,
+		VisitResourceType:     countEachResource,
 	}.Build()
 
 	return result

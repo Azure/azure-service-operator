@@ -26,7 +26,7 @@ type TypeWalker[C any] struct {
 
 	// MakeContext is called before any type is visited - including before the root type is visited. It is given the current context and returns
 	// a new context for use in the upcoming Visit. When visiting the root type, the ctx parameter is always nil.
-	MakeContext func(it TypeName, ctx C) (C, error)
+	MakeContext func(it InternalTypeName, ctx C) (C, error)
 
 	// AfterVisit is called after the type walker has applied the visitor to a TypeDefinition.
 	AfterVisit func(original TypeDefinition, updated TypeDefinition, ctx C) (TypeDefinition, error)
@@ -34,9 +34,9 @@ type TypeWalker[C any] struct {
 	// ShouldRemoveCycle is called if a cycle is detected. If true is returned the cycle will be pruned, otherwise it will be preserved as-is.
 	ShouldRemoveCycle func(def TypeDefinition, ctx C) (bool, error)
 
-	state                   typeWalkerState
-	originalVisitTypeName   func(this *TypeVisitor[C], it TypeName, ctx C) (Type, error)
-	originalVisitObjectType func(this *TypeVisitor[C], it *ObjectType, ctx C) (Type, error)
+	state                         typeWalkerState
+	originalVisitInternalTypeName func(this *TypeVisitor[C], it InternalTypeName, ctx C) (Type, error)
+	originalVisitObjectType       func(this *TypeVisitor[C], it *ObjectType, ctx C) (Type, error)
 }
 
 type typeWalkerState struct {
@@ -49,18 +49,16 @@ type typeWalkerState struct {
 // Walk will panic.
 func NewTypeWalker[C any](allDefs TypeDefinitionSet, visitor TypeVisitor[C]) *TypeWalker[C] {
 	typeWalker := TypeWalker[C]{
-		allDefinitions:          allDefs,
-		originalVisitTypeName:   visitor.visitTypeName,
-		originalVisitObjectType: visitor.visitObjectType,
-		AfterVisit:              IdentityAfterVisit[C],
-		MakeContext:             IdentityMakeContext[C],
-		ShouldRemoveCycle:       IdentityShouldRemoveCycle[C],
+		allDefinitions:                allDefs,
+		originalVisitInternalTypeName: visitor.visitInternalTypeName,
+		originalVisitObjectType:       visitor.visitObjectType,
+		AfterVisit:                    IdentityAfterVisit[C],
+		MakeContext:                   IdentityMakeContext[C],
+		ShouldRemoveCycle:             IdentityShouldRemoveCycle[C],
 	}
 
 	// visitor is a copy - modifications won't impact passed visitor
-	visitor.visitTypeName = typeWalker.visitTypeName
-	visitor.visitTypeNameIsIdentity = false // disable short-cut optimization
-
+	visitor.visitInternalTypeName = typeWalker.visitInternalTypeName
 	visitor.visitObjectType = typeWalker.visitObjectType
 
 	typeWalker.visitor = visitor
@@ -68,20 +66,25 @@ func NewTypeWalker[C any](allDefs TypeDefinitionSet, visitor TypeVisitor[C]) *Ty
 	return &typeWalker
 }
 
-func (t *TypeWalker[C]) visitTypeName(this *TypeVisitor[C], it TypeName, ctx C) (Type, error) {
+func (t *TypeWalker[C]) visitInternalTypeName(this *TypeVisitor[C], it InternalTypeName, ctx C) (Type, error) {
 	updatedCtx, err := t.MakeContext(it, ctx)
 	if err != nil {
 		return nil, errors.Wrapf(err, "MakeContext failed for name %q", it)
 	}
 
-	visitedTypeName, err := t.originalVisitTypeName(this, it, updatedCtx)
-	if err != nil {
-		return nil, errors.Wrapf(err, "visitTypeName failed for name %q", it)
-	}
+	visitedTypeName := it
+	if t.originalVisitInternalTypeName != nil {
+		tn, err := t.originalVisitInternalTypeName(this, it, updatedCtx)
+		if err != nil {
+			return nil, errors.Wrapf(err, "visitTypeName failed for name %q", it)
+		}
 
-	it, ok := visitedTypeName.(TypeName)
-	if !ok {
-		panic(fmt.Sprintf("TypeWalker visitor visitTypeName must return a TypeName, instead returned %T", visitedTypeName))
+		itn, ok := tn.(InternalTypeName)
+		if !ok {
+			panic(fmt.Sprintf("TypeWalker visitor visitTypeName must return a TypeName, instead returned %T", visitedTypeName))
+		}
+
+		visitedTypeName = itn
 	}
 
 	if IsExternalPackageReference(it.PackageReference()) {
@@ -178,7 +181,7 @@ func IdentityAfterVisit[C any](_ TypeDefinition, updated TypeDefinition, _ C) (T
 }
 
 // IdentityMakeContext returns the context unmodified
-func IdentityMakeContext[C any](_ TypeName, ctx C) (C, error) {
+func IdentityMakeContext[C any](_ InternalTypeName, ctx C) (C, error) {
 	return ctx, nil
 }
 
