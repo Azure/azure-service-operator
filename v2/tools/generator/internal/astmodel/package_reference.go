@@ -72,7 +72,7 @@ func ComparePathAndVersion(left string, right string) bool {
 	return comparer.Compare() < 0
 }
 
-// versionComparer captures our state while doing an alphanumeric version comparision
+// versionComparer captures our state while doing an alphanumeric version comparison.
 // We need separate indexes for each side because we're doing a numeric comparison, which will
 // compare "100" and "0100" as equal (leading zeros are not significant)
 type versionComparer struct {
@@ -281,7 +281,7 @@ func (v *versionComparer) isPreviewVersionLabel(identifier string) (int, bool) {
 }
 
 // ContainsPreviewVersionLabel checks the passed identifier to see if it contains one of our
-// special set, and if so returns its true. If the passed identifier does not contain one,
+// special set, and if so returns true. If the passed identifier does not contain one,
 // returns false.
 func ContainsPreviewVersionLabel(identifier string) bool {
 	for _, id := range previewVersionLabels {
