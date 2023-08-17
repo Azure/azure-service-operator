@@ -264,7 +264,6 @@ func commonUppercasedSuffix(x, y string) string {
 
 func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames, error) {
 	switch concreteType := t.(type) {
-	case astmodel.TypeName:
 	case astmodel.InternalTypeName:
 
 		if def, ok := s.defs[concreteType]; ok {
@@ -278,6 +277,14 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 
 		// JSON name is unimportant here because we will implement the JSON marshaller anyway,
 		// but we still need it for controller-gen
+		return propertyNames{
+			golang:     s.idFactory.CreatePropertyName(concreteType.Name(), astmodel.Exported),
+			json:       s.idFactory.CreateStringIdentifier(concreteType.Name(), astmodel.NotExported),
+			isGoodName: true, // a typename name is good (little else is)
+		}, nil
+
+	case astmodel.ExternalTypeName:
+		// Similar to handling for InternalTypeName, but we already know this can't identity a TypeDefinition
 		return propertyNames{
 			golang:     s.idFactory.CreatePropertyName(concreteType.Name(), astmodel.Exported),
 			json:       s.idFactory.CreateStringIdentifier(concreteType.Name(), astmodel.NotExported),
