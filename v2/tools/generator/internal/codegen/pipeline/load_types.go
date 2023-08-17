@@ -194,10 +194,15 @@ func generateStatusTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefini
 
 // Note that the first result is for mapping resource names → types, so it is always TypeName→TypeName.
 // The second contains all the renamed types.
-func renamed(swaggerTypes jsonast.SwaggerTypes, status bool, suffix string) (astmodel.TypeDefinitionSet, astmodel.TypeDefinitionSet, error) {
-	renamer := astmodel.NewRenamingVisitorFromLambda(func(typeName astmodel.TypeName) astmodel.TypeName {
-		return typeName.WithName(typeName.Name() + suffix)
-	})
+func renamed(
+	swaggerTypes jsonast.SwaggerTypes,
+	status bool,
+	suffix string,
+) (astmodel.TypeDefinitionSet, astmodel.TypeDefinitionSet, error) {
+	renamer := astmodel.NewRenamingVisitorFromLambda(
+		func(typeName astmodel.InternalTypeName) astmodel.InternalTypeName {
+			return typeName.WithName(typeName.Name() + suffix)
+		})
 
 	var errs []error
 	otherTypes := make(astmodel.TypeDefinitionSet)
@@ -536,7 +541,7 @@ func generateRenaming(
 	original astmodel.TypeName,
 	filePath string,
 	typeNames map[astmodel.InternalTypeName]int,
-) astmodel.TypeName {
+) astmodel.InternalTypeName {
 	name := filepath.Base(filePath)
 	name = strings.TrimSuffix(name, filepath.Ext(name))
 

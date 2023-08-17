@@ -24,7 +24,7 @@ func TestRenamingVisitor_RenamesTypeAndReferences(t *testing.T) {
 	defs.AddAll(badObject, otherObject)
 
 	newName := badObject.Name().WithName("GoodName")
-	renames := map[TypeName]TypeName{
+	renames := map[InternalTypeName]InternalTypeName{
 		badObject.Name(): newName,
 	}
 	renamer := NewRenamingVisitor(renames)
@@ -60,8 +60,8 @@ func TestRenamingVisitor_RewritesResourceOwner(t *testing.T) {
 	defs := make(TypeDefinitionSet)
 	defs.AddAll(badObject, childDef)
 
-	renames := map[TypeName]TypeName{
 	newName := badObject.Name().WithName("GoodName")
+	renames := map[InternalTypeName]InternalTypeName{
 		badObject.Name(): newName,
 	}
 	renamer := NewRenamingVisitor(renames)
