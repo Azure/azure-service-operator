@@ -43,11 +43,6 @@ func (tn ExternalTypeName) PackageReference() PackageReference {
 	return tn.packageReference
 }
 
-// WithName returns a new TypeName in the same package but with a different name
-func (tn ExternalTypeName) WithName(_ string) TypeName {
-	panic("not implemented")
-}
-
 // WithPackageReference returns a new TypeName in a different package but with the same name
 func (tn ExternalTypeName) WithPackageReference(_ PackageReference) TypeName {
 	panic("not implemented")
