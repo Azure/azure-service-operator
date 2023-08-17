@@ -178,7 +178,7 @@ func (c *armConversionApplier) transformSpec(resourceType *astmodel.ResourceType
 	}
 
 	injectOwnerProperty := func(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
-		if resourceType.Owner() != nil && resourceType.Scope() == astmodel.ResourceScopeResourceGroup {
+		if !resourceType.Owner().IsEmpty() && resourceType.Scope() == astmodel.ResourceScopeResourceGroup {
 			ownerProperty := c.createOwnerProperty(resourceType.Owner())
 			t = t.WithProperty(ownerProperty)
 		} else if resourceType.Scope() == astmodel.ResourceScopeExtension {

@@ -306,7 +306,7 @@ func findResourceSubResources(definitions astmodel.TypeDefinitionSet) map[resour
 			panic(fmt.Sprintf("resource was somehow not a resource: %q", def.Name()))
 		}
 
-		if resource.Owner() == nil {
+		if resource.Owner().IsEmpty() {
 			continue
 		}
 

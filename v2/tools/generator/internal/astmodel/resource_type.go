@@ -39,7 +39,7 @@ type ResourceType struct {
 	spec                Type
 	status              Type
 	isStorageVersion    bool
-	owner               TypeName
+	owner               InternalTypeName
 	properties          PropertySet
 	functions           map[string]Function
 	testcases           map[string]TestCase
@@ -56,7 +56,7 @@ type ResourceType struct {
 func NewResourceType(specType Type, statusType Type) *ResourceType {
 	result := &ResourceType{
 		isStorageVersion:     false,
-		owner:                nil,
+		owner:                InternalTypeName{},
 		functions:            make(map[string]Function),
 		testcases:            make(map[string]TestCase),
 		scope:                ResourceScopeResourceGroup,
@@ -499,7 +499,7 @@ func (resource *ResourceType) References() TypeNameSet {
 }
 
 // Owner returns the name of the owner type
-func (resource *ResourceType) Owner() TypeName {
+func (resource *ResourceType) Owner() InternalTypeName {
 	return resource.owner
 }
 
@@ -511,7 +511,7 @@ func (resource *ResourceType) MarkAsStorageVersion() *ResourceType {
 }
 
 // WithOwner updates the owner of the resource and returns a copy of the resource
-func (resource *ResourceType) WithOwner(owner TypeName) *ResourceType {
+func (resource *ResourceType) WithOwner(owner InternalTypeName) *ResourceType {
 	result := resource.copy()
 	result.owner = owner
 	return result

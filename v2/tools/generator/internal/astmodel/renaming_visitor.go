@@ -51,7 +51,7 @@ func (r *RenamingVisitor) updateTypeName(it InternalTypeName) (Type, error) {
 }
 
 func (r *RenamingVisitor) updateResourceOwner(this *TypeVisitor[any], it *ResourceType, ctx any) (Type, error) {
-	if it.Owner() != nil {
+	if !it.Owner().IsEmpty() {
 		// TODO: Should this actually happen in TypeVisitor itself?
 		it = it.WithOwner(r.f(it.Owner()))
 	}
