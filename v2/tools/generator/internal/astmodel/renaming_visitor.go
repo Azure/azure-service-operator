@@ -39,16 +39,15 @@ func NewRenamingVisitorFromLambda(f func(name TypeName) TypeName) *RenamingVisit
 	}
 
 	r.visitor = TypeVisitorBuilder[any]{
-		VisitTypeName:     r.updateTypeName,
-		VisitResourceType: r.updateResourceOwner,
+		VisitInternalTypeName: r.updateTypeName,
+		VisitResourceType:     r.updateResourceOwner,
 	}.Build()
 
 	return r
 }
 
-func (r *RenamingVisitor) updateTypeName(this *TypeVisitor[any], it TypeName, ctx any) (Type, error) {
-	newName := r.f(it)
-	return IdentityVisitOfTypeName(this, newName, ctx)
+func (r *RenamingVisitor) updateTypeName(it InternalTypeName) (Type, error) {
+	return r.f(it), nil
 }
 
 func (r *RenamingVisitor) updateResourceOwner(this *TypeVisitor[any], it *ResourceType, ctx any) (Type, error) {

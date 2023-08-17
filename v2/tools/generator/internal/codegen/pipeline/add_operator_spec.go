@@ -162,7 +162,7 @@ func newConfigMapTypeWalker(
 		VisitResourceType: result.includeSpecStatus,
 	}.Build()
 	walker := astmodel.NewTypeWalker(defs, visitor)
-	walker.MakeContext = func(it astmodel.TypeName, ctx configMapContext) (configMapContext, error) {
+	walker.MakeContext = func(it astmodel.InternalTypeName, ctx configMapContext) (configMapContext, error) {
 		if ctx.typeName == nil {
 			return configMapContext{
 				typeName: it,

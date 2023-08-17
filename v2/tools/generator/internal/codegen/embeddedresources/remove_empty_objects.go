@@ -153,12 +153,12 @@ func makeRemovedTypeVisitor(
 
 	typeNameVisitWithSafetyCheck := func(
 		this *astmodel.TypeVisitor[*visitorCtx],
-		it astmodel.TypeName,
+		it astmodel.InternalTypeName,
 		ctx *visitorCtx,
 	) (astmodel.Type, error) {
 		// Safety check that we're not overwriting typeName
 		if ctx != nil {
-			if ctx.typeName != nil {
+			if !ctx.typeName.IsEmpty() {
 				return nil, errors.Errorf("would've overwritten ctx.typeName %q", ctx.typeName)
 			}
 
@@ -169,8 +169,8 @@ func makeRemovedTypeVisitor(
 	}
 
 	visitor := astmodel.TypeVisitorBuilder[*visitorCtx]{
-		VisitObjectType: removeReferencesToEmptyTypes,
-		VisitTypeName:   typeNameVisitWithSafetyCheck,
+		VisitObjectType:       removeReferencesToEmptyTypes,
+		VisitInternalTypeName: typeNameVisitWithSafetyCheck,
 	}.Build()
 
 	return visitor

@@ -25,12 +25,12 @@ func RemoveTypeAliases() *Stage {
 		RemoveTypeAliasesStageID,
 		"Remove type aliases",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			simplifyAliases := func(this *astmodel.TypeVisitor[any], it astmodel.TypeName, ctx any) (astmodel.Type, error) {
+			simplifyAliases := func(this *astmodel.TypeVisitor[any], it astmodel.InternalTypeName, ctx any) (astmodel.Type, error) {
 				return resolveTypeName(this, it, definitions)
 			}
 
 			visitor := astmodel.TypeVisitorBuilder[any]{
-				VisitTypeName: simplifyAliases,
+				VisitInternalTypeName: simplifyAliases,
 			}.Build()
 
 			result := make(astmodel.TypeDefinitionSet)

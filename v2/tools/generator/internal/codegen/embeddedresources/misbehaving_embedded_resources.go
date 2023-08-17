@@ -13,8 +13,8 @@ import (
 )
 
 type misbehavingResourceCtx struct {
-	resourceName astmodel.TypeName
-	typeName     astmodel.TypeName
+	resourceName astmodel.InternalTypeName
+	typeName     astmodel.InternalTypeName
 }
 
 type misbehavingResourceDetails struct {
@@ -66,8 +66,11 @@ func findMisbehavingResources(configuration *config.Configuration, defs astmodel
 	}.Build()
 
 	typeWalker := astmodel.NewTypeWalker(defs, visitor)
-	typeWalker.MakeContext = func(it astmodel.TypeName, ctx misbehavingResourceCtx) (misbehavingResourceCtx, error) {
-		if ctx.resourceName == nil {
+	typeWalker.MakeContext = func(
+		it astmodel.InternalTypeName,
+		ctx misbehavingResourceCtx,
+	) (misbehavingResourceCtx, error) {
+		if ctx.resourceName.IsEmpty() {
 			ctx.resourceName = it
 		}
 

@@ -32,11 +32,11 @@ func NewTypeConverter(definitions astmodel.TypeDefinitionSet) *TypeConverter {
 	}
 
 	result.visitor = astmodel.TypeVisitorBuilder[any]{
-		VisitObjectType:    result.convertObjectType,
-		VisitResourceType:  result.convertResourceType,
-		VisitTypeName:      result.redirectTypeNamesToStoragePackage,
-		VisitValidatedType: result.stripAllValidations,
-		VisitFlaggedType:   result.stripAllFlags,
+		VisitObjectType:       result.convertObjectType,
+		VisitResourceType:     result.convertResourceType,
+		VisitInternalTypeName: result.redirectTypeNamesToStoragePackage,
+		VisitValidatedType:    result.stripAllValidations,
+		VisitFlaggedType:      result.stripAllFlags,
 	}.Build()
 
 	return result
@@ -110,9 +110,7 @@ func (t *TypeConverter) convertObjectType(
 }
 
 // redirectTypeNamesToStoragePackage modifies TypeNames to reference the current storage package
-func (t *TypeConverter) redirectTypeNamesToStoragePackage(
-	_ *astmodel.TypeVisitor[any], name astmodel.TypeName, _ any,
-) (astmodel.Type, error) {
+func (t *TypeConverter) redirectTypeNamesToStoragePackage(name astmodel.InternalTypeName) (astmodel.Type, error) {
 	if result, ok := t.tryConvertToStoragePackage(name); ok {
 		return result, nil
 	}

@@ -36,9 +36,9 @@ func NewPropertyConverter(definitions astmodel.TypeDefinitionSet) *PropertyConve
 	}
 
 	result.visitor = astmodel.TypeVisitorBuilder[any]{
-		VisitEnumType:      result.useBaseTypeForEnumerations,
-		VisitValidatedType: result.stripAllValidations,
-		VisitTypeName:      result.shortCircuitNamesOfSimpleTypes,
+		VisitEnumType:         result.useBaseTypeForEnumerations,
+		VisitValidatedType:    result.stripAllValidations,
+		VisitInternalTypeName: result.shortCircuitNamesOfSimpleTypes,
 	}.Build()
 
 	return result
@@ -87,7 +87,7 @@ func (p *PropertyConverter) useBaseTypeForEnumerations(
 //	o  If a TypeName references an alias for a primitive type (these are used to specify validations), it is replaced
 //	   with the primitive type
 func (p *PropertyConverter) shortCircuitNamesOfSimpleTypes(
-	tv *astmodel.TypeVisitor[any], tn astmodel.TypeName, ctx any) (astmodel.Type, error) {
+	tv *astmodel.TypeVisitor[any], tn astmodel.InternalTypeName, ctx any) (astmodel.Type, error) {
 
 	// for nonlocal packages, preserve the name as is
 	if astmodel.IsExternalPackageReference(tn.PackageReference()) {

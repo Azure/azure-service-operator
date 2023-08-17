@@ -937,7 +937,7 @@ func countTypeReferences(defs astmodel.TypeDefinitionSet) map[astmodel.TypeName]
 	referenceCounts := make(map[astmodel.TypeName]int)
 
 	visitor := astmodel.TypeVisitorBuilder[any]{
-		VisitTypeName: func(tn astmodel.TypeName) astmodel.Type {
+		VisitInternalTypeName: func(tn astmodel.InternalTypeName) astmodel.Type {
 			referenceCounts[tn]++
 			return tn
 		},

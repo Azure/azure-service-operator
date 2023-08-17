@@ -93,7 +93,7 @@ func newARMTypeCreator(
 	}
 
 	result.visitor = astmodel.TypeVisitorBuilder[any]{
-		VisitTypeName: result.visitARMTypeName,
+		VisitInternalTypeName: result.visitARMTypeName,
 	}.Build()
 
 	return result
@@ -501,14 +501,9 @@ func (c *armTypeCreator) convertObjectPropertiesForARM(
 
 func (c *armTypeCreator) visitARMTypeName(
 	this *astmodel.TypeVisitor[any],
-	it astmodel.TypeName,
+	it astmodel.InternalTypeName,
 	ctx any,
 ) (astmodel.Type, error) {
-	// Allow json type to pass through.
-	if it == astmodel.JSONType {
-		return it, nil
-	}
-
 	// Look up the definition
 	def, err := c.definitions.GetDefinition(it)
 	if err != nil {

@@ -41,8 +41,8 @@ func NewSimpleRecursiveTypeFixer(log logr.Logger) *SimpleRecursiveTypeFixer {
 	}
 
 	visitor := astmodel.TypeVisitorBuilder[simpleRecursiveTypeFixerContext]{
-		VisitObjectType: astmodel.MakeIdentityVisitOfObjectType(result.unrollObjectTypeProperty),
-		VisitTypeName:   result.unrollRecursiveReference,
+		VisitObjectType:       astmodel.MakeIdentityVisitOfObjectType(result.unrollObjectTypeProperty),
+		VisitInternalTypeName: result.unrollRecursiveReference,
 	}.Build()
 	result.visitor = &visitor
 
@@ -102,7 +102,7 @@ func (s *SimpleRecursiveTypeFixer) unrollObjectTypeProperty(
 
 func (s *SimpleRecursiveTypeFixer) unrollRecursiveReference(
 	this *astmodel.TypeVisitor[simpleRecursiveTypeFixerContext],
-	it astmodel.TypeName,
+	it astmodel.InternalTypeName,
 	ctx simpleRecursiveTypeFixerContext,
 ) (astmodel.Type, error) {
 	if !ctx.mustUnroll {

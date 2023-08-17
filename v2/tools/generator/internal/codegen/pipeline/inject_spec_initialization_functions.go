@@ -105,10 +105,10 @@ func newSpecInitializationScanner(
 	}
 
 	builder := astmodel.TypeVisitorBuilder[astmodel.Type]{
-		VisitTypeName:   result.visitTypeName,
-		VisitObjectType: result.visitObjectType,
-		VisitMapType:    result.visitMapType,
-		VisitArrayType:  result.visitArrayType,
+		VisitInternalTypeName: result.visitInternalTypeName,
+		VisitObjectType:       result.visitObjectType,
+		VisitMapType:          result.visitMapType,
+		VisitArrayType:        result.visitArrayType,
 	}
 
 	result.visitor = builder.Build()
@@ -190,9 +190,9 @@ func (s *specInitializationScanner) findResources() (astmodel.TypeDefinitionSet,
 }
 
 // visitTypeName is called for each TypeName in the spec and status types of a resource
-func (s *specInitializationScanner) visitTypeName(
+func (s *specInitializationScanner) visitInternalTypeName(
 	visitor *astmodel.TypeVisitor[astmodel.Type],
-	specName astmodel.TypeName,
+	specName astmodel.InternalTypeName,
 	ctx astmodel.Type,
 ) (astmodel.Type, error) {
 	statusName, ok := astmodel.AsTypeName(ctx)

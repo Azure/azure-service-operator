@@ -277,8 +277,11 @@ func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(
 		return false, nil // Leave other cycles for now
 	}
 
-	typeWalker.MakeContext = func(it astmodel.TypeName, ctx resourceRemovalVisitorContext) (resourceRemovalVisitorContext, error) {
 		if ctx.resource == nil {
+	typeWalker.MakeContext = func(
+		it astmodel.InternalTypeName,
+		ctx resourceRemovalVisitorContext,
+	) (resourceRemovalVisitorContext, error) {
 			return resourceRemovalVisitorContext{
 				resource:            def.Name(),
 				depth:               0,

@@ -147,10 +147,11 @@ func (r renamer) performRenames(
 	result := make(astmodel.TypeDefinitionSet)
 
 	renamingVisitor := astmodel.TypeVisitorBuilder[any]{
-		VisitTypeName: func(this *astmodel.TypeVisitor[any], it astmodel.TypeName, ctx any) (astmodel.Type, error) {
+		VisitInternalTypeName: func(this *astmodel.TypeVisitor[any], it astmodel.InternalTypeName, ctx any) (astmodel.Type, error) {
 			if newName, ok := renames[it]; ok {
 				return astmodel.IdentityVisitOfTypeName(this, newName, ctx)
 			}
+
 			return astmodel.IdentityVisitOfTypeName(this, it, ctx)
 		},
 	}.Build()

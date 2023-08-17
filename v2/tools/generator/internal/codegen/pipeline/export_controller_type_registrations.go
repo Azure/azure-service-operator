@@ -209,7 +209,7 @@ func catalogPropertyChains(
 	visitor astmodel.TypeVisitor[*propertyChain],
 ) ([]*propertyChain, error) {
 	walker := astmodel.NewTypeWalker(definitions, visitor)
-	walker.MakeContext = func(it astmodel.TypeName, ctx *propertyChain) (*propertyChain, error) {
+	walker.MakeContext = func(it astmodel.InternalTypeName, ctx *propertyChain) (*propertyChain, error) {
 		if ctx != nil {
 			return ctx, nil
 		}

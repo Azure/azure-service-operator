@@ -60,7 +60,7 @@ func TestRenamingVisitor_RewritesResourceOwner(t *testing.T) {
 	defs := make(TypeDefinitionSet)
 	defs.AddAll(badObject, childDef)
 
-	newName := badObject.Name().WithName("GoodName")
+	newName := badObject.Name().WithName("GoodName").(InternalTypeName)
 	renames := map[TypeName]TypeName{
 		badObject.Name(): newName,
 	}
@@ -71,8 +71,7 @@ func TestRenamingVisitor_RewritesResourceOwner(t *testing.T) {
 
 	expectedChildDef := MakeTypeDefinition(
 		childDef.Name(),
-		NewResourceType(childSpecDef.Name(), childStatusDef.Name()).
-			WithOwner(expectedRenamedTypeName),
+		childResource.WithOwner(expectedRenamedTypeName),
 	)
 	expectedResult := make(TypeDefinitionSet)
 
@@ -80,5 +79,12 @@ func TestRenamingVisitor_RewritesResourceOwner(t *testing.T) {
 	expectedResult.Add(expectedChildDef)
 
 	g.Expect(err).ToNot(HaveOccurred())
+
+	// Expect the parent resource to be renamed
+	g.Expect(result[newName]).To(Equal(badObject.WithName(newName)))
+
+	// Expect the child resource to have a new owner
+	g.Expect(result[expectedChildDef.Name()]).To(Equal(expectedChildDef))
+
 	g.Expect(result).To(Equal(expectedResult))
 }
