@@ -17,8 +17,8 @@ import (
 )
 
 type resourceRemovalVisitorContext struct {
-	resource            astmodel.TypeName
-	name                astmodel.TypeName
+	resource            astmodel.InternalTypeName
+	name                astmodel.InternalTypeName
 	depth               int
 	modifiedDefinitions astmodel.TypeDefinitionSet
 }
@@ -31,7 +31,7 @@ func (e resourceRemovalVisitorContext) WithMoreDepth() resourceRemovalVisitorCon
 	return e
 }
 
-func (e resourceRemovalVisitorContext) WithName(name astmodel.TypeName) resourceRemovalVisitorContext {
+func (e resourceRemovalVisitorContext) WithName(name astmodel.InternalTypeName) resourceRemovalVisitorContext {
 	e.name = name
 	return e
 }
@@ -277,11 +277,11 @@ func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(
 		return false, nil // Leave other cycles for now
 	}
 
-		if ctx.resource == nil {
 	typeWalker.MakeContext = func(
 		it astmodel.InternalTypeName,
 		ctx resourceRemovalVisitorContext,
 	) (resourceRemovalVisitorContext, error) {
+		if ctx.resource.IsEmpty() {
 			return resourceRemovalVisitorContext{
 				resource:            def.Name(),
 				depth:               0,

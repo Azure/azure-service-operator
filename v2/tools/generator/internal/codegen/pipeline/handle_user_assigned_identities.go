@@ -43,7 +43,7 @@ func HandleUserAssignedIdentities() *Stage {
 }
 
 type userAssignedIdentityTransformer struct {
-	visitor    astmodel.TypeVisitor[astmodel.TypeName]
+	visitor    astmodel.TypeVisitor[astmodel.InternalTypeName]
 	typesToAdd astmodel.TypeDefinitionSet
 }
 
@@ -52,7 +52,7 @@ func newUserAssignedIdentityTransformer() *userAssignedIdentityTransformer {
 		typesToAdd: make(astmodel.TypeDefinitionSet),
 	}
 
-	visitor := astmodel.TypeVisitorBuilder[astmodel.TypeName]{
+	visitor := astmodel.TypeVisitorBuilder[astmodel.InternalTypeName]{
 		VisitObjectType: result.transformUserAssignedIdentityProperty,
 	}.Build()
 	result.visitor = visitor
@@ -61,9 +61,9 @@ func newUserAssignedIdentityTransformer() *userAssignedIdentityTransformer {
 }
 
 func (t *userAssignedIdentityTransformer) transformUserAssignedIdentityProperty(
-	this *astmodel.TypeVisitor[astmodel.TypeName],
+	this *astmodel.TypeVisitor[astmodel.InternalTypeName],
 	it *astmodel.ObjectType,
-	ctx astmodel.TypeName,
+	ctx astmodel.InternalTypeName,
 ) (astmodel.Type, error) {
 	// Doesn't apply to status types
 	if ctx.IsStatus() {

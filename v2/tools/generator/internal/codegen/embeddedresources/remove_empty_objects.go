@@ -89,7 +89,7 @@ func removeReferencesToTypes(
 }
 
 type visitorCtx struct {
-	typeName astmodel.TypeName
+	typeName astmodel.InternalTypeName
 }
 
 func makeRemovedTypeVisitor(
@@ -110,7 +110,7 @@ func makeRemovedTypeVisitor(
 			p, err := this.Visit(prop.PropertyType(), ctx)
 			if err != nil {
 				errs = append(errs, err)
-			} else if ctx.typeName == nil || !toRemove.Contains(ctx.typeName) {
+			} else if ctx.typeName.IsEmpty() || !toRemove.Contains(ctx.typeName) {
 				newProps = append(newProps, prop.WithType(p))
 			} else if toRemove.Contains(ctx.typeName) {
 				log.V(1).Info(
@@ -131,7 +131,7 @@ func makeRemovedTypeVisitor(
 			p, err := this.Visit(prop.PropertyType(), ctx)
 			if err != nil {
 				errs = append(errs, err)
-			} else if ctx.typeName != nil && !toRemove.Contains(ctx.typeName) {
+			} else if !ctx.typeName.IsEmpty() && !toRemove.Contains(ctx.typeName) {
 				newEmbeddedProps = append(newEmbeddedProps, prop.WithType(p))
 			}
 		}

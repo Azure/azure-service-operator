@@ -52,9 +52,9 @@ func applyConfigSecretOverrides(config *config.Configuration, definitions astmod
 	result := make(astmodel.TypeDefinitionSet)
 
 	applyConfigSecrets := func(
-		_ *astmodel.TypeVisitor[astmodel.TypeName],
+		_ *astmodel.TypeVisitor[astmodel.InternalTypeName],
 		it *astmodel.ObjectType,
-		ctx astmodel.TypeName,
+		ctx astmodel.InternalTypeName,
 	) (astmodel.Type, error) {
 		strippedTypeName := ctx.WithName(strings.TrimSuffix(ctx.Name(), astmodel.StatusSuffix))
 
@@ -75,7 +75,7 @@ func applyConfigSecretOverrides(config *config.Configuration, definitions astmod
 		return it, nil
 	}
 
-	visitor := astmodel.TypeVisitorBuilder[astmodel.TypeName]{
+	visitor := astmodel.TypeVisitorBuilder[astmodel.InternalTypeName]{
 		VisitObjectType: applyConfigSecrets,
 	}.Build()
 

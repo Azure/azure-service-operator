@@ -48,7 +48,7 @@ type apiVersions struct {
 }
 
 type apiVersion struct {
-	name  astmodel.TypeName
+	name  astmodel.InternalTypeName
 	value astmodel.EnumValue
 }
 
