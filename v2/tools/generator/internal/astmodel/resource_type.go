@@ -665,7 +665,7 @@ func (resource *ResourceType) generateMethodDecls(
 
 func (resource *ResourceType) makeResourceListTypeName(name TypeName) TypeName {
 	return MakeInternalTypeName(
-		name.PackageReference(),
+		name.InternalPackageReference(),
 		name.Name()+"List")
 }
 

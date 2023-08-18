@@ -123,7 +123,7 @@ func (omc *ObjectModelConfiguration) IsEmpty() bool {
 }
 
 // IsGroupConfigured returns true if we have any configuration for the specified group, false otherwise.
-func (omc *ObjectModelConfiguration) IsGroupConfigured(pkg astmodel.PackageReference) bool {
+func (omc *ObjectModelConfiguration) IsGroupConfigured(pkg astmodel.InternalPackageReference) bool {
 	var result bool
 	visitor := newSingleGroupConfigurationVisitor(pkg, func(configuration *GroupConfiguration) error {
 		result = true
@@ -148,7 +148,7 @@ func (omc *ObjectModelConfiguration) IsGroupConfigured(pkg astmodel.PackageRefer
 // allowing configuration related to the type to be accessed via the new name.
 func (omc *ObjectModelConfiguration) AddTypeAlias(name astmodel.TypeName, alias string) {
 	versionVisitor := newSingleVersionConfigurationVisitor(
-		name.PackageReference(),
+		name.InternalPackageReference(),
 		func(configuration *VersionConfiguration) error {
 			return configuration.addTypeAlias(name.Name(), alias)
 		})
@@ -421,7 +421,7 @@ func makeGroupAccess[T any](
 		accessor: accessor}
 }
 
-func (a *groupAccess[T]) Lookup(ref astmodel.PackageReference) (T, error) {
+func (a *groupAccess[T]) Lookup(ref astmodel.InternalPackageReference) (T, error) {
 	var c *configurable[T]
 	visitor := newSingleGroupConfigurationVisitor(
 		ref,

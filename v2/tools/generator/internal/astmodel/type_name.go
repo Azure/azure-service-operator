@@ -41,6 +41,6 @@ const (
 )
 
 // CreateARMTypeName creates an ARM object type name
-func CreateARMTypeName(name TypeName) InternalTypeName {
-	return MakeInternalTypeName(name.PackageReference(), name.Name()+ARMSuffix)
+func CreateARMTypeName(name InternalTypeName) InternalTypeName {
+	return MakeInternalTypeName(name.InternalPackageReference(), name.Name()+ARMSuffix)
 }

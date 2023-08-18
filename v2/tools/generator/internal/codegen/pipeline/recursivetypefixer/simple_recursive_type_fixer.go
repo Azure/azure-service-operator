@@ -89,7 +89,7 @@ func (s *SimpleRecursiveTypeFixer) unrollObjectTypeProperty(
 	for propName := range toRemove {
 		unrolledType = unrolledType.WithoutProperty(propName)
 	}
-	unrolledName := astmodel.MakeInternalTypeName(name.PackageReference(), name.Name()+"_Unrolled")
+	unrolledName := astmodel.MakeInternalTypeName(name.InternalPackageReference(), name.Name()+"_Unrolled")
 	unrolledDef := astmodel.MakeTypeDefinition(unrolledName, unrolledType)
 
 	err := s.newDefinitions.AddAllowDuplicates(unrolledDef)

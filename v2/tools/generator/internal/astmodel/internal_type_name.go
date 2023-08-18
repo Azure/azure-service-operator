@@ -39,6 +39,11 @@ func (tn InternalTypeName) PackageReference() PackageReference {
 	return tn.packageReference
 }
 
+// InternalPackageReference returns the internal package to which the type belongs
+func (tn InternalTypeName) InternalPackageReference() InternalPackageReference {
+	return tn.packageReference
+}
+
 // WithName returns a new InternalTypeName in the same package but with a different name
 func (tn InternalTypeName) WithName(name string) InternalTypeName {
 	return MakeInternalTypeName(tn.packageReference, name)
