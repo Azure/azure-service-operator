@@ -538,7 +538,7 @@ func findCollidingTypeNames(
 // generateRenaming finds a new name for a type based upon the file it is in
 func generateRenaming(
 	idFactory astmodel.IdentifierFactory,
-	original astmodel.TypeName,
+	original astmodel.InternalTypeName,
 	filePath string,
 	typeNames map[astmodel.InternalTypeName]int,
 ) astmodel.InternalTypeName {

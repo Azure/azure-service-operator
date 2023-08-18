@@ -663,7 +663,7 @@ func (resource *ResourceType) generateMethodDecls(
 	return result, kerrors.NewAggregate(errs)
 }
 
-func (resource *ResourceType) makeResourceListTypeName(name TypeName) TypeName {
+func (resource *ResourceType) makeResourceListTypeName(name InternalTypeName) TypeName {
 	return MakeInternalTypeName(
 		name.InternalPackageReference(),
 		name.Name()+"List")
@@ -671,7 +671,7 @@ func (resource *ResourceType) makeResourceListTypeName(name TypeName) TypeName {
 
 func (resource *ResourceType) resourceListTypeDecls(
 	codeGenerationContext *CodeGenerationContext,
-	resourceTypeName TypeName,
+	resourceTypeName InternalTypeName,
 	description []string,
 ) []dst.Decl {
 	typeName := resource.makeResourceListTypeName(resourceTypeName)
@@ -714,7 +714,7 @@ func (resource *ResourceType) resourceListTypeDecls(
 
 // SchemeTypes returns the types represented by this resource which must be registered
 // with the controller Scheme
-func (resource *ResourceType) SchemeTypes(name TypeName) []TypeName {
+func (resource *ResourceType) SchemeTypes(name InternalTypeName) []TypeName {
 	return []TypeName{
 		name,
 		resource.makeResourceListTypeName(name),

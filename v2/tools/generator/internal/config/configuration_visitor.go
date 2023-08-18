@@ -32,7 +32,7 @@ type configurationVisitor struct {
 // Returns (true, nil) if the property is found and the action successfully applied, (true, error) if the action returns
 // an error, and (false, nil) if the type or property does not exist.
 func newSinglePropertyConfigurationVisitor(
-	typeName astmodel.TypeName,
+	typeName astmodel.InternalTypeName,
 	property astmodel.PropertyName,
 	action func(configuration *PropertyConfiguration) error) *configurationVisitor {
 	return &configurationVisitor{
@@ -61,7 +61,7 @@ func newEveryPropertyConfigurationVisitor(
 // Returns (true, nil) if the type is found and the action successfully applied, (true, error) if the action returns
 // an error, and (false, nil) if the type does not exist.
 func newSingleTypeConfigurationVisitor(
-	typeName astmodel.TypeName,
+	typeName astmodel.InternalTypeName,
 	action func(configuration *TypeConfiguration) error) *configurationVisitor {
 	return &configurationVisitor{
 		ref:        typeName.InternalPackageReference(),

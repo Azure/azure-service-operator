@@ -203,7 +203,7 @@ const (
 
 // TypeRename looks up a type-rename for the specified type, returning the new name and true if found, or empty string
 // and false if not.
-func (config *Configuration) TypeRename(name astmodel.TypeName) (string, error) {
+func (config *Configuration) TypeRename(name astmodel.InternalTypeName) (string, error) {
 	if config.ObjectModelConfiguration == nil {
 		return "", errors.Errorf("no configuration: no rename available for %s", name)
 	}
@@ -212,7 +212,7 @@ func (config *Configuration) TypeRename(name astmodel.TypeName) (string, error) 
 }
 
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.
-func (config *Configuration) ARMReference(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
+func (config *Configuration) ARMReference(name astmodel.InternalTypeName, property astmodel.PropertyName) (bool, error) {
 	return config.ObjectModelConfiguration.ARMReference.Lookup(name, property)
 }
 
@@ -222,7 +222,7 @@ func (config *Configuration) VerifyARMReferencesConsumed() error {
 }
 
 // IsSecret looks up a property to determine whether it is a secret.
-func (config *Configuration) IsSecret(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
+func (config *Configuration) IsSecret(name astmodel.InternalTypeName, property astmodel.PropertyName) (bool, error) {
 	return config.ObjectModelConfiguration.IsSecret.Lookup(name, property)
 }
 
@@ -233,7 +233,7 @@ func (config *Configuration) VerifyIsSecretConsumed() error {
 
 // ResourceLifecycleOwnedByParent looks up a property to determine if represents a subresource whose lifecycle is owned
 // by the parent resource.
-func (config *Configuration) ResourceLifecycleOwnedByParent(name astmodel.TypeName, property astmodel.PropertyName) (string, error) {
+func (config *Configuration) ResourceLifecycleOwnedByParent(name astmodel.InternalTypeName, property astmodel.PropertyName) (string, error) {
 	return config.ObjectModelConfiguration.ResourceLifecycleOwnedByParent.Lookup(name, property)
 }
 
@@ -248,7 +248,7 @@ func (config *Configuration) VerifyResourceLifecycleOwnedByParentConsumed() erro
 }
 
 // ImportConfigMapMode looks up a property to determine its import configMap mode.
-func (config *Configuration) ImportConfigMapMode(name astmodel.TypeName, property astmodel.PropertyName) (ImportConfigMapMode, error) {
+func (config *Configuration) ImportConfigMapMode(name astmodel.InternalTypeName, property astmodel.PropertyName) (ImportConfigMapMode, error) {
 	return config.ObjectModelConfiguration.ImportConfigMapMode.Lookup(name, property)
 }
 
@@ -360,7 +360,7 @@ func absDirectoryPathToURL(path string) *url.URL {
 }
 
 // ShouldPrune tests for whether a given type should be extracted from the JSON schema or pruned
-func (config *Configuration) ShouldPrune(typeName astmodel.TypeName) (result ShouldPruneResult, because string) {
+func (config *Configuration) ShouldPrune(typeName astmodel.InternalTypeName) (result ShouldPruneResult, because string) {
 	for _, f := range config.TypeFilters {
 		if f.AppliesToType(typeName) {
 			switch f.Action {

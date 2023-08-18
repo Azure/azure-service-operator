@@ -40,7 +40,7 @@ func ApplyCrossResourceReferencesFromConfig(
 
 			var crossResourceReferenceErrs []error
 
-			isCrossResourceReference := func(typeName astmodel.TypeName, prop *astmodel.PropertyDefinition) ARMIDPropertyClassification {
+			isCrossResourceReference := func(typeName astmodel.InternalTypeName, prop *astmodel.PropertyDefinition) ARMIDPropertyClassification {
 				// First check if we know that this property is an ARMID already
 				isReference, err := configuration.ARMReference(typeName, prop.PropertyName())
 				isSwaggerARMID := isTypeARMID(prop.PropertyType())
@@ -127,10 +127,10 @@ func ApplyCrossResourceReferencesFromConfig(
 		})
 }
 
-type crossResourceReferenceChecker func(typeName astmodel.TypeName, prop *astmodel.PropertyDefinition) ARMIDPropertyClassification
+type crossResourceReferenceChecker func(typeName astmodel.InternalTypeName, prop *astmodel.PropertyDefinition) ARMIDPropertyClassification
 
 type ARMIDPropertyTypeVisitor struct {
-	astmodel.TypeVisitor[astmodel.TypeName]
+	astmodel.TypeVisitor[astmodel.InternalTypeName]
 	// isPropertyAnARMReference is a function describing what a cross resource reference looks like. It is overridable so that
 	// we can use a more simplistic criteria for tests.
 	isPropertyAnARMReference crossResourceReferenceChecker
@@ -147,7 +147,7 @@ func MakeARMIDPropertyTypeVisitor(
 	transformResourceReferenceProperties := func(
 		_ *astmodel.TypeVisitor[astmodel.TypeName],
 		it *astmodel.ObjectType,
-		ctx astmodel.TypeName,
+		ctx astmodel.InternalTypeName,
 	) (astmodel.Type, error) {
 		var newProps []*astmodel.PropertyDefinition
 		it.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
@@ -178,7 +178,7 @@ func MakeARMIDPropertyTypeVisitor(
 		return result, nil
 	}
 
-	visitor.TypeVisitor = astmodel.TypeVisitorBuilder[astmodel.TypeName]{
+	visitor.TypeVisitor = astmodel.TypeVisitorBuilder[astmodel.InternalTypeName]{
 		VisitObjectType: transformResourceReferenceProperties,
 	}.Build()
 

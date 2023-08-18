@@ -530,7 +530,9 @@ func (c *armTypeCreator) visitARMTypeName(
 	return astmodel.CreateARMTypeName(def.Name()), nil
 }
 
-func (c *armTypeCreator) createSpecConversionContext(name astmodel.TypeName) (*armPropertyTypeConversionContext, error) {
+func (c *armTypeCreator) createSpecConversionContext(
+	name astmodel.InternalTypeName,
+) (*armPropertyTypeConversionContext, error) {
 	result, err := c.createConversionContext(name)
 	if err != nil {
 		return nil, err

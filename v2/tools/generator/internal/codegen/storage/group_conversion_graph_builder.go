@@ -38,7 +38,7 @@ func NewGroupConversionGraphBuilder(
 }
 
 // Add includes the supplied type names in the conversion graph
-func (b *GroupConversionGraphBuilder) Add(names ...astmodel.TypeName) {
+func (b *GroupConversionGraphBuilder) Add(names ...astmodel.InternalTypeName) {
 	for _, name := range names {
 		subBuilder := b.getSubBuilder(name)
 		subBuilder.Add(name)
@@ -52,7 +52,7 @@ func (b *GroupConversionGraphBuilder) Add(names ...astmodel.TypeName) {
 // AddAll includes all the supplied types names in the conversion graph
 func (b *GroupConversionGraphBuilder) AddAll(names astmodel.TypeNameSet) {
 	for name := range names {
-		b.Add(name)
+		b.Add(name.(astmodel.InternalTypeName))
 	}
 }
 

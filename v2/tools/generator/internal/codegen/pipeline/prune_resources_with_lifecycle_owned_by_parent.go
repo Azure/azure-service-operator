@@ -83,7 +83,7 @@ func flagPrunedEmptyProperties(defs astmodel.TypeDefinitionSet, emptyPrunedProps
 	emptyPrunedPropertiesArm := astmodel.NewTypeNameSet()
 	for emptyPrunedProp := range emptyPrunedProps {
 		// we need to add the noConversion tag on ARM type for the empty pruned property to relax the validation for convertToARM function.
-		armDef, err := GetARMTypeDefinition(defs, emptyPrunedProp)
+		armDef, err := GetARMTypeDefinition(defs, emptyPrunedProp.(astmodel.InternalTypeName))
 		if err != nil {
 			return nil, err
 		}
@@ -102,7 +102,7 @@ func flagPrunedEmptyProperties(defs astmodel.TypeDefinitionSet, emptyPrunedProps
 type misbehavingEmbeddedTypePruner struct {
 	configuration         *config.Configuration
 	emptyPrunedProperties astmodel.TypeNameSet
-	visitor               astmodel.TypeVisitor[astmodel.TypeName]
+	visitor               astmodel.TypeVisitor[astmodel.InternalTypeName]
 }
 
 func newMisbehavingEmbeddedTypeVisitor(configuration *config.Configuration) *misbehavingEmbeddedTypePruner {
@@ -111,7 +111,7 @@ func newMisbehavingEmbeddedTypeVisitor(configuration *config.Configuration) *mis
 		emptyPrunedProperties: astmodel.NewTypeNameSet(),
 	}
 
-	visitor := astmodel.TypeVisitorBuilder[astmodel.TypeName]{
+	visitor := astmodel.TypeVisitorBuilder[astmodel.InternalTypeName]{
 		VisitObjectType: pruner.pruneMisbehavingEmbeddedResourceProperties,
 	}.Build()
 
@@ -143,13 +143,12 @@ func tagEmptyObjectARMProperty(
 }
 
 func (m *misbehavingEmbeddedTypePruner) pruneMisbehavingEmbeddedResourceProperties(
-	this *astmodel.TypeVisitor[astmodel.TypeName],
+	this *astmodel.TypeVisitor[astmodel.InternalTypeName],
 	it *astmodel.ObjectType,
-	ctx astmodel.TypeName,
+	ctx astmodel.InternalTypeName,
 ) (astmodel.Type, error) {
-	typeName := ctx.(astmodel.TypeName)
 	for _, prop := range it.Properties().Copy() {
-		_, err := m.configuration.ResourceLifecycleOwnedByParent(typeName, prop.PropertyName())
+		_, err := m.configuration.ResourceLifecycleOwnedByParent(ctx, prop.PropertyName())
 		if err != nil {
 			if config.IsNotConfiguredError(err) {
 				continue
@@ -160,7 +159,7 @@ func (m *misbehavingEmbeddedTypePruner) pruneMisbehavingEmbeddedResourceProperti
 
 		it = it.WithoutProperty(prop.PropertyName())
 		if it.Properties().Len() == 0 {
-			m.emptyPrunedProperties.Add(typeName)
+			m.emptyPrunedProperties.Add(ctx)
 		}
 	}
 

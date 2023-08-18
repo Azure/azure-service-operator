@@ -80,7 +80,7 @@ type ResourceVersionsReport struct {
 }
 
 type ResourceVersionsReportResourceItem struct {
-	name          astmodel.TypeName
+	name          astmodel.InternalTypeName
 	armType       string
 	armVersion    string
 	supportedFrom string
@@ -185,7 +185,8 @@ func (report *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinit
 		return err
 	}
 
-	for name := range handcraftedTypes {
+	for n := range handcraftedTypes {
+		name := n.(astmodel.InternalTypeName)
 		item := report.createItem(name, "", "")
 		report.addItem(item)
 	}
@@ -570,7 +571,7 @@ func (report *ResourceVersionsReport) FindSampleLinks(group string) (map[string]
 }
 
 func (report *ResourceVersionsReport) createItem(
-	name astmodel.TypeName,
+	name astmodel.InternalTypeName,
 	armType string,
 	armVersion string,
 ) ResourceVersionsReportResourceItem {
@@ -632,7 +633,7 @@ func (report *ResourceVersionsReport) generateSampleLink(name astmodel.TypeName,
 	return "-"
 }
 
-func (report *ResourceVersionsReport) supportedFrom(typeName astmodel.TypeName) string {
+func (report *ResourceVersionsReport) supportedFrom(typeName astmodel.InternalTypeName) string {
 	supportedFrom, err := report.objectModelConfiguration.SupportedFrom.Lookup(typeName)
 	if err != nil {
 		return "" // Leave it blank

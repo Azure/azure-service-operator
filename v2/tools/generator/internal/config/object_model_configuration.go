@@ -146,7 +146,7 @@ func (omc *ObjectModelConfiguration) IsGroupConfigured(pkg astmodel.InternalPack
 
 // AddTypeAlias adds a type alias for the specified type name,
 // allowing configuration related to the type to be accessed via the new name.
-func (omc *ObjectModelConfiguration) AddTypeAlias(name astmodel.TypeName, alias string) {
+func (omc *ObjectModelConfiguration) AddTypeAlias(name astmodel.InternalTypeName, alias string) {
 	versionVisitor := newSingleVersionConfigurationVisitor(
 		name.InternalPackageReference(),
 		func(configuration *VersionConfiguration) error {
@@ -473,7 +473,7 @@ func makeTypeAccess[T any](
 }
 
 // Lookup returns the configured value for the given type name
-func (a *typeAccess[T]) Lookup(name astmodel.TypeName) (T, error) {
+func (a *typeAccess[T]) Lookup(name astmodel.InternalTypeName) (T, error) {
 	var c *configurable[T]
 	visitor := newSingleTypeConfigurationVisitor(
 		name,
@@ -528,7 +528,7 @@ func makePropertyAccess[T any](
 
 // Lookup returns the configured value for the given type name and property name
 func (a *propertyAccess[T]) Lookup(
-	name astmodel.TypeName,
+	name astmodel.InternalTypeName,
 	property astmodel.PropertyName,
 ) (T, error) {
 	var c *configurable[T]
