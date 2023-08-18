@@ -381,7 +381,7 @@ func (resource *ResourceType) Equals(other Type, override EqualityOverrides) boo
 // EmbeddedProperties returns all the embedded properties for this resource type
 // An ordered slice is returned to preserve immutability and provide determinism
 func (resource *ResourceType) EmbeddedProperties() []*PropertyDefinition {
-	typeMetaType := MakeInternalTypeName(MetaV1Reference, "TypeMeta")
+	typeMetaType := MakeExternalTypeName(MetaV1Reference, "TypeMeta")
 	typeMetaProperty := NewPropertyDefinition("", "", typeMetaType).
 		WithTag("json", "inline").WithoutTag("json", "omitempty")
 
