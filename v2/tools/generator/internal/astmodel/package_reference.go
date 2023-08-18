@@ -48,7 +48,7 @@ type PackageReference interface {
 
 // DerivedPackageReference should be implemented by any package reference that's derived from another
 type DerivedPackageReference interface {
-	Base() PackageReference
+	Base() InternalPackageReference
 }
 
 // IsExternalPackageReference returns true if the provided reference is external

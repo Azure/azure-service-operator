@@ -52,7 +52,7 @@ type apiVersion struct {
 	value astmodel.EnumValue
 }
 
-func (vs apiVersions) Get(pr astmodel.PackageReference) apiVersion {
+func (vs apiVersions) Get(pr astmodel.InternalPackageReference) apiVersion {
 	if v, ok := vs.generated[pr]; ok {
 		return v
 	}

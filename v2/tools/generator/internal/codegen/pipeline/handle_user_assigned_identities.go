@@ -112,7 +112,7 @@ func (t *userAssignedIdentityTransformer) transformUserAssignedIdentityProperty(
 	return astmodel.IdentityVisitOfObjectType(this, it, ctx)
 }
 
-func newUserAssignedIdentityDefinition(pr astmodel.PackageReference) astmodel.TypeDefinition {
+func newUserAssignedIdentityDefinition(pr astmodel.InternalPackageReference) astmodel.TypeDefinition {
 	name := astmodel.MakeInternalTypeName(pr, astmodel.UserAssignedIdentitiesTypeName)
 
 	prop := astmodel.NewPropertyDefinition("Reference", "reference", astmodel.ResourceReferenceType)

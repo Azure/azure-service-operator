@@ -167,7 +167,7 @@ var VersionRegex = regexp.MustCompile(`^v\d\d?$`)
 func (omc *ObjectModelConfiguration) FindHandCraftedTypeNames(localPath string) (astmodel.TypeNameSet, error) {
 	result := make(astmodel.TypeNameSet)
 	var currentGroup string
-	var currentPackage astmodel.PackageReference
+	var currentPackage astmodel.InternalPackageReference
 
 	// Collect the names of hand-crafted types
 	typeVisitor := newEveryTypeConfigurationVisitor(

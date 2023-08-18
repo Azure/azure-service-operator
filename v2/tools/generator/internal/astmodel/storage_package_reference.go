@@ -120,6 +120,6 @@ func (s StoragePackageReference) ImportAlias(style PackageImportStyle) string {
 }
 
 // Base implements DerivedPackageReference.
-func (s StoragePackageReference) Base() PackageReference {
+func (s StoragePackageReference) Base() InternalPackageReference {
 	return s.inner
 }

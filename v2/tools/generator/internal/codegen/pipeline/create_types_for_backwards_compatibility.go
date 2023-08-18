@@ -200,7 +200,7 @@ func createBackwardCompatibilityRenameMap(
 }
 
 func createBackwardCompatibilityRename(name astmodel.InternalTypeName, versionPrefix string) astmodel.InternalTypeName {
-	var ref astmodel.PackageReference
+	var ref astmodel.InternalPackageReference
 
 	switch r := name.PackageReference().(type) {
 	case astmodel.LocalPackageReference:

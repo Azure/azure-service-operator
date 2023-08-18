@@ -17,7 +17,7 @@ type GroupConversionGraph struct {
 	group           string                              // Name of the group of the resources needing conversions
 	configuration   *config.ObjectModelConfiguration    // Configuration used to look up renames
 	subGraphs       map[string]*ResourceConversionGraph // Nested graphs, one for each resource type, keyed by resource name
-	storagePackages []astmodel.PackageReference         // Sorted list of known storage packages in this group
+	storagePackages []astmodel.InternalPackageReference // Sorted list of known storage packages in this group
 }
 
 // LookupTransition accepts a type name and looks up the transition to the next version in the graph
