@@ -17,12 +17,12 @@ import (
 
 // InternalTypeName is a name associated with another Type (it also is usable as a Type)
 type InternalTypeName struct {
-	packageReference PackageReference // Note: This has to be a value and not a ptr because this type is used as the key in a map
+	packageReference InternalPackageReference // Note: This has to be a value and not a ptr because this type is used as the key in a map
 	name             string
 }
 
 // MakeInternalTypeName is a factory method for creating a TypeName
-func MakeInternalTypeName(ref PackageReference, name string) InternalTypeName {
+func MakeInternalTypeName(ref InternalPackageReference, name string) InternalTypeName {
 	return InternalTypeName{
 		packageReference: ref,
 		name:             name,
@@ -45,7 +45,7 @@ func (tn InternalTypeName) WithName(name string) InternalTypeName {
 }
 
 // WithPackageReference returns a new InternalTypeName in a different package but with the same name
-func (tn InternalTypeName) WithPackageReference(ref PackageReference) InternalTypeName {
+func (tn InternalTypeName) WithPackageReference(ref InternalPackageReference) InternalTypeName {
 	return MakeInternalTypeName(ref, tn.name)
 }
 
