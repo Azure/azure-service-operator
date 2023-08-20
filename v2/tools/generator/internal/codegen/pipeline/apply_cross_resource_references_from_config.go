@@ -145,7 +145,7 @@ func MakeARMIDPropertyTypeVisitor(
 	}
 
 	transformResourceReferenceProperties := func(
-		_ *astmodel.TypeVisitor[astmodel.TypeName],
+		_ *astmodel.TypeVisitor[astmodel.InternalTypeName],
 		it *astmodel.ObjectType,
 		ctx astmodel.InternalTypeName,
 	) (astmodel.Type, error) {
