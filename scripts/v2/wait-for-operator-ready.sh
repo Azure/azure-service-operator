@@ -43,11 +43,11 @@ function wait_for_crds_cabundle() {
 
 function wait_for_crds_established() {
   if [[ "$OLD_LABEL" -eq 1 ]]; then
-    until kubectl wait --for=condition=established --timeout=5s crd -l 'serviceoperator.azure.com/version'; do
+    until kubectl wait --for=condition=established --timeout=1m crd -l 'serviceoperator.azure.com/version'; do
       sleep 5
     done
   else
-    until kubectl wait --for=condition=established --timeout=5s crd -l 'app.kubernetes.io/name == azure-service-operator'; do
+    until kubectl wait --for=condition=established --timeout=1m crd -l 'app.kubernetes.io/name == azure-service-operator'; do
       sleep 5
     done
   fi
@@ -58,7 +58,7 @@ if [[ "$CHECK_ESTABLISHED" -eq 1 ]]; then
   # This has to be a timeout wrapping kubectl wait as we're racing with CRDs being added, and kubectl wait will fail if nothing matches the -l filter
   export -f wait_for_crds_established
   export OLD_LABEL=${OLD_LABEL}
-  timeout 1m bash -c wait_for_crds_established
+  timeout 2m bash -c wait_for_crds_established
 fi
 
 echo "Waiting for pod ready..."
