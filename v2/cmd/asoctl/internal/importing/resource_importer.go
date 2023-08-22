@@ -83,14 +83,14 @@ func (ri *ResourceImporter) addImpl(importer ImportableResource) {
 	// This happens frequently with extension resources as they can be inherited onto many regular resources
 	// and we don't want to attempt to import them more than once.
 	// It can also happen with regular resources if they are referenced by multiple other resources.
-	if ri.unique.Contains(importer.Name()) {
+	if ri.unique.Contains(importer.Id()) {
 		return
 	}
 
 	// Add it to our map and our queue
-	ri.queue = append(ri.queue, importer.Name())
-	ri.pending[importer.Name()] = importer
-	ri.unique.Add(importer.Name())
+	ri.queue = append(ri.queue, importer.Id())
+	ri.pending[importer.Id()] = importer
+	ri.unique.Add(importer.Id())
 }
 
 // Import imports all the resources that have been added to the importer.
@@ -246,7 +246,7 @@ func (ri *ResourceImporter) Complete(importer ImportableResource, pending []Impo
 	defer ri.lock.Unlock()
 
 	// Add it to our map and our queue
-	ri.imported[importer.Name()] = importer
+	ri.imported[importer.Id()] = importer
 	for _, p := range pending {
 		ri.addImpl(p)
 	}

@@ -79,6 +79,11 @@ func (i *importableARMResource) Name() string {
 	return i.armID.Name
 }
 
+// Id returns the full ARM ID of the resource we're importing
+func (i *importableARMResource) Id() string {
+	return i.armID.String()
+}
+
 // Resource returns the actual resource that is being imported.
 // Only available after the import is complete.
 func (i *importableARMResource) Resource() genruntime.MetaObject {

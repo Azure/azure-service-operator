@@ -23,8 +23,13 @@ type ImportableResource interface {
 	// (may be empty if the GK can't be determined)
 	GroupKind() schema.GroupKind
 
-	// Name is a unique identifier for this resource
+	// Name is a human readable identifier for this resource
 	Name() string
+
+	// Id is a unique identifier for this resource.
+	// The Id of a resource unique within the import operation; the easiest way to achive this is
+	// to make it globally unique.
+	Id() string
 
 	// Resource returns the actual resource that has been imported.
 	// Only available after the import is complete (nil otherwise).
