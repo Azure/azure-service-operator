@@ -15,17 +15,18 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
+	"github.com/go-logr/logr"
+	"github.com/pkg/errors"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/runtime/schema"
+
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
+
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
-	"github.com/pkg/errors"
-	"github.com/vbauerster/mpb/v8"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/runtime/schema"
-
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
 type importableARMResource struct {
@@ -72,7 +73,7 @@ func (i *importableARMResource) GroupKind() schema.GroupKind {
 	return gk
 }
 
-// Name returns the ARM ID of the resource we're importing
+// Name returns the name of the resource we're importing
 func (i *importableARMResource) Name() string {
 	return i.armID.Name
 }
@@ -90,13 +91,23 @@ func (i *importableARMResource) Resource() genruntime.MetaObject {
 
 // Import imports this single resource.
 // ctx is the context to use for the import.
-// bar is a progress bar to update.
-// Returns any errors that occur.
-func (i *importableARMResource) Import(ctx context.Context, bar *mpb.Bar) error {
-	// Create an importable blank object into which we capture the current state of the resource
-	importable, err := i.createImportableObjectFromID(i.owner, i.armID)
+func (i *importableARMResource) Import(
+	ctx context.Context,
+	progress chan progressDelta,
+	log logr.Logger,
+) error {
+	// Ensure we close our progress channel
+	defer func() {
+		close(progress)
+	}()
+
+	// Import the resource itself
+	progress <- progressDelta{total: 1} // Resource is pending
+	var ref genruntime.ResourceReference
+	ref, err := i.importResource(ctx, i.armID)
 	if err != nil {
 		// Error doesn't need additional context
+		progress <- progressDelta{complete: 1} // resource done with error
 		return err
 	}
 
@@ -142,7 +153,8 @@ func (i *importableARMResource) FindChildren(ctx context.Context, bar *mpb.Bar) 
 	rsrcType := i.armID.ResourceType.String()
 	childTypes := FindChildResourcesForResourceType(rsrcType)
 
-	// If we're not already looking at an extension type, look for any extensions as they can be parented by any resource
+	// If we're not already looking at an extension type, look for any extensions as they can be
+	// parented by any other resource
 	if !IsExtensionType(rsrcType) {
 		childTypes = append(childTypes, FindResourceTypesByScope(genruntime.ResourceScopeExtension)...)
 	}
@@ -152,8 +164,7 @@ func (i *importableARMResource) FindChildren(ctx context.Context, bar *mpb.Bar) 
 		childTypes = append(childTypes, FindResourceTypesByScope(genruntime.ResourceScopeResourceGroup)...)
 	}
 
-	total := int64(len(childTypes) + 1)
-	bar.SetTotal(total, false)
+	progress <- progressDelta{complete: 1, total: len(childTypes)} // resource done, children pending
 
 	// While we're looking for subresources, we need to treat any errors that occur as independent.
 	// Some potential subresource types can have limited accessibility (e.g. the subscriber may not
@@ -168,8 +179,7 @@ func (i *importableARMResource) FindChildren(ctx context.Context, bar *mpb.Bar) 
 			continue
 		}
 
-		result = append(result, subResources...)
-		bar.Increment()
+		progress <- progressDelta{complete: 1} // One child type done
 	}
 
 	return result,

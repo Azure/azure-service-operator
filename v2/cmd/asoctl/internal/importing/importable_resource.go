@@ -8,8 +8,8 @@ package importing
 import (
 	"context"
 
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
-	"github.com/vbauerster/mpb/v8"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
@@ -37,9 +37,11 @@ type ImportableResource interface {
 
 	// Import does the actual import, updating the Spec on the wrapped resource.
 	// ctx allows for cancellation of the import.
-	// bar is a progress bar to update.
-	// Returns any errors that occur.
-	Import(ctx context.Context, bar *mpb.Bar) error
+	Import(
+		ctx context.Context,
+		progress chan progressDelta,
+		log logr.Logger,
+	) error
 
 	// FindChildren returns any child resources that need to be imported.
 	// ctx allows for cancellation of the import.
