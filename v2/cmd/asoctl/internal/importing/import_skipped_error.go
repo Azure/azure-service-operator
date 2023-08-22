@@ -17,16 +17,23 @@ type ImportSkippedError struct {
 	GroupKind schema.GroupKind
 	Name      string
 	Because   string
+	Resource  ImportableResource
 }
 
 // Ensure we implement the error interface
 var _ error = &ImportSkippedError{}
 
-func NewImportSkippedError(groupKind schema.GroupKind, name string, because string) *ImportSkippedError {
+func NewImportSkippedError(
+	groupKind schema.GroupKind,
+	name string,
+	because string,
+	resource ImportableResource,
+) *ImportSkippedError {
 	return &ImportSkippedError{
 		GroupKind: groupKind,
 		Name:      name,
 		Because:   because,
+		Resource:  resource,
 	}
 }
 
