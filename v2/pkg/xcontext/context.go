@@ -16,7 +16,7 @@ import (
 func MakeInterruptibleContext(ctx context.Context) context.Context {
 	result, cancel := context.WithCancel(ctx)
 
-	// Wait for a singal to quit
+	// Wait for a signal to quit
 	signalChan := make(chan os.Signal, 1)
 	signal.Notify(signalChan, os.Interrupt, os.Kill)
 
