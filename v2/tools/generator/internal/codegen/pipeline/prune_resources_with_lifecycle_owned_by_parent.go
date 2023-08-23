@@ -75,12 +75,15 @@ func PruneResourcesWithLifecycleOwnedByParent(configuration *config.Configuratio
 	return stage
 }
 
-func flagPrunedEmptyProperties(defs astmodel.TypeDefinitionSet, emptyPrunedProps astmodel.TypeNameSet) (astmodel.TypeDefinitionSet, error) {
-	emptyObjectVisitor := astmodel.TypeVisitorBuilder[astmodel.TypeNameSet]{
+func flagPrunedEmptyProperties(
+	defs astmodel.TypeDefinitionSet,
+	emptyPrunedProps astmodel.InternalTypeNameSet,
+) (astmodel.TypeDefinitionSet, error) {
+	emptyObjectVisitor := astmodel.TypeVisitorBuilder[astmodel.InternalTypeNameSet]{
 		VisitObjectType: tagEmptyObjectARMProperty,
 	}.Build()
 
-	emptyPrunedPropertiesArm := astmodel.NewTypeNameSet()
+	emptyPrunedPropertiesArm := astmodel.NewInternalTypeNameSet()
 	for emptyPrunedProp := range emptyPrunedProps {
 		// we need to add the noConversion tag on ARM type for the empty pruned property to relax the validation for convertToARM function.
 		armDef, err := GetARMTypeDefinition(defs, emptyPrunedProp.(astmodel.InternalTypeName))
@@ -101,14 +104,14 @@ func flagPrunedEmptyProperties(defs astmodel.TypeDefinitionSet, emptyPrunedProps
 
 type misbehavingEmbeddedTypePruner struct {
 	configuration         *config.Configuration
-	emptyPrunedProperties astmodel.TypeNameSet
+	emptyPrunedProperties astmodel.InternalTypeNameSet
 	visitor               astmodel.TypeVisitor[astmodel.InternalTypeName]
 }
 
 func newMisbehavingEmbeddedTypeVisitor(configuration *config.Configuration) *misbehavingEmbeddedTypePruner {
 	pruner := &misbehavingEmbeddedTypePruner{
 		configuration:         configuration,
-		emptyPrunedProperties: astmodel.NewTypeNameSet(),
+		emptyPrunedProperties: astmodel.NewInternalTypeNameSet(),
 	}
 
 	visitor := astmodel.TypeVisitorBuilder[astmodel.InternalTypeName]{
@@ -121,9 +124,9 @@ func newMisbehavingEmbeddedTypeVisitor(configuration *config.Configuration) *mis
 
 // tagEmptyObjectARMProperty finds the empty properties in an Object and adds the ConversionTag:NoARMConversionValue property tag.
 func tagEmptyObjectARMProperty(
-	this *astmodel.TypeVisitor[astmodel.TypeNameSet],
+	this *astmodel.TypeVisitor[astmodel.InternalTypeNameSet],
 	it *astmodel.ObjectType,
-	ctx astmodel.TypeNameSet,
+	ctx astmodel.InternalTypeNameSet,
 ) (astmodel.Type, error) {
 	prop, ok := it.Properties().Find(func(prop *astmodel.PropertyDefinition) bool {
 		typeName, ok := astmodel.ExtractTypeName(prop.PropertyType())
