@@ -86,10 +86,10 @@ func (ri *ResourceImporter) Import(
 	completed := make(chan ImportResourceResult) // importers that have been executed successfully
 	done := make(chan struct{})                  // signal that we're done
 
-	progress := ri.createProgressBar("Import Azure Resources", done, ctx)
+	progress := ri.createProgressBar("Import Azure Resources", done)
 
 	// Dedupe candidates so we import each distinct resource only once
-	go ri.queueUniqueImporters(candidates, pending, progress, done)
+	go ri.queueUniqueImporters(candidates, pending, progress)
 
 	// Create workers to run the import
 	for i := 0; i < workers; i++ {
@@ -97,7 +97,7 @@ func (ri *ResourceImporter) Import(
 	}
 
 	// Collate the results
-	go ri.collateResults(ctx, completed, candidates, progress)
+	go ri.collateResults(completed, candidates, progress)
 
 	// Set up by adding our initial resources
 	for _, rsrc := range ri.resources {
@@ -134,7 +134,6 @@ func (ri *ResourceImporter) queueUniqueImporters(
 	candidates chan ImportableResource,
 	pending chan ImportableResource,
 	progress chan progressDelta,
-	done chan struct{},
 ) {
 	seen := set.Make[string]()
 	var queue []ImportableResource
@@ -195,7 +194,6 @@ func (ri *ResourceImporter) importWorker(
 }
 
 func (ri *ResourceImporter) collateResults(
-	ctx context.Context,
 	completed chan ImportResourceResult,
 	candidates chan ImportableResource,
 	progress chan progressDelta,
@@ -266,7 +264,6 @@ func (ri *ResourceImporter) ImportResource(
 func (ri *ResourceImporter) createProgressBar(
 	name string,
 	done chan struct{},
-	ctx context.Context,
 ) chan progressDelta {
 	result := make(chan progressDelta)
 
