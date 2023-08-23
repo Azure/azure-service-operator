@@ -173,7 +173,9 @@ func (i *importableARMResource) FindChildren(ctx context.Context, bar *mpb.Bar) 
 	var errs []error
 	for _, subType := range childTypes {
 		subResources, err := i.importChildResources(ctx, ref, subType)
-		if err != nil {
+		if ctx.Err() != nil {
+			// Aborting, don't do anything
+		} else if err != nil {
 			gk, _ := FindGroupKindForResourceType(subType) // If this was going to error, it would have already
 			errs = append(errs, errors.Wrapf(err, "importing %s/%s", gk.Group, gk.Kind))
 			continue

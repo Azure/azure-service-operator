@@ -81,15 +81,15 @@ func (ri *ResourceImporter) Import(
 ) (*ResourceImportResult, error) {
 
 	workers := 1
-	candidates := make(chan ImportableResource, 1000) // candidates that need to be deduped
-	pending := make(chan ImportableResource)          // importers that are pending import
-	completed := make(chan ImportResourceResult)      // importers that have been executed successfully
-	done := make(chan struct{})                       // signal that we're done
+	candidates := make(chan ImportableResource)  // candidates that need to be deduped
+	pending := make(chan ImportableResource)     // importers that are pending import
+	completed := make(chan ImportResourceResult) // importers that have been executed successfully
+	done := make(chan struct{})                  // signal that we're done
 
-	progress := ri.createProgressBar("Import Azure Resources", done)
+	progress := ri.createProgressBar("Import Azure Resources", done, ctx)
 
 	// Dedupe candidates so we import each distinct resource only once
-	go ri.queueUniqueImporters(candidates, pending, progress)
+	go ri.queueUniqueImporters(candidates, pending, progress, done)
 
 	// Create workers to run the import
 	for i := 0; i < workers; i++ {
@@ -108,10 +108,11 @@ func (ri *ResourceImporter) Import(
 	// Wait while everything runs
 	<-done
 
-	close(candidates)
-	close(pending)
-	close(completed)
-	close(progress)
+	// Check for an abort, and return the error if so
+	if ctx.Err() != nil {
+		ri.log.Error(ctx.Err(), "Cancelling import.")
+		return nil, ctx.Err()
+	}
 
 	// Now we've imported everything, return the resources
 	// We do this even if there's an error so that we can return partial results
@@ -127,24 +128,48 @@ func (ri *ResourceImporter) Import(
 
 // queueUniqueImporters reads from the candicates channel, putting each importer onto pending exactly once.
 // This ensures each distinct resource is only imported once, regardless of how many times we
-// encounter it.
+// encounter it. We also proactively buffer the pending channel to avoid blocking. Any fixed size channel
+// would risk deadlock for a sufficiently large resource graph.
 func (ri *ResourceImporter) queueUniqueImporters(
 	candidates chan ImportableResource,
 	pending chan ImportableResource,
 	progress chan progressDelta,
+	done chan struct{},
 ) {
 	seen := set.Make[string]()
-	for rsrc := range candidates {
-		if seen.Contains(rsrc.Id()) {
-			// We've already seen this resource (we've already queued it for import)
-			// So remove it from our count of work to be done
-			ri.log.Info("Skipping duplicate import", "resource", rsrc.Id())
-			progress <- progressDelta{total: -1}
-			continue
+	var queue []ImportableResource
+	var current ImportableResource = nil
+	for {
+		// Dequeue from our internal buffer if needed
+		if current == nil && len(queue) > 0 {
+			current = queue[0]
+			queue = queue[1:]
 		}
 
-		seen.Add(rsrc.Id())
-		pending <- rsrc
+		// If we have a current importable to send, use the pending queue
+		var upstream chan ImportableResource = nil
+		if current != nil {
+			upstream = pending
+		}
+
+		select {
+		case rsrc := <-candidates:
+			if seen.Contains(rsrc.Id()) {
+				// We've already seen this resource (we've already queued it for import)
+				// So remove it from our count of work to be done
+				ri.log.V(2).Info("Skipping duplicate import", "resource", rsrc.Id())
+				progress <- progressDelta{total: -1}
+			} else {
+				// Remember we've seen this, and add it to our queue
+				seen.Add(rsrc.Id())
+				queue = append(queue, rsrc)
+				ri.log.V(2).Info("Buffering import", "resource", rsrc.Id())
+			}
+		case upstream <- current:
+			// We've sent the current importable, so clear it
+			ri.log.V(2).Info("Queued import", "resource", current.Id())
+			current = nil
+		}
 	}
 }
 
@@ -155,10 +180,17 @@ func (ri *ResourceImporter) importWorker(
 	progress chan progressDelta,
 ) {
 	for rsrc := range pending {
+		if ctx.Err() != nil {
+			// If we're aborting, just discard everything until it's all gone
+			progress <- progressDelta{total: -1}
+			continue
+		}
+
 		// We have a resource to import
-		ri.log.Info("Importing", "resource", rsrc.Id())
+		ri.log.V(1).Info("Importing", "resource", rsrc.Id())
 		result := ri.ImportResource(ctx, rsrc, progress)
 		completed <- result
+
 	}
 }
 
@@ -175,10 +207,11 @@ func (ri *ResourceImporter) collateResults(
 		gk := rsrc.GroupKind()
 
 		// Enqueue any child resources we found
+		progress <- progressDelta{total: len(importResult.pending)}
 		for _, p := range importResult.pending {
 			candidates <- p
 		}
-		progress <- progressDelta{complete: 1, total: len(importResult.pending)}
+		progress <- progressDelta{complete: 1}
 
 		if importResult.err != nil {
 			var skipped *ImportSkippedError
@@ -233,8 +266,9 @@ func (ri *ResourceImporter) ImportResource(
 func (ri *ResourceImporter) createProgressBar(
 	name string,
 	done chan struct{},
+	ctx context.Context,
 ) chan progressDelta {
-	result := make(chan progressDelta, 4)
+	result := make(chan progressDelta)
 
 	// Create a new progress bar
 	bar := ri.progress.AddBar(
