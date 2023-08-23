@@ -125,20 +125,21 @@ func (tn InternalTypeName) RequiredPackageReferences() *PackageReferenceSet {
 
 // Equals returns true if the passed type is the same TypeName, false otherwise
 func (tn InternalTypeName) Equals(t Type, override EqualityOverrides) bool {
-	if tn == t && override.TypeName == nil {
+	if tn == t && override.InternalTypeName == nil {
 		return true
 	}
 
-	other, ok := t.(TypeName)
+	other, ok := t.(InternalTypeName)
 	if !ok {
 		return false
 	}
 
-	if override.TypeName != nil {
-		return override.TypeName(tn, other)
+	if override.InternalTypeName != nil {
+		return override.InternalTypeName(tn, other)
 	}
 
-	return tn.name == other.Name() && tn.packageReference.Equals(other.PackageReference())
+	return tn.name == other.Name() &&
+		tn.packageReference.Equals(other.PackageReference())
 }
 
 // String returns the string representation of the type name, and implements fmt.Stringer.
@@ -147,13 +148,13 @@ func (tn InternalTypeName) String() string {
 }
 
 // Singular returns a TypeName with the name singularized.
-func (tn InternalTypeName) Singular() TypeName {
+func (tn InternalTypeName) Singular() InternalTypeName {
 	name := names.Singularize(tn.Name())
 	return tn.WithName(name)
 }
 
 // Plural returns a TypeName with the name pluralized.
-func (tn InternalTypeName) Plural() TypeName {
+func (tn InternalTypeName) Plural() InternalTypeName {
 	name := names.Pluralize(tn.Name())
 	return tn.WithName(name)
 }
