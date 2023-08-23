@@ -14,7 +14,7 @@ import (
 // TestFileDefinition defines the content of a test file we're generating
 type TestFileDefinition struct {
 	// the package this file is in
-	packageReference PackageReference
+	packageReference InternalPackageReference
 	// definitions containing test cases to include in this file
 	definitions []TypeDefinition
 	// other packages whose references may be needed for code generation
@@ -25,12 +25,16 @@ var _ GoSourceFile = &TestFileDefinition{}
 
 // NewTestFileDefinition creates a file definition containing test cases from the specified definitions
 func NewTestFileDefinition(
-	packageRef PackageReference,
+	packageRef InternalPackageReference,
 	definitions []TypeDefinition,
 	generatedPackages map[InternalPackageReference]*PackageDefinition,
 ) *TestFileDefinition {
 	// TODO: check that all definitions are from same package
-	return &TestFileDefinition{packageRef, definitions, generatedPackages}
+	return &TestFileDefinition{
+		packageReference:  packageRef,
+		definitions:       definitions,
+		generatedPackages: generatedPackages,
+	}
 }
 
 // AsAst generates an array of declarations for the content of the file

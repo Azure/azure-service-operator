@@ -99,7 +99,7 @@ func (tn ExternalTypeName) String() string {
 // WriteDebugDescription adds a description of the current type to the passed builder.
 // builder receives the full description, including nested types.
 // definitions is a dictionary for resolving named types.
-func (tn ExternalTypeName) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {
+func (tn ExternalTypeName) WriteDebugDescription(builder *strings.Builder, currentPackage InternalPackageReference) {
 	// External reference will point to a different package, so qualify the output.
 	// External packages are just qualified by name.
 	builder.WriteString(tn.packageReference.PackageName())

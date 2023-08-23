@@ -183,7 +183,7 @@ func (tcr *TypeCatalogReport) writeDefinition(
 func (tcr *TypeCatalogReport) writeType(
 	rpt *StructureReport,
 	t astmodel.Type,
-	currentPackage astmodel.PackageReference,
+	currentPackage astmodel.InternalPackageReference,
 	parentTypes astmodel.TypeNameSet,
 ) {
 	// Generate a subreport for each kind of type
@@ -223,7 +223,7 @@ func (tcr *TypeCatalogReport) writeType(
 func (tcr *TypeCatalogReport) writeResourceType(
 	rpt *StructureReport,
 	resource *astmodel.ResourceType,
-	currentPackage astmodel.PackageReference,
+	currentPackage astmodel.InternalPackageReference,
 	parentTypes astmodel.TypeNameSet,
 ) {
 	// Write the expected owner of the resource, if we have one
@@ -251,7 +251,7 @@ func (tcr *TypeCatalogReport) writeResourceType(
 func (tcr *TypeCatalogReport) writeObjectType(
 	rpt *StructureReport,
 	obj *astmodel.ObjectType,
-	currentPackage astmodel.PackageReference,
+	currentPackage astmodel.InternalPackageReference,
 	parentTypes astmodel.TypeNameSet,
 ) {
 	for _, prop := range obj.Properties().AsSlice() {
@@ -273,7 +273,7 @@ func (tcr *TypeCatalogReport) writeObjectType(
 func (tcr *TypeCatalogReport) writeProperty(
 	rpt *StructureReport,
 	prop *astmodel.PropertyDefinition,
-	currentPackage astmodel.PackageReference,
+	currentPackage astmodel.InternalPackageReference,
 	parentTypes astmodel.TypeNameSet,
 ) {
 	sub := rpt.Addf(
@@ -298,7 +298,7 @@ func (tcr *TypeCatalogReport) writeProperty(
 func (tcr *TypeCatalogReport) writeInterfaceType(
 	rpt *StructureReport,
 	i *astmodel.InterfaceType,
-	_ astmodel.PackageReference,
+	_ astmodel.InternalPackageReference,
 	_ astmodel.TypeNameSet,
 ) {
 	if tcr.optionIncludeFunctions {
@@ -311,7 +311,7 @@ func (tcr *TypeCatalogReport) writeInterfaceType(
 func (tcr *TypeCatalogReport) writeComplexType(
 	rpt *StructureReport,
 	propertyType astmodel.Type,
-	currentPackage astmodel.PackageReference,
+	currentPackage astmodel.InternalPackageReference,
 	parentTypes astmodel.TypeNameSet) {
 
 	// If we have a complex type, we may need to write it out in detail
@@ -331,7 +331,7 @@ func (tcr *TypeCatalogReport) writeComplexType(
 func (tcr *TypeCatalogReport) writeErroredType(
 	rpt *StructureReport,
 	et *astmodel.ErroredType,
-	currentPackage astmodel.PackageReference,
+	currentPackage astmodel.InternalPackageReference,
 	types astmodel.TypeNameSet,
 ) {
 	for _, err := range et.Errors() {
@@ -348,7 +348,7 @@ func (tcr *TypeCatalogReport) writeErroredType(
 func (tcr *TypeCatalogReport) writeValidatedType(
 	rpt *StructureReport,
 	vt *astmodel.ValidatedType,
-	_ astmodel.PackageReference,
+	_ astmodel.InternalPackageReference,
 	_ astmodel.TypeNameSet,
 ) {
 	for index, rule := range vt.Validations().ToKubeBuilderValidations() {
@@ -396,7 +396,7 @@ func (tcr *TypeCatalogReport) asDefinitionToInline(
 // parentTypes is the set of types that are currently being written (used to detect cycles).
 func (tcr *TypeCatalogReport) asShortNameForType(
 	t astmodel.Type,
-	currentPackage astmodel.PackageReference,
+	currentPackage astmodel.InternalPackageReference,
 	parentTypes astmodel.TypeNameSet,
 ) string {
 	// We switch on exact types because we don't want to accidentally unwrap a detail we need
@@ -470,7 +470,7 @@ func (tcr *TypeCatalogReport) writeFunction(
 func (tcr *TypeCatalogReport) writeEnumType(
 	rpt *StructureReport,
 	enum *astmodel.EnumType,
-	currentPackage astmodel.PackageReference,
+	currentPackage astmodel.InternalPackageReference,
 	parentTypes astmodel.TypeNameSet,
 ) {
 	tcr.writeType(rpt, enum.BaseType(), currentPackage, parentTypes)
@@ -487,7 +487,7 @@ func (tcr *TypeCatalogReport) writeEnumType(
 func (tcr *TypeCatalogReport) writeOneOfType(
 	rpt *StructureReport,
 	oneOf *astmodel.OneOfType,
-	currentPackage astmodel.PackageReference,
+	currentPackage astmodel.InternalPackageReference,
 	parentTypes astmodel.TypeNameSet,
 ) {
 	if oneOf.HasDiscriminatorProperty() {
@@ -541,7 +541,7 @@ func (tcr *TypeCatalogReport) writeOneOfType(
 func (tcr *TypeCatalogReport) writeAllOfType(
 	rpt *StructureReport,
 	allOf *astmodel.AllOfType,
-	currentPackage astmodel.PackageReference,
+	currentPackage astmodel.InternalPackageReference,
 	parentTypes astmodel.TypeNameSet,
 ) {
 	allOf.Types().ForEach(func(t astmodel.Type, index int) {

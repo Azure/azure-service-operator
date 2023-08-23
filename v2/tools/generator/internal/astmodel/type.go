@@ -87,8 +87,8 @@ func TypeEquals(left, right Type, overrides ...EqualityOverrides) bool {
 	return left.Equals(right, override)
 }
 
-func DebugDescription(t Type, pkgs ...PackageReference) string {
-	var currentPackage PackageReference
+func DebugDescription(t Type, pkgs ...InternalPackageReference) string {
+	var currentPackage InternalPackageReference
 	if len(pkgs) > 0 {
 		// If we're passed a package, use that as the current package
 		currentPackage = pkgs[0]

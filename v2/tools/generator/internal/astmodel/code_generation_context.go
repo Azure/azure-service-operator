@@ -85,7 +85,7 @@ func (ctx *CodeGenerationContext) MustGetImportedPackageName(reference PackageRe
 }
 
 // GetGeneratedPackage gets a reference to the PackageDefinition referred to by the provided reference
-func (ctx *CodeGenerationContext) GetGeneratedPackage(reference PackageReference) (*PackageDefinition, error) {
+func (ctx *CodeGenerationContext) GetGeneratedPackage(reference InternalPackageReference) (*PackageDefinition, error) {
 	// Make sure that we're actually importing that package -- don't want to allow references to things we aren't importing
 	_, err := ctx.GetImportedPackageName(reference)
 	if !reference.Equals(ctx.currentPackage) && err != nil {
@@ -122,7 +122,7 @@ func (ctx *CodeGenerationContext) MustGetDefinition(name InternalTypeName) TypeD
 }
 
 // GetDefinitionsInPackage returns the actual definitions from a specific package
-func (ctx *CodeGenerationContext) GetDefinitionsInPackage(packageRef PackageReference) (TypeDefinitionSet, bool) {
+func (ctx *CodeGenerationContext) GetDefinitionsInPackage(packageRef InternalPackageReference) (TypeDefinitionSet, bool) {
 	def, ok := ctx.generatedPackages[packageRef]
 	if !ok {
 		// Package reference not found

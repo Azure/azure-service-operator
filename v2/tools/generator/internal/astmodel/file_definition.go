@@ -18,7 +18,7 @@ import (
 // FileDefinition is the content of a file we're generating
 type FileDefinition struct {
 	// the package this file is in
-	packageReference PackageReference
+	packageReference InternalPackageReference
 	// definitions to include in this file
 	definitions []TypeDefinition
 
@@ -30,7 +30,7 @@ var _ GoSourceFile = &FileDefinition{}
 
 // NewFileDefinition creates a file definition containing specified definitions
 func NewFileDefinition(
-	packageRef PackageReference,
+	packageRef InternalPackageReference,
 	definitions []TypeDefinition,
 	generatedPackages map[InternalPackageReference]*PackageDefinition) *FileDefinition {
 
