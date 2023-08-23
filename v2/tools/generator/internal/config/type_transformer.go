@@ -298,7 +298,7 @@ func (target *TransformTarget) asPrimitiveType(name string) (astmodel.Type, erro
 
 // TransformTypeName transforms the type with the specified name into the TypeTransformer target type if
 // the provided type name matches the pattern(s) specified in the TypeTransformer
-func (transformer *TypeTransformer) TransformTypeName(typeName astmodel.TypeName) astmodel.Type {
+func (transformer *TypeTransformer) TransformTypeName(typeName astmodel.InternalTypeName) astmodel.Type {
 	if transformer.AppliesToType(typeName) {
 		return transformer.Target.actualType
 	}
@@ -379,7 +379,10 @@ func (transformer *TypeTransformer) RequiredPropertiesWereMatched() error {
 }
 
 // TransformProperty transforms the property on the given object type
-func (transformer *TypeTransformer) TransformProperty(name astmodel.TypeName, objectType *astmodel.ObjectType) *PropertyTransformResult {
+func (transformer *TypeTransformer) TransformProperty(
+	name astmodel.InternalTypeName,
+	objectType *astmodel.ObjectType,
+) *PropertyTransformResult {
 	if !transformer.AppliesToType(name) {
 		return nil
 	}

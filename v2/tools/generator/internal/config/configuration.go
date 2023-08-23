@@ -390,7 +390,7 @@ func (config *Configuration) ShouldPrune(typeName astmodel.InternalTypeName) (re
 
 // TransformType uses the configured type transformers to transform a type name (reference) to a different type.
 // If no transformation is performed, nil is returned
-func (config *Configuration) TransformType(name astmodel.TypeName) (astmodel.Type, string) {
+func (config *Configuration) TransformType(name astmodel.InternalTypeName) (astmodel.Type, string) {
 	for _, transformer := range config.typeTransformers {
 		result := transformer.TransformTypeName(name)
 		if result != nil {
@@ -403,7 +403,10 @@ func (config *Configuration) TransformType(name astmodel.TypeName) (astmodel.Typ
 }
 
 // TransformTypeProperties applies any property transformers to the type
-func (config *Configuration) TransformTypeProperties(name astmodel.TypeName, objectType *astmodel.ObjectType) []*PropertyTransformResult {
+func (config *Configuration) TransformTypeProperties(
+	name astmodel.InternalTypeName,
+	objectType *astmodel.ObjectType,
+) []*PropertyTransformResult {
 	var results []*PropertyTransformResult
 	toTransform := objectType
 

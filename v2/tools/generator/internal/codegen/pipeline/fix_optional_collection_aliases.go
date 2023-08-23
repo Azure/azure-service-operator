@@ -52,13 +52,7 @@ func (f *optionalCollectionAliasFixer) fixOptionalCollectionAliases(
 	it *astmodel.OptionalType,
 	ctx any,
 ) (astmodel.Type, error) {
-	typeName, ok := astmodel.AsTypeName(it)
-	if !ok {
-		return astmodel.IdentityVisitOfOptionalType(this, it, ctx)
-	}
-
-	// Make sure we're a local reference
-	_, _, ok = typeName.PackageReference().TryGroupVersion()
+	typeName, ok := astmodel.AsInternalTypeName(it)
 	if !ok {
 		return astmodel.IdentityVisitOfOptionalType(this, it, ctx)
 	}

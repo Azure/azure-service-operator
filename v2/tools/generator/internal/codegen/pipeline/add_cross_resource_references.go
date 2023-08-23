@@ -107,14 +107,14 @@ func makeLegacyReferencePropertyName(existing *astmodel.PropertyDefinition, isSl
 }
 
 type ARMIDToGenruntimeReferenceTypeVisitor struct {
-	astmodel.TypeVisitor[astmodel.TypeName]
+	astmodel.TypeVisitor[astmodel.InternalTypeName]
 	idFactory astmodel.IdentifierFactory
 }
 
 func (v *ARMIDToGenruntimeReferenceTypeVisitor) transformARMIDToGenruntimeResourceReference(
-	_ *astmodel.TypeVisitor[astmodel.TypeName],
+	_ *astmodel.TypeVisitor[astmodel.InternalTypeName],
 	it *astmodel.PrimitiveType,
-	_ astmodel.TypeName,
+	_ astmodel.InternalTypeName,
 ) (astmodel.Type, error) {
 	if it == astmodel.ARMIDType {
 		return astmodel.ResourceReferenceType, nil
@@ -124,9 +124,9 @@ func (v *ARMIDToGenruntimeReferenceTypeVisitor) transformARMIDToGenruntimeResour
 }
 
 func (v *ARMIDToGenruntimeReferenceTypeVisitor) renamePropertiesWithARMIDReferences(
-	this *astmodel.TypeVisitor[astmodel.TypeName],
+	this *astmodel.TypeVisitor[astmodel.InternalTypeName],
 	it *astmodel.ObjectType,
-	ctx astmodel.TypeName,
+	ctx astmodel.InternalTypeName,
 ) (astmodel.Type, error) {
 	// First, we visit this type like normal
 	result, err := astmodel.IdentityVisitOfObjectType(this, it, ctx)
@@ -169,9 +169,9 @@ func (v *ARMIDToGenruntimeReferenceTypeVisitor) renamePropertiesWithARMIDReferen
 }
 
 func (v *ARMIDToGenruntimeReferenceTypeVisitor) stripValidationForResourceReferences(
-	this *astmodel.TypeVisitor[astmodel.TypeName],
+	this *astmodel.TypeVisitor[astmodel.InternalTypeName],
 	it *astmodel.ValidatedType,
-	ctx astmodel.TypeName,
+	ctx astmodel.InternalTypeName,
 ) (astmodel.Type, error) {
 	result, err := astmodel.IdentityVisitOfValidatedType(this, it, ctx)
 	if err != nil {
@@ -194,7 +194,7 @@ func MakeARMIDToResourceReferenceTypeVisitor(idFactory astmodel.IdentifierFactor
 	result := ARMIDToGenruntimeReferenceTypeVisitor{
 		idFactory: idFactory,
 	}
-	result.TypeVisitor = astmodel.TypeVisitorBuilder[astmodel.TypeName]{
+	result.TypeVisitor = astmodel.TypeVisitorBuilder[astmodel.InternalTypeName]{
 		VisitPrimitive:     result.transformARMIDToGenruntimeResourceReference,
 		VisitObjectType:    result.renamePropertiesWithARMIDReferences,
 		VisitValidatedType: result.stripValidationForResourceReferences,
@@ -204,7 +204,7 @@ func MakeARMIDToResourceReferenceTypeVisitor(idFactory astmodel.IdentifierFactor
 }
 
 func makeResourceReferenceProperty(
-	typeName astmodel.TypeName,
+	typeName astmodel.InternalTypeName,
 	idFactory astmodel.IdentifierFactory,
 	existing *astmodel.PropertyDefinition) *astmodel.PropertyDefinition {
 
@@ -212,7 +212,7 @@ func makeResourceReferenceProperty(
 	_, isMap := astmodel.AsMapType(existing.PropertyType())
 	var referencePropertyName string
 	// This is hacky but works
-	if group, version, ok := typeName.PackageReference().TryGroupVersion(); ok && group == "containerservice" && strings.Contains(version, "20210501") {
+	if group, version, ok := typeName.InternalPackageReference().TryGroupVersion(); ok && group == "containerservice" && strings.Contains(version, "20210501") {
 		referencePropertyName = makeLegacyReferencePropertyName(existing, isSlice, isMap)
 	} else {
 		referencePropertyName = makeReferencePropertyName(existing, isSlice, isMap)

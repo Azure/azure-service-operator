@@ -18,5 +18,10 @@ type InternalPackageReference interface {
 
 	// LocalPathPrefix returns the prefix (everything up to the group name)
 	LocalPathPrefix() string
+
+	// TryGroupVersion returns the group and version of this reference.
+	// Returns true if the reference has a group and version, false otherwise.
+	TryGroupVersion() (string, string, bool)
+
 	Version() string
 }

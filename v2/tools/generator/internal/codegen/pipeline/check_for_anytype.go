@@ -96,8 +96,10 @@ func containsAnyType(theType astmodel.Type) bool {
 }
 
 func packageName(name astmodel.TypeName) string {
-	if group, version, ok := name.PackageReference().TryGroupVersion(); ok {
-		return group + "/" + version
+	if tn, isInternal := name.(astmodel.InternalTypeName); isInternal {
+		if group, version, ok := tn.InternalPackageReference().TryGroupVersion(); ok {
+			return group + "/" + version
+		}
 	}
 
 	return name.PackageReference().PackageName()
