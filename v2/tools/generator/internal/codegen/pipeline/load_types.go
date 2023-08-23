@@ -640,8 +640,8 @@ func structurallyIdentical(
 		next := toCheck[0]
 		toCheck = toCheck[1:]
 		if !astmodel.TypeEquals(
-			leftDefinitions[next.left.(astmodel.InternalTypeName)].Type(),
-			rightDefinitions[next.right.(astmodel.InternalTypeName)].Type(),
+			leftDefinitions[next.left].Type(),
+			rightDefinitions[next.right].Type(),
 			override) {
 			return false
 		}

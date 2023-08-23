@@ -37,7 +37,7 @@ func (r renamer) simplifyEmbeddedNameToOriginalName(
 	}
 
 	renames := make(astmodel.TypeAssociation)
-	associated := associatedNames.Single().(astmodel.InternalTypeName)
+	associated := associatedNames.Single()
 	renames[associated] = original
 
 	log.V(2).Info(
@@ -59,7 +59,7 @@ func (r renamer) simplifyEmbeddedNameRemoveContextAndCount(
 	}
 
 	renames := make(astmodel.TypeAssociation)
-	associated := associatedNames.Single().(astmodel.InternalTypeName)
+	associated := associatedNames.Single()
 	embeddedName, ok := originalNames[associated]
 	if !ok {
 		return nil, errors.Errorf("could not find original name for %q", associated)
@@ -86,7 +86,7 @@ func (r renamer) simplifyEmbeddedNameRemoveContext(
 	// Gather information about the associated definitions
 	associatedCountPerContext := make(map[string]int, len(associatedNames))
 	for associated := range associatedNames {
-		embeddedName, ok := originalNames[associated.(astmodel.InternalTypeName)]
+		embeddedName, ok := originalNames[associated]
 		if !ok {
 			return nil, errors.Errorf("could not find original name for %q", associated)
 		}
@@ -100,18 +100,17 @@ func (r renamer) simplifyEmbeddedNameRemoveContext(
 	// If all updated names share the same context, the context is not adding any disambiguation value, so we can remove it
 	renames := make(astmodel.TypeAssociation)
 	for associated := range associatedNames {
-		assoc := associated.(astmodel.InternalTypeName)
-		embeddedName, ok := originalNames[assoc]
+		embeddedName, ok := originalNames[associated]
 		if !ok {
-			return nil, errors.Errorf("could not find original name for %q", assoc)
+			return nil, errors.Errorf("could not find original name for %q", associated)
 		}
 		embeddedName.context = ""
-		renames[assoc] = embeddedName.ToSimplifiedTypeName()
+		renames[associated] = embeddedName.ToSimplifiedTypeName()
 
 		log.V(2).Info(
 			"Type used in single context, removing context from name",
-			"originalName", assoc,
-			"newName", renames[assoc])
+			"originalName", associated,
+			"newName", renames[associated])
 	}
 
 	return renames, nil
@@ -127,15 +126,14 @@ func (r renamer) simplifyEmbeddedName(
 	// kind of usage will make the type name much clearer
 	renames := make(astmodel.TypeAssociation)
 	for associated := range associatedNames {
-		assoc := associated.(astmodel.InternalTypeName)
-		embeddedName, ok := originalNames[assoc]
+		embeddedName, ok := originalNames[associated]
 		if !ok {
-			return nil, errors.Errorf("could not find original name for %q", assoc)
+			return nil, errors.Errorf("could not find original name for %q", associated)
 		}
 
 		possibleRename := embeddedName.ToSimplifiedTypeName()
-		if !astmodel.TypeEquals(possibleRename, assoc) {
-			renames[assoc] = possibleRename
+		if !astmodel.TypeEquals(possibleRename, associated) {
+			renames[associated] = possibleRename
 		}
 	}
 

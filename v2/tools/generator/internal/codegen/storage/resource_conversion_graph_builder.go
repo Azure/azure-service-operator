@@ -50,7 +50,7 @@ func (b *ResourceConversionGraphBuilder) Build() (*ResourceConversionGraph, erro
 
 	toProcess := make([]astmodel.InternalTypeName, 0, len(b.references))
 	for name := range b.references {
-		toProcess = append(toProcess, name.(astmodel.InternalTypeName))
+		toProcess = append(toProcess, name)
 	}
 
 	slices.SortFunc(

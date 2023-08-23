@@ -185,8 +185,7 @@ func (report *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinit
 		return err
 	}
 
-	for n := range handcraftedTypes {
-		name := n.(astmodel.InternalTypeName)
+	for name := range handcraftedTypes {
 		item := report.createItem(name, "", "")
 		report.addItem(item)
 	}

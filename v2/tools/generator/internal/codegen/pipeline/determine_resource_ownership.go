@@ -133,7 +133,7 @@ func updateChildResourceDefinitionsWithOwner(
 ) error {
 	for _, typeName := range childResourceTypeNames {
 		// Use the singular form of the name
-		typeName = typeName.Singular().(astmodel.InternalTypeName)
+		typeName = typeName.Singular()
 
 		// Confirm the type really exists
 		childResourceDef, ok := definitions[typeName]
