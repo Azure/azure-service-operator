@@ -23,5 +23,9 @@ type InternalPackageReference interface {
 	// Returns true if the reference has a group and version, false otherwise.
 	TryGroupVersion() (string, string, bool)
 
+	// GroupVersion returns the group and version of this reference
+	GroupVersion() (string, string)
+
+	// GroupVersion returns the version of this reference
 	Version() string
 }

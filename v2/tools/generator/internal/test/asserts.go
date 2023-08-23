@@ -36,7 +36,7 @@ func AssertPackagesGenerateExpectedCode(
 
 	// Write a file for each package
 	for _, defs := range groups {
-		ref := defs[0].Name().PackageReference()
+		ref := defs[0].Name().InternalPackageReference()
 		group, version := ref.GroupVersion()
 		fileName := fmt.Sprintf("%s-%s", group, version)
 		AssertTypeDefinitionsGenerateExpectedCode(t, fileName, defs, options...)

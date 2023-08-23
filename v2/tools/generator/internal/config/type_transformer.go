@@ -91,7 +91,7 @@ func (target *TransformTarget) appliesToType(t astmodel.Type) bool {
 	if target.Name.IsRestrictive() {
 		if target.Group.IsRestrictive() || target.Version.IsRestrictive() {
 			// Expecting TypeName
-			if tn, ok := astmodel.AsTypeName(inspect); ok {
+			if tn, ok := astmodel.AsInternalTypeName(inspect); ok {
 				return target.appliesToTypeName(tn)
 			}
 
@@ -118,13 +118,13 @@ func (target *TransformTarget) appliesToType(t astmodel.Type) bool {
 	return true
 }
 
-func (target *TransformTarget) appliesToTypeName(tn astmodel.TypeName) bool {
+func (target *TransformTarget) appliesToTypeName(tn astmodel.InternalTypeName) bool {
 	if !target.Name.Matches(tn.Name()).Matched {
 		// No match on name
 		return false
 	}
 
-	grp, ver := tn.PackageReference().GroupVersion()
+	grp, ver := tn.InternalPackageReference().GroupVersion()
 
 	if target.Group.IsRestrictive() {
 		if !target.Group.Matches(grp).Matched {
