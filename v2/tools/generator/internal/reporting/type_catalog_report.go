@@ -166,8 +166,12 @@ func (tcr *TypeCatalogReport) writeDefinition(
 ) {
 	name := definition.Name()
 	parentTypes := astmodel.NewTypeNameSet(name)
-	sub := rpt.Addf("%s: %s", name.Name(), tcr.asShortNameForType(definition.Type(), name.PackageReference(), parentTypes))
-	tcr.writeType(sub, definition.Type(), name.PackageReference(), parentTypes)
+	sub := rpt.Addf(
+		"%s: %s",
+		name.Name(),
+		tcr.asShortNameForType(definition.Type(), name.InternalPackageReference(), parentTypes),
+	)
+	tcr.writeType(sub, definition.Type(), name.InternalPackageReference(), parentTypes)
 }
 
 // writeType writes the type to the debug report.

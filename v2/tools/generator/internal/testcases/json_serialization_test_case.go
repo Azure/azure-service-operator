@@ -736,8 +736,8 @@ func (o *JSONSerializationTestCase) createRelatedGenerator(
 	genPackageName := genContext.MustGetImportedPackageName(astmodel.GopterGenReference)
 
 	switch t := propertyType.(type) {
-	case astmodel.TypeName:
-		_, ok := genContext.GetDefinitionsInPackage(t.PackageReference())
+	case astmodel.InternalTypeName:
+		_, ok := genContext.GetDefinitionsInPackage(t.InternalPackageReference())
 		if ok {
 			// This is a type we're defining, so we can create a generator for it
 			if t.PackageReference().Equals(genContext.CurrentPackage()) {

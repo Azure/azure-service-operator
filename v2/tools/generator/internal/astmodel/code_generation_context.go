@@ -101,7 +101,7 @@ func (ctx *CodeGenerationContext) GetGeneratedPackage(reference PackageReference
 
 // GetDefinition looks up a particular type definition in a package available in this context
 func (ctx *CodeGenerationContext) GetDefinition(name InternalTypeName) (TypeDefinition, error) {
-	pkg, err := ctx.GetGeneratedPackage(name.PackageReference())
+	pkg, err := ctx.GetGeneratedPackage(name.InternalPackageReference())
 
 	if err != nil {
 		return TypeDefinition{}, err
