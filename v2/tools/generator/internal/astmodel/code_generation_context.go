@@ -17,7 +17,7 @@ import (
 // a disambiguation must occur and field types must ensure they correctly refer to the disambiguated types
 type CodeGenerationContext struct {
 	packageImports *PackageImportSet
-	currentPackage PackageReference
+	currentPackage InternalPackageReference
 	usedImports    *PackageImportSet
 
 	generatedPackages map[InternalPackageReference]*PackageDefinition
@@ -27,7 +27,7 @@ var _ ReadonlyTypeDefinitions = &CodeGenerationContext{}
 
 // NewCodeGenerationContext creates a new immutable code generation context
 func NewCodeGenerationContext(
-	currentPackage PackageReference,
+	currentPackage InternalPackageReference,
 	packageImports *PackageImportSet,
 	generatedPackages map[InternalPackageReference]*PackageDefinition) *CodeGenerationContext {
 
@@ -42,7 +42,7 @@ func NewCodeGenerationContext(
 }
 
 // CurrentPackage returns the current package being generated
-func (ctx *CodeGenerationContext) CurrentPackage() PackageReference {
+func (ctx *CodeGenerationContext) CurrentPackage() InternalPackageReference {
 	return ctx.currentPackage
 }
 
@@ -148,7 +148,12 @@ func (ctx *CodeGenerationContext) GetAllReachableDefinitions() TypeDefinitionSet
 	// Since we modify result, we make sure we're working with a copy of the set
 	result := ctx.GetDefinitionsInCurrentPackage().Copy()
 	for _, pkgImport := range ctx.packageImports.AsSlice() {
-		defs, found := ctx.GetDefinitionsInPackage(pkgImport.packageReference)
+		ipr, ok := pkgImport.packageReference.(InternalPackageReference)
+		if !ok {
+			// Skip non-internal references
+			continue
+		}
+		defs, found := ctx.GetDefinitionsInPackage(ipr)
 		if found {
 			for k, v := range defs {
 				result[k] = v
