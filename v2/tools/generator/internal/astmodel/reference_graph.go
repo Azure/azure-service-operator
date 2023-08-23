@@ -17,19 +17,19 @@ type ReferenceGraph struct {
 	references map[TypeName]TypeNameSet
 }
 
-// CollectARMSpecAndStatusDefinitions returns a TypeNameSet of all of the ARM spec definitions
+// CollectARMSpecAndStatusDefinitions returns a TypeNameSet of all the ARM spec definitions
 // passed in.
 func CollectARMSpecAndStatusDefinitions(definitions TypeDefinitionSet) TypeNameSet {
-	findARMType := func(t Type) (TypeName, error) {
-		name, ok := t.(InternalTypeName)
+	findARMType := func(t Type) (InternalTypeName, error) {
+		name, ok := AsInternalTypeName(t)
 		if !ok {
-			return nil, errors.Errorf("type was not of type InternalTypeName, instead %T", t)
+			return InternalTypeName{}, errors.Errorf("type was not of type InternalTypeName, instead %T", t)
 		}
 
 		armName := CreateARMTypeName(name)
 
 		if _, ok = definitions[armName]; !ok {
-			return nil, errors.Errorf("couldn't find ARM type %q", armName)
+			return InternalTypeName{}, errors.Errorf("couldn't find ARM type %q", armName)
 		}
 
 		return armName, nil

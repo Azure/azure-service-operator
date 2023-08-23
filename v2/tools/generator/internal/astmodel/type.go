@@ -48,8 +48,8 @@ type Type interface {
 }
 
 type EqualityOverrides struct {
-	TypeName   func(left TypeName, right TypeName) bool
-	ObjectType func(left *ObjectType, right *ObjectType) bool
+	InternalTypeName func(left InternalTypeName, right InternalTypeName) bool
+	ObjectType       func(left *ObjectType, right *ObjectType) bool
 }
 
 // IgnoringErrors returns the type stripped of any ErroredType wrapper
@@ -92,7 +92,7 @@ func DebugDescription(t Type, pkgs ...InternalPackageReference) string {
 	if len(pkgs) > 0 {
 		// If we're passed a package, use that as the current package
 		currentPackage = pkgs[0]
-	} else if tn, ok := AsTypeName(t); ok {
+	} else if tn, ok := AsInternalTypeName(t); ok {
 		// Otherwise, If we're given a TypeName, use it's package as "current" to simplify what we write
 		currentPackage = tn.InternalPackageReference()
 	}

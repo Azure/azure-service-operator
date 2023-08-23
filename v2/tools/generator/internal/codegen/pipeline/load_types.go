@@ -613,12 +613,18 @@ func structurallyIdentical(
 	// we cannot simply recurse when we hit TypeNames as there can be cycles in types.
 	// instead we store all TypeNames that need to be checked in here, and
 	// check them one at a time until there is nothing left to be checked:
-	type pair struct{ left, right astmodel.TypeName }
+	type pair struct {
+		left  astmodel.InternalTypeName
+		right astmodel.InternalTypeName
+	}
 	toCheck := []pair{}            // queue of pairs to check
 	checked := map[pair]struct{}{} // set of pairs that have been enqueued
 
 	override := astmodel.EqualityOverrides{}
-	override.TypeName = func(left, right astmodel.TypeName) bool {
+	override.InternalTypeName = func(
+		left astmodel.InternalTypeName,
+		right astmodel.InternalTypeName,
+	) bool {
 		// note that this relies on Equals implementations preserving the left/right order
 		p := pair{left, right}
 		if _, ok := checked[p]; !ok {

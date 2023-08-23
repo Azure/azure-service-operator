@@ -33,7 +33,7 @@ func NewResourceConversionGraphBuilder(name string, versionPrefix string) *Resou
 }
 
 // Add includes the supplied package reference(s) in the conversion graph for this group
-func (b *ResourceConversionGraphBuilder) Add(names ...astmodel.TypeName) {
+func (b *ResourceConversionGraphBuilder) Add(names ...astmodel.InternalTypeName) {
 	for _, name := range names {
 		b.references.Add(name)
 	}
