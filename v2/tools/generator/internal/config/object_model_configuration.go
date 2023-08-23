@@ -223,7 +223,7 @@ func (omc *ObjectModelConfiguration) addGroup(name string, group *GroupConfigura
 // visitGroup invokes the provided visitor on the specified group if present.
 // Returns a NotConfiguredError if the group is not found; otherwise whatever error is returned by the visitor.
 func (omc *ObjectModelConfiguration) visitGroup(
-	ref astmodel.PackageReference,
+	ref astmodel.InternalPackageReference,
 	visitor *configurationVisitor,
 ) error {
 	group, err := omc.findGroup(ref)
@@ -248,7 +248,7 @@ func (omc *ObjectModelConfiguration) visitGroups(visitor *configurationVisitor) 
 }
 
 // findGroup uses the provided TypeName to work out which nested GroupConfiguration should be used
-func (omc *ObjectModelConfiguration) findGroup(ref astmodel.PackageReference) (*GroupConfiguration, error) {
+func (omc *ObjectModelConfiguration) findGroup(ref astmodel.InternalPackageReference) (*GroupConfiguration, error) {
 	group := ref.Group()
 
 	if omc == nil || omc.groups == nil {
@@ -315,7 +315,7 @@ func (omc *ObjectModelConfiguration) configuredGroups() []string {
 // If configuration for that group doesn't exist, it will be created.
 // While intended for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
 func (omc *ObjectModelConfiguration) ModifyGroup(
-	ref astmodel.PackageReference,
+	ref astmodel.InternalPackageReference,
 	action func(configuration *GroupConfiguration) error,
 ) error {
 	groupName := ref.Group()
@@ -336,7 +336,7 @@ func (omc *ObjectModelConfiguration) ModifyGroup(
 // If configuration for that version doesn't exist, it will be created.
 // While intended for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
 func (omc *ObjectModelConfiguration) ModifyVersion(
-	ref astmodel.PackageReference,
+	ref astmodel.InternalPackageReference,
 	action func(configuration *VersionConfiguration) error,
 ) error {
 	_, version := ref.GroupVersion()
@@ -361,11 +361,11 @@ func (omc *ObjectModelConfiguration) ModifyVersion(
 // If configuration for that type doesn't exist, it will be created.
 // While intended for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
 func (omc *ObjectModelConfiguration) ModifyType(
-	name astmodel.TypeName,
+	name astmodel.InternalTypeName,
 	action func(typeConfiguration *TypeConfiguration) error,
 ) error {
 	return omc.ModifyVersion(
-		name.PackageReference(),
+		name.InternalPackageReference(),
 		func(versionConfiguration *VersionConfiguration) error {
 			typeName := name.Name()
 			typ, err := versionConfiguration.findType(typeName)
@@ -386,7 +386,7 @@ func (omc *ObjectModelConfiguration) ModifyType(
 // If configuration for that property doesn't exist, it will be created.
 // While intended for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
 func (omc *ObjectModelConfiguration) ModifyProperty(
-	typeName astmodel.TypeName,
+	typeName astmodel.InternalTypeName,
 	property astmodel.PropertyName,
 	action func(propertyConfiguration *PropertyConfiguration) error,
 ) error {

@@ -27,7 +27,7 @@ type PackageDefinition struct {
 }
 
 // NewPackageDefinition constructs a new package definition
-func NewPackageDefinition(ref PackageReference) *PackageDefinition {
+func NewPackageDefinition(ref InternalPackageReference) *PackageDefinition {
 	return &PackageDefinition{
 		PackageName: ref.PackageName(),
 		GroupName:   ref.Group(),

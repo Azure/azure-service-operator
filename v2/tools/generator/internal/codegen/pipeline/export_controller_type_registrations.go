@@ -317,9 +317,9 @@ func preservePropertyChain(
 
 func (chain *propertyChain) indexMethodName(
 	idFactory astmodel.IdentifierFactory,
-	resourceTypeName astmodel.TypeName,
+	resourceTypeName astmodel.InternalTypeName,
 ) string {
-	group := resourceTypeName.PackageReference().Group()
+	group := resourceTypeName.InternalPackageReference().Group()
 	return fmt.Sprintf("index%s%s%s",
 		idFactory.CreateIdentifier(group, astmodel.Exported),
 		resourceTypeName.Name(),

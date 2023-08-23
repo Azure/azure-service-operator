@@ -194,7 +194,7 @@ func (report *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinit
 }
 
 func (report *ResourceVersionsReport) addItem(item ResourceVersionsReportResourceItem) {
-	grp := item.name.PackageReference().Group()
+	grp := item.name.InternalPackageReference().Group()
 	report.groups.Add(grp)
 
 	items, ok := report.items[grp]

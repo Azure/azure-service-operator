@@ -23,7 +23,7 @@ type ConversionGraph struct {
 // Returns the next version and true if it's found, or an empty type name and false if not.
 func (graph *ConversionGraph) LookupTransition(name astmodel.InternalTypeName) astmodel.InternalTypeName {
 	// Expect to get either a local or a storage reference, not an external one
-	group := name.PackageReference().Group()
+	group := name.InternalPackageReference().Group()
 	subgraph, ok := graph.subGraphs[group]
 	if !ok {
 		return astmodel.InternalTypeName{}
@@ -42,7 +42,7 @@ func (graph *ConversionGraph) FindNextType(
 	name astmodel.InternalTypeName,
 	definitions astmodel.TypeDefinitionSet,
 ) (astmodel.InternalTypeName, error) {
-	group := name.PackageReference().Group()
+	group := name.InternalPackageReference().Group()
 	subgraph, ok := graph.subGraphs[group]
 	if !ok {
 		return astmodel.InternalTypeName{}, nil

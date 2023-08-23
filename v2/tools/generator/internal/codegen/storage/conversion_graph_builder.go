@@ -68,9 +68,9 @@ func (b *ConversionGraphBuilder) Build() (*ConversionGraph, error) {
 }
 
 // getSubBuilder finds the relevant builder for the group of the provided reference, creating one if necessary
-func (b *ConversionGraphBuilder) getSubBuilder(name astmodel.TypeName) *GroupConversionGraphBuilder {
+func (b *ConversionGraphBuilder) getSubBuilder(name astmodel.InternalTypeName) *GroupConversionGraphBuilder {
 	// Expect to get either a local or a storage reference, not an external one
-	group := name.PackageReference().Group()
+	group := name.InternalPackageReference().Group()
 	subBuilder, ok := b.subBuilders[group]
 	if !ok {
 		subBuilder = NewGroupConversionGraphBuilder(group, b.configuration, b.versionPrefix)

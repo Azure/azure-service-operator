@@ -10,6 +10,9 @@ package astmodel
 type InternalPackageReference interface {
 	PackageReference
 
+	// Group returns the group to which this package belongs.
+	Group() string
+
 	// LocalPathPrefix returns the prefix (everything up to the group name)
 	LocalPathPrefix() string
 	Version() string

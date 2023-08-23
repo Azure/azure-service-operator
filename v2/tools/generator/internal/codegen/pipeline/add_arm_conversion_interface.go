@@ -247,8 +247,8 @@ func (c *armConversionApplier) addARMConversionInterface(
 	return result, nil
 }
 
-func (c *armConversionApplier) createOwnerProperty(ownerTypeName astmodel.TypeName) *astmodel.PropertyDefinition {
-	grp := ownerTypeName.PackageReference().Group()
+func (c *armConversionApplier) createOwnerProperty(ownerTypeName astmodel.InternalTypeName) *astmodel.PropertyDefinition {
+	grp := ownerTypeName.InternalPackageReference().Group()
 	group := grp + astmodel.GroupSuffix
 	kind := ownerTypeName.Name()
 
