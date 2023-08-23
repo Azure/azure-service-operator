@@ -85,17 +85,6 @@ func (tn InternalTypeName) AsType(codeGenerationContext *CodeGenerationContext) 
 // AsZero renders an expression for the "zero" value of the type.
 // The exact thing we need to generate depends on the actual type we reference
 func (tn InternalTypeName) AsZero(definitions TypeDefinitionSet, ctx *CodeGenerationContext) dst.Expr {
-	if IsExternalPackageReference(tn.packageReference) {
-		// TypeName is external, zero value is a qualified empty struct
-		// (we might not actually use this, if the property is optional, but we still need to generate the right thing)
-
-		packageName := ctx.MustGetImportedPackageName(tn.packageReference)
-		return &dst.SelectorExpr{
-			X:   dst.NewIdent(packageName),
-			Sel: dst.NewIdent(fmt.Sprintf("%s{}", tn.Name())),
-		}
-	}
-
 	actualType, err := definitions.FullyResolve(tn)
 	if err != nil {
 		// This should never happen
@@ -175,13 +164,7 @@ func (tn InternalTypeName) Plural() TypeName {
 func (tn InternalTypeName) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {
 	if tn.packageReference != nil && !tn.packageReference.Equals(currentPackage) {
 		// Reference to a different package, so qualify the output.
-		// External packages are just qualified by name, other packages by full path
-		if IsExternalPackageReference(tn.packageReference) {
-			builder.WriteString(tn.packageReference.PackageName())
-		} else {
-			builder.WriteString(tn.packageReference.String())
-		}
-
+		builder.WriteString(tn.packageReference.String())
 		builder.WriteString(".")
 	}
 
