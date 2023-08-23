@@ -161,7 +161,7 @@ func (tn InternalTypeName) Plural() TypeName {
 // WriteDebugDescription adds a description of the current type to the passed builder.
 // builder receives the full description, including nested types
 // definitions is a dictionary for resolving named types
-func (tn InternalTypeName) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {
+func (tn InternalTypeName) WriteDebugDescription(builder *strings.Builder, currentPackage InternalPackageReference) {
 	if tn.packageReference != nil && !tn.packageReference.Equals(currentPackage) {
 		// Reference to a different package, so qualify the output.
 		builder.WriteString(tn.packageReference.String())

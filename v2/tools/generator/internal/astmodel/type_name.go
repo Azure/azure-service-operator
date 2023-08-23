@@ -21,7 +21,6 @@ type TypeName interface {
 	RequiredPackageReferences() *PackageReferenceSet
 	Equals(t Type, override EqualityOverrides) bool
 	String() string
-	WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference)
 }
 
 func SortTypeName(left, right TypeName) bool {
@@ -29,6 +28,7 @@ func SortTypeName(left, right TypeName) bool {
 	rightRef := right.PackageReference()
 	return leftRef.ImportPath() < rightRef.ImportPath() ||
 		(leftRef.ImportPath() == rightRef.ImportPath() && left.Name() < right.Name())
+	WriteDebugDescription(builder *strings.Builder, currentPackage InternalPackageReference)
 }
 
 const (
