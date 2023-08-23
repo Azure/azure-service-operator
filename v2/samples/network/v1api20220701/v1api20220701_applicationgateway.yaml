@@ -123,26 +123,26 @@ spec:
   - name: app-gw-http-listner-1
     frontendIPConfiguration:
       reference:  
-        armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/<rgName>/providers/Microsoft.Network/applicationGateways/<appgatewayname>/frontendIPConfigurations/<feIpConfigName>
+        armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Network/applicationGateways/appgatewaytest/frontendIPConfigurations/app-gw-ip-config-1
     frontendPort:
       reference:  
-        armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/<rgName>/providers/Microsoft.Network/applicationGateways/<appgatewayname>/frontendPorts/<fePortName>
+        armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Network/applicationGateways/appgatewaytest/frontendPorts/app-gw-fe-port-1
     protocol: Https
     hostNames:
     - "test.contoso.com"
     sslCertificate:
       reference:  
-        armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/<rgName>/providers/Microsoft.Network/applicationGateways/<appgatewayname>/sslCertificates/<sslCertName>
+        armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Network/applicationGateways/appgatewaytest/sslCertificates/app-gw-sslcert-1
     requestRoutingRules:
     - name:
       backendAddressPool:
         reference:  
-          armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/<rgName>/providers/Microsoft.Network/applicationGateways/<appgatewayname>/backendAddressPools/<backendAddressPoolName>
+          armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Network/applicationGateways/appgatewaytest/backendAddressPools/app-gw-be-pool-1
       backendHttpSettings:
         reference:  
-          armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/<rgName>/providers/Microsoft.Network/applicationGateways/<appgatewayname>/backendHttpSettingsCollection/<backendHttpSettingsName>
+          armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Network/applicationGateways/appgatewaytest/backendHttpSettingsCollection/app-gw-be-http-setting-1
       httpListener:
         reference:  
-          armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/<rgName>/providers/Microsoft.Network/applicationGateways/<appgatewayname>/httpListeners/<httpListnerName>
+          armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Network/applicationGateways/appgatewaytest/httpListeners/app-gw-http-listner-1
       ruleType: Basic
       priority: 100

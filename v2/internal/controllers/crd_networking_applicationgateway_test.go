@@ -37,10 +37,8 @@ func Test_Networking_ApplicationGateway_HTTPS_Listener_CRUD(t *testing.T) {
 		},
 	}
 	publicIPAddress := newPublicIp(tc, testcommon.AsOwner(rg))
-	tc.CreateResourceAndWait(publicIPAddress)
-	tc.CreateResourceAndWait(vnet)
+	tc.CreateResourcesAndWait(publicIPAddress, vnet, subnet)
 	tc.Expect(vnet.Status.Id).ToNot(BeNil())
-	tc.CreateResourceAndWait(subnet)
 	tc.Expect(subnet.Status.Id).ToNot(BeNil())
 	appGtsListnerName := "app-gw-http-listner-1"
 	httpListnerParams := map[string]string{
@@ -355,7 +353,7 @@ func defineApplicationGatewayBackendAddressPool(tc *testcommon.KubePerTestContex
 }
 
 func defineApplicationGatewayBackendHttpSettings(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, appGatewayName string) ([]network.ApplicationGatewayBackendHttpSettings, string) {
-	subResname := "app-gw-be-pool-1"
+	subResname := "app-gw-be-http-setting-1"
 	subRes := []network.ApplicationGatewayBackendHttpSettings{
 		{
 			Name:                           to.Ptr[string](subResname),
