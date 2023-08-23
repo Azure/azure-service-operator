@@ -40,11 +40,6 @@ func (pr ExternalPackageReference) ImportPath() string {
 	return pr.packagePath
 }
 
-// FolderPath returns the relative path to this package on disk.
-func (pr ExternalPackageReference) FolderPath() string {
-	panic("external package references don't have a folder path")
-}
-
 // Equals returns true if the passed package reference references the same package, false otherwise
 func (pr ExternalPackageReference) Equals(ref PackageReference) bool {
 	if other, ok := ref.(ExternalPackageReference); ok {
