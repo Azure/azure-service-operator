@@ -51,7 +51,11 @@ func NewFileDefinition(
 	})
 
 	// TODO: check that all definitions are from same package
-	return &FileDefinition{packageRef, definitions, generatedPackages}
+	return &FileDefinition{
+		packageReference:  packageRef,
+		definitions:       definitions,
+		generatedPackages: generatedPackages,
+	}
 }
 
 // Calculate the ranks for each type

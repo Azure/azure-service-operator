@@ -37,14 +37,14 @@ type Type interface {
 	// Equals returns true if the passed type is the same as this one, false otherwise
 	Equals(t Type, overrides EqualityOverrides) bool
 
-	// Make sure all TypeDefinitionSet have a printable version for debugging/user info.
+	// Stringer ensures all Type implementations have a printable version for debugging/user info.
 	// This doesn't need to be a full representation of the type.
 	fmt.Stringer
 
-	// WriteDebugDescription adds a description of the current type to the passed builder
-	// builder receives the full description, including nested types
-	// definitions is a dictionary for resolving named types
-	WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference)
+	// WriteDebugDescription adds a description of the current type to the passed builder.
+	// builder receives the full description, including nested types.
+	// definitions is a dictionary for resolving named types.
+	WriteDebugDescription(builder *strings.Builder, currentPackage InternalPackageReference)
 }
 
 type EqualityOverrides struct {
@@ -69,7 +69,7 @@ type DeclarationContext struct {
 }
 
 // TypeEquals decides if the types are the same and handles the `nil` case
-// overrides can be passed to combe
+// overrides can be passed to customize the equality check.
 func TypeEquals(left, right Type, overrides ...EqualityOverrides) bool {
 	if left == nil {
 		return right == nil
