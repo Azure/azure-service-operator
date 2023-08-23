@@ -56,7 +56,11 @@ func (p *PackageDefinition) AddDefinition(def TypeDefinition) {
 }
 
 // EmitDefinitions emits the PackageDefinition to an output directory
-func (p *PackageDefinition) EmitDefinitions(outputDir string, generatedPackages map[PackageReference]*PackageDefinition, emitDocFiles bool) (int, error) {
+func (p *PackageDefinition) EmitDefinitions(
+	outputDir string,
+	generatedPackages map[InternalPackageReference]*PackageDefinition,
+	emitDocFiles bool,
+) (int, error) {
 	filesToGenerate := allocateTypesToFiles(p.definitions)
 
 	err := p.emitFiles(filesToGenerate, outputDir, generatedPackages)
@@ -89,7 +93,11 @@ func (p *PackageDefinition) DefinitionCount() int {
 	return len(p.definitions)
 }
 
-func (p *PackageDefinition) emitFiles(filesToGenerate map[string][]TypeDefinition, outputDir string, generatedPackages map[PackageReference]*PackageDefinition) error {
+func (p *PackageDefinition) emitFiles(
+	filesToGenerate map[string][]TypeDefinition,
+	outputDir string,
+	generatedPackages map[InternalPackageReference]*PackageDefinition,
+) error {
 	var errs []error
 
 	for fileName, defs := range filesToGenerate {
@@ -122,7 +130,7 @@ func (p *PackageDefinition) emitFiles(filesToGenerate map[string][]TypeDefinitio
 func (p *PackageDefinition) writeCodeFile(
 	outputFile string,
 	defs []TypeDefinition,
-	packages map[PackageReference]*PackageDefinition,
+	packages map[InternalPackageReference]*PackageDefinition,
 ) error {
 	ref := defs[0].Name().InternalPackageReference()
 	genFile := NewFileDefinition(ref, defs, packages)
@@ -139,7 +147,7 @@ func (p *PackageDefinition) writeCodeFile(
 func (p *PackageDefinition) writeTestFile(
 	outputFile string,
 	defs []TypeDefinition,
-	packages map[PackageReference]*PackageDefinition,
+	packages map[InternalPackageReference]*PackageDefinition,
 ) error {
 	// First check to see if we have test cases to write
 	haveTestCases := false

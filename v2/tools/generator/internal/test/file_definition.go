@@ -16,7 +16,7 @@ func CreateFileDefinition(definitions ...astmodel.TypeDefinition) *astmodel.File
 		pkgDefinition.AddDefinition(def)
 	}
 
-	packages := map[astmodel.PackageReference]*astmodel.PackageDefinition{
+	packages := map[astmodel.InternalPackageReference]*astmodel.PackageDefinition{
 		ref: pkgDefinition,
 	}
 

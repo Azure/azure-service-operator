@@ -18,7 +18,7 @@ type TestFileDefinition struct {
 	// definitions containing test cases to include in this file
 	definitions []TypeDefinition
 	// other packages whose references may be needed for code generation
-	generatedPackages map[PackageReference]*PackageDefinition
+	generatedPackages map[InternalPackageReference]*PackageDefinition
 }
 
 var _ GoSourceFile = &TestFileDefinition{}
@@ -27,7 +27,7 @@ var _ GoSourceFile = &TestFileDefinition{}
 func NewTestFileDefinition(
 	packageRef PackageReference,
 	definitions []TypeDefinition,
-	generatedPackages map[PackageReference]*PackageDefinition,
+	generatedPackages map[InternalPackageReference]*PackageDefinition,
 ) *TestFileDefinition {
 	// TODO: check that all definitions are from same package
 	return &TestFileDefinition{packageRef, definitions, generatedPackages}

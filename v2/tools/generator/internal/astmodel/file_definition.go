@@ -23,7 +23,7 @@ type FileDefinition struct {
 	definitions []TypeDefinition
 
 	// other packages whose references may be needed for code generation
-	generatedPackages map[PackageReference]*PackageDefinition
+	generatedPackages map[InternalPackageReference]*PackageDefinition
 }
 
 var _ GoSourceFile = &FileDefinition{}
@@ -32,7 +32,7 @@ var _ GoSourceFile = &FileDefinition{}
 func NewFileDefinition(
 	packageRef PackageReference,
 	definitions []TypeDefinition,
-	generatedPackages map[PackageReference]*PackageDefinition) *FileDefinition {
+	generatedPackages map[InternalPackageReference]*PackageDefinition) *FileDefinition {
 
 	// Topological sort of the definitions, putting them in order of reference
 	ranks := calcRanks(definitions)

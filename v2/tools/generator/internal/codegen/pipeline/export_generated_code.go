@@ -54,8 +54,10 @@ func ExportPackages(
 }
 
 // CreatePackagesForDefinitions groups type definitions into packages
-func CreatePackagesForDefinitions(definitions astmodel.TypeDefinitionSet) (map[astmodel.PackageReference]*astmodel.PackageDefinition, error) {
-	packages := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
+func CreatePackagesForDefinitions(
+	definitions astmodel.TypeDefinitionSet,
+) (map[astmodel.InternalPackageReference]*astmodel.PackageDefinition, error) {
+	packages := make(map[astmodel.InternalPackageReference]*astmodel.PackageDefinition)
 	for _, def := range definitions {
 		name := def.Name()
 		ref := name.InternalPackageReference()
@@ -72,7 +74,7 @@ func CreatePackagesForDefinitions(definitions astmodel.TypeDefinitionSet) (map[a
 }
 
 func writeFiles(
-	packages map[astmodel.PackageReference]*astmodel.PackageDefinition,
+	packages map[astmodel.InternalPackageReference]*astmodel.PackageDefinition,
 	outputPath string,
 	emitDocFiles bool,
 	log logr.Logger,

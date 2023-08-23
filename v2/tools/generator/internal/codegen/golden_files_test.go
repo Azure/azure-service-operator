@@ -262,7 +262,7 @@ func exportPackagesTestPipelineStage(t *testing.T, testName string) *pipeline.St
 			}
 
 			// Create package definitions
-			pkgs := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
+			pkgs := make(map[astmodel.InternalPackageReference]*astmodel.PackageDefinition)
 			nonStoragePackageCount := 0
 			for _, def := range state.Definitions() {
 				ref := def.Name().InternalPackageReference()

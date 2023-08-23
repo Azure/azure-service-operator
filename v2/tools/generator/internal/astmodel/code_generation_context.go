@@ -20,7 +20,7 @@ type CodeGenerationContext struct {
 	currentPackage PackageReference
 	usedImports    *PackageImportSet
 
-	generatedPackages map[PackageReference]*PackageDefinition
+	generatedPackages map[InternalPackageReference]*PackageDefinition
 }
 
 var _ ReadonlyTypeDefinitions = &CodeGenerationContext{}
@@ -29,7 +29,7 @@ var _ ReadonlyTypeDefinitions = &CodeGenerationContext{}
 func NewCodeGenerationContext(
 	currentPackage PackageReference,
 	packageImports *PackageImportSet,
-	generatedPackages map[PackageReference]*PackageDefinition) *CodeGenerationContext {
+	generatedPackages map[InternalPackageReference]*PackageDefinition) *CodeGenerationContext {
 
 	imports := NewPackageImportSet()
 	imports.Merge(packageImports)
