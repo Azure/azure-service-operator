@@ -42,6 +42,8 @@ import (
 	compute_v20210701s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20210701storage"
 	compute_v20220301 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301"
 	compute_v20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301storage"
+	compute_v20220702 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702"
+	compute_v20220702s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702storage"
 	compute_v1beta20200930 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930"
 	compute_v1beta20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930storage"
 	compute_v1beta20201201 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201"
@@ -272,6 +274,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(compute_v20220702s.DiskEncryptionSet)})
 	result = append(result, &registration.StorageType{
 		Obj: new(containerinstance_v20211001s.ContainerGroup),
 		Indexes: []registration.Index{
@@ -920,6 +923,8 @@ func getKnownTypes() []client.Object {
 		new(compute_v20220301s.Image),
 		new(compute_v20220301s.VirtualMachine),
 		new(compute_v20220301s.VirtualMachineScaleSet))
+	result = append(result, new(compute_v20220702.DiskEncryptionSet))
+	result = append(result, new(compute_v20220702s.DiskEncryptionSet))
 	result = append(result, new(containerinstance_v1beta20211001.ContainerGroup))
 	result = append(result, new(containerinstance_v1beta20211001s.ContainerGroup))
 	result = append(result, new(containerinstance_v20211001.ContainerGroup))
@@ -1525,6 +1530,8 @@ func createScheme() *runtime.Scheme {
 	_ = compute_v20210701s.AddToScheme(scheme)
 	_ = compute_v20220301.AddToScheme(scheme)
 	_ = compute_v20220301s.AddToScheme(scheme)
+	_ = compute_v20220702.AddToScheme(scheme)
+	_ = compute_v20220702s.AddToScheme(scheme)
 	_ = containerinstance_v1beta20211001.AddToScheme(scheme)
 	_ = containerinstance_v1beta20211001s.AddToScheme(scheme)
 	_ = containerinstance_v20211001.AddToScheme(scheme)
@@ -1668,6 +1675,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &cache_customizations.RedisPatchScheduleExtension{})
 	result = append(result, &cdn_customizations.ProfileExtension{})
 	result = append(result, &cdn_customizations.ProfilesEndpointExtension{})
+	result = append(result, &compute_customizations.DiskEncryptionSetExtension{})
 	result = append(result, &compute_customizations.DiskExtension{})
 	result = append(result, &compute_customizations.ImageExtension{})
 	result = append(result, &compute_customizations.SnapshotExtension{})
