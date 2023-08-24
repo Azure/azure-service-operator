@@ -130,6 +130,8 @@ tasks:
   asoctl:unit-tests:
     desc: Run {{.ASOCTL_APP}} unit tests.
     dir: '{{.ASOCTL_ROOT}}'
+    deps:
+      - controller:generate-crds
     cmds:
       - go test ./... -tags=noexit -run '{{default ".*" .TEST_FILTER}}'
 
