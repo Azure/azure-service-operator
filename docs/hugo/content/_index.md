@@ -39,33 +39,55 @@ ASO supports more than 150 different Azure resources, with more added every rele
 {{< tabpane text=true left=true >}}
 {{% tab header="**Shell**:" disabled=true /%}}
 {{% tab header="bash" %}}
-
 ``` bash
-kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.12.1/cert-manager.yaml
+$ kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.12.1/cert-manager.yaml
 ```
-
 {{% /tab %}}
 {{% tab header="PowerShell" %}}
-
 ``` powershell
 PS> kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.12.1/cert-manager.yaml
 ```
-
 {{% /tab %}}
 {{% tab header="CMD" %}}
-C:\> kubectl apply -f <https://github.com/jetstack/cert-manager/releases/download/v1.12.1/cert-manager.yaml>
+``` cmd
+C:\> kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.12.1/cert-manager.yaml
+```
 {{% /tab %}}
 {{< /tabpane >}}
 
    Check that the cert-manager pods have started successfully before continuing.
 
-   ```bash
-   $ kubectl get pods -n cert-manager
-   NAME                                      READY   STATUS    RESTARTS   AGE
-   cert-manager-5597cff495-lmphj             1/1     Running   0          1m
-   cert-manager-cainjector-bd5f9c764-gvxm4   1/1     Running   0          1m
-   cert-manager-webhook-c4b5687dc-x66bj      1/1     Running   0          1m
-   ```
+{{< tabpane text=true left=true >}}
+{{% tab header="**Shell**:" disabled=true /%}}
+{{% tab header="bash" %}}
+``` bash
+$ kubectl get pods -n cert-manager
+NAME                                      READY   STATUS    RESTARTS   AGE
+cert-manager-5597cff495-lmphj             1/1     Running   0          1m
+cert-manager-cainjector-bd5f9c764-gvxm4   1/1     Running   0          1m
+cert-manager-webhook-c4b5687dc-x66bj      1/1     Running   0          1m
+```
+{{% /tab %}}
+{{% tab header="PowerShell" %}}
+``` powershell
+PS> kubectl get pods -n cert-manager
+NAME                                      READY   STATUS    RESTARTS   AGE
+cert-manager-5597cff495-lmphj             1/1     Running   0          1m
+cert-manager-cainjector-bd5f9c764-gvxm4   1/1     Running   0          1m
+cert-manager-webhook-c4b5687dc-x66bj      1/1     Running   0          1m
+```
+{{% /tab %}}
+{{% tab header="CMD" %}}
+``` cmd
+C:\> kubectl get pods -n cert-manager
+NAME                                      READY   STATUS    RESTARTS   AGE
+cert-manager-5597cff495-lmphj             1/1     Running   0          1m
+cert-manager-cainjector-bd5f9c764-gvxm4   1/1     Running   0          1m
+cert-manager-webhook-c4b5687dc-x66bj      1/1     Running   0          1m
+```
+{{% /tab %}}
+{{< /tabpane >}}
+
 
    (Alternatively, you can wait for cert-manager to be ready with `cmctl check api --wait=2m` - see the [cert-manager documentation](https://cert-manager.io/docs/usage/cmctl/) for more information about `cmctl`.)
 
@@ -73,10 +95,27 @@ C:\> kubectl apply -f <https://github.com/jetstack/cert-manager/releases/downloa
 
    First, set the following environment variables to your Azure Tenant ID and Subscription ID with your values:
 
-   ```yaml
-   AZURE_TENANT_ID=<your-tenant-id-goes-here>
-   AZURE_SUBSCRIPTION_ID=<your-subscription-id-goes-here>
-   ```
+{{< tabpane text=true left=true >}}
+{{% tab header="**Shell**:" disabled=true /%}}
+{{% tab header="bash" %}}
+``` bash
+$ AZURE_TENANT_ID=<your-tenant-id-goes-here>
+$ AZURE_SUBSCRIPTION_ID=<your-subscription-id-goes-here>
+```
+{{% /tab %}}
+{{% tab header="PowerShell" %}}
+``` powershell
+PS> $AZURE_TENANT_ID=<your-tenant-id-goes-here>
+PS> $AZURE_SUBSCRIPTION_ID=<your-subscription-id-goes-here>
+```
+{{% /tab %}}
+{{% tab header="CMD" %}}
+``` cmd
+C:\> SET AZURE_TENANT_ID=<your-tenant-id-goes-here>
+C:\> SET AZURE_SUBSCRIPTION_ID=<your-subscription-id-goes-here>
+```
+{{% /tab %}}
+{{< /tabpane >}}
 
    You can find these values by using the Azure CLI: `az account show`
 
@@ -86,51 +125,118 @@ C:\> kubectl apply -f <https://github.com/jetstack/cert-manager/releases/downloa
    (for example contributor to just a Resource Group), but that will restrict what you can
    do with ASO. See [using reduced permissions](https://azure.github.io/azure-service-operator/guide/authentication/reducing-access/#using-a-credential-for-aso-with-reduced-permissions) for more details.
 
-   ```bash
-   az ad sp create-for-rbac -n azure-service-operator --role contributor \
-       --scopes /subscriptions/$AZURE_SUBSCRIPTION_ID
-   ```
+{{< tabpane text=true left=true >}}
+{{% tab header="**Shell**:" disabled=true /%}}
+{{% tab header="bash" %}}
+``` bash
+$ az ad sp create-for-rbac -n azure-service-operator --role contributor \
+    --scopes /subscriptions/$AZURE_SUBSCRIPTION_ID
+```
+{{% /tab %}}
+{{% tab header="PowerShell" %}}
+``` powershell
+PS> az ad sp create-for-rbac -n azure-service-operator --role contributor `
+    --scopes /subscriptions/$AZURE_SUBSCRIPTION_ID
+```
+{{% /tab %}}
+{{% tab header="CMD" %}}
+``` cmd
+C:\> az ad sp create-for-rbac -n azure-service-operator --role contributor ^
+    --scopes /subscriptions/%AZURE_SUBSCRIPTION_ID%
+```
+{{% /tab %}}
+{{< /tabpane >}}
 
-   This should give you output like the following:
 
-   ```bash
-   "appId": "xxxxxxxxxx",
-   "displayName": "azure-service-operator",
-   "name": "http://azure-service-operator",
-   "password": "xxxxxxxxxxx",
-   "tenant": "xxxxxxxxxxxxx"
-   ```
+    This should give you output including the following:
 
-   Once you have created a service principal, set the following variables to your app ID and password values:
+```bash
+"appId": "xxxxxxxxxx",
+"displayName": "azure-service-operator",
+"name": "http://azure-service-operator",
+"password": "xxxxxxxxxxx",
+"tenant": "xxxxxxxxxxxxx"
+```
 
-   ```bash
-   AZURE_CLIENT_ID=<your-client-id> # This is the appID from the service principal we created.
-   AZURE_CLIENT_SECRET=<your-client-secret> # This is the password from the service principal we created.
-   ```
+Once you have created a service principal, set the following variables to your app ID and password values:
+
+{{< tabpane text=true left=true >}}
+{{% tab header="**Shell**:" disabled=true /%}}
+{{% tab header="bash" %}}
+``` bash
+$ AZURE_CLIENT_ID=<your-client-id>         # This is the appID from the service principal we created.
+$ AZURE_CLIENT_SECRET=<your-client-secret> # This is the password from the service principal we created.
+```
+{{% /tab %}}
+{{% tab header="PowerShell" %}}
+``` powershell
+PS> $AZURE_CLIENT_ID=<your-client-id>         # This is the appID from the service principal we created.
+PS> $AZURE_CLIENT_SECRET=<your-client-secret> # This is the password from the service principal we created.
+```
+{{% /tab %}}
+{{% tab header="CMD" %}}
+``` cmd
+C:\> :: This is the appID from the service principal we created.
+C:\> SET AZURE_CLIENT_ID=<your-client-id>         
+C:\> :: This is the password from the service principal we created.
+C:\> SET AZURE_CLIENT_SECRET=<your-client-secret> 
+```
+{{% /tab %}}
+{{< /tabpane >}}
 
 3. Install [the latest **v2+** Helm chart](https://github.com/Azure/azure-service-operator/tree/main/v2/charts):
 
-   ```
-   helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
-   ```
+{{< tabpane text=true left=true >}}
+{{% tab header="**Shell**:" disabled=true /%}}
+{{% tab header="bash" %}}
+``` bash
+$ helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
+$ helm upgrade --install aso2 aso2/azure-service-operator \
+    --create-namespace \
+    --namespace=azureserviceoperator-system \
+    --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
+    --set azureTenantID=$AZURE_TENANT_ID \
+    --set azureClientID=$AZURE_CLIENT_ID \
+    --set azureClientSecret=$AZURE_CLIENT_SECRET \
+    --set crdPattern='resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*'
+```
+Note: **bash** requires the value for `crdPattern` to be quoted with `'` to avoid expansion of the wildcards.
+{{% /tab %}}
+{{% tab header="PowerShell" %}}
+``` powershell
+PS> helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
+PS> helm upgrade --install aso2 aso2/azure-service-operator `
+    --create-namespace `
+    --namespace=azureserviceoperator-system `
+    --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID `
+    --set azureTenantID=$AZURE_TENANT_ID `
+    --set azureClientID=$AZURE_CLIENT_ID `
+    --set azureClientSecret=$AZURE_CLIENT_SECRET `
+    --set crdPattern=resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*
+```
+{{% /tab %}}
+{{% tab header="CMD" %}}
+``` cmd
+C:\> helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
+C:\> helm upgrade --install aso2 aso2/azure-service-operator ^
+    --create-namespace ^
+    --namespace=azureserviceoperator-system ^
+    --set azureSubscriptionID=%AZURE_SUBSCRIPTION_ID% ^
+    --set azureTenantID=%AZURE_TENANT_ID% ^
+    --set azureClientID=%AZURE_CLIENT_ID% ^
+    --set azureClientSecret=%AZURE_CLIENT_SECRET% ^
+    --set crdPattern=resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*
+```
+{{% /tab %}}
+{{< /tabpane >}}
 
-   ```
-   helm upgrade --install aso2 aso2/azure-service-operator \
-        --create-namespace \
-        --namespace=azureserviceoperator-system \
-        --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
-        --set azureTenantID=$AZURE_TENANT_ID \
-        --set azureClientID=$AZURE_CLIENT_ID \
-        --set azureClientSecret=$AZURE_CLIENT_SECRET \
-        --set crdPattern='resources.azure.com/*;containerservice.azure.com/*;keyvault.azure.com/*;managedidentity.azure.com/*;eventhub.azure.com/*'
-   ```
-
-   > **Warning:** Make sure to set the `crdPattern` variable to include the CRDs you are interested in using.
-   > You can use `--set crdPattern=*` to install all the CRDs, but be aware of the
-   > [limits of the Kubernetes you are running](https://github.com/Azure/azure-service-operator/issues/2920). `*` is **not**
-   > recommended on AKS Free-tier clusters.
-   >
-   > See [CRD management](https://azure.github.io/azure-service-operator/guide/crd-management/) for more details.
+{{% alert title="Warning" color="warning" %}}
+Make sure to set the `crdPattern` variable to include the CRDs you are interested in using.
+You can use `--set crdPattern=*` to install all the CRDs, but be aware of the
+[limits of the Kubernetes you are running](https://github.com/Azure/azure-service-operator/issues/2920). `*` is **not**
+recommended on AKS Free-tier clusters.
+See [CRD management](https://azure.github.io/azure-service-operator/guide/crd-management/) for more details.
+{{% /alert %}}
 
    Alternatively you can install from the [release YAML directly](https://azure.github.io/azure-service-operator/guide/installing-from-yaml/).
 
@@ -138,18 +244,57 @@ C:\> kubectl apply -f <https://github.com/jetstack/cert-manager/releases/downloa
 
 ### Usage
 
-Once the controller has been installed in your cluster, you should be able to run the following:
+Once the controller has been installed in your cluster, you should be able to see the ASO pod running.
 
-```bash
+{{< tabpane text=true left=true >}}
+{{% tab header="**Shell**:" disabled=true /%}}
+{{% tab header="bash" %}}
+``` bash
 $ kubectl get pods -n azureserviceoperator-system
 NAME                                                READY   STATUS    RESTARTS   AGE
 azureserviceoperator-controller-manager-5b4bfc59df-lfpqf   2/2     Running   0          24s
+```
+{{% /tab %}}
+{{% tab header="PowerShell" %}}
+``` powershell
+PS> kubectl get pods -n azureserviceoperator-system
+NAME                                                READY   STATUS    RESTARTS   AGE
+azureserviceoperator-controller-manager-5b4bfc59df-lfpqf   2/2     Running   0          24s
+```
+{{% /tab %}}
+{{% tab header="CMD" %}}
+``` cmd
+C:>\ kubectl get pods -n azureserviceoperator-system
+NAME                                                READY   STATUS    RESTARTS   AGE
+azureserviceoperator-controller-manager-5b4bfc59df-lfpqf   2/2     Running   0          24s
+```
+{{% /tab %}}
+{{< /tabpane >}}
 
-# check out the logs for the running controller
+To view the logs for the running ASO controller, take note of the pod name shown above and then run the following command.
+
+{{< tabpane text=true left=true >}}
+{{% tab header="**Shell**:" disabled=true /%}}
+{{% tab header="bash" %}}
+``` bash
 $ kubectl logs -n azureserviceoperator-system azureserviceoperator-controller-manager-5b4bfc59df-lfpqf manager 
+```
+{{% /tab %}}
+{{% tab header="PowerShell" %}}
+``` powershell
+PS> kubectl logs -n azureserviceoperator-system azureserviceoperator-controller-manager-5b4bfc59df-lfpqf manager 
+```
+{{% /tab %}}
+{{% tab header="CMD" %}}
+``` cmd
+C:\> kubectl logs -n azureserviceoperator-system azureserviceoperator-controller-manager-5b4bfc59df-lfpqf manager 
+```
+{{% /tab %}}
+{{< /tabpane >}}
 
-# let's create an Azure ResourceGroup in westcentralus with the name "aso-sample-rg"
-cat <<EOF | kubectl apply -f -
+Let's create an Azure ResourceGroup in westcentralus with the name "aso-sample-rg". Create a file called `rg.yaml` with the following contents:
+
+```yaml
 apiVersion: resources.azure.com/v1alpha1api20200601
 kind: ResourceGroup
 metadata:
@@ -157,11 +302,56 @@ metadata:
   namespace: default
 spec:
   location: westcentralus
-EOF
-# resourcegroup.resources.azure.com/aso-sample-rg created
+````
 
-# let's see what the ResourceGroup resource looks like
+Then apply the file to your cluster:
+
+{{< tabpane text=true left=true >}}
+{{% tab header="**Shell**:" disabled=true /%}}
+{{% tab header="bash" %}}
+``` bash
+$ kubectl apply -f rg.yaml
+```
+{{% /tab %}}
+{{% tab header="PowerShell" %}}
+``` powershell
+PS> kubectl apply -f rg.yaml
+```
+{{% /tab %}}
+{{% tab header="CMD" %}}
+``` cmd
+C:\> kubectl apply -f rg.yaml
+```
+{{% /tab %}}
+{{< /tabpane >}}
+
+Once the resource group has been created, we can see what it looks like.
+
+{{< tabpane text=true left=true >}}
+{{% tab header="**Shell**:" disabled=true /%}}
+{{% tab header="bash" %}}
+``` bash
 $ kubectl describe resourcegroups/aso-sample-rg
+# resourcegroup.resources.azure.com/aso-sample-rg created
+```
+{{% /tab %}}
+{{% tab header="PowerShell" %}}
+``` powershell
+PS> kubectl describe resourcegroups/aso-sample-rg
+# resourcegroup.resources.azure.com/aso-sample-rg created
+```
+{{% /tab %}}
+{{% tab header="CMD" %}}
+``` cmd
+C:\> kubectl describe resourcegroups/aso-sample-rg
+:: resourcegroup.resources.azure.com/aso-sample-rg created
+```
+{{% /tab %}}
+{{< /tabpane >}}
+
+
+The output will be similar to this:
+``` yaml
 Name:         aso-sample-rg
 Namespace:    default
 Labels:       <none>
@@ -193,20 +383,41 @@ Events:
   Normal  BeginDeployment    32s   ResourceGroupController  Created new deployment to Azure with ID "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1629763146_19a8f8c2-046e-11ec-8e54-3eec50af7c79"
   Normal  MonitorDeployment  32s   ResourceGroupController  Monitoring Azure deployment ID="/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1629763146_19a8f8c2-046e-11ec-8e54-3eec50af7c79", state="Accepted"
   Normal  MonitorDeployment  27s   ResourceGroupController  Monitoring Azure deployment ID="/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1629763146_19a8f8c2-046e-11ec-8e54-3eec50af7c79", state="Succeeded"
+```
 
+We can delete the resource group from the cluster. This will also delete it from Azure.
 
-# delete the ResourceGroup
+{{< tabpane text=true left=true >}}
+{{% tab header="**Shell**:" disabled=true /%}}
+{{% tab header="bash" %}}
+``` bash
 $ kubectl delete resourcegroups/aso-sample-rg
 # resourcegroup.resources.azure.com "aso-sample-rg" deleted
 ```
+{{% /tab %}}
+{{% tab header="PowerShell" %}}
+``` powershell
+PS> kubectl delete resourcegroups/aso-sample-rg
+# resourcegroup.resources.azure.com "aso-sample-rg" deleted
+```
+{{% /tab %}}
+{{% tab header="CMD" %}}
+``` cmd
+C:\> kubectl delete resourcegroups/aso-sample-rg
+# resourcegroup.resources.azure.com "aso-sample-rg" deleted
+```
+{{% /tab %}}
+{{< /tabpane >}}
 
 For samples of additional resources, see the [resource samples directory](https://github.com/Azure/azure-service-operator/tree/main/v2/samples).
 
 ### Tearing it down
 
-**Warning: if you `kubectl delete` an Azure resource, it will delete the Azure resource. This can
+{{% alert title="Warning" color="warning" %}}
+if you `kubectl delete` an ASO resource from your cluster, ASO will delete the Azure resource. This can
 be dangerous if you were to do this with an existing resource group which contains resources you do
-not wish to be deleted.**
+not wish to be deleted.
+{{% /alert %}}
 
 If you want to delete the resources you've created, just `kubectl delete` each of the Azure
 resources.
@@ -216,10 +427,28 @@ If you want to delete the cluster resource without affecting the Azure resource,
 As for deleting controller components, just `kubectl delete -f` the release manifests you created
 to get started. For example, creating and deleting cert-manager.
 
-```bash
+{{< tabpane text=true left=true >}}
+{{% tab header="**Shell**:" disabled=true /%}}
+{{% tab header="bash" %}}
+``` bash
 # remove the cert-manager components
-kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.12.1/cert-manager.yaml
+$ kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.12.1/cert-manager.yaml
 ```
+{{% /tab %}}
+{{% tab header="PowerShell" %}}
+``` powershell
+# remove the cert-manager components
+PS> kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.12.1/cert-manager.yaml
+```
+{{% /tab %}}
+{{% tab header="CMD" %}}
+``` cmd
+:: remove the cert-manager components
+C:\> kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.12.1/cert-manager.yaml
+```
+{{% /tab %}}
+{{< /tabpane >}}
+
 
 ## How to contribute
 
