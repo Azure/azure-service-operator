@@ -8,7 +8,6 @@ package identity
 import (
 	"context"
 	"reflect"
-	"strconv"
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
@@ -33,6 +32,17 @@ const (
 	NamespacedSecretName = "aso-credential"
 	// #nosec
 	FederatedTokenFilePath = "/var/run/secrets/tokens/azure-identity"
+)
+
+type IdentityAuthModeOption string
+
+const (
+	podIdentity      IdentityAuthModeOption = "pod"
+	workloadIdentity IdentityAuthModeOption = "workload"
+
+	// IdentityAuthMode enum is used to determine if we're using Pod Identity or Workload Identity
+	//authentication for namespace and per-resource scoped credentials
+	IdentityAuthMode = "IDENTITY_AUTH_MODE"
 )
 
 // Credential describes a credential used to connect to Azure
@@ -259,25 +269,27 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 		}, nil
 	}
 
-	if usePodIdentity, hasUsePodIdentity := secret.Data[config.UseAzurePodIdentityAuth]; hasUsePodIdentity {
-		// Ignoring error here, as any other value or empty value means we should default to false
-		if usePodIdentityBool, _ := strconv.ParseBool(string(usePodIdentity)); usePodIdentityBool {
-			tokenCredential, err := azidentity.NewManagedIdentityCredential(&azidentity.ManagedIdentityCredentialOptions{
-				ClientOptions: azcore.ClientOptions{},
-				ID:            azidentity.ClientID(clientID),
-			})
+	var authMode IdentityAuthModeOption
+	if value, hasUsePodIdentity := secret.Data[IdentityAuthMode]; hasUsePodIdentity {
+		authMode = authModeOrDefault(string(value))
+	}
 
-			if err != nil {
-				return nil, errors.Wrap(err, errors.Errorf("invalid Managed Identity for %q encountered", nsName).Error())
-			}
+	if authMode == podIdentity {
+		tokenCredential, err := azidentity.NewManagedIdentityCredential(&azidentity.ManagedIdentityCredentialOptions{
+			ClientOptions: azcore.ClientOptions{},
+			ID:            azidentity.ClientID(clientID),
+		})
 
-			return &Credential{
-				tokenCredential: tokenCredential,
-				subscriptionID:  string(subscriptionID),
-				credentialFrom:  nsName,
-				secretData:      secret.Data,
-			}, nil
+		if err != nil {
+			return nil, errors.Wrap(err, errors.Errorf("invalid Managed Identity for %q encountered", nsName).Error())
 		}
+
+		return &Credential{
+			tokenCredential: tokenCredential,
+			subscriptionID:  string(subscriptionID),
+			credentialFrom:  nsName,
+			secretData:      secret.Data,
+		}, nil
 	}
 
 	// Here we check for workload identity if client secret is not provided.
@@ -321,4 +333,11 @@ func (c *credentialProvider) getSecret(ctx context.Context, namespace string, se
 
 func getSecretNameFromAnnotation(credentialFrom string, resourceNamespace string) types.NamespacedName {
 	return types.NamespacedName{Namespace: resourceNamespace, Name: credentialFrom}
+}
+
+func authModeOrDefault(mode string) IdentityAuthModeOption {
+	if mode == string(podIdentity) {
+		return podIdentity
+	}
+	return workloadIdentity
 }

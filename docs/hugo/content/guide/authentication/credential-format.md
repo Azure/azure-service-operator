@@ -139,8 +139,9 @@ metadata:
  namespace: my-namespace
 stringData:
  AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
- AZURE_TENANT_ID: "$AZURE_TENANT_ID"
- AZURE_CLIENT_ID: "$AZURE_CLIENT_ID"
+ AZURE_TENANT_ID:    "$AZURE_TENANT_ID"
+ AZURE_CLIENT_ID:    "$AZURE_CLIENT_ID"
+ IDENTITY_AUTH_MODE: "workload"
 EOF
 ```
 
@@ -160,8 +161,9 @@ metadata:
  namespace: my-namespace
 stringData:
  AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
- AZURE_TENANT_ID: "$AZURE_TENANT_ID"
- AZURE_CLIENT_ID: "$AZURE_CLIENT_ID"
+ AZURE_TENANT_ID:    "$AZURE_TENANT_ID"
+ AZURE_CLIENT_ID:    "$AZURE_CLIENT_ID"
+ IDENTITY_AUTH_MODE: "workload"
 EOF
 ```
 
@@ -448,8 +450,6 @@ export IDENTITY_CLIENT_ID="$(az identity show -g ${IDENTITY_RESOURCE_GROUP} -n $
 export IDENTITY_RESOURCE_ID="$(az identity show -g ${IDENTITY_RESOURCE_GROUP} -n ${IDENTITY_NAME} --query id -otsv)"
 ```
 
-See [CRD management]( {{< relref "crd-management" >}} ) for more details about `crdPattern`.
-
 ### Create the secret
 
 {{< tabpane text=true left=true >}}
@@ -564,7 +564,7 @@ stringData:
  AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
  AZURE_TENANT_ID:       "$AZURE_TENANT_ID"
  AZURE_CLIENT_ID:       "$IDENTITY_CLIENT_ID"
- USE_POD_IDENTITY_AUTH: "true"
+ IDENTITY_AUTH_MODE:     "pod"
 EOF
 ```
 
@@ -612,7 +612,7 @@ stringData:
  AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
  AZURE_TENANT_ID:       "$AZURE_TENANT_ID"
  AZURE_CLIENT_ID:       "$IDENTITY_CLIENT_ID"
- USE_POD_IDENTITY_AUTH: "true"
+ IDENTITY_AUTH_MODE:     "pod"
 EOF
 ```
 
