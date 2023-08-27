@@ -478,6 +478,11 @@ func (in *KeyForDiskEncryptionSet) DeepCopyInto(out *KeyForDiskEncryptionSet) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.KeyUrlFromConfig != nil {
+		in, out := &in.KeyUrlFromConfig, &out.KeyUrlFromConfig
+		*out = new(genruntime.ConfigMapReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))

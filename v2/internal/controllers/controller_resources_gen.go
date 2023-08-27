@@ -274,7 +274,21 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(compute_v20220702s.DiskEncryptionSet)})
+	result = append(result, &registration.StorageType{
+		Obj: new(compute_v20220702s.DiskEncryptionSet),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.activeKey.keyUrlFromConfig",
+				Func: indexComputeDiskEncryptionSetKeyUrlFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.activeKey.keyUrlFromConfig"}, &compute_v20220702s.DiskEncryptionSetList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{
 		Obj: new(containerinstance_v20211001s.ContainerGroup),
 		Indexes: []registration.Index{
@@ -1834,6 +1848,21 @@ func indexAuthorizationRoleAssignmentPrincipalIdFromConfig(rawObj client.Object)
 		return nil
 	}
 	return obj.Spec.PrincipalIdFromConfig.Index()
+}
+
+// indexComputeDiskEncryptionSetKeyUrlFromConfig an index function for compute_v20220702s.DiskEncryptionSet .spec.activeKey.keyUrlFromConfig
+func indexComputeDiskEncryptionSetKeyUrlFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*compute_v20220702s.DiskEncryptionSet)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.ActiveKey == nil {
+		return nil
+	}
+	if obj.Spec.ActiveKey.KeyUrlFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.ActiveKey.KeyUrlFromConfig.Index()
 }
 
 // indexComputeVirtualMachineAdminPassword an index function for compute_v20220301s.VirtualMachine .spec.osProfile.adminPassword

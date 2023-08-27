@@ -5,8 +5,9 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702storage
 └── DiskEncryptionSet: Resource
     ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
     ├── Spec: Object (11 properties)
-    │   ├── ActiveKey: *Object (3 properties)
+    │   ├── ActiveKey: *Object (4 properties)
     │   │   ├── KeyUrl: *string
+    │   │   ├── KeyUrlFromConfig: *genruntime.ConfigMapReference
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── SourceVault: *Object (2 properties)
     │   │       ├── PropertyBag: genruntime.PropertyBag

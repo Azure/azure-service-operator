@@ -902,6 +902,9 @@ objectModelConfiguration:
       SourceVault:
         Id:
           $armReference: true
+      KeyForDiskEncryptionSet:
+        KeyUrl:
+          $importConfigMapMode: optional
   containerinstance:
     2021-10-01:
       ContainerGroup:

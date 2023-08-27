@@ -104,7 +104,17 @@ func Test_Compute_DiskEncryptionSet_CRUD(t *testing.T) {
 	}
 
 	tc.CreateResourceAndWait(diskEncryptionSet)
-	defer tc.DeleteResourceAndWait(diskEncryptionSet)
+
+	tc.Expect(diskEncryptionSet.Status.Id).ToNot(BeNil())
+	armId := *diskEncryptionSet.Status.Id
+
+	tc.DeleteResourceAndWait(diskEncryptionSet)
+
+	// Ensure delete
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute.APIVersion_Value))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(retryAfter).To(BeZero())
+	tc.Expect(exists).To(BeFalse())
 }
 
 func newVaultForDiskEncryptionSet(name string, tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *keyvault.Vault {
@@ -127,8 +137,10 @@ func newVaultForDiskEncryptionSet(name string, tc *testcommon.KubePerTestContext
 	}
 }
 
+// TODO: Hacking this around for now. We currently don't support Keyvault/Keys resource.
+// TODO: Should be good to replace this with an actual resource once https://github.com/Azure/azure-service-operator/issues/3188 is resolved.
 func createKeyVaultKey(tc *testcommon.KubePerTestContext, kv *v1api20210401preview.Vault, rg *resources.ResourceGroup) armkeyvault.Key {
-	client, err := armkeyvault.NewKeysClient(tc.AzureSubscription, tc.AzureClient.Creds(), nil)
+	client, err := armkeyvault.NewKeysClient(tc.AzureSubscription, tc.AzureClient.Creds(), tc.AzureClient.ClientOptions())
 	tc.Expect(err).To(BeNil())
 
 	keyProperties := armkeyvault.KeyCreateParameters{

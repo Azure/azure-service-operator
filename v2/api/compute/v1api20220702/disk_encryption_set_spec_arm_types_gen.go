@@ -76,7 +76,7 @@ const (
 type KeyForDiskEncryptionSet_ARM struct {
 	// KeyUrl: Fully versioned Key Url pointing to a key in KeyVault. Version segment of the Url is required regardless of
 	// rotationToLatestKeyVersionEnabled value.
-	KeyUrl *string `json:"keyUrl,omitempty"`
+	KeyUrl *string `json:"keyUrl,omitempty" optionalConfigMapPair:"KeyUrl"`
 
 	// SourceVault: Resource id of the KeyVault containing the key or secret. This property is optional and cannot be used if
 	// the KeyVault subscription is not the same as the Disk Encryption Set subscription.

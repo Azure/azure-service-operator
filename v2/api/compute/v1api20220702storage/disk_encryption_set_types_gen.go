@@ -257,9 +257,10 @@ type EncryptionSetIdentity_STATUS struct {
 // Storage version of v1api20220702.KeyForDiskEncryptionSet
 // Key Vault Key Url to be used for server side encryption of Managed Disks and Snapshots
 type KeyForDiskEncryptionSet struct {
-	KeyUrl      *string                `json:"keyUrl,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SourceVault *SourceVault           `json:"sourceVault,omitempty"`
+	KeyUrl           *string                        `json:"keyUrl,omitempty" optionalConfigMapPair:"KeyUrl"`
+	KeyUrlFromConfig *genruntime.ConfigMapReference `json:"keyUrlFromConfig,omitempty" optionalConfigMapPair:"KeyUrl"`
+	PropertyBag      genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	SourceVault      *SourceVault                   `json:"sourceVault,omitempty"`
 }
 
 // Storage version of v1api20220702.KeyForDiskEncryptionSet_STATUS

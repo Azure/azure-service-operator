@@ -52,6 +52,9 @@ var exclusions = []string{
 	"serversadministrator",
 	"serversazureadonlyauthentication",
 	"serversfailovergroup", // Requires creating multiple linked SQL servers which is hard to do in the samples
+
+	// TODO: Unable to test diskencryptionsets sample since we don't support Keyvault/Keys to automate the process
+	"diskencryptionsets",
 }
 
 type SamplesTester struct {

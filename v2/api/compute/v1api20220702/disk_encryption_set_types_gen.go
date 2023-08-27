@@ -203,7 +203,7 @@ func (encryptionSet *DiskEncryptionSet) ValidateUpdate(old runtime.Object) (admi
 
 // createValidations validates the creation of the resource
 func (encryptionSet *DiskEncryptionSet) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){encryptionSet.validateResourceReferences}
+	return []func() (admission.Warnings, error){encryptionSet.validateResourceReferences, encryptionSet.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +217,20 @@ func (encryptionSet *DiskEncryptionSet) updateValidations() []func(old runtime.O
 		func(old runtime.Object) (admission.Warnings, error) {
 			return encryptionSet.validateResourceReferences()
 		},
-		encryptionSet.validateWriteOnceProperties}
+		encryptionSet.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return encryptionSet.validateOptionalConfigMapReferences()
+		},
+	}
+}
+
+// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
+func (encryptionSet *DiskEncryptionSet) validateOptionalConfigMapReferences() (admission.Warnings, error) {
+	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&encryptionSet.Spec)
+	if err != nil {
+		return nil, err
+	}
+	return genruntime.ValidateOptionalConfigMapReferences(refs)
 }
 
 // validateResourceReferences validates all resource references
@@ -1760,10 +1773,13 @@ func (identity *EncryptionSetIdentity_STATUS) AssignProperties_To_EncryptionSetI
 
 // Key Vault Key Url to be used for server side encryption of Managed Disks and Snapshots
 type KeyForDiskEncryptionSet struct {
-	// +kubebuilder:validation:Required
 	// KeyUrl: Fully versioned Key Url pointing to a key in KeyVault. Version segment of the Url is required regardless of
 	// rotationToLatestKeyVersionEnabled value.
-	KeyUrl *string `json:"keyUrl,omitempty"`
+	KeyUrl *string `json:"keyUrl,omitempty" optionalConfigMapPair:"KeyUrl"`
+
+	// KeyUrlFromConfig: Fully versioned Key Url pointing to a key in KeyVault. Version segment of the Url is required
+	// regardless of rotationToLatestKeyVersionEnabled value.
+	KeyUrlFromConfig *genruntime.ConfigMapReference `json:"keyUrlFromConfig,omitempty" optionalConfigMapPair:"KeyUrl"`
 
 	// SourceVault: Resource id of the KeyVault containing the key or secret. This property is optional and cannot be used if
 	// the KeyVault subscription is not the same as the Disk Encryption Set subscription.
@@ -1782,6 +1798,14 @@ func (encryptionSet *KeyForDiskEncryptionSet) ConvertToARM(resolved genruntime.C
 	// Set property "KeyUrl":
 	if encryptionSet.KeyUrl != nil {
 		keyUrl := *encryptionSet.KeyUrl
+		result.KeyUrl = &keyUrl
+	}
+	if encryptionSet.KeyUrlFromConfig != nil {
+		keyUrlValue, err := resolved.ResolvedConfigMaps.Lookup(*encryptionSet.KeyUrlFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property KeyUrl")
+		}
+		keyUrl := keyUrlValue
 		result.KeyUrl = &keyUrl
 	}
 
@@ -1815,6 +1839,8 @@ func (encryptionSet *KeyForDiskEncryptionSet) PopulateFromARM(owner genruntime.A
 		encryptionSet.KeyUrl = &keyUrl
 	}
 
+	// no assignment for property "KeyUrlFromConfig"
+
 	// Set property "SourceVault":
 	if typedInput.SourceVault != nil {
 		var sourceVault1 SourceVault
@@ -1835,6 +1861,14 @@ func (encryptionSet *KeyForDiskEncryptionSet) AssignProperties_From_KeyForDiskEn
 
 	// KeyUrl
 	encryptionSet.KeyUrl = genruntime.ClonePointerToString(source.KeyUrl)
+
+	// KeyUrlFromConfig
+	if source.KeyUrlFromConfig != nil {
+		keyUrlFromConfig := source.KeyUrlFromConfig.Copy()
+		encryptionSet.KeyUrlFromConfig = &keyUrlFromConfig
+	} else {
+		encryptionSet.KeyUrlFromConfig = nil
+	}
 
 	// SourceVault
 	if source.SourceVault != nil {
@@ -1859,6 +1893,14 @@ func (encryptionSet *KeyForDiskEncryptionSet) AssignProperties_To_KeyForDiskEncr
 
 	// KeyUrl
 	destination.KeyUrl = genruntime.ClonePointerToString(encryptionSet.KeyUrl)
+
+	// KeyUrlFromConfig
+	if encryptionSet.KeyUrlFromConfig != nil {
+		keyUrlFromConfig := encryptionSet.KeyUrlFromConfig.Copy()
+		destination.KeyUrlFromConfig = &keyUrlFromConfig
+	} else {
+		destination.KeyUrlFromConfig = nil
+	}
 
 	// SourceVault
 	if encryptionSet.SourceVault != nil {
