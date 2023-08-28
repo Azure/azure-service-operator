@@ -34,15 +34,15 @@ const (
 	FederatedTokenFilePath = "/var/run/secrets/tokens/azure-identity"
 )
 
-type IdentityAuthModeOption string
+type AuthModeOption string
 
 const (
-	podIdentity      IdentityAuthModeOption = "pod"
-	workloadIdentity IdentityAuthModeOption = "workload"
+	podIdentity      AuthModeOption = "pod"
+	workloadIdentity AuthModeOption = "workload"
 
-	// IdentityAuthMode enum is used to determine if we're using Pod Identity or Workload Identity
+	// AuthMode enum is used to determine if we're using Pod Identity or Workload Identity
 	//authentication for namespace and per-resource scoped credentials
-	IdentityAuthMode = "IDENTITY_AUTH_MODE"
+	AuthMode = "AUTH_MODE"
 )
 
 // Credential describes a credential used to connect to Azure
@@ -269,8 +269,8 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 		}, nil
 	}
 
-	var authMode IdentityAuthModeOption
-	if value, hasUsePodIdentity := secret.Data[IdentityAuthMode]; hasUsePodIdentity {
+	var authMode AuthModeOption
+	if value, hasUsePodIdentity := secret.Data[AuthMode]; hasUsePodIdentity {
 		authMode = authModeOrDefault(string(value))
 	}
 
@@ -335,7 +335,7 @@ func getSecretNameFromAnnotation(credentialFrom string, resourceNamespace string
 	return types.NamespacedName{Namespace: resourceNamespace, Name: credentialFrom}
 }
 
-func authModeOrDefault(mode string) IdentityAuthModeOption {
+func authModeOrDefault(mode string) AuthModeOption {
 	if mode == string(podIdentity) {
 		return podIdentity
 	}
