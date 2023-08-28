@@ -803,7 +803,7 @@ func generateMethodDeclForFunction(
 					f.Name())
 			} else {
 				err = errors.Errorf(
-					"generating method declaration for %s.%s: %v",
+					"generating method declaration for %s.%s: %s",
 					typeName.Name(),
 					f.Name(),
 					r)
