@@ -36,30 +36,12 @@ ASO supports more than 150 different Azure resources, with more added every rele
 
 1. Install [cert-manager](https://cert-manager.io/docs/installation/kubernetes/) on the cluster using the following command.
 
-{{< tabpane text=true left=true >}}
-{{% tab header="**Shell**:" disabled=true /%}}
-{{% tab header="bash" %}}
 ``` bash
 $ kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.12.1/cert-manager.yaml
 ```
-{{% /tab %}}
-{{% tab header="PowerShell" %}}
-``` powershell
-PS> kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.12.1/cert-manager.yaml
-```
-{{% /tab %}}
-{{% tab header="CMD" %}}
-``` cmd
-C:\> kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.12.1/cert-manager.yaml
-```
-{{% /tab %}}
-{{< /tabpane >}}
 
-   Check that the cert-manager pods have started successfully before continuing.
+Check that the cert-manager pods have started successfully before continuing.
 
-{{< tabpane text=true left=true >}}
-{{% tab header="**Shell**:" disabled=true /%}}
-{{% tab header="bash" %}}
 ``` bash
 $ kubectl get pods -n cert-manager
 NAME                                      READY   STATUS    RESTARTS   AGE
@@ -67,29 +49,8 @@ cert-manager-5597cff495-lmphj             1/1     Running   0          1m
 cert-manager-cainjector-bd5f9c764-gvxm4   1/1     Running   0          1m
 cert-manager-webhook-c4b5687dc-x66bj      1/1     Running   0          1m
 ```
-{{% /tab %}}
-{{% tab header="PowerShell" %}}
-``` powershell
-PS> kubectl get pods -n cert-manager
-NAME                                      READY   STATUS    RESTARTS   AGE
-cert-manager-5597cff495-lmphj             1/1     Running   0          1m
-cert-manager-cainjector-bd5f9c764-gvxm4   1/1     Running   0          1m
-cert-manager-webhook-c4b5687dc-x66bj      1/1     Running   0          1m
-```
-{{% /tab %}}
-{{% tab header="CMD" %}}
-``` cmd
-C:\> kubectl get pods -n cert-manager
-NAME                                      READY   STATUS    RESTARTS   AGE
-cert-manager-5597cff495-lmphj             1/1     Running   0          1m
-cert-manager-cainjector-bd5f9c764-gvxm4   1/1     Running   0          1m
-cert-manager-webhook-c4b5687dc-x66bj      1/1     Running   0          1m
-```
-{{% /tab %}}
-{{< /tabpane >}}
 
-
-   (Alternatively, you can wait for cert-manager to be ready with `cmctl check api --wait=2m` - see the [cert-manager documentation](https://cert-manager.io/docs/usage/cmctl/) for more information about `cmctl`.)
+(Alternatively, you can wait for cert-manager to be ready with `cmctl check api --wait=2m` - see the [cert-manager documentation](https://cert-manager.io/docs/usage/cmctl/) for more information about `cmctl`.)
 
 2. Create an Azure Service Principal. You'll need this to grant Azure Service Operator permissions to create resources in your subscription.
 
@@ -99,8 +60,8 @@ cert-manager-webhook-c4b5687dc-x66bj      1/1     Running   0          1m
 {{% tab header="**Shell**:" disabled=true /%}}
 {{% tab header="bash" %}}
 ``` bash
-$ AZURE_TENANT_ID=<your-tenant-id-goes-here>
-$ AZURE_SUBSCRIPTION_ID=<your-subscription-id-goes-here>
+$ export AZURE_TENANT_ID=<your-tenant-id-goes-here>
+$ export AZURE_SUBSCRIPTION_ID=<your-subscription-id-goes-here>
 ```
 {{% /tab %}}
 {{% tab header="PowerShell" %}}
@@ -148,7 +109,7 @@ C:\> az ad sp create-for-rbac -n azure-service-operator --role contributor ^
 {{< /tabpane >}}
 
 
-    This should give you output including the following:
+This should give you output including the following:
 
 ```bash
 "appId": "xxxxxxxxxx",
@@ -164,8 +125,8 @@ Once you have created a service principal, set the following variables to your a
 {{% tab header="**Shell**:" disabled=true /%}}
 {{% tab header="bash" %}}
 ``` bash
-$ AZURE_CLIENT_ID=<your-client-id>         # This is the appID from the service principal we created.
-$ AZURE_CLIENT_SECRET=<your-client-secret> # This is the password from the service principal we created.
+$ export AZURE_CLIENT_ID=<your-client-id>         # This is the appID from the service principal we created.
+$ export AZURE_CLIENT_SECRET=<your-client-secret> # This is the password from the service principal we created.
 ```
 {{% /tab %}}
 {{% tab header="PowerShell" %}}
@@ -246,51 +207,17 @@ See [CRD management](https://azure.github.io/azure-service-operator/guide/crd-ma
 
 Once the controller has been installed in your cluster, you should be able to see the ASO pod running.
 
-{{< tabpane text=true left=true >}}
-{{% tab header="**Shell**:" disabled=true /%}}
-{{% tab header="bash" %}}
 ``` bash
 $ kubectl get pods -n azureserviceoperator-system
 NAME                                                READY   STATUS    RESTARTS   AGE
 azureserviceoperator-controller-manager-5b4bfc59df-lfpqf   2/2     Running   0          24s
 ```
-{{% /tab %}}
-{{% tab header="PowerShell" %}}
-``` powershell
-PS> kubectl get pods -n azureserviceoperator-system
-NAME                                                READY   STATUS    RESTARTS   AGE
-azureserviceoperator-controller-manager-5b4bfc59df-lfpqf   2/2     Running   0          24s
-```
-{{% /tab %}}
-{{% tab header="CMD" %}}
-``` cmd
-C:>\ kubectl get pods -n azureserviceoperator-system
-NAME                                                READY   STATUS    RESTARTS   AGE
-azureserviceoperator-controller-manager-5b4bfc59df-lfpqf   2/2     Running   0          24s
-```
-{{% /tab %}}
-{{< /tabpane >}}
 
 To view the logs for the running ASO controller, take note of the pod name shown above and then run the following command.
 
-{{< tabpane text=true left=true >}}
-{{% tab header="**Shell**:" disabled=true /%}}
-{{% tab header="bash" %}}
 ``` bash
 $ kubectl logs -n azureserviceoperator-system azureserviceoperator-controller-manager-5b4bfc59df-lfpqf manager 
 ```
-{{% /tab %}}
-{{% tab header="PowerShell" %}}
-``` powershell
-PS> kubectl logs -n azureserviceoperator-system azureserviceoperator-controller-manager-5b4bfc59df-lfpqf manager 
-```
-{{% /tab %}}
-{{% tab header="CMD" %}}
-``` cmd
-C:\> kubectl logs -n azureserviceoperator-system azureserviceoperator-controller-manager-5b4bfc59df-lfpqf manager 
-```
-{{% /tab %}}
-{{< /tabpane >}}
 
 Let's create an Azure ResourceGroup in westcentralus with the name "aso-sample-rg". Create a file called `rg.yaml` with the following contents:
 
@@ -306,49 +233,16 @@ spec:
 
 Then apply the file to your cluster:
 
-{{< tabpane text=true left=true >}}
-{{% tab header="**Shell**:" disabled=true /%}}
-{{% tab header="bash" %}}
 ``` bash
 $ kubectl apply -f rg.yaml
 ```
-{{% /tab %}}
-{{% tab header="PowerShell" %}}
-``` powershell
-PS> kubectl apply -f rg.yaml
-```
-{{% /tab %}}
-{{% tab header="CMD" %}}
-``` cmd
-C:\> kubectl apply -f rg.yaml
-```
-{{% /tab %}}
-{{< /tabpane >}}
 
 Once the resource group has been created, we can see what it looks like.
 
-{{< tabpane text=true left=true >}}
-{{% tab header="**Shell**:" disabled=true /%}}
-{{% tab header="bash" %}}
 ``` bash
 $ kubectl describe resourcegroups/aso-sample-rg
 # resourcegroup.resources.azure.com/aso-sample-rg created
 ```
-{{% /tab %}}
-{{% tab header="PowerShell" %}}
-``` powershell
-PS> kubectl describe resourcegroups/aso-sample-rg
-# resourcegroup.resources.azure.com/aso-sample-rg created
-```
-{{% /tab %}}
-{{% tab header="CMD" %}}
-``` cmd
-C:\> kubectl describe resourcegroups/aso-sample-rg
-:: resourcegroup.resources.azure.com/aso-sample-rg created
-```
-{{% /tab %}}
-{{< /tabpane >}}
-
 
 The output will be similar to this:
 ``` yaml
@@ -387,27 +281,10 @@ Events:
 
 We can delete the resource group from the cluster. This will also delete it from Azure.
 
-{{< tabpane text=true left=true >}}
-{{% tab header="**Shell**:" disabled=true /%}}
-{{% tab header="bash" %}}
 ``` bash
 $ kubectl delete resourcegroups/aso-sample-rg
 # resourcegroup.resources.azure.com "aso-sample-rg" deleted
 ```
-{{% /tab %}}
-{{% tab header="PowerShell" %}}
-``` powershell
-PS> kubectl delete resourcegroups/aso-sample-rg
-# resourcegroup.resources.azure.com "aso-sample-rg" deleted
-```
-{{% /tab %}}
-{{% tab header="CMD" %}}
-``` cmd
-C:\> kubectl delete resourcegroups/aso-sample-rg
-# resourcegroup.resources.azure.com "aso-sample-rg" deleted
-```
-{{% /tab %}}
-{{< /tabpane >}}
 
 For samples of additional resources, see the [resource samples directory](https://github.com/Azure/azure-service-operator/tree/main/v2/samples).
 
@@ -427,28 +304,10 @@ If you want to delete the cluster resource without affecting the Azure resource,
 As for deleting controller components, just `kubectl delete -f` the release manifests you created
 to get started. For example, creating and deleting cert-manager.
 
-{{< tabpane text=true left=true >}}
-{{% tab header="**Shell**:" disabled=true /%}}
-{{% tab header="bash" %}}
 ``` bash
 # remove the cert-manager components
 $ kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.12.1/cert-manager.yaml
 ```
-{{% /tab %}}
-{{% tab header="PowerShell" %}}
-``` powershell
-# remove the cert-manager components
-PS> kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.12.1/cert-manager.yaml
-```
-{{% /tab %}}
-{{% tab header="CMD" %}}
-``` cmd
-:: remove the cert-manager components
-C:\> kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.12.1/cert-manager.yaml
-```
-{{% /tab %}}
-{{< /tabpane >}}
-
 
 ## How to contribute
 
