@@ -6,6 +6,7 @@ package v1api20200930storage
 import (
 	"encoding/json"
 	v20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201storage"
+	v20220702s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -1773,6 +1774,48 @@ func AddRelatedPropertyGeneratorsForKeyVaultAndSecretReference_STATUS(gens map[s
 	gens["SourceVault"] = gen.PtrOf(SourceVault_STATUSGenerator())
 }
 
+func Test_SourceVault_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SourceVault to SourceVault via AssignProperties_To_SourceVault & AssignProperties_From_SourceVault returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSourceVault, SourceVaultGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSourceVault tests if a specific instance of SourceVault can be assigned to v1api20220702storage and back losslessly
+func RunPropertyAssignmentTestForSourceVault(subject SourceVault) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20220702s.SourceVault
+	err := copied.AssignProperties_To_SourceVault(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SourceVault
+	err = actual.AssignProperties_From_SourceVault(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SourceVault_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1825,6 +1868,48 @@ func SourceVaultGenerator() gopter.Gen {
 	sourceVaultGenerator = gen.Struct(reflect.TypeOf(SourceVault{}), generators)
 
 	return sourceVaultGenerator
+}
+
+func Test_SourceVault_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SourceVault_STATUS to SourceVault_STATUS via AssignProperties_To_SourceVault_STATUS & AssignProperties_From_SourceVault_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSourceVault_STATUS, SourceVault_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSourceVault_STATUS tests if a specific instance of SourceVault_STATUS can be assigned to v1api20220702storage and back losslessly
+func RunPropertyAssignmentTestForSourceVault_STATUS(subject SourceVault_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20220702s.SourceVault_STATUS
+	err := copied.AssignProperties_To_SourceVault_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SourceVault_STATUS
+	err = actual.AssignProperties_From_SourceVault_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_SourceVault_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
