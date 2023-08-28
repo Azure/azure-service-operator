@@ -7,6 +7,7 @@ package armconversion
 
 import (
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -68,7 +69,7 @@ func (c *ARMConversionFunction) References() astmodel.TypeNameSet {
 func (c *ConvertToARMFunction) AsFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	receiver astmodel.TypeName,
-) *dst.FuncDecl {
+) (*dst.FuncDecl, error) {
 	builder := newConvertToARMFunctionBuilder(
 		&c.ARMConversionFunction,
 		codeGenerationContext,
@@ -87,7 +88,7 @@ func (c *ConvertToARMFunction) AsFunc(
 func (c *PopulateFromARMFunction) AsFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	receiver astmodel.TypeName,
-) *dst.FuncDecl {
+) (*dst.FuncDecl, error) {
 	builder := newConvertFromARMFunctionBuilder(
 		&c.ARMConversionFunction,
 		codeGenerationContext,
