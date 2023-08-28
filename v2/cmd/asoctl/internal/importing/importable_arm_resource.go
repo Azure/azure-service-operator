@@ -69,7 +69,7 @@ func NewImportableARMResource(
 }
 
 // GroupKind returns the GroupKind of the resource being imported.
-// (may be empty if the GK can't be determined)
+// Returned value may be empty if the GK can't be determined.
 func (i *importableARMResource) GroupKind() schema.GroupKind {
 	gk, _ := FindGroupKindForResourceType(i.armID.ResourceType.String())
 	return gk
