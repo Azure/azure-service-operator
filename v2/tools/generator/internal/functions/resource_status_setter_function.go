@@ -129,7 +129,7 @@ func (fn ResourceStatusSetterFunction) AsFunc(
 
 	builder.AddComments("sets the status of this resource")
 
-	return builder.DefineFunc()
+	return builder.DefineFunc(), nil
 }
 
 // Equals returns true if the passed function is equal

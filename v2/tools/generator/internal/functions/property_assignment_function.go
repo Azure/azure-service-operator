@@ -158,7 +158,7 @@ func (fn *PropertyAssignmentFunction) AsFunc(
 	funcDetails.AddReturns("error")
 	funcDetails.AddComments(description)
 
-	return funcDetails.DefineFunc()
+	return funcDetails.DefineFunc(), nil
 }
 
 func (fn *PropertyAssignmentFunction) ParameterType() astmodel.TypeName {

@@ -115,7 +115,7 @@ func (f *IndexRegistrationFunction) AsFunc(
 	pkg := genContext.MustGetImportedPackageName(f.resourceTypeName.PackageReference())
 
 	fn.AddComments(fmt.Sprintf("an index function for %s.%s %s", pkg, f.resourceTypeName.Name(), f.indexKey))
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
 // singleValue is used when the property path contains no collections

@@ -70,7 +70,7 @@ func (o *OriginalVersionFunction) AsFunc(
 	funcDetails.AddComments("returns the original API version used to create the resource.")
 	funcDetails.AddReturn(dst.NewIdent("string"))
 
-	return funcDetails.DefineFunc()
+	return funcDetails.DefineFunc(), nil
 }
 
 // Equals returns true if the passed function is equal to us, or false otherwise

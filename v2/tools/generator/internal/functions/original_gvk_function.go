@@ -100,7 +100,7 @@ func (o *OriginalGVKFunction) AsFunc(
 	funcDetails.AddComments("returns a GroupValueKind for the original API version used to create the resource")
 	funcDetails.AddReturn(astbuilder.PointerTo(gvkType))
 
-	return funcDetails.DefineFunc()
+	return funcDetails.DefineFunc(), nil
 }
 
 // Equals returns true if the passed function is equal to us, or false otherwise

@@ -108,7 +108,7 @@ func (ext *GetExtendedResourcesFunction) AsFunc(
 	funcDetails.AddComments("Returns the KubernetesResource slice for Resource versions")
 	funcDetails.AddReturn(krType)
 
-	return funcDetails.DefineFunc()
+	return funcDetails.DefineFunc(), nil
 }
 
 // Equals returns true if the passed function is equal textus, or false otherwise

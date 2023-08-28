@@ -118,7 +118,7 @@ func (f *OneOfJSONUnmarshalFunction) AsFunc(
 	fn.AddParameter(paramName, &dst.ArrayType{Elt: dst.NewIdent("byte")})
 	fn.AddComments(fmt.Sprintf("unmarshals the %s", receiver.Name()))
 	fn.AddReturns("error")
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
 // RequiredPackageReferences returns a set of references to packages required by this

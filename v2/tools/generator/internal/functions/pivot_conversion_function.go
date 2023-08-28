@@ -155,7 +155,7 @@ func (fn *PivotConversionFunction) AsFunc(
 	funcDetails.AddComments(fn.declarationDocComment(receiver, parameterName))
 	funcDetails.Body = fn.bodyForPivot(receiverName, parameterName, generationContext)
 
-	return funcDetails.DefineFunc()
+	return funcDetails.DefineFunc(), nil
 }
 
 // bodyForPivot is used to do the conversion if we hit the hub type without finding the conversion we need

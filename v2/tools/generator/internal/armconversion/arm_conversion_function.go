@@ -82,7 +82,7 @@ func (c *ConvertToARMFunction) AsFunc(
 		panic(err)
 	}
 
-	return decl
+	return decl, nil
 }
 
 func (c *PopulateFromARMFunction) AsFunc(
@@ -97,11 +97,13 @@ func (c *PopulateFromARMFunction) AsFunc(
 
 	decl, err := builder.functionDeclaration()
 	if err != nil {
-		// TODO: This will become an error return when we refactor the conversion functions for issue #2971
-		panic(err)
+		return nil, errors.Wrapf(
+			err,
+			"error generating ConvertFromARM function for %s",
+			c.Name())
 	}
 
-	return decl
+	return decl, nil
 }
 
 // Equals determines if this function is equal to the passed in function

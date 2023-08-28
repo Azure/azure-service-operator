@@ -126,7 +126,7 @@ func (fn *ResourceConversionFunction) AsFunc(
 			WhenTo(func() { funcDetails.Body = fn.indirectConversionToHub(receiverName, generationContext) })
 	}
 
-	return funcDetails.DefineFunc()
+	return funcDetails.DefineFunc(), nil
 }
 
 // Direction returns this functions direction of conversion

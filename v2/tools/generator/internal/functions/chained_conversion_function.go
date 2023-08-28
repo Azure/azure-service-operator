@@ -142,7 +142,7 @@ func (fn *ChainedConversionFunction) AsFunc(
 	funcDetails.AddComments(fn.declarationDocComment(receiver, parameterName))
 	funcDetails.Body = fn.bodyForConvert(receiverName, parameterName, generationContext)
 
-	return funcDetails.DefineFunc()
+	return funcDetails.DefineFunc(), nil
 }
 
 // bodyForConvert generates a conversion when the type we know about isn't the hub type, but is closer to it in our

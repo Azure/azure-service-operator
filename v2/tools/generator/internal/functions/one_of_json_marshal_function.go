@@ -89,7 +89,7 @@ func (f *OneOfJSONMarshalFunction) AsFunc(codeGenerationContext *astmodel.CodeGe
 		"defers JSON marshaling to the first non-nil property, because %s represents a discriminated union (JSON OneOf)",
 		receiver.Name()))
 	fn.AddReturns("[]byte", "error")
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
 // RequiredPackageReferences returns a set of references to packages required by this
