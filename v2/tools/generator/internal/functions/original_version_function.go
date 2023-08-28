@@ -62,7 +62,7 @@ func (o *OriginalVersionFunction) AsFunc(
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
-		ReceiverType:  astbuilder.PointerTo(receiver.AsType(generationContext)),
+		ReceiverType:  astbuilder.PointerTo(receiver.AsType(codeGenerationContext)),
 		Name:          o.Name(),
 		Body:          astbuilder.Statements(returnVersion),
 	}

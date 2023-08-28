@@ -135,9 +135,9 @@ func (fn *PropertyAssignmentFunction) AsFunc(
 		fmt.Sprintf("populates the provided destination %s from our %s", fn.ParameterType().Name(), receiver.Name()))
 
 	// We always use a pointer receiver, so we can modify it
-	receiverType := astmodel.NewOptionalType(receiver).AsType(generationContext)
+	receiverType := astmodel.NewOptionalType(receiver).AsType(codeGenerationContext)
 
-	body, err := fn.generateBody(fn.receiverName, fn.parameterName, generationContext)
+	body, err := fn.generateBody(fn.receiverName, fn.parameterName, codeGenerationContext)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to generate body for %s", fn.Name())
 	}
@@ -151,7 +151,7 @@ func (fn *PropertyAssignmentFunction) AsFunc(
 
 	funcDetails.AddParameter(
 		fn.parameterName,
-		astbuilder.PointerTo(fn.ParameterType().AsType(generationContext)))
+		astbuilder.PointerTo(fn.ParameterType().AsType(codeGenerationContext)))
 
 	funcDetails.AddReturns("error")
 	funcDetails.AddComments(description)

@@ -127,7 +127,7 @@ func (fn *ChainedConversionFunction) AsFunc(
 	receiverName := fn.idFactory.CreateReceiver(receiver.Name())
 
 	// We always use a pointer receiver, so we can modify it
-	receiverType := astmodel.NewOptionalType(receiver).AsType(generationContext)
+	receiverType := astmodel.NewOptionalType(receiver).AsType(codeGenerationContext)
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
@@ -136,11 +136,11 @@ func (fn *ChainedConversionFunction) AsFunc(
 	}
 
 	parameterName := fn.direction.SelectString("source", "destination")
-	funcDetails.AddParameter(parameterName, fn.parameterType.AsType(generationContext))
+	funcDetails.AddParameter(parameterName, fn.parameterType.AsType(codeGenerationContext))
 
 	funcDetails.AddReturns("error")
 	funcDetails.AddComments(fn.declarationDocComment(receiver, parameterName))
-	funcDetails.Body = fn.bodyForConvert(receiverName, parameterName, generationContext)
+	funcDetails.Body = fn.bodyForConvert(receiverName, parameterName, codeGenerationContext)
 
 	return funcDetails.DefineFunc(), nil
 }

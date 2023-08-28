@@ -163,7 +163,7 @@ func (i *InterfaceType) String() string {
 }
 
 // WriteDebugDescription adds a description of the current InterfaceType to the passed builder.
-func (i *InterfaceType) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {
+func (i *InterfaceType) WriteDebugDescription(builder *strings.Builder, _ PackageReference) {
 	if i == nil {
 		builder.WriteString("<nilInterface>")
 	} else {
@@ -200,7 +200,7 @@ func functionToField(codeGenerationContext *CodeGenerationContext, name string, 
 		names = []*dst.Ident{dst.NewIdent(name)}
 	}
 
-	f := function.AsFunc(codeGenerationContext, nil) // Empty typename here because we have no receiver
+	f, _ := function.AsFunc(codeGenerationContext, nil) // Empty typename here because we have no receiver
 
 	return &dst.Field{
 		Names: names,

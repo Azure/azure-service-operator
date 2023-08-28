@@ -91,7 +91,7 @@ func (ext *GetExtendedResourcesFunction) AsFunc(
 
 	// Iterate through the resourceType versions and add them to the KubernetesResource literal slice
 	for _, resource := range ext.resources {
-		expr := astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(resource.AsType(generationContext)).Build())
+		expr := astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(resource.AsType(codeGenerationContext)).Build())
 		expr.Decs.Before = dst.NewLine
 		krLiteral.Elts = append(krLiteral.Elts, expr)
 	}
@@ -100,7 +100,7 @@ func (ext *GetExtendedResourcesFunction) AsFunc(
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
-		ReceiverType:  astbuilder.PointerTo(receiver.AsType(generationContext)),
+		ReceiverType:  astbuilder.PointerTo(receiver.AsType(codeGenerationContext)),
 		Name:          ExtendedResourcesFunctionName,
 		Body:          astbuilder.Statements(astbuilder.Returns(krLiteral)),
 	}
@@ -111,7 +111,7 @@ func (ext *GetExtendedResourcesFunction) AsFunc(
 	return funcDetails.DefineFunc(), nil
 }
 
-// Equals returns true if the passed function is equal textus, or false otherwise
+// Equals returns true if the passed function is equal to us, or false otherwise
 func (ext *GetExtendedResourcesFunction) Equals(f astmodel.Function, _ astmodel.EqualityOverrides) bool {
 	obj, ok := f.(*GetExtendedResourcesFunction)
 	if ok {

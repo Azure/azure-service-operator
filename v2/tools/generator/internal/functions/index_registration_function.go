@@ -88,7 +88,7 @@ func (f *IndexRegistrationFunction) AsFunc(
 	cast := astbuilder.TypeAssert(
 		dst.NewIdent(objName),
 		dst.NewIdent(rawObjName),
-		astbuilder.PointerTo(f.resourceTypeName.AsType(genContext)))
+		astbuilder.PointerTo(f.resourceTypeName.AsType(codeGenerationContext)))
 
 	// if !ok { return nil }
 	checkAssert := astbuilder.ReturnIfNotOk(astbuilder.Nil())
@@ -113,11 +113,11 @@ func (f *IndexRegistrationFunction) AsFunc(
 			stmts),
 	}
 
-	fn.AddParameter(rawObjName, astmodel.ControllerRuntimeObjectType.AsType(genContext))
+	fn.AddParameter(rawObjName, astmodel.ControllerRuntimeObjectType.AsType(codeGenerationContext))
 
 	fn.AddReturn(&dst.ArrayType{Elt: dst.NewIdent("string")})
 
-	pkg := genContext.MustGetImportedPackageName(f.resourceTypeName.PackageReference())
+	pkg := codeGenerationContext.MustGetImportedPackageName(f.resourceTypeName.PackageReference())
 
 	fn.AddComments(fmt.Sprintf("an index function for %s.%s %s", pkg, f.resourceTypeName.Name(), f.indexKey))
 	return fn.DefineFunc(), nil
@@ -176,7 +176,13 @@ func (f *IndexRegistrationFunction) multipleValues(selector *dst.SelectorExpr) (
 		ret), nil
 }
 
-func (f *IndexRegistrationFunction) makeStatements(result *dst.Ident, locals *astmodel.KnownLocalsSet, ident dst.Expr, remainingChain []*astmodel.PropertyDefinition, nilHandler dst.Stmt) []dst.Stmt {
+func (f *IndexRegistrationFunction) makeStatements(
+	result *dst.Ident,
+	locals *astmodel.KnownLocalsSet,
+	ident dst.Expr,
+	remainingChain []*astmodel.PropertyDefinition,
+	nilHandler dst.Stmt,
+) ([]dst.Stmt, error) {
 	if len(remainingChain) == 0 {
 		return astbuilder.Statements(astbuilder.AppendSliceToSlice(result, astbuilder.CallExpr(ident, "Index"))), nil
 	}
@@ -210,7 +216,12 @@ func (f *IndexRegistrationFunction) makeStatements(result *dst.Ident, locals *as
 	return nil, errors.Errorf("can't produce index registration function for type %T", t)
 }
 
-func (f *IndexRegistrationFunction) handleArray(result *dst.Ident, locals *astmodel.KnownLocalsSet, ident dst.Expr, remainingChain []*astmodel.PropertyDefinition) []dst.Stmt {
+func (f *IndexRegistrationFunction) handleArray(
+	result *dst.Ident,
+	locals *astmodel.KnownLocalsSet,
+	ident dst.Expr,
+	remainingChain []*astmodel.PropertyDefinition,
+) ([]dst.Stmt, error) {
 	p := remainingChain[0]
 
 	local := locals.CreateSingularLocal(p.PropertyName().String(), "Item")
@@ -227,7 +238,12 @@ func (f *IndexRegistrationFunction) handleArray(result *dst.Ident, locals *astmo
 	return astbuilder.Statements(loop), nil
 }
 
-func (f *IndexRegistrationFunction) handleMap(result *dst.Ident, locals *astmodel.KnownLocalsSet, ident dst.Expr, remainingChain []*astmodel.PropertyDefinition) []dst.Stmt {
+func (f *IndexRegistrationFunction) handleMap(
+	result *dst.Ident,
+	locals *astmodel.KnownLocalsSet,
+	ident dst.Expr,
+	remainingChain []*astmodel.PropertyDefinition,
+) ([]dst.Stmt, error) {
 	p := remainingChain[0]
 
 	// key in the loop would always be un-used.

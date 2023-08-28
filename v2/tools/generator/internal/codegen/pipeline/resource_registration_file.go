@@ -31,7 +31,7 @@ type ResourceRegistrationFile struct {
 
 var _ astmodel.GoSourceFile = &ResourceRegistrationFile{}
 
-// NewResourceRegistrationFile returns a ResourceRegistrationFile for registering all of the specified resources
+// NewResourceRegistrationFile returns a ResourceRegistrationFile for registering the specified resources
 // with a controller
 func NewResourceRegistrationFile(
 	resources []astmodel.TypeName,

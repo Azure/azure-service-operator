@@ -65,7 +65,7 @@ func (fn ResourceStatusSetterFunction) AsFunc(
 
 	statusLocal := "st"
 	statusParameter := "status"
-	errorsPackage := genContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
+	errorsPackage := codeGenerationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
 
 	// <receiver>.Status = st
 	assignFromStatus := astbuilder.SimpleAssignment(
@@ -113,7 +113,7 @@ func (fn ResourceStatusSetterFunction) AsFunc(
 
 	builder := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  receiverType.AsType(genContext),
+		ReceiverType:  receiverType.AsType(codeGenerationContext),
 		Name:          "SetStatus",
 		Body: astbuilder.Statements(
 			simplePath,
@@ -124,8 +124,8 @@ func (fn ResourceStatusSetterFunction) AsFunc(
 			returnNil),
 	}
 
-	builder.AddParameter(statusParameter, astmodel.ConvertibleStatusInterfaceType.AsType(genContext))
-	builder.AddReturn(astmodel.ErrorType.AsType(genContext))
+	builder.AddParameter(statusParameter, astmodel.ConvertibleStatusInterfaceType.AsType(codeGenerationContext))
+	builder.AddReturn(astmodel.ErrorType.AsType(codeGenerationContext))
 
 	builder.AddComments("sets the status of this resource")
 
