@@ -281,6 +281,11 @@ func (in *DiskEncryptionSet_Spec) DeepCopyInto(out *DiskEncryptionSet_Spec) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.FederatedClientIdFromConfig != nil {
+		in, out := &in.FederatedClientIdFromConfig, &out.FederatedClientIdFromConfig
+		*out = new(genruntime.ConfigMapReference)
+		**out = **in
+	}
 	if in.Identity != nil {
 		in, out := &in.Identity, &out.Identity
 		*out = new(EncryptionSetIdentity)
