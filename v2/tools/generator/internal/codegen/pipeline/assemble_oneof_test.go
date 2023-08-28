@@ -50,7 +50,7 @@ func createTestRootOneOf(
 	name string,
 	commonProperties ...*astmodel.PropertyDefinition,
 ) astmodel.TypeDefinition {
-	typeName := astmodel.MakeTypeName(test.Pkg2020, name)
+	typeName := astmodel.MakeInternalTypeName(test.Pkg2020, name)
 	oneOf := astmodel.NewOneOfType(name).
 		WithDiscriminatorProperty("discriminator")
 
@@ -67,7 +67,7 @@ func createTestLeafOneOf(
 	root astmodel.TypeDefinition,
 	additionalProperties ...*astmodel.PropertyDefinition,
 ) astmodel.TypeDefinition {
-	typeName := astmodel.MakeTypeName(test.Pkg2020, name)
+	typeName := astmodel.MakeInternalTypeName(test.Pkg2020, name)
 	oneOf := astmodel.NewOneOfType(name, root.Name(), root.Name()).
 		WithDiscriminatorValue(name)
 

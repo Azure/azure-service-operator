@@ -17,9 +17,9 @@ const (
 )
 
 var (
-	rootTypeName  = MakeTypeName(makeTestLocalPackageReference(group, version), "Root")
-	leftTypeName  = MakeTypeName(makeTestLocalPackageReference(group, version), "Left")
-	rightTypeName = MakeTypeName(makeTestLocalPackageReference(group, version), "Right")
+	rootTypeName  = MakeInternalTypeName(makeTestLocalPackageReference(group, version), "Root")
+	leftTypeName  = MakeInternalTypeName(makeTestLocalPackageReference(group, version), "Left")
+	rightTypeName = MakeInternalTypeName(makeTestLocalPackageReference(group, version), "Right")
 )
 
 func makeSimpleTestTypeGraph() TypeDefinitionSet {
@@ -330,7 +330,7 @@ func TestTypeWalker_CanChangeNameInOnlyCertainPlaces(t *testing.T) {
 	visitor := TypeVisitorBuilder{}.Build()
 	walker := NewTypeWalker(types, visitor)
 
-	left2TypeName := MakeTypeName(leftTypeName.PackageReference(), "Left2")
+	left2TypeName := MakeInternalTypeName(leftTypeName.PackageReference(), "Left2")
 
 	changed := false
 	walker.AfterVisit = func(original TypeDefinition, updated TypeDefinition, ctx interface{}) (TypeDefinition, error) {

@@ -370,7 +370,7 @@ func TestResolveResourceSpecAndStatus(t *testing.T) {
  */
 
 func createTestDefinition(name string, underlyingType Type) TypeDefinition {
-	n := MakeTypeName(pkg, name)
+	n := MakeInternalTypeName(pkg, name)
 	return MakeTypeDefinition(n, underlyingType)
 }
 
@@ -390,14 +390,14 @@ func createTestResource(
 	status TypeDefinition,
 ) TypeDefinition {
 	resourceType := NewResourceType(spec.Name(), status.Name())
-	return MakeTypeDefinition(MakeTypeName(pkg, name), resourceType)
+	return MakeTypeDefinition(MakeInternalTypeName(pkg, name), resourceType)
 }
 
 // createTestSpec makes a spec for testing
 func createTestSpec(
 	name string,
 	properties ...*PropertyDefinition) TypeDefinition {
-	specName := MakeTypeName(pkg, name+SpecSuffix)
+	specName := MakeInternalTypeName(pkg, name+SpecSuffix)
 	return MakeTypeDefinition(
 		specName,
 		NewObjectType().WithProperties(properties...))
@@ -407,7 +407,7 @@ func createTestSpec(
 func createTestStatus(
 	name string,
 	properties ...*PropertyDefinition) TypeDefinition {
-	statusName := MakeTypeName(pkg, name+StatusSuffix)
+	statusName := MakeInternalTypeName(pkg, name+StatusSuffix)
 	return MakeTypeDefinition(
 		statusName,
 		NewObjectType().WithProperties(properties...))

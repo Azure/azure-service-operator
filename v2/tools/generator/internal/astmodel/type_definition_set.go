@@ -32,7 +32,7 @@ type ReadonlyTypeDefinitions interface {
 var _ ReadonlyTypeDefinitions = TypeDefinitionSet{}
 
 // MakeTypeDefinitionSet makes it easier to declare a TypeDefinitionSet from a map
-func MakeTypeDefinitionSet(types map[TypeName]Type) TypeDefinitionSet {
+func MakeTypeDefinitionSet(types map[InternalTypeName]Type) TypeDefinitionSet {
 	result := make(TypeDefinitionSet, len(types))
 	for name, ty := range types {
 		result.Add(MakeTypeDefinition(name, ty))
@@ -186,7 +186,8 @@ func DiffTypes(x, y interface{}) string {
 		ResourceType{},
 		EnumType{},
 		FlaggedType{},
-		typeName{},
+		InternalTypeName{},
+		ExternalTypeName{},
 		LocalPackageReference{},
 		InterfaceImplementer{},
 		TypeSet{},
@@ -425,7 +426,7 @@ func ResolveResourceSpecDefinition(defs ReadonlyTypeDefinitions, resourceType *R
 
 // ResolveResourceStatusDefinition finds the TypeDefinition associated with the resource Status.
 func ResolveResourceStatusDefinition(defs ReadonlyTypeDefinitions, resourceType *ResourceType) (TypeDefinition, error) {
-	statusName, ok := resourceType.StatusType().(TypeName)
+	statusName, ok := resourceType.StatusType().(InternalTypeName)
 	if !ok {
 		return TypeDefinition{}, errors.Errorf("status was not of type TypeName, instead: %T", resourceType.StatusType())
 	}

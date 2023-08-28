@@ -89,7 +89,7 @@ func InjectPropertyAssignmentFunctions(
 					augmentationInterfaceTypeName := def.Name().WithName(augmentationInterfaceName)
 					augmentationInterface = &augmentationInterfaceTypeName
 					ifaceDef := astmodel.MakeTypeDefinition(
-						augmentationInterfaceTypeName,
+						augmentationInterfaceTypeName.(astmodel.InternalTypeName),
 						ifaceType)
 					result.Add(ifaceDef)
 				}

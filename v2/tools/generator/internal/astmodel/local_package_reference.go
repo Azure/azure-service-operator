@@ -24,9 +24,9 @@ type LocalPackageReference struct {
 }
 
 var (
-	_ PackageReference          = LocalPackageReference{}
-	_ fmt.Stringer              = LocalPackageReference{}
-	_ LocalLikePackageReference = LocalPackageReference{}
+	_ PackageReference         = LocalPackageReference{}
+	_ fmt.Stringer             = LocalPackageReference{}
+	_ InternalPackageReference = LocalPackageReference{}
 )
 
 const GeneratorVersion string = "v1api"

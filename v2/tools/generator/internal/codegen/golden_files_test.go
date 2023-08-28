@@ -65,7 +65,7 @@ func loadTestConfig(path string) (GoldenTestConfig, error) {
 }
 
 func makeEmbeddedTestTypeDefinition() astmodel.TypeDefinition {
-	name := astmodel.MakeTypeName(goldenTestPackageReference, "EmbeddedTestType")
+	name := astmodel.MakeInternalTypeName(goldenTestPackageReference, "EmbeddedTestType")
 	t := astmodel.NewObjectType()
 	t = t.WithProperty(astmodel.NewPropertyDefinition("FancyProp", "fancyProp", astmodel.IntType))
 
@@ -315,7 +315,7 @@ func stripUnusedTypesPipelineStage() *pipeline.Stage {
 		func(ctx context.Context, state *pipeline.State) (*pipeline.State, error) {
 			// The golden files always generate a top-level Test type - mark
 			// that as the root.
-			roots := astmodel.NewTypeNameSet(astmodel.MakeTypeName(goldenTestPackageReference, "Test"))
+			roots := astmodel.NewTypeNameSet(astmodel.MakeInternalTypeName(goldenTestPackageReference, "Test"))
 			defs, err := pipeline.StripUnusedDefinitions(roots, state.Definitions())
 			if err != nil {
 				return nil, errors.Wrapf(err, "could not strip unused types")

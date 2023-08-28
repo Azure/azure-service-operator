@@ -172,7 +172,7 @@ func (omc *ObjectModelConfiguration) FindHandCraftedTypeNames(localPath string) 
 	// Collect the names of hand-crafted types
 	typeVisitor := newEveryTypeConfigurationVisitor(
 		func(typeConfig *TypeConfiguration) error {
-			name := astmodel.MakeTypeName(currentPackage, typeConfig.name)
+			name := astmodel.MakeInternalTypeName(currentPackage, typeConfig.name)
 			result.Add(name)
 			return nil
 		})

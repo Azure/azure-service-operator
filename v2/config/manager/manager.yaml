@@ -8,6 +8,8 @@ kind: ServiceAccount
 metadata:
   name: default
   namespace: system
+  labels:
+    app.kubernetes.io/name: azure-service-operator
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -15,8 +17,9 @@ metadata:
   name: controller-manager
   namespace: system
   labels:
-    app: azure-service-operator-v2
     control-plane: controller-manager
+    app.kubernetes.io/name: azure-service-operator
+    app.kubernetes.io/version: ${VERSION}
 spec:
   selector:
     matchLabels:
@@ -27,6 +30,8 @@ spec:
       labels:
         aadpodidbinding: aso-manager-binding
         control-plane: controller-manager
+        app.kubernetes.io/name: azure-service-operator
+        app.kubernetes.io/version: ${VERSION}
       annotations:
         kubectl.kubernetes.io/default-container: manager
     spec:

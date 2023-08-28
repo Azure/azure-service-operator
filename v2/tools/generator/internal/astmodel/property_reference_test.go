@@ -15,7 +15,7 @@ func TestPropertyReference_IsEmpty_ReturnsExpectedResult(t *testing.T) {
 	t.Parallel()
 
 	pkg := makeTestLocalPackageReference("Demo", "v1")
-	declaringType := MakeTypeName(pkg, "Person")
+	declaringType := MakeInternalTypeName(pkg, "Person")
 
 	cases := []struct {
 		name          string
@@ -44,7 +44,7 @@ func TestPropertyReference_String_ReturnsExpectedResult(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	pkg := makeTestLocalPackageReference("Demo", "1")
-	declaringType := MakeTypeName(pkg, "Person")
+	declaringType := MakeInternalTypeName(pkg, "Person")
 	property := PropertyName("FullName")
 
 	ref := MakePropertyReference(declaringType, property)

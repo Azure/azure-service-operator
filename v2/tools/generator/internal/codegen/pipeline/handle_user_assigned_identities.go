@@ -61,7 +61,7 @@ func newUserAssignedIdentityTransformer() *userAssignedIdentityTransformer {
 }
 
 func (t *userAssignedIdentityTransformer) transformUserAssignedIdentityProperty(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-	name := ctx.(astmodel.TypeName)
+	name := ctx.(astmodel.InternalTypeName)
 
 	// Doesn't apply to status types
 	if name.IsStatus() {
@@ -111,7 +111,7 @@ func (t *userAssignedIdentityTransformer) transformUserAssignedIdentityProperty(
 }
 
 func newUserAssignedIdentityDefinition(pr astmodel.PackageReference) astmodel.TypeDefinition {
-	name := astmodel.MakeTypeName(pr, astmodel.UserAssignedIdentitiesTypeName)
+	name := astmodel.MakeInternalTypeName(pr, astmodel.UserAssignedIdentitiesTypeName)
 
 	prop := astmodel.NewPropertyDefinition("Reference", "reference", astmodel.ResourceReferenceType)
 

@@ -46,17 +46,6 @@ type PackageReference interface {
 	FolderPath() string
 }
 
-// LocalLikePackageReference describes a package reference that points to a local package (either a storage package
-// or a standard one). It can be used to abstract across the exact package type (storage vs local)
-type LocalLikePackageReference interface {
-	// LocalPathPrefix returns the prefix (everything up to the group name)
-	LocalPathPrefix() string
-	Group() string
-	Version() string
-	PackageName() string
-	PackagePath() string
-}
-
 // DerivedPackageReference should be implemented by any package reference that's derived from another
 type DerivedPackageReference interface {
 	Base() PackageReference
