@@ -119,7 +119,6 @@ func Test_Compute_DiskEncryptionSet_CRUD(t *testing.T) {
 }
 
 func newVaultForDiskEncryptionSet(name string, tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *keyvault.Vault {
-
 	return &keyvault.Vault{
 		ObjectMeta: tc.MakeObjectMeta(name),
 		Spec: keyvault.Vault_Spec{
