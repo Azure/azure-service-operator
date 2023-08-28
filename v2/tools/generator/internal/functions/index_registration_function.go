@@ -7,6 +7,7 @@ package functions
 
 import (
 	"fmt"
+
 	"github.com/pkg/errors"
 
 	"github.com/dave/dst"
@@ -165,7 +166,7 @@ func (f *IndexRegistrationFunction) multipleValues(selector *dst.SelectorExpr) (
 		astbuilder.Returns(astbuilder.Nil()),
 	)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to make statements for property chain %v", f.propertyChain)
+		return nil, errors.Wrapf(err, "failed to make statements for property chain %s", f.propertyChain)
 	}
 
 	ret := astbuilder.Returns(dst.NewIdent("result"))
