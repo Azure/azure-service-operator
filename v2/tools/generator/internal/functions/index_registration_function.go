@@ -7,6 +7,7 @@ package functions
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 
 	"github.com/dave/dst"
 
@@ -97,7 +98,11 @@ func (f *IndexRegistrationFunction) AsFunc(
 	if f.isIndexSingleValue() {
 		stmts = f.singleValue(specSelector)
 	} else {
-		stmts = f.multipleValues(specSelector)
+		var err error
+		stmts, err = f.multipleValues(specSelector)
+		if err != nil {
+			return nil, errors.Wrapf(err, "failed to generate multiple value index registration function for %s", f.resourceTypeName)
+		}
 	}
 
 	fn := &astbuilder.FuncDetails{
@@ -139,7 +144,7 @@ func (f *IndexRegistrationFunction) singleValue(selector *dst.SelectorExpr) []ds
 }
 
 // multipleValues is used when there are collections in the property path.
-func (f *IndexRegistrationFunction) multipleValues(selector *dst.SelectorExpr) []dst.Stmt {
+func (f *IndexRegistrationFunction) multipleValues(selector *dst.SelectorExpr) ([]dst.Stmt, error) {
 
 	// var result []string
 	resultVar := astbuilder.LocalVariableDeclaration(
@@ -152,18 +157,28 @@ func (f *IndexRegistrationFunction) multipleValues(selector *dst.SelectorExpr) [
 	locals := astmodel.NewKnownLocalsSet(f.idFactory)
 
 	// This makes a collection of statements that add items to result, defined above.
-	stmts := f.makeStatements(dst.NewIdent("result"), locals, selector, f.propertyChain, astbuilder.Returns(astbuilder.Nil()))
+	stmts, err := f.makeStatements(
+		dst.NewIdent("result"),
+		locals,
+		selector,
+		f.propertyChain,
+		astbuilder.Returns(astbuilder.Nil()),
+	)
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to make statements for property chain %v", f.propertyChain)
+	}
+
 	ret := astbuilder.Returns(dst.NewIdent("result"))
 
 	return astbuilder.Statements(
 		resultVar,
 		stmts,
-		ret)
+		ret), nil
 }
 
 func (f *IndexRegistrationFunction) makeStatements(result *dst.Ident, locals *astmodel.KnownLocalsSet, ident dst.Expr, remainingChain []*astmodel.PropertyDefinition, nilHandler dst.Stmt) []dst.Stmt {
 	if len(remainingChain) == 0 {
-		return astbuilder.Statements(astbuilder.AppendSliceToSlice(result, astbuilder.CallExpr(ident, "Index")))
+		return astbuilder.Statements(astbuilder.AppendSliceToSlice(result, astbuilder.CallExpr(ident, "Index"))), nil
 	}
 
 	p := remainingChain[0]
@@ -176,14 +191,23 @@ func (f *IndexRegistrationFunction) makeStatements(result *dst.Ident, locals *as
 	if _, ok := astmodel.AsTypeName(t); ok {
 		ident = astbuilder.Selector(ident, p.PropertyName().String())
 		next := astbuilder.IfNil(ident, nilHandler)
-		return append([]dst.Stmt{next}, f.makeStatements(result, locals, ident, remainingChain[1:], nilHandler)...)
-	} else if _, ok := astmodel.AsArrayType(t); ok {
-		return f.handleArray(result, locals, ident, remainingChain)
-	} else if _, ok := astmodel.AsMapType(t); ok {
-		return f.handleMap(result, locals, ident, remainingChain)
-	} else {
-		panic(fmt.Sprintf("can't produce index registration function for type %T", t))
+		stmts, err := f.makeStatements(result, locals, ident, remainingChain[1:], nilHandler)
+		if err != nil {
+			return nil, err
+		}
+
+		return astbuilder.Statements(next, stmts), nil
 	}
+
+	if _, ok := astmodel.AsArrayType(t); ok {
+		return f.handleArray(result, locals, ident, remainingChain)
+	}
+
+	if _, ok := astmodel.AsMapType(t); ok {
+		return f.handleMap(result, locals, ident, remainingChain)
+	}
+
+	return nil, errors.Errorf("can't produce index registration function for type %T", t)
 }
 
 func (f *IndexRegistrationFunction) handleArray(result *dst.Ident, locals *astmodel.KnownLocalsSet, ident dst.Expr, remainingChain []*astmodel.PropertyDefinition) []dst.Stmt {
@@ -191,11 +215,16 @@ func (f *IndexRegistrationFunction) handleArray(result *dst.Ident, locals *astmo
 
 	local := locals.CreateSingularLocal(p.PropertyName().String(), "Item")
 	nilHandler := astbuilder.Continue()
+	loopStatements, err := f.makeStatements(result, locals.Clone(), dst.NewIdent(local), remainingChain[1:], nilHandler)
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to make loop statements for array property %s", p.PropertyName())
+	}
+
 	loop := astbuilder.IterateOverSlice(
 		local,
 		astbuilder.Selector(ident, p.PropertyName().String()),
-		f.makeStatements(result, locals.Clone(), dst.NewIdent(local), remainingChain[1:], nilHandler)...)
-	return []dst.Stmt{loop}
+		loopStatements...)
+	return astbuilder.Statements(loop), nil
 }
 
 func (f *IndexRegistrationFunction) handleMap(result *dst.Ident, locals *astmodel.KnownLocalsSet, ident dst.Expr, remainingChain []*astmodel.PropertyDefinition) []dst.Stmt {
@@ -205,13 +234,18 @@ func (f *IndexRegistrationFunction) handleMap(result *dst.Ident, locals *astmode
 	key := "_"
 	value := locals.CreateLocal("value")
 	nilHandler := astbuilder.Continue()
+	loopStatements, err := f.makeStatements(result, locals.Clone(), dst.NewIdent(value), remainingChain[1:], nilHandler)
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to make loop statements for map property %s", p.PropertyName())
+	}
+
 	loop := astbuilder.IterateOverMapWithValue(
 		key,
 		value,
 		astbuilder.Selector(ident, p.PropertyName().String()),
-		f.makeStatements(result, locals.Clone(), dst.NewIdent(value), remainingChain[1:], nilHandler)...)
+		loopStatements...)
 
-	return []dst.Stmt{loop}
+	return astbuilder.Statements(loop), nil
 }
 
 func (f *IndexRegistrationFunction) isIndexSingleValue() bool {

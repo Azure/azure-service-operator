@@ -7,6 +7,7 @@ package functions
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 	"sort"
 
 	"github.com/dave/dst"
@@ -64,8 +65,8 @@ func (f *OneOfJSONUnmarshalFunction) AsFunc(
 	allDefinitions := codeGenerationContext.GetAllReachableDefinitions()
 	discrimJSONName, valuesMapping, err := astmodel.DetermineDiscriminantAndValues(f.oneOfObject, allDefinitions)
 	if err != nil {
-		// Something went wrong; this late in the process we can't do anything about it, so we panic
-		panic(err)
+		// Something went wrong; this late in the process we can't do anything about it
+		return nil, errors.Wrap(err, "unable to determine discriminant and values")
 	}
 
 	paramName := "data"

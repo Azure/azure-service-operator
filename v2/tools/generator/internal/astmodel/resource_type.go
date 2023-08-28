@@ -7,7 +7,9 @@ package astmodel
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 	"go/token"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sort"
 	"strings"
 
@@ -621,9 +623,17 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 	}
 
 	var declarations []dst.Decl
+	var errs []error
 	declarations = append(declarations, resourceDeclaration)
 	declarations = append(declarations, resource.InterfaceImplementer.AsDeclarations(codeGenerationContext, declContext.Name, nil)...)
-	declarations = append(declarations, resource.generateMethodDecls(codeGenerationContext, declContext.Name)...)
+
+	decls, err := resource.generateMethodDecls(codeGenerationContext, declContext.Name)
+	if err != nil {
+		errs = append(errs, err)
+	} else {
+		declarations = append(declarations, decls...)
+	}
+
 	declarations = append(declarations, resource.resourceListTypeDecls(codeGenerationContext, declContext.Name, declContext.Description)...)
 
 	if len(errs) > 0 {
@@ -636,15 +646,24 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 	return declarations
 }
 
-func (resource *ResourceType) generateMethodDecls(codeGenerationContext *CodeGenerationContext, typeName TypeName) []dst.Decl {
+func (resource *ResourceType) generateMethodDecls(
+	codeGenerationContext *CodeGenerationContext,
+	typeName TypeName,
+) ([]dst.Decl, error) {
 	funcs := resource.Functions()
 	result := make([]dst.Decl, 0, len(funcs))
+	var errs []error
 	for _, f := range funcs {
-		funcDef := generateMethodDeclForFunction(typeName, f, codeGenerationContext)
+		funcDef, err := generateMethodDeclForFunction(typeName, f, codeGenerationContext)
+		if err != nil {
+			errs = append(errs, err)
+			continue
+		}
+
 		result = append(result, funcDef)
 	}
 
-	return result
+	return result, kerrors.NewAggregate(errs)
 }
 
 func (resource *ResourceType) makeResourceListTypeName(name TypeName) TypeName {
@@ -773,14 +792,22 @@ func generateMethodDeclForFunction(
 	typeName TypeName,
 	f Function,
 	codeGenerationContext *CodeGenerationContext,
-) *dst.FuncDecl {
+) (decl *dst.FuncDecl, err error) {
 	defer func() {
-		if err := recover(); err != nil {
-			panic(fmt.Sprintf(
-				"generating method declaration for %s.%s: %s",
-				typeName.Name(),
-				f.Name(),
-				err))
+		if r := recover(); r != nil {
+			if e, ok := r.(error); ok {
+				err = errors.Wrapf(
+					e,
+					"generating method declaration for %s.%s",
+					typeName.Name(),
+					f.Name())
+			} else {
+				err = errors.Errorf(
+					"generating method declaration for %s.%s: %v",
+					typeName.Name(),
+					f.Name(),
+					r)
+			}
 		}
 	}()
 

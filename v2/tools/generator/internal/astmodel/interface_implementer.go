@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"go/token"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sort"
 
 	"github.com/dave/dst"
@@ -85,8 +86,14 @@ func (i InterfaceImplementer) AsDeclarations(
 			return functions[i].Name() < functions[j].Name()
 		})
 
+		var errs []error
 		for _, f := range functions {
-			decl := generateMethodDeclForFunction(typeName, f, codeGenerationContext)
+			decl, err := generateMethodDeclForFunction(typeName, f, codeGenerationContext)
+			if err != nil {
+				errs = append(errs, err)
+				continue
+			}
+
 			result = append(result, decl)
 		}
 

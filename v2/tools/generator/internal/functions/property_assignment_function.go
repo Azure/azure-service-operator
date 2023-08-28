@@ -139,9 +139,7 @@ func (fn *PropertyAssignmentFunction) AsFunc(
 
 	body, err := fn.generateBody(fn.receiverName, fn.parameterName, generationContext)
 	if err != nil {
-		// Temporary panic until we modify AsFunc() to return errors
-		// See https://github.com/Azure/azure-service-operator/issues/2971
-		panic(err)
+		return nil, errors.Wrapf(err, "unable to generate body for %s", fn.Name())
 	}
 
 	funcDetails := &astbuilder.FuncDetails{
