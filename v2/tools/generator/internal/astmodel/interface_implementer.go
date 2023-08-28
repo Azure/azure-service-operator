@@ -89,6 +89,13 @@ func (i InterfaceImplementer) AsDeclarations(
 			decl := generateMethodDeclForFunction(typeName, f, codeGenerationContext)
 			result = append(result, decl)
 		}
+
+		if len(errs) > 0 {
+			// Something went wrong; once AsDeclarations is refactored to have an error return,
+			// we can return them, but in the meantime panic
+			err := kerrors.NewAggregate(errs)
+			panic(err)
+		}
 	}
 
 	return result

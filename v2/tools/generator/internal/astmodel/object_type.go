@@ -82,7 +82,15 @@ func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerati
 
 	result := []dst.Decl{declaration}
 	result = append(result, objectType.InterfaceImplementer.AsDeclarations(codeGenerationContext, declContext.Name, nil)...)
-	result = append(result, objectType.generateMethodDecls(codeGenerationContext, declContext.Name)...)
+	
+	decls, err := objectType.generateMethodDecls(codeGenerationContext, declContext.Name)
+	if err != nil {
+		// Something went wrong; once AsDeclarations is refactored to have an error return,
+		// we can return them, but in the meantime panic
+		panic(errors.Wrapf(err, "generating method declarations for %s", declContext.Name))
+	}
+
+	result = append(result, decls...)
 	return result
 }
 

@@ -626,6 +626,13 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 	declarations = append(declarations, resource.generateMethodDecls(codeGenerationContext, declContext.Name)...)
 	declarations = append(declarations, resource.resourceListTypeDecls(codeGenerationContext, declContext.Name, declContext.Description)...)
 
+	if len(errs) > 0 {
+		// Something went wrong; once AsDeclarations is refactored to have an error return,
+		// we can return them, but in the meantime panic
+		err := kerrors.NewAggregate(errs)
+		panic(err)
+	}
+
 	return declarations
 }
 
