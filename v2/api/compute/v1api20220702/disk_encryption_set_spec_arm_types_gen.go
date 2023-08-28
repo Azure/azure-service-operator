@@ -55,7 +55,7 @@ type EncryptionSetProperties_ARM struct {
 
 	// FederatedClientId: Multi-tenant application client id to access key vault in a different tenant. Setting the value to
 	// 'None' will clear the property.
-	FederatedClientId *string `json:"federatedClientId,omitempty"`
+	FederatedClientId *string `json:"federatedClientId,omitempty" optionalConfigMapPair:"FederatedClientId"`
 
 	// RotationToLatestKeyVersionEnabled: Set this flag to true to enable auto-updating of this disk encryption set to the
 	// latest key version.

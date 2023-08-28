@@ -278,6 +278,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj: new(compute_v20220702s.DiskEncryptionSet),
 		Indexes: []registration.Index{
 			{
+				Key:  ".spec.federatedClientIdFromConfig",
+				Func: indexComputeDiskEncryptionSetFederatedClientIdFromConfig,
+			},
+			{
 				Key:  ".spec.activeKey.keyUrlFromConfig",
 				Func: indexComputeDiskEncryptionSetKeyUrlFromConfig,
 			},
@@ -285,7 +289,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.activeKey.keyUrlFromConfig"}, &compute_v20220702s.DiskEncryptionSetList{}),
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.activeKey.keyUrlFromConfig", ".spec.federatedClientIdFromConfig"}, &compute_v20220702s.DiskEncryptionSetList{}),
 			},
 		},
 	})
@@ -1848,6 +1852,18 @@ func indexAuthorizationRoleAssignmentPrincipalIdFromConfig(rawObj client.Object)
 		return nil
 	}
 	return obj.Spec.PrincipalIdFromConfig.Index()
+}
+
+// indexComputeDiskEncryptionSetFederatedClientIdFromConfig an index function for compute_v20220702s.DiskEncryptionSet .spec.federatedClientIdFromConfig
+func indexComputeDiskEncryptionSetFederatedClientIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*compute_v20220702s.DiskEncryptionSet)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.FederatedClientIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.FederatedClientIdFromConfig.Index()
 }
 
 // indexComputeDiskEncryptionSetKeyUrlFromConfig an index function for compute_v20220702s.DiskEncryptionSet .spec.activeKey.keyUrlFromConfig

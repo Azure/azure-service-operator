@@ -23,6 +23,7 @@ import (
 )
 
 func Test_Compute_DiskEncryptionSet_CRUD(t *testing.T) {
+	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
 

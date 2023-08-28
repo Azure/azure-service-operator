@@ -4,7 +4,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702storage
 │   └── "2022-07-02"
 └── DiskEncryptionSet: Resource
     ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
-    ├── Spec: Object (11 properties)
+    ├── Spec: Object (12 properties)
     │   ├── ActiveKey: *Object (4 properties)
     │   │   ├── KeyUrl: *string
     │   │   ├── KeyUrlFromConfig: *genruntime.ConfigMapReference
@@ -15,6 +15,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702storage
     │   ├── AzureName: string
     │   ├── EncryptionType: *string
     │   ├── FederatedClientId: *string
+    │   ├── FederatedClientIdFromConfig: *genruntime.ConfigMapReference
     │   ├── Identity: *Object (3 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   ├── Type: *string

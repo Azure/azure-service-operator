@@ -341,7 +341,11 @@ type DiskEncryptionSet_Spec struct {
 
 	// FederatedClientId: Multi-tenant application client id to access key vault in a different tenant. Setting the value to
 	// 'None' will clear the property.
-	FederatedClientId *string `json:"federatedClientId,omitempty"`
+	FederatedClientId *string `json:"federatedClientId,omitempty" optionalConfigMapPair:"FederatedClientId"`
+
+	// FederatedClientIdFromConfig: Multi-tenant application client id to access key vault in a different tenant. Setting the
+	// value to 'None' will clear the property.
+	FederatedClientIdFromConfig *genruntime.ConfigMapReference `json:"federatedClientIdFromConfig,omitempty" optionalConfigMapPair:"FederatedClientId"`
 
 	// Identity: The managed identity for the disk encryption set. It should be given permission on the key vault before it can
 	// be used  to encrypt disks.
@@ -397,6 +401,7 @@ func (encryptionSet *DiskEncryptionSet_Spec) ConvertToARM(resolved genruntime.Co
 	if encryptionSet.ActiveKey != nil ||
 		encryptionSet.EncryptionType != nil ||
 		encryptionSet.FederatedClientId != nil ||
+		encryptionSet.FederatedClientIdFromConfig != nil ||
 		encryptionSet.RotationToLatestKeyVersionEnabled != nil {
 		result.Properties = &EncryptionSetProperties_ARM{}
 	}
@@ -414,6 +419,14 @@ func (encryptionSet *DiskEncryptionSet_Spec) ConvertToARM(resolved genruntime.Co
 	}
 	if encryptionSet.FederatedClientId != nil {
 		federatedClientId := *encryptionSet.FederatedClientId
+		result.Properties.FederatedClientId = &federatedClientId
+	}
+	if encryptionSet.FederatedClientIdFromConfig != nil {
+		federatedClientIdValue, err := resolved.ResolvedConfigMaps.Lookup(*encryptionSet.FederatedClientIdFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property FederatedClientId")
+		}
+		federatedClientId := federatedClientIdValue
 		result.Properties.FederatedClientId = &federatedClientId
 	}
 	if encryptionSet.RotationToLatestKeyVersionEnabled != nil {
@@ -477,6 +490,8 @@ func (encryptionSet *DiskEncryptionSet_Spec) PopulateFromARM(owner genruntime.Ar
 			encryptionSet.FederatedClientId = &federatedClientId
 		}
 	}
+
+	// no assignment for property "FederatedClientIdFromConfig"
 
 	// Set property "Identity":
 	if typedInput.Identity != nil {
@@ -598,6 +613,14 @@ func (encryptionSet *DiskEncryptionSet_Spec) AssignProperties_From_DiskEncryptio
 	// FederatedClientId
 	encryptionSet.FederatedClientId = genruntime.ClonePointerToString(source.FederatedClientId)
 
+	// FederatedClientIdFromConfig
+	if source.FederatedClientIdFromConfig != nil {
+		federatedClientIdFromConfig := source.FederatedClientIdFromConfig.Copy()
+		encryptionSet.FederatedClientIdFromConfig = &federatedClientIdFromConfig
+	} else {
+		encryptionSet.FederatedClientIdFromConfig = nil
+	}
+
 	// Identity
 	if source.Identity != nil {
 		var identity EncryptionSetIdentity
@@ -666,6 +689,14 @@ func (encryptionSet *DiskEncryptionSet_Spec) AssignProperties_To_DiskEncryptionS
 
 	// FederatedClientId
 	destination.FederatedClientId = genruntime.ClonePointerToString(encryptionSet.FederatedClientId)
+
+	// FederatedClientIdFromConfig
+	if encryptionSet.FederatedClientIdFromConfig != nil {
+		federatedClientIdFromConfig := encryptionSet.FederatedClientIdFromConfig.Copy()
+		destination.FederatedClientIdFromConfig = &federatedClientIdFromConfig
+	} else {
+		destination.FederatedClientIdFromConfig = nil
+	}
 
 	// Identity
 	if encryptionSet.Identity != nil {

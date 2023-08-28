@@ -905,6 +905,9 @@ objectModelConfiguration:
       KeyForDiskEncryptionSet:
         KeyUrl:
           $importConfigMapMode: optional
+      EncryptionSetProperties:
+        FederatedClientId:
+          $importConfigMapMode: optional
   containerinstance:
     2021-10-01:
       ContainerGroup:
