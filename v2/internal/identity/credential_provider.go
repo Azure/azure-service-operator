@@ -339,7 +339,7 @@ func getSecretNameFromAnnotation(credentialFrom string, resourceNamespace string
 }
 
 func authModeOrDefault(mode string) (AuthModeOption, error) {
-	if strings.EqualFold(mode, string(workloadIdentity)) {
+	if strings.EqualFold(mode, string(workloadIdentity)) || mode == "" {
 		return workloadIdentity, nil
 	}
 
