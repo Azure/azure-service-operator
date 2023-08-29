@@ -1,0 +1,25 @@
+apiVersion: servicebus.azure.com/v1api20210101preview
+kind: NamespacesAuthorizationRule
+metadata:
+  name: aso-namespace-rule
+  namespace: default
+spec:
+  owner:
+    name: aso-namespace
+  rights:
+    - Listen
+    - Send
+  operatorSpec:
+    secrets:
+      primaryKey:
+        name: authsecret
+        key: primaryKey
+      primaryConnectionString:
+        name: authsecret
+        key: primaryConnectionString
+      secondaryKey:
+        name: authsecret
+        key: secondaryKey
+      secondaryConnectionString:
+        name: authsecret
+        key: secondaryConnectionString
