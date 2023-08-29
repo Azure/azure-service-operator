@@ -34,17 +34,6 @@ const (
 	FederatedTokenFilePath = "/var/run/secrets/tokens/azure-identity"
 )
 
-type AuthModeOption string
-
-const (
-	podIdentity      AuthModeOption = "podidentity"
-	workloadIdentity AuthModeOption = "workloadidentity"
-
-	// AuthMode enum is used to determine if we're using Pod Identity or Workload Identity
-	//authentication for namespace and per-resource scoped credentials
-	AuthMode = "AUTH_MODE"
-)
-
 // Credential describes a credential used to connect to Azure
 type Credential struct {
 	tokenCredential azcore.TokenCredential
@@ -269,14 +258,14 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 		}, nil
 	}
 
-	if value, hasAuthMode := secret.Data[AuthMode]; hasAuthMode {
+	if value, hasAuthMode := secret.Data[config.AuthMode]; hasAuthMode {
 		authMode, err := authModeOrDefault(string(value))
 		if err != nil {
 			return nil, errors.Wrap(err, errors.Errorf("invalid identity auth mode for %q encountered", nsName).Error())
 
 		}
 
-		if authMode == podIdentity {
+		if authMode == config.PodIdentityAuthMode {
 			tokenCredential, err := azidentity.NewManagedIdentityCredential(&azidentity.ManagedIdentityCredentialOptions{
 				ClientOptions: azcore.ClientOptions{},
 				ID:            azidentity.ClientID(clientID),
@@ -338,13 +327,13 @@ func getSecretNameFromAnnotation(credentialFrom string, resourceNamespace string
 	return types.NamespacedName{Namespace: resourceNamespace, Name: credentialFrom}
 }
 
-func authModeOrDefault(mode string) (AuthModeOption, error) {
-	if strings.EqualFold(mode, string(workloadIdentity)) || mode == "" {
-		return workloadIdentity, nil
+func authModeOrDefault(mode string) (config.AuthModeOption, error) {
+	if strings.EqualFold(mode, string(config.WorkloadIdentityAuthMode)) || mode == "" {
+		return config.WorkloadIdentityAuthMode, nil
 	}
 
-	if strings.EqualFold(mode, string(podIdentity)) {
-		return podIdentity, nil
+	if strings.EqualFold(mode, string(config.PodIdentityAuthMode)) {
+		return config.PodIdentityAuthMode, nil
 	}
 
 	return "", errors.Errorf("authorization mode %q not valid", mode)
