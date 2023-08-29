@@ -269,7 +269,7 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 		}, nil
 	}
 
-	if value, hasUsePodIdentity := secret.Data[AuthMode]; hasUsePodIdentity {
+	if value, hasAuthMode := secret.Data[AuthMode]; hasAuthMode {
 		authMode, err := authModeOrDefault(string(value))
 		if err != nil {
 			return nil, errors.Wrap(err, errors.Errorf("invalid identity auth mode for %q encountered", nsName).Error())
