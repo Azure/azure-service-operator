@@ -17,7 +17,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func Test_ServiceBus_Namespace_Standard_CRUD(t *testing.T) {
+func Test_ServiceBus_Namespace_Standard_v1api20210101preview_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
