@@ -9,3 +9,77 @@ cascade:
 - type: docs
 description: "How to use Azure Service Operator v2 to manage your Azure resources from within your Kubernetes Cluster"
 ---
+
+{{< cardpane >}} 
+{{< card header="**Installation**">}}
+
+### Helm
+
+[Helm]( {{< relref "/#installation" >}}) is the preferred way to install and manage Azure Service Operator.  
+
+### YAML
+
+You can install directly [using YAML]( {{< relref "installing-from-yaml" >}}) if you choose.  
+
+
+### Uninstalling
+
+Uninstalling ASO is easy.  
+[Read more ...]( {{< relref "uninstalling" >}})
+
+{{< /card >}}
+{{< card header="**Configuration**">}}
+
+### Configuring ASO
+[Configuration of ASO]( {{< relref "aso-controller-settings-options" >}}) is primarily via a secret in the `azureserviceoperator-system` 
+namespace.  
+
+### Annotations understood by the operator
+A number of [annotations]( {{< relref "annotations" >}}) can be used to control ASO behavior.  
+
+### Handling secrets
+Use Kubernetes [secrets]( {{< relref "secrets" >}}) to manage secrets for Azure resources.
+
+### Sharing data through ConfigMaps
+Configure your Azure resources using Kubernetes [configmaps]( {{< relref "configmaps" >}}).
+
+{{< /card >}}
+{{< /cardpane >}} 
+
+{{< cardpane >}} 
+{{< card header="**Upgrading**">}}
+
+### Upgrading
+[Upgrading]( {{< relref "upgrading" >}}) to a new release of ASO.
+
+
+### Breaking Changes
+Before upgrading, check for any [breaking changes]( {{< relref "breaking-changes" >}}) in the release notes.
+
+{{< /card >}}
+{{< card header="**Reference**">}}
+
+### Frequently Asked Questions
+Read our [FAQ]( {{< relref "frequently-asked-questions" >}}) for answers to common questions.
+
+### Authentication
+ASO supports multiple approaches to [authentication]( {{< relref "authentication" >}}).
+
+### CRD Management
+How does ASO manage a [large number of CRDs]( {{< relref "crd-management" >}})?
+
+### Conditions
+[Conditions]( {{< relref "conditions" >}}) are used to report the status of a resource.
+
+### Diagnosing problems
+[Common issues]( {{< relref "diagnosing-problems" >}} ).
+
+### Metrics
+ASO exposes [metrics]( {{< relref "metrics" >}}) for Prometheus.
+
+
+{{< /card >}}
+{{< /cardpane >}} 
+
+
+
