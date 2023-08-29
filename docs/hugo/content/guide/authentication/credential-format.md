@@ -141,7 +141,7 @@ stringData:
  AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
  AZURE_TENANT_ID:    "$AZURE_TENANT_ID"
  AZURE_CLIENT_ID:    "$AZURE_CLIENT_ID"
- AUTH_MODE:          "workload"
+ AUTH_MODE:          "workloadidentity"
 EOF
 ```
 
@@ -163,7 +163,7 @@ stringData:
  AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
  AZURE_TENANT_ID:    "$AZURE_TENANT_ID"
  AZURE_CLIENT_ID:    "$AZURE_CLIENT_ID"
- AUTH_MODE:          "workload"
+ AUTH_MODE:          "workloadidentity"
 EOF
 ```
 
@@ -564,7 +564,7 @@ stringData:
  AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
  AZURE_TENANT_ID:       "$AZURE_TENANT_ID"
  AZURE_CLIENT_ID:       "$IDENTITY_CLIENT_ID"
- AUTH_MODE:             "pod"
+ AUTH_MODE:             "podidentity"
 EOF
 ```
 
@@ -612,7 +612,7 @@ stringData:
  AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
  AZURE_TENANT_ID:       "$AZURE_TENANT_ID"
  AZURE_CLIENT_ID:       "$IDENTITY_CLIENT_ID"
- AUTH_MODE:             "pod"
+ AUTH_MODE:             "podidentity"
 EOF
 ```
 

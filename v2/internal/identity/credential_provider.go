@@ -37,8 +37,8 @@ const (
 type AuthModeOption string
 
 const (
-	podIdentity      AuthModeOption = "pod"
-	workloadIdentity AuthModeOption = "workload"
+	podIdentity      AuthModeOption = "podidentity"
+	workloadIdentity AuthModeOption = "workloadidentity"
 
 	// AuthMode enum is used to determine if we're using Pod Identity or Workload Identity
 	//authentication for namespace and per-resource scoped credentials
@@ -270,8 +270,13 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 	}
 
 	var authMode AuthModeOption
+	var err error
 	if value, hasUsePodIdentity := secret.Data[AuthMode]; hasUsePodIdentity {
-		authMode = authModeOrDefault(string(value))
+		authMode, err = authModeOrDefault(string(value))
+		if err != nil {
+			return nil, errors.Wrap(err, errors.Errorf("invalid identity auth mode for %q encountered", nsName).Error())
+
+		}
 	}
 
 	if authMode == podIdentity {
@@ -292,7 +297,7 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 		}, nil
 	}
 
-	// Here we check for workload identity if client secret is not provided.
+	// Here we check for workload identity if client secret is not provided and if not podIdentity.
 	tokenCredential, err := azidentity.NewWorkloadIdentityCredential(&azidentity.WorkloadIdentityCredentialOptions{
 		ClientID:      string(clientID),
 		TenantID:      string(tenantID),
@@ -335,9 +340,14 @@ func getSecretNameFromAnnotation(credentialFrom string, resourceNamespace string
 	return types.NamespacedName{Namespace: resourceNamespace, Name: credentialFrom}
 }
 
-func authModeOrDefault(mode string) AuthModeOption {
-	if mode == string(podIdentity) {
-		return podIdentity
+func authModeOrDefault(mode string) (AuthModeOption, error) {
+	if mode == "" || strings.EqualFold(mode, string(workloadIdentity)) {
+		return workloadIdentity, nil
 	}
-	return workloadIdentity
+
+	if strings.EqualFold(mode, string(podIdentity)) {
+		return podIdentity, nil
+	}
+
+	return "", errors.Errorf("authorization mode %q not valid", mode)
 }
