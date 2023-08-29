@@ -895,6 +895,19 @@ objectModelConfiguration:
         $isResource: false
       VirtualMachineScaleSetNetworkConfiguration_STATUS:
         $isResource: false
+    2022-07-02:
+      DiskEncryptionSet:
+        $export: true
+        $supportedFrom: v2.3.0
+      SourceVault:
+        Id:
+          $armReference: true
+      KeyForDiskEncryptionSet:
+        KeyUrl:
+          $importConfigMapMode: optional
+      EncryptionSetProperties:
+        FederatedClientId:
+          $importConfigMapMode: optional
   containerinstance:
     2021-10-01:
       ContainerGroup:
