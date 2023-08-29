@@ -4,7 +4,6 @@
 package v1beta20210301storage
 
 import (
-	"fmt"
 	v20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -45,22 +44,36 @@ var _ conversion.Convertible = &RedisEnterpriseDatabase{}
 
 // ConvertFrom populates our RedisEnterpriseDatabase from the provided hub RedisEnterpriseDatabase
 func (database *RedisEnterpriseDatabase) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210301s.RedisEnterpriseDatabase)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20210301storage/RedisEnterpriseDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210301s.RedisEnterpriseDatabase
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return database.AssignProperties_From_RedisEnterpriseDatabase(source)
+	err = database.AssignProperties_From_RedisEnterpriseDatabase(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to database")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RedisEnterpriseDatabase from our RedisEnterpriseDatabase
 func (database *RedisEnterpriseDatabase) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210301s.RedisEnterpriseDatabase)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20210301storage/RedisEnterpriseDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210301s.RedisEnterpriseDatabase
+	err := database.AssignProperties_To_RedisEnterpriseDatabase(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from database")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return database.AssignProperties_To_RedisEnterpriseDatabase(destination)
+	return nil
 }
 
 var _ genruntime.KubernetesResource = &RedisEnterpriseDatabase{}
