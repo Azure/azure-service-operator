@@ -269,35 +269,33 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 		}, nil
 	}
 
-	var authMode AuthModeOption
-	var err error
 	if value, hasUsePodIdentity := secret.Data[AuthMode]; hasUsePodIdentity {
-		authMode, err = authModeOrDefault(string(value))
+		authMode, err := authModeOrDefault(string(value))
 		if err != nil {
 			return nil, errors.Wrap(err, errors.Errorf("invalid identity auth mode for %q encountered", nsName).Error())
 
 		}
-	}
 
-	if authMode == podIdentity {
-		tokenCredential, err := azidentity.NewManagedIdentityCredential(&azidentity.ManagedIdentityCredentialOptions{
-			ClientOptions: azcore.ClientOptions{},
-			ID:            azidentity.ClientID(clientID),
-		})
+		if authMode == podIdentity {
+			tokenCredential, err := azidentity.NewManagedIdentityCredential(&azidentity.ManagedIdentityCredentialOptions{
+				ClientOptions: azcore.ClientOptions{},
+				ID:            azidentity.ClientID(clientID),
+			})
 
-		if err != nil {
-			return nil, errors.Wrap(err, errors.Errorf("invalid Managed Identity for %q encountered", nsName).Error())
+			if err != nil {
+				return nil, errors.Wrap(err, errors.Errorf("invalid Managed Identity for %q encountered", nsName).Error())
+			}
+
+			return &Credential{
+				tokenCredential: tokenCredential,
+				subscriptionID:  string(subscriptionID),
+				credentialFrom:  nsName,
+				secretData:      secret.Data,
+			}, nil
 		}
-
-		return &Credential{
-			tokenCredential: tokenCredential,
-			subscriptionID:  string(subscriptionID),
-			credentialFrom:  nsName,
-			secretData:      secret.Data,
-		}, nil
 	}
 
-	// Here we check for workload identity if client secret is not provided and if not podIdentity.
+	// Default to Workload Identity
 	tokenCredential, err := azidentity.NewWorkloadIdentityCredential(&azidentity.WorkloadIdentityCredentialOptions{
 		ClientID:      string(clientID),
 		TenantID:      string(tenantID),
@@ -341,7 +339,7 @@ func getSecretNameFromAnnotation(credentialFrom string, resourceNamespace string
 }
 
 func authModeOrDefault(mode string) (AuthModeOption, error) {
-	if mode == "" || strings.EqualFold(mode, string(workloadIdentity)) {
+	if strings.EqualFold(mode, string(workloadIdentity)) {
 		return workloadIdentity, nil
 	}
 
