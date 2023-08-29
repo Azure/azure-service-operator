@@ -1,0 +1,19 @@
+apiVersion: compute.azure.com/v1api20220702
+kind: DiskEncryptionSet
+metadata:
+  name: aso-sample-diskencryptionset
+  namespace: default
+spec:
+  activeKey:
+    keyUrl: https://aso-sample-kv.vault.azure.net/keys/testkey/{version}
+    sourceVault:
+      reference:
+        group: keyvault.azure.com
+        kind: Vault
+        name: aso-sample-kv
+  encryptionType: EncryptionAtRestWithCustomerKey
+  identity:
+    type: SystemAssigned
+  location: westus2
+  owner:
+    name: aso-sample-rg
