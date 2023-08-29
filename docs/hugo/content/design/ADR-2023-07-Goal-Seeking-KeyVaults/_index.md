@@ -89,9 +89,9 @@ As for **Option 1**, but we include `purge`, an option to automatically purge th
 
 * PRO: Allows users to configure all possible behaviours.
 * CON: Dangerous, as we could accidentally purge a KeyVault that we weren't intended to purge.
-* CON: The KeyVault Program Group doesn't provide this, likely for good reason.
+* CON: The KeyVault Program Group doesn't support this, when they could easily have done so.
 
-If someone soft-deleted a KeyVault (whether maliciously or accidentally), automatically purging that KeyVault would make any existing secrets unrecoverable, compounding any problems. To suggest *this would be a bad thing* would be somewhat of an understatement.
+If someone soft-deleted a KeyVault (whether maliciously or accidentally), automatically purging that KeyVault would make any existing secrets unrecoverable, compounding any problems. To suggest *this would be a bad thing* would be somewhat of an understatement. We would need to carefully document the dangers of this setting, with a strong recommendation not to use it for production KeyVaults.
 
 ### Option 3: Extension of createMode
 
