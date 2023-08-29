@@ -175,6 +175,10 @@ import (
 	servicebus_customizations "github.com/Azure/azure-service-operator/v2/api/servicebus/customizations"
 	servicebus_v20210101p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview"
 	servicebus_v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
+	servicebus_v20211101 "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101"
+	servicebus_v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101storage"
+	servicebus_v20221001p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview"
+	servicebus_v20221001ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001previewstorage"
 	servicebus_v1beta20210101p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview"
 	servicebus_v1beta20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previewstorage"
 	signalrservice_customizations "github.com/Azure/azure-service-operator/v2/api/signalrservice/customizations"
@@ -639,12 +643,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(operationalinsights_v20210601s.Workspace)})
 	result = append(result, &registration.StorageType{Obj: new(resources_v20200601s.ResourceGroup)})
 	result = append(result, &registration.StorageType{Obj: new(search_v20220901s.SearchService)})
-	result = append(result, &registration.StorageType{Obj: new(servicebus_v20210101ps.Namespace)})
-	result = append(result, &registration.StorageType{Obj: new(servicebus_v20210101ps.NamespacesAuthorizationRule)})
-	result = append(result, &registration.StorageType{Obj: new(servicebus_v20210101ps.NamespacesQueue)})
-	result = append(result, &registration.StorageType{Obj: new(servicebus_v20210101ps.NamespacesTopic)})
-	result = append(result, &registration.StorageType{Obj: new(servicebus_v20210101ps.NamespacesTopicsSubscription)})
-	result = append(result, &registration.StorageType{Obj: new(servicebus_v20210101ps.NamespacesTopicsSubscriptionsRule)})
+	result = append(result, &registration.StorageType{Obj: new(servicebus_v20211101s.Namespace)})
+	result = append(result, &registration.StorageType{Obj: new(servicebus_v20211101s.NamespacesAuthorizationRule)})
+	result = append(result, &registration.StorageType{Obj: new(servicebus_v20211101s.NamespacesQueue)})
+	result = append(result, &registration.StorageType{Obj: new(servicebus_v20211101s.NamespacesTopic)})
+	result = append(result, &registration.StorageType{Obj: new(servicebus_v20211101s.NamespacesTopicsSubscription)})
+	result = append(result, &registration.StorageType{Obj: new(servicebus_v20211101s.NamespacesTopicsSubscriptionsRule)})
 	result = append(result, &registration.StorageType{Obj: new(signalrservice_v20211001s.SignalR)})
 	result = append(result, &registration.StorageType{
 		Obj: new(sql_v20211101s.Server),
@@ -1383,6 +1387,38 @@ func getKnownTypes() []client.Object {
 		new(servicebus_v20210101ps.NamespacesTopic),
 		new(servicebus_v20210101ps.NamespacesTopicsSubscription),
 		new(servicebus_v20210101ps.NamespacesTopicsSubscriptionsRule))
+	result = append(
+		result,
+		new(servicebus_v20211101.Namespace),
+		new(servicebus_v20211101.NamespacesAuthorizationRule),
+		new(servicebus_v20211101.NamespacesQueue),
+		new(servicebus_v20211101.NamespacesTopic),
+		new(servicebus_v20211101.NamespacesTopicsSubscription),
+		new(servicebus_v20211101.NamespacesTopicsSubscriptionsRule))
+	result = append(
+		result,
+		new(servicebus_v20211101s.Namespace),
+		new(servicebus_v20211101s.NamespacesAuthorizationRule),
+		new(servicebus_v20211101s.NamespacesQueue),
+		new(servicebus_v20211101s.NamespacesTopic),
+		new(servicebus_v20211101s.NamespacesTopicsSubscription),
+		new(servicebus_v20211101s.NamespacesTopicsSubscriptionsRule))
+	result = append(
+		result,
+		new(servicebus_v20221001p.Namespace),
+		new(servicebus_v20221001p.NamespacesAuthorizationRule),
+		new(servicebus_v20221001p.NamespacesQueue),
+		new(servicebus_v20221001p.NamespacesTopic),
+		new(servicebus_v20221001p.NamespacesTopicsSubscription),
+		new(servicebus_v20221001p.NamespacesTopicsSubscriptionsRule))
+	result = append(
+		result,
+		new(servicebus_v20221001ps.Namespace),
+		new(servicebus_v20221001ps.NamespacesAuthorizationRule),
+		new(servicebus_v20221001ps.NamespacesQueue),
+		new(servicebus_v20221001ps.NamespacesTopic),
+		new(servicebus_v20221001ps.NamespacesTopicsSubscription),
+		new(servicebus_v20221001ps.NamespacesTopicsSubscriptionsRule))
 	result = append(result, new(signalrservice_v1beta20211001.SignalR))
 	result = append(result, new(signalrservice_v1beta20211001s.SignalR))
 	result = append(result, new(signalrservice_v20211001.SignalR))
@@ -1654,6 +1690,10 @@ func createScheme() *runtime.Scheme {
 	_ = servicebus_v1beta20210101ps.AddToScheme(scheme)
 	_ = servicebus_v20210101p.AddToScheme(scheme)
 	_ = servicebus_v20210101ps.AddToScheme(scheme)
+	_ = servicebus_v20211101.AddToScheme(scheme)
+	_ = servicebus_v20211101s.AddToScheme(scheme)
+	_ = servicebus_v20221001p.AddToScheme(scheme)
+	_ = servicebus_v20221001ps.AddToScheme(scheme)
 	_ = signalrservice_v1beta20211001.AddToScheme(scheme)
 	_ = signalrservice_v1beta20211001s.AddToScheme(scheme)
 	_ = signalrservice_v20211001.AddToScheme(scheme)
