@@ -8,7 +8,6 @@ package importing
 import (
 	"context"
 	"fmt"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"net/http"
 	"reflect"
 	"strings"
@@ -17,18 +16,16 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
+	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 	"github.com/pkg/errors"
 	"github.com/vbauerster/mpb/v8"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
-
-	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
-
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
-
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
 type importableARMResource struct {
@@ -93,8 +90,8 @@ func (i *importableARMResource) Resource() genruntime.MetaObject {
 
 // Import imports this single resource.
 // ctx is the context to use for the import.
-// Returns a slice of child resources needing to be imported (if any), and/or an error.
-// Both are returned to allow returning partial results in the case of a partial failure.
+// bar is a progress bar to update.
+// Returns any errors that occur.
 func (i *importableARMResource) Import(ctx context.Context, bar *mpb.Bar) error {
 	// Create an importable blank object into which we capture the current state of the resource
 	importable, err := i.createImportableObjectFromID(i.owner, i.armID)
@@ -120,6 +117,10 @@ func (i *importableARMResource) Import(ctx context.Context, bar *mpb.Bar) error 
 	return nil
 }
 
+// FindChildren returns any child resources that need to be imported.
+// ctx allows for cancellation of the import.
+// Returns any additional resources that also need to be imported, as well as any errors that occur.
+// Partial success is allowed, but the caller should be notified of any errors.
 func (i *importableARMResource) FindChildren(ctx context.Context, bar *mpb.Bar) ([]ImportableResource, error) {
 	if i.resource == nil {
 		// Nothing to do
