@@ -45,8 +45,8 @@ typeFilters:
 
   - action: include
     group: servicebus
-    version: v*20210101preview
-    because: We want to export this particular preview version
+    version: v*20210101preview;v*20221001preview
+    because: We want to export these particular preview versions
 
   - action: include
     group: keyvault
@@ -1654,6 +1654,8 @@ objectModelConfiguration:
           - QueryKey
   servicebus:
     2021-01-01-preview:
+      DictionaryValue_STATUS:
+        $nameInNextVersion: UserAssignedIdentity_STATUS
       Namespace:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
@@ -1686,6 +1688,72 @@ objectModelConfiguration:
       Namespaces_Topics_Subscriptions_Rule:
         $exportAs: NamespacesTopicsSubscriptionsRule
         $supportedFrom: v2.0.0-beta.3
+    2021-11-01:
+      Namespace:
+        $export: true
+        $supportedFrom: v2.3.0
+        $azureGeneratedSecrets:
+          - Endpoint
+          - PrimaryKey
+          - PrimaryConnectionString
+          - SecondaryKey
+          - SecondaryConnectionString
+      Namespaces_AuthorizationRule:
+        $exportAs: NamespacesAuthorizationRule
+        $supportedFrom: v2.3.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - PrimaryConnectionString
+          - SecondaryKey
+          - SecondaryConnectionString
+      Namespaces_Queue:
+        $exportAs: NamespacesQueue
+        $supportedFrom: v2.3.0
+      Namespaces_Topic:
+        $exportAs: NamespacesTopic
+        $supportedFrom: v2.3.0
+      UserAssignedIdentityProperties:
+        UserAssignedIdentity:
+          $armReference: true
+      Namespaces_Topics_Subscription:
+        $exportAs: NamespacesTopicsSubscription
+        $supportedFrom: v2.3.0
+      Namespaces_Topics_Subscriptions_Rule:
+        $exportAs: NamespacesTopicsSubscriptionsRule
+        $supportedFrom: v2.3.0
+    2022-10-01-preview:
+      Namespace:
+        $export: true
+        $supportedFrom: v2.3.0
+        $azureGeneratedSecrets:
+          - Endpoint
+          - PrimaryKey
+          - PrimaryConnectionString
+          - SecondaryKey
+          - SecondaryConnectionString
+      Namespaces_AuthorizationRule:
+        $exportAs: NamespacesAuthorizationRule
+        $supportedFrom: v2.3.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - PrimaryConnectionString
+          - SecondaryKey
+          - SecondaryConnectionString
+      Namespaces_Queue:
+        $exportAs: NamespacesQueue
+        $supportedFrom: v2.3.0
+      Namespaces_Topic:
+        $exportAs: NamespacesTopic
+        $supportedFrom: v2.3.0
+      UserAssignedIdentityProperties:
+        UserAssignedIdentity:
+          $armReference: true
+      Namespaces_Topics_Subscription:
+        $exportAs: NamespacesTopicsSubscription
+        $supportedFrom: v2.3.0
+      Namespaces_Topics_Subscriptions_Rule:
+        $exportAs: NamespacesTopicsSubscriptionsRule
+        $supportedFrom: v2.3.0
   signalrservice:
     2021-10-01:
       SignalR:
