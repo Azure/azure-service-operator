@@ -93,24 +93,17 @@ func (i *importableARMResource) Resource() genruntime.MetaObject {
 // ctx is the context to use for the import.
 func (i *importableARMResource) Import(
 	ctx context.Context,
-	progress chan progressDelta,
 	log logr.Logger,
 ) error {
-	// Ensure we close our progress channel
-	defer func() {
-		close(progress)
-	}()
-
-	// Import the resource itself
-	progress <- progressDelta{total: 1} // Resource is pending
-	var ref genruntime.ResourceReference
-	ref, err := i.importResource(ctx, i.armID)
+	// Create an importable blank object into which we capture the current state of the resource
+	importable, err := i.createImportableObjectFromID(i.owner, i.armID)
 	if err != nil {
 		// Error doesn't need additional context
-		progress <- progressDelta{complete: 1} // resource done with error
 		return err
 	}
 
+	// Our resource might have an extension that can customize the import process,
+	// so we have a factory to create the loader function we call.
 	loader := i.createImportFunction(importable)
 	result, err := loader(ctx, importable, i.owner)
 	if err != nil {
@@ -119,11 +112,10 @@ func (i *importableARMResource) Import(
 
 	if because, skipped := result.Skipped(); skipped {
 		gk := importable.GetObjectKind().GroupVersionKind().GroupKind()
-		return NewImportSkippedError(gk, i.armID.Name, because)
+		return NewImportSkippedError(gk, i.armID.Name, because, i)
 	}
 
 	i.resource = importable
-	bar.SetCurrent(1)
 
 	return nil
 }
@@ -132,7 +124,10 @@ func (i *importableARMResource) Import(
 // ctx allows for cancellation of the import.
 // Returns any additional resources that also need to be imported, as well as any errors that occur.
 // Partial success is allowed, but the caller should be notified of any errors.
-func (i *importableARMResource) FindChildren(ctx context.Context, bar *mpb.Bar) ([]ImportableResource, error) {
+func (i *importableARMResource) FindChildren(
+	ctx context.Context,
+	progress chan<- progressDelta,
+) ([]ImportableResource, error) {
 	if i.resource == nil {
 		// Nothing to do
 		return nil, nil
@@ -146,8 +141,6 @@ func (i *importableARMResource) FindChildren(ctx context.Context, bar *mpb.Bar) 
 		Name:  i.resource.GetName(),
 		ARMID: i.armID.String(),
 	}
-
-	var result []ImportableResource
 
 	// Find all child types that require this resource as a parent
 	rsrcType := i.armID.ResourceType.String()
@@ -164,21 +157,25 @@ func (i *importableARMResource) FindChildren(ctx context.Context, bar *mpb.Bar) 
 		childTypes = append(childTypes, FindResourceTypesByScope(genruntime.ResourceScopeResourceGroup)...)
 	}
 
-	progress <- progressDelta{complete: 1, total: len(childTypes)} // resource done, children pending
+	progress <- progressDelta{total: len(childTypes)} // all children pending
 
 	// While we're looking for subresources, we need to treat any errors that occur as independent.
 	// Some potential subresource types can have limited accessibility (e.g. the subscriber may not
 	// be onboarded to a preview API), so we don't want to fail the entire import if we can't import
 	// a single candidate subresource type.
+	var result []ImportableResource
 	var errs []error
 	for _, subType := range childTypes {
 		subResources, err := i.importChildResources(ctx, ref, subType)
 		if ctx.Err() != nil {
 			// Aborting, don't do anything
 		} else if err != nil {
+			// Something went wrong, but we still do the remaining child resource types
 			gk, _ := FindGroupKindForResourceType(subType) // If this was going to error, it would have already
 			errs = append(errs, errors.Wrapf(err, "importing %s/%s", gk.Group, gk.Kind))
-			continue
+		} else {
+			// Collect all our subresources
+			result = append(result, subResources...)
 		}
 
 		progress <- progressDelta{complete: 1} // One child type done

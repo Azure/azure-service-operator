@@ -94,11 +94,6 @@ func importAzureResource(ctx context.Context, armIDs []string, options importAzu
 		log.Info("Will still save those resources that were imported successfully.")
 	}
 
-	// No error, wait for progress bar to finish & flush
-	if err == nil {
-		progress.Wait()
-	}
-
 	if result.Count() == 0 {
 		log.Info("No resources found, nothing to save.")
 		return nil
@@ -126,6 +121,9 @@ func importAzureResource(ctx context.Context, armIDs []string, options importAzu
 			return errors.Wrapf(err, "failed to write to stdout")
 		}
 	}
+
+	// No error, wait for progress bar to finish & flush
+	progress.Wait()
 
 	return nil
 }

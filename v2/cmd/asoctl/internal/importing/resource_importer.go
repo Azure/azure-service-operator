@@ -114,6 +114,11 @@ func (ri *ResourceImporter) Import(
 		return nil, ctx.Err()
 	}
 
+	// Close channels so final reporting and other cleanup occurs
+	close(candidates)
+	close(pending)
+	close(completed)
+
 	// Now we've imported everything, return the resources
 	// We do this even if there's an error so that we can return partial results
 	resources := make([]genruntime.MetaObject, 0, len(ri.imported))
@@ -126,19 +131,21 @@ func (ri *ResourceImporter) Import(
 	}, nil
 }
 
-// queueUniqueImporters reads from the candicates channel, putting each importer onto pending exactly once.
+// queueUniqueImporters reads from the candidates channel, putting each importer onto pending exactly once.
 // This ensures each distinct resource is only imported once, regardless of how many times we
 // encounter it. We also proactively buffer the pending channel to avoid blocking. Any fixed size channel
 // would risk deadlock for a sufficiently large resource graph.
 func (ri *ResourceImporter) queueUniqueImporters(
-	candidates chan ImportableResource,
-	pending chan ImportableResource,
-	progress chan progressDelta,
+	candidates <-chan ImportableResource,
+	pending chan<- ImportableResource,
+	progress chan<- progressDelta,
 ) {
 	seen := set.Make[string]()
 	var queue []ImportableResource
 	var current ImportableResource = nil
-	for {
+
+	var running = true
+	for running {
 		// Dequeue from our internal buffer if needed
 		if current == nil && len(queue) > 0 {
 			current = queue[0]
@@ -146,14 +153,17 @@ func (ri *ResourceImporter) queueUniqueImporters(
 		}
 
 		// If we have a current importable to send, use the pending queue
-		var upstream chan ImportableResource = nil
+		var upstream chan<- ImportableResource = nil
 		if current != nil {
 			upstream = pending
 		}
 
 		select {
-		case rsrc := <-candidates:
-			if seen.Contains(rsrc.Id()) {
+		case rsrc, ok := <-candidates:
+			if !ok {
+				// Channel closed
+				running = false
+			} else if seen.Contains(rsrc.Id()) {
 				// We've already seen this resource (we've already queued it for import)
 				// So remove it from our count of work to be done
 				ri.log.V(2).Info("Skipping duplicate import", "resource", rsrc.Id())
@@ -174,9 +184,9 @@ func (ri *ResourceImporter) queueUniqueImporters(
 
 func (ri *ResourceImporter) importWorker(
 	ctx context.Context,
-	pending chan ImportableResource,
-	completed chan ImportResourceResult,
-	progress chan progressDelta,
+	pending <-chan ImportableResource,
+	completed chan<- ImportResourceResult,
+	progress chan<- progressDelta,
 ) {
 	for rsrc := range pending {
 		if ctx.Err() != nil {
@@ -189,14 +199,13 @@ func (ri *ResourceImporter) importWorker(
 		ri.log.V(1).Info("Importing", "resource", rsrc.Id())
 		result := ri.ImportResource(ctx, rsrc, progress)
 		completed <- result
-
 	}
 }
 
 func (ri *ResourceImporter) collateResults(
-	completed chan ImportResourceResult,
-	candidates chan ImportableResource,
-	progress chan progressDelta,
+	completed <-chan ImportResourceResult,
+	candidates chan<- ImportableResource,
+	progress chan<- progressDelta,
 ) {
 	report := newResourceImportReport()
 
@@ -209,7 +218,6 @@ func (ri *ResourceImporter) collateResults(
 		for _, p := range importResult.pending {
 			candidates <- p
 		}
-		progress <- progressDelta{complete: 1}
 
 		if importResult.err != nil {
 			var skipped *ImportSkippedError
@@ -237,6 +245,10 @@ func (ri *ResourceImporter) collateResults(
 			report.AddSuccessfulImport(rsrc)
 			ri.imported[rsrc.Id()] = rsrc
 		}
+
+		// Flag the main resource as complete
+		// We do this after everything else because it might indicate we're finished
+		progress <- progressDelta{complete: 1}
 	}
 
 	report.WriteToLog(ri.log)
@@ -245,18 +257,37 @@ func (ri *ResourceImporter) collateResults(
 func (ri *ResourceImporter) ImportResource(
 	ctx context.Context,
 	rsrc ImportableResource,
-	parent chan progressDelta,
+	parent chan<- progressDelta,
 ) ImportResourceResult {
 	// Import it
 	gk := rsrc.GroupKind()
 	name := fmt.Sprintf("%s %s", gk, rsrc.Name())
+
+	// Create our progress indicator and ensure it's closed when we're done
 	progress := ri.createSubProgressBar(name, parent)
-	pending, err := rsrc.Import(ctx, progress, ri.log)
+	defer func() {
+		close(progress)
+	}()
+
+	// Prepare our result for when we're done
 	result := ImportResourceResult{
 		resource: rsrc,
-		pending:  pending,
-		err:      err,
 	}
+
+	// Our main resource is pending
+	progress <- progressDelta{total: 1}
+
+	// Import the resource itself
+	result.err = rsrc.Import(ctx, ri.log)
+
+	// If the main resource was imported ok, look for any children
+	if result.err == nil {
+		result.pending, result.err = rsrc.FindChildren(ctx, progress)
+	}
+
+	// Indicate the main resource is complete
+	// (we must only do this after checking for children, to ensure we don't appear complete too early)
+	progress <- progressDelta{complete: 1}
 
 	return result
 }
@@ -304,7 +335,7 @@ func (ri *ResourceImporter) createProgressBar(
 
 func (ri *ResourceImporter) createSubProgressBar(
 	name string,
-	parent chan progressDelta,
+	parent chan<- progressDelta,
 ) chan progressDelta {
 	result := make(chan progressDelta)
 
