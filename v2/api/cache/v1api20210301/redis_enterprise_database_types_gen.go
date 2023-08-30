@@ -49,22 +49,36 @@ var _ conversion.Convertible = &RedisEnterpriseDatabase{}
 
 // ConvertFrom populates our RedisEnterpriseDatabase from the provided hub RedisEnterpriseDatabase
 func (database *RedisEnterpriseDatabase) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210301s.RedisEnterpriseDatabase)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20210301storage/RedisEnterpriseDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210301s.RedisEnterpriseDatabase
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return database.AssignProperties_From_RedisEnterpriseDatabase(source)
+	err = database.AssignProperties_From_RedisEnterpriseDatabase(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to database")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RedisEnterpriseDatabase from our RedisEnterpriseDatabase
 func (database *RedisEnterpriseDatabase) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210301s.RedisEnterpriseDatabase)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20210301storage/RedisEnterpriseDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210301s.RedisEnterpriseDatabase
+	err := database.AssignProperties_To_RedisEnterpriseDatabase(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from database")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return database.AssignProperties_To_RedisEnterpriseDatabase(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-cache-azure-com-v1api20210301-redisenterprisedatabase,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redisenterprisedatabases,verbs=create;update,versions=v1api20210301,name=default.v1api20210301.redisenterprisedatabases.cache.azure.com,admissionReviewVersions=v1
@@ -89,17 +103,6 @@ func (database *RedisEnterpriseDatabase) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the RedisEnterpriseDatabase resource
 func (database *RedisEnterpriseDatabase) defaultImpl() { database.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &RedisEnterpriseDatabase{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (database *RedisEnterpriseDatabase) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*RedisEnterprise_Database_STATUS); ok {
-		return database.Spec.Initialize_From_RedisEnterprise_Database_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type RedisEnterprise_Database_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &RedisEnterpriseDatabase{}
 
@@ -693,70 +696,6 @@ func (database *RedisEnterprise_Database_Spec) AssignProperties_To_RedisEnterpri
 	return nil
 }
 
-// Initialize_From_RedisEnterprise_Database_STATUS populates our RedisEnterprise_Database_Spec from the provided source RedisEnterprise_Database_STATUS
-func (database *RedisEnterprise_Database_Spec) Initialize_From_RedisEnterprise_Database_STATUS(source *RedisEnterprise_Database_STATUS) error {
-
-	// ClientProtocol
-	if source.ClientProtocol != nil {
-		clientProtocol := DatabaseProperties_ClientProtocol(*source.ClientProtocol)
-		database.ClientProtocol = &clientProtocol
-	} else {
-		database.ClientProtocol = nil
-	}
-
-	// ClusteringPolicy
-	if source.ClusteringPolicy != nil {
-		clusteringPolicy := DatabaseProperties_ClusteringPolicy(*source.ClusteringPolicy)
-		database.ClusteringPolicy = &clusteringPolicy
-	} else {
-		database.ClusteringPolicy = nil
-	}
-
-	// EvictionPolicy
-	if source.EvictionPolicy != nil {
-		evictionPolicy := DatabaseProperties_EvictionPolicy(*source.EvictionPolicy)
-		database.EvictionPolicy = &evictionPolicy
-	} else {
-		database.EvictionPolicy = nil
-	}
-
-	// Modules
-	if source.Modules != nil {
-		moduleList := make([]Module, len(source.Modules))
-		for moduleIndex, moduleItem := range source.Modules {
-			// Shadow the loop variable to avoid aliasing
-			moduleItem := moduleItem
-			var module Module
-			err := module.Initialize_From_Module_STATUS(&moduleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_Module_STATUS() to populate field Modules")
-			}
-			moduleList[moduleIndex] = module
-		}
-		database.Modules = moduleList
-	} else {
-		database.Modules = nil
-	}
-
-	// Persistence
-	if source.Persistence != nil {
-		var persistence Persistence
-		err := persistence.Initialize_From_Persistence_STATUS(source.Persistence)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Persistence_STATUS() to populate field Persistence")
-		}
-		database.Persistence = &persistence
-	} else {
-		database.Persistence = nil
-	}
-
-	// Port
-	database.Port = genruntime.ClonePointerToInt(source.Port)
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (database *RedisEnterprise_Database_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1322,19 +1261,6 @@ func (module *Module) AssignProperties_To_Module(destination *v20210301s.Module)
 	return nil
 }
 
-// Initialize_From_Module_STATUS populates our Module from the provided source Module_STATUS
-func (module *Module) Initialize_From_Module_STATUS(source *Module_STATUS) error {
-
-	// Args
-	module.Args = genruntime.ClonePointerToString(source.Args)
-
-	// Name
-	module.Name = genruntime.ClonePointerToString(source.Name)
-
-	// No error
-	return nil
-}
-
 // Specifies configuration of a redis module
 type Module_STATUS struct {
 	// Args: Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE 400'.
@@ -1595,45 +1521,6 @@ func (persistence *Persistence) AssignProperties_To_Persistence(destination *v20
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Persistence_STATUS populates our Persistence from the provided source Persistence_STATUS
-func (persistence *Persistence) Initialize_From_Persistence_STATUS(source *Persistence_STATUS) error {
-
-	// AofEnabled
-	if source.AofEnabled != nil {
-		aofEnabled := *source.AofEnabled
-		persistence.AofEnabled = &aofEnabled
-	} else {
-		persistence.AofEnabled = nil
-	}
-
-	// AofFrequency
-	if source.AofFrequency != nil {
-		aofFrequency := Persistence_AofFrequency(*source.AofFrequency)
-		persistence.AofFrequency = &aofFrequency
-	} else {
-		persistence.AofFrequency = nil
-	}
-
-	// RdbEnabled
-	if source.RdbEnabled != nil {
-		rdbEnabled := *source.RdbEnabled
-		persistence.RdbEnabled = &rdbEnabled
-	} else {
-		persistence.RdbEnabled = nil
-	}
-
-	// RdbFrequency
-	if source.RdbFrequency != nil {
-		rdbFrequency := Persistence_RdbFrequency(*source.RdbFrequency)
-		persistence.RdbFrequency = &rdbFrequency
-	} else {
-		persistence.RdbFrequency = nil
 	}
 
 	// No error

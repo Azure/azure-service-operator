@@ -4,7 +4,6 @@
 package v1beta20201201storage
 
 import (
-	"fmt"
 	v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -45,22 +44,36 @@ var _ conversion.Convertible = &RedisLinkedServer{}
 
 // ConvertFrom populates our RedisLinkedServer from the provided hub RedisLinkedServer
 func (server *RedisLinkedServer) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20201201s.RedisLinkedServer)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20201201storage/RedisLinkedServer but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20201201s.RedisLinkedServer
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return server.AssignProperties_From_RedisLinkedServer(source)
+	err = server.AssignProperties_From_RedisLinkedServer(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to server")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RedisLinkedServer from our RedisLinkedServer
 func (server *RedisLinkedServer) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20201201s.RedisLinkedServer)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20201201storage/RedisLinkedServer but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20201201s.RedisLinkedServer
+	err := server.AssignProperties_To_RedisLinkedServer(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from server")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return server.AssignProperties_To_RedisLinkedServer(destination)
+	return nil
 }
 
 var _ genruntime.KubernetesResource = &RedisLinkedServer{}

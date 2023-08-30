@@ -258,7 +258,33 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 		}, nil
 	}
 
-	// Here we check for workload identity if client secret is not provided.
+	if value, hasAuthMode := secret.Data[config.AuthMode]; hasAuthMode {
+		authMode, err := authModeOrDefault(string(value))
+		if err != nil {
+			return nil, errors.Wrap(err, errors.Errorf("invalid identity auth mode for %q encountered", nsName).Error())
+
+		}
+
+		if authMode == config.PodIdentityAuthMode {
+			tokenCredential, err := azidentity.NewManagedIdentityCredential(&azidentity.ManagedIdentityCredentialOptions{
+				ClientOptions: azcore.ClientOptions{},
+				ID:            azidentity.ClientID(clientID),
+			})
+
+			if err != nil {
+				return nil, errors.Wrap(err, errors.Errorf("invalid Managed Identity for %q encountered", nsName).Error())
+			}
+
+			return &Credential{
+				tokenCredential: tokenCredential,
+				subscriptionID:  string(subscriptionID),
+				credentialFrom:  nsName,
+				secretData:      secret.Data,
+			}, nil
+		}
+	}
+
+	// Default to Workload Identity
 	tokenCredential, err := azidentity.NewWorkloadIdentityCredential(&azidentity.WorkloadIdentityCredentialOptions{
 		ClientID:      string(clientID),
 		TenantID:      string(tenantID),
@@ -299,4 +325,16 @@ func (c *credentialProvider) getSecret(ctx context.Context, namespace string, se
 
 func getSecretNameFromAnnotation(credentialFrom string, resourceNamespace string) types.NamespacedName {
 	return types.NamespacedName{Namespace: resourceNamespace, Name: credentialFrom}
+}
+
+func authModeOrDefault(mode string) (config.AuthModeOption, error) {
+	if mode == string(config.WorkloadIdentityAuthMode) || mode == "" {
+		return config.WorkloadIdentityAuthMode, nil
+	}
+
+	if mode == string(config.PodIdentityAuthMode) {
+		return config.PodIdentityAuthMode, nil
+	}
+
+	return "", errors.Errorf("authorization mode %q not valid", mode)
 }

@@ -26,7 +26,7 @@ const samplesPath = "../../samples"
 
 // skipTests slice contains the groups to skip from being tested.
 var skipTests = []string{
-	// TODO: Will re-record test .. as resource was having some issues in creation.
+	// TODO: Cache has issues with linked caches being able to delete
 	"cache",
 	"subscription", // Can't easily be run/recorded in our standard subscription
 }

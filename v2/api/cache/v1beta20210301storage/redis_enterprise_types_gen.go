@@ -4,7 +4,6 @@
 package v1beta20210301storage
 
 import (
-	"fmt"
 	v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201storage"
 	v20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -46,22 +45,36 @@ var _ conversion.Convertible = &RedisEnterprise{}
 
 // ConvertFrom populates our RedisEnterprise from the provided hub RedisEnterprise
 func (enterprise *RedisEnterprise) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210301s.RedisEnterprise)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20210301storage/RedisEnterprise but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210301s.RedisEnterprise
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return enterprise.AssignProperties_From_RedisEnterprise(source)
+	err = enterprise.AssignProperties_From_RedisEnterprise(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to enterprise")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RedisEnterprise from our RedisEnterprise
 func (enterprise *RedisEnterprise) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210301s.RedisEnterprise)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20210301storage/RedisEnterprise but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210301s.RedisEnterprise
+	err := enterprise.AssignProperties_To_RedisEnterprise(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from enterprise")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return enterprise.AssignProperties_To_RedisEnterprise(destination)
+	return nil
 }
 
 var _ genruntime.KubernetesResource = &RedisEnterprise{}
