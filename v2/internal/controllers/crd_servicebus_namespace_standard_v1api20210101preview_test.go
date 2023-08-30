@@ -25,7 +25,7 @@ func Test_ServiceBus_Namespace_Standard_v1api20210101preview_CRUD(t *testing.T) 
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	sku := servicebus.SBSku_Name_Standard
-	namespace := NewServiceBusNamespace(tc, rg, sku)
+	namespace := NewServiceBusNamespace_v1api20210101preview(tc, rg, sku)
 
 	tc.CreateResourceAndWait(namespace)
 
@@ -35,19 +35,27 @@ func Test_ServiceBus_Namespace_Standard_v1api20210101preview_CRUD(t *testing.T) 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "Queue CRUD",
-			Test: func(tc *testcommon.KubePerTestContext) { ServiceBus_Queue_CRUD(tc, namespace) },
+			Test: func(tc *testcommon.KubePerTestContext) {
+				ServiceBus_Queue_v1api20210101preview_CRUD(tc, namespace)
+			},
 		},
 		testcommon.Subtest{
 			Name: "Topic CRUD",
-			Test: func(tc *testcommon.KubePerTestContext) { ServiceBus_Topic_CRUD(tc, namespace) },
+			Test: func(tc *testcommon.KubePerTestContext) {
+				ServiceBus_Topic_v1api20210101preview_CRUD(tc, namespace)
+			},
 		},
 		testcommon.Subtest{
 			Name: "AuthorizationRule CRUD",
-			Test: func(tc *testcommon.KubePerTestContext) { ServiceBus_AuthorizationRule_CRUD(tc, namespace) },
+			Test: func(tc *testcommon.KubePerTestContext) {
+				ServiceBus_AuthorizationRule_v1api20210101preview_CRUD(tc, namespace)
+			},
 		},
 		testcommon.Subtest{
 			Name: "NamespaceSecrets CRUD",
-			Test: func(tc *testcommon.KubePerTestContext) { ServiceBus_Namespace_Secrets(tc, namespace) },
+			Test: func(tc *testcommon.KubePerTestContext) {
+				ServiceBus_Namespace_Secrets_v1api20210101preview(tc, namespace)
+			},
 		},
 	)
 
@@ -57,7 +65,7 @@ func Test_ServiceBus_Namespace_Standard_v1api20210101preview_CRUD(t *testing.T) 
 	tc.ExpectResourceIsDeletedInAzure(armId, string(servicebus.APIVersion_Value))
 }
 
-func NewServiceBusNamespace(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, sku servicebus.SBSku_Name) *servicebus.Namespace {
+func NewServiceBusNamespace_v1api20210101preview(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, sku servicebus.SBSku_Name) *servicebus.Namespace {
 	zoneRedundant := false
 	namespace := &servicebus.Namespace{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("namespace")),
@@ -73,7 +81,7 @@ func NewServiceBusNamespace(tc *testcommon.KubePerTestContext, rg *resources.Res
 	return namespace
 }
 
-func ServiceBus_AuthorizationRule_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client.Object) {
+func ServiceBus_AuthorizationRule_v1api20210101preview_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client.Object) {
 	secretName := "rule-secrets"
 
 	rule := &servicebus.NamespacesAuthorizationRule{
@@ -116,7 +124,7 @@ func ServiceBus_AuthorizationRule_CRUD(tc *testcommon.KubePerTestContext, sbName
 }
 
 // Topics can only be created in Standard or Premium SKUs
-func ServiceBus_Topic_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client.Object) {
+func ServiceBus_Topic_v1api20210101preview_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client.Object) {
 	topic := &servicebus.NamespacesTopic{
 		ObjectMeta: tc.MakeObjectMeta("topic"),
 		Spec: servicebus.Namespaces_Topic_Spec{
@@ -136,12 +144,12 @@ func ServiceBus_Topic_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "Subscription CRUD",
-			Test: func(tc *testcommon.KubePerTestContext) { ServiceBus_Subscription_CRUD(tc, topic) },
+			Test: func(tc *testcommon.KubePerTestContext) { ServiceBus_Subscription_v1api20210101preview_CRUD(tc, topic) },
 		},
 	)
 }
 
-func ServiceBus_Subscription_CRUD(tc *testcommon.KubePerTestContext, sbTopic client.Object) {
+func ServiceBus_Subscription_v1api20210101preview_CRUD(tc *testcommon.KubePerTestContext, sbTopic client.Object) {
 	subscription := &servicebus.NamespacesTopicsSubscription{
 		ObjectMeta: tc.MakeObjectMeta("subscription"),
 		Spec: servicebus.Namespaces_Topics_Subscription_Spec{
@@ -157,7 +165,9 @@ func ServiceBus_Subscription_CRUD(tc *testcommon.KubePerTestContext, sbTopic cli
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "SubscriptionsRule CRUD",
-			Test: func(tc *testcommon.KubePerTestContext) { ServiceBus_Subscriptions_Rule_CRUD(tc, subscription) },
+			Test: func(tc *testcommon.KubePerTestContext) {
+				ServiceBus_Subscriptions_Rule_v1api20210101preview_CRUD(tc, subscription)
+			},
 		},
 	)
 
@@ -166,7 +176,7 @@ func ServiceBus_Subscription_CRUD(tc *testcommon.KubePerTestContext, sbTopic cli
 	tc.ExpectResourceIsDeletedInAzure(armId, string(servicebus.APIVersion_Value))
 }
 
-func ServiceBus_Subscriptions_Rule_CRUD(tc *testcommon.KubePerTestContext, sbSubscription client.Object) {
+func ServiceBus_Subscriptions_Rule_v1api20210101preview_CRUD(tc *testcommon.KubePerTestContext, sbSubscription client.Object) {
 	rule := &servicebus.NamespacesTopicsSubscriptionsRule{
 		ObjectMeta: tc.MakeObjectMeta("subrule"),
 		Spec: servicebus.Namespaces_Topics_Subscriptions_Rule_Spec{

@@ -2,7 +2,7 @@
 version: 1
 interactions:
 - request:
-    body: '{"location":"westus2","name":"asotest-rg-lcniru","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+    body: '{"location":"westus2","name":"asotest-rg-trsviw","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
     form: {}
     headers:
       Accept:
@@ -13,10 +13,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw?api-version=2020-06-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru","name":"asotest-rg-lcniru","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw","name":"asotest-rg-trsviw","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -43,10 +43,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru","name":"asotest-rg-lcniru","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw","name":"asotest-rg-trsviw","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -66,7 +66,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"westus2","name":"asotest-namespace-teqmwb","properties":{"zoneRedundant":false},"sku":{"name":"Basic"}}'
+    body: '{"location":"westus2","name":"asotest-namespace-nqpmya","properties":{"zoneRedundant":false},"sku":{"name":"Basic"}}'
     form: {}
     headers:
       Accept:
@@ -77,11 +77,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb?api-version=2021-01-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya?api-version=2021-01-01-preview
     method: PUT
   response:
-    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb","name":"asotest-namespace-teqmwb","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-teqmwb","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-teqmwb.servicebus.windows.net:443/","status":"Activating"}}'
+    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya","name":"asotest-namespace-nqpmya","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-nqpmya","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-nqpmya.servicebus.windows.net:443/","status":"Activating"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -111,11 +111,11 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb?api-version=2021-01-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya?api-version=2021-01-01-preview
     method: GET
   response:
-    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb","name":"asotest-namespace-teqmwb","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-teqmwb","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-teqmwb.servicebus.windows.net:443/","status":"Activating"}}'
+    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya","name":"asotest-namespace-nqpmya","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-nqpmya","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-nqpmya.servicebus.windows.net:443/","status":"Activating"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -145,11 +145,11 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb?api-version=2021-01-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya?api-version=2021-01-01-preview
     method: GET
   response:
-    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb","name":"asotest-namespace-teqmwb","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-teqmwb","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-teqmwb.servicebus.windows.net:443/","status":"Activating"}}'
+    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya","name":"asotest-namespace-nqpmya","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-nqpmya","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-nqpmya.servicebus.windows.net:443/","status":"Activating"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -179,11 +179,11 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb?api-version=2021-01-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya?api-version=2021-01-01-preview
     method: GET
   response:
-    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb","name":"asotest-namespace-teqmwb","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-teqmwb","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-teqmwb.servicebus.windows.net:443/","status":"Activating"}}'
+    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya","name":"asotest-namespace-nqpmya","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-nqpmya","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-nqpmya.servicebus.windows.net:443/","status":"Activating"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -213,11 +213,11 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb?api-version=2021-01-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya?api-version=2021-01-01-preview
     method: GET
   response:
-    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb","name":"asotest-namespace-teqmwb","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-teqmwb","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-teqmwb.servicebus.windows.net:443/","status":"Activating"}}'
+    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya","name":"asotest-namespace-nqpmya","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-nqpmya","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-nqpmya.servicebus.windows.net:443/","status":"Activating"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -247,11 +247,11 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb?api-version=2021-01-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya?api-version=2021-01-01-preview
     method: GET
   response:
-    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb","name":"asotest-namespace-teqmwb","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-teqmwb","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-teqmwb.servicebus.windows.net:443/","status":"Activating"}}'
+    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya","name":"asotest-namespace-nqpmya","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-nqpmya","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-nqpmya.servicebus.windows.net:443/","status":"Activating"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -281,11 +281,11 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb?api-version=2021-01-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya?api-version=2021-01-01-preview
     method: GET
   response:
-    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb","name":"asotest-namespace-teqmwb","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-teqmwb","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-teqmwb.servicebus.windows.net:443/","status":"Active"}}'
+    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya","name":"asotest-namespace-nqpmya","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-nqpmya","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-nqpmya.servicebus.windows.net:443/","status":"Active"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -317,11 +317,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "6"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb?api-version=2021-01-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya?api-version=2021-01-01-preview
     method: GET
   response:
-    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb","name":"asotest-namespace-teqmwb","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-teqmwb","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-teqmwb.servicebus.windows.net:443/","status":"Active"}}'
+    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya","name":"asotest-namespace-nqpmya","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-nqpmya","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-nqpmya.servicebus.windows.net:443/","status":"Active"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -346,7 +346,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"asotest-queue-gkglnj"}'
+    body: '{"name":"asotest-queue-urflmr"}'
     form: {}
     headers:
       Accept:
@@ -357,10 +357,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb/queues/asotest-queue-gkglnj?api-version=2021-01-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya/queues/asotest-queue-urflmr?api-version=2021-01-01-preview
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb/queues/asotest-queue-gkglnj","name":"asotest-queue-gkglnj","type":"Microsoft.ServiceBus/namespaces/queues","location":"westus2","properties":{"maxMessageSizeInKilobytes":256,"lockDuration":"PT1M","maxSizeInMegabytes":1024,"requiresDuplicateDetection":false,"requiresSession":false,"defaultMessageTimeToLive":"P14D","deadLetteringOnMessageExpiration":false,"enableBatchedOperations":true,"duplicateDetectionHistoryTimeWindow":"PT10M","maxDeliveryCount":10,"sizeInBytes":0,"messageCount":0,"status":"Active","autoDeleteOnIdle":"P10675199DT2H48M5.4775807S","enablePartitioning":false,"enableExpress":false,"countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0},"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"0001-01-01T00:00:00"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya/queues/asotest-queue-urflmr","name":"asotest-queue-urflmr","type":"Microsoft.ServiceBus/namespaces/queues","location":"westus2","properties":{"maxMessageSizeInKilobytes":256,"lockDuration":"PT1M","maxSizeInMegabytes":1024,"requiresDuplicateDetection":false,"requiresSession":false,"defaultMessageTimeToLive":"P14D","deadLetteringOnMessageExpiration":false,"enableBatchedOperations":true,"duplicateDetectionHistoryTimeWindow":"PT10M","maxDeliveryCount":10,"sizeInBytes":0,"messageCount":0,"status":"Active","autoDeleteOnIdle":"P10675199DT2H48M5.4775807S","enablePartitioning":false,"enableExpress":false,"countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0},"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"0001-01-01T00:00:00"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -389,10 +389,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb/queues/asotest-queue-gkglnj?api-version=2021-01-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya/queues/asotest-queue-urflmr?api-version=2021-01-01-preview
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb/queues/asotest-queue-gkglnj","name":"asotest-queue-gkglnj","type":"Microsoft.ServiceBus/namespaces/queues","location":"westus2","properties":{"maxMessageSizeInKilobytes":256,"lockDuration":"PT1M","maxSizeInMegabytes":1024,"requiresDuplicateDetection":false,"requiresSession":false,"defaultMessageTimeToLive":"P14D","deadLetteringOnMessageExpiration":false,"enableBatchedOperations":true,"duplicateDetectionHistoryTimeWindow":"PT10M","maxDeliveryCount":10,"sizeInBytes":0,"messageCount":0,"status":"Active","autoDeleteOnIdle":"P10675199DT2H48M5.4775807S","enablePartitioning":false,"enableExpress":false,"countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0},"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"2001-02-03T04:05:06Z"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya/queues/asotest-queue-urflmr","name":"asotest-queue-urflmr","type":"Microsoft.ServiceBus/namespaces/queues","location":"westus2","properties":{"maxMessageSizeInKilobytes":256,"lockDuration":"PT1M","maxSizeInMegabytes":1024,"requiresDuplicateDetection":false,"requiresSession":false,"defaultMessageTimeToLive":"P14D","deadLetteringOnMessageExpiration":false,"enableBatchedOperations":true,"duplicateDetectionHistoryTimeWindow":"PT10M","maxDeliveryCount":10,"sizeInBytes":0,"messageCount":0,"status":"Active","autoDeleteOnIdle":"P10675199DT2H48M5.4775807S","enablePartitioning":false,"enableExpress":false,"countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0},"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"2001-02-03T04:05:06Z"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -421,7 +421,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb/queues/asotest-queue-gkglnj?api-version=2021-01-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya/queues/asotest-queue-urflmr?api-version=2021-01-01-preview
     method: DELETE
   response:
     body: ""
@@ -444,7 +444,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"westus2","name":"asotest-namespace-teqmwb","properties":{"zoneRedundant":false},"sku":{"name":"Basic"}}'
+    body: '{"location":"westus2","name":"asotest-namespace-nqpmya","properties":{"zoneRedundant":false},"sku":{"name":"Basic"}}'
     form: {}
     headers:
       Accept:
@@ -455,11 +455,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb?api-version=2021-01-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya?api-version=2021-01-01-preview
     method: PUT
   response:
-    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb","name":"asotest-namespace-teqmwb","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Updating","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-teqmwb","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-teqmwb.servicebus.windows.net:443/","status":"Activating"}}'
+    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya","name":"asotest-namespace-nqpmya","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Updating","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-nqpmya","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-nqpmya.servicebus.windows.net:443/","status":"Activating"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -489,11 +489,11 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "7"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb?api-version=2021-01-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya?api-version=2021-01-01-preview
     method: GET
   response:
-    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb","name":"asotest-namespace-teqmwb","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-teqmwb","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-teqmwb.servicebus.windows.net:443/","status":"Active"}}'
+    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya","name":"asotest-namespace-nqpmya","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Updating","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-nqpmya","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-nqpmya.servicebus.windows.net:443/","status":"Activating"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -521,15 +521,49 @@ interactions:
     body: ""
     form: {}
     headers:
-      Accept:
-      - application/json
       Test-Request-Attempt:
       - "8"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb?api-version=2021-01-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya?api-version=2021-01-01-preview
     method: GET
   response:
-    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb","name":"asotest-namespace-teqmwb","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-teqmwb","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-teqmwb.servicebus.windows.net:443/","status":"Active"}}'
+    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya","name":"asotest-namespace-nqpmya","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-nqpmya","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-nqpmya.servicebus.windows.net:443/","status":"Active"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "9"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya?api-version=2021-01-01-preview
+    method: GET
+  response:
+    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya","name":"asotest-namespace-nqpmya","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-nqpmya","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-nqpmya.servicebus.windows.net:443/","status":"Active"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -561,10 +595,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb/AuthorizationRules/RootManageSharedAccessKey/listKeys?api-version=2021-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya/AuthorizationRules/RootManageSharedAccessKey/listKeys?api-version=2021-11-01
     method: POST
   response:
-    body: '{"primaryConnectionString":"Endpoint=sb://asotest-namespace-teqmwb.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={KEY}","secondaryConnectionString":"Endpoint=sb://asotest-namespace-teqmwb.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={KEY}","primaryKey":"{KEY}","secondaryKey":"{KEY}","keyName":"RootManageSharedAccessKey"}'
+    body: '{"primaryConnectionString":"Endpoint=sb://asotest-namespace-nqpmya.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={KEY}","secondaryConnectionString":"Endpoint=sb://asotest-namespace-nqpmya.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={KEY}","primaryKey":"{KEY}","secondaryKey":"{KEY}","keyName":"RootManageSharedAccessKey"}'
     headers:
       Cache-Control:
       - no-cache
@@ -593,7 +627,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb?api-version=2021-01-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya?api-version=2021-01-01-preview
     method: DELETE
   response:
     body: ""
@@ -605,7 +639,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb/operationresults/asotest-namespace-teqmwb?api-version=2021-01-01-preview
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya/operationresults/asotest-namespace-nqpmya?api-version=2021-01-01-preview
       Pragma:
       - no-cache
       Server:
@@ -626,11 +660,11 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb/operationresults/asotest-namespace-teqmwb?api-version=2021-01-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya/operationresults/asotest-namespace-nqpmya?api-version=2021-01-01-preview
     method: GET
   response:
-    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb","name":"asotest-namespace-teqmwb","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-teqmwb","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-teqmwb.servicebus.windows.net:443/","status":"Removing"}}'
+    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya","name":"asotest-namespace-nqpmya","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-nqpmya","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-nqpmya.servicebus.windows.net:443/","status":"Removing"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -641,11 +675,11 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb/operationresults/asotest-namespace-teqmwb?api-version=2021-01-01-preview
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya/operationresults/asotest-namespace-nqpmya?api-version=2021-01-01-preview
       Pragma:
       - no-cache
       Retry-After:
-      - "35"
+      - "46"
       Server:
       - Service-Bus-Resource-Provider/SN1
       - Microsoft-HTTPAPI/2.0
@@ -665,48 +699,12 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "9"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb?api-version=2021-01-01-preview
-    method: GET
-  response:
-    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb","name":"asotest-namespace-teqmwb","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-teqmwb","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-teqmwb.servicebus.windows.net:443/","status":"Removing"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Service-Bus-Resource-Provider/SN1
-      - Microsoft-HTTPAPI/2.0
-      Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
       - "10"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb?api-version=2021-01-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya?api-version=2021-01-01-preview
     method: GET
   response:
-    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb","name":"asotest-namespace-teqmwb","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-teqmwb","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-teqmwb.servicebus.windows.net:443/","status":"Removing"}}'
+    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya","name":"asotest-namespace-nqpmya","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-nqpmya","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-nqpmya.servicebus.windows.net:443/","status":"Removing"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -738,11 +736,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "11"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb?api-version=2021-01-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya?api-version=2021-01-01-preview
     method: GET
   response:
-    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb","name":"asotest-namespace-teqmwb","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-teqmwb","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-teqmwb.servicebus.windows.net:443/","status":"Removing"}}'
+    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya","name":"asotest-namespace-nqpmya","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-nqpmya","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-nqpmya.servicebus.windows.net:443/","status":"Removing"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -774,11 +772,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "12"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb?api-version=2021-01-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya?api-version=2021-01-01-preview
     method: GET
   response:
-    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb","name":"asotest-namespace-teqmwb","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-teqmwb","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-teqmwb.servicebus.windows.net:443/","status":"Removing"}}'
+    body: '{"sku":{"name":"Basic","tier":"Basic"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya","name":"asotest-namespace-nqpmya","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-nqpmya","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-nqpmya.servicebus.windows.net:443/","status":"Removing"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -810,10 +808,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "13"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-teqmwb?api-version=2021-01-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-nqpmya?api-version=2021-01-01-preview
     method: GET
   response:
-    body: '{"error":{"message":"Namespace does not exist. CorrelationId: 986da2cc-ed27-4857-ac5f-1aaa159c670a","code":"NotFound"}}'
+    body: '{"error":{"message":"Namespace does not exist. CorrelationId: 0c90496a-b9de-440b-8e69-28627c26f11b","code":"NotFound"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -845,7 +843,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lcniru?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-trsviw?api-version=2020-06-01
     method: DELETE
   response:
     body: ""
@@ -857,7 +855,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRMQ05JUlUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRUUlNWSVctV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -875,7 +873,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRMQ05JUlUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRUUlNWSVctV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
     method: GET
   response:
     body: ""
@@ -887,7 +885,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRMQ05JUlUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRUUlNWSVctV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -905,7 +903,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRMQ05JUlUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRUUlNWSVctV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
     method: GET
   response:
     body: ""
@@ -917,7 +915,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRMQ05JUlUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRUUlNWSVctV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -935,7 +933,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRMQ05JUlUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRUUlNWSVctV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
     method: GET
   response:
     body: ""
@@ -947,7 +945,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRMQ05JUlUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRUUlNWSVctV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -965,7 +963,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRMQ05JUlUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRUUlNWSVctV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
     method: GET
   response:
     body: ""
@@ -977,7 +975,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRMQ05JUlUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRUUlNWSVctV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -995,7 +993,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRMQ05JUlUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRUUlNWSVctV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
     method: GET
   response:
     body: ""
