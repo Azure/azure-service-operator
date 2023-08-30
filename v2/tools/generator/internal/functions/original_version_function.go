@@ -50,7 +50,9 @@ func (o *OriginalVersionFunction) References() astmodel.TypeNameSet {
 
 // AsFunc returns the generated code for the OriginalVersion() function
 func (o *OriginalVersionFunction) AsFunc(
-	generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+) (*dst.FuncDecl, error) {
 	groupVersionPackageGlobal := dst.NewIdent("GroupVersion")
 
 	receiverName := o.idFactory.CreateReceiver(receiver.Name())
@@ -60,7 +62,7 @@ func (o *OriginalVersionFunction) AsFunc(
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
-		ReceiverType:  astbuilder.PointerTo(receiver.AsType(generationContext)),
+		ReceiverType:  astbuilder.PointerTo(receiver.AsType(codeGenerationContext)),
 		Name:          o.Name(),
 		Body:          astbuilder.Statements(returnVersion),
 	}
@@ -68,7 +70,7 @@ func (o *OriginalVersionFunction) AsFunc(
 	funcDetails.AddComments("returns the original API version used to create the resource.")
 	funcDetails.AddReturn(dst.NewIdent("string"))
 
-	return funcDetails.DefineFunc()
+	return funcDetails.DefineFunc(), nil
 }
 
 // Equals returns true if the passed function is equal to us, or false otherwise

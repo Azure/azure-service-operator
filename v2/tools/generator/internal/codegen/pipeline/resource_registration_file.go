@@ -6,7 +6,9 @@
 package pipeline
 
 import (
+	"github.com/pkg/errors"
 	"go/token"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sort"
 
 	"github.com/dave/dst"
@@ -29,7 +31,7 @@ type ResourceRegistrationFile struct {
 
 var _ astmodel.GoSourceFile = &ResourceRegistrationFile{}
 
-// NewResourceRegistrationFile returns a ResourceRegistrationFile for registering all of the specified resources
+// NewResourceRegistrationFile returns a ResourceRegistrationFile for registering the specified resources
 // with a controller
 func NewResourceRegistrationFile(
 	resources []astmodel.TypeName,
@@ -101,7 +103,11 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 	decls = append(decls, resourceExtensionTypes)
 
 	// All the index functions
-	indexFunctionDecls := r.defineIndexFunctions(codeGenContext)
+	indexFunctionDecls, err := r.defineIndexFunctions(codeGenContext)
+	if err != nil {
+		return nil, errors.Wrap(err, "defining index functions")
+	}
+
 	decls = append(decls, indexFunctionDecls...)
 
 	// TODO: Common func?
@@ -449,7 +455,9 @@ func (r *ResourceRegistrationFile) createCreateSchemeFunc(codeGenerationContext 
 	return f.DefineFunc(), nil
 }
 
-func (r *ResourceRegistrationFile) defineIndexFunctions(codeGenerationContext *astmodel.CodeGenerationContext) []dst.Decl {
+func (r *ResourceRegistrationFile) defineIndexFunctions(
+	codeGenerationContext *astmodel.CodeGenerationContext,
+) ([]dst.Decl, error) {
 	var indexFunctions []*functions.IndexRegistrationFunction
 	for _, funcs := range r.indexFunctions {
 		indexFunctions = append(indexFunctions, funcs...)
@@ -457,11 +465,18 @@ func (r *ResourceRegistrationFile) defineIndexFunctions(codeGenerationContext *a
 	sort.Slice(indexFunctions, orderByFunctionName(indexFunctions))
 
 	result := make([]dst.Decl, 0, len(indexFunctions))
+	var errs []error
 	for _, f := range indexFunctions {
-		result = append(result, f.AsFunc(codeGenerationContext, nil))
+		decl, err := f.AsFunc(codeGenerationContext, nil)
+		if err != nil {
+			errs = append(errs, err)
+			continue
+		}
+
+		result = append(result, decl)
 	}
 
-	return result
+	return result, kerrors.NewAggregate(errs)
 }
 
 func (r *ResourceRegistrationFile) getImportedPackages() map[astmodel.PackageReference]struct{} {

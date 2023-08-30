@@ -126,19 +126,20 @@ func (fn *PropertyAssignmentFunction) Direction() conversions.Direction {
 }
 
 // AsFunc renders this function as an AST for serialization to a Go source file
-func (fn *PropertyAssignmentFunction) AsFunc(generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
+func (fn *PropertyAssignmentFunction) AsFunc(
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+) (*dst.FuncDecl, error) {
 	description := fn.direction.SelectString(
 		fmt.Sprintf("populates our %s from the provided source %s", receiver.Name(), fn.ParameterType().Name()),
 		fmt.Sprintf("populates the provided destination %s from our %s", fn.ParameterType().Name(), receiver.Name()))
 
 	// We always use a pointer receiver, so we can modify it
-	receiverType := astmodel.NewOptionalType(receiver).AsType(generationContext)
+	receiverType := astmodel.NewOptionalType(receiver).AsType(codeGenerationContext)
 
-	body, err := fn.generateBody(fn.receiverName, fn.parameterName, generationContext)
+	body, err := fn.generateBody(fn.receiverName, fn.parameterName, codeGenerationContext)
 	if err != nil {
-		// Temporary panic until we modify AsFunc() to return errors
-		// See https://github.com/Azure/azure-service-operator/issues/2971
-		panic(err)
+		return nil, errors.Wrapf(err, "unable to generate body for %s", fn.Name())
 	}
 
 	funcDetails := &astbuilder.FuncDetails{
@@ -150,12 +151,12 @@ func (fn *PropertyAssignmentFunction) AsFunc(generationContext *astmodel.CodeGen
 
 	funcDetails.AddParameter(
 		fn.parameterName,
-		astbuilder.PointerTo(fn.ParameterType().AsType(generationContext)))
+		astbuilder.PointerTo(fn.ParameterType().AsType(codeGenerationContext)))
 
 	funcDetails.AddReturns("error")
 	funcDetails.AddComments(description)
 
-	return funcDetails.DefineFunc()
+	return funcDetails.DefineFunc(), nil
 }
 
 func (fn *PropertyAssignmentFunction) ParameterType() astmodel.TypeName {

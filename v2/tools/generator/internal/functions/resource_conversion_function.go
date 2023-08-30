@@ -95,13 +95,15 @@ func (fn *ResourceConversionFunction) References() astmodel.TypeNameSet {
 }
 
 func (fn *ResourceConversionFunction) AsFunc(
-	generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+) (*dst.FuncDecl, error) {
 
 	// Create a sensible name for our receiver
 	receiverName := fn.idFactory.CreateReceiver(receiver.Name())
 
 	// We always use a pointer receiver so we can modify it
-	receiverType := astmodel.NewOptionalType(receiver).AsType(generationContext)
+	receiverType := astmodel.NewOptionalType(receiver).AsType(codeGenerationContext)
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
@@ -109,7 +111,7 @@ func (fn *ResourceConversionFunction) AsFunc(
 		Name:          fn.Name(),
 	}
 
-	conversionPackage := generationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeConversion)
+	conversionPackage := codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeConversion)
 
 	funcDetails.AddParameter("hub", astbuilder.QualifiedTypeName(conversionPackage, "Hub"))
 	funcDetails.AddReturns("error")
@@ -117,14 +119,14 @@ func (fn *ResourceConversionFunction) AsFunc(
 
 	if astmodel.TypeEquals(fn.hub, fn.propertyFunction.ParameterType()) {
 		// Not using an intermediate step
-		funcDetails.Body = fn.directConversion(receiverName, generationContext)
+		funcDetails.Body = fn.directConversion(receiverName, codeGenerationContext)
 	} else {
 		fn.propertyFunction.direction.
-			WhenFrom(func() { funcDetails.Body = fn.indirectConversionFromHub(receiverName, generationContext) }).
-			WhenTo(func() { funcDetails.Body = fn.indirectConversionToHub(receiverName, generationContext) })
+			WhenFrom(func() { funcDetails.Body = fn.indirectConversionFromHub(receiverName, codeGenerationContext) }).
+			WhenTo(func() { funcDetails.Body = fn.indirectConversionToHub(receiverName, codeGenerationContext) })
 	}
 
-	return funcDetails.DefineFunc()
+	return funcDetails.DefineFunc(), nil
 }
 
 // Direction returns this functions direction of conversion
