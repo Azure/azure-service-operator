@@ -72,7 +72,7 @@ func ServiceBus_Queue_v1api20210101preview_CRUD(tc *testcommon.KubePerTestContex
 
 func ServiceBus_Namespace_Secrets_v1api20210101preview(tc *testcommon.KubePerTestContext, sbNamespace client.Object) {
 	namespace := sbNamespace.(*servicebus.Namespace)
-	secretName := "namespace-secrets"
+	secretName := "namespace-secrets-20210101preview"
 
 	old := namespace.DeepCopy()
 
