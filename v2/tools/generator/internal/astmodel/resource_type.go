@@ -623,25 +623,19 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 	}
 
 	var declarations []dst.Decl
-	var errs []error
 	declarations = append(declarations, resourceDeclaration)
 	declarations = append(declarations, resource.InterfaceImplementer.AsDeclarations(codeGenerationContext, declContext.Name, nil)...)
 
 	decls, err := resource.generateMethodDecls(codeGenerationContext, declContext.Name)
 	if err != nil {
-		errs = append(errs, err)
-	} else {
-		declarations = append(declarations, decls...)
-	}
-
-	declarations = append(declarations, resource.resourceListTypeDecls(codeGenerationContext, declContext.Name, declContext.Description)...)
-
-	if len(errs) > 0 {
 		// Something went wrong; once AsDeclarations is refactored to have an error return,
 		// we can return them, but in the meantime panic
-		err := kerrors.NewAggregate(errs)
 		panic(err)
 	}
+
+	declarations = append(declarations, decls...)
+
+	declarations = append(declarations, resource.resourceListTypeDecls(codeGenerationContext, declContext.Name, declContext.Description)...)
 
 	return declarations
 }
