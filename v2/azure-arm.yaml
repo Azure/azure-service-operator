@@ -748,6 +748,36 @@ objectModelConfiguration:
       RedisEnterprise_Database:
         $exportAs: RedisEnterpriseDatabase
         $supportedFrom: v2.0.0-alpha.4
+    2023-04-01:
+      Redis:
+        $export: true
+        $supportedFrom: v2.3.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - SecondaryKey
+          - HostName
+          - Port
+          - SSLPort
+      # TODO: Does this need to be uncommented
+      #      RedisCreateProperties:
+      #        SubnetId:
+      #          $armReference: true
+      Redis_FirewallRule:
+        $exportAs: RedisFirewallRule
+        $supportedFrom: v2.3.0
+      Redis_LinkedServer:
+        $exportAs: RedisLinkedServer
+        $supportedFrom: v2.3.0
+      Redis_PatchSchedule:
+        $exportAs: RedisPatchSchedule
+        $supportedFrom: v2.3.0
+    2023-07-01:
+      RedisEnterprise:
+        $export: true
+        $supportedFrom: v2.3.0
+      RedisEnterprise_Database:
+        $exportAs: RedisEnterpriseDatabase
+        $supportedFrom: v2.3.0
   cdn:
     2021-06-01:
       DeepCreatedOriginGroup:
