@@ -328,11 +328,11 @@ func getSecretNameFromAnnotation(credentialFrom string, resourceNamespace string
 }
 
 func authModeOrDefault(mode string) (config.AuthModeOption, error) {
-	if strings.EqualFold(mode, string(config.WorkloadIdentityAuthMode)) || mode == "" {
+	if mode == string(config.WorkloadIdentityAuthMode) || mode == "" {
 		return config.WorkloadIdentityAuthMode, nil
 	}
 
-	if strings.EqualFold(mode, string(config.PodIdentityAuthMode)) {
+	if mode == string(config.PodIdentityAuthMode) {
 		return config.PodIdentityAuthMode, nil
 	}
 
