@@ -24,6 +24,10 @@ import (
 	cache_v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201storage"
 	cache_v20210301 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301"
 	cache_v20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301storage"
+	cache_v20230401 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401"
+	cache_v20230401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401storage"
+	cache_v20230701 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701"
+	cache_v20230701s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701storage"
 	cache_v1beta20201201 "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201"
 	cache_v1beta20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage"
 	cache_v1beta20210301 "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301"
@@ -233,12 +237,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{Obj: new(batch_v20210101s.BatchAccount)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20201201s.Redis)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20201201s.RedisFirewallRule)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20201201s.RedisLinkedServer)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20201201s.RedisPatchSchedule)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20210301s.RedisEnterprise)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20210301s.RedisEnterpriseDatabase)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v20230401s.Redis)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v20230401s.RedisFirewallRule)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v20230401s.RedisLinkedServer)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v20230401s.RedisPatchSchedule)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v20230701s.RedisEnterprise)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v20230701s.RedisEnterpriseDatabase)})
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20210601s.Profile)})
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20210601s.ProfilesEndpoint)})
 	result = append(result, &registration.StorageType{Obj: new(compute_v20200930s.Disk)})
@@ -905,6 +909,20 @@ func getKnownTypes() []client.Object {
 		new(cache_v20201201s.RedisPatchSchedule))
 	result = append(result, new(cache_v20210301.RedisEnterprise), new(cache_v20210301.RedisEnterpriseDatabase))
 	result = append(result, new(cache_v20210301s.RedisEnterprise), new(cache_v20210301s.RedisEnterpriseDatabase))
+	result = append(
+		result,
+		new(cache_v20230401.Redis),
+		new(cache_v20230401.RedisFirewallRule),
+		new(cache_v20230401.RedisLinkedServer),
+		new(cache_v20230401.RedisPatchSchedule))
+	result = append(
+		result,
+		new(cache_v20230401s.Redis),
+		new(cache_v20230401s.RedisFirewallRule),
+		new(cache_v20230401s.RedisLinkedServer),
+		new(cache_v20230401s.RedisPatchSchedule))
+	result = append(result, new(cache_v20230701.RedisEnterprise), new(cache_v20230701.RedisEnterpriseDatabase))
+	result = append(result, new(cache_v20230701s.RedisEnterprise), new(cache_v20230701s.RedisEnterpriseDatabase))
 	result = append(result, new(cdn_v1beta20210601.Profile), new(cdn_v1beta20210601.ProfilesEndpoint))
 	result = append(result, new(cdn_v1beta20210601s.Profile), new(cdn_v1beta20210601s.ProfilesEndpoint))
 	result = append(result, new(cdn_v20210601.Profile), new(cdn_v20210601.ProfilesEndpoint))
@@ -1528,6 +1546,10 @@ func createScheme() *runtime.Scheme {
 	_ = cache_v20201201s.AddToScheme(scheme)
 	_ = cache_v20210301.AddToScheme(scheme)
 	_ = cache_v20210301s.AddToScheme(scheme)
+	_ = cache_v20230401.AddToScheme(scheme)
+	_ = cache_v20230401s.AddToScheme(scheme)
+	_ = cache_v20230701.AddToScheme(scheme)
+	_ = cache_v20230701s.AddToScheme(scheme)
 	_ = cdn_v1beta20210601.AddToScheme(scheme)
 	_ = cdn_v1beta20210601s.AddToScheme(scheme)
 	_ = cdn_v20210601.AddToScheme(scheme)
