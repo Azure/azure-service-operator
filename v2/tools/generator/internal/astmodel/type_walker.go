@@ -80,7 +80,7 @@ func (t *TypeWalker[C]) visitInternalTypeName(this *TypeVisitor[C], it InternalT
 
 		itn, ok := visitedTypeName.(InternalTypeName)
 		if !ok {
-			panic(fmt.Sprintf("TypeWalker visitor visitTypeName must return a TypeName, instead returned %T", visitedTypeName))
+			panic(fmt.Sprintf("TypeWalker visitor visitTypeName must return an InternalTypeName, instead returned %T", visitedTypeName))
 		}
 
 		it = itn
