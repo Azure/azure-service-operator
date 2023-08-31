@@ -1,0 +1,22 @@
+apiVersion: cache.azure.com/v1api20230701
+kind: RedisEnterpriseDatabase
+metadata:
+  # At the moment there can only be one database per cluster, and it
+  # must be named `default`.
+  name: default
+  namespace: default
+spec:
+  owner:
+    name: sampleredisenterprise
+  clientProtocol: Encrypted
+  clusteringPolicy: EnterpriseCluster
+  evictionPolicy: AllKeysLRU
+  modules:
+    - name: RedisBloom
+      args: "ERROR_RATE 0.1 INITIAL_SIZE 400"
+  persistence:
+    aofEnabled: true
+    aofFrequency: always
+    rdbEnabled: false
+  # Port is required to be 10000 currently.
+  port: 10000

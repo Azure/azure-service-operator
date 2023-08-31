@@ -4,6 +4,7 @@
 package v1api20220301storage
 
 import (
+	v20220702s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -813,6 +814,62 @@ type UserAssignedIdentityDetails struct {
 	Reference   genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
 }
 
+// AssignProperties_From_UserAssignedIdentityDetails populates our UserAssignedIdentityDetails from the provided source UserAssignedIdentityDetails
+func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v20220702s.UserAssignedIdentityDetails) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Reference
+	details.Reference = source.Reference.Copy()
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		details.PropertyBag = propertyBag
+	} else {
+		details.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserAssignedIdentityDetails interface (if implemented) to customize the conversion
+	var detailsAsAny any = details
+	if augmentedDetails, ok := detailsAsAny.(augmentConversionForUserAssignedIdentityDetails); ok {
+		err := augmentedDetails.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserAssignedIdentityDetails populates the provided destination UserAssignedIdentityDetails from our UserAssignedIdentityDetails
+func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v20220702s.UserAssignedIdentityDetails) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(details.PropertyBag)
+
+	// Reference
+	destination.Reference = details.Reference.Copy()
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserAssignedIdentityDetails interface (if implemented) to customize the conversion
+	var detailsAsAny any = details
+	if augmentedDetails, ok := detailsAsAny.(augmentConversionForUserAssignedIdentityDetails); ok {
+		err := augmentedDetails.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20220301.VaultSecretGroup
 // Describes a set of certificates which are all in the same Key Vault.
 type VaultSecretGroup struct {
@@ -992,6 +1049,11 @@ type AdditionalUnattendContent_STATUS struct {
 	PassName      *string                `json:"passName,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SettingName   *string                `json:"settingName,omitempty"`
+}
+
+type augmentConversionForUserAssignedIdentityDetails interface {
+	AssignPropertiesFrom(src *v20220702s.UserAssignedIdentityDetails) error
+	AssignPropertiesTo(dst *v20220702s.UserAssignedIdentityDetails) error
 }
 
 // Storage version of v1api20220301.AvailablePatchSummary_STATUS
@@ -1243,6 +1305,134 @@ type ApiError_STATUS struct {
 	Target      *string                `json:"target,omitempty"`
 }
 
+// AssignProperties_From_ApiError_STATUS populates our ApiError_STATUS from the provided source ApiError_STATUS
+func (error *ApiError_STATUS) AssignProperties_From_ApiError_STATUS(source *v20220702s.ApiError_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Code
+	error.Code = genruntime.ClonePointerToString(source.Code)
+
+	// Details
+	if source.Details != nil {
+		detailList := make([]ApiErrorBase_STATUS, len(source.Details))
+		for detailIndex, detailItem := range source.Details {
+			// Shadow the loop variable to avoid aliasing
+			detailItem := detailItem
+			var detail ApiErrorBase_STATUS
+			err := detail.AssignProperties_From_ApiErrorBase_STATUS(&detailItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_ApiErrorBase_STATUS() to populate field Details")
+			}
+			detailList[detailIndex] = detail
+		}
+		error.Details = detailList
+	} else {
+		error.Details = nil
+	}
+
+	// Innererror
+	if source.Innererror != nil {
+		var innererror InnerError_STATUS
+		err := innererror.AssignProperties_From_InnerError_STATUS(source.Innererror)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_InnerError_STATUS() to populate field Innererror")
+		}
+		error.Innererror = &innererror
+	} else {
+		error.Innererror = nil
+	}
+
+	// Message
+	error.Message = genruntime.ClonePointerToString(source.Message)
+
+	// Target
+	error.Target = genruntime.ClonePointerToString(source.Target)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		error.PropertyBag = propertyBag
+	} else {
+		error.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForApiError_STATUS interface (if implemented) to customize the conversion
+	var errorAsAny any = error
+	if augmentedError, ok := errorAsAny.(augmentConversionForApiError_STATUS); ok {
+		err := augmentedError.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ApiError_STATUS populates the provided destination ApiError_STATUS from our ApiError_STATUS
+func (error *ApiError_STATUS) AssignProperties_To_ApiError_STATUS(destination *v20220702s.ApiError_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(error.PropertyBag)
+
+	// Code
+	destination.Code = genruntime.ClonePointerToString(error.Code)
+
+	// Details
+	if error.Details != nil {
+		detailList := make([]v20220702s.ApiErrorBase_STATUS, len(error.Details))
+		for detailIndex, detailItem := range error.Details {
+			// Shadow the loop variable to avoid aliasing
+			detailItem := detailItem
+			var detail v20220702s.ApiErrorBase_STATUS
+			err := detailItem.AssignProperties_To_ApiErrorBase_STATUS(&detail)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_ApiErrorBase_STATUS() to populate field Details")
+			}
+			detailList[detailIndex] = detail
+		}
+		destination.Details = detailList
+	} else {
+		destination.Details = nil
+	}
+
+	// Innererror
+	if error.Innererror != nil {
+		var innererror v20220702s.InnerError_STATUS
+		err := error.Innererror.AssignProperties_To_InnerError_STATUS(&innererror)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_InnerError_STATUS() to populate field Innererror")
+		}
+		destination.Innererror = &innererror
+	} else {
+		destination.Innererror = nil
+	}
+
+	// Message
+	destination.Message = genruntime.ClonePointerToString(error.Message)
+
+	// Target
+	destination.Target = genruntime.ClonePointerToString(error.Target)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForApiError_STATUS interface (if implemented) to customize the conversion
+	var errorAsAny any = error
+	if augmentedError, ok := errorAsAny.(augmentConversionForApiError_STATUS); ok {
+		err := augmentedError.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20220301.KeyVaultKeyReference
 // Describes a reference to Key Vault Key
 type KeyVaultKeyReference struct {
@@ -1384,12 +1574,147 @@ type ApiErrorBase_STATUS struct {
 	Target      *string                `json:"target,omitempty"`
 }
 
+// AssignProperties_From_ApiErrorBase_STATUS populates our ApiErrorBase_STATUS from the provided source ApiErrorBase_STATUS
+func (base *ApiErrorBase_STATUS) AssignProperties_From_ApiErrorBase_STATUS(source *v20220702s.ApiErrorBase_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Code
+	base.Code = genruntime.ClonePointerToString(source.Code)
+
+	// Message
+	base.Message = genruntime.ClonePointerToString(source.Message)
+
+	// Target
+	base.Target = genruntime.ClonePointerToString(source.Target)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		base.PropertyBag = propertyBag
+	} else {
+		base.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForApiErrorBase_STATUS interface (if implemented) to customize the conversion
+	var baseAsAny any = base
+	if augmentedBase, ok := baseAsAny.(augmentConversionForApiErrorBase_STATUS); ok {
+		err := augmentedBase.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ApiErrorBase_STATUS populates the provided destination ApiErrorBase_STATUS from our ApiErrorBase_STATUS
+func (base *ApiErrorBase_STATUS) AssignProperties_To_ApiErrorBase_STATUS(destination *v20220702s.ApiErrorBase_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(base.PropertyBag)
+
+	// Code
+	destination.Code = genruntime.ClonePointerToString(base.Code)
+
+	// Message
+	destination.Message = genruntime.ClonePointerToString(base.Message)
+
+	// Target
+	destination.Target = genruntime.ClonePointerToString(base.Target)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForApiErrorBase_STATUS interface (if implemented) to customize the conversion
+	var baseAsAny any = base
+	if augmentedBase, ok := baseAsAny.(augmentConversionForApiErrorBase_STATUS); ok {
+		err := augmentedBase.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForApiError_STATUS interface {
+	AssignPropertiesFrom(src *v20220702s.ApiError_STATUS) error
+	AssignPropertiesTo(dst *v20220702s.ApiError_STATUS) error
+}
+
 // Storage version of v1api20220301.InnerError_STATUS
 // Inner error details.
 type InnerError_STATUS struct {
 	Errordetail   *string                `json:"errordetail,omitempty"`
 	Exceptiontype *string                `json:"exceptiontype,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_InnerError_STATUS populates our InnerError_STATUS from the provided source InnerError_STATUS
+func (error *InnerError_STATUS) AssignProperties_From_InnerError_STATUS(source *v20220702s.InnerError_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Errordetail
+	error.Errordetail = genruntime.ClonePointerToString(source.Errordetail)
+
+	// Exceptiontype
+	error.Exceptiontype = genruntime.ClonePointerToString(source.Exceptiontype)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		error.PropertyBag = propertyBag
+	} else {
+		error.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForInnerError_STATUS interface (if implemented) to customize the conversion
+	var errorAsAny any = error
+	if augmentedError, ok := errorAsAny.(augmentConversionForInnerError_STATUS); ok {
+		err := augmentedError.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_InnerError_STATUS populates the provided destination InnerError_STATUS from our InnerError_STATUS
+func (error *InnerError_STATUS) AssignProperties_To_InnerError_STATUS(destination *v20220702s.InnerError_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(error.PropertyBag)
+
+	// Errordetail
+	destination.Errordetail = genruntime.ClonePointerToString(error.Errordetail)
+
+	// Exceptiontype
+	destination.Exceptiontype = genruntime.ClonePointerToString(error.Exceptiontype)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForInnerError_STATUS interface (if implemented) to customize the conversion
+	var errorAsAny any = error
+	if augmentedError, ok := errorAsAny.(augmentConversionForInnerError_STATUS); ok {
+		err := augmentedError.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20220301.PublicIPAddressSku
@@ -1436,6 +1761,16 @@ type VirtualMachinePublicIPAddressDnsSettingsConfiguration struct {
 type VirtualMachinePublicIPAddressDnsSettingsConfiguration_STATUS struct {
 	DomainNameLabel *string                `json:"domainNameLabel,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+type augmentConversionForApiErrorBase_STATUS interface {
+	AssignPropertiesFrom(src *v20220702s.ApiErrorBase_STATUS) error
+	AssignPropertiesTo(dst *v20220702s.ApiErrorBase_STATUS) error
+}
+
+type augmentConversionForInnerError_STATUS interface {
+	AssignPropertiesFrom(src *v20220702s.InnerError_STATUS) error
+	AssignPropertiesTo(dst *v20220702s.InnerError_STATUS) error
 }
 
 func init() {

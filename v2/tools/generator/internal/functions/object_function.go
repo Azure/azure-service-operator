@@ -62,8 +62,8 @@ func (fn *ObjectFunction) References() astmodel.TypeNameSet {
 }
 
 // AsFunc renders the current instance as a Go abstract syntax tree
-func (fn *ObjectFunction) AsFunc(codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
-	return fn.asFunc(fn, codeGenerationContext, receiver, fn.name)
+func (fn *ObjectFunction) AsFunc(codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) (*dst.FuncDecl, error) {
+	return fn.asFunc(fn, codeGenerationContext, receiver, fn.name), nil
 }
 
 // Equals checks if this function is equal to the passed in function

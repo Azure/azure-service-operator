@@ -68,8 +68,10 @@ func (o *OriginalGVKFunction) References() astmodel.TypeNameSet {
 
 // AsFunc returns the generated code for the OriginalGVK() function
 func (o *OriginalGVKFunction) AsFunc(
-	generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
-	gvkType := astmodel.GroupVersionKindType.AsType(generationContext)
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+) (*dst.FuncDecl, error) {
+	gvkType := astmodel.GroupVersionKindType.AsType(codeGenerationContext)
 	groupVersionPackageGlobal := dst.NewIdent("GroupVersion")
 
 	receiverName := o.idFactory.CreateReceiver(receiver.Name())
@@ -90,7 +92,7 @@ func (o *OriginalGVKFunction) AsFunc(
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
-		ReceiverType:  astbuilder.PointerTo(receiver.AsType(generationContext)),
+		ReceiverType:  astbuilder.PointerTo(receiver.AsType(codeGenerationContext)),
 		Name:          o.Name(),
 		Body:          astbuilder.Statements(astbuilder.Returns(astbuilder.AddrOf(initGVK))),
 	}
@@ -98,7 +100,7 @@ func (o *OriginalGVKFunction) AsFunc(
 	funcDetails.AddComments("returns a GroupValueKind for the original API version used to create the resource")
 	funcDetails.AddReturn(astbuilder.PointerTo(gvkType))
 
-	return funcDetails.DefineFunc()
+	return funcDetails.DefineFunc(), nil
 }
 
 // Equals returns true if the passed function is equal to us, or false otherwise
