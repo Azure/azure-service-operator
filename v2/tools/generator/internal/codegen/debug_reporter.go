@@ -43,8 +43,7 @@ func (dr *debugReporter) ReportStage(stage int, description string, state *pipel
 			return dr.groupSelector.Matches(grp).Matched
 		})
 
-	tcr := reporting.NewTypeCatalogReport(included)
-	tcr.IncludeFunctions()
+	tcr := reporting.NewTypeCatalogReport(included, reporting.IncludeFunctions)
 	filename := dr.createFileName(stage, description)
 	err := tcr.SaveTo(filename)
 	return errors.Wrapf(err, "failed to save type catalog to %s", filename)

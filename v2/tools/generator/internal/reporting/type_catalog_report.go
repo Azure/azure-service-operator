@@ -24,11 +24,31 @@ type TypeCatalogReport struct {
 	header                 []string
 }
 
-func NewTypeCatalogReport(defs astmodel.TypeDefinitionSet) *TypeCatalogReport {
-	return &TypeCatalogReport{
+type TypeCatalogReportOption string
+
+const (
+	InlineTypes      TypeCatalogReportOption = "inline-types"
+	IncludeFunctions TypeCatalogReportOption = "include-functions"
+)
+
+func NewTypeCatalogReport(defs astmodel.TypeDefinitionSet, options ...TypeCatalogReportOption) *TypeCatalogReport {
+	result := &TypeCatalogReport{
 		defs:         defs,
 		inlinedTypes: astmodel.NewTypeNameSet(),
 	}
+
+	for _, opt := range options {
+		switch opt {
+		case InlineTypes:
+			result.inlineTypes()
+		case IncludeFunctions:
+			result.includeFunctions()
+		default:
+			panic(fmt.Sprintf("unknown option %q", opt))
+		}
+	}
+
+	return result
 }
 
 // AddHeader allows you to add lines to the header of the report
@@ -65,14 +85,14 @@ func (tcr *TypeCatalogReport) SaveTo(filePath string) error {
 	return err
 }
 
-// IncludeFunctions specifies that the generated report should include functions
-func (tcr *TypeCatalogReport) IncludeFunctions() {
+// includeFunctions specifies that the generated report should include functions
+func (tcr *TypeCatalogReport) includeFunctions() {
 	tcr.optionIncludeFunctions = true
 }
 
-// InlineTypes specifies that the generated report should inline types where referenced,
+// inlineTypes specifies that the generated report should inline types where referenced,
 // We achieve this by scanning for properties with types we have definitions for
-func (tcr *TypeCatalogReport) InlineTypes() {
+func (tcr *TypeCatalogReport) inlineTypes() {
 	for _, def := range tcr.defs {
 		if c, ok := astmodel.AsPropertyContainer(def.Type()); ok {
 			tcr.inlineTypesFrom(c)

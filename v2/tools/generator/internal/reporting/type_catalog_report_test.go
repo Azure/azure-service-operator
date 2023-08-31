@@ -41,8 +41,7 @@ func Test_TypeCatalogReport_GivenTypes_WhenInlined_ShowsExpectedDetails(t *testi
 	defs := createDefinitionSet()
 
 	var content bytes.Buffer
-	rpt := reporting.NewTypeCatalogReport(defs)
-	rpt.InlineTypes()
+	rpt := reporting.NewTypeCatalogReport(defs, reporting.InlineTypes)
 
 	g.Expect(rpt.WriteTo(&content)).To(gomega.Succeed())
 	golden.Assert(t, t.Name(), content.Bytes())
@@ -88,8 +87,7 @@ func Test_TypeCatalogReport_GivenDirectlyRecursiveType_WhenInlined_ShowsExpected
 	defs.Add(relationship)
 
 	var content bytes.Buffer
-	rpt := reporting.NewTypeCatalogReport(defs)
-	rpt.InlineTypes()
+	rpt := reporting.NewTypeCatalogReport(defs, reporting.InlineTypes)
 
 	g.Expect(rpt.WriteTo(&content)).To(gomega.Succeed())
 	golden.Assert(t, t.Name(), content.Bytes())
@@ -233,8 +231,7 @@ func Test_TypeCatalogReport_GivenValidatedAndOptionalTypes_ShowsExpectedDetails(
 	defs.Add(name)
 
 	var content bytes.Buffer
-	rpt := reporting.NewTypeCatalogReport(defs)
-	rpt.InlineTypes()
+	rpt := reporting.NewTypeCatalogReport(defs, reporting.InlineTypes)
 
 	g.Expect(rpt.WriteTo(&content)).To(gomega.Succeed())
 	golden.Assert(t, t.Name(), content.Bytes())
@@ -263,9 +260,7 @@ func Test_TypeCatalogReport_GivenInterface_ShowsExpectedDetails(t *testing.T) {
 	defs.Add(person)
 
 	var content bytes.Buffer
-	rpt := reporting.NewTypeCatalogReport(defs)
-	rpt.InlineTypes()
-	rpt.IncludeFunctions()
+	rpt := reporting.NewTypeCatalogReport(defs, reporting.InlineTypes, reporting.IncludeFunctions)
 
 	g.Expect(rpt.WriteTo(&content)).To(gomega.Succeed())
 	golden.Assert(t, t.Name(), content.Bytes())
@@ -298,9 +293,7 @@ func Test_TypeCatalogReport_GivenObject_ShowsExpectedDetails(t *testing.T) {
 	defs.Add(person)
 
 	var content bytes.Buffer
-	rpt := reporting.NewTypeCatalogReport(defs)
-	rpt.InlineTypes()
-	rpt.IncludeFunctions()
+	rpt := reporting.NewTypeCatalogReport(defs, reporting.InlineTypes, reporting.IncludeFunctions)
 
 	g.Expect(rpt.WriteTo(&content)).To(gomega.Succeed())
 	golden.Assert(t, t.Name(), content.Bytes())
