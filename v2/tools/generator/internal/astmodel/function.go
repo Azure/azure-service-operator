@@ -23,7 +23,7 @@ type Function interface {
 	References() TypeNameSet
 
 	// AsFunc renders the current instance as a Go abstract syntax tree
-	AsFunc(codeGenerationContext *CodeGenerationContext, receiver TypeName) *dst.FuncDecl
+	AsFunc(codeGenerationContext *CodeGenerationContext, receiver TypeName) (*dst.FuncDecl, error)
 
 	// Equals determines if this Function is equal to another one
 	Equals(f Function, overrides EqualityOverrides) bool

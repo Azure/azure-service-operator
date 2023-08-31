@@ -7,6 +7,7 @@ package functions
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 	"sort"
 
 	"github.com/dave/dst"
@@ -55,7 +56,8 @@ func (f *OneOfJSONUnmarshalFunction) References() astmodel.TypeNameSet {
 // AsFunc returns the function as a go dst
 func (f *OneOfJSONUnmarshalFunction) AsFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
-	receiver astmodel.TypeName) *dst.FuncDecl {
+	receiver astmodel.TypeName,
+) (*dst.FuncDecl, error) {
 
 	jsonPackage := codeGenerationContext.MustGetImportedPackageName(astmodel.JsonReference)
 	receiverName := f.idFactory.CreateReceiver(receiver.Name())
@@ -63,8 +65,8 @@ func (f *OneOfJSONUnmarshalFunction) AsFunc(
 	allDefinitions := codeGenerationContext.GetAllReachableDefinitions()
 	discrimJSONName, valuesMapping, err := astmodel.DetermineDiscriminantAndValues(f.oneOfObject, allDefinitions)
 	if err != nil {
-		// Something went wrong; this late in the process we can't do anything about it, so we panic
-		panic(err)
+		// Something went wrong; this late in the process we can't do anything about it
+		return nil, errors.Wrap(err, "unable to determine discriminant and values")
 	}
 
 	paramName := "data"
@@ -117,7 +119,7 @@ func (f *OneOfJSONUnmarshalFunction) AsFunc(
 	fn.AddParameter(paramName, &dst.ArrayType{Elt: dst.NewIdent("byte")})
 	fn.AddComments(fmt.Sprintf("unmarshals the %s", receiver.Name()))
 	fn.AddReturns("error")
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
 // RequiredPackageReferences returns a set of references to packages required by this

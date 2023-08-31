@@ -1,0 +1,10 @@
+apiVersion: cache.azure.com/v1api20230401
+kind: RedisFirewallRule
+metadata:
+  name: sampleredisfw
+  namespace: default
+spec:
+  owner:
+    name: sampleredis1
+  startIP: 1.2.3.4
+  endIP: 1.2.3.4

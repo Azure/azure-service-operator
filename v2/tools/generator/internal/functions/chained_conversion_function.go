@@ -119,13 +119,15 @@ func (fn *ChainedConversionFunction) References() astmodel.TypeNameSet {
 }
 
 func (fn *ChainedConversionFunction) AsFunc(
-	generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+) (*dst.FuncDecl, error) {
 
 	// Create a sensible name for our receiver
 	receiverName := fn.idFactory.CreateReceiver(receiver.Name())
 
 	// We always use a pointer receiver, so we can modify it
-	receiverType := astmodel.NewOptionalType(receiver).AsType(generationContext)
+	receiverType := astmodel.NewOptionalType(receiver).AsType(codeGenerationContext)
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
@@ -134,13 +136,13 @@ func (fn *ChainedConversionFunction) AsFunc(
 	}
 
 	parameterName := fn.direction.SelectString("source", "destination")
-	funcDetails.AddParameter(parameterName, fn.parameterType.AsType(generationContext))
+	funcDetails.AddParameter(parameterName, fn.parameterType.AsType(codeGenerationContext))
 
 	funcDetails.AddReturns("error")
 	funcDetails.AddComments(fn.declarationDocComment(receiver, parameterName))
-	funcDetails.Body = fn.bodyForConvert(receiverName, parameterName, generationContext)
+	funcDetails.Body = fn.bodyForConvert(receiverName, parameterName, codeGenerationContext)
 
-	return funcDetails.DefineFunc()
+	return funcDetails.DefineFunc(), nil
 }
 
 // bodyForConvert generates a conversion when the type we know about isn't the hub type, but is closer to it in our

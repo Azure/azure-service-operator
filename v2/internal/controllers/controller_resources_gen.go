@@ -24,6 +24,10 @@ import (
 	cache_v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201storage"
 	cache_v20210301 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301"
 	cache_v20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301storage"
+	cache_v20230401 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401"
+	cache_v20230401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401storage"
+	cache_v20230701 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701"
+	cache_v20230701s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701storage"
 	cache_v1beta20201201 "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201"
 	cache_v1beta20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage"
 	cache_v1beta20210301 "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301"
@@ -42,6 +46,8 @@ import (
 	compute_v20210701s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20210701storage"
 	compute_v20220301 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301"
 	compute_v20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301storage"
+	compute_v20220702 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702"
+	compute_v20220702s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702storage"
 	compute_v1beta20200930 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930"
 	compute_v1beta20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930storage"
 	compute_v1beta20201201 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201"
@@ -231,12 +237,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{Obj: new(batch_v20210101s.BatchAccount)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20201201s.Redis)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20201201s.RedisFirewallRule)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20201201s.RedisLinkedServer)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20201201s.RedisPatchSchedule)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20210301s.RedisEnterprise)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20210301s.RedisEnterpriseDatabase)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v20230401s.Redis)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v20230401s.RedisFirewallRule)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v20230401s.RedisLinkedServer)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v20230401s.RedisPatchSchedule)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v20230701s.RedisEnterprise)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v20230701s.RedisEnterpriseDatabase)})
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20210601s.Profile)})
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20210601s.ProfilesEndpoint)})
 	result = append(result, &registration.StorageType{Obj: new(compute_v20200930s.Disk)})
@@ -269,6 +275,25 @@ func getKnownStorageTypes() []*registration.StorageType {
 			{
 				Type:             &v1.Secret{},
 				MakeEventHandler: watchSecretsFactory([]string{".spec.virtualMachineProfile.osProfile.adminPassword"}, &compute_v20220301s.VirtualMachineScaleSetList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(compute_v20220702s.DiskEncryptionSet),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.federatedClientIdFromConfig",
+				Func: indexComputeDiskEncryptionSetFederatedClientIdFromConfig,
+			},
+			{
+				Key:  ".spec.activeKey.keyUrlFromConfig",
+				Func: indexComputeDiskEncryptionSetKeyUrlFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.activeKey.keyUrlFromConfig", ".spec.federatedClientIdFromConfig"}, &compute_v20220702s.DiskEncryptionSetList{}),
 			},
 		},
 	})
@@ -884,6 +909,20 @@ func getKnownTypes() []client.Object {
 		new(cache_v20201201s.RedisPatchSchedule))
 	result = append(result, new(cache_v20210301.RedisEnterprise), new(cache_v20210301.RedisEnterpriseDatabase))
 	result = append(result, new(cache_v20210301s.RedisEnterprise), new(cache_v20210301s.RedisEnterpriseDatabase))
+	result = append(
+		result,
+		new(cache_v20230401.Redis),
+		new(cache_v20230401.RedisFirewallRule),
+		new(cache_v20230401.RedisLinkedServer),
+		new(cache_v20230401.RedisPatchSchedule))
+	result = append(
+		result,
+		new(cache_v20230401s.Redis),
+		new(cache_v20230401s.RedisFirewallRule),
+		new(cache_v20230401s.RedisLinkedServer),
+		new(cache_v20230401s.RedisPatchSchedule))
+	result = append(result, new(cache_v20230701.RedisEnterprise), new(cache_v20230701.RedisEnterpriseDatabase))
+	result = append(result, new(cache_v20230701s.RedisEnterprise), new(cache_v20230701s.RedisEnterpriseDatabase))
 	result = append(result, new(cdn_v1beta20210601.Profile), new(cdn_v1beta20210601.ProfilesEndpoint))
 	result = append(result, new(cdn_v1beta20210601s.Profile), new(cdn_v1beta20210601s.ProfilesEndpoint))
 	result = append(result, new(cdn_v20210601.Profile), new(cdn_v20210601.ProfilesEndpoint))
@@ -920,6 +959,8 @@ func getKnownTypes() []client.Object {
 		new(compute_v20220301s.Image),
 		new(compute_v20220301s.VirtualMachine),
 		new(compute_v20220301s.VirtualMachineScaleSet))
+	result = append(result, new(compute_v20220702.DiskEncryptionSet))
+	result = append(result, new(compute_v20220702s.DiskEncryptionSet))
 	result = append(result, new(containerinstance_v1beta20211001.ContainerGroup))
 	result = append(result, new(containerinstance_v1beta20211001s.ContainerGroup))
 	result = append(result, new(containerinstance_v20211001.ContainerGroup))
@@ -1505,6 +1546,10 @@ func createScheme() *runtime.Scheme {
 	_ = cache_v20201201s.AddToScheme(scheme)
 	_ = cache_v20210301.AddToScheme(scheme)
 	_ = cache_v20210301s.AddToScheme(scheme)
+	_ = cache_v20230401.AddToScheme(scheme)
+	_ = cache_v20230401s.AddToScheme(scheme)
+	_ = cache_v20230701.AddToScheme(scheme)
+	_ = cache_v20230701s.AddToScheme(scheme)
 	_ = cdn_v1beta20210601.AddToScheme(scheme)
 	_ = cdn_v1beta20210601s.AddToScheme(scheme)
 	_ = cdn_v20210601.AddToScheme(scheme)
@@ -1525,6 +1570,8 @@ func createScheme() *runtime.Scheme {
 	_ = compute_v20210701s.AddToScheme(scheme)
 	_ = compute_v20220301.AddToScheme(scheme)
 	_ = compute_v20220301s.AddToScheme(scheme)
+	_ = compute_v20220702.AddToScheme(scheme)
+	_ = compute_v20220702s.AddToScheme(scheme)
 	_ = containerinstance_v1beta20211001.AddToScheme(scheme)
 	_ = containerinstance_v1beta20211001s.AddToScheme(scheme)
 	_ = containerinstance_v20211001.AddToScheme(scheme)
@@ -1668,6 +1715,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &cache_customizations.RedisPatchScheduleExtension{})
 	result = append(result, &cdn_customizations.ProfileExtension{})
 	result = append(result, &cdn_customizations.ProfilesEndpointExtension{})
+	result = append(result, &compute_customizations.DiskEncryptionSetExtension{})
 	result = append(result, &compute_customizations.DiskExtension{})
 	result = append(result, &compute_customizations.ImageExtension{})
 	result = append(result, &compute_customizations.SnapshotExtension{})
@@ -1826,6 +1874,33 @@ func indexAuthorizationRoleAssignmentPrincipalIdFromConfig(rawObj client.Object)
 		return nil
 	}
 	return obj.Spec.PrincipalIdFromConfig.Index()
+}
+
+// indexComputeDiskEncryptionSetFederatedClientIdFromConfig an index function for compute_v20220702s.DiskEncryptionSet .spec.federatedClientIdFromConfig
+func indexComputeDiskEncryptionSetFederatedClientIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*compute_v20220702s.DiskEncryptionSet)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.FederatedClientIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.FederatedClientIdFromConfig.Index()
+}
+
+// indexComputeDiskEncryptionSetKeyUrlFromConfig an index function for compute_v20220702s.DiskEncryptionSet .spec.activeKey.keyUrlFromConfig
+func indexComputeDiskEncryptionSetKeyUrlFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*compute_v20220702s.DiskEncryptionSet)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.ActiveKey == nil {
+		return nil
+	}
+	if obj.Spec.ActiveKey.KeyUrlFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.ActiveKey.KeyUrlFromConfig.Index()
 }
 
 // indexComputeVirtualMachineAdminPassword an index function for compute_v20220301s.VirtualMachine .spec.osProfile.adminPassword
