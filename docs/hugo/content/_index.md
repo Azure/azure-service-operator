@@ -108,7 +108,6 @@ C:\> az ad sp create-for-rbac -n azure-service-operator --role contributor ^
 {{% /tab %}}
 {{< /tabpane >}}
 
-
 This should give you output including the following:
 
 ```bash
@@ -222,7 +221,7 @@ $ kubectl logs -n azureserviceoperator-system azureserviceoperator-controller-ma
 Let's create an Azure ResourceGroup in westcentralus with the name "aso-sample-rg". Create a file called `rg.yaml` with the following contents:
 
 ```yaml
-apiVersion: resources.azure.com/v1alpha1api20200601
+apiVersion: resources.azure.com/v1api20200601
 kind: ResourceGroup
 metadata:
   name: aso-sample-rg
@@ -235,13 +234,13 @@ Then apply the file to your cluster:
 
 ``` bash
 $ kubectl apply -f rg.yaml
+# resourcegroup.resources.azure.com/aso-sample-rg created
 ```
 
 Once the resource group has been created, we can see what it looks like.
 
 ``` bash
 $ kubectl describe resourcegroups/aso-sample-rg
-# resourcegroup.resources.azure.com/aso-sample-rg created
 ```
 
 The output will be similar to this:
@@ -249,34 +248,38 @@ The output will be similar to this:
 Name:         aso-sample-rg
 Namespace:    default
 Labels:       <none>
-Annotations:  resource-id.azure.com: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg
-              resource-sig.azure.com: 1e3a37c42f6beadbe23d53cf0d271f02d2805d6e295a7e13d5f07bda1fc5b800
-API Version:  resources.azure.com/v1alpha1api20200601
+Annotations:  serviceoperator.azure.com/operator-namespace: azureserviceoperator-system
+              serviceoperator.azure.com/resource-id: /subscriptions/82acd5bb-4206-47d4-9c12-a65db028483d/resourceGroups/aso-sample-rg
+API Version:  resources.azure.com/v1beta20200601
 Kind:         ResourceGroup
 Metadata:
-  Creation Timestamp:  2021-08-23T23:59:06Z
+  Creation Timestamp:  2023-08-31T01:25:50Z
   Finalizers:
     serviceoperator.azure.com/finalizer
-  Generation:  1
+  Generation:        1
+  Resource Version:  3198
+  UID:               70e2fef1-8c43-452f-8260-ffe5a73470fb
 Spec:
   Azure Name:  aso-sample-rg
   Location:    westcentralus
 Status:
   Conditions:
-    Last Transition Time:  2021-08-23T23:59:13Z
+    Last Transition Time:  2023-08-31T01:25:58Z
+    Observed Generation:   1
     Reason:                Succeeded
     Status:                True
     Type:                  Ready
-  Id:                      /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg
+  Id:                      /subscriptions/82acd5bb-4206-47d4-9c12-a65db028483d/resourceGroups/aso-sample-rg
   Location:                westcentralus
   Name:                    aso-sample-rg
-  Provisioning State:      Succeeded
+  Properties:
+    Provisioning State:  Succeeded
+  Type:                  Microsoft.Resources/resourceGroups
 Events:
-  Type    Reason             Age   From                     Message
-  ----    ------             ----  ----                     -------
-  Normal  BeginDeployment    32s   ResourceGroupController  Created new deployment to Azure with ID "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1629763146_19a8f8c2-046e-11ec-8e54-3eec50af7c79"
-  Normal  MonitorDeployment  32s   ResourceGroupController  Monitoring Azure deployment ID="/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1629763146_19a8f8c2-046e-11ec-8e54-3eec50af7c79", state="Accepted"
-  Normal  MonitorDeployment  27s   ResourceGroupController  Monitoring Azure deployment ID="/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_1629763146_19a8f8c2-046e-11ec-8e54-3eec50af7c79", state="Succeeded"
+  Type    Reason               Age                From                     Message
+  ----    ------               ----               ----                     -------
+  Normal  CredentialFrom       42s (x2 over 42s)  ResourceGroupController  Using credential from "azureserviceoperator-system/aso-controller-settings"
+  Normal  BeginCreateOrUpdate  35s                ResourceGroupController  Successfully sent resource to Azure with ID "/subscriptions/82acd5bb-4206-47d4-9c12-a65db028483d/resourceGroups/aso-sample-rg"
 ```
 
 We can delete the resource group from the cluster. This will also delete it from Azure.
