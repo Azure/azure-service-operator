@@ -56,13 +56,16 @@ func (fn ResourceStatusSetterFunction) References() astmodel.TypeNameSet {
 }
 
 // AsFunc generates the required function declaration
-func (fn ResourceStatusSetterFunction) AsFunc(genContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
+func (fn ResourceStatusSetterFunction) AsFunc(
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+) (*dst.FuncDecl, error) {
 	receiverIdent := fn.idFactory.CreateReceiver(receiver.Name())
 	receiverType := astmodel.NewOptionalType(receiver)
 
 	statusLocal := "st"
 	statusParameter := "status"
-	errorsPackage := genContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
+	errorsPackage := codeGenerationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
 
 	// <receiver>.Status = st
 	assignFromStatus := astbuilder.SimpleAssignment(
@@ -110,7 +113,7 @@ func (fn ResourceStatusSetterFunction) AsFunc(genContext *astmodel.CodeGeneratio
 
 	builder := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  receiverType.AsType(genContext),
+		ReceiverType:  receiverType.AsType(codeGenerationContext),
 		Name:          "SetStatus",
 		Body: astbuilder.Statements(
 			simplePath,
@@ -121,12 +124,12 @@ func (fn ResourceStatusSetterFunction) AsFunc(genContext *astmodel.CodeGeneratio
 			returnNil),
 	}
 
-	builder.AddParameter(statusParameter, astmodel.ConvertibleStatusInterfaceType.AsType(genContext))
-	builder.AddReturn(astmodel.ErrorType.AsType(genContext))
+	builder.AddParameter(statusParameter, astmodel.ConvertibleStatusInterfaceType.AsType(codeGenerationContext))
+	builder.AddReturn(astmodel.ErrorType.AsType(codeGenerationContext))
 
 	builder.AddComments("sets the status of this resource")
 
-	return builder.DefineFunc()
+	return builder.DefineFunc(), nil
 }
 
 // Equals returns true if the passed function is equal
