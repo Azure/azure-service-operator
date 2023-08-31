@@ -9,13 +9,14 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	cache "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
-func Test_Cache_RedisEnterprise_CRUD(t *testing.T) {
+func Test_Cache_RedisEnterprise_20210301_CRUD(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
 
@@ -42,31 +43,26 @@ func Test_Cache_RedisEnterprise_CRUD(t *testing.T) {
 	tc.Expect(redis.Status.Id).ToNot(BeNil())
 	armId := *redis.Status.Id
 
-	// TODO(babbageclunk): It seems like this isn't working because
-	// the RP expects updates to be done using PATCH but the operator
-	// issues PUTs. I've reached out to the Azure Redis team.
+	old := redis.DeepCopy()
+	redis.Spec.Tags["nomai"] = "vessel"
+	tc.Patch(old, &redis)
 
-	// old := redis.DeepCopy()
-	// redis.Spec.Tags["nomai"] = "vessel"
-	// tc.Patch(old, &redis)
+	objectKey := client.ObjectKeyFromObject(&redis)
 
-	// objectKey := client.ObjectKeyFromObject(&redis)
-
-	// // Ensure state got updated in Azure.
-	// tc.Eventually(func() map[string]string {
-	// 	var updated cache.RedisEnterprise
-	// 	tc.GetResource(objectKey, &updated)
-	// 	tc.T.Log(pretty.Sprint(updated.Status.Tags))
-	// 	return updated.Status.Tags
-	// }).Should(Equal(map[string]string{
-	// 	"elks":  "stranger",
-	// 	"nomai": "vessel",
-	// }))
+	// Ensure state got updated in Azure.
+	tc.Eventually(func() map[string]string {
+		var updated cache.RedisEnterprise
+		tc.GetResource(objectKey, &updated)
+		return updated.Status.Tags
+	}).Should(Equal(map[string]string{
+		"elks":  "stranger",
+		"nomai": "vessel",
+	}))
 
 	tc.RunParallelSubtests(testcommon.Subtest{
 		Name: "RedisEnterprise database CRUD",
 		Test: func(tc *testcommon.KubePerTestContext) {
-			RedisEnterprise_Database_CRUD(tc, &redis)
+			RedisEnterprise_Database_20210301_CRUD(tc, &redis)
 		},
 	})
 
@@ -79,7 +75,7 @@ func Test_Cache_RedisEnterprise_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func RedisEnterprise_Database_CRUD(tc *testcommon.KubePerTestContext, redis *cache.RedisEnterprise) {
+func RedisEnterprise_Database_20210301_CRUD(tc *testcommon.KubePerTestContext, redis *cache.RedisEnterprise) {
 	encrypted := cache.DatabaseProperties_ClientProtocol_Encrypted
 	enterpriseCluster := cache.DatabaseProperties_ClusteringPolicy_EnterpriseCluster
 	allKeysLRU := cache.DatabaseProperties_EvictionPolicy_AllKeysLRU

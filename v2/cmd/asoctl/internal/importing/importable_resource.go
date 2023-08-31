@@ -37,8 +37,15 @@ type ImportableResource interface {
 
 	// Import does the actual import, updating the Spec on the wrapped resource.
 	// ctx allows for cancellation of the import.
-	// If there are any additional resources that also need to be imported, they should be returned.
-	Import(ctx context.Context, bar *mpb.Bar) ([]ImportableResource, error)
+	// bar is a progress bar to update.
+	// Returns any errors that occur.
+	Import(ctx context.Context, bar *mpb.Bar) error
+
+	// FindChildren returns any child resources that need to be imported.
+	// ctx allows for cancellation of the import.
+	// Returns any additional resources that also need to be imported, as well as any errors that occur.
+	// Partial success is allowed, but the caller should be notified of any errors.
+	FindChildren(ctx context.Context, bar *mpb.Bar) ([]ImportableResource, error)
 }
 
 // importableResource is a core of common data and support methods for implementing ImportableResource

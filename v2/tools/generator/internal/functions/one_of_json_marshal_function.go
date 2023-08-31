@@ -52,10 +52,7 @@ func (f *OneOfJSONMarshalFunction) References() astmodel.TypeNameSet {
 }
 
 // AsFunc returns the function as a go dst
-func (f *OneOfJSONMarshalFunction) AsFunc(
-	codeGenerationContext *astmodel.CodeGenerationContext,
-	receiver astmodel.TypeName,
-) *dst.FuncDecl {
+func (f *OneOfJSONMarshalFunction) AsFunc(codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) (*dst.FuncDecl, error) {
 	jsonPackage := codeGenerationContext.MustGetImportedPackageName(astmodel.JsonReference)
 
 	receiverName := f.idFactory.CreateReceiver(receiver.Name())
@@ -92,7 +89,7 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 		"defers JSON marshaling to the first non-nil property, because %s represents a discriminated union (JSON OneOf)",
 		receiver.Name()))
 	fn.AddReturns("[]byte", "error")
-	return fn.DefineFunc()
+	return fn.DefineFunc(), nil
 }
 
 // RequiredPackageReferences returns a set of references to packages required by this

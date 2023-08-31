@@ -185,8 +185,10 @@ func (ri *ResourceImporter) ImportResource(ctx context.Context, rsrc ImportableR
 		bar.SetTotal(bar.Current(), true)
 	}()
 
-	pending, err := rsrc.Import(ctx, bar)
+	err := rsrc.Import(ctx, bar)
 	if err != nil {
+		// Something went wrong importing this resource.
+		// If it was simply skipped, we keep track of it but don't need to return an error
 		var skipped *ImportSkippedError
 		if errors.As(err, &skipped) {
 			ri.log.V(1).Info(
@@ -209,15 +211,25 @@ func (ri *ResourceImporter) ImportResource(ctx context.Context, rsrc ImportableR
 		return errors.Errorf("failed during import of %s", rsrc.Name())
 	}
 
+	// Successfully imported the resource,
+	// so now we look for any child resources that need importing too
+
 	ri.log.Info(
 		"Imported",
 		"kind", gk,
 		"name", rsrc.Name())
 
 	ri.report.AddSuccessfulImport(rsrc)
+	ri.Complete(rsrc)
 
-	ri.Complete(rsrc, pending)
-	return nil
+	pending, err := rsrc.FindChildren(ctx, bar)
+
+	// We always queue pending resources, even if there was an error looking
+	// for them, because we don't want an error in one part of a resource tree
+	// to impair importing other parts
+	ri.AddPending(pending)
+
+	return err
 }
 
 // DequeueResource returns the next resource to import.
@@ -240,13 +252,21 @@ func (ri *ResourceImporter) DequeueResource() (ImportableResource, bool) {
 	return importer, true
 }
 
-func (ri *ResourceImporter) Complete(importer ImportableResource, pending []ImportableResource) {
+func (ri *ResourceImporter) Complete(importer ImportableResource) {
 	// Lock while we're modifying the maps
 	ri.lock.Lock()
 	defer ri.lock.Unlock()
 
-	// Add it to our map and our queue
+	// Add it to our map of completed importers
 	ri.imported[importer.Id()] = importer
+}
+
+func (ri *ResourceImporter) AddPending(pending []ImportableResource) {
+	// Lock while we're modifying the maps
+	ri.lock.Lock()
+	defer ri.lock.Unlock()
+
+	// Add to our queue of pending imports
 	for _, p := range pending {
 		ri.addImpl(p)
 	}
