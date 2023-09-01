@@ -1563,7 +1563,7 @@ objectModelConfiguration:
     2022-07-01:
       ApplicationGateway:
         $export: true
-        $supportedFrom: v2.3.0
+        $supportedFrom: v2.4.0
       ApplicationGatewayBackendAddressPool:
         $resourceEmbeddedInParent: ApplicationGateway
       ApplicationGatewayBackendHttpSettings:
