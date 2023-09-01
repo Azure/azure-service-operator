@@ -40,7 +40,7 @@ ${SCRIPT_DIR}/kustomize-build.sh -v "$VERSION" -k operator -o "$GEN_FILES_DIR"
 rm "$GEN_FILES_DIR"/*_namespace_* # remove namespace as we will let Helm manage it
 
 # Chart replacements
-sed -i "s/\(version: \)\(.*\)/\1$VERSION/g" "$ASO_CHART"/Chart.yaml  # find version key and update the value with the current version
+sed -i "s/\(version: \)\(.*\)/\1${VERSION//v}/g" "$ASO_CHART"/Chart.yaml  # find version key and update the value with the current version
 
 # Deployment replacements
 grep -E $KUBE_RBAC_PROXY "$GEN_FILES_DIR"/*_deployment_* > /dev/null # Ensure that what we're about to try to replace actually exists (if it doesn't we want to fail)
