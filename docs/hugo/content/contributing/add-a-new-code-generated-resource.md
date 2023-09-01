@@ -81,8 +81,8 @@ Once you have a working development environment, run the `task` command to run t
 
 ### \<Resource\> looks like a resource reference but was not labelled as one
 Example:
->  Replace cross-resource references with genruntime.ResourceReference: 
-> ["github.com/Azure/azure-service-operator/hack/generated/_apis/containerservice/v1alpha1api20210501/PrivateLinkResource.Id" looks like a resource reference but was not labelled as one. 
+> Replace cross-resource references with genruntime.ResourceReference:  
+> ["github.com/Azure/azure-service-operator/v2/apis/containerservice/v1api20210501/PrivateLinkResource.Id" looks like a resource reference but was not labelled as one.
 
 To fix this error, determine whether the property in question is an ARM ID or not, and then update the `objectModelConfiguration` section in the configuration file.
 
