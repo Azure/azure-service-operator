@@ -84,11 +84,7 @@ func (webtest *Webtest) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (webtest *Webtest) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(webtest.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  webtest.Spec.Owner.Name,
-	}
+	return webtest.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

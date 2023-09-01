@@ -78,11 +78,7 @@ func (user *User) AzureName() string {
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (user *User) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(user.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  user.Spec.Owner.Name,
-	}
+	return user.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // +kubebuilder:webhook:path=/validate-dbformysql-azure-com-v1-user,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformysql.azure.com,resources=users,verbs=create;update,versions=v1,name=validate.v1.users.dbformysql.azure.com,admissionReviewVersions=v1
@@ -271,7 +267,7 @@ type UserSpec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a dbformysql.azure.com/FlexibleServer resource
-	Owner *genruntime.KnownResourceReference `group:"dbformysql.azure.com" json:"owner,omitempty" kind:"FlexibleServer"`
+	Owner *genruntime.KubernetesOwnerReference `group:"dbformysql.azure.com" json:"owner,omitempty" kind:"FlexibleServer"`
 
 	// Hostname is the host the user will connect from. If omitted, the default is to allow connection from any hostname.
 	Hostname string `json:"hostname,omitempty"`

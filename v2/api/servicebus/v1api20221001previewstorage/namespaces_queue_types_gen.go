@@ -105,11 +105,7 @@ func (queue *NamespacesQueue) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (queue *NamespacesQueue) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(queue.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  queue.Spec.Owner.Name,
-	}
+	return queue.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

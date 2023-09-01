@@ -141,11 +141,7 @@ func (record *PrivateDnsZonesTXTRecord) NewEmptyStatus() genruntime.ConvertibleS
 // Owner returns the ResourceReference of the owner
 func (record *PrivateDnsZonesTXTRecord) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(record.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  record.Spec.Owner.Name,
-	}
+	return record.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (record *PrivateDnsZonesTXTRecord) ValidateUpdate(old runtime.Object) (admi
 
 // createValidations validates the creation of the resource
 func (record *PrivateDnsZonesTXTRecord) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){record.validateResourceReferences}
+	return []func() (admission.Warnings, error){record.validateResourceReferences, record.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (record *PrivateDnsZonesTXTRecord) updateValidations() []func(old runtime.O
 		func(old runtime.Object) (admission.Warnings, error) {
 			return record.validateResourceReferences()
 		},
-		record.validateWriteOnceProperties}
+		record.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return record.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (record *PrivateDnsZonesTXTRecord) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(record)
 }
 
 // validateResourceReferences validates all resource references
@@ -543,7 +548,10 @@ func (zonesTXT *PrivateDnsZones_TXT_Spec) PopulateFromARM(owner genruntime.Arbit
 	}
 
 	// Set property "Owner":
-	zonesTXT.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	zonesTXT.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "PtrRecords":
 	// copying flattened property:

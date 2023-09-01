@@ -141,11 +141,7 @@ func (endpoint *PrivateEndpoint) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (endpoint *PrivateEndpoint) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(endpoint.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  endpoint.Spec.Owner.Name,
-	}
+	return endpoint.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (endpoint *PrivateEndpoint) ValidateUpdate(old runtime.Object) (admission.W
 
 // createValidations validates the creation of the resource
 func (endpoint *PrivateEndpoint) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){endpoint.validateResourceReferences}
+	return []func() (admission.Warnings, error){endpoint.validateResourceReferences, endpoint.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (endpoint *PrivateEndpoint) updateValidations() []func(old runtime.Object) 
 		func(old runtime.Object) (admission.Warnings, error) {
 			return endpoint.validateResourceReferences()
 		},
-		endpoint.validateWriteOnceProperties}
+		endpoint.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return endpoint.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (endpoint *PrivateEndpoint) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(endpoint)
 }
 
 // validateResourceReferences validates all resource references
@@ -520,7 +525,10 @@ func (endpoint *PrivateEndpoint_Spec) PopulateFromARM(owner genruntime.Arbitrary
 	}
 
 	// Set property "Owner":
-	endpoint.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	endpoint.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "PrivateLinkServiceConnections":
 	// copying flattened property:

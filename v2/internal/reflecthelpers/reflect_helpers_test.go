@@ -243,7 +243,7 @@ func Test_FindPropertiesWithTag(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 	// This is the number of properties and child properties on this object. It's fragile to structural changes
 	// in the object so may need to be changed in the future
-	g.Expect(results).To(HaveLen(23))
+	g.Expect(results).To(HaveLen(24))
 }
 
 func Test_FindOptionalConfigMapReferences(t *testing.T) {

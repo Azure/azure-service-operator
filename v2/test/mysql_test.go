@@ -184,7 +184,7 @@ func MySQL_User_CRUD(tc *testcommon.KubePerTestContext, server *mysql.FlexibleSe
 	user := &mysqlv1.User{
 		ObjectMeta: tc.MakeObjectMetaWithName(username),
 		Spec: mysqlv1.UserSpec{
-			Owner: testcommon.AsOwner(server),
+			Owner: testcommon.AsKubernetesOwner(server),
 			Privileges: []string{
 				"CREATE USER",
 				"PROCESS",
@@ -422,7 +422,7 @@ func Test_MySQL_User(t *testing.T) {
 	user := &mysqlv1.User{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("user")),
 		Spec: mysqlv1.UserSpec{
-			Owner: testcommon.AsOwner(flexibleServer),
+			Owner: testcommon.AsKubernetesOwner(flexibleServer),
 			Privileges: []string{
 				"CREATE USER",
 				"PROCESS",

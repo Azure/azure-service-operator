@@ -141,11 +141,7 @@ func (address *PublicIPAddress) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (address *PublicIPAddress) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(address.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  address.Spec.Owner.Name,
-	}
+	return address.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (address *PublicIPAddress) ValidateUpdate(old runtime.Object) (admission.Wa
 
 // createValidations validates the creation of the resource
 func (address *PublicIPAddress) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){address.validateResourceReferences}
+	return []func() (admission.Warnings, error){address.validateResourceReferences, address.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (address *PublicIPAddress) updateValidations() []func(old runtime.Object) (
 		func(old runtime.Object) (admission.Warnings, error) {
 			return address.validateResourceReferences()
 		},
-		address.validateWriteOnceProperties}
+		address.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return address.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (address *PublicIPAddress) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(address)
 }
 
 // validateResourceReferences validates all resource references
@@ -629,7 +634,10 @@ func (address *PublicIPAddress_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	}
 
 	// Set property "Owner":
-	address.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	address.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "PublicIPAddressVersion":
 	// copying flattened property:

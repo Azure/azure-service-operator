@@ -84,11 +84,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering) NewEmptyStatus() genruntime
 // Owner returns the ResourceReference of the owner
 func (peering *VirtualNetworksVirtualNetworkPeering) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(peering.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  peering.Spec.Owner.Name,
-	}
+	return peering.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

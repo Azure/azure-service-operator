@@ -141,11 +141,7 @@ func (table *StorageAccountsTableServicesTable) NewEmptyStatus() genruntime.Conv
 // Owner returns the ResourceReference of the owner
 func (table *StorageAccountsTableServicesTable) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(table.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  table.Spec.Owner.Name,
-	}
+	return table.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (table *StorageAccountsTableServicesTable) ValidateUpdate(old runtime.Objec
 
 // createValidations validates the creation of the resource
 func (table *StorageAccountsTableServicesTable) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){table.validateResourceReferences}
+	return []func() (admission.Warnings, error){table.validateResourceReferences, table.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (table *StorageAccountsTableServicesTable) updateValidations() []func(old r
 		func(old runtime.Object) (admission.Warnings, error) {
 			return table.validateResourceReferences()
 		},
-		table.validateWriteOnceProperties}
+		table.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return table.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (table *StorageAccountsTableServicesTable) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(table)
 }
 
 // validateResourceReferences validates all resource references
@@ -370,7 +375,10 @@ func (table *StorageAccounts_TableServices_Table_Spec) PopulateFromARM(owner gen
 	table.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property "Owner":
-	table.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	table.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "SignedIdentifiers":
 	// copying flattened property:

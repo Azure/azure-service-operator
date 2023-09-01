@@ -190,6 +190,159 @@ func Test_ResourceHierarchy_ExtensionOnDeepHierarchy(t *testing.T) {
 	g.Expect(hierarchy.AzureName()).To(Equal(extensionName))
 }
 
+func Test_ResourceHierarchy_OwnerARMIDResourceGroup(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	resourceGroupName := "myrg"
+	resourceName := "myresource"
+
+	rootARMID := fmt.Sprintf("/subscriptions/1234/resourceGroups/%s", resourceGroupName)
+	resource := createResourceGroupARMIDRootedResource(rootARMID, resourceName)
+	hierarchy := resolver.ResourceHierarchy{resource}
+
+	expectedARMID := fmt.Sprintf(
+		"/subscriptions/1234/resourceGroups/%s/providers/Microsoft.Batch/batchAccounts/%s",
+		resourceGroupName,
+		resourceName)
+
+	g.Expect(hierarchy.ResourceGroup()).To(Equal(resourceGroupName))
+	g.Expect(hierarchy.FullyQualifiedARMID("1234")).To(Equal(expectedARMID))
+	g.Expect(hierarchy.AzureName()).To(Equal(resourceName))
+}
+
+func Test_ResourceHierarchy_OwnerARMIDParent(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	resourceGroupName := "myrg"
+	parentName := "parent"
+	resourceName := "myresource"
+
+	rootARMID := fmt.Sprintf("/subscriptions/1234/resourceGroups/%s/providers/Microsoft.Storage/storageAccounts/%s", resourceGroupName, parentName)
+	resource := createChildResourceOwnedByARMID(rootARMID, resourceName)
+	hierarchy := resolver.ResourceHierarchy{resource}
+
+	expectedARMID := fmt.Sprintf(
+		"/subscriptions/1234/resourceGroups/%s/providers/Microsoft.Storage/storageAccounts/%s/blobServices/default",
+		resourceGroupName,
+		parentName)
+
+	g.Expect(hierarchy.ResourceGroup()).To(Equal(resourceGroupName))
+	g.Expect(hierarchy.FullyQualifiedARMID("1234")).To(Equal(expectedARMID))
+	g.Expect(hierarchy.AzureName()).To(Equal("default"))
+}
+
+func Test_ResourceHierarchy_OwnerARMIDWrongProvider_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	resourceGroupName := "myrg"
+	parentName := "parent"
+	resourceName := "myresource"
+
+	rootARMID := fmt.Sprintf("/subscriptions/1234/resourceGroups/%s/providers/Microsoft.Qux/storageAccounts/%s", resourceGroupName, parentName)
+	resource := createChildResourceOwnedByARMID(rootARMID, resourceName)
+	hierarchy := resolver.ResourceHierarchy{resource}
+
+	_, err := hierarchy.FullyQualifiedARMID("1234")
+	g.Expect(err).To(MatchError("expected owner ARM ID to be from provider \"Microsoft.Storage\", but was \"Microsoft.Qux\""))
+}
+
+func Test_ResourceHierarchy_OwnerARMIDWrongType_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	resourceGroupName := "myrg"
+	parentName := "parent"
+	resourceName := "myresource"
+
+	rootARMID := fmt.Sprintf("/subscriptions/1234/resourceGroups/%s/providers/Microsoft.Storage/cats/%s", resourceGroupName, parentName)
+	resource := createChildResourceOwnedByARMID(rootARMID, resourceName)
+	hierarchy := resolver.ResourceHierarchy{resource}
+
+	_, err := hierarchy.FullyQualifiedARMID("1234")
+	g.Expect(err).To(MatchError("expected owner ARM ID to be of type \"Microsoft.Storage/storageAccounts\", but was \"Microsoft.Storage/cats\""))
+}
+
+func Test_ResourceHierarchy_OwnerARMIDAnotherWrongType_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	resourceGroupName := "myrg"
+	parentName := "parent"
+	resourceName := "myresource"
+
+	rootARMID := fmt.Sprintf("/subscriptions/1234/resourceGroups/%s/providers/Microsoft.Storage/cats/%s", resourceGroupName, parentName)
+	resource := createResourceGroupARMIDRootedResource(rootARMID, resourceName)
+	hierarchy := resolver.ResourceHierarchy{resource}
+
+	_, err := hierarchy.FullyQualifiedARMID("1234")
+	g.Expect(err).To(MatchError("expected owner ARM ID to be for a resource group, but was \"Microsoft.Storage/cats\""))
+}
+
+func Test_ResourceHierarchy_OwnerARMIDWrongSubscription_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	resourceGroupName := "myrg"
+	resourceName := "myresource"
+
+	rootARMID := fmt.Sprintf("/subscriptions/4567/resourceGroups/%s", resourceGroupName)
+	resource := createResourceGroupARMIDRootedResource(rootARMID, resourceName)
+	hierarchy := resolver.ResourceHierarchy{resource}
+
+	_, err := hierarchy.FullyQualifiedARMID("1234")
+	g.Expect(err).To(MatchError("resource subscription \"1234\" does not match parent subscription \"4567\""))
+}
+
+func Test_ResourceHierarchy_OwnerARMIDWithExtension(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	resourceGroupName := "myrg"
+	resourceName := "myresource"
+	extensionName := "myextension"
+
+	rootARMID := fmt.Sprintf("/subscriptions/1234/resourceGroups/%s/providers/Microsoft.Storage/storageAccounts/%s", resourceGroupName, resourceName)
+	resource := createSimpleExtensionResourceOwnedByARMID(extensionName, rootARMID)
+	hierarchy := resolver.ResourceHierarchy{resource}
+
+	expectedARMID := fmt.Sprintf(
+		"/subscriptions/1234/resourceGroups/%s/providers/Microsoft.Storage/storageAccounts/%s/providers/Microsoft.SimpleExtension/simpleExtensions/%s",
+		resourceGroupName,
+		resourceName,
+		extensionName)
+
+	g.Expect(hierarchy.ResourceGroup()).To(Equal(resourceGroupName))
+	g.Expect(hierarchy.FullyQualifiedARMID("1234")).To(Equal(expectedARMID))
+	g.Expect(hierarchy.AzureName()).To(Equal(extensionName))
+}
+
+func Test_ResourceHierarchy_OwnerARMIDWithExtensionOnDeepHierarchy(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	resourceGroupName := "myrg"
+	resourceName := "myresource"
+	childResourceName := "mychildresource"
+	extensionName := "myextension"
+
+	rootARMID := fmt.Sprintf("/subscriptions/1234/resourceGroups/%s/providers/Microsoft.Storage/storageAccounts/%s", resourceGroupName, resourceName)
+	hierarchy := createExtensionResourceOnDeepHierarchyOwnedByARMID(rootARMID, childResourceName, extensionName)
+
+	expectedARMID := fmt.Sprintf(
+		"/subscriptions/1234/resourceGroups/%s/providers/Microsoft.Storage/storageAccounts/%s/blobServices/%s/providers/Microsoft.SimpleExtension/simpleExtensions/%s",
+		resourceGroupName,
+		resourceName,
+		hierarchy[0].AzureName(),
+		extensionName)
+
+	g.Expect(hierarchy.ResourceGroup()).To(Equal(resourceGroupName))
+	g.Expect(hierarchy.FullyQualifiedARMID("1234")).To(Equal(expectedARMID))
+	g.Expect(hierarchy.AzureName()).To(Equal(extensionName))
+}
+
 func Test_ResourceHierarchy_ChildResourceIDOverride_DoesNotImpactResourceItself(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)

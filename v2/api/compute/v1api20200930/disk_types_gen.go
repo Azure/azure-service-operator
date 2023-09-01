@@ -141,11 +141,7 @@ func (disk *Disk) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (disk *Disk) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(disk.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  disk.Spec.Owner.Name,
-	}
+	return disk.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (disk *Disk) ValidateUpdate(old runtime.Object) (admission.Warnings, error)
 
 // createValidations validates the creation of the resource
 func (disk *Disk) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){disk.validateResourceReferences}
+	return []func() (admission.Warnings, error){disk.validateResourceReferences, disk.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (disk *Disk) updateValidations() []func(old runtime.Object) (admission.Warn
 		func(old runtime.Object) (admission.Warnings, error) {
 			return disk.validateResourceReferences()
 		},
-		disk.validateWriteOnceProperties}
+		disk.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return disk.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (disk *Disk) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(disk)
 }
 
 // validateResourceReferences validates all resource references
@@ -727,7 +732,10 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	}
 
 	// Set property "Owner":
-	disk.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	disk.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "PurchasePlan":
 	// copying flattened property:

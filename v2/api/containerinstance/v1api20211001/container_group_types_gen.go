@@ -142,11 +142,7 @@ func (group *ContainerGroup) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (group *ContainerGroup) Owner() *genruntime.ResourceReference {
 	ownerGroup, ownerKind := genruntime.LookupOwnerGroupKind(group.Spec)
-	return &genruntime.ResourceReference{
-		Group: ownerGroup,
-		Kind:  ownerKind,
-		Name:  group.Spec.Owner.Name,
-	}
+	return group.Spec.Owner.AsResourceReference(ownerGroup, ownerKind)
 }
 
 // SetStatus sets the status of this resource
@@ -204,7 +200,7 @@ func (group *ContainerGroup) ValidateUpdate(old runtime.Object) (admission.Warni
 
 // createValidations validates the creation of the resource
 func (group *ContainerGroup) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){group.validateResourceReferences}
+	return []func() (admission.Warnings, error){group.validateResourceReferences, group.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -218,7 +214,16 @@ func (group *ContainerGroup) updateValidations() []func(old runtime.Object) (adm
 		func(old runtime.Object) (admission.Warnings, error) {
 			return group.validateResourceReferences()
 		},
-		group.validateWriteOnceProperties}
+		group.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return group.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (group *ContainerGroup) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(group)
 }
 
 // validateResourceReferences validates all resource references
@@ -656,7 +661,10 @@ func (group *ContainerGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 	}
 
 	// Set property "Owner":
-	group.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	group.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "RestartPolicy":
 	// copying flattened property:

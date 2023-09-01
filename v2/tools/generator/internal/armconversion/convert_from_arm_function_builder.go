@@ -278,6 +278,7 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 	if ownerNameType == astmodel.KnownResourceReferenceType {
 		compositeLit := astbuilder.NewCompositeLiteralBuilder(astmodel.KnownResourceReferenceType.AsType(builder.codeGenerationContext))
 		compositeLit.AddField("Name", astbuilder.Selector(dst.NewIdent(ownerParameter), "Name"))
+		compositeLit.AddField("ARMID", astbuilder.Selector(dst.NewIdent(ownerParameter), "ARMID"))
 		convertedOwner = astbuilder.AddrOf(compositeLit.Build())
 	} else if ownerNameType == astmodel.ArbitraryOwnerReference {
 		convertedOwner = astbuilder.AddrOf(dst.NewIdent(ownerParameter))

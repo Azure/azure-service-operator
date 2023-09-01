@@ -134,11 +134,7 @@ func (administrator *FlexibleServersAdministrator) NewEmptyStatus() genruntime.C
 // Owner returns the ResourceReference of the owner
 func (administrator *FlexibleServersAdministrator) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(administrator.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  administrator.Spec.Owner.Name,
-	}
+	return administrator.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -196,7 +192,7 @@ func (administrator *FlexibleServersAdministrator) ValidateUpdate(old runtime.Ob
 
 // createValidations validates the creation of the resource
 func (administrator *FlexibleServersAdministrator) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){administrator.validateResourceReferences, administrator.validateOptionalConfigMapReferences}
+	return []func() (admission.Warnings, error){administrator.validateResourceReferences, administrator.validateOwnerReference, administrator.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -212,6 +208,9 @@ func (administrator *FlexibleServersAdministrator) updateValidations() []func(ol
 		},
 		administrator.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
+			return administrator.validateOwnerReference()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return administrator.validateOptionalConfigMapReferences()
 		},
 	}
@@ -224,6 +223,11 @@ func (administrator *FlexibleServersAdministrator) validateOptionalConfigMapRefe
 		return nil, err
 	}
 	return genruntime.ValidateOptionalConfigMapReferences(refs)
+}
+
+// validateOwnerReference validates the owner field
+func (administrator *FlexibleServersAdministrator) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(administrator)
 }
 
 // validateResourceReferences validates all resource references
@@ -448,7 +452,10 @@ func (administrator *FlexibleServers_Administrator_Spec) PopulateFromARM(owner g
 	}
 
 	// Set property "Owner":
-	administrator.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	administrator.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Sid":
 	// copying flattened property:

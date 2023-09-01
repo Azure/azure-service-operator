@@ -142,11 +142,7 @@ func (site *Site) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (site *Site) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(site.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  site.Spec.Owner.Name,
-	}
+	return site.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -204,7 +200,7 @@ func (site *Site) ValidateUpdate(old runtime.Object) (admission.Warnings, error)
 
 // createValidations validates the creation of the resource
 func (site *Site) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){site.validateResourceReferences}
+	return []func() (admission.Warnings, error){site.validateResourceReferences, site.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -218,7 +214,16 @@ func (site *Site) updateValidations() []func(old runtime.Object) (admission.Warn
 		func(old runtime.Object) (admission.Warnings, error) {
 			return site.validateResourceReferences()
 		},
-		site.validateWriteOnceProperties}
+		site.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return site.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (site *Site) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(site)
 }
 
 // validateResourceReferences validates all resource references
@@ -779,7 +784,10 @@ func (site *Site_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	}
 
 	// Set property "Owner":
-	site.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	site.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "PublicNetworkAccess":
 	// copying flattened property:

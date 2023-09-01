@@ -84,11 +84,7 @@ func (binding *TrustedAccessRoleBinding) NewEmptyStatus() genruntime.Convertible
 // Owner returns the ResourceReference of the owner
 func (binding *TrustedAccessRoleBinding) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(binding.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  binding.Spec.Owner.Name,
-	}
+	return binding.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

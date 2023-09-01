@@ -144,11 +144,7 @@ func (server *RedisLinkedServer) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (server *RedisLinkedServer) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(server.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  server.Spec.Owner.Name,
-	}
+	return server.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -206,7 +202,7 @@ func (server *RedisLinkedServer) ValidateUpdate(old runtime.Object) (admission.W
 
 // createValidations validates the creation of the resource
 func (server *RedisLinkedServer) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){server.validateResourceReferences}
+	return []func() (admission.Warnings, error){server.validateResourceReferences, server.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -220,7 +216,16 @@ func (server *RedisLinkedServer) updateValidations() []func(old runtime.Object) 
 		func(old runtime.Object) (admission.Warnings, error) {
 			return server.validateResourceReferences()
 		},
-		server.validateWriteOnceProperties}
+		server.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return server.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (server *RedisLinkedServer) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(server)
 }
 
 // validateResourceReferences validates all resource references
@@ -401,7 +406,10 @@ func (server *Redis_LinkedServer_Spec) PopulateFromARM(owner genruntime.Arbitrar
 	// no assignment for property "LinkedRedisCacheReference"
 
 	// Set property "Owner":
-	server.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	server.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "ServerRole":
 	// copying flattened property:

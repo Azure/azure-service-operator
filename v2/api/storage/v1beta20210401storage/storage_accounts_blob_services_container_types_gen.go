@@ -116,11 +116,7 @@ func (container *StorageAccountsBlobServicesContainer) NewEmptyStatus() genrunti
 // Owner returns the ResourceReference of the owner
 func (container *StorageAccountsBlobServicesContainer) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(container.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  container.Spec.Owner.Name,
-	}
+	return container.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
