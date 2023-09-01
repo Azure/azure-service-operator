@@ -39,12 +39,22 @@ func newDebugReporter(groupSelector string, outputFolder string) *debugReporter 
 func (dr *debugReporter) ReportStage(stage int, description string, state *pipeline.State) error {
 	included := state.Definitions().Where(
 		func(def astmodel.TypeDefinition) bool {
-			grp := def.Name().PackageReference().Group()
-			return dr.groupSelector.Matches(grp).Matched
+			grp, ver := def.Name().PackageReference().GroupVersion()
+
+			// Allow matching just the group (e.g. network)
+			if dr.groupSelector.Matches(grp).Matched {
+				return true
+			}
+
+			// Match on group + package name (e.g. network/v1api20221101)
+			if dr.groupSelector.Matches(grp + "/" + ver).Matched {
+				return true
+			}
+
+			return false
 		})
 
-	tcr := reporting.NewTypeCatalogReport(included)
-	tcr.IncludeFunctions()
+	tcr := reporting.NewTypeCatalogReport(included, reporting.IncludeFunctions)
 	filename := dr.createFileName(stage, description)
 	err := tcr.SaveTo(filename)
 	return errors.Wrapf(err, "failed to save type catalog to %s", filename)

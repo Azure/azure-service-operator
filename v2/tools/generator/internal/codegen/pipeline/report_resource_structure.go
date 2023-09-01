@@ -71,8 +71,7 @@ func (report *ResourceStructureReport) summarize(definitions astmodel.TypeDefini
 }
 
 func (report *ResourceStructureReport) saveReport(filePath string, defs astmodel.TypeDefinitionSet) error {
-	rpt := reporting.NewTypeCatalogReport(defs)
-	rpt.InlineTypes()
+	rpt := reporting.NewTypeCatalogReport(defs, reporting.InlineTypes)
 	rpt.AddHeader(astmodel.CodeGenerationComments...)
 	err := rpt.SaveTo(filePath)
 	return errors.Wrapf(err, "unable to save type catalog report to %q", filePath)
