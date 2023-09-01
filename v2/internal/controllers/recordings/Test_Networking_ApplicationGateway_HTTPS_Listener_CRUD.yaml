@@ -1,0 +1,2839 @@
+---
+version: 1
+interactions:
+- request:
+    body: '{"location":"westus2","name":"asotest-rg-xofglu","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "93"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu?api-version=2020-06-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu","name":"asotest-rg-xofglu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "276"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu","name":"asotest-rg-xofglu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/virtualNetworks/asotest-vn-fsazuy?api-version=2020-11-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/virtualNetworks/asotest-vn-fsazuy''
+      under resource group ''asotest-rg-xofglu'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "240"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"location":"westus2","name":"asotest-publicip-uvwecz","properties":{"publicIPAllocationMethod":"Static"},"sku":{"name":"Standard"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "132"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-uvwecz?api-version=2020-11-01
+    method: PUT
+  response:
+    body: "{\r\n  \"name\": \"asotest-publicip-uvwecz\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-uvwecz\",\r\n
+      \ \"etag\": \"W/\\\"108a4900-5bf3-45b3-89e1-64cc8d5feadf\\\"\",\r\n  \"location\":
+      \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n
+      \   \"resourceGuid\": \"4821d7ea-c28e-438b-a7ce-4df76da5975d\",\r\n    \"publicIPAddressVersion\":
+      \"IPv4\",\r\n    \"publicIPAllocationMethod\": \"Static\",\r\n    \"idleTimeoutInMinutes\":
+      4,\r\n    \"ipTags\": []\r\n  },\r\n  \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n
+      \ \"sku\": {\r\n    \"name\": \"Standard\",\r\n    \"tier\": \"Regional\"\r\n
+      \ }\r\n}"
+    headers:
+      Azure-Asyncnotification:
+      - Enabled
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/19b22aea-7e4e-47de-9f59-804331b8bebe?api-version=2020-11-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "664"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "1"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: '{"location":"westus2","name":"asotest-vn-fsazuy","properties":{"addressSpace":{"addressPrefixes":["10.0.0.0/8"]}}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "114"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/virtualNetworks/asotest-vn-fsazuy?api-version=2020-11-01
+    method: PUT
+  response:
+    body: "{\r\n  \"name\": \"asotest-vn-fsazuy\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/virtualNetworks/asotest-vn-fsazuy\",\r\n
+      \ \"etag\": \"W/\\\"56f9cf74-93e3-4050-b7d1-38b743dc933e\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"92732b5b-da43-4855-859b-cb333bde7b62\",\r\n
+      \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/8\"\r\n
+      \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
+      [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
+    headers:
+      Azure-Asyncnotification:
+      - Enabled
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/f31cc263-9bbe-4cf5-8484-e095e6b41e81?api-version=2020-11-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "629"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "3"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/19b22aea-7e4e-47de-9f59-804331b8bebe?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/f31cc263-9bbe-4cf5-8484-e095e6b41e81?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-uvwecz?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-publicip-uvwecz\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-uvwecz\",\r\n
+      \ \"etag\": \"W/\\\"cf7344e4-9033-40bb-8a46-ba481aadafe5\\\"\",\r\n  \"location\":
+      \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n
+      \   \"resourceGuid\": \"4821d7ea-c28e-438b-a7ce-4df76da5975d\",\r\n    \"ipAddress\":
+      \"4.154.65.102\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \"Static\",\r\n    \"idleTimeoutInMinutes\": 4,\r\n    \"ipTags\": []\r\n  },\r\n
+      \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
+      \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"cf7344e4-9033-40bb-8a46-ba481aadafe5"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/virtualNetworks/asotest-vn-fsazuy?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-vn-fsazuy\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/virtualNetworks/asotest-vn-fsazuy\",\r\n
+      \ \"etag\": \"W/\\\"32203fc4-3eb2-4390-985c-a68d0ce48112\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"92732b5b-da43-4855-859b-cb333bde7b62\",\r\n
+      \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/8\"\r\n
+      \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
+      [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"32203fc4-3eb2-4390-985c-a68d0ce48112"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-uvwecz?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-publicip-uvwecz\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-uvwecz\",\r\n
+      \ \"etag\": \"W/\\\"cf7344e4-9033-40bb-8a46-ba481aadafe5\\\"\",\r\n  \"location\":
+      \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n
+      \   \"resourceGuid\": \"4821d7ea-c28e-438b-a7ce-4df76da5975d\",\r\n    \"ipAddress\":
+      \"4.154.65.102\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \"Static\",\r\n    \"idleTimeoutInMinutes\": 4,\r\n    \"ipTags\": []\r\n  },\r\n
+      \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
+      \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"cf7344e4-9033-40bb-8a46-ba481aadafe5"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/virtualNetworks/asotest-vn-fsazuy?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-vn-fsazuy\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/virtualNetworks/asotest-vn-fsazuy\",\r\n
+      \ \"etag\": \"W/\\\"32203fc4-3eb2-4390-985c-a68d0ce48112\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"92732b5b-da43-4855-859b-cb333bde7b62\",\r\n
+      \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/8\"\r\n
+      \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
+      [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"32203fc4-3eb2-4390-985c-a68d0ce48112"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"AzureAppGtwSubnet","properties":{"addressPrefix":"10.0.0.0/24"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "73"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/virtualNetworks/asotest-vn-fsazuy/subnets/AzureAppGtwSubnet?api-version=2020-11-01
+    method: PUT
+  response:
+    body: "{\r\n  \"name\": \"AzureAppGtwSubnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/virtualNetworks/asotest-vn-fsazuy/subnets/AzureAppGtwSubnet\",\r\n
+      \ \"etag\": \"W/\\\"0672cf16-9a73-4446-b63c-96d5d5dedc70\\\"\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
+      \   \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\": \"Disabled\",\r\n
+      \   \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n  },\r\n  \"type\":
+      \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
+    headers:
+      Azure-Asyncnotification:
+      - Enabled
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/8d1a45fd-c9f6-417c-8451-7d4b28482e6b?api-version=2020-11-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "560"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "3"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/8d1a45fd-c9f6-417c-8451-7d4b28482e6b?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/virtualNetworks/asotest-vn-fsazuy/subnets/AzureAppGtwSubnet?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"AzureAppGtwSubnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/virtualNetworks/asotest-vn-fsazuy/subnets/AzureAppGtwSubnet\",\r\n
+      \ \"etag\": \"W/\\\"89385eec-0914-4873-8d5c-d8e56b9c6036\\\"\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
+      \   \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\": \"Disabled\",\r\n
+      \   \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n  },\r\n  \"type\":
+      \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"89385eec-0914-4873-8d5c-d8e56b9c6036"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/virtualNetworks/asotest-vn-fsazuy/subnets/AzureAppGtwSubnet?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"AzureAppGtwSubnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/virtualNetworks/asotest-vn-fsazuy/subnets/AzureAppGtwSubnet\",\r\n
+      \ \"etag\": \"W/\\\"89385eec-0914-4873-8d5c-d8e56b9c6036\\\"\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
+      \   \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\": \"Disabled\",\r\n
+      \   \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n  },\r\n  \"type\":
+      \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"89385eec-0914-4873-8d5c-d8e56b9c6036"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"location":"westus2","name":"appgatewaytest","properties":{"autoscaleConfiguration":{"maxCapacity":3,"minCapacity":1},"backendAddressPools":[{"name":"app-gw-be-pool-1","properties":{"backendAddresses":[{"ipAddress":"10.0.1.1"}]}}],"backendHttpSettingsCollection":[{"name":"app-gw-be-http-setting-1","properties":{"cookieBasedAffinity":"Disabled","pickHostNameFromBackendAddress":false,"port":8443,"protocol":"Https"}}],"frontendIPConfigurations":[{"name":"app-gw-fip-config-1","properties":{"privateIPAddress":"10.0.0.10","privateIPAllocationMethod":"Static","subnet":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/virtualNetworks/asotest-vn-fsazuy/subnets/AzureAppGtwSubnet"}}},{"name":"app-gw-fip-config-2","properties":{"publicIPAddress":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-uvwecz"}}}],"frontendPorts":[{"name":"app-gw-fe-port-1","properties":{"port":443}}],"gatewayIPConfigurations":[{"name":"app-gw-ip-config-1","properties":{"subnet":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/virtualNetworks/asotest-vn-fsazuy/subnets/AzureAppGtwSubnet"}}}],"httpListeners":[{"name":"app-gw-http-listener-1","properties":{"frontendIPConfiguration":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/frontendIPConfigurations/app-gw-fip-config-1"},"frontendPort":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/frontendPorts/app-gw-fe-port-1"},"hostNames":["test.contoso.com"],"protocol":"Https","sslCertificate":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/sslCertificates/app-gw-sslcert-1"}}}],"requestRoutingRules":[{"name":"app-gtw-routing-rule-1","properties":{"backendAddressPool":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/backendAddressPools/app-gw-be-pool-1"},"backendHttpSettings":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/backendHttpSettingsCollection/app-gw-be-http-setting-1"},"httpListener":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/httpListeners/app-gw-http-listener-1"},"priority":100,"ruleType":"Basic"}}],"sku":{"name":"WAF_v2","tier":"WAF_v2"},"sslCertificates":[{"name":"app-gw-sslcert-1","properties":{"data":"MIIKEQIBAzCCCdcGCSqGSIb3DQEHAaCCCcgEggnEMIIJwDCCBHcGCSqGSIb3DQEH\n\t\t\tBqCCBGgwggRkAgEAMIIEXQYJKoZIhvcNAQcBMBwGCiqGSIb3DQEMAQYwDgQIla+W\n\t\t\tnqLFehECAggAgIIEMHvDS99b6tAa7Ovg+OGmXTCgW9/RULpALq033njhKAejGW6u\n\t\t\tdSfboMC5EHDO1Tq0b5FzxTzgEuvhEX0DSbIZtxMF8UUgJBog/WyjnSzUl5bkTosa\n\t\t\t8KMKHt4b0YsDzvYTIbNgYV243TZ6Ge3st+bW7n/qDStlb1M72Hg9vSTtFKD8Tyvk\n\t\t\tkyF2y3ZonYd5wSYU5ewYNEPvt+vxXD80OKHRZ2pWR+/6t9jsY4q5Eq1Z7HrCZbIA\n\t\t\tGKno4raa5M7UGRdG9+ManSPyIBE5eNHEIY85TPO2xIzB0sBJU5ajYRufTLrSEQgF\n\t\t\t64GkWo9TDsDKIpQf8C6qDTGWA/hVoEg8eL1nRMeAXuJmKlNhOdAsXmYizxbMGXOU\n\t\t\t5I8TB2Oz3ZVEoUK2kEHr3xXC8RIFNOL6i238X/+OJseZA6QezwXIAhLNaUQw6AM1\n\t\t\tCspNXIR4bQ6oHwUQHMB8/XJCfYYPZ5q9tcZkLIWCjV6GzsS29e5/GWeMqCg/XC/7\n\t\t\tj1lVSarO2CWH8C8x3YsnGMQ9/sfMEJY4oL9kKNOw9QkA6QOrXia8QRCDggU7jUYJ\n\t\t\tInxAkVnuAG/kQR0WTl6BuRncotq3p+9YsTRxP2jaYczrBLD+rQ7RGH5hPkgKM2iq\n\t\t\txrEbN52K2NVfFUDoqjDh42oseAA7UzSfj6kkPbw1W0D0l1L7FiEZvmT+weO45u39\n\t\t\tzdldCMdhO+Ih5zP769Aa7JdvrgiNR+YdruNzrVuhL0v4U8BcxaWqAG5DB1NJKYDv\n\t\t\tgL+b2tT8Ljc/alFWaU5uXoPM2M3Pc9dt7voS08Mj3zGwvkbTEMM2hkKoESqtbClL\n\t\t\t1XoOW90prtVLtA0z+fd/whrmNWHMJauwZNAJYUDot75hlzA5YgLsMqlA/YXIiC8a\n\t\t\tD1JZdb3Ntc0uN7kqkdeN37odYYHL+PAKT5iDJ+90gEr8XLpqv3L9pNQY0Rbz6ham\n\t\t\t7aCoHdH1nvCbV2yMIBaoKUrc6lHHzkKF45wYhC9ce879lmwqIWZXwPURBsZehugh\n\t\t\tHkoVklGWMF007OKCWrJc15ND3xSFTVm0QScc+XMMkI13VcGH+lhCg8MRzvWoHuyZ\n\t\t\ta8uq2dKG7rxjoB14O+0pBfOCLu7YF6cDwVOhAdF2NQ6/JtHDmYgLjHz85y+e+OUf\n\t\t\tj5/Z6gM72ylnbzF360COagI48dn1weEyA7Pgl2IKzzAiQn5vdeB6JFGwQMOF4eut\n\t\t\tZe8Nt2+wrCqt4z/ztlyvZ8LkiWtuD7EUOodsFiC9rorjMMHab8qhF72ft9Zl1exp\n\t\t\thKfpSrYA33gKNlgr5rS6pHS+kgOmn+zMJZ+ZWhas0JVAwZru4WY2vaIHsEBG9iv/\n\t\t\tKBBuw9XI9lZeC8UAjXPrR07aUZVTJB11xec6lFlMrgIJZZhyKuc5iaj4dQi1UoyU\n\t\t\tk+DUHq5zdggMronzZLWHmiwI0zFulDfDrk0GY5kwggVBBgkqhkiG9w0BBwGgggUy\n\t\t\tBIIFLjCCBSowggUmBgsqhkiG9w0BDAoBAqCCBO4wggTqMBwGCiqGSIb3DQEMAQMw\n\t\t\tDgQIdj1kY7PLoDkCAggABIIEyG0HEW9aIMrFT4F2MuBqY6Nu981+dRuLUh6wjWbh\n\t\t\tVkug5y3e+bsH7/kl9aWQjFzwMmlverxhVISu/MJ4wiACZXuGWvGk+jDRUBrkSr7v\n\t\t\t2ZbWMMaShELSTpbvXO6BDSWA6yInT4BeZYrFKOAysdtXHhPOs/nBF1FOagZnXW+Y\n\t\t\tSxSc/oCQgiflEotmo6LmoTxE3Ta0fTZTXlb5xmnbBEt+30S6sS+lU1nllEgvpNgG\n\t\t\t6XWxugGQsKAyYagxqQzEYQJ+tytMc1pntURsVxsl41xbceN1hDxfrPnLfZ6XUKsq\n\t\t\trKUpZdxN0WVHErdL58JJzuoIswtnsB4+5hMFWgY4J7hJBE+r4/oQ7S6w8gHqYu+p\n\t\t\taBkdb8EqdCh1X6sXCzUBOpDAAqzkPiAhIzF27zUZ+1F1mWlcv8/CRTh6TdQJTwaH\n\t\t\ttRPptTR/rLEmN6nBVhNw/tYVxY/Y93vuO79HdFtFl5UJqdYRjOmf6QTJU9thO7wy\n\t\t\tQj7ZEoEMYsg17qofz2DEsxdB7UahOJQ3P7pD3nAL8QT3bwNeF3f1hOnJF736Ea6q\n\t\t\tgxvmXd653T87QRisjYrbssVQ0tDj0l44lDyllFSV9sbopGiuuqGctCCUUpKGZeTV\n\t\t\tgUTZs8lOGe/ACspOD/tsQnFkOa/FY2AxqSzk4t7p62nPeabu+ZOzQiYmB+nxrju/\n\t\t\tsAjpdQqF866OEYUxisobL8S0RUXRYZtevMKCS09PHJ8Gv5bYHR8xdsGswBuo2Cxh\n\t\t\tOWoW22Y7zkdn4YwVci3tqbZ+c3SeD1Aw0nVz8uvxljHSphed2aNDDv+WlVTQv2BF\n\t\t\tlH6ONKp6hOIVWDLEVzbN3rHbMYFaz2o+TZZyzSGXK5THjAxlM46w9OEYqmQdULIt\n\t\t\tnZSB6qF31buMPjvRzt4NHlDp/cQD/Onc831eJYA4GP3vAfxZC2PYddS1kK+42oZc\n\t\t\t1+IWQyI66xitQN83eJ4zYAgkhMbCGM2bSkM87WOoHh9GZb/qo8urx32llGFRALLL\n\t\t\t98aIadMJZifCdBc0g5FF7TPwzhq90tIvfA3F9Ha9wSCmyHFm2EI+jLxsjD+zIkKQ\n\t\t\t2tkXeICKZeVofVNhe/s2PKqMHj5dbdaPkOLGTZFfiCFx6JYVLFaGePWixICgWbFc\n\t\t\tdjpzGLXndeNnMJoHhhW/hRQVzktVjOcwqbyL223+Tg07VTZR13xh//p54c9J+/ic\n\t\t\t42OyPNtf3lVV/3lLE65drgKViwgRh8soifl2ycYakwr1n53wntNjfzohXGkoIFzX\n\t\t\tllt+OgUnl6X9QWK0/eq8i1pqKcy2nJkiGrIjlCgR4ubPJBUMbt3VZXjK9NJX5Oe3\n\t\t\teSIJu3aU7oIci+f8zXfSiivgKHBkyk7Z3AOq1RPBwPlqQlqneJD3HP7JhiRQMB/a\n\t\t\tNoKTGbz3Py6GfdaSIxkNkutT63KQe0Auj9/0oMFrtqJaTT+Zu88o2A1aRnADvEwS\n\t\t\tuob+N/7mQsQ/hUVWQN7OdxGU+JyuEDM8KWzpFlocDBuaeN654F4YIKdfxvjB4ITP\n\t\t\tLRs5Xo3N2OBFIlLkOtjlPTzZabAqUynJ4LPfJCbH078SfY4YACGcnUcMHZWC5ueI\n\t\t\tv7ZY4ZA8xxg4ajdspj2n8HuvugU4k2GExXSxpDaJctaA/XnBMnWrUFo0CTElMCMG\n\t\t\tCSqGSIb3DQEJFTEWBBQ1FOpSKUDiMNgnn3GIeT1TJ7imnzAxMCEwCQYFKw4DAhoF\n\t\t\{KEY}="}}],"sslPolicy":{"policyName":"AppGwSslPolicy20220101S","policyType":"Predefined"},"sslProfiles":[{"name":"app-gw-ssl-profile-1","properties":{"sslPolicy":{"policyName":"AppGwSslPolicy20220101S","policyType":"Predefined"}}}],"webApplicationFirewallConfiguration":{"enabled":true,"firewallMode":"Detection","ruleSetType":"OWASP","ruleSetVersion":"3.2"}}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "7170"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest?api-version=2022-07-01
+    method: PUT
+  response:
+    body: "{\r\n  \"name\": \"appgatewaytest\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest\",\r\n
+      \ \"etag\": \"W/\\\"2477ba2f-da7a-4c63-93d8-50f48b72e4a0\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/applicationGateways\",\r\n  \"location\": \"westus2\",\r\n
+      \ \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\":
+      \"46e972e6-697e-4e59-8d09-06e9e6f0437f\",\r\n    \"sku\": {\r\n      \"name\":
+      \"WAF_v2\",\r\n      \"tier\": \"WAF_v2\",\r\n      \"family\": \"Generation_1\"\r\n
+      \   },\r\n    \"operationalState\": \"Stopped\",\r\n    \"gatewayIPConfigurations\":
+      [\r\n      {\r\n        \"name\": \"app-gw-ip-config-1\",\r\n        \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/gatewayIPConfigurations/app-gw-ip-config-1\",\r\n
+      \       \"etag\": \"W/\\\"2477ba2f-da7a-4c63-93d8-50f48b72e4a0\\\"\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Updating\",\r\n          \"subnet\":
+      {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/virtualNetworks/asotest-vn-fsazuy/subnets/AzureAppGtwSubnet\"\r\n
+      \         }\r\n        },\r\n        \"type\": \"Microsoft.Network/applicationGateways/gatewayIPConfigurations\"\r\n
+      \     }\r\n    ],\r\n    \"sslCertificates\": [\r\n      {\r\n        \"name\":
+      \"app-gw-sslcert-1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/sslCertificates/app-gw-sslcert-1\",\r\n
+      \       \"etag\": \"W/\\\"2477ba2f-da7a-4c63-93d8-50f48b72e4a0\\\"\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Updating\",\r\n          \"httpListeners\":
+      [\r\n            {\r\n              \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/httpListeners/app-gw-http-listener-1\"\r\n
+      \           }\r\n          ]\r\n        },\r\n        \"type\": \"Microsoft.Network/applicationGateways/sslCertificates\"\r\n
+      \     }\r\n    ],\r\n    \"trustedRootCertificates\": [],\r\n    \"trustedClientCertificates\":
+      [],\r\n    \"sslProfiles\": [\r\n      {\r\n        \"name\": \"app-gw-ssl-profile-1\",\r\n
+      \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/sslProfiles/app-gw-ssl-profile-1\",\r\n
+      \       \"etag\": \"W/\\\"2477ba2f-da7a-4c63-93d8-50f48b72e4a0\\\"\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Updating\",\r\n          \"sslPolicy\":
+      {\r\n            \"policyType\": \"Predefined\",\r\n            \"policyName\":
+      \"AppGwSslPolicy20220101S\"\r\n          },\r\n          \"clientAuthConfiguration\":
+      {\r\n            \"verifyClientCertIssuerDN\": false,\r\n            \"verifyClientRevocation\":
+      \"None\"\r\n          }\r\n        },\r\n        \"type\": \"Microsoft.Network/applicationGateways/sslProfiles\"\r\n
+      \     }\r\n    ],\r\n    \"frontendIPConfigurations\": [\r\n      {\r\n        \"name\":
+      \"app-gw-fip-config-1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/frontendIPConfigurations/app-gw-fip-config-1\",\r\n
+      \       \"etag\": \"W/\\\"2477ba2f-da7a-4c63-93d8-50f48b72e4a0\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/applicationGateways/frontendIPConfigurations\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Updating\",\r\n          \"privateIPAddress\":
+      \"10.0.0.10\",\r\n          \"privateIPAllocationMethod\": \"Static\",\r\n          \"subnet\":
+      {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/virtualNetworks/asotest-vn-fsazuy/subnets/AzureAppGtwSubnet\"\r\n
+      \         },\r\n          \"httpListeners\": [\r\n            {\r\n              \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/httpListeners/app-gw-http-listener-1\"\r\n
+      \           }\r\n          ]\r\n        }\r\n      },\r\n      {\r\n        \"name\":
+      \"app-gw-fip-config-2\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/frontendIPConfigurations/app-gw-fip-config-2\",\r\n
+      \       \"etag\": \"W/\\\"2477ba2f-da7a-4c63-93d8-50f48b72e4a0\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/applicationGateways/frontendIPConfigurations\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Updating\",\r\n          \"privateIPAllocationMethod\":
+      \"Dynamic\",\r\n          \"publicIPAddress\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-uvwecz\"\r\n
+      \         }\r\n        }\r\n      }\r\n    ],\r\n    \"frontendPorts\": [\r\n
+      \     {\r\n        \"name\": \"app-gw-fe-port-1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/frontendPorts/app-gw-fe-port-1\",\r\n
+      \       \"etag\": \"W/\\\"2477ba2f-da7a-4c63-93d8-50f48b72e4a0\\\"\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Updating\",\r\n          \"port\": 443,\r\n
+      \         \"httpListeners\": [\r\n            {\r\n              \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/httpListeners/app-gw-http-listener-1\"\r\n
+      \           }\r\n          ]\r\n        },\r\n        \"type\": \"Microsoft.Network/applicationGateways/frontendPorts\"\r\n
+      \     }\r\n    ],\r\n    \"backendAddressPools\": [\r\n      {\r\n        \"name\":
+      \"app-gw-be-pool-1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/backendAddressPools/app-gw-be-pool-1\",\r\n
+      \       \"etag\": \"W/\\\"2477ba2f-da7a-4c63-93d8-50f48b72e4a0\\\"\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Updating\",\r\n          \"backendAddresses\":
+      [\r\n            {\r\n              \"ipAddress\": \"10.0.1.1\"\r\n            }\r\n
+      \         ],\r\n          \"requestRoutingRules\": [\r\n            {\r\n              \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/requestRoutingRules/app-gtw-routing-rule-1\"\r\n
+      \           }\r\n          ]\r\n        },\r\n        \"type\": \"Microsoft.Network/applicationGateways/backendAddressPools\"\r\n
+      \     }\r\n    ],\r\n    \"loadDistributionPolicies\": [],\r\n    \"backendHttpSettingsCollection\":
+      [\r\n      {\r\n        \"name\": \"app-gw-be-http-setting-1\",\r\n        \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/backendHttpSettingsCollection/app-gw-be-http-setting-1\",\r\n
+      \       \"etag\": \"W/\\\"2477ba2f-da7a-4c63-93d8-50f48b72e4a0\\\"\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Updating\",\r\n          \"port\": 8443,\r\n
+      \         \"protocol\": \"Https\",\r\n          \"cookieBasedAffinity\": \"Disabled\",\r\n
+      \         \"pickHostNameFromBackendAddress\": false,\r\n          \"requestTimeout\":
+      30,\r\n          \"requestRoutingRules\": [\r\n            {\r\n              \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/requestRoutingRules/app-gtw-routing-rule-1\"\r\n
+      \           }\r\n          ]\r\n        },\r\n        \"type\": \"Microsoft.Network/applicationGateways/backendHttpSettingsCollection\"\r\n
+      \     }\r\n    ],\r\n    \"backendSettingsCollection\": [],\r\n    \"httpListeners\":
+      [\r\n      {\r\n        \"name\": \"app-gw-http-listener-1\",\r\n        \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/httpListeners/app-gw-http-listener-1\",\r\n
+      \       \"etag\": \"W/\\\"2477ba2f-da7a-4c63-93d8-50f48b72e4a0\\\"\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Updating\",\r\n          \"frontendIPConfiguration\":
+      {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/frontendIPConfigurations/app-gw-fip-config-1\"\r\n
+      \         },\r\n          \"frontendPort\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/frontendPorts/app-gw-fe-port-1\"\r\n
+      \         },\r\n          \"protocol\": \"Https\",\r\n          \"sslCertificate\":
+      {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/sslCertificates/app-gw-sslcert-1\"\r\n
+      \         },\r\n          \"hostNames\": [\r\n            \"test.contoso.com\"\r\n
+      \         ],\r\n          \"requireServerNameIndication\": false,\r\n          \"requestRoutingRules\":
+      [\r\n            {\r\n              \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/requestRoutingRules/app-gtw-routing-rule-1\"\r\n
+      \           }\r\n          ]\r\n        },\r\n        \"type\": \"Microsoft.Network/applicationGateways/httpListeners\"\r\n
+      \     }\r\n    ],\r\n    \"listeners\": [],\r\n    \"urlPathMaps\": [],\r\n
+      \   \"requestRoutingRules\": [\r\n      {\r\n        \"name\": \"app-gtw-routing-rule-1\",\r\n
+      \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/requestRoutingRules/app-gtw-routing-rule-1\",\r\n
+      \       \"etag\": \"W/\\\"2477ba2f-da7a-4c63-93d8-50f48b72e4a0\\\"\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Updating\",\r\n          \"ruleType\":
+      \"Basic\",\r\n          \"priority\": 100,\r\n          \"httpListener\": {\r\n
+      \           \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/httpListeners/app-gw-http-listener-1\"\r\n
+      \         },\r\n          \"backendAddressPool\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/backendAddressPools/app-gw-be-pool-1\"\r\n
+      \         },\r\n          \"backendHttpSettings\": {\r\n            \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/backendHttpSettingsCollection/app-gw-be-http-setting-1\"\r\n
+      \         }\r\n        },\r\n        \"type\": \"Microsoft.Network/applicationGateways/requestRoutingRules\"\r\n
+      \     }\r\n    ],\r\n    \"routingRules\": [],\r\n    \"probes\": [],\r\n    \"rewriteRuleSets\":
+      [],\r\n    \"redirectConfigurations\": [],\r\n    \"privateLinkConfigurations\":
+      [],\r\n    \"privateEndpointConnections\": [],\r\n    \"sslPolicy\": {\r\n      \"policyType\":
+      \"Predefined\",\r\n      \"policyName\": \"AppGwSslPolicy20220101S\"\r\n    },\r\n
+      \   \"webApplicationFirewallConfiguration\": {\r\n      \"enabled\": true,\r\n
+      \     \"firewallMode\": \"Detection\",\r\n      \"ruleSetType\": \"OWASP\",\r\n
+      \     \"ruleSetVersion\": \"3.2\",\r\n      \"disabledRuleGroups\": [],\r\n
+      \     \"requestBodyCheck\": true,\r\n      \"maxRequestBodySizeInKb\": 128,\r\n
+      \     \"fileUploadLimitInMb\": 100\r\n    },\r\n    \"autoscaleConfiguration\":
+      {\r\n      \"minCapacity\": 1,\r\n      \"maxCapacity\": 3\r\n    }\r\n  }\r\n}"
+    headers:
+      Azure-Asyncnotification:
+      - Enabled
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "11582"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "5"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "1"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "2"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "2"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "4"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "4"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "5"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "8"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "6"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "8"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "7"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "16"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "8"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "16"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "9"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "10"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "11"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "12"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "13"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "14"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "15"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "16"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "17"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "18"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "19"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "20"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "21"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "22"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "23"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "24"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "25"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "26"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "27"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "28"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "29"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "30"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "31"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "32"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "33"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2a733566-212e-49a2-a289-da652f30fa72?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"appgatewaytest\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest\",\r\n
+      \ \"etag\": \"W/\\\"92fb890e-7aec-4e3d-b7a8-fafc6279b8a2\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/applicationGateways\",\r\n  \"location\": \"westus2\",\r\n
+      \ \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\":
+      \"46e972e6-697e-4e59-8d09-06e9e6f0437f\",\r\n    \"sku\": {\r\n      \"name\":
+      \"WAF_v2\",\r\n      \"tier\": \"WAF_v2\",\r\n      \"family\": \"Generation_1\"\r\n
+      \   },\r\n    \"operationalState\": \"Running\",\r\n    \"gatewayIPConfigurations\":
+      [\r\n      {\r\n        \"name\": \"app-gw-ip-config-1\",\r\n        \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/gatewayIPConfigurations/app-gw-ip-config-1\",\r\n
+      \       \"etag\": \"W/\\\"92fb890e-7aec-4e3d-b7a8-fafc6279b8a2\\\"\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"subnet\":
+      {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/virtualNetworks/asotest-vn-fsazuy/subnets/AzureAppGtwSubnet\"\r\n
+      \         }\r\n        },\r\n        \"type\": \"Microsoft.Network/applicationGateways/gatewayIPConfigurations\"\r\n
+      \     }\r\n    ],\r\n    \"sslCertificates\": [\r\n      {\r\n        \"name\":
+      \"app-gw-sslcert-1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/sslCertificates/app-gw-sslcert-1\",\r\n
+      \       \"etag\": \"W/\\\"92fb890e-7aec-4e3d-b7a8-fafc6279b8a2\\\"\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"publicCertData\":
+      \"{KEY}\",\r\n          \"httpListeners\": [\r\n            {\r\n              \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/httpListeners/app-gw-http-listener-1\"\r\n
+      \           }\r\n          ]\r\n        },\r\n        \"type\": \"Microsoft.Network/applicationGateways/sslCertificates\"\r\n
+      \     }\r\n    ],\r\n    \"trustedRootCertificates\": [],\r\n    \"trustedClientCertificates\":
+      [],\r\n    \"sslProfiles\": [\r\n      {\r\n        \"name\": \"app-gw-ssl-profile-1\",\r\n
+      \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/sslProfiles/app-gw-ssl-profile-1\",\r\n
+      \       \"etag\": \"W/\\\"92fb890e-7aec-4e3d-b7a8-fafc6279b8a2\\\"\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"sslPolicy\":
+      {\r\n            \"policyType\": \"Predefined\",\r\n            \"policyName\":
+      \"AppGwSslPolicy20220101S\"\r\n          },\r\n          \"clientAuthConfiguration\":
+      {\r\n            \"verifyClientCertIssuerDN\": false,\r\n            \"verifyClientRevocation\":
+      \"None\"\r\n          }\r\n        },\r\n        \"type\": \"Microsoft.Network/applicationGateways/sslProfiles\"\r\n
+      \     }\r\n    ],\r\n    \"frontendIPConfigurations\": [\r\n      {\r\n        \"name\":
+      \"app-gw-fip-config-1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/frontendIPConfigurations/app-gw-fip-config-1\",\r\n
+      \       \"etag\": \"W/\\\"92fb890e-7aec-4e3d-b7a8-fafc6279b8a2\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/applicationGateways/frontendIPConfigurations\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"privateIPAddress\":
+      \"10.0.0.10\",\r\n          \"privateIPAllocationMethod\": \"Static\",\r\n          \"subnet\":
+      {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/virtualNetworks/asotest-vn-fsazuy/subnets/AzureAppGtwSubnet\"\r\n
+      \         },\r\n          \"httpListeners\": [\r\n            {\r\n              \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/httpListeners/app-gw-http-listener-1\"\r\n
+      \           }\r\n          ]\r\n        }\r\n      },\r\n      {\r\n        \"name\":
+      \"app-gw-fip-config-2\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/frontendIPConfigurations/app-gw-fip-config-2\",\r\n
+      \       \"etag\": \"W/\\\"92fb890e-7aec-4e3d-b7a8-fafc6279b8a2\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/applicationGateways/frontendIPConfigurations\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"privateIPAllocationMethod\":
+      \"Dynamic\",\r\n          \"publicIPAddress\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-uvwecz\"\r\n
+      \         }\r\n        }\r\n      }\r\n    ],\r\n    \"frontendPorts\": [\r\n
+      \     {\r\n        \"name\": \"app-gw-fe-port-1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/frontendPorts/app-gw-fe-port-1\",\r\n
+      \       \"etag\": \"W/\\\"92fb890e-7aec-4e3d-b7a8-fafc6279b8a2\\\"\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"port\":
+      443,\r\n          \"httpListeners\": [\r\n            {\r\n              \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/httpListeners/app-gw-http-listener-1\"\r\n
+      \           }\r\n          ]\r\n        },\r\n        \"type\": \"Microsoft.Network/applicationGateways/frontendPorts\"\r\n
+      \     }\r\n    ],\r\n    \"backendAddressPools\": [\r\n      {\r\n        \"name\":
+      \"app-gw-be-pool-1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/backendAddressPools/app-gw-be-pool-1\",\r\n
+      \       \"etag\": \"W/\\\"92fb890e-7aec-4e3d-b7a8-fafc6279b8a2\\\"\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"backendAddresses\":
+      [\r\n            {\r\n              \"ipAddress\": \"10.0.1.1\"\r\n            }\r\n
+      \         ],\r\n          \"requestRoutingRules\": [\r\n            {\r\n              \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/requestRoutingRules/app-gtw-routing-rule-1\"\r\n
+      \           }\r\n          ]\r\n        },\r\n        \"type\": \"Microsoft.Network/applicationGateways/backendAddressPools\"\r\n
+      \     }\r\n    ],\r\n    \"loadDistributionPolicies\": [],\r\n    \"backendHttpSettingsCollection\":
+      [\r\n      {\r\n        \"name\": \"app-gw-be-http-setting-1\",\r\n        \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/backendHttpSettingsCollection/app-gw-be-http-setting-1\",\r\n
+      \       \"etag\": \"W/\\\"92fb890e-7aec-4e3d-b7a8-fafc6279b8a2\\\"\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"port\":
+      8443,\r\n          \"protocol\": \"Https\",\r\n          \"cookieBasedAffinity\":
+      \"Disabled\",\r\n          \"pickHostNameFromBackendAddress\": false,\r\n          \"requestTimeout\":
+      30,\r\n          \"requestRoutingRules\": [\r\n            {\r\n              \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/requestRoutingRules/app-gtw-routing-rule-1\"\r\n
+      \           }\r\n          ]\r\n        },\r\n        \"type\": \"Microsoft.Network/applicationGateways/backendHttpSettingsCollection\"\r\n
+      \     }\r\n    ],\r\n    \"backendSettingsCollection\": [],\r\n    \"httpListeners\":
+      [\r\n      {\r\n        \"name\": \"app-gw-http-listener-1\",\r\n        \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/httpListeners/app-gw-http-listener-1\",\r\n
+      \       \"etag\": \"W/\\\"92fb890e-7aec-4e3d-b7a8-fafc6279b8a2\\\"\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"frontendIPConfiguration\":
+      {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/frontendIPConfigurations/app-gw-fip-config-1\"\r\n
+      \         },\r\n          \"frontendPort\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/frontendPorts/app-gw-fe-port-1\"\r\n
+      \         },\r\n          \"protocol\": \"Https\",\r\n          \"sslCertificate\":
+      {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/sslCertificates/app-gw-sslcert-1\"\r\n
+      \         },\r\n          \"hostNames\": [\r\n            \"test.contoso.com\"\r\n
+      \         ],\r\n          \"requireServerNameIndication\": false,\r\n          \"requestRoutingRules\":
+      [\r\n            {\r\n              \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/requestRoutingRules/app-gtw-routing-rule-1\"\r\n
+      \           }\r\n          ]\r\n        },\r\n        \"type\": \"Microsoft.Network/applicationGateways/httpListeners\"\r\n
+      \     }\r\n    ],\r\n    \"listeners\": [],\r\n    \"urlPathMaps\": [],\r\n
+      \   \"requestRoutingRules\": [\r\n      {\r\n        \"name\": \"app-gtw-routing-rule-1\",\r\n
+      \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/requestRoutingRules/app-gtw-routing-rule-1\",\r\n
+      \       \"etag\": \"W/\\\"92fb890e-7aec-4e3d-b7a8-fafc6279b8a2\\\"\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"ruleType\":
+      \"Basic\",\r\n          \"priority\": 100,\r\n          \"httpListener\": {\r\n
+      \           \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/httpListeners/app-gw-http-listener-1\"\r\n
+      \         },\r\n          \"backendAddressPool\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/backendAddressPools/app-gw-be-pool-1\"\r\n
+      \         },\r\n          \"backendHttpSettings\": {\r\n            \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/backendHttpSettingsCollection/app-gw-be-http-setting-1\"\r\n
+      \         }\r\n        },\r\n        \"type\": \"Microsoft.Network/applicationGateways/requestRoutingRules\"\r\n
+      \     }\r\n    ],\r\n    \"routingRules\": [],\r\n    \"probes\": [],\r\n    \"rewriteRuleSets\":
+      [],\r\n    \"redirectConfigurations\": [],\r\n    \"privateLinkConfigurations\":
+      [],\r\n    \"privateEndpointConnections\": [],\r\n    \"sslPolicy\": {\r\n      \"policyType\":
+      \"Predefined\",\r\n      \"policyName\": \"AppGwSslPolicy20220101S\"\r\n    },\r\n
+      \   \"webApplicationFirewallConfiguration\": {\r\n      \"enabled\": true,\r\n
+      \     \"firewallMode\": \"Detection\",\r\n      \"ruleSetType\": \"OWASP\",\r\n
+      \     \"ruleSetVersion\": \"3.2\",\r\n      \"disabledRuleGroups\": [],\r\n
+      \     \"requestBodyCheck\": true,\r\n      \"maxRequestBodySizeInKb\": 128,\r\n
+      \     \"fileUploadLimitInMb\": 100\r\n    },\r\n    \"autoscaleConfiguration\":
+      {\r\n      \"minCapacity\": 1,\r\n      \"maxCapacity\": 3\r\n    }\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"92fb890e-7aec-4e3d-b7a8-fafc6279b8a2"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"appgatewaytest\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest\",\r\n
+      \ \"etag\": \"W/\\\"92fb890e-7aec-4e3d-b7a8-fafc6279b8a2\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/applicationGateways\",\r\n  \"location\": \"westus2\",\r\n
+      \ \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\":
+      \"46e972e6-697e-4e59-8d09-06e9e6f0437f\",\r\n    \"sku\": {\r\n      \"name\":
+      \"WAF_v2\",\r\n      \"tier\": \"WAF_v2\",\r\n      \"family\": \"Generation_1\"\r\n
+      \   },\r\n    \"operationalState\": \"Running\",\r\n    \"gatewayIPConfigurations\":
+      [\r\n      {\r\n        \"name\": \"app-gw-ip-config-1\",\r\n        \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/gatewayIPConfigurations/app-gw-ip-config-1\",\r\n
+      \       \"etag\": \"W/\\\"92fb890e-7aec-4e3d-b7a8-fafc6279b8a2\\\"\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"subnet\":
+      {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/virtualNetworks/asotest-vn-fsazuy/subnets/AzureAppGtwSubnet\"\r\n
+      \         }\r\n        },\r\n        \"type\": \"Microsoft.Network/applicationGateways/gatewayIPConfigurations\"\r\n
+      \     }\r\n    ],\r\n    \"sslCertificates\": [\r\n      {\r\n        \"name\":
+      \"app-gw-sslcert-1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/sslCertificates/app-gw-sslcert-1\",\r\n
+      \       \"etag\": \"W/\\\"92fb890e-7aec-4e3d-b7a8-fafc6279b8a2\\\"\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"publicCertData\":
+      \"{KEY}\",\r\n          \"httpListeners\": [\r\n            {\r\n              \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/httpListeners/app-gw-http-listener-1\"\r\n
+      \           }\r\n          ]\r\n        },\r\n        \"type\": \"Microsoft.Network/applicationGateways/sslCertificates\"\r\n
+      \     }\r\n    ],\r\n    \"trustedRootCertificates\": [],\r\n    \"trustedClientCertificates\":
+      [],\r\n    \"sslProfiles\": [\r\n      {\r\n        \"name\": \"app-gw-ssl-profile-1\",\r\n
+      \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/sslProfiles/app-gw-ssl-profile-1\",\r\n
+      \       \"etag\": \"W/\\\"92fb890e-7aec-4e3d-b7a8-fafc6279b8a2\\\"\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"sslPolicy\":
+      {\r\n            \"policyType\": \"Predefined\",\r\n            \"policyName\":
+      \"AppGwSslPolicy20220101S\"\r\n          },\r\n          \"clientAuthConfiguration\":
+      {\r\n            \"verifyClientCertIssuerDN\": false,\r\n            \"verifyClientRevocation\":
+      \"None\"\r\n          }\r\n        },\r\n        \"type\": \"Microsoft.Network/applicationGateways/sslProfiles\"\r\n
+      \     }\r\n    ],\r\n    \"frontendIPConfigurations\": [\r\n      {\r\n        \"name\":
+      \"app-gw-fip-config-1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/frontendIPConfigurations/app-gw-fip-config-1\",\r\n
+      \       \"etag\": \"W/\\\"92fb890e-7aec-4e3d-b7a8-fafc6279b8a2\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/applicationGateways/frontendIPConfigurations\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"privateIPAddress\":
+      \"10.0.0.10\",\r\n          \"privateIPAllocationMethod\": \"Static\",\r\n          \"subnet\":
+      {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/virtualNetworks/asotest-vn-fsazuy/subnets/AzureAppGtwSubnet\"\r\n
+      \         },\r\n          \"httpListeners\": [\r\n            {\r\n              \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/httpListeners/app-gw-http-listener-1\"\r\n
+      \           }\r\n          ]\r\n        }\r\n      },\r\n      {\r\n        \"name\":
+      \"app-gw-fip-config-2\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/frontendIPConfigurations/app-gw-fip-config-2\",\r\n
+      \       \"etag\": \"W/\\\"92fb890e-7aec-4e3d-b7a8-fafc6279b8a2\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/applicationGateways/frontendIPConfigurations\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"privateIPAllocationMethod\":
+      \"Dynamic\",\r\n          \"publicIPAddress\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-uvwecz\"\r\n
+      \         }\r\n        }\r\n      }\r\n    ],\r\n    \"frontendPorts\": [\r\n
+      \     {\r\n        \"name\": \"app-gw-fe-port-1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/frontendPorts/app-gw-fe-port-1\",\r\n
+      \       \"etag\": \"W/\\\"92fb890e-7aec-4e3d-b7a8-fafc6279b8a2\\\"\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"port\":
+      443,\r\n          \"httpListeners\": [\r\n            {\r\n              \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/httpListeners/app-gw-http-listener-1\"\r\n
+      \           }\r\n          ]\r\n        },\r\n        \"type\": \"Microsoft.Network/applicationGateways/frontendPorts\"\r\n
+      \     }\r\n    ],\r\n    \"backendAddressPools\": [\r\n      {\r\n        \"name\":
+      \"app-gw-be-pool-1\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/backendAddressPools/app-gw-be-pool-1\",\r\n
+      \       \"etag\": \"W/\\\"92fb890e-7aec-4e3d-b7a8-fafc6279b8a2\\\"\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"backendAddresses\":
+      [\r\n            {\r\n              \"ipAddress\": \"10.0.1.1\"\r\n            }\r\n
+      \         ],\r\n          \"requestRoutingRules\": [\r\n            {\r\n              \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/requestRoutingRules/app-gtw-routing-rule-1\"\r\n
+      \           }\r\n          ]\r\n        },\r\n        \"type\": \"Microsoft.Network/applicationGateways/backendAddressPools\"\r\n
+      \     }\r\n    ],\r\n    \"loadDistributionPolicies\": [],\r\n    \"backendHttpSettingsCollection\":
+      [\r\n      {\r\n        \"name\": \"app-gw-be-http-setting-1\",\r\n        \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/backendHttpSettingsCollection/app-gw-be-http-setting-1\",\r\n
+      \       \"etag\": \"W/\\\"92fb890e-7aec-4e3d-b7a8-fafc6279b8a2\\\"\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"port\":
+      8443,\r\n          \"protocol\": \"Https\",\r\n          \"cookieBasedAffinity\":
+      \"Disabled\",\r\n          \"pickHostNameFromBackendAddress\": false,\r\n          \"requestTimeout\":
+      30,\r\n          \"requestRoutingRules\": [\r\n            {\r\n              \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/requestRoutingRules/app-gtw-routing-rule-1\"\r\n
+      \           }\r\n          ]\r\n        },\r\n        \"type\": \"Microsoft.Network/applicationGateways/backendHttpSettingsCollection\"\r\n
+      \     }\r\n    ],\r\n    \"backendSettingsCollection\": [],\r\n    \"httpListeners\":
+      [\r\n      {\r\n        \"name\": \"app-gw-http-listener-1\",\r\n        \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/httpListeners/app-gw-http-listener-1\",\r\n
+      \       \"etag\": \"W/\\\"92fb890e-7aec-4e3d-b7a8-fafc6279b8a2\\\"\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"frontendIPConfiguration\":
+      {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/frontendIPConfigurations/app-gw-fip-config-1\"\r\n
+      \         },\r\n          \"frontendPort\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/frontendPorts/app-gw-fe-port-1\"\r\n
+      \         },\r\n          \"protocol\": \"Https\",\r\n          \"sslCertificate\":
+      {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/sslCertificates/app-gw-sslcert-1\"\r\n
+      \         },\r\n          \"hostNames\": [\r\n            \"test.contoso.com\"\r\n
+      \         ],\r\n          \"requireServerNameIndication\": false,\r\n          \"requestRoutingRules\":
+      [\r\n            {\r\n              \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/requestRoutingRules/app-gtw-routing-rule-1\"\r\n
+      \           }\r\n          ]\r\n        },\r\n        \"type\": \"Microsoft.Network/applicationGateways/httpListeners\"\r\n
+      \     }\r\n    ],\r\n    \"listeners\": [],\r\n    \"urlPathMaps\": [],\r\n
+      \   \"requestRoutingRules\": [\r\n      {\r\n        \"name\": \"app-gtw-routing-rule-1\",\r\n
+      \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/requestRoutingRules/app-gtw-routing-rule-1\",\r\n
+      \       \"etag\": \"W/\\\"92fb890e-7aec-4e3d-b7a8-fafc6279b8a2\\\"\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"ruleType\":
+      \"Basic\",\r\n          \"priority\": 100,\r\n          \"httpListener\": {\r\n
+      \           \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/httpListeners/app-gw-http-listener-1\"\r\n
+      \         },\r\n          \"backendAddressPool\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/backendAddressPools/app-gw-be-pool-1\"\r\n
+      \         },\r\n          \"backendHttpSettings\": {\r\n            \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest/backendHttpSettingsCollection/app-gw-be-http-setting-1\"\r\n
+      \         }\r\n        },\r\n        \"type\": \"Microsoft.Network/applicationGateways/requestRoutingRules\"\r\n
+      \     }\r\n    ],\r\n    \"routingRules\": [],\r\n    \"probes\": [],\r\n    \"rewriteRuleSets\":
+      [],\r\n    \"redirectConfigurations\": [],\r\n    \"privateLinkConfigurations\":
+      [],\r\n    \"privateEndpointConnections\": [],\r\n    \"sslPolicy\": {\r\n      \"policyType\":
+      \"Predefined\",\r\n      \"policyName\": \"AppGwSslPolicy20220101S\"\r\n    },\r\n
+      \   \"webApplicationFirewallConfiguration\": {\r\n      \"enabled\": true,\r\n
+      \     \"firewallMode\": \"Detection\",\r\n      \"ruleSetType\": \"OWASP\",\r\n
+      \     \"ruleSetVersion\": \"3.2\",\r\n      \"disabledRuleGroups\": [],\r\n
+      \     \"requestBodyCheck\": true,\r\n      \"maxRequestBodySizeInKb\": 128,\r\n
+      \     \"fileUploadLimitInMb\": 100\r\n    },\r\n    \"autoscaleConfiguration\":
+      {\r\n      \"minCapacity\": 1,\r\n      \"maxCapacity\": 3\r\n    }\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"92fb890e-7aec-4e3d-b7a8-fafc6279b8a2"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest?api-version=2022-07-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Azure-Asyncnotification:
+      - Enabled
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/77de6bc2-f8d8-471e-88d2-aeb832a8071d?api-version=2022-07-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/77de6bc2-f8d8-471e-88d2-aeb832a8071d?api-version=2022-07-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/77de6bc2-f8d8-471e-88d2-aeb832a8071d?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/77de6bc2-f8d8-471e-88d2-aeb832a8071d?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "20"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/77de6bc2-f8d8-471e-88d2-aeb832a8071d?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "20"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/77de6bc2-f8d8-471e-88d2-aeb832a8071d?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "40"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/77de6bc2-f8d8-471e-88d2-aeb832a8071d?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "40"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "5"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/77de6bc2-f8d8-471e-88d2-aeb832a8071d?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "80"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "6"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/77de6bc2-f8d8-471e-88d2-aeb832a8071d?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "160"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "7"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/77de6bc2-f8d8-471e-88d2-aeb832a8071d?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-uvwecz?api-version=2020-11-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Azure-Asyncnotification:
+      - Enabled
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/7b19711a-f58c-4b08-9a69-dbe10c7ea691?api-version=2020-11-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/7b19711a-f58c-4b08-9a69-dbe10c7ea691?api-version=2020-11-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/7b19711a-f58c-4b08-9a69-dbe10c7ea691?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/virtualNetworks/asotest-vn-fsazuy/subnets/AzureAppGtwSubnet?api-version=2020-11-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Azure-Asyncnotification:
+      - Enabled
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/c76327f8-9292-440f-b580-3c4fdf00fbf8?api-version=2020-11-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/c76327f8-9292-440f-b580-3c4fdf00fbf8?api-version=2020-11-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/c76327f8-9292-440f-b580-3c4fdf00fbf8?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/virtualNetworks/asotest-vn-fsazuy?api-version=2020-11-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Azure-Asyncnotification:
+      - Enabled
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/55afaeca-c6a2-4cf2-9b8c-bea2266a6db0?api-version=2020-11-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/55afaeca-c6a2-4cf2-9b8c-bea2266a6db0?api-version=2020-11-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/55afaeca-c6a2-4cf2-9b8c-bea2266a6db0?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu/providers/Microsoft.Network/applicationGateways/appgatewaytest?api-version=2022-07-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/applicationGateways/appgatewaytest''
+      under resource group ''asotest-rg-xofglu'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "241"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xofglu?api-version=2020-06-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRYT0ZHTFUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRYT0ZHTFUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRYT0ZHTFUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRYT0ZHTFUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRYT0ZHTFUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRYT0ZHTFUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRYT0ZHTFUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRYT0ZHTFUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRYT0ZHTFUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRYT0ZHTFUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
