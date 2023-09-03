@@ -118,6 +118,10 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/cache/v1api20210301/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/cache/v1api20230401/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/cache/v1api20230701/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/cache/v1beta20201201/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/cache/v1beta20210301/</loc>
@@ -147,6 +151,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/compute/v1api20210701/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/compute/v1api20220301/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/compute/v1api20220702/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/compute/v1beta20200930/</loc>
   </url><url>
