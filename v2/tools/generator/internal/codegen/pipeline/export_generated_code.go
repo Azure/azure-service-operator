@@ -8,12 +8,13 @@ package pipeline
 import (
 	"context"
 	"fmt"
-	"golang.org/x/exp/slices"
-	"golang.org/x/sync/errgroup"
 	"os"
 	"path/filepath"
 	"sync"
 	"time"
+
+	"golang.org/x/exp/slices"
+	"golang.org/x/sync/errgroup"
 
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
@@ -83,9 +84,17 @@ func writeFiles(
 	}
 
 	// Sort the list of packages to ensure we always write them to disk in the same sequence
-	slices.SortFunc(pkgs, func(left *astmodel.PackageDefinition, right *astmodel.PackageDefinition) bool {
-		return left.Path < right.Path
-	})
+	slices.SortFunc(
+		pkgs,
+		func(left *astmodel.PackageDefinition, right *astmodel.PackageDefinition) int {
+			if left.Path < right.Path {
+				return -1
+			} else if left.Path > right.Path {
+				return 1
+			} else {
+				return 0
+			}
+		})
 
 	// emit each package
 	log.Info(
