@@ -36,7 +36,7 @@ func Test_ServiceBus_Namespace_Standard_v1api20221001preview_CRUD(t *testing.T) 
 		testcommon.Subtest{
 			Name: "Queue CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				ServiceBus_Queue_v1api20221001preview_CRUD(tc, namespace)
+				ServiceBus_NamespacesQueue_v1api20221001preview_CRUD(tc, namespace)
 			},
 		},
 		testcommon.Subtest{

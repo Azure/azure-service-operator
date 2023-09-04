@@ -35,7 +35,7 @@ func Test_ServiceBus_Namespace_Basic_v1api20221001preview_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "Queue CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				ServiceBus_Queue_v1api20221001preview_CRUD(tc, namespace)
+				ServiceBus_NamespacesQueue_v1api20221001preview_CRUD(tc, namespace)
 			},
 		},
 		testcommon.Subtest{
@@ -52,7 +52,7 @@ func Test_ServiceBus_Namespace_Basic_v1api20221001preview_CRUD(t *testing.T) {
 	tc.ExpectResourceIsDeletedInAzure(armId, string(servicebus.APIVersion_Value))
 }
 
-func ServiceBus_Queue_v1api20221001preview_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client.Object) {
+func ServiceBus_NamespacesQueue_v1api20221001preview_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client.Object) {
 	queue := &servicebus.NamespacesQueue{
 		ObjectMeta: tc.MakeObjectMeta("queue"),
 		Spec: servicebus.Namespaces_Queue_Spec{
