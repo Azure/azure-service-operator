@@ -84,11 +84,7 @@ func (share *StorageAccountsFileServicesShare) NewEmptyStatus() genruntime.Conve
 // Owner returns the ResourceReference of the owner
 func (share *StorageAccountsFileServicesShare) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(share.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  share.Spec.Owner.Name,
-	}
+	return share.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

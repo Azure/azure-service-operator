@@ -141,11 +141,7 @@ func (vault *Vault) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (vault *Vault) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(vault.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  vault.Spec.Owner.Name,
-	}
+	return vault.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (vault *Vault) ValidateUpdate(old runtime.Object) (admission.Warnings, erro
 
 // createValidations validates the creation of the resource
 func (vault *Vault) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){vault.validateResourceReferences, vault.validateOptionalConfigMapReferences}
+	return []func() (admission.Warnings, error){vault.validateResourceReferences, vault.validateOwnerReference, vault.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -219,6 +215,9 @@ func (vault *Vault) updateValidations() []func(old runtime.Object) (admission.Wa
 		},
 		vault.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
+			return vault.validateOwnerReference()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return vault.validateOptionalConfigMapReferences()
 		},
 	}
@@ -231,6 +230,11 @@ func (vault *Vault) validateOptionalConfigMapReferences() (admission.Warnings, e
 		return nil, err
 	}
 	return genruntime.ValidateOptionalConfigMapReferences(refs)
+}
+
+// validateOwnerReference validates the owner field
+func (vault *Vault) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(vault)
 }
 
 // validateResourceReferences validates all resource references
@@ -412,7 +416,10 @@ func (vault *Vault_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	}
 
 	// Set property "Owner":
-	vault.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	vault.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Properties":
 	if typedInput.Properties != nil {

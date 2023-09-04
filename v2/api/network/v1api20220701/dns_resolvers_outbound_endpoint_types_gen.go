@@ -141,11 +141,7 @@ func (endpoint *DnsResolversOutboundEndpoint) NewEmptyStatus() genruntime.Conver
 // Owner returns the ResourceReference of the owner
 func (endpoint *DnsResolversOutboundEndpoint) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(endpoint.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  endpoint.Spec.Owner.Name,
-	}
+	return endpoint.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (endpoint *DnsResolversOutboundEndpoint) ValidateUpdate(old runtime.Object)
 
 // createValidations validates the creation of the resource
 func (endpoint *DnsResolversOutboundEndpoint) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){endpoint.validateResourceReferences}
+	return []func() (admission.Warnings, error){endpoint.validateResourceReferences, endpoint.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (endpoint *DnsResolversOutboundEndpoint) updateValidations() []func(old run
 		func(old runtime.Object) (admission.Warnings, error) {
 			return endpoint.validateResourceReferences()
 		},
-		endpoint.validateWriteOnceProperties}
+		endpoint.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return endpoint.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (endpoint *DnsResolversOutboundEndpoint) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(endpoint)
 }
 
 // validateResourceReferences validates all resource references
@@ -396,7 +401,10 @@ func (endpoint *DnsResolvers_OutboundEndpoint_Spec) PopulateFromARM(owner genrun
 	}
 
 	// Set property "Owner":
-	endpoint.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	endpoint.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Subnet":
 	// copying flattened property:

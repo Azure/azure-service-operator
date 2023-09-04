@@ -103,11 +103,7 @@ func (topic *Topic) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (topic *Topic) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(topic.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  topic.Spec.Owner.Name,
-	}
+	return topic.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

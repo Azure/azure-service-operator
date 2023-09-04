@@ -135,11 +135,7 @@ func (service *StorageAccountsQueueService) NewEmptyStatus() genruntime.Converti
 // Owner returns the ResourceReference of the owner
 func (service *StorageAccountsQueueService) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(service.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  service.Spec.Owner.Name,
-	}
+	return service.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -197,7 +193,7 @@ func (service *StorageAccountsQueueService) ValidateUpdate(old runtime.Object) (
 
 // createValidations validates the creation of the resource
 func (service *StorageAccountsQueueService) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){service.validateResourceReferences}
+	return []func() (admission.Warnings, error){service.validateResourceReferences, service.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -211,7 +207,16 @@ func (service *StorageAccountsQueueService) updateValidations() []func(old runti
 		func(old runtime.Object) (admission.Warnings, error) {
 			return service.validateResourceReferences()
 		},
-		service.validateWriteOnceProperties}
+		service.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return service.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (service *StorageAccountsQueueService) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(service)
 }
 
 // validateResourceReferences validates all resource references
@@ -366,7 +371,10 @@ func (service *StorageAccounts_QueueService_Spec) PopulateFromARM(owner genrunti
 	}
 
 	// Set property "Owner":
-	service.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	service.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// No error
 	return nil

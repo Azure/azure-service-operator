@@ -111,11 +111,7 @@ func (component *Component) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (component *Component) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(component.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  component.Spec.Owner.Name,
-	}
+	return component.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

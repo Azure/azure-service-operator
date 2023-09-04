@@ -286,13 +286,13 @@ func fixedValueGetAzureNameFunction(fixedValue string) functions.ObjectFunctionH
 //
 //	func (<receiver> *<receiver>) Owner() *genruntime.ResourceReference {
 //		group, kind := genruntime.LookupOwnerGroupKind(<receiver>.Spec)
-//		return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: <receiver>.Namespace, Name: <receiver>.Spec.Owner.Name}
+//		return <receiver>.Spec.Owner.AsKnownResourceReference(group, kind)
 //	}
 //
 // For extension resources:
 //
 //	func (<receiver> *<receiver>) Owner() *genruntime.ResourceReference {
-//		return &genruntime.ResourceReference{Group: <receiver>.Spec.Owner.Group, Kind: <receiver>.Spec.Owner.Kind, name: <receiver>.Spec.Owner.Name}
+//		return <receiver>.Spec.Owner.AsKnownResourceReference()
 //	}
 func newOwnerFunction(r *astmodel.ResourceType) func(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 	return func(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
@@ -305,7 +305,6 @@ func newOwnerFunction(r *astmodel.ResourceType) func(k *functions.ObjectFunction
 			ReceiverType:  astbuilder.PointerTo(receiver.AsType(codeGenerationContext)),
 			Params:        nil,
 		}
-
 		fn.AddReturn(astbuilder.Dereference(astmodel.ResourceReferenceType.AsType(codeGenerationContext)))
 
 		groupLocal := "group"
@@ -315,20 +314,19 @@ func newOwnerFunction(r *astmodel.ResourceType) func(k *functions.ObjectFunction
 			kindLocal = "ownerKind"
 		}
 
+		owner := astbuilder.Selector(specSelector, astmodel.OwnerProperty)
+
 		switch r.Scope() {
 		case astmodel.ResourceScopeResourceGroup:
 			fn.AddComments("returns the ResourceReference of the owner")
 			fn.AddStatements(
 				lookupGroupAndKindStmt(groupLocal, kindLocal, specSelector),
-				astbuilder.Returns(createResourceReference(dst.NewIdent(groupLocal), dst.NewIdent(kindLocal), receiverIdent)))
+				astbuilder.Returns(createResourceReferenceWithGroupKind(dst.NewIdent(groupLocal), dst.NewIdent(kindLocal), owner)))
 		case astmodel.ResourceScopeExtension:
 			fn.AddComments("returns the ResourceReference of the owner")
-			owner := astbuilder.Selector(specSelector, astmodel.OwnerProperty)
-			group := astbuilder.Selector(owner, "Group")
-			kind := astbuilder.Selector(owner, "Kind")
 
 			fn.AddStatements(
-				astbuilder.Returns(createResourceReference(group, kind, receiverIdent)))
+				astbuilder.Returns(createResourceReference(owner)))
 		case astmodel.ResourceScopeTenant:
 			// Tenant resources never have an owner, just return nil
 			fn.AddComments("returns nil as Tenant scoped resources never have an owner")
@@ -406,22 +404,18 @@ func lookupGroupAndKindStmt(
 	}
 }
 
-func createResourceReference(
+func createResourceReferenceWithGroupKind(
 	group dst.Expr,
 	kind dst.Expr,
-	receiverIdent string,
+	ownerSelector dst.Expr,
 ) dst.Expr {
-	specSelector := astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec")
+	return astbuilder.CallExpr(ownerSelector, "AsResourceReference", group, kind)
+}
 
-	compositeLitDetails := astbuilder.NewCompositeLiteralBuilder(
-		astbuilder.Selector(
-			dst.NewIdent(astmodel.GenRuntimeReference.PackageName()),
-			"ResourceReference"))
-	compositeLitDetails.AddField("Group", group)
-	compositeLitDetails.AddField("Kind", kind)
-	compositeLitDetails.AddField("Name", astbuilder.Selector(astbuilder.Selector(specSelector, astmodel.OwnerProperty), "Name"))
-
-	return astbuilder.AddrOf(compositeLitDetails.Build())
+func createResourceReference(
+	ownerSelector dst.Expr,
+) dst.Expr {
+	return astbuilder.CallExpr(ownerSelector, "AsResourceReference")
 }
 
 // setStringAzureNameFunction returns a function that sets the Name property of

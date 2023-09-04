@@ -116,6 +116,15 @@ func getValidations(
 		},
 	}
 
+	if resource.Owner() != nil {
+		validations[functions.ValidationKindCreate] = append(
+			validations[functions.ValidationKindCreate],
+			functions.NewValidateOwnerReferenceFunction(resource, idFactory))
+		validations[functions.ValidationKindUpdate] = append(
+			validations[functions.ValidationKindUpdate],
+			functions.NewValidateOwnerReferenceFunction(resource, idFactory))
+	}
+
 	secrets, err := getOperatorSpecSubType(defs, resource, astmodel.OperatorSpecSecretsProperty)
 	if err != nil {
 		return nil, err

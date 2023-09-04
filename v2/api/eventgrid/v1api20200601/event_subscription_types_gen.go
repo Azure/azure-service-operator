@@ -140,11 +140,7 @@ func (subscription *EventSubscription) NewEmptyStatus() genruntime.ConvertibleSt
 
 // Owner returns the ResourceReference of the owner
 func (subscription *EventSubscription) Owner() *genruntime.ResourceReference {
-	return &genruntime.ResourceReference{
-		Group: subscription.Spec.Owner.Group,
-		Kind:  subscription.Spec.Owner.Kind,
-		Name:  subscription.Spec.Owner.Name,
-	}
+	return subscription.Spec.Owner.AsResourceReference()
 }
 
 // SetStatus sets the status of this resource

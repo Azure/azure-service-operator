@@ -141,11 +141,7 @@ func (prefix *PublicIPPrefix) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (prefix *PublicIPPrefix) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(prefix.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  prefix.Spec.Owner.Name,
-	}
+	return prefix.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (prefix *PublicIPPrefix) ValidateUpdate(old runtime.Object) (admission.Warn
 
 // createValidations validates the creation of the resource
 func (prefix *PublicIPPrefix) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){prefix.validateResourceReferences}
+	return []func() (admission.Warnings, error){prefix.validateResourceReferences, prefix.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (prefix *PublicIPPrefix) updateValidations() []func(old runtime.Object) (ad
 		func(old runtime.Object) (admission.Warnings, error) {
 			return prefix.validateResourceReferences()
 		},
-		prefix.validateWriteOnceProperties}
+		prefix.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return prefix.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (prefix *PublicIPPrefix) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(prefix)
 }
 
 // validateResourceReferences validates all resource references
@@ -519,7 +524,10 @@ func (prefix *PublicIPPrefix_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	}
 
 	// Set property "Owner":
-	prefix.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	prefix.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "PrefixLength":
 	// copying flattened property:

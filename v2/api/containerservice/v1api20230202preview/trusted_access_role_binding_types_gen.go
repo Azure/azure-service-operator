@@ -141,11 +141,7 @@ func (binding *TrustedAccessRoleBinding) NewEmptyStatus() genruntime.Convertible
 // Owner returns the ResourceReference of the owner
 func (binding *TrustedAccessRoleBinding) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(binding.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  binding.Spec.Owner.Name,
-	}
+	return binding.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (binding *TrustedAccessRoleBinding) ValidateUpdate(old runtime.Object) (adm
 
 // createValidations validates the creation of the resource
 func (binding *TrustedAccessRoleBinding) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){binding.validateResourceReferences}
+	return []func() (admission.Warnings, error){binding.validateResourceReferences, binding.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (binding *TrustedAccessRoleBinding) updateValidations() []func(old runtime.
 		func(old runtime.Object) (admission.Warnings, error) {
 			return binding.validateResourceReferences()
 		},
-		binding.validateWriteOnceProperties}
+		binding.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return binding.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (binding *TrustedAccessRoleBinding) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(binding)
 }
 
 // validateResourceReferences validates all resource references
@@ -380,7 +385,10 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec) PopulateFromARM(ow
 	binding.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property "Owner":
-	binding.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	binding.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Roles":
 	// copying flattened property:

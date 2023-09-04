@@ -144,11 +144,7 @@ func (image *Image) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (image *Image) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(image.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  image.Spec.Owner.Name,
-	}
+	return image.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -206,7 +202,7 @@ func (image *Image) ValidateUpdate(old runtime.Object) (admission.Warnings, erro
 
 // createValidations validates the creation of the resource
 func (image *Image) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){image.validateResourceReferences}
+	return []func() (admission.Warnings, error){image.validateResourceReferences, image.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -220,7 +216,16 @@ func (image *Image) updateValidations() []func(old runtime.Object) (admission.Wa
 		func(old runtime.Object) (admission.Warnings, error) {
 			return image.validateResourceReferences()
 		},
-		image.validateWriteOnceProperties}
+		image.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return image.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (image *Image) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(image)
 }
 
 // validateResourceReferences validates all resource references
@@ -459,7 +464,10 @@ func (image *Image_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	}
 
 	// Set property "Owner":
-	image.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	image.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "SourceVirtualMachine":
 	// copying flattened property:

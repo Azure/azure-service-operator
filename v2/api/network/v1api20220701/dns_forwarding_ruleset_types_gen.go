@@ -141,11 +141,7 @@ func (ruleset *DnsForwardingRuleset) NewEmptyStatus() genruntime.ConvertibleStat
 // Owner returns the ResourceReference of the owner
 func (ruleset *DnsForwardingRuleset) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(ruleset.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  ruleset.Spec.Owner.Name,
-	}
+	return ruleset.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (ruleset *DnsForwardingRuleset) ValidateUpdate(old runtime.Object) (admissi
 
 // createValidations validates the creation of the resource
 func (ruleset *DnsForwardingRuleset) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){ruleset.validateResourceReferences}
+	return []func() (admission.Warnings, error){ruleset.validateResourceReferences, ruleset.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (ruleset *DnsForwardingRuleset) updateValidations() []func(old runtime.Obje
 		func(old runtime.Object) (admission.Warnings, error) {
 			return ruleset.validateResourceReferences()
 		},
-		ruleset.validateWriteOnceProperties}
+		ruleset.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return ruleset.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (ruleset *DnsForwardingRuleset) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(ruleset)
 }
 
 // validateResourceReferences validates all resource references
@@ -409,7 +414,10 @@ func (ruleset *DnsForwardingRuleset_Spec) PopulateFromARM(owner genruntime.Arbit
 	}
 
 	// Set property "Owner":
-	ruleset.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	ruleset.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Tags":
 	if typedInput.Tags != nil {

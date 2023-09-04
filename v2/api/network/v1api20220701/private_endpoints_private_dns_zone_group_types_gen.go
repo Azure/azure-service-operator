@@ -141,11 +141,7 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup) NewEmptyStatus() genruntime.Co
 // Owner returns the ResourceReference of the owner
 func (group *PrivateEndpointsPrivateDnsZoneGroup) Owner() *genruntime.ResourceReference {
 	ownerGroup, ownerKind := genruntime.LookupOwnerGroupKind(group.Spec)
-	return &genruntime.ResourceReference{
-		Group: ownerGroup,
-		Kind:  ownerKind,
-		Name:  group.Spec.Owner.Name,
-	}
+	return group.Spec.Owner.AsResourceReference(ownerGroup, ownerKind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup) ValidateUpdate(old runtime.Obj
 
 // createValidations validates the creation of the resource
 func (group *PrivateEndpointsPrivateDnsZoneGroup) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){group.validateResourceReferences}
+	return []func() (admission.Warnings, error){group.validateResourceReferences, group.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup) updateValidations() []func(old
 		func(old runtime.Object) (admission.Warnings, error) {
 			return group.validateResourceReferences()
 		},
-		group.validateWriteOnceProperties}
+		group.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return group.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (group *PrivateEndpointsPrivateDnsZoneGroup) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(group)
 }
 
 // validateResourceReferences validates all resource references
@@ -367,7 +372,10 @@ func (group *PrivateEndpoints_PrivateDnsZoneGroup_Spec) PopulateFromARM(owner ge
 	group.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property "Owner":
-	group.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	group.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "PrivateDnsZoneConfigs":
 	// copying flattened property:

@@ -142,11 +142,7 @@ func (credential *FederatedIdentityCredential) NewEmptyStatus() genruntime.Conve
 // Owner returns the ResourceReference of the owner
 func (credential *FederatedIdentityCredential) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(credential.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  credential.Spec.Owner.Name,
-	}
+	return credential.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -204,7 +200,7 @@ func (credential *FederatedIdentityCredential) ValidateUpdate(old runtime.Object
 
 // createValidations validates the creation of the resource
 func (credential *FederatedIdentityCredential) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){credential.validateResourceReferences, credential.validateOptionalConfigMapReferences}
+	return []func() (admission.Warnings, error){credential.validateResourceReferences, credential.validateOwnerReference, credential.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -220,6 +216,9 @@ func (credential *FederatedIdentityCredential) updateValidations() []func(old ru
 		},
 		credential.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
+			return credential.validateOwnerReference()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return credential.validateOptionalConfigMapReferences()
 		},
 	}
@@ -232,6 +231,11 @@ func (credential *FederatedIdentityCredential) validateOptionalConfigMapReferenc
 		return nil, err
 	}
 	return genruntime.ValidateOptionalConfigMapReferences(refs)
+}
+
+// validateOwnerReference validates the owner field
+func (credential *FederatedIdentityCredential) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(credential)
 }
 
 // validateResourceReferences validates all resource references
@@ -432,7 +436,10 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Popul
 	// no assignment for property "IssuerFromConfig"
 
 	// Set property "Owner":
-	credential.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	credential.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Subject":
 	// copying flattened property:

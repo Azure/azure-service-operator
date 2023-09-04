@@ -103,11 +103,7 @@ func (domain *Domain) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (domain *Domain) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(domain.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  domain.Spec.Owner.Name,
-	}
+	return domain.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
