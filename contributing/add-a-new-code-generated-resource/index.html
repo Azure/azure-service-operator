@@ -780,8 +780,8 @@ Once you have a working development environment, run the <code>task</code> comma
 <h3 id="resource-looks-like-a-resource-reference-but-was-not-labelled-as-one">&lt;Resource&gt; looks like a resource reference but was not labelled as one</h3>
 <p>Example:</p>
 <blockquote>
-<p>Replace cross-resource references with genruntime.ResourceReference:
-[&ldquo;github.com/Azure/azure-service-operator/hack/generated/_apis/containerservice/v1alpha1api20210501/PrivateLinkResource.Id&rdquo; looks like a resource reference but was not labelled as one.</p>
+<p>Replace cross-resource references with genruntime.ResourceReference:<br>
+[&ldquo;github.com/Azure/azure-service-operator/v2/apis/containerservice/v1api20210501/PrivateLinkResource.Id&rdquo; looks like a resource reference but was not labelled as one.</p>
 </blockquote>
 <p>To fix this error, determine whether the property in question is an ARM ID or not, and then update the <code>objectModelConfiguration</code> section in the configuration file.</p>
 <p>Find the section you added earlier, adding your property with an <code>$armReference:</code> declaration nested below.</p>

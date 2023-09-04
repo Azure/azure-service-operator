@@ -30,7 +30,7 @@
 <meta itemprop="name" content="Developer Setup">
 <meta itemprop="description" content="How to set up your developer environment for Azure Service Operator v2">
 
-<meta itemprop="wordCount" content="1206">
+<meta itemprop="wordCount" content="1214">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Developer Setup"/>
 <meta name="twitter:description" content="How to set up your developer environment for Azure Service Operator v2"/>
@@ -825,11 +825,13 @@ v2.1.0
 <p>ASO references the <code>azure-rest-api-specs</code> repo containing API definitions for Azure Resource Providers. If this submodule is missing, the code generator will not run.</p>
 <p>From the root of your ASO repo clone, run</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git submodule init
-Submodule <span style="color:#e6db74">&#39;hack/generator/specs/azure-rest-api-specs&#39;</span> <span style="color:#f92672">(</span>https://github.com/Azure/azure-rest-api-specs<span style="color:#f92672">)</span> registered <span style="color:#66d9ef">for</span> path <span style="color:#e6db74">&#39;specs/azure-rest-api-specs&#39;</span>
+Submodule <span style="color:#e6db74">&#39;azure-rest-api-specs&#39;</span> <span style="color:#f92672">(</span>https://github.com/Azure/azure-rest-api-specs<span style="color:#f92672">)</span> registered <span style="color:#66d9ef">for</span> path <span style="color:#e6db74">&#39;v2/specs/azure-rest-api-specs&#39;</span>
 
 $ git submodule update
 Cloning into <span style="color:#e6db74">&#39;/workspaces/azure-service-operator/v2/specs/azure-rest-api-specs&#39;</span>...
-Submodule path <span style="color:#e6db74">&#39;specs/azure-rest-api-specs&#39;</span>: checked out <span style="color:#e6db74">&#39;3ac733b1b1c63969fbed0c7ffe60ff5cccc708c7&#39;</span>
+remote: Enumerating objects: 15, <span style="color:#66d9ef">done</span>.
+... elided ...
+Submodule path <span style="color:#e6db74">&#39;v2/specs/azure-rest-api-specs&#39;</span>: checked out <span style="color:#e6db74">&#39;35f8372749cbe9b1f69bde0eee3b0bc63c49c2c2&#39;</span>
 </code></pre></div><p>The exact git hash that&rsquo;s checked out will likely be different.</p>
 <h2 id="troubleshooting-docker-on-windows">Troubleshooting: Docker on Windows</h2>
 <p>We&rsquo;ve observed that Docker on Windows performs significantly better when using WSL as the back end. Check your settings in Docker Desktop and ensure the option <em>Use the WSL 2 based engine</em> is turned on.</p>
