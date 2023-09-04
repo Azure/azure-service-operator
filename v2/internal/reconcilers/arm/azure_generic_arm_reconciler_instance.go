@@ -350,14 +350,14 @@ func (r *azureDeploymentReconcilerInstance) preReconciliationCheck(ctx context.C
 	}
 
 	// We also need to have our owner, it too with an up-to-date status
-	owner, ownerErr := r.ResourceResolver.ResolveOwner(ctx, r.Obj)
+	ownerDetails, ownerErr := r.ResourceResolver.ResolveOwner(ctx, r.Obj)
 	if ownerErr != nil {
 		// We can't obtain the owner, so we can't run the extension
 		return extensions.PreReconcileCheckResult{}, ownerErr
 	}
 
 	// Run our pre-reconciliation checker
-	check, checkErr := checker(ctx, r.Obj, owner, r.ResourceResolver, r.ARMConnection.Client(), r.Log)
+	check, checkErr := checker(ctx, r.Obj, ownerDetails.Owner, r.ResourceResolver, r.ARMConnection.Client(), r.Log)
 	if checkErr != nil {
 		// Something went wrong running the check.
 		return extensions.PreReconcileCheckResult{}, checkErr
@@ -480,14 +480,14 @@ func (r *azureDeploymentReconcilerInstance) postReconciliationCheck(ctx context.
 	}
 
 	// We also need to have our owner, it too with an up-to-date status
-	owner, ownerErr := r.ResourceResolver.ResolveOwner(ctx, r.Obj)
+	ownerDetails, ownerErr := r.ResourceResolver.ResolveOwner(ctx, r.Obj)
 	if ownerErr != nil {
 		// We can't obtain the owner, so we can't run the extension
 		return extensions.PostReconcileCheckResult{}, ownerErr
 	}
 
 	// Run our post-reconciliation checker
-	check, checkErr := checker(ctx, r.Obj, owner, r.ResourceResolver, r.ARMConnection.Client(), r.Log)
+	check, checkErr := checker(ctx, r.Obj, ownerDetails.Owner, r.ResourceResolver, r.ARMConnection.Client(), r.Log)
 	if checkErr != nil {
 		// Something went wrong running the check.
 		return extensions.PostReconcileCheckResult{}, checkErr
@@ -759,7 +759,7 @@ func ConvertToARMResourceImpl(
 
 	armID, err := resourceHierarchy.FullyQualifiedARMID(subscriptionID)
 	if err != nil {
-		return nil, err
+		return nil, reconcilers.ClassifyResolverError(err)
 	}
 
 	result := genruntime.NewARMResource(typedArmSpec, nil, armID)

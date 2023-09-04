@@ -141,11 +141,7 @@ func (container *StorageAccountsBlobServicesContainer) NewEmptyStatus() genrunti
 // Owner returns the ResourceReference of the owner
 func (container *StorageAccountsBlobServicesContainer) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(container.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  container.Spec.Owner.Name,
-	}
+	return container.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (container *StorageAccountsBlobServicesContainer) ValidateUpdate(old runtim
 
 // createValidations validates the creation of the resource
 func (container *StorageAccountsBlobServicesContainer) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){container.validateResourceReferences}
+	return []func() (admission.Warnings, error){container.validateResourceReferences, container.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (container *StorageAccountsBlobServicesContainer) updateValidations() []fun
 		func(old runtime.Object) (admission.Warnings, error) {
 			return container.validateResourceReferences()
 		},
-		container.validateWriteOnceProperties}
+		container.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return container.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (container *StorageAccountsBlobServicesContainer) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(container)
 }
 
 // validateResourceReferences validates all resource references
@@ -482,7 +487,10 @@ func (container *StorageAccounts_BlobServices_Container_Spec) PopulateFromARM(ow
 	}
 
 	// Set property "Owner":
-	container.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	container.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "PublicAccess":
 	// copying flattened property:

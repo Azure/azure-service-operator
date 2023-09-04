@@ -142,11 +142,7 @@ func (factory *Factory) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (factory *Factory) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(factory.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  factory.Spec.Owner.Name,
-	}
+	return factory.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -204,7 +200,7 @@ func (factory *Factory) ValidateUpdate(old runtime.Object) (admission.Warnings, 
 
 // createValidations validates the creation of the resource
 func (factory *Factory) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){factory.validateResourceReferences}
+	return []func() (admission.Warnings, error){factory.validateResourceReferences, factory.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -218,7 +214,16 @@ func (factory *Factory) updateValidations() []func(old runtime.Object) (admissio
 		func(old runtime.Object) (admission.Warnings, error) {
 			return factory.validateResourceReferences()
 		},
-		factory.validateWriteOnceProperties}
+		factory.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return factory.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (factory *Factory) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(factory)
 }
 
 // validateResourceReferences validates all resource references
@@ -521,7 +526,10 @@ func (factory *Factory_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	}
 
 	// Set property "Owner":
-	factory.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	factory.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "PublicNetworkAccess":
 	// copying flattened property:

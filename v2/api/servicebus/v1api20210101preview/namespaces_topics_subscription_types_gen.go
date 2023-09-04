@@ -144,11 +144,7 @@ func (subscription *NamespacesTopicsSubscription) NewEmptyStatus() genruntime.Co
 // Owner returns the ResourceReference of the owner
 func (subscription *NamespacesTopicsSubscription) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(subscription.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  subscription.Spec.Owner.Name,
-	}
+	return subscription.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -206,7 +202,7 @@ func (subscription *NamespacesTopicsSubscription) ValidateUpdate(old runtime.Obj
 
 // createValidations validates the creation of the resource
 func (subscription *NamespacesTopicsSubscription) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){subscription.validateResourceReferences}
+	return []func() (admission.Warnings, error){subscription.validateResourceReferences, subscription.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -220,7 +216,16 @@ func (subscription *NamespacesTopicsSubscription) updateValidations() []func(old
 		func(old runtime.Object) (admission.Warnings, error) {
 			return subscription.validateResourceReferences()
 		},
-		subscription.validateWriteOnceProperties}
+		subscription.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return subscription.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (subscription *NamespacesTopicsSubscription) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(subscription)
 }
 
 // validateResourceReferences validates all resource references
@@ -545,7 +550,10 @@ func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner g
 	}
 
 	// Set property "Owner":
-	subscription.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	subscription.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "RequiresSession":
 	// copying flattened property:

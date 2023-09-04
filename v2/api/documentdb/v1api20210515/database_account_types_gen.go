@@ -141,11 +141,7 @@ func (account *DatabaseAccount) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (account *DatabaseAccount) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(account.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  account.Spec.Owner.Name,
-	}
+	return account.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (account *DatabaseAccount) ValidateUpdate(old runtime.Object) (admission.Wa
 
 // createValidations validates the creation of the resource
 func (account *DatabaseAccount) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){account.validateResourceReferences, account.validateSecretDestinations}
+	return []func() (admission.Warnings, error){account.validateResourceReferences, account.validateOwnerReference, account.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -219,9 +215,17 @@ func (account *DatabaseAccount) updateValidations() []func(old runtime.Object) (
 		},
 		account.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
+			return account.validateOwnerReference()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return account.validateSecretDestinations()
 		},
 	}
+}
+
+// validateOwnerReference validates the owner field
+func (account *DatabaseAccount) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(account)
 }
 
 // validateResourceReferences validates all resource references
@@ -899,7 +903,10 @@ func (account *DatabaseAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
-	account.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	account.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "PublicNetworkAccess":
 	// copying flattened property:

@@ -168,11 +168,7 @@ func (cluster *ManagedCluster) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (cluster *ManagedCluster) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(cluster.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  cluster.Spec.Owner.Name,
-	}
+	return cluster.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -230,7 +226,7 @@ func (cluster *ManagedCluster) ValidateUpdate(old runtime.Object) (admission.War
 
 // createValidations validates the creation of the resource
 func (cluster *ManagedCluster) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){cluster.validateResourceReferences, cluster.validateSecretDestinations, cluster.validateConfigMapDestinations}
+	return []func() (admission.Warnings, error){cluster.validateResourceReferences, cluster.validateOwnerReference, cluster.validateSecretDestinations, cluster.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -245,6 +241,9 @@ func (cluster *ManagedCluster) updateValidations() []func(old runtime.Object) (a
 			return cluster.validateResourceReferences()
 		},
 		cluster.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return cluster.validateOwnerReference()
+		},
 		func(old runtime.Object) (admission.Warnings, error) {
 			return cluster.validateSecretDestinations()
 		},
@@ -266,6 +265,11 @@ func (cluster *ManagedCluster) validateConfigMapDestinations() (admission.Warnin
 		cluster.Spec.OperatorSpec.ConfigMaps.OIDCIssuerProfile,
 	}
 	return genruntime.ValidateConfigMapDestinations(toValidate)
+}
+
+// validateOwnerReference validates the owner field
+func (cluster *ManagedCluster) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(cluster)
 }
 
 // validateResourceReferences validates all resource references
@@ -1221,7 +1225,10 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
-	cluster.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	cluster.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "PodIdentityProfile":
 	// copying flattened property:

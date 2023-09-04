@@ -30,6 +30,11 @@ func (ext *FlexibleServersFirewallRuleExtension) PreReconcileCheck(
 	_ logr.Logger,
 	_ extensions.PreReconcileCheckFunc,
 ) (extensions.PreReconcileCheckResult, error) {
+	if owner == nil {
+		// TODO: Check from ARM instead?
+		return extensions.ProceedWithReconcile(), nil
+	}
+
 	// Check to see if our owning server is ready for the database to be reconciled
 	if server, ok := owner.(*postgresql.FlexibleServer); ok {
 		serverState := server.Status.State

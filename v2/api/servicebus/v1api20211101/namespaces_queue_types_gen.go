@@ -141,11 +141,7 @@ func (queue *NamespacesQueue) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (queue *NamespacesQueue) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(queue.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  queue.Spec.Owner.Name,
-	}
+	return queue.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (queue *NamespacesQueue) ValidateUpdate(old runtime.Object) (admission.Warn
 
 // createValidations validates the creation of the resource
 func (queue *NamespacesQueue) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){queue.validateResourceReferences}
+	return []func() (admission.Warnings, error){queue.validateResourceReferences, queue.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (queue *NamespacesQueue) updateValidations() []func(old runtime.Object) (ad
 		func(old runtime.Object) (admission.Warnings, error) {
 			return queue.validateResourceReferences()
 		},
-		queue.validateWriteOnceProperties}
+		queue.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return queue.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (queue *NamespacesQueue) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(queue)
 }
 
 // validateResourceReferences validates all resource references
@@ -604,7 +609,10 @@ func (queue *Namespaces_Queue_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	}
 
 	// Set property "Owner":
-	queue.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	queue.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "RequiresDuplicateDetection":
 	// copying flattened property:

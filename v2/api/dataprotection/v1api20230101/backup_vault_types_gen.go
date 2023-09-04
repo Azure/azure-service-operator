@@ -141,11 +141,7 @@ func (vault *BackupVault) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (vault *BackupVault) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(vault.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  vault.Spec.Owner.Name,
-	}
+	return vault.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (vault *BackupVault) ValidateUpdate(old runtime.Object) (admission.Warnings
 
 // createValidations validates the creation of the resource
 func (vault *BackupVault) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){vault.validateResourceReferences}
+	return []func() (admission.Warnings, error){vault.validateResourceReferences, vault.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (vault *BackupVault) updateValidations() []func(old runtime.Object) (admiss
 		func(old runtime.Object) (admission.Warnings, error) {
 			return vault.validateResourceReferences()
 		},
-		vault.validateWriteOnceProperties}
+		vault.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return vault.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (vault *BackupVault) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(vault)
 }
 
 // validateResourceReferences validates all resource references
@@ -421,7 +426,10 @@ func (vault *BackupVault_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	}
 
 	// Set property "Owner":
-	vault.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	vault.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Properties":
 	if typedInput.Properties != nil {

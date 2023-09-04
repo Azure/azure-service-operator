@@ -134,11 +134,7 @@ func (assignment *SqlRoleAssignment) NewEmptyStatus() genruntime.ConvertibleStat
 // Owner returns the ResourceReference of the owner
 func (assignment *SqlRoleAssignment) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(assignment.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  assignment.Spec.Owner.Name,
-	}
+	return assignment.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -196,7 +192,7 @@ func (assignment *SqlRoleAssignment) ValidateUpdate(old runtime.Object) (admissi
 
 // createValidations validates the creation of the resource
 func (assignment *SqlRoleAssignment) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){assignment.validateResourceReferences, assignment.validateOptionalConfigMapReferences}
+	return []func() (admission.Warnings, error){assignment.validateResourceReferences, assignment.validateOwnerReference, assignment.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -212,6 +208,9 @@ func (assignment *SqlRoleAssignment) updateValidations() []func(old runtime.Obje
 		},
 		assignment.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
+			return assignment.validateOwnerReference()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return assignment.validateOptionalConfigMapReferences()
 		},
 	}
@@ -224,6 +223,11 @@ func (assignment *SqlRoleAssignment) validateOptionalConfigMapReferences() (admi
 		return nil, err
 	}
 	return genruntime.ValidateOptionalConfigMapReferences(refs)
+}
+
+// validateOwnerReference validates the owner field
+func (assignment *SqlRoleAssignment) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(assignment)
 }
 
 // validateResourceReferences validates all resource references
@@ -401,7 +405,10 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) PopulateFromARM(owner
 	assignment.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property "Owner":
-	assignment.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	assignment.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "PrincipalId":
 	// copying flattened property:

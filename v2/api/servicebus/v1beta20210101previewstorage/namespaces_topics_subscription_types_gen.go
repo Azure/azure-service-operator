@@ -116,11 +116,7 @@ func (subscription *NamespacesTopicsSubscription) NewEmptyStatus() genruntime.Co
 // Owner returns the ResourceReference of the owner
 func (subscription *NamespacesTopicsSubscription) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(subscription.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  subscription.Spec.Owner.Name,
-	}
+	return subscription.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

@@ -85,11 +85,7 @@ func (address *PublicIPAddress) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (address *PublicIPAddress) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(address.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  address.Spec.Owner.Name,
-	}
+	return address.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

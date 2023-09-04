@@ -200,7 +200,7 @@ func PostgreSQL_User_CRUD(tc *testcommon.KubePerTestContext, server *postgresql.
 	user := &postgresqlv1.User{
 		ObjectMeta: tc.MakeObjectMetaWithName(username),
 		Spec: postgresqlv1.UserSpec{
-			Owner: testcommon.AsOwner(server),
+			Owner: testcommon.AsKubernetesOwner(server),
 			Roles: []string{
 				"azure_pg_admin",
 			},
@@ -318,7 +318,7 @@ func Test_PostgreSQL_User(t *testing.T) {
 	user := &postgresqlv1.User{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("user")),
 		Spec: postgresqlv1.UserSpec{
-			Owner: testcommon.AsOwner(flexibleServer),
+			Owner: testcommon.AsKubernetesOwner(flexibleServer),
 			Roles: []string{
 				"azure_pg_admin",
 			},

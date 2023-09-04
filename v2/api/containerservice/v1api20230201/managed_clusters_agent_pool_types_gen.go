@@ -141,11 +141,7 @@ func (pool *ManagedClustersAgentPool) NewEmptyStatus() genruntime.ConvertibleSta
 // Owner returns the ResourceReference of the owner
 func (pool *ManagedClustersAgentPool) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(pool.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  pool.Spec.Owner.Name,
-	}
+	return pool.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (pool *ManagedClustersAgentPool) ValidateUpdate(old runtime.Object) (admiss
 
 // createValidations validates the creation of the resource
 func (pool *ManagedClustersAgentPool) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){pool.validateResourceReferences}
+	return []func() (admission.Warnings, error){pool.validateResourceReferences, pool.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (pool *ManagedClustersAgentPool) updateValidations() []func(old runtime.Obj
 		func(old runtime.Object) (admission.Warnings, error) {
 			return pool.validateResourceReferences()
 		},
-		pool.validateWriteOnceProperties}
+		pool.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return pool.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (pool *ManagedClustersAgentPool) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(pool)
 }
 
 // validateResourceReferences validates all resource references
@@ -962,7 +967,10 @@ func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.Arb
 	}
 
 	// Set property "Owner":
-	pool.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	pool.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// no assignment for property "PodSubnetReference"
 

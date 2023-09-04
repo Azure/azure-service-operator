@@ -141,11 +141,7 @@ func (configuration *FlexibleServersConfiguration) NewEmptyStatus() genruntime.C
 // Owner returns the ResourceReference of the owner
 func (configuration *FlexibleServersConfiguration) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(configuration.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  configuration.Spec.Owner.Name,
-	}
+	return configuration.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (configuration *FlexibleServersConfiguration) ValidateUpdate(old runtime.Ob
 
 // createValidations validates the creation of the resource
 func (configuration *FlexibleServersConfiguration) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){configuration.validateResourceReferences}
+	return []func() (admission.Warnings, error){configuration.validateResourceReferences, configuration.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (configuration *FlexibleServersConfiguration) updateValidations() []func(ol
 		func(old runtime.Object) (admission.Warnings, error) {
 			return configuration.validateResourceReferences()
 		},
-		configuration.validateWriteOnceProperties}
+		configuration.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return configuration.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (configuration *FlexibleServersConfiguration) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(configuration)
 }
 
 // validateResourceReferences validates all resource references
@@ -390,7 +395,10 @@ func (configuration *FlexibleServers_Configuration_Spec) PopulateFromARM(owner g
 	}
 
 	// Set property "Owner":
-	configuration.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	configuration.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Source":
 	// copying flattened property:

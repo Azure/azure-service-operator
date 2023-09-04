@@ -84,11 +84,7 @@ func (encryption *ServersDatabasesTransparentDataEncryption) NewEmptyStatus() ge
 // Owner returns the ResourceReference of the owner
 func (encryption *ServersDatabasesTransparentDataEncryption) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(encryption.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  encryption.Spec.Owner.Name,
-	}
+	return encryption.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
