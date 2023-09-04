@@ -49,22 +49,36 @@ var _ conversion.Convertible = &NamespacesTopicsSubscription{}
 
 // ConvertFrom populates our NamespacesTopicsSubscription from the provided hub NamespacesTopicsSubscription
 func (subscription *NamespacesTopicsSubscription) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210101ps.NamespacesTopicsSubscription)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1api20210101previewstorage/NamespacesTopicsSubscription but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210101ps.NamespacesTopicsSubscription
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return subscription.AssignProperties_From_NamespacesTopicsSubscription(source)
+	err = subscription.AssignProperties_From_NamespacesTopicsSubscription(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to subscription")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NamespacesTopicsSubscription from our NamespacesTopicsSubscription
 func (subscription *NamespacesTopicsSubscription) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210101ps.NamespacesTopicsSubscription)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1api20210101previewstorage/NamespacesTopicsSubscription but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210101ps.NamespacesTopicsSubscription
+	err := subscription.AssignProperties_To_NamespacesTopicsSubscription(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from subscription")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return subscription.AssignProperties_To_NamespacesTopicsSubscription(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-servicebus-azure-com-v1api20210101preview-namespacestopicssubscription,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespacestopicssubscriptions,verbs=create;update,versions=v1api20210101preview,name=default.v1api20210101preview.namespacestopicssubscriptions.servicebus.azure.com,admissionReviewVersions=v1
@@ -89,17 +103,6 @@ func (subscription *NamespacesTopicsSubscription) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the NamespacesTopicsSubscription resource
 func (subscription *NamespacesTopicsSubscription) defaultImpl() { subscription.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &NamespacesTopicsSubscription{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (subscription *NamespacesTopicsSubscription) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Namespaces_Topics_Subscription_STATUS); ok {
-		return subscription.Spec.Initialize_From_Namespaces_Topics_Subscription_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Namespaces_Topics_Subscription_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &NamespacesTopicsSubscription{}
 
@@ -755,66 +758,6 @@ func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_To_Nam
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Namespaces_Topics_Subscription_STATUS populates our Namespaces_Topics_Subscription_Spec from the provided source Namespaces_Topics_Subscription_STATUS
-func (subscription *Namespaces_Topics_Subscription_Spec) Initialize_From_Namespaces_Topics_Subscription_STATUS(source *Namespaces_Topics_Subscription_STATUS) error {
-
-	// AutoDeleteOnIdle
-	subscription.AutoDeleteOnIdle = genruntime.ClonePointerToString(source.AutoDeleteOnIdle)
-
-	// DeadLetteringOnFilterEvaluationExceptions
-	if source.DeadLetteringOnFilterEvaluationExceptions != nil {
-		deadLetteringOnFilterEvaluationException := *source.DeadLetteringOnFilterEvaluationExceptions
-		subscription.DeadLetteringOnFilterEvaluationExceptions = &deadLetteringOnFilterEvaluationException
-	} else {
-		subscription.DeadLetteringOnFilterEvaluationExceptions = nil
-	}
-
-	// DeadLetteringOnMessageExpiration
-	if source.DeadLetteringOnMessageExpiration != nil {
-		deadLetteringOnMessageExpiration := *source.DeadLetteringOnMessageExpiration
-		subscription.DeadLetteringOnMessageExpiration = &deadLetteringOnMessageExpiration
-	} else {
-		subscription.DeadLetteringOnMessageExpiration = nil
-	}
-
-	// DefaultMessageTimeToLive
-	subscription.DefaultMessageTimeToLive = genruntime.ClonePointerToString(source.DefaultMessageTimeToLive)
-
-	// DuplicateDetectionHistoryTimeWindow
-	subscription.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(source.DuplicateDetectionHistoryTimeWindow)
-
-	// EnableBatchedOperations
-	if source.EnableBatchedOperations != nil {
-		enableBatchedOperation := *source.EnableBatchedOperations
-		subscription.EnableBatchedOperations = &enableBatchedOperation
-	} else {
-		subscription.EnableBatchedOperations = nil
-	}
-
-	// ForwardDeadLetteredMessagesTo
-	subscription.ForwardDeadLetteredMessagesTo = genruntime.ClonePointerToString(source.ForwardDeadLetteredMessagesTo)
-
-	// ForwardTo
-	subscription.ForwardTo = genruntime.ClonePointerToString(source.ForwardTo)
-
-	// LockDuration
-	subscription.LockDuration = genruntime.ClonePointerToString(source.LockDuration)
-
-	// MaxDeliveryCount
-	subscription.MaxDeliveryCount = genruntime.ClonePointerToInt(source.MaxDeliveryCount)
-
-	// RequiresSession
-	if source.RequiresSession != nil {
-		requiresSession := *source.RequiresSession
-		subscription.RequiresSession = &requiresSession
-	} else {
-		subscription.RequiresSession = nil
 	}
 
 	// No error

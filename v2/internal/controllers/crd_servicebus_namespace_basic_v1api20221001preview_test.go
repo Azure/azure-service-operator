@@ -11,12 +11,12 @@ import (
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	servicebus "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview"
+	servicebus "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20221001preview"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func Test_ServiceBus_Namespace_Basic_CRUD(t *testing.T) {
+func Test_ServiceBus_Namespace_Basic_v1api20221001preview_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -24,7 +24,7 @@ func Test_ServiceBus_Namespace_Basic_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	sku := servicebus.SBSku_Name_Basic
-	namespace := NewServiceBusNamespace(tc, rg, sku)
+	namespace := NewServiceBusNamespace_v1api20221001preview(tc, rg, sku)
 
 	tc.CreateResourceAndWait(namespace)
 
@@ -35,12 +35,14 @@ func Test_ServiceBus_Namespace_Basic_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "Queue CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				ServiceBus_Queue_CRUD(tc, namespace)
+				ServiceBus_NamespacesQueue_v1api20221001preview_CRUD(tc, namespace)
 			},
 		},
 		testcommon.Subtest{
 			Name: "Namespace secrets",
-			Test: func(tc *testcommon.KubePerTestContext) { ServiceBus_Namespace_Secrets(tc, namespace) },
+			Test: func(tc *testcommon.KubePerTestContext) {
+				ServiceBus_Namespace_Secrets_v1api20221001preview(tc, namespace)
+			},
 		},
 	)
 
@@ -50,7 +52,7 @@ func Test_ServiceBus_Namespace_Basic_CRUD(t *testing.T) {
 	tc.ExpectResourceIsDeletedInAzure(armId, string(servicebus.APIVersion_Value))
 }
 
-func ServiceBus_Queue_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client.Object) {
+func ServiceBus_NamespacesQueue_v1api20221001preview_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client.Object) {
 	queue := &servicebus.NamespacesQueue{
 		ObjectMeta: tc.MakeObjectMeta("queue"),
 		Spec: servicebus.Namespaces_Queue_Spec{
@@ -68,9 +70,9 @@ func ServiceBus_Queue_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client
 	tc.Expect(*queue.Status.SizeInBytes).To(Equal(0))
 }
 
-func ServiceBus_Namespace_Secrets(tc *testcommon.KubePerTestContext, sbNamespace client.Object) {
+func ServiceBus_Namespace_Secrets_v1api20221001preview(tc *testcommon.KubePerTestContext, sbNamespace client.Object) {
 	namespace := sbNamespace.(*servicebus.Namespace)
-	secretName := "namespace-secrets"
+	secretName := "namespace-secrets-20221001preview"
 
 	old := namespace.DeepCopy()
 
