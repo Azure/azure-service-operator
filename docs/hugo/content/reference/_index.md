@@ -82,14 +82,14 @@ To install the CRDs for these resources, your ASO configuration must include `ca
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource                | ARM Version | CRD Version   | Supported From | Sample                                                                                                                              |
-|-------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| Redis                   | 2023-04-01  | v1api20230401 | v2.3.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api/v1api20230401_redis.yaml)                   |
-| RedisEnterprise         | 2023-07-01  | v1api20230701 | v2.3.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api/v1api20230701_redisenterprise.yaml)         |
-| RedisEnterpriseDatabase | 2023-07-01  | v1api20230701 | v2.3.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api/v1api20230701_redisenterprisedatabase.yaml) |
-| RedisFirewallRule       | 2023-04-01  | v1api20230401 | v2.3.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api/v1api20230401_redisfirewallrule.yaml)       |
-| RedisLinkedServer       | 2023-04-01  | v1api20230401 | v2.3.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api/v1api20230401_redislinkedserver.yaml)       |
-| RedisPatchSchedule      | 2023-04-01  | v1api20230401 | v2.3.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api/v1api20230401_redispatchschedule.yaml)      |
+| Resource                                                                                                                                                       | ARM Version | CRD Version   | Supported From | Sample                                                                                                                              |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| [Redis](https://azure.github.io/azure-service-operator/reference/cache/v1api20230401/#cache.azure.com/v1api20230401.Redis)                                     | 2023-04-01  | v1api20230401 | v2.3.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api/v1api20230401_redis.yaml)                   |
+| [RedisEnterprise](https://azure.github.io/azure-service-operator/reference/cache/v1api20230701/#cache.azure.com/v1api20230701.RedisEnterprise)                 | 2023-07-01  | v1api20230701 | v2.3.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api/v1api20230701_redisenterprise.yaml)         |
+| [RedisEnterpriseDatabase](https://azure.github.io/azure-service-operator/reference/cache/v1api20230701/#cache.azure.com/v1api20230701.RedisEnterpriseDatabase) | 2023-07-01  | v1api20230701 | v2.3.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api/v1api20230701_redisenterprisedatabase.yaml) |
+| [RedisFirewallRule](https://azure.github.io/azure-service-operator/reference/cache/v1api20230401/#cache.azure.com/v1api20230401.RedisFirewallRule)             | 2023-04-01  | v1api20230401 | v2.3.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api/v1api20230401_redisfirewallrule.yaml)       |
+| [RedisLinkedServer](https://azure.github.io/azure-service-operator/reference/cache/v1api20230401/#cache.azure.com/v1api20230401.RedisLinkedServer)             | 2023-04-01  | v1api20230401 | v2.3.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api/v1api20230401_redislinkedserver.yaml)       |
+| [RedisPatchSchedule](https://azure.github.io/azure-service-operator/reference/cache/v1api20230401/#cache.azure.com/v1api20230401.RedisPatchSchedule)           | 2023-04-01  | v1api20230401 | v2.3.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api/v1api20230401_redispatchschedule.yaml)      |
 
 ### Released
 
@@ -147,9 +147,9 @@ To install the CRDs for these resources, your ASO configuration must include `co
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource          | ARM Version | CRD Version   | Supported From | Sample                                                                                                                          |
-|-------------------|-------------|---------------|----------------|---------------------------------------------------------------------------------------------------------------------------------|
-| DiskEncryptionSet | 2022-07-02  | v1api20220702 | v2.3.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20220702_diskencryptionset.yaml) |
+| Resource                                                                                                                                               | ARM Version | CRD Version   | Supported From | Sample                                                                                                                          |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|---------------------------------------------------------------------------------------------------------------------------------|
+| [DiskEncryptionSet](https://azure.github.io/azure-service-operator/reference/compute/v1api20220702/#compute.azure.com/v1api20220702.DiskEncryptionSet) | 2022-07-02  | v1api20220702 | v2.3.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20220702_diskencryptionset.yaml) |
 
 ### Released
 
