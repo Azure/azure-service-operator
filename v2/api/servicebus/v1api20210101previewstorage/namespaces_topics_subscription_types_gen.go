@@ -4,19 +4,18 @@
 package v1api20210101previewstorage
 
 import (
+	"fmt"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=servicebus.azure.com,resources=namespacestopicssubscriptions,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=servicebus.azure.com,resources={namespacestopicssubscriptions/status,namespacestopicssubscriptions/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -42,6 +41,28 @@ func (subscription *NamespacesTopicsSubscription) GetConditions() conditions.Con
 // SetConditions sets the conditions on the resource status
 func (subscription *NamespacesTopicsSubscription) SetConditions(conditions conditions.Conditions) {
 	subscription.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &NamespacesTopicsSubscription{}
+
+// ConvertFrom populates our NamespacesTopicsSubscription from the provided hub NamespacesTopicsSubscription
+func (subscription *NamespacesTopicsSubscription) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v20211101s.NamespacesTopicsSubscription)
+	if !ok {
+		return fmt.Errorf("expected servicebus/v1api20211101storage/NamespacesTopicsSubscription but received %T instead", hub)
+	}
+
+	return subscription.AssignProperties_From_NamespacesTopicsSubscription(source)
+}
+
+// ConvertTo populates the provided hub NamespacesTopicsSubscription from our NamespacesTopicsSubscription
+func (subscription *NamespacesTopicsSubscription) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v20211101s.NamespacesTopicsSubscription)
+	if !ok {
+		return fmt.Errorf("expected servicebus/v1api20211101storage/NamespacesTopicsSubscription but received %T instead", hub)
+	}
+
+	return subscription.AssignProperties_To_NamespacesTopicsSubscription(destination)
 }
 
 var _ genruntime.KubernetesResource = &NamespacesTopicsSubscription{}
@@ -110,8 +131,75 @@ func (subscription *NamespacesTopicsSubscription) SetStatus(status genruntime.Co
 	return nil
 }
 
-// Hub marks that this NamespacesTopicsSubscription is the hub type for conversion
-func (subscription *NamespacesTopicsSubscription) Hub() {}
+// AssignProperties_From_NamespacesTopicsSubscription populates our NamespacesTopicsSubscription from the provided source NamespacesTopicsSubscription
+func (subscription *NamespacesTopicsSubscription) AssignProperties_From_NamespacesTopicsSubscription(source *v20211101s.NamespacesTopicsSubscription) error {
+
+	// ObjectMeta
+	subscription.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec Namespaces_Topics_Subscription_Spec
+	err := spec.AssignProperties_From_Namespaces_Topics_Subscription_Spec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_Namespaces_Topics_Subscription_Spec() to populate field Spec")
+	}
+	subscription.Spec = spec
+
+	// Status
+	var status Namespaces_Topics_Subscription_STATUS
+	err = status.AssignProperties_From_Namespaces_Topics_Subscription_STATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_Namespaces_Topics_Subscription_STATUS() to populate field Status")
+	}
+	subscription.Status = status
+
+	// Invoke the augmentConversionForNamespacesTopicsSubscription interface (if implemented) to customize the conversion
+	var subscriptionAsAny any = subscription
+	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForNamespacesTopicsSubscription); ok {
+		err := augmentedSubscription.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NamespacesTopicsSubscription populates the provided destination NamespacesTopicsSubscription from our NamespacesTopicsSubscription
+func (subscription *NamespacesTopicsSubscription) AssignProperties_To_NamespacesTopicsSubscription(destination *v20211101s.NamespacesTopicsSubscription) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *subscription.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v20211101s.Namespaces_Topics_Subscription_Spec
+	err := subscription.Spec.AssignProperties_To_Namespaces_Topics_Subscription_Spec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Topics_Subscription_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status v20211101s.Namespaces_Topics_Subscription_STATUS
+	err = subscription.Status.AssignProperties_To_Namespaces_Topics_Subscription_STATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Topics_Subscription_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForNamespacesTopicsSubscription interface (if implemented) to customize the conversion
+	var subscriptionAsAny any = subscription
+	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForNamespacesTopicsSubscription); ok {
+		err := augmentedSubscription.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (subscription *NamespacesTopicsSubscription) OriginalGVK() *schema.GroupVersionKind {
@@ -131,6 +219,11 @@ type NamespacesTopicsSubscriptionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NamespacesTopicsSubscription `json:"items"`
+}
+
+type augmentConversionForNamespacesTopicsSubscription interface {
+	AssignPropertiesFrom(src *v20211101s.NamespacesTopicsSubscription) error
+	AssignPropertiesTo(dst *v20211101s.NamespacesTopicsSubscription) error
 }
 
 // Storage version of v1api20210101preview.Namespaces_Topics_Subscription_Spec
@@ -166,20 +259,274 @@ var _ genruntime.ConvertibleSpec = &Namespaces_Topics_Subscription_Spec{}
 
 // ConvertSpecFrom populates our Namespaces_Topics_Subscription_Spec from the provided source
 func (subscription *Namespaces_Topics_Subscription_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == subscription {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*v20211101s.Namespaces_Topics_Subscription_Spec)
+	if ok {
+		// Populate our instance from source
+		return subscription.AssignProperties_From_Namespaces_Topics_Subscription_Spec(src)
 	}
 
-	return source.ConvertSpecTo(subscription)
+	// Convert to an intermediate form
+	src = &v20211101s.Namespaces_Topics_Subscription_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = subscription.AssignProperties_From_Namespaces_Topics_Subscription_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our Namespaces_Topics_Subscription_Spec
 func (subscription *Namespaces_Topics_Subscription_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == subscription {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*v20211101s.Namespaces_Topics_Subscription_Spec)
+	if ok {
+		// Populate destination from our instance
+		return subscription.AssignProperties_To_Namespaces_Topics_Subscription_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(subscription)
+	// Convert to an intermediate form
+	dst = &v20211101s.Namespaces_Topics_Subscription_Spec{}
+	err := subscription.AssignProperties_To_Namespaces_Topics_Subscription_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_Namespaces_Topics_Subscription_Spec populates our Namespaces_Topics_Subscription_Spec from the provided source Namespaces_Topics_Subscription_Spec
+func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_From_Namespaces_Topics_Subscription_Spec(source *v20211101s.Namespaces_Topics_Subscription_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AutoDeleteOnIdle
+	subscription.AutoDeleteOnIdle = genruntime.ClonePointerToString(source.AutoDeleteOnIdle)
+
+	// AzureName
+	subscription.AzureName = source.AzureName
+
+	// ClientAffineProperties
+	if source.ClientAffineProperties != nil {
+		propertyBag.Add("ClientAffineProperties", *source.ClientAffineProperties)
+	} else {
+		propertyBag.Remove("ClientAffineProperties")
+	}
+
+	// DeadLetteringOnFilterEvaluationExceptions
+	if source.DeadLetteringOnFilterEvaluationExceptions != nil {
+		deadLetteringOnFilterEvaluationException := *source.DeadLetteringOnFilterEvaluationExceptions
+		subscription.DeadLetteringOnFilterEvaluationExceptions = &deadLetteringOnFilterEvaluationException
+	} else {
+		subscription.DeadLetteringOnFilterEvaluationExceptions = nil
+	}
+
+	// DeadLetteringOnMessageExpiration
+	if source.DeadLetteringOnMessageExpiration != nil {
+		deadLetteringOnMessageExpiration := *source.DeadLetteringOnMessageExpiration
+		subscription.DeadLetteringOnMessageExpiration = &deadLetteringOnMessageExpiration
+	} else {
+		subscription.DeadLetteringOnMessageExpiration = nil
+	}
+
+	// DefaultMessageTimeToLive
+	subscription.DefaultMessageTimeToLive = genruntime.ClonePointerToString(source.DefaultMessageTimeToLive)
+
+	// DuplicateDetectionHistoryTimeWindow
+	subscription.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(source.DuplicateDetectionHistoryTimeWindow)
+
+	// EnableBatchedOperations
+	if source.EnableBatchedOperations != nil {
+		enableBatchedOperation := *source.EnableBatchedOperations
+		subscription.EnableBatchedOperations = &enableBatchedOperation
+	} else {
+		subscription.EnableBatchedOperations = nil
+	}
+
+	// ForwardDeadLetteredMessagesTo
+	subscription.ForwardDeadLetteredMessagesTo = genruntime.ClonePointerToString(source.ForwardDeadLetteredMessagesTo)
+
+	// ForwardTo
+	subscription.ForwardTo = genruntime.ClonePointerToString(source.ForwardTo)
+
+	// IsClientAffine
+	if source.IsClientAffine != nil {
+		propertyBag.Add("IsClientAffine", *source.IsClientAffine)
+	} else {
+		propertyBag.Remove("IsClientAffine")
+	}
+
+	// LockDuration
+	subscription.LockDuration = genruntime.ClonePointerToString(source.LockDuration)
+
+	// MaxDeliveryCount
+	subscription.MaxDeliveryCount = genruntime.ClonePointerToInt(source.MaxDeliveryCount)
+
+	// OriginalVersion
+	subscription.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		subscription.Owner = &owner
+	} else {
+		subscription.Owner = nil
+	}
+
+	// RequiresSession
+	if source.RequiresSession != nil {
+		requiresSession := *source.RequiresSession
+		subscription.RequiresSession = &requiresSession
+	} else {
+		subscription.RequiresSession = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		subscription.PropertyBag = propertyBag
+	} else {
+		subscription.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNamespaces_Topics_Subscription_Spec interface (if implemented) to customize the conversion
+	var subscriptionAsAny any = subscription
+	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForNamespaces_Topics_Subscription_Spec); ok {
+		err := augmentedSubscription.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Namespaces_Topics_Subscription_Spec populates the provided destination Namespaces_Topics_Subscription_Spec from our Namespaces_Topics_Subscription_Spec
+func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_To_Namespaces_Topics_Subscription_Spec(destination *v20211101s.Namespaces_Topics_Subscription_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(subscription.PropertyBag)
+
+	// AutoDeleteOnIdle
+	destination.AutoDeleteOnIdle = genruntime.ClonePointerToString(subscription.AutoDeleteOnIdle)
+
+	// AzureName
+	destination.AzureName = subscription.AzureName
+
+	// ClientAffineProperties
+	if propertyBag.Contains("ClientAffineProperties") {
+		var clientAffineProperty v20211101s.SBClientAffineProperties
+		err := propertyBag.Pull("ClientAffineProperties", &clientAffineProperty)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'ClientAffineProperties' from propertyBag")
+		}
+
+		destination.ClientAffineProperties = &clientAffineProperty
+	} else {
+		destination.ClientAffineProperties = nil
+	}
+
+	// DeadLetteringOnFilterEvaluationExceptions
+	if subscription.DeadLetteringOnFilterEvaluationExceptions != nil {
+		deadLetteringOnFilterEvaluationException := *subscription.DeadLetteringOnFilterEvaluationExceptions
+		destination.DeadLetteringOnFilterEvaluationExceptions = &deadLetteringOnFilterEvaluationException
+	} else {
+		destination.DeadLetteringOnFilterEvaluationExceptions = nil
+	}
+
+	// DeadLetteringOnMessageExpiration
+	if subscription.DeadLetteringOnMessageExpiration != nil {
+		deadLetteringOnMessageExpiration := *subscription.DeadLetteringOnMessageExpiration
+		destination.DeadLetteringOnMessageExpiration = &deadLetteringOnMessageExpiration
+	} else {
+		destination.DeadLetteringOnMessageExpiration = nil
+	}
+
+	// DefaultMessageTimeToLive
+	destination.DefaultMessageTimeToLive = genruntime.ClonePointerToString(subscription.DefaultMessageTimeToLive)
+
+	// DuplicateDetectionHistoryTimeWindow
+	destination.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(subscription.DuplicateDetectionHistoryTimeWindow)
+
+	// EnableBatchedOperations
+	if subscription.EnableBatchedOperations != nil {
+		enableBatchedOperation := *subscription.EnableBatchedOperations
+		destination.EnableBatchedOperations = &enableBatchedOperation
+	} else {
+		destination.EnableBatchedOperations = nil
+	}
+
+	// ForwardDeadLetteredMessagesTo
+	destination.ForwardDeadLetteredMessagesTo = genruntime.ClonePointerToString(subscription.ForwardDeadLetteredMessagesTo)
+
+	// ForwardTo
+	destination.ForwardTo = genruntime.ClonePointerToString(subscription.ForwardTo)
+
+	// IsClientAffine
+	if propertyBag.Contains("IsClientAffine") {
+		var isClientAffine bool
+		err := propertyBag.Pull("IsClientAffine", &isClientAffine)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'IsClientAffine' from propertyBag")
+		}
+
+		destination.IsClientAffine = &isClientAffine
+	} else {
+		destination.IsClientAffine = nil
+	}
+
+	// LockDuration
+	destination.LockDuration = genruntime.ClonePointerToString(subscription.LockDuration)
+
+	// MaxDeliveryCount
+	destination.MaxDeliveryCount = genruntime.ClonePointerToInt(subscription.MaxDeliveryCount)
+
+	// OriginalVersion
+	destination.OriginalVersion = subscription.OriginalVersion
+
+	// Owner
+	if subscription.Owner != nil {
+		owner := subscription.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// RequiresSession
+	if subscription.RequiresSession != nil {
+		requiresSession := *subscription.RequiresSession
+		destination.RequiresSession = &requiresSession
+	} else {
+		destination.RequiresSession = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNamespaces_Topics_Subscription_Spec interface (if implemented) to customize the conversion
+	var subscriptionAsAny any = subscription
+	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForNamespaces_Topics_Subscription_Spec); ok {
+		err := augmentedSubscription.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20210101preview.Namespaces_Topics_Subscription_STATUS
@@ -213,20 +560,378 @@ var _ genruntime.ConvertibleStatus = &Namespaces_Topics_Subscription_STATUS{}
 
 // ConvertStatusFrom populates our Namespaces_Topics_Subscription_STATUS from the provided source
 func (subscription *Namespaces_Topics_Subscription_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == subscription {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*v20211101s.Namespaces_Topics_Subscription_STATUS)
+	if ok {
+		// Populate our instance from source
+		return subscription.AssignProperties_From_Namespaces_Topics_Subscription_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(subscription)
+	// Convert to an intermediate form
+	src = &v20211101s.Namespaces_Topics_Subscription_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = subscription.AssignProperties_From_Namespaces_Topics_Subscription_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our Namespaces_Topics_Subscription_STATUS
 func (subscription *Namespaces_Topics_Subscription_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == subscription {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*v20211101s.Namespaces_Topics_Subscription_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return subscription.AssignProperties_To_Namespaces_Topics_Subscription_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(subscription)
+	// Convert to an intermediate form
+	dst = &v20211101s.Namespaces_Topics_Subscription_STATUS{}
+	err := subscription.AssignProperties_To_Namespaces_Topics_Subscription_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_Namespaces_Topics_Subscription_STATUS populates our Namespaces_Topics_Subscription_STATUS from the provided source Namespaces_Topics_Subscription_STATUS
+func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_From_Namespaces_Topics_Subscription_STATUS(source *v20211101s.Namespaces_Topics_Subscription_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AccessedAt
+	subscription.AccessedAt = genruntime.ClonePointerToString(source.AccessedAt)
+
+	// AutoDeleteOnIdle
+	subscription.AutoDeleteOnIdle = genruntime.ClonePointerToString(source.AutoDeleteOnIdle)
+
+	// ClientAffineProperties
+	if source.ClientAffineProperties != nil {
+		propertyBag.Add("ClientAffineProperties", *source.ClientAffineProperties)
+	} else {
+		propertyBag.Remove("ClientAffineProperties")
+	}
+
+	// Conditions
+	subscription.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// CountDetails
+	if source.CountDetails != nil {
+		var countDetail MessageCountDetails_STATUS
+		err := countDetail.AssignProperties_From_MessageCountDetails_STATUS(source.CountDetails)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_MessageCountDetails_STATUS() to populate field CountDetails")
+		}
+		subscription.CountDetails = &countDetail
+	} else {
+		subscription.CountDetails = nil
+	}
+
+	// CreatedAt
+	subscription.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
+
+	// DeadLetteringOnFilterEvaluationExceptions
+	if source.DeadLetteringOnFilterEvaluationExceptions != nil {
+		deadLetteringOnFilterEvaluationException := *source.DeadLetteringOnFilterEvaluationExceptions
+		subscription.DeadLetteringOnFilterEvaluationExceptions = &deadLetteringOnFilterEvaluationException
+	} else {
+		subscription.DeadLetteringOnFilterEvaluationExceptions = nil
+	}
+
+	// DeadLetteringOnMessageExpiration
+	if source.DeadLetteringOnMessageExpiration != nil {
+		deadLetteringOnMessageExpiration := *source.DeadLetteringOnMessageExpiration
+		subscription.DeadLetteringOnMessageExpiration = &deadLetteringOnMessageExpiration
+	} else {
+		subscription.DeadLetteringOnMessageExpiration = nil
+	}
+
+	// DefaultMessageTimeToLive
+	subscription.DefaultMessageTimeToLive = genruntime.ClonePointerToString(source.DefaultMessageTimeToLive)
+
+	// DuplicateDetectionHistoryTimeWindow
+	subscription.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(source.DuplicateDetectionHistoryTimeWindow)
+
+	// EnableBatchedOperations
+	if source.EnableBatchedOperations != nil {
+		enableBatchedOperation := *source.EnableBatchedOperations
+		subscription.EnableBatchedOperations = &enableBatchedOperation
+	} else {
+		subscription.EnableBatchedOperations = nil
+	}
+
+	// ForwardDeadLetteredMessagesTo
+	subscription.ForwardDeadLetteredMessagesTo = genruntime.ClonePointerToString(source.ForwardDeadLetteredMessagesTo)
+
+	// ForwardTo
+	subscription.ForwardTo = genruntime.ClonePointerToString(source.ForwardTo)
+
+	// Id
+	subscription.Id = genruntime.ClonePointerToString(source.Id)
+
+	// IsClientAffine
+	if source.IsClientAffine != nil {
+		propertyBag.Add("IsClientAffine", *source.IsClientAffine)
+	} else {
+		propertyBag.Remove("IsClientAffine")
+	}
+
+	// Location
+	if source.Location != nil {
+		propertyBag.Add("Location", *source.Location)
+	} else {
+		propertyBag.Remove("Location")
+	}
+
+	// LockDuration
+	subscription.LockDuration = genruntime.ClonePointerToString(source.LockDuration)
+
+	// MaxDeliveryCount
+	subscription.MaxDeliveryCount = genruntime.ClonePointerToInt(source.MaxDeliveryCount)
+
+	// MessageCount
+	subscription.MessageCount = genruntime.ClonePointerToInt(source.MessageCount)
+
+	// Name
+	subscription.Name = genruntime.ClonePointerToString(source.Name)
+
+	// RequiresSession
+	if source.RequiresSession != nil {
+		requiresSession := *source.RequiresSession
+		subscription.RequiresSession = &requiresSession
+	} else {
+		subscription.RequiresSession = nil
+	}
+
+	// Status
+	subscription.Status = genruntime.ClonePointerToString(source.Status)
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		subscription.SystemData = &systemDatum
+	} else {
+		subscription.SystemData = nil
+	}
+
+	// Type
+	subscription.Type = genruntime.ClonePointerToString(source.Type)
+
+	// UpdatedAt
+	subscription.UpdatedAt = genruntime.ClonePointerToString(source.UpdatedAt)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		subscription.PropertyBag = propertyBag
+	} else {
+		subscription.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNamespaces_Topics_Subscription_STATUS interface (if implemented) to customize the conversion
+	var subscriptionAsAny any = subscription
+	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForNamespaces_Topics_Subscription_STATUS); ok {
+		err := augmentedSubscription.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Namespaces_Topics_Subscription_STATUS populates the provided destination Namespaces_Topics_Subscription_STATUS from our Namespaces_Topics_Subscription_STATUS
+func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_To_Namespaces_Topics_Subscription_STATUS(destination *v20211101s.Namespaces_Topics_Subscription_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(subscription.PropertyBag)
+
+	// AccessedAt
+	destination.AccessedAt = genruntime.ClonePointerToString(subscription.AccessedAt)
+
+	// AutoDeleteOnIdle
+	destination.AutoDeleteOnIdle = genruntime.ClonePointerToString(subscription.AutoDeleteOnIdle)
+
+	// ClientAffineProperties
+	if propertyBag.Contains("ClientAffineProperties") {
+		var clientAffineProperty v20211101s.SBClientAffineProperties_STATUS
+		err := propertyBag.Pull("ClientAffineProperties", &clientAffineProperty)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'ClientAffineProperties' from propertyBag")
+		}
+
+		destination.ClientAffineProperties = &clientAffineProperty
+	} else {
+		destination.ClientAffineProperties = nil
+	}
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(subscription.Conditions)
+
+	// CountDetails
+	if subscription.CountDetails != nil {
+		var countDetail v20211101s.MessageCountDetails_STATUS
+		err := subscription.CountDetails.AssignProperties_To_MessageCountDetails_STATUS(&countDetail)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_MessageCountDetails_STATUS() to populate field CountDetails")
+		}
+		destination.CountDetails = &countDetail
+	} else {
+		destination.CountDetails = nil
+	}
+
+	// CreatedAt
+	destination.CreatedAt = genruntime.ClonePointerToString(subscription.CreatedAt)
+
+	// DeadLetteringOnFilterEvaluationExceptions
+	if subscription.DeadLetteringOnFilterEvaluationExceptions != nil {
+		deadLetteringOnFilterEvaluationException := *subscription.DeadLetteringOnFilterEvaluationExceptions
+		destination.DeadLetteringOnFilterEvaluationExceptions = &deadLetteringOnFilterEvaluationException
+	} else {
+		destination.DeadLetteringOnFilterEvaluationExceptions = nil
+	}
+
+	// DeadLetteringOnMessageExpiration
+	if subscription.DeadLetteringOnMessageExpiration != nil {
+		deadLetteringOnMessageExpiration := *subscription.DeadLetteringOnMessageExpiration
+		destination.DeadLetteringOnMessageExpiration = &deadLetteringOnMessageExpiration
+	} else {
+		destination.DeadLetteringOnMessageExpiration = nil
+	}
+
+	// DefaultMessageTimeToLive
+	destination.DefaultMessageTimeToLive = genruntime.ClonePointerToString(subscription.DefaultMessageTimeToLive)
+
+	// DuplicateDetectionHistoryTimeWindow
+	destination.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(subscription.DuplicateDetectionHistoryTimeWindow)
+
+	// EnableBatchedOperations
+	if subscription.EnableBatchedOperations != nil {
+		enableBatchedOperation := *subscription.EnableBatchedOperations
+		destination.EnableBatchedOperations = &enableBatchedOperation
+	} else {
+		destination.EnableBatchedOperations = nil
+	}
+
+	// ForwardDeadLetteredMessagesTo
+	destination.ForwardDeadLetteredMessagesTo = genruntime.ClonePointerToString(subscription.ForwardDeadLetteredMessagesTo)
+
+	// ForwardTo
+	destination.ForwardTo = genruntime.ClonePointerToString(subscription.ForwardTo)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(subscription.Id)
+
+	// IsClientAffine
+	if propertyBag.Contains("IsClientAffine") {
+		var isClientAffine bool
+		err := propertyBag.Pull("IsClientAffine", &isClientAffine)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'IsClientAffine' from propertyBag")
+		}
+
+		destination.IsClientAffine = &isClientAffine
+	} else {
+		destination.IsClientAffine = nil
+	}
+
+	// Location
+	if propertyBag.Contains("Location") {
+		var location string
+		err := propertyBag.Pull("Location", &location)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'Location' from propertyBag")
+		}
+
+		destination.Location = &location
+	} else {
+		destination.Location = nil
+	}
+
+	// LockDuration
+	destination.LockDuration = genruntime.ClonePointerToString(subscription.LockDuration)
+
+	// MaxDeliveryCount
+	destination.MaxDeliveryCount = genruntime.ClonePointerToInt(subscription.MaxDeliveryCount)
+
+	// MessageCount
+	destination.MessageCount = genruntime.ClonePointerToInt(subscription.MessageCount)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(subscription.Name)
+
+	// RequiresSession
+	if subscription.RequiresSession != nil {
+		requiresSession := *subscription.RequiresSession
+		destination.RequiresSession = &requiresSession
+	} else {
+		destination.RequiresSession = nil
+	}
+
+	// Status
+	destination.Status = genruntime.ClonePointerToString(subscription.Status)
+
+	// SystemData
+	if subscription.SystemData != nil {
+		var systemDatum v20211101s.SystemData_STATUS
+		err := subscription.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(subscription.Type)
+
+	// UpdatedAt
+	destination.UpdatedAt = genruntime.ClonePointerToString(subscription.UpdatedAt)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNamespaces_Topics_Subscription_STATUS interface (if implemented) to customize the conversion
+	var subscriptionAsAny any = subscription
+	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForNamespaces_Topics_Subscription_STATUS); ok {
+		err := augmentedSubscription.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForNamespaces_Topics_Subscription_Spec interface {
+	AssignPropertiesFrom(src *v20211101s.Namespaces_Topics_Subscription_Spec) error
+	AssignPropertiesTo(dst *v20211101s.Namespaces_Topics_Subscription_Spec) error
+}
+
+type augmentConversionForNamespaces_Topics_Subscription_STATUS interface {
+	AssignPropertiesFrom(src *v20211101s.Namespaces_Topics_Subscription_STATUS) error
+	AssignPropertiesTo(dst *v20211101s.Namespaces_Topics_Subscription_STATUS) error
 }
 
 func init() {

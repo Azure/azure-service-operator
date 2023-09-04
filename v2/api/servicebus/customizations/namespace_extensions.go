@@ -10,9 +10,9 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
-	"k8s.io/api/core/v1"
+	v1 "k8s.io/api/core/v1"
 
-	servicebus "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
+	servicebus "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101storage"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
 	"sigs.k8s.io/controller-runtime/pkg/client"

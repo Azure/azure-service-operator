@@ -4,7 +4,6 @@
 package v1beta20210101previewstorage
 
 import (
-	"fmt"
 	v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -45,22 +44,36 @@ var _ conversion.Convertible = &Namespace{}
 
 // ConvertFrom populates our Namespace from the provided hub Namespace
 func (namespace *Namespace) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210101ps.Namespace)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1api20210101previewstorage/Namespace but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210101ps.Namespace
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return namespace.AssignProperties_From_Namespace(source)
+	err = namespace.AssignProperties_From_Namespace(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to namespace")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Namespace from our Namespace
 func (namespace *Namespace) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210101ps.Namespace)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1api20210101previewstorage/Namespace but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210101ps.Namespace
+	err := namespace.AssignProperties_To_Namespace(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from namespace")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return namespace.AssignProperties_To_Namespace(destination)
+	return nil
 }
 
 var _ genruntime.KubernetesResource = &Namespace{}

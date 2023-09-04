@@ -5,6 +5,7 @@ package v1api20210101previewstorage
 
 import (
 	"encoding/json"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_NamespacesTopicsSubscription_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NamespacesTopicsSubscription to hub returns original",
+		prop.ForAll(RunResourceConversionTestForNamespacesTopicsSubscription, NamespacesTopicsSubscriptionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForNamespacesTopicsSubscription tests if a specific instance of NamespacesTopicsSubscription round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForNamespacesTopicsSubscription(subject NamespacesTopicsSubscription) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v20211101s.NamespacesTopicsSubscription
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual NamespacesTopicsSubscription
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_NamespacesTopicsSubscription_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NamespacesTopicsSubscription to NamespacesTopicsSubscription via AssignProperties_To_NamespacesTopicsSubscription & AssignProperties_From_NamespacesTopicsSubscription returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespacesTopicsSubscription, NamespacesTopicsSubscriptionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNamespacesTopicsSubscription tests if a specific instance of NamespacesTopicsSubscription can be assigned to v1api20211101storage and back losslessly
+func RunPropertyAssignmentTestForNamespacesTopicsSubscription(subject NamespacesTopicsSubscription) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20211101s.NamespacesTopicsSubscription
+	err := copied.AssignProperties_To_NamespacesTopicsSubscription(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NamespacesTopicsSubscription
+	err = actual.AssignProperties_From_NamespacesTopicsSubscription(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_NamespacesTopicsSubscription_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -77,6 +163,48 @@ func NamespacesTopicsSubscriptionGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForNamespacesTopicsSubscription(gens map[string]gopter.Gen) {
 	gens["Spec"] = Namespaces_Topics_Subscription_SpecGenerator()
 	gens["Status"] = Namespaces_Topics_Subscription_STATUSGenerator()
+}
+
+func Test_Namespaces_Topics_Subscription_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Namespaces_Topics_Subscription_Spec to Namespaces_Topics_Subscription_Spec via AssignProperties_To_Namespaces_Topics_Subscription_Spec & AssignProperties_From_Namespaces_Topics_Subscription_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespaces_Topics_Subscription_Spec, Namespaces_Topics_Subscription_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNamespaces_Topics_Subscription_Spec tests if a specific instance of Namespaces_Topics_Subscription_Spec can be assigned to v1api20211101storage and back losslessly
+func RunPropertyAssignmentTestForNamespaces_Topics_Subscription_Spec(subject Namespaces_Topics_Subscription_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20211101s.Namespaces_Topics_Subscription_Spec
+	err := copied.AssignProperties_To_Namespaces_Topics_Subscription_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Namespaces_Topics_Subscription_Spec
+	err = actual.AssignProperties_From_Namespaces_Topics_Subscription_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Namespaces_Topics_Subscription_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -150,6 +278,48 @@ func AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscription_Spec(gens
 	gens["MaxDeliveryCount"] = gen.PtrOf(gen.Int())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["RequiresSession"] = gen.PtrOf(gen.Bool())
+}
+
+func Test_Namespaces_Topics_Subscription_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Namespaces_Topics_Subscription_STATUS to Namespaces_Topics_Subscription_STATUS via AssignProperties_To_Namespaces_Topics_Subscription_STATUS & AssignProperties_From_Namespaces_Topics_Subscription_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespaces_Topics_Subscription_STATUS, Namespaces_Topics_Subscription_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNamespaces_Topics_Subscription_STATUS tests if a specific instance of Namespaces_Topics_Subscription_STATUS can be assigned to v1api20211101storage and back losslessly
+func RunPropertyAssignmentTestForNamespaces_Topics_Subscription_STATUS(subject Namespaces_Topics_Subscription_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20211101s.Namespaces_Topics_Subscription_STATUS
+	err := copied.AssignProperties_To_Namespaces_Topics_Subscription_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Namespaces_Topics_Subscription_STATUS
+	err = actual.AssignProperties_From_Namespaces_Topics_Subscription_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Namespaces_Topics_Subscription_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
