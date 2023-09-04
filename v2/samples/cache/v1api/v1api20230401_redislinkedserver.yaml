@@ -1,0 +1,15 @@
+apiVersion: cache.azure.com/v1api20230401
+kind: RedisLinkedServer
+metadata:
+  # This name needs to be the same as the secondary redis server.
+  name: linked-sample-redis
+  namespace: default
+spec:
+  owner:
+    name: sampleredis1
+  linkedRedisCacheLocation: westcentralus
+  linkedRedisCacheReference:
+    group: cache.azure.com
+    kind: Redis
+    name: linked-sample-redis
+  serverRole: Secondary

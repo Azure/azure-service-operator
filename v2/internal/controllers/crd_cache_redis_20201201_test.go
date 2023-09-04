@@ -9,17 +9,14 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
-	v1 "k8s.io/api/core/v1"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	cache "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func Test_Cache_Redis_CRUD(t *testing.T) {
+func Test_Cache_Redis_20201201_CRUD(t *testing.T) {
 	t.Parallel()
 
 	if *isLive {
@@ -29,8 +26,8 @@ func Test_Cache_Redis_CRUD(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 
 	rg := tc.CreateTestResourceGroupAndWait()
-	redis1 := makeRedis(tc, rg, "redis1")
-	redis2 := makeRedis(tc, rg, "redis2")
+	redis1 := newRedis20201201(tc, rg, "redis1")
+	redis2 := newRedis20201201(tc, rg, "redis2")
 
 	tc.CreateResourcesAndWait(redis1, redis2)
 
@@ -55,7 +52,7 @@ func Test_Cache_Redis_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "Redis firewall rule CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				Redis_FirewallRule_CRUD(tc, redis1)
+				Redis_FirewallRule_20201201_CRUD(tc, redis1)
 			},
 		})
 
@@ -63,13 +60,13 @@ func Test_Cache_Redis_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "Redis linked server CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				Redis_LinkedServer_CRUD(tc, rg, redis1, redis2)
+				Redis_LinkedServer_20201201_CRUD(tc, rg, redis1, redis2)
 			},
 		},
 		testcommon.Subtest{
 			Name: "Redis patch schedule CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				Redis_PatchSchedule_CRUD(tc, redis1)
+				Redis_PatchSchedule_20201201_CRUD(tc, redis1)
 			},
 		},
 	)
@@ -83,7 +80,7 @@ func Test_Cache_Redis_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func makeRedis(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, prefix string) *cache.Redis {
+func newRedis20201201(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, prefix string) *cache.Redis {
 	tls12 := cache.RedisCreateProperties_MinimumTlsVersion_12
 	family := cache.Sku_Family_P
 	sku := cache.Sku_Name_Premium
@@ -108,7 +105,7 @@ func makeRedis(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, p
 	}
 }
 
-func Redis_LinkedServer_CRUD(tc *testcommon.KubePerTestContext, _ *resources.ResourceGroup, redis1, redis2 *cache.Redis) {
+func Redis_LinkedServer_20201201_CRUD(tc *testcommon.KubePerTestContext, _ *resources.ResourceGroup, redis1, redis2 *cache.Redis) {
 	// Interesting - the link needs to have the same name as the
 	// secondary server.
 	serverRole := cache.RedisLinkedServerCreateProperties_ServerRole_Secondary
@@ -129,7 +126,7 @@ func Redis_LinkedServer_CRUD(tc *testcommon.KubePerTestContext, _ *resources.Res
 	// Linked servers can't be updated.
 }
 
-func Redis_PatchSchedule_CRUD(tc *testcommon.KubePerTestContext, redis *cache.Redis) {
+func Redis_PatchSchedule_20201201_CRUD(tc *testcommon.KubePerTestContext, redis *cache.Redis) {
 	monday := cache.ScheduleEntry_DayOfWeek_Monday
 	schedule := cache.RedisPatchSchedule{
 		ObjectMeta: tc.MakeObjectMeta("patchsched"),
@@ -168,7 +165,7 @@ func Redis_PatchSchedule_CRUD(tc *testcommon.KubePerTestContext, redis *cache.Re
 	// call it in k8s, and can't be deleted once it's created.
 }
 
-func Redis_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, redis *cache.Redis) {
+func Redis_FirewallRule_20201201_CRUD(tc *testcommon.KubePerTestContext, redis *cache.Redis) {
 	// The RP doesn't like rules with hyphens in the name.
 	rule := cache.RedisFirewallRule{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("fwrule")),
@@ -188,96 +185,4 @@ func Redis_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, redis *cache.Red
 	tc.Expect(rule.Status.EndIP).ToNot(BeNil())
 	tc.Expect(*rule.Status.EndIP).To(Equal("1.2.3.5"))
 	tc.Expect(rule.Status.Id).ToNot(BeNil())
-}
-
-func Test_Cache_Redis_SecretsFromAzure(t *testing.T) {
-	t.Parallel()
-	tc := globalTestContext.ForTest(t)
-
-	rg := tc.CreateTestResourceGroupAndWait()
-	redis := makeRedis(tc, rg, "redis")
-
-	tc.CreateResourceAndWait(redis)
-
-	// There should be no secrets at this point
-	list := &v1.SecretList{}
-	tc.ListResources(list, client.InNamespace(tc.Namespace))
-	tc.Expect(list.Items).To(HaveLen(0))
-
-	// Run sub-tests on the redis
-	tc.RunSubtests(
-		testcommon.Subtest{
-			Name: "SecretsWrittenToSameKubeSecret",
-			Test: func(tc *testcommon.KubePerTestContext) {
-				Redis_SecretsWrittenToSameKubeSecret(tc, redis)
-			},
-		},
-		testcommon.Subtest{
-			Name: "SecretsWrittenToDifferentKubeSecrets",
-			Test: func(tc *testcommon.KubePerTestContext) {
-				Redis_SecretsWrittenToDifferentKubeSecrets(tc, redis)
-			},
-		},
-	)
-}
-
-func Redis_SecretsWrittenToSameKubeSecret(tc *testcommon.KubePerTestContext, redis *cache.Redis) {
-	old := redis.DeepCopy()
-	redisSecret := "storagekeys"
-	redis.Spec.OperatorSpec = &cache.RedisOperatorSpec{
-		Secrets: &cache.RedisOperatorSecrets{
-			PrimaryKey: &genruntime.SecretDestination{
-				Name: redisSecret,
-				Key:  "primarykey",
-			},
-			HostName: &genruntime.SecretDestination{
-				Name: redisSecret,
-				Key:  "hostname",
-			},
-			SSLPort: &genruntime.SecretDestination{
-				Name: redisSecret,
-				Key:  "sslport",
-			},
-		},
-	}
-	tc.PatchResourceAndWait(old, redis)
-
-	tc.ExpectSecretHasKeys(redisSecret, "primarykey", "hostname", "sslport")
-}
-
-func Redis_SecretsWrittenToDifferentKubeSecrets(tc *testcommon.KubePerTestContext, redis *cache.Redis) {
-	old := redis.DeepCopy()
-	primaryKeySecret := "secret1"
-	secondaryKeySecret := "secret2"
-	hostnameSecret := "secret3"
-	sslPortSecret := "secret4"
-
-	// Not testing port as it's not returned by default so won't be written anyway
-
-	redis.Spec.OperatorSpec = &cache.RedisOperatorSpec{
-		Secrets: &cache.RedisOperatorSecrets{
-			PrimaryKey: &genruntime.SecretDestination{
-				Name: primaryKeySecret,
-				Key:  "primarykey",
-			},
-			SecondaryKey: &genruntime.SecretDestination{
-				Name: secondaryKeySecret,
-				Key:  "secondarykey",
-			},
-			HostName: &genruntime.SecretDestination{
-				Name: hostnameSecret,
-				Key:  "hostname",
-			},
-			SSLPort: &genruntime.SecretDestination{
-				Name: sslPortSecret,
-				Key:  "sslport",
-			},
-		},
-	}
-	tc.PatchResourceAndWait(old, redis)
-
-	tc.ExpectSecretHasKeys(primaryKeySecret, "primarykey")
-	tc.ExpectSecretHasKeys(secondaryKeySecret, "secondarykey")
-	tc.ExpectSecretHasKeys(hostnameSecret, "hostname")
-	tc.ExpectSecretHasKeys(sslPortSecret, "sslport")
 }

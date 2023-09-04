@@ -69,8 +69,8 @@ func (fn *ResourceFunction) Resource() *astmodel.ResourceType {
 }
 
 // AsFunc renders the current instance as a Go abstract syntax tree
-func (fn *ResourceFunction) AsFunc(codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
-	return fn.asFunc(fn, codeGenerationContext, receiver, fn.name)
+func (fn *ResourceFunction) AsFunc(codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) (*dst.FuncDecl, error) {
+	return fn.asFunc(fn, codeGenerationContext, receiver, fn.name), nil
 }
 
 // Equals determines if this Function is equal to another one

@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"go/token"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sort"
 	"strings"
 
@@ -82,19 +83,36 @@ func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerati
 
 	result := []dst.Decl{declaration}
 	result = append(result, objectType.InterfaceImplementer.AsDeclarations(codeGenerationContext, declContext.Name, nil)...)
-	result = append(result, objectType.generateMethodDecls(codeGenerationContext, declContext.Name)...)
+
+	decls, err := objectType.generateMethodDecls(codeGenerationContext, declContext.Name)
+	if err != nil {
+		// Something went wrong; once AsDeclarations is refactored to have an error return,
+		// we can return them, but in the meantime panic
+		panic(errors.Wrapf(err, "generating method declarations for %s", declContext.Name))
+	}
+
+	result = append(result, decls...)
 	return result
 }
 
-func (objectType *ObjectType) generateMethodDecls(codeGenerationContext *CodeGenerationContext, typeName TypeName) []dst.Decl {
+func (objectType *ObjectType) generateMethodDecls(
+	codeGenerationContext *CodeGenerationContext,
+	typeName TypeName,
+) ([]dst.Decl, error) {
 	funcs := objectType.Functions()
 	result := make([]dst.Decl, 0, len(funcs))
+	var errs []error
 	for _, f := range funcs {
-		funcDef := generateMethodDeclForFunction(typeName, f, codeGenerationContext)
+		funcDef, err := generateMethodDeclForFunction(typeName, f, codeGenerationContext)
+		if err != nil {
+			errs = append(errs, err)
+			continue
+		}
+
 		result = append(result, funcDef)
 	}
 
-	return result
+	return result, kerrors.NewAggregate(errs)
 }
 
 func defineField(fieldName string, fieldType dst.Expr, tag string) *dst.Field {

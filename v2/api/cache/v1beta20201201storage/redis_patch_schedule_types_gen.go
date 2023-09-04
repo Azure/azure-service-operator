@@ -4,7 +4,6 @@
 package v1beta20201201storage
 
 import (
-	"fmt"
 	v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -45,22 +44,36 @@ var _ conversion.Convertible = &RedisPatchSchedule{}
 
 // ConvertFrom populates our RedisPatchSchedule from the provided hub RedisPatchSchedule
 func (schedule *RedisPatchSchedule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20201201s.RedisPatchSchedule)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20201201storage/RedisPatchSchedule but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20201201s.RedisPatchSchedule
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return schedule.AssignProperties_From_RedisPatchSchedule(source)
+	err = schedule.AssignProperties_From_RedisPatchSchedule(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to schedule")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RedisPatchSchedule from our RedisPatchSchedule
 func (schedule *RedisPatchSchedule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20201201s.RedisPatchSchedule)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20201201storage/RedisPatchSchedule but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20201201s.RedisPatchSchedule
+	err := schedule.AssignProperties_To_RedisPatchSchedule(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from schedule")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return schedule.AssignProperties_To_RedisPatchSchedule(destination)
+	return nil
 }
 
 var _ genruntime.KubernetesResource = &RedisPatchSchedule{}

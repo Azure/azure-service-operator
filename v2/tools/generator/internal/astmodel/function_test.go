@@ -38,7 +38,7 @@ func (fake *FakeFunction) References() TypeNameSet {
 	return fake.Referenced
 }
 
-func (fake *FakeFunction) AsFunc(_ *CodeGenerationContext, _ TypeName) *dst.FuncDecl {
+func (fake *FakeFunction) AsFunc(_ *CodeGenerationContext, receiver TypeName) (*dst.FuncDecl, error) {
 	panic("implement me")
 }
 

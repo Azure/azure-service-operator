@@ -4,7 +4,6 @@
 package v1beta20201201storage
 
 import (
-	"fmt"
 	v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -45,22 +44,36 @@ var _ conversion.Convertible = &RedisFirewallRule{}
 
 // ConvertFrom populates our RedisFirewallRule from the provided hub RedisFirewallRule
 func (rule *RedisFirewallRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20201201s.RedisFirewallRule)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20201201storage/RedisFirewallRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20201201s.RedisFirewallRule
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return rule.AssignProperties_From_RedisFirewallRule(source)
+	err = rule.AssignProperties_From_RedisFirewallRule(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to rule")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RedisFirewallRule from our RedisFirewallRule
 func (rule *RedisFirewallRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20201201s.RedisFirewallRule)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20201201storage/RedisFirewallRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20201201s.RedisFirewallRule
+	err := rule.AssignProperties_To_RedisFirewallRule(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from rule")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return rule.AssignProperties_To_RedisFirewallRule(destination)
+	return nil
 }
 
 var _ genruntime.KubernetesResource = &RedisFirewallRule{}

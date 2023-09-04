@@ -6,7 +6,9 @@
 package astmodel
 
 import (
+	"github.com/pkg/errors"
 	"go/token"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sort"
 	"strings"
 
@@ -84,9 +86,20 @@ func (i *InterfaceType) AsType(codeGenerationContext *CodeGenerationContext) dst
 		return functions[i].Name() < functions[j].Name()
 	})
 
+	var errs []error
 	for _, method := range functions {
-		field := functionToField(codeGenerationContext, method.Name(), method)
+		field, err := functionToField(method.Name(), method, codeGenerationContext)
+		if err != nil {
+			errs = append(errs, err)
+			continue
+		}
+
 		fields = append(fields, field)
+	}
+
+	if len(errs) > 0 {
+		// Temporarily panic until we modify the signature for AsType resolving #2970
+		panic(kerrors.NewAggregate(errs))
 	}
 
 	return &dst.InterfaceType{
@@ -163,7 +176,7 @@ func (i *InterfaceType) String() string {
 }
 
 // WriteDebugDescription adds a description of the current InterfaceType to the passed builder.
-func (i *InterfaceType) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {
+func (i *InterfaceType) WriteDebugDescription(builder *strings.Builder, _ PackageReference) {
 	if i == nil {
 		builder.WriteString("<nilInterface>")
 	} else {
@@ -194,16 +207,27 @@ func AsInterfaceType(t Type) (*InterfaceType, bool) {
 	return nil, false
 }
 
-func functionToField(codeGenerationContext *CodeGenerationContext, name string, function Function) *dst.Field {
-	var names []*dst.Ident
+func functionToField(
+	name string,
+	function Function,
+	codeGenerationContext *CodeGenerationContext,
+) (*dst.Field, error) {
+	result := &dst.Field{}
+
+	// Populate Name
 	if name != "" {
-		names = []*dst.Ident{dst.NewIdent(name)}
+		result.Names = []*dst.Ident{
+			dst.NewIdent(name),
+		}
 	}
 
-	f := function.AsFunc(codeGenerationContext, nil) // Empty typename here because we have no receiver
-
-	return &dst.Field{
-		Names: names,
-		Type:  f.Type,
+	// Populate Type
+	f, err := function.AsFunc(codeGenerationContext, nil) // Empty typename here because we have no receiver
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to determiine type of function %s", function.Name())
 	}
+
+	result.Type = f.Type
+
+	return result, nil
 }

@@ -6,9 +6,10 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101storage
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (16 properties)
 │   │   ├── AlternateName: *string
-│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   ├── AzureName: Validated<string> (3 rules)
 │   │   │   ├── Rule 0: MaxLength: 50
-│   │   │   └── Rule 1: MinLength: 6
+│   │   │   ├── Rule 1: MinLength: 6
+│   │   │   └── Rule 2: Pattern: "^[a-zA-Z][a-zA-Z0-9-]{6,50}[a-zA-Z0-9]$"
 │   │   ├── ClusterArmReference: *genruntime.ResourceReference
 │   │   ├── DisableLocalAuth: *bool
 │   │   ├── Encryption: *Object (4 properties)

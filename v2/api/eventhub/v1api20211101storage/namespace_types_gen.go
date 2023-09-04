@@ -145,6 +145,7 @@ type Namespace_Spec struct {
 
 	// +kubebuilder:validation:MaxLength=50
 	// +kubebuilder:validation:MinLength=6
+	// +kubebuilder:validation:Pattern="^[a-zA-Z][a-zA-Z0-9-]{6,50}[a-zA-Z0-9]$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
