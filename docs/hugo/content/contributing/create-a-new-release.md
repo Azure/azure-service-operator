@@ -34,6 +34,8 @@ service Swagger specifications. We must validate each breaking change so that we
    wget https://github.com/Azure/azure-service-operator/releases/download/v2.3.0/azureserviceoperator_v2.3.0.yaml
    ```
 
+   This will only be available when the GitHub action trigged by publishing the release has finished.
+
 3. Produce a diff between these files and examine it.
 
    ``` bash
