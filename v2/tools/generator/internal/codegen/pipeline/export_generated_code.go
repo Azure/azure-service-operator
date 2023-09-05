@@ -13,11 +13,10 @@ import (
 	"sync"
 	"time"
 
-	"golang.org/x/exp/slices"
-	"golang.org/x/sync/errgroup"
-
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
+	"golang.org/x/exp/slices"
+	"golang.org/x/sync/errgroup"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
