@@ -141,11 +141,7 @@ func (domain *Domain) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (domain *Domain) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(domain.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  domain.Spec.Owner.Name,
-	}
+	return domain.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (domain *Domain) ValidateUpdate(old runtime.Object) (admission.Warnings, er
 
 // createValidations validates the creation of the resource
 func (domain *Domain) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){domain.validateResourceReferences}
+	return []func() (admission.Warnings, error){domain.validateResourceReferences, domain.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (domain *Domain) updateValidations() []func(old runtime.Object) (admission.
 		func(old runtime.Object) (admission.Warnings, error) {
 			return domain.validateResourceReferences()
 		},
-		domain.validateWriteOnceProperties}
+		domain.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return domain.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (domain *Domain) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(domain)
 }
 
 // validateResourceReferences validates all resource references
@@ -466,7 +471,10 @@ func (domain *Domain_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	}
 
 	// Set property "Owner":
-	domain.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	domain.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "PublicNetworkAccess":
 	// copying flattened property:

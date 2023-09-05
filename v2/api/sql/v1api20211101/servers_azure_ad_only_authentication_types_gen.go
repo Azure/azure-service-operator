@@ -134,11 +134,7 @@ func (authentication *ServersAzureADOnlyAuthentication) NewEmptyStatus() genrunt
 // Owner returns the ResourceReference of the owner
 func (authentication *ServersAzureADOnlyAuthentication) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(authentication.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  authentication.Spec.Owner.Name,
-	}
+	return authentication.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -196,7 +192,7 @@ func (authentication *ServersAzureADOnlyAuthentication) ValidateUpdate(old runti
 
 // createValidations validates the creation of the resource
 func (authentication *ServersAzureADOnlyAuthentication) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){authentication.validateResourceReferences}
+	return []func() (admission.Warnings, error){authentication.validateResourceReferences, authentication.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -210,7 +206,16 @@ func (authentication *ServersAzureADOnlyAuthentication) updateValidations() []fu
 		func(old runtime.Object) (admission.Warnings, error) {
 			return authentication.validateResourceReferences()
 		},
-		authentication.validateWriteOnceProperties}
+		authentication.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return authentication.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (authentication *ServersAzureADOnlyAuthentication) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(authentication)
 }
 
 // validateResourceReferences validates all resource references
@@ -360,7 +365,10 @@ func (authentication *Servers_AzureADOnlyAuthentication_Spec) PopulateFromARM(ow
 	}
 
 	// Set property "Owner":
-	authentication.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	authentication.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// No error
 	return nil

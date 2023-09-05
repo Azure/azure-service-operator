@@ -114,11 +114,7 @@ func (a *A) GetType() string {
 // Owner returns the ResourceReference of the owner
 func (a *A) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(a.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  a.Spec.Owner.Name,
-	}
+	return a.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // +kubebuilder:webhook:path=/validate-test-azure-com-v1api20200101-a,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=as,verbs=create;update,versions=v1api20200101,name=validate.v1api20200101.as.test.azure.com,admissionReviewVersions=v1
@@ -157,7 +153,7 @@ func (a *A) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 
 // createValidations validates the creation of the resource
 func (a *A) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){a.validateResourceReferences}
+	return []func() (admission.Warnings, error){a.validateResourceReferences, a.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -171,7 +167,16 @@ func (a *A) updateValidations() []func(old runtime.Object) (admission.Warnings, 
 		func(old runtime.Object) (admission.Warnings, error) {
 			return a.validateResourceReferences()
 		},
-		a.validateWriteOnceProperties}
+		a.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return a.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (a *A) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(a)
 }
 
 // validateResourceReferences validates all resource references
@@ -366,11 +371,7 @@ func (b *B) GetType() string {
 // Owner returns the ResourceReference of the owner
 func (b *B) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(b.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  b.Spec.Owner.Name,
-	}
+	return b.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // +kubebuilder:webhook:path=/validate-test-azure-com-v1api20200101-b,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=bs,verbs=create;update,versions=v1api20200101,name=validate.v1api20200101.bs.test.azure.com,admissionReviewVersions=v1
@@ -409,7 +410,7 @@ func (b *B) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 
 // createValidations validates the creation of the resource
 func (b *B) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){b.validateResourceReferences}
+	return []func() (admission.Warnings, error){b.validateResourceReferences, b.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -423,7 +424,16 @@ func (b *B) updateValidations() []func(old runtime.Object) (admission.Warnings, 
 		func(old runtime.Object) (admission.Warnings, error) {
 			return b.validateResourceReferences()
 		},
-		b.validateWriteOnceProperties}
+		b.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return b.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (b *B) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(b)
 }
 
 // validateResourceReferences validates all resource references
@@ -618,11 +628,7 @@ func (c *C) GetType() string {
 // Owner returns the ResourceReference of the owner
 func (c *C) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(c.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  c.Spec.Owner.Name,
-	}
+	return c.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // +kubebuilder:webhook:path=/validate-test-azure-com-v1api20200101-c,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=cs,verbs=create;update,versions=v1api20200101,name=validate.v1api20200101.cs.test.azure.com,admissionReviewVersions=v1
@@ -661,7 +667,7 @@ func (c *C) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 
 // createValidations validates the creation of the resource
 func (c *C) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){c.validateResourceReferences}
+	return []func() (admission.Warnings, error){c.validateResourceReferences, c.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -675,7 +681,16 @@ func (c *C) updateValidations() []func(old runtime.Object) (admission.Warnings, 
 		func(old runtime.Object) (admission.Warnings, error) {
 			return c.validateResourceReferences()
 		},
-		c.validateWriteOnceProperties}
+		c.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return c.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (c *C) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(c)
 }
 
 // validateResourceReferences validates all resource references
@@ -870,11 +885,7 @@ func (d *D) GetType() string {
 // Owner returns the ResourceReference of the owner
 func (d *D) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(d.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  d.Spec.Owner.Name,
-	}
+	return d.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // +kubebuilder:webhook:path=/validate-test-azure-com-v1api20200101-d,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=ds,verbs=create;update,versions=v1api20200101,name=validate.v1api20200101.ds.test.azure.com,admissionReviewVersions=v1
@@ -913,7 +924,7 @@ func (d *D) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 
 // createValidations validates the creation of the resource
 func (d *D) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){d.validateResourceReferences}
+	return []func() (admission.Warnings, error){d.validateResourceReferences, d.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -927,7 +938,16 @@ func (d *D) updateValidations() []func(old runtime.Object) (admission.Warnings, 
 		func(old runtime.Object) (admission.Warnings, error) {
 			return d.validateResourceReferences()
 		},
-		d.validateWriteOnceProperties}
+		d.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return d.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (d *D) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(d)
 }
 
 // validateResourceReferences validates all resource references
@@ -1087,7 +1107,10 @@ func (a *A_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 	a.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property "Owner":
-	a.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	a.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Type":
 	a.Type = typedInput.Type
@@ -1296,7 +1319,10 @@ func (b *B_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 	b.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property "Owner":
-	b.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	b.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Type":
 	b.Type = typedInput.Type
@@ -1500,7 +1526,10 @@ func (c *C_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 	c.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property "Owner":
-	c.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	c.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Type":
 	c.Type = typedInput.Type
@@ -1704,7 +1733,10 @@ func (d *D_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 	d.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property "Owner":
-	d.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	d.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Type":
 	d.Type = typedInput.Type

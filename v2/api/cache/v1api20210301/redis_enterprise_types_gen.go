@@ -49,22 +49,36 @@ var _ conversion.Convertible = &RedisEnterprise{}
 
 // ConvertFrom populates our RedisEnterprise from the provided hub RedisEnterprise
 func (enterprise *RedisEnterprise) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210301s.RedisEnterprise)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20210301storage/RedisEnterprise but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210301s.RedisEnterprise
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return enterprise.AssignProperties_From_RedisEnterprise(source)
+	err = enterprise.AssignProperties_From_RedisEnterprise(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to enterprise")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RedisEnterprise from our RedisEnterprise
 func (enterprise *RedisEnterprise) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210301s.RedisEnterprise)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20210301storage/RedisEnterprise but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210301s.RedisEnterprise
+	err := enterprise.AssignProperties_To_RedisEnterprise(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from enterprise")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return enterprise.AssignProperties_To_RedisEnterprise(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-cache-azure-com-v1api20210301-redisenterprise,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redisenterprises,verbs=create;update,versions=v1api20210301,name=default.v1api20210301.redisenterprises.cache.azure.com,admissionReviewVersions=v1
@@ -89,17 +103,6 @@ func (enterprise *RedisEnterprise) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the RedisEnterprise resource
 func (enterprise *RedisEnterprise) defaultImpl() { enterprise.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &RedisEnterprise{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (enterprise *RedisEnterprise) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*RedisEnterprise_STATUS); ok {
-		return enterprise.Spec.Initialize_From_RedisEnterprise_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type RedisEnterprise_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &RedisEnterprise{}
 
@@ -141,11 +144,7 @@ func (enterprise *RedisEnterprise) NewEmptyStatus() genruntime.ConvertibleStatus
 // Owner returns the ResourceReference of the owner
 func (enterprise *RedisEnterprise) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(enterprise.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  enterprise.Spec.Owner.Name,
-	}
+	return enterprise.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +202,7 @@ func (enterprise *RedisEnterprise) ValidateUpdate(old runtime.Object) (admission
 
 // createValidations validates the creation of the resource
 func (enterprise *RedisEnterprise) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){enterprise.validateResourceReferences}
+	return []func() (admission.Warnings, error){enterprise.validateResourceReferences, enterprise.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +216,16 @@ func (enterprise *RedisEnterprise) updateValidations() []func(old runtime.Object
 		func(old runtime.Object) (admission.Warnings, error) {
 			return enterprise.validateResourceReferences()
 		},
-		enterprise.validateWriteOnceProperties}
+		enterprise.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return enterprise.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (enterprise *RedisEnterprise) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(enterprise)
 }
 
 // validateResourceReferences validates all resource references
@@ -427,7 +435,10 @@ func (enterprise *RedisEnterprise_Spec) PopulateFromARM(owner genruntime.Arbitra
 	}
 
 	// Set property "Owner":
-	enterprise.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	enterprise.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Sku":
 	if typedInput.Sku != nil {
@@ -608,42 +619,6 @@ func (enterprise *RedisEnterprise_Spec) AssignProperties_To_RedisEnterprise_Spec
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_RedisEnterprise_STATUS populates our RedisEnterprise_Spec from the provided source RedisEnterprise_STATUS
-func (enterprise *RedisEnterprise_Spec) Initialize_From_RedisEnterprise_STATUS(source *RedisEnterprise_STATUS) error {
-
-	// Location
-	enterprise.Location = genruntime.ClonePointerToString(source.Location)
-
-	// MinimumTlsVersion
-	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := ClusterProperties_MinimumTlsVersion(*source.MinimumTlsVersion)
-		enterprise.MinimumTlsVersion = &minimumTlsVersion
-	} else {
-		enterprise.MinimumTlsVersion = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.Initialize_From_Sku_STATUS(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
-		}
-		enterprise.Sku = &sku
-	} else {
-		enterprise.Sku = nil
-	}
-
-	// Tags
-	enterprise.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Zones
-	enterprise.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -1273,24 +1248,6 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20210301s.Sku) error {
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Sku_STATUS populates our Sku from the provided source Sku_STATUS
-func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
-
-	// Capacity
-	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
-
-	// Name
-	if source.Name != nil {
-		name := Sku_Name(*source.Name)
-		sku.Name = &name
-	} else {
-		sku.Name = nil
 	}
 
 	// No error

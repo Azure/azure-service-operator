@@ -141,11 +141,7 @@ func (group *NetworkSecurityGroup) NewEmptyStatus() genruntime.ConvertibleStatus
 // Owner returns the ResourceReference of the owner
 func (group *NetworkSecurityGroup) Owner() *genruntime.ResourceReference {
 	ownerGroup, ownerKind := genruntime.LookupOwnerGroupKind(group.Spec)
-	return &genruntime.ResourceReference{
-		Group: ownerGroup,
-		Kind:  ownerKind,
-		Name:  group.Spec.Owner.Name,
-	}
+	return group.Spec.Owner.AsResourceReference(ownerGroup, ownerKind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (group *NetworkSecurityGroup) ValidateUpdate(old runtime.Object) (admission
 
 // createValidations validates the creation of the resource
 func (group *NetworkSecurityGroup) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){group.validateResourceReferences}
+	return []func() (admission.Warnings, error){group.validateResourceReferences, group.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (group *NetworkSecurityGroup) updateValidations() []func(old runtime.Object
 		func(old runtime.Object) (admission.Warnings, error) {
 			return group.validateResourceReferences()
 		},
-		group.validateWriteOnceProperties}
+		group.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return group.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (group *NetworkSecurityGroup) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(group)
 }
 
 // validateResourceReferences validates all resource references
@@ -380,7 +385,10 @@ func (group *NetworkSecurityGroup_Spec) PopulateFromARM(owner genruntime.Arbitra
 	}
 
 	// Set property "Owner":
-	group.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	group.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Tags":
 	if typedInput.Tags != nil {

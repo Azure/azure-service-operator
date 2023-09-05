@@ -142,11 +142,7 @@ func (subnet *VirtualNetworksSubnet) NewEmptyStatus() genruntime.ConvertibleStat
 // Owner returns the ResourceReference of the owner
 func (subnet *VirtualNetworksSubnet) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(subnet.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  subnet.Spec.Owner.Name,
-	}
+	return subnet.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -204,7 +200,7 @@ func (subnet *VirtualNetworksSubnet) ValidateUpdate(old runtime.Object) (admissi
 
 // createValidations validates the creation of the resource
 func (subnet *VirtualNetworksSubnet) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){subnet.validateResourceReferences}
+	return []func() (admission.Warnings, error){subnet.validateResourceReferences, subnet.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -218,7 +214,16 @@ func (subnet *VirtualNetworksSubnet) updateValidations() []func(old runtime.Obje
 		func(old runtime.Object) (admission.Warnings, error) {
 			return subnet.validateResourceReferences()
 		},
-		subnet.validateWriteOnceProperties}
+		subnet.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return subnet.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (subnet *VirtualNetworksSubnet) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(subnet)
 }
 
 // validateResourceReferences validates all resource references
@@ -538,7 +543,10 @@ func (subnet *VirtualNetworks_Subnet_Spec) PopulateFromARM(owner genruntime.Arbi
 	}
 
 	// Set property "Owner":
-	subnet.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	subnet.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "PrivateEndpointNetworkPolicies":
 	// copying flattened property:

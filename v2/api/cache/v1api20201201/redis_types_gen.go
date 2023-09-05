@@ -49,22 +49,36 @@ var _ conversion.Convertible = &Redis{}
 
 // ConvertFrom populates our Redis from the provided hub Redis
 func (redis *Redis) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20201201s.Redis)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20201201storage/Redis but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20201201s.Redis
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return redis.AssignProperties_From_Redis(source)
+	err = redis.AssignProperties_From_Redis(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to redis")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Redis from our Redis
 func (redis *Redis) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20201201s.Redis)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20201201storage/Redis but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20201201s.Redis
+	err := redis.AssignProperties_To_Redis(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from redis")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return redis.AssignProperties_To_Redis(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-cache-azure-com-v1api20201201-redis,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redis,verbs=create;update,versions=v1api20201201,name=default.v1api20201201.redis.cache.azure.com,admissionReviewVersions=v1
@@ -89,17 +103,6 @@ func (redis *Redis) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the Redis resource
 func (redis *Redis) defaultImpl() { redis.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &Redis{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (redis *Redis) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Redis_STATUS); ok {
-		return redis.Spec.Initialize_From_Redis_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Redis_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &Redis{}
 
@@ -141,11 +144,7 @@ func (redis *Redis) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (redis *Redis) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(redis.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  redis.Spec.Owner.Name,
-	}
+	return redis.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +202,7 @@ func (redis *Redis) ValidateUpdate(old runtime.Object) (admission.Warnings, erro
 
 // createValidations validates the creation of the resource
 func (redis *Redis) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){redis.validateResourceReferences, redis.validateSecretDestinations}
+	return []func() (admission.Warnings, error){redis.validateResourceReferences, redis.validateOwnerReference, redis.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -219,9 +218,17 @@ func (redis *Redis) updateValidations() []func(old runtime.Object) (admission.Wa
 		},
 		redis.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
+			return redis.validateOwnerReference()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return redis.validateSecretDestinations()
 		},
 	}
+}
+
+// validateOwnerReference validates the owner field
+func (redis *Redis) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(redis)
 }
 
 // validateResourceReferences validates all resource references
@@ -563,7 +570,10 @@ func (redis *Redis_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
-	redis.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	redis.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "PublicNetworkAccess":
 	// copying flattened property:
@@ -970,101 +980,6 @@ func (redis *Redis_Spec) AssignProperties_To_Redis_Spec(destination *v20201201s.
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Redis_STATUS populates our Redis_Spec from the provided source Redis_STATUS
-func (redis *Redis_Spec) Initialize_From_Redis_STATUS(source *Redis_STATUS) error {
-
-	// EnableNonSslPort
-	if source.EnableNonSslPort != nil {
-		enableNonSslPort := *source.EnableNonSslPort
-		redis.EnableNonSslPort = &enableNonSslPort
-	} else {
-		redis.EnableNonSslPort = nil
-	}
-
-	// Location
-	redis.Location = genruntime.ClonePointerToString(source.Location)
-
-	// MinimumTlsVersion
-	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := RedisCreateProperties_MinimumTlsVersion(*source.MinimumTlsVersion)
-		redis.MinimumTlsVersion = &minimumTlsVersion
-	} else {
-		redis.MinimumTlsVersion = nil
-	}
-
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := RedisCreateProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
-		redis.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		redis.PublicNetworkAccess = nil
-	}
-
-	// RedisConfiguration
-	if source.RedisConfiguration != nil {
-		var redisConfiguration RedisCreateProperties_RedisConfiguration
-		err := redisConfiguration.Initialize_From_RedisProperties_RedisConfiguration_STATUS(source.RedisConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_RedisProperties_RedisConfiguration_STATUS() to populate field RedisConfiguration")
-		}
-		redis.RedisConfiguration = &redisConfiguration
-	} else {
-		redis.RedisConfiguration = nil
-	}
-
-	// RedisVersion
-	redis.RedisVersion = genruntime.ClonePointerToString(source.RedisVersion)
-
-	// ReplicasPerMaster
-	redis.ReplicasPerMaster = genruntime.ClonePointerToInt(source.ReplicasPerMaster)
-
-	// ReplicasPerPrimary
-	redis.ReplicasPerPrimary = genruntime.ClonePointerToInt(source.ReplicasPerPrimary)
-
-	// ShardCount
-	redis.ShardCount = genruntime.ClonePointerToInt(source.ShardCount)
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.Initialize_From_Sku_STATUS(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
-		}
-		redis.Sku = &sku
-	} else {
-		redis.Sku = nil
-	}
-
-	// StaticIP
-	if source.StaticIP != nil {
-		staticIP := *source.StaticIP
-		redis.StaticIP = &staticIP
-	} else {
-		redis.StaticIP = nil
-	}
-
-	// SubnetReference
-	if source.SubnetId != nil {
-		subnetReference := genruntime.CreateResourceReferenceFromARMID(*source.SubnetId)
-		redis.SubnetReference = &subnetReference
-	} else {
-		redis.SubnetReference = nil
-	}
-
-	// Tags
-	redis.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// TenantSettings
-	redis.TenantSettings = genruntime.CloneMapOfStringToString(source.TenantSettings)
-
-	// Zones
-	redis.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -2221,52 +2136,6 @@ func (configuration *RedisCreateProperties_RedisConfiguration) AssignProperties_
 	return nil
 }
 
-// Initialize_From_RedisProperties_RedisConfiguration_STATUS populates our RedisCreateProperties_RedisConfiguration from the provided source RedisProperties_RedisConfiguration_STATUS
-func (configuration *RedisCreateProperties_RedisConfiguration) Initialize_From_RedisProperties_RedisConfiguration_STATUS(source *RedisProperties_RedisConfiguration_STATUS) error {
-
-	// AdditionalProperties
-	configuration.AdditionalProperties = genruntime.CloneMapOfStringToString(source.AdditionalProperties)
-
-	// AofBackupEnabled
-	configuration.AofBackupEnabled = genruntime.ClonePointerToString(source.AofBackupEnabled)
-
-	// AofStorageConnectionString0
-	configuration.AofStorageConnectionString0 = genruntime.ClonePointerToString(source.AofStorageConnectionString0)
-
-	// AofStorageConnectionString1
-	configuration.AofStorageConnectionString1 = genruntime.ClonePointerToString(source.AofStorageConnectionString1)
-
-	// Authnotrequired
-	configuration.Authnotrequired = genruntime.ClonePointerToString(source.Authnotrequired)
-
-	// MaxfragmentationmemoryReserved
-	configuration.MaxfragmentationmemoryReserved = genruntime.ClonePointerToString(source.MaxfragmentationmemoryReserved)
-
-	// MaxmemoryDelta
-	configuration.MaxmemoryDelta = genruntime.ClonePointerToString(source.MaxmemoryDelta)
-
-	// MaxmemoryPolicy
-	configuration.MaxmemoryPolicy = genruntime.ClonePointerToString(source.MaxmemoryPolicy)
-
-	// MaxmemoryReserved
-	configuration.MaxmemoryReserved = genruntime.ClonePointerToString(source.MaxmemoryReserved)
-
-	// RdbBackupEnabled
-	configuration.RdbBackupEnabled = genruntime.ClonePointerToString(source.RdbBackupEnabled)
-
-	// RdbBackupFrequency
-	configuration.RdbBackupFrequency = genruntime.ClonePointerToString(source.RdbBackupFrequency)
-
-	// RdbBackupMaxSnapshotCount
-	configuration.RdbBackupMaxSnapshotCount = genruntime.ClonePointerToString(source.RdbBackupMaxSnapshotCount)
-
-	// RdbStorageConnectionString
-	configuration.RdbStorageConnectionString = genruntime.ClonePointerToString(source.RdbStorageConnectionString)
-
-	// No error
-	return nil
-}
-
 // Details of single instance of redis.
 type RedisInstanceDetails_STATUS struct {
 	// IsMaster: Specifies whether the instance is a primary node.
@@ -2969,32 +2838,6 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20201201s.Sku) error {
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Sku_STATUS populates our Sku from the provided source Sku_STATUS
-func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
-
-	// Capacity
-	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
-
-	// Family
-	if source.Family != nil {
-		family := Sku_Family(*source.Family)
-		sku.Family = &family
-	} else {
-		sku.Family = nil
-	}
-
-	// Name
-	if source.Name != nil {
-		name := Sku_Name(*source.Name)
-		sku.Name = &name
-	} else {
-		sku.Name = nil
 	}
 
 	// No error

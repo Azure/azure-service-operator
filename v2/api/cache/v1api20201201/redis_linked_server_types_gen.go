@@ -49,22 +49,36 @@ var _ conversion.Convertible = &RedisLinkedServer{}
 
 // ConvertFrom populates our RedisLinkedServer from the provided hub RedisLinkedServer
 func (server *RedisLinkedServer) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20201201s.RedisLinkedServer)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20201201storage/RedisLinkedServer but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20201201s.RedisLinkedServer
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return server.AssignProperties_From_RedisLinkedServer(source)
+	err = server.AssignProperties_From_RedisLinkedServer(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to server")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RedisLinkedServer from our RedisLinkedServer
 func (server *RedisLinkedServer) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20201201s.RedisLinkedServer)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20201201storage/RedisLinkedServer but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20201201s.RedisLinkedServer
+	err := server.AssignProperties_To_RedisLinkedServer(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from server")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return server.AssignProperties_To_RedisLinkedServer(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-cache-azure-com-v1api20201201-redislinkedserver,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redislinkedservers,verbs=create;update,versions=v1api20201201,name=default.v1api20201201.redislinkedservers.cache.azure.com,admissionReviewVersions=v1
@@ -89,17 +103,6 @@ func (server *RedisLinkedServer) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the RedisLinkedServer resource
 func (server *RedisLinkedServer) defaultImpl() { server.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &RedisLinkedServer{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (server *RedisLinkedServer) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Redis_LinkedServer_STATUS); ok {
-		return server.Spec.Initialize_From_Redis_LinkedServer_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Redis_LinkedServer_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &RedisLinkedServer{}
 
@@ -141,11 +144,7 @@ func (server *RedisLinkedServer) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (server *RedisLinkedServer) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(server.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  server.Spec.Owner.Name,
-	}
+	return server.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +202,7 @@ func (server *RedisLinkedServer) ValidateUpdate(old runtime.Object) (admission.W
 
 // createValidations validates the creation of the resource
 func (server *RedisLinkedServer) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){server.validateResourceReferences}
+	return []func() (admission.Warnings, error){server.validateResourceReferences, server.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +216,16 @@ func (server *RedisLinkedServer) updateValidations() []func(old runtime.Object) 
 		func(old runtime.Object) (admission.Warnings, error) {
 			return server.validateResourceReferences()
 		},
-		server.validateWriteOnceProperties}
+		server.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return server.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (server *RedisLinkedServer) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(server)
 }
 
 // validateResourceReferences validates all resource references
@@ -398,7 +406,10 @@ func (server *Redis_LinkedServer_Spec) PopulateFromARM(owner genruntime.Arbitrar
 	// no assignment for property "LinkedRedisCacheReference"
 
 	// Set property "Owner":
-	server.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	server.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "ServerRole":
 	// copying flattened property:
@@ -543,32 +554,6 @@ func (server *Redis_LinkedServer_Spec) AssignProperties_To_Redis_LinkedServer_Sp
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Redis_LinkedServer_STATUS populates our Redis_LinkedServer_Spec from the provided source Redis_LinkedServer_STATUS
-func (server *Redis_LinkedServer_Spec) Initialize_From_Redis_LinkedServer_STATUS(source *Redis_LinkedServer_STATUS) error {
-
-	// LinkedRedisCacheLocation
-	server.LinkedRedisCacheLocation = genruntime.ClonePointerToString(source.LinkedRedisCacheLocation)
-
-	// LinkedRedisCacheReference
-	if source.LinkedRedisCacheId != nil {
-		linkedRedisCacheReference := genruntime.CreateResourceReferenceFromARMID(*source.LinkedRedisCacheId)
-		server.LinkedRedisCacheReference = &linkedRedisCacheReference
-	} else {
-		server.LinkedRedisCacheReference = nil
-	}
-
-	// ServerRole
-	if source.ServerRole != nil {
-		serverRole := RedisLinkedServerCreateProperties_ServerRole(*source.ServerRole)
-		server.ServerRole = &serverRole
-	} else {
-		server.ServerRole = nil
 	}
 
 	// No error

@@ -141,11 +141,7 @@ func (gateway *NatGateway) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (gateway *NatGateway) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(gateway.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  gateway.Spec.Owner.Name,
-	}
+	return gateway.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (gateway *NatGateway) ValidateUpdate(old runtime.Object) (admission.Warning
 
 // createValidations validates the creation of the resource
 func (gateway *NatGateway) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){gateway.validateResourceReferences}
+	return []func() (admission.Warnings, error){gateway.validateResourceReferences, gateway.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (gateway *NatGateway) updateValidations() []func(old runtime.Object) (admis
 		func(old runtime.Object) (admission.Warnings, error) {
 			return gateway.validateResourceReferences()
 		},
-		gateway.validateWriteOnceProperties}
+		gateway.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return gateway.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (gateway *NatGateway) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(gateway)
 }
 
 // validateResourceReferences validates all resource references
@@ -442,7 +447,10 @@ func (gateway *NatGateway_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	}
 
 	// Set property "Owner":
-	gateway.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	gateway.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "PublicIpAddresses":
 	// copying flattened property:

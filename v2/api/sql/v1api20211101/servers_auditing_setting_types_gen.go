@@ -134,11 +134,7 @@ func (setting *ServersAuditingSetting) NewEmptyStatus() genruntime.ConvertibleSt
 // Owner returns the ResourceReference of the owner
 func (setting *ServersAuditingSetting) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(setting.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  setting.Spec.Owner.Name,
-	}
+	return setting.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -196,7 +192,7 @@ func (setting *ServersAuditingSetting) ValidateUpdate(old runtime.Object) (admis
 
 // createValidations validates the creation of the resource
 func (setting *ServersAuditingSetting) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){setting.validateResourceReferences}
+	return []func() (admission.Warnings, error){setting.validateResourceReferences, setting.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -210,7 +206,16 @@ func (setting *ServersAuditingSetting) updateValidations() []func(old runtime.Ob
 		func(old runtime.Object) (admission.Warnings, error) {
 			return setting.validateResourceReferences()
 		},
-		setting.validateWriteOnceProperties}
+		setting.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return setting.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (setting *ServersAuditingSetting) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(setting)
 }
 
 // validateResourceReferences validates all resource references
@@ -565,7 +570,10 @@ func (setting *Servers_AuditingSetting_Spec) PopulateFromARM(owner genruntime.Ar
 	}
 
 	// Set property "Owner":
-	setting.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	setting.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "QueueDelayMs":
 	// copying flattened property:

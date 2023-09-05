@@ -127,21 +127,27 @@ func (r *Resolver) ResolveResourceReferences(ctx context.Context, metaObject gen
 }
 
 // ResolveResourceHierarchy gets the resource hierarchy for a given resource. The result is a slice of
-// resources, with the uppermost parent at position 0 and the resource itself at position len(slice)-1
+// resources, with the uppermost parent at position 0 and the resource itself at position len(slice)-1.
+// Note that there is NO GUARANTEE that this hierarchy is "complete". It may root up to a resource which uses
+// the ARMID field of owner.
 func (r *Resolver) ResolveResourceHierarchy(ctx context.Context, obj genruntime.ARMMetaObject) (ResourceHierarchy, error) {
 	owner := obj.Owner()
 	if owner == nil {
 		return ResourceHierarchy{obj}, nil
 	}
 
-	ownerMeta, err := r.ResolveOwner(ctx, obj)
+	ownerDetails, err := r.ResolveOwner(ctx, obj)
 	if err != nil {
 		return nil, err
 	}
 
-	owners, err := r.ResolveResourceHierarchy(ctx, ownerMeta)
+	if ownerDetails.Result == OwnerFoundARM {
+		return ResourceHierarchy{obj}, nil
+	}
+
+	owners, err := r.ResolveResourceHierarchy(ctx, ownerDetails.Owner)
 	if err != nil {
-		return nil, errors.Wrapf(err, "getting owners for %s", ownerMeta.GetName())
+		return nil, errors.Wrapf(err, "getting owners for %s", ownerDetails.Owner.GetName())
 	}
 
 	return append(owners, obj), nil
@@ -177,14 +183,66 @@ func (r *Resolver) ResolveReference(ctx context.Context, ref genruntime.Namespac
 	return metaObj, nil
 }
 
-// ResolveOwner returns the MetaObject for the given resource's owner. If the resource is supposed to have
+type ResolveOwnerResult string
+
+const (
+	// OwnerFoundKubernetes indicates the owner was found in Kubernetes.
+	OwnerFoundKubernetes = ResolveOwnerResult("OwnerFoundKubernetes")
+	// OwnerFoundARM indicates the owner is an ARM ID. The resource the ARM ID points to may or may not exist in Azure currently.
+	OwnerFoundARM = ResolveOwnerResult("OwnerFoundARM")
+	// OwnerNotExpected indicates that this resource is not expected to have any owner. (Example: ResourceGroup)
+	OwnerNotExpected = ResolveOwnerResult("OwnerNotExpected")
+)
+
+type OwnerDetails struct {
+	Result ResolveOwnerResult
+	Owner  genruntime.ARMMetaObject
+	ARMID  string
+}
+
+func (det OwnerDetails) FoundKubernetesOwner() bool {
+	if det.Result == OwnerNotExpected || det.Result == OwnerFoundARM {
+		// If no owner is expected or the owner is only in ARM, no need to assign ownership in Kubernetes
+		return false
+	}
+
+	return true
+}
+
+func OwnerDetailsFromKubernetes(owner genruntime.ARMMetaObject) OwnerDetails {
+	return OwnerDetails{
+		Result: OwnerFoundKubernetes,
+		Owner:  owner,
+	}
+}
+
+func OwnerDetailsFromARM(armID string) OwnerDetails {
+	return OwnerDetails{
+		Result: OwnerFoundARM,
+		ARMID:  armID,
+	}
+}
+
+func OwnerDetailsNotExpected() OwnerDetails {
+	return OwnerDetails{
+		Result: OwnerNotExpected,
+	}
+}
+
+// ResolveOwner returns an OwnerDetails describing more information about the owner of the provided resource.
+// If the resource is supposed to have
 // an owner but doesn't, this returns an ReferenceNotFound error. If the resource is not supposed
-// to have an owner (for example, ResourceGroup), returns nil.
-func (r *Resolver) ResolveOwner(ctx context.Context, obj genruntime.ARMOwnedMetaObject) (genruntime.ARMMetaObject, error) {
+// to have an owner (for example, ResourceGroup) or the owner points to a raw ARM ID this returns an OwnerDetails
+// with the OwnerDetails.Result set appropriately.
+func (r *Resolver) ResolveOwner(ctx context.Context, obj genruntime.ARMOwnedMetaObject) (OwnerDetails, error) {
 	owner := obj.Owner()
 
 	if owner == nil {
-		return nil, nil
+		return OwnerDetailsNotExpected(), nil
+	}
+
+	if owner.IsDirectARMReference() {
+		return OwnerDetailsFromARM(owner.ARMID), nil
 	}
 
 	namespacedRef := genruntime.NamespacedResourceReference{
@@ -193,10 +251,10 @@ func (r *Resolver) ResolveOwner(ctx context.Context, obj genruntime.ARMOwnedMeta
 	}
 	ownerMeta, err := r.ResolveReference(ctx, namespacedRef)
 	if err != nil {
-		return nil, err
+		return OwnerDetails{}, err
 	}
 
-	return ownerMeta, nil
+	return OwnerDetailsFromKubernetes(ownerMeta), nil
 }
 
 // Scheme returns the current scheme from our client

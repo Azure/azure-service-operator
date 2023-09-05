@@ -142,11 +142,7 @@ func (service *SearchService) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (service *SearchService) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(service.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  service.Spec.Owner.Name,
-	}
+	return service.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -204,7 +200,7 @@ func (service *SearchService) ValidateUpdate(old runtime.Object) (admission.Warn
 
 // createValidations validates the creation of the resource
 func (service *SearchService) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){service.validateResourceReferences, service.validateSecretDestinations}
+	return []func() (admission.Warnings, error){service.validateResourceReferences, service.validateOwnerReference, service.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -220,9 +216,17 @@ func (service *SearchService) updateValidations() []func(old runtime.Object) (ad
 		},
 		service.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
+			return service.validateOwnerReference()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return service.validateSecretDestinations()
 		},
 	}
+}
+
+// validateOwnerReference validates the owner field
+func (service *SearchService) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(service)
 }
 
 // validateResourceReferences validates all resource references
@@ -603,7 +607,10 @@ func (service *SearchService_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
-	service.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	service.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "PartitionCount":
 	// copying flattened property:

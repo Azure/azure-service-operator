@@ -141,11 +141,7 @@ func (share *StorageAccountsFileServicesShare) NewEmptyStatus() genruntime.Conve
 // Owner returns the ResourceReference of the owner
 func (share *StorageAccountsFileServicesShare) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(share.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  share.Spec.Owner.Name,
-	}
+	return share.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (share *StorageAccountsFileServicesShare) ValidateUpdate(old runtime.Object
 
 // createValidations validates the creation of the resource
 func (share *StorageAccountsFileServicesShare) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){share.validateResourceReferences}
+	return []func() (admission.Warnings, error){share.validateResourceReferences, share.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (share *StorageAccountsFileServicesShare) updateValidations() []func(old ru
 		func(old runtime.Object) (admission.Warnings, error) {
 			return share.validateResourceReferences()
 		},
-		share.validateWriteOnceProperties}
+		share.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return share.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (share *StorageAccountsFileServicesShare) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(share)
 }
 
 // validateResourceReferences validates all resource references
@@ -445,7 +450,10 @@ func (share *StorageAccounts_FileServices_Share_Spec) PopulateFromARM(owner genr
 	}
 
 	// Set property "Owner":
-	share.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	share.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "RootSquash":
 	// copying flattened property:

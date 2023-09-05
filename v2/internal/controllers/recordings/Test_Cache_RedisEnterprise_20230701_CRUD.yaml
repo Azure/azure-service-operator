@@ -1,0 +1,1799 @@
+---
+version: 1
+interactions:
+- request:
+    body: '{"location":"westus2","name":"asotest-rg-gvksbm","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "93"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm?api-version=2020-06-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm","name":"asotest-rg-gvksbm","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "276"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: DE000C7AC33B4D86904D813D2C592AF0 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:35:39Z'
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm","name":"asotest-rg-gvksbm","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "276"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: D04FF0D9E95A4FDDA177384757DF1263 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:35:41Z'
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"location":"westus2","name":"asotest-redisent-cffave","properties":{"minimumTlsVersion":"1.2"},"sku":{"capacity":2,"name":"Enterprise_E10"},"tags":{"elks":"stranger"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "168"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave?api-version=2023-07-01
+    method: PUT
+  response:
+    body: "{\r\n  \"location\": \"West US 2\",\r\n  \"name\": \"asotest-redisent-cffave\",\r\n
+      \ \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave\",\r\n
+      \ \"type\": \"Microsoft.Cache/redisEnterprise\",\r\n  \"tags\": {\r\n    \"elks\":
+      \"stranger\"\r\n  },\r\n  \"sku\": {\r\n    \"name\": \"Enterprise_E10\",\r\n
+      \   \"capacity\": 2\r\n  },\r\n  \"properties\": {\r\n    \"minimumTlsVersion\":
+      \"1.2\",\r\n    \"hostName\": \"asotest-redisent-cffave.westus2.redisenterprise.cache.azure.net\",\r\n
+      \   \"provisioningState\": \"Creating\",\r\n    \"resourceState\": \"Creating\"\r\n
+      \ },\r\n  \"identity\": {\r\n    \"type\": \"None\"\r\n  }\r\n}"
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/b9767f26-9480-4ab7-b904-48e21d648308?api-version=2023-07-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "645"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave?api-version=2023-07-01
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 23AD3572221E4A4F9C198F29B686AF4E Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:35:42Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/b9767f26-9480-4ab7-b904-48e21d648308?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/b9767f26-9480-4ab7-b904-48e21d648308","name":"b9767f26-9480-4ab7-b904-48e21d648308","status":"Pending","startTime":"2023-08-24T20:35:49.3584289+00:00","endTime":"0001-01-01T00:00:00+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "311"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: B1C1A541CAE743A0B1405CD3A5D80F38 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:35:50Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/b9767f26-9480-4ab7-b904-48e21d648308?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/b9767f26-9480-4ab7-b904-48e21d648308","name":"b9767f26-9480-4ab7-b904-48e21d648308","status":"InProgress","startTime":"2023-08-24T20:35:49.3584289+00:00","endTime":"2023-08-24T20:35:51.9122175+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "322"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 95555E1A0BF54689B20B2D2BE8D8103F Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:35:53Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/b9767f26-9480-4ab7-b904-48e21d648308?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/b9767f26-9480-4ab7-b904-48e21d648308","name":"b9767f26-9480-4ab7-b904-48e21d648308","status":"InProgress","startTime":"2023-08-24T20:35:49.3584289+00:00","endTime":"2023-08-24T20:35:51.9122175+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "322"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: E2893175FBE247C8808A023C78F869F4 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:35:57Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/b9767f26-9480-4ab7-b904-48e21d648308?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/b9767f26-9480-4ab7-b904-48e21d648308","name":"b9767f26-9480-4ab7-b904-48e21d648308","status":"InProgress","startTime":"2023-08-24T20:35:49.3584289+00:00","endTime":"2023-08-24T20:35:51.9122175+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "322"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: BEB5FC5514424DEDB2468DF2EA41AD33 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:36:05Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/b9767f26-9480-4ab7-b904-48e21d648308?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/b9767f26-9480-4ab7-b904-48e21d648308","name":"b9767f26-9480-4ab7-b904-48e21d648308","status":"InProgress","startTime":"2023-08-24T20:35:49.3584289+00:00","endTime":"2023-08-24T20:35:51.9122175+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "322"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: FE3535014A6541BEB56FE488D10C7354 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:36:22Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "5"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/b9767f26-9480-4ab7-b904-48e21d648308?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/b9767f26-9480-4ab7-b904-48e21d648308","name":"b9767f26-9480-4ab7-b904-48e21d648308","status":"InProgress","startTime":"2023-08-24T20:35:49.3584289+00:00","endTime":"2023-08-24T20:35:51.9122175+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "322"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 8DD7DF12A4524B6DB0F56414F2E45F21 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:36:54Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "6"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/b9767f26-9480-4ab7-b904-48e21d648308?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/b9767f26-9480-4ab7-b904-48e21d648308","name":"b9767f26-9480-4ab7-b904-48e21d648308","status":"InProgress","startTime":"2023-08-24T20:35:49.3584289+00:00","endTime":"2023-08-24T20:35:51.9122175+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "322"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: B110E2C46E5D4B0D9798ACD69E39DF82 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:37:55Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "7"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/b9767f26-9480-4ab7-b904-48e21d648308?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/b9767f26-9480-4ab7-b904-48e21d648308","name":"b9767f26-9480-4ab7-b904-48e21d648308","status":"InProgress","startTime":"2023-08-24T20:35:49.3584289+00:00","endTime":"2023-08-24T20:35:51.9122175+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "322"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 8A6E71CB63644A2A9867FFA2382A67B4 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:38:55Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "8"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/b9767f26-9480-4ab7-b904-48e21d648308?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/b9767f26-9480-4ab7-b904-48e21d648308","name":"b9767f26-9480-4ab7-b904-48e21d648308","status":"InProgress","startTime":"2023-08-24T20:35:49.3584289+00:00","endTime":"2023-08-24T20:35:51.9122175+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "322"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 8CE6D65F8B2C40BF93D98CFC7E4E8363 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:39:55Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "9"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/b9767f26-9480-4ab7-b904-48e21d648308?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/b9767f26-9480-4ab7-b904-48e21d648308","name":"b9767f26-9480-4ab7-b904-48e21d648308","status":"Succeeded","startTime":"2023-08-24T20:35:49.3584289+00:00","endTime":"2023-08-24T20:40:24.2520663+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "321"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 53F131A9386A492DBE2798248C508571 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:40:56Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave?api-version=2023-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"location\": \"West US 2\",\r\n  \"name\": \"asotest-redisent-cffave\",\r\n
+      \ \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave\",\r\n
+      \ \"type\": \"Microsoft.Cache/redisEnterprise\",\r\n  \"tags\": {\r\n    \"elks\":
+      \"stranger\"\r\n  },\r\n  \"sku\": {\r\n    \"name\": \"Enterprise_E10\",\r\n
+      \   \"capacity\": 2\r\n  },\r\n  \"properties\": {\r\n    \"minimumTlsVersion\":
+      \"1.2\",\r\n    \"hostName\": \"asotest-redisent-cffave.westus2.redisenterprise.cache.azure.net\",\r\n
+      \   \"provisioningState\": \"Succeeded\",\r\n    \"resourceState\": \"Running\",\r\n
+      \   \"privateEndpointConnections\": []\r\n  },\r\n  \"identity\": {\r\n    \"type\":
+      \"None\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "684"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: BA8369FB36F0475483DC51FB3CD47B92 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:40:56Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave?api-version=2023-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"location\": \"West US 2\",\r\n  \"name\": \"asotest-redisent-cffave\",\r\n
+      \ \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave\",\r\n
+      \ \"type\": \"Microsoft.Cache/redisEnterprise\",\r\n  \"tags\": {\r\n    \"elks\":
+      \"stranger\"\r\n  },\r\n  \"sku\": {\r\n    \"name\": \"Enterprise_E10\",\r\n
+      \   \"capacity\": 2\r\n  },\r\n  \"properties\": {\r\n    \"minimumTlsVersion\":
+      \"1.2\",\r\n    \"hostName\": \"asotest-redisent-cffave.westus2.redisenterprise.cache.azure.net\",\r\n
+      \   \"provisioningState\": \"Succeeded\",\r\n    \"resourceState\": \"Running\",\r\n
+      \   \"privateEndpointConnections\": []\r\n  },\r\n  \"identity\": {\r\n    \"type\":
+      \"None\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "684"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 71E52622F02E459DB0356AD11B680FA1 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:40:57Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"location":"westus2","name":"asotest-redisent-cffave","properties":{"minimumTlsVersion":"1.2"},"sku":{"capacity":2,"name":"Enterprise_E10"},"tags":{"elks":"stranger","nomai":"vessel"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "185"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave?api-version=2023-07-01
+    method: PUT
+  response:
+    body: "{\r\n  \"location\": \"West US 2\",\r\n  \"name\": \"asotest-redisent-cffave\",\r\n
+      \ \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave\",\r\n
+      \ \"type\": \"Microsoft.Cache/redisEnterprise\",\r\n  \"tags\": {\r\n    \"elks\":
+      \"stranger\",\r\n    \"nomai\": \"vessel\"\r\n  },\r\n  \"sku\": {\r\n    \"name\":
+      \"Enterprise_E10\",\r\n    \"capacity\": 2\r\n  },\r\n  \"properties\": {\r\n
+      \   \"minimumTlsVersion\": \"1.2\",\r\n    \"hostName\": \"asotest-redisent-cffave.westus2.redisenterprise.cache.azure.net\",\r\n
+      \   \"provisioningState\": \"Succeeded\",\r\n    \"resourceState\": \"Running\",\r\n
+      \   \"privateEndpointConnections\": []\r\n  },\r\n  \"identity\": {\r\n    \"type\":
+      \"None\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "708"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 3B1F6E7ECF0447D185658F7BEE21C23E Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:40:57Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave?api-version=2023-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"location\": \"West US 2\",\r\n  \"name\": \"asotest-redisent-cffave\",\r\n
+      \ \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave\",\r\n
+      \ \"type\": \"Microsoft.Cache/redisEnterprise\",\r\n  \"tags\": {\r\n    \"elks\":
+      \"stranger\",\r\n    \"nomai\": \"vessel\"\r\n  },\r\n  \"sku\": {\r\n    \"name\":
+      \"Enterprise_E10\",\r\n    \"capacity\": 2\r\n  },\r\n  \"properties\": {\r\n
+      \   \"minimumTlsVersion\": \"1.2\",\r\n    \"hostName\": \"asotest-redisent-cffave.westus2.redisenterprise.cache.azure.net\",\r\n
+      \   \"provisioningState\": \"Succeeded\",\r\n    \"resourceState\": \"Running\",\r\n
+      \   \"privateEndpointConnections\": []\r\n  },\r\n  \"identity\": {\r\n    \"type\":
+      \"None\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "708"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 3E8EEF9461EA4F18835FBEE9BE380B3D Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:40:58Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"default","properties":{"clientProtocol":"Encrypted","clusteringPolicy":"EnterpriseCluster","evictionPolicy":"AllKeysLRU","modules":[{"args":"ERROR_RATE
+      0.1 INITIAL_SIZE 400","name":"RedisBloom"}],"persistence":{"aofEnabled":true,"aofFrequency":"always","rdbEnabled":false},"port":10000}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "296"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave/databases/default?api-version=2023-07-01
+    method: PUT
+  response:
+    body: "{\r\n  \"name\": \"default\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave/databases/default\",\r\n
+      \ \"type\": \"Microsoft.Cache/redisEnterprise/databases\",\r\n  \"properties\":
+      {\r\n    \"clientProtocol\": \"Encrypted\",\r\n    \"port\": 10000,\r\n    \"provisioningState\":
+      \"Creating\",\r\n    \"resourceState\": \"Creating\",\r\n    \"clusteringPolicy\":
+      \"EnterpriseCluster\",\r\n    \"evictionPolicy\": \"AllKeysLRU\",\r\n    \"modules\":
+      [\r\n      {\r\n        \"name\": \"RedisBloom\",\r\n        \"args\": \"ERROR_RATE
+      0.1 INITIAL_SIZE 400\",\r\n        \"version\": \"2.2.4\"\r\n      }\r\n    ],\r\n
+      \   \"persistence\": {\r\n      \"aofEnabled\": true,\r\n      \"rdbEnabled\":
+      false,\r\n      \"aofFrequency\": \"always\",\r\n      \"rdbFrequency\": null\r\n
+      \   }\r\n  }\r\n}"
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/d7598dcb-0120-4fdd-a58f-c4cfab2305a5?api-version=2023-07-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "798"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave/databases/default?api-version=2023-07-01
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 2718BCCA48814B8ABA27E4877E3F9C75 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:41:02Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/d7598dcb-0120-4fdd-a58f-c4cfab2305a5?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/d7598dcb-0120-4fdd-a58f-c4cfab2305a5","name":"d7598dcb-0120-4fdd-a58f-c4cfab2305a5","status":"InProgress","startTime":"2023-08-24T20:41:03.448412+00:00","endTime":"2023-08-24T20:41:03.6462515+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "321"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: FE9E4945136E4FD6858F64443E0BDB68 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:41:04Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/d7598dcb-0120-4fdd-a58f-c4cfab2305a5?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/d7598dcb-0120-4fdd-a58f-c4cfab2305a5","name":"d7598dcb-0120-4fdd-a58f-c4cfab2305a5","status":"InProgress","startTime":"2023-08-24T20:41:03.448412+00:00","endTime":"2023-08-24T20:41:03.6462515+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "321"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 408FF857D5DC4526A7C0DF812F4618ED Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:41:07Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/d7598dcb-0120-4fdd-a58f-c4cfab2305a5?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/d7598dcb-0120-4fdd-a58f-c4cfab2305a5","name":"d7598dcb-0120-4fdd-a58f-c4cfab2305a5","status":"Succeeded","startTime":"2023-08-24T20:41:03.448412+00:00","endTime":"2023-08-24T20:41:09.2559027+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "320"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 7CDAA132C5564D90A8209577DC9C0907 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:41:11Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave/databases/default?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"name":"default","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave/databases/default","type":"Microsoft.Cache/redisEnterprise/databases","properties":{"clientProtocol":"Encrypted","port":10000,"provisioningState":"Succeeded","resourceState":"Running","clusteringPolicy":"EnterpriseCluster","evictionPolicy":"AllKeysLRU","modules":[{"name":"RedisBloom","args":"ERROR_RATE
+      0.1 INITIAL_SIZE 400","version":"2.4.5"}],"persistence":{"aofEnabled":true,"rdbEnabled":false,"aofFrequency":"always","rdbFrequency":null}}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "619"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 97081F85D634444F9C00994151F8C3E0 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:41:11Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave/databases/default?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"name":"default","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave/databases/default","type":"Microsoft.Cache/redisEnterprise/databases","properties":{"clientProtocol":"Encrypted","port":10000,"provisioningState":"Succeeded","resourceState":"Running","clusteringPolicy":"EnterpriseCluster","evictionPolicy":"AllKeysLRU","modules":[{"name":"RedisBloom","args":"ERROR_RATE
+      0.1 INITIAL_SIZE 400","version":"2.4.5"}],"persistence":{"aofEnabled":true,"rdbEnabled":false,"aofFrequency":"always","rdbFrequency":null}}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "619"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 4C4663B385474C8DB1E6275881B062C4 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:41:12Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"default","properties":{"clientProtocol":"Encrypted","clusteringPolicy":"EnterpriseCluster","evictionPolicy":"AllKeysLRU","modules":[{"args":"ERROR_RATE
+      0.1 INITIAL_SIZE 400","name":"RedisBloom"}],"persistence":{"aofEnabled":true,"aofFrequency":"1s","rdbEnabled":false},"port":10000}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "292"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave/databases/default?api-version=2023-07-01
+    method: PUT
+  response:
+    body: "{\r\n  \"name\": \"default\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave/databases/default\",\r\n
+      \ \"type\": \"Microsoft.Cache/redisEnterprise/databases\",\r\n  \"properties\":
+      {\r\n    \"clientProtocol\": \"Encrypted\",\r\n    \"port\": 10000,\r\n    \"provisioningState\":
+      \"Updating\",\r\n    \"resourceState\": \"Updating\",\r\n    \"clusteringPolicy\":
+      \"EnterpriseCluster\",\r\n    \"evictionPolicy\": \"AllKeysLRU\",\r\n    \"modules\":
+      [\r\n      {\r\n        \"name\": \"RedisBloom\",\r\n        \"args\": \"ERROR_RATE
+      0.1 INITIAL_SIZE 400\",\r\n        \"version\": \"2.2.4\"\r\n      }\r\n    ],\r\n
+      \   \"persistence\": {\r\n      \"aofEnabled\": true,\r\n      \"rdbEnabled\":
+      false,\r\n      \"aofFrequency\": \"1s\",\r\n      \"rdbFrequency\": null\r\n
+      \   }\r\n  }\r\n}"
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/8c1fd78a-bc6f-4275-aa50-dbde20f0cd17?api-version=2023-07-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "794"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave/databases/default?api-version=2023-07-01
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: C7B90BA3C9024188AF11A00F67AB62B8 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:41:12Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/8c1fd78a-bc6f-4275-aa50-dbde20f0cd17?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/8c1fd78a-bc6f-4275-aa50-dbde20f0cd17","name":"8c1fd78a-bc6f-4275-aa50-dbde20f0cd17","status":"Succeeded","startTime":"2023-08-24T20:41:13.2112664+00:00","endTime":"2023-08-24T20:41:14.0780961+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "321"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 0BAB996D9D08426495908963A03874B8 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:41:14Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave/databases/default?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"name":"default","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave/databases/default","type":"Microsoft.Cache/redisEnterprise/databases","properties":{"clientProtocol":"Encrypted","port":10000,"provisioningState":"Succeeded","resourceState":"Running","clusteringPolicy":"EnterpriseCluster","evictionPolicy":"AllKeysLRU","modules":[{"name":"RedisBloom","args":"ERROR_RATE
+      0.1 INITIAL_SIZE 400","version":"2.4.5"}],"persistence":{"aofEnabled":true,"rdbEnabled":false,"aofFrequency":"1s","rdbFrequency":null}}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "615"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: A6F66BCEF09B44E3B6258B646E132065 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:41:14Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave/databases/default?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"name":"default","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave/databases/default","type":"Microsoft.Cache/redisEnterprise/databases","properties":{"clientProtocol":"Encrypted","port":10000,"provisioningState":"Succeeded","resourceState":"Running","clusteringPolicy":"EnterpriseCluster","evictionPolicy":"AllKeysLRU","modules":[{"name":"RedisBloom","args":"ERROR_RATE
+      0.1 INITIAL_SIZE 400","version":"2.4.5"}],"persistence":{"aofEnabled":true,"rdbEnabled":false,"aofFrequency":"1s","rdbFrequency":null}}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "615"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 4A89148083EA495495B7614CB04FB94C Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:41:15Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave/databases/default?api-version=2023-07-01
+    method: DELETE
+  response:
+    body: "{\r\n  \"StatusCode\": 202\r\n}"
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/170e9d9f-f610-4166-9b64-202f8ccf1ef6?api-version=2023-07-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "25"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave/databases/default/operationresults/170e9d9f-f610-4166-9b64-202f8ccf1ef6?api-version=2023-07-01
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 18559FBAB5974A1BB4948B227AB5465B Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:41:17Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/170e9d9f-f610-4166-9b64-202f8ccf1ef6?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/170e9d9f-f610-4166-9b64-202f8ccf1ef6","name":"170e9d9f-f610-4166-9b64-202f8ccf1ef6","status":"InProgress","startTime":"2023-08-24T20:41:18.171859+00:00","endTime":"2023-08-24T20:41:18.687473+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "320"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 3B7898A3965A497999E4C5AA210B9543 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:41:19Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/170e9d9f-f610-4166-9b64-202f8ccf1ef6?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/170e9d9f-f610-4166-9b64-202f8ccf1ef6","name":"170e9d9f-f610-4166-9b64-202f8ccf1ef6","status":"InProgress","startTime":"2023-08-24T20:41:18.171859+00:00","endTime":"2023-08-24T20:41:18.687473+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "320"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 7A18BB5C505649FC9D82481BC24AC1DC Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:41:21Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/170e9d9f-f610-4166-9b64-202f8ccf1ef6?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/170e9d9f-f610-4166-9b64-202f8ccf1ef6","name":"170e9d9f-f610-4166-9b64-202f8ccf1ef6","status":"InProgress","startTime":"2023-08-24T20:41:18.171859+00:00","endTime":"2023-08-24T20:41:18.687473+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "320"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: CDD8FCDAF1F44CEDA1A520B5137EE31F Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:41:25Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/170e9d9f-f610-4166-9b64-202f8ccf1ef6?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/170e9d9f-f610-4166-9b64-202f8ccf1ef6","name":"170e9d9f-f610-4166-9b64-202f8ccf1ef6","status":"Succeeded","startTime":"2023-08-24T20:41:18.171859+00:00","endTime":"2023-08-24T20:41:29.4689401+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "320"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 31080446D9C84C2DA954F3E8E2CD8FFB Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:41:34Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave?api-version=2023-07-01
+    method: DELETE
+  response:
+    body: "{\r\n  \"location\": \"West US 2\",\r\n  \"name\": \"asotest-redisent-cffave\",\r\n
+      \ \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave\",\r\n
+      \ \"type\": \"Microsoft.Cache/redisEnterprise\",\r\n  \"tags\": {\r\n    \"elks\":
+      \"stranger\",\r\n    \"nomai\": \"vessel\"\r\n  },\r\n  \"sku\": {\r\n    \"name\":
+      \"Enterprise_E10\",\r\n    \"capacity\": 2\r\n  },\r\n  \"properties\": {\r\n
+      \   \"minimumTlsVersion\": \"1.2\",\r\n    \"hostName\": \"asotest-redisent-cffave.westus2.redisenterprise.cache.azure.net\",\r\n
+      \   \"provisioningState\": \"Deleting\",\r\n    \"resourceState\": \"Deleting\",\r\n
+      \   \"privateEndpointConnections\": []\r\n  },\r\n  \"identity\": {\r\n    \"type\":
+      \"None\"\r\n  }\r\n}"
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/fc01749d-82b0-47d2-93d8-cf97eacdd51b?api-version=2023-07-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "708"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave/operationresults/fc01749d-82b0-47d2-93d8-cf97eacdd51b?api-version=2023-07-01
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 40D0BB17DE8C4C1F8A9B071B5DBD9CA2 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:41:37Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/fc01749d-82b0-47d2-93d8-cf97eacdd51b?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/fc01749d-82b0-47d2-93d8-cf97eacdd51b","name":"fc01749d-82b0-47d2-93d8-cf97eacdd51b","status":"InProgress","startTime":"2023-08-24T20:41:38.1428681+00:00","endTime":"2023-08-24T20:41:38.7366715+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "322"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: ABA068EA6675431B8928BB07288192B0 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:41:39Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/fc01749d-82b0-47d2-93d8-cf97eacdd51b?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/fc01749d-82b0-47d2-93d8-cf97eacdd51b","name":"fc01749d-82b0-47d2-93d8-cf97eacdd51b","status":"InProgress","startTime":"2023-08-24T20:41:38.1428681+00:00","endTime":"2023-08-24T20:41:38.7366715+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "322"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 5EE47D841DFC4B0B81010CA89958F95D Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:41:41Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/fc01749d-82b0-47d2-93d8-cf97eacdd51b?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/fc01749d-82b0-47d2-93d8-cf97eacdd51b","name":"fc01749d-82b0-47d2-93d8-cf97eacdd51b","status":"InProgress","startTime":"2023-08-24T20:41:38.1428681+00:00","endTime":"2023-08-24T20:41:38.7366715+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "322"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 8708D152BA2549F6B9E34CB54BF24A38 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:41:46Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/fc01749d-82b0-47d2-93d8-cf97eacdd51b?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/fc01749d-82b0-47d2-93d8-cf97eacdd51b","name":"fc01749d-82b0-47d2-93d8-cf97eacdd51b","status":"InProgress","startTime":"2023-08-24T20:41:38.1428681+00:00","endTime":"2023-08-24T20:41:38.7366715+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "322"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: CEBE8E6F4FA7463FAD933B5973FC6DE1 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:41:54Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/fc01749d-82b0-47d2-93d8-cf97eacdd51b?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/fc01749d-82b0-47d2-93d8-cf97eacdd51b","name":"fc01749d-82b0-47d2-93d8-cf97eacdd51b","status":"InProgress","startTime":"2023-08-24T20:41:38.1428681+00:00","endTime":"2023-08-24T20:41:38.7366715+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "322"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: C23FA05065D5465FB8B759029C36555F Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:42:11Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "5"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/fc01749d-82b0-47d2-93d8-cf97eacdd51b?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/fc01749d-82b0-47d2-93d8-cf97eacdd51b","name":"fc01749d-82b0-47d2-93d8-cf97eacdd51b","status":"InProgress","startTime":"2023-08-24T20:41:38.1428681+00:00","endTime":"2023-08-24T20:41:38.7366715+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "322"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: F1DE6FB685D847B5AE78B07515B9B070 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:42:43Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "6"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/fc01749d-82b0-47d2-93d8-cf97eacdd51b?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/fc01749d-82b0-47d2-93d8-cf97eacdd51b","name":"fc01749d-82b0-47d2-93d8-cf97eacdd51b","status":"InProgress","startTime":"2023-08-24T20:41:38.1428681+00:00","endTime":"2023-08-24T20:41:38.7366715+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "322"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: E0BEFD8437294FA7B4A6584F8408DB70 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:43:43Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "7"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/fc01749d-82b0-47d2-93d8-cf97eacdd51b?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/fc01749d-82b0-47d2-93d8-cf97eacdd51b","name":"fc01749d-82b0-47d2-93d8-cf97eacdd51b","status":"InProgress","startTime":"2023-08-24T20:41:38.1428681+00:00","endTime":"2023-08-24T20:41:38.7366715+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "322"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 0D3D7EF04CB1442F8FFD04AB59E9F234 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:44:44Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "8"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/fc01749d-82b0-47d2-93d8-cf97eacdd51b?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/fc01749d-82b0-47d2-93d8-cf97eacdd51b","name":"fc01749d-82b0-47d2-93d8-cf97eacdd51b","status":"InProgress","startTime":"2023-08-24T20:41:38.1428681+00:00","endTime":"2023-08-24T20:41:38.7366715+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "322"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 819F7A2EA2B64073B8DBC42E2117AA5E Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:45:44Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "9"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/fc01749d-82b0-47d2-93d8-cf97eacdd51b?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/fc01749d-82b0-47d2-93d8-cf97eacdd51b","name":"fc01749d-82b0-47d2-93d8-cf97eacdd51b","status":"InProgress","startTime":"2023-08-24T20:41:38.1428681+00:00","endTime":"2023-08-24T20:41:38.7366715+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "322"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 25C2E2BD7464491680936E6B5BDF3633 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:46:44Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "10"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/fc01749d-82b0-47d2-93d8-cf97eacdd51b?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/fc01749d-82b0-47d2-93d8-cf97eacdd51b","name":"fc01749d-82b0-47d2-93d8-cf97eacdd51b","status":"InProgress","startTime":"2023-08-24T20:41:38.1428681+00:00","endTime":"2023-08-24T20:41:38.7366715+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "322"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: B98753D163164388B4C683E3BFEB1AC3 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:47:45Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "11"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationsStatus/fc01749d-82b0-47d2-93d8-cf97eacdd51b?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West
+      US 2/operationsStatus/fc01749d-82b0-47d2-93d8-cf97eacdd51b","name":"fc01749d-82b0-47d2-93d8-cf97eacdd51b","status":"Succeeded","startTime":"2023-08-24T20:41:38.1428681+00:00","endTime":"2023-08-24T20:48:30.9792912+00:00"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "321"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: B9F728859A5E445D8B84B184C5C837D7 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:48:45Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm/providers/Microsoft.Cache/redisEnterprise/asotest-redisent-cffave?api-version=2023-07-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceNotFound","message":"A requested resource could
+      not be found. It may already have been deleted. CorrelationID=cdec4ce5-8771-4afe-b40a-4000c3571108
+      RequestID=9f9283ba-eae8-42e9-a3d9-2255a2d7c169 Timestamp=8/24/2023 8:48:48 PM
+      (UTC)","target":null}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "273"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 5DBC78987025482A8E7B8FB70E769EB4 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:48:48Z'
+      X-Rp-Server-Mvid:
+      - a1020e83-c307-4802-871b-3f6cb9e29edb
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gvksbm?api-version=2020-06-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHVktTQk0tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: 0257FD3CE4B74C98A3AC4CB5BE386588 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:48:48Z'
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHVktTQk0tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Cache:
+      - CONFIG_NOCACHE
+      X-Content-Type-Options:
+      - nosniff
+      X-Msedge-Ref:
+      - 'Ref A: F1871EC51EA8439B8091F02F0EA413B6 Ref B: CO6AA3150217025 Ref C: 2023-08-24T20:49:05Z'
+    status: 200 OK
+    code: 200
+    duration: ""

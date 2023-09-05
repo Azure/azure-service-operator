@@ -103,11 +103,7 @@ func (setting *SqlDatabaseThroughputSetting) NewEmptyStatus() genruntime.Convert
 // Owner returns the ResourceReference of the owner
 func (setting *SqlDatabaseThroughputSetting) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(setting.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  setting.Spec.Owner.Name,
-	}
+	return setting.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

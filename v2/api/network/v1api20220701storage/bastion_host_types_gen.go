@@ -84,11 +84,7 @@ func (host *BastionHost) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (host *BastionHost) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(host.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  host.Spec.Owner.Name,
-	}
+	return host.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

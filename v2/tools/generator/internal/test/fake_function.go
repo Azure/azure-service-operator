@@ -13,7 +13,7 @@ import (
 )
 
 // FakeFunction is a fake function that can be used for testing purposes
-// Note that there's another FakeFunction in astmodel but we can't eliminate that one because it would cause a package
+// Note that there's another FakeFunction in astmodel, but we can't eliminate that one because it would cause a package
 // reference cycle
 type FakeFunction struct {
 	name         string
@@ -49,19 +49,22 @@ func (fake *FakeFunction) References() astmodel.TypeNameSet {
 	return fake.Referenced
 }
 
-func (fake *FakeFunction) AsFunc(generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
+func (fake *FakeFunction) AsFunc(
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+) (*dst.FuncDecl, error) {
 	receiverName := fake.idFactory.CreateReceiver(receiver.Name())
 	details := astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
-		ReceiverType:  astmodel.NewOptionalType(receiver).AsType(generationContext),
+		ReceiverType:  astmodel.NewOptionalType(receiver).AsType(codeGenerationContext),
 		Name:          fake.name,
 	}
 
 	if fake.TypeReturned != nil {
-		details.AddReturn(fake.TypeReturned.AsType(generationContext))
+		details.AddReturn(fake.TypeReturned.AsType(codeGenerationContext))
 	}
 
-	return details.DefineFunc()
+	return details.DefineFunc(), nil
 }
 
 func (fake *FakeFunction) Equals(f astmodel.Function, _ astmodel.EqualityOverrides) bool {

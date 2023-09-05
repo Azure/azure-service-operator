@@ -141,11 +141,7 @@ func (rule *DnsForwardingRuleSetsForwardingRule) NewEmptyStatus() genruntime.Con
 // Owner returns the ResourceReference of the owner
 func (rule *DnsForwardingRuleSetsForwardingRule) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(rule.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  rule.Spec.Owner.Name,
-	}
+	return rule.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (rule *DnsForwardingRuleSetsForwardingRule) ValidateUpdate(old runtime.Obje
 
 // createValidations validates the creation of the resource
 func (rule *DnsForwardingRuleSetsForwardingRule) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){rule.validateResourceReferences, rule.validateOptionalConfigMapReferences}
+	return []func() (admission.Warnings, error){rule.validateResourceReferences, rule.validateOwnerReference, rule.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -219,6 +215,9 @@ func (rule *DnsForwardingRuleSetsForwardingRule) updateValidations() []func(old 
 		},
 		rule.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
+			return rule.validateOwnerReference()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return rule.validateOptionalConfigMapReferences()
 		},
 	}
@@ -231,6 +230,11 @@ func (rule *DnsForwardingRuleSetsForwardingRule) validateOptionalConfigMapRefere
 		return nil, err
 	}
 	return genruntime.ValidateOptionalConfigMapReferences(refs)
+}
+
+// validateOwnerReference validates the owner field
+func (rule *DnsForwardingRuleSetsForwardingRule) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(rule)
 }
 
 // validateResourceReferences validates all resource references
@@ -437,7 +441,10 @@ func (rule *DnsForwardingRulesets_ForwardingRule_Spec) PopulateFromARM(owner gen
 	}
 
 	// Set property "Owner":
-	rule.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	rule.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "TargetDnsServers":
 	// copying flattened property:
