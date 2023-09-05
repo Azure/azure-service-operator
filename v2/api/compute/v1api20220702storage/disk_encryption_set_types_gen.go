@@ -84,11 +84,7 @@ func (encryptionSet *DiskEncryptionSet) NewEmptyStatus() genruntime.ConvertibleS
 // Owner returns the ResourceReference of the owner
 func (encryptionSet *DiskEncryptionSet) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(encryptionSet.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  encryptionSet.Spec.Owner.Name,
-	}
+	return encryptionSet.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

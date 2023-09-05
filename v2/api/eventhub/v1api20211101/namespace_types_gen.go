@@ -141,11 +141,7 @@ func (namespace *Namespace) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (namespace *Namespace) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(namespace.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  namespace.Spec.Owner.Name,
-	}
+	return namespace.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (namespace *Namespace) ValidateUpdate(old runtime.Object) (admission.Warnin
 
 // createValidations validates the creation of the resource
 func (namespace *Namespace) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){namespace.validateResourceReferences}
+	return []func() (admission.Warnings, error){namespace.validateResourceReferences, namespace.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (namespace *Namespace) updateValidations() []func(old runtime.Object) (admi
 		func(old runtime.Object) (admission.Warnings, error) {
 			return namespace.validateResourceReferences()
 		},
-		namespace.validateWriteOnceProperties}
+		namespace.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return namespace.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (namespace *Namespace) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(namespace)
 }
 
 // validateResourceReferences validates all resource references
@@ -561,7 +566,10 @@ func (namespace *Namespace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	}
 
 	// Set property "Owner":
-	namespace.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	namespace.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Sku":
 	if typedInput.Sku != nil {

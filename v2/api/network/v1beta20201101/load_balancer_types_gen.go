@@ -142,11 +142,7 @@ func (balancer *LoadBalancer) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (balancer *LoadBalancer) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(balancer.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  balancer.Spec.Owner.Name,
-	}
+	return balancer.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -204,7 +200,7 @@ func (balancer *LoadBalancer) ValidateUpdate(old runtime.Object) (admission.Warn
 
 // createValidations validates the creation of the resource
 func (balancer *LoadBalancer) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){balancer.validateResourceReferences}
+	return []func() (admission.Warnings, error){balancer.validateResourceReferences, balancer.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -218,7 +214,16 @@ func (balancer *LoadBalancer) updateValidations() []func(old runtime.Object) (ad
 		func(old runtime.Object) (admission.Warnings, error) {
 			return balancer.validateResourceReferences()
 		},
-		balancer.validateWriteOnceProperties}
+		balancer.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return balancer.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (balancer *LoadBalancer) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(balancer)
 }
 
 // validateResourceReferences validates all resource references
@@ -557,7 +562,10 @@ func (balancer *LoadBalancer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	}
 
 	// Set property "Owner":
-	balancer.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	balancer.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Probes":
 	// copying flattened property:

@@ -103,11 +103,7 @@ func (assignment *SqlRoleAssignment) NewEmptyStatus() genruntime.ConvertibleStat
 // Owner returns the ResourceReference of the owner
 func (assignment *SqlRoleAssignment) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(assignment.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  assignment.Spec.Owner.Name,
-	}
+	return assignment.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

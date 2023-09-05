@@ -84,11 +84,7 @@ func (gateway *VirtualNetworkGateway) NewEmptyStatus() genruntime.ConvertibleSta
 // Owner returns the ResourceReference of the owner
 func (gateway *VirtualNetworkGateway) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(gateway.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  gateway.Spec.Owner.Name,
-	}
+	return gateway.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

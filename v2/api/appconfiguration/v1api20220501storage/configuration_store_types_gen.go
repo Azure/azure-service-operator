@@ -84,11 +84,7 @@ func (store *ConfigurationStore) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (store *ConfigurationStore) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(store.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  store.Spec.Owner.Name,
-	}
+	return store.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

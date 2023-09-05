@@ -141,11 +141,7 @@ func (redis *Redis) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (redis *Redis) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(redis.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  redis.Spec.Owner.Name,
-	}
+	return redis.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (redis *Redis) ValidateUpdate(old runtime.Object) (admission.Warnings, erro
 
 // createValidations validates the creation of the resource
 func (redis *Redis) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){redis.validateResourceReferences, redis.validateSecretDestinations}
+	return []func() (admission.Warnings, error){redis.validateResourceReferences, redis.validateOwnerReference, redis.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -219,9 +215,17 @@ func (redis *Redis) updateValidations() []func(old runtime.Object) (admission.Wa
 		},
 		redis.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
+			return redis.validateOwnerReference()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return redis.validateSecretDestinations()
 		},
 	}
+}
+
+// validateOwnerReference validates the owner field
+func (redis *Redis) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(redis)
 }
 
 // validateResourceReferences validates all resource references
@@ -587,7 +591,10 @@ func (redis *Redis_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
-	redis.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	redis.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "PublicNetworkAccess":
 	// copying flattened property:

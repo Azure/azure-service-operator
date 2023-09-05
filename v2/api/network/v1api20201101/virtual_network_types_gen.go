@@ -141,11 +141,7 @@ func (network *VirtualNetwork) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (network *VirtualNetwork) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(network.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  network.Spec.Owner.Name,
-	}
+	return network.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (network *VirtualNetwork) ValidateUpdate(old runtime.Object) (admission.War
 
 // createValidations validates the creation of the resource
 func (network *VirtualNetwork) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){network.validateResourceReferences}
+	return []func() (admission.Warnings, error){network.validateResourceReferences, network.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (network *VirtualNetwork) updateValidations() []func(old runtime.Object) (a
 		func(old runtime.Object) (admission.Warnings, error) {
 			return network.validateResourceReferences()
 		},
-		network.validateWriteOnceProperties}
+		network.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return network.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (network *VirtualNetwork) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(network)
 }
 
 // validateResourceReferences validates all resource references
@@ -569,7 +574,10 @@ func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	}
 
 	// Set property "Owner":
-	network.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	network.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Tags":
 	if typedInput.Tags != nil {

@@ -144,11 +144,13 @@ From the root of your ASO repo clone, run
 
 ``` bash
 $ git submodule init
-Submodule 'hack/generator/specs/azure-rest-api-specs' (https://github.com/Azure/azure-rest-api-specs) registered for path 'specs/azure-rest-api-specs'
+Submodule 'azure-rest-api-specs' (https://github.com/Azure/azure-rest-api-specs) registered for path 'v2/specs/azure-rest-api-specs'
 
 $ git submodule update
 Cloning into '/workspaces/azure-service-operator/v2/specs/azure-rest-api-specs'...
-Submodule path 'specs/azure-rest-api-specs': checked out '3ac733b1b1c63969fbed0c7ffe60ff5cccc708c7'
+remote: Enumerating objects: 15, done.
+... elided ...
+Submodule path 'v2/specs/azure-rest-api-specs': checked out '35f8372749cbe9b1f69bde0eee3b0bc63c49c2c2'
 ```
 
 The exact git hash that's checked out will likely be different.

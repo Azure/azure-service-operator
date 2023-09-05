@@ -142,11 +142,7 @@ func (gateway *VirtualNetworkGateway) NewEmptyStatus() genruntime.ConvertibleSta
 // Owner returns the ResourceReference of the owner
 func (gateway *VirtualNetworkGateway) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(gateway.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  gateway.Spec.Owner.Name,
-	}
+	return gateway.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -204,7 +200,7 @@ func (gateway *VirtualNetworkGateway) ValidateUpdate(old runtime.Object) (admiss
 
 // createValidations validates the creation of the resource
 func (gateway *VirtualNetworkGateway) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){gateway.validateResourceReferences}
+	return []func() (admission.Warnings, error){gateway.validateResourceReferences, gateway.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -218,7 +214,16 @@ func (gateway *VirtualNetworkGateway) updateValidations() []func(old runtime.Obj
 		func(old runtime.Object) (admission.Warnings, error) {
 			return gateway.validateResourceReferences()
 		},
-		gateway.validateWriteOnceProperties}
+		gateway.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return gateway.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (gateway *VirtualNetworkGateway) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(gateway)
 }
 
 // validateResourceReferences validates all resource references
@@ -611,7 +616,10 @@ func (gateway *VirtualNetworkGateway_Spec) PopulateFromARM(owner genruntime.Arbi
 	}
 
 	// Set property "Owner":
-	gateway.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	gateway.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Sku":
 	// copying flattened property:

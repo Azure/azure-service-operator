@@ -84,11 +84,7 @@ func (ruleset *DnsForwardingRuleset) NewEmptyStatus() genruntime.ConvertibleStat
 // Owner returns the ResourceReference of the owner
 func (ruleset *DnsForwardingRuleset) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(ruleset.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  ruleset.Spec.Owner.Name,
-	}
+	return ruleset.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

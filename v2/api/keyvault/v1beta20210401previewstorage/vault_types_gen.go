@@ -103,11 +103,7 @@ func (vault *Vault) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (vault *Vault) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(vault.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  vault.Spec.Owner.Name,
-	}
+	return vault.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

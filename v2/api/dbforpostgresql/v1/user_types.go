@@ -75,11 +75,7 @@ func (user *User) AzureName() string {
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (user *User) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(user.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  user.Spec.Owner.Name,
-	}
+	return user.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // +kubebuilder:webhook:path=/validate-dbforpostgresql-azure-com-v1-user,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbforpostgresql.azure.com,resources=users,verbs=create;update,versions=v1,name=validate.v1.users.dbforpostgresql.azure.com,admissionReviewVersions=v1
@@ -152,7 +148,7 @@ type UserSpec struct {
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a dbforpostgresql.azure.com/FlexibleServer resource
-	Owner *genruntime.KnownResourceReference `group:"dbforpostgresql.azure.com" json:"owner,omitempty" kind:"FlexibleServer"`
+	Owner *genruntime.KubernetesOwnerReference `group:"dbforpostgresql.azure.com" json:"owner,omitempty" kind:"FlexibleServer"`
 
 	// The Azure Database for PostgreSQL server is created with the 3 default roles defined.
 	// azure_pg_admin

@@ -84,11 +84,7 @@ func (snapshot *Snapshot) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (snapshot *Snapshot) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(snapshot.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  snapshot.Spec.Owner.Name,
-	}
+	return snapshot.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

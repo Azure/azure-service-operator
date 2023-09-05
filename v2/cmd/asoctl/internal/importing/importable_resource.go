@@ -7,9 +7,8 @@ package importing
 
 import (
 	"context"
-
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
-	"github.com/vbauerster/mpb/v8"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
@@ -37,15 +36,20 @@ type ImportableResource interface {
 
 	// Import does the actual import, updating the Spec on the wrapped resource.
 	// ctx allows for cancellation of the import.
-	// bar is a progress bar to update.
-	// Returns any errors that occur.
-	Import(ctx context.Context, bar *mpb.Bar) error
+	// progress is a channel that can be used to report progress back to the caller.
+	Import(
+		ctx context.Context,
+		log logr.Logger,
+	) error
 
 	// FindChildren returns any child resources that need to be imported.
 	// ctx allows for cancellation of the import.
 	// Returns any additional resources that also need to be imported, as well as any errors that occur.
 	// Partial success is allowed, but the caller should be notified of any errors.
-	FindChildren(ctx context.Context, bar *mpb.Bar) ([]ImportableResource, error)
+	FindChildren(
+		ctx context.Context,
+		progress chan<- progressDelta,
+	) ([]ImportableResource, error)
 }
 
 // importableResource is a core of common data and support methods for implementing ImportableResource

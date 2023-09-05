@@ -141,11 +141,7 @@ func (connection *WorkspacesConnection) NewEmptyStatus() genruntime.ConvertibleS
 // Owner returns the ResourceReference of the owner
 func (connection *WorkspacesConnection) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(connection.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  connection.Spec.Owner.Name,
-	}
+	return connection.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (connection *WorkspacesConnection) ValidateUpdate(old runtime.Object) (admi
 
 // createValidations validates the creation of the resource
 func (connection *WorkspacesConnection) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){connection.validateResourceReferences}
+	return []func() (admission.Warnings, error){connection.validateResourceReferences, connection.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (connection *WorkspacesConnection) updateValidations() []func(old runtime.O
 		func(old runtime.Object) (admission.Warnings, error) {
 			return connection.validateResourceReferences()
 		},
-		connection.validateWriteOnceProperties}
+		connection.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return connection.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (connection *WorkspacesConnection) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(connection)
 }
 
 // validateResourceReferences validates all resource references
@@ -414,7 +419,10 @@ func (connection *Workspaces_Connection_Spec) PopulateFromARM(owner genruntime.A
 	}
 
 	// Set property "Owner":
-	connection.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	connection.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Target":
 	// copying flattened property:

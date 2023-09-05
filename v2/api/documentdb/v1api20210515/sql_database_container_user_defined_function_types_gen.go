@@ -141,11 +141,7 @@ func (function *SqlDatabaseContainerUserDefinedFunction) NewEmptyStatus() genrun
 // Owner returns the ResourceReference of the owner
 func (function *SqlDatabaseContainerUserDefinedFunction) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(function.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  function.Spec.Owner.Name,
-	}
+	return function.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (function *SqlDatabaseContainerUserDefinedFunction) ValidateUpdate(old runt
 
 // createValidations validates the creation of the resource
 func (function *SqlDatabaseContainerUserDefinedFunction) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){function.validateResourceReferences}
+	return []func() (admission.Warnings, error){function.validateResourceReferences, function.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (function *SqlDatabaseContainerUserDefinedFunction) updateValidations() []f
 		func(old runtime.Object) (admission.Warnings, error) {
 			return function.validateResourceReferences()
 		},
-		function.validateWriteOnceProperties}
+		function.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return function.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (function *SqlDatabaseContainerUserDefinedFunction) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(function)
 }
 
 // validateResourceReferences validates all resource references
@@ -419,7 +424,10 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spe
 	}
 
 	// Set property "Owner":
-	function.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	function.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Resource":
 	// copying flattened property:

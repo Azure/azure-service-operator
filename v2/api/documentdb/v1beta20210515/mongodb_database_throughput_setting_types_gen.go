@@ -135,11 +135,7 @@ func (setting *MongodbDatabaseThroughputSetting) NewEmptyStatus() genruntime.Con
 // Owner returns the ResourceReference of the owner
 func (setting *MongodbDatabaseThroughputSetting) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(setting.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  setting.Spec.Owner.Name,
-	}
+	return setting.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -197,7 +193,7 @@ func (setting *MongodbDatabaseThroughputSetting) ValidateUpdate(old runtime.Obje
 
 // createValidations validates the creation of the resource
 func (setting *MongodbDatabaseThroughputSetting) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){setting.validateResourceReferences}
+	return []func() (admission.Warnings, error){setting.validateResourceReferences, setting.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -211,7 +207,16 @@ func (setting *MongodbDatabaseThroughputSetting) updateValidations() []func(old 
 		func(old runtime.Object) (admission.Warnings, error) {
 			return setting.validateResourceReferences()
 		},
-		setting.validateWriteOnceProperties}
+		setting.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return setting.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (setting *MongodbDatabaseThroughputSetting) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(setting)
 }
 
 // validateResourceReferences validates all resource references
@@ -376,7 +381,10 @@ func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) Populat
 	}
 
 	// Set property "Owner":
-	setting.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	setting.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Resource":
 	// copying flattened property:

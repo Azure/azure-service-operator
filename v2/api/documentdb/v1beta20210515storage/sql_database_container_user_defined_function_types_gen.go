@@ -103,11 +103,7 @@ func (function *SqlDatabaseContainerUserDefinedFunction) NewEmptyStatus() genrun
 // Owner returns the ResourceReference of the owner
 func (function *SqlDatabaseContainerUserDefinedFunction) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(function.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  function.Spec.Owner.Name,
-	}
+	return function.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

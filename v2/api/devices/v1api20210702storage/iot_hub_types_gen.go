@@ -84,11 +84,7 @@ func (iotHub *IotHub) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (iotHub *IotHub) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(iotHub.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  iotHub.Spec.Owner.Name,
-	}
+	return iotHub.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
