@@ -272,8 +272,8 @@ func generateSpecTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefiniti
 			newResources.Add(astmodel.MakeTypeDefinition(rName.(astmodel.InternalTypeName), newType))
 		}
 
-		rewriter := astmodel.TypeVisitorBuilder{
-			VisitObjectType: func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
+		rewriter := astmodel.TypeVisitorBuilder[any]{
+			VisitObjectType: func(this *astmodel.TypeVisitor[any], it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 				// strip all readonly props
 				var propsToRemove []astmodel.PropertyName
 				it.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
@@ -795,8 +795,8 @@ func versionFromPath(filePath string, rootPath string) string {
 }
 
 func addResource(spec astmodel.TypeDefinition, resourceName astmodel.TypeName) (astmodel.TypeDefinition, error) {
-	visitor := astmodel.TypeVisitorBuilder{
-		VisitObjectType: func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
+	visitor := astmodel.TypeVisitorBuilder[any]{
+		VisitObjectType: func(this *astmodel.TypeVisitor[any], it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 			it = it.WithResource(resourceName).WithIsResource(true)
 			return it, nil
 		},

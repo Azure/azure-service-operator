@@ -14,7 +14,7 @@ import (
 type RenamingVisitor struct {
 	f func(TypeName) TypeName
 	// renames map[TypeName]TypeName
-	visitor TypeVisitor
+	visitor TypeVisitor[any]
 }
 
 // NewRenamingVisitor creates a new visitor which performs the renames specified
@@ -38,20 +38,19 @@ func NewRenamingVisitorFromLambda(f func(name TypeName) TypeName) *RenamingVisit
 		f: f,
 	}
 
-	r.visitor = TypeVisitorBuilder{
-		VisitTypeName:     r.updateTypeName,
-		VisitResourceType: r.updateResourceOwner,
+	r.visitor = TypeVisitorBuilder[any]{
+		VisitInternalTypeName: r.updateTypeName,
+		VisitResourceType:     r.updateResourceOwner,
 	}.Build()
 
 	return r
 }
 
-func (r *RenamingVisitor) updateTypeName(this *TypeVisitor, it TypeName, ctx interface{}) (Type, error) {
-	newName := r.f(it)
-	return IdentityVisitOfTypeName(this, newName, ctx)
+func (r *RenamingVisitor) updateTypeName(it InternalTypeName) (Type, error) {
+	return r.f(it), nil
 }
 
-func (r *RenamingVisitor) updateResourceOwner(this *TypeVisitor, it *ResourceType, ctx interface{}) (Type, error) {
+func (r *RenamingVisitor) updateResourceOwner(this *TypeVisitor[any], it *ResourceType, ctx any) (Type, error) {
 	if it.Owner() != nil {
 		// TODO: Should this actually happen in TypeVisitor itself?
 		it = it.WithOwner(r.f(it.Owner()))

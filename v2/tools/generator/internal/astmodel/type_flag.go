@@ -35,7 +35,7 @@ func (f TypeFlag) RemoveFrom(t Type) (Type, error) {
 		return it.WithoutFlag(f)
 	}
 
-	visitor := TypeVisitorBuilder{
+	visitor := TypeVisitorBuilder[any]{
 		VisitFlaggedType: removeFlag,
 	}.Build()
 

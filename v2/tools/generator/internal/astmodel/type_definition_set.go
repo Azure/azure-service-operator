@@ -568,7 +568,7 @@ func FindStatusDefinitions(definitions TypeDefinitionSet) TypeDefinitionSet {
 func FindConnectedDefinitions(definitions TypeDefinitionSet, roots TypeDefinitionSet) (TypeDefinitionSet, error) {
 	walker := NewTypeWalker(
 		definitions,
-		TypeVisitorBuilder{}.Build())
+		TypeVisitorBuilder[any]{}.Build())
 
 	result := make(TypeDefinitionSet)
 	for _, def := range roots {

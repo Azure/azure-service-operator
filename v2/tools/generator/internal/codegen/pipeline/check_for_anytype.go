@@ -87,7 +87,7 @@ func containsAnyType(theType astmodel.Type) bool {
 		return it
 	}
 
-	visitor := astmodel.TypeVisitorBuilder{
+	visitor := astmodel.TypeVisitorBuilder[any]{
 		VisitPrimitive: detectAnyType,
 	}.Build()
 
