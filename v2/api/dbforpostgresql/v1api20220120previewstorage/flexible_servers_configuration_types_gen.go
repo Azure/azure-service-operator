@@ -105,11 +105,7 @@ func (configuration *FlexibleServersConfiguration) NewEmptyStatus() genruntime.C
 // Owner returns the ResourceReference of the owner
 func (configuration *FlexibleServersConfiguration) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(configuration.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  configuration.Spec.Owner.Name,
-	}
+	return configuration.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

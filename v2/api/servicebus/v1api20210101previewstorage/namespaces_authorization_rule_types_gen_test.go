@@ -5,6 +5,7 @@ package v1api20210101previewstorage
 
 import (
 	"encoding/json"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20211101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_NamespacesAuthorizationRule_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NamespacesAuthorizationRule to hub returns original",
+		prop.ForAll(RunResourceConversionTestForNamespacesAuthorizationRule, NamespacesAuthorizationRuleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForNamespacesAuthorizationRule tests if a specific instance of NamespacesAuthorizationRule round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForNamespacesAuthorizationRule(subject NamespacesAuthorizationRule) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v20211101s.NamespacesAuthorizationRule
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual NamespacesAuthorizationRule
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_NamespacesAuthorizationRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NamespacesAuthorizationRule to NamespacesAuthorizationRule via AssignProperties_To_NamespacesAuthorizationRule & AssignProperties_From_NamespacesAuthorizationRule returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespacesAuthorizationRule, NamespacesAuthorizationRuleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNamespacesAuthorizationRule tests if a specific instance of NamespacesAuthorizationRule can be assigned to v1api20211101storage and back losslessly
+func RunPropertyAssignmentTestForNamespacesAuthorizationRule(subject NamespacesAuthorizationRule) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20211101s.NamespacesAuthorizationRule
+	err := copied.AssignProperties_To_NamespacesAuthorizationRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NamespacesAuthorizationRule
+	err = actual.AssignProperties_From_NamespacesAuthorizationRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_NamespacesAuthorizationRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -77,6 +163,48 @@ func NamespacesAuthorizationRuleGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForNamespacesAuthorizationRule(gens map[string]gopter.Gen) {
 	gens["Spec"] = Namespaces_AuthorizationRule_SpecGenerator()
 	gens["Status"] = Namespaces_AuthorizationRule_STATUSGenerator()
+}
+
+func Test_Namespaces_AuthorizationRule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Namespaces_AuthorizationRule_Spec to Namespaces_AuthorizationRule_Spec via AssignProperties_To_Namespaces_AuthorizationRule_Spec & AssignProperties_From_Namespaces_AuthorizationRule_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespaces_AuthorizationRule_Spec, Namespaces_AuthorizationRule_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNamespaces_AuthorizationRule_Spec tests if a specific instance of Namespaces_AuthorizationRule_Spec can be assigned to v1api20211101storage and back losslessly
+func RunPropertyAssignmentTestForNamespaces_AuthorizationRule_Spec(subject Namespaces_AuthorizationRule_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20211101s.Namespaces_AuthorizationRule_Spec
+	err := copied.AssignProperties_To_Namespaces_AuthorizationRule_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Namespaces_AuthorizationRule_Spec
+	err = actual.AssignProperties_From_Namespaces_AuthorizationRule_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Namespaces_AuthorizationRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -154,6 +282,48 @@ func AddIndependentPropertyGeneratorsForNamespaces_AuthorizationRule_Spec(gens m
 // AddRelatedPropertyGeneratorsForNamespaces_AuthorizationRule_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespaces_AuthorizationRule_Spec(gens map[string]gopter.Gen) {
 	gens["OperatorSpec"] = gen.PtrOf(NamespacesAuthorizationRuleOperatorSpecGenerator())
+}
+
+func Test_Namespaces_AuthorizationRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Namespaces_AuthorizationRule_STATUS to Namespaces_AuthorizationRule_STATUS via AssignProperties_To_Namespaces_AuthorizationRule_STATUS & AssignProperties_From_Namespaces_AuthorizationRule_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespaces_AuthorizationRule_STATUS, Namespaces_AuthorizationRule_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNamespaces_AuthorizationRule_STATUS tests if a specific instance of Namespaces_AuthorizationRule_STATUS can be assigned to v1api20211101storage and back losslessly
+func RunPropertyAssignmentTestForNamespaces_AuthorizationRule_STATUS(subject Namespaces_AuthorizationRule_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20211101s.Namespaces_AuthorizationRule_STATUS
+	err := copied.AssignProperties_To_Namespaces_AuthorizationRule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Namespaces_AuthorizationRule_STATUS
+	err = actual.AssignProperties_From_Namespaces_AuthorizationRule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Namespaces_AuthorizationRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -234,6 +404,48 @@ func AddRelatedPropertyGeneratorsForNamespaces_AuthorizationRule_STATUS(gens map
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
+func Test_NamespacesAuthorizationRuleOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NamespacesAuthorizationRuleOperatorSpec to NamespacesAuthorizationRuleOperatorSpec via AssignProperties_To_NamespacesAuthorizationRuleOperatorSpec & AssignProperties_From_NamespacesAuthorizationRuleOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespacesAuthorizationRuleOperatorSpec, NamespacesAuthorizationRuleOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNamespacesAuthorizationRuleOperatorSpec tests if a specific instance of NamespacesAuthorizationRuleOperatorSpec can be assigned to v1api20211101storage and back losslessly
+func RunPropertyAssignmentTestForNamespacesAuthorizationRuleOperatorSpec(subject NamespacesAuthorizationRuleOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20211101s.NamespacesAuthorizationRuleOperatorSpec
+	err := copied.AssignProperties_To_NamespacesAuthorizationRuleOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NamespacesAuthorizationRuleOperatorSpec
+	err = actual.AssignProperties_From_NamespacesAuthorizationRuleOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_NamespacesAuthorizationRuleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -293,6 +505,48 @@ func NamespacesAuthorizationRuleOperatorSpecGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForNamespacesAuthorizationRuleOperatorSpec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesAuthorizationRuleOperatorSpec(gens map[string]gopter.Gen) {
 	gens["Secrets"] = gen.PtrOf(NamespacesAuthorizationRuleOperatorSecretsGenerator())
+}
+
+func Test_NamespacesAuthorizationRuleOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NamespacesAuthorizationRuleOperatorSecrets to NamespacesAuthorizationRuleOperatorSecrets via AssignProperties_To_NamespacesAuthorizationRuleOperatorSecrets & AssignProperties_From_NamespacesAuthorizationRuleOperatorSecrets returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespacesAuthorizationRuleOperatorSecrets, NamespacesAuthorizationRuleOperatorSecretsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNamespacesAuthorizationRuleOperatorSecrets tests if a specific instance of NamespacesAuthorizationRuleOperatorSecrets can be assigned to v1api20211101storage and back losslessly
+func RunPropertyAssignmentTestForNamespacesAuthorizationRuleOperatorSecrets(subject NamespacesAuthorizationRuleOperatorSecrets) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20211101s.NamespacesAuthorizationRuleOperatorSecrets
+	err := copied.AssignProperties_To_NamespacesAuthorizationRuleOperatorSecrets(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NamespacesAuthorizationRuleOperatorSecrets
+	err = actual.AssignProperties_From_NamespacesAuthorizationRuleOperatorSecrets(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_NamespacesAuthorizationRuleOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -23,6 +23,15 @@ func NewValidateResourceReferencesFunction(resource *astmodel.ResourceType, idFa
 		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference, astmodel.ReflectHelpersReference))
 }
 
+func NewValidateOwnerReferenceFunction(resource *astmodel.ResourceType, idFactory astmodel.IdentifierFactory) *ResourceFunction {
+	return NewResourceFunction(
+		"validateOwnerReference",
+		resource,
+		idFactory,
+		validateOwnerReferences,
+		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference))
+}
+
 func NewValidateWriteOncePropertiesFunction(resource *astmodel.ResourceType, idFactory astmodel.IdentifierFactory) *ResourceFunction {
 	return NewResourceFunction(
 		"validateWriteOnceProperties",
@@ -88,6 +97,44 @@ func validateResourceReferencesBody(codeGenerationContext *astmodel.CodeGenerati
 				genRuntime,
 				"ValidateResourceReferences",
 				dst.NewIdent("refs"))))
+
+	return body
+}
+
+func validateOwnerReferences(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
+	receiverType := receiver.AsType(codeGenerationContext)
+
+	admissionPkg := codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission)
+
+	fn := &astbuilder.FuncDetails{
+		Name:          methodName,
+		ReceiverIdent: receiverIdent,
+		ReceiverType:  astbuilder.PointerTo(receiverType),
+		Body:          validateOwnerReferencesBody(codeGenerationContext, receiverIdent),
+	}
+
+	fn.AddReturn(astbuilder.QualifiedTypeName(admissionPkg, "Warnings"))
+	fn.AddReturn(dst.NewIdent("error"))
+	fn.AddComments("validates the owner field")
+	return fn.DefineFunc()
+}
+
+// validateOwnerReferencesBody helps generate the body of the validateOwnerReferences function:
+//
+//	return genruntime.ValidateOwner(<resource>)
+func validateOwnerReferencesBody(codeGenerationContext *astmodel.CodeGenerationContext, receiverIdent string) []dst.Stmt {
+	genRuntime := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
+
+	var body []dst.Stmt
+
+	body = append(
+		body,
+		astbuilder.Returns(
+			astbuilder.CallQualifiedFunc(
+				genRuntime,
+				"ValidateOwner",
+				dst.NewIdent(receiverIdent))))
 
 	return body
 }

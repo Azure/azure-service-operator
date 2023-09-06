@@ -32,6 +32,10 @@ func (extension *FlexibleServersDatabaseExtension) PreReconcileCheck(
 	_ extensions.PreReconcileCheckFunc,
 ) (extensions.PreReconcileCheckResult, error) {
 	// Check to see if our owning server is ready for the database to be reconciled
+	if owner == nil {
+		// TODO: query from ARM instead?
+		return extensions.ProceedWithReconcile(), nil
+	}
 	if server, ok := owner.(*hub.FlexibleServer); ok {
 		serverState := server.Status.State
 		if serverState != nil && flexibleServerStateBlocksReconciliation(*serverState) {

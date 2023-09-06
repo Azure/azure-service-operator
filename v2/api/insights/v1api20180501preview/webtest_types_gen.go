@@ -141,11 +141,7 @@ func (webtest *Webtest) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (webtest *Webtest) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(webtest.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  webtest.Spec.Owner.Name,
-	}
+	return webtest.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (webtest *Webtest) ValidateUpdate(old runtime.Object) (admission.Warnings, 
 
 // createValidations validates the creation of the resource
 func (webtest *Webtest) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){webtest.validateResourceReferences}
+	return []func() (admission.Warnings, error){webtest.validateResourceReferences, webtest.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (webtest *Webtest) updateValidations() []func(old runtime.Object) (admissio
 		func(old runtime.Object) (admission.Warnings, error) {
 			return webtest.validateResourceReferences()
 		},
-		webtest.validateWriteOnceProperties}
+		webtest.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return webtest.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (webtest *Webtest) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(webtest)
 }
 
 // validateResourceReferences validates all resource references
@@ -576,7 +581,10 @@ func (webtest *Webtest_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	}
 
 	// Set property "Owner":
-	webtest.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	webtest.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Request":
 	// copying flattened property:

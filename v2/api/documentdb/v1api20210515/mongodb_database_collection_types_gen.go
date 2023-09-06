@@ -141,11 +141,7 @@ func (collection *MongodbDatabaseCollection) NewEmptyStatus() genruntime.Convert
 // Owner returns the ResourceReference of the owner
 func (collection *MongodbDatabaseCollection) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(collection.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  collection.Spec.Owner.Name,
-	}
+	return collection.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (collection *MongodbDatabaseCollection) ValidateUpdate(old runtime.Object) 
 
 // createValidations validates the creation of the resource
 func (collection *MongodbDatabaseCollection) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){collection.validateResourceReferences}
+	return []func() (admission.Warnings, error){collection.validateResourceReferences, collection.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (collection *MongodbDatabaseCollection) updateValidations() []func(old runt
 		func(old runtime.Object) (admission.Warnings, error) {
 			return collection.validateResourceReferences()
 		},
-		collection.validateWriteOnceProperties}
+		collection.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return collection.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (collection *MongodbDatabaseCollection) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(collection)
 }
 
 // validateResourceReferences validates all resource references
@@ -419,7 +424,10 @@ func (collection *DatabaseAccounts_MongodbDatabases_Collection_Spec) PopulateFro
 	}
 
 	// Set property "Owner":
-	collection.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	collection.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Resource":
 	// copying flattened property:

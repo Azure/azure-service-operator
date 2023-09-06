@@ -142,11 +142,7 @@ func (topic *Topic) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (topic *Topic) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(topic.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  topic.Spec.Owner.Name,
-	}
+	return topic.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -204,7 +200,7 @@ func (topic *Topic) ValidateUpdate(old runtime.Object) (admission.Warnings, erro
 
 // createValidations validates the creation of the resource
 func (topic *Topic) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){topic.validateResourceReferences}
+	return []func() (admission.Warnings, error){topic.validateResourceReferences, topic.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -218,7 +214,16 @@ func (topic *Topic) updateValidations() []func(old runtime.Object) (admission.Wa
 		func(old runtime.Object) (admission.Warnings, error) {
 			return topic.validateResourceReferences()
 		},
-		topic.validateWriteOnceProperties}
+		topic.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return topic.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (topic *Topic) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(topic)
 }
 
 // validateResourceReferences validates all resource references
@@ -446,7 +451,10 @@ func (topic *Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	}
 
 	// Set property "Owner":
-	topic.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	topic.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "PublicNetworkAccess":
 	// copying flattened property:

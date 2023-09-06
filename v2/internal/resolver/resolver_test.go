@@ -136,6 +136,25 @@ func createResourceGroupRootedResource(rgName string, name string) (genruntime.A
 	return a, b
 }
 
+func createResourceGroupARMIDRootedResource(armID string, name string) genruntime.ARMMetaObject {
+	return &batch.BatchAccount{
+		TypeMeta: metav1.TypeMeta{
+			Kind:       "BatchAccount",
+			APIVersion: batch.GroupVersion.String(),
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      name,
+			Namespace: testNamespace,
+		},
+		Spec: batch.BatchAccount_Spec{
+			Owner: &genruntime.KnownResourceReference{
+				ARMID: armID,
+			},
+			AzureName: name, // defaulter webhook will copy Name to AzureName
+		},
+	}
+}
+
 func createDeeplyNestedResource(rgName string, parentName string, name string) resolver.ResourceHierarchy {
 	a := createResourceGroup(rgName)
 
@@ -175,6 +194,24 @@ func createDeeplyNestedResource(rgName string, parentName string, name string) r
 	return resolver.ResourceHierarchy{a, b, c}
 }
 
+func createChildResourceOwnedByARMID(armID string, name string) genruntime.ARMMetaObject {
+	return &storage.StorageAccountsBlobService{
+		TypeMeta: metav1.TypeMeta{
+			Kind:       "StorageAccountsBlobService",
+			APIVersion: storage.GroupVersion.String(),
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      name,
+			Namespace: testNamespace,
+		},
+		Spec: storage.StorageAccounts_BlobService_Spec{
+			Owner: &genruntime.KnownResourceReference{
+				ARMID: armID,
+			},
+		},
+	}
+}
+
 func createSimpleExtensionResource(name string, ownerName string, ownerGVK schema.GroupVersionKind) genruntime.ARMMetaObject {
 	return &testcommon.SimpleExtensionResource{
 		TypeMeta: metav1.TypeMeta{
@@ -186,10 +223,29 @@ func createSimpleExtensionResource(name string, ownerName string, ownerGVK schem
 			Namespace: testNamespace,
 		},
 		Spec: testcommon.SimpleExtensionResourceSpec{
-			Owner: genruntime.ResourceReference{
+			Owner: genruntime.ArbitraryOwnerReference{
 				Group: ownerGVK.Group,
 				Kind:  ownerGVK.Kind,
 				Name:  ownerName,
+			},
+			AzureName: name, // defaulter webhook will copy Name to AzureName
+		},
+	}
+}
+
+func createSimpleExtensionResourceOwnedByARMID(name string, armID string) genruntime.ARMMetaObject {
+	return &testcommon.SimpleExtensionResource{
+		TypeMeta: metav1.TypeMeta{
+			Kind:       "SimpleExtensionResource",
+			APIVersion: testcommon.SimpleExtensionResourceGroupVersion.String(),
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      name,
+			Namespace: testNamespace,
+		},
+		Spec: testcommon.SimpleExtensionResourceSpec{
+			Owner: genruntime.ArbitraryOwnerReference{
+				ARMID: armID,
 			},
 			AzureName: name, // defaulter webhook will copy Name to AzureName
 		},
@@ -224,12 +280,19 @@ func createExtensionResourceOnDeepHierarchyInResourceGroup(rgName string, parent
 }
 
 func createExtensionResourceOnTenantScopeResource(subscriptionName string, name string) resolver.ResourceHierarchy {
-
 	sub := createSubscription(subscriptionName)
 	gvk := sub.GetObjectKind().GroupVersionKind()
 	ext := createSimpleExtensionResource(name, sub.GetName(), gvk)
 
 	return resolver.ResourceHierarchy{sub, ext}
+}
+
+func createExtensionResourceOnDeepHierarchyOwnedByARMID(armID string, resourceName string, name string) resolver.ResourceHierarchy {
+	extensionParent := createChildResourceOwnedByARMID(armID, resourceName)
+	gvk := extensionParent.GetObjectKind().GroupVersionKind()
+
+	extension := createSimpleExtensionResource(name, extensionParent.GetName(), gvk)
+	return resolver.ResourceHierarchy{extensionParent, extension}
 }
 
 func Test_ResolveResourceHierarchy_ResourceGroupOnly(t *testing.T) {

@@ -142,11 +142,7 @@ func (registry *Registry) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (registry *Registry) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(registry.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  registry.Spec.Owner.Name,
-	}
+	return registry.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -204,7 +200,7 @@ func (registry *Registry) ValidateUpdate(old runtime.Object) (admission.Warnings
 
 // createValidations validates the creation of the resource
 func (registry *Registry) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){registry.validateResourceReferences}
+	return []func() (admission.Warnings, error){registry.validateResourceReferences, registry.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -218,7 +214,16 @@ func (registry *Registry) updateValidations() []func(old runtime.Object) (admiss
 		func(old runtime.Object) (admission.Warnings, error) {
 			return registry.validateResourceReferences()
 		},
-		registry.validateWriteOnceProperties}
+		registry.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return registry.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (registry *Registry) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(registry)
 }
 
 // validateResourceReferences validates all resource references
@@ -539,7 +544,10 @@ func (registry *Registry_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	}
 
 	// Set property "Owner":
-	registry.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	registry.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Policies":
 	// copying flattened property:

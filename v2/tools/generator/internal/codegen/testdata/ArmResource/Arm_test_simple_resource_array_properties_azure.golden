@@ -116,11 +116,7 @@ func (resource *FakeResource) GetType() string {
 // Owner returns the ResourceReference of the owner
 func (resource *FakeResource) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(resource.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  resource.Spec.Owner.Name,
-	}
+	return resource.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // +kubebuilder:webhook:path=/validate-test-azure-com-v1api20200101-fakeresource,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=fakeresources,verbs=create;update,versions=v1api20200101,name=validate.v1api20200101.fakeresources.test.azure.com,admissionReviewVersions=v1
@@ -159,7 +155,7 @@ func (resource *FakeResource) ValidateUpdate(old runtime.Object) (admission.Warn
 
 // createValidations validates the creation of the resource
 func (resource *FakeResource) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){resource.validateResourceReferences}
+	return []func() (admission.Warnings, error){resource.validateResourceReferences, resource.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -173,7 +169,16 @@ func (resource *FakeResource) updateValidations() []func(old runtime.Object) (ad
 		func(old runtime.Object) (admission.Warnings, error) {
 			return resource.validateResourceReferences()
 		},
-		resource.validateWriteOnceProperties}
+		resource.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return resource.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (resource *FakeResource) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(resource)
 }
 
 // validateResourceReferences validates all resource references
@@ -482,7 +487,10 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	resource.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property "Owner":
-	resource.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	resource.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Type":
 	resource.Type = typedInput.Type

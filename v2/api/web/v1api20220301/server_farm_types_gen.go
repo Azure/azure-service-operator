@@ -141,11 +141,7 @@ func (farm *ServerFarm) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (farm *ServerFarm) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(farm.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  farm.Spec.Owner.Name,
-	}
+	return farm.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (farm *ServerFarm) ValidateUpdate(old runtime.Object) (admission.Warnings, 
 
 // createValidations validates the creation of the resource
 func (farm *ServerFarm) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){farm.validateResourceReferences}
+	return []func() (admission.Warnings, error){farm.validateResourceReferences, farm.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (farm *ServerFarm) updateValidations() []func(old runtime.Object) (admissio
 		func(old runtime.Object) (admission.Warnings, error) {
 			return farm.validateResourceReferences()
 		},
-		farm.validateWriteOnceProperties}
+		farm.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return farm.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (farm *ServerFarm) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(farm)
 }
 
 // validateResourceReferences validates all resource references
@@ -653,7 +658,10 @@ func (serverfarm *Serverfarm_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	}
 
 	// Set property "Owner":
-	serverfarm.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	serverfarm.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "PerSiteScaling":
 	// copying flattened property:

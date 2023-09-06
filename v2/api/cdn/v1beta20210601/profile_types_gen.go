@@ -142,11 +142,7 @@ func (profile *Profile) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (profile *Profile) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(profile.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  profile.Spec.Owner.Name,
-	}
+	return profile.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -204,7 +200,7 @@ func (profile *Profile) ValidateUpdate(old runtime.Object) (admission.Warnings, 
 
 // createValidations validates the creation of the resource
 func (profile *Profile) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){profile.validateResourceReferences}
+	return []func() (admission.Warnings, error){profile.validateResourceReferences, profile.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -218,7 +214,16 @@ func (profile *Profile) updateValidations() []func(old runtime.Object) (admissio
 		func(old runtime.Object) (admission.Warnings, error) {
 			return profile.validateResourceReferences()
 		},
-		profile.validateWriteOnceProperties}
+		profile.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return profile.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (profile *Profile) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(profile)
 }
 
 // validateResourceReferences validates all resource references
@@ -415,7 +420,10 @@ func (profile *Profile_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	}
 
 	// Set property "Owner":
-	profile.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	profile.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Sku":
 	if typedInput.Sku != nil {

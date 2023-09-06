@@ -135,11 +135,7 @@ func (schedule *RedisPatchSchedule) NewEmptyStatus() genruntime.ConvertibleStatu
 // Owner returns the ResourceReference of the owner
 func (schedule *RedisPatchSchedule) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(schedule.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  schedule.Spec.Owner.Name,
-	}
+	return schedule.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -197,7 +193,7 @@ func (schedule *RedisPatchSchedule) ValidateUpdate(old runtime.Object) (admissio
 
 // createValidations validates the creation of the resource
 func (schedule *RedisPatchSchedule) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){schedule.validateResourceReferences}
+	return []func() (admission.Warnings, error){schedule.validateResourceReferences, schedule.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -211,7 +207,16 @@ func (schedule *RedisPatchSchedule) updateValidations() []func(old runtime.Objec
 		func(old runtime.Object) (admission.Warnings, error) {
 			return schedule.validateResourceReferences()
 		},
-		schedule.validateWriteOnceProperties}
+		schedule.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return schedule.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (schedule *RedisPatchSchedule) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(schedule)
 }
 
 // validateResourceReferences validates all resource references
@@ -352,7 +357,10 @@ func (schedule *Redis_PatchSchedule_Spec) PopulateFromARM(owner genruntime.Arbit
 	}
 
 	// Set property "Owner":
-	schedule.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	schedule.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "ScheduleEntries":
 	// copying flattened property:

@@ -85,11 +85,7 @@ func (balancer *LoadBalancer) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (balancer *LoadBalancer) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(balancer.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  balancer.Spec.Owner.Name,
-	}
+	return balancer.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

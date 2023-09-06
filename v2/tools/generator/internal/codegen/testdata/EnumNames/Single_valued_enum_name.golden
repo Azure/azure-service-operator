@@ -109,11 +109,7 @@ func (resource *AResource) GetType() string {
 // Owner returns the ResourceReference of the owner
 func (resource *AResource) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(resource.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  resource.Spec.Owner.Name,
-	}
+	return resource.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // +kubebuilder:webhook:path=/validate-test-azure-com-v1api20200101-aresource,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=aresources,verbs=create;update,versions=v1api20200101,name=validate.v1api20200101.aresources.test.azure.com,admissionReviewVersions=v1
@@ -152,7 +148,7 @@ func (resource *AResource) ValidateUpdate(old runtime.Object) (admission.Warning
 
 // createValidations validates the creation of the resource
 func (resource *AResource) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){resource.validateResourceReferences}
+	return []func() (admission.Warnings, error){resource.validateResourceReferences, resource.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -166,7 +162,16 @@ func (resource *AResource) updateValidations() []func(old runtime.Object) (admis
 		func(old runtime.Object) (admission.Warnings, error) {
 			return resource.validateResourceReferences()
 		},
-		resource.validateWriteOnceProperties}
+		resource.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return resource.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (resource *AResource) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(resource)
 }
 
 // validateResourceReferences validates all resource references
@@ -324,7 +329,10 @@ func (resource *AResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	resource.APIVersion = typedInput.APIVersion
 
 	// Set property "Owner":
-	resource.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	resource.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Type":
 	resource.Type = typedInput.Type

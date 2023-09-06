@@ -142,11 +142,7 @@ func (account *BatchAccount) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (account *BatchAccount) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(account.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  account.Spec.Owner.Name,
-	}
+	return account.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -204,7 +200,7 @@ func (account *BatchAccount) ValidateUpdate(old runtime.Object) (admission.Warni
 
 // createValidations validates the creation of the resource
 func (account *BatchAccount) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){account.validateResourceReferences}
+	return []func() (admission.Warnings, error){account.validateResourceReferences, account.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -218,7 +214,16 @@ func (account *BatchAccount) updateValidations() []func(old runtime.Object) (adm
 		func(old runtime.Object) (admission.Warnings, error) {
 			return account.validateResourceReferences()
 		},
-		account.validateWriteOnceProperties}
+		account.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return account.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (account *BatchAccount) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(account)
 }
 
 // validateResourceReferences validates all resource references
@@ -495,7 +500,10 @@ func (account *BatchAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 	}
 
 	// Set property "Owner":
-	account.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	account.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "PoolAllocationMode":
 	// copying flattened property:

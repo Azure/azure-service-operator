@@ -84,11 +84,7 @@ func (resolver *DnsResolver) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (resolver *DnsResolver) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(resolver.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  resolver.Spec.Owner.Name,
-	}
+	return resolver.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
