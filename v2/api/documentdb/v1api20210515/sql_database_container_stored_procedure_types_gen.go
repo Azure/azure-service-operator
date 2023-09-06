@@ -141,11 +141,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure) NewEmptyStatus() genruntim
 // Owner returns the ResourceReference of the owner
 func (procedure *SqlDatabaseContainerStoredProcedure) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(procedure.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  procedure.Spec.Owner.Name,
-	}
+	return procedure.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure) ValidateUpdate(old runtime
 
 // createValidations validates the creation of the resource
 func (procedure *SqlDatabaseContainerStoredProcedure) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){procedure.validateResourceReferences}
+	return []func() (admission.Warnings, error){procedure.validateResourceReferences, procedure.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (procedure *SqlDatabaseContainerStoredProcedure) updateValidations() []func
 		func(old runtime.Object) (admission.Warnings, error) {
 			return procedure.validateResourceReferences()
 		},
-		procedure.validateWriteOnceProperties}
+		procedure.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return procedure.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (procedure *SqlDatabaseContainerStoredProcedure) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(procedure)
 }
 
 // validateResourceReferences validates all resource references
@@ -419,7 +424,10 @@ func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec) 
 	}
 
 	// Set property "Owner":
-	procedure.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	procedure.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Resource":
 	// copying flattened property:

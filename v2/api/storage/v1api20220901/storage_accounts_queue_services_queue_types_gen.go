@@ -141,11 +141,7 @@ func (queue *StorageAccountsQueueServicesQueue) NewEmptyStatus() genruntime.Conv
 // Owner returns the ResourceReference of the owner
 func (queue *StorageAccountsQueueServicesQueue) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(queue.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  queue.Spec.Owner.Name,
-	}
+	return queue.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (queue *StorageAccountsQueueServicesQueue) ValidateUpdate(old runtime.Objec
 
 // createValidations validates the creation of the resource
 func (queue *StorageAccountsQueueServicesQueue) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){queue.validateResourceReferences}
+	return []func() (admission.Warnings, error){queue.validateResourceReferences, queue.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (queue *StorageAccountsQueueServicesQueue) updateValidations() []func(old r
 		func(old runtime.Object) (admission.Warnings, error) {
 			return queue.validateResourceReferences()
 		},
-		queue.validateWriteOnceProperties}
+		queue.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return queue.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (queue *StorageAccountsQueueServicesQueue) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(queue)
 }
 
 // validateResourceReferences validates all resource references
@@ -379,7 +384,10 @@ func (queue *StorageAccounts_QueueServices_Queue_Spec) PopulateFromARM(owner gen
 	}
 
 	// Set property "Owner":
-	queue.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	queue.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// No error
 	return nil

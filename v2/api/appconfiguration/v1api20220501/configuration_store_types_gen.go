@@ -141,11 +141,7 @@ func (store *ConfigurationStore) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (store *ConfigurationStore) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(store.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  store.Spec.Owner.Name,
-	}
+	return store.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (store *ConfigurationStore) ValidateUpdate(old runtime.Object) (admission.W
 
 // createValidations validates the creation of the resource
 func (store *ConfigurationStore) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){store.validateResourceReferences, store.validateSecretDestinations}
+	return []func() (admission.Warnings, error){store.validateResourceReferences, store.validateOwnerReference, store.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -219,9 +215,17 @@ func (store *ConfigurationStore) updateValidations() []func(old runtime.Object) 
 		},
 		store.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
+			return store.validateOwnerReference()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return store.validateSecretDestinations()
 		},
 	}
+}
+
+// validateOwnerReference validates the owner field
+func (store *ConfigurationStore) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(store)
 }
 
 // validateResourceReferences validates all resource references
@@ -572,7 +576,10 @@ func (store *ConfigurationStore_Spec) PopulateFromARM(owner genruntime.Arbitrary
 	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
-	store.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	store.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "PublicNetworkAccess":
 	// copying flattened property:

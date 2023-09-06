@@ -143,11 +143,7 @@ func (scaleSet *VirtualMachineScaleSet) NewEmptyStatus() genruntime.ConvertibleS
 // Owner returns the ResourceReference of the owner
 func (scaleSet *VirtualMachineScaleSet) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(scaleSet.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  scaleSet.Spec.Owner.Name,
-	}
+	return scaleSet.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -205,7 +201,7 @@ func (scaleSet *VirtualMachineScaleSet) ValidateUpdate(old runtime.Object) (admi
 
 // createValidations validates the creation of the resource
 func (scaleSet *VirtualMachineScaleSet) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){scaleSet.validateResourceReferences}
+	return []func() (admission.Warnings, error){scaleSet.validateResourceReferences, scaleSet.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -219,7 +215,16 @@ func (scaleSet *VirtualMachineScaleSet) updateValidations() []func(old runtime.O
 		func(old runtime.Object) (admission.Warnings, error) {
 			return scaleSet.validateResourceReferences()
 		},
-		scaleSet.validateWriteOnceProperties}
+		scaleSet.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return scaleSet.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (scaleSet *VirtualMachineScaleSet) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(scaleSet)
 }
 
 // validateResourceReferences validates all resource references
@@ -638,7 +643,10 @@ func (scaleSet *VirtualMachineScaleSet_Spec) PopulateFromARM(owner genruntime.Ar
 	}
 
 	// Set property "Owner":
-	scaleSet.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	scaleSet.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Plan":
 	if typedInput.Plan != nil {

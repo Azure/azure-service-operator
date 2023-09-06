@@ -142,11 +142,7 @@ func (workspace *Workspace) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (workspace *Workspace) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(workspace.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  workspace.Spec.Owner.Name,
-	}
+	return workspace.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -204,7 +200,7 @@ func (workspace *Workspace) ValidateUpdate(old runtime.Object) (admission.Warnin
 
 // createValidations validates the creation of the resource
 func (workspace *Workspace) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){workspace.validateResourceReferences, workspace.validateOptionalConfigMapReferences}
+	return []func() (admission.Warnings, error){workspace.validateResourceReferences, workspace.validateOwnerReference, workspace.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -220,6 +216,9 @@ func (workspace *Workspace) updateValidations() []func(old runtime.Object) (admi
 		},
 		workspace.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
+			return workspace.validateOwnerReference()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return workspace.validateOptionalConfigMapReferences()
 		},
 	}
@@ -232,6 +231,11 @@ func (workspace *Workspace) validateOptionalConfigMapReferences() (admission.War
 		return nil, err
 	}
 	return genruntime.ValidateOptionalConfigMapReferences(refs)
+}
+
+// validateOwnerReference validates the owner field
+func (workspace *Workspace) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(workspace)
 }
 
 // validateResourceReferences validates all resource references
@@ -656,7 +660,10 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	}
 
 	// Set property "Owner":
-	workspace.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	workspace.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "PublicNetworkAccess":
 	// copying flattened property:

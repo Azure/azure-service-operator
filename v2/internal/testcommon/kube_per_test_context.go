@@ -427,7 +427,7 @@ func (tc *KubePerTestContext) CreateResourceAndWaitForState(
 
 	tc.T.Helper()
 	tc.CreateResource(obj)
-	tc.Eventually(obj).Should(tc.Match.BeInState(status, severity))
+	tc.Eventually(obj).Should(tc.Match.BeInState(status, severity, 0))
 }
 
 // CheckIfResourceExists tries to get the current state of the resource from K8s (not from Azure),
@@ -451,6 +451,20 @@ func (tc *KubePerTestContext) PatchResourceAndWait(old client.Object, new client
 	gen := old.GetGeneration()
 	tc.Patch(old, new)
 	tc.Eventually(new).Should(tc.Match.BeProvisioned(gen))
+}
+
+// PatchResourceAndWaitForState patches the resource in K8s and waits for the Ready condition to change into the specified
+// state
+func (tc *KubePerTestContext) PatchResourceAndWaitForState(
+	old client.Object,
+	new client.Object,
+	status metav1.ConditionStatus,
+	severity conditions.ConditionSeverity) {
+	gen := old.GetGeneration()
+
+	tc.T.Helper()
+	tc.Patch(old, new)
+	tc.Eventually(new).Should(tc.Match.BeInState(status, severity, gen))
 }
 
 // GetResource retrieves the current state of the resource from K8s (not from Azure).

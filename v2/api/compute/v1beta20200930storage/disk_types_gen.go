@@ -106,11 +106,7 @@ func (disk *Disk) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (disk *Disk) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(disk.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  disk.Spec.Owner.Name,
-	}
+	return disk.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

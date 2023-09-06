@@ -143,11 +143,7 @@ func (compute *WorkspacesCompute) NewEmptyStatus() genruntime.ConvertibleStatus 
 // Owner returns the ResourceReference of the owner
 func (compute *WorkspacesCompute) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(compute.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  compute.Spec.Owner.Name,
-	}
+	return compute.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -205,7 +201,7 @@ func (compute *WorkspacesCompute) ValidateUpdate(old runtime.Object) (admission.
 
 // createValidations validates the creation of the resource
 func (compute *WorkspacesCompute) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){compute.validateResourceReferences}
+	return []func() (admission.Warnings, error){compute.validateResourceReferences, compute.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -219,7 +215,16 @@ func (compute *WorkspacesCompute) updateValidations() []func(old runtime.Object)
 		func(old runtime.Object) (admission.Warnings, error) {
 			return compute.validateResourceReferences()
 		},
-		compute.validateWriteOnceProperties}
+		compute.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return compute.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (compute *WorkspacesCompute) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(compute)
 }
 
 // validateResourceReferences validates all resource references
@@ -429,7 +434,10 @@ func (compute *Workspaces_Compute_Spec) PopulateFromARM(owner genruntime.Arbitra
 	}
 
 	// Set property "Owner":
-	compute.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	compute.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Properties":
 	if typedInput.Properties != nil {

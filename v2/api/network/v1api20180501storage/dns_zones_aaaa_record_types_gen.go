@@ -85,11 +85,7 @@ func (record *DnsZonesAAAARecord) NewEmptyStatus() genruntime.ConvertibleStatus 
 // Owner returns the ResourceReference of the owner
 func (record *DnsZonesAAAARecord) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(record.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  record.Spec.Owner.Name,
-	}
+	return record.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

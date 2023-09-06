@@ -103,11 +103,7 @@ func (trigger *SqlDatabaseContainerTrigger) NewEmptyStatus() genruntime.Converti
 // Owner returns the ResourceReference of the owner
 func (trigger *SqlDatabaseContainerTrigger) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(trigger.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  trigger.Spec.Owner.Name,
-	}
+	return trigger.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

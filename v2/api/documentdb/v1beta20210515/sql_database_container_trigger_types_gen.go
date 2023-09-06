@@ -142,11 +142,7 @@ func (trigger *SqlDatabaseContainerTrigger) NewEmptyStatus() genruntime.Converti
 // Owner returns the ResourceReference of the owner
 func (trigger *SqlDatabaseContainerTrigger) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(trigger.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  trigger.Spec.Owner.Name,
-	}
+	return trigger.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -204,7 +200,7 @@ func (trigger *SqlDatabaseContainerTrigger) ValidateUpdate(old runtime.Object) (
 
 // createValidations validates the creation of the resource
 func (trigger *SqlDatabaseContainerTrigger) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){trigger.validateResourceReferences}
+	return []func() (admission.Warnings, error){trigger.validateResourceReferences, trigger.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -218,7 +214,16 @@ func (trigger *SqlDatabaseContainerTrigger) updateValidations() []func(old runti
 		func(old runtime.Object) (admission.Warnings, error) {
 			return trigger.validateResourceReferences()
 		},
-		trigger.validateWriteOnceProperties}
+		trigger.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return trigger.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (trigger *SqlDatabaseContainerTrigger) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(trigger)
 }
 
 // validateResourceReferences validates all resource references
@@ -412,7 +417,10 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) PopulateFr
 	}
 
 	// Set property "Owner":
-	trigger.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	trigger.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Resource":
 	// copying flattened property:

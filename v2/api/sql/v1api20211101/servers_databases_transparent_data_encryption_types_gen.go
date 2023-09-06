@@ -134,11 +134,7 @@ func (encryption *ServersDatabasesTransparentDataEncryption) NewEmptyStatus() ge
 // Owner returns the ResourceReference of the owner
 func (encryption *ServersDatabasesTransparentDataEncryption) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(encryption.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  encryption.Spec.Owner.Name,
-	}
+	return encryption.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -196,7 +192,7 @@ func (encryption *ServersDatabasesTransparentDataEncryption) ValidateUpdate(old 
 
 // createValidations validates the creation of the resource
 func (encryption *ServersDatabasesTransparentDataEncryption) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){encryption.validateResourceReferences}
+	return []func() (admission.Warnings, error){encryption.validateResourceReferences, encryption.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -210,7 +206,16 @@ func (encryption *ServersDatabasesTransparentDataEncryption) updateValidations()
 		func(old runtime.Object) (admission.Warnings, error) {
 			return encryption.validateResourceReferences()
 		},
-		encryption.validateWriteOnceProperties}
+		encryption.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return encryption.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (encryption *ServersDatabasesTransparentDataEncryption) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(encryption)
 }
 
 // validateResourceReferences validates all resource references
@@ -351,7 +356,10 @@ func (encryption *Servers_Databases_TransparentDataEncryption_Spec) PopulateFrom
 	}
 
 	// Set property "Owner":
-	encryption.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	encryption.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "State":
 	// copying flattened property:

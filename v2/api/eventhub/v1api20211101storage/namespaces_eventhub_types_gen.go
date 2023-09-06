@@ -84,11 +84,7 @@ func (eventhub *NamespacesEventhub) NewEmptyStatus() genruntime.ConvertibleStatu
 // Owner returns the ResourceReference of the owner
 func (eventhub *NamespacesEventhub) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(eventhub.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  eventhub.Spec.Owner.Name,
-	}
+	return eventhub.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

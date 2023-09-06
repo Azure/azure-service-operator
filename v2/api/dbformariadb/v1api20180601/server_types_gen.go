@@ -141,11 +141,7 @@ func (server *Server) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (server *Server) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(server.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  server.Spec.Owner.Name,
-	}
+	return server.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (server *Server) ValidateUpdate(old runtime.Object) (admission.Warnings, er
 
 // createValidations validates the creation of the resource
 func (server *Server) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){server.validateResourceReferences, server.validateSecretDestinations}
+	return []func() (admission.Warnings, error){server.validateResourceReferences, server.validateOwnerReference, server.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -219,9 +215,17 @@ func (server *Server) updateValidations() []func(old runtime.Object) (admission.
 		},
 		server.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
+			return server.validateOwnerReference()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return server.validateSecretDestinations()
 		},
 	}
+}
+
+// validateOwnerReference validates the owner field
+func (server *Server) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(server)
 }
 
 // validateResourceReferences validates all resource references
@@ -430,7 +434,10 @@ func (server *Server_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
-	server.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	server.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Properties":
 	if typedInput.Properties != nil {

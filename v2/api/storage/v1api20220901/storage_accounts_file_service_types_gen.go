@@ -134,11 +134,7 @@ func (service *StorageAccountsFileService) NewEmptyStatus() genruntime.Convertib
 // Owner returns the ResourceReference of the owner
 func (service *StorageAccountsFileService) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(service.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  service.Spec.Owner.Name,
-	}
+	return service.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -196,7 +192,7 @@ func (service *StorageAccountsFileService) ValidateUpdate(old runtime.Object) (a
 
 // createValidations validates the creation of the resource
 func (service *StorageAccountsFileService) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){service.validateResourceReferences}
+	return []func() (admission.Warnings, error){service.validateResourceReferences, service.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -210,7 +206,16 @@ func (service *StorageAccountsFileService) updateValidations() []func(old runtim
 		func(old runtime.Object) (admission.Warnings, error) {
 			return service.validateResourceReferences()
 		},
-		service.validateWriteOnceProperties}
+		service.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return service.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (service *StorageAccountsFileService) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(service)
 }
 
 // validateResourceReferences validates all resource references
@@ -394,7 +399,10 @@ func (service *StorageAccounts_FileService_Spec) PopulateFromARM(owner genruntim
 	}
 
 	// Set property "Owner":
-	service.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	service.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "ProtocolSettings":
 	// copying flattened property:

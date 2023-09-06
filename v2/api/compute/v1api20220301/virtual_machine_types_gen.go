@@ -142,11 +142,7 @@ func (machine *VirtualMachine) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (machine *VirtualMachine) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(machine.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  machine.Spec.Owner.Name,
-	}
+	return machine.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -204,7 +200,7 @@ func (machine *VirtualMachine) ValidateUpdate(old runtime.Object) (admission.War
 
 // createValidations validates the creation of the resource
 func (machine *VirtualMachine) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){machine.validateResourceReferences}
+	return []func() (admission.Warnings, error){machine.validateResourceReferences, machine.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -218,7 +214,16 @@ func (machine *VirtualMachine) updateValidations() []func(old runtime.Object) (a
 		func(old runtime.Object) (admission.Warnings, error) {
 			return machine.validateResourceReferences()
 		},
-		machine.validateWriteOnceProperties}
+		machine.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return machine.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (machine *VirtualMachine) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(machine)
 }
 
 // validateResourceReferences validates all resource references
@@ -925,7 +930,10 @@ func (machine *VirtualMachine_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	}
 
 	// Set property "Owner":
-	machine.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	machine.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Plan":
 	if typedInput.Plan != nil {

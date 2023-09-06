@@ -141,11 +141,7 @@ func (host *BastionHost) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (host *BastionHost) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(host.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  host.Spec.Owner.Name,
-	}
+	return host.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (host *BastionHost) ValidateUpdate(old runtime.Object) (admission.Warnings,
 
 // createValidations validates the creation of the resource
 func (host *BastionHost) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){host.validateResourceReferences}
+	return []func() (admission.Warnings, error){host.validateResourceReferences, host.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (host *BastionHost) updateValidations() []func(old runtime.Object) (admissi
 		func(old runtime.Object) (admission.Warnings, error) {
 			return host.validateResourceReferences()
 		},
-		host.validateWriteOnceProperties}
+		host.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return host.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (host *BastionHost) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(host)
 }
 
 // validateResourceReferences validates all resource references
@@ -536,7 +541,10 @@ func (host *BastionHost_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 	}
 
 	// Set property "Owner":
-	host.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	host.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "ScaleUnits":
 	// copying flattened property:

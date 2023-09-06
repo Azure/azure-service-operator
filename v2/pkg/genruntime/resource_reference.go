@@ -9,7 +9,9 @@ package genruntime
 import (
 	"fmt"
 	"reflect"
+	"strings"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
@@ -21,33 +23,80 @@ import (
 // KnownResourceReference is a resource reference to a known type.
 // +kubebuilder:object:generate=true
 type KnownResourceReference struct {
+	// TODO: In practice this type is used only for Owner fields and so might more appropriately have been called OwnerReference
+	// TODO: but changing to that would be a breaking change so avoiding it.
+
 	// This is the name of the Kubernetes resource to reference.
-	// +kubebuilder:validation:Required
 	Name string `json:"name,omitempty"`
 
 	// References across namespaces are not supported.
-
 	// Note that ownership across namespaces in Kubernetes is not allowed, but technically resource
 	// references are. There are RBAC considerations here though so probably easier to just start by
 	// disallowing cross-namespace references for now
+
+	// +kubebuilder:validation:Pattern="(?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)"
+	ARMID string `json:"armId,omitempty"`
 }
 
+// AsResourceReference transforms this KnownResourceReference into a ResourceReference
+func (ref KnownResourceReference) AsResourceReference(group string, kind string) *ResourceReference {
+	if ref.Name == "" {
+		group = ""
+		kind = ""
+	}
+
+	return &ResourceReference{
+		Group: group,
+		Kind:  kind,
+		Name:  ref.Name,
+		ARMID: ref.ARMID,
+	}
+}
+
+// KubernetesOwnerReference is a resource reference to a known type in Kuberentes. Most types support
+// ARM references as well but some (such as SQL users) do not.
+// +kubebuilder:object:generate=true
+type KubernetesOwnerReference struct {
+	// +kubebuilder:validation:Required
+	// This is the name of the Kubernetes resource to reference.
+	Name string `json:"name,omitempty"`
+}
+
+// AsResourceReference transforms this KnownResourceReference into a ResourceReference
+func (ref KubernetesOwnerReference) AsResourceReference(group string, kind string) *ResourceReference {
+	return &ResourceReference{
+		Group: group,
+		Kind:  kind,
+		Name:  ref.Name,
+	}
+}
+
+// TODO: This type and ResourceReference are almost exactly the same now...
 // ArbitraryOwnerReference is an owner reference to an unknown type.
 // +kubebuilder:object:generate=true
 type ArbitraryOwnerReference struct {
 	// This is the name of the Kubernetes resource to reference.
-	// +kubebuilder:validation:Required
 	Name string `json:"name,omitempty"`
 
-	// +kubebuilder:validation:Required
 	// Group is the Kubernetes group of the resource.
 	Group string `json:"group,omitempty"`
 
-	// +kubebuilder:validation:Required
 	// Kind is the Kubernetes kind of the resource.
 	Kind string `json:"kind,omitempty"`
 
 	// Ownership across namespaces is not supported.
+	// +kubebuilder:validation:Pattern="(?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)"
+	ARMID string `json:"armId,omitempty"`
+}
+
+// AsResourceReference transforms this ArbitraryOwnerReference into a ResourceReference
+func (ref ArbitraryOwnerReference) AsResourceReference() *ResourceReference {
+	return &ResourceReference{
+		Group: ref.Group,
+		Kind:  ref.Kind,
+		Name:  ref.Name,
+		ARMID: ref.ARMID,
+	}
 }
 
 var _ fmt.Stringer = ResourceReference{}
@@ -179,6 +228,11 @@ func (ref ResourceReference) Copy() ResourceReference {
 	return ref
 }
 
+// Copy makes an independent copy of the KubernetesOwnerReference
+func (ref KubernetesOwnerReference) Copy() KubernetesOwnerReference {
+	return ref
+}
+
 // ValidateResourceReferences calls Validate on each ResourceReference
 func ValidateResourceReferences(refs set.Set[ResourceReference]) (admission.Warnings, error) {
 	errs := make([]error, 0, len(refs))
@@ -194,6 +248,76 @@ func ValidateResourceReferences(refs set.Set[ResourceReference]) (admission.Warn
 	}
 
 	return nil, kerrors.NewAggregate(errs)
+}
+
+func VerifyResourceOwnerARMID(resource ARMMetaObject) error {
+	owner := resource.Owner()
+	if owner == nil {
+		return nil
+	}
+	if !owner.IsDirectARMReference() {
+		return nil
+	}
+
+	armID, err := arm.ParseResourceID(owner.ARMID)
+	if err != nil {
+		return err
+	}
+
+	provider, rootResourceTypes, err := GetResourceTypeAndProvider(resource)
+	if err != nil {
+		return err
+	}
+	expectedResourceTypesIncludedInARMID := rootResourceTypes[:len(rootResourceTypes)-1]
+
+	// Ensure that the ARM ID actually has a suffix containing the resource types we expect
+	if len(expectedResourceTypesIncludedInARMID) > 0 {
+		if strings.ToLower(armID.ResourceType.Namespace) != strings.ToLower(provider) {
+			return errors.Errorf(
+				"expected owner ARM ID to be from provider %q, but was %q",
+				provider,
+				armID.ResourceType.Namespace)
+		}
+		expectedARMIDType := strings.Join(expectedResourceTypesIncludedInARMID, "/")
+		if !strings.EqualFold(armID.ResourceType.Type, expectedARMIDType) {
+			return errors.Errorf(
+				"expected owner ARM ID to be of type %q, but was %q",
+				fmt.Sprintf("%s/%s", provider, expectedARMIDType),
+				armID.ResourceType.String())
+		}
+	} else if len(expectedResourceTypesIncludedInARMID) == 0 {
+		scope := resource.GetResourceScope()
+		if scope == ResourceScopeResourceGroup && armID.ResourceType.String() != "Microsoft.Resources/resourceGroups" {
+			return errors.Errorf(
+				"expected owner ARM ID to be for a resource group, but was %q",
+				armID.ResourceType.String())
+		}
+	}
+
+	return nil
+}
+
+// ValidateOwner calls Validate on the resource Owner
+func ValidateOwner(obj ARMMetaObject) (admission.Warnings, error) {
+	owner := obj.Owner()
+	if owner == nil {
+		return nil, nil
+	}
+
+	var warningsResult admission.Warnings
+
+	warnings, err := owner.Validate()
+	warningsResult = append(warningsResult, warnings...)
+	if err != nil {
+		return warningsResult, err
+	}
+
+	err = VerifyResourceOwnerARMID(obj)
+	if err != nil {
+		return warningsResult, err
+	}
+
+	return warningsResult, nil
 }
 
 // NamespacedResourceReference is a resource reference with namespace information included

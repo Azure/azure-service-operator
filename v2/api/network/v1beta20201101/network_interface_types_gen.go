@@ -142,11 +142,7 @@ func (networkInterface *NetworkInterface) NewEmptyStatus() genruntime.Convertibl
 // Owner returns the ResourceReference of the owner
 func (networkInterface *NetworkInterface) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(networkInterface.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  networkInterface.Spec.Owner.Name,
-	}
+	return networkInterface.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -204,7 +200,7 @@ func (networkInterface *NetworkInterface) ValidateUpdate(old runtime.Object) (ad
 
 // createValidations validates the creation of the resource
 func (networkInterface *NetworkInterface) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){networkInterface.validateResourceReferences}
+	return []func() (admission.Warnings, error){networkInterface.validateResourceReferences, networkInterface.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -218,7 +214,16 @@ func (networkInterface *NetworkInterface) updateValidations() []func(old runtime
 		func(old runtime.Object) (admission.Warnings, error) {
 			return networkInterface.validateResourceReferences()
 		},
-		networkInterface.validateWriteOnceProperties}
+		networkInterface.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return networkInterface.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (networkInterface *NetworkInterface) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(networkInterface)
 }
 
 // validateResourceReferences validates all resource references
@@ -524,7 +529,10 @@ func (networkInterface *NetworkInterface_Spec) PopulateFromARM(owner genruntime.
 	}
 
 	// Set property "Owner":
-	networkInterface.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	networkInterface.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "PrivateLinkService":
 	// copying flattened property:
