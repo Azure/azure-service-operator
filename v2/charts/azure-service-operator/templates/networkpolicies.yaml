@@ -22,26 +22,32 @@ metadata:
   namespace: {{ .Release.namespace }}
 spec:
   egress:
+  # Required for communication with DNS
   - ports:
-    # Required for communication with the Azure API
+    - port: 53
+      protocol: UDP
+    - port: 53
+      protocol: TCP
+  # Required for communication with the Azure API
+  - ports:
     - port: 443
       protocol: TCP
-    to:
-    - ipBlock:
-        cidr: 0.0.0.0/0
-    # Required for communication with the Kubernetes API
+  # Required for communication with the Kubernetes API
+  - ports:
     - port: {{ .Values.networkPolicies.kubernetesApiPort }}
       protocol: TCP
     to:
     - ipBlock:
         cidr: {{ .Values.networkPolicies.kubernetesApiCIDR }}
-    # Required for communication with MySQL servers when using MySQL user object
+  # Required for communication with MySQL servers when using MySQL user object
+  - ports:
     - port: 3306
       protocol: TCP
     to:
     - ipBlock:
         cidr: {{ .Values.networkPolicies.mysqlCIDR }}
-    # Required for communication with PostgreSQL servers when using PostgreSQL user object
+  # Required for communication with PostgreSQL servers when using PostgreSQL user object
+  - ports:
     - port: 5432
       protocol: TCP
     to:
