@@ -18,7 +18,7 @@ require (
 	github.com/gobuffalo/envy v1.7.0
 	github.com/gofrs/uuid v4.0.0+incompatible
 	github.com/google/go-cmp v0.5.9
-	github.com/google/uuid v1.3.0
+	github.com/google/uuid v1.3.1
 	github.com/hashicorp/go-multierror v1.0.0
 	github.com/lib/pq v1.6.0
 	github.com/marstr/randname v0.0.0-20181206212954-d5b0f288ab8c
