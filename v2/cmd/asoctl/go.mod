@@ -14,7 +14,7 @@ require (
 	github.com/go-logr/zerologr v1.2.3
 	github.com/onsi/gomega v1.27.7
 	github.com/pkg/errors v0.9.1
-	github.com/rs/zerolog v1.29.0
+	github.com/rs/zerolog v1.30.0
 	github.com/spf13/cobra v1.6.1
 	github.com/vbauerster/mpb/v8 v8.3.0
 	golang.org/x/exp v0.0.0-20220414153411-bcd21879b8fd
