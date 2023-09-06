@@ -13,7 +13,7 @@ require (
 	github.com/Azure/go-autorest/autorest/validation v0.3.1
 	github.com/Azure/go-autorest/tracing v0.6.0
 	github.com/denisenkom/go-mssqldb v0.10.0
-	github.com/go-logr/logr v1.2.3
+	github.com/go-logr/logr v1.2.4
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/gobuffalo/envy v1.7.0
 	github.com/gofrs/uuid v4.0.0+incompatible
