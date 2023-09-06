@@ -117,11 +117,7 @@ func (enterprise *RedisEnterprise) NewEmptyStatus() genruntime.ConvertibleStatus
 // Owner returns the ResourceReference of the owner
 func (enterprise *RedisEnterprise) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(enterprise.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  enterprise.Spec.Owner.Name,
-	}
+	return enterprise.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

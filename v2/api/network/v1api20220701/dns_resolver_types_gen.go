@@ -141,11 +141,7 @@ func (resolver *DnsResolver) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (resolver *DnsResolver) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(resolver.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  resolver.Spec.Owner.Name,
-	}
+	return resolver.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (resolver *DnsResolver) ValidateUpdate(old runtime.Object) (admission.Warni
 
 // createValidations validates the creation of the resource
 func (resolver *DnsResolver) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){resolver.validateResourceReferences}
+	return []func() (admission.Warnings, error){resolver.validateResourceReferences, resolver.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (resolver *DnsResolver) updateValidations() []func(old runtime.Object) (adm
 		func(old runtime.Object) (admission.Warnings, error) {
 			return resolver.validateResourceReferences()
 		},
-		resolver.validateWriteOnceProperties}
+		resolver.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return resolver.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (resolver *DnsResolver) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(resolver)
 }
 
 // validateResourceReferences validates all resource references
@@ -396,7 +401,10 @@ func (resolver *DnsResolver_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 	}
 
 	// Set property "Owner":
-	resolver.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	resolver.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Tags":
 	if typedInput.Tags != nil {

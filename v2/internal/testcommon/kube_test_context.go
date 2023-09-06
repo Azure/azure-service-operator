@@ -70,3 +70,15 @@ func AsOwner(obj client.Object) *genruntime.KnownResourceReference {
 		Name: obj.GetName(),
 	}
 }
+
+func AsKubernetesOwner(obj client.Object) *genruntime.KubernetesOwnerReference {
+	return &genruntime.KubernetesOwnerReference{
+		Name: obj.GetName(),
+	}
+}
+
+func AsARMIDOwner(id string) *genruntime.KnownResourceReference {
+	return &genruntime.KnownResourceReference{
+		ARMID: id,
+	}
+}

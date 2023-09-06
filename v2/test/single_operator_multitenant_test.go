@@ -21,7 +21,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
-	"github.com/Azure/azure-service-operator/v2/pkg/common/config"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
@@ -135,8 +134,6 @@ func Test_Multitenant_SingleOperator_PerResourceCredential(t *testing.T) {
 }
 
 func newClientSecretCredential(subscriptionID, tenantID, name, namespace string) (*v1.Secret, error) {
-	secret := newCredentialSecret(subscriptionID, tenantID, name, namespace)
-
 	clientSecret := os.Getenv(AzureClientSecretMultitenantVar)
 	if clientSecret == "" {
 		return nil, errors.Errorf("required environment variable %q was not supplied", AzureClientSecretMultitenantVar)
@@ -147,15 +144,10 @@ func newClientSecretCredential(subscriptionID, tenantID, name, namespace string)
 		return nil, errors.Errorf("required environment variable %q was not supplied", AzureClientIDMultitenantVar)
 	}
 
-	secret.Data[config.AzureClientID] = []byte(clientID)
-	secret.Data[config.AzureClientSecret] = []byte(clientSecret)
-
-	return secret, nil
+	return testcommon.NewScopedServicePrincipalSecret(subscriptionID, tenantID, clientID, clientSecret, name, namespace), nil
 }
 
 func newClientCertificateCredential(subscriptionID, tenantID, name, namespace string) (*v1.Secret, error) {
-	secret := newCredentialSecret(subscriptionID, tenantID, name, namespace)
-
 	clientCert := os.Getenv(AzureClientCertificateMultitenantVar)
 	if clientCert == "" {
 		return nil, errors.Errorf("required environment variable %q was not supplied", AzureClientCertificateMultitenantVar)
@@ -166,33 +158,7 @@ func newClientCertificateCredential(subscriptionID, tenantID, name, namespace st
 		return nil, errors.Errorf("required environment variable %q was not supplied", AzureClientIDMultitenantCertAuthVar)
 	}
 
-	secret.Data[config.AzureClientID] = []byte(clientID)
-	secret.Data[config.AzureClientCertificate] = []byte(clientCert)
-
-	return secret, nil
-}
-
-func newManagedIdentityCredential(subscriptionID, tenantID, clientID, name, namespace string) *v1.Secret {
-	secret := newCredentialSecret(subscriptionID, tenantID, name, namespace)
-
-	secret.Data[config.AzureClientID] = []byte(clientID)
-
-	return secret
-}
-
-func newCredentialSecret(subscriptionID, tenantID, name, namespace string) *v1.Secret {
-	secretData := make(map[string][]byte)
-
-	secretData[config.AzureTenantID] = []byte(tenantID)
-	secretData[config.AzureSubscriptionID] = []byte(subscriptionID)
-
-	return &v1.Secret{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      name,
-			Namespace: namespace,
-		},
-		Data: secretData,
-	}
+	return testcommon.NewScopedServicePrincipalCertificateSecret(subscriptionID, tenantID, clientID, clientCert, name, namespace), nil
 }
 
 func newStorageAccount(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *storage.StorageAccount {

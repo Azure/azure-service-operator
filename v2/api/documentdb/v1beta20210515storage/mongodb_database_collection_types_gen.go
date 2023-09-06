@@ -103,11 +103,7 @@ func (collection *MongodbDatabaseCollection) NewEmptyStatus() genruntime.Convert
 // Owner returns the ResourceReference of the owner
 func (collection *MongodbDatabaseCollection) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(collection.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  collection.Spec.Owner.Name,
-	}
+	return collection.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

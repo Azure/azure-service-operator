@@ -141,11 +141,7 @@ func (policy *BackupVaultsBackupPolicy) NewEmptyStatus() genruntime.ConvertibleS
 // Owner returns the ResourceReference of the owner
 func (policy *BackupVaultsBackupPolicy) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(policy.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  policy.Spec.Owner.Name,
-	}
+	return policy.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (policy *BackupVaultsBackupPolicy) ValidateUpdate(old runtime.Object) (admi
 
 // createValidations validates the creation of the resource
 func (policy *BackupVaultsBackupPolicy) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){policy.validateResourceReferences}
+	return []func() (admission.Warnings, error){policy.validateResourceReferences, policy.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (policy *BackupVaultsBackupPolicy) updateValidations() []func(old runtime.O
 		func(old runtime.Object) (admission.Warnings, error) {
 			return policy.validateResourceReferences()
 		},
-		policy.validateWriteOnceProperties}
+		policy.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return policy.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (policy *BackupVaultsBackupPolicy) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(policy)
 }
 
 // validateResourceReferences validates all resource references
@@ -365,7 +370,10 @@ func (policy *BackupVaults_BackupPolicy_Spec) PopulateFromARM(owner genruntime.A
 	policy.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property "Owner":
-	policy.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	policy.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Properties":
 	if typedInput.Properties != nil {

@@ -8,7 +8,7 @@ package postgresql
 import (
 	"context"
 	"database/sql"
-	dbforpostgressql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601storage"
+
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"k8s.io/client-go/tools/record"
@@ -16,6 +16,7 @@ import (
 	ctrlconversion "sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	asopostgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1"
+	dbforpostgressql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601storage"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
@@ -223,14 +224,20 @@ func (r *PostgreSQLUserReconciler) UpdateStatus(ctx context.Context, log logr.Lo
 
 func (r *PostgreSQLUserReconciler) connectToDB(ctx context.Context, _ logr.Logger, user *asopostgresql.User, secrets genruntime.Resolved[genruntime.SecretReference]) (*sql.DB, error) {
 	// Get the owner - at this point it must exist
-	owner, err := r.ResourceResolver.ResolveOwner(ctx, user)
+	ownerDetails, err := r.ResourceResolver.ResolveOwner(ctx, user)
 	if err != nil {
 		return nil, errors.Wrapf(err, "resolving owner for user %s", user.Name)
 	}
 
-	flexibleServer, ok := owner.(*dbforpostgressql.FlexibleServer)
+	// Note that this is not actually possible for this type because we don't allow ARMID references for these owners,
+	// but protecting against it here anyway.
+	if !ownerDetails.FoundKubernetesOwner() {
+		return nil, errors.Errorf("user owner must exist in Kubernetes for user %s", user.Name)
+	}
+
+	flexibleServer, ok := ownerDetails.Owner.(*dbforpostgressql.FlexibleServer)
 	if !ok {
-		return nil, errors.Errorf("owner was not type FlexibleServer, instead: %T", owner)
+		return nil, errors.Errorf("owner was not type FlexibleServer, instead: %T", ownerDetails)
 	}
 	// Magical assertion to ensure that this is still the storage type
 	var _ ctrlconversion.Hub = &dbforpostgressql.FlexibleServer{}

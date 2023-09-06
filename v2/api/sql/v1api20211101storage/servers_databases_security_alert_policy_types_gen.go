@@ -84,11 +84,7 @@ func (policy *ServersDatabasesSecurityAlertPolicy) NewEmptyStatus() genruntime.C
 // Owner returns the ResourceReference of the owner
 func (policy *ServersDatabasesSecurityAlertPolicy) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(policy.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  policy.Spec.Owner.Name,
-	}
+	return policy.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

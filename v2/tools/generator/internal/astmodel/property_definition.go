@@ -457,7 +457,11 @@ func (property *PropertyDefinition) tagsEqual(f *PropertyDefinition) bool {
 	// Comparison here takes ordering into account because for tags like
 	// json, ordering matters - `json:"foo,omitempty"` is different than
 	// `json:"omitempty,foo`
-	return property.tags.Equals(f.tags, slices.Equal[string])
+	return property.tags.Equals(
+		f.tags,
+		func(left []string, right []string) bool {
+			return slices.Equal(left, right)
+		})
 }
 
 // Equals tests to see if the specified PropertyDefinition specifies the same property

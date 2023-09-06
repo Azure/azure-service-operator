@@ -84,11 +84,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure) NewEmptyStatus() genruntim
 // Owner returns the ResourceReference of the owner
 func (procedure *SqlDatabaseContainerStoredProcedure) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(procedure.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  procedure.Spec.Owner.Name,
-	}
+	return procedure.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

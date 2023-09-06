@@ -84,11 +84,7 @@ func (authentication *ServersAzureADOnlyAuthentication) NewEmptyStatus() genrunt
 // Owner returns the ResourceReference of the owner
 func (authentication *ServersAzureADOnlyAuthentication) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(authentication.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  authentication.Spec.Owner.Name,
-	}
+	return authentication.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

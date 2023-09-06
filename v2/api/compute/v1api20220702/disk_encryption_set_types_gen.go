@@ -141,11 +141,7 @@ func (encryptionSet *DiskEncryptionSet) NewEmptyStatus() genruntime.ConvertibleS
 // Owner returns the ResourceReference of the owner
 func (encryptionSet *DiskEncryptionSet) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(encryptionSet.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  encryptionSet.Spec.Owner.Name,
-	}
+	return encryptionSet.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (encryptionSet *DiskEncryptionSet) ValidateUpdate(old runtime.Object) (admi
 
 // createValidations validates the creation of the resource
 func (encryptionSet *DiskEncryptionSet) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){encryptionSet.validateResourceReferences, encryptionSet.validateOptionalConfigMapReferences}
+	return []func() (admission.Warnings, error){encryptionSet.validateResourceReferences, encryptionSet.validateOwnerReference, encryptionSet.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -219,6 +215,9 @@ func (encryptionSet *DiskEncryptionSet) updateValidations() []func(old runtime.O
 		},
 		encryptionSet.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
+			return encryptionSet.validateOwnerReference()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return encryptionSet.validateOptionalConfigMapReferences()
 		},
 	}
@@ -231,6 +230,11 @@ func (encryptionSet *DiskEncryptionSet) validateOptionalConfigMapReferences() (a
 		return nil, err
 	}
 	return genruntime.ValidateOptionalConfigMapReferences(refs)
+}
+
+// validateOwnerReference validates the owner field
+func (encryptionSet *DiskEncryptionSet) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(encryptionSet)
 }
 
 // validateResourceReferences validates all resource references
@@ -511,7 +515,10 @@ func (encryptionSet *DiskEncryptionSet_Spec) PopulateFromARM(owner genruntime.Ar
 	}
 
 	// Set property "Owner":
-	encryptionSet.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	encryptionSet.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "RotationToLatestKeyVersionEnabled":
 	// copying flattened property:

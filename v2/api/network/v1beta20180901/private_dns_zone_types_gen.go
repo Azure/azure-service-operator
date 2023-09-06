@@ -142,11 +142,7 @@ func (zone *PrivateDnsZone) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (zone *PrivateDnsZone) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(zone.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  zone.Spec.Owner.Name,
-	}
+	return zone.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -204,7 +200,7 @@ func (zone *PrivateDnsZone) ValidateUpdate(old runtime.Object) (admission.Warnin
 
 // createValidations validates the creation of the resource
 func (zone *PrivateDnsZone) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){zone.validateResourceReferences}
+	return []func() (admission.Warnings, error){zone.validateResourceReferences, zone.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -218,7 +214,16 @@ func (zone *PrivateDnsZone) updateValidations() []func(old runtime.Object) (admi
 		func(old runtime.Object) (admission.Warnings, error) {
 			return zone.validateResourceReferences()
 		},
-		zone.validateWriteOnceProperties}
+		zone.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return zone.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (zone *PrivateDnsZone) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(zone)
 }
 
 // validateResourceReferences validates all resource references
@@ -392,7 +397,10 @@ func (zone *PrivateDnsZone_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	}
 
 	// Set property "Owner":
-	zone.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	zone.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Tags":
 	if typedInput.Tags != nil {

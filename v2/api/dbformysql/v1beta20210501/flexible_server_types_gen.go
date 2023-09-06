@@ -143,11 +143,7 @@ func (server *FlexibleServer) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (server *FlexibleServer) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(server.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  server.Spec.Owner.Name,
-	}
+	return server.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -205,7 +201,7 @@ func (server *FlexibleServer) ValidateUpdate(old runtime.Object) (admission.Warn
 
 // createValidations validates the creation of the resource
 func (server *FlexibleServer) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){server.validateResourceReferences, server.validateSecretDestinations}
+	return []func() (admission.Warnings, error){server.validateResourceReferences, server.validateOwnerReference, server.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -221,9 +217,17 @@ func (server *FlexibleServer) updateValidations() []func(old runtime.Object) (ad
 		},
 		server.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
+			return server.validateOwnerReference()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return server.validateSecretDestinations()
 		},
 	}
+}
+
+// validateOwnerReference validates the owner field
+func (server *FlexibleServer) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(server)
 }
 
 // validateResourceReferences validates all resource references
@@ -655,7 +659,10 @@ func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
-	server.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	server.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "ReplicationRole":
 	// copying flattened property:

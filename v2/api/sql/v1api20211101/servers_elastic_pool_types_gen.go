@@ -141,11 +141,7 @@ func (pool *ServersElasticPool) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (pool *ServersElasticPool) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(pool.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  pool.Spec.Owner.Name,
-	}
+	return pool.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (pool *ServersElasticPool) ValidateUpdate(old runtime.Object) (admission.Wa
 
 // createValidations validates the creation of the resource
 func (pool *ServersElasticPool) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){pool.validateResourceReferences}
+	return []func() (admission.Warnings, error){pool.validateResourceReferences, pool.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (pool *ServersElasticPool) updateValidations() []func(old runtime.Object) (
 		func(old runtime.Object) (admission.Warnings, error) {
 			return pool.validateResourceReferences()
 		},
-		pool.validateWriteOnceProperties}
+		pool.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return pool.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (pool *ServersElasticPool) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(pool)
 }
 
 // validateResourceReferences validates all resource references
@@ -510,7 +515,10 @@ func (pool *Servers_ElasticPool_Spec) PopulateFromARM(owner genruntime.Arbitrary
 	}
 
 	// Set property "Owner":
-	pool.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	pool.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "PerDatabaseSettings":
 	// copying flattened property:

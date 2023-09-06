@@ -141,11 +141,7 @@ func (table *RouteTable) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (table *RouteTable) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(table.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  table.Spec.Owner.Name,
-	}
+	return table.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (table *RouteTable) ValidateUpdate(old runtime.Object) (admission.Warnings,
 
 // createValidations validates the creation of the resource
 func (table *RouteTable) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){table.validateResourceReferences}
+	return []func() (admission.Warnings, error){table.validateResourceReferences, table.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (table *RouteTable) updateValidations() []func(old runtime.Object) (admissi
 		func(old runtime.Object) (admission.Warnings, error) {
 			return table.validateResourceReferences()
 		},
-		table.validateWriteOnceProperties}
+		table.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return table.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (table *RouteTable) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(table)
 }
 
 // validateResourceReferences validates all resource references
@@ -399,7 +404,10 @@ func (table *RouteTable_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 	}
 
 	// Set property "Owner":
-	table.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	table.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Tags":
 	if typedInput.Tags != nil {

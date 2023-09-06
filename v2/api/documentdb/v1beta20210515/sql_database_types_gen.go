@@ -142,11 +142,7 @@ func (database *SqlDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (database *SqlDatabase) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(database.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  database.Spec.Owner.Name,
-	}
+	return database.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -204,7 +200,7 @@ func (database *SqlDatabase) ValidateUpdate(old runtime.Object) (admission.Warni
 
 // createValidations validates the creation of the resource
 func (database *SqlDatabase) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){database.validateResourceReferences}
+	return []func() (admission.Warnings, error){database.validateResourceReferences, database.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -218,7 +214,16 @@ func (database *SqlDatabase) updateValidations() []func(old runtime.Object) (adm
 		func(old runtime.Object) (admission.Warnings, error) {
 			return database.validateResourceReferences()
 		},
-		database.validateWriteOnceProperties}
+		database.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return database.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (database *SqlDatabase) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(database)
 }
 
 // validateResourceReferences validates all resource references
@@ -412,7 +417,10 @@ func (database *DatabaseAccounts_SqlDatabase_Spec) PopulateFromARM(owner genrunt
 	}
 
 	// Set property "Owner":
-	database.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	database.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Resource":
 	// copying flattened property:
