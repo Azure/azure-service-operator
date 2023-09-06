@@ -101,24 +101,38 @@ func (*ResourceImportResult) writeTo(resources []genruntime.MetaObject, destinat
 	}
 
 	// Sort objects into a deterministic order
-	slices.SortFunc(resources, func(left genruntime.MetaObject, right genruntime.MetaObject) bool {
-		leftGVK := left.GetObjectKind().GroupVersionKind()
-		rightGVK := right.GetObjectKind().GroupVersionKind()
+	slices.SortFunc(
+		resources,
+		func(left genruntime.MetaObject, right genruntime.MetaObject) int {
+			leftGVK := left.GetObjectKind().GroupVersionKind()
+			rightGVK := right.GetObjectKind().GroupVersionKind()
 
-		if leftGVK.Group != rightGVK.Group {
-			return leftGVK.Group < rightGVK.Group
-		}
+			if leftGVK.Group < rightGVK.Group {
+				return -1
+			} else if leftGVK.Group > rightGVK.Group {
+				return 1
+			}
 
-		if leftGVK.Version != rightGVK.Version {
-			return leftGVK.Version < rightGVK.Version
-		}
+			if leftGVK.Version < rightGVK.Version {
+				return -1
+			} else if leftGVK.Version > rightGVK.Version {
+				return 1
+			}
 
-		if leftGVK.Kind != rightGVK.Kind {
-			return leftGVK.Kind < rightGVK.Kind
-		}
+			if leftGVK.Kind < rightGVK.Kind {
+				return -1
+			} else if leftGVK.Kind > rightGVK.Kind {
+				return 1
+			}
 
-		return left.GetName() < right.GetName()
-	})
+			if left.GetName() < right.GetName() {
+				return -1
+			} else if left.GetName() > right.GetName() {
+				return 1
+			}
+
+			return 0
+		})
 
 	for _, resource := range resources {
 		data, err := yaml.Marshal(resource)
