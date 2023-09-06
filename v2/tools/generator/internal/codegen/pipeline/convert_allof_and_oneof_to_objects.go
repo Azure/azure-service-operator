@@ -284,7 +284,7 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 		}, nil
 
 	case astmodel.ExternalTypeName:
-		// Similar to handling for InternalTypeName, but we already know this can't identity a TypeDefinition
+		// Similar to handling for InternalTypeName, but we already know this can't identify a TypeDefinition
 		return propertyNames{
 			golang:     s.idFactory.CreatePropertyName(concreteType.Name(), astmodel.Exported),
 			json:       s.idFactory.CreateStringIdentifier(concreteType.Name(), astmodel.NotExported),
