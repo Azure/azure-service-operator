@@ -27,7 +27,7 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.13.0
 	github.com/sethvargo/go-password v0.1.2
-	github.com/stretchr/testify v1.8.0
+	github.com/stretchr/testify v1.8.4
 	golang.org/x/crypto v0.0.0-20220622213112-05595931fe9d
 	golang.org/x/net v0.7.0
 	k8s.io/api v0.25.2
