@@ -7,7 +7,7 @@ replace github.com/Azure/azure-service-operator/v2 => ../../
 replace github.com/Azure/azure-service-operator/v2/tools/generator => ../generator
 
 require (
-	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.7.1
+	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.8.0-beta.1
 	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.3.1
 	github.com/Azure/azure-service-operator/v2 v2.2.0
 	github.com/go-logr/logr v1.2.4
@@ -18,7 +18,6 @@ require (
 	github.com/spf13/cobra v1.7.0
 	github.com/vbauerster/mpb/v8 v8.6.1
 	golang.org/x/exp v0.0.0-20230817173708-d852ddb80c63
-	golang.org/x/sync v0.3.0
 	k8s.io/api v0.28.1
 	k8s.io/apiextensions-apiserver v0.28.1
 	k8s.io/apimachinery v0.28.1
