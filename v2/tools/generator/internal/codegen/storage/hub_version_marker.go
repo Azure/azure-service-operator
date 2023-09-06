@@ -10,14 +10,14 @@ import "github.com/Azure/azure-service-operator/v2/tools/generator/internal/astm
 // HubVersionMarker is a utility for marking resource definitions as "hub" versions
 type HubVersionMarker struct {
 	// visitor is used to do the actual marking
-	visitor astmodel.TypeVisitor
+	visitor astmodel.TypeVisitor[any]
 }
 
 // NewHubVersionMarker returns a new hub version marker for flagging resource definitions
 func NewHubVersionMarker() *HubVersionMarker {
 	result := &HubVersionMarker{}
 
-	result.visitor = astmodel.TypeVisitorBuilder{
+	result.visitor = astmodel.TypeVisitorBuilder[any]{
 		VisitResourceType: result.markResourceAsStorageVersion,
 	}.Build()
 
@@ -31,6 +31,6 @@ func (m *HubVersionMarker) MarkAsStorageVersion(def astmodel.TypeDefinition) (as
 
 // markResourceAsStorageVersion marks the supplied resource as the canonical hub (storage) version
 func (m *HubVersionMarker) markResourceAsStorageVersion(
-	_ *astmodel.TypeVisitor, rt *astmodel.ResourceType, _ interface{}) (astmodel.Type, error) {
+	_ *astmodel.TypeVisitor[any], rt *astmodel.ResourceType, _ interface{}) (astmodel.Type, error) {
 	return rt.MarkAsStorageVersion(), nil
 }

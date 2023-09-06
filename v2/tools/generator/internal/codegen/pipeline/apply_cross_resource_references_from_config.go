@@ -130,7 +130,7 @@ func ApplyCrossResourceReferencesFromConfig(
 type crossResourceReferenceChecker func(typeName astmodel.TypeName, prop *astmodel.PropertyDefinition) ARMIDPropertyClassification
 
 type ARMIDPropertyTypeVisitor struct {
-	astmodel.TypeVisitor
+	astmodel.TypeVisitor[astmodel.TypeName]
 	// isPropertyAnARMReference is a function describing what a cross resource reference looks like. It is overridable so that
 	// we can use a more simplistic criteria for tests.
 	isPropertyAnARMReference crossResourceReferenceChecker
@@ -144,16 +144,18 @@ func MakeARMIDPropertyTypeVisitor(
 		isPropertyAnARMReference: referenceChecker,
 	}
 
-	transformResourceReferenceProperties := func(_ *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-		typeName := ctx.(astmodel.TypeName)
-
+	transformResourceReferenceProperties := func(
+		_ *astmodel.TypeVisitor[astmodel.TypeName],
+		it *astmodel.ObjectType,
+		ctx astmodel.TypeName,
+	) (astmodel.Type, error) {
 		var newProps []*astmodel.PropertyDefinition
 		it.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
-			classification := visitor.isPropertyAnARMReference(typeName, prop)
+			classification := visitor.isPropertyAnARMReference(ctx, prop)
 			if classification == ARMIDPropertyClassificationSet {
 				log.V(1).Info(
 					"Transforming property",
-					"definition", typeName,
+					"definition", ctx,
 					"property", prop.PropertyName(),
 					"was", prop.PropertyType(),
 					"now", "astmodel.ARMID")
@@ -161,7 +163,7 @@ func MakeARMIDPropertyTypeVisitor(
 			} else if classification == ARMIDPropertyClassificationUnset {
 				log.V(1).Info(
 					"Transforming property",
-					"definition", typeName,
+					"definition", ctx,
 					"property", prop.PropertyName(),
 					"was", prop.PropertyType(),
 					"now", "string")
@@ -176,7 +178,7 @@ func MakeARMIDPropertyTypeVisitor(
 		return result, nil
 	}
 
-	visitor.TypeVisitor = astmodel.TypeVisitorBuilder{
+	visitor.TypeVisitor = astmodel.TypeVisitorBuilder[astmodel.TypeName]{
 		VisitObjectType: transformResourceReferenceProperties,
 	}.Build()
 

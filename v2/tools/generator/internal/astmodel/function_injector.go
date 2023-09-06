@@ -8,14 +8,14 @@ package astmodel
 // FunctionInjector is a utility for injecting function definitions into resources and objects
 type FunctionInjector struct {
 	// visitor is used to do the actual injection
-	visitor TypeVisitor
+	visitor TypeVisitor[any]
 }
 
 // NewFunctionInjector creates a new function injector for modifying resources and objects
 func NewFunctionInjector() *FunctionInjector {
 	result := &FunctionInjector{}
 
-	result.visitor = TypeVisitorBuilder{
+	result.visitor = TypeVisitorBuilder[any]{
 		VisitObjectType:   result.injectFunctionIntoObject,
 		VisitResourceType: result.injectFunctionIntoResource,
 	}.Build()
@@ -41,7 +41,7 @@ func (fi *FunctionInjector) Inject(def TypeDefinition, fns ...Function) (TypeDef
 // injectFunctionIntoObject takes the function provided as a context and includes it on the
 // provided object type
 func (_ *FunctionInjector) injectFunctionIntoObject(
-	_ *TypeVisitor, ot *ObjectType, ctx interface{},
+	_ *TypeVisitor[any], ot *ObjectType, ctx any,
 ) (Type, error) {
 	fn := ctx.(Function)
 	return ot.WithFunction(fn), nil
@@ -50,7 +50,7 @@ func (_ *FunctionInjector) injectFunctionIntoObject(
 // injectFunctionIntoResource takes the function provided as a context and includes it on the
 // provided resource type
 func (_ *FunctionInjector) injectFunctionIntoResource(
-	_ *TypeVisitor, rt *ResourceType, ctx interface{},
+	_ *TypeVisitor[any], rt *ResourceType, ctx any,
 ) (Type, error) {
 	fn := ctx.(Function)
 	return rt.WithFunction(fn), nil
