@@ -11,6 +11,8 @@ import (
 	"math/rand"
 	"os"
 	"regexp"
+	"sigs.k8s.io/controller-runtime/pkg/metrics/server"
+	"sigs.k8s.io/controller-runtime/pkg/webhook"
 	"time"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
@@ -109,22 +111,32 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 		os.Exit(1)
 	}
 
-	var cacheFunc cache.NewCacheFunc
-	if cfg.TargetNamespaces != nil && cfg.OperatorMode.IncludesWatchers() {
-		cacheFunc = cache.MultiNamespacedCacheBuilder(cfg.TargetNamespaces)
-	}
-
 	k8sConfig := ctrl.GetConfigOrDie()
-	mgr, err := ctrl.NewManager(k8sConfig, ctrl.Options{
-		Scheme:                 scheme,
-		MetricsBindAddress:     flgs.MetricsAddr,
-		NewCache:               cacheFunc,
+
+	options := ctrl.Options{
+		Scheme: scheme,
+		Metrics: server.Options{
+			BindAddress: flgs.MetricsAddr,
+		},
+		Cache:                  cache.Options{},
 		LeaderElection:         flgs.EnableLeaderElection,
 		LeaderElectionID:       "controllers-leader-election-azinfra-generated",
-		Port:                   9443,
 		HealthProbeBindAddress: flgs.HealthAddr,
-	})
+		WebhookServer: &webhook.DefaultServer{
+			Options: webhook.Options{
+				Port: 9443,
+			},
+		},
+	}
 
+	if cfg.TargetNamespaces != nil && cfg.OperatorMode.IncludesWatchers() {
+		options.Cache.DefaultNamespaces = make(map[string]cache.Config, len(cfg.TargetNamespaces))
+		for _, ns := range cfg.TargetNamespaces {
+			options.Cache.DefaultNamespaces[ns] = cache.Config{}
+		}
+	}
+
+	mgr, err := ctrl.NewManager(k8sConfig, options)
 	if err != nil {
 		setupLog.Error(err, "unable to create manager")
 		os.Exit(1)
