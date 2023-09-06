@@ -63,7 +63,7 @@ func IgnoringErrors(t Type) Type {
 
 // DeclarationContext represents some metadata about a specific declaration
 type DeclarationContext struct {
-	Name        TypeName
+	Name        InternalTypeName
 	Description []string
 	Validations []KubeBuilderValidation
 }

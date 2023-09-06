@@ -88,28 +88,27 @@ func createNewConfigMapReference(prop *astmodel.PropertyDefinition, newType astm
 func transformConfigMaps(cfg *config.Configuration, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 	result := make(astmodel.TypeDefinitionSet)
 
-	applyConfigMaps := func(_ *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-		typeName := ctx.(astmodel.TypeName)
+	applyConfigMaps := func(_ *astmodel.TypeVisitor[astmodel.TypeName], it *astmodel.ObjectType, ctx astmodel.TypeName) (astmodel.Type, error) {
 		for _, prop := range it.Properties().Copy() {
-			mode, _ := cfg.ImportConfigMapMode(typeName, prop.PropertyName())
+			mode, _ := cfg.ImportConfigMapMode(ctx, prop.PropertyName())
 			switch mode {
 			case config.ImportConfigMapModeRequired:
 				newProp, err := transformPropertyToConfigMapReference(prop, astmodel.ConfigMapReferenceType)
 				if err != nil {
-					return nil, errors.Wrapf(err, "failed to transform property to configmap on type %s", typeName)
+					return nil, errors.Wrapf(err, "failed to transform property to configmap on type %s", ctx)
 				}
 				it = it.WithProperty(newProp)
 			case config.ImportConfigMapModeOptional:
 				updatedProp, newProp, err := createNewConfigMapReference(prop, astmodel.ConfigMapReferenceType)
 				if err != nil {
-					return nil, errors.Wrapf(err, "failed to transform property to optional configmap on type %s", typeName)
+					return nil, errors.Wrapf(err, "failed to transform property to optional configmap on type %s", ctx)
 				}
 
 				// If the property we're about to add already exists, that's bad!
 				if _, ok := it.Property(newProp.PropertyName()); ok {
 					return nil, errors.Errorf(
 						"failed to transform property to optional configmap on type %s. Property %s already exists",
-						typeName,
+						ctx,
 						newProp.PropertyName())
 				}
 
@@ -122,7 +121,7 @@ func transformConfigMaps(cfg *config.Configuration, definitions astmodel.TypeDef
 		return it, nil
 	}
 
-	visitor := astmodel.TypeVisitorBuilder{
+	visitor := astmodel.TypeVisitorBuilder[astmodel.TypeName]{
 		VisitObjectType: applyConfigMaps,
 	}.Build()
 

@@ -47,7 +47,7 @@ type ResourceType struct {
 	scope               ResourceScope
 	armType             string
 	armURI              string
-	apiVersionTypeName  TypeName
+	apiVersionTypeName  InternalTypeName
 	apiVersionEnumValue EnumValue
 	InterfaceImplementer
 }
@@ -283,7 +283,10 @@ func (resource *ResourceType) ARMURI() string {
 }
 
 // WithAPIVersion returns a new ResourceType with the specified API version (type and value).
-func (resource *ResourceType) WithAPIVersion(apiVersionTypeName TypeName, apiVersionEnumValue EnumValue) *ResourceType {
+func (resource *ResourceType) WithAPIVersion(
+	apiVersionTypeName InternalTypeName,
+	apiVersionEnumValue EnumValue,
+) *ResourceType {
 	result := resource.copy()
 	result.apiVersionTypeName = apiVersionTypeName
 	result.apiVersionEnumValue = apiVersionEnumValue
@@ -436,11 +439,11 @@ func (resource *ResourceType) ARMType() string {
 }
 
 func (resource *ResourceType) HasAPIVersion() bool {
-	return resource.apiVersionTypeName != nil
+	return !resource.apiVersionTypeName.IsEmpty()
 }
 
 // APIVersionTypeName returns the type name of the API version
-func (resource *ResourceType) APIVersionTypeName() TypeName {
+func (resource *ResourceType) APIVersionTypeName() InternalTypeName {
 	if !resource.HasAPIVersion() {
 		panic("resource has no APIVersion TypeName to return")
 	}
