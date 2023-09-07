@@ -13,12 +13,12 @@ require (
 	github.com/Azure/go-autorest/autorest/validation v0.3.1
 	github.com/Azure/go-autorest/tracing v0.6.0
 	github.com/denisenkom/go-mssqldb v0.10.0
-	github.com/go-logr/logr v1.2.3
-	github.com/go-sql-driver/mysql v1.5.0
+	github.com/go-logr/logr v1.2.4
+	github.com/go-sql-driver/mysql v1.7.1
 	github.com/gobuffalo/envy v1.7.0
 	github.com/gofrs/uuid v4.0.0+incompatible
 	github.com/google/go-cmp v0.5.9
-	github.com/google/uuid v1.3.0
+	github.com/google/uuid v1.3.1
 	github.com/hashicorp/go-multierror v1.0.0
 	github.com/lib/pq v1.6.0
 	github.com/marstr/randname v0.0.0-20181206212954-d5b0f288ab8c
@@ -27,7 +27,7 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.13.0
 	github.com/sethvargo/go-password v0.1.2
-	github.com/stretchr/testify v1.8.0
+	github.com/stretchr/testify v1.8.4
 	golang.org/x/crypto v0.0.0-20220622213112-05595931fe9d
 	golang.org/x/net v0.7.0
 	k8s.io/api v0.25.2

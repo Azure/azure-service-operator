@@ -107,14 +107,14 @@ func makeLegacyReferencePropertyName(existing *astmodel.PropertyDefinition, isSl
 }
 
 type ARMIDToGenruntimeReferenceTypeVisitor struct {
-	astmodel.TypeVisitor
+	astmodel.TypeVisitor[astmodel.TypeName]
 	idFactory astmodel.IdentifierFactory
 }
 
 func (v *ARMIDToGenruntimeReferenceTypeVisitor) transformARMIDToGenruntimeResourceReference(
-	_ *astmodel.TypeVisitor,
+	_ *astmodel.TypeVisitor[astmodel.TypeName],
 	it *astmodel.PrimitiveType,
-	_ interface{},
+	_ astmodel.TypeName,
 ) (astmodel.Type, error) {
 	if it == astmodel.ARMIDType {
 		return astmodel.ResourceReferenceType, nil
@@ -124,9 +124,9 @@ func (v *ARMIDToGenruntimeReferenceTypeVisitor) transformARMIDToGenruntimeResour
 }
 
 func (v *ARMIDToGenruntimeReferenceTypeVisitor) renamePropertiesWithARMIDReferences(
-	this *astmodel.TypeVisitor,
+	this *astmodel.TypeVisitor[astmodel.TypeName],
 	it *astmodel.ObjectType,
-	ctx interface{},
+	ctx astmodel.TypeName,
 ) (astmodel.Type, error) {
 	// First, we visit this type like normal
 	result, err := astmodel.IdentityVisitOfObjectType(this, it, ctx)
@@ -134,10 +134,9 @@ func (v *ARMIDToGenruntimeReferenceTypeVisitor) renamePropertiesWithARMIDReferen
 		return nil, err
 	}
 
-	typeName := ctx.(astmodel.TypeName)
 	ot, ok := result.(*astmodel.ObjectType)
 	if !ok {
-		return nil, errors.Errorf("result for visitObjectType of %s was not expected ObjectType, instead %T", typeName, result)
+		return nil, errors.Errorf("result for visitObjectType of %s was not expected ObjectType, instead %T", ctx, result)
 	}
 
 	// Now, check if any properties have been updated and if they have change their names to match
@@ -146,7 +145,7 @@ func (v *ARMIDToGenruntimeReferenceTypeVisitor) renamePropertiesWithARMIDReferen
 	ot.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
 		origProp, ok := it.Property(prop.PropertyName())
 		if !ok {
-			errs = append(errs, errors.Errorf("expected to find property %q on %s", prop.PropertyName(), typeName))
+			errs = append(errs, errors.Errorf("expected to find property %q on %s", prop.PropertyName(), ctx))
 			return
 		}
 
@@ -155,7 +154,7 @@ func (v *ARMIDToGenruntimeReferenceTypeVisitor) renamePropertiesWithARMIDReferen
 			return
 		}
 
-		newProp := makeResourceReferenceProperty(typeName, v.idFactory, prop)
+		newProp := makeResourceReferenceProperty(ctx, v.idFactory, prop)
 		newProps = append(newProps, newProp)
 	})
 
@@ -170,9 +169,9 @@ func (v *ARMIDToGenruntimeReferenceTypeVisitor) renamePropertiesWithARMIDReferen
 }
 
 func (v *ARMIDToGenruntimeReferenceTypeVisitor) stripValidationForResourceReferences(
-	this *astmodel.TypeVisitor,
+	this *astmodel.TypeVisitor[astmodel.TypeName],
 	it *astmodel.ValidatedType,
-	ctx interface{},
+	ctx astmodel.TypeName,
 ) (astmodel.Type, error) {
 	result, err := astmodel.IdentityVisitOfValidatedType(this, it, ctx)
 	if err != nil {
@@ -195,7 +194,7 @@ func MakeARMIDToResourceReferenceTypeVisitor(idFactory astmodel.IdentifierFactor
 	result := ARMIDToGenruntimeReferenceTypeVisitor{
 		idFactory: idFactory,
 	}
-	result.TypeVisitor = astmodel.TypeVisitorBuilder{
+	result.TypeVisitor = astmodel.TypeVisitorBuilder[astmodel.TypeName]{
 		VisitPrimitive:     result.transformARMIDToGenruntimeResourceReference,
 		VisitObjectType:    result.renamePropertiesWithARMIDReferences,
 		VisitValidatedType: result.stripValidationForResourceReferences,
@@ -242,11 +241,12 @@ func makeResourceReferenceProperty(
 func stripARMIDPrimitiveTypes(types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 	// Any astmodel.ARMReference's which have escaped need to be turned into
 	// strings
-	armIDStrippingVisitor := astmodel.TypeVisitorBuilder{
-		VisitPrimitive: func(_ *astmodel.TypeVisitor, it *astmodel.PrimitiveType, ctx interface{}) (astmodel.Type, error) {
+	armIDStrippingVisitor := astmodel.TypeVisitorBuilder[any]{
+		VisitPrimitive: func(it *astmodel.PrimitiveType) (astmodel.Type, error) {
 			if astmodel.TypeEquals(it, astmodel.ARMIDType) {
 				return astmodel.StringType, nil
 			}
+
 			return it, nil
 		},
 	}.Build()

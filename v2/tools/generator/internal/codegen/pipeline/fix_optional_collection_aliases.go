@@ -24,7 +24,7 @@ func FixOptionalCollectionAliases() *Stage {
 			fixer := optionalCollectionAliasFixer{
 				definitions: state.Definitions(),
 			}
-			fixer.visitor = astmodel.TypeVisitorBuilder{
+			fixer.visitor = astmodel.TypeVisitorBuilder[any]{
 				VisitOptionalType: fixer.fixOptionalCollectionAliases,
 			}.Build()
 
@@ -44,10 +44,14 @@ func FixOptionalCollectionAliases() *Stage {
 
 type optionalCollectionAliasFixer struct {
 	definitions astmodel.TypeDefinitionSet
-	visitor     astmodel.TypeVisitor
+	visitor     astmodel.TypeVisitor[any]
 }
 
-func (f *optionalCollectionAliasFixer) fixOptionalCollectionAliases(this *astmodel.TypeVisitor, it *astmodel.OptionalType, ctx interface{}) (astmodel.Type, error) {
+func (f *optionalCollectionAliasFixer) fixOptionalCollectionAliases(
+	this *astmodel.TypeVisitor[any],
+	it *astmodel.OptionalType,
+	ctx any,
+) (astmodel.Type, error) {
 	typeName, ok := astmodel.AsTypeName(it)
 	if !ok {
 		return astmodel.IdentityVisitOfOptionalType(this, it, ctx)
