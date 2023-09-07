@@ -19,21 +19,33 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>Creating a new release | Azure Service Operator</title>
-<meta name="description" content="Ensure that the controller CVE scan action is green. Go to the releases page and draft a new release. In the tag dropdown, type the name of the new tag you&amp;rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-beta.3). The release target should be main (the default). Use the GitHub &amp;ldquo;auto-generate release notes&amp;rdquo; button to generate a set of release notes to work with.">
+<meta name="description" content="Ensure that the controller CVE scan action is green.
+  Go to the releases page and draft a new release.
+  In the tag dropdown, type the name of the new tag you&amp;rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-beta.3). The release target should be main (the default).
+  Use the GitHub &amp;ldquo;auto-generate release notes&amp;rdquo; button to generate a set of release notes to work with.">
 <meta property="og:title" content="Creating a new release" />
-<meta property="og:description" content="Ensure that the controller CVE scan action is green. Go to the releases page and draft a new release. In the tag dropdown, type the name of the new tag you&rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-beta.3). The release target should be main (the default). Use the GitHub &ldquo;auto-generate release notes&rdquo; button to generate a set of release notes to work with." />
+<meta property="og:description" content="Ensure that the controller CVE scan action is green.
+  Go to the releases page and draft a new release.
+  In the tag dropdown, type the name of the new tag you&rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-beta.3). The release target should be main (the default).
+  Use the GitHub &ldquo;auto-generate release notes&rdquo; button to generate a set of release notes to work with." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/contributing/create-a-new-release/" /><meta property="article:section" content="contributing" />
 
 
 
 <meta itemprop="name" content="Creating a new release">
-<meta itemprop="description" content="Ensure that the controller CVE scan action is green. Go to the releases page and draft a new release. In the tag dropdown, type the name of the new tag you&rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-beta.3). The release target should be main (the default). Use the GitHub &ldquo;auto-generate release notes&rdquo; button to generate a set of release notes to work with.">
+<meta itemprop="description" content="Ensure that the controller CVE scan action is green.
+  Go to the releases page and draft a new release.
+  In the tag dropdown, type the name of the new tag you&rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-beta.3). The release target should be main (the default).
+  Use the GitHub &ldquo;auto-generate release notes&rdquo; button to generate a set of release notes to work with.">
 
-<meta itemprop="wordCount" content="710">
+<meta itemprop="wordCount" content="810">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Creating a new release"/>
-<meta name="twitter:description" content="Ensure that the controller CVE scan action is green. Go to the releases page and draft a new release. In the tag dropdown, type the name of the new tag you&rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-beta.3). The release target should be main (the default). Use the GitHub &ldquo;auto-generate release notes&rdquo; button to generate a set of release notes to work with."/>
+<meta name="twitter:description" content="Ensure that the controller CVE scan action is green.
+  Go to the releases page and draft a new release.
+  In the tag dropdown, type the name of the new tag you&rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-beta.3). The release target should be main (the default).
+  Use the GitHub &ldquo;auto-generate release notes&rdquo; button to generate a set of release notes to work with."/>
 
 
 
@@ -699,37 +711,108 @@
 		
 	</header>    
 	<ol>
-<li>Ensure that the <a href="https://github.com/Azure/azure-service-operator/actions/workflows/scan-controller-image.yaml">controller CVE scan action</a> is green.</li>
-<li>Go to the <a href="https://github.com/Azure/azure-service-operator/releases">releases</a> page and draft a new release.</li>
-<li>In the tag dropdown, type the name of the new tag you&rsquo;d like to create (it should match the pattern of previous releases tags, for example: <code>v2.0.0-beta.3</code>). The release target should be <code>main</code> (the default).</li>
-<li>Use the GitHub &ldquo;auto-generate release notes&rdquo; button to generate a set of release notes to work with. You will need to clean this up quite a bit before actually publishing it.</li>
-<li>If publishing an alpha, be sure to mark the release as a pre-release.</li>
-<li>Write a &ldquo;Release Notes&rdquo; section. You can edit the autogenerated section as a start. You can also look through the commits between the last release and now: <code>git log v2.0.0-beta.3..main</code>.</li>
-<li>Publish the release. This will automatically trigger a GitHub action to build and publish an updated Docker image with the latest manager changes.</li>
-<li>Ensure that the action associated with your release finishes successfully.</li>
-<li><a href="#update-documentation">Update our documentation</a> to move resources listed under &ldquo;Next Release&rdquo; to the heading &ldquo;Released&rdquo;.</li>
+<li>
+<p>Ensure that the <a href="https://github.com/Azure/azure-service-operator/actions/workflows/scan-controller-image.yaml">controller CVE scan action</a> is green.</p>
+</li>
+<li>
+<p>Go to the <a href="https://github.com/Azure/azure-service-operator/releases">releases</a> page and draft a new release.</p>
+</li>
+<li>
+<p>In the tag dropdown, type the name of the new tag you&rsquo;d like to create (it should match the pattern of previous releases tags, for example: <code>v2.0.0-beta.3</code>). The release target should be <code>main</code> (the default).</p>
+</li>
+<li>
+<p>Use the GitHub &ldquo;auto-generate release notes&rdquo; button to generate a set of release notes to work with. You will need to clean this up quite a bit before actually publishing it.</p>
+</li>
+<li>
+<p>If publishing an alpha, be sure to mark the release as a pre-release.</p>
+</li>
+<li>
+<p>Write a &ldquo;Release Notes&rdquo; section. You can edit the autogenerated section as a start. You can also look through the commits between the last release and now:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git log v2.0.0-beta.3..main
+</code></pre></div></li>
+<li>
+<p>Publish the release. This will automatically trigger a GitHub action to build and publish an updated Docker image with the latest manager changes.</p>
+</li>
+<li>
+<p>Ensure that the action associated with your release finishes successfully.</p>
+</li>
+<li>
+<p><a href="#update-documentation">Update our documentation</a> to move resources listed under &ldquo;Next Release&rdquo; to the heading &ldquo;Released&rdquo;.</p>
+</li>
 </ol>
 <h2 id="cataloging-breaking-changes-in-a-new-release">Cataloging breaking changes in a new release</h2>
 <p>There may be breaking changes in a new release of ASO, either due to changes we made or changes made in the upstream
 service Swagger specifications. We must validate each breaking change so that we can notify customers about it.</p>
 <ol>
-<li>Download the latest Helm chart release (example <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/charts/azure-service-operator-crds-v2.0.0-beta.3.tgz">beta.3</a>) and extract it.</li>
-<li>Run <code>task controller:gen-helm-chart</code> to generate a local helm chart (saved to <code>v2/charts</code>). Extract it as well.</li>
-<li>Produce a diff between these files: <code>diff -u &lt;old&gt; &lt;new&gt; &gt; comparison.diff</code> and examine it.</li>
+<li>
+<p>Download the CRD definitions for the prior release (in this example, v2.2.0):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget https://github.com/Azure/azure-service-operator/releases/download/v2.2.0/azureserviceoperator_v2.2.0.yaml
+</code></pre></div></li>
+<li>
+<p>Download the CRD definitions for the new release (in this example, v2.3.0):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget https://github.com/Azure/azure-service-operator/releases/download/v2.3.0/azureserviceoperator_v2.3.0.yaml
+</code></pre></div><p>This will only be available when the GitHub action trigged by publishing the release has finished.</p>
+</li>
+<li>
+<p>Produce a diff between these files and examine it.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">diff -u &lt;old&gt; &lt;new&gt; &gt; comparison.diff
+</code></pre></div></li>
 </ol>
 <h2 id="testing-the-new-release">Testing the new release</h2>
+<p>Perform a simple smoke test to make sure the new release is capable of starting up and creating some Azure resources.</p>
 <ol>
-<li>Create a kind cluster: <code>task controller:kind-create</code></li>
-<li>Install cert-manager: <code>task controller:install-cert-manager</code></li>
-<li>Create the namespace for the operator: <code>k create namespace azureserviceoperator-system</code></li>
-<li>Source the SP credentials to use for the secret and then run <code>task controller:make-sp-secret</code>.</li>
-<li>Deploy the operator from MCR: <code>k apply --server-side=true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0-beta.3/azureserviceoperator_v2.0.0-beta.3.yaml</code> (We need to use <a href="https://kubernetes.io/docs/reference/using-api/server-side-apply/">server-side apply</a> because the CRD for VirtualMachines is large enough that it can&rsquo;t fit in the <code>last-applied-configuration</code> annotation client-side <code>kubectl apply</code> uses.)</li>
-<li>Wait for it to start: <code>k get all -n azureserviceoperator-system</code></li>
-<li>Create a resource group and a vnet in it (the vnet is to check that conversion webhooks are working, since there aren&rsquo;t any for RGs):
-<pre tabindex="0"><code>k apply -f v2/samples/resources/v1beta/v1beta20200601_resourcegroup.yaml
-k apply -f v2/samples/network/v1beta/v1beta20201101_virtualnetwork.yaml
-</code></pre></li>
-<li>Make sure they deploy successfully - check in the portal as well.</li>
+<li>
+<p>Create a kind cluster</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">task controller:kind-create
+</code></pre></div></li>
+<li>
+<p>Install cert-manager</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">task controller:install-cert-manager
+</code></pre></div></li>
+<li>
+<p>Create the namespace for the operator</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create namespace azureserviceoperator-system
+</code></pre></div></li>
+<li>
+<p>Ensure you have a <a href="https://azure.github.io/azure-service-operator/#installation">Service Principal</a> and export these environment variables:</p>
+<ul>
+<li>AZURE_SUBSCRIPTION</li>
+<li>AZURE_TENANT_ID</li>
+<li>AZURE_CLIENT_ID</li>
+<li>AZURE_CLIENT_SECRET</li>
+</ul>
+</li>
+<li>
+<p>Create a secret in your cluster with the Service Principal credentials for ASO to use:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">task controller:make-sp-secret
+</code></pre></div></li>
+<li>
+<p>Download the operator from MCR.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget https://github.com/Azure/azure-service-operator/releases/download/v2.3.0/azureserviceoperator_v2.3.0.yaml
+
+</code></pre></div></li>
+<li>
+<p>Configure <a href="https://azure.github.io/azure-service-operator/guide/crd-management/"><code>crd-patterns</code></a> to use with new release.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sed -i <span style="color:#e6db74">&#39;s_--crd-pattern=.*_--crd-pattern=resources.azure.com/*;network.azure.com/*_g&#39;</span> azureserviceoperator_v2.3.0.yaml
+</code></pre></div><p>We use <code>sed</code> to replace the blank setting included in the release with the one we want to use, including both resource group and network CRDs.</p>
+</li>
+<li>
+<p>Install the operator into your cluster</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply --server-side<span style="color:#f92672">=</span>true -f azureserviceoperator_v2.0.0-beta.3.yaml
+</code></pre></div><p>(We need to use <a href="https://kubernetes.io/docs/reference/using-api/server-side-apply/">server-side apply</a> because the CRD for VirtualMachines is large enough that it can&rsquo;t fit in the <code>last-applied-configuration</code> annotation client-side <code>kubectl apply</code> uses.)</p>
+</li>
+<li>
+<p>Watch while ASO starts</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl get all -n azureserviceoperator-system
+</code></pre></div></li>
+<li>
+<p>Create a resource group and a vnet in it (the vnet is to check that conversion webhooks are working, since there aren&rsquo;t any for RGs):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f v2/samples/resources/v1api/v1api20200601_resourcegroup.yaml
+kubectl apply -f v2/samples/network/v1api20201101/v1api20201101_virtualnetwork.yaml
+</code></pre></div></li>
+<li>
+<p>Make sure they deploy successfully - check in the portal as well.</p>
+</li>
 </ol>
 <h1 id="creating-and-testing-helm-chart-for-new-release">Creating and testing Helm chart for new release</h1>
 <blockquote>
