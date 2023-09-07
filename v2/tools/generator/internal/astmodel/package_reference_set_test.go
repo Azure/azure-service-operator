@@ -155,8 +155,16 @@ func TestPackageReferenceSet_AsSortedSlice_WhenEmpty_ReturnsEmptySlice(t *testin
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageReferenceSet()
-	slice := set.AsSortedSlice(func(left PackageReference, right PackageReference) bool {
-		return left.PackageName() < right.PackageName()
+	slice := set.AsSortedSlice(func(left PackageReference, right PackageReference) int {
+		if left.PackageName() < right.PackageName() {
+			return -1
+		}
+
+		if left.PackageName() > right.PackageName() {
+			return 1
+		}
+
+		return 0
 	})
 	g.Expect(slice).To(HaveLen(0))
 }
@@ -165,8 +173,16 @@ func TestPackageReferenceSet_AsSortedSlice_WhenSetPopulated_ReturnsExpectedSlice
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageReferenceSet(simpleTestRef, pathTestRef)
-	slice := set.AsSortedSlice(func(left PackageReference, right PackageReference) bool {
-		return left.PackageName() < right.PackageName()
+	slice := set.AsSortedSlice(func(left PackageReference, right PackageReference) int {
+		if left.PackageName() < right.PackageName() {
+			return -1
+		}
+
+		if left.PackageName() > right.PackageName() {
+			return 1
+		}
+
+		return 0
 	})
 	g.Expect(slice).To(HaveLen(2))
 }

@@ -7,9 +7,8 @@ package pipeline
 
 import (
 	"context"
-	"sort"
-
 	"github.com/pkg/errors"
+	"golang.org/x/exp/slices"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -79,11 +78,13 @@ func groupResourcesByVersion(definitions astmodel.TypeDefinitionSet) map[unversi
 
 	// order each set of resources by package name (== by version as these are sortable dates)
 	for _, slice := range result {
-		sort.Slice(slice, func(i, j int) bool {
-			return astmodel.ComparePathAndVersion(
-				slice[i].Name().PackageReference().ImportPath(),
-				slice[j].Name().PackageReference().ImportPath())
-		})
+		slices.SortFunc(
+			slice,
+			func(left astmodel.TypeDefinition, right astmodel.TypeDefinition) int {
+				return astmodel.ComparePathAndVersion(
+					left.Name().PackageReference().ImportPath(),
+					right.Name().PackageReference().ImportPath())
+			})
 	}
 
 	return result

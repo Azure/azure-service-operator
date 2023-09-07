@@ -6,7 +6,7 @@
 package astmodel
 
 import (
-	"sort"
+	"golang.org/x/exp/slices"
 	"strings"
 	"unicode"
 )
@@ -58,18 +58,20 @@ func IsExternalPackageReference(ref PackageReference) bool {
 }
 
 func SortPackageReferencesByPathAndVersion(packages []PackageReference) {
-	sort.Slice(packages, func(i, j int) bool {
-		return ComparePathAndVersion(packages[i].ImportPath(), packages[j].ImportPath())
-	})
+	slices.SortFunc(
+		packages,
+		func(left PackageReference, right PackageReference) int {
+			return ComparePathAndVersion(left.ImportPath(), right.ImportPath())
+		})
 }
 
 // ComparePathAndVersion compares two paths containing versions and returns true if left should go before right
-func ComparePathAndVersion(left string, right string) bool {
+func ComparePathAndVersion(left string, right string) int {
 	comparer := versionComparer{
 		left:  []rune(left),
 		right: []rune(right),
 	}
-	return comparer.Compare() < 0
+	return comparer.Compare()
 }
 
 // versionComparer captures our state while doing an alphanumeric version comparison.

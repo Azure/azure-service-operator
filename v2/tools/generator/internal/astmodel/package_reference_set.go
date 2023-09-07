@@ -6,7 +6,7 @@
 package astmodel
 
 import (
-	"sort"
+	"golang.org/x/exp/slices"
 )
 
 // PackageReferenceSet represents a set of distinct PackageReferences
@@ -27,7 +27,7 @@ func NewPackageReferenceSet(refs ...PackageReference) *PackageReferenceSet {
 	return result
 }
 
-// AddReference ensures the set includes an specified Reference
+// AddReference ensures the set includes a specified Reference
 func (set *PackageReferenceSet) AddReference(ref PackageReference) {
 	set.references[ref] = struct{}{}
 }
@@ -68,12 +68,15 @@ func (set *PackageReferenceSet) AsSlice() []PackageReference {
 
 // AsSortedSlice return a sorted slice containing all the references
 // less specifies how to order the imports
-func (set *PackageReferenceSet) AsSortedSlice(less func(i PackageReference, j PackageReference) bool) []PackageReference {
+func (set *PackageReferenceSet) AsSortedSlice(
+	compare func(PackageReference, PackageReference) int,
+) []PackageReference {
 	result := set.AsSlice()
-
-	sort.Slice(result, func(i int, j int) bool {
-		return less(result[i], result[j])
-	})
+	slices.SortFunc(
+		result,
+		func(left PackageReference, right PackageReference) int {
+			return compare(left, right)
+		})
 
 	return result
 }

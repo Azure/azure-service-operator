@@ -13,7 +13,7 @@ import (
 
 // Compare compares two versions, returning true if left is less than right.
 func Compare(left string, right string) bool {
-	return astmodel.ComparePathAndVersion(left, right)
+	return astmodel.ComparePathAndVersion(left, right) < 0
 }
 
 // IsPreview returns true if the version is a preview version, false otherwise

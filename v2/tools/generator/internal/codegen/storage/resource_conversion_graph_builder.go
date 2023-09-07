@@ -7,9 +7,8 @@ package storage
 
 import (
 	"fmt"
-	"sort"
-
 	"github.com/pkg/errors"
+	"golang.org/x/exp/slices"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -54,11 +53,13 @@ func (b *ResourceConversionGraphBuilder) Build() (*ResourceConversionGraph, erro
 		toProcess = append(toProcess, name.(astmodel.InternalTypeName))
 	}
 
-	sort.Slice(toProcess, func(i, j int) bool {
-		return astmodel.ComparePathAndVersion(
-			toProcess[i].PackageReference().ImportPath(),
-			toProcess[j].PackageReference().ImportPath())
-	})
+	slices.SortFunc(
+		toProcess,
+		func(i astmodel.InternalTypeName, j astmodel.InternalTypeName) int {
+			return astmodel.ComparePathAndVersion(
+				i.PackageReference().ImportPath(),
+				j.PackageReference().ImportPath())
+		})
 
 	for _, s := range stages {
 		s(toProcess)

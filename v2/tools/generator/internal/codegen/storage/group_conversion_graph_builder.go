@@ -76,7 +76,7 @@ func (b *GroupConversionGraphBuilder) Build() (*GroupConversionGraph, error) {
 
 	slices.SortFunc(
 		storagePackages,
-		func(left astmodel.InternalPackageReference, right astmodel.InternalPackageReference) bool {
+		func(left astmodel.InternalPackageReference, right astmodel.InternalPackageReference) int {
 			return astmodel.ComparePathAndVersion(left.ImportPath(), right.ImportPath())
 		})
 
