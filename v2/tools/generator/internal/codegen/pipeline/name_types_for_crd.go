@@ -24,7 +24,7 @@ func NameTypesForCRD(idFactory astmodel.IdentifierFactory) *Stage {
 			result := make(astmodel.TypeDefinitionSet)
 
 			// this is a little bit of a hack, better way to do it?
-			getDescription := func(typeName astmodel.TypeName) []string {
+			getDescription := func(typeName astmodel.InternalTypeName) []string {
 				if typeDef, ok := definitions[typeName]; ok {
 					return typeDef.Description()
 				}
@@ -56,7 +56,7 @@ func NameTypesForCRD(idFactory astmodel.IdentifierFactory) *Stage {
 
 func nameInnerTypes(
 	def astmodel.TypeDefinition,
-	getDescription func(typeName astmodel.TypeName) []string,
+	getDescription func(typeName astmodel.InternalTypeName) []string,
 ) ([]astmodel.TypeDefinition, error) {
 	var resultTypes []astmodel.TypeDefinition
 

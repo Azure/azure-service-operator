@@ -11,15 +11,15 @@ import (
 
 // PropertyReference is a fully qualified reference to where a property may be found
 type PropertyReference struct {
-	declaringType TypeName     // which type declares the property
-	property      PropertyName // the name of the property
+	declaringType InternalTypeName // which type declares the property
+	property      PropertyName     // the name of the property
 }
 
 // EmptyPropertyReference is a convenience constant for when we have no value
 var EmptyPropertyReference = PropertyReference{}
 
 // MakePropertyReference creates a new property reference identifying both the containing type and the property name.
-func MakePropertyReference(declaringType TypeName, property PropertyName) PropertyReference {
+func MakePropertyReference(declaringType InternalTypeName, property PropertyName) PropertyReference {
 	return PropertyReference{
 		declaringType: declaringType,
 		property:      property,
@@ -27,7 +27,7 @@ func MakePropertyReference(declaringType TypeName, property PropertyName) Proper
 }
 
 // DeclaringType returns the type name of the type declaring the property
-func (ref PropertyReference) DeclaringType() TypeName {
+func (ref PropertyReference) DeclaringType() InternalTypeName {
 	return ref.declaringType
 }
 

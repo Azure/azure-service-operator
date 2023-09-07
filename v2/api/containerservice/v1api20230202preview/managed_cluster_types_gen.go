@@ -253,7 +253,7 @@ func (cluster *ManagedCluster) updateValidations() []func(old runtime.Object) (a
 	}
 }
 
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations's
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
 func (cluster *ManagedCluster) validateConfigMapDestinations() (admission.Warnings, error) {
 	if cluster.Spec.OperatorSpec == nil {
 		return nil, nil

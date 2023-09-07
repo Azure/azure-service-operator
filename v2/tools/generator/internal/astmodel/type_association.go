@@ -5,8 +5,8 @@
 
 package astmodel
 
-// TypeAssociation defines an association between two types
-type TypeAssociation map[TypeName]TypeName
+// TypeAssociation defines an association between two internal types
+type TypeAssociation map[InternalTypeName]InternalTypeName
 
 func (ts TypeAssociation) Equals(other TypeAssociation) bool {
 	if len(ts) != len(other) {

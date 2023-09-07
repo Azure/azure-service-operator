@@ -245,7 +245,7 @@ func (service *PrivateLinkService) updateValidations() []func(old runtime.Object
 	}
 }
 
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations's
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
 func (service *PrivateLinkService) validateConfigMapDestinations() (admission.Warnings, error) {
 	if service.Spec.OperatorSpec == nil {
 		return nil, nil

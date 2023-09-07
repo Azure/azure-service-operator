@@ -23,8 +23,11 @@ type misbehavingResourceDetails struct {
 	propertyType astmodel.TypeName
 }
 
-func findMisbehavingResources(configuration *config.Configuration, defs astmodel.TypeDefinitionSet) (map[astmodel.TypeName][]misbehavingResourceDetails, error) {
-	resources := make(map[astmodel.TypeName][]misbehavingResourceDetails)
+func findMisbehavingResources(
+	configuration *config.Configuration,
+	defs astmodel.TypeDefinitionSet,
+) (map[astmodel.InternalTypeName][]misbehavingResourceDetails, error) {
+	resources := make(map[astmodel.InternalTypeName][]misbehavingResourceDetails)
 	visitor := astmodel.TypeVisitorBuilder[misbehavingResourceCtx]{
 		VisitObjectType: func(this *astmodel.TypeVisitor[misbehavingResourceCtx], ot *astmodel.ObjectType, ctx misbehavingResourceCtx) (astmodel.Type, error) {
 			for _, prop := range ot.Properties().Copy() {

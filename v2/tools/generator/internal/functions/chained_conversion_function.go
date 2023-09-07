@@ -120,9 +120,8 @@ func (fn *ChainedConversionFunction) References() astmodel.TypeNameSet {
 
 func (fn *ChainedConversionFunction) AsFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
-	receiver astmodel.TypeName,
+	receiver astmodel.InternalTypeName,
 ) (*dst.FuncDecl, error) {
-
 	// Create a sensible name for our receiver
 	receiverName := fn.idFactory.CreateReceiver(receiver.Name())
 

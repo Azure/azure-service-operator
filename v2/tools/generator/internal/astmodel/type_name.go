@@ -23,7 +23,6 @@ type TypeName interface {
 	RequiredPackageReferences() *PackageReferenceSet
 	Equals(t Type, override EqualityOverrides) bool
 	String() string
-	Singular() TypeName
 	WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference)
 }
 

@@ -55,7 +55,7 @@ func RemoveTypeAliases() *Stage {
 
 func resolveTypeName(
 	visitor *astmodel.TypeVisitor[any],
-	name astmodel.TypeName,
+	name astmodel.InternalTypeName,
 	definitions astmodel.TypeDefinitionSet,
 ) (astmodel.Type, error) {
 	// Don't try to remove external refs
@@ -83,7 +83,9 @@ func resolveTypeName(
 		return def.Name(), nil // must remain named as it is just wrapping objectType (and objectType remains named)
 	case *astmodel.InterfaceType:
 		return def.Name(), nil // must remain named
-	case astmodel.TypeName:
+	case *astmodel.ExternalTypeName:
+		return def.Name(), nil // must remain named
+	case astmodel.InternalTypeName:
 		// We need to resolve further because this type is an alias
 		return resolveTypeName(visitor, concreteType, definitions)
 	case *astmodel.PrimitiveType:

@@ -256,7 +256,7 @@ func (identity *UserAssignedIdentity) updateValidations() []func(old runtime.Obj
 	}
 }
 
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations's
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
 func (identity *UserAssignedIdentity) validateConfigMapDestinations() (admission.Warnings, error) {
 	if identity.Spec.OperatorSpec == nil {
 		return nil, nil

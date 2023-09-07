@@ -43,14 +43,14 @@ func CreateStorageTypes() *Stage {
 			// really we don't want storage types to have API Version at all,
 			// but it's difficult to remove the GetApiVersion() Function at the moment
 			storageAPIVersions := make(astmodel.TypeNameSet)
-			for _, tdef := range typesToConvert {
-				if rt, ok := astmodel.AsResourceType(tdef.Type()); ok && rt.HasAPIVersion() {
+			for _, def := range typesToConvert {
+				if rt, ok := astmodel.AsResourceType(def.Type()); ok && rt.HasAPIVersion() {
 					storageAPIVersions.Add(rt.APIVersionTypeName())
 				}
 			}
 
 			for name := range storageAPIVersions {
-				typesToConvert.Add(state.Definitions()[name])
+				typesToConvert.Add(state.Definitions()[name.(astmodel.InternalTypeName)])
 			}
 
 			storageDefs := make(astmodel.TypeDefinitionSet)

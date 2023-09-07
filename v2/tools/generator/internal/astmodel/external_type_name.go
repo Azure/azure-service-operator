@@ -115,7 +115,7 @@ func (tn ExternalTypeName) AsZero(definitions TypeDefinitionSet, ctx *CodeGenera
 		}
 	}
 
-	// Otherwise we need the underlying type (e.g. enums, primitive type, etc)
+	// Otherwise we need the underlying type (e.g. enums, primitive type, etc.)
 	return actualType.AsZero(definitions, ctx)
 }
 
@@ -150,16 +150,6 @@ func (tn ExternalTypeName) Equals(t Type, override EqualityOverrides) bool {
 // String returns the string representation of the type name, and implements fmt.Stringer.
 func (tn ExternalTypeName) String() string {
 	return fmt.Sprintf("%s/%s", tn.packageReference, tn.name)
-}
-
-// Singular returns a TypeName with the name singularized.
-func (tn ExternalTypeName) Singular() TypeName {
-	panic("not implemented")
-}
-
-// Plural returns a TypeName with the name pluralized.
-func (tn ExternalTypeName) Plural() TypeName {
-	panic("not implemented")
 }
 
 // WriteDebugDescription adds a description of the current type to the passed builder.

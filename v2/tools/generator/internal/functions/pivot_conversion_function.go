@@ -133,9 +133,8 @@ func (fn *PivotConversionFunction) References() astmodel.TypeNameSet {
 
 func (fn *PivotConversionFunction) AsFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
-	receiver astmodel.TypeName,
+	receiver astmodel.InternalTypeName,
 ) (*dst.FuncDecl, error) {
-
 	// Create a sensible name for our receiver
 	receiverName := fn.idFactory.CreateReceiver(receiver.Name())
 

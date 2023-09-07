@@ -28,7 +28,7 @@ type convertFromARMBuilder struct {
 func newConvertFromARMFunctionBuilder(
 	c *ARMConversionFunction,
 	codeGenerationContext *astmodel.CodeGenerationContext,
-	receiver astmodel.TypeName,
+	receiver astmodel.InternalTypeName,
 	methodName string,
 ) *convertFromARMBuilder {
 	result := &convertFromARMBuilder{
@@ -208,7 +208,7 @@ func (builder *convertFromARMBuilder) referencePropertyHandler(
 		return notHandled, nil
 	}
 
-	// TODO: For now, we are NOT assigning to these. _Status types don't have them and it's unclear what
+	// TODO: For now, we are NOT assigning to these. _Status types don't have them, and it's unclear what
 	// TODO: the fromARM functions do for us on Spec types. We may need them for diffing though. If so we will
 	// TODO: need to revisit this and actually assign something
 	return handledWithNoOp, nil
@@ -225,7 +225,7 @@ func (builder *convertFromARMBuilder) secretPropertyHandler(
 		return notHandled, nil
 	}
 
-	// TODO: For now, we are NOT assigning to these. _Status types don't have them and it's unclear what
+	// TODO: For now, we are NOT assigning to these. _Status types don't have them, and it's unclear what
 	// TODO: the fromARM functions do for us on Spec types. We may need them for diffing though. If so we will
 	// TODO: need to revisit this and actually assign something
 	return handledWithNoOp, nil
@@ -242,7 +242,7 @@ func (builder *convertFromARMBuilder) configMapPropertyHandler(
 		return notHandled, nil
 	}
 
-	// TODO: For now, we are NOT assigning to these. _Status types don't have them and it's unclear what
+	// TODO: For now, we are NOT assigning to these. _Status types don't have them, and it's unclear what
 	// TODO: the fromARM functions do for us on Spec types. We may need them for diffing though. If so we will
 	// TODO: need to revisit this and actually assign something
 	return handledWithNoOp, nil

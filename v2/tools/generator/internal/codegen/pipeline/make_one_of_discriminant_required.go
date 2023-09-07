@@ -73,7 +73,10 @@ func (r *propertyModifier) makeDiscriminatorPropertiesRequired(
 	return astmodel.IdentityVisitOfObjectType(this, ot, ctx)
 }
 
-func makeOneOfDiscriminantTypeRequired(oneOf astmodel.TypeDefinition, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+func makeOneOfDiscriminantTypeRequired(
+	oneOf astmodel.TypeDefinition,
+	defs astmodel.TypeDefinitionSet,
+) (astmodel.TypeDefinitionSet, error) {
 	objectType, ok := astmodel.AsObjectType(oneOf.Type())
 	if !ok {
 		return nil, errors.Errorf(
@@ -92,16 +95,18 @@ func makeOneOfDiscriminantTypeRequired(oneOf astmodel.TypeDefinition, defs astmo
 	remover := newPropertyModifier(discriminantJson)
 
 	for _, value := range values {
-		def, err := defs.GetDefinition(value.TypeName)
-		if err != nil {
-			return nil, err
-		}
-		updatedDef, err := remover.visitor.VisitDefinition(def, nil)
-		if err != nil {
-			return nil, errors.Wrapf(err, "error updating definition %s", def.Name())
-		}
+		if tn, ok := value.TypeName.(astmodel.InternalTypeName); ok {
+			def, err := defs.GetDefinition(tn)
+			if err != nil {
+				return nil, err
+			}
+			updatedDef, err := remover.visitor.VisitDefinition(def, nil)
+			if err != nil {
+				return nil, errors.Wrapf(err, "error updating definition %s", def.Name())
+			}
 
-		result.Add(updatedDef)
+			result.Add(updatedDef)
+		}
 	}
 
 	return result, nil

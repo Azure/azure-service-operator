@@ -62,7 +62,10 @@ func (fn *ObjectFunction) References() astmodel.TypeNameSet {
 }
 
 // AsFunc renders the current instance as a Go abstract syntax tree
-func (fn *ObjectFunction) AsFunc(codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) (*dst.FuncDecl, error) {
+func (fn *ObjectFunction) AsFunc(
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.InternalTypeName,
+) (*dst.FuncDecl, error) {
 	return fn.asFunc(fn, codeGenerationContext, receiver, fn.name), nil
 }
 

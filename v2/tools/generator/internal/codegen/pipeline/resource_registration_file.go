@@ -467,7 +467,7 @@ func (r *ResourceRegistrationFile) defineIndexFunctions(
 	result := make([]dst.Decl, 0, len(indexFunctions))
 	var errs []error
 	for _, f := range indexFunctions {
-		decl, err := f.AsFunc(codeGenerationContext, nil)
+		decl, err := f.AsFunc(codeGenerationContext, astmodel.InternalTypeName{})
 		if err != nil {
 			errs = append(errs, err)
 			continue

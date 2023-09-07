@@ -30,7 +30,7 @@ type convertToARMBuilder struct {
 func newConvertToARMFunctionBuilder(
 	c *ARMConversionFunction,
 	codeGenerationContext *astmodel.CodeGenerationContext,
-	receiver astmodel.TypeName,
+	receiver astmodel.InternalTypeName,
 	methodName string) *convertToARMBuilder {
 
 	result := &convertToARMBuilder{
@@ -585,7 +585,7 @@ func (builder *convertToARMBuilder) convertUserAssignedIdentitiesCollection(
 		return nil, nil
 	}
 
-	typeName, ok := astmodel.AsTypeName(sourceType.Element())
+	typeName, ok := astmodel.AsInternalTypeName(sourceType.Element())
 	if !ok {
 		return nil, nil
 	}
