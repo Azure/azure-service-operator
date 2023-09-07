@@ -288,7 +288,7 @@ func (account *StorageAccount) updateValidations() []func(old runtime.Object) (a
 	}
 }
 
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations's
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
 func (account *StorageAccount) validateConfigMapDestinations() (admission.Warnings, error) {
 	if account.Spec.OperatorSpec == nil {
 		return nil, nil

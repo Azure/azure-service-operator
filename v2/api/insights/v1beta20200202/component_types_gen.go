@@ -251,7 +251,7 @@ func (component *Component) updateValidations() []func(old runtime.Object) (admi
 	}
 }
 
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations's
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
 func (component *Component) validateConfigMapDestinations() (admission.Warnings, error) {
 	if component.Spec.OperatorSpec == nil {
 		return nil, nil

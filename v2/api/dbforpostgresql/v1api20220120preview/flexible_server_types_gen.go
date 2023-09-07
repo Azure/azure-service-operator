@@ -248,7 +248,7 @@ func (server *FlexibleServer) updateValidations() []func(old runtime.Object) (ad
 	}
 }
 
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations's
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
 func (server *FlexibleServer) validateConfigMapDestinations() (admission.Warnings, error) {
 	if server.Spec.OperatorSpec == nil {
 		return nil, nil
