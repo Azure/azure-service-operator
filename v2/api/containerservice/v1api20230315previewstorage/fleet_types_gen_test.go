@@ -154,6 +154,7 @@ func AddIndependentPropertyGeneratorsForFleet_Spec(gens map[string]gopter.Gen) {
 // AddRelatedPropertyGeneratorsForFleet_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFleet_Spec(gens map[string]gopter.Gen) {
 	gens["HubProfile"] = gen.PtrOf(FleetHubProfileGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(FleetOperatorSpecGenerator())
 }
 
 func Test_Fleet_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -360,6 +361,66 @@ func AddIndependentPropertyGeneratorsForFleetHubProfile_STATUS(gens map[string]g
 	gens["KubernetesVersion"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_FleetOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of FleetOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFleetOperatorSpec, FleetOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForFleetOperatorSpec runs a test to see if a specific instance of FleetOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForFleetOperatorSpec(subject FleetOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual FleetOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of FleetOperatorSpec instances for property testing - lazily instantiated by FleetOperatorSpecGenerator()
+var fleetOperatorSpecGenerator gopter.Gen
+
+// FleetOperatorSpecGenerator returns a generator of FleetOperatorSpec instances for property testing.
+func FleetOperatorSpecGenerator() gopter.Gen {
+	if fleetOperatorSpecGenerator != nil {
+		return fleetOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForFleetOperatorSpec(generators)
+	fleetOperatorSpecGenerator = gen.Struct(reflect.TypeOf(FleetOperatorSpec{}), generators)
+
+	return fleetOperatorSpecGenerator
+}
+
+// AddRelatedPropertyGeneratorsForFleetOperatorSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForFleetOperatorSpec(gens map[string]gopter.Gen) {
+	gens["Secrets"] = gen.PtrOf(FleetOperatorSecretsGenerator())
+}
+
 func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -465,4 +526,59 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_FleetOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of FleetOperatorSecrets via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFleetOperatorSecrets, FleetOperatorSecretsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForFleetOperatorSecrets runs a test to see if a specific instance of FleetOperatorSecrets round trips to JSON and back losslessly
+func RunJSONSerializationTestForFleetOperatorSecrets(subject FleetOperatorSecrets) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual FleetOperatorSecrets
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of FleetOperatorSecrets instances for property testing - lazily instantiated by
+// FleetOperatorSecretsGenerator()
+var fleetOperatorSecretsGenerator gopter.Gen
+
+// FleetOperatorSecretsGenerator returns a generator of FleetOperatorSecrets instances for property testing.
+func FleetOperatorSecretsGenerator() gopter.Gen {
+	if fleetOperatorSecretsGenerator != nil {
+		return fleetOperatorSecretsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	fleetOperatorSecretsGenerator = gen.Struct(reflect.TypeOf(FleetOperatorSecrets{}), generators)
+
+	return fleetOperatorSecretsGenerator
 }
