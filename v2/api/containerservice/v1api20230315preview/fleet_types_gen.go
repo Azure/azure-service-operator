@@ -199,7 +199,7 @@ func (fleet *Fleet) ValidateUpdate(old runtime.Object) (admission.Warnings, erro
 
 // createValidations validates the creation of the resource
 func (fleet *Fleet) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){fleet.validateResourceReferences, fleet.validateOwnerReference}
+	return []func() (admission.Warnings, error){fleet.validateResourceReferences, fleet.validateOwnerReference, fleet.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,6 +217,9 @@ func (fleet *Fleet) updateValidations() []func(old runtime.Object) (admission.Wa
 		func(old runtime.Object) (admission.Warnings, error) {
 			return fleet.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return fleet.validateSecretDestinations()
+		},
 	}
 }
 
@@ -232,6 +235,20 @@ func (fleet *Fleet) validateResourceReferences() (admission.Warnings, error) {
 		return nil, err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (fleet *Fleet) validateSecretDestinations() (admission.Warnings, error) {
+	if fleet.Spec.OperatorSpec == nil {
+		return nil, nil
+	}
+	if fleet.Spec.OperatorSpec.Secrets == nil {
+		return nil, nil
+	}
+	toValidate := []*genruntime.SecretDestination{
+		fleet.Spec.OperatorSpec.Secrets.UserCredentials,
+	}
+	return genruntime.ValidateSecretDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -335,6 +352,10 @@ type Fleet_Spec struct {
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *FleetOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -420,6 +441,8 @@ func (fleet *Fleet_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		location := *typedInput.Location
 		fleet.Location = &location
 	}
+
+	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
 	fleet.Owner = &genruntime.KnownResourceReference{
@@ -510,6 +533,18 @@ func (fleet *Fleet_Spec) AssignProperties_From_Fleet_Spec(source *v20230315ps.Fl
 	// Location
 	fleet.Location = genruntime.ClonePointerToString(source.Location)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec FleetOperatorSpec
+		err := operatorSpec.AssignProperties_From_FleetOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_FleetOperatorSpec() to populate field OperatorSpec")
+		}
+		fleet.OperatorSpec = &operatorSpec
+	} else {
+		fleet.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -547,6 +582,18 @@ func (fleet *Fleet_Spec) AssignProperties_To_Fleet_Spec(destination *v20230315ps
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(fleet.Location)
+
+	// OperatorSpec
+	if fleet.OperatorSpec != nil {
+		var operatorSpec v20230315ps.FleetOperatorSpec
+		err := fleet.OperatorSpec.AssignProperties_To_FleetOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_FleetOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = fleet.OriginalVersion()
@@ -1105,6 +1152,59 @@ func (profile *FleetHubProfile_STATUS) AssignProperties_To_FleetHubProfile_STATU
 	return nil
 }
 
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type FleetOperatorSpec struct {
+	// Secrets: configures where to place Azure generated secrets.
+	Secrets *FleetOperatorSecrets `json:"secrets,omitempty"`
+}
+
+// AssignProperties_From_FleetOperatorSpec populates our FleetOperatorSpec from the provided source FleetOperatorSpec
+func (operator *FleetOperatorSpec) AssignProperties_From_FleetOperatorSpec(source *v20230315ps.FleetOperatorSpec) error {
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret FleetOperatorSecrets
+		err := secret.AssignProperties_From_FleetOperatorSecrets(source.Secrets)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_FleetOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_FleetOperatorSpec populates the provided destination FleetOperatorSpec from our FleetOperatorSpec
+func (operator *FleetOperatorSpec) AssignProperties_To_FleetOperatorSpec(destination *v20230315ps.FleetOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret v20230315ps.FleetOperatorSecrets
+		err := operator.Secrets.AssignProperties_To_FleetOperatorSecrets(&secret)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_FleetOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // The provisioning state of the last accepted operation.
 type FleetProvisioningState_STATUS string
 
@@ -1258,6 +1358,51 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 		destination.LastModifiedByType = &lastModifiedByType
 	} else {
 		destination.LastModifiedByType = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type FleetOperatorSecrets struct {
+	// UserCredentials: indicates where the UserCredentials secret should be placed. If omitted, the secret will not be
+	// retrieved from Azure.
+	UserCredentials *genruntime.SecretDestination `json:"userCredentials,omitempty"`
+}
+
+// AssignProperties_From_FleetOperatorSecrets populates our FleetOperatorSecrets from the provided source FleetOperatorSecrets
+func (secrets *FleetOperatorSecrets) AssignProperties_From_FleetOperatorSecrets(source *v20230315ps.FleetOperatorSecrets) error {
+
+	// UserCredentials
+	if source.UserCredentials != nil {
+		userCredential := source.UserCredentials.Copy()
+		secrets.UserCredentials = &userCredential
+	} else {
+		secrets.UserCredentials = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_FleetOperatorSecrets populates the provided destination FleetOperatorSecrets from our FleetOperatorSecrets
+func (secrets *FleetOperatorSecrets) AssignProperties_To_FleetOperatorSecrets(destination *v20230315ps.FleetOperatorSecrets) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// UserCredentials
+	if secrets.UserCredentials != nil {
+		userCredential := secrets.UserCredentials.Copy()
+		destination.UserCredentials = &userCredential
+	} else {
+		destination.UserCredentials = nil
 	}
 
 	// Update the property bag

@@ -54,6 +54,9 @@
 | ControlPlaneUpgradeOverride_STATUS                                                   |               |               | v1api20230202preview |                      |                |
 | CreationData                                                                         |               | v1api20230201 | v1api20230202preview |                      |                |
 | CreationData_STATUS                                                                  |               | v1api20230201 | v1api20230202preview |                      |                |
+| ErrorAdditionalInfo_STATUS                                                           |               |               |                      | v1api20230315preview |                |
+| ErrorDetail_STATUS                                                                   |               |               |                      | v1api20230315preview |                |
+| ErrorDetail_STATUS_Unrolled                                                          |               |               |                      | v1api20230315preview |                |
 | ExtendedLocation                                                                     | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1beta20210501 |
 | ExtendedLocationType                                                                 | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1beta20210501 |
 | ExtendedLocationType_STATUS                                                          | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1beta20210501 |
@@ -61,11 +64,20 @@
 | Fleet                                                                                |               |               |                      | v1api20230315preview |                |
 | FleetHubProfile                                                                      |               |               |                      | v1api20230315preview |                |
 | FleetHubProfile_STATUS                                                               |               |               |                      | v1api20230315preview |                |
+| FleetMemberProperties                                                                |               |               |                      | v1api20230315preview |                |
+| FleetMemberProperties_STATUS                                                         |               |               |                      | v1api20230315preview |                |
+| FleetMemberProvisioningState_STATUS                                                  |               |               |                      | v1api20230315preview |                |
 | FleetProperties                                                                      |               |               |                      | v1api20230315preview |                |
 | FleetProperties_STATUS                                                               |               |               |                      | v1api20230315preview |                |
 | FleetProvisioningState_STATUS                                                        |               |               |                      | v1api20230315preview |                |
 | Fleet_STATUS                                                                         |               |               |                      | v1api20230315preview |                |
 | Fleet_Spec                                                                           |               |               |                      | v1api20230315preview |                |
+| FleetsMember                                                                         |               |               |                      | v1api20230315preview |                |
+| FleetsUpdateRun                                                                      |               |               |                      | v1api20230315preview |                |
+| Fleets_Member_STATUS                                                                 |               |               |                      | v1api20230315preview |                |
+| Fleets_Member_Spec                                                                   |               |               |                      | v1api20230315preview |                |
+| Fleets_UpdateRun_STATUS                                                              |               |               |                      | v1api20230315preview |                |
+| Fleets_UpdateRun_Spec                                                                |               |               |                      | v1api20230315preview |                |
 | GPUInstanceProfile                                                                   | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1beta20210501 |
 | GPUInstanceProfile_STATUS                                                            | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1beta20210501 |
 | GuardrailsProfile                                                                    |               |               | v1api20230202preview |                      |                |
@@ -194,6 +206,12 @@
 | ManagedClusterStorageProfileSnapshotController                                       |               | v1api20230201 | v1api20230202preview |                      |                |
 | ManagedClusterStorageProfileSnapshotController_STATUS                                |               | v1api20230201 | v1api20230202preview |                      |                |
 | ManagedClusterStorageProfile_STATUS                                                  |               | v1api20230201 | v1api20230202preview |                      |                |
+| ManagedClusterUpdate                                                                 |               |               |                      | v1api20230315preview |                |
+| ManagedClusterUpdate_STATUS                                                          |               |               |                      | v1api20230315preview |                |
+| ManagedClusterUpgradeSpec                                                            |               |               |                      | v1api20230315preview |                |
+| ManagedClusterUpgradeSpec_STATUS                                                     |               |               |                      | v1api20230315preview |                |
+| ManagedClusterUpgradeType                                                            |               |               |                      | v1api20230315preview |                |
+| ManagedClusterUpgradeType_STATUS                                                     |               |               |                      | v1api20230315preview |                |
 | ManagedClusterWindowsProfile                                                         | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1beta20210501 |
 | ManagedClusterWindowsProfile_LicenseType                                             | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1beta20210501 |
 | ManagedClusterWindowsProfile_LicenseType_STATUS                                      | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1beta20210501 |
@@ -215,6 +233,7 @@
 | ManagedClusters_AgentPool_Spec                                                       | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1beta20210501 |
 | ManagedClusters_TrustedAccessRoleBinding_STATUS                                      |               |               | v1api20230202preview |                      |                |
 | ManagedClusters_TrustedAccessRoleBinding_Spec                                        |               |               | v1api20230202preview |                      |                |
+| MemberUpdateStatus_STATUS                                                            |               |               |                      | v1api20230315preview |                |
 | NetworkDataplane                                                                     |               |               | v1api20230202preview |                      |                |
 | NetworkDataplane_STATUS                                                              |               |               | v1api20230202preview |                      |                |
 | NetworkMode                                                                          |               |               | v1api20230202preview |                      |                |
@@ -262,11 +281,26 @@
 | TrustedAccessRoleBindingProperties                                                   |               |               | v1api20230202preview |                      |                |
 | TrustedAccessRoleBindingProperties_ProvisioningState_STATUS                          |               |               | v1api20230202preview |                      |                |
 | TrustedAccessRoleBindingProperties_STATUS                                            |               |               | v1api20230202preview |                      |                |
+| UpdateGroup                                                                          |               |               |                      | v1api20230315preview |                |
+| UpdateGroupStatus_STATUS                                                             |               |               |                      | v1api20230315preview |                |
+| UpdateGroup_STATUS                                                                   |               |               |                      | v1api20230315preview |                |
+| UpdateRunProperties                                                                  |               |               |                      | v1api20230315preview |                |
+| UpdateRunProperties_STATUS                                                           |               |               |                      | v1api20230315preview |                |
+| UpdateRunProvisioningState_STATUS                                                    |               |               |                      | v1api20230315preview |                |
+| UpdateRunStatus_STATUS                                                               |               |               |                      | v1api20230315preview |                |
+| UpdateRunStrategy                                                                    |               |               |                      | v1api20230315preview |                |
+| UpdateRunStrategy_STATUS                                                             |               |               |                      | v1api20230315preview |                |
+| UpdateStage                                                                          |               |               |                      | v1api20230315preview |                |
+| UpdateStageStatus_STATUS                                                             |               |               |                      | v1api20230315preview |                |
+| UpdateStage_STATUS                                                                   |               |               |                      | v1api20230315preview |                |
+| UpdateState_STATUS                                                                   |               |               |                      | v1api20230315preview |                |
+| UpdateStatus_STATUS                                                                  |               |               |                      | v1api20230315preview |                |
 | UpgradeOverrideSettings                                                              |               |               | v1api20230202preview |                      |                |
 | UpgradeOverrideSettings_STATUS                                                       |               |               | v1api20230202preview |                      |                |
 | UserAssignedIdentity                                                                 | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1beta20210501 |
 | UserAssignedIdentityDetails                                                          | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1beta20210501 |
 | UserAssignedIdentity_STATUS                                                          | v1api20210501 | v1api20230201 | v1api20230202preview |                      | v1beta20210501 |
+| WaitStatus_STATUS                                                                    |               |               |                      | v1api20230315preview |                |
 | WindowsGmsaProfile                                                                   |               | v1api20230201 | v1api20230202preview |                      |                |
 | WindowsGmsaProfile_STATUS                                                            |               | v1api20230201 | v1api20230202preview |                      |                |
 | WorkloadRuntime                                                                      |               | v1api20230201 | v1api20230202preview |                      |                |

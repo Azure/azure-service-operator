@@ -143,10 +143,11 @@ type Fleet_Spec struct {
 	// +kubebuilder:validation:Pattern="^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string           `json:"azureName,omitempty"`
-	HubProfile      *FleetHubProfile `json:"hubProfile,omitempty"`
-	Location        *string          `json:"location,omitempty"`
-	OriginalVersion string           `json:"originalVersion,omitempty"`
+	AzureName       string             `json:"azureName,omitempty"`
+	HubProfile      *FleetHubProfile   `json:"hubProfile,omitempty"`
+	Location        *string            `json:"location,omitempty"`
+	OperatorSpec    *FleetOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string             `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -227,6 +228,13 @@ type FleetHubProfile_STATUS struct {
 	Fqdn              *string                `json:"fqdn,omitempty"`
 	KubernetesVersion *string                `json:"kubernetesVersion,omitempty"`
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1api20230315preview.FleetOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type FleetOperatorSpec struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Secrets     *FleetOperatorSecrets  `json:"secrets,omitempty"`
 }
 
 // Storage version of v1api20230315preview.SystemData_STATUS
@@ -330,6 +338,12 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 type augmentConversionForSystemData_STATUS interface {
 	AssignPropertiesFrom(src *v20230202ps.SystemData_STATUS) error
 	AssignPropertiesTo(dst *v20230202ps.SystemData_STATUS) error
+}
+
+// Storage version of v1api20230315preview.FleetOperatorSecrets
+type FleetOperatorSecrets struct {
+	PropertyBag     genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	UserCredentials *genruntime.SecretDestination `json:"userCredentials,omitempty"`
 }
 
 func init() {
