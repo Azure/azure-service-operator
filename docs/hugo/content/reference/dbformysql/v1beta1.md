@@ -117,8 +117,8 @@ doesn&rsquo;t have to be.</p>
 <td>
 <code>owner</code><br/>
 <em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KubernetesOwnerReference">
+genruntime.KubernetesOwnerReference
 </a>
 </em>
 </td>
@@ -229,8 +229,8 @@ doesn&rsquo;t have to be.</p>
 <td>
 <code>owner</code><br/>
 <em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KubernetesOwnerReference">
+genruntime.KubernetesOwnerReference
 </a>
 </em>
 </td>
