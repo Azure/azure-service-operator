@@ -62,6 +62,43 @@ func TestComparePackageReferencesByPathAndVersion(t *testing.T) {
 		{"v2.0.0 comes before v2.1.0", "v2.0.0", "v2.1.0", -1},
 		{"v2.1.0 comes before v2.9.0", "v2.1.0", "v2.9.0", -1},
 		{"v2.9.0 comes before v2.10.0", "v2.9.0", "v2.10.0", -1},
+		// Consistency tests, based on observed weirdness
+		{
+			"Storage subpackage comes after base",
+			"github.com/Azure/azure-service-operator/testing/person/v20200101",
+			"github.com/Azure/azure-service-operator/testing/person/v20200101/storage",
+			-1,
+		},
+		{
+			"Storage subpackage comes after base, reversed",
+			"github.com/Azure/azure-service-operator/testing/person/v20200101/storage",
+			"github.com/Azure/azure-service-operator/testing/person/v20200101",
+			1,
+		},
+		{
+			"Storage subpackage comes after preview base",
+			"github.com/Azure/azure-service-operator/testing/person/v20211231preview",
+			"github.com/Azure/azure-service-operator/testing/person/v20211231preview/storage",
+			-1,
+		},
+		{
+			"Storage subpackage comes after preview base, reversed",
+			"github.com/Azure/azure-service-operator/testing/person/v20211231preview/storage",
+			"github.com/Azure/azure-service-operator/testing/person/v20211231preview",
+			1,
+		},
+		{
+			"Storage subpackage of non-preview comes after preview base",
+			"github.com/Azure/azure-service-operator/testing/person/v20211231/storage",
+			"github.com/Azure/azure-service-operator/testing/person/v20211231preview",
+			1,
+		},
+		{
+			"Storage subpackage of non-preview comes after preview base, reversed",
+			"github.com/Azure/azure-service-operator/testing/person/v20211231preview",
+			"github.com/Azure/azure-service-operator/testing/person/v20211231/storage",
+			-1,
+		},
 	}
 
 	for _, c := range cases {
