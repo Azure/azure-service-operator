@@ -16,7 +16,7 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus v1.1.1
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage v1.0.0
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/subscription/armsubscription v1.0.0
-	github.com/benbjohnson/clock v1.1.0
+	github.com/benbjohnson/clock v1.3.5
 	github.com/dnaeon/go-vcr v1.2.0
 	github.com/go-logr/logr v1.2.4
 	github.com/go-sql-driver/mysql v1.6.0
