@@ -348,6 +348,10 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/servicebus/v1api20210101preview/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/servicebus/v1api20211101/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/servicebus/v1api20221001preview/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/servicebus/v1beta20210101preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/configmaps/</loc>

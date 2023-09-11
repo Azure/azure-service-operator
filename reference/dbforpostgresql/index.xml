@@ -200,8 +200,8 @@ doesn&amp;rsquo;t have to be.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;owner&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference&#34;&gt;
-genruntime.KnownResourceReference
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KubernetesOwnerReference&#34;&gt;
+genruntime.KubernetesOwnerReference
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -299,8 +299,8 @@ doesn&amp;rsquo;t have to be.&lt;/p&gt;
 &lt;td&gt;
 &lt;code&gt;owner&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference&#34;&gt;
-genruntime.KnownResourceReference
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KubernetesOwnerReference&#34;&gt;
+genruntime.KubernetesOwnerReference
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
