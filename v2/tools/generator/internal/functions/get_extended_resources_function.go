@@ -6,10 +6,9 @@
 package functions
 
 import (
-	"reflect"
-	"sort"
-
 	"github.com/dave/dst"
+	"golang.org/x/exp/slices"
+	"reflect"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -55,13 +54,23 @@ func getPackageRefs(resources []astmodel.InternalTypeName) []astmodel.PackageRef
 
 // Sort resources according to the package name and resource names
 func sortResources(resources []astmodel.InternalTypeName) []astmodel.InternalTypeName {
-	sort.Slice(resources, func(i, j int) bool {
-		iVal := resources[i]
-		jVal := resources[j]
+	slices.SortFunc(
+		resources,
+		func(left astmodel.InternalTypeName, right astmodel.InternalTypeName) int {
+			if left.InternalPackageReference().FolderPath() < right.InternalPackageReference().FolderPath() {
+				return -1
+			} else if left.InternalPackageReference().FolderPath() > right.InternalPackageReference().FolderPath() {
+				return 1
+			}
 
-		return iVal.PackageReference().PackageName() < jVal.PackageReference().PackageName() ||
-			iVal.PackageReference().PackageName() < jVal.PackageReference().PackageName() && iVal.Name() < jVal.Name()
-	})
+			if left.Name() < right.Name() {
+				return -1
+			} else if left.Name() > right.Name() {
+				return 1
+			}
+
+			return 0
+		})
 
 	return resources
 }
