@@ -21,7 +21,7 @@ jobs:
           script: |
             const { data: checks } = await github.rest.checks.listForRef({
               ...context.repo,
-              context.ref
+              context.ref,
             });
             const mergeCheck = checks.check_runs.filter(c => c.name === process.env.job);
             await github.rest.checks.update({
