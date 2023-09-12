@@ -12,8 +12,6 @@ on:
   merge_group:
     branches:
       - main
-    paths:
-      - "docs/**"
 
 jobs:
   validate-site-links:
