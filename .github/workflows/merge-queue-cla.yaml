@@ -6,6 +6,8 @@ on:
 jobs:
   cla:
     runs-on: ubuntu-latest
+    permissions:
+        checks: write
     steps:
       # Update check run called "license/cla"
       - name: update-license-cla
