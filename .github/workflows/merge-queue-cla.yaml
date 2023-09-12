@@ -1,0 +1,10 @@
+name: license/cla
+on:
+  merge_group:
+
+# This workflow is used to bypass the required status checks in merge queue.
+jobs:
+  cla:
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'echo "No test required!"'
