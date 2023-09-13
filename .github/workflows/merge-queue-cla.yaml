@@ -15,28 +15,18 @@ jobs:
         id: update-license-cla-run
         if: ${{ always() }}
         env:
-          number: ${{ github.event.client_payload.pull_request.number }}
           job: ${{ github.job }}
-          server_url: ${{ github.server_url }}
-          repo: ${{ github.repository }}
-          run_id: ${{ github.run_id }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const url = `${process.env.server_url}/${process.env.repo}/actions/runs/${process.env.run_id}`
-            const { data: pull } = await github.rest.pulls.get({
-              ...context.repo,
-              pull_number: process.env.number
-            });
-            const ref = pull.head.sha;
             const { data: checks } = await github.rest.checks.listForRef({
               ...context.repo,
-              ref
+              ref: context.ref,
             });
-            const forkCheck = checks.check_runs.filter(c => c.name === process.env.job);
+            const mergeCheck = checks.check_runs.filter(c => c.name === process.env.job);
             await github.rest.checks.update({
               ...context.repo,
-              check_run_id: forkCheck[0].id,
+              check_run_id: mergeCheck[0].id,
               status: 'completed',
               conclusion: "success",
               details_url: url,
