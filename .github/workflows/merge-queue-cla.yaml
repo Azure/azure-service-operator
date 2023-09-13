@@ -2,6 +2,9 @@ name: Merge Queue license/cla
 on:
   merge_group:
 
+  # no content, allows manual triggering
+  workflow_dispatch:
+
 # This workflow is used to bypass the required license/cla check in merge queue.
 jobs:
   cla:
@@ -24,11 +27,10 @@ jobs:
               ref: context.ref,
             });
             const mergeCheck = checks.check_runs.filter(c => c.name === process.env.job);
-            await github.rest.checks.update({
+            const { data: result } = await github.rest.checks.update({
               ...context.repo,
               check_run_id: mergeCheck[0].id,
               status: 'completed',
               conclusion: "success",
-              details_url: url,
             });
             return result;
