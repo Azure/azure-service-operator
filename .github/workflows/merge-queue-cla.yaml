@@ -27,7 +27,7 @@ jobs:
               ref: context.ref,
             });
             const mergeCheck = checks.check_runs.filter(c => c.name === process.env.job);
-            await github.rest.checks.update({
+            const { data: result } = await github.rest.checks.update({
               ...context.repo,
               check_run_id: mergeCheck[0].id,
               status: 'completed',
