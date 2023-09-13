@@ -17,24 +17,24 @@ import (
 	"testing"
 	"time"
 
-	"github.com/dnaeon/go-vcr/recorder"
-	"github.com/onsi/gomega"
-	"github.com/onsi/gomega/format"
-	"github.com/pkg/errors"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	corev1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	ctrl "sigs.k8s.io/controller-runtime"
+
+	"github.com/onsi/gomega"
+	"github.com/onsi/gomega/format"
+	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/types"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
-	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/yaml"
 
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -286,11 +286,11 @@ var OperationTimeoutReplaying = 2 * time.Minute
 var OperationTimeoutRecording = 30 * time.Minute
 
 func (tc *KubePerTestContext) DefaultOperationTimeout() time.Duration {
-	if tc.AzureClientRecorder.Mode() == recorder.ModeReplaying {
-		return OperationTimeoutReplaying
+	if tc.AzureClientRecorder.IsNewCassette() {
+		return OperationTimeoutRecording
 	}
 
-	return OperationTimeoutRecording
+	return OperationTimeoutReplaying
 }
 
 // PollingIntervalReplaying is the polling interval to use when replaying.
@@ -306,11 +306,11 @@ var PollingIntervalRecording = 5 * time.Second
 
 // PollingInterval returns the polling interval to use for Gomega Eventually
 func (tc *KubePerTestContext) PollingInterval() time.Duration {
-	if tc.AzureClientRecorder.Mode() == recorder.ModeReplaying {
-		return PollingIntervalReplaying
+	if tc.AzureClientRecorder.IsNewCassette() {
+		return PollingIntervalRecording
 	}
 
-	return PollingIntervalRecording
+	return PollingIntervalReplaying
 }
 
 // OperationTimeout returns a “nice” operation timeout.

@@ -20,12 +20,12 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
-	"github.com/dnaeon/go-vcr/cassette"
-	"github.com/dnaeon/go-vcr/recorder"
 	"github.com/go-logr/logr"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/ssh"
+	"gopkg.in/dnaeon/go-vcr.v3/cassette"
+	"gopkg.in/dnaeon/go-vcr.v3/recorder"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
@@ -111,7 +111,8 @@ func (tc TestContext) ForTest(t *testing.T, cfg config.Values) (PerTestContext, 
 	// We explicitly create a new http.Client so that the recording from one test doesn't
 	// get used for all other parallel tests.
 	httpClient := &http.Client{
-		Transport: addCountHeader(translateErrors(details.recorder, cassetteName, t)),
+		//Transport: addCountHeader(translateErrors(details.recorder, cassetteName, t)),
+		Transport: translateErrors(details.recorder, cassetteName, t),
 	}
 
 	var globalARMClient *genericarmclient.GenericClient
@@ -221,7 +222,12 @@ func createRecorder(cassetteName string, cfg config.Values, recordReplay bool) (
 	if recordReplay {
 		r, err = recorder.New(cassetteName)
 	} else {
-		r, err = recorder.NewAsMode(cassetteName, recorder.ModeDisabled, nil)
+		options := &recorder.Options{
+			CassetteName: cassetteName,
+			Mode:         recorder.ModePassthrough,
+		}
+
+		r, err = recorder.NewWithOptions(options)
 	}
 
 	if err != nil {
@@ -230,8 +236,7 @@ func createRecorder(cassetteName string, cfg config.Values, recordReplay bool) (
 
 	var creds azcore.TokenCredential
 	var azureIDs AzureIDs
-	if r.Mode() == recorder.ModeRecording ||
-		r.Mode() == recorder.ModeDisabled {
+	if r.IsNewCassette() || r.Mode() == recorder.ModePassthrough {
 		// if we are recording, we need auth
 		creds, azureIDs, err = getCreds()
 		if err != nil {
@@ -274,9 +279,20 @@ func createRecorder(cassetteName string, cfg config.Values, recordReplay bool) (
 		return b.String() == "" || hideRecordingData(b.String()) == i.Body
 	})
 
-	r.AddSaveFilter(func(i *cassette.Interaction) error {
+	r.AddHook(redactInteraction(azureIDs), recorder.BeforeSaveHook)
+
+	return recorderDetails{
+		creds:    creds,
+		ids:      azureIDs,
+		recorder: r,
+		cfg:      cfg,
+	}, nil
+}
+
+func redactInteraction(azureIDs AzureIDs) func(*cassette.Interaction) error {
+	return func(i *cassette.Interaction) error {
 		// rewrite all request/response fields to hide the real subscription ID
-		// this is *not* a security measure but intended to make the tests updateable from
+		// this is *not* a security measure but intended to make the tests updatable from
 		// any subscription, so a contributor can update the tests against their own sub.
 		hide := func(s string, id string, replacement string) string {
 			return strings.ReplaceAll(s, id, replacement)
@@ -338,14 +354,7 @@ func createRecorder(cassetteName string, cfg config.Values, recordReplay bool) (
 		}
 
 		return nil
-	})
-
-	return recorderDetails{
-		creds:    creds,
-		ids:      azureIDs,
-		recorder: r,
-		cfg:      cfg,
-	}, nil
+	}
 }
 
 var requestHeadersToRemove = []string{

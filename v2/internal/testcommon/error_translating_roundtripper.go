@@ -12,10 +12,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/dnaeon/go-vcr/cassette"
-	"github.com/dnaeon/go-vcr/recorder"
 	"github.com/google/go-cmp/cmp"
 	"github.com/pkg/errors"
+	"gopkg.in/dnaeon/go-vcr.v3/cassette"
+	"gopkg.in/dnaeon/go-vcr.v3/recorder"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
@@ -32,7 +32,11 @@ import (
 //   - during record the controller does GET (404), PUT, … GET (OK)
 //   - during playback the controller does GET (which now returns OK), DELETE, PUT, …
 //     and fails due to a missing DELETE recording
-func translateErrors(r *recorder.Recorder, cassetteName string, t *testing.T) http.RoundTripper {
+func translateErrors(
+	r *recorder.Recorder,
+	cassetteName string,
+	t *testing.T,
+) http.RoundTripper {
 	return errorTranslation{r, cassetteName, nil, t}
 }
 
@@ -117,7 +121,7 @@ func (w errorTranslation) findMatchingBodies(r *http.Request) []string {
 	urlString := r.URL.String()
 	var result []string
 	for _, interaction := range w.ensureCassette().Interactions {
-		if urlString == interaction.URL && r.Method == interaction.Request.Method &&
+		if urlString == interaction.Request.RequestURI && r.Method == interaction.Request.Method &&
 			r.Header.Get(COUNT_HEADER) == interaction.Request.Headers.Get(COUNT_HEADER) {
 			result = append(result, interaction.Request.Body)
 		}
