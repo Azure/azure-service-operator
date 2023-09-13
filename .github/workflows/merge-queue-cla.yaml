@@ -32,6 +32,5 @@ jobs:
               check_run_id: mergeCheck[0].id,
               status: 'completed',
               conclusion: "success",
-              details_url: url,
             });
             return result;
