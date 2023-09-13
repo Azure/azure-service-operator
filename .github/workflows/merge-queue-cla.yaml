@@ -1,0 +1,34 @@
+name: Merge Queue license/cla
+on:
+  merge_group:
+
+# This workflow is used to bypass the required license/cla check in merge queue.
+jobs:
+  cla:
+    runs-on: ubuntu-latest
+    permissions:
+        checks: write
+    steps:
+      # Update check run called "license/cla"
+      - name: update-license-cla
+        uses: actions/github-script@v6
+        id: update-license-cla-run
+        if: ${{ always() }}
+        env:
+          job: ${{ github.job }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: checks } = await github.rest.checks.listForRef({
+              ...context.repo,
+              ref: context.ref,
+            });
+            const mergeCheck = checks.check_runs.filter(c => c.name === process.env.job);
+            await github.rest.checks.update({
+              ...context.repo,
+              check_run_id: mergeCheck[0].id,
+              status: 'completed',
+              conclusion: "success",
+              details_url: url,
+            });
+            return result;
