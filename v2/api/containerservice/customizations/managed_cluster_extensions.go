@@ -8,7 +8,6 @@ package customizations
 import (
 	"context"
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice"
@@ -25,6 +24,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
@@ -201,7 +201,6 @@ func (ext *ManagedClusterExtension) ClassifyError(
 		return core.CloudErrorDetails{}, err
 	}
 
-	// Override is to treat Conflict as retryable for Redis, if the message contains "try again later"
 	if isRetryableClusterError(cloudError) {
 		details.Classification = core.ErrorRetryable
 	}
