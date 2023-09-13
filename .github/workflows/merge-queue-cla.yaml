@@ -2,6 +2,9 @@ name: Merge Queue license/cla
 on:
   merge_group:
 
+  # no content, allows manual triggering
+  workflow_dispatch:
+
 # This workflow is used to bypass the required license/cla check in merge queue.
 jobs:
   cla:
