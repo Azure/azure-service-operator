@@ -19,7 +19,7 @@ require (
 	github.com/benbjohnson/clock v1.1.0
 	github.com/dnaeon/go-vcr v1.2.0
 	github.com/go-logr/logr v1.2.4
-	github.com/go-sql-driver/mysql v1.6.0
+	github.com/go-sql-driver/mysql v1.7.1
 	github.com/google/go-cmp v0.5.9
 	github.com/google/uuid v1.3.0
 	github.com/hbollon/go-edlib v1.6.0
