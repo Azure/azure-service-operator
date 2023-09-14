@@ -435,6 +435,10 @@ func (b *TypeVisitorBuilder[C]) buildVisitInterfaceType() func(*TypeVisitor[C], 
 }
 
 func (b *TypeVisitorBuilder[C]) diagnosticClue() string {
+	// Index up the stack three frames so we can give a clue as to where the problem is
+	// 1 frame up is the buildVisit* method that called us
+	// 2 frames up is the Build() method that called the buildVisit* method
+	// 3 frames up is the method calling Build(), which is usually the method configuring the builder
 	pc, _, _, _ := runtime.Caller(3)
 	caller := runtime.FuncForPC(pc)
 	parts := strings.Split(caller.Name(), "/")
