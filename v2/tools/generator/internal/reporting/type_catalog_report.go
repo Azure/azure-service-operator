@@ -223,7 +223,7 @@ func (tcr *TypeCatalogReport) writeResourceType(
 	parentTypes astmodel.TypeNameSet,
 ) {
 	// Write the expected owner of the resource, if we have one
-	if owner := resource.Owner(); owner != nil {
+	if owner := resource.Owner(); !owner.IsEmpty() {
 		// We don't use asShortNameForType here because we don't want to inline the owner
 		rpt.Addf("Owner: %s", astmodel.DebugDescription(owner, currentPackage))
 	}
@@ -553,7 +553,7 @@ func (tcr *TypeCatalogReport) findPackages() []astmodel.PackageReference {
 	}
 
 	result := packages.AsSortedSlice(
-		func(left astmodel.PackageReference, right astmodel.PackageReference) bool {
+		func(left astmodel.PackageReference, right astmodel.PackageReference) int {
 			return astmodel.ComparePathAndVersion(left.ImportPath(), right.ImportPath())
 		})
 

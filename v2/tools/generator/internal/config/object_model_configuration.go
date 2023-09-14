@@ -123,7 +123,7 @@ func (omc *ObjectModelConfiguration) IsEmpty() bool {
 }
 
 // IsGroupConfigured returns true if we have any configuration for the specified group, false otherwise.
-func (omc *ObjectModelConfiguration) IsGroupConfigured(pkg astmodel.PackageReference) bool {
+func (omc *ObjectModelConfiguration) IsGroupConfigured(pkg astmodel.InternalPackageReference) bool {
 	var result bool
 	visitor := newSingleGroupConfigurationVisitor(pkg, func(configuration *GroupConfiguration) error {
 		result = true
@@ -146,9 +146,9 @@ func (omc *ObjectModelConfiguration) IsGroupConfigured(pkg astmodel.PackageRefer
 
 // AddTypeAlias adds a type alias for the specified type name,
 // allowing configuration related to the type to be accessed via the new name.
-func (omc *ObjectModelConfiguration) AddTypeAlias(name astmodel.TypeName, alias string) {
+func (omc *ObjectModelConfiguration) AddTypeAlias(name astmodel.InternalTypeName, alias string) {
 	versionVisitor := newSingleVersionConfigurationVisitor(
-		name.PackageReference(),
+		name.InternalPackageReference(),
 		func(configuration *VersionConfiguration) error {
 			return configuration.addTypeAlias(name.Name(), alias)
 		})
@@ -162,12 +162,12 @@ func (omc *ObjectModelConfiguration) AddTypeAlias(name astmodel.TypeName, alias 
 
 var VersionRegex = regexp.MustCompile(`^v\d\d?$`)
 
-// FindHandCraftedTypeNames returns the set of typenames that are hand-crafted.
+// FindHandCraftedTypeNames returns the set of type-names that are hand-crafted.
 // These are identified by having `v<n>` as their version.
 func (omc *ObjectModelConfiguration) FindHandCraftedTypeNames(localPath string) (astmodel.TypeNameSet, error) {
 	result := make(astmodel.TypeNameSet)
 	var currentGroup string
-	var currentPackage astmodel.PackageReference
+	var currentPackage astmodel.InternalPackageReference
 
 	// Collect the names of hand-crafted types
 	typeVisitor := newEveryTypeConfigurationVisitor(
@@ -421,7 +421,7 @@ func makeGroupAccess[T any](
 		accessor: accessor}
 }
 
-func (a *groupAccess[T]) Lookup(ref astmodel.PackageReference) (T, error) {
+func (a *groupAccess[T]) Lookup(ref astmodel.InternalPackageReference) (T, error) {
 	var c *configurable[T]
 	visitor := newSingleGroupConfigurationVisitor(
 		ref,
@@ -473,7 +473,7 @@ func makeTypeAccess[T any](
 }
 
 // Lookup returns the configured value for the given type name
-func (a *typeAccess[T]) Lookup(name astmodel.TypeName) (T, error) {
+func (a *typeAccess[T]) Lookup(name astmodel.InternalTypeName) (T, error) {
 	var c *configurable[T]
 	visitor := newSingleTypeConfigurationVisitor(
 		name,
@@ -528,7 +528,7 @@ func makePropertyAccess[T any](
 
 // Lookup returns the configured value for the given type name and property name
 func (a *propertyAccess[T]) Lookup(
-	name astmodel.TypeName,
+	name astmodel.InternalTypeName,
 	property astmodel.PropertyName,
 ) (T, error) {
 	var c *configurable[T]

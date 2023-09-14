@@ -80,7 +80,7 @@ func (graph *ConversionGraph) FindNextType(
 	// renamed in one version and renamed back in a later one)
 	if astmodel.ComparePathAndVersion(
 		nextType.PackageReference().ImportPath(),
-		renamedType.PackageReference().ImportPath()) {
+		renamedType.PackageReference().ImportPath()) < 0 {
 		// nextType came first
 		return nextType, nil
 	}

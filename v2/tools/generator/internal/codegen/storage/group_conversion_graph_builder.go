@@ -7,6 +7,7 @@ package storage
 
 import (
 	"github.com/pkg/errors"
+	"golang.org/x/exp/slices"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -38,13 +39,13 @@ func NewGroupConversionGraphBuilder(
 }
 
 // Add includes the supplied type names in the conversion graph
-func (b *GroupConversionGraphBuilder) Add(names ...astmodel.TypeName) {
+func (b *GroupConversionGraphBuilder) Add(names ...astmodel.InternalTypeName) {
 	for _, name := range names {
 		subBuilder := b.getSubBuilder(name)
 		subBuilder.Add(name)
 
-		if astmodel.IsStoragePackageReference(name.PackageReference()) {
-			b.storagePackages.AddReference(name.PackageReference())
+		if astmodel.IsStoragePackageReference(name.InternalPackageReference()) {
+			b.storagePackages.AddReference(name.InternalPackageReference())
 		}
 	}
 }
@@ -52,7 +53,7 @@ func (b *GroupConversionGraphBuilder) Add(names ...astmodel.TypeName) {
 // AddAll includes all the supplied types names in the conversion graph
 func (b *GroupConversionGraphBuilder) AddAll(names astmodel.TypeNameSet) {
 	for name := range names {
-		b.Add(name)
+		b.Add(name.(astmodel.InternalTypeName))
 	}
 }
 
@@ -68,14 +69,21 @@ func (b *GroupConversionGraphBuilder) Build() (*GroupConversionGraph, error) {
 		subGraphs[group] = subgraph
 	}
 
-	storagePackagesInOrder := b.storagePackages.AsSortedSlice(func(left astmodel.PackageReference, right astmodel.PackageReference) bool {
-		return astmodel.ComparePathAndVersion(left.ImportPath(), right.ImportPath())
-	})
+	storagePackages := make([]astmodel.InternalPackageReference, 0, b.storagePackages.Length())
+	for _, p := range b.storagePackages.AsSlice() {
+		storagePackages = append(storagePackages, p.(astmodel.InternalPackageReference))
+	}
+
+	slices.SortFunc(
+		storagePackages,
+		func(left astmodel.InternalPackageReference, right astmodel.InternalPackageReference) int {
+			return astmodel.ComparePathAndVersion(left.ImportPath(), right.ImportPath())
+		})
 
 	result := &GroupConversionGraph{
 		group:           b.group,
 		subGraphs:       subGraphs,
-		storagePackages: storagePackagesInOrder,
+		storagePackages: storagePackages,
 		configuration:   b.configuration,
 	}
 
