@@ -92,7 +92,8 @@ func (v *versionComparer) Compare() int {
 		}
 
 		if v.leftIndex >= len(v.left) {
-			// Ran out of the left array only; if the right array has an identifier, right goes first, otherwise left
+			// Ran out of the left array only; if the right array has an identifier (indicating a preview version),
+			// right goes first, otherwise left
 			if unicode.IsLetter(v.right[v.rightIndex]) {
 				return 1
 			}
@@ -111,6 +112,18 @@ func (v *versionComparer) Compare() int {
 
 		leftRune := v.left[v.leftIndex]
 		rightRune := v.right[v.rightIndex]
+
+		if leftRune == '/' && unicode.IsLetter(rightRune) {
+			// Found a sub-package reference on the left, and a preview version of the parent package on the right.
+			// The preview version goes first
+			return 1
+		}
+
+		if unicode.IsLetter(leftRune) && rightRune == '/' {
+			// Found a sub-package reference on the right, and a preview version of the parent package on the left.
+			// The preview version goes first
+			return -1
+		}
 
 		if unicode.IsDigit(leftRune) && unicode.IsDigit(rightRune) {
 			// Found the start of a number
