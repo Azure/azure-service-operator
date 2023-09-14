@@ -6,7 +6,7 @@
 package astmodel
 
 import (
-	"sort"
+	"golang.org/x/exp/slices"
 	"strings"
 	"unicode"
 )
@@ -48,7 +48,7 @@ type PackageReference interface {
 
 // DerivedPackageReference should be implemented by any package reference that's derived from another
 type DerivedPackageReference interface {
-	Base() PackageReference
+	Base() InternalPackageReference
 }
 
 // IsExternalPackageReference returns true if the provided reference is external
@@ -58,21 +58,23 @@ func IsExternalPackageReference(ref PackageReference) bool {
 }
 
 func SortPackageReferencesByPathAndVersion(packages []PackageReference) {
-	sort.Slice(packages, func(i, j int) bool {
-		return ComparePathAndVersion(packages[i].ImportPath(), packages[j].ImportPath())
-	})
+	slices.SortFunc(
+		packages,
+		func(left PackageReference, right PackageReference) int {
+			return ComparePathAndVersion(left.ImportPath(), right.ImportPath())
+		})
 }
 
 // ComparePathAndVersion compares two paths containing versions and returns true if left should go before right
-func ComparePathAndVersion(left string, right string) bool {
+func ComparePathAndVersion(left string, right string) int {
 	comparer := versionComparer{
 		left:  []rune(left),
 		right: []rune(right),
 	}
-	return comparer.Compare() < 0
+	return comparer.Compare()
 }
 
-// versionComparer captures our state while doing an alphanumeric version comparision
+// versionComparer captures our state while doing an alphanumeric version comparison.
 // We need separate indexes for each side because we're doing a numeric comparison, which will
 // compare "100" and "0100" as equal (leading zeros are not significant)
 type versionComparer struct {
@@ -294,7 +296,7 @@ func (v *versionComparer) isPreviewVersionLabel(identifier string) (int, bool) {
 }
 
 // ContainsPreviewVersionLabel checks the passed identifier to see if it contains one of our
-// special set, and if so returns its true. If the passed identifier does not contain one,
+// special set, and if so returns true. If the passed identifier does not contain one,
 // returns false.
 func ContainsPreviewVersionLabel(identifier string) bool {
 	for _, id := range previewVersionLabels {

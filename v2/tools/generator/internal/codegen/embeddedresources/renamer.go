@@ -267,10 +267,10 @@ func (e embeddedResourceTypeName) ToSimplifiedTypeName() astmodel.InternalTypeNa
 }
 
 func makeContextualTypeName(
-	original astmodel.TypeName,
+	original astmodel.InternalTypeName,
 	context string,
 	suffix string,
 	count string,
 ) astmodel.InternalTypeName {
-	return astmodel.MakeInternalTypeName(original.PackageReference(), original.Name()+context+suffix+count)
+	return original.WithName(original.Name() + context + suffix + count)
 }

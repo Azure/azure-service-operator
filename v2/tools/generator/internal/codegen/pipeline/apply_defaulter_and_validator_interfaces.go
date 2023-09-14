@@ -116,7 +116,7 @@ func getValidations(
 		},
 	}
 
-	if resource.Owner() != nil {
+	if !resource.Owner().IsEmpty() {
 		validations[functions.ValidationKindCreate] = append(
 			validations[functions.ValidationKindCreate],
 			functions.NewValidateOwnerReferenceFunction(resource, idFactory))

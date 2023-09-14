@@ -88,7 +88,11 @@ func createNewConfigMapReference(prop *astmodel.PropertyDefinition, newType astm
 func transformConfigMaps(cfg *config.Configuration, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 	result := make(astmodel.TypeDefinitionSet)
 
-	applyConfigMaps := func(_ *astmodel.TypeVisitor[astmodel.TypeName], it *astmodel.ObjectType, ctx astmodel.TypeName) (astmodel.Type, error) {
+	applyConfigMaps := func(
+		_ *astmodel.TypeVisitor[astmodel.InternalTypeName],
+		it *astmodel.ObjectType,
+		ctx astmodel.InternalTypeName,
+	) (astmodel.Type, error) {
 		for _, prop := range it.Properties().Copy() {
 			mode, _ := cfg.ImportConfigMapMode(ctx, prop.PropertyName())
 			switch mode {
@@ -121,7 +125,7 @@ func transformConfigMaps(cfg *config.Configuration, definitions astmodel.TypeDef
 		return it, nil
 	}
 
-	visitor := astmodel.TypeVisitorBuilder[astmodel.TypeName]{
+	visitor := astmodel.TypeVisitorBuilder[astmodel.InternalTypeName]{
 		VisitObjectType: applyConfigMaps,
 	}.Build()
 

@@ -14,8 +14,6 @@ import (
 type TypeName interface {
 	Name() string
 	PackageReference() PackageReference
-	WithName(name string) TypeName
-	WithPackageReference(ref PackageReference) TypeName
 	AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []dst.Decl
 	AsType(codeGenerationContext *CodeGenerationContext) dst.Expr
 	AsZero(definitions TypeDefinitionSet, ctx *CodeGenerationContext) dst.Expr
@@ -43,6 +41,6 @@ const (
 )
 
 // CreateARMTypeName creates an ARM object type name
-func CreateARMTypeName(name TypeName) InternalTypeName {
-	return MakeInternalTypeName(name.PackageReference(), name.Name()+ARMSuffix)
+func CreateARMTypeName(name InternalTypeName) InternalTypeName {
+	return MakeInternalTypeName(name.InternalPackageReference(), name.Name()+ARMSuffix)
 }

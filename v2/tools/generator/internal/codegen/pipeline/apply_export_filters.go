@@ -70,7 +70,7 @@ func filterTypes(
 	}
 
 	// Find and apply renames
-	renames := make(map[astmodel.TypeName]astmodel.TypeName)
+	renames := make(astmodel.TypeAssociation)
 	for n := range typesToExport {
 		if as, asErr := configuration.ObjectModelConfiguration.ExportAs.Lookup(n); asErr == nil {
 			configuration.ObjectModelConfiguration.AddTypeAlias(n, as)
@@ -97,7 +97,7 @@ func filterTypes(
 }
 
 // shouldExport works out whether the specified Resource should be exported or not
-func shouldExport(defName astmodel.TypeName, configuration *config.Configuration) (bool, error) {
+func shouldExport(defName astmodel.InternalTypeName, configuration *config.Configuration) (bool, error) {
 	export, err := configuration.ObjectModelConfiguration.Export.Lookup(defName)
 	if err == nil {
 		// $export is configured, return that value

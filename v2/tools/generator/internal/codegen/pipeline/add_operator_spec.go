@@ -327,7 +327,7 @@ func newOperatorSpecBuilder(
 
 func (b *operatorSpecBuilder) newEmptyOperatorSpec() astmodel.TypeDefinition {
 	name := b.idFactory.CreateIdentifier(b.resource.Name().Name()+"OperatorSpec", astmodel.Exported)
-	operatorSpecTypeName := b.resource.Name().WithName(name).(astmodel.InternalTypeName)
+	operatorSpecTypeName := b.resource.Name().WithName(name)
 	operatorSpec := astmodel.NewObjectType()
 
 	operatorSpecDefinition := astmodel.MakeTypeDefinition(operatorSpecTypeName, operatorSpec)
@@ -389,7 +389,7 @@ func (b *operatorSpecBuilder) addSecretsToOperatorSpec(
 	secretsTypeName := resourceName.WithName(
 		b.idFactory.CreateIdentifier(
 			resourceName.Name()+"OperatorSecrets",
-			astmodel.Exported)).(astmodel.InternalTypeName)
+			astmodel.Exported))
 	secretsType := astmodel.NewObjectType()
 
 	// Add the "secrets" property to the operator spec
@@ -432,7 +432,7 @@ func (b *operatorSpecBuilder) addConfigs(
 	configMapTypeName := resourceName.WithName(
 		b.idFactory.CreateIdentifier(
 			resourceName.Name()+"OperatorConfigMaps",
-			astmodel.Exported)).(astmodel.InternalTypeName)
+			astmodel.Exported))
 	configMapsType := astmodel.NewObjectType()
 
 	// Add the "configMaps" property to the operator spec

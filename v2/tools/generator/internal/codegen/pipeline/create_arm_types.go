@@ -530,7 +530,9 @@ func (c *armTypeCreator) visitARMTypeName(
 	return astmodel.CreateARMTypeName(def.Name()), nil
 }
 
-func (c *armTypeCreator) createSpecConversionContext(name astmodel.TypeName) (*armPropertyTypeConversionContext, error) {
+func (c *armTypeCreator) createSpecConversionContext(
+	name astmodel.InternalTypeName,
+) (*armPropertyTypeConversionContext, error) {
 	result, err := c.createConversionContext(name)
 	if err != nil {
 		return nil, err
@@ -540,8 +542,8 @@ func (c *armTypeCreator) createSpecConversionContext(name astmodel.TypeName) (*a
 	return result, nil
 }
 
-func (c *armTypeCreator) createConversionContext(name astmodel.TypeName) (*armPropertyTypeConversionContext, error) {
-	payloadType, err := c.configuration.PayloadType.Lookup(name.PackageReference())
+func (c *armTypeCreator) createConversionContext(name astmodel.InternalTypeName) (*armPropertyTypeConversionContext, error) {
+	payloadType, err := c.configuration.PayloadType.Lookup(name.InternalPackageReference())
 	if err != nil {
 		if config.IsNotConfiguredError(err) {
 			// Default to 'omitempty' if not configured

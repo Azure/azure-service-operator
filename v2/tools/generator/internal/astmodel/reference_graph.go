@@ -21,9 +21,9 @@ type ReferenceGraph struct {
 // passed in.
 func CollectARMSpecAndStatusDefinitions(definitions TypeDefinitionSet) TypeNameSet {
 	findARMType := func(t Type) (TypeName, error) {
-		name, ok := t.(TypeName)
+		name, ok := t.(InternalTypeName)
 		if !ok {
-			return nil, errors.Errorf("type was not of type TypeName, instead %T", t)
+			return nil, errors.Errorf("type was not of type InternalTypeName, instead %T", t)
 		}
 
 		armName := CreateARMTypeName(name)

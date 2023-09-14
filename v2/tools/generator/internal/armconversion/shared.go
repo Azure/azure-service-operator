@@ -215,14 +215,14 @@ func NewARMConversionImplementation(
 	if convertToARMFunc != nil {
 		// can convert both to and from ARM = the ARMTransformer interface
 		return astmodel.NewInterfaceImplementation(
-			astmodel.MakeInternalTypeName(astmodel.GenRuntimeReference, "ARMTransformer"),
+			astmodel.MakeExternalTypeName(astmodel.GenRuntimeReference, "ARMTransformer"),
 			newEmptyARMValueFunc,
 			convertToARMFunc,
 			populateFromARMFunc)
 	} else {
 		// can only convert in one direction with the FromARMConverter interface
 		return astmodel.NewInterfaceImplementation(
-			astmodel.MakeInternalTypeName(astmodel.GenRuntimeReference, "FromARMConverter"),
+			astmodel.MakeExternalTypeName(astmodel.GenRuntimeReference, "FromARMConverter"),
 			newEmptyARMValueFunc,
 			populateFromARMFunc)
 	}

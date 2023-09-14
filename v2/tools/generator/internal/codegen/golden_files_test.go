@@ -334,7 +334,10 @@ func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) *pi
 		"Add cross resource references for test",
 		func(ctx context.Context, state *pipeline.State) (*pipeline.State, error) {
 			defs := make(astmodel.TypeDefinitionSet)
-			isCrossResourceReference := func(_ astmodel.TypeName, prop *astmodel.PropertyDefinition) pipeline.ARMIDPropertyClassification {
+			isCrossResourceReference := func(
+				_ astmodel.InternalTypeName,
+				prop *astmodel.PropertyDefinition,
+			) pipeline.ARMIDPropertyClassification {
 				ref := pipeline.DoesPropertyLookLikeARMReference(prop)
 				if ref {
 					return pipeline.ARMIDPropertyClassificationSet

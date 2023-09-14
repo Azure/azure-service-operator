@@ -5,7 +5,12 @@
 
 package astmodel
 
-import "fmt"
+import (
+	"fmt"
+	"path"
+	"runtime"
+	"strings"
+)
 
 // TypeVisitorBuilder provides a flexible way to create a TypeVisitor.
 // C is the type to use for the context parameter in each visit method.
@@ -89,7 +94,7 @@ func (b *TypeVisitorBuilder[C]) buildVisitInternalTypeName() func(*TypeVisitor[C
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected InternalTypeName func %#v", b.VisitInternalTypeName))
+	panic(fmt.Sprintf("unexpected InternalTypeName func %#v (%s)", b.VisitInternalTypeName, b.diagnosticClue()))
 }
 
 // buildVisitExternalTypeName returns a function to use in the TypeVisitor
@@ -114,7 +119,7 @@ func (b *TypeVisitorBuilder[C]) buildVisitExternalTypeName() func(*TypeVisitor[C
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected ExternalTypeName func %#v", b.VisitExternalTypeName))
+	panic(fmt.Sprintf("unexpected ExternalTypeName func %#v (%s)", b.VisitExternalTypeName, b.diagnosticClue()))
 }
 
 // buildVisitOneOfType returns a function to use in the TypeVisitor
@@ -138,7 +143,7 @@ func (b *TypeVisitorBuilder[C]) buildVisitOneOfType() func(*TypeVisitor[C], *One
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected OneOfType func %#v", b.VisitOneOfType))
+	panic(fmt.Sprintf("unexpected OneOfType func %#v (%s)", b.VisitOneOfType, b.diagnosticClue()))
 }
 
 // buildVisitAllOfType returns a function to use in the TypeVisitor
@@ -162,7 +167,7 @@ func (b *TypeVisitorBuilder[C]) buildVisitAllOfType() func(*TypeVisitor[C], *All
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected AllOfType func %#v", b.VisitAllOfType))
+	panic(fmt.Sprintf("unexpected AllOfType func %#v (%s)", b.VisitAllOfType, b.diagnosticClue()))
 }
 
 // buildVisitArrayType returns a function to use in the TypeVisitor
@@ -186,7 +191,7 @@ func (b *TypeVisitorBuilder[C]) buildVisitArrayType() func(*TypeVisitor[C], *Arr
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected ArrayType func %#v", b.VisitArrayType))
+	panic(fmt.Sprintf("unexpected ArrayType func %#v (%s)", b.VisitArrayType, b.diagnosticClue()))
 }
 
 // buildVisitPrimitive returns a function to use in the TypeVisitor
@@ -210,7 +215,7 @@ func (b *TypeVisitorBuilder[C]) buildVisitPrimitive() func(*TypeVisitor[C], *Pri
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected Primitive func %#v", b.VisitPrimitive))
+	panic(fmt.Sprintf("unexpected Primitive func %#v (%s)", b.VisitPrimitive, b.diagnosticClue()))
 }
 
 // buildVisitObjectType returns a function to use in the TypeVisitor
@@ -234,7 +239,7 @@ func (b *TypeVisitorBuilder[C]) buildVisitObjectType() func(*TypeVisitor[C], *Ob
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected ObjectType func %#v", b.VisitObjectType))
+	panic(fmt.Sprintf("unexpected ObjectType func %#v (%s)", b.VisitObjectType, b.diagnosticClue()))
 }
 
 // buildVisitMapType returns a function to use in the TypeVisitor
@@ -258,7 +263,7 @@ func (b *TypeVisitorBuilder[C]) buildVisitMapType() func(*TypeVisitor[C], *MapTy
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected MapType func %#v", b.VisitMapType))
+	panic(fmt.Sprintf("unexpected MapType func %#v (%s)", b.VisitMapType, b.diagnosticClue()))
 }
 
 // buildVisitOptionalType returns a function to use in the TypeVisitor
@@ -282,7 +287,7 @@ func (b *TypeVisitorBuilder[C]) buildVisitOptionalType() func(*TypeVisitor[C], *
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected OptionalType func %#v", b.VisitOptionalType))
+	panic(fmt.Sprintf("unexpected OptionalType func %#v (%s)", b.VisitOptionalType, b.diagnosticClue()))
 }
 
 // buildVisitEnumType returns a function to use in the TypeVisitor
@@ -306,7 +311,7 @@ func (b *TypeVisitorBuilder[C]) buildVisitEnumType() func(*TypeVisitor[C], *Enum
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected EnumType func %#v", b.VisitEnumType))
+	panic(fmt.Sprintf("unexpected EnumType func %#v (%s)", b.VisitEnumType, b.diagnosticClue()))
 }
 
 // buildVisitResourceType returns a function to use in the TypeVisitor
@@ -330,7 +335,7 @@ func (b *TypeVisitorBuilder[C]) buildVisitResourceType() func(*TypeVisitor[C], *
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected ResourceType func %#v", b.VisitResourceType))
+	panic(fmt.Sprintf("unexpected ResourceType func %#v (%s)", b.VisitResourceType, b.diagnosticClue()))
 }
 
 // buildVisitFlaggedType returns a function to use in the TypeVisitor
@@ -354,7 +359,7 @@ func (b *TypeVisitorBuilder[C]) buildVisitFlaggedType() func(*TypeVisitor[C], *F
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected FlaggedType func %#v", b.VisitFlaggedType))
+	panic(fmt.Sprintf("unexpected FlaggedType func %#v (%s)", b.VisitFlaggedType, b.diagnosticClue()))
 }
 
 // buildVisitValidatedType returns a function to use in the TypeVisitor
@@ -378,7 +383,7 @@ func (b *TypeVisitorBuilder[C]) buildVisitValidatedType() func(*TypeVisitor[C], 
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected ValidatedType func %#v", b.VisitValidatedType))
+	panic(fmt.Sprintf("unexpected ValidatedType func %#v (%s)", b.VisitValidatedType, b.diagnosticClue()))
 }
 
 // buildVisitErroredType returns a function to use in the TypeVisitor
@@ -402,7 +407,7 @@ func (b *TypeVisitorBuilder[C]) buildVisitErroredType() func(*TypeVisitor[C], *E
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected ErroredType func %#v", b.VisitErroredType))
+	panic(fmt.Sprintf("unexpected ErroredType func %#v (%s)", b.VisitErroredType, b.diagnosticClue()))
 }
 
 // buildVisitInterfaceType returns a function to use in the TypeVisitor
@@ -426,5 +431,18 @@ func (b *TypeVisitorBuilder[C]) buildVisitInterfaceType() func(*TypeVisitor[C], 
 		}
 	}
 
-	panic(fmt.Sprintf("unexpected InterfaceType func %#v", b.VisitInterfaceType))
+	panic(fmt.Sprintf("unexpected InterfaceType func %#v (%s)", b.VisitInterfaceType, b.diagnosticClue()))
+}
+
+func (b *TypeVisitorBuilder[C]) diagnosticClue() string {
+	// Index up the stack three frames so we can give a clue as to where the problem is
+	// 1 frame up is the buildVisit* method that called us
+	// 2 frames up is the Build() method that called the buildVisit* method
+	// 3 frames up is the method calling Build(), which is usually the method configuring the builder
+	pc, _, _, _ := runtime.Caller(3)
+	caller := runtime.FuncForPC(pc)
+	parts := strings.Split(caller.Name(), "/")
+	fullpath, line := caller.FileLine(pc)
+	_, file := path.Split(fullpath)
+	return fmt.Sprintf("see %s in %s #%d", parts[len(parts)-1], file, line)
 }

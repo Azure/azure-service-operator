@@ -23,12 +23,12 @@ type SimpleRecursiveTypeFixer struct {
 }
 
 type simpleRecursiveTypeFixerContext struct {
-	name         astmodel.TypeName
+	name         astmodel.InternalTypeName
 	mustUnroll   bool
-	unrolledName astmodel.TypeName
+	unrolledName astmodel.InternalTypeName
 }
 
-func (c simpleRecursiveTypeFixerContext) WithUnrolledName(name astmodel.TypeName) simpleRecursiveTypeFixerContext {
+func (c simpleRecursiveTypeFixerContext) WithUnrolledName(name astmodel.InternalTypeName) simpleRecursiveTypeFixerContext {
 	c.unrolledName = name
 	c.mustUnroll = true
 	return c
@@ -89,7 +89,7 @@ func (s *SimpleRecursiveTypeFixer) unrollObjectTypeProperty(
 	for propName := range toRemove {
 		unrolledType = unrolledType.WithoutProperty(propName)
 	}
-	unrolledName := astmodel.MakeInternalTypeName(name.PackageReference(), name.Name()+"_Unrolled")
+	unrolledName := astmodel.MakeInternalTypeName(name.InternalPackageReference(), name.Name()+"_Unrolled")
 	unrolledDef := astmodel.MakeTypeDefinition(unrolledName, unrolledType)
 
 	err := s.newDefinitions.AddAllowDuplicates(unrolledDef)

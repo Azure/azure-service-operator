@@ -11,7 +11,7 @@ import (
 )
 
 type SubPackageReference struct {
-	parent PackageReference
+	parent InternalPackageReference
 	name   string
 }
 
@@ -26,7 +26,7 @@ var _ fmt.Stringer = SubPackageReference{}
 // parent is the parent package.
 func MakeSubPackageReference(
 	name string,
-	parent PackageReference,
+	parent InternalPackageReference,
 ) SubPackageReference {
 	return SubPackageReference{
 		parent: parent,
@@ -130,6 +130,6 @@ func (s SubPackageReference) ImportAlias(style PackageImportStyle) string {
 }
 
 // Base returns the parent of this subpackge for DerivedPackageReference.
-func (s SubPackageReference) Base() PackageReference {
+func (s SubPackageReference) Base() InternalPackageReference {
 	return s.parent
 }

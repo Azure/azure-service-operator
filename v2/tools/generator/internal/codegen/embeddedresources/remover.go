@@ -306,7 +306,7 @@ func findResourceSubResources(definitions astmodel.TypeDefinitionSet) map[resour
 			panic(fmt.Sprintf("resource was somehow not a resource: %q", def.Name()))
 		}
 
-		if resource.Owner() == nil {
+		if resource.Owner().IsEmpty() {
 			continue
 		}
 
@@ -378,7 +378,7 @@ func findResourcesEmbeddedInParent(
 			errs = append(errs, errors.Errorf("%s is not labelled as a resource, so cannot be a resource embedded in a parent", name))
 			continue
 		}
-		parentTypeName := name.WithName(parentResource).(astmodel.InternalTypeName)
+		parentTypeName := name.WithName(parentResource)
 		if !defs.Contains(parentTypeName) {
 			errs = append(errs, errors.Errorf("cannot find %s parent %s", name, parentTypeName))
 			continue
