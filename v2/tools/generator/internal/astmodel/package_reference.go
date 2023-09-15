@@ -28,22 +28,11 @@ type PackageReference interface {
 	// IsPreview returns true if this package reference has a suffix indicating it's a preview
 	// release, false otherwise
 	IsPreview() bool
-	// TryGroupVersion returns the group and version of this reference.
-	// Returns true if the reference has a group and version, false otherwise.
-	TryGroupVersion() (string, string, bool)
-	// GroupVersion returns the group and version of this reference, triggering a panic if they aren't available
-	GroupVersion() (string, string)
 	// ImportAlias returns the import alias to use for this package reference
 	ImportAlias(style PackageImportStyle) string
 
-	// Group returns the group to which this package belongs.
-	Group() string
-
 	// ImportPath returns the path to use when importing this package.
 	ImportPath() string
-
-	// FolderPath returns the relative path to this package on disk.
-	FolderPath() string
 }
 
 // DerivedPackageReference should be implemented by any package reference that's derived from another

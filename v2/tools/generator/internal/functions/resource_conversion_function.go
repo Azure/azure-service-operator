@@ -46,7 +46,7 @@ import (
 //	}
 type ResourceConversionFunction struct {
 	// hub is the TypeName of the canonical hub type, the final target or original source for conversion
-	hub astmodel.TypeName
+	hub astmodel.InternalTypeName
 	// propertyFunction is a reference to the function we will call to copy properties across
 	propertyFunction *PropertyAssignmentFunction
 	// idFactory is a reference to an identifier factory used for creating Go identifiers
@@ -60,7 +60,7 @@ var _ astmodel.Function = &ResourceConversionFunction{}
 // hub is the TypeName of our hub type
 // propertyFuntion is the function we use to copy properties across
 func NewResourceConversionFunction(
-	hub astmodel.TypeName,
+	hub astmodel.InternalTypeName,
 	propertyFunction *PropertyAssignmentFunction,
 	idFactory astmodel.IdentifierFactory) *ResourceConversionFunction {
 	result := &ResourceConversionFunction{
@@ -152,7 +152,7 @@ func (fn *ResourceConversionFunction) directConversion(
 	receiverName string, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 	fmtPackage := generationContext.MustGetImportedPackageName(astmodel.FmtReference)
 
-	hubGroup, hubVersion := fn.hub.PackageReference().GroupVersion()
+	hubGroup, hubVersion := fn.hub.InternalPackageReference().GroupVersion()
 	localId := fn.localVariableId()
 	localIdent := dst.NewIdent(localId)
 	hubIdent := dst.NewIdent("hub")

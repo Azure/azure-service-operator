@@ -407,8 +407,8 @@ type resourceKey struct {
 	group string
 }
 
-func getResourceKey(name astmodel.TypeName) resourceKey {
-	group := name.PackageReference().Group()
+func getResourceKey(name astmodel.InternalTypeName) resourceKey {
+	group := name.InternalPackageReference().Group()
 
 	return resourceKey{
 		group: group,

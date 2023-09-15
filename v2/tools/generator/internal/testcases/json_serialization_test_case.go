@@ -62,7 +62,10 @@ func (o *JSONSerializationTestCase) References() astmodel.TypeNameSet {
 // AsFuncs renders the current test case and supporting methods as Go abstract syntax trees
 // subject is the name of the type under test
 // codeGenerationContext contains reference material to use when generating
-func (o *JSONSerializationTestCase) AsFuncs(name astmodel.TypeName, genContext *astmodel.CodeGenerationContext) []dst.Decl {
+func (o *JSONSerializationTestCase) AsFuncs(
+	_ astmodel.TypeName,
+	genContext *astmodel.CodeGenerationContext,
+) []dst.Decl {
 	properties := o.container.Properties().Copy()
 
 	// Special handling for large objects with more than 50 properties - we skip testing primitive properties
@@ -736,8 +739,8 @@ func (o *JSONSerializationTestCase) createRelatedGenerator(
 	genPackageName := genContext.MustGetImportedPackageName(astmodel.GopterGenReference)
 
 	switch t := propertyType.(type) {
-	case astmodel.TypeName:
-		_, ok := genContext.GetDefinitionsInPackage(t.PackageReference())
+	case astmodel.InternalTypeName:
+		_, ok := genContext.GetDefinitionsInPackage(t.InternalPackageReference())
 		if ok {
 			// This is a type we're defining, so we can create a generator for it
 			if t.PackageReference().Equals(genContext.CurrentPackage()) {

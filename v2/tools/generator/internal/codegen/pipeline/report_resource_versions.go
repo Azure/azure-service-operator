@@ -185,8 +185,7 @@ func (report *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinit
 		return err
 	}
 
-	for n := range handcraftedTypes {
-		name := n.(astmodel.InternalTypeName)
+	for name := range handcraftedTypes {
 		item := report.createItem(name, "", "")
 		report.addItem(item)
 	}
@@ -195,7 +194,7 @@ func (report *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinit
 }
 
 func (report *ResourceVersionsReport) addItem(item ResourceVersionsReportResourceItem) {
-	grp := item.name.PackageReference().Group()
+	grp := item.name.InternalPackageReference().Group()
 	report.groups.Add(grp)
 
 	items, ok := report.items[grp]
@@ -418,7 +417,7 @@ func (report *ResourceVersionsReport) isUnreleasedResource(item ResourceVersions
 
 // isDeprecatedResource returns true if the type definition is for a deprecated resource
 func (report *ResourceVersionsReport) isDeprecatedResource(item ResourceVersionsReportResourceItem) bool {
-	_, ver := item.name.PackageReference().GroupVersion()
+	_, ver := item.name.InternalPackageReference().GroupVersion()
 
 	// Handcrafted versions are never deprecated
 	// (reusing the regex from config to ensure consistency)
@@ -588,7 +587,7 @@ func (report *ResourceVersionsReport) createItem(
 }
 
 // generateAPILink returns a link to the API definition for the given resource
-func (report *ResourceVersionsReport) generateAPILink(name astmodel.TypeName) string {
+func (report *ResourceVersionsReport) generateAPILink(name astmodel.InternalTypeName) string {
 	crdKind := name.Name()
 	linkTemplate := report.reportConfiguration.ResourceUrlTemplate
 	pathTemplate := report.reportConfiguration.ResourcePathTemplate
@@ -607,15 +606,15 @@ func (report *ResourceVersionsReport) generateAPILink(name astmodel.TypeName) st
 	return fmt.Sprintf("[%s](%s)", crdKind, link)
 }
 
-func (report *ResourceVersionsReport) resourceDocFile(name astmodel.TypeName) string {
+func (report *ResourceVersionsReport) resourceDocFile(name astmodel.InternalTypeName) string {
 	relativePath := report.expandPlaceholders(report.reportConfiguration.ResourcePathTemplate, name)
 	baseDir := filepath.Dir(report.reportConfiguration.FullOutputPath())
 	return filepath.Join(baseDir, relativePath)
 }
 
-func (report *ResourceVersionsReport) expandPlaceholders(template string, rsrc astmodel.TypeName) string {
+func (report *ResourceVersionsReport) expandPlaceholders(template string, rsrc astmodel.InternalTypeName) string {
 	crdKind := rsrc.Name()
-	crdGroup, crdVersion := rsrc.PackageReference().GroupVersion()
+	crdGroup, crdVersion := rsrc.InternalPackageReference().GroupVersion()
 
 	result := template
 	result = strings.Replace(result, "{group}", crdGroup, -1)
@@ -643,7 +642,7 @@ func (report *ResourceVersionsReport) supportedFrom(typeName astmodel.InternalTy
 		return "" // Leave it blank
 	}
 
-	_, ver := typeName.PackageReference().GroupVersion()
+	_, ver := typeName.InternalPackageReference().GroupVersion()
 
 	// Special case for resources that existed prior to beta.0
 	// the `v1beta` versions of those resources are only available from "beta.0"

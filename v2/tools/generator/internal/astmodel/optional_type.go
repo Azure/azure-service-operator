@@ -181,7 +181,7 @@ func (optional *OptionalType) Unwrap() Type {
 // WriteDebugDescription adds a description of the current type to the passed builder instance.
 // builder receives the full description, including nested types.
 // definitions is a dictionary for resolving named types.
-func (optional *OptionalType) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {
+func (optional *OptionalType) WriteDebugDescription(builder *strings.Builder, currentPackage InternalPackageReference) {
 	if optional == nil {
 		builder.WriteString("<nilOptional>")
 		return

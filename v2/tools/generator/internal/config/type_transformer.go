@@ -91,7 +91,7 @@ func (target *TransformTarget) appliesToType(t astmodel.Type) bool {
 	if target.Name.IsRestrictive() {
 		if target.Group.IsRestrictive() || target.Version.IsRestrictive() {
 			// Expecting TypeName
-			if tn, ok := astmodel.AsTypeName(inspect); ok {
+			if tn, ok := astmodel.AsInternalTypeName(inspect); ok {
 				return target.appliesToTypeName(tn)
 			}
 
@@ -118,13 +118,13 @@ func (target *TransformTarget) appliesToType(t astmodel.Type) bool {
 	return true
 }
 
-func (target *TransformTarget) appliesToTypeName(tn astmodel.TypeName) bool {
+func (target *TransformTarget) appliesToTypeName(tn astmodel.InternalTypeName) bool {
 	if !target.Name.Matches(tn.Name()).Matched {
 		// No match on name
 		return false
 	}
 
-	grp, ver := tn.PackageReference().GroupVersion()
+	grp, ver := tn.InternalPackageReference().GroupVersion()
 
 	if target.Group.IsRestrictive() {
 		if !target.Group.Matches(grp).Matched {
@@ -298,7 +298,7 @@ func (target *TransformTarget) asPrimitiveType(name string) (astmodel.Type, erro
 
 // TransformTypeName transforms the type with the specified name into the TypeTransformer target type if
 // the provided type name matches the pattern(s) specified in the TypeTransformer
-func (transformer *TypeTransformer) TransformTypeName(typeName astmodel.TypeName) astmodel.Type {
+func (transformer *TypeTransformer) TransformTypeName(typeName astmodel.InternalTypeName) astmodel.Type {
 	if transformer.AppliesToType(typeName) {
 		return transformer.Target.actualType
 	}
@@ -379,7 +379,10 @@ func (transformer *TypeTransformer) RequiredPropertiesWereMatched() error {
 }
 
 // TransformProperty transforms the property on the given object type
-func (transformer *TypeTransformer) TransformProperty(name astmodel.TypeName, objectType *astmodel.ObjectType) *PropertyTransformResult {
+func (transformer *TypeTransformer) TransformProperty(
+	name astmodel.InternalTypeName,
+	objectType *astmodel.ObjectType,
+) *PropertyTransformResult {
 	if !transformer.AppliesToType(name) {
 		return nil
 	}

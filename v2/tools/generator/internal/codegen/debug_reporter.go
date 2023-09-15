@@ -39,7 +39,7 @@ func newDebugReporter(groupSelector string, outputFolder string) *debugReporter 
 func (dr *debugReporter) ReportStage(stage int, description string, state *pipeline.State) error {
 	included := state.Definitions().Where(
 		func(def astmodel.TypeDefinition) bool {
-			grp, ver := def.Name().PackageReference().GroupVersion()
+			grp, ver := def.Name().InternalPackageReference().GroupVersion()
 
 			// Allow matching just the group (e.g. network)
 			if dr.groupSelector.Matches(grp).Matched {

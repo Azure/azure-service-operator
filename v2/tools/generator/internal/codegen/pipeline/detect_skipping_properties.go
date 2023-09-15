@@ -269,7 +269,7 @@ func (detector *skippingPropertyDetector) propertiesHaveSameType(
 	}
 
 	equalityOverrides := astmodel.EqualityOverrides{
-		TypeName: compareTypeNamesIgnoreVersion,
+		InternalTypeName: compareInternalTypeNamesIgnoreVersion,
 	}
 	equalSameTypeNameDifferentVersion := leftOk && rightOk && leftType.Equals(rightType, equalityOverrides)
 	if !equalSameTypeNameDifferentVersion {
@@ -324,8 +324,8 @@ func areTypeSetsEqual(left astmodel.TypeDefinitionSet, right astmodel.TypeDefini
 
 	rightPackageRef := packageRefs.Values()[0]
 	equalityOverrides := astmodel.EqualityOverrides{
-		TypeName:   compareTypeNamesIgnoreVersion,
-		ObjectType: compareObjectTypeStructure,
+		InternalTypeName: compareInternalTypeNamesIgnoreVersion,
+		ObjectType:       compareObjectTypeStructure,
 	}
 
 	for leftName, leftDef := range left {
@@ -341,7 +341,10 @@ func areTypeSetsEqual(left astmodel.TypeDefinitionSet, right astmodel.TypeDefini
 	return true
 }
 
-func compareTypeNamesIgnoreVersion(left astmodel.TypeName, right astmodel.TypeName) bool {
+func compareInternalTypeNamesIgnoreVersion(
+	left astmodel.InternalTypeName,
+	right astmodel.InternalTypeName,
+) bool {
 	leftLPR, isLeftLocalRef := left.PackageReference().(astmodel.InternalPackageReference)
 	rightLPR, isRightLocalRef := right.PackageReference().(astmodel.InternalPackageReference)
 
@@ -366,7 +369,7 @@ func compareObjectTypeStructure(left *astmodel.ObjectType, right *astmodel.Objec
 	}
 
 	equalityOverrides := astmodel.EqualityOverrides{
-		TypeName: compareTypeNamesIgnoreVersion,
+		InternalTypeName: compareInternalTypeNamesIgnoreVersion,
 	}
 
 	// Create a copy of the properties with description removed as we don't care if it matches

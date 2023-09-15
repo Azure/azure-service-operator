@@ -115,7 +115,7 @@ func (m *MapType) String() string {
 // WriteDebugDescription adds a description of the current type to the passed builder
 // builder receives the full description, including nested types
 // definitions is for resolving named types
-func (m *MapType) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {
+func (m *MapType) WriteDebugDescription(builder *strings.Builder, currentPackage InternalPackageReference) {
 	if m == nil {
 		builder.WriteString("<nilMap>")
 		return

@@ -75,12 +75,6 @@ func (s SubPackageReference) IsPreview() bool {
 	return s.parent.IsPreview()
 }
 
-// TryGroupVersion returns the group and version of the package reference, if it has them.
-// Subpackages have the same group/version as their parent.
-func (s SubPackageReference) TryGroupVersion() (string, string, bool) {
-	return s.parent.TryGroupVersion()
-}
-
 // GroupVersion returns the group and version of the package reference.
 // Subpackages have the same group/version as their parent.
 func (s SubPackageReference) GroupVersion() (string, string) {

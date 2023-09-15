@@ -87,12 +87,6 @@ func IsStoragePackageReference(reference PackageReference) bool {
 	return ok
 }
 
-// TryGroupVersion returns the group and version of this storage reference.
-func (s StoragePackageReference) TryGroupVersion() (string, string, bool) {
-	g, v, _ := s.inner.TryGroupVersion()
-	return g, v + StoragePackageSuffix, true
-}
-
 // GroupVersion returns the group and version of this storage reference.
 func (s StoragePackageReference) GroupVersion() (string, string) {
 	g, v := s.inner.GroupVersion()
