@@ -86,12 +86,11 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 
 	if len(matchingBodies) == 0 {
 		return nil, conditions.NewReadyConditionImpactingError(
-			errors.Errorf("cannot find go-vcr recording for request from test %q (cassette: %q) (no responses recorded for this method/URL): %s %s (attempt: %s)\n\n",
+			errors.Errorf("cannot find go-vcr recording for request from test %q (cassette: %q) (no responses recorded for this method/URL): %s %s\n\n",
 				w.t.Name(),
 				w.cassetteName,
 				req.Method,
-				req.URL.String(),
-				req.Header.Get(COUNT_HEADER)),
+				req.URL.String()),
 			conditions.ConditionSeverityError,
 			conditions.ReasonReconciliationFailedPermanently)
 	}
@@ -116,13 +115,12 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 		conditions.ReasonReconciliationFailedPermanently)
 }
 
-// finds bodies for interactions where request method, URL, and COUNT_HEADER match
+// finds bodies for interactions where request method and URL match
 func (w errorTranslation) findMatchingBodies(r *http.Request) []string {
 	urlString := r.URL.String()
 	var result []string
 	for _, interaction := range w.ensureCassette().Interactions {
-		if urlString == interaction.Request.RequestURI && r.Method == interaction.Request.Method &&
-			r.Header.Get(COUNT_HEADER) == interaction.Request.Headers.Get(COUNT_HEADER) {
+		if urlString == interaction.Request.RequestURI && r.Method == interaction.Request.Method {
 			result = append(result, interaction.Request.Body)
 		}
 	}
