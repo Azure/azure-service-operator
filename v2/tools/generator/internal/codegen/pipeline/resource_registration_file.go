@@ -59,7 +59,9 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 	packageReferences := r.generateImports()
 
 	codeGenContext := astmodel.NewCodeGenerationContext(
-		astmodel.MakeExternalPackageReference("controllers"), // TODO: This should come from a config
+		// This is a little nasty, given we're generating into a package with a fixed name.
+		// Do we need a specific PackageReference type for this case?
+		astmodel.MakeLocalPackageReference("", "controllers", "", ""), // TODO: This should come from a config
 		packageReferences,
 		nil)
 

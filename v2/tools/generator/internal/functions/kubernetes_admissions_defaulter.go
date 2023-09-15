@@ -50,7 +50,7 @@ func (d *DefaulterBuilder) AddDefault(f *ResourceFunction) {
 // as well as helper functions that allow additional handcrafted defaults to be injected by
 // implementing the genruntime.Defaulter interface.
 func (d *DefaulterBuilder) ToInterfaceImplementation() *astmodel.InterfaceImplementation {
-	grp, ver := d.resourceName.PackageReference().GroupVersion()
+	grp, ver := d.resourceName.InternalPackageReference().GroupVersion()
 
 	// e.g. grp = "microsoft.network.azure.com"
 	// e.g. resource = "backendaddresspools"

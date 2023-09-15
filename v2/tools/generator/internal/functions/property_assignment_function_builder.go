@@ -168,7 +168,10 @@ func (builder *PropertyAssignmentFunctionBuilder) Build(
 	err := builder.createConversions(sourceEndpoints, destinationEndpoints, cc, propertyConversions)
 	if err != nil {
 		parameterType := astmodel.DebugDescription(
-			builder.otherDefinition.Name(), builder.receiverDefinition.Name().PackageReference())
+			builder.otherDefinition.Name(),
+			builder.receiverDefinition.Name().InternalPackageReference(),
+		)
+
 		return nil, errors.Wrapf(err, "creating '%s(%s)'", fnName, parameterType)
 	}
 

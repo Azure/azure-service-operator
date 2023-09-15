@@ -95,18 +95,17 @@ func makeOneOfDiscriminantTypeRequired(
 	remover := newPropertyModifier(discriminantJson)
 
 	for _, value := range values {
-		if tn, ok := value.TypeName.(astmodel.InternalTypeName); ok {
-			def, err := defs.GetDefinition(tn)
-			if err != nil {
-				return nil, err
-			}
-			updatedDef, err := remover.visitor.VisitDefinition(def, nil)
-			if err != nil {
-				return nil, errors.Wrapf(err, "error updating definition %s", def.Name())
-			}
-
-			result.Add(updatedDef)
+		def, err := defs.GetDefinition(value.TypeName)
+		if err != nil {
+			return nil, err
 		}
+		updatedDef, err := remover.visitor.VisitDefinition(def, nil)
+		if err != nil {
+			return nil, errors.Wrapf(err, "error updating definition %s", def.Name())
+		}
+
+		result.Add(updatedDef)
+
 	}
 
 	return result, nil

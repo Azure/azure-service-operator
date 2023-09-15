@@ -206,7 +206,7 @@ func (oneOf *OneOfType) String() string {
 // WriteDebugDescription adds a description of the current type to the passed builder.
 // builder receives the full description, including nested types.
 // definitions is a dictionary for resolving named types.
-func (oneOf *OneOfType) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {
+func (oneOf *OneOfType) WriteDebugDescription(builder *strings.Builder, currentPackage InternalPackageReference) {
 	if oneOf == nil {
 		builder.WriteString("<nilOneOf>")
 		return

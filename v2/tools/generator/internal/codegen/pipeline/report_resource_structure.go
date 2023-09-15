@@ -32,12 +32,12 @@ func ReportResourceStructure(configuration *config.Configuration) *Stage {
 }
 
 type ResourceStructureReport struct {
-	lists map[astmodel.PackageReference]astmodel.TypeDefinitionSet // A separate list of resources for each package
+	lists map[astmodel.InternalPackageReference]astmodel.TypeDefinitionSet // A separate list of resources for each package
 }
 
 func NewResourceStructureReport(defs astmodel.TypeDefinitionSet) *ResourceStructureReport {
 	result := &ResourceStructureReport{
-		lists: make(map[astmodel.PackageReference]astmodel.TypeDefinitionSet),
+		lists: make(map[astmodel.InternalPackageReference]astmodel.TypeDefinitionSet),
 	}
 
 	result.summarize(defs)
@@ -60,7 +60,7 @@ func (report *ResourceStructureReport) SaveReports(baseFolder string) error {
 // summarize collates a list of all definitions, grouped by package
 func (report *ResourceStructureReport) summarize(definitions astmodel.TypeDefinitionSet) {
 	for name, def := range definitions {
-		pkg := name.PackageReference()
+		pkg := name.InternalPackageReference()
 
 		if _, ok := report.lists[pkg]; !ok {
 			report.lists[pkg] = make(astmodel.TypeDefinitionSet)

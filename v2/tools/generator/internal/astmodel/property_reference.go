@@ -46,7 +46,7 @@ func (ref PropertyReference) String() string {
 	declaringType := ref.declaringType
 	return fmt.Sprintf(
 		"%s/%s.%s",
-		declaringType.PackageReference().FolderPath(),
+		declaringType.InternalPackageReference().FolderPath(),
 		declaringType.Name(),
 		ref.property)
 }

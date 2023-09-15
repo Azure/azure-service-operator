@@ -84,7 +84,7 @@ func (set TypeDefinitionSet) Add(def TypeDefinition) {
 
 // FullyResolve turns something that might be a TypeName into something that isn't
 func (set TypeDefinitionSet) FullyResolve(t Type) (Type, error) {
-	seen := NewTypeNameSet()
+	seen := NewInternalTypeNameSet()
 
 	tn, ok := t.(InternalTypeName)
 	for ok {
@@ -107,7 +107,7 @@ func (set TypeDefinitionSet) FullyResolve(t Type) (Type, error) {
 
 // FullyResolveDefinition turns a definition that might point to a TypeName that into a definition something that doesn't
 func (set TypeDefinitionSet) FullyResolveDefinition(def TypeDefinition) (TypeDefinition, error) {
-	seen := NewTypeNameSet()
+	seen := NewInternalTypeNameSet()
 
 	tn, ok := def.Type().(InternalTypeName)
 	for ok {

@@ -568,7 +568,7 @@ func TestObjectModelConfiguration_LookupPayloadType_WhenConfigured_ReturnsExpect
 	omc := NewObjectModelConfiguration()
 	g.Expect(
 		omc.ModifyGroup(
-			name.PackageReference(),
+			name.InternalPackageReference(),
 			func(gc *GroupConfiguration) error {
 				gc.PayloadType.Set(ExplicitProperties)
 				return nil
@@ -588,7 +588,7 @@ func TestObjectModelConfiguration_LookupPayloadType_WhenNotConfigured_ReturnsExp
 	omc := NewObjectModelConfiguration()
 	g.Expect(
 		omc.ModifyGroup(
-			name.PackageReference(),
+			name.InternalPackageReference(),
 			func(_ *GroupConfiguration) error {
 				// No change, just provoking creation
 				return nil
@@ -607,7 +607,7 @@ func TestObjectModelConfiguration_VerifyPayloadTypeConsumed_WhenConsumed_Returns
 	omc := NewObjectModelConfiguration()
 	g.Expect(
 		omc.ModifyGroup(
-			name.PackageReference(),
+			name.InternalPackageReference(),
 			func(gc *GroupConfiguration) error {
 				gc.PayloadType.Set(OmitEmptyProperties)
 				return nil
@@ -629,7 +629,7 @@ func TestObjectModelConfiguration_VerifyPayloadTypeConsumed_WhenUnconsumed_Retur
 	omc := NewObjectModelConfiguration()
 	g.Expect(
 		omc.ModifyGroup(
-			name.PackageReference(),
+			name.InternalPackageReference(),
 			func(gc *GroupConfiguration) error {
 				gc.PayloadType.Set(ExplicitProperties)
 				return nil
