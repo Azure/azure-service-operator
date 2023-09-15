@@ -261,11 +261,6 @@ func createRecorder(cassetteName string, cfg config.Values, recordReplay bool) (
 			return false
 		}
 
-		// verify custom request count header (see counting_roundtripper.go)
-		if r.Header.Get(COUNT_HEADER) != i.Headers.Get(COUNT_HEADER) {
-			return false
-		}
-
 		if r.Body == nil {
 			return i.Body == ""
 		}
