@@ -392,6 +392,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/tutorials/tutorial-postgresql/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/tutorials/tutorial-redis/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/type-references-and-ownership/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/uninstalling/</loc>

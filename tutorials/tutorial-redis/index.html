@@ -18,38 +18,22 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>compute.azure.com/v1beta20210701 | Azure Service Operator</title>
-<meta name="description" content="compute.azure.com/v1beta20210701  Package v1beta20210701 contains API Schema definitions for the compute v1beta20210701 API group
- Resource Types:  APIVersion (string alias)  Deprecated version of APIVersion. Use v1api20210701.APIVersion instead
-    Value Description   &amp;#34;2021-07-01&amp;#34;
-    ExtendedLocation   (Appears on:Image_Spec)  Deprecated version of ExtendedLocation. Use v1api20210701.ExtendedLocation instead
-    Field Description      name  string        type  ExtendedLocationType         ExtendedLocationType (string alias)  (Appears on:ExtendedLocation, ExtendedLocation_ARM)  Deprecated version of ExtendedLocationType.">
-<meta property="og:title" content="compute.azure.com/v1beta20210701" />
-<meta property="og:description" content="compute.azure.com/v1beta20210701  Package v1beta20210701 contains API Schema definitions for the compute v1beta20210701 API group
- Resource Types:  APIVersion (string alias)  Deprecated version of APIVersion. Use v1api20210701.APIVersion instead
-    Value Description   &#34;2021-07-01&#34;
-    ExtendedLocation   (Appears on:Image_Spec)  Deprecated version of ExtendedLocation. Use v1api20210701.ExtendedLocation instead
-    Field Description      name  string        type  ExtendedLocationType         ExtendedLocationType (string alias)  (Appears on:ExtendedLocation, ExtendedLocation_ARM)  Deprecated version of ExtendedLocationType." />
+<title>Tutorial: Redis Votes | Azure Service Operator</title>
+<meta name="description" content="Follow the guided example to create a simple voting application backed by Redis. The Redis cache is hosted in Azure but created easily via kubectl and Azure Service Operator!">
+<meta property="og:title" content="Tutorial: Redis Votes" />
+<meta property="og:description" content="Follow the guided example to create a simple voting application backed by Redis. The Redis cache is hosted in Azure but created easily via kubectl and Azure Service Operator!" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/compute/v1beta20210701/" /><meta property="article:section" content="reference" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/tutorials/tutorial-redis/" /><meta property="article:section" content="tutorials" />
 
 
 
-<meta itemprop="name" content="compute.azure.com/v1beta20210701">
-<meta itemprop="description" content="compute.azure.com/v1beta20210701  Package v1beta20210701 contains API Schema definitions for the compute v1beta20210701 API group
- Resource Types:  APIVersion (string alias)  Deprecated version of APIVersion. Use v1api20210701.APIVersion instead
-    Value Description   &#34;2021-07-01&#34;
-    ExtendedLocation   (Appears on:Image_Spec)  Deprecated version of ExtendedLocation. Use v1api20210701.ExtendedLocation instead
-    Field Description      name  string        type  ExtendedLocationType         ExtendedLocationType (string alias)  (Appears on:ExtendedLocation, ExtendedLocation_ARM)  Deprecated version of ExtendedLocationType.">
+<meta itemprop="name" content="Tutorial: Redis Votes">
+<meta itemprop="description" content="Follow the guided example to create a simple voting application backed by Redis. The Redis cache is hosted in Azure but created easily via kubectl and Azure Service Operator!">
 
-<meta itemprop="wordCount" content="1048">
+<meta itemprop="wordCount" content="29">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="compute.azure.com/v1beta20210701"/>
-<meta name="twitter:description" content="compute.azure.com/v1beta20210701  Package v1beta20210701 contains API Schema definitions for the compute v1beta20210701 API group
- Resource Types:  APIVersion (string alias)  Deprecated version of APIVersion. Use v1api20210701.APIVersion instead
-    Value Description   &#34;2021-07-01&#34;
-    ExtendedLocation   (Appears on:Image_Spec)  Deprecated version of ExtendedLocation. Use v1api20210701.ExtendedLocation instead
-    Field Description      name  string        type  ExtendedLocationType         ExtendedLocationType (string alias)  (Appears on:ExtendedLocation, ExtendedLocation_ARM)  Deprecated version of ExtendedLocationType."/>
+<meta name="twitter:title" content="Tutorial: Redis Votes"/>
+<meta name="twitter:description" content="Follow the guided example to create a simple voting application backed by Redis. The Redis cache is hosted in Azure but created easily via kubectl and Azure Service Operator!"/>
 
 
 
@@ -73,13 +57,13 @@
         <a class="nav-link" href="/azure-service-operator/guide/"><span>Guide</span></a>
       </li>
       <li class="nav-item mr-4 mb-2 mb-lg-0">
-        <a class="nav-link" href="/azure-service-operator/tutorials/"><span>Tutorials</span></a>
+        <a class="nav-link active" href="/azure-service-operator/tutorials/"><span class="active">Tutorials</span></a>
       </li>
       <li class="nav-item mr-4 mb-2 mb-lg-0">
         <a class="nav-link" href="/azure-service-operator/tools/"><span>Tools</span></a>
       </li>
       <li class="nav-item mr-4 mb-2 mb-lg-0">
-        <a class="nav-link active" href="/azure-service-operator/reference/"><span class="active">Supported Resources</span></a>
+        <a class="nav-link" href="/azure-service-operator/reference/"><span>Supported Resources</span></a>
       </li>
       <li class="nav-item mr-4 mb-2 mb-lg-0">
         <a class="nav-link" href="/azure-service-operator/contributing/"><span>Contributing</span></a>
@@ -170,17 +154,17 @@
   <a href="/azure-service-operator/guide/uninstalling/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideuninstalling"><span class="">Uninstalling</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatortutorials-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatortutorials-li">
   <a href="/azure-service-operator/tutorials/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatortutorials"><span class="">Tutorials</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatortutorialstutorial-cosmosdb-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatortutorialstutorial-cosmosdb-li">
   <a href="/azure-service-operator/tutorials/tutorial-cosmosdb/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatortutorialstutorial-cosmosdb"><span class="">Tutorial: CosmosDB to-do List</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatortutorialstutorial-cosmosdb-managed-identity-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatortutorialstutorial-cosmosdb-managed-identity-li">
   <a href="/azure-service-operator/tutorials/tutorial-cosmosdb-managed-identity/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatortutorialstutorial-cosmosdb-managed-identity"><span class="">Tutorial: CosmosDB to-do List with Managed Identity</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatortutorialstutorial-postgresql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatortutorialstutorial-postgresql-li">
   <a href="/azure-service-operator/tutorials/tutorial-postgresql/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatortutorialstutorial-postgresql"><span class="">Tutorial: PostgreSQL Votes</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatortutorialstutorial-redis-li">
-  <a href="/azure-service-operator/tutorials/tutorial-redis/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatortutorialstutorial-redis"><span class="">Tutorial: Redis Votes</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatortutorialstutorial-redis-li">
+  <a href="/azure-service-operator/tutorials/tutorial-redis/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatortutorialstutorial-redis"><span class="td-sidebar-nav-active-item">Tutorial: Redis Votes</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatortools-li">
@@ -192,10 +176,10 @@
   <a href="/azure-service-operator/tools/generator/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatortoolsgenerator"><span class="">generator</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreference-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreference-li">
   <a href="/azure-service-operator/reference/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreference"><span class="">Supported Resources</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceappconfiguration-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceappconfiguration-li">
   <a href="/azure-service-operator/reference/appconfiguration/" title="AppConfiguration Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceappconfiguration"><span class="">AppConfiguration</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappconfigurationv1api20220501-li">
@@ -204,7 +188,7 @@
   <a href="/azure-service-operator/reference/appconfiguration/v1beta20220501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappconfigurationv1beta20220501"><span class="">appconfiguration.azure.com/v1beta20220501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceauthorization-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceauthorization-li">
   <a href="/azure-service-operator/reference/authorization/" title="Authorization Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceauthorization"><span class="">Authorization</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1api20200801preview-li">
@@ -213,7 +197,7 @@
   <a href="/azure-service-operator/reference/authorization/v1beta20200801preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1beta20200801preview"><span class="">authorization.azure.com/v1beta20200801preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencebatch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencebatch-li">
   <a href="/azure-service-operator/reference/batch/" title="Batch Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencebatch"><span class="">Batch</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv1api20210101-li">
@@ -222,7 +206,7 @@
   <a href="/azure-service-operator/reference/batch/v1beta20210101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv1beta20210101"><span class="">batch.azure.com/v1beta20210101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecache-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecache-li">
   <a href="/azure-service-operator/reference/cache/" title="Cache Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecache"><span class="">Cache</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20201201-li">
@@ -239,7 +223,7 @@
   <a href="/azure-service-operator/reference/cache/v1beta20210301/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1beta20210301"><span class="">cache.azure.com/v1beta20210301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecdn-li">
   <a href="/azure-service-operator/reference/cdn/" title="Cdn Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecdn"><span class="">Cdn</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecdnv1api20210601-li">
@@ -248,30 +232,30 @@
   <a href="/azure-service-operator/reference/cdn/v1beta20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv1beta20210601"><span class="">cdn.azure.com/v1beta20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencecompute-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecompute-li">
   <a href="/azure-service-operator/reference/compute/" title="Compute Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecompute"><span class="">Compute</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev1api20200930-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20200930-li">
   <a href="/azure-service-operator/reference/compute/v1api20200930/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20200930"><span class="">compute.azure.com/v1api20200930</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev1api20201201-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20201201-li">
   <a href="/azure-service-operator/reference/compute/v1api20201201/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20201201"><span class="">compute.azure.com/v1api20201201</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev1api20210701-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20210701-li">
   <a href="/azure-service-operator/reference/compute/v1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20210701"><span class="">compute.azure.com/v1api20210701</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev1api20220301-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20220301-li">
   <a href="/azure-service-operator/reference/compute/v1api20220301/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20220301"><span class="">compute.azure.com/v1api20220301</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev1api20220702-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20220702-li">
   <a href="/azure-service-operator/reference/compute/v1api20220702/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20220702"><span class="">compute.azure.com/v1api20220702</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev1beta20200930-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1beta20200930-li">
   <a href="/azure-service-operator/reference/compute/v1beta20200930/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1beta20200930"><span class="">compute.azure.com/v1beta20200930</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev1beta20201201-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1beta20201201-li">
   <a href="/azure-service-operator/reference/compute/v1beta20201201/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1beta20201201"><span class="">compute.azure.com/v1beta20201201</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferencecomputev1beta20210701-li">
-  <a href="/azure-service-operator/reference/compute/v1beta20210701/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1beta20210701"><span class="td-sidebar-nav-active-item">compute.azure.com/v1beta20210701</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecomputev1beta20220301-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1beta20210701-li">
+  <a href="/azure-service-operator/reference/compute/v1beta20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1beta20210701"><span class="">compute.azure.com/v1beta20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1beta20220301-li">
   <a href="/azure-service-operator/reference/compute/v1beta20220301/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1beta20220301"><span class="">compute.azure.com/v1beta20220301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerinstance-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerinstance-li">
   <a href="/azure-service-operator/reference/containerinstance/" title="ContainerInstance Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerinstance"><span class="">ContainerInstance</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerinstancev1api20211001-li">
@@ -280,7 +264,7 @@
   <a href="/azure-service-operator/reference/containerinstance/v1beta20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerinstancev1beta20211001"><span class="">containerinstance.azure.com/v1beta20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerregistry-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerregistry-li">
   <a href="/azure-service-operator/reference/containerregistry/" title="ContainerRegistry Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerregistry"><span class="">ContainerRegistry</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1api20210901-li">
@@ -289,7 +273,7 @@
   <a href="/azure-service-operator/reference/containerregistry/v1beta20210901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1beta20210901"><span class="">containerregistry.azure.com/v1beta20210901</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerservice-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerservice-li">
   <a href="/azure-service-operator/reference/containerservice/" title="ContainerService Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerservice"><span class="">ContainerService</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20210501-li">
@@ -302,21 +286,21 @@
   <a href="/azure-service-operator/reference/containerservice/v1beta20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1beta20210501"><span class="">containerservice.azure.com/v1beta20210501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedatafactory-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedatafactory-li">
   <a href="/azure-service-operator/reference/datafactory/" title="DataFactory Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedatafactory"><span class="">DataFactory</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedatafactoryv1api20180601-li">
   <a href="/azure-service-operator/reference/datafactory/v1api20180601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedatafactoryv1api20180601"><span class="">datafactory.azure.com/v1api20180601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedataprotection-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedataprotection-li">
   <a href="/azure-service-operator/reference/dataprotection/" title="DataProtection Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedataprotection"><span class="">DataProtection</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedataprotectionv1api20230101-li">
   <a href="/azure-service-operator/reference/dataprotection/v1api20230101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedataprotectionv1api20230101"><span class="">dataprotection.azure.com/v1api20230101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformariadb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformariadb-li">
   <a href="/azure-service-operator/reference/dbformariadb/" title="DBforMariaDB Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformariadb"><span class="">DBforMariaDB</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformariadbv1api20180601-li">
@@ -325,7 +309,7 @@
   <a href="/azure-service-operator/reference/dbformariadb/v1beta20180601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformariadbv1beta20180601"><span class="">dbformariadb.azure.com/v1beta20180601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformysql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformysql-li">
   <a href="/azure-service-operator/reference/dbformysql/" title="DBforMySQL Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformysql"><span class="">DBforMySQL</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1-li">
@@ -340,7 +324,7 @@
   <a href="/azure-service-operator/reference/dbformysql/v1beta20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1beta20210501"><span class="">dbformysql.azure.com/v1beta20210501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbforpostgresql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbforpostgresql-li">
   <a href="/azure-service-operator/reference/dbforpostgresql/" title="DBforPostgreSQL Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbforpostgresql"><span class="">DBforPostgreSQL</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1-li">
@@ -355,14 +339,14 @@
   <a href="/azure-service-operator/reference/dbforpostgresql/v1beta20220120preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1beta20220120preview"><span class="">dbforpostgresql.azure.com/v1beta20220120preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedevices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedevices-li">
   <a href="/azure-service-operator/reference/devices/" title="Devices Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedevices"><span class="">Devices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedevicesv1api20210702-li">
   <a href="/azure-service-operator/reference/devices/v1api20210702/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedevicesv1api20210702"><span class="">devices.azure.com/v1api20210702</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedocumentdb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedocumentdb-li">
   <a href="/azure-service-operator/reference/documentdb/" title="DocumentDB Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedocumentdb"><span class="">DocumentDB</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1api20210515-li">
@@ -371,7 +355,7 @@
   <a href="/azure-service-operator/reference/documentdb/v1beta20210515/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1beta20210515"><span class="">documentdb.azure.com/v1beta20210515</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventgrid-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventgrid-li">
   <a href="/azure-service-operator/reference/eventgrid/" title="EventGrid Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventgrid"><span class="">EventGrid</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventgridv1api20200601-li">
@@ -380,7 +364,7 @@
   <a href="/azure-service-operator/reference/eventgrid/v1beta20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv1beta20200601"><span class="">eventgrid.azure.com/v1beta20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventhub-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventhub-li">
   <a href="/azure-service-operator/reference/eventhub/" title="EventHub Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventhub"><span class="">EventHub</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1api20211101-li">
@@ -389,7 +373,7 @@
   <a href="/azure-service-operator/reference/eventhub/v1beta20211101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1beta20211101"><span class="">eventhub.azure.com/v1beta20211101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceinsights-li">
   <a href="/azure-service-operator/reference/insights/" title="Insights Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceinsights"><span class="">Insights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20180501preview-li">
@@ -402,7 +386,7 @@
   <a href="/azure-service-operator/reference/insights/v1beta20200202/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1beta20200202"><span class="">insights.azure.com/v1beta20200202</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekeyvault-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekeyvault-li">
   <a href="/azure-service-operator/reference/keyvault/" title="KeyVault Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekeyvault"><span class="">KeyVault</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekeyvaultv1api20210401preview-li">
@@ -411,7 +395,7 @@
   <a href="/azure-service-operator/reference/keyvault/v1beta20210401preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekeyvaultv1beta20210401preview"><span class="">keyvault.azure.com/v1beta20210401preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemachinelearningservices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemachinelearningservices-li">
   <a href="/azure-service-operator/reference/machinelearningservices/" title="MachineLearningServices Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemachinelearningservices"><span class="">MachineLearningServices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
@@ -420,7 +404,7 @@
   <a href="/azure-service-operator/reference/machinelearningservices/v1beta20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1beta20210701"><span class="">machinelearningservices.azure.com/v1beta20210701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemanagedidentity-li">
   <a href="/azure-service-operator/reference/managedidentity/" title="ManagedIdentity Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemanagedidentity"><span class="">ManagedIdentity</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1api20181130-li">
@@ -433,7 +417,7 @@
   <a href="/azure-service-operator/reference/managedidentity/v1beta20220131preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1beta20220131preview"><span class="">managedidentity.azure.com/v1beta20220131preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetwork-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencenetwork-li">
   <a href="/azure-service-operator/reference/network/" title="Network Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetwork"><span class="">Network</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20180501-li">
@@ -452,7 +436,7 @@
   <a href="/azure-service-operator/reference/network/v1beta20201101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1beta20201101"><span class="">network.azure.com/v1beta20201101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceoperationalinsights-li">
   <a href="/azure-service-operator/reference/operationalinsights/" title="OperationalInsights Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceoperationalinsights"><span class="">OperationalInsights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601-li">
@@ -461,7 +445,7 @@
   <a href="/azure-service-operator/reference/operationalinsights/v1beta20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1beta20210601"><span class="">operationalinsights.azure.com/v1beta20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceresources-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceresources-li">
   <a href="/azure-service-operator/reference/resources/" title="Resources Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceresources"><span class="">Resources</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceresourcesv1api20200601-li">
@@ -470,14 +454,14 @@
   <a href="/azure-service-operator/reference/resources/v1beta20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1beta20200601"><span class="">resources.azure.com/v1beta20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesearch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesearch-li">
   <a href="/azure-service-operator/reference/search/" title="Search Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesearch"><span class="">Search</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesearchv1api20220901-li">
   <a href="/azure-service-operator/reference/search/v1api20220901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesearchv1api20220901"><span class="">search.azure.com/v1api20220901</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceservicebus-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceservicebus-li">
   <a href="/azure-service-operator/reference/servicebus/" title="ServiceBus Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceservicebus"><span class="">ServiceBus</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1api20210101preview-li">
@@ -490,7 +474,7 @@
   <a href="/azure-service-operator/reference/servicebus/v1beta20210101preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1beta20210101preview"><span class="">servicebus.azure.com/v1beta20210101preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesignalrservice-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesignalrservice-li">
   <a href="/azure-service-operator/reference/signalrservice/" title="SignalRService Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesignalrservice"><span class="">SignalRService</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1api20211001-li">
@@ -499,14 +483,14 @@
   <a href="/azure-service-operator/reference/signalrservice/v1beta20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1beta20211001"><span class="">signalrservice.azure.com/v1beta20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesql-li">
   <a href="/azure-service-operator/reference/sql/" title="Sql Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesql"><span class="">Sql</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesqlv1api20211101-li">
   <a href="/azure-service-operator/reference/sql/v1api20211101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesqlv1api20211101"><span class="">sql.azure.com/v1api20211101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencestorage-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencestorage-li">
   <a href="/azure-service-operator/reference/storage/" title="Storage Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencestorage"><span class="">Storage</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1api20210401-li">
@@ -517,7 +501,7 @@
   <a href="/azure-service-operator/reference/storage/v1beta20210401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1beta20210401"><span class="">storage.azure.com/v1beta20210401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesubscription-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesubscription-li">
   <a href="/azure-service-operator/reference/subscription/" title="Subscription Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesubscription"><span class="">Subscription</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesubscriptionv1api20211001-li">
@@ -526,14 +510,14 @@
   <a href="/azure-service-operator/reference/subscription/v1beta20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesubscriptionv1beta20211001"><span class="">subscription.azure.com/v1beta20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesynapse-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesynapse-li">
   <a href="/azure-service-operator/reference/synapse/" title="Synapse Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesynapse"><span class="">Synapse</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesynapsev1api20210601-li">
   <a href="/azure-service-operator/reference/synapse/v1api20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesynapsev1api20210601"><span class="">synapse.azure.com/v1api20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceweb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceweb-li">
   <a href="/azure-service-operator/reference/web/" title="Web Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceweb"><span class="">Web</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencewebv1api20220301-li">
@@ -681,19 +665,16 @@
             <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
-    <a href="https://azure.github.io/azure-service-operator/reference/">Supported Resources</a>
-  </li>
-  <li class="breadcrumb-item">
-    <a href="https://azure.github.io/azure-service-operator/reference/compute/">Compute</a>
+    <a href="https://azure.github.io/azure-service-operator/tutorials/">Tutorials</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="https://azure.github.io/azure-service-operator/reference/compute/v1beta20210701/" aria-disabled="true" class="btn-link disabled">compute.azure.com/v1beta20210701</a>
+    <a href="https://azure.github.io/azure-service-operator/tutorials/tutorial-redis/" aria-disabled="true" class="btn-link disabled">Tutorial: Redis Votes</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>compute.azure.com/v1beta20210701</h1>
+	<h1>Tutorial: Redis Votes</h1>
 	
 	<header class="article-meta">
 		
@@ -710,2424 +691,9 @@
 
 		
 	</header>    
-	<h2 id="compute.azure.com/v1beta20210701">compute.azure.com/v1beta20210701</h2>
-<div>
-<p>Package v1beta20210701 contains API Schema definitions for the compute v1beta20210701 API group</p>
-</div>
-Resource Types:
-<ul></ul>
-<h3 id="compute.azure.com/v1beta20210701.APIVersion">APIVersion
-(<code>string</code> alias)</h3>
-<div>
-<p>Deprecated version of APIVersion. Use v1api20210701.APIVersion instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-07-01&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.ExtendedLocation">ExtendedLocation
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.Image_Spec">Image_Spec</a>)
-</p>
-<div>
-<p>Deprecated version of ExtendedLocation. Use v1api20210701.ExtendedLocation instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ExtendedLocationType">
-ExtendedLocationType
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.ExtendedLocationType">ExtendedLocationType
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.ExtendedLocation">ExtendedLocation</a>, <a href="#compute.azure.com/v1beta20210701.ExtendedLocation_ARM">ExtendedLocation_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of ExtendedLocationType. Use v1api20210701.ExtendedLocationType instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;EdgeZone&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.ExtendedLocationType_STATUS">ExtendedLocationType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.ExtendedLocation_STATUS">ExtendedLocation_STATUS</a>, <a href="#compute.azure.com/v1beta20210701.ExtendedLocation_STATUS_ARM">ExtendedLocation_STATUS_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of ExtendedLocationType_STATUS. Use v1api20210701.ExtendedLocationType_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;EdgeZone&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.ExtendedLocation_ARM">ExtendedLocation_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.Image_Spec_ARM">Image_Spec_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of ExtendedLocation. Use v1api20210701.ExtendedLocation instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ExtendedLocationType">
-ExtendedLocationType
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.ExtendedLocation_STATUS">ExtendedLocation_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.Image_STATUS">Image_STATUS</a>)
-</p>
-<div>
-<p>Deprecated version of ExtendedLocation_STATUS. Use v1api20210701.ExtendedLocation_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ExtendedLocationType_STATUS">
-ExtendedLocationType_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.ExtendedLocation_STATUS_ARM">ExtendedLocation_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.Image_STATUS_ARM">Image_STATUS_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of ExtendedLocation_STATUS. Use v1api20210701.ExtendedLocation_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ExtendedLocationType_STATUS">
-ExtendedLocationType_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.HyperVGenerationType">HyperVGenerationType
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.ImageProperties_ARM">ImageProperties_ARM</a>, <a href="#compute.azure.com/v1beta20210701.Image_Spec">Image_Spec</a>)
-</p>
-<div>
-<p>Deprecated version of HyperVGenerationType. Use v1api20210701.HyperVGenerationType instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;V1&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;V2&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.HyperVGenerationType_STATUS">HyperVGenerationType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.ImageProperties_STATUS_ARM">ImageProperties_STATUS_ARM</a>, <a href="#compute.azure.com/v1beta20210701.Image_STATUS">Image_STATUS</a>)
-</p>
-<div>
-<p>Deprecated version of HyperVGenerationType_STATUS. Use v1api20210701.HyperVGenerationType_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;V1&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;V2&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.Image">Image
-</h3>
-<div>
-<p>Deprecated version of Image. Use v1api20210701.Image instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>metadata</code><br/>
-<em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
-</a>
-</em>
-</td>
-<td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
-</td>
-</tr>
-<tr>
-<td>
-<code>spec</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.Image_Spec">
-Image_Spec
-</a>
-</em>
-</td>
-<td>
-<br/>
-<br/>
-<table>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>extendedLocation</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ExtendedLocation">
-ExtendedLocation
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>hyperVGeneration</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.HyperVGenerationType">
-HyperVGenerationType
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a resources.azure.com/ResourceGroup resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceVirtualMachine</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.SubResource">
-SubResource
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>storageProfile</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageStorageProfile">
-ImageStorageProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.Image_STATUS">
-Image_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.ImageDataDisk">ImageDataDisk
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.ImageStorageProfile">ImageStorageProfile</a>)
-</p>
-<div>
-<p>Deprecated version of ImageDataDisk. Use v1api20210701.ImageDataDisk instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>blobUri</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>caching</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageDataDisk_Caching">
-ImageDataDisk_Caching
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskEncryptionSet</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.SubResource">
-SubResource
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskSizeGB</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>lun</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>managedDisk</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.SubResource">
-SubResource
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>snapshot</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.SubResource">
-SubResource
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>storageAccountType</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.StorageAccountType">
-StorageAccountType
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.ImageDataDisk_ARM">ImageDataDisk_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.ImageStorageProfile_ARM">ImageStorageProfile_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of ImageDataDisk. Use v1api20210701.ImageDataDisk instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>blobUri</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>caching</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageDataDisk_Caching">
-ImageDataDisk_Caching
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskEncryptionSet</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.SubResource_ARM">
-SubResource_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskSizeGB</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>lun</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>managedDisk</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.SubResource_ARM">
-SubResource_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>snapshot</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.SubResource_ARM">
-SubResource_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>storageAccountType</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.StorageAccountType">
-StorageAccountType
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.ImageDataDisk_Caching">ImageDataDisk_Caching
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.ImageDataDisk">ImageDataDisk</a>, <a href="#compute.azure.com/v1beta20210701.ImageDataDisk_ARM">ImageDataDisk_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of ImageDataDisk_Caching. Use v1api20210701.ImageDataDisk_Caching instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;None&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ReadOnly&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ReadWrite&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.ImageDataDisk_Caching_STATUS">ImageDataDisk_Caching_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.ImageDataDisk_STATUS">ImageDataDisk_STATUS</a>, <a href="#compute.azure.com/v1beta20210701.ImageDataDisk_STATUS_ARM">ImageDataDisk_STATUS_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of ImageDataDisk_Caching_STATUS. Use v1api20210701.ImageDataDisk_Caching_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;None&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ReadOnly&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ReadWrite&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.ImageDataDisk_STATUS">ImageDataDisk_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.ImageStorageProfile_STATUS">ImageStorageProfile_STATUS</a>)
-</p>
-<div>
-<p>Deprecated version of ImageDataDisk_STATUS. Use v1api20210701.ImageDataDisk_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>blobUri</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>caching</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageDataDisk_Caching_STATUS">
-ImageDataDisk_Caching_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskEncryptionSet</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.SubResource_STATUS">
-SubResource_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskSizeGB</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>lun</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>managedDisk</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.SubResource_STATUS">
-SubResource_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>snapshot</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.SubResource_STATUS">
-SubResource_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>storageAccountType</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.StorageAccountType_STATUS">
-StorageAccountType_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.ImageDataDisk_STATUS_ARM">ImageDataDisk_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.ImageStorageProfile_STATUS_ARM">ImageStorageProfile_STATUS_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of ImageDataDisk_STATUS. Use v1api20210701.ImageDataDisk_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>blobUri</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>caching</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageDataDisk_Caching_STATUS">
-ImageDataDisk_Caching_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskEncryptionSet</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.SubResource_STATUS_ARM">
-SubResource_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskSizeGB</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>lun</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>managedDisk</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.SubResource_STATUS_ARM">
-SubResource_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>snapshot</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.SubResource_STATUS_ARM">
-SubResource_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>storageAccountType</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.StorageAccountType_STATUS">
-StorageAccountType_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.ImageOSDisk">ImageOSDisk
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.ImageStorageProfile">ImageStorageProfile</a>)
-</p>
-<div>
-<p>Deprecated version of ImageOSDisk. Use v1api20210701.ImageOSDisk instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>blobUri</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>caching</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageOSDisk_Caching">
-ImageOSDisk_Caching
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskEncryptionSet</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.SubResource">
-SubResource
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskSizeGB</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>managedDisk</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.SubResource">
-SubResource
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>osState</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageOSDisk_OsState">
-ImageOSDisk_OsState
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>osType</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageOSDisk_OsType">
-ImageOSDisk_OsType
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>snapshot</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.SubResource">
-SubResource
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>storageAccountType</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.StorageAccountType">
-StorageAccountType
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.ImageOSDisk_ARM">ImageOSDisk_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.ImageStorageProfile_ARM">ImageStorageProfile_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of ImageOSDisk. Use v1api20210701.ImageOSDisk instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>blobUri</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>caching</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageOSDisk_Caching">
-ImageOSDisk_Caching
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskEncryptionSet</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.SubResource_ARM">
-SubResource_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskSizeGB</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>managedDisk</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.SubResource_ARM">
-SubResource_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>osState</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageOSDisk_OsState">
-ImageOSDisk_OsState
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>osType</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageOSDisk_OsType">
-ImageOSDisk_OsType
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>snapshot</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.SubResource_ARM">
-SubResource_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>storageAccountType</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.StorageAccountType">
-StorageAccountType
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.ImageOSDisk_Caching">ImageOSDisk_Caching
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.ImageOSDisk">ImageOSDisk</a>, <a href="#compute.azure.com/v1beta20210701.ImageOSDisk_ARM">ImageOSDisk_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of ImageOSDisk_Caching. Use v1api20210701.ImageOSDisk_Caching instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;None&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ReadOnly&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ReadWrite&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.ImageOSDisk_Caching_STATUS">ImageOSDisk_Caching_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.ImageOSDisk_STATUS">ImageOSDisk_STATUS</a>, <a href="#compute.azure.com/v1beta20210701.ImageOSDisk_STATUS_ARM">ImageOSDisk_STATUS_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of ImageOSDisk_Caching_STATUS. Use v1api20210701.ImageOSDisk_Caching_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;None&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ReadOnly&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ReadWrite&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.ImageOSDisk_OsState">ImageOSDisk_OsState
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.ImageOSDisk">ImageOSDisk</a>, <a href="#compute.azure.com/v1beta20210701.ImageOSDisk_ARM">ImageOSDisk_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of ImageOSDisk_OsState. Use v1api20210701.ImageOSDisk_OsState instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Generalized&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Specialized&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.ImageOSDisk_OsState_STATUS">ImageOSDisk_OsState_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.ImageOSDisk_STATUS">ImageOSDisk_STATUS</a>, <a href="#compute.azure.com/v1beta20210701.ImageOSDisk_STATUS_ARM">ImageOSDisk_STATUS_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of ImageOSDisk_OsState_STATUS. Use v1api20210701.ImageOSDisk_OsState_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Generalized&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Specialized&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.ImageOSDisk_OsType">ImageOSDisk_OsType
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.ImageOSDisk">ImageOSDisk</a>, <a href="#compute.azure.com/v1beta20210701.ImageOSDisk_ARM">ImageOSDisk_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of ImageOSDisk_OsType. Use v1api20210701.ImageOSDisk_OsType instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Linux&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Windows&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.ImageOSDisk_OsType_STATUS">ImageOSDisk_OsType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.ImageOSDisk_STATUS">ImageOSDisk_STATUS</a>, <a href="#compute.azure.com/v1beta20210701.ImageOSDisk_STATUS_ARM">ImageOSDisk_STATUS_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of ImageOSDisk_OsType_STATUS. Use v1api20210701.ImageOSDisk_OsType_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Linux&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Windows&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.ImageOSDisk_STATUS">ImageOSDisk_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.ImageStorageProfile_STATUS">ImageStorageProfile_STATUS</a>)
-</p>
-<div>
-<p>Deprecated version of ImageOSDisk_STATUS. Use v1api20210701.ImageOSDisk_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>blobUri</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>caching</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageOSDisk_Caching_STATUS">
-ImageOSDisk_Caching_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskEncryptionSet</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.SubResource_STATUS">
-SubResource_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskSizeGB</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>managedDisk</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.SubResource_STATUS">
-SubResource_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>osState</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageOSDisk_OsState_STATUS">
-ImageOSDisk_OsState_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>osType</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageOSDisk_OsType_STATUS">
-ImageOSDisk_OsType_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>snapshot</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.SubResource_STATUS">
-SubResource_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>storageAccountType</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.StorageAccountType_STATUS">
-StorageAccountType_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.ImageOSDisk_STATUS_ARM">ImageOSDisk_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.ImageStorageProfile_STATUS_ARM">ImageStorageProfile_STATUS_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of ImageOSDisk_STATUS. Use v1api20210701.ImageOSDisk_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>blobUri</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>caching</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageOSDisk_Caching_STATUS">
-ImageOSDisk_Caching_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskEncryptionSet</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.SubResource_STATUS_ARM">
-SubResource_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>diskSizeGB</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>managedDisk</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.SubResource_STATUS_ARM">
-SubResource_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>osState</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageOSDisk_OsState_STATUS">
-ImageOSDisk_OsState_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>osType</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageOSDisk_OsType_STATUS">
-ImageOSDisk_OsType_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>snapshot</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.SubResource_STATUS_ARM">
-SubResource_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>storageAccountType</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.StorageAccountType_STATUS">
-StorageAccountType_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.ImageProperties_ARM">ImageProperties_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.Image_Spec_ARM">Image_Spec_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of ImageProperties. Use v1api20210701.ImageProperties instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>hyperVGeneration</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.HyperVGenerationType">
-HyperVGenerationType
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceVirtualMachine</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.SubResource_ARM">
-SubResource_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>storageProfile</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageStorageProfile_ARM">
-ImageStorageProfile_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.ImageProperties_STATUS_ARM">ImageProperties_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.Image_STATUS_ARM">Image_STATUS_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of ImageProperties_STATUS. Use v1api20210701.ImageProperties_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>hyperVGeneration</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.HyperVGenerationType_STATUS">
-HyperVGenerationType_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceVirtualMachine</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.SubResource_STATUS_ARM">
-SubResource_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>storageProfile</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageStorageProfile_STATUS_ARM">
-ImageStorageProfile_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.ImageStorageProfile">ImageStorageProfile
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.Image_Spec">Image_Spec</a>)
-</p>
-<div>
-<p>Deprecated version of ImageStorageProfile. Use v1api20210701.ImageStorageProfile instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>dataDisks</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageDataDisk">
-[]ImageDataDisk
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>osDisk</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageOSDisk">
-ImageOSDisk
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>zoneResilient</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.ImageStorageProfile_ARM">ImageStorageProfile_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.ImageProperties_ARM">ImageProperties_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of ImageStorageProfile. Use v1api20210701.ImageStorageProfile instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>dataDisks</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageDataDisk_ARM">
-[]ImageDataDisk_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>osDisk</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageOSDisk_ARM">
-ImageOSDisk_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>zoneResilient</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.ImageStorageProfile_STATUS">ImageStorageProfile_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.Image_STATUS">Image_STATUS</a>)
-</p>
-<div>
-<p>Deprecated version of ImageStorageProfile_STATUS. Use v1api20210701.ImageStorageProfile_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>dataDisks</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageDataDisk_STATUS">
-[]ImageDataDisk_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>osDisk</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageOSDisk_STATUS">
-ImageOSDisk_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>zoneResilient</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.ImageStorageProfile_STATUS_ARM">ImageStorageProfile_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.ImageProperties_STATUS_ARM">ImageProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of ImageStorageProfile_STATUS. Use v1api20210701.ImageStorageProfile_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>dataDisks</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageDataDisk_STATUS_ARM">
-[]ImageDataDisk_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>osDisk</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageOSDisk_STATUS_ARM">
-ImageOSDisk_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>zoneResilient</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.Image_STATUS">Image_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.Image">Image</a>)
-</p>
-<div>
-<p>Deprecated version of Image_STATUS. Use v1api20210701.Image_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>extendedLocation</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ExtendedLocation_STATUS">
-ExtendedLocation_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>hyperVGeneration</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.HyperVGenerationType_STATUS">
-HyperVGenerationType_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceVirtualMachine</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.SubResource_STATUS">
-SubResource_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>storageProfile</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageStorageProfile_STATUS">
-ImageStorageProfile_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.Image_STATUS_ARM">Image_STATUS_ARM
-</h3>
-<div>
-<p>Deprecated version of Image_STATUS. Use v1api20210701.Image_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>extendedLocation</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ExtendedLocation_STATUS_ARM">
-ExtendedLocation_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageProperties_STATUS_ARM">
-ImageProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.Image_Spec">Image_Spec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.Image">Image</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>extendedLocation</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ExtendedLocation">
-ExtendedLocation
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>hyperVGeneration</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.HyperVGenerationType">
-HyperVGenerationType
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a resources.azure.com/ResourceGroup resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceVirtualMachine</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.SubResource">
-SubResource
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>storageProfile</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageStorageProfile">
-ImageStorageProfile
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.Image_Spec_ARM">Image_Spec_ARM
-</h3>
-<div>
-<p>Deprecated version of Image_Spec. Use v1api20210701.Image_Spec instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>extendedLocation</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ExtendedLocation_ARM">
-ExtendedLocation_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#compute.azure.com/v1beta20210701.ImageProperties_ARM">
-ImageProperties_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.StorageAccountType">StorageAccountType
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.ImageDataDisk">ImageDataDisk</a>, <a href="#compute.azure.com/v1beta20210701.ImageDataDisk_ARM">ImageDataDisk_ARM</a>, <a href="#compute.azure.com/v1beta20210701.ImageOSDisk">ImageOSDisk</a>, <a href="#compute.azure.com/v1beta20210701.ImageOSDisk_ARM">ImageOSDisk_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of StorageAccountType. Use v1api20210701.StorageAccountType instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Premium_LRS&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Premium_ZRS&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;StandardSSD_LRS&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;StandardSSD_ZRS&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Standard_LRS&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;UltraSSD_LRS&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.StorageAccountType_STATUS">StorageAccountType_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.ImageDataDisk_STATUS">ImageDataDisk_STATUS</a>, <a href="#compute.azure.com/v1beta20210701.ImageDataDisk_STATUS_ARM">ImageDataDisk_STATUS_ARM</a>, <a href="#compute.azure.com/v1beta20210701.ImageOSDisk_STATUS">ImageOSDisk_STATUS</a>, <a href="#compute.azure.com/v1beta20210701.ImageOSDisk_STATUS_ARM">ImageOSDisk_STATUS_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of StorageAccountType_STATUS. Use v1api20210701.StorageAccountType_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Premium_LRS&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Premium_ZRS&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;StandardSSD_LRS&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;StandardSSD_ZRS&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Standard_LRS&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;UltraSSD_LRS&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.SubResource">SubResource
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.ImageDataDisk">ImageDataDisk</a>, <a href="#compute.azure.com/v1beta20210701.ImageOSDisk">ImageOSDisk</a>, <a href="#compute.azure.com/v1beta20210701.Image_Spec">Image_Spec</a>)
-</p>
-<div>
-<p>Deprecated version of SubResource. Use v1api20210701.SubResource instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>reference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.SubResource_ARM">SubResource_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.ImageDataDisk_ARM">ImageDataDisk_ARM</a>, <a href="#compute.azure.com/v1beta20210701.ImageOSDisk_ARM">ImageOSDisk_ARM</a>, <a href="#compute.azure.com/v1beta20210701.ImageProperties_ARM">ImageProperties_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of SubResource. Use v1api20210701.SubResource instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.SubResource_STATUS">SubResource_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.ImageDataDisk_STATUS">ImageDataDisk_STATUS</a>, <a href="#compute.azure.com/v1beta20210701.ImageOSDisk_STATUS">ImageOSDisk_STATUS</a>, <a href="#compute.azure.com/v1beta20210701.Image_STATUS">Image_STATUS</a>)
-</p>
-<div>
-<p>Deprecated version of SubResource_STATUS. Use v1api20210701.SubResource_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="compute.azure.com/v1beta20210701.SubResource_STATUS_ARM">SubResource_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#compute.azure.com/v1beta20210701.ImageDataDisk_STATUS_ARM">ImageDataDisk_STATUS_ARM</a>, <a href="#compute.azure.com/v1beta20210701.ImageOSDisk_STATUS_ARM">ImageOSDisk_STATUS_ARM</a>, <a href="#compute.azure.com/v1beta20210701.ImageProperties_STATUS_ARM">ImageProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of SubResource_STATUS. Use v1api20210701.SubResource_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<hr/>
+	<p>Follow the <a href="https://github.com/Azure-Samples/azure-service-operator-samples/tree/master/azure-votes-redis">guided example</a>
+to create a simple voting application backed by Redis.
+The Redis cache is hosted in Azure but created easily via <code>kubectl</code> and Azure Service Operator!</p>
 
 	
 	
