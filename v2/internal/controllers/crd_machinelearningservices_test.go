@@ -34,7 +34,7 @@ func Test_MachineLearning_Workspaces_CRUD(t *testing.T) {
 	tc.AzureRegion = to.Ptr("westus3")
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	sa := newStorageAccount(tc, rg)
+	sa := newStorageAccount(tc, rg, "stor")
 	kv := newVault("kv", tc, rg)
 
 	workspace := newWorkspace(tc, testcommon.AsOwner(rg), sa, kv, tc.AzureRegion)

@@ -190,7 +190,7 @@ func AKS_ManagedCluster_TrustedAccessRoleBinding_20230102Preview_CRUD(
 ) {
 
 	// Create a storage account and key vault to use for the workspace
-	sa := newStorageAccount(tc, resourceGroup)
+	sa := newStorageAccount(tc, resourceGroup, "stor")
 	tc.CreateResourceAndWait(sa)
 
 	kv := newVault("kv", tc, resourceGroup)

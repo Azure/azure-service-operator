@@ -192,6 +192,11 @@ func Redis_FirewallRule_20230401_CRUD(tc *testcommon.KubePerTestContext, redis *
 
 func Test_Cache_Redis_SecretsFromAzure(t *testing.T) {
 	t.Parallel()
+
+	if *isLive {
+		t.Skip("can't run in live mode, redis server takes too long to be provisioned and deletion")
+	}
+
 	tc := globalTestContext.ForTest(t)
 
 	rg := tc.CreateTestResourceGroupAndWait()

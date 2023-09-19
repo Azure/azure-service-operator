@@ -34,7 +34,7 @@ func Test_StorageAccountWithKubernetesReferenceUserAssignedIdentity(t *testing.T
 	}
 
 	// Create a storage account
-	acct := newStorageAccount(tc, rg)
+	acct := newStorageAccount(tc, rg, "stor")
 	userAssigned := storage.Identity_Type_UserAssigned
 	acct.Spec.Identity = &storage.Identity{
 		Type: &userAssigned,

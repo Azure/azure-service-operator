@@ -626,7 +626,7 @@ func makeStorageAccountForSQLVulnerabilityAssessment(tc *testcommon.KubePerTestC
 	const vulnerabilityAssessmentsContainerName = "vulnerabilityassessments"
 	const secretName = "storagesecret"
 
-	acct := newStorageAccount(tc, rg)
+	acct := newStorageAccount(tc, rg, "storageacc")
 	acct.Spec.OperatorSpec = &storage.StorageAccountOperatorSpec{
 		Secrets: &storage.StorageAccountOperatorSecrets{
 			BlobEndpoint: &genruntime.SecretDestination{

@@ -42,7 +42,7 @@ func storageAccountAndResourceGroupProvisionedOutOfOrderHelper(t *testing.T, wai
 	// Create the resource group in-memory but don't submit it yet
 	rg := tc.NewTestResourceGroup()
 
-	acct := newStorageAccount(tc, rg)
+	acct := newStorageAccount(tc, rg, "stor")
 
 	// Create the storage account - initially this will not succeed, but it should keep trying
 	tc.CreateResource(acct)
@@ -133,7 +133,7 @@ func Test_CreateStorageAccountThatAlreadyExists_ReconcilesSuccessfully(t *testin
 	tc := globalTestContext.ForTest(t)
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	acct := newStorageAccount(tc, rg)
+	acct := newStorageAccount(tc, rg, "stor")
 
 	acctCopy := acct.DeepCopy()
 
@@ -158,7 +158,7 @@ func Test_CreateStorageAccountWithoutRequiredProperties_Rejected(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	acct := newStorageAccount(tc, rg)
+	acct := newStorageAccount(tc, rg, "stor")
 
 	acctCopy := acct.DeepCopy()
 
@@ -183,7 +183,7 @@ func Test_AzureName_IsImmutableOnceSuccessfullyCreated(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	acct := newStorageAccount(tc, rg)
+	acct := newStorageAccount(tc, rg, "stor")
 	tc.CreateResourcesAndWait(acct)
 
 	// Patch the account to change AzureName
@@ -206,7 +206,7 @@ func Test_Owner_IsImmutableOnceSuccessfullyCreated(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	acct := newStorageAccount(tc, rg)
+	acct := newStorageAccount(tc, rg, "stor")
 	tc.CreateResourcesAndWait(acct)
 
 	rg2 := tc.CreateTestResourceGroupAndWait()
@@ -231,7 +231,7 @@ func Test_AzureName_IsImmutable_IfAzureHasBeenCommunicatedWith(t *testing.T) {
 
 	invalidAzureName := "==--039+"
 
-	acct := newStorageAccount(tc, rg)
+	acct := newStorageAccount(tc, rg, "stor")
 	acct.Spec.AzureName = invalidAzureName
 	tc.CreateResourceAndWaitForFailure(acct)
 
@@ -256,7 +256,7 @@ func Test_Owner_IsMutableIfNotSuccessfullyCreated(t *testing.T) {
 	actualOwnerName := rg.Name
 	rg.Name = invalidOwnerName
 
-	acct := newStorageAccount(tc, rg)
+	acct := newStorageAccount(tc, rg, "stor")
 	tc.CreateResourceAndWaitForState(acct, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
 
 	// TODO: We have hack in here to skip re-reconcile here as to avoid race between requeue and patch,

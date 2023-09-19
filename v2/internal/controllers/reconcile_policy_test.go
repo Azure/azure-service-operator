@@ -102,7 +102,7 @@ func Test_ReconcilePolicy_SkippedParentDeleted_ChildIssuesDeleteToAzure(t *testi
 	tc.PatchResourceAndWait(old, rg)
 
 	// Create a child resource in this RG
-	acct := newStorageAccount(tc, rg)
+	acct := newStorageAccount(tc, rg, "stor")
 	tc.CreateResourceAndWait(acct)
 
 	tc.Expect(acct.Status.Id).ToNot(BeNil())

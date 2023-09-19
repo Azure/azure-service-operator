@@ -28,7 +28,7 @@ func Test_Networking_PrivateEndpoint_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	saKind := storage.StorageAccount_Kind_Spec_BlobStorage
-	sa := newStorageAccount(tc, rg)
+	sa := newStorageAccount(tc, rg, "stor")
 	sa.Spec.Kind = &saKind
 
 	vnet := newVMVirtualNetwork(tc, testcommon.AsOwner(rg))

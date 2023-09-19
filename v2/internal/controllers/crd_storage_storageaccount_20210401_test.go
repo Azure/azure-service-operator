@@ -26,7 +26,7 @@ func Test_Storage_StorageAccount_20210401_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	acct := newStorageAccount(tc, rg)
+	acct := newStorageAccount(tc, rg, "stor")
 
 	tc.CreateResourceAndWait(acct)
 
@@ -141,7 +141,7 @@ func Test_Storage_StorageAccount_20210401_SecretsFromAzure(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Initially with no OperatorSpec.Secrets, to ensure no secrets are created
-	acct := newStorageAccount(tc, rg)
+	acct := newStorageAccount(tc, rg, "stor")
 
 	tc.CreateResourceAndWait(acct)
 
@@ -297,13 +297,13 @@ func StorageAccount_ManagementPolicy_20210401_CRUD(tc *testcommon.KubePerTestCon
 	defer tc.DeleteResourceAndWait(managementPolicy)
 }
 
-func newStorageAccount(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *storage.StorageAccount {
+func newStorageAccount(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, name string) *storage.StorageAccount {
 	// Create a storage account
 	accessTier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
 	kind := storage.StorageAccount_Kind_Spec_StorageV2
 	sku := storage.SkuName_Standard_LRS
 	acct := &storage.StorageAccount{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName(name)),
 		Spec: storage.StorageAccount_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
