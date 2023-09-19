@@ -90,11 +90,11 @@ func Test_AKS_Fleet_20230315_CRUD(t *testing.T) {
 			},
 		},
 	}
-	clusterArmID := *cluster.Status.Id
 	tc.CreateResourceAndWait(cluster)
 	tc.Expect(cluster.Status.Id).ToNot(BeNil())
+	clusterArmID := *cluster.Status.Id
 
-	// Run sub tests
+	// Run sub tests - updateRun subtest depends on fleetMember subtest
 	tc.RunSubtests(
 		testcommon.Subtest{
 			Name: "Fleet FleetMember CRUD",
@@ -124,10 +124,6 @@ func Test_AKS_Fleet_20230315_CRUD(t *testing.T) {
 
 func AKS_Fleet_FleetMember_20230315Preview_CRUD(tc *testcommon.KubePerTestContext, flt *fleet.Fleet, clusterArmID string) {
 
-	// if *isLive {
-	// 	t.Skip("can't run in live mode, as this test is creates a KeyVault which reserves the name unless manually purged")
-	// }
-
 	flt_member := &fleet.FleetsMember{
 		ObjectMeta: tc.MakeObjectMeta("fleetmember"),
 		Spec: fleet.Fleets_Member_Spec{
@@ -143,9 +139,7 @@ func AKS_Fleet_FleetMember_20230315Preview_CRUD(tc *testcommon.KubePerTestContex
 	tc.Expect(flt_member.Status.Id).ToNot(BeNil())
 	tc.Expect(flt_member.Status.ClusterResourceId).ToNot(BeNil())
 
-	// delete
-	// defer tc.DeleteResourceAndWait(flt_member)
-
+	// not deleting fleet member since updateRun test depends on resource
 }
 
 func AKS_Fleet_UpdateRun_20230315Preview_CRUD(tc *testcommon.KubePerTestContext, flt *fleet.Fleet) {
