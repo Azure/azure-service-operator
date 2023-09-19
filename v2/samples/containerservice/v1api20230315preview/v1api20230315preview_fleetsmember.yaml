@@ -1,0 +1,11 @@
+apiVersion: containerservice.azure.com/v1api20230315preview
+kind: FleetsMember
+metadata:
+  name: samplefleetmember2023315preview
+  namespace: default
+spec:
+  location: westus3
+  owner:
+    name: aso-sample-rg
+  clusterResourceReference:
+    armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-kssdmg/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster202221
