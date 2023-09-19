@@ -40,7 +40,7 @@ func Test_AKS_Fleet_20230315_CRUD(t *testing.T) {
 	tc.Expect(flt.Status.Id).ToNot(BeNil())
 	tc.Expect(flt.Status.Tags).ToNot(BeNil())
 	tc.Expect(flt.Spec.Tags["name"]).To(Equal("test-tag"))
-	// armId := *flt.Status.Id
+	armId := *flt.Status.Id
 
 	// patching a fleet
 	old := flt.DeepCopy()
@@ -49,58 +49,6 @@ func Test_AKS_Fleet_20230315_CRUD(t *testing.T) {
 	}
 	tc.PatchResourceAndWait(old, flt)
 	tc.Expect(flt.Spec.Tags["name"]).To(Equal("test-tag2"))
-
-	// TODO: Move create cluster code to fleet member test
-	// if *isLive {
-	// 	t.Skip("can't run in live mode, as this test is creates a KeyVault which reserves the name unless manually purged")
-	// }
-
-	// adminUsername := "adminUser"
-	// sshPublicKey, err := tc.GenerateSSHKey(2048)
-	// tc.Expect(err).ToNot(HaveOccurred())
-
-	// identityKind := aks.ManagedClusterIdentity_Type_SystemAssigned
-	// osType := aks.OSType_Linux
-	// agentPoolMode := aks.AgentPoolMode_System
-
-	// cluster := &aks.ManagedCluster{
-	// 	ObjectMeta: tc.MakeObjectMeta("mc"),
-	// 	Spec: aks.ManagedCluster_Spec{
-	// 		Location:  region,
-	// 		Owner:     testcommon.AsOwner(rg),
-	// 		DnsPrefix: to.Ptr("aso"),
-	// 		AgentPoolProfiles: []aks.ManagedClusterAgentPoolProfile{
-	// 			{
-	// 				Name:   to.Ptr("ap1"),
-	// 				Count:  to.Ptr(1),
-	// 				VmSize: to.Ptr("Standard_DS2_v2"),
-	// 				OsType: &osType,
-	// 				Mode:   &agentPoolMode,
-	// 			},
-	// 		},
-	// 		LinuxProfile: &aks.ContainerServiceLinuxProfile{
-	// 			AdminUsername: &adminUsername,
-	// 			Ssh: &aks.ContainerServiceSshConfiguration{
-	// 				PublicKeys: []aks.ContainerServiceSshPublicKey{
-	// 					{
-	// 						KeyData: sshPublicKey,
-	// 					},
-	// 				},
-	// 			},
-	// 		},
-	// 		Identity: &aks.ManagedClusterIdentity{
-	// 			Type: &identityKind,
-	// 		},
-	// 		OidcIssuerProfile: &aks.ManagedClusterOIDCIssuerProfile{
-	// 			Enabled: to.Ptr(true),
-	// 		},
-	// 	},
-	// }
-
-	// tc.CreateResourceAndWait(cluster)
-
-	// tc.Expect(cluster.Status.Id).ToNot(BeNil())
-	// armId := *cluster.Status.Id
 
 	// Run sub tests
 	tc.RunSubtests(
@@ -118,13 +66,13 @@ func Test_AKS_Fleet_20230315_CRUD(t *testing.T) {
 		})
 
 	// delete a fleet
-	// tc.DeleteResourceAndWait(flt)
+	tc.DeleteResourceAndWait(flt)
 
-	// // Ensure that fleet was really deleted in Azure
-	// exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(fleet.APIVersion_Value))
-	// tc.Expect(err).ToNot(HaveOccurred())
-	// tc.Expect(retryAfter).To(BeZero())
-	// tc.Expect(exists).To(BeFalse())
+	// Ensure that fleet was really deleted in Azure
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(fleet.APIVersion_Value))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(retryAfter).To(BeZero())
+	tc.Expect(exists).To(BeFalse())
 }
 
 func AKS_Fleet_FleetMember_20230315Preview_CRUD(tc *testcommon.KubePerTestContext, flt *fleet.Fleet) {
