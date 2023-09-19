@@ -149,7 +149,7 @@ enable = false
 # Developer relevant links. These will show up on right side of footer and in the community page if you have one.
 [[params.links.developer]]
   name = "GitHub"
-  url = "https://github.com/azure/azure-service-operator"
+  url = "https://github.com/Azure/azure-service-operator"
   icon = "fab fa-github"
   desc = "Development takes place here!"
 #[[params.links.developer]]
