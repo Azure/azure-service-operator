@@ -50,37 +50,6 @@ func Test_AKS_Fleet_20230315_CRUD(t *testing.T) {
 	tc.PatchResourceAndWait(old, flt)
 	tc.Expect(flt.Spec.Tags["name"]).To(Equal("test-tag2"))
 
-	// Run sub tests
-	tc.RunSubtests(
-		testcommon.Subtest{
-			Name: "Fleet FleetMember CRUD",
-			Test: func(tc *testcommon.KubePerTestContext) {
-				AKS_Fleet_FleetMember_20230315Preview_CRUD(tc, flt)
-			},
-		},
-		testcommon.Subtest{
-			Name: "Fleet UpdateRun CRUD",
-			Test: func(tc *testcommon.KubePerTestContext) {
-				AKS_Fleet_UpdateRun_20230315Preview_CRUD(tc, flt)
-			},
-		})
-
-	// delete a fleet
-	tc.DeleteResourceAndWait(flt)
-
-	// Ensure that fleet was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(fleet.APIVersion_Value))
-	tc.Expect(err).ToNot(HaveOccurred())
-	tc.Expect(retryAfter).To(BeZero())
-	tc.Expect(exists).To(BeFalse())
-}
-
-func AKS_Fleet_FleetMember_20230315Preview_CRUD(tc *testcommon.KubePerTestContext, flt *fleet.Fleet) {
-
-	// if *isLive {
-	// 	t.Skip("can't run in live mode, as this test is creates a KeyVault which reserves the name unless manually purged")
-	// }
-
 	adminUsername := "adminUser"
 	sshPublicKey, err := tc.GenerateSSHKey(2048)
 	tc.Expect(err).ToNot(HaveOccurred())
@@ -88,8 +57,6 @@ func AKS_Fleet_FleetMember_20230315Preview_CRUD(tc *testcommon.KubePerTestContex
 	identityKind := aks.ManagedClusterIdentity_Type_SystemAssigned
 	osType := aks.OSType_Linux
 	agentPoolMode := aks.AgentPoolMode_System
-	rg := tc.CreateTestResourceGroupAndWait()
-	region := to.Ptr("westus3")
 	cluster := &aks.ManagedCluster{
 		ObjectMeta: tc.MakeObjectMeta("mc"),
 		Spec: aks.ManagedCluster_Spec{
@@ -123,17 +90,50 @@ func AKS_Fleet_FleetMember_20230315Preview_CRUD(tc *testcommon.KubePerTestContex
 			},
 		},
 	}
-
+	clusterArmID := *cluster.Status.Id
 	tc.CreateResourceAndWait(cluster)
 	tc.Expect(cluster.Status.Id).ToNot(BeNil())
 
-	armId := *cluster.Status.Id
+	// Run sub tests
+	tc.RunSubtests(
+		testcommon.Subtest{
+			Name: "Fleet FleetMember CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				AKS_Fleet_FleetMember_20230315Preview_CRUD(tc, flt, clusterArmID)
+			},
+		},
+		testcommon.Subtest{
+			Name: "Fleet UpdateRun CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				AKS_Fleet_UpdateRun_20230315Preview_CRUD(tc, flt)
+			},
+		})
+
+	// delete managed cluster
+	tc.DeleteResourceAndWait(cluster)
+
+	// delete a fleet
+	tc.DeleteResourceAndWait(flt)
+
+	// Ensure that fleet was really deleted in Azure
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(fleet.APIVersion_Value))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(retryAfter).To(BeZero())
+	tc.Expect(exists).To(BeFalse())
+}
+
+func AKS_Fleet_FleetMember_20230315Preview_CRUD(tc *testcommon.KubePerTestContext, flt *fleet.Fleet, clusterArmID string) {
+
+	// if *isLive {
+	// 	t.Skip("can't run in live mode, as this test is creates a KeyVault which reserves the name unless manually purged")
+	// }
+
 	flt_member := &fleet.FleetsMember{
 		ObjectMeta: tc.MakeObjectMeta("fleetmember"),
 		Spec: fleet.Fleets_Member_Spec{
 			Owner: testcommon.AsOwner(flt),
 			ClusterResourceReference: &genruntime.ResourceReference{
-				ARMID: armId,
+				ARMID: clusterArmID,
 			},
 		},
 	}

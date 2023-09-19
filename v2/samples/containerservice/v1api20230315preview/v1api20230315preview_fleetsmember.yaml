@@ -1,11 +1,32 @@
+apiVersion: containerservice.azure.com/v1api20230202preview
+kind: ManagedCluster
+metadata:
+  name: aks-managedcluster-sample-fleet
+  namespace: default
+spec:
+  location: westus3
+  owner:
+    name: aso-sample-rg
+  dnsPrefix: aso
+  agentPoolProfiles:
+    - name: pool1
+      count: 1
+      vmSize: Standard_DS2_v2
+      osType: Linux
+      mode: System
+  identity:
+    type: SystemAssigned
+---
+
 apiVersion: containerservice.azure.com/v1api20230315preview
 kind: FleetsMember
 metadata:
   name: samplefleetmember2023315preview
   namespace: default
 spec:
-  location: westus3
   owner:
-    name: aso-sample-rg
+    name: samplefleet2023315preview
   clusterResourceReference:
-    armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-kssdmg/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster202221
+    group: containerservice.azure.com/v1api20230202preview
+    kind: ManagedCluster
+    name: aks-managedcluster-sample-fleet
