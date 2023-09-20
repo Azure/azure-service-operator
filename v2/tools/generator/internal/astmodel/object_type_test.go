@@ -20,8 +20,8 @@ var (
 	familyName           = NewPropertyDefinition("FamilyName", "family-name", StringType)
 	knownAs              = NewPropertyDefinition("KnownAs", "known-as", StringType)
 	gender               = NewPropertyDefinition("Gender", "gender", StringType)
-	embeddedProp         = NewPropertyDefinition("", "-", MakeInternalTypeName(GenRuntimeReference, "DummyType"))
-	optionalEmbeddedProp = NewPropertyDefinition("", "-", MakeInternalTypeName(GenRuntimeReference, "DummyType")).MakeTypeOptional()
+	embeddedProp         = NewPropertyDefinition("", "-", MakeExternalTypeName(GenRuntimeReference, "DummyType"))
+	optionalEmbeddedProp = NewPropertyDefinition("", "-", MakeExternalTypeName(GenRuntimeReference, "DummyType")).MakeTypeOptional()
 )
 
 /*

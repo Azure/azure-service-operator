@@ -33,7 +33,7 @@ func NewConversionGraphBuilder(
 }
 
 // Add includes the supplied TypeNames in the conversion graph
-func (b *ConversionGraphBuilder) Add(names ...astmodel.TypeName) {
+func (b *ConversionGraphBuilder) Add(names ...astmodel.InternalTypeName) {
 	for _, name := range names {
 		subBuilder := b.getSubBuilder(name)
 		subBuilder.Add(name)
@@ -41,7 +41,7 @@ func (b *ConversionGraphBuilder) Add(names ...astmodel.TypeName) {
 }
 
 // AddAll includes the TypeNames in the supplied set in conversion graph
-func (b *ConversionGraphBuilder) AddAll(set astmodel.TypeNameSet) {
+func (b *ConversionGraphBuilder) AddAll(set astmodel.InternalTypeNameSet) {
 	for name := range set {
 		b.Add(name)
 	}
@@ -68,9 +68,9 @@ func (b *ConversionGraphBuilder) Build() (*ConversionGraph, error) {
 }
 
 // getSubBuilder finds the relevant builder for the group of the provided reference, creating one if necessary
-func (b *ConversionGraphBuilder) getSubBuilder(name astmodel.TypeName) *GroupConversionGraphBuilder {
+func (b *ConversionGraphBuilder) getSubBuilder(name astmodel.InternalTypeName) *GroupConversionGraphBuilder {
 	// Expect to get either a local or a storage reference, not an external one
-	group := name.PackageReference().Group()
+	group := name.InternalPackageReference().Group()
 	subBuilder, ok := b.subBuilders[group]
 	if !ok {
 		subBuilder = NewGroupConversionGraphBuilder(group, b.configuration, b.versionPrefix)

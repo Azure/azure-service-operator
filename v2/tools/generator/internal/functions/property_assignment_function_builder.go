@@ -102,9 +102,17 @@ func (builder *PropertyAssignmentFunctionBuilder) AddAssignmentSelector(selector
 	}
 
 	builder.assignmentSelectors = append(builder.assignmentSelectors, as)
-	slices.SortFunc(builder.assignmentSelectors, func(i assignmentSelector, j assignmentSelector) bool {
-		return i.sequence < j.sequence
-	})
+	slices.SortFunc(
+		builder.assignmentSelectors,
+		func(i assignmentSelector, j assignmentSelector) int {
+			if i.sequence < j.sequence {
+				return -1
+			} else if i.sequence > j.sequence {
+				return 1
+			} else {
+				return 0
+			}
+		})
 }
 
 // AddSuffixMatchingAssignmentSelector adds a new assignment selector that will match a property with the specified
@@ -160,7 +168,10 @@ func (builder *PropertyAssignmentFunctionBuilder) Build(
 	err := builder.createConversions(sourceEndpoints, destinationEndpoints, cc, propertyConversions)
 	if err != nil {
 		parameterType := astmodel.DebugDescription(
-			builder.otherDefinition.Name(), builder.receiverDefinition.Name().PackageReference())
+			builder.otherDefinition.Name(),
+			builder.receiverDefinition.Name().InternalPackageReference(),
+		)
+
 		return nil, errors.Wrapf(err, "creating '%s(%s)'", fnName, parameterType)
 	}
 

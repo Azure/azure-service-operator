@@ -134,11 +134,7 @@ func (policy *ServersDatabasesBackupShortTermRetentionPolicy) NewEmptyStatus() g
 // Owner returns the ResourceReference of the owner
 func (policy *ServersDatabasesBackupShortTermRetentionPolicy) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(policy.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  policy.Spec.Owner.Name,
-	}
+	return policy.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -196,7 +192,7 @@ func (policy *ServersDatabasesBackupShortTermRetentionPolicy) ValidateUpdate(old
 
 // createValidations validates the creation of the resource
 func (policy *ServersDatabasesBackupShortTermRetentionPolicy) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){policy.validateResourceReferences}
+	return []func() (admission.Warnings, error){policy.validateResourceReferences, policy.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -210,7 +206,16 @@ func (policy *ServersDatabasesBackupShortTermRetentionPolicy) updateValidations(
 		func(old runtime.Object) (admission.Warnings, error) {
 			return policy.validateResourceReferences()
 		},
-		policy.validateWriteOnceProperties}
+		policy.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return policy.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (policy *ServersDatabasesBackupShortTermRetentionPolicy) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(policy)
 }
 
 // validateResourceReferences validates all resource references
@@ -367,7 +372,10 @@ func (policy *Servers_Databases_BackupShortTermRetentionPolicy_Spec) PopulateFro
 	}
 
 	// Set property "Owner":
-	policy.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	policy.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "RetentionDays":
 	// copying flattened property:

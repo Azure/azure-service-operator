@@ -21,12 +21,12 @@ import (
 // ResourceRegistrationFile is a file containing functions that assist in registering resources
 // with a Kubernetes scheme.
 type ResourceRegistrationFile struct {
-	resources               []astmodel.TypeName
-	storageVersionResources []astmodel.TypeName
-	resourceExtensions      []astmodel.TypeName
-	indexFunctions          map[astmodel.TypeName][]*functions.IndexRegistrationFunction
-	secretPropertyKeys      map[astmodel.TypeName][]string
-	configMapPropertyKeys   map[astmodel.TypeName][]string
+	resources               []astmodel.InternalTypeName
+	storageVersionResources []astmodel.InternalTypeName
+	resourceExtensions      []astmodel.InternalTypeName
+	indexFunctions          map[astmodel.InternalTypeName][]*functions.IndexRegistrationFunction
+	secretPropertyKeys      map[astmodel.InternalTypeName][]string
+	configMapPropertyKeys   map[astmodel.InternalTypeName][]string
 }
 
 var _ astmodel.GoSourceFile = &ResourceRegistrationFile{}
@@ -34,12 +34,12 @@ var _ astmodel.GoSourceFile = &ResourceRegistrationFile{}
 // NewResourceRegistrationFile returns a ResourceRegistrationFile for registering the specified resources
 // with a controller
 func NewResourceRegistrationFile(
-	resources []astmodel.TypeName,
-	storageVersionResources []astmodel.TypeName,
-	indexFunctions map[astmodel.TypeName][]*functions.IndexRegistrationFunction,
-	secretPropertyKeys map[astmodel.TypeName][]string,
-	configMapPropertyKeys map[astmodel.TypeName][]string,
-	resourceExtensions []astmodel.TypeName,
+	resources []astmodel.InternalTypeName,
+	storageVersionResources []astmodel.InternalTypeName,
+	indexFunctions map[astmodel.InternalTypeName][]*functions.IndexRegistrationFunction,
+	secretPropertyKeys map[astmodel.InternalTypeName][]string,
+	configMapPropertyKeys map[astmodel.InternalTypeName][]string,
+	resourceExtensions []astmodel.InternalTypeName,
 ) *ResourceRegistrationFile {
 	return &ResourceRegistrationFile{
 		resources:               resources,
@@ -59,7 +59,9 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 	packageReferences := r.generateImports()
 
 	codeGenContext := astmodel.NewCodeGenerationContext(
-		astmodel.MakeExternalPackageReference("controllers"), // TODO: This should come from a config
+		// This is a little nasty, given we're generating into a package with a fixed name.
+		// Do we need a specific PackageReference type for this case?
+		astmodel.MakeLocalPackageReference("", "controllers", "", ""), // TODO: This should come from a config
 		packageReferences,
 		nil)
 
@@ -152,7 +154,10 @@ func (r *ResourceRegistrationFile) generateImports() *astmodel.PackageImportSet 
 	return requiredImports
 }
 
-func orderByImportedTypeName(codeGenerationContext *astmodel.CodeGenerationContext, resources []astmodel.TypeName) func(i, j int) bool {
+func orderByImportedTypeName(
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	resources []astmodel.InternalTypeName,
+) func(i, j int) bool {
 	return func(i, j int) bool {
 		iVal := resources[i]
 		jVal := resources[j]
@@ -189,7 +194,10 @@ func orderByFunctionName(functions []*functions.IndexRegistrationFunction) func(
 //		...
 //		return result
 //	}
-func createGetKnownTypesFunc(codeGenerationContext *astmodel.CodeGenerationContext, resources []astmodel.TypeName) (dst.Decl, error) {
+func createGetKnownTypesFunc(
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	resources []astmodel.InternalTypeName,
+) (dst.Decl, error) {
 	funcName := "getKnownTypes"
 	funcComment := "returns the list of all types."
 
@@ -467,7 +475,7 @@ func (r *ResourceRegistrationFile) defineIndexFunctions(
 	result := make([]dst.Decl, 0, len(indexFunctions))
 	var errs []error
 	for _, f := range indexFunctions {
-		decl, err := f.AsFunc(codeGenerationContext, nil)
+		decl, err := f.AsFunc(codeGenerationContext, astmodel.InternalTypeName{})
 		if err != nil {
 			errs = append(errs, err)
 			continue
@@ -488,7 +496,10 @@ func (r *ResourceRegistrationFile) getImportedPackages() map[astmodel.PackageRef
 	return result
 }
 
-func (r *ResourceRegistrationFile) makeWatchesExpr(typeName astmodel.TypeName, codeGenerationContext *astmodel.CodeGenerationContext) dst.Expr {
+func (r *ResourceRegistrationFile) makeWatchesExpr(
+	typeName astmodel.InternalTypeName,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+) dst.Expr {
 	secretWatchesExpr := r.makeSimpleWatchesExpr(
 		typeName,
 		astmodel.SecretType,
@@ -523,11 +534,12 @@ func (r *ResourceRegistrationFile) makeWatchesExpr(typeName astmodel.TypeName, c
 //		MakeEventHandler: <watchHelperFuncName>([]string{<typeNameKeys[typeName]>}, &<typeName>{}),
 //	}
 func (r *ResourceRegistrationFile) makeSimpleWatchesExpr(
-	typeName astmodel.TypeName,
+	typeName astmodel.InternalTypeName,
 	fieldType astmodel.TypeName,
 	watchHelperFuncName string,
-	typeNameKeys map[astmodel.TypeName][]string,
-	codeGenerationContext *astmodel.CodeGenerationContext) dst.Expr {
+	typeNameKeys map[astmodel.InternalTypeName][]string,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+) dst.Expr {
 	keys, ok := typeNameKeys[typeName]
 	if !ok {
 		return nil

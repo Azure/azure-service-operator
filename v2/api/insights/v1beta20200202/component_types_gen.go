@@ -169,11 +169,7 @@ func (component *Component) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (component *Component) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(component.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  component.Spec.Owner.Name,
-	}
+	return component.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -231,7 +227,7 @@ func (component *Component) ValidateUpdate(old runtime.Object) (admission.Warnin
 
 // createValidations validates the creation of the resource
 func (component *Component) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){component.validateResourceReferences, component.validateConfigMapDestinations}
+	return []func() (admission.Warnings, error){component.validateResourceReferences, component.validateOwnerReference, component.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -247,12 +243,15 @@ func (component *Component) updateValidations() []func(old runtime.Object) (admi
 		},
 		component.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
+			return component.validateOwnerReference()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return component.validateConfigMapDestinations()
 		},
 	}
 }
 
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations's
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
 func (component *Component) validateConfigMapDestinations() (admission.Warnings, error) {
 	if component.Spec.OperatorSpec == nil {
 		return nil, nil
@@ -265,6 +264,11 @@ func (component *Component) validateConfigMapDestinations() (admission.Warnings,
 		component.Spec.OperatorSpec.ConfigMaps.InstrumentationKey,
 	}
 	return genruntime.ValidateConfigMapDestinations(toValidate)
+}
+
+// validateOwnerReference validates the owner field
+func (component *Component) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(component)
 }
 
 // validateResourceReferences validates all resource references
@@ -627,7 +631,10 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
-	component.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	component.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "PublicNetworkAccessForIngestion":
 	// copying flattened property:

@@ -163,11 +163,7 @@ func (service *PrivateLinkService) NewEmptyStatus() genruntime.ConvertibleStatus
 // Owner returns the ResourceReference of the owner
 func (service *PrivateLinkService) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(service.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  service.Spec.Owner.Name,
-	}
+	return service.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -225,7 +221,7 @@ func (service *PrivateLinkService) ValidateUpdate(old runtime.Object) (admission
 
 // createValidations validates the creation of the resource
 func (service *PrivateLinkService) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){service.validateResourceReferences, service.validateConfigMapDestinations}
+	return []func() (admission.Warnings, error){service.validateResourceReferences, service.validateOwnerReference, service.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -241,12 +237,15 @@ func (service *PrivateLinkService) updateValidations() []func(old runtime.Object
 		},
 		service.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
+			return service.validateOwnerReference()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return service.validateConfigMapDestinations()
 		},
 	}
 }
 
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations's
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
 func (service *PrivateLinkService) validateConfigMapDestinations() (admission.Warnings, error) {
 	if service.Spec.OperatorSpec == nil {
 		return nil, nil
@@ -258,6 +257,11 @@ func (service *PrivateLinkService) validateConfigMapDestinations() (admission.Wa
 		service.Spec.OperatorSpec.ConfigMaps.Alias,
 	}
 	return genruntime.ValidateConfigMapDestinations(toValidate)
+}
+
+// validateOwnerReference validates the owner field
+func (service *PrivateLinkService) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(service)
 }
 
 // validateResourceReferences validates all resource references
@@ -570,7 +574,10 @@ func (service *PrivateLinkService_Spec) PopulateFromARM(owner genruntime.Arbitra
 	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
-	service.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	service.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Tags":
 	if typedInput.Tags != nil {

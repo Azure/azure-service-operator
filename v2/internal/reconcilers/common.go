@@ -66,7 +66,7 @@ type ARMOwnedResourceReconcilerCommon struct {
 
 // NeedsToWaitForOwner returns false if the owner doesn't need to be waited for, and true if it does.
 func (r *ARMOwnedResourceReconcilerCommon) NeedsToWaitForOwner(ctx context.Context, log logr.Logger, obj genruntime.ARMOwnedMetaObject) (bool, error) {
-	owner, err := r.ResourceResolver.ResolveOwner(ctx, obj)
+	ownerDetails, err := r.ResourceResolver.ResolveOwner(ctx, obj)
 	if err != nil {
 		var typedErr *core.ReferenceNotFound
 		if errors.As(err, &typedErr) {
@@ -78,12 +78,12 @@ func (r *ARMOwnedResourceReconcilerCommon) NeedsToWaitForOwner(ctx context.Conte
 	}
 
 	// No need to wait for resources that don't have an owner
-	if owner == nil {
+	if !ownerDetails.FoundKubernetesOwner() {
 		return false, nil
 	}
 
 	// If the owner isn't ready, wait
-	ready := genruntime.GetReadyCondition(owner)
+	ready := genruntime.GetReadyCondition(ownerDetails.Owner)
 	isOwnerReady := ready != nil && ready.Status == metav1.ConditionTrue
 	if !isOwnerReady {
 		var readyStr string
@@ -100,22 +100,23 @@ func (r *ARMOwnedResourceReconcilerCommon) NeedsToWaitForOwner(ctx context.Conte
 }
 
 func (r *ARMOwnedResourceReconcilerCommon) ApplyOwnership(ctx context.Context, log logr.Logger, obj genruntime.ARMOwnedMetaObject) error {
-	owner, err := r.ResourceResolver.ResolveOwner(ctx, obj)
+	ownerDetails, err := r.ResourceResolver.ResolveOwner(ctx, obj)
 	if err != nil {
 		return errors.Wrap(err, "failed to get owner")
 	}
 
-	if owner == nil {
+	if !ownerDetails.FoundKubernetesOwner() {
+		// If no owner is expected or the owner is only in ARM, no need to assign ownership in Kubernetes
 		return nil
 	}
 
-	ownerRef := ownerutil.MakeOwnerReference(owner)
+	ownerRef := ownerutil.MakeOwnerReference(ownerDetails.Owner)
 
 	obj.SetOwnerReferences(ownerutil.EnsureOwnerRef(obj.GetOwnerReferences(), ownerRef))
 	log.V(Info).Info(
 		"Set owner reference",
-		"ownerGvk", owner.GetObjectKind().GroupVersionKind(),
-		"ownerName", owner.GetName())
+		"ownerGvk", ownerDetails.Owner.GetObjectKind().GroupVersionKind(),
+		"ownerName", ownerDetails.Owner.GetName())
 
 	return nil
 }
@@ -163,6 +164,12 @@ func ClassifyResolverError(err error) error {
 	var configMapErr *core.ConfigMapNotFound
 	if errors.As(err, &configMapErr) {
 		return conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonConfigMapNotFound)
+	}
+
+	// If it's subscription mismatch, classify that
+	var subscriptionMismatchErr *core.SubscriptionMismatch
+	if errors.As(err, &subscriptionMismatchErr) {
+		return conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonFailed)
 	}
 
 	// Everything else is ReferenceNotFound. This is maybe a bit of a lie but secrets are also references and we want to make sure

@@ -75,7 +75,7 @@ func (r *SimpleExtensionResource) AzureName() string {
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (r *SimpleExtensionResource) Owner() *genruntime.ResourceReference {
-	return nil
+	return r.Spec.Owner.AsResourceReference()
 }
 
 func (r *SimpleExtensionResource) GetType() string {
@@ -90,7 +90,7 @@ func (r *SimpleExtensionResource) GetResourceScope() genruntime.ResourceScope {
 type SimpleExtensionResourceSpec struct {
 	AzureName string `json:"azureName,omitempty"`
 
-	Owner genruntime.ResourceReference `json:"owner"`
+	Owner genruntime.ArbitraryOwnerReference `json:"owner"`
 }
 
 var _ genruntime.ConvertibleSpec = &SimpleExtensionResourceSpec{}

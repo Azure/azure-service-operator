@@ -30,12 +30,12 @@ func ExportControllerResourceRegistrations(idFactory astmodel.IdentifierFactory,
 				return definitions, nil
 			}
 
-			var resources []astmodel.TypeName
-			var storageVersionResources []astmodel.TypeName
-			var resourceExtensions []astmodel.TypeName
-			indexFunctions := make(map[astmodel.TypeName][]*functions.IndexRegistrationFunction)
-			secretPropertyKeys := make(map[astmodel.TypeName][]string)
-			configMapPropertyKeys := make(map[astmodel.TypeName][]string)
+			var resources []astmodel.InternalTypeName
+			var storageVersionResources []astmodel.InternalTypeName
+			var resourceExtensions []astmodel.InternalTypeName
+			indexFunctions := make(map[astmodel.InternalTypeName][]*functions.IndexRegistrationFunction)
+			secretPropertyKeys := make(map[astmodel.InternalTypeName][]string)
+			configMapPropertyKeys := make(map[astmodel.InternalTypeName][]string)
 
 			// We need to register each version
 			for _, def := range definitions {
@@ -120,7 +120,7 @@ func ensureIndexPropertyPathsUnique(chains []*propertyChain) {
 		chain.requiredForPropertyPath = true
 	}
 
-	// Look until either we have no collisions, or we can't resolve them
+	// Loop until either we have no collisions, or we can't resolve them
 	for {
 		// Look for collisions
 		chainsByName := make(map[string][]*propertyChain)
@@ -185,7 +185,7 @@ func tryResolvePropertyPathCollision(chains []*propertyChain) bool {
 func catalogSecretPropertyChains(def astmodel.TypeDefinition, definitions astmodel.TypeDefinitionSet) ([]*propertyChain, error) {
 	indexBuilder := &indexFunctionBuilder{}
 
-	visitor := astmodel.TypeVisitorBuilder{
+	visitor := astmodel.TypeVisitorBuilder[*propertyChain]{
 		VisitObjectType: indexBuilder.catalogSecretProperties,
 	}.Build()
 
@@ -195,16 +195,21 @@ func catalogSecretPropertyChains(def astmodel.TypeDefinition, definitions astmod
 func catalogConfigMapPropertyChains(def astmodel.TypeDefinition, definitions astmodel.TypeDefinitionSet) ([]*propertyChain, error) {
 	indexBuilder := &indexFunctionBuilder{}
 
-	visitor := astmodel.TypeVisitorBuilder{
+	visitor := astmodel.TypeVisitorBuilder[*propertyChain]{
 		VisitObjectType: indexBuilder.catalogConfigMapProperties,
 	}.Build()
 
 	return catalogPropertyChains(def, definitions, indexBuilder, visitor)
 }
 
-func catalogPropertyChains(def astmodel.TypeDefinition, definitions astmodel.TypeDefinitionSet, indexBuilder *indexFunctionBuilder, visitor astmodel.TypeVisitor) ([]*propertyChain, error) {
+func catalogPropertyChains(
+	def astmodel.TypeDefinition,
+	definitions astmodel.TypeDefinitionSet,
+	indexBuilder *indexFunctionBuilder,
+	visitor astmodel.TypeVisitor[*propertyChain],
+) ([]*propertyChain, error) {
 	walker := astmodel.NewTypeWalker(definitions, visitor)
-	walker.MakeContext = func(it astmodel.TypeName, ctx interface{}) (interface{}, error) {
+	walker.MakeContext = func(it astmodel.InternalTypeName, ctx *propertyChain) (*propertyChain, error) {
 		if ctx != nil {
 			return ctx, nil
 		}
@@ -224,22 +229,27 @@ type indexFunctionBuilder struct {
 	propChains []*propertyChain
 }
 
-func (b *indexFunctionBuilder) catalogSecretProperties(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-	chain := ctx.(*propertyChain)
+var identityVisitOfObjectTypeWithPropertyChain = astmodel.MakeIdentityVisitOfObjectType(preservePropertyChain)
 
+func (b *indexFunctionBuilder) catalogSecretProperties(
+	this *astmodel.TypeVisitor[*propertyChain],
+	it *astmodel.ObjectType,
+	ctx *propertyChain,
+) (astmodel.Type, error) {
 	it.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
 		if prop.IsSecret() {
-			b.propChains = append(b.propChains, chain.add(prop))
+			b.propChains = append(b.propChains, ctx.add(prop))
 		}
 	})
 
-	identityVisit := astmodel.MakeIdentityVisitOfObjectType(preservePropertyChain)
-	return identityVisit(this, it, ctx)
+	return identityVisitOfObjectTypeWithPropertyChain(this, it, ctx)
 }
 
-func (b *indexFunctionBuilder) catalogConfigMapProperties(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-	chain := ctx.(*propertyChain)
-
+func (b *indexFunctionBuilder) catalogConfigMapProperties(
+	this *astmodel.TypeVisitor[*propertyChain],
+	it *astmodel.ObjectType,
+	ctx *propertyChain,
+) (astmodel.Type, error) {
 	it.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
 		typeName, ok := astmodel.AsTypeName(prop.PropertyType())
 		if !ok {
@@ -251,11 +261,10 @@ func (b *indexFunctionBuilder) catalogConfigMapProperties(this *astmodel.TypeVis
 			return
 		}
 
-		b.propChains = append(b.propChains, chain.add(prop))
+		b.propChains = append(b.propChains, ctx.add(prop))
 	})
 
-	identityVisit := astmodel.MakeIdentityVisitOfObjectType(preservePropertyChain)
-	return identityVisit(this, it, ctx)
+	return identityVisitOfObjectTypeWithPropertyChain(this, it, ctx)
 }
 
 // propertyChain represents a chain of properties that can be used to index a property on a resource. Each chain is made
@@ -298,17 +307,19 @@ func (chain *propertyChain) properties() []*astmodel.PropertyDefinition {
 	return result
 }
 
-func preservePropertyChain(_ *astmodel.ObjectType, prop *astmodel.PropertyDefinition, ctx interface{}) (interface{}, error) {
-	chain := ctx.(*propertyChain)
-
-	return chain.add(prop), nil
+func preservePropertyChain(
+	_ *astmodel.ObjectType,
+	prop *astmodel.PropertyDefinition,
+	ctx *propertyChain,
+) (*propertyChain, error) {
+	return ctx.add(prop), nil
 }
 
 func (chain *propertyChain) indexMethodName(
 	idFactory astmodel.IdentifierFactory,
-	resourceTypeName astmodel.TypeName,
+	resourceTypeName astmodel.InternalTypeName,
 ) string {
-	group := resourceTypeName.PackageReference().Group()
+	group := resourceTypeName.InternalPackageReference().Group()
 	return fmt.Sprintf("index%s%s%s",
 		idFactory.CreateIdentifier(group, astmodel.Exported),
 		resourceTypeName.Name(),

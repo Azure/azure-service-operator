@@ -24,11 +24,31 @@ type TypeCatalogReport struct {
 	header                 []string
 }
 
-func NewTypeCatalogReport(defs astmodel.TypeDefinitionSet) *TypeCatalogReport {
-	return &TypeCatalogReport{
+type TypeCatalogReportOption string
+
+const (
+	InlineTypes      TypeCatalogReportOption = "inline-types"
+	IncludeFunctions TypeCatalogReportOption = "include-functions"
+)
+
+func NewTypeCatalogReport(defs astmodel.TypeDefinitionSet, options ...TypeCatalogReportOption) *TypeCatalogReport {
+	result := &TypeCatalogReport{
 		defs:         defs,
 		inlinedTypes: astmodel.NewTypeNameSet(),
 	}
+
+	for _, opt := range options {
+		switch opt {
+		case InlineTypes:
+			result.inlineTypes()
+		case IncludeFunctions:
+			result.includeFunctions()
+		default:
+			panic(fmt.Sprintf("unknown option %q", opt))
+		}
+	}
+
+	return result
 }
 
 // AddHeader allows you to add lines to the header of the report
@@ -65,14 +85,14 @@ func (tcr *TypeCatalogReport) SaveTo(filePath string) error {
 	return err
 }
 
-// IncludeFunctions specifies that the generated report should include functions
-func (tcr *TypeCatalogReport) IncludeFunctions() {
+// includeFunctions specifies that the generated report should include functions
+func (tcr *TypeCatalogReport) includeFunctions() {
 	tcr.optionIncludeFunctions = true
 }
 
-// InlineTypes specifies that the generated report should inline types where referenced,
+// inlineTypes specifies that the generated report should inline types where referenced,
 // We achieve this by scanning for properties with types we have definitions for
-func (tcr *TypeCatalogReport) InlineTypes() {
+func (tcr *TypeCatalogReport) inlineTypes() {
 	for _, def := range tcr.defs {
 		if c, ok := astmodel.AsPropertyContainer(def.Type()); ok {
 			tcr.inlineTypesFrom(c)
@@ -146,8 +166,12 @@ func (tcr *TypeCatalogReport) writeDefinition(
 ) {
 	name := definition.Name()
 	parentTypes := astmodel.NewTypeNameSet(name)
-	sub := rpt.Addf("%s: %s", name.Name(), tcr.asShortNameForType(definition.Type(), name.PackageReference(), parentTypes))
-	tcr.writeType(sub, definition.Type(), name.PackageReference(), parentTypes)
+	sub := rpt.Addf(
+		"%s: %s",
+		name.Name(),
+		tcr.asShortNameForType(definition.Type(), name.InternalPackageReference(), parentTypes),
+	)
+	tcr.writeType(sub, definition.Type(), name.InternalPackageReference(), parentTypes)
 }
 
 // writeType writes the type to the debug report.
@@ -159,7 +183,7 @@ func (tcr *TypeCatalogReport) writeDefinition(
 func (tcr *TypeCatalogReport) writeType(
 	rpt *StructureReport,
 	t astmodel.Type,
-	currentPackage astmodel.PackageReference,
+	currentPackage astmodel.InternalPackageReference,
 	parentTypes astmodel.TypeNameSet,
 ) {
 	// Generate a subreport for each kind of type
@@ -199,11 +223,11 @@ func (tcr *TypeCatalogReport) writeType(
 func (tcr *TypeCatalogReport) writeResourceType(
 	rpt *StructureReport,
 	resource *astmodel.ResourceType,
-	currentPackage astmodel.PackageReference,
+	currentPackage astmodel.InternalPackageReference,
 	parentTypes astmodel.TypeNameSet,
 ) {
 	// Write the expected owner of the resource, if we have one
-	if owner := resource.Owner(); owner != nil {
+	if owner := resource.Owner(); !owner.IsEmpty() {
 		// We don't use asShortNameForType here because we don't want to inline the owner
 		rpt.Addf("Owner: %s", astmodel.DebugDescription(owner, currentPackage))
 	}
@@ -227,7 +251,7 @@ func (tcr *TypeCatalogReport) writeResourceType(
 func (tcr *TypeCatalogReport) writeObjectType(
 	rpt *StructureReport,
 	obj *astmodel.ObjectType,
-	currentPackage astmodel.PackageReference,
+	currentPackage astmodel.InternalPackageReference,
 	parentTypes astmodel.TypeNameSet,
 ) {
 	for _, prop := range obj.Properties().AsSlice() {
@@ -249,7 +273,7 @@ func (tcr *TypeCatalogReport) writeObjectType(
 func (tcr *TypeCatalogReport) writeProperty(
 	rpt *StructureReport,
 	prop *astmodel.PropertyDefinition,
-	currentPackage astmodel.PackageReference,
+	currentPackage astmodel.InternalPackageReference,
 	parentTypes astmodel.TypeNameSet,
 ) {
 	sub := rpt.Addf(
@@ -274,7 +298,7 @@ func (tcr *TypeCatalogReport) writeProperty(
 func (tcr *TypeCatalogReport) writeInterfaceType(
 	rpt *StructureReport,
 	i *astmodel.InterfaceType,
-	_ astmodel.PackageReference,
+	_ astmodel.InternalPackageReference,
 	_ astmodel.TypeNameSet,
 ) {
 	if tcr.optionIncludeFunctions {
@@ -287,7 +311,7 @@ func (tcr *TypeCatalogReport) writeInterfaceType(
 func (tcr *TypeCatalogReport) writeComplexType(
 	rpt *StructureReport,
 	propertyType astmodel.Type,
-	currentPackage astmodel.PackageReference,
+	currentPackage astmodel.InternalPackageReference,
 	parentTypes astmodel.TypeNameSet) {
 
 	// If we have a complex type, we may need to write it out in detail
@@ -307,7 +331,7 @@ func (tcr *TypeCatalogReport) writeComplexType(
 func (tcr *TypeCatalogReport) writeErroredType(
 	rpt *StructureReport,
 	et *astmodel.ErroredType,
-	currentPackage astmodel.PackageReference,
+	currentPackage astmodel.InternalPackageReference,
 	types astmodel.TypeNameSet,
 ) {
 	for _, err := range et.Errors() {
@@ -324,7 +348,7 @@ func (tcr *TypeCatalogReport) writeErroredType(
 func (tcr *TypeCatalogReport) writeValidatedType(
 	rpt *StructureReport,
 	vt *astmodel.ValidatedType,
-	_ astmodel.PackageReference,
+	_ astmodel.InternalPackageReference,
 	_ astmodel.TypeNameSet,
 ) {
 	for index, rule := range vt.Validations().ToKubeBuilderValidations() {
@@ -341,7 +365,7 @@ func (tcr *TypeCatalogReport) asDefinitionToInline(
 ) (*astmodel.TypeDefinition, bool) {
 
 	// We can inline a typename if we have a definition for it, and if it's not already inlined
-	if n, ok := astmodel.AsTypeName(t); ok {
+	if n, ok := astmodel.AsInternalTypeName(t); ok {
 		if parentTypes.Contains(n) {
 			return nil, false
 		}
@@ -372,18 +396,20 @@ func (tcr *TypeCatalogReport) asDefinitionToInline(
 // parentTypes is the set of types that are currently being written (used to detect cycles).
 func (tcr *TypeCatalogReport) asShortNameForType(
 	t astmodel.Type,
-	currentPackage astmodel.PackageReference,
+	currentPackage astmodel.InternalPackageReference,
 	parentTypes astmodel.TypeNameSet,
 ) string {
 	// We switch on exact types because we don't want to accidentally unwrap a detail we need
 	switch t := t.(type) {
-	case astmodel.TypeName:
+	case astmodel.InternalTypeName:
 		// If an inlined type, we use what it points to, otherwise we use the name
 		if tcr.inlinedTypes.Contains(t) && !parentTypes.Contains(t) {
 			def := tcr.defs[t]
 			return tcr.asShortNameForType(def.Type(), currentPackage, parentTypes)
 		}
 
+		return astmodel.DebugDescription(t, currentPackage)
+	case astmodel.ExternalTypeName:
 		return astmodel.DebugDescription(t, currentPackage)
 	case *astmodel.OptionalType:
 		return fmt.Sprintf(
@@ -444,7 +470,7 @@ func (tcr *TypeCatalogReport) writeFunction(
 func (tcr *TypeCatalogReport) writeEnumType(
 	rpt *StructureReport,
 	enum *astmodel.EnumType,
-	currentPackage astmodel.PackageReference,
+	currentPackage astmodel.InternalPackageReference,
 	parentTypes astmodel.TypeNameSet,
 ) {
 	tcr.writeType(rpt, enum.BaseType(), currentPackage, parentTypes)
@@ -461,7 +487,7 @@ func (tcr *TypeCatalogReport) writeEnumType(
 func (tcr *TypeCatalogReport) writeOneOfType(
 	rpt *StructureReport,
 	oneOf *astmodel.OneOfType,
-	currentPackage astmodel.PackageReference,
+	currentPackage astmodel.InternalPackageReference,
 	parentTypes astmodel.TypeNameSet,
 ) {
 	if oneOf.HasDiscriminatorProperty() {
@@ -515,7 +541,7 @@ func (tcr *TypeCatalogReport) writeOneOfType(
 func (tcr *TypeCatalogReport) writeAllOfType(
 	rpt *StructureReport,
 	allOf *astmodel.AllOfType,
-	currentPackage astmodel.PackageReference,
+	currentPackage astmodel.InternalPackageReference,
 	parentTypes astmodel.TypeNameSet,
 ) {
 	allOf.Types().ForEach(func(t astmodel.Type, index int) {
@@ -531,7 +557,7 @@ func (tcr *TypeCatalogReport) findPackages() []astmodel.PackageReference {
 	}
 
 	result := packages.AsSortedSlice(
-		func(left astmodel.PackageReference, right astmodel.PackageReference) bool {
+		func(left astmodel.PackageReference, right astmodel.PackageReference) int {
 			return astmodel.ComparePathAndVersion(left.ImportPath(), right.ImportPath())
 		})
 

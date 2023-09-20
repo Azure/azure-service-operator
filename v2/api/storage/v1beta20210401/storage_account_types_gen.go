@@ -201,11 +201,7 @@ func (account *StorageAccount) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (account *StorageAccount) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(account.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  account.Spec.Owner.Name,
-	}
+	return account.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -263,7 +259,7 @@ func (account *StorageAccount) ValidateUpdate(old runtime.Object) (admission.War
 
 // createValidations validates the creation of the resource
 func (account *StorageAccount) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){account.validateResourceReferences, account.validateSecretDestinations, account.validateConfigMapDestinations}
+	return []func() (admission.Warnings, error){account.validateResourceReferences, account.validateOwnerReference, account.validateSecretDestinations, account.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -279,6 +275,9 @@ func (account *StorageAccount) updateValidations() []func(old runtime.Object) (a
 		},
 		account.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
+			return account.validateOwnerReference()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return account.validateSecretDestinations()
 		},
 		func(old runtime.Object) (admission.Warnings, error) {
@@ -287,7 +286,7 @@ func (account *StorageAccount) updateValidations() []func(old runtime.Object) (a
 	}
 }
 
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations's
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
 func (account *StorageAccount) validateConfigMapDestinations() (admission.Warnings, error) {
 	if account.Spec.OperatorSpec == nil {
 		return nil, nil
@@ -304,6 +303,11 @@ func (account *StorageAccount) validateConfigMapDestinations() (admission.Warnin
 		account.Spec.OperatorSpec.ConfigMaps.WebEndpoint,
 	}
 	return genruntime.ValidateConfigMapDestinations(toValidate)
+}
+
+// validateOwnerReference validates the owner field
+func (account *StorageAccount) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(account)
 }
 
 // validateResourceReferences validates all resource references
@@ -838,7 +842,10 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
-	account.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	account.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "RoutingPreference":
 	// copying flattened property:

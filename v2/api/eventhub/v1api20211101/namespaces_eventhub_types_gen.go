@@ -141,11 +141,7 @@ func (eventhub *NamespacesEventhub) NewEmptyStatus() genruntime.ConvertibleStatu
 // Owner returns the ResourceReference of the owner
 func (eventhub *NamespacesEventhub) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(eventhub.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  eventhub.Spec.Owner.Name,
-	}
+	return eventhub.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (eventhub *NamespacesEventhub) ValidateUpdate(old runtime.Object) (admissio
 
 // createValidations validates the creation of the resource
 func (eventhub *NamespacesEventhub) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){eventhub.validateResourceReferences}
+	return []func() (admission.Warnings, error){eventhub.validateResourceReferences, eventhub.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (eventhub *NamespacesEventhub) updateValidations() []func(old runtime.Objec
 		func(old runtime.Object) (admission.Warnings, error) {
 			return eventhub.validateResourceReferences()
 		},
-		eventhub.validateWriteOnceProperties}
+		eventhub.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return eventhub.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (eventhub *NamespacesEventhub) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(eventhub)
 }
 
 // validateResourceReferences validates all resource references
@@ -411,7 +416,10 @@ func (eventhub *Namespaces_Eventhub_Spec) PopulateFromARM(owner genruntime.Arbit
 	}
 
 	// Set property "Owner":
-	eventhub.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	eventhub.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "PartitionCount":
 	// copying flattened property:

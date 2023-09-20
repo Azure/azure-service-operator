@@ -141,11 +141,7 @@ func (link *PrivateDnsZonesVirtualNetworkLink) NewEmptyStatus() genruntime.Conve
 // Owner returns the ResourceReference of the owner
 func (link *PrivateDnsZonesVirtualNetworkLink) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(link.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  link.Spec.Owner.Name,
-	}
+	return link.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (link *PrivateDnsZonesVirtualNetworkLink) ValidateUpdate(old runtime.Object
 
 // createValidations validates the creation of the resource
 func (link *PrivateDnsZonesVirtualNetworkLink) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){link.validateResourceReferences}
+	return []func() (admission.Warnings, error){link.validateResourceReferences, link.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (link *PrivateDnsZonesVirtualNetworkLink) updateValidations() []func(old ru
 		func(old runtime.Object) (admission.Warnings, error) {
 			return link.validateResourceReferences()
 		},
-		link.validateWriteOnceProperties}
+		link.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return link.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (link *PrivateDnsZonesVirtualNetworkLink) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(link)
 }
 
 // validateResourceReferences validates all resource references
@@ -417,7 +422,10 @@ func (link *PrivateDnsZones_VirtualNetworkLink_Spec) PopulateFromARM(owner genru
 	}
 
 	// Set property "Owner":
-	link.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	link.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "RegistrationEnabled":
 	// copying flattened property:

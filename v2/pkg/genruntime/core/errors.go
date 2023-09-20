@@ -187,6 +187,49 @@ func (e *ConfigMapNotFound) Format(s fmt.State, verb rune) {
 	format(e, s, verb)
 }
 
+// SubscriptionMismatch error is used when a child resource and parent resource subscription don't match
+type SubscriptionMismatch struct {
+	ExpectedSubscription string
+	ActualSubscription   string
+	inner                error
+}
+
+func NewSubscriptionMismatchError(expectedSub string, actualSub string) *SubscriptionMismatch {
+	err := errors.Errorf(
+		"resource subscription %q does not match parent subscription %q",
+		actualSub,
+		expectedSub)
+
+	return &SubscriptionMismatch{
+		ExpectedSubscription: expectedSub,
+		ActualSubscription:   actualSub,
+		inner:                err,
+	}
+}
+
+var _ error = &SubscriptionMismatch{}
+var _ causer = &SubscriptionMismatch{}
+
+func (e *SubscriptionMismatch) Error() string {
+	return e.inner.Error()
+}
+
+func (e *SubscriptionMismatch) Is(err error) bool {
+	var typedErr *SubscriptionMismatch
+	if errors.As(err, &typedErr) {
+		return true
+	}
+	return false
+}
+
+func (e *SubscriptionMismatch) Cause() error {
+	return e.inner
+}
+
+func (e *SubscriptionMismatch) Format(s fmt.State, verb rune) {
+	format(e, s, verb)
+}
+
 // This was adapted from the function in errors
 func format(e causer, s fmt.State, verb rune) {
 	switch verb {

@@ -141,11 +141,7 @@ func (rule *NetworkSecurityGroupsSecurityRule) NewEmptyStatus() genruntime.Conve
 // Owner returns the ResourceReference of the owner
 func (rule *NetworkSecurityGroupsSecurityRule) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(rule.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  rule.Spec.Owner.Name,
-	}
+	return rule.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (rule *NetworkSecurityGroupsSecurityRule) ValidateUpdate(old runtime.Object
 
 // createValidations validates the creation of the resource
 func (rule *NetworkSecurityGroupsSecurityRule) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){rule.validateResourceReferences}
+	return []func() (admission.Warnings, error){rule.validateResourceReferences, rule.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (rule *NetworkSecurityGroupsSecurityRule) updateValidations() []func(old ru
 		func(old runtime.Object) (admission.Warnings, error) {
 			return rule.validateResourceReferences()
 		},
-		rule.validateWriteOnceProperties}
+		rule.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return rule.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (rule *NetworkSecurityGroupsSecurityRule) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(rule)
 }
 
 // validateResourceReferences validates all resource references
@@ -561,7 +566,10 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) PopulateFromARM(owner genru
 	}
 
 	// Set property "Owner":
-	rule.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	rule.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Priority":
 	// copying flattened property:

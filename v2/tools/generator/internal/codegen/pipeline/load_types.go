@@ -94,7 +94,7 @@ func LoadTypes(
 
 				scope := categorizeResourceScope(resourceInfo.ARMURI)
 				resourceType = resourceType.WithScope(scope)
-				resourceDefinition := astmodel.MakeTypeDefinition(resourceName.(astmodel.InternalTypeName), resourceType)
+				resourceDefinition := astmodel.MakeTypeDefinition(resourceName, resourceType)
 
 				// document origin of resource
 				sourceFile := strings.TrimPrefix(resourceInfo.SourceFile, config.SchemaRoot)
@@ -168,7 +168,7 @@ func generateStatusTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefini
 	// we'll try to substitute that with a better name here
 	for resourceName, resourceDef := range resourceLookup {
 		statusTypeName := resourceDef.Type().(astmodel.TypeName) // always a TypeName, see 'renamed' comment
-		desiredStatusName := resourceName.WithName(resourceName.Name() + astmodel.StatusSuffix).(astmodel.InternalTypeName)
+		desiredStatusName := resourceName.WithName(resourceName.Name() + astmodel.StatusSuffix)
 
 		if statusTypeName == desiredStatusName {
 			newResources.Add(resourceDef)
@@ -185,7 +185,7 @@ func generateStatusTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefini
 			// unable to use desiredName
 			newResources.Add(resourceDef)
 		} else {
-			newResources.Add(astmodel.MakeTypeDefinition(resourceName.(astmodel.InternalTypeName), desiredStatusName))
+			newResources.Add(astmodel.MakeTypeDefinition(resourceName, desiredStatusName))
 		}
 	}
 
@@ -194,10 +194,15 @@ func generateStatusTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefini
 
 // Note that the first result is for mapping resource names → types, so it is always TypeName→TypeName.
 // The second contains all the renamed types.
-func renamed(swaggerTypes jsonast.SwaggerTypes, status bool, suffix string) (astmodel.TypeDefinitionSet, astmodel.TypeDefinitionSet, error) {
-	renamer := astmodel.NewRenamingVisitorFromLambda(func(typeName astmodel.TypeName) astmodel.TypeName {
-		return typeName.WithName(typeName.Name() + suffix)
-	})
+func renamed(
+	swaggerTypes jsonast.SwaggerTypes,
+	status bool,
+	suffix string,
+) (astmodel.TypeDefinitionSet, astmodel.TypeDefinitionSet, error) {
+	renamer := astmodel.NewRenamingVisitorFromLambda(
+		func(typeName astmodel.InternalTypeName) astmodel.InternalTypeName {
+			return typeName.WithName(typeName.Name() + suffix)
+		})
 
 	var errs []error
 	otherTypes := make(astmodel.TypeDefinitionSet)
@@ -221,7 +226,7 @@ func renamed(swaggerTypes jsonast.SwaggerTypes, status bool, suffix string) (ast
 		if err != nil {
 			errs = append(errs, err)
 		} else {
-			resources.Add(astmodel.MakeTypeDefinition(resourceName.(astmodel.InternalTypeName), renamedType))
+			resources.Add(astmodel.MakeTypeDefinition(resourceName, renamedType))
 		}
 	}
 
@@ -245,7 +250,7 @@ func generateSpecTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefiniti
 	// always points to a _Spec type.
 	// TODO: remove once preceding TODO is resolved and everything is consistently named _Spec #Naming
 	{
-		renames := make(map[astmodel.TypeName]astmodel.TypeName)
+		renames := make(astmodel.TypeAssociation)
 		for typeName := range otherTypes {
 			if _, ok := resources[typeName]; ok {
 				// would be a clash with resource name
@@ -269,11 +274,11 @@ func generateSpecTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefiniti
 			if renameErr != nil {
 				panic(renameErr)
 			}
-			newResources.Add(astmodel.MakeTypeDefinition(rName.(astmodel.InternalTypeName), newType))
+			newResources.Add(astmodel.MakeTypeDefinition(rName, newType))
 		}
 
-		rewriter := astmodel.TypeVisitorBuilder{
-			VisitObjectType: func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
+		rewriter := astmodel.TypeVisitorBuilder[any]{
+			VisitObjectType: func(this *astmodel.TypeVisitor[any], it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 				// strip all readonly props
 				var propsToRemove []astmodel.PropertyName
 				it.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
@@ -412,7 +417,7 @@ func (s typesFromFilesSorter) Less(i, j int) bool { return s.x[i].filePath < s.x
 func mergeTypesForPackage(idFactory astmodel.IdentifierFactory, typesFromFiles []typesFromFile) jsonast.SwaggerTypes {
 	sort.Sort(typesFromFilesSorter{typesFromFiles})
 
-	typeNameCounts := make(map[astmodel.TypeName]int)
+	typeNameCounts := make(map[astmodel.InternalTypeName]int)
 	for _, typesFromFile := range typesFromFiles {
 		for name := range typesFromFile.OtherDefinitions {
 			typeNameCounts[name] += 1
@@ -420,9 +425,9 @@ func mergeTypesForPackage(idFactory astmodel.IdentifierFactory, typesFromFiles [
 	}
 
 	// a set of renamings, one per file
-	renames := make([]map[astmodel.TypeName]astmodel.TypeName, len(typesFromFiles))
+	renames := make([]astmodel.TypeAssociation, len(typesFromFiles))
 	for ix := range typesFromFiles {
-		renames[ix] = make(map[astmodel.TypeName]astmodel.TypeName)
+		renames[ix] = make(astmodel.TypeAssociation)
 	}
 
 	for name, count := range typeNameCounts {
@@ -481,7 +486,11 @@ type typeAndSource struct {
 
 // findCollidingTypeNames finds any types with the given name that collide, and returns
 // the definition as well as the index of the file it was found in
-func findCollidingTypeNames(typesFromFiles []typesFromFile, name astmodel.TypeName, duplicateCount int) []typeAndSource {
+func findCollidingTypeNames(
+	typesFromFiles []typesFromFile,
+	name astmodel.InternalTypeName,
+	duplicateCount int,
+) []typeAndSource {
 	if duplicateCount == 1 {
 		// cannot collide
 		return nil
@@ -529,16 +538,16 @@ func findCollidingTypeNames(typesFromFiles []typesFromFile, name astmodel.TypeNa
 // generateRenaming finds a new name for a type based upon the file it is in
 func generateRenaming(
 	idFactory astmodel.IdentifierFactory,
-	original astmodel.TypeName,
+	original astmodel.InternalTypeName,
 	filePath string,
-	typeNames map[astmodel.TypeName]int,
-) astmodel.TypeName {
+	typeNames map[astmodel.InternalTypeName]int,
+) astmodel.InternalTypeName {
 	name := filepath.Base(filePath)
 	name = strings.TrimSuffix(name, filepath.Ext(name))
 
 	// Prefix the typename with the filename
 	result := astmodel.MakeInternalTypeName(
-		original.PackageReference(),
+		original.InternalPackageReference(),
 		idFactory.CreateIdentifier(name+original.Name(), astmodel.Exported))
 
 	// see if there are any collisions: add Xs until there are no collisions
@@ -546,7 +555,7 @@ func generateRenaming(
 	// in the calling method
 	for _, ok := typeNames[result]; ok; _, ok = typeNames[result] {
 		result = astmodel.MakeInternalTypeName(
-			result.PackageReference(),
+			result.InternalPackageReference(),
 			result.Name()+"X",
 		)
 	}
@@ -554,7 +563,10 @@ func generateRenaming(
 	return result
 }
 
-func applyRenames(renames map[astmodel.TypeName]astmodel.TypeName, typesFromFile typesFromFile) typesFromFile {
+func applyRenames(
+	renames astmodel.TypeAssociation,
+	typesFromFile typesFromFile,
+) typesFromFile {
 	visitor := astmodel.NewRenamingVisitor(renames)
 
 	// visit all other types
@@ -601,12 +613,18 @@ func structurallyIdentical(
 	// we cannot simply recurse when we hit TypeNames as there can be cycles in types.
 	// instead we store all TypeNames that need to be checked in here, and
 	// check them one at a time until there is nothing left to be checked:
-	type pair struct{ left, right astmodel.TypeName }
+	type pair struct {
+		left  astmodel.InternalTypeName
+		right astmodel.InternalTypeName
+	}
 	toCheck := []pair{}            // queue of pairs to check
 	checked := map[pair]struct{}{} // set of pairs that have been enqueued
 
 	override := astmodel.EqualityOverrides{}
-	override.TypeName = func(left, right astmodel.TypeName) bool {
+	override.InternalTypeName = func(
+		left astmodel.InternalTypeName,
+		right astmodel.InternalTypeName,
+	) bool {
 		// note that this relies on Equals implementations preserving the left/right order
 		p := pair{left, right}
 		if _, ok := checked[p]; !ok {
@@ -795,8 +813,8 @@ func versionFromPath(filePath string, rootPath string) string {
 }
 
 func addResource(spec astmodel.TypeDefinition, resourceName astmodel.TypeName) (astmodel.TypeDefinition, error) {
-	visitor := astmodel.TypeVisitorBuilder{
-		VisitObjectType: func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
+	visitor := astmodel.TypeVisitorBuilder[any]{
+		VisitObjectType: func(this *astmodel.TypeVisitor[any], it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 			it = it.WithResource(resourceName).WithIsResource(true)
 			return it, nil
 		},

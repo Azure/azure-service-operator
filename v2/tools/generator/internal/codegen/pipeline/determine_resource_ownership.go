@@ -65,7 +65,11 @@ func determineOwnership(
 
 var urlParamRegex = regexp.MustCompile("\\{.*?}")
 
-func findChildren(rt *astmodel.ResourceType, resourceName astmodel.TypeName, others astmodel.TypeDefinitionSet) []astmodel.TypeName {
+func findChildren(
+	rt *astmodel.ResourceType,
+	resourceName astmodel.InternalTypeName,
+	others astmodel.TypeDefinitionSet,
+) []astmodel.InternalTypeName {
 	// append "/" to the ARM URI so that if this is (e.g.):
 	//     /resource/name
 	// it doesn't match as a prefix of:
@@ -75,7 +79,7 @@ func findChildren(rt *astmodel.ResourceType, resourceName astmodel.TypeName, oth
 	myPrefix := rt.ARMURI() + "/"
 	myPrefix = canonicalizeURI(myPrefix)
 
-	var result []astmodel.TypeName
+	var result []astmodel.InternalTypeName
 	for otherName, otherDef := range others {
 		other, ok := astmodel.AsResourceType(otherDef.Type())
 		if !ok {
@@ -123,8 +127,8 @@ func canonicalizeURI(uri string) string {
 
 func updateChildResourceDefinitionsWithOwner(
 	definitions astmodel.TypeDefinitionSet,
-	childResourceTypeNames []astmodel.TypeName,
-	owningResourceName astmodel.TypeName,
+	childResourceTypeNames []astmodel.InternalTypeName,
+	owningResourceName astmodel.InternalTypeName,
 	updatedDefs astmodel.TypeDefinitionSet,
 ) error {
 	for _, typeName := range childResourceTypeNames {
@@ -187,7 +191,7 @@ func setDefaultOwner(
 			continue
 		}
 
-		if resourceType.Owner() == nil && resourceType.Scope() == astmodel.ResourceScopeResourceGroup {
+		if resourceType.Owner().IsEmpty() && resourceType.Scope() == astmodel.ResourceScopeResourceGroup {
 			ownerTypeName := astmodel.MakeInternalTypeName(
 				// Note that the version doesn't really matter here -- it's removed later. We just need to refer to the logical
 				// resource group really

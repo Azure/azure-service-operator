@@ -104,7 +104,7 @@ func (in *UserSpec) DeepCopyInto(out *UserSpec) {
 	*out = *in
 	if in.Owner != nil {
 		in, out := &in.Owner, &out.Owner
-		*out = new(genruntime.KnownResourceReference)
+		*out = new(genruntime.KubernetesOwnerReference)
 		**out = **in
 	}
 	if in.Privileges != nil {

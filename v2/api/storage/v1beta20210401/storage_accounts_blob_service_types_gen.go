@@ -135,11 +135,7 @@ func (service *StorageAccountsBlobService) NewEmptyStatus() genruntime.Convertib
 // Owner returns the ResourceReference of the owner
 func (service *StorageAccountsBlobService) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(service.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  service.Spec.Owner.Name,
-	}
+	return service.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -197,7 +193,7 @@ func (service *StorageAccountsBlobService) ValidateUpdate(old runtime.Object) (a
 
 // createValidations validates the creation of the resource
 func (service *StorageAccountsBlobService) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){service.validateResourceReferences}
+	return []func() (admission.Warnings, error){service.validateResourceReferences, service.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -211,7 +207,16 @@ func (service *StorageAccountsBlobService) updateValidations() []func(old runtim
 		func(old runtime.Object) (admission.Warnings, error) {
 			return service.validateResourceReferences()
 		},
-		service.validateWriteOnceProperties}
+		service.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return service.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (service *StorageAccountsBlobService) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(service)
 }
 
 // validateResourceReferences validates all resource references
@@ -517,7 +522,10 @@ func (service *StorageAccounts_BlobService_Spec) PopulateFromARM(owner genruntim
 	}
 
 	// Set property "Owner":
-	service.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	service.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "RestorePolicy":
 	// copying flattened property:

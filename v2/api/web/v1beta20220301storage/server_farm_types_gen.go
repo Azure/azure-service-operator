@@ -103,11 +103,7 @@ func (farm *ServerFarm) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (farm *ServerFarm) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(farm.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  farm.Spec.Owner.Name,
-	}
+	return farm.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

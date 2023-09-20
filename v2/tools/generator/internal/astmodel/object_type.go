@@ -97,7 +97,7 @@ func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerati
 
 func (objectType *ObjectType) generateMethodDecls(
 	codeGenerationContext *CodeGenerationContext,
-	typeName TypeName,
+	typeName InternalTypeName,
 ) ([]dst.Decl, error) {
 	funcs := objectType.Functions()
 	result := make([]dst.Decl, 0, len(funcs))
@@ -605,7 +605,7 @@ func extractEmbeddedTypeName(t Type) (TypeName, error) {
 
 // WriteDebugDescription adds a description of the current type to the passed builder.
 // builder receives the full description, including nested types.
-func (objectType *ObjectType) WriteDebugDescription(builder *strings.Builder, _ PackageReference) {
+func (objectType *ObjectType) WriteDebugDescription(builder *strings.Builder, currentPackage InternalPackageReference) {
 	if objectType == nil {
 		builder.WriteString("<nilObject>")
 	} else {

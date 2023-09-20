@@ -164,7 +164,7 @@ func MySQL_AADUser_CRUD(
 	user := &mysqlv1.User{
 		ObjectMeta: tc.MakeObjectMetaWithName(mi.Name),
 		Spec: mysqlv1.UserSpec{
-			Owner: testcommon.AsOwner(server),
+			Owner: testcommon.AsKubernetesOwner(server),
 			Privileges: []string{
 				"CREATE USER",
 				"PROCESS",
@@ -210,7 +210,7 @@ func MySQL_AADUser_CRUD(
 	tc.Expect(serverPrivs).To(Equal(set.Make[string](user.Spec.Privileges...)))
 
 	// Update the user once again, this time to remove privs and also use a resource scoped identity
-	secret := newManagedIdentityCredential(tc.AzureSubscription, tc.AzureTenant, to.Value(admin.Spec.Sid), "credential", tc.Namespace)
+	secret := testcommon.NewScopedManagedIdentitySecret(tc.AzureSubscription, tc.AzureTenant, to.Value(admin.Spec.Sid), "credential", tc.Namespace)
 	tc.CreateResource(secret)
 
 	old = user.DeepCopy()
@@ -271,7 +271,7 @@ func MySQL_LocalUser_AADAdmin_CRUD(
 	user := &mysqlv1.User{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("local")),
 		Spec: mysqlv1.UserSpec{
-			Owner: testcommon.AsOwner(server),
+			Owner: testcommon.AsKubernetesOwner(server),
 			Privileges: []string{
 				"CREATE USER",
 				"PROCESS",
@@ -344,7 +344,7 @@ func MySQL_AADUserAndGroup_CRUD(
 	user := &mysqlv1.User{
 		ObjectMeta: tc.MakeObjectMetaWithName("aaduser"),
 		Spec: mysqlv1.UserSpec{
-			Owner:     testcommon.AsOwner(server),
+			Owner:     testcommon.AsKubernetesOwner(server),
 			AzureName: aadUserName,
 			Privileges: []string{
 				"CREATE USER",
@@ -379,7 +379,7 @@ func MySQL_AADUserAndGroup_CRUD(
 	user2 := &mysqlv1.User{
 		ObjectMeta: tc.MakeObjectMetaWithName("groupuser"),
 		Spec: mysqlv1.UserSpec{
-			Owner:     testcommon.AsOwner(server),
+			Owner:     testcommon.AsKubernetesOwner(server),
 			AzureName: aadGroupName,
 			Privileges: []string{
 				"CREATE USER",

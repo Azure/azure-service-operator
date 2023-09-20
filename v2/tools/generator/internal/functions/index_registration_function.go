@@ -80,7 +80,7 @@ func (f *IndexRegistrationFunction) RequiredPackageReferences() *astmodel.Packag
 // AsFunc returns the function as a go dst
 func (f *IndexRegistrationFunction) AsFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
-	_ astmodel.TypeName,
+	_ astmodel.InternalTypeName,
 ) (*dst.FuncDecl, error) {
 	rawObjName := "rawObj"
 	objName := "obj"

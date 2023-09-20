@@ -141,11 +141,7 @@ func (enterprise *RedisEnterprise) NewEmptyStatus() genruntime.ConvertibleStatus
 // Owner returns the ResourceReference of the owner
 func (enterprise *RedisEnterprise) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(enterprise.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  enterprise.Spec.Owner.Name,
-	}
+	return enterprise.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -203,7 +199,7 @@ func (enterprise *RedisEnterprise) ValidateUpdate(old runtime.Object) (admission
 
 // createValidations validates the creation of the resource
 func (enterprise *RedisEnterprise) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){enterprise.validateResourceReferences}
+	return []func() (admission.Warnings, error){enterprise.validateResourceReferences, enterprise.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +213,16 @@ func (enterprise *RedisEnterprise) updateValidations() []func(old runtime.Object
 		func(old runtime.Object) (admission.Warnings, error) {
 			return enterprise.validateResourceReferences()
 		},
-		enterprise.validateWriteOnceProperties}
+		enterprise.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return enterprise.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (enterprise *RedisEnterprise) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(enterprise)
 }
 
 // validateResourceReferences validates all resource references
@@ -427,7 +432,10 @@ func (enterprise *RedisEnterprise_Spec) PopulateFromARM(owner genruntime.Arbitra
 	}
 
 	// Set property "Owner":
-	enterprise.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	enterprise.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Sku":
 	if typedInput.Sku != nil {

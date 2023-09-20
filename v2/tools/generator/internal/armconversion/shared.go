@@ -129,7 +129,7 @@ func GetAzureNameProperty(idFactory astmodel.IdentifierFactory) *astmodel.Proper
 
 func getReceiverObjectType(
 	codeGenerationContext *astmodel.CodeGenerationContext,
-	receiver astmodel.TypeName,
+	receiver astmodel.InternalTypeName,
 ) *astmodel.ObjectType {
 	// Determine the type we're operating on
 	rt := codeGenerationContext.MustGetDefinition(receiver)
@@ -215,14 +215,14 @@ func NewARMConversionImplementation(
 	if convertToARMFunc != nil {
 		// can convert both to and from ARM = the ARMTransformer interface
 		return astmodel.NewInterfaceImplementation(
-			astmodel.MakeInternalTypeName(astmodel.GenRuntimeReference, "ARMTransformer"),
+			astmodel.MakeExternalTypeName(astmodel.GenRuntimeReference, "ARMTransformer"),
 			newEmptyARMValueFunc,
 			convertToARMFunc,
 			populateFromARMFunc)
 	} else {
 		// can only convert in one direction with the FromARMConverter interface
 		return astmodel.NewInterfaceImplementation(
-			astmodel.MakeInternalTypeName(astmodel.GenRuntimeReference, "FromARMConverter"),
+			astmodel.MakeExternalTypeName(astmodel.GenRuntimeReference, "FromARMConverter"),
 			newEmptyARMValueFunc,
 			populateFromARMFunc)
 	}
@@ -247,7 +247,7 @@ const (
 
 func skipPropertiesFlaggedWithNoARMConversion(
 	toProp *astmodel.PropertyDefinition,
-	fromType *astmodel.ObjectType,
+	_ *astmodel.ObjectType,
 ) (propertyConversionHandlerResult, error) {
 	// If the property has been flagged as not being convertible, skip it
 	if toProp.HasTagValue(ConversionTag, NoARMConversionValue) {

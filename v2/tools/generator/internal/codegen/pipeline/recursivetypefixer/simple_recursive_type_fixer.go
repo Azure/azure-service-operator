@@ -13,22 +13,22 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
+// SimpleRecursiveTypeFixer removes circular references from types that refer to themselves directly.
 // TODO: If we end up needing more complex cycle detection we can rework TypeWalker to do it, but for now this
 // TODO: is simpler and seems to cover all the cases we need.
-// SimpleRecursiveTypeFixer removes circular references from types that refer to themselves directly.
 type SimpleRecursiveTypeFixer struct {
-	visitor        *astmodel.TypeVisitor
+	visitor        *astmodel.TypeVisitor[simpleRecursiveTypeFixerContext]
 	newDefinitions astmodel.TypeDefinitionSet
 	log            logr.Logger
 }
 
 type simpleRecursiveTypeFixerContext struct {
-	name         astmodel.TypeName
+	name         astmodel.InternalTypeName
 	mustUnroll   bool
-	unrolledName astmodel.TypeName
+	unrolledName astmodel.InternalTypeName
 }
 
-func (c simpleRecursiveTypeFixerContext) WithUnrolledName(name astmodel.TypeName) simpleRecursiveTypeFixerContext {
+func (c simpleRecursiveTypeFixerContext) WithUnrolledName(name astmodel.InternalTypeName) simpleRecursiveTypeFixerContext {
 	c.unrolledName = name
 	c.mustUnroll = true
 	return c
@@ -40,9 +40,9 @@ func NewSimpleRecursiveTypeFixer(log logr.Logger) *SimpleRecursiveTypeFixer {
 		log:            log,
 	}
 
-	visitor := astmodel.TypeVisitorBuilder{
-		VisitObjectType: astmodel.MakeIdentityVisitOfObjectType(result.unrollObjectTypeProperty),
-		VisitTypeName:   result.unrollRecursiveReference,
+	visitor := astmodel.TypeVisitorBuilder[simpleRecursiveTypeFixerContext]{
+		VisitObjectType:       astmodel.MakeIdentityVisitOfObjectType(result.unrollObjectTypeProperty),
+		VisitInternalTypeName: result.unrollRecursiveReference,
 	}.Build()
 	result.visitor = &visitor
 
@@ -59,9 +59,12 @@ func (s *SimpleRecursiveTypeFixer) Types() astmodel.TypeDefinitionSet {
 	return s.newDefinitions
 }
 
-func (s *SimpleRecursiveTypeFixer) unrollObjectTypeProperty(ot *astmodel.ObjectType, prop *astmodel.PropertyDefinition, ctx interface{}) (interface{}, error) {
-	typedCtx := ctx.(simpleRecursiveTypeFixerContext)
-	name := typedCtx.name
+func (s *SimpleRecursiveTypeFixer) unrollObjectTypeProperty(
+	ot *astmodel.ObjectType,
+	prop *astmodel.PropertyDefinition,
+	ctx simpleRecursiveTypeFixerContext,
+) (simpleRecursiveTypeFixerContext, error) {
+	name := ctx.name
 
 	if !isPropertyMatchingTypeName(name, prop) {
 		return ctx, nil
@@ -86,30 +89,32 @@ func (s *SimpleRecursiveTypeFixer) unrollObjectTypeProperty(ot *astmodel.ObjectT
 	for propName := range toRemove {
 		unrolledType = unrolledType.WithoutProperty(propName)
 	}
-	unrolledName := astmodel.MakeInternalTypeName(name.PackageReference(), name.Name()+"_Unrolled")
+	unrolledName := astmodel.MakeInternalTypeName(name.InternalPackageReference(), name.Name()+"_Unrolled")
 	unrolledDef := astmodel.MakeTypeDefinition(unrolledName, unrolledType)
 
 	err := s.newDefinitions.AddAllowDuplicates(unrolledDef)
 	if err != nil {
-		return nil, errors.Wrapf(err, "error adding unrolled type %q", name)
+		return simpleRecursiveTypeFixerContext{}, errors.Wrapf(err, "error adding unrolled type %q", name)
 	}
 
-	return typedCtx.WithUnrolledName(unrolledName), nil
+	return ctx.WithUnrolledName(unrolledName), nil
 }
 
-func (s *SimpleRecursiveTypeFixer) unrollRecursiveReference(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
-	typedCtx := ctx.(simpleRecursiveTypeFixerContext)
-
-	if !typedCtx.mustUnroll {
+func (s *SimpleRecursiveTypeFixer) unrollRecursiveReference(
+	this *astmodel.TypeVisitor[simpleRecursiveTypeFixerContext],
+	it astmodel.InternalTypeName,
+	ctx simpleRecursiveTypeFixerContext,
+) (astmodel.Type, error) {
+	if !ctx.mustUnroll {
 		return astmodel.IdentityVisitOfTypeName(this, it, ctx)
 	}
 
 	s.log.V(2).Info(
 		"unrolling recursive reference",
-		"from", typedCtx.name,
-		"to", typedCtx.unrolledName)
+		"from", ctx.name,
+		"to", ctx.unrolledName)
 
-	return astmodel.IdentityVisitOfTypeName(this, typedCtx.unrolledName, typedCtx)
+	return astmodel.IdentityVisitOfTypeName(this, ctx.unrolledName, ctx)
 }
 
 // asTypeName checks if the type is an astmodel.TypeName or can be unwrapped into an astmodel.TypeName.

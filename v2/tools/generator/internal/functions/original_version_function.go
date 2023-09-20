@@ -51,7 +51,7 @@ func (o *OriginalVersionFunction) References() astmodel.TypeNameSet {
 // AsFunc returns the generated code for the OriginalVersion() function
 func (o *OriginalVersionFunction) AsFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
-	receiver astmodel.TypeName,
+	receiver astmodel.InternalTypeName,
 ) (*dst.FuncDecl, error) {
 	groupVersionPackageGlobal := dst.NewIdent("GroupVersion")
 

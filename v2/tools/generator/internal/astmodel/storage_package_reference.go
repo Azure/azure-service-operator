@@ -87,12 +87,6 @@ func IsStoragePackageReference(reference PackageReference) bool {
 	return ok
 }
 
-// TryGroupVersion returns the group and version of this storage reference.
-func (s StoragePackageReference) TryGroupVersion() (string, string, bool) {
-	g, v, _ := s.inner.TryGroupVersion()
-	return g, v + StoragePackageSuffix, true
-}
-
 // GroupVersion returns the group and version of this storage reference.
 func (s StoragePackageReference) GroupVersion() (string, string) {
 	g, v := s.inner.GroupVersion()
@@ -120,6 +114,6 @@ func (s StoragePackageReference) ImportAlias(style PackageImportStyle) string {
 }
 
 // Base implements DerivedPackageReference.
-func (s StoragePackageReference) Base() PackageReference {
+func (s StoragePackageReference) Base() InternalPackageReference {
 	return s.inner
 }

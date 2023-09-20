@@ -174,11 +174,7 @@ func (identity *UserAssignedIdentity) NewEmptyStatus() genruntime.ConvertibleSta
 // Owner returns the ResourceReference of the owner
 func (identity *UserAssignedIdentity) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(identity.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  identity.Spec.Owner.Name,
-	}
+	return identity.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -236,7 +232,7 @@ func (identity *UserAssignedIdentity) ValidateUpdate(old runtime.Object) (admiss
 
 // createValidations validates the creation of the resource
 func (identity *UserAssignedIdentity) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){identity.validateResourceReferences, identity.validateConfigMapDestinations}
+	return []func() (admission.Warnings, error){identity.validateResourceReferences, identity.validateOwnerReference, identity.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -252,12 +248,15 @@ func (identity *UserAssignedIdentity) updateValidations() []func(old runtime.Obj
 		},
 		identity.validateWriteOnceProperties,
 		func(old runtime.Object) (admission.Warnings, error) {
+			return identity.validateOwnerReference()
+		},
+		func(old runtime.Object) (admission.Warnings, error) {
 			return identity.validateConfigMapDestinations()
 		},
 	}
 }
 
-// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations's
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
 func (identity *UserAssignedIdentity) validateConfigMapDestinations() (admission.Warnings, error) {
 	if identity.Spec.OperatorSpec == nil {
 		return nil, nil
@@ -271,6 +270,11 @@ func (identity *UserAssignedIdentity) validateConfigMapDestinations() (admission
 		identity.Spec.OperatorSpec.ConfigMaps.TenantId,
 	}
 	return genruntime.ValidateConfigMapDestinations(toValidate)
+}
+
+// validateOwnerReference validates the owner field
+func (identity *UserAssignedIdentity) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(identity)
 }
 
 // validateResourceReferences validates all resource references
@@ -439,7 +443,10 @@ func (identity *UserAssignedIdentity_Spec) PopulateFromARM(owner genruntime.Arbi
 	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
-	identity.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	identity.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "Tags":
 	if typedInput.Tags != nil {

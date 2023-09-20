@@ -142,11 +142,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering) NewEmptyStatus() genruntime
 // Owner returns the ResourceReference of the owner
 func (peering *VirtualNetworksVirtualNetworkPeering) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(peering.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  peering.Spec.Owner.Name,
-	}
+	return peering.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -204,7 +200,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering) ValidateUpdate(old runtime.
 
 // createValidations validates the creation of the resource
 func (peering *VirtualNetworksVirtualNetworkPeering) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){peering.validateResourceReferences}
+	return []func() (admission.Warnings, error){peering.validateResourceReferences, peering.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -218,7 +214,16 @@ func (peering *VirtualNetworksVirtualNetworkPeering) updateValidations() []func(
 		func(old runtime.Object) (admission.Warnings, error) {
 			return peering.validateResourceReferences()
 		},
-		peering.validateWriteOnceProperties}
+		peering.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return peering.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (peering *VirtualNetworksVirtualNetworkPeering) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(peering)
 }
 
 // validateResourceReferences validates all resource references
@@ -458,7 +463,10 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) PopulateFromARM(owner
 	}
 
 	// Set property "Owner":
-	peering.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	peering.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "PeeringState":
 	// copying flattened property:

@@ -45,14 +45,17 @@ func CollapseCrossGroupReferences() *Stage {
 		})
 }
 
-func newTypeWalker(definitions astmodel.TypeDefinitionSet, resourceName astmodel.TypeName) *astmodel.TypeWalker {
-	visitor := astmodel.TypeVisitorBuilder{}.Build()
+func newTypeWalker(
+	definitions astmodel.TypeDefinitionSet,
+	resourceName astmodel.InternalTypeName,
+) *astmodel.TypeWalker[any] {
+	visitor := astmodel.TypeVisitorBuilder[any]{}.Build()
 	walker := astmodel.NewTypeWalker(definitions, visitor)
 	walker.AfterVisit = func(original astmodel.TypeDefinition, updated astmodel.TypeDefinition, ctx interface{}) (astmodel.TypeDefinition, error) {
 		if !resourceName.PackageReference().Equals(updated.Name().PackageReference()) {
 			// Note: If we ever find this generating colliding names, we might need to introduce a unique suffix.
-			// For now though it doesn't seem to, so preserving the shorter names as they're clearer.
-			updated = updated.WithName(astmodel.MakeInternalTypeName(resourceName.PackageReference(), updated.Name().Name()))
+			// For now though it doesn't seem to, so preserving the shorter names as they are clearer.
+			updated = updated.WithName(astmodel.MakeInternalTypeName(resourceName.InternalPackageReference(), updated.Name().Name()))
 		}
 		return astmodel.IdentityAfterVisit(original, updated, ctx)
 	}

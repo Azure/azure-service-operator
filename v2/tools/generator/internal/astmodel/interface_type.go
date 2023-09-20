@@ -176,7 +176,7 @@ func (i *InterfaceType) String() string {
 }
 
 // WriteDebugDescription adds a description of the current InterfaceType to the passed builder.
-func (i *InterfaceType) WriteDebugDescription(builder *strings.Builder, _ PackageReference) {
+func (i *InterfaceType) WriteDebugDescription(builder *strings.Builder, currentPackage InternalPackageReference) {
 	if i == nil {
 		builder.WriteString("<nilInterface>")
 	} else {
@@ -222,7 +222,7 @@ func functionToField(
 	}
 
 	// Populate Type
-	f, err := function.AsFunc(codeGenerationContext, nil) // Empty typename here because we have no receiver
+	f, err := function.AsFunc(codeGenerationContext, InternalTypeName{}) // Empty typename here because we have no receiver
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to determiine type of function %s", function.Name())
 	}

@@ -103,11 +103,7 @@ func (credential *FederatedIdentityCredential) NewEmptyStatus() genruntime.Conve
 // Owner returns the ResourceReference of the owner
 func (credential *FederatedIdentityCredential) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(credential.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  credential.Spec.Owner.Name,
-	}
+	return credential.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource

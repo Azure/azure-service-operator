@@ -257,7 +257,7 @@ func (v ValidatedType) Unwrap() Type {
 // WriteDebugDescription adds a description of the current type to the passed builder
 // builder receives the full description, including nested types
 // definitions is a dictionary for resolving named types
-func (v ValidatedType) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {
+func (v ValidatedType) WriteDebugDescription(builder *strings.Builder, currentPackage InternalPackageReference) {
 	builder.WriteString("Validated[")
 	if v.element != nil {
 		v.element.WriteDebugDescription(builder, currentPackage)

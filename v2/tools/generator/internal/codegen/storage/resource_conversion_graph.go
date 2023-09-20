@@ -11,13 +11,13 @@ import (
 
 // ResourceConversionGraph represents the directed graph of conversions between versions for a single resource/type
 type ResourceConversionGraph struct {
-	name  string                                  // Name of the resource needing conversions
-	links map[astmodel.TypeName]astmodel.TypeName // All the directed links in our conversion graph
+	name  string                   // Name of the resource needing conversions
+	links astmodel.TypeAssociation // All the directed links in our conversion graph
 }
 
 // LookupTransition accepts a type name and looks up the transition to the next version in the graph
 // Returns the next version, or an empty type name if not.
-func (graph *ResourceConversionGraph) LookupTransition(name astmodel.TypeName) astmodel.TypeName {
+func (graph *ResourceConversionGraph) LookupTransition(name astmodel.InternalTypeName) astmodel.InternalTypeName {
 	next, _ := graph.links[name]
 	return next
 }

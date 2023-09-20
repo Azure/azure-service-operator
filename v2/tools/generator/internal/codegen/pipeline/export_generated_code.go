@@ -8,8 +8,6 @@ package pipeline
 import (
 	"context"
 	"fmt"
-	"golang.org/x/exp/slices"
-	"golang.org/x/sync/errgroup"
 	"os"
 	"path/filepath"
 	"sync"
@@ -17,6 +15,8 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
+	"golang.org/x/exp/slices"
+	"golang.org/x/sync/errgroup"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -54,11 +54,13 @@ func ExportPackages(
 }
 
 // CreatePackagesForDefinitions groups type definitions into packages
-func CreatePackagesForDefinitions(definitions astmodel.TypeDefinitionSet) (map[astmodel.PackageReference]*astmodel.PackageDefinition, error) {
-	packages := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
+func CreatePackagesForDefinitions(
+	definitions astmodel.TypeDefinitionSet,
+) (map[astmodel.InternalPackageReference]*astmodel.PackageDefinition, error) {
+	packages := make(map[astmodel.InternalPackageReference]*astmodel.PackageDefinition)
 	for _, def := range definitions {
 		name := def.Name()
-		ref := name.PackageReference()
+		ref := name.InternalPackageReference()
 		if pkg, ok := packages[ref]; ok {
 			pkg.AddDefinition(def)
 		} else {
@@ -72,7 +74,7 @@ func CreatePackagesForDefinitions(definitions astmodel.TypeDefinitionSet) (map[a
 }
 
 func writeFiles(
-	packages map[astmodel.PackageReference]*astmodel.PackageDefinition,
+	packages map[astmodel.InternalPackageReference]*astmodel.PackageDefinition,
 	outputPath string,
 	emitDocFiles bool,
 	log logr.Logger,
@@ -83,9 +85,17 @@ func writeFiles(
 	}
 
 	// Sort the list of packages to ensure we always write them to disk in the same sequence
-	slices.SortFunc(pkgs, func(left *astmodel.PackageDefinition, right *astmodel.PackageDefinition) bool {
-		return left.Path < right.Path
-	})
+	slices.SortFunc(
+		pkgs,
+		func(left *astmodel.PackageDefinition, right *astmodel.PackageDefinition) int {
+			if left.Path < right.Path {
+				return -1
+			} else if left.Path > right.Path {
+				return 1
+			} else {
+				return 0
+			}
+		})
 
 	// emit each package
 	log.Info(

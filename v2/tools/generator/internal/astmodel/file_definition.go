@@ -18,21 +18,21 @@ import (
 // FileDefinition is the content of a file we're generating
 type FileDefinition struct {
 	// the package this file is in
-	packageReference PackageReference
+	packageReference InternalPackageReference
 	// definitions to include in this file
 	definitions []TypeDefinition
 
 	// other packages whose references may be needed for code generation
-	generatedPackages map[PackageReference]*PackageDefinition
+	generatedPackages map[InternalPackageReference]*PackageDefinition
 }
 
 var _ GoSourceFile = &FileDefinition{}
 
 // NewFileDefinition creates a file definition containing specified definitions
 func NewFileDefinition(
-	packageRef PackageReference,
+	packageRef InternalPackageReference,
 	definitions []TypeDefinition,
-	generatedPackages map[PackageReference]*PackageDefinition) *FileDefinition {
+	generatedPackages map[InternalPackageReference]*PackageDefinition) *FileDefinition {
 
 	// Topological sort of the definitions, putting them in order of reference
 	ranks := calcRanks(definitions)
@@ -51,7 +51,11 @@ func NewFileDefinition(
 	})
 
 	// TODO: check that all definitions are from same package
-	return &FileDefinition{packageRef, definitions, generatedPackages}
+	return &FileDefinition{
+		packageReference:  packageRef,
+		definitions:       definitions,
+		generatedPackages: generatedPackages,
+	}
 }
 
 // Calculate the ranks for each type

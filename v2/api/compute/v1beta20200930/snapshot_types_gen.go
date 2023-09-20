@@ -142,11 +142,7 @@ func (snapshot *Snapshot) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (snapshot *Snapshot) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(snapshot.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  snapshot.Spec.Owner.Name,
-	}
+	return snapshot.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
@@ -204,7 +200,7 @@ func (snapshot *Snapshot) ValidateUpdate(old runtime.Object) (admission.Warnings
 
 // createValidations validates the creation of the resource
 func (snapshot *Snapshot) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){snapshot.validateResourceReferences}
+	return []func() (admission.Warnings, error){snapshot.validateResourceReferences, snapshot.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -218,7 +214,16 @@ func (snapshot *Snapshot) updateValidations() []func(old runtime.Object) (admiss
 		func(old runtime.Object) (admission.Warnings, error) {
 			return snapshot.validateResourceReferences()
 		},
-		snapshot.validateWriteOnceProperties}
+		snapshot.validateWriteOnceProperties,
+		func(old runtime.Object) (admission.Warnings, error) {
+			return snapshot.validateOwnerReference()
+		},
+	}
+}
+
+// validateOwnerReference validates the owner field
+func (snapshot *Snapshot) validateOwnerReference() (admission.Warnings, error) {
+	return genruntime.ValidateOwner(snapshot)
 }
 
 // validateResourceReferences validates all resource references
@@ -598,7 +603,10 @@ func (snapshot *Snapshot_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	}
 
 	// Set property "Owner":
-	snapshot.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+	snapshot.Owner = &genruntime.KnownResourceReference{
+		Name:  owner.Name,
+		ARMID: owner.ARMID,
+	}
 
 	// Set property "PurchasePlan":
 	// copying flattened property:

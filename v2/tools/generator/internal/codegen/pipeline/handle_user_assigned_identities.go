@@ -43,7 +43,7 @@ func HandleUserAssignedIdentities() *Stage {
 }
 
 type userAssignedIdentityTransformer struct {
-	visitor    astmodel.TypeVisitor
+	visitor    astmodel.TypeVisitor[astmodel.InternalTypeName]
 	typesToAdd astmodel.TypeDefinitionSet
 }
 
@@ -52,7 +52,7 @@ func newUserAssignedIdentityTransformer() *userAssignedIdentityTransformer {
 		typesToAdd: make(astmodel.TypeDefinitionSet),
 	}
 
-	visitor := astmodel.TypeVisitorBuilder{
+	visitor := astmodel.TypeVisitorBuilder[astmodel.InternalTypeName]{
 		VisitObjectType: result.transformUserAssignedIdentityProperty,
 	}.Build()
 	result.visitor = visitor
@@ -60,11 +60,13 @@ func newUserAssignedIdentityTransformer() *userAssignedIdentityTransformer {
 	return result
 }
 
-func (t *userAssignedIdentityTransformer) transformUserAssignedIdentityProperty(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-	name := ctx.(astmodel.InternalTypeName)
-
+func (t *userAssignedIdentityTransformer) transformUserAssignedIdentityProperty(
+	this *astmodel.TypeVisitor[astmodel.InternalTypeName],
+	it *astmodel.ObjectType,
+	ctx astmodel.InternalTypeName,
+) (astmodel.Type, error) {
 	// Doesn't apply to status types
-	if name.IsStatus() {
+	if ctx.IsStatus() {
 		return astmodel.IdentityVisitOfObjectType(this, it, ctx)
 	}
 
@@ -98,7 +100,7 @@ func (t *userAssignedIdentityTransformer) transformUserAssignedIdentityProperty(
 	// key in CRDs, so we have to special case this property transform it to the correct shape
 	// during ARM serialization
 
-	userAssignedIdentityDef := newUserAssignedIdentityDefinition(name.PackageReference())
+	userAssignedIdentityDef := newUserAssignedIdentityDefinition(ctx.InternalPackageReference())
 	err := t.typesToAdd.AddAllowDuplicates(userAssignedIdentityDef)
 	if err != nil {
 		return nil, err
@@ -110,12 +112,12 @@ func (t *userAssignedIdentityTransformer) transformUserAssignedIdentityProperty(
 	return astmodel.IdentityVisitOfObjectType(this, it, ctx)
 }
 
-func newUserAssignedIdentityDefinition(pr astmodel.PackageReference) astmodel.TypeDefinition {
+func newUserAssignedIdentityDefinition(pr astmodel.InternalPackageReference) astmodel.TypeDefinition {
 	name := astmodel.MakeInternalTypeName(pr, astmodel.UserAssignedIdentitiesTypeName)
 
 	prop := astmodel.NewPropertyDefinition("Reference", "reference", astmodel.ResourceReferenceType)
 
-	// This type is special but we have to set an ARMReferenceTag anyway for downstream consumers to be happy.
+	// This type is special, but we have to set an ARMReferenceTag anyway for downstream consumers to be happy.
 	prop = prop.WithTag(astmodel.ARMReferenceTag, "Reference")
 	t := astmodel.NewObjectType().WithProperty(prop)
 

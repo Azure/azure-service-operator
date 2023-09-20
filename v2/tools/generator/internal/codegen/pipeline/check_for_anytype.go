@@ -87,7 +87,7 @@ func containsAnyType(theType astmodel.Type) bool {
 		return it
 	}
 
-	visitor := astmodel.TypeVisitorBuilder{
+	visitor := astmodel.TypeVisitorBuilder[any]{
 		VisitPrimitive: detectAnyType,
 	}.Build()
 
@@ -96,7 +96,8 @@ func containsAnyType(theType astmodel.Type) bool {
 }
 
 func packageName(name astmodel.TypeName) string {
-	if group, version, ok := name.PackageReference().TryGroupVersion(); ok {
+	if tn, isInternal := name.(astmodel.InternalTypeName); isInternal {
+		group, version := tn.InternalPackageReference().GroupVersion()
 		return group + "/" + version
 	}
 

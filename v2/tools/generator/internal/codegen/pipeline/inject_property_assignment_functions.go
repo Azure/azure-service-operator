@@ -55,7 +55,7 @@ func InjectPropertyAssignmentFunctions(
 					return nil, errors.Wrapf(err, "finding next type after %s", name)
 				}
 
-				if nextName == nil {
+				if nextName.IsEmpty() {
 					// No next type, so nothing to do (this is expected if we have the hub storage package)
 					continue
 				}
@@ -67,7 +67,7 @@ func InjectPropertyAssignmentFunctions(
 					continue
 				}
 
-				var augmentationInterface *astmodel.TypeName
+				var augmentationInterface astmodel.InternalTypeName
 				if astmodel.IsStoragePackageReference(def.Name().PackageReference()) {
 					ifaceType := astmodel.NewInterfaceType()
 
@@ -87,9 +87,9 @@ func InjectPropertyAssignmentFunctions(
 
 					augmentationInterfaceName := "augmentConversionFor" + idFactory.CreateIdentifier(def.Name().Name(), astmodel.Exported)
 					augmentationInterfaceTypeName := def.Name().WithName(augmentationInterfaceName)
-					augmentationInterface = &augmentationInterfaceTypeName
+					augmentationInterface = augmentationInterfaceTypeName
 					ifaceDef := astmodel.MakeTypeDefinition(
-						augmentationInterfaceTypeName.(astmodel.InternalTypeName),
+						augmentationInterfaceTypeName,
 						ifaceType)
 					result.Add(ifaceDef)
 				}
@@ -138,7 +138,7 @@ func newPropertyAssignmentFunctionsFactory(
 func (f propertyAssignmentFunctionsFactory) injectBetween(
 	upstreamDef astmodel.TypeDefinition,
 	downstreamDef astmodel.TypeDefinition,
-	augmentationInterface *astmodel.TypeName) (astmodel.TypeDefinition, error) {
+	augmentationInterface astmodel.InternalTypeName) (astmodel.TypeDefinition, error) {
 
 	assignmentContext := conversions.NewPropertyConversionContext(conversions.AssignPropertiesMethodPrefix, f.definitions, f.idFactory).
 		WithConfiguration(f.configuration.ObjectModelConfiguration).
@@ -146,8 +146,8 @@ func (f propertyAssignmentFunctionsFactory) injectBetween(
 
 	// Create conversion functions
 	assignFromBuilder := functions.NewPropertyAssignmentFunctionBuilder(upstreamDef, downstreamDef, conversions.ConvertFrom)
-	if augmentationInterface != nil {
-		assignFromBuilder.UseAugmentationInterface(*augmentationInterface)
+	if !augmentationInterface.IsEmpty() {
+		assignFromBuilder.UseAugmentationInterface(augmentationInterface)
 	}
 
 	assignFromFn, err := assignFromBuilder.Build(assignmentContext)
@@ -157,8 +157,8 @@ func (f propertyAssignmentFunctionsFactory) injectBetween(
 	}
 
 	assignToBuilder := functions.NewPropertyAssignmentFunctionBuilder(upstreamDef, downstreamDef, conversions.ConvertTo)
-	if augmentationInterface != nil {
-		assignToBuilder.UseAugmentationInterface(*augmentationInterface)
+	if !augmentationInterface.IsEmpty() {
+		assignToBuilder.UseAugmentationInterface(augmentationInterface)
 	}
 
 	assignToFn, err := assignToBuilder.Build(assignmentContext)

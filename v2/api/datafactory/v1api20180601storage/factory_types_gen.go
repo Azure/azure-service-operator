@@ -85,11 +85,7 @@ func (factory *Factory) NewEmptyStatus() genruntime.ConvertibleStatus {
 // Owner returns the ResourceReference of the owner
 func (factory *Factory) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(factory.Spec)
-	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
-		Name:  factory.Spec.Owner.Name,
-	}
+	return factory.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
