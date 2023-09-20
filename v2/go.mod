@@ -21,7 +21,7 @@ require (
 	github.com/go-logr/logr v1.2.4
 	github.com/go-sql-driver/mysql v1.7.1
 	github.com/google/go-cmp v0.5.9
-	github.com/google/uuid v1.3.0
+	github.com/google/uuid v1.3.1
 	github.com/hbollon/go-edlib v1.6.0
 	github.com/jackc/pgx/v5 v5.3.1
 	github.com/kr/pretty v0.3.1
