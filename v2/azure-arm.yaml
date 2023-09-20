@@ -1603,6 +1603,25 @@ objectModelConfiguration:
       VirtualNetworks_VirtualNetworkPeering:
         $exportAs: VirtualNetworksVirtualNetworkPeering
         $supportedFrom: v2.0.0-alpha.1
+    2022-04-01:
+      TrafficManagerProfile:
+        # Hacking around here to use camel case. Normally the resource gets exported as Trafficmanagerprofile
+        $exportAs: TrafficManagerProfile
+        $supportedFrom: v2.4.0
+        $generatedConfigs:
+          DnsConfigFqdn: $.Status.DnsConfig.Fqdn
+      TrafficManagerProfiles_AzureEndpoint:
+        $exportAs: TrafficManagerProfilesAzureEndpoint
+        $supportedFrom: v2.4.0
+      TrafficManagerProfiles_ExternalEndpoint:
+        $exportAs: TrafficManagerProfilesExternalEndpoint
+        $supportedFrom: v2.4.0
+      TrafficManagerProfiles_NestedEndpoint:
+        $exportAs: TrafficManagerProfilesNestedEndpoint
+        $supportedFrom: v2.4.0
+      EndpointProperties:
+        TargetResourceId:
+          $armReference: true
     2022-07-01:
       BastionHost:
         # This technically supports 2022-09-01 API version too, but it's identical to the 2022-07-01 version

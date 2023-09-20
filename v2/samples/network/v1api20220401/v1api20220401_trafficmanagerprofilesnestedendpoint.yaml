@@ -1,0 +1,13 @@
+apiVersion: network.azure.com/v1api20220401
+kind: TrafficManagerProfilesNestedEndpoint
+metadata:
+  name: aso-sample-nested-vemfwn
+  namespace: default
+spec:
+  endpointLocation: westus2
+  owner:
+    name: aso-sample-profile
+  targetResourceReference:
+    group: network.azure.com
+    kind: TrafficManagerProfile
+    name: nested-sample-profile
