@@ -289,7 +289,7 @@ func (target *TransformTarget) produceTargetMapType(
 }
 
 func (target *TransformTarget) produceTargetEnumType(
-	descriptor string,
+	_ string,
 ) (astmodel.Type, error) {
 	// Transform to enum, ensure we have no other transformation
 	if target.Name.IsRestrictive() {
@@ -309,7 +309,7 @@ func (target *TransformTarget) produceTargetEnumType(
 		return nil, err
 	}
 
-	var values []astmodel.EnumValue
+	values := make([]astmodel.EnumValue, 0, len(target.Enum.Values))
 	for _, value := range target.Enum.Values {
 		values = append(values, astmodel.EnumValue{
 			Identifier: strings.Title(value),
