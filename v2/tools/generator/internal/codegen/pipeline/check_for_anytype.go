@@ -57,7 +57,7 @@ func checkForAnyType(description string, packages []string) *Stage {
 				// We only want to include this type in the output if
 				// it's not in a package that we know contains
 				// AnyTypes.
-				if expectedPackages.Contains(packageName(name)) {
+				if expectedPackages.Contains(name.InternalPackageReference().FolderPath()) {
 					continue
 				}
 
@@ -95,23 +95,14 @@ func containsAnyType(theType astmodel.Type) bool {
 	return found
 }
 
-func packageName(name astmodel.TypeName) string {
-	if tn, isInternal := name.(astmodel.InternalTypeName); isInternal {
-		group, version := tn.InternalPackageReference().GroupVersion()
-		return group + "/" + version
-	}
-
-	return name.PackageReference().PackageName()
-}
-
 func collectBadPackages(
 	names []astmodel.InternalTypeName,
 	expectedPackages set.Set[string],
 ) ([]string, error) {
 	grouped := make(map[string][]string)
 	for _, name := range names {
-		groupVersion := packageName(name)
-		grouped[groupVersion] = append(grouped[groupVersion], name.Name())
+		packagePath := name.InternalPackageReference().FolderPath()
+		grouped[packagePath] = append(grouped[packagePath], name.Name())
 	}
 
 	var groupNames []string //nolint:prealloc // unlikely case
