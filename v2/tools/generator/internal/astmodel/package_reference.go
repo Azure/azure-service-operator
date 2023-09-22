@@ -19,8 +19,7 @@ const (
 type PackageReference interface {
 	// PackageName returns the package name of this reference
 	PackageName() string
-	// PackagePath returns the fully qualified package path
-	PackagePath() string
+
 	// Equals returns true if the passed package reference references the same package, false otherwise
 	Equals(ref PackageReference) bool
 	// String returns the string representation of the package reference

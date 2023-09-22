@@ -11,28 +11,6 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func TestMakeExternalPackageReference_GivenPath_ReturnsInstanceWithPath(t *testing.T) {
-	t.Parallel()
-
-	cases := []struct {
-		name string
-		path string
-	}{
-		{"fmt library", "fmt"},
-		{"ast library", "go/ast"},
-		{"gomega library", "github.com/onsi/gomega"},
-	}
-	for _, c := range cases {
-		c := c
-		t.Run(c.name, func(t *testing.T) {
-			t.Parallel()
-			g := NewGomegaWithT(t)
-			ref := MakeExternalPackageReference(c.path)
-			g.Expect(ref.PackagePath()).To(Equal(c.path))
-		})
-	}
-}
-
 func TestExternalPackageReferences_ReturnExpectedProperties(t *testing.T) {
 	t.Parallel()
 
@@ -52,7 +30,6 @@ func TestExternalPackageReferences_ReturnExpectedProperties(t *testing.T) {
 			g := NewGomegaWithT(t)
 
 			ref := MakeExternalPackageReference(c.path)
-			g.Expect(ref.PackagePath()).To(Equal(c.path))
 			g.Expect(ref.String()).To(Equal(c.path))
 		})
 	}

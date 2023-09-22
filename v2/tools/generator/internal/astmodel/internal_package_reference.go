@@ -13,6 +13,9 @@ type InternalPackageReference interface {
 	// Group returns the group to which this package belongs.
 	Group() string
 
+	// PackagePath returns the fully qualified package path
+	PackagePath() string
+
 	// FolderPath returns the relative path to this package on disk.
 	FolderPath() string
 
