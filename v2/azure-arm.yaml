@@ -65,7 +65,7 @@ typeFilters:
 
   - action: include
     group: insights
-    version: v*20180501preview
+    version: v*20180501preview;v*20230315preview
     because: We're using webTests from this. There is a "newer" version but it's not actually supported, see https://github.com/Azure/azure-rest-api-specs/issues/14827
 
   - action: include
@@ -1308,6 +1308,52 @@ objectModelConfiguration:
         $generatedConfigs:
           ConnectionString: $.Status.ConnectionString
           InstrumentationKey: $.Status.InstrumentationKey
+    2023-01-01:
+      ActionGroup:
+        $export: true
+        $supportedFrom: v2.4.0
+      AutomationRunbookReceiver:
+        WebhookResourceId:
+          $armReference: true
+      AzureFunctionReceiver:
+        FunctionAppResourceId:
+          $armReference: true
+      LogicAppReceiver:
+        ResourceId:
+          $armReference: true
+    2022-10-01:
+      Autoscalesetting:
+        $export: true
+        $supportedFrom: v2.4.0
+      MetricTrigger:
+        MetricResourceUri:
+          $armReference: true
+      AutoscaleSetting:
+        TargetResourceUri:
+          $armReference: true
+    2018-03-01:
+      MetricAlert:
+        $export: true
+        $supportedFrom: v2.4.0
+      WebtestLocationAvailabilityCriteria:
+        ComponentId:
+          $armReference: true
+      MetricAlertProperties:
+        Scopes:
+          $armReference: true
+    2023-03-15-preview:
+      ScheduledQueryRule:
+        $export: true
+        $supportedFrom: v2.4.0
+      Actions:
+        ActionGroups:
+          $armReference: true
+      Condition:
+        ResourceIdColumn:
+          $armReference: true
+      ScheduledQueryRuleProperties:
+        Scopes:
+          $armReference: true
   keyvault:
     2021-04-01-preview:
       Vault:
