@@ -10,6 +10,10 @@ package astmodel
 type InternalPackageReference interface {
 	PackageReference
 
+	// IsPreview returns true if this package reference has a suffix indicating it's a preview
+	// release, false otherwise
+	IsPreview() bool
+	
 	// Group returns the group to which this package belongs.
 	Group() string
 
