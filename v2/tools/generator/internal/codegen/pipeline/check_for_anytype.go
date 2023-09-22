@@ -30,7 +30,7 @@ func FilterOutDefinitionsUsingAnyType(packages []string) *Stage {
 	return checkForAnyType("Filter out rogue definitions using AnyTypes", packages)
 }
 
-// ensureDefinitionsDoNotUseAnyTypes returns a stage that will check for any
+// EnsureDefinitionsDoNotUseAnyTypes returns a stage that will check for any
 // definitions containing AnyTypes. The stage will return errors for each type
 // found that uses an AnyType.
 func EnsureDefinitionsDoNotUseAnyTypes() *Stage {
