@@ -1831,7 +1831,7 @@ func assignObjectsViaIntermediateObject(
 	}
 
 	// If our two types are not adjacent in our conversion graph, this *IS* the conversion you're looking for
-	earlierName := conversionContext.direction.SelectType(destinationName, sourceName).(astmodel.InternalTypeName)
+	earlierName := conversionContext.direction.SelectName(destinationName, sourceName)
 	intermediateName, err := conversionContext.FindNextType(earlierName)
 	if err != nil {
 		return nil, errors.Wrapf(
