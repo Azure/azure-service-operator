@@ -7,6 +7,8 @@ package reporting
 
 import (
 	"fmt"
+	"github.com/Azure/azure-service-operator/v2/internal/set"
+	"golang.org/x/exp/slices"
 	"io"
 	"os"
 	"sort"
@@ -556,8 +558,10 @@ func (tcr *TypeCatalogReport) findPackages() []astmodel.InternalPackageReference
 		packages.Add(def.Name().InternalPackageReference())
 	}
 
-	result := packages.AsSortedSlice(
-		func(left astmodel.PackageReference, right astmodel.PackageReference) int {
+	result := packages.Values()
+	slices.SortFunc(
+		result,
+		func(left astmodel.InternalPackageReference, right astmodel.InternalPackageReference) int {
 			return astmodel.ComparePathAndVersion(left.ImportPath(), right.ImportPath())
 		})
 
