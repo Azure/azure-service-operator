@@ -1322,14 +1322,13 @@ objectModelConfiguration:
         ResourceId:
           $armReference: true
     2022-10-01:
-      Autoscalesetting:
+      AutoscaleSetting:
         $export: true
         $supportedFrom: v2.4.0
+        TargetResourceUri:
+          $armReference: true
       MetricTrigger:
         MetricResourceUri:
-          $armReference: true
-      AutoscaleSetting:
-        TargetResourceUri:
           $armReference: true
     2018-03-01:
       MetricAlert:
