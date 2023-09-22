@@ -95,12 +95,12 @@ func (tv *TypeVisitor[C]) VisitInternalTypeName(name InternalTypeName, ctx C) (I
 
 	t, err := tv.visitInternalTypeName(tv, name, ctx)
 	if err != nil {
-		return InternalTypeName{}, errors.Wrapf(err, "visit of TypeName %q failed", name)
+		return InternalTypeName{}, errors.Wrapf(err, "visit of InternalTypeName %q failed", name)
 	}
 
 	n, ok := t.(InternalTypeName)
 	if !ok {
-		return InternalTypeName{}, errors.Errorf("expected visit of TypeName %q to return TypeName, not %T", name, t)
+		return InternalTypeName{}, errors.Errorf("expected visit of InternalTypeName %q to return InternalTypeName, not %T", name, t)
 	}
 
 	return n, nil

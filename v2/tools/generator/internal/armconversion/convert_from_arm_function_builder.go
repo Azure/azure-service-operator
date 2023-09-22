@@ -547,7 +547,7 @@ func (builder *convertFromARMBuilder) convertComplexTypeNameProperty(
 	_ *astmodel.ConversionFunctionBuilder,
 	params astmodel.ConversionParameters,
 ) ([]dst.Stmt, error) {
-	destinationType, ok := params.DestinationType.(astmodel.TypeName)
+	destinationType, ok := params.DestinationType.(astmodel.InternalTypeName)
 	if !ok {
 		return nil, nil
 	}

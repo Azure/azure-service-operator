@@ -2034,8 +2034,11 @@ func copyKnownType(name astmodel.TypeName, methodName string, returnKind knownTy
 	}
 }
 
-func createTypeDeclaration(name astmodel.TypeName, generationContext *astmodel.CodeGenerationContext) dst.Expr {
-	if name.PackageReference().Equals(generationContext.CurrentPackage()) {
+func createTypeDeclaration(
+	name astmodel.InternalTypeName,
+	generationContext *astmodel.CodeGenerationContext,
+) dst.Expr {
+	if name.InternalPackageReference().Equals(generationContext.CurrentPackage()) {
 		return dst.NewIdent(name.Name())
 	}
 

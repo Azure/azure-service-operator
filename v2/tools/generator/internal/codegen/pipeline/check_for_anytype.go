@@ -47,7 +47,7 @@ func checkForAnyType(description string, packages []string) *Stage {
 		CheckForAnyTypeStageID,
 		description,
 		func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			var badNames []astmodel.TypeName
+			var badNames []astmodel.InternalTypeName
 			output := make(astmodel.TypeDefinitionSet)
 			for name, def := range defs {
 				if containsAnyType(def.Type()) {
@@ -105,7 +105,7 @@ func packageName(name astmodel.TypeName) string {
 }
 
 func collectBadPackages(
-	names []astmodel.TypeName,
+	names []astmodel.InternalTypeName,
 	expectedPackages set.Set[string],
 ) ([]string, error) {
 	grouped := make(map[string][]string)
