@@ -624,7 +624,7 @@ func (report *ResourceVersionsReport) expandPlaceholders(template string, rsrc a
 }
 
 func (report *ResourceVersionsReport) generateSampleLink(name astmodel.TypeName, sampleLinks map[string]string) string {
-	crdVersion := name.PackageReference().PackageName()
+	crdVersion := name.InternalPackageReference().PackageName()
 	key := fmt.Sprintf("%s_%s.yaml", crdVersion, strings.ToLower(name.Name()))
 	sampleLink, ok := sampleLinks[key]
 

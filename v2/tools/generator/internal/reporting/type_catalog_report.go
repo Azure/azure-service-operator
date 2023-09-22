@@ -550,10 +550,10 @@ func (tcr *TypeCatalogReport) writeAllOfType(
 	})
 }
 
-func (tcr *TypeCatalogReport) findPackages() []astmodel.PackageReference {
-	packages := astmodel.NewPackageReferenceSet()
+func (tcr *TypeCatalogReport) findPackages() []astmodel.InternalPackageReference {
+	packages := set.Make[astmodel.InternalPackageReference]()
 	for _, def := range tcr.defs {
-		packages.AddReference(def.Name().PackageReference())
+		packages.Add(def.Name().InternalPackageReference())
 	}
 
 	result := packages.AsSortedSlice(

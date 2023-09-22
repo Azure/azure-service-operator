@@ -566,9 +566,9 @@ func (builder *convertFromARMBuilder) convertComplexTypeNameProperty(
 	ownerName := builder.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported)
 
 	newVariable := astbuilder.NewVariable(propertyLocalVar, destinationType.Name())
-	if !destinationType.PackageReference().Equals(builder.codeGenerationContext.CurrentPackage()) {
+	if !destinationType.InternalPackageReference().Equals(builder.codeGenerationContext.CurrentPackage()) {
 		// struct name has to be qualified
-		packageName := builder.codeGenerationContext.MustGetImportedPackageName(destinationType.PackageReference())
+		packageName := builder.codeGenerationContext.MustGetImportedPackageName(destinationType.InternalPackageReference())
 		newVariable = astbuilder.NewVariableQualified(
 			propertyLocalVar,
 			packageName,

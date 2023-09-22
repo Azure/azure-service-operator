@@ -2042,7 +2042,7 @@ func createTypeDeclaration(
 		return dst.NewIdent(name.Name())
 	}
 
-	packageName := generationContext.MustGetImportedPackageName(name.PackageReference())
+	packageName := generationContext.MustGetImportedPackageName(name.InternalPackageReference())
 	return astbuilder.Selector(dst.NewIdent(packageName), name.Name())
 }
 
