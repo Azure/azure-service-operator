@@ -33,7 +33,7 @@ You can confirm this with kubectl describe pod -n azureserviceoperator-system --
 <meta itemprop="description" content="Common mistakes ASO controller pod in Status CreateContainerConfigError $ kubectl get pods -n azureserviceoperator-system NAME READY STATUS RESTARTS AGE azureserviceoperator-controller-manager-69cbccd645-4s5wz 1/2 CreateContainerConfigError 0 7m49s Very likely that you forgot to create the aso-controller-settings secret. This secret must be in the same namespace as the pod.
 You can confirm this with kubectl describe pod -n azureserviceoperator-system --selector control-plane=controller-manager. Look for the &ldquo;Error: secret &ldquo;aso-controller-settings&rdquo; not found&rdquo; event in the describe output:">
 
-<meta itemprop="wordCount" content="409">
+<meta itemprop="wordCount" content="576">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Diagnosing problems"/>
 <meta name="twitter:description" content="Common mistakes ASO controller pod in Status CreateContainerConfigError $ kubectl get pods -n azureserviceoperator-system NAME READY STATUS RESTARTS AGE azureserviceoperator-controller-manager-69cbccd645-4s5wz 1/2 CreateContainerConfigError 0 7m49s Very likely that you forgot to create the aso-controller-settings secret. This secret must be in the same namespace as the pod.
@@ -651,6 +651,7 @@ You can confirm this with kubectl describe pod -n azureserviceoperator-system --
     <li><a href="#problems-with-resources">Problems with resources</a>
       <ul>
         <li><a href="#resource-with-no-ready-condition-set">Resource with no Ready condition set</a></li>
+        <li><a href="#resource-stuck-deleting">Resource stuck deleting</a></li>
       </ul>
     </li>
     <li><a href="#getting-aso-controller-pod-logs">Getting ASO controller pod logs</a>
@@ -740,6 +741,33 @@ Look for the &ldquo;Error: secret &ldquo;aso-controller-settings&rdquo; not foun
 NAME            READY     SEVERITY   REASON          MESSAGE
 aso-sample-rg   False     Info       Reconciling     The resource is in the process of being reconciled by the operator   
 </code></pre><p>if this isn&rsquo;t happening then check the <a href="#getting-aso-controller-pod-logs">controller logs</a>.</p>
+<h3 id="resource-stuck-deleting">Resource stuck deleting</h3>
+<p>This presents slightly differently for different resources, some examples are:</p>
+<ul>
+<li><a href="https://github.com/Azure/azure-service-operator/issues/2478">#2478</a></li>
+<li><a href="https://github.com/Azure/azure-service-operator/issues/2586">#2586</a></li>
+<li><a href="https://github.com/Azure/azure-service-operator/issues/2607">#2607</a></li>
+</ul>
+<p>For example, you might see something like this:</p>
+<pre tabindex="0"><code>deleting resource &quot;/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/dev-rg/providers/Microsoft.KeyVault/vaults/kvname/providers/Microsoft.Authorization/roleAssignments/kv-role-assignement3&quot;: DELETE https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/dev-rg/providers/Microsoft.KeyVault/vaults/kvname/providers/Microsoft.Authorization/roleAssignments/kv-role-assignement3
+--------------------------------------------------------------------------------
+RESPONSE 400: 400 Bad Request
+ERROR CODE: InvalidRoleAssignmentId
+--------------------------------------------------------------------------------
+{
+    &quot;error&quot;: {
+        &quot;code&quot;: &quot;InvalidRoleAssignmentId&quot;,
+        message&quot;: &quot;The role assignment ID 'kv-role-assignement3' is not valid. The role assignment ID must be a GUID.&quot;
+    }
+}
+--------------------------------------------------------------------------------
+</code></pre><p>This can happen because the resource was created with an invalid name, and when ASO is trying to delete it,
+it cannot delete the resource because the name is invalid.</p>
+<p><em>Usually</em>, ASO will prevent this situation from happening by blocking the original apply that attempts to create the resource,
+but from time to time that protection may be imperfect.</p>
+<p>If you see this problem, the resource wasn&rsquo;t ever created successfully in Azure and so it is safe to instruct ASO to
+skip deletion of the Azure resource. This can be done by adding the <code>serviceoperator.azure.com/reconcile-policy: skip</code>
+annotation to the resource in your cluster.</p>
 <h2 id="getting-aso-controller-pod-logs">Getting ASO controller pod logs</h2>
 <p>The last stop when investigating most issues is to look at the ASO pod logs. We expect that
 most resource issues can be resolved using the resources .status.conditions without resorting to

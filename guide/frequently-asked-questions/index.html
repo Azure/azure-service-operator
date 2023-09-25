@@ -33,7 +33,7 @@ What is the support model? Azure Service Operator is an officially supported Mic
 <meta itemprop="description" content="Frequently Asked Questions What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven&rsquo;t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly.
 What is the support model? Azure Service Operator is an officially supported Microsoft OSS product.">
 
-<meta itemprop="wordCount" content="1544">
+<meta itemprop="wordCount" content="1656">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="FAQ"/>
 <meta name="twitter:description" content="Frequently Asked Questions What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven&rsquo;t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly.
@@ -659,6 +659,7 @@ What is the support model? Azure Service Operator is an officially supported Mic
         <li><a href="#should-i-use-user-assigned-or-system-assigned-identity">Should I use user-assigned or system-assigned identity?</a></li>
         <li><a href="#when-using-workload-identity-how-can-i-easily-inject-the-aso-created-user-managed-identity-details-onto-the-service-account">When using Workload Identity, how can I easily inject the ASO created User Managed Identity details onto the service account?</a></li>
         <li><a href="#what-should-i-know-about-roleassignment-naming-in-aso">What should I know about RoleAssignment naming in ASO?</a></li>
+        <li><a href="#how-can-i-import-existing-azure-resources-into-aso">How can I import existing Azure resources into ASO?</a></li>
       </ul>
     </li>
   </ul>
@@ -867,6 +868,16 @@ reconcile-policy: skip on the old one, deleting it, and then creating the <code>
 allowing it to adopt the existing resource in Azure) you must manually specify the AzureName
 of the <code>RoleAssignment</code> as the original UUID. Otherwise, the UUID defaulting algorithm will choose a different UUID since
 the namespace has changed.</p>
+<h3 id="how-can-i-import-existing-azure-resources-into-aso">How can I import existing Azure resources into ASO?</h3>
+<p>See <a href="/azure-service-operator/guide/annotations/#serviceoperatorazurecomreconcile-policy">Annotations understood by the operator</a> for
+details about how to control whether the operator modifies Azure resources or just watches them.</p>
+<p>There are a few options for importing resources into your cluster:</p>
+<ul>
+<li>If you&rsquo;re looking to import a large number of Azure resources you can use <a href="/azure-service-operator/tools/asoctl/">asoctl</a>.</li>
+<li>If you&rsquo;re looking to import a small number of resources, you can also manually create the resources in your cluster
+yourself and apply them. As long as the resource name, type and subscription are the same as the existing Azure
+resource, ASO will automatically adopt the resource. Make sure to use the <code>reconcile-policy</code> you want.</li>
+</ul>
 
 	
 	
