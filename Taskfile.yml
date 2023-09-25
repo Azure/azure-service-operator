@@ -971,6 +971,9 @@ tasks:
     deps: 
       - basic-checks
       - crossplane:generate-crds
+    cmds:
+      - task: verify-no-changes
+
 
   ############### Documentation targets ###############
 
