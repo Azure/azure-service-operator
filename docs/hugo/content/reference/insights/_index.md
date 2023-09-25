@@ -9,12 +9,12 @@ To install the CRDs for these resources, your ASO configuration must include `in
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource           | ARM Version        | CRD Version          | Supported From | Sample |
-|--------------------|--------------------|----------------------|----------------|--------|
-| ActionGroup        | 2023-01-01         | v1api20230101        | v2.4.0         | -      |
-| Autoscalesetting   | 2022-10-01         | v1api20221001        | v2.4.0         | -      |
-| MetricAlert        | 2018-03-01         | v1api20180301        | v2.4.0         | -      |
-| ScheduledQueryRule | 2023-03-15-preview | v1api20230315preview | v2.4.0         | -      |
+| Resource           | ARM Version        | CRD Version          | Supported From | Sample                                                                                                                                   |
+|--------------------|--------------------|----------------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------|
+| ActionGroup        | 2023-01-01         | v1api20230101        | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api/v1api20230101_actiongroup.yaml)               |
+| Autoscalesetting   | 2022-10-01         | v1api20221001        | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api/v1api20221001_autoscalesetting.yaml)          |
+| MetricAlert        | 2018-03-01         | v1api20180301        | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api/v1api20180301_metricalert.yaml)               |
+| ScheduledQueryRule | 2023-03-15-preview | v1api20230315preview | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api/v1api20230315preview_scheduledqueryrule.yaml) |
 
 ### Released
 
