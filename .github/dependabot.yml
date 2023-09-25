@@ -10,18 +10,22 @@ updates:
     directory: "/" 
     schedule:
       interval: "weekly"
+    rebase-strategy: "disabled"
   # ASO v2 controller 
   - package-ecosystem: "gomod" 
     directory: "/v2" 
     schedule:
       interval: "weekly"
+    rebase-strategy: "disabled"
   # ASO v2 asoctl
   - package-ecosystem: "gomod" 
     directory: "/v2/cmd/asoctl" 
     schedule:
       interval: "weekly"
+    rebase-strategy: "disabled"
   # ASO v2 generator
   - package-ecosystem: "gomod" 
     directory: "/v2/tools/generator" 
     schedule:
       interval: "weekly"
+    rebase-strategy: "disabled"
