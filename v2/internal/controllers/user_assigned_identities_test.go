@@ -6,13 +6,15 @@ Licensed under the MIT license.
 package controllers_test
 
 import (
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	v1 "k8s.io/api/core/v1"
 	"testing"
 
 	. "github.com/onsi/gomega"
 
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
 	managedidentity2018 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
@@ -110,4 +112,27 @@ func Test_MySQLServerWithKubernetesReferenceUserAssignedIdentity(t *testing.T) {
 	for armID := range flexibleServer.Status.Identity.UserAssignedIdentities {
 		tc.Expect(armID).To(testcommon.EqualsIgnoreCase(*mi.Status.Id))
 	}
+}
+
+func createPasswordSecret(
+	name string,
+	key string,
+	tc *testcommon.KubePerTestContext) genruntime.SecretReference {
+	password := tc.Namer.GeneratePasswordOfLength(40)
+
+	secret := &v1.Secret{
+		ObjectMeta: tc.MakeObjectMeta(name),
+		StringData: map[string]string{
+			key: password,
+		},
+	}
+
+	tc.CreateResource(secret)
+
+	secretRef := genruntime.SecretReference{
+		Name: secret.Name,
+		Key:  key,
+	}
+
+	return secretRef
 }
