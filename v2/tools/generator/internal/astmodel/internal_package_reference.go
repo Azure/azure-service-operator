@@ -13,7 +13,7 @@ type InternalPackageReference interface {
 	// IsPreview returns true if this package reference has a suffix indicating it's a preview
 	// release, false otherwise
 	IsPreview() bool
-	
+
 	// Group returns the group to which this package belongs.
 	Group() string
 
@@ -29,6 +29,6 @@ type InternalPackageReference interface {
 	// GroupVersion returns the group and version of this reference
 	GroupVersion() (string, string)
 
-	// GroupVersion returns the version of this reference
+	// Version returns the version of this reference
 	Version() string
 }
