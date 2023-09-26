@@ -36,6 +36,39 @@ aso-sample-rg   False     Info       Reconciling     The resource is in the proc
 ```
 if this isn't happening then check the [controller logs](#getting-aso-controller-pod-logs).
 
+### Resource stuck deleting 
+
+This presents slightly differently for different resources, some examples are:
+
+* [#2478](https://github.com/Azure/azure-service-operator/issues/2478)
+* [#2586](https://github.com/Azure/azure-service-operator/issues/2586)
+* [#2607](https://github.com/Azure/azure-service-operator/issues/2607)
+
+For example, you might see something like this:
+```
+deleting resource "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/dev-rg/providers/Microsoft.KeyVault/vaults/kvname/providers/Microsoft.Authorization/roleAssignments/kv-role-assignement3": DELETE https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/dev-rg/providers/Microsoft.KeyVault/vaults/kvname/providers/Microsoft.Authorization/roleAssignments/kv-role-assignement3
+--------------------------------------------------------------------------------
+RESPONSE 400: 400 Bad Request
+ERROR CODE: InvalidRoleAssignmentId
+--------------------------------------------------------------------------------
+{
+    "error": {
+        "code": "InvalidRoleAssignmentId",
+        message": "The role assignment ID 'kv-role-assignement3' is not valid. The role assignment ID must be a GUID."
+    }
+}
+--------------------------------------------------------------------------------
+```
+
+This can happen because the resource was created with an invalid name, and when ASO is trying to delete it,
+it cannot delete the resource because the name is invalid.
+
+_Usually_, ASO will prevent this situation from happening by blocking the original apply that attempts to create the resource, 
+but from time to time that protection may be imperfect.
+
+If you see this problem, the resource wasn't ever created successfully in Azure and so it is safe to instruct ASO to 
+skip deletion of the Azure resource. This can be done by adding the `serviceoperator.azure.com/reconcile-policy: skip` 
+annotation to the resource in your cluster.
 
 ## Getting ASO controller pod logs
 The last stop when investigating most issues is to look at the ASO pod logs. We expect that

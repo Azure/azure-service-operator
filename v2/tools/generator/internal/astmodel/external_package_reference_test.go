@@ -11,28 +11,6 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func TestMakeExternalPackageReference_GivenPath_ReturnsInstanceWithPath(t *testing.T) {
-	t.Parallel()
-
-	cases := []struct {
-		name string
-		path string
-	}{
-		{"fmt library", "fmt"},
-		{"ast library", "go/ast"},
-		{"gomega library", "github.com/onsi/gomega"},
-	}
-	for _, c := range cases {
-		c := c
-		t.Run(c.name, func(t *testing.T) {
-			t.Parallel()
-			g := NewGomegaWithT(t)
-			ref := MakeExternalPackageReference(c.path)
-			g.Expect(ref.PackagePath()).To(Equal(c.path))
-		})
-	}
-}
-
 func TestExternalPackageReferences_ReturnExpectedProperties(t *testing.T) {
 	t.Parallel()
 
@@ -52,7 +30,6 @@ func TestExternalPackageReferences_ReturnExpectedProperties(t *testing.T) {
 			g := NewGomegaWithT(t)
 
 			ref := MakeExternalPackageReference(c.path)
-			g.Expect(ref.PackagePath()).To(Equal(c.path))
 			g.Expect(ref.String()).To(Equal(c.path))
 		})
 	}
@@ -87,33 +64,6 @@ func TestExternalPackageReferences_Equals_GivesExpectedResults(t *testing.T) {
 
 			areEqual := c.this.Equals(c.other)
 			g.Expect(areEqual).To(Equal(c.areEqual))
-		})
-	}
-}
-
-func TestExternalPackageReferenceIsPreview(t *testing.T) {
-	t.Parallel()
-
-	fmtRef := MakeExternalPackageReference("fmt")
-	astRef := MakeExternalPackageReference("go/ast")
-	otherRef := makeTestLocalPackageReference("group", "package")
-
-	cases := []struct {
-		name string
-		ref  PackageReference
-	}{
-		{"fmt is not preview", fmtRef},
-		{"go/ast is not preview", astRef},
-		{"group/package is not preview", otherRef},
-	}
-
-	for _, c := range cases {
-		c := c
-		t.Run(c.name, func(t *testing.T) {
-			t.Parallel()
-			g := NewGomegaWithT(t)
-
-			g.Expect(c.ref.IsPreview()).To(BeFalse())
 		})
 	}
 }

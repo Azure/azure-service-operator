@@ -179,3 +179,14 @@ reconcile-policy: skip on the old one, deleting it, and then creating the `RoleA
 allowing it to adopt the existing resource in Azure) you must manually specify the AzureName
 of the `RoleAssignment` as the original UUID. Otherwise, the UUID defaulting algorithm will choose a different UUID since
 the namespace has changed.
+
+### How can I import existing Azure resources into ASO?
+
+See [Annotations understood by the operator]({{< relref "annotations#serviceoperatorazurecomreconcile-policy" >}}) for
+details about how to control whether the operator modifies Azure resources or just watches them.
+
+There are a few options for importing resources into your cluster:
+* If you're looking to import a large number of Azure resources you can use [asoctl]( {{< relref "tools/asoctl" >}}).
+* If you're looking to import a small number of resources, you can also manually create the resources in your cluster 
+  yourself and apply them. As long as the resource name, type and subscription are the same as the existing Azure 
+  resource, ASO will automatically adopt the resource. Make sure to use the `reconcile-policy` you want.
