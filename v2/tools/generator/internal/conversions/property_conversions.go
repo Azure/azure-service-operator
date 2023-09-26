@@ -1831,7 +1831,7 @@ func assignObjectsViaIntermediateObject(
 	}
 
 	// If our two types are not adjacent in our conversion graph, this *IS* the conversion you're looking for
-	earlierName := conversionContext.direction.SelectType(destinationName, sourceName).(astmodel.InternalTypeName)
+	earlierName := conversionContext.direction.SelectName(destinationName, sourceName)
 	intermediateName, err := conversionContext.FindNextType(earlierName)
 	if err != nil {
 		return nil, errors.Wrapf(
@@ -2034,12 +2034,15 @@ func copyKnownType(name astmodel.TypeName, methodName string, returnKind knownTy
 	}
 }
 
-func createTypeDeclaration(name astmodel.TypeName, generationContext *astmodel.CodeGenerationContext) dst.Expr {
-	if name.PackageReference().Equals(generationContext.CurrentPackage()) {
+func createTypeDeclaration(
+	name astmodel.InternalTypeName,
+	generationContext *astmodel.CodeGenerationContext,
+) dst.Expr {
+	if name.InternalPackageReference().Equals(generationContext.CurrentPackage()) {
 		return dst.NewIdent(name.Name())
 	}
 
-	packageName := generationContext.MustGetImportedPackageName(name.PackageReference())
+	packageName := generationContext.MustGetImportedPackageName(name.InternalPackageReference())
 	return astbuilder.Selector(dst.NewIdent(packageName), name.Name())
 }
 
