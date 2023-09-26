@@ -8,7 +8,7 @@ stripUnused                                           Strip unused types for tes
 removeAliases                                         Remove type aliases
 handleUserAssignedIdentities                          Transform UserAssignedIdentities on spec types be resource references with the expected shape
 nameTypes                                             Name inner types for CRD
-propertyRewrites                                      Modify property types using configured transforms
+typeRewrites                                          Modify types using configured type transforms
 applyIsResourceOverrides                              Apply $isResource overrides to objects
 fixIdFields                                           Remove ARM ID annotations from status, and Id from Spec types
 unrollRecursiveTypes                                  Unroll directly recursive types since they are not supported by controller-gen
