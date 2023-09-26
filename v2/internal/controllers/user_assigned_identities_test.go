@@ -6,17 +6,19 @@ Licensed under the MIT license.
 package controllers_test
 
 import (
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	v1 "k8s.io/api/core/v1"
 	"testing"
+
+	v1 "k8s.io/api/core/v1"
 
 	. "github.com/onsi/gomega"
 
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
 	managedidentity2018 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901"
+
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_StorageAccountWithKubernetesReferenceUserAssignedIdentity(t *testing.T) {

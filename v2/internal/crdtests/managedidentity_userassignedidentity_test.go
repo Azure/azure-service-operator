@@ -15,6 +15,7 @@ import (
 
 	managedidentity2018 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	managedidentity2022 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20220131preview"
+
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

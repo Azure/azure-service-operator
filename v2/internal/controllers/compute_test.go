@@ -7,16 +7,16 @@ package controllers_test
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
-	v1 "k8s.io/api/core/v1"
 
 	. "github.com/onsi/gomega"
 
 	compute2020 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201"
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+	v1 "k8s.io/api/core/v1"
 
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
