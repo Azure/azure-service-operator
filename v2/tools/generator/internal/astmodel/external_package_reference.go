@@ -30,11 +30,6 @@ func (pr ExternalPackageReference) PackageName() string {
 	return l[len(l)-1]
 }
 
-// PackagePath returns the fully qualified package path
-func (pr ExternalPackageReference) PackagePath() string {
-	return pr.packagePath
-}
-
 // ImportPath returns the path to use when importing this package
 func (pr ExternalPackageReference) ImportPath() string {
 	return pr.packagePath
