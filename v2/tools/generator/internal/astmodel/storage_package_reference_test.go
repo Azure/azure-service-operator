@@ -46,8 +46,8 @@ func TestStoragePackageReferenceEquals(t *testing.T) {
 
 	cases := []struct {
 		name          string
-		storageRef    StoragePackageReference
-		otherRef      PackageReference
+		storageRef    InternalPackageReference
+		otherRef      InternalPackageReference
 		expectedEqual bool
 	}{
 		{"Equal to self", storageRef, storageRef, true},

@@ -20,7 +20,7 @@ import (
 // is expected to implement the genruntime.Indexer interface
 type IndexRegistrationFunction struct {
 	name             string
-	resourceTypeName astmodel.TypeName
+	resourceTypeName astmodel.InternalTypeName
 	propertyChain    []*astmodel.PropertyDefinition
 	indexKey         string
 	idFactory        astmodel.IdentifierFactory
@@ -30,7 +30,7 @@ type IndexRegistrationFunction struct {
 func NewIndexRegistrationFunction(
 	idFactory astmodel.IdentifierFactory,
 	name string,
-	resourceTypeName astmodel.TypeName,
+	resourceTypeName astmodel.InternalTypeName,
 	indexKey string,
 	propertyChain []*astmodel.PropertyDefinition,
 ) *IndexRegistrationFunction {
@@ -118,7 +118,7 @@ func (f *IndexRegistrationFunction) AsFunc(
 
 	fn.AddReturn(&dst.ArrayType{Elt: dst.NewIdent("string")})
 
-	pkg := codeGenerationContext.MustGetImportedPackageName(f.resourceTypeName.PackageReference())
+	pkg := codeGenerationContext.MustGetImportedPackageName(f.resourceTypeName.InternalPackageReference())
 
 	fn.AddComments(fmt.Sprintf("an index function for %s.%s %s", pkg, f.resourceTypeName.Name(), f.indexKey))
 	return fn.DefineFunc(), nil

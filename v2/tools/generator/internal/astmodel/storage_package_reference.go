@@ -22,9 +22,19 @@ var _ InternalPackageReference = StoragePackageReference{}
 var _ DerivedPackageReference = StoragePackageReference{}
 
 // MakeStoragePackageReference creates a new storage package reference from a local package reference
-func MakeStoragePackageReference(local LocalPackageReference) StoragePackageReference {
-	return StoragePackageReference{
-		inner: local,
+func MakeStoragePackageReference(ref InternalPackageReference) InternalPackageReference {
+	switch r := ref.(type) {
+	case LocalPackageReference:
+		return StoragePackageReference{
+			inner: r,
+		}
+	case StoragePackageReference:
+		return r
+	case SubPackageReference:
+		parent := MakeStoragePackageReference(r.parent)
+		return MakeSubPackageReference(r.name, parent)
+	default:
+		panic(fmt.Sprintf("unknown package reference type %T", ref))
 	}
 }
 
