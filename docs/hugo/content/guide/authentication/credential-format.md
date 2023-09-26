@@ -39,26 +39,11 @@ Set the following additional environment variables:
 ```bash
 export MI_RESOURCE_GROUP="my-rg"  # The resource group containing the managed identity that will be used by ASO
 export MI_NAME="my-mi"            # The name of the managed identity that will be used by ASO
-export APPLICATION_OBJECT_ID=$(az resource show --id /subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/${MI_RESOURCE_GROUP}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/${MI_NAME} --query "properties.principalId" -o tsv | tr -d '[:space:]')
 ```
 
 Create the Federated Identity Credential registering your service account with AAD:
 ```bash
-cat <<EOF > body.json
-{
-  "name": "aso-federated-credential",
-  "type":"Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials",
-  "properties": {
-    "issuer":"${SERVICE_ACCOUNT_ISSUER}",
-    "subject":"system:serviceaccount:azureserviceoperator-system:azureserviceoperator-default",
-    "audiences": [
-      "api://AzureADTokenExchange"
-    ]
-  }
-}
-EOF
-
-az rest --method put --url /subscriptions/${AZURE_SUBSCRIPTION_ID}/resourcegroups/${MI_RESOURCE_GROUP}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/${MI_NAME}/federatedIdentityCredentials/aso-federated-credential?api-version=2022-01-31-preview --body @body.json
+az identity federated-credential create --name aso-federated-credential --identity-name ${MI_NAME} --resource-group ${MI_RESOURCE_GROUP} --issuer ${SERVICE_ACCOUNT_ISSUER} --subject "system:serviceaccount:azureserviceoperator-system:azureserviceoperator-default" --audiences "api://AzureADTokenExchange"
 ```
 
 {{% /tab %}}
