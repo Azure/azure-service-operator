@@ -627,17 +627,6 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, log 
 		return nil, nil // Skip entirely
 	}
 
-	// Target types according to configuration
-	transformation, because := scanner.configuration.TransformType(typeName)
-	if transformation != nil {
-		log.V(2).Info(
-			"Transforming type",
-			"type", typeName,
-			"because", because,
-			"transformation", transformation)
-		return transformation, nil
-	}
-
 	return generateDefinitionsFor(ctx, scanner, typeName, schema.refSchema())
 }
 
