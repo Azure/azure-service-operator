@@ -16,4 +16,3 @@ spec:
       mode: System
   identity:
     type: SystemAssigned
-    

@@ -9,4 +9,3 @@ spec:
     name: aso-sample-rg
   hubProfile:
     dnsPrefix: aso
-    

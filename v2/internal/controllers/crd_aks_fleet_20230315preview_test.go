@@ -122,8 +122,7 @@ func Test_AKS_Fleet_20230315_CRUD(t *testing.T) {
 }
 
 func AKS_Fleet_FleetMember_20230315Preview_CRUD(tc *testcommon.KubePerTestContext, flt *fleet.Fleet, clusterArmID string) {
-
-	flt_member := &fleet.FleetsMember{
+	fltMember := &fleet.FleetsMember{
 		ObjectMeta: tc.MakeObjectMeta("fleetmember"),
 		Spec: fleet.Fleets_Member_Spec{
 			Owner: testcommon.AsOwner(flt),
@@ -134,9 +133,9 @@ func AKS_Fleet_FleetMember_20230315Preview_CRUD(tc *testcommon.KubePerTestContex
 	}
 
 	// create fleet member
-	tc.CreateResourceAndWait(flt_member)
-	tc.Expect(flt_member.Status.Id).ToNot(BeNil())
-	tc.Expect(flt_member.Status.ClusterResourceId).ToNot(BeNil())
+	tc.CreateResourceAndWait(fltMember)
+	tc.Expect(fltMember.Status.Id).ToNot(BeNil())
+	tc.Expect(fltMember.Status.ClusterResourceId).ToNot(BeNil())
 
 	// not deleting fleet member since updateRun test depends on resource
 }
