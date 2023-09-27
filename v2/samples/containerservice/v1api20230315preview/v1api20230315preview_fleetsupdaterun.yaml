@@ -10,3 +10,4 @@ spec:
     upgrade:
       type: Full
       kubernetesVersion: 1.26.8
+      

@@ -10,3 +10,4 @@ spec:
     group: containerservice.azure.com
     kind: ManagedCluster
     name: aks-managedcluster-sample-fleet
+    
