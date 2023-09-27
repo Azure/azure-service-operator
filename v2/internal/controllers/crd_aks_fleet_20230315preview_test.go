@@ -21,7 +21,7 @@ func Test_AKS_Fleet_20230315_CRUD(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 	rg := tc.CreateTestResourceGroupAndWait()
-	region := to.Ptr("westus3")
+	region := tc.AzureRegion
 	flt := &fleet.Fleet{
 		ObjectMeta: tc.MakeObjectMeta("fleet"),
 		Spec: fleet.Fleet_Spec{
@@ -54,7 +54,6 @@ func Test_AKS_Fleet_20230315_CRUD(t *testing.T) {
 	sshPublicKey, err := tc.GenerateSSHKey(2048)
 	tc.Expect(err).ToNot(HaveOccurred())
 
-	identityKind := aks.ManagedClusterIdentity_Type_SystemAssigned
 	osType := aks.OSType_Linux
 	agentPoolMode := aks.AgentPoolMode_System
 	cluster := &aks.ManagedCluster{
@@ -83,7 +82,7 @@ func Test_AKS_Fleet_20230315_CRUD(t *testing.T) {
 				},
 			},
 			Identity: &aks.ManagedClusterIdentity{
-				Type: &identityKind,
+				Type: to.Ptr(aks.ManagedClusterIdentity_Type_SystemAssigned),
 			},
 			OidcIssuerProfile: &aks.ManagedClusterOIDCIssuerProfile{
 				Enabled: to.Ptr(true),

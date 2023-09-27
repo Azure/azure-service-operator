@@ -1029,15 +1029,15 @@ objectModelConfiguration:
     2023-03-15-preview:
       Fleet:
         $export: true
-        $supportedFrom: v2.2.0
+        $supportedFrom: v2.4.0
         $azureGeneratedSecrets:
           - UserCredentials
       Fleets_Member:
         $exportAs: FleetsMember
-        $supportedFrom: v2.2.0
+        $supportedFrom: v2.4.0
       Fleets_UpdateRun:
         $exportAs: FleetsUpdateRun
-        $supportedFrom: v2.2.0
+        $supportedFrom: v2.4.0
   datafactory:
     2018-06-01:
       PurviewConfiguration:
