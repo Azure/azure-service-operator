@@ -168,7 +168,7 @@ func generateStatusTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefini
 	// we'll try to substitute that with a better name here
 	for resourceName, resourceDef := range resourceLookup {
 		statusTypeName := resourceDef.Type().(astmodel.TypeName) // always a TypeName, see 'renamed' comment
-		desiredStatusName := resourceName.WithName(resourceName.Name() + astmodel.StatusSuffix).(astmodel.InternalTypeName)
+		desiredStatusName := resourceName.WithName(resourceName.Name() + astmodel.StatusSuffix)
 
 		if statusTypeName == desiredStatusName {
 			newResources.Add(resourceDef)
@@ -194,10 +194,15 @@ func generateStatusTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefini
 
 // Note that the first result is for mapping resource names → types, so it is always TypeName→TypeName.
 // The second contains all the renamed types.
-func renamed(swaggerTypes jsonast.SwaggerTypes, status bool, suffix string) (astmodel.TypeDefinitionSet, astmodel.TypeDefinitionSet, error) {
-	renamer := astmodel.NewRenamingVisitorFromLambda(func(typeName astmodel.TypeName) astmodel.TypeName {
-		return typeName.WithName(typeName.Name() + suffix)
-	})
+func renamed(
+	swaggerTypes jsonast.SwaggerTypes,
+	status bool,
+	suffix string,
+) (astmodel.TypeDefinitionSet, astmodel.TypeDefinitionSet, error) {
+	renamer := astmodel.NewRenamingVisitorFromLambda(
+		func(typeName astmodel.InternalTypeName) astmodel.InternalTypeName {
+			return typeName.WithName(typeName.Name() + suffix)
+		})
 
 	var errs []error
 	otherTypes := make(astmodel.TypeDefinitionSet)
@@ -245,7 +250,7 @@ func generateSpecTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefiniti
 	// always points to a _Spec type.
 	// TODO: remove once preceding TODO is resolved and everything is consistently named _Spec #Naming
 	{
-		renames := make(map[astmodel.TypeName]astmodel.TypeName)
+		renames := make(astmodel.TypeAssociation)
 		for typeName := range otherTypes {
 			if _, ok := resources[typeName]; ok {
 				// would be a clash with resource name
@@ -420,9 +425,9 @@ func mergeTypesForPackage(idFactory astmodel.IdentifierFactory, typesFromFiles [
 	}
 
 	// a set of renamings, one per file
-	renames := make([]map[astmodel.TypeName]astmodel.TypeName, len(typesFromFiles))
+	renames := make([]astmodel.TypeAssociation, len(typesFromFiles))
 	for ix := range typesFromFiles {
-		renames[ix] = make(map[astmodel.TypeName]astmodel.TypeName)
+		renames[ix] = make(astmodel.TypeAssociation)
 	}
 
 	for name, count := range typeNameCounts {
@@ -533,16 +538,16 @@ func findCollidingTypeNames(
 // generateRenaming finds a new name for a type based upon the file it is in
 func generateRenaming(
 	idFactory astmodel.IdentifierFactory,
-	original astmodel.TypeName,
+	original astmodel.InternalTypeName,
 	filePath string,
 	typeNames map[astmodel.InternalTypeName]int,
-) astmodel.TypeName {
+) astmodel.InternalTypeName {
 	name := filepath.Base(filePath)
 	name = strings.TrimSuffix(name, filepath.Ext(name))
 
 	// Prefix the typename with the filename
 	result := astmodel.MakeInternalTypeName(
-		original.PackageReference(),
+		original.InternalPackageReference(),
 		idFactory.CreateIdentifier(name+original.Name(), astmodel.Exported))
 
 	// see if there are any collisions: add Xs until there are no collisions
@@ -550,7 +555,7 @@ func generateRenaming(
 	// in the calling method
 	for _, ok := typeNames[result]; ok; _, ok = typeNames[result] {
 		result = astmodel.MakeInternalTypeName(
-			result.PackageReference(),
+			result.InternalPackageReference(),
 			result.Name()+"X",
 		)
 	}
@@ -558,7 +563,10 @@ func generateRenaming(
 	return result
 }
 
-func applyRenames(renames map[astmodel.TypeName]astmodel.TypeName, typesFromFile typesFromFile) typesFromFile {
+func applyRenames(
+	renames astmodel.TypeAssociation,
+	typesFromFile typesFromFile,
+) typesFromFile {
 	visitor := astmodel.NewRenamingVisitor(renames)
 
 	// visit all other types
@@ -605,12 +613,18 @@ func structurallyIdentical(
 	// we cannot simply recurse when we hit TypeNames as there can be cycles in types.
 	// instead we store all TypeNames that need to be checked in here, and
 	// check them one at a time until there is nothing left to be checked:
-	type pair struct{ left, right astmodel.TypeName }
+	type pair struct {
+		left  astmodel.InternalTypeName
+		right astmodel.InternalTypeName
+	}
 	toCheck := []pair{}            // queue of pairs to check
 	checked := map[pair]struct{}{} // set of pairs that have been enqueued
 
 	override := astmodel.EqualityOverrides{}
-	override.TypeName = func(left, right astmodel.TypeName) bool {
+	override.InternalTypeName = func(
+		left astmodel.InternalTypeName,
+		right astmodel.InternalTypeName,
+	) bool {
 		// note that this relies on Equals implementations preserving the left/right order
 		p := pair{left, right}
 		if _, ok := checked[p]; !ok {
@@ -632,8 +646,8 @@ func structurallyIdentical(
 		next := toCheck[0]
 		toCheck = toCheck[1:]
 		if !astmodel.TypeEquals(
-			leftDefinitions[next.left.(astmodel.InternalTypeName)].Type(),
-			rightDefinitions[next.right.(astmodel.InternalTypeName)].Type(),
+			leftDefinitions[next.left].Type(),
+			rightDefinitions[next.right].Type(),
 			override) {
 			return false
 		}

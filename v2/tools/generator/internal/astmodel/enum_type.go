@@ -229,7 +229,7 @@ func (enum *EnumType) String() string {
 // passed builder.
 // builder receives the full description.
 // currentPackage is the package that the enum is being written into.
-func (enum *EnumType) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {
+func (enum *EnumType) WriteDebugDescription(builder *strings.Builder, currentPackage InternalPackageReference) {
 	if enum == nil {
 		builder.WriteString("<nilEnum>")
 		return

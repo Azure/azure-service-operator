@@ -269,7 +269,7 @@ func (detector *skippingPropertyDetector) propertiesHaveSameType(
 	}
 
 	equalityOverrides := astmodel.EqualityOverrides{
-		TypeName: compareTypeNamesIgnoreVersion,
+		InternalTypeName: compareInternalTypeNamesIgnoreVersion,
 	}
 	equalSameTypeNameDifferentVersion := leftOk && rightOk && leftType.Equals(rightType, equalityOverrides)
 	if !equalSameTypeNameDifferentVersion {
@@ -313,9 +313,9 @@ func areTypeSetsEqual(left astmodel.TypeDefinitionSet, right astmodel.TypeDefini
 		return false
 	}
 
-	packageRefs := set.Make[astmodel.PackageReference]()
+	packageRefs := set.Make[astmodel.InternalPackageReference]()
 	for name := range right {
-		packageRefs.Add(name.PackageReference())
+		packageRefs.Add(name.InternalPackageReference())
 	}
 
 	if len(packageRefs) != 1 {
@@ -324,12 +324,12 @@ func areTypeSetsEqual(left astmodel.TypeDefinitionSet, right astmodel.TypeDefini
 
 	rightPackageRef := packageRefs.Values()[0]
 	equalityOverrides := astmodel.EqualityOverrides{
-		TypeName:   compareTypeNamesIgnoreVersion,
-		ObjectType: compareObjectTypeStructure,
+		InternalTypeName: compareInternalTypeNamesIgnoreVersion,
+		ObjectType:       compareObjectTypeStructure,
 	}
 
 	for leftName, leftDef := range left {
-		rightName := leftName.WithPackageReference(rightPackageRef).(astmodel.InternalTypeName)
+		rightName := leftName.WithPackageReference(rightPackageRef)
 		rightDef := right[rightName]
 
 		equal := leftDef.Type().Equals(rightDef.Type(), equalityOverrides)
@@ -341,7 +341,10 @@ func areTypeSetsEqual(left astmodel.TypeDefinitionSet, right astmodel.TypeDefini
 	return true
 }
 
-func compareTypeNamesIgnoreVersion(left astmodel.TypeName, right astmodel.TypeName) bool {
+func compareInternalTypeNamesIgnoreVersion(
+	left astmodel.InternalTypeName,
+	right astmodel.InternalTypeName,
+) bool {
 	leftLPR, isLeftLocalRef := left.PackageReference().(astmodel.InternalPackageReference)
 	rightLPR, isRightLocalRef := right.PackageReference().(astmodel.InternalPackageReference)
 
@@ -366,7 +369,7 @@ func compareObjectTypeStructure(left *astmodel.ObjectType, right *astmodel.Objec
 	}
 
 	equalityOverrides := astmodel.EqualityOverrides{
-		TypeName: compareTypeNamesIgnoreVersion,
+		InternalTypeName: compareInternalTypeNamesIgnoreVersion,
 	}
 
 	// Create a copy of the properties with description removed as we don't care if it matches

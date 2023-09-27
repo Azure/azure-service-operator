@@ -141,7 +141,11 @@ jobs:
   # TODO: Changing this name requires changing the github API calls in pr-validation-fork.yml
   integration-tests:
     runs-on: [self-hosted, 1ES.Pool=aso-1es-pool]
-    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+    if: 
+      # Only run on pull requests in this repo, that are not created by dependendabot
+      github.event_name == 'pull_request' && 
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.actor != 'dependabot[bot]'
     permissions:
       packages: read
       checks: write
@@ -208,7 +212,8 @@ jobs:
           AZURE_CLIENT_ID_MULTITENANT: ${{ secrets.AZURE_CLIENT_ID_MULTITENANT }}
           AZURE_CLIENT_ID_CERT_AUTH: ${{ secrets.AZURE_CLIENT_ID_CERT_AUTH }}
           AZURE_CLIENT_SECRET_CERT_AUTH: ${{ secrets.AZURE_CLIENT_SECRET_CERT_AUTH }}
-        if: steps.check-changes.outputs.code-changed == 'true'
+        if: 
+          steps.check-changes.outputs.code-changed == 'true' 
 
       # Update check run called "integration-tests-fork"
       - name: update-integration-tests-result

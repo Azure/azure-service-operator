@@ -6,7 +6,7 @@
 package astmodel
 
 import (
-	"sort"
+	"golang.org/x/exp/slices"
 	"strings"
 	"unicode"
 )
@@ -19,36 +19,23 @@ const (
 type PackageReference interface {
 	// PackageName returns the package name of this reference
 	PackageName() string
-	// PackagePath returns the fully qualified package path
-	PackagePath() string
+
 	// Equals returns true if the passed package reference references the same package, false otherwise
 	Equals(ref PackageReference) bool
+
 	// String returns the string representation of the package reference
 	String() string
-	// IsPreview returns true if this package reference has a suffix indicating it's a preview
-	// release, false otherwise
-	IsPreview() bool
-	// TryGroupVersion returns the group and version of this reference.
-	// Returns true if the reference has a group and version, false otherwise.
-	TryGroupVersion() (string, string, bool)
-	// GroupVersion returns the group and version of this reference, triggering a panic if they aren't available
-	GroupVersion() (string, string)
+
 	// ImportAlias returns the import alias to use for this package reference
 	ImportAlias(style PackageImportStyle) string
 
-	// Group returns the group to which this package belongs.
-	Group() string
-
 	// ImportPath returns the path to use when importing this package.
 	ImportPath() string
-
-	// FolderPath returns the relative path to this package on disk.
-	FolderPath() string
 }
 
 // DerivedPackageReference should be implemented by any package reference that's derived from another
 type DerivedPackageReference interface {
-	Base() PackageReference
+	Base() InternalPackageReference
 }
 
 // IsExternalPackageReference returns true if the provided reference is external
@@ -58,21 +45,23 @@ func IsExternalPackageReference(ref PackageReference) bool {
 }
 
 func SortPackageReferencesByPathAndVersion(packages []PackageReference) {
-	sort.Slice(packages, func(i, j int) bool {
-		return ComparePathAndVersion(packages[i].ImportPath(), packages[j].ImportPath())
-	})
+	slices.SortFunc(
+		packages,
+		func(left PackageReference, right PackageReference) int {
+			return ComparePathAndVersion(left.ImportPath(), right.ImportPath())
+		})
 }
 
 // ComparePathAndVersion compares two paths containing versions and returns true if left should go before right
-func ComparePathAndVersion(left string, right string) bool {
+func ComparePathAndVersion(left string, right string) int {
 	comparer := versionComparer{
 		left:  []rune(left),
 		right: []rune(right),
 	}
-	return comparer.Compare() < 0
+	return comparer.Compare()
 }
 
-// versionComparer captures our state while doing an alphanumeric version comparision
+// versionComparer captures our state while doing an alphanumeric version comparison.
 // We need separate indexes for each side because we're doing a numeric comparison, which will
 // compare "100" and "0100" as equal (leading zeros are not significant)
 type versionComparer struct {
@@ -90,7 +79,8 @@ func (v *versionComparer) Compare() int {
 		}
 
 		if v.leftIndex >= len(v.left) {
-			// Ran out of the left array only; if the right array has an identifier, right goes first, otherwise left
+			// Ran out of the left array only; if the right array has an identifier (indicating a preview version),
+			// right goes first, otherwise left
 			if unicode.IsLetter(v.right[v.rightIndex]) {
 				return 1
 			}
@@ -109,6 +99,18 @@ func (v *versionComparer) Compare() int {
 
 		leftRune := v.left[v.leftIndex]
 		rightRune := v.right[v.rightIndex]
+
+		if leftRune == '/' && unicode.IsLetter(rightRune) {
+			// Found a sub-package reference on the left, and a preview version of the parent package on the right.
+			// The preview version goes first
+			return 1
+		}
+
+		if unicode.IsLetter(leftRune) && rightRune == '/' {
+			// Found a sub-package reference on the right, and a preview version of the parent package on the left.
+			// The preview version goes first
+			return -1
+		}
 
 		if unicode.IsDigit(leftRune) && unicode.IsDigit(rightRune) {
 			// Found the start of a number
@@ -281,7 +283,7 @@ func (v *versionComparer) isPreviewVersionLabel(identifier string) (int, bool) {
 }
 
 // ContainsPreviewVersionLabel checks the passed identifier to see if it contains one of our
-// special set, and if so returns its true. If the passed identifier does not contain one,
+// special set, and if so returns true. If the passed identifier does not contain one,
 // returns false.
 func ContainsPreviewVersionLabel(identifier string) bool {
 	for _, id := range previewVersionLabels {

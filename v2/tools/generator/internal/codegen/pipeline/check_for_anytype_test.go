@@ -25,7 +25,7 @@ func TestFindsAnyTypes(t *testing.T) {
 	p3 := test.MakeLocalPackageReference("wah.wah", "v20200730")
 
 	defs := make(astmodel.TypeDefinitionSet)
-	add := func(p astmodel.PackageReference, n string, t astmodel.Type) {
+	add := func(p astmodel.InternalPackageReference, n string, t astmodel.Type) {
 		defs.Add(astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(p, n), t))
 	}
 
@@ -56,7 +56,7 @@ func TestIgnoresExpectedAnyTypePackages(t *testing.T) {
 	p3 := test.MakeLocalPackageReference("wah.wah", "v20200730")
 
 	defs := make(astmodel.TypeDefinitionSet)
-	add := func(p astmodel.PackageReference, n string, t astmodel.Type) {
+	add := func(p astmodel.InternalPackageReference, n string, t astmodel.Type) {
 		defs.Add(astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(p, n), t))
 	}
 	// A couple of types in the same package...
@@ -91,7 +91,7 @@ func TestComplainsAboutUnneededExclusions(t *testing.T) {
 	p3 := test.MakeLocalPackageReference("wah.wah", "v20200730")
 
 	defs := make(astmodel.TypeDefinitionSet)
-	add := func(p astmodel.PackageReference, n string, t astmodel.Type) {
+	add := func(p astmodel.InternalPackageReference, n string, t astmodel.Type) {
 		defs.Add(astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(p, n), t))
 	}
 	// A couple of types in the same package...

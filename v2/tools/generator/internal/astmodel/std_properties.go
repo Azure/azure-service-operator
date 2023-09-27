@@ -28,23 +28,23 @@ func IsKubernetesResourceProperty(name PropertyName) bool {
 	return name == AzureNameProperty || name == OwnerProperty
 }
 
-func IsUserAssignedIdentityProperty(prop *PropertyDefinition) (TypeName, bool) {
+func IsUserAssignedIdentityProperty(prop *PropertyDefinition) (InternalTypeName, bool) {
 	if !prop.HasName(UserAssignedIdentitiesProperty) {
-		return nil, false
+		return InternalTypeName{}, false
 	}
 
 	arrayType, isArray := prop.PropertyType().(*ArrayType)
 	if !isArray {
-		return nil, false
+		return InternalTypeName{}, false
 	}
 
-	typeName, ok := AsTypeName(arrayType.Element())
+	typeName, ok := AsInternalTypeName(arrayType.Element())
 	if !ok {
-		return nil, false
+		return InternalTypeName{}, false
 	}
 
 	if typeName.Name() != UserAssignedIdentitiesTypeName {
-		return nil, false
+		return InternalTypeName{}, false
 	}
 
 	return typeName, true

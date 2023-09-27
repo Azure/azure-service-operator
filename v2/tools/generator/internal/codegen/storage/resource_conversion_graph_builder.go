@@ -7,9 +7,8 @@ package storage
 
 import (
 	"fmt"
-	"sort"
-
 	"github.com/pkg/errors"
+	"golang.org/x/exp/slices"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -17,10 +16,10 @@ import (
 // ResourceConversionGraphBuilder is used to construct a group conversion graph with all the required conversions
 // to/from/between storage variants of the packages
 type ResourceConversionGraphBuilder struct {
-	name          string                   // Name of the resources needing conversions
-	versionPrefix string                   // Prefix expected on core LocalPackageReferences
-	references    astmodel.TypeNameSet     // Set of all Type Names that make up this group
-	links         astmodel.TypeAssociation // A collection of links that make up the graph
+	name          string                       // Name of the resources needing conversions
+	versionPrefix string                       // Prefix expected on core LocalPackageReferences
+	references    astmodel.InternalTypeNameSet // Set of all Type Names that make up this group
+	links         astmodel.TypeAssociation     // A collection of links that make up the graph
 }
 
 // NewResourceConversionGraphBuilder creates a new builder for a specific resource/type
@@ -28,13 +27,13 @@ func NewResourceConversionGraphBuilder(name string, versionPrefix string) *Resou
 	return &ResourceConversionGraphBuilder{
 		name:          name,
 		versionPrefix: versionPrefix,
-		references:    astmodel.NewTypeNameSet(),
+		references:    astmodel.NewInternalTypeNameSet(),
 		links:         make(astmodel.TypeAssociation),
 	}
 }
 
 // Add includes the supplied package reference(s) in the conversion graph for this group
-func (b *ResourceConversionGraphBuilder) Add(names ...astmodel.TypeName) {
+func (b *ResourceConversionGraphBuilder) Add(names ...astmodel.InternalTypeName) {
 	for _, name := range names {
 		b.references.Add(name)
 	}
@@ -51,14 +50,16 @@ func (b *ResourceConversionGraphBuilder) Build() (*ResourceConversionGraph, erro
 
 	toProcess := make([]astmodel.InternalTypeName, 0, len(b.references))
 	for name := range b.references {
-		toProcess = append(toProcess, name.(astmodel.InternalTypeName))
+		toProcess = append(toProcess, name)
 	}
 
-	sort.Slice(toProcess, func(i, j int) bool {
-		return astmodel.ComparePathAndVersion(
-			toProcess[i].PackageReference().ImportPath(),
-			toProcess[j].PackageReference().ImportPath())
-	})
+	slices.SortFunc(
+		toProcess,
+		func(i astmodel.InternalTypeName, j astmodel.InternalTypeName) int {
+			return astmodel.ComparePathAndVersion(
+				i.PackageReference().ImportPath(),
+				j.PackageReference().ImportPath())
+		})
 
 	for _, s := range stages {
 		s(toProcess)
@@ -97,8 +98,8 @@ func (b *ResourceConversionGraphBuilder) compatibilityReferencesConvertForward(n
 // apiReferencesConvertToStorage links each API type to the associated storage package
 func (b *ResourceConversionGraphBuilder) apiReferencesConvertToStorage(names []astmodel.InternalTypeName) {
 	for _, name := range names {
-		if s, ok := name.PackageReference().(astmodel.DerivedPackageReference); ok {
-			n := name.WithPackageReference(s.Base()).(astmodel.InternalTypeName)
+		if s, ok := name.InternalPackageReference().(astmodel.DerivedPackageReference); ok {
+			n := name.WithPackageReference(s.Base())
 			b.links[n] = name
 		}
 	}
@@ -108,7 +109,7 @@ func (b *ResourceConversionGraphBuilder) apiReferencesConvertToStorage(names []a
 // preview or GA.
 func (b *ResourceConversionGraphBuilder) previewReferencesConvertBackward(names []astmodel.InternalTypeName) {
 	for i, name := range names {
-		if i == 0 || !name.PackageReference().IsPreview() {
+		if i == 0 || !name.InternalPackageReference().IsPreview() {
 			continue
 		}
 

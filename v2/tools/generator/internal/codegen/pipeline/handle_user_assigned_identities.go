@@ -100,7 +100,7 @@ func (t *userAssignedIdentityTransformer) transformUserAssignedIdentityProperty(
 	// key in CRDs, so we have to special case this property transform it to the correct shape
 	// during ARM serialization
 
-	userAssignedIdentityDef := newUserAssignedIdentityDefinition(ctx.PackageReference())
+	userAssignedIdentityDef := newUserAssignedIdentityDefinition(ctx.InternalPackageReference())
 	err := t.typesToAdd.AddAllowDuplicates(userAssignedIdentityDef)
 	if err != nil {
 		return nil, err
@@ -112,7 +112,7 @@ func (t *userAssignedIdentityTransformer) transformUserAssignedIdentityProperty(
 	return astmodel.IdentityVisitOfObjectType(this, it, ctx)
 }
 
-func newUserAssignedIdentityDefinition(pr astmodel.PackageReference) astmodel.TypeDefinition {
+func newUserAssignedIdentityDefinition(pr astmodel.InternalPackageReference) astmodel.TypeDefinition {
 	name := astmodel.MakeInternalTypeName(pr, astmodel.UserAssignedIdentitiesTypeName)
 
 	prop := astmodel.NewPropertyDefinition("Reference", "reference", astmodel.ResourceReferenceType)

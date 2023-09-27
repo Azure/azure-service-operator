@@ -30,7 +30,7 @@ func FilterOutDefinitionsUsingAnyType(packages []string) *Stage {
 	return checkForAnyType("Filter out rogue definitions using AnyTypes", packages)
 }
 
-// ensureDefinitionsDoNotUseAnyTypes returns a stage that will check for any
+// EnsureDefinitionsDoNotUseAnyTypes returns a stage that will check for any
 // definitions containing AnyTypes. The stage will return errors for each type
 // found that uses an AnyType.
 func EnsureDefinitionsDoNotUseAnyTypes() *Stage {
@@ -47,7 +47,7 @@ func checkForAnyType(description string, packages []string) *Stage {
 		CheckForAnyTypeStageID,
 		description,
 		func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			var badNames []astmodel.TypeName
+			var badNames []astmodel.InternalTypeName
 			output := make(astmodel.TypeDefinitionSet)
 			for name, def := range defs {
 				if containsAnyType(def.Type()) {
@@ -57,7 +57,7 @@ func checkForAnyType(description string, packages []string) *Stage {
 				// We only want to include this type in the output if
 				// it's not in a package that we know contains
 				// AnyTypes.
-				if expectedPackages.Contains(packageName(name)) {
+				if expectedPackages.Contains(name.InternalPackageReference().FolderPath()) {
 					continue
 				}
 
@@ -95,22 +95,14 @@ func containsAnyType(theType astmodel.Type) bool {
 	return found
 }
 
-func packageName(name astmodel.TypeName) string {
-	if group, version, ok := name.PackageReference().TryGroupVersion(); ok {
-		return group + "/" + version
-	}
-
-	return name.PackageReference().PackageName()
-}
-
 func collectBadPackages(
-	names []astmodel.TypeName,
+	names []astmodel.InternalTypeName,
 	expectedPackages set.Set[string],
 ) ([]string, error) {
 	grouped := make(map[string][]string)
 	for _, name := range names {
-		groupVersion := packageName(name)
-		grouped[groupVersion] = append(grouped[groupVersion], name.Name())
+		packagePath := name.InternalPackageReference().FolderPath()
+		grouped[packagePath] = append(grouped[packagePath], name.Name())
 	}
 
 	var groupNames []string //nolint:prealloc // unlikely case

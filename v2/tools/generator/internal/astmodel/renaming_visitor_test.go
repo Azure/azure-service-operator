@@ -24,13 +24,13 @@ func TestRenamingVisitor_RenamesTypeAndReferences(t *testing.T) {
 	defs.AddAll(badObject, otherObject)
 
 	newName := badObject.Name().WithName("GoodName")
-	renames := map[TypeName]TypeName{
+	renames := map[InternalTypeName]InternalTypeName{
 		badObject.Name(): newName,
 	}
 	renamer := NewRenamingVisitor(renames)
 	result, err := renamer.RenameAll(defs)
 
-	expectedRenamedTypeName := badObject.Name().WithName("GoodName").(InternalTypeName)
+	expectedRenamedTypeName := badObject.Name().WithName("GoodName")
 	expectedOtherObject := otherObject.Type().(*ObjectType).WithProperty(prop.WithType(expectedRenamedTypeName))
 	expectedResult := make(TypeDefinitionSet)
 
@@ -53,21 +53,21 @@ func TestRenamingVisitor_RewritesResourceOwner(t *testing.T) {
 	childResource := NewResourceType(childSpecDef.Name(), childStatusDef.Name()).
 		WithOwner(badName)
 	childDef := MakeTypeDefinition(
-		MakeInternalTypeName(badObject.name.PackageReference(), "ChildResource"),
+		MakeInternalTypeName(badObject.name.InternalPackageReference(), "ChildResource"),
 		childResource,
 	)
 
 	defs := make(TypeDefinitionSet)
 	defs.AddAll(badObject, childDef)
 
-	newName := badObject.Name().WithName("GoodName").(InternalTypeName)
-	renames := map[TypeName]TypeName{
+	newName := badObject.Name().WithName("GoodName")
+	renames := map[InternalTypeName]InternalTypeName{
 		badObject.Name(): newName,
 	}
 	renamer := NewRenamingVisitor(renames)
 	result, err := renamer.RenameAll(defs)
 
-	expectedRenamedTypeName := badObject.Name().WithName("GoodName").(InternalTypeName)
+	expectedRenamedTypeName := badObject.Name().WithName("GoodName")
 
 	expectedChildDef := MakeTypeDefinition(
 		childDef.Name(),

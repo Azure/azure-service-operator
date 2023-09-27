@@ -176,7 +176,7 @@ func (i *InterfaceType) String() string {
 }
 
 // WriteDebugDescription adds a description of the current InterfaceType to the passed builder.
-func (i *InterfaceType) WriteDebugDescription(builder *strings.Builder, _ PackageReference) {
+func (i *InterfaceType) WriteDebugDescription(builder *strings.Builder, currentPackage InternalPackageReference) {
 	if i == nil {
 		builder.WriteString("<nilInterface>")
 	} else {

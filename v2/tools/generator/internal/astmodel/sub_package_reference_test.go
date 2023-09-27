@@ -19,7 +19,7 @@ func Test_NewSubPackageReference_GivenParentAndName_ReturnsExpectedProperties(t 
 
 	cases := []struct {
 		name                string
-		parent              PackageReference
+		parent              InternalPackageReference
 		expectedPackageName string
 		expectedPackagePath string
 	}{
@@ -61,7 +61,7 @@ func Test_SubPackageReference_GivenParent_InheritsParentsProperties(t *testing.T
 
 	cases := []struct {
 		name      string
-		parent    PackageReference
+		parent    InternalPackageReference
 		group     string
 		version   string
 		isPreview bool

@@ -17,12 +17,12 @@ import (
 
 // InternalTypeName is a name associated with another Type (it also is usable as a Type)
 type InternalTypeName struct {
-	packageReference PackageReference // Note: This has to be a value and not a ptr because this type is used as the key in a map
+	packageReference InternalPackageReference // Note: This has to be a value and not a ptr because this type is used as the key in a map
 	name             string
 }
 
 // MakeInternalTypeName is a factory method for creating a TypeName
-func MakeInternalTypeName(ref PackageReference, name string) InternalTypeName {
+func MakeInternalTypeName(ref InternalPackageReference, name string) InternalTypeName {
 	return InternalTypeName{
 		packageReference: ref,
 		name:             name,
@@ -39,13 +39,18 @@ func (tn InternalTypeName) PackageReference() PackageReference {
 	return tn.packageReference
 }
 
-// WithName returns a new TypeName in the same package but with a different name
-func (tn InternalTypeName) WithName(name string) TypeName {
+// InternalPackageReference returns the internal package to which the type belongs
+func (tn InternalTypeName) InternalPackageReference() InternalPackageReference {
+	return tn.packageReference
+}
+
+// WithName returns a new InternalTypeName in the same package but with a different name
+func (tn InternalTypeName) WithName(name string) InternalTypeName {
 	return MakeInternalTypeName(tn.packageReference, name)
 }
 
-// WithPackageReference returns a new TypeName in a different package but with the same name
-func (tn InternalTypeName) WithPackageReference(ref PackageReference) TypeName {
+// WithPackageReference returns a new InternalTypeName in a different package but with the same name
+func (tn InternalTypeName) WithPackageReference(ref InternalPackageReference) InternalTypeName {
 	return MakeInternalTypeName(ref, tn.name)
 }
 
@@ -80,17 +85,6 @@ func (tn InternalTypeName) AsType(codeGenerationContext *CodeGenerationContext) 
 // AsZero renders an expression for the "zero" value of the type.
 // The exact thing we need to generate depends on the actual type we reference
 func (tn InternalTypeName) AsZero(definitions TypeDefinitionSet, ctx *CodeGenerationContext) dst.Expr {
-	if IsExternalPackageReference(tn.packageReference) {
-		// TypeName is external, zero value is a qualified empty struct
-		// (we might not actually use this, if the property is optional, but we still need to generate the right thing)
-
-		packageName := ctx.MustGetImportedPackageName(tn.packageReference)
-		return &dst.SelectorExpr{
-			X:   dst.NewIdent(packageName),
-			Sel: dst.NewIdent(fmt.Sprintf("%s{}", tn.Name())),
-		}
-	}
-
 	actualType, err := definitions.FullyResolve(tn)
 	if err != nil {
 		// This should never happen
@@ -115,7 +109,7 @@ func (tn InternalTypeName) AsZero(definitions TypeDefinitionSet, ctx *CodeGenera
 		}
 	}
 
-	// Otherwise we need the underlying type (e.g. enums, primitive type, etc)
+	// Otherwise we need the underlying type (e.g. enums, primitive type, etc.)
 	return actualType.AsZero(definitions, ctx)
 }
 
@@ -131,20 +125,21 @@ func (tn InternalTypeName) RequiredPackageReferences() *PackageReferenceSet {
 
 // Equals returns true if the passed type is the same TypeName, false otherwise
 func (tn InternalTypeName) Equals(t Type, override EqualityOverrides) bool {
-	if tn == t && override.TypeName == nil {
+	if tn == t && override.InternalTypeName == nil {
 		return true
 	}
 
-	other, ok := t.(TypeName)
+	other, ok := t.(InternalTypeName)
 	if !ok {
 		return false
 	}
 
-	if override.TypeName != nil {
-		return override.TypeName(tn, other)
+	if override.InternalTypeName != nil {
+		return override.InternalTypeName(tn, other)
 	}
 
-	return tn.name == other.Name() && tn.packageReference.Equals(other.PackageReference())
+	return tn.name == other.Name() &&
+		tn.packageReference.Equals(other.PackageReference())
 }
 
 // String returns the string representation of the type name, and implements fmt.Stringer.
@@ -153,13 +148,13 @@ func (tn InternalTypeName) String() string {
 }
 
 // Singular returns a TypeName with the name singularized.
-func (tn InternalTypeName) Singular() TypeName {
+func (tn InternalTypeName) Singular() InternalTypeName {
 	name := names.Singularize(tn.Name())
 	return tn.WithName(name)
 }
 
 // Plural returns a TypeName with the name pluralized.
-func (tn InternalTypeName) Plural() TypeName {
+func (tn InternalTypeName) Plural() InternalTypeName {
 	name := names.Pluralize(tn.Name())
 	return tn.WithName(name)
 }
@@ -167,16 +162,10 @@ func (tn InternalTypeName) Plural() TypeName {
 // WriteDebugDescription adds a description of the current type to the passed builder.
 // builder receives the full description, including nested types
 // definitions is a dictionary for resolving named types
-func (tn InternalTypeName) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {
+func (tn InternalTypeName) WriteDebugDescription(builder *strings.Builder, currentPackage InternalPackageReference) {
 	if tn.packageReference != nil && !tn.packageReference.Equals(currentPackage) {
 		// Reference to a different package, so qualify the output.
-		// External packages are just qualified by name, other packages by full path
-		if IsExternalPackageReference(tn.packageReference) {
-			builder.WriteString(tn.packageReference.PackageName())
-		} else {
-			builder.WriteString(tn.packageReference.String())
-		}
-
+		builder.WriteString(tn.packageReference.String())
 		builder.WriteString(".")
 	}
 

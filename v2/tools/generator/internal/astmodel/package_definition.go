@@ -27,7 +27,7 @@ type PackageDefinition struct {
 }
 
 // NewPackageDefinition constructs a new package definition
-func NewPackageDefinition(ref PackageReference) *PackageDefinition {
+func NewPackageDefinition(ref InternalPackageReference) *PackageDefinition {
 	return &PackageDefinition{
 		PackageName: ref.PackageName(),
 		GroupName:   ref.Group(),
@@ -56,7 +56,11 @@ func (p *PackageDefinition) AddDefinition(def TypeDefinition) {
 }
 
 // EmitDefinitions emits the PackageDefinition to an output directory
-func (p *PackageDefinition) EmitDefinitions(outputDir string, generatedPackages map[PackageReference]*PackageDefinition, emitDocFiles bool) (int, error) {
+func (p *PackageDefinition) EmitDefinitions(
+	outputDir string,
+	generatedPackages map[InternalPackageReference]*PackageDefinition,
+	emitDocFiles bool,
+) (int, error) {
 	filesToGenerate := allocateTypesToFiles(p.definitions)
 
 	err := p.emitFiles(filesToGenerate, outputDir, generatedPackages)
@@ -89,7 +93,11 @@ func (p *PackageDefinition) DefinitionCount() int {
 	return len(p.definitions)
 }
 
-func (p *PackageDefinition) emitFiles(filesToGenerate map[string][]TypeDefinition, outputDir string, generatedPackages map[PackageReference]*PackageDefinition) error {
+func (p *PackageDefinition) emitFiles(
+	filesToGenerate map[string][]TypeDefinition,
+	outputDir string,
+	generatedPackages map[InternalPackageReference]*PackageDefinition,
+) error {
 	var errs []error
 
 	for fileName, defs := range filesToGenerate {
@@ -122,9 +130,9 @@ func (p *PackageDefinition) emitFiles(filesToGenerate map[string][]TypeDefinitio
 func (p *PackageDefinition) writeCodeFile(
 	outputFile string,
 	defs []TypeDefinition,
-	packages map[PackageReference]*PackageDefinition,
+	packages map[InternalPackageReference]*PackageDefinition,
 ) error {
-	ref := defs[0].Name().PackageReference()
+	ref := defs[0].Name().InternalPackageReference()
 	genFile := NewFileDefinition(ref, defs, packages)
 
 	fileWriter := NewGoSourceFileWriter(genFile)
@@ -139,7 +147,7 @@ func (p *PackageDefinition) writeCodeFile(
 func (p *PackageDefinition) writeTestFile(
 	outputFile string,
 	defs []TypeDefinition,
-	packages map[PackageReference]*PackageDefinition,
+	packages map[InternalPackageReference]*PackageDefinition,
 ) error {
 	// First check to see if we have test cases to write
 	haveTestCases := false
@@ -155,7 +163,7 @@ func (p *PackageDefinition) writeTestFile(
 		return nil
 	}
 
-	ref := defs[0].Name().PackageReference()
+	ref := defs[0].Name().InternalPackageReference()
 	genFile := NewTestFileDefinition(ref, defs, packages)
 
 	fileWriter := NewGoSourceFileWriter(genFile)

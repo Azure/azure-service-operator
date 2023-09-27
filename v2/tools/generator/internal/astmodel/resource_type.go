@@ -39,7 +39,7 @@ type ResourceType struct {
 	spec                Type
 	status              Type
 	isStorageVersion    bool
-	owner               TypeName
+	owner               InternalTypeName
 	properties          PropertySet
 	functions           map[string]Function
 	testcases           map[string]TestCase
@@ -56,7 +56,7 @@ type ResourceType struct {
 func NewResourceType(specType Type, statusType Type) *ResourceType {
 	result := &ResourceType{
 		isStorageVersion:     false,
-		owner:                nil,
+		owner:                InternalTypeName{},
 		functions:            make(map[string]Function),
 		testcases:            make(map[string]TestCase),
 		scope:                ResourceScopeResourceGroup,
@@ -381,7 +381,7 @@ func (resource *ResourceType) Equals(other Type, override EqualityOverrides) boo
 // EmbeddedProperties returns all the embedded properties for this resource type
 // An ordered slice is returned to preserve immutability and provide determinism
 func (resource *ResourceType) EmbeddedProperties() []*PropertyDefinition {
-	typeMetaType := MakeInternalTypeName(MetaV1Reference, "TypeMeta")
+	typeMetaType := MakeExternalTypeName(MetaV1Reference, "TypeMeta")
 	typeMetaProperty := NewPropertyDefinition("", "", typeMetaType).
 		WithTag("json", "inline").WithoutTag("json", "omitempty")
 
@@ -499,7 +499,7 @@ func (resource *ResourceType) References() TypeNameSet {
 }
 
 // Owner returns the name of the owner type
-func (resource *ResourceType) Owner() TypeName {
+func (resource *ResourceType) Owner() InternalTypeName {
 	return resource.owner
 }
 
@@ -511,7 +511,7 @@ func (resource *ResourceType) MarkAsStorageVersion() *ResourceType {
 }
 
 // WithOwner updates the owner of the resource and returns a copy of the resource
-func (resource *ResourceType) WithOwner(owner TypeName) *ResourceType {
+func (resource *ResourceType) WithOwner(owner InternalTypeName) *ResourceType {
 	result := resource.copy()
 	result.owner = owner
 	return result
@@ -584,7 +584,7 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 
 	// Add required RBAC annotations, only on storage version
 	if resource.isStorageVersion {
-		group := declContext.Name.PackageReference().Group()
+		group := declContext.Name.InternalPackageReference().Group()
 		group = strings.ToLower(group + GroupSuffix)
 		resourceName := strings.ToLower(declContext.Name.Plural().Name())
 
@@ -663,15 +663,15 @@ func (resource *ResourceType) generateMethodDecls(
 	return result, kerrors.NewAggregate(errs)
 }
 
-func (resource *ResourceType) makeResourceListTypeName(name TypeName) TypeName {
+func (resource *ResourceType) makeResourceListTypeName(name InternalTypeName) TypeName {
 	return MakeInternalTypeName(
-		name.PackageReference(),
+		name.InternalPackageReference(),
 		name.Name()+"List")
 }
 
 func (resource *ResourceType) resourceListTypeDecls(
 	codeGenerationContext *CodeGenerationContext,
-	resourceTypeName TypeName,
+	resourceTypeName InternalTypeName,
 	description []string,
 ) []dst.Decl {
 	typeName := resource.makeResourceListTypeName(resourceTypeName)
@@ -714,7 +714,7 @@ func (resource *ResourceType) resourceListTypeDecls(
 
 // SchemeTypes returns the types represented by this resource which must be registered
 // with the controller Scheme
-func (resource *ResourceType) SchemeTypes(name TypeName) []TypeName {
+func (resource *ResourceType) SchemeTypes(name InternalTypeName) []TypeName {
 	return []TypeName{
 		name,
 		resource.makeResourceListTypeName(name),
@@ -766,7 +766,7 @@ func (resource *ResourceType) HasTestCases() bool {
 // WriteDebugDescription adds a description of the current type to the passed builder.
 // builder receives the full description, including nested types.
 // definitions is a dictionary for resolving named types.
-func (resource *ResourceType) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {
+func (resource *ResourceType) WriteDebugDescription(builder *strings.Builder, currentPackage InternalPackageReference) {
 	if resource == nil {
 		builder.WriteString("<nilResource>")
 		return

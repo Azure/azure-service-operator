@@ -37,19 +37,19 @@ type Type interface {
 	// Equals returns true if the passed type is the same as this one, false otherwise
 	Equals(t Type, overrides EqualityOverrides) bool
 
-	// Make sure all TypeDefinitionSet have a printable version for debugging/user info.
+	// Stringer ensures all Type implementations have a printable version for debugging/user info.
 	// This doesn't need to be a full representation of the type.
 	fmt.Stringer
 
-	// WriteDebugDescription adds a description of the current type to the passed builder
-	// builder receives the full description, including nested types
-	// definitions is a dictionary for resolving named types
-	WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference)
+	// WriteDebugDescription adds a description of the current type to the passed builder.
+	// builder receives the full description, including nested types.
+	// definitions is a dictionary for resolving named types.
+	WriteDebugDescription(builder *strings.Builder, currentPackage InternalPackageReference)
 }
 
 type EqualityOverrides struct {
-	TypeName   func(left TypeName, right TypeName) bool
-	ObjectType func(left *ObjectType, right *ObjectType) bool
+	InternalTypeName func(left InternalTypeName, right InternalTypeName) bool
+	ObjectType       func(left *ObjectType, right *ObjectType) bool
 }
 
 // IgnoringErrors returns the type stripped of any ErroredType wrapper
@@ -69,7 +69,7 @@ type DeclarationContext struct {
 }
 
 // TypeEquals decides if the types are the same and handles the `nil` case
-// overrides can be passed to combe
+// overrides can be passed to customize the equality check.
 func TypeEquals(left, right Type, overrides ...EqualityOverrides) bool {
 	if left == nil {
 		return right == nil
@@ -87,14 +87,14 @@ func TypeEquals(left, right Type, overrides ...EqualityOverrides) bool {
 	return left.Equals(right, override)
 }
 
-func DebugDescription(t Type, pkgs ...PackageReference) string {
-	var currentPackage PackageReference
+func DebugDescription(t Type, pkgs ...InternalPackageReference) string {
+	var currentPackage InternalPackageReference
 	if len(pkgs) > 0 {
 		// If we're passed a package, use that as the current package
 		currentPackage = pkgs[0]
-	} else if tn, ok := AsTypeName(t); ok {
+	} else if tn, ok := AsInternalTypeName(t); ok {
 		// Otherwise, If we're given a TypeName, use it's package as "current" to simplify what we write
-		currentPackage = tn.PackageReference()
+		currentPackage = tn.InternalPackageReference()
 	}
 
 	var builder strings.Builder

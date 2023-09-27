@@ -30,12 +30,12 @@ func ExportControllerResourceRegistrations(idFactory astmodel.IdentifierFactory,
 				return definitions, nil
 			}
 
-			var resources []astmodel.TypeName
-			var storageVersionResources []astmodel.TypeName
-			var resourceExtensions []astmodel.TypeName
-			indexFunctions := make(map[astmodel.TypeName][]*functions.IndexRegistrationFunction)
-			secretPropertyKeys := make(map[astmodel.TypeName][]string)
-			configMapPropertyKeys := make(map[astmodel.TypeName][]string)
+			var resources []astmodel.InternalTypeName
+			var storageVersionResources []astmodel.InternalTypeName
+			var resourceExtensions []astmodel.InternalTypeName
+			indexFunctions := make(map[astmodel.InternalTypeName][]*functions.IndexRegistrationFunction)
+			secretPropertyKeys := make(map[astmodel.InternalTypeName][]string)
+			configMapPropertyKeys := make(map[astmodel.InternalTypeName][]string)
 
 			// We need to register each version
 			for _, def := range definitions {
@@ -317,9 +317,9 @@ func preservePropertyChain(
 
 func (chain *propertyChain) indexMethodName(
 	idFactory astmodel.IdentifierFactory,
-	resourceTypeName astmodel.TypeName,
+	resourceTypeName astmodel.InternalTypeName,
 ) string {
-	group := resourceTypeName.PackageReference().Group()
+	group := resourceTypeName.InternalPackageReference().Group()
 	return fmt.Sprintf("index%s%s%s",
 		idFactory.CreateIdentifier(group, astmodel.Exported),
 		resourceTypeName.Name(),
