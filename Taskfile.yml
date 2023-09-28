@@ -383,7 +383,6 @@ tasks:
     desc: Builds the {{.CONTROLLER_APP}} Docker image.
     dir: "{{.CONTROLLER_ROOT}}"
     deps:
-      - controller:build
       - controller:bundle-crds
     run: always
     sources:
@@ -391,7 +390,7 @@ tasks:
       - ./bin/{{.CONTROLLER_APP}}
       - out/crds/**/*
     cmds:
-      - docker build . -t {{.CONTROLLER_DOCKER_IMAGE}}
+      - docker build . --build-arg='VERSION_FLAGS={{.VERSION_FLAGS}}' --build-arg='CONTROLLER_APP={{.CONTROLLER_APP}}' -t {{.CONTROLLER_DOCKER_IMAGE}}
     status:
       - "docker manifest inspect {{.CONTROLLER_DOCKER_IMAGE}} > /dev/null"
 
@@ -421,6 +420,22 @@ tasks:
     cmds:
       - docker tag {{.CONTROLLER_DOCKER_IMAGE}} {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}}
       - docker push {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}}
+    status:
+      - "docker manifest inspect {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} > /dev/null"
+
+  controller:docker-push-multiarch:
+    desc: Builds, tags and pushes the multi architecture controller container image to repository
+    deps:
+      - controller:bundle-crds
+    dir: "{{.CONTROLLER_ROOT}}"
+    run: always
+    cmds:
+      - 'if [ -z "{{.DOCKER_PUSH_TARGET}}" ]; then echo "Error: DOCKER_PUSH_TARGET must be set"; exit 1; fi'
+      - docker buildx build --push \
+        --build-arg='VERSION_FLAGS={{.VERSION_FLAGS}}'
+        --build-arg='CONTROLLER_APP={{.CONTROLLER_APP}}'
+        --platform linux/amd64,linux/arm64 \
+        --tag "{{.DOCKER_PUSH_TARGET}}/{{.CONTROLLER_DOCKER_IMAGE}}" .
     status:
       - "docker manifest inspect {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} > /dev/null"
 
