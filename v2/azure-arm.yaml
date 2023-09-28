@@ -683,6 +683,48 @@ status:
 #     sub-resource.
 #
 objectModelConfiguration:
+  apimanagement:
+    2022-08-01:
+      # We dont want to create APIM from this operator, it takes over an hour to create
+      # Assume that this operator configures resource in an existing APIM instance (service)
+      # Service:
+      #   $export: true
+      #   $supportedFrom: v2.4.0
+      # # Link in the Service resource to the other resources
+      # RemotePrivateEndpointConnectionWrapper:
+      #   Id:
+      #     $armReference: true
+      Service_Backend:
+        $export: true
+        $supportedFrom: v2.4.0
+      Service_Product:
+        $export: true
+        $supportedFrom: v2.4.0
+      Service_ApiVersionSet:
+        $export: true
+        $supportedFrom: v2.4.0
+      Service_PolicyFragment:
+        $export: true
+        $supportedFrom: v2.4.0
+      Service_NamedValue:
+        $export: true
+        $supportedFrom: v2.4.0
+      Service_Policy:
+        $export: true
+        $supportedFrom: v2.4.0
+      Service_SubScription:
+        $export: true
+        $supportedFrom: v2.4.0
+      Service_Api:
+        $export: true
+        $supportedFrom: v2.4.0
+      # Link in the Service_Api resource to the other resources
+      ApiVersionSetContractDetails:
+        Id: 
+          $armReference: true
+      ApiCreateOrUpdateProperties:
+        ApiVersionSetId:
+          $armReference: true
   appconfiguration:
     2022-05-01:
       ConfigurationStore:
