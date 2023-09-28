@@ -210,6 +210,14 @@ if should-install "$TOOL_DEST/cmctl"; then
     curl -L "https://github.com/jetstack/cert-manager/releases/latest/download/cmctl-${os}-${arch}.tar.gz" | tar -xz -C "$TOOL_DEST"
 fi
 
+BUILDX_DEST=$HOME/.docker/cli-plugins/docker-buildx
+write-verbose "Checking for $BUILDX_DEST"
+if should-install "$BUILDX_DEST"; then
+    write-info "Installing buildx-${os}_${arch}…"
+    curl  -o "$BUILDX_DEST" -L "https://github.com/docker/buildx/releases/download/v0.11.2/buildx-v0.11.2.${os}-${arch}" | tar -xz -C "$TOOL_DEST"
+    docker buildx install
+fi
+
 # Install azwi
 write-verbose "Checking for $TOOL_DEST/azwi"
 if should-install "$TOOL_DEST/azwi"; then
