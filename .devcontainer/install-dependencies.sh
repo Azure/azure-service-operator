@@ -217,7 +217,6 @@ if should-install "$BUILDX_DEST/docker-buildx"; then
     mkdir -p "$BUILDX_DEST"
     curl  -o "$BUILDX_DEST/docker-buildx" -L "https://github.com/docker/buildx/releases/download/v0.11.2/buildx-v0.11.2.${os}-${arch}"
     chmod +x "$BUILDX_DEST/docker-buildx"
-    docker buildx install
 fi
 
 # Install azwi
