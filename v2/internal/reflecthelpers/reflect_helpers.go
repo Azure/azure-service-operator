@@ -290,6 +290,10 @@ func getItemsField(listPtr client.ObjectList) (reflect.Value, error) {
 // Returns an error if any of the properties in the path do not exist, if the property is not settable,
 // or if the value provided is incompatible.
 func SetProperty(obj any, propertyPath string, value any) error {
+	if obj == nil {
+		return errors.Errorf("provided object was nil")
+	}
+
 	if propertyPath == "" {
 		return errors.Errorf("property path was empty")
 	}
