@@ -333,7 +333,7 @@ func setPropertyCore(obj any, propertyPath []string, value any) (err error) {
 				field.Set(newValue)
 			}
 
-			err := setPropertyCore(field.Interface(), propertyPath[1:], value)
+			err = setPropertyCore(field.Interface(), propertyPath[1:], value)
 			if err != nil {
 				return errors.Wrapf(err, "failed to set property %s",
 					propertyPath[0])
@@ -343,7 +343,7 @@ func setPropertyCore(obj any, propertyPath []string, value any) (err error) {
 		}
 
 		// Field is not a pointer, so we need to pass the address of the field recursively
-		err := setPropertyCore(field.Addr().Interface(), propertyPath[1:], value)
+		err = setPropertyCore(field.Addr().Interface(), propertyPath[1:], value)
 		if err != nil {
 			return errors.Wrapf(err, "failed to set property %s",
 				propertyPath[0])
