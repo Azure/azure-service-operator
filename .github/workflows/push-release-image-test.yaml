@@ -28,9 +28,11 @@ jobs:
       - name: Docker login
         run: |
           container_id=${{env.container_id}}
-          docker exec -e DOCKER_REGISTRY "$container_id" task docker-login
+          docker exec -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e DOCKER_REGISTRY "$container_id" task docker-login
         env:
           DOCKER_REGISTRY: harshdsingh.azurecr.io
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
 
       - name: Push docker image
         run: |

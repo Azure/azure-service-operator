@@ -1046,6 +1046,13 @@ tasks:
       - az login --service-principal -u {{.AZURE_CLIENT_ID}} -p {{.AZURE_CLIENT_SECRET}} --tenant {{.AZURE_TENANT_ID}} > /dev/null
       - az account set --subscription {{.AZURE_SUBSCRIPTION_ID}}
 
+  docker-login:
+    desc: Docker login
+    deps:
+    cmds:
+      - 'if [ -z "{{.DOCKER_REGISTRY}}" ]; then echo "Error: DOCKER_PUSH_TARGET must be set"; exit 1; fi'
+      - docker login {{.DOCKER_REGISTRY}} --username {{.$AZURE_CLIENT_ID}} --password {{.AZURE_CLIENT_SECRET}}
+
   header-check:
     desc: Ensure all files have an appropriate license header.
     cmds:
