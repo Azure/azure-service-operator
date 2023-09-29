@@ -1050,8 +1050,8 @@ tasks:
     desc: Docker login
     deps:
     cmds:
-      - 'if [ -z "{{.DOCKER_REGISTRY}}" ]; then echo "Error: DOCKER_PUSH_TARGET must be set"; exit 1; fi'
-      - docker login {{.DOCKER_REGISTRY}} --username {{.$AZURE_CLIENT_ID}} --password {{.AZURE_CLIENT_SECRET}}
+      - 'if [ -z "{{.DOCKER_REGISTRY}}" ]; then echo "Error: DOCKER_REGISTRY must be set"; exit 1; fi'
+      - docker login {{.DOCKER_REGISTRY}} --username {{.AZURE_CLIENT_ID}} --password {{.AZURE_CLIENT_SECRET}}
 
   header-check:
     desc: Ensure all files have an appropriate license header.
