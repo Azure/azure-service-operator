@@ -687,38 +687,38 @@ objectModelConfiguration:
     2022-08-01:
       # We dont want to create APIM from this operator, it takes over an hour to create
       # Assume that this operator configures resource in an existing APIM instance (service)
-      # Service:
-      #   $export: true
-      #   $supportedFrom: v2.4.0
-      # # Link in the Service resource to the other resources
-      # RemotePrivateEndpointConnectionWrapper:
-      #   Id:
-      #     $armReference: true
-      Service_Backend:
+      Service:
         $export: true
+        $supportedFrom: v2.4.0
+      # Linked in the Service resource
+      RemotePrivateEndpointConnectionWrapper:
+        Id:
+          $armReference: true
+      Service_Backend:
+        $exportAs: Backend
         $supportedFrom: v2.4.0
       Service_Product:
-        $export: true
+        $exportAs: Product
         $supportedFrom: v2.4.0
       Service_ApiVersionSet:
-        $export: true
+        $exportAs: VersionSet
         $supportedFrom: v2.4.0
       Service_PolicyFragment:
-        $export: true
+        $exportAs: PolicyFragment
         $supportedFrom: v2.4.0
       Service_NamedValue:
-        $export: true
+        $exportAs: NamedValue
         $supportedFrom: v2.4.0
       Service_Policy:
-        $export: true
+        $exportAs: Policy
         $supportedFrom: v2.4.0
       Service_SubScription:
-        $export: true
+        $exportAs: Subscription
         $supportedFrom: v2.4.0
       Service_Api:
-        $export: true
+        $exportAs: Api
         $supportedFrom: v2.4.0
-      # Link in the Service_Api resource to the other resources
+      # Linked in the Service_Api
       ApiVersionSetContractDetails:
         Id: 
           $armReference: true

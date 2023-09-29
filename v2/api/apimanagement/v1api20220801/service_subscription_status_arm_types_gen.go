@@ -66,3 +66,14 @@ type SubscriptionContractProperties_STATUS_ARM struct {
 	// StateComment: Optional subscription comment added by an administrator when the state is changed to the 'rejected'.
 	StateComment *string `json:"stateComment,omitempty"`
 }
+
+type SubscriptionContractProperties_State_STATUS string
+
+const (
+	SubscriptionContractProperties_State_STATUS_Active    = SubscriptionContractProperties_State_STATUS("active")
+	SubscriptionContractProperties_State_STATUS_Cancelled = SubscriptionContractProperties_State_STATUS("cancelled")
+	SubscriptionContractProperties_State_STATUS_Expired   = SubscriptionContractProperties_State_STATUS("expired")
+	SubscriptionContractProperties_State_STATUS_Rejected  = SubscriptionContractProperties_State_STATUS("rejected")
+	SubscriptionContractProperties_State_STATUS_Submitted = SubscriptionContractProperties_State_STATUS("submitted")
+	SubscriptionContractProperties_State_STATUS_Suspended = SubscriptionContractProperties_State_STATUS("suspended")
+)

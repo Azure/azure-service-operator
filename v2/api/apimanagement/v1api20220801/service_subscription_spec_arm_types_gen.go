@@ -57,3 +57,15 @@ type SubscriptionCreateParameterProperties_ARM struct {
 	// reached its expiration date and was deactivated.
 	State *SubscriptionCreateParameterProperties_State `json:"state,omitempty"`
 }
+
+// +kubebuilder:validation:Enum={"active","cancelled","expired","rejected","submitted","suspended"}
+type SubscriptionCreateParameterProperties_State string
+
+const (
+	SubscriptionCreateParameterProperties_State_Active    = SubscriptionCreateParameterProperties_State("active")
+	SubscriptionCreateParameterProperties_State_Cancelled = SubscriptionCreateParameterProperties_State("cancelled")
+	SubscriptionCreateParameterProperties_State_Expired   = SubscriptionCreateParameterProperties_State("expired")
+	SubscriptionCreateParameterProperties_State_Rejected  = SubscriptionCreateParameterProperties_State("rejected")
+	SubscriptionCreateParameterProperties_State_Submitted = SubscriptionCreateParameterProperties_State("submitted")
+	SubscriptionCreateParameterProperties_State_Suspended = SubscriptionCreateParameterProperties_State("suspended")
+)

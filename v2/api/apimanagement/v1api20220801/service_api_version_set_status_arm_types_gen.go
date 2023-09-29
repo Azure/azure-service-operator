@@ -35,3 +35,11 @@ type ApiVersionSetContractProperties_STATUS_ARM struct {
 	// VersioningScheme: An value that determines where the API Version identifier will be located in a HTTP request.
 	VersioningScheme *ApiVersionSetContractProperties_VersioningScheme_STATUS `json:"versioningScheme,omitempty"`
 }
+
+type ApiVersionSetContractProperties_VersioningScheme_STATUS string
+
+const (
+	ApiVersionSetContractProperties_VersioningScheme_STATUS_Header  = ApiVersionSetContractProperties_VersioningScheme_STATUS("Header")
+	ApiVersionSetContractProperties_VersioningScheme_STATUS_Query   = ApiVersionSetContractProperties_VersioningScheme_STATUS("Query")
+	ApiVersionSetContractProperties_VersioningScheme_STATUS_Segment = ApiVersionSetContractProperties_VersioningScheme_STATUS("Segment")
+)

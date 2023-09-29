@@ -2,7 +2,7 @@
 github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storage
 ├── APIVersion: Enum (1 value)
 │   └── "2022-08-01"
-├── Service_Api: Resource
+├── Api: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
 │   ├── Spec: Object (29 properties)
 │   │   ├── APIVersion: *string
@@ -135,33 +135,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
 │       ├── SubscriptionRequired: *bool
 │       ├── TermsOfServiceUrl: *string
 │       └── Type: *string
-├── Service_ApiVersionSet: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
-│   ├── Spec: Object (9 properties)
-│   │   ├── AzureName: Validated<string> (3 rules)
-│   │   │   ├── Rule 0: MaxLength: 80
-│   │   │   ├── Rule 1: MinLength: 1
-│   │   │   └── Rule 2: Pattern: "^[^*#&+:<>?]+$"
-│   │   ├── Description: *string
-│   │   ├── DisplayName: *string
-│   │   ├── OriginalVersion: string
-│   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── VersionHeaderName: *string
-│   │   ├── VersionQueryName: *string
-│   │   └── VersioningScheme: *string
-│   └── Status: Object (10 properties)
-│       ├── Conditions: conditions.Condition[]
-│       ├── Description: *string
-│       ├── DisplayName: *string
-│       ├── Id: *string
-│       ├── Name: *string
-│       ├── PropertyBag: genruntime.PropertyBag
-│       ├── Type: *string
-│       ├── VersionHeaderName: *string
-│       ├── VersionQueryName: *string
-│       └── VersioningScheme: *string
-├── Service_Backend: Resource
+├── Backend: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
 │   ├── Spec: Object (13 properties)
 │   │   ├── AzureName: Validated<string> (2 rules)
@@ -250,7 +224,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
 │       │   └── ValidateCertificateName: *bool
 │       ├── Type: *string
 │       └── Url: *string
-├── Service_NamedValue: Resource
+├── NamedValue: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
 │   ├── Spec: Object (9 properties)
 │   │   ├── AzureName: Validated<string> (2 rules)
@@ -286,7 +260,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
 │       ├── Tags: string[]
 │       ├── Type: *string
 │       └── Value: *string
-├── Service_Policy: Resource
+├── Policy: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
 │   ├── Spec: Object (5 properties)
 │   │   ├── Format: *string
@@ -302,7 +276,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
 │       ├── PropertyBag: genruntime.PropertyBag
 │       ├── Type: *string
 │       └── Value: *string
-├── Service_PolicyFragment: Resource
+├── PolicyFragment: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
 │   ├── Spec: Object (7 properties)
 │   │   ├── AzureName: Validated<string> (3 rules)
@@ -324,7 +298,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
 │       ├── PropertyBag: genruntime.PropertyBag
 │       ├── Type: *string
 │       └── Value: *string
-├── Service_Product: Resource
+├── Product: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
 │   ├── Spec: Object (11 properties)
 │   │   ├── ApprovalRequired: *bool
@@ -353,36 +327,279 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
 │       ├── SubscriptionsLimit: *int
 │       ├── Terms: *string
 │       └── Type: *string
-└── Service_Subscription: Resource
+├── Service: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
+│   ├── Spec: Object (26 properties)
+│   │   ├── AdditionalLocations: Object (8 properties)[]
+│   │   │   ├── DisableGateway: *bool
+│   │   │   ├── Location: *string
+│   │   │   ├── NatGatewayState: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PublicIpAddressId: *string
+│   │   │   ├── Sku: *Object (3 properties)
+│   │   │   │   ├── Capacity: *int
+│   │   │   │   ├── Name: *string
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── VirtualNetworkConfiguration: *Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── SubnetResourceId: *string
+│   │   │   └── Zones: string[]
+│   │   ├── ApiVersionConstraint: *Object (2 properties)
+│   │   │   ├── MinApiVersion: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── AzureName: Validated<string> (3 rules)
+│   │   │   ├── Rule 0: MaxLength: 50
+│   │   │   ├── Rule 1: MinLength: 1
+│   │   │   └── Rule 2: Pattern: "^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$"
+│   │   ├── Certificates: Object (5 properties)[]
+│   │   │   ├── Certificate: *Object (4 properties)
+│   │   │   │   ├── Expiry: *string
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── Subject: *string
+│   │   │   │   └── Thumbprint: *string
+│   │   │   ├── CertificatePassword: *string
+│   │   │   ├── EncodedCertificate: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── StoreName: *string
+│   │   ├── CustomProperties: map[string]string
+│   │   ├── DisableGateway: *bool
+│   │   ├── EnableClientCertificate: *bool
+│   │   ├── HostnameConfigurations: Object (12 properties)[]
+│   │   │   ├── Certificate: *Object (4 properties)
+│   │   │   │   ├── Expiry: *string
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── Subject: *string
+│   │   │   │   └── Thumbprint: *string
+│   │   │   ├── CertificatePassword: *string
+│   │   │   ├── CertificateSource: *string
+│   │   │   ├── CertificateStatus: *string
+│   │   │   ├── DefaultSslBinding: *bool
+│   │   │   ├── EncodedCertificate: *string
+│   │   │   ├── HostName: *string
+│   │   │   ├── IdentityClientId: *string
+│   │   │   ├── KeyVaultId: *string
+│   │   │   ├── NegotiateClientCertificate: *bool
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Type: *string
+│   │   ├── Identity: *Object (3 properties)
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── Type: *string
+│   │   │   └── UserAssignedIdentities: Object (2 properties)[]
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: genruntime.ResourceReference
+│   │   ├── Location: *string
+│   │   ├── NatGatewayState: *string
+│   │   ├── NotificationSenderEmail: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PrivateEndpointConnections: Object (5 properties)[]
+│   │   │   ├── Name: *string
+│   │   │   ├── PrivateLinkServiceConnectionState: *Object (4 properties)
+│   │   │   │   ├── ActionsRequired: *string
+│   │   │   │   ├── Description: *string
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Status: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── Reference: *genruntime.ResourceReference
+│   │   │   └── Type: *string
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── PublicIpAddressId: *string
+│   │   ├── PublicNetworkAccess: *string
+│   │   ├── PublisherEmail: *string
+│   │   ├── PublisherName: *string
+│   │   ├── Restore: *bool
+│   │   ├── Sku: *Object (3 properties)
+│   │   │   ├── Capacity: *int
+│   │   │   ├── Name: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── Tags: map[string]string
+│   │   ├── VirtualNetworkConfiguration: *Object (2 properties)
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── SubnetResourceId: *string
+│   │   ├── VirtualNetworkType: *string
+│   │   └── Zones: string[]
+│   └── Status: Object (42 properties)
+│       ├── AdditionalLocations: Object (13 properties)[]
+│       │   ├── DisableGateway: *bool
+│       │   ├── GatewayRegionalUrl: *string
+│       │   ├── Location: *string
+│       │   ├── NatGatewayState: *string
+│       │   ├── OutboundPublicIPAddresses: string[]
+│       │   ├── PlatformVersion: *string
+│       │   ├── PrivateIPAddresses: string[]
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── PublicIPAddresses: string[]
+│       │   ├── PublicIpAddressId: *string
+│       │   ├── Sku: *Object (3 properties)
+│       │   │   ├── Capacity: *int
+│       │   │   ├── Name: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── VirtualNetworkConfiguration: *Object (4 properties)
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── SubnetResourceId: *string
+│       │   │   ├── Subnetname: *string
+│       │   │   └── Vnetid: *string
+│       │   └── Zones: string[]
+│       ├── ApiVersionConstraint: *Object (2 properties)
+│       │   ├── MinApiVersion: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Certificates: Object (5 properties)[]
+│       │   ├── Certificate: *Object (4 properties)
+│       │   │   ├── Expiry: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── Subject: *string
+│       │   │   └── Thumbprint: *string
+│       │   ├── CertificatePassword: *string
+│       │   ├── EncodedCertificate: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── StoreName: *string
+│       ├── Conditions: conditions.Condition[]
+│       ├── CreatedAtUtc: *string
+│       ├── CustomProperties: map[string]string
+│       ├── DeveloperPortalUrl: *string
+│       ├── DisableGateway: *bool
+│       ├── EnableClientCertificate: *bool
+│       ├── Etag: *string
+│       ├── GatewayRegionalUrl: *string
+│       ├── GatewayUrl: *string
+│       ├── HostnameConfigurations: Object (12 properties)[]
+│       │   ├── Certificate: *Object (4 properties)
+│       │   │   ├── Expiry: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── Subject: *string
+│       │   │   └── Thumbprint: *string
+│       │   ├── CertificatePassword: *string
+│       │   ├── CertificateSource: *string
+│       │   ├── CertificateStatus: *string
+│       │   ├── DefaultSslBinding: *bool
+│       │   ├── EncodedCertificate: *string
+│       │   ├── HostName: *string
+│       │   ├── IdentityClientId: *string
+│       │   ├── KeyVaultId: *string
+│       │   ├── NegotiateClientCertificate: *bool
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Type: *string
+│       ├── Id: *string
+│       ├── Identity: *Object (5 properties)
+│       │   ├── PrincipalId: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── TenantId: *string
+│       │   ├── Type: *string
+│       │   └── UserAssignedIdentities: map[string]Object (3 properties)
+│       │       ├── ClientId: *string
+│       │       ├── PrincipalId: *string
+│       │       └── PropertyBag: genruntime.PropertyBag
+│       ├── Location: *string
+│       ├── ManagementApiUrl: *string
+│       ├── Name: *string
+│       ├── NatGatewayState: *string
+│       ├── NotificationSenderEmail: *string
+│       ├── OutboundPublicIPAddresses: string[]
+│       ├── PlatformVersion: *string
+│       ├── PortalUrl: *string
+│       ├── PrivateEndpointConnections: Object (8 properties)[]
+│       │   ├── GroupIds: string[]
+│       │   ├── Id: *string
+│       │   ├── Name: *string
+│       │   ├── PrivateEndpoint: *Object (2 properties)
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── PrivateLinkServiceConnectionState: *Object (4 properties)
+│       │   │   ├── ActionsRequired: *string
+│       │   │   ├── Description: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── Status: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── ProvisioningState: *string
+│       │   └── Type: *string
+│       ├── PrivateIPAddresses: string[]
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── PublicIPAddresses: string[]
+│       ├── PublicIpAddressId: *string
+│       ├── PublicNetworkAccess: *string
+│       ├── PublisherEmail: *string
+│       ├── PublisherName: *string
+│       ├── Restore: *bool
+│       ├── ScmUrl: *string
+│       ├── Sku: *Object (3 properties)
+│       │   ├── Capacity: *int
+│       │   ├── Name: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── SystemData: *Object (7 properties)
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *string
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   ├── LastModifiedByType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Tags: map[string]string
+│       ├── TargetProvisioningState: *string
+│       ├── Type: *string
+│       ├── VirtualNetworkConfiguration: *Object (4 properties)
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── SubnetResourceId: *string
+│       │   ├── Subnetname: *string
+│       │   └── Vnetid: *string
+│       ├── VirtualNetworkType: *string
+│       └── Zones: string[]
+├── Subscription: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
+│   ├── Spec: Object (11 properties)
+│   │   ├── AllowTracing: *bool
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: MaxLength: 256
+│   │   │   └── Rule 1: Pattern: "^[^*#&+:<>?]+$"
+│   │   ├── DisplayName: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── OwnerId: *string
+│   │   ├── PrimaryKey: *string
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Scope: *string
+│   │   ├── SecondaryKey: *string
+│   │   └── State: *string
+│   └── Status: Object (16 properties)
+│       ├── AllowTracing: *bool
+│       ├── Conditions: conditions.Condition[]
+│       ├── CreatedDate: *string
+│       ├── DisplayName: *string
+│       ├── EndDate: *string
+│       ├── ExpirationDate: *string
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── NotificationDate: *string
+│       ├── OwnerId: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Scope: *string
+│       ├── StartDate: *string
+│       ├── State: *string
+│       ├── StateComment: *string
+│       └── Type: *string
+└── VersionSet: Resource
     ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
-    ├── Spec: Object (11 properties)
-    │   ├── AllowTracing: *bool
-    │   ├── AzureName: Validated<string> (2 rules)
-    │   │   ├── Rule 0: MaxLength: 256
-    │   │   └── Rule 1: Pattern: "^[^*#&+:<>?]+$"
+    ├── Spec: Object (9 properties)
+    │   ├── AzureName: Validated<string> (3 rules)
+    │   │   ├── Rule 0: MaxLength: 80
+    │   │   ├── Rule 1: MinLength: 1
+    │   │   └── Rule 2: Pattern: "^[^*#&+:<>?]+$"
+    │   ├── Description: *string
     │   ├── DisplayName: *string
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
-    │   ├── OwnerId: *string
-    │   ├── PrimaryKey: *string
     │   ├── PropertyBag: genruntime.PropertyBag
-    │   ├── Scope: *string
-    │   ├── SecondaryKey: *string
-    │   └── State: *string
-    └── Status: Object (16 properties)
-        ├── AllowTracing: *bool
+    │   ├── VersionHeaderName: *string
+    │   ├── VersionQueryName: *string
+    │   └── VersioningScheme: *string
+    └── Status: Object (10 properties)
         ├── Conditions: conditions.Condition[]
-        ├── CreatedDate: *string
+        ├── Description: *string
         ├── DisplayName: *string
-        ├── EndDate: *string
-        ├── ExpirationDate: *string
         ├── Id: *string
         ├── Name: *string
-        ├── NotificationDate: *string
-        ├── OwnerId: *string
         ├── PropertyBag: genruntime.PropertyBag
-        ├── Scope: *string
-        ├── StartDate: *string
-        ├── State: *string
-        ├── StateComment: *string
-        └── Type: *string
+        ├── Type: *string
+        ├── VersionHeaderName: *string
+        ├── VersionQueryName: *string
+        └── VersioningScheme: *string

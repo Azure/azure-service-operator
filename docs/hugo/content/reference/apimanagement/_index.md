@@ -9,14 +9,15 @@ To install the CRDs for these resources, your ASO configuration must include `ap
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource               | ARM Version | CRD Version   | Supported From | Sample |
-|------------------------|-------------|---------------|----------------|--------|
-| Service_Api            | 2022-08-01  | v1api20220801 | v2.4.0         | -      |
-| Service_ApiVersionSet  | 2022-08-01  | v1api20220801 | v2.4.0         | -      |
-| Service_Backend        | 2022-08-01  | v1api20220801 | v2.4.0         | -      |
-| Service_NamedValue     | 2022-08-01  | v1api20220801 | v2.4.0         | -      |
-| Service_Policy         | 2022-08-01  | v1api20220801 | v2.4.0         | -      |
-| Service_PolicyFragment | 2022-08-01  | v1api20220801 | v2.4.0         | -      |
-| Service_Product        | 2022-08-01  | v1api20220801 | v2.4.0         | -      |
-| Service_Subscription   | 2022-08-01  | v1api20220801 | v2.4.0         | -      |
+| Resource       | ARM Version | CRD Version   | Supported From | Sample |
+|----------------|-------------|---------------|----------------|--------|
+| Api            | 2022-08-01  | v1api20220801 | v2.4.0         | -      |
+| Backend        | 2022-08-01  | v1api20220801 | v2.4.0         | -      |
+| NamedValue     | 2022-08-01  | v1api20220801 | v2.4.0         | -      |
+| Policy         | 2022-08-01  | v1api20220801 | v2.4.0         | -      |
+| PolicyFragment | 2022-08-01  | v1api20220801 | v2.4.0         | -      |
+| Product        | 2022-08-01  | v1api20220801 | v2.4.0         | -      |
+| Service        | 2022-08-01  | v1api20220801 | v2.4.0         | -      |
+| Subscription   | 2022-08-01  | v1api20220801 | v2.4.0         | -      |
+| VersionSet     | 2022-08-01  | v1api20220801 | v2.4.0         | -      |
 
