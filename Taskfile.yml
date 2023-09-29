@@ -431,6 +431,7 @@ tasks:
     run: always
     cmds:
       - 'if [ -z "{{.DOCKER_PUSH_TARGET}}" ]; then echo "Error: DOCKER_PUSH_TARGET must be set"; exit 1; fi'
+      - docker buildx create --use
       - docker buildx build --push 
         --build-arg='VERSION_FLAGS={{.VERSION_FLAGS}}' 
         --build-arg='CONTROLLER_APP={{.CONTROLLER_APP}}' 
