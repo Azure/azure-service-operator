@@ -290,6 +290,10 @@ func getItemsField(listPtr client.ObjectList) (reflect.Value, error) {
 // Returns an error if any of the properties in the path do not exist, if the property is not settable,
 // or if the value provided is incompatible.
 func SetProperty(obj any, propertyPath string, value any) error {
+	if propertyPath == "" {
+		return errors.Errorf("property path was empty")
+	}
+
 	steps := strings.Split(propertyPath, ".")
 	return setPropertyCore(obj, steps, value)
 }
@@ -325,17 +329,23 @@ func setPropertyCore(obj any, propertyPath []string, value any) (err error) {
 				field.Set(newValue)
 			}
 
-			return errors.Wrapf(
-				setPropertyCore(field.Interface(), propertyPath[1:], value),
-				"failed to set property %s",
-				propertyPath[0])
+			err := setPropertyCore(field.Interface(), propertyPath[1:], value)
+			if err != nil {
+				return errors.Wrapf(err, "failed to set property %s",
+					propertyPath[0])
+			}
+
+			return nil
 		}
 
 		// Field is not a pointer, so we need to pass the address of the field recursively
-		return errors.Wrapf(
-			setPropertyCore(field.Addr().Interface(), propertyPath[1:], value),
-			"failed to set property %s",
-			propertyPath[0])
+		err := setPropertyCore(field.Addr().Interface(), propertyPath[1:], value)
+		if err != nil {
+			return errors.Wrapf(err, "failed to set property %s",
+				propertyPath[0])
+		}
+
+		return nil
 	}
 
 	// If this is the last property in the path, we need to set the value, if we can
@@ -343,7 +353,8 @@ func setPropertyCore(obj any, propertyPath []string, value any) (err error) {
 		return errors.Errorf("field %s was not settable", propertyPath[0])
 	}
 
-	// Catch any panic and turn it into an error return
+	// Catch any panic that occurs when setting the field and turn it into an error return
+	// We don't want to recover from earlier panics, so we do this last
 	defer func() {
 		if recovered := recover(); recovered != nil {
 			err = errors.Errorf("failed to set property %s: %s", propertyPath[0], recovered)

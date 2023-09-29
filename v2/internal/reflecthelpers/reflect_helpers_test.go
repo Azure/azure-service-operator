@@ -529,7 +529,7 @@ func Test_SetProperty_TargetingUnknownProperty_ReturnsExpectedError(t *testing.T
 
 	err := reflecthelpers.SetProperty(subject, "UnknownProperty", "newValue")
 	g.Expect(err).To(HaveOccurred())
-	g.Expect(err.Error()).To(ContainSubstring("UnknownProperty"))
+	g.Expect(err).To(MatchError(ContainSubstring("UnknownProperty")))
 }
 
 func Test_SetProperty_TargetingUnknownNestedProperty_ReturnsExpectedError(t *testing.T) {
@@ -540,8 +540,10 @@ func Test_SetProperty_TargetingUnknownNestedProperty_ReturnsExpectedError(t *tes
 
 	err := reflecthelpers.SetProperty(subject, "Owner.UnknownProperty", "newValue")
 	g.Expect(err).To(HaveOccurred())
-	g.Expect(err.Error()).To(ContainSubstring("Owner"))
-	g.Expect(err.Error()).To(ContainSubstring("UnknownProperty"))
+
+	g.Expect(err).To(MatchError(ContainSubstring("Ownerx")))
+	g.Expect(err).To(MatchError(ContainSubstring("Owner")))
+	g.Expect(err).To(MatchError(ContainSubstring("UnknownProperty")))
 }
 
 func Test_SetProperty_WhenValueOfWrongType_ReturnsExpectedError(t *testing.T) {
@@ -556,9 +558,9 @@ func Test_SetProperty_WhenValueOfWrongType_ReturnsExpectedError(t *testing.T) {
 
 	err := reflecthelpers.SetProperty(subject, "Spec.AzureName", 40)
 	g.Expect(err).To(HaveOccurred())
-	g.Expect(err.Error()).To(ContainSubstring("Spec"))
-	g.Expect(err.Error()).To(ContainSubstring("AzureName"))
-	g.Expect(err.Error()).To(ContainSubstring("type int"))
-	g.Expect(err.Error()).To(ContainSubstring("type string"))
-	g.Expect(err.Error()).To(ContainSubstring("not assignable"))
+	g.Expect(err).To(MatchError(ContainSubstring("Spec")))
+	g.Expect(err).To(MatchError(ContainSubstring("AzureName")))
+	g.Expect(err).To(MatchError(ContainSubstring("type int")))
+	g.Expect(err).To(MatchError(ContainSubstring("type string")))
+	g.Expect(err).To(MatchError(ContainSubstring("not assignable")))
 }
