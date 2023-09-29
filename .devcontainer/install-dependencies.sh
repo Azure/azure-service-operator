@@ -212,7 +212,7 @@ fi
 
 BUILDX_DEST=$HOME/.docker/cli-plugins
 write-verbose "Checking for $BUILDX_DEST/docker-buildx"
-if should-install "$BUILDX_DES/docker-buildxT"; then
+if should-install "$BUILDX_DEST/docker-buildx"; then
     write-info "Installing buildx-${os}_${arch}…"
     mkdir -p "$BUILDX_DEST"
     curl  -o "$BUILDX_DEST/docker-buildx" -L "https://github.com/docker/buildx/releases/download/v0.11.2/buildx-v0.11.2.${os}-${arch}"
