@@ -69,7 +69,7 @@ typeFilters:
 
   - action: include
     group: insights
-    version: v*20180501preview;v*20230315preview
+    version: v*20180501preview
     because: We're using webTests from this. There is a "newer" version but it's not actually supported, see https://github.com/Azure/azure-rest-api-specs/issues/14827
 
   - action: include
@@ -1356,7 +1356,7 @@ objectModelConfiguration:
       MetricAlertProperties:
         Scopes:
           $armReference: true
-    2023-03-15-preview:
+    2022-06-15:
       ScheduledQueryRule:
         $export: true
         $supportedFrom: v2.4.0
