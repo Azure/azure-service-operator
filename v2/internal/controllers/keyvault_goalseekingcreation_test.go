@@ -23,8 +23,10 @@ func Test_KeyVault_WhenRecoverSpecified_RecoversSuccessfully(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 	defer tc.DeleteResourcesAndWait(rg)
 
+	// Create our original KeyVault; this might just be a create, or it might be a recover, if this test
+	// has been run live recently.
 	tc.LogSectionf("Create original KeyVault with key")
-	vault := newSoftDeletingKeyVault(tc, rg, "aso-kv-gs", to.Ptr(keyvault.VaultProperties_CreateMode_Default))
+	vault := newSoftDeletingKeyVault(tc, rg, "aso-kv-gs", to.Ptr(keyvault.VaultProperties_CreateMode_CreateOrRecover))
 	tc.CreateResourceAndWait(vault)
 
 	createKeyVaultKey(tc, vault, rg)
@@ -32,8 +34,9 @@ func Test_KeyVault_WhenRecoverSpecified_RecoversSuccessfully(t *testing.T) {
 	tc.LogSectionf("Delete original KeyVault")
 	tc.DeleteResourceAndWait(vault)
 
+	// Create our replacement KeyVault by recovering the one we just deleted
 	tc.LogSectionf("Recover original KeyVault")
-	replacementVault := newSoftDeletingKeyVault(tc, rg, "aso-kv-gs", to.Ptr(keyvault.VaultProperties_CreateMode_Default))
+	replacementVault := newSoftDeletingKeyVault(tc, rg, "aso-kv-gs", to.Ptr(keyvault.VaultProperties_CreateMode_CreateOrRecover))
 
 	tc.CreateResourceAndWait(replacementVault)
 }
