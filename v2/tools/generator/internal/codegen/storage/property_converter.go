@@ -117,12 +117,9 @@ func (p *PropertyConverter) shortCircuitNamesOfSimpleTypes(
 	return tv.Visit(actualType, ctx)
 }
 
-func (_ *PropertyConverter) tryConvertToStoragePackage(name astmodel.TypeName) (astmodel.TypeName, bool) {
+func (_ *PropertyConverter) tryConvertToStoragePackage(name astmodel.InternalTypeName) (astmodel.InternalTypeName, bool) {
 	// Map the type name into our storage package
-	localRef, ok := name.PackageReference().(astmodel.LocalPackageReference)
-	if !ok {
-		return nil, false
-	}
+	localRef := name.InternalPackageReference()
 
 	storageRef := astmodel.MakeStoragePackageReference(localRef)
 	visitedName := astmodel.MakeInternalTypeName(storageRef, name.Name())

@@ -5,23 +5,10 @@
 
 package astmodel
 
-import (
-	"strings"
-
-	"github.com/dave/dst"
-)
-
 type TypeName interface {
+	Type
 	Name() string
 	PackageReference() PackageReference
-	AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []dst.Decl
-	AsType(codeGenerationContext *CodeGenerationContext) dst.Expr
-	AsZero(definitions TypeDefinitionSet, ctx *CodeGenerationContext) dst.Expr
-	References() TypeNameSet
-	RequiredPackageReferences() *PackageReferenceSet
-	Equals(t Type, override EqualityOverrides) bool
-	String() string
-	WriteDebugDescription(builder *strings.Builder, currentPackage InternalPackageReference)
 }
 
 const (
