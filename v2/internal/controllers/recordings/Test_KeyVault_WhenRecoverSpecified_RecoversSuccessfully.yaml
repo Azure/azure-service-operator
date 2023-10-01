@@ -1,0 +1,648 @@
+---
+version: 1
+interactions:
+- request:
+    body: '{"location":"westus2","name":"asotest-rg-bmhvxo","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "93"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bmhvxo?api-version=2020-06-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bmhvxo","name":"asotest-rg-bmhvxo","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bmhvxo?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bmhvxo","name":"asotest-rg-bmhvxo","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-gs?api-version=2021-04-01-preview
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-gs","name":"aso-kv-gs","type":"Microsoft.KeyVault/deletedVaults","properties":{"vaultId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bmhvxo/providers/Microsoft.KeyVault/vaults/aso-kv-gs","location":"westus2","tags":{},"deletionDate":"2001-02-03T04:05:06Z","scheduledPurgeDate":"2001-02-03T04:05:06Z"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Keyvault-Service-Version:
+      - 1.5.914.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-gs?api-version=2021-04-01-preview
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-gs","name":"aso-kv-gs","type":"Microsoft.KeyVault/deletedVaults","properties":{"vaultId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bmhvxo/providers/Microsoft.KeyVault/vaults/aso-kv-gs","location":"westus2","tags":{},"deletionDate":"2001-02-03T04:05:06Z","scheduledPurgeDate":"2001-02-03T04:05:06Z"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Keyvault-Service-Version:
+      - 1.5.914.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"location":"westus2","name":"aso-kv-gs","properties":{"accessPolicies":[{"applicationId":"00000000-0000-0000-0000-000000000000","objectId":"00000000-0000-0000-0000-000000000000","permissions":{"certificates":["get"],"keys":["get","list"],"secrets":["get"],"storage":["get"]},"tenantId":"00000000-0000-0000-0000-000000000000"}],"createMode":"recover","enableSoftDelete":true,"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "465"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bmhvxo/providers/Microsoft.KeyVault/vaults/aso-kv-gs?api-version=2021-04-01-preview
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bmhvxo/providers/Microsoft.KeyVault/vaults/aso-kv-gs","name":"aso-kv-gs","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"e5d772d8-b77f-4ed1-8dbb-3e8d433cbf46","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"e5d772d8-b77f-4ed1-8dbb-3e8d433cbf46","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"00000000-0000-0000-0000-000000000000","applicationId":"00000000-0000-0000-0000-000000000000","permissions":{"certificates":["get"],"keys":["get","list"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://aso-kv-gs.vault.azure.net/","provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Keyvault-Service-Version:
+      - 1.5.914.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bmhvxo/providers/Microsoft.KeyVault/vaults/aso-kv-gs?api-version=2021-04-01-preview
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bmhvxo/providers/Microsoft.KeyVault/vaults/aso-kv-gs","name":"aso-kv-gs","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"e5d772d8-b77f-4ed1-8dbb-3e8d433cbf46","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"e5d772d8-b77f-4ed1-8dbb-3e8d433cbf46","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"00000000-0000-0000-0000-000000000000","applicationId":"00000000-0000-0000-0000-000000000000","permissions":{"certificates":["get"],"keys":["get","list"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://aso-kv-gs.vault.azure.net/","provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Keyvault-Service-Version:
+      - 1.5.914.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"properties":{"attributes":{"enabled":true},"keySize":2048,"kty":"RSA"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "73"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bmhvxo/providers/Microsoft.KeyVault/vaults/aso-kv-gs/keys/testkey?api-version=2023-02-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bmhvxo/providers/Microsoft.KeyVault/vaults/aso-kv-gs/keys/testkey","name":"testkey","type":"Microsoft.KeyVault/vaults/keys","location":"westus2","properties":{"attributes":{"enabled":true,"created":1695862571,"updated":1695862571,"recoveryLevel":"Recoverable+Purgeable","exportable":false},"kty":"RSA","keyOps":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"keySize":2048,"keyUri":"https://aso-kv-gs.vault.azure.net/keys/testkey","keyUriWithVersion":"https://aso-kv-gs.vault.azure.net/keys/testkey/7d7752453536441180c53b9c6a3c2ebe"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Keyvault-Service-Version:
+      - 1.5.914.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bmhvxo/providers/Microsoft.KeyVault/vaults/aso-kv-gs?api-version=2021-04-01-preview
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Keyvault-Service-Version:
+      - 1.5.914.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-gs?api-version=2021-04-01-preview
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-gs","name":"aso-kv-gs","type":"Microsoft.KeyVault/deletedVaults","properties":{"vaultId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bmhvxo/providers/Microsoft.KeyVault/vaults/aso-kv-gs","location":"westus2","tags":{},"deletionDate":"2001-02-03T04:05:06Z","scheduledPurgeDate":"2001-02-03T04:05:06Z"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Keyvault-Service-Version:
+      - 1.5.914.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-gs?api-version=2021-04-01-preview
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/westus2/deletedVaults/aso-kv-gs","name":"aso-kv-gs","type":"Microsoft.KeyVault/deletedVaults","properties":{"vaultId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bmhvxo/providers/Microsoft.KeyVault/vaults/aso-kv-gs","location":"westus2","tags":{},"deletionDate":"2001-02-03T04:05:06Z","scheduledPurgeDate":"2001-02-03T04:05:06Z"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Keyvault-Service-Version:
+      - 1.5.914.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"location":"westus2","name":"aso-kv-gs","properties":{"accessPolicies":[{"applicationId":"00000000-0000-0000-0000-000000000000","objectId":"00000000-0000-0000-0000-000000000000","permissions":{"certificates":["get"],"keys":["get","list"],"secrets":["get"],"storage":["get"]},"tenantId":"00000000-0000-0000-0000-000000000000"}],"createMode":"recover","enableSoftDelete":true,"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "465"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bmhvxo/providers/Microsoft.KeyVault/vaults/aso-kv-gs?api-version=2021-04-01-preview
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bmhvxo/providers/Microsoft.KeyVault/vaults/aso-kv-gs","name":"aso-kv-gs","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"e5d772d8-b77f-4ed1-8dbb-3e8d433cbf46","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"e5d772d8-b77f-4ed1-8dbb-3e8d433cbf46","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"00000000-0000-0000-0000-000000000000","applicationId":"00000000-0000-0000-0000-000000000000","permissions":{"certificates":["get"],"keys":["get","list"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://aso-kv-gs.vault.azure.net/","provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Keyvault-Service-Version:
+      - 1.5.914.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bmhvxo/providers/Microsoft.KeyVault/vaults/aso-kv-gs?api-version=2021-04-01-preview
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bmhvxo/providers/Microsoft.KeyVault/vaults/aso-kv-gs","name":"aso-kv-gs","type":"Microsoft.KeyVault/vaults","location":"westus2","tags":{},"systemData":{"createdBy":"e5d772d8-b77f-4ed1-8dbb-3e8d433cbf46","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"e5d772d8-b77f-4ed1-8dbb-3e8d433cbf46","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"00000000-0000-0000-0000-000000000000","applicationId":"00000000-0000-0000-0000-000000000000","permissions":{"certificates":["get"],"keys":["get","list"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://aso-kv-gs.vault.azure.net/","provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Keyvault-Service-Version:
+      - 1.5.914.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bmhvxo?api-version=2020-06-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRCTUhWWE8tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638315572594319617&c=MIIHHjCCBgagAwIBAgITOgHdEa6m-L-OzhMS4gAEAd0RrjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSU5GUkEgQ0EgMDEwHhcNMjMwODAyMTQ1MzE1WhcNMjQwNzI3MTQ1MzE1WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANZwl2fAfUN41eODFwhZ5XU6lxnkpD7FRxWcjhpkJocTtKImOU10mc31se-Jp1PfK7eCEbHeOH9xKczBN174-capaVbizm5duhy7wBUBpYg2Ris4MNKwXQrwTBzWSv7qZ6C5iDqF8js7KWEd4RsvuIPUPaVXwQ6v_dq_5C0vqifInuQ4x2ukMEIj_vRRrmA6p226Iq7-UU8KbwodqnNGkCCNfVDBqanrac252DXsuIt7c3P3ShuzzqrGhq2zcwfqVK3UOq5uYlBXfuUNx5vAZ1Wr_RggfUfST9zoLYgBmYi25qDz6o4NfrMiMLX5Kok7zsLmcal--0HViT9jisHlicUCAwEAAaOCBAswggQHMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CWTJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSU5GUkElMjBDQSUyMDAxKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MB0GA1UdDgQWBBRQBbPgul9vUs05iayDf3LG_114gDAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JsMBcGA1UdIAQQMA4wDAYKKwYBBAGCN3sBATAfBgNVHSMEGDAWgBTl2Ztn_PjsurvwwKidileIud8-YzAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBADhE6Zd4c8B695oGqePRy4A_yclGrrg-m817qKAc8RSbbgv_s7MDJJW8phCi2oUlkCAhbIf99zPfzCdIha3xsT3oQdghMXVWvcwGh5HS5zASc5AusFwSUvEPElql_j-TF_NASaL5DrNJnVSRrBrPFQE5K4dtEO5n4D7XuwDnVIcokYK4OL7t722SzyYlhiz-b8R84dc7Vt-5CAOPNfKDQgz1pQWl3TM5h9DImkZrqDtikgjGe6UpdFmNDqXsZh6YBgiUpjFi05tmi7SuMc_S4vsuyxrPScN-bpWIanU0ZBfrrd1e9Zxcsqr7ux9WcxeaEdsRIg6K4Jxupusq2BrwWT4&s=KwUXu3RtAjKpzSSo1CdgYAuSHWihl3ztg3Crc_8dG_1Sy_GmG-WwmYBQ3-sl5XwhsTjlduMBAIHUvyJvpHqSWBucB9lFAtS5Rjh9zPlsCNhxDHUa_uv1foenbPSNaUvHeGYNIhUwG8Tfvqxgkt-wlx2vNsFxTFi5EH8_301JJi7-GDwns3B2PtTn7XCVNdS_w-Z8t3ISo7aUwqcKdb_861GVVT_IyG1nAfppVdz03XnQFeutQnEkxyg66tZwNlZtFAFEMHfV6KdVzrj9DtfwyAtshq1lJQW3WYJdVpwppa-7fBYf2CTffM1Am0u6-p7vfmzSxkBBNtRdJXMta6VNzg&h=NNwZzFBMFUl6MXgUzU74PGuVNiJ0oFO_EXihqmicwX0
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRCTUhWWE8tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638315572594319617&c=MIIHHjCCBgagAwIBAgITOgHdEa6m-L-OzhMS4gAEAd0RrjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSU5GUkEgQ0EgMDEwHhcNMjMwODAyMTQ1MzE1WhcNMjQwNzI3MTQ1MzE1WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANZwl2fAfUN41eODFwhZ5XU6lxnkpD7FRxWcjhpkJocTtKImOU10mc31se-Jp1PfK7eCEbHeOH9xKczBN174-capaVbizm5duhy7wBUBpYg2Ris4MNKwXQrwTBzWSv7qZ6C5iDqF8js7KWEd4RsvuIPUPaVXwQ6v_dq_5C0vqifInuQ4x2ukMEIj_vRRrmA6p226Iq7-UU8KbwodqnNGkCCNfVDBqanrac252DXsuIt7c3P3ShuzzqrGhq2zcwfqVK3UOq5uYlBXfuUNx5vAZ1Wr_RggfUfST9zoLYgBmYi25qDz6o4NfrMiMLX5Kok7zsLmcal--0HViT9jisHlicUCAwEAAaOCBAswggQHMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CWTJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSU5GUkElMjBDQSUyMDAxKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MB0GA1UdDgQWBBRQBbPgul9vUs05iayDf3LG_114gDAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JsMBcGA1UdIAQQMA4wDAYKKwYBBAGCN3sBATAfBgNVHSMEGDAWgBTl2Ztn_PjsurvwwKidileIud8-YzAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBADhE6Zd4c8B695oGqePRy4A_yclGrrg-m817qKAc8RSbbgv_s7MDJJW8phCi2oUlkCAhbIf99zPfzCdIha3xsT3oQdghMXVWvcwGh5HS5zASc5AusFwSUvEPElql_j-TF_NASaL5DrNJnVSRrBrPFQE5K4dtEO5n4D7XuwDnVIcokYK4OL7t722SzyYlhiz-b8R84dc7Vt-5CAOPNfKDQgz1pQWl3TM5h9DImkZrqDtikgjGe6UpdFmNDqXsZh6YBgiUpjFi05tmi7SuMc_S4vsuyxrPScN-bpWIanU0ZBfrrd1e9Zxcsqr7ux9WcxeaEdsRIg6K4Jxupusq2BrwWT4&s=KwUXu3RtAjKpzSSo1CdgYAuSHWihl3ztg3Crc_8dG_1Sy_GmG-WwmYBQ3-sl5XwhsTjlduMBAIHUvyJvpHqSWBucB9lFAtS5Rjh9zPlsCNhxDHUa_uv1foenbPSNaUvHeGYNIhUwG8Tfvqxgkt-wlx2vNsFxTFi5EH8_301JJi7-GDwns3B2PtTn7XCVNdS_w-Z8t3ISo7aUwqcKdb_861GVVT_IyG1nAfppVdz03XnQFeutQnEkxyg66tZwNlZtFAFEMHfV6KdVzrj9DtfwyAtshq1lJQW3WYJdVpwppa-7fBYf2CTffM1Am0u6-p7vfmzSxkBBNtRdJXMta6VNzg&h=NNwZzFBMFUl6MXgUzU74PGuVNiJ0oFO_EXihqmicwX0
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRCTUhWWE8tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638315572748537468&c=MIIHHjCCBgagAwIBAgITOgHdEa6m-L-OzhMS4gAEAd0RrjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSU5GUkEgQ0EgMDEwHhcNMjMwODAyMTQ1MzE1WhcNMjQwNzI3MTQ1MzE1WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANZwl2fAfUN41eODFwhZ5XU6lxnkpD7FRxWcjhpkJocTtKImOU10mc31se-Jp1PfK7eCEbHeOH9xKczBN174-capaVbizm5duhy7wBUBpYg2Ris4MNKwXQrwTBzWSv7qZ6C5iDqF8js7KWEd4RsvuIPUPaVXwQ6v_dq_5C0vqifInuQ4x2ukMEIj_vRRrmA6p226Iq7-UU8KbwodqnNGkCCNfVDBqanrac252DXsuIt7c3P3ShuzzqrGhq2zcwfqVK3UOq5uYlBXfuUNx5vAZ1Wr_RggfUfST9zoLYgBmYi25qDz6o4NfrMiMLX5Kok7zsLmcal--0HViT9jisHlicUCAwEAAaOCBAswggQHMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CWTJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSU5GUkElMjBDQSUyMDAxKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MB0GA1UdDgQWBBRQBbPgul9vUs05iayDf3LG_114gDAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JsMBcGA1UdIAQQMA4wDAYKKwYBBAGCN3sBATAfBgNVHSMEGDAWgBTl2Ztn_PjsurvwwKidileIud8-YzAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBADhE6Zd4c8B695oGqePRy4A_yclGrrg-m817qKAc8RSbbgv_s7MDJJW8phCi2oUlkCAhbIf99zPfzCdIha3xsT3oQdghMXVWvcwGh5HS5zASc5AusFwSUvEPElql_j-TF_NASaL5DrNJnVSRrBrPFQE5K4dtEO5n4D7XuwDnVIcokYK4OL7t722SzyYlhiz-b8R84dc7Vt-5CAOPNfKDQgz1pQWl3TM5h9DImkZrqDtikgjGe6UpdFmNDqXsZh6YBgiUpjFi05tmi7SuMc_S4vsuyxrPScN-bpWIanU0ZBfrrd1e9Zxcsqr7ux9WcxeaEdsRIg6K4Jxupusq2BrwWT4&s=xxMBevlbw-FqQMILMMWAu_M-5Iyvd-LayQx5adEGFWJ9d93K_KNxEUaWC2heJ1bUOtYXFMZwigr1VRWYiqFjZLC1rWfEOEMA4vu4fvhFcpqEABD9RMmx53RLdFtta1BrGSIT-_uuQrdg4WiJjYWksg4VRX4H5Gfd9J4xWmfFe5qdapMSV_GIiC-aOiPUjza7cQ9R1IVkm9wUEPDslPgdU_5oMICeE2puJDcMB6pPUwHyNFG94auJxFwUuluV95WRVvlQWaYAg6QYoDtsO5Xtv2QWgHff0KfmiWHWj1fKRmai_Do6-glswgvBEAclkqgjnhvt4khXPOpRzdBOogFHZA&h=lCDQNHpCvTSNKexwjLx3ZOR9h8frUid4iYJPPAmwGaQ
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRCTUhWWE8tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638315572594319617&c=MIIHHjCCBgagAwIBAgITOgHdEa6m-L-OzhMS4gAEAd0RrjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSU5GUkEgQ0EgMDEwHhcNMjMwODAyMTQ1MzE1WhcNMjQwNzI3MTQ1MzE1WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANZwl2fAfUN41eODFwhZ5XU6lxnkpD7FRxWcjhpkJocTtKImOU10mc31se-Jp1PfK7eCEbHeOH9xKczBN174-capaVbizm5duhy7wBUBpYg2Ris4MNKwXQrwTBzWSv7qZ6C5iDqF8js7KWEd4RsvuIPUPaVXwQ6v_dq_5C0vqifInuQ4x2ukMEIj_vRRrmA6p226Iq7-UU8KbwodqnNGkCCNfVDBqanrac252DXsuIt7c3P3ShuzzqrGhq2zcwfqVK3UOq5uYlBXfuUNx5vAZ1Wr_RggfUfST9zoLYgBmYi25qDz6o4NfrMiMLX5Kok7zsLmcal--0HViT9jisHlicUCAwEAAaOCBAswggQHMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CWTJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSU5GUkElMjBDQSUyMDAxKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MB0GA1UdDgQWBBRQBbPgul9vUs05iayDf3LG_114gDAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JsMBcGA1UdIAQQMA4wDAYKKwYBBAGCN3sBATAfBgNVHSMEGDAWgBTl2Ztn_PjsurvwwKidileIud8-YzAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBADhE6Zd4c8B695oGqePRy4A_yclGrrg-m817qKAc8RSbbgv_s7MDJJW8phCi2oUlkCAhbIf99zPfzCdIha3xsT3oQdghMXVWvcwGh5HS5zASc5AusFwSUvEPElql_j-TF_NASaL5DrNJnVSRrBrPFQE5K4dtEO5n4D7XuwDnVIcokYK4OL7t722SzyYlhiz-b8R84dc7Vt-5CAOPNfKDQgz1pQWl3TM5h9DImkZrqDtikgjGe6UpdFmNDqXsZh6YBgiUpjFi05tmi7SuMc_S4vsuyxrPScN-bpWIanU0ZBfrrd1e9Zxcsqr7ux9WcxeaEdsRIg6K4Jxupusq2BrwWT4&s=KwUXu3RtAjKpzSSo1CdgYAuSHWihl3ztg3Crc_8dG_1Sy_GmG-WwmYBQ3-sl5XwhsTjlduMBAIHUvyJvpHqSWBucB9lFAtS5Rjh9zPlsCNhxDHUa_uv1foenbPSNaUvHeGYNIhUwG8Tfvqxgkt-wlx2vNsFxTFi5EH8_301JJi7-GDwns3B2PtTn7XCVNdS_w-Z8t3ISo7aUwqcKdb_861GVVT_IyG1nAfppVdz03XnQFeutQnEkxyg66tZwNlZtFAFEMHfV6KdVzrj9DtfwyAtshq1lJQW3WYJdVpwppa-7fBYf2CTffM1Am0u6-p7vfmzSxkBBNtRdJXMta6VNzg&h=NNwZzFBMFUl6MXgUzU74PGuVNiJ0oFO_EXihqmicwX0
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRCTUhWWE8tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638315572902442387&c=MIIHHjCCBgagAwIBAgITOgHdEa6m-L-OzhMS4gAEAd0RrjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSU5GUkEgQ0EgMDEwHhcNMjMwODAyMTQ1MzE1WhcNMjQwNzI3MTQ1MzE1WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANZwl2fAfUN41eODFwhZ5XU6lxnkpD7FRxWcjhpkJocTtKImOU10mc31se-Jp1PfK7eCEbHeOH9xKczBN174-capaVbizm5duhy7wBUBpYg2Ris4MNKwXQrwTBzWSv7qZ6C5iDqF8js7KWEd4RsvuIPUPaVXwQ6v_dq_5C0vqifInuQ4x2ukMEIj_vRRrmA6p226Iq7-UU8KbwodqnNGkCCNfVDBqanrac252DXsuIt7c3P3ShuzzqrGhq2zcwfqVK3UOq5uYlBXfuUNx5vAZ1Wr_RggfUfST9zoLYgBmYi25qDz6o4NfrMiMLX5Kok7zsLmcal--0HViT9jisHlicUCAwEAAaOCBAswggQHMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CWTJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSU5GUkElMjBDQSUyMDAxKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MB0GA1UdDgQWBBRQBbPgul9vUs05iayDf3LG_114gDAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JsMBcGA1UdIAQQMA4wDAYKKwYBBAGCN3sBATAfBgNVHSMEGDAWgBTl2Ztn_PjsurvwwKidileIud8-YzAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBADhE6Zd4c8B695oGqePRy4A_yclGrrg-m817qKAc8RSbbgv_s7MDJJW8phCi2oUlkCAhbIf99zPfzCdIha3xsT3oQdghMXVWvcwGh5HS5zASc5AusFwSUvEPElql_j-TF_NASaL5DrNJnVSRrBrPFQE5K4dtEO5n4D7XuwDnVIcokYK4OL7t722SzyYlhiz-b8R84dc7Vt-5CAOPNfKDQgz1pQWl3TM5h9DImkZrqDtikgjGe6UpdFmNDqXsZh6YBgiUpjFi05tmi7SuMc_S4vsuyxrPScN-bpWIanU0ZBfrrd1e9Zxcsqr7ux9WcxeaEdsRIg6K4Jxupusq2BrwWT4&s=kxHjTwTSL56qU4NmHLPzFwDuZiVLTnl_NjaWrgnxDY9r67E0m6_CDf1ZKifOGtcKKmgAkx2sI4kOPZPolM8D94pbfzsAXWZuCPkGMrYSo1sT2924g2_r_DkORP99eCx2NrcQ7aiUDr-gt8G2pPAt1PhKrBH3MYvmT-v5Uv1ytMd3nSk6cJBQBh8Dj4hlG8kRsZ05j-uwlqzP1wOMUbmNkVyx6hzLdGFNzhfEVYFBMBDSPpnpOmZX3Ynx503KdGHFS_sD3-y-b2Nb7-yKDf2_xckH5153_odv061lSfjwi5vipjjf0YdQwaew2XNFqcdlua-6GiPw2TJ5e530qdALUw&h=j_kgiIHNd60nHYv50F-h7eddQQyVl6PzUFTKbfkDBU4
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRCTUhWWE8tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638315572594319617&c=MIIHHjCCBgagAwIBAgITOgHdEa6m-L-OzhMS4gAEAd0RrjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSU5GUkEgQ0EgMDEwHhcNMjMwODAyMTQ1MzE1WhcNMjQwNzI3MTQ1MzE1WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANZwl2fAfUN41eODFwhZ5XU6lxnkpD7FRxWcjhpkJocTtKImOU10mc31se-Jp1PfK7eCEbHeOH9xKczBN174-capaVbizm5duhy7wBUBpYg2Ris4MNKwXQrwTBzWSv7qZ6C5iDqF8js7KWEd4RsvuIPUPaVXwQ6v_dq_5C0vqifInuQ4x2ukMEIj_vRRrmA6p226Iq7-UU8KbwodqnNGkCCNfVDBqanrac252DXsuIt7c3P3ShuzzqrGhq2zcwfqVK3UOq5uYlBXfuUNx5vAZ1Wr_RggfUfST9zoLYgBmYi25qDz6o4NfrMiMLX5Kok7zsLmcal--0HViT9jisHlicUCAwEAAaOCBAswggQHMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CWTJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSU5GUkElMjBDQSUyMDAxKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MB0GA1UdDgQWBBRQBbPgul9vUs05iayDf3LG_114gDAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JsMBcGA1UdIAQQMA4wDAYKKwYBBAGCN3sBATAfBgNVHSMEGDAWgBTl2Ztn_PjsurvwwKidileIud8-YzAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBADhE6Zd4c8B695oGqePRy4A_yclGrrg-m817qKAc8RSbbgv_s7MDJJW8phCi2oUlkCAhbIf99zPfzCdIha3xsT3oQdghMXVWvcwGh5HS5zASc5AusFwSUvEPElql_j-TF_NASaL5DrNJnVSRrBrPFQE5K4dtEO5n4D7XuwDnVIcokYK4OL7t722SzyYlhiz-b8R84dc7Vt-5CAOPNfKDQgz1pQWl3TM5h9DImkZrqDtikgjGe6UpdFmNDqXsZh6YBgiUpjFi05tmi7SuMc_S4vsuyxrPScN-bpWIanU0ZBfrrd1e9Zxcsqr7ux9WcxeaEdsRIg6K4Jxupusq2BrwWT4&s=KwUXu3RtAjKpzSSo1CdgYAuSHWihl3ztg3Crc_8dG_1Sy_GmG-WwmYBQ3-sl5XwhsTjlduMBAIHUvyJvpHqSWBucB9lFAtS5Rjh9zPlsCNhxDHUa_uv1foenbPSNaUvHeGYNIhUwG8Tfvqxgkt-wlx2vNsFxTFi5EH8_301JJi7-GDwns3B2PtTn7XCVNdS_w-Z8t3ISo7aUwqcKdb_861GVVT_IyG1nAfppVdz03XnQFeutQnEkxyg66tZwNlZtFAFEMHfV6KdVzrj9DtfwyAtshq1lJQW3WYJdVpwppa-7fBYf2CTffM1Am0u6-p7vfmzSxkBBNtRdJXMta6VNzg&h=NNwZzFBMFUl6MXgUzU74PGuVNiJ0oFO_EXihqmicwX0
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRCTUhWWE8tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638315573056502723&c=MIIHHjCCBgagAwIBAgITOgHdEa6m-L-OzhMS4gAEAd0RrjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSU5GUkEgQ0EgMDEwHhcNMjMwODAyMTQ1MzE1WhcNMjQwNzI3MTQ1MzE1WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANZwl2fAfUN41eODFwhZ5XU6lxnkpD7FRxWcjhpkJocTtKImOU10mc31se-Jp1PfK7eCEbHeOH9xKczBN174-capaVbizm5duhy7wBUBpYg2Ris4MNKwXQrwTBzWSv7qZ6C5iDqF8js7KWEd4RsvuIPUPaVXwQ6v_dq_5C0vqifInuQ4x2ukMEIj_vRRrmA6p226Iq7-UU8KbwodqnNGkCCNfVDBqanrac252DXsuIt7c3P3ShuzzqrGhq2zcwfqVK3UOq5uYlBXfuUNx5vAZ1Wr_RggfUfST9zoLYgBmYi25qDz6o4NfrMiMLX5Kok7zsLmcal--0HViT9jisHlicUCAwEAAaOCBAswggQHMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CWTJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSU5GUkElMjBDQSUyMDAxKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MB0GA1UdDgQWBBRQBbPgul9vUs05iayDf3LG_114gDAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JsMBcGA1UdIAQQMA4wDAYKKwYBBAGCN3sBATAfBgNVHSMEGDAWgBTl2Ztn_PjsurvwwKidileIud8-YzAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBADhE6Zd4c8B695oGqePRy4A_yclGrrg-m817qKAc8RSbbgv_s7MDJJW8phCi2oUlkCAhbIf99zPfzCdIha3xsT3oQdghMXVWvcwGh5HS5zASc5AusFwSUvEPElql_j-TF_NASaL5DrNJnVSRrBrPFQE5K4dtEO5n4D7XuwDnVIcokYK4OL7t722SzyYlhiz-b8R84dc7Vt-5CAOPNfKDQgz1pQWl3TM5h9DImkZrqDtikgjGe6UpdFmNDqXsZh6YBgiUpjFi05tmi7SuMc_S4vsuyxrPScN-bpWIanU0ZBfrrd1e9Zxcsqr7ux9WcxeaEdsRIg6K4Jxupusq2BrwWT4&s=bDW0yC9c79k6sAO0mxT124lJf2cu2Gt1JZcJUCOEyzriiSeIDzdTl_pCQkki1M_Qn584hCCso4a0SiUJm7BgJa2yEAG6ctc2x2V_52mvUzXS0UfZWOMK1ii33gIdG4qYPHJbmEnx5sob9kHWUSeL6Lg1fpfkYF_53Pr6YYBzZYHzkZgdizjHCONY3pNUnBCIdi8AWZvN4OiZfO7kqMVMWJVp31rYYSjoPWvzFMF8xNXXMzawSxgvcUPgfMPGruNcIfqpnMUeXcKkfDz3y6F4qqPmueYFMxgbhgpl7CXjH-faueqV4eKG0pScie-GCMrsmSlf3CAnstyw-30I5gvcZA&h=RlKgNKFaTjusnermpg9xQqBhdsyPfKxZfbjc1Vuv15o
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRCTUhWWE8tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638315572594319617&c=MIIHHjCCBgagAwIBAgITOgHdEa6m-L-OzhMS4gAEAd0RrjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSU5GUkEgQ0EgMDEwHhcNMjMwODAyMTQ1MzE1WhcNMjQwNzI3MTQ1MzE1WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANZwl2fAfUN41eODFwhZ5XU6lxnkpD7FRxWcjhpkJocTtKImOU10mc31se-Jp1PfK7eCEbHeOH9xKczBN174-capaVbizm5duhy7wBUBpYg2Ris4MNKwXQrwTBzWSv7qZ6C5iDqF8js7KWEd4RsvuIPUPaVXwQ6v_dq_5C0vqifInuQ4x2ukMEIj_vRRrmA6p226Iq7-UU8KbwodqnNGkCCNfVDBqanrac252DXsuIt7c3P3ShuzzqrGhq2zcwfqVK3UOq5uYlBXfuUNx5vAZ1Wr_RggfUfST9zoLYgBmYi25qDz6o4NfrMiMLX5Kok7zsLmcal--0HViT9jisHlicUCAwEAAaOCBAswggQHMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CWTJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSU5GUkElMjBDQSUyMDAxKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MB0GA1UdDgQWBBRQBbPgul9vUs05iayDf3LG_114gDAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JsMBcGA1UdIAQQMA4wDAYKKwYBBAGCN3sBATAfBgNVHSMEGDAWgBTl2Ztn_PjsurvwwKidileIud8-YzAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBADhE6Zd4c8B695oGqePRy4A_yclGrrg-m817qKAc8RSbbgv_s7MDJJW8phCi2oUlkCAhbIf99zPfzCdIha3xsT3oQdghMXVWvcwGh5HS5zASc5AusFwSUvEPElql_j-TF_NASaL5DrNJnVSRrBrPFQE5K4dtEO5n4D7XuwDnVIcokYK4OL7t722SzyYlhiz-b8R84dc7Vt-5CAOPNfKDQgz1pQWl3TM5h9DImkZrqDtikgjGe6UpdFmNDqXsZh6YBgiUpjFi05tmi7SuMc_S4vsuyxrPScN-bpWIanU0ZBfrrd1e9Zxcsqr7ux9WcxeaEdsRIg6K4Jxupusq2BrwWT4&s=KwUXu3RtAjKpzSSo1CdgYAuSHWihl3ztg3Crc_8dG_1Sy_GmG-WwmYBQ3-sl5XwhsTjlduMBAIHUvyJvpHqSWBucB9lFAtS5Rjh9zPlsCNhxDHUa_uv1foenbPSNaUvHeGYNIhUwG8Tfvqxgkt-wlx2vNsFxTFi5EH8_301JJi7-GDwns3B2PtTn7XCVNdS_w-Z8t3ISo7aUwqcKdb_861GVVT_IyG1nAfppVdz03XnQFeutQnEkxyg66tZwNlZtFAFEMHfV6KdVzrj9DtfwyAtshq1lJQW3WYJdVpwppa-7fBYf2CTffM1Am0u6-p7vfmzSxkBBNtRdJXMta6VNzg&h=NNwZzFBMFUl6MXgUzU74PGuVNiJ0oFO_EXihqmicwX0
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRCTUhWWE8tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638315573210407530&c=MIIHHjCCBgagAwIBAgITOgHdEa6m-L-OzhMS4gAEAd0RrjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSU5GUkEgQ0EgMDEwHhcNMjMwODAyMTQ1MzE1WhcNMjQwNzI3MTQ1MzE1WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANZwl2fAfUN41eODFwhZ5XU6lxnkpD7FRxWcjhpkJocTtKImOU10mc31se-Jp1PfK7eCEbHeOH9xKczBN174-capaVbizm5duhy7wBUBpYg2Ris4MNKwXQrwTBzWSv7qZ6C5iDqF8js7KWEd4RsvuIPUPaVXwQ6v_dq_5C0vqifInuQ4x2ukMEIj_vRRrmA6p226Iq7-UU8KbwodqnNGkCCNfVDBqanrac252DXsuIt7c3P3ShuzzqrGhq2zcwfqVK3UOq5uYlBXfuUNx5vAZ1Wr_RggfUfST9zoLYgBmYi25qDz6o4NfrMiMLX5Kok7zsLmcal--0HViT9jisHlicUCAwEAAaOCBAswggQHMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CWTJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSU5GUkElMjBDQSUyMDAxKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MB0GA1UdDgQWBBRQBbPgul9vUs05iayDf3LG_114gDAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JsMBcGA1UdIAQQMA4wDAYKKwYBBAGCN3sBATAfBgNVHSMEGDAWgBTl2Ztn_PjsurvwwKidileIud8-YzAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBADhE6Zd4c8B695oGqePRy4A_yclGrrg-m817qKAc8RSbbgv_s7MDJJW8phCi2oUlkCAhbIf99zPfzCdIha3xsT3oQdghMXVWvcwGh5HS5zASc5AusFwSUvEPElql_j-TF_NASaL5DrNJnVSRrBrPFQE5K4dtEO5n4D7XuwDnVIcokYK4OL7t722SzyYlhiz-b8R84dc7Vt-5CAOPNfKDQgz1pQWl3TM5h9DImkZrqDtikgjGe6UpdFmNDqXsZh6YBgiUpjFi05tmi7SuMc_S4vsuyxrPScN-bpWIanU0ZBfrrd1e9Zxcsqr7ux9WcxeaEdsRIg6K4Jxupusq2BrwWT4&s=Z6tME7QYJVJG0xeXn-9LD_JB3Q06cxqFx9wJ-7cqsKuhMJFonsPJ-H5j1dh3YZmSZ0cS9CyhcfD-OBKQCFpaHA5GLHgt1eBkOxAvWtEkYvNxB7gEpJaDdE_01aasXHi7Abj3FFl9EW4q9uTDrOZOEwNcV6BG2KuYd3khBO-a5Jd1Fh9jfmryIL5ax8JPCFIK2yhOj0u9jsn-kXt1sGNiSFxzfFrW0lG9rtpXtKl9CzAleMn90rTEbXt-LhVoBZ0OpbqpQShvisQcvUf54hFsJ9Ilhpo7Ic_ICftPY5mMTvjLfSD0se2xeosua3KD0i96wK6avEZe78HvPjp7SHxlzA&h=KhgEBxjbBRb4o_pMdK4dF4sCAnUwobnAycTh46v8e7s
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRCTUhWWE8tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638315572594319617&c=MIIHHjCCBgagAwIBAgITOgHdEa6m-L-OzhMS4gAEAd0RrjANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSU5GUkEgQ0EgMDEwHhcNMjMwODAyMTQ1MzE1WhcNMjQwNzI3MTQ1MzE1WjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANZwl2fAfUN41eODFwhZ5XU6lxnkpD7FRxWcjhpkJocTtKImOU10mc31se-Jp1PfK7eCEbHeOH9xKczBN174-capaVbizm5duhy7wBUBpYg2Ris4MNKwXQrwTBzWSv7qZ6C5iDqF8js7KWEd4RsvuIPUPaVXwQ6v_dq_5C0vqifInuQ4x2ukMEIj_vRRrmA6p226Iq7-UU8KbwodqnNGkCCNfVDBqanrac252DXsuIt7c3P3ShuzzqrGhq2zcwfqVK3UOq5uYlBXfuUNx5vAZ1Wr_RggfUfST9zoLYgBmYi25qDz6o4NfrMiMLX5Kok7zsLmcal--0HViT9jisHlicUCAwEAAaOCBAswggQHMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CWTJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSU5GUkElMjBDQSUyMDAxKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQlkyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMElORlJBJTIwQ0ElMjAwMSg0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JZMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3J0MB0GA1UdDgQWBBRQBbPgul9vUs05iayDf3LG_114gDAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJTkZSQSUyMENBJTIwMDEoNCkuY3JsMBcGA1UdIAQQMA4wDAYKKwYBBAGCN3sBATAfBgNVHSMEGDAWgBTl2Ztn_PjsurvwwKidileIud8-YzAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBADhE6Zd4c8B695oGqePRy4A_yclGrrg-m817qKAc8RSbbgv_s7MDJJW8phCi2oUlkCAhbIf99zPfzCdIha3xsT3oQdghMXVWvcwGh5HS5zASc5AusFwSUvEPElql_j-TF_NASaL5DrNJnVSRrBrPFQE5K4dtEO5n4D7XuwDnVIcokYK4OL7t722SzyYlhiz-b8R84dc7Vt-5CAOPNfKDQgz1pQWl3TM5h9DImkZrqDtikgjGe6UpdFmNDqXsZh6YBgiUpjFi05tmi7SuMc_S4vsuyxrPScN-bpWIanU0ZBfrrd1e9Zxcsqr7ux9WcxeaEdsRIg6K4Jxupusq2BrwWT4&s=KwUXu3RtAjKpzSSo1CdgYAuSHWihl3ztg3Crc_8dG_1Sy_GmG-WwmYBQ3-sl5XwhsTjlduMBAIHUvyJvpHqSWBucB9lFAtS5Rjh9zPlsCNhxDHUa_uv1foenbPSNaUvHeGYNIhUwG8Tfvqxgkt-wlx2vNsFxTFi5EH8_301JJi7-GDwns3B2PtTn7XCVNdS_w-Z8t3ISo7aUwqcKdb_861GVVT_IyG1nAfppVdz03XnQFeutQnEkxyg66tZwNlZtFAFEMHfV6KdVzrj9DtfwyAtshq1lJQW3WYJdVpwppa-7fBYf2CTffM1Am0u6-p7vfmzSxkBBNtRdJXMta6VNzg&h=NNwZzFBMFUl6MXgUzU74PGuVNiJ0oFO_EXihqmicwX0
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bmhvxo/providers/Microsoft.KeyVault/vaults/aso-kv-gs?api-version=2021-04-01-preview
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-bmhvxo''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
