@@ -67024,6 +67024,4197 @@ Set it to empty if you have configured the DNS server in the vnet which is used 
     </item>
     
     <item>
+      <title>Reference: containerservice.azure.com/v1api20230315preview</title>
+      <link>https://azure.github.io/azure-service-operator/reference/containerservice/v1api20230315preview/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/reference/containerservice/v1api20230315preview/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;containerservice.azure.com/v1api20230315preview&#34;&gt;containerservice.azure.com/v1api20230315preview&lt;/h2&gt;
+&lt;div&gt;
+&lt;p&gt;Package v1api20230315preview contains API Schema definitions for the containerservice v1api20230315preview API group&lt;/p&gt;
+&lt;/div&gt;
+Resource Types:
+&lt;ul&gt;&lt;/ul&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.APIVersion&#34;&gt;APIVersion
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;2023-03-15-preview&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.ErrorAdditionalInfo_STATUS&#34;&gt;ErrorAdditionalInfo_STATUS
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ErrorDetail_STATUS&#34;&gt;ErrorDetail_STATUS&lt;/a&gt;, &lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ErrorDetail_STATUS_Unrolled&#34;&gt;ErrorDetail_STATUS_Unrolled&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The resource management error additional info.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;info&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON&#34;&gt;
+map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Info: The additional info.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Type: The additional info type.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.ErrorAdditionalInfo_STATUS_ARM&#34;&gt;ErrorAdditionalInfo_STATUS_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ErrorDetail_STATUS_ARM&#34;&gt;ErrorDetail_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ErrorDetail_STATUS_Unrolled_ARM&#34;&gt;ErrorDetail_STATUS_Unrolled_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The resource management error additional info.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;info&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON&#34;&gt;
+map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Info: The additional info.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Type: The additional info type.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.ErrorDetail_STATUS&#34;&gt;ErrorDetail_STATUS
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStatus_STATUS&#34;&gt;UpdateStatus_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The error detail.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;additionalInfo&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ErrorAdditionalInfo_STATUS&#34;&gt;
+[]ErrorAdditionalInfo_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AdditionalInfo: The error additional info.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;code&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Code: The error code.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;details&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ErrorDetail_STATUS_Unrolled&#34;&gt;
+[]ErrorDetail_STATUS_Unrolled
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Details: The error details.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;message&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Message: The error message.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;target&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Target: The error target.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.ErrorDetail_STATUS_ARM&#34;&gt;ErrorDetail_STATUS_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStatus_STATUS_ARM&#34;&gt;UpdateStatus_STATUS_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The error detail.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;additionalInfo&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ErrorAdditionalInfo_STATUS_ARM&#34;&gt;
+[]ErrorAdditionalInfo_STATUS_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AdditionalInfo: The error additional info.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;code&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Code: The error code.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;details&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ErrorDetail_STATUS_Unrolled_ARM&#34;&gt;
+[]ErrorDetail_STATUS_Unrolled_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Details: The error details.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;message&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Message: The error message.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;target&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Target: The error target.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.ErrorDetail_STATUS_Unrolled&#34;&gt;ErrorDetail_STATUS_Unrolled
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ErrorDetail_STATUS&#34;&gt;ErrorDetail_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;additionalInfo&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ErrorAdditionalInfo_STATUS&#34;&gt;
+[]ErrorAdditionalInfo_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AdditionalInfo: The error additional info.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;code&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Code: The error code.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;message&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Message: The error message.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;target&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Target: The error target.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.ErrorDetail_STATUS_Unrolled_ARM&#34;&gt;ErrorDetail_STATUS_Unrolled_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ErrorDetail_STATUS_ARM&#34;&gt;ErrorDetail_STATUS_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;additionalInfo&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ErrorAdditionalInfo_STATUS_ARM&#34;&gt;
+[]ErrorAdditionalInfo_STATUS_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AdditionalInfo: The error additional info.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;code&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Code: The error code.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;message&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Message: The error message.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;target&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Target: The error target.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.Fleet&#34;&gt;Fleet
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;p&gt;Generator information:
+- Generated from: /containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-03-15-preview/fleets.json
+- ARM URI: /&amp;#x200b;subscriptions/&amp;#x200b;{subscriptionId}/&amp;#x200b;resourceGroups/&amp;#x200b;{resourceGroupName}/&amp;#x200b;providers/&amp;#x200b;Microsoft.ContainerService/&amp;#x200b;fleets/&amp;#x200b;{fleetName}&lt;/&amp;#x200b;p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;metadata&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta&#34;&gt;
+Kubernetes meta/v1.ObjectMeta
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+Refer to the Kubernetes API documentation for the fields of the
+&lt;code&gt;metadata&lt;/code&gt; field.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;spec&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleet_Spec&#34;&gt;
+Fleet_Spec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;br/&gt;
+&lt;br/&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;azureName&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&amp;rsquo;t have to be.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;hubProfile&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.FleetHubProfile&#34;&gt;
+FleetHubProfile
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;HubProfile: The FleetHubProfile configures the Fleet&amp;rsquo;s hub.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Location: The geo-location where the resource lives&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;operatorSpec&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.FleetOperatorSpec&#34;&gt;
+FleetOperatorSpec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;owner&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference&#34;&gt;
+genruntime.KnownResourceReference
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Tags: Resource tags.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleet_STATUS&#34;&gt;
+Fleet_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.FleetHubProfile&#34;&gt;FleetHubProfile
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleet_Spec&#34;&gt;Fleet_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The FleetHubProfile configures the fleet hub.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;dnsPrefix&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;DnsPrefix: DNS prefix used to create the FQDN for the Fleet hub.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.FleetHubProfile_ARM&#34;&gt;FleetHubProfile_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.FleetProperties_ARM&#34;&gt;FleetProperties_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The FleetHubProfile configures the fleet hub.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;dnsPrefix&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;DnsPrefix: DNS prefix used to create the FQDN for the Fleet hub.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.FleetHubProfile_STATUS&#34;&gt;FleetHubProfile_STATUS
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleet_STATUS&#34;&gt;Fleet_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The FleetHubProfile configures the fleet hub.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;dnsPrefix&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;DnsPrefix: DNS prefix used to create the FQDN for the Fleet hub.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;fqdn&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Fqdn: The FQDN of the Fleet hub.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;kubernetesVersion&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;KubernetesVersion: The Kubernetes version of the Fleet hub.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.FleetHubProfile_STATUS_ARM&#34;&gt;FleetHubProfile_STATUS_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.FleetProperties_STATUS_ARM&#34;&gt;FleetProperties_STATUS_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The FleetHubProfile configures the fleet hub.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;dnsPrefix&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;DnsPrefix: DNS prefix used to create the FQDN for the Fleet hub.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;fqdn&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Fqdn: The FQDN of the Fleet hub.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;kubernetesVersion&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;KubernetesVersion: The Kubernetes version of the Fleet hub.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.FleetMemberProperties_ARM&#34;&gt;FleetMemberProperties_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleets_Member_Spec_ARM&#34;&gt;Fleets_Member_Spec_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;A member of the Fleet. It contains a reference to an existing Kubernetes cluster on Azure.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;clusterResourceId&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;group&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Group: The group this member belongs to for multi-cluster update management.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.FleetMemberProperties_STATUS_ARM&#34;&gt;FleetMemberProperties_STATUS_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleets_Member_STATUS_ARM&#34;&gt;Fleets_Member_STATUS_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;A member of the Fleet. It contains a reference to an existing Kubernetes cluster on Azure.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;clusterResourceId&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ClusterResourceId: The ARM resource id of the cluster that joins the Fleet. Must be a valid Azure resource id. e.g.:
+&amp;lsquo;/&amp;#x200b;subscriptions/&amp;#x200b;{subscriptionId}/&amp;#x200b;resourceGroups/&amp;#x200b;{resourceGroupName}/&amp;#x200b;providers/&amp;#x200b;Microsoft.ContainerService/&amp;#x200b;managedClusters/&amp;#x200b;{clusterName}&amp;rsquo;.&lt;/&amp;#x200b;p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;group&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Group: The group this member belongs to for multi-cluster update management.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.FleetMemberProvisioningState_STATUS&#34;&gt;
+FleetMemberProvisioningState_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ProvisioningState: The status of the last operation.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.FleetMemberProvisioningState_STATUS&#34;&gt;FleetMemberProvisioningState_STATUS
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.FleetMemberProperties_STATUS_ARM&#34;&gt;FleetMemberProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleets_Member_STATUS&#34;&gt;Fleets_Member_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The provisioning state of the last accepted operation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Canceled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Failed&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Joining&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Leaving&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Succeeded&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Updating&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.FleetOperatorSecrets&#34;&gt;FleetOperatorSecrets
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.FleetOperatorSpec&#34;&gt;FleetOperatorSpec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;userCredentials&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination&#34;&gt;
+genruntime.SecretDestination
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;UserCredentials: indicates where the UserCredentials secret should be placed. If omitted, the secret will not be
+retrieved from Azure.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.FleetOperatorSpec&#34;&gt;FleetOperatorSpec
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleet_Spec&#34;&gt;Fleet_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;secrets&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.FleetOperatorSecrets&#34;&gt;
+FleetOperatorSecrets
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Secrets: configures where to place Azure generated secrets.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.FleetProperties_ARM&#34;&gt;FleetProperties_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleet_Spec_ARM&#34;&gt;Fleet_Spec_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Fleet properties.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;hubProfile&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.FleetHubProfile_ARM&#34;&gt;
+FleetHubProfile_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;HubProfile: The FleetHubProfile configures the Fleet&amp;rsquo;s hub.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.FleetProperties_STATUS_ARM&#34;&gt;FleetProperties_STATUS_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleet_STATUS_ARM&#34;&gt;Fleet_STATUS_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Fleet properties.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;hubProfile&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.FleetHubProfile_STATUS_ARM&#34;&gt;
+FleetHubProfile_STATUS_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;HubProfile: The FleetHubProfile configures the Fleet&amp;rsquo;s hub.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.FleetProvisioningState_STATUS&#34;&gt;
+FleetProvisioningState_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ProvisioningState: The status of the last operation.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.FleetProvisioningState_STATUS&#34;&gt;FleetProvisioningState_STATUS
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.FleetProperties_STATUS_ARM&#34;&gt;FleetProperties_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleet_STATUS&#34;&gt;Fleet_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The provisioning state of the last accepted operation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Canceled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Creating&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Deleting&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Failed&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Succeeded&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Updating&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.Fleet_STATUS&#34;&gt;Fleet_STATUS
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleet&#34;&gt;Fleet&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The Fleet resource.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;conditions&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition&#34;&gt;
+[]genruntime/conditions.Condition
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Conditions: The observed state of the resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;eTag&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ETag: If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.
+Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in
+the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header
+fields.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;hubProfile&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.FleetHubProfile_STATUS&#34;&gt;
+FleetHubProfile_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;HubProfile: The FleetHubProfile configures the Fleet&amp;rsquo;s hub.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Id: Fully qualified resource ID for the resource. Ex -
+/&amp;#x200b;subscriptions/&amp;#x200b;{subscriptionId}/&amp;#x200b;resourceGroups/&amp;#x200b;{resourceGroupName}/&amp;#x200b;providers/&amp;#x200b;{resourceProviderNamespace}/&amp;#x200b;{resourceType}/&amp;#x200b;{resourceName}&lt;/&amp;#x200b;p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Location: The geo-location where the resource lives&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: The name of the resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.FleetProvisioningState_STATUS&#34;&gt;
+FleetProvisioningState_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ProvisioningState: The status of the last operation.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;systemData&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.SystemData_STATUS&#34;&gt;
+SystemData_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Tags: Resource tags.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Type: The type of the resource. E.g. &amp;ldquo;Microsoft.Compute/virtualMachines&amp;rdquo; or &amp;ldquo;Microsoft.Storage/storageAccounts&amp;rdquo;&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.Fleet_STATUS_ARM&#34;&gt;Fleet_STATUS_ARM
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;p&gt;The Fleet resource.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;eTag&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ETag: If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.
+Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in
+the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header
+fields.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Id: Fully qualified resource ID for the resource. Ex -
+/&amp;#x200b;subscriptions/&amp;#x200b;{subscriptionId}/&amp;#x200b;resourceGroups/&amp;#x200b;{resourceGroupName}/&amp;#x200b;providers/&amp;#x200b;{resourceProviderNamespace}/&amp;#x200b;{resourceType}/&amp;#x200b;{resourceName}&lt;/&amp;#x200b;p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Location: The geo-location where the resource lives&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: The name of the resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.FleetProperties_STATUS_ARM&#34;&gt;
+FleetProperties_STATUS_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Properties: The resource-specific properties for this resource.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;systemData&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.SystemData_STATUS_ARM&#34;&gt;
+SystemData_STATUS_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Tags: Resource tags.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Type: The type of the resource. E.g. &amp;ldquo;Microsoft.Compute/virtualMachines&amp;rdquo; or &amp;ldquo;Microsoft.Storage/storageAccounts&amp;rdquo;&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.Fleet_Spec&#34;&gt;Fleet_Spec
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleet&#34;&gt;Fleet&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;azureName&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&amp;rsquo;t have to be.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;hubProfile&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.FleetHubProfile&#34;&gt;
+FleetHubProfile
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;HubProfile: The FleetHubProfile configures the Fleet&amp;rsquo;s hub.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Location: The geo-location where the resource lives&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;operatorSpec&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.FleetOperatorSpec&#34;&gt;
+FleetOperatorSpec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+passed directly to Azure&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;owner&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference&#34;&gt;
+genruntime.KnownResourceReference
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Tags: Resource tags.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.Fleet_Spec_ARM&#34;&gt;Fleet_Spec_ARM
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Location: The geo-location where the resource lives&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.FleetProperties_ARM&#34;&gt;
+FleetProperties_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Properties: The resource-specific properties for this resource.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Tags: Resource tags.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.FleetsMember&#34;&gt;FleetsMember
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;p&gt;Generator information:
+- Generated from: /containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-03-15-preview/fleets.json
+- ARM URI: /&amp;#x200b;subscriptions/&amp;#x200b;{subscriptionId}/&amp;#x200b;resourceGroups/&amp;#x200b;{resourceGroupName}/&amp;#x200b;providers/&amp;#x200b;Microsoft.ContainerService/&amp;#x200b;fleets/&amp;#x200b;{fleetName}/&amp;#x200b;members/&amp;#x200b;{fleetMemberName}&lt;/&amp;#x200b;p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;metadata&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta&#34;&gt;
+Kubernetes meta/v1.ObjectMeta
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+Refer to the Kubernetes API documentation for the fields of the
+&lt;code&gt;metadata&lt;/code&gt; field.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;spec&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleets_Member_Spec&#34;&gt;
+Fleets_Member_Spec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;br/&gt;
+&lt;br/&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;azureName&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&amp;rsquo;t have to be.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;clusterResourceReference&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference&#34;&gt;
+genruntime.ResourceReference
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ClusterResourceReference: The ARM resource id of the cluster that joins the Fleet. Must be a valid Azure resource id.
+e.g.:
+&amp;lsquo;/&amp;#x200b;subscriptions/&amp;#x200b;{subscriptionId}/&amp;#x200b;resourceGroups/&amp;#x200b;{resourceGroupName}/&amp;#x200b;providers/&amp;#x200b;Microsoft.ContainerService/&amp;#x200b;managedClusters/&amp;#x200b;{clusterName}&amp;rsquo;.&lt;/&amp;#x200b;p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;group&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Group: The group this member belongs to for multi-cluster update management.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;owner&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference&#34;&gt;
+genruntime.KnownResourceReference
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a containerservice.azure.com/Fleet resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleets_Member_STATUS&#34;&gt;
+Fleets_Member_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.FleetsUpdateRun&#34;&gt;FleetsUpdateRun
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;p&gt;Generator information:
+- Generated from: /containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-03-15-preview/fleets.json
+- ARM URI: /&amp;#x200b;subscriptions/&amp;#x200b;{subscriptionId}/&amp;#x200b;resourceGroups/&amp;#x200b;{resourceGroupName}/&amp;#x200b;providers/&amp;#x200b;Microsoft.ContainerService/&amp;#x200b;fleets/&amp;#x200b;{fleetName}/&amp;#x200b;updateRuns/&amp;#x200b;{updateRunName}&lt;/&amp;#x200b;p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;metadata&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta&#34;&gt;
+Kubernetes meta/v1.ObjectMeta
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+Refer to the Kubernetes API documentation for the fields of the
+&lt;code&gt;metadata&lt;/code&gt; field.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;spec&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_Spec&#34;&gt;
+Fleets_UpdateRun_Spec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;br/&gt;
+&lt;br/&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;azureName&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&amp;rsquo;t have to be.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;managedClusterUpdate&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ManagedClusterUpdate&#34;&gt;
+ManagedClusterUpdate
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ManagedClusterUpdate: The update to be applied to all clusters in the UpdateRun. The managedClusterUpdate can be
+modified until the run is started.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;owner&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference&#34;&gt;
+genruntime.KnownResourceReference
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a containerservice.azure.com/Fleet resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;strategy&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunStrategy&#34;&gt;
+UpdateRunStrategy
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Strategy: The strategy defines the order in which the clusters will be updated.
+If not set, all members will be updated sequentially. The UpdateRun status will show a single UpdateStage and a single
+UpdateGroup targeting all members.
+The strategy of the UpdateRun can be modified until the run is started.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_STATUS&#34;&gt;
+Fleets_UpdateRun_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.Fleets_Member_STATUS&#34;&gt;Fleets_Member_STATUS
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.FleetsMember&#34;&gt;FleetsMember&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;clusterResourceId&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ClusterResourceId: The ARM resource id of the cluster that joins the Fleet. Must be a valid Azure resource id. e.g.:
+&amp;lsquo;/&amp;#x200b;subscriptions/&amp;#x200b;{subscriptionId}/&amp;#x200b;resourceGroups/&amp;#x200b;{resourceGroupName}/&amp;#x200b;providers/&amp;#x200b;Microsoft.ContainerService/&amp;#x200b;managedClusters/&amp;#x200b;{clusterName}&amp;rsquo;.&lt;/&amp;#x200b;p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;conditions&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition&#34;&gt;
+[]genruntime/conditions.Condition
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Conditions: The observed state of the resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;eTag&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ETag: If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.
+Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in
+the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header
+fields.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;group&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Group: The group this member belongs to for multi-cluster update management.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Id: Fully qualified resource ID for the resource. Ex -
+/&amp;#x200b;subscriptions/&amp;#x200b;{subscriptionId}/&amp;#x200b;resourceGroups/&amp;#x200b;{resourceGroupName}/&amp;#x200b;providers/&amp;#x200b;{resourceProviderNamespace}/&amp;#x200b;{resourceType}/&amp;#x200b;{resourceName}&lt;/&amp;#x200b;p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: The name of the resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.FleetMemberProvisioningState_STATUS&#34;&gt;
+FleetMemberProvisioningState_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ProvisioningState: The status of the last operation.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;systemData&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.SystemData_STATUS&#34;&gt;
+SystemData_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Type: The type of the resource. E.g. &amp;ldquo;Microsoft.Compute/virtualMachines&amp;rdquo; or &amp;ldquo;Microsoft.Storage/storageAccounts&amp;rdquo;&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.Fleets_Member_STATUS_ARM&#34;&gt;Fleets_Member_STATUS_ARM
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;eTag&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ETag: If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.
+Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in
+the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header
+fields.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Id: Fully qualified resource ID for the resource. Ex -
+/&amp;#x200b;subscriptions/&amp;#x200b;{subscriptionId}/&amp;#x200b;resourceGroups/&amp;#x200b;{resourceGroupName}/&amp;#x200b;providers/&amp;#x200b;{resourceProviderNamespace}/&amp;#x200b;{resourceType}/&amp;#x200b;{resourceName}&lt;/&amp;#x200b;p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: The name of the resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.FleetMemberProperties_STATUS_ARM&#34;&gt;
+FleetMemberProperties_STATUS_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Properties: The resource-specific properties for this resource.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;systemData&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.SystemData_STATUS_ARM&#34;&gt;
+SystemData_STATUS_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Type: The type of the resource. E.g. &amp;ldquo;Microsoft.Compute/virtualMachines&amp;rdquo; or &amp;ldquo;Microsoft.Storage/storageAccounts&amp;rdquo;&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.Fleets_Member_Spec&#34;&gt;Fleets_Member_Spec
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.FleetsMember&#34;&gt;FleetsMember&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;azureName&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&amp;rsquo;t have to be.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;clusterResourceReference&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference&#34;&gt;
+genruntime.ResourceReference
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ClusterResourceReference: The ARM resource id of the cluster that joins the Fleet. Must be a valid Azure resource id.
+e.g.:
+&amp;lsquo;/&amp;#x200b;subscriptions/&amp;#x200b;{subscriptionId}/&amp;#x200b;resourceGroups/&amp;#x200b;{resourceGroupName}/&amp;#x200b;providers/&amp;#x200b;Microsoft.ContainerService/&amp;#x200b;managedClusters/&amp;#x200b;{clusterName}&amp;rsquo;.&lt;/&amp;#x200b;p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;group&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Group: The group this member belongs to for multi-cluster update management.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;owner&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference&#34;&gt;
+genruntime.KnownResourceReference
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a containerservice.azure.com/Fleet resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.Fleets_Member_Spec_ARM&#34;&gt;Fleets_Member_Spec_ARM
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.FleetMemberProperties_ARM&#34;&gt;
+FleetMemberProperties_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Properties: The resource-specific properties for this resource.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_STATUS&#34;&gt;Fleets_UpdateRun_STATUS
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.FleetsUpdateRun&#34;&gt;FleetsUpdateRun&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;conditions&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition&#34;&gt;
+[]genruntime/conditions.Condition
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Conditions: The observed state of the resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;eTag&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ETag: If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.
+Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in
+the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header
+fields.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Id: Fully qualified resource ID for the resource. Ex -
+/&amp;#x200b;subscriptions/&amp;#x200b;{subscriptionId}/&amp;#x200b;resourceGroups/&amp;#x200b;{resourceGroupName}/&amp;#x200b;providers/&amp;#x200b;{resourceProviderNamespace}/&amp;#x200b;{resourceType}/&amp;#x200b;{resourceName}&lt;/&amp;#x200b;p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;managedClusterUpdate&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ManagedClusterUpdate_STATUS&#34;&gt;
+ManagedClusterUpdate_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ManagedClusterUpdate: The update to be applied to all clusters in the UpdateRun. The managedClusterUpdate can be
+modified until the run is started.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: The name of the resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunProvisioningState_STATUS&#34;&gt;
+UpdateRunProvisioningState_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ProvisioningState: The provisioning state of the UpdateRun resource.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunStatus_STATUS&#34;&gt;
+UpdateRunStatus_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Status: The status of the UpdateRun.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;strategy&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunStrategy_STATUS&#34;&gt;
+UpdateRunStrategy_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Strategy: The strategy defines the order in which the clusters will be updated.
+If not set, all members will be updated sequentially. The UpdateRun status will show a single UpdateStage and a single
+UpdateGroup targeting all members.
+The strategy of the UpdateRun can be modified until the run is started.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;systemData&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.SystemData_STATUS&#34;&gt;
+SystemData_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Type: The type of the resource. E.g. &amp;ldquo;Microsoft.Compute/virtualMachines&amp;rdquo; or &amp;ldquo;Microsoft.Storage/storageAccounts&amp;rdquo;&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_STATUS_ARM&#34;&gt;Fleets_UpdateRun_STATUS_ARM
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;eTag&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ETag: If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.
+Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in
+the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header
+fields.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Id: Fully qualified resource ID for the resource. Ex -
+/&amp;#x200b;subscriptions/&amp;#x200b;{subscriptionId}/&amp;#x200b;resourceGroups/&amp;#x200b;{resourceGroupName}/&amp;#x200b;providers/&amp;#x200b;{resourceProviderNamespace}/&amp;#x200b;{resourceType}/&amp;#x200b;{resourceName}&lt;/&amp;#x200b;p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: The name of the resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunProperties_STATUS_ARM&#34;&gt;
+UpdateRunProperties_STATUS_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Properties: The resource-specific properties for this resource.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;systemData&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.SystemData_STATUS_ARM&#34;&gt;
+SystemData_STATUS_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Type: The type of the resource. E.g. &amp;ldquo;Microsoft.Compute/virtualMachines&amp;rdquo; or &amp;ldquo;Microsoft.Storage/storageAccounts&amp;rdquo;&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_Spec&#34;&gt;Fleets_UpdateRun_Spec
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.FleetsUpdateRun&#34;&gt;FleetsUpdateRun&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;azureName&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&amp;rsquo;t have to be.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;managedClusterUpdate&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ManagedClusterUpdate&#34;&gt;
+ManagedClusterUpdate
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ManagedClusterUpdate: The update to be applied to all clusters in the UpdateRun. The managedClusterUpdate can be
+modified until the run is started.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;owner&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference&#34;&gt;
+genruntime.KnownResourceReference
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a containerservice.azure.com/Fleet resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;strategy&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunStrategy&#34;&gt;
+UpdateRunStrategy
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Strategy: The strategy defines the order in which the clusters will be updated.
+If not set, all members will be updated sequentially. The UpdateRun status will show a single UpdateStage and a single
+UpdateGroup targeting all members.
+The strategy of the UpdateRun can be modified until the run is started.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_Spec_ARM&#34;&gt;Fleets_UpdateRun_Spec_ARM
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunProperties_ARM&#34;&gt;
+UpdateRunProperties_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Properties: The resource-specific properties for this resource.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.ManagedClusterUpdate&#34;&gt;ManagedClusterUpdate
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_Spec&#34;&gt;Fleets_UpdateRun_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The update to be applied to the ManagedClusters.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;upgrade&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ManagedClusterUpgradeSpec&#34;&gt;
+ManagedClusterUpgradeSpec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Upgrade: The upgrade to apply to the ManagedClusters.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.ManagedClusterUpdate_ARM&#34;&gt;ManagedClusterUpdate_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunProperties_ARM&#34;&gt;UpdateRunProperties_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The update to be applied to the ManagedClusters.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;upgrade&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ManagedClusterUpgradeSpec_ARM&#34;&gt;
+ManagedClusterUpgradeSpec_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Upgrade: The upgrade to apply to the ManagedClusters.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.ManagedClusterUpdate_STATUS&#34;&gt;ManagedClusterUpdate_STATUS
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_STATUS&#34;&gt;Fleets_UpdateRun_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The update to be applied to the ManagedClusters.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;upgrade&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ManagedClusterUpgradeSpec_STATUS&#34;&gt;
+ManagedClusterUpgradeSpec_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Upgrade: The upgrade to apply to the ManagedClusters.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.ManagedClusterUpdate_STATUS_ARM&#34;&gt;ManagedClusterUpdate_STATUS_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunProperties_STATUS_ARM&#34;&gt;UpdateRunProperties_STATUS_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The update to be applied to the ManagedClusters.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;upgrade&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ManagedClusterUpgradeSpec_STATUS_ARM&#34;&gt;
+ManagedClusterUpgradeSpec_STATUS_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Upgrade: The upgrade to apply to the ManagedClusters.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.ManagedClusterUpgradeSpec&#34;&gt;ManagedClusterUpgradeSpec
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ManagedClusterUpdate&#34;&gt;ManagedClusterUpdate&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The upgrade to apply to a ManagedCluster.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;kubernetesVersion&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;KubernetesVersion: The Kubernetes version to upgrade the member clusters to.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ManagedClusterUpgradeType&#34;&gt;
+ManagedClusterUpgradeType
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Type: The upgrade type.
+Full requires the KubernetesVersion property to be set.
+NodeImageOnly requires the KubernetesVersion property not to be set.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.ManagedClusterUpgradeSpec_ARM&#34;&gt;ManagedClusterUpgradeSpec_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ManagedClusterUpdate_ARM&#34;&gt;ManagedClusterUpdate_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The upgrade to apply to a ManagedCluster.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;kubernetesVersion&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;KubernetesVersion: The Kubernetes version to upgrade the member clusters to.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ManagedClusterUpgradeType&#34;&gt;
+ManagedClusterUpgradeType
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Type: The upgrade type.
+Full requires the KubernetesVersion property to be set.
+NodeImageOnly requires the KubernetesVersion property not to be set.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.ManagedClusterUpgradeSpec_STATUS&#34;&gt;ManagedClusterUpgradeSpec_STATUS
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ManagedClusterUpdate_STATUS&#34;&gt;ManagedClusterUpdate_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The upgrade to apply to a ManagedCluster.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;kubernetesVersion&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;KubernetesVersion: The Kubernetes version to upgrade the member clusters to.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ManagedClusterUpgradeType_STATUS&#34;&gt;
+ManagedClusterUpgradeType_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Type: The upgrade type.
+Full requires the KubernetesVersion property to be set.
+NodeImageOnly requires the KubernetesVersion property not to be set.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.ManagedClusterUpgradeSpec_STATUS_ARM&#34;&gt;ManagedClusterUpgradeSpec_STATUS_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ManagedClusterUpdate_STATUS_ARM&#34;&gt;ManagedClusterUpdate_STATUS_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The upgrade to apply to a ManagedCluster.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;kubernetesVersion&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;KubernetesVersion: The Kubernetes version to upgrade the member clusters to.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ManagedClusterUpgradeType_STATUS&#34;&gt;
+ManagedClusterUpgradeType_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Type: The upgrade type.
+Full requires the KubernetesVersion property to be set.
+NodeImageOnly requires the KubernetesVersion property not to be set.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.ManagedClusterUpgradeType&#34;&gt;ManagedClusterUpgradeType
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ManagedClusterUpgradeSpec&#34;&gt;ManagedClusterUpgradeSpec&lt;/a&gt;, &lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ManagedClusterUpgradeSpec_ARM&#34;&gt;ManagedClusterUpgradeSpec_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The type of upgrade to perform when targeting ManagedClusters.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Full&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;NodeImageOnly&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.ManagedClusterUpgradeType_STATUS&#34;&gt;ManagedClusterUpgradeType_STATUS
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ManagedClusterUpgradeSpec_STATUS&#34;&gt;ManagedClusterUpgradeSpec_STATUS&lt;/a&gt;, &lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ManagedClusterUpgradeSpec_STATUS_ARM&#34;&gt;ManagedClusterUpgradeSpec_STATUS_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The type of upgrade to perform when targeting ManagedClusters.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Full&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;NodeImageOnly&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.MemberUpdateStatus_STATUS&#34;&gt;MemberUpdateStatus_STATUS
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateGroupStatus_STATUS&#34;&gt;UpdateGroupStatus_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The status of a member update operation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;clusterResourceId&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ClusterResourceId: The Azure resource id of the target Kubernetes cluster.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: The name of the FleetMember.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;operationId&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;OperationId: The operation resource id of the latest attempt to perform the operation.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStatus_STATUS&#34;&gt;
+UpdateStatus_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Status: The status of the MemberUpdate operation.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.MemberUpdateStatus_STATUS_ARM&#34;&gt;MemberUpdateStatus_STATUS_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateGroupStatus_STATUS_ARM&#34;&gt;UpdateGroupStatus_STATUS_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The status of a member update operation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;clusterResourceId&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ClusterResourceId: The Azure resource id of the target Kubernetes cluster.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: The name of the FleetMember.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;operationId&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;OperationId: The operation resource id of the latest attempt to perform the operation.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStatus_STATUS_ARM&#34;&gt;
+UpdateStatus_STATUS_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Status: The status of the MemberUpdate operation.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.SystemData_CreatedByType_STATUS&#34;&gt;SystemData_CreatedByType_STATUS
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;, &lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Application&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Key&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ManagedIdentity&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;User&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.SystemData_LastModifiedByType_STATUS&#34;&gt;SystemData_LastModifiedByType_STATUS
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.SystemData_STATUS&#34;&gt;SystemData_STATUS&lt;/a&gt;, &lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Application&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Key&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ManagedIdentity&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;User&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.SystemData_STATUS&#34;&gt;SystemData_STATUS
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleet_STATUS&#34;&gt;Fleet_STATUS&lt;/a&gt;, &lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleets_Member_STATUS&#34;&gt;Fleets_Member_STATUS&lt;/a&gt;, &lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_STATUS&#34;&gt;Fleets_UpdateRun_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Metadata pertaining to creation and last modification of the resource.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;createdAt&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;CreatedAt: The timestamp of resource creation (UTC).&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;createdBy&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;CreatedBy: The identity that created the resource.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;createdByType&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.SystemData_CreatedByType_STATUS&#34;&gt;
+SystemData_CreatedByType_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;CreatedByType: The type of identity that created the resource.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;lastModifiedAt&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;LastModifiedAt: The timestamp of resource last modification (UTC)&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;lastModifiedBy&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;LastModifiedBy: The identity that last modified the resource.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;lastModifiedByType&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.SystemData_LastModifiedByType_STATUS&#34;&gt;
+SystemData_LastModifiedByType_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;LastModifiedByType: The type of identity that last modified the resource.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.SystemData_STATUS_ARM&#34;&gt;SystemData_STATUS_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleet_STATUS_ARM&#34;&gt;Fleet_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleets_Member_STATUS_ARM&#34;&gt;Fleets_Member_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_STATUS_ARM&#34;&gt;Fleets_UpdateRun_STATUS_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Metadata pertaining to creation and last modification of the resource.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;createdAt&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;CreatedAt: The timestamp of resource creation (UTC).&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;createdBy&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;CreatedBy: The identity that created the resource.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;createdByType&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.SystemData_CreatedByType_STATUS&#34;&gt;
+SystemData_CreatedByType_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;CreatedByType: The type of identity that created the resource.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;lastModifiedAt&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;LastModifiedAt: The timestamp of resource last modification (UTC)&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;lastModifiedBy&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;LastModifiedBy: The identity that last modified the resource.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;lastModifiedByType&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.SystemData_LastModifiedByType_STATUS&#34;&gt;
+SystemData_LastModifiedByType_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;LastModifiedByType: The type of identity that last modified the resource.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.UpdateGroup&#34;&gt;UpdateGroup
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStage&#34;&gt;UpdateStage&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;A group to be updated.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: The name of the Fleet member group to update.
+It should match the name of an existing FleetMember group.
+A group can only appear once across all UpdateStages in the UpdateRun.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.UpdateGroupStatus_STATUS&#34;&gt;UpdateGroupStatus_STATUS
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStageStatus_STATUS&#34;&gt;UpdateStageStatus_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The status of a UpdateGroup.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;members&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.MemberUpdateStatus_STATUS&#34;&gt;
+[]MemberUpdateStatus_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Members: The list of member this UpdateGroup updates.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: The name of the UpdateGroup.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStatus_STATUS&#34;&gt;
+UpdateStatus_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Status: The status of the UpdateGroup.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.UpdateGroupStatus_STATUS_ARM&#34;&gt;UpdateGroupStatus_STATUS_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStageStatus_STATUS_ARM&#34;&gt;UpdateStageStatus_STATUS_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The status of a UpdateGroup.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;members&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.MemberUpdateStatus_STATUS_ARM&#34;&gt;
+[]MemberUpdateStatus_STATUS_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Members: The list of member this UpdateGroup updates.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: The name of the UpdateGroup.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStatus_STATUS_ARM&#34;&gt;
+UpdateStatus_STATUS_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Status: The status of the UpdateGroup.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.UpdateGroup_ARM&#34;&gt;UpdateGroup_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStage_ARM&#34;&gt;UpdateStage_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;A group to be updated.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: The name of the Fleet member group to update.
+It should match the name of an existing FleetMember group.
+A group can only appear once across all UpdateStages in the UpdateRun.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.UpdateGroup_STATUS&#34;&gt;UpdateGroup_STATUS
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStage_STATUS&#34;&gt;UpdateStage_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;A group to be updated.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: The name of the Fleet member group to update.
+It should match the name of an existing FleetMember group.
+A group can only appear once across all UpdateStages in the UpdateRun.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.UpdateGroup_STATUS_ARM&#34;&gt;UpdateGroup_STATUS_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStage_STATUS_ARM&#34;&gt;UpdateStage_STATUS_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;A group to be updated.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: The name of the Fleet member group to update.
+It should match the name of an existing FleetMember group.
+A group can only appear once across all UpdateStages in the UpdateRun.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.UpdateRunProperties_ARM&#34;&gt;UpdateRunProperties_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_Spec_ARM&#34;&gt;Fleets_UpdateRun_Spec_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The properties of the UpdateRun.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;managedClusterUpdate&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ManagedClusterUpdate_ARM&#34;&gt;
+ManagedClusterUpdate_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ManagedClusterUpdate: The update to be applied to all clusters in the UpdateRun. The managedClusterUpdate can be
+modified until the run is started.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;strategy&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunStrategy_ARM&#34;&gt;
+UpdateRunStrategy_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Strategy: The strategy defines the order in which the clusters will be updated.
+If not set, all members will be updated sequentially. The UpdateRun status will show a single UpdateStage and a single
+UpdateGroup targeting all members.
+The strategy of the UpdateRun can be modified until the run is started.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.UpdateRunProperties_STATUS_ARM&#34;&gt;UpdateRunProperties_STATUS_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_STATUS_ARM&#34;&gt;Fleets_UpdateRun_STATUS_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The properties of the UpdateRun.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;managedClusterUpdate&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ManagedClusterUpdate_STATUS_ARM&#34;&gt;
+ManagedClusterUpdate_STATUS_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ManagedClusterUpdate: The update to be applied to all clusters in the UpdateRun. The managedClusterUpdate can be
+modified until the run is started.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunProvisioningState_STATUS&#34;&gt;
+UpdateRunProvisioningState_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ProvisioningState: The provisioning state of the UpdateRun resource.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunStatus_STATUS_ARM&#34;&gt;
+UpdateRunStatus_STATUS_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Status: The status of the UpdateRun.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;strategy&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunStrategy_STATUS_ARM&#34;&gt;
+UpdateRunStrategy_STATUS_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Strategy: The strategy defines the order in which the clusters will be updated.
+If not set, all members will be updated sequentially. The UpdateRun status will show a single UpdateStage and a single
+UpdateGroup targeting all members.
+The strategy of the UpdateRun can be modified until the run is started.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.UpdateRunProvisioningState_STATUS&#34;&gt;UpdateRunProvisioningState_STATUS
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_STATUS&#34;&gt;Fleets_UpdateRun_STATUS&lt;/a&gt;, &lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunProperties_STATUS_ARM&#34;&gt;UpdateRunProperties_STATUS_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The provisioning state of the UpdateRun resource.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Canceled&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Failed&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Succeeded&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.UpdateRunStatus_STATUS&#34;&gt;UpdateRunStatus_STATUS
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_STATUS&#34;&gt;Fleets_UpdateRun_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The status of a UpdateRun.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;stages&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStageStatus_STATUS&#34;&gt;
+[]UpdateStageStatus_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Stages: The stages composing an update run. Stages are run sequentially withing an UpdateRun.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStatus_STATUS&#34;&gt;
+UpdateStatus_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Status: The status of the UpdateRun.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.UpdateRunStatus_STATUS_ARM&#34;&gt;UpdateRunStatus_STATUS_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunProperties_STATUS_ARM&#34;&gt;UpdateRunProperties_STATUS_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The status of a UpdateRun.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;stages&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStageStatus_STATUS_ARM&#34;&gt;
+[]UpdateStageStatus_STATUS_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Stages: The stages composing an update run. Stages are run sequentially withing an UpdateRun.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStatus_STATUS_ARM&#34;&gt;
+UpdateStatus_STATUS_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Status: The status of the UpdateRun.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.UpdateRunStrategy&#34;&gt;UpdateRunStrategy
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_Spec&#34;&gt;Fleets_UpdateRun_Spec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The UpdateRunStrategy configures the sequence of Stages and Groups in which the clusters will be updated.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;stages&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStage&#34;&gt;
+[]UpdateStage
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Stages: The list of stages that compose this update run.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.UpdateRunStrategy_ARM&#34;&gt;UpdateRunStrategy_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunProperties_ARM&#34;&gt;UpdateRunProperties_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The UpdateRunStrategy configures the sequence of Stages and Groups in which the clusters will be updated.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;stages&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStage_ARM&#34;&gt;
+[]UpdateStage_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Stages: The list of stages that compose this update run.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.UpdateRunStrategy_STATUS&#34;&gt;UpdateRunStrategy_STATUS
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.Fleets_UpdateRun_STATUS&#34;&gt;Fleets_UpdateRun_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The UpdateRunStrategy configures the sequence of Stages and Groups in which the clusters will be updated.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;stages&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStage_STATUS&#34;&gt;
+[]UpdateStage_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Stages: The list of stages that compose this update run.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.UpdateRunStrategy_STATUS_ARM&#34;&gt;UpdateRunStrategy_STATUS_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunProperties_STATUS_ARM&#34;&gt;UpdateRunProperties_STATUS_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The UpdateRunStrategy configures the sequence of Stages and Groups in which the clusters will be updated.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;stages&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStage_STATUS_ARM&#34;&gt;
+[]UpdateStage_STATUS_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Stages: The list of stages that compose this update run.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.UpdateStage&#34;&gt;UpdateStage
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunStrategy&#34;&gt;UpdateRunStrategy&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Contains the groups to be updated by an UpdateRun.
+Update order:
+- Sequential between stages: Stages run sequentially.
+The previous stage must complete before the next one starts.
+- Parallel within a stage: Groups within a stage run in
+parallel.
+- Sequential within a group: Clusters within a group are updated sequentially.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;afterStageWaitInSeconds&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AfterStageWaitInSeconds: The time in seconds to wait at the end of this stage before starting the next one. Defaults to
+0 seconds if unspecified.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;groups&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateGroup&#34;&gt;
+[]UpdateGroup
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Groups: A list of group names that compose the stage.
+The groups will be updated in parallel. Each group name can only appear once in the UpdateRun.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: The name of the stage. Must be unique within the UpdateRun.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.UpdateStageStatus_STATUS&#34;&gt;UpdateStageStatus_STATUS
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunStatus_STATUS&#34;&gt;UpdateRunStatus_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The status of a UpdateStage.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;afterStageWaitStatus&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.WaitStatus_STATUS&#34;&gt;
+WaitStatus_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AfterStageWaitStatus: The status of the wait period configured on the UpdateStage.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;groups&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateGroupStatus_STATUS&#34;&gt;
+[]UpdateGroupStatus_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Groups: The list of groups to be updated as part of this UpdateStage.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: The name of the UpdateStage.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStatus_STATUS&#34;&gt;
+UpdateStatus_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Status: The status of the UpdateStage.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.UpdateStageStatus_STATUS_ARM&#34;&gt;UpdateStageStatus_STATUS_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunStatus_STATUS_ARM&#34;&gt;UpdateRunStatus_STATUS_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The status of a UpdateStage.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;afterStageWaitStatus&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.WaitStatus_STATUS_ARM&#34;&gt;
+WaitStatus_STATUS_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AfterStageWaitStatus: The status of the wait period configured on the UpdateStage.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;groups&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateGroupStatus_STATUS_ARM&#34;&gt;
+[]UpdateGroupStatus_STATUS_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Groups: The list of groups to be updated as part of this UpdateStage.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: The name of the UpdateStage.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStatus_STATUS_ARM&#34;&gt;
+UpdateStatus_STATUS_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Status: The status of the UpdateStage.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.UpdateStage_ARM&#34;&gt;UpdateStage_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunStrategy_ARM&#34;&gt;UpdateRunStrategy_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Contains the groups to be updated by an UpdateRun.
+Update order:
+- Sequential between stages: Stages run sequentially.
+The previous stage must complete before the next one starts.
+- Parallel within a stage: Groups within a stage run in
+parallel.
+- Sequential within a group: Clusters within a group are updated sequentially.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;afterStageWaitInSeconds&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AfterStageWaitInSeconds: The time in seconds to wait at the end of this stage before starting the next one. Defaults to
+0 seconds if unspecified.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;groups&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateGroup_ARM&#34;&gt;
+[]UpdateGroup_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Groups: A list of group names that compose the stage.
+The groups will be updated in parallel. Each group name can only appear once in the UpdateRun.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: The name of the stage. Must be unique within the UpdateRun.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.UpdateStage_STATUS&#34;&gt;UpdateStage_STATUS
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunStrategy_STATUS&#34;&gt;UpdateRunStrategy_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Contains the groups to be updated by an UpdateRun.
+Update order:
+- Sequential between stages: Stages run sequentially.
+The previous stage must complete before the next one starts.
+- Parallel within a stage: Groups within a stage run in
+parallel.
+- Sequential within a group: Clusters within a group are updated sequentially.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;afterStageWaitInSeconds&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AfterStageWaitInSeconds: The time in seconds to wait at the end of this stage before starting the next one. Defaults to
+0 seconds if unspecified.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;groups&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateGroup_STATUS&#34;&gt;
+[]UpdateGroup_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Groups: A list of group names that compose the stage.
+The groups will be updated in parallel. Each group name can only appear once in the UpdateRun.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: The name of the stage. Must be unique within the UpdateRun.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.UpdateStage_STATUS_ARM&#34;&gt;UpdateStage_STATUS_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunStrategy_STATUS_ARM&#34;&gt;UpdateRunStrategy_STATUS_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Contains the groups to be updated by an UpdateRun.
+Update order:
+- Sequential between stages: Stages run sequentially.
+The previous stage must complete before the next one starts.
+- Parallel within a stage: Groups within a stage run in
+parallel.
+- Sequential within a group: Clusters within a group are updated sequentially.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;afterStageWaitInSeconds&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AfterStageWaitInSeconds: The time in seconds to wait at the end of this stage before starting the next one. Defaults to
+0 seconds if unspecified.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;groups&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateGroup_STATUS_ARM&#34;&gt;
+[]UpdateGroup_STATUS_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Groups: A list of group names that compose the stage.
+The groups will be updated in parallel. Each group name can only appear once in the UpdateRun.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: The name of the stage. Must be unique within the UpdateRun.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.UpdateState_STATUS&#34;&gt;UpdateState_STATUS
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStatus_STATUS&#34;&gt;UpdateStatus_STATUS&lt;/a&gt;, &lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStatus_STATUS_ARM&#34;&gt;UpdateStatus_STATUS_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The state of the UpdateRun, UpdateStage, UpdateGroup, or MemberUpdate.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Completed&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Failed&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;NotStarted&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Running&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Stopped&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Stopping&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.UpdateStatus_STATUS&#34;&gt;UpdateStatus_STATUS
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.MemberUpdateStatus_STATUS&#34;&gt;MemberUpdateStatus_STATUS&lt;/a&gt;, &lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateGroupStatus_STATUS&#34;&gt;UpdateGroupStatus_STATUS&lt;/a&gt;, &lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunStatus_STATUS&#34;&gt;UpdateRunStatus_STATUS&lt;/a&gt;, &lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStageStatus_STATUS&#34;&gt;UpdateStageStatus_STATUS&lt;/a&gt;, &lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.WaitStatus_STATUS&#34;&gt;WaitStatus_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The status for an operation or group of operations.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;completedTime&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;CompletedTime: The time the operation or group was completed.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;error&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ErrorDetail_STATUS&#34;&gt;
+ErrorDetail_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Error: The error details when a failure is encountered.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;startTime&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;StartTime: The time the operation or group was started.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;state&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateState_STATUS&#34;&gt;
+UpdateState_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;State: The State of the operation or group.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.UpdateStatus_STATUS_ARM&#34;&gt;UpdateStatus_STATUS_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.MemberUpdateStatus_STATUS_ARM&#34;&gt;MemberUpdateStatus_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateGroupStatus_STATUS_ARM&#34;&gt;UpdateGroupStatus_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateRunStatus_STATUS_ARM&#34;&gt;UpdateRunStatus_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStageStatus_STATUS_ARM&#34;&gt;UpdateStageStatus_STATUS_ARM&lt;/a&gt;, &lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.WaitStatus_STATUS_ARM&#34;&gt;WaitStatus_STATUS_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The status for an operation or group of operations.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;completedTime&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;CompletedTime: The time the operation or group was completed.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;error&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.ErrorDetail_STATUS_ARM&#34;&gt;
+ErrorDetail_STATUS_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Error: The error details when a failure is encountered.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;startTime&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;StartTime: The time the operation or group was started.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;state&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateState_STATUS&#34;&gt;
+UpdateState_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;State: The State of the operation or group.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.WaitStatus_STATUS&#34;&gt;WaitStatus_STATUS
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStageStatus_STATUS&#34;&gt;UpdateStageStatus_STATUS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The status of the wait duration.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStatus_STATUS&#34;&gt;
+UpdateStatus_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Status: The status of the wait duration.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;waitDurationInSeconds&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;WaitDurationInSeconds: The wait duration configured in seconds.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;containerservice.azure.com/v1api20230315preview.WaitStatus_STATUS_ARM&#34;&gt;WaitStatus_STATUS_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStageStatus_STATUS_ARM&#34;&gt;UpdateStageStatus_STATUS_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The status of the wait duration.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#containerservice.azure.com/v1api20230315preview.UpdateStatus_STATUS_ARM&#34;&gt;
+UpdateStatus_STATUS_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Status: The status of the wait duration.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;waitDurationInSeconds&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;WaitDurationInSeconds: The wait duration configured in seconds.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr/&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Reference: containerservice.azure.com/v1beta20210501</title>
       <link>https://azure.github.io/azure-service-operator/reference/containerservice/v1beta20210501/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

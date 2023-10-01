@@ -186,6 +186,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v1api20230202preview/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v1api20230315preview/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v1beta20210501/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/create-a-new-release/</loc>
