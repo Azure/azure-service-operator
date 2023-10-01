@@ -3,7 +3,7 @@ title: Credential Format
 linktitle: Credential Format
 ---
 
-Azure Service Operator supports four different styles of authentication today. 
+Azure Service Operator supports four different styles of authentication today.
 
 Each section below dives into one of these authentication options, including examples for how to set it up and
 use it at the different [credential scopes]( {{< relref "credential-scope" >}} ).
@@ -15,11 +15,13 @@ See [Azure Workload Identity](https://github.com/Azure/azure-workload-identity) 
 **Workload identity (with Managed Identity) is the recommended authentication mode for production use-cases**.
 
 ### Prerequisites
+
 1. An existing Azure Service Principal or Managed Identity. The setup is the same regardless of which you choose.
 2. The [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli).
 3. An OIDC endpoint associated with your cluster. See [how to enable OIDC on AKS](https://learn.microsoft.com/en-us/azure/aks/use-oidc-issuer).
 
 Use the following Bash commands to set the environment variables containing the workload identity secret (customize with your values):
+
 ```bash
 export AZURE_CLIENT_ID="00000000-0000-0000-0000-00000000000"       # The client ID (sometimes called App Id) of the Service Principal, or the Client ID of the Managed Identity with which you are using Workload Identity.
 export AZURE_SUBSCRIPTION_ID="00000000-0000-0000-0000-00000000000" # The Azure Subscription ID the identity is in.
@@ -36,12 +38,14 @@ Establish trust between your OIDC issuer URL and the backing Service Principal o
 {{% tab header="Managed Identity" %}}
 
 Set the following additional environment variables:
+
 ```bash
 export MI_RESOURCE_GROUP="my-rg"  # The resource group containing the managed identity that will be used by ASO
 export MI_NAME="my-mi"            # The name of the managed identity that will be used by ASO
 ```
 
 Create the Federated Identity Credential registering your service account with AAD:
+
 ```bash
 az identity federated-credential create --name aso-federated-credential --identity-name ${MI_NAME} --resource-group ${MI_RESOURCE_GROUP} --issuer ${SERVICE_ACCOUNT_ISSUER} --subject "system:serviceaccount:azureserviceoperator-system:azureserviceoperator-default" --audiences "api://AzureADTokenExchange"
 ```
@@ -77,6 +81,7 @@ az ad app federated-credential create --id ${APPLICATION_OBJECT_ID} --parameters
 {{% tab header="Global" %}}
 
 If installing ASO for the first time, you can pass these values via Helm arguments:
+
 ```bash
 helm upgrade --install --devel aso2 aso2/azure-service-operator \
         --create-namespace \
@@ -115,6 +120,7 @@ If ASO was already installed on your cluster and you are updating the `aso-contr
 {{% tab header="Namespace" %}}
 
 Create the `aso-credential` secret in your namespace:
+
 ```bash
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
@@ -137,6 +143,7 @@ issuer URL and the backing Service Principal or Managed Identity. See [how to co
 {{% tab header="Resource" %}}
 
 Create a per-resource secret. We'll use `my-resource-secret`:
+
 ```bash
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
@@ -177,14 +184,16 @@ issuer URL and the backing Service Principal or Managed Identity. See [how to co
 ## Service Principal using a Client Secret
 
 ### Prerequisites
+
 1. An existing Azure Service Principal.
 
 To use Service Principal authentication with **client secret**, create a secret with the `AZURE_CLIENT_ID` and `AZURE_CLIENT_SECRET` keys set.
 
-For more information about Service Principals, see [creating an Azure Service Principal using the Azure CLI](https://docs.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli#password-based-authentication).
+For more information about Service Principals, see [Work with Azure service principal using the Azure CLI](https://learn.microsoft.com/en-us/cli/azure/azure-cli-sp-tutorial-1).
 The `AZURE_CLIENT_ID` is sometimes also called the App ID. The `AZURE_CLIENT_SECRET` is the "password" returned by the command in the previously linked documentation.
 
 Use the following Bash commands to set the environment variables containing the service principal secret (customize with your values):
+
 ```bash
 export AZURE_CLIENT_ID="00000000-0000-0000-0000-00000000000"       # The client ID (sometimes called App Id) of the Service Principal.
 export AZURE_CLIENT_SECRET="00000000-0000-0000-0000-00000000000"   # The client secret of the Service Principal.
@@ -199,6 +208,7 @@ export AZURE_TENANT_ID="00000000-0000-0000-0000-00000000000"       # The Azure A
 {{% tab header="Global" %}}
 
 If installing ASO for the first time, you can pass these values via Helm arguments:
+
 ```bash
 helm upgrade --install --devel aso2 aso2/azure-service-operator \
         --create-namespace \
@@ -237,6 +247,7 @@ If ASO was already installed on your cluster and you are updating the `aso-contr
 {{% tab header="Namespace" %}}
 
 Create the `aso-credential` secret in your namespace:
+
 ```bash
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
@@ -256,6 +267,7 @@ EOF
 {{% tab header="Resource" %}}
 
 Create a per-resource secret. We'll use `my-resource-secret`:
+
 ```bash
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
@@ -290,19 +302,20 @@ EOF
 {{% /tab %}}
 {{< /tabpane >}}
 
-
 ## Service Principal using a Client Certificate
 
 ### Prerequisites
+
 1. An existing Azure Service Principal.
-2. X.509 certificate in ASCII format such as PEM, CER, or DER. 
+2. X.509 certificate in ASCII format such as PEM, CER, or DER.
 
 To use Service Principal authentication via client certificate, create a secret with the `AZURE_CLIENT_ID`, `AZURE_CLIENT_CERTIFICATE` and `AZURE_CLIENT_CERTIFICATE_PASSWORD`(optional) keys set.
 
-For more information about creating Service Principals with certificate, see [creating an Azure Service Principal using the Azure CLI](https://learn.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli#certificate-based-authentication).
+For more information about creating Service Principals with certificate, see [creating an Azure Service Principal using certificate based authentication](https://learn.microsoft.com/en-us/cli/azure/azure-cli-sp-tutorial-3?tabs=concepts).
 The `AZURE_CLIENT_ID` is sometimes also called the App ID. The `AZURE_CLIENT_CERTIFICATE` is the _certificate_ returned by the command in the previously linked documentation.
 
 Use the following Bash commands to set the environment variables containing the service principal certificate secret (customize with your values):
+
 ```bash
 export AZURE_CLIENT_ID="00000000-0000-0000-0000-00000000000"          # The client ID (sometimes called App Id) of the Service Principal.
 export AZURE_SUBSCRIPTION_ID="00000000-0000-0000-0000-00000000000"    # The Azure Subscription ID the identity is in.
@@ -318,6 +331,7 @@ export AZURE_CLIENT_CERTIFICATE_PASSWORD="myPrivateKeyValue"          # The priv
 {{% tab header="Global" %}}
 
 If installing ASO for the first time, you can pass these values via Helm arguments:
+
 ```bash
 helm upgrade --install --devel aso2 aso2/azure-service-operator \
         --create-namespace \
@@ -357,6 +371,7 @@ If ASO was already installed on your cluster and you are updating the `aso-contr
 {{% tab header="Namespace" %}}
 
 Create the `aso-credential` secret in your namespace:
+
 ```bash
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
@@ -377,6 +392,7 @@ EOF
 {{% tab header="Resource" %}}
 
 Create a per-resource secret. We'll use `my-resource-secret`:
+
 ```bash
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
@@ -417,11 +433,13 @@ EOF
 > **This authentication mechanism still works but is deprecated. See [Azure Workload Identity](#azure-workload-identity) for the new way**
 
 ### Prerequisites
+
 1. An existing Azure Managed Identity.
 2. [aad-pod-identity](https://github.com/Azure/aad-pod-identity) installed into your cluster. If you are running ASO on an Azure Kubernetes Service (AKS) cluster, you can instead use the
    [integrated aad-pod-identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity).
 
 First, set the following environment variables:
+
 ```bash
 export IDENTITY_RESOURCE_GROUP="myrg"                              # The resource group containing the managed identity.
 export IDENTITY_NAME="myidentity"                                  # The name of the identity.
@@ -430,6 +448,7 @@ export AZURE_TENANT_ID="00000000-0000-0000-0000-00000000000"       # The Azure A
 ```
 
 Use the `az cli` to get some more details about the identity to use:
+
 ```bash
 export IDENTITY_CLIENT_ID="$(az identity show -g ${IDENTITY_RESOURCE_GROUP} -n ${IDENTITY_NAME} --query clientId -otsv)"
 export IDENTITY_RESOURCE_ID="$(az identity show -g ${IDENTITY_RESOURCE_GROUP} -n ${IDENTITY_NAME} --query id -otsv)"
@@ -442,6 +461,7 @@ export IDENTITY_RESOURCE_ID="$(az identity show -g ${IDENTITY_RESOURCE_GROUP} -n
 {{% tab header="Global" %}}
 
 If installing ASO for the first time, you can pass these values via Helm arguments:
+
 ```bash
 helm upgrade --install --devel aso2 aso2/azure-service-operator \
      --create-namespace \
@@ -455,9 +475,10 @@ helm upgrade --install --devel aso2 aso2/azure-service-operator \
 
 See [CRD management]( {{< relref "crd-management" >}} ) for more details about `crdPattern`.
 
-Otherwise, if deploying manually: 
+Otherwise, if deploying manually:
 
 Deploy an `AzureIdentity`:
+
 ```bash
 cat <<EOF | kubectl apply -f -
 apiVersion: "aadpodidentity.k8s.io/v1"
@@ -473,6 +494,7 @@ EOF
 ```
 
 Deploy an `AzureIdentityBinding` to bind this identity to the Azure Service Operator manager pod:
+
 ```bash
 cat <<EOF | kubectl apply -f -
 apiVersion: "aadpodidentity.k8s.io/v1"
@@ -487,6 +509,7 @@ EOF
 ```
 
 Create or update the `aso-controller-settings` secret:
+
 ```bash
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
@@ -509,6 +532,7 @@ If ASO was already installed on your cluster and you are updating the `aso-contr
 {{% tab header="Namespace" %}}
 
 Deploy an `AzureIdentity`:
+
 ```bash
 cat <<EOF | kubectl apply -f -
 apiVersion: "aadpodidentity.k8s.io/v1"
@@ -524,6 +548,7 @@ EOF
 ```
 
 Deploy an `AzureIdentityBinding` to bind this identity to the Azure Service Operator manager pod:
+
 ```bash
 cat <<EOF | kubectl apply -f -
 apiVersion: "aadpodidentity.k8s.io/v1"
@@ -538,6 +563,7 @@ EOF
 ```
 
 Create the `aso-credential` secret in your namespace:
+
 ```bash
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
@@ -557,6 +583,7 @@ EOF
 {{% tab header="Resource" %}}
 
 Deploy an `AzureIdentity`:
+
 ```bash
 cat <<EOF | kubectl apply -f -
 apiVersion: "aadpodidentity.k8s.io/v1"
@@ -572,6 +599,7 @@ EOF
 ```
 
 Deploy an `AzureIdentityBinding` to bind this identity to the Azure Service Operator manager pod:
+
 ```bash
 cat <<EOF | kubectl apply -f -
 apiVersion: "aadpodidentity.k8s.io/v1"
@@ -586,6 +614,7 @@ EOF
 ```
 
 Create a per-resource secret. We'll use `my-resource-secret`:
+
 ```bash
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
