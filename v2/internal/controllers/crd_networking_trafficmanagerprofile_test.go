@@ -63,7 +63,7 @@ func Test_Networking_TrafficManagerProfile(t *testing.T) {
 	tc.PatchResourceAndWait(old, tmp)
 	tc.Expect(tmp.Status.Tags).To(HaveKey("foo"))
 
-	tc.RunSubtests(
+	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "Test_TrafficManagerProfiles_AzureEndpoint",
 			Test: func(tc *testcommon.KubePerTestContext) {
