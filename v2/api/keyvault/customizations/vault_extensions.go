@@ -8,7 +8,9 @@ package customizations
 import (
 	"context"
 
+	keyvaultapi "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"
 	keyvault "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401previewstorage"
+
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601storage"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
@@ -17,6 +19,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
+	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -47,6 +50,15 @@ func (ex *VaultExtension) ModifyARMResource(
 	// the hub type has been changed but this extension has not been updated to match
 	var _ conversion.Hub = kv
 
+	// If createMode is nil (!!), Default or Recover, nothing for us to do
+	if kv.Spec.Properties == nil ||
+		kv.Spec.Properties.CreateMode == nil ||
+		*kv.Spec.Properties.CreateMode == string(keyvaultapi.VaultProperties_CreateMode_Default) ||
+		*kv.Spec.Properties.CreateMode == string(keyvaultapi.VaultProperties_CreateMode_Recover) {
+		return armObj, nil
+	}
+
+	// Find out whether a soft-deleted KeyVault with the same name exists
 	exists, err := ex.checkForExistenceOfDeletedKeyVault(ctx, kv, armClient, kubeClient, resolver, log)
 	if err != nil {
 		// Couldn't determine whether a soft-deleted keyvault exists, assume it doesn't
@@ -54,19 +66,19 @@ func (ex *VaultExtension) ModifyARMResource(
 		return armObj, nil
 	}
 
-	// GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}?api-version=2022-07-01
-	// GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/locations/{location}/deletedVaults/{vaultName}?api-version=2022-07-01
+	if *kv.Spec.Properties.CreateMode == string(keyvaultapi.VaultProperties_CreateMode_CreateOrRecover) {
+		// If a soft-deleted KeyVault exists, we need to recover it, otherwise we create a new one
+		createMode := keyvaultapi.VaultProperties_CreateMode_Default
+		if exists {
+			createMode = keyvaultapi.VaultProperties_CreateMode_Recover
+		}
 
-	// SoftDeletedVaultDoesNotExist
+		spec := armObj.Spec()
+		err = reflecthelpers.SetProperty(spec, "Properties.CreateMode", &createMode)
+		if err != nil {
+			return nil, errors.Wrapf(err, "error setting CreateMode to %s", createMode)
+		}
 
-	// Check to see whether there's a soft deleted one
-	//raw := make(map[string]any)
-
-	// If createMode is nil (!!), Default or Recover, nothing for us to do
-	if kv.Spec.Properties == nil ||
-		kv.Spec.Properties.CreateMode == nil ||
-		*kv.Spec.Properties.CreateMode == "default" ||
-		*kv.Spec.Properties.CreateMode == "recover" {
 		return armObj, nil
 	}
 
