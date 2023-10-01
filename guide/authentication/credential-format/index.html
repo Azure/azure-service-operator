@@ -948,7 +948,7 @@ issuer URL and the backing Service Principal or Managed Identity. See <a href="#
 <li>An existing Azure Service Principal.</li>
 </ol>
 <p>To use Service Principal authentication with <strong>client secret</strong>, create a secret with the <code>AZURE_CLIENT_ID</code> and <code>AZURE_CLIENT_SECRET</code> keys set.</p>
-<p>For more information about Service Principals, see <a href="https://docs.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli#password-based-authentication">creating an Azure Service Principal using the Azure CLI</a>.
+<p>For more information about Service Principals, see <a href="https://learn.microsoft.com/en-us/cli/azure/azure-cli-sp-tutorial-1">Work with Azure service principal using the Azure CLI</a>.
 The <code>AZURE_CLIENT_ID</code> is sometimes also called the App ID. The <code>AZURE_CLIENT_SECRET</code> is the &ldquo;password&rdquo; returned by the command in the previously linked documentation.</p>
 <p>Use the following Bash commands to set the environment variables containing the service principal secret (customize with your values):</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export AZURE_CLIENT_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;00000000-0000-0000-0000-00000000000&#34;</span>       <span style="color:#75715e"># The client ID (sometimes called App Id) of the Service Principal.</span>
@@ -1079,7 +1079,7 @@ If ASO was already installed on your cluster and you are updating the <code>aso-
 <li>X.509 certificate in ASCII format such as PEM, CER, or DER.</li>
 </ol>
 <p>To use Service Principal authentication via client certificate, create a secret with the <code>AZURE_CLIENT_ID</code>, <code>AZURE_CLIENT_CERTIFICATE</code> and <code>AZURE_CLIENT_CERTIFICATE_PASSWORD</code>(optional) keys set.</p>
-<p>For more information about creating Service Principals with certificate, see <a href="https://learn.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli#certificate-based-authentication">creating an Azure Service Principal using the Azure CLI</a>.
+<p>For more information about creating Service Principals with certificate, see <a href="https://learn.microsoft.com/en-us/cli/azure/azure-cli-sp-tutorial-3?tabs=concepts">creating an Azure Service Principal using certificate based authentication</a>.
 The <code>AZURE_CLIENT_ID</code> is sometimes also called the App ID. The <code>AZURE_CLIENT_CERTIFICATE</code> is the <em>certificate</em> returned by the command in the previously linked documentation.</p>
 <p>Use the following Bash commands to set the environment variables containing the service principal certificate secret (customize with your values):</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export AZURE_CLIENT_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;00000000-0000-0000-0000-00000000000&#34;</span>          <span style="color:#75715e"># The client ID (sometimes called App Id) of the Service Principal.</span>
