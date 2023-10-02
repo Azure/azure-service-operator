@@ -25,7 +25,8 @@ import (
 type ResourceWithReferences struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ResourceWithReferencesSpec `json:"spec,omitempty"`
+	Spec              ResourceWithReferencesSpec   `json:"spec,omitempty"`
+	Status            ResourceWithReferencesStatus `json:"status,omitempty"`
 }
 
 var _ client.Object = &ResourceWithReferences{}
@@ -118,9 +119,20 @@ func (in *ResourceWithReferencesSpec) PopulateFromARM(owner genruntime.Arbitrary
 	panic("not expected to be called")
 }
 
+type ResourceWithReferencesStatus struct {
+	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
+}
+
 type ResourceReference struct {
 	Reference genruntime.ResourceReference `armReference:"Id" json:"reference"`
 }
+
+type ProvisioningState string
+
+const (
+	ProvisioningStateSucceeded ProvisioningState = "Succeeded"
+	ProvisioningStateFailed    ProvisioningState = "Failed"
+)
 
 func Test_FindReferences(t *testing.T) {
 	t.Parallel()
@@ -563,4 +575,19 @@ func Test_SetProperty_WhenValueOfWrongType_ReturnsExpectedError(t *testing.T) {
 	g.Expect(err).To(MatchError(ContainSubstring("type int")))
 	g.Expect(err).To(MatchError(ContainSubstring("type string")))
 	g.Expect(err).To(MatchError(ContainSubstring("not assignable")))
+}
+
+func Test_SetProperty_WhenValueOfCompatibleType_ModifiesValue(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	subject := &ResourceWithReferences{
+		Status: ResourceWithReferencesStatus{
+			ProvisioningState: to.Ptr(ProvisioningStateSucceeded),
+		},
+	}
+
+	err := reflecthelpers.SetProperty(subject, "Status.ProvisioningState", to.Ptr(string(ProvisioningStateFailed)))
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(*subject.Status.ProvisioningState).To(Equal(ProvisioningStateFailed))
 }
