@@ -683,6 +683,15 @@ status:
 #     sub-resource.
 #
 objectModelConfiguration:
+  apimanagement:
+    2022-08-01:
+      Service:
+        $export: true
+        $supportedFrom: v2.4.0
+      # This is reference in the Service resource
+      RemotePrivateEndpointConnectionWrapper:
+        Id:
+          $armReference: true
   appconfiguration:
     2022-05-01:
       ConfigurationStore:
