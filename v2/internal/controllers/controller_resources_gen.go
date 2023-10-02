@@ -159,6 +159,8 @@ import (
 	network_v20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601storage"
 	network_v20201101 "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	network_v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
+	network_v20220401 "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401"
+	network_v20220401s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401storage"
 	network_v20220701 "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701"
 	network_v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
 	network_v1beta20180901 "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901"
@@ -624,6 +626,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.VirtualNetworkGateway)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.VirtualNetworksSubnet)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.VirtualNetworksVirtualNetworkPeering)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20220401s.TrafficManagerProfile)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20220401s.TrafficManagerProfilesAzureEndpoint)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20220401s.TrafficManagerProfilesExternalEndpoint)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20220401s.TrafficManagerProfilesNestedEndpoint)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.BastionHost)})
 	result = append(result, &registration.StorageType{
 		Obj: new(network_v20220701s.DnsForwardingRuleSetsForwardingRule),
@@ -1356,6 +1362,18 @@ func getKnownTypes() []client.Object {
 		new(network_v20201101s.VirtualNetworksVirtualNetworkPeering))
 	result = append(
 		result,
+		new(network_v20220401.TrafficManagerProfile),
+		new(network_v20220401.TrafficManagerProfilesAzureEndpoint),
+		new(network_v20220401.TrafficManagerProfilesExternalEndpoint),
+		new(network_v20220401.TrafficManagerProfilesNestedEndpoint))
+	result = append(
+		result,
+		new(network_v20220401s.TrafficManagerProfile),
+		new(network_v20220401s.TrafficManagerProfilesAzureEndpoint),
+		new(network_v20220401s.TrafficManagerProfilesExternalEndpoint),
+		new(network_v20220401s.TrafficManagerProfilesNestedEndpoint))
+	result = append(
+		result,
 		new(network_v20220701.BastionHost),
 		new(network_v20220701.DnsForwardingRuleSetsForwardingRule),
 		new(network_v20220701.DnsForwardingRuleset),
@@ -1713,6 +1731,8 @@ func createScheme() *runtime.Scheme {
 	_ = network_v20200601s.AddToScheme(scheme)
 	_ = network_v20201101.AddToScheme(scheme)
 	_ = network_v20201101s.AddToScheme(scheme)
+	_ = network_v20220401.AddToScheme(scheme)
+	_ = network_v20220401s.AddToScheme(scheme)
 	_ = network_v20220701.AddToScheme(scheme)
 	_ = network_v20220701s.AddToScheme(scheme)
 	_ = operationalinsights_v1beta20210601.AddToScheme(scheme)
@@ -1870,6 +1890,10 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &network_customizations.PublicIPPrefixExtension{})
 	result = append(result, &network_customizations.RouteTableExtension{})
 	result = append(result, &network_customizations.RouteTablesRouteExtension{})
+	result = append(result, &network_customizations.TrafficManagerProfileExtension{})
+	result = append(result, &network_customizations.TrafficManagerProfilesAzureEndpointExtension{})
+	result = append(result, &network_customizations.TrafficManagerProfilesExternalEndpointExtension{})
+	result = append(result, &network_customizations.TrafficManagerProfilesNestedEndpointExtension{})
 	result = append(result, &network_customizations.VirtualNetworkExtension{})
 	result = append(result, &network_customizations.VirtualNetworkGatewayExtension{})
 	result = append(result, &network_customizations.VirtualNetworksSubnetExtension{})
