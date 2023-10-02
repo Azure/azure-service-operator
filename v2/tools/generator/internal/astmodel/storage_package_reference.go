@@ -48,7 +48,6 @@ var legacyStorageGroups = set.Make(
 	"keyvault",
 	"machinelearningservices",
 	"managedidentity",
-	"network",
 	"operationalinsights",
 	"resources",
 	"search",
@@ -135,10 +134,17 @@ func (s StoragePackageReference) IsPreview() bool {
 	return s.inner.IsPreview()
 }
 
-// IsStoragePackageReference returns true if the reference is to a storage package
+// IsStoragePackageReference returns true if the reference is to a storage package OR to a subpackage for storage
 func IsStoragePackageReference(reference PackageReference) bool {
-	_, ok := reference.(StoragePackageReference)
-	return ok
+	if _, ok := reference.(StoragePackageReference); ok {
+		return true
+	}
+
+	if sub, ok := reference.(SubPackageReference); ok {
+		return sub.name == StoragePackageSuffix
+	}
+
+	return false
 }
 
 // GroupVersion returns the group and version of this storage reference.
