@@ -22,9 +22,9 @@ To install the CRDs for these resources, your ASO configuration must include `ap
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource | ARM Version | CRD Version   | Supported From | Sample |
-|----------|-------------|---------------|----------------|--------|
-| Service  | 2022-08-01  | v1api20220801 | v2.4.0         | -      |
+| Resource | ARM Version | CRD Version   | Supported From | Sample                                                                                                                              |
+|----------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| Service  | 2022-08-01  | v1api20220801 | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20220801/v1api20220801_service.yaml) |
 
 ## AppConfiguration
 
