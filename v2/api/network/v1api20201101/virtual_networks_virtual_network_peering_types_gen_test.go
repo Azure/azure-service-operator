@@ -5,7 +5,7 @@ package v1api20201101
 
 import (
 	"encoding/json"
-	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_VirtualNetworksVirtualNetworkPeering_WhenPropertiesConverted_RoundTrip
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeering tests if a specific instance of VirtualNetworksVirtualNetworkPeering can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeering tests if a specific instance of VirtualNetworksVirtualNetworkPeering can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeering(subject VirtualNetworksVirtualNetworkPeering) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_VirtualNetworks_VirtualNetworkPeering_Spec_WhenPropertiesConverted_Rou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualNetworks_VirtualNetworkPeering_Spec tests if a specific instance of VirtualNetworks_VirtualNetworkPeering_Spec can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForVirtualNetworks_VirtualNetworkPeering_Spec tests if a specific instance of VirtualNetworks_VirtualNetworkPeering_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworks_VirtualNetworkPeering_Spec(subject VirtualNetworks_VirtualNetworkPeering_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -301,7 +301,7 @@ func Test_VirtualNetworks_VirtualNetworkPeering_STATUS_WhenPropertiesConverted_R
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualNetworks_VirtualNetworkPeering_STATUS tests if a specific instance of VirtualNetworks_VirtualNetworkPeering_STATUS can be assigned to v1api20201101storage and back losslessly
+// RunPropertyAssignmentTestForVirtualNetworks_VirtualNetworkPeering_STATUS tests if a specific instance of VirtualNetworks_VirtualNetworkPeering_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworks_VirtualNetworkPeering_STATUS(subject VirtualNetworks_VirtualNetworkPeering_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

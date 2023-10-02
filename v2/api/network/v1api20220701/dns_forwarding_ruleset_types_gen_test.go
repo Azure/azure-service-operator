@@ -5,7 +5,7 @@ package v1api20220701
 
 import (
 	"encoding/json"
-	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
+	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_DnsForwardingRuleset_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsForwardingRuleset tests if a specific instance of DnsForwardingRuleset can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForDnsForwardingRuleset tests if a specific instance of DnsForwardingRuleset can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDnsForwardingRuleset(subject DnsForwardingRuleset) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_DnsForwardingRuleset_Spec_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsForwardingRuleset_Spec tests if a specific instance of DnsForwardingRuleset_Spec can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForDnsForwardingRuleset_Spec tests if a specific instance of DnsForwardingRuleset_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDnsForwardingRuleset_Spec(subject DnsForwardingRuleset_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -295,7 +295,7 @@ func Test_DnsForwardingRuleset_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsForwardingRuleset_STATUS tests if a specific instance of DnsForwardingRuleset_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForDnsForwardingRuleset_STATUS tests if a specific instance of DnsForwardingRuleset_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDnsForwardingRuleset_STATUS(subject DnsForwardingRuleset_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -426,7 +426,7 @@ func Test_DnsresolverSubResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsresolverSubResource tests if a specific instance of DnsresolverSubResource can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForDnsresolverSubResource tests if a specific instance of DnsresolverSubResource can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDnsresolverSubResource(subject DnsresolverSubResource) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -523,7 +523,7 @@ func Test_DnsresolverSubResource_STATUS_WhenPropertiesConverted_RoundTripsWithou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsresolverSubResource_STATUS tests if a specific instance of DnsresolverSubResource_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForDnsresolverSubResource_STATUS tests if a specific instance of DnsresolverSubResource_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDnsresolverSubResource_STATUS(subject DnsresolverSubResource_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

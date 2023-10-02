@@ -5,7 +5,7 @@ package v1api20220701
 
 import (
 	"encoding/json"
-	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
+	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_BastionHost_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBastionHost tests if a specific instance of BastionHost can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForBastionHost tests if a specific instance of BastionHost can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBastionHost(subject BastionHost) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_BastionHost_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBastionHost_Spec tests if a specific instance of BastionHost_Spec can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForBastionHost_Spec tests if a specific instance of BastionHost_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBastionHost_Spec(subject BastionHost_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -301,7 +301,7 @@ func Test_BastionHost_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBastionHost_STATUS tests if a specific instance of BastionHost_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForBastionHost_STATUS tests if a specific instance of BastionHost_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBastionHost_STATUS(subject BastionHost_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -435,7 +435,7 @@ func Test_BastionHostIPConfiguration_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBastionHostIPConfiguration tests if a specific instance of BastionHostIPConfiguration can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForBastionHostIPConfiguration tests if a specific instance of BastionHostIPConfiguration can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBastionHostIPConfiguration(subject BastionHostIPConfiguration) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -554,7 +554,7 @@ func Test_BastionHostIPConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBastionHostIPConfiguration_STATUS tests if a specific instance of BastionHostIPConfiguration_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForBastionHostIPConfiguration_STATUS tests if a specific instance of BastionHostIPConfiguration_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBastionHostIPConfiguration_STATUS(subject BastionHostIPConfiguration_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -657,7 +657,7 @@ func Test_Sku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSku tests if a specific instance of Sku can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForSku tests if a specific instance of Sku can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSku(subject Sku) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -759,7 +759,7 @@ func Test_Sku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T)
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSku_STATUS tests if a specific instance of Sku_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForSku_STATUS tests if a specific instance of Sku_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForSku_STATUS(subject Sku_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -861,7 +861,7 @@ func Test_BastionHostSubResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBastionHostSubResource tests if a specific instance of BastionHostSubResource can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForBastionHostSubResource tests if a specific instance of BastionHostSubResource can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBastionHostSubResource(subject BastionHostSubResource) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

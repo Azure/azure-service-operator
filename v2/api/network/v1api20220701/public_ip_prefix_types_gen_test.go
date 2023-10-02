@@ -5,7 +5,7 @@ package v1api20220701
 
 import (
 	"encoding/json"
-	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
+	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_PublicIPPrefix_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPublicIPPrefix tests if a specific instance of PublicIPPrefix can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForPublicIPPrefix tests if a specific instance of PublicIPPrefix can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPublicIPPrefix(subject PublicIPPrefix) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_PublicIPPrefix_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPublicIPPrefix_Spec tests if a specific instance of PublicIPPrefix_Spec can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForPublicIPPrefix_Spec tests if a specific instance of PublicIPPrefix_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPublicIPPrefix_Spec(subject PublicIPPrefix_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -301,7 +301,7 @@ func Test_PublicIPPrefix_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPublicIPPrefix_STATUS tests if a specific instance of PublicIPPrefix_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForPublicIPPrefix_STATUS tests if a specific instance of PublicIPPrefix_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPublicIPPrefix_STATUS(subject PublicIPPrefix_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -439,7 +439,7 @@ func Test_IpTag_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForIpTag tests if a specific instance of IpTag can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForIpTag tests if a specific instance of IpTag can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForIpTag(subject IpTag) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -542,7 +542,7 @@ func Test_IpTag_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForIpTag_STATUS tests if a specific instance of IpTag_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForIpTag_STATUS tests if a specific instance of IpTag_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForIpTag_STATUS(subject IpTag_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -645,7 +645,7 @@ func Test_NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded_WhenPropertiesCon
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded tests if a specific instance of NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForNatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded tests if a specific instance of NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded(subject NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -748,7 +748,7 @@ func Test_NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded_WhenPropertiesConver
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNatGatewaySpec_PublicIPPrefix_SubResourceEmbedded tests if a specific instance of NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForNatGatewaySpec_PublicIPPrefix_SubResourceEmbedded tests if a specific instance of NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForNatGatewaySpec_PublicIPPrefix_SubResourceEmbedded(subject NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -845,7 +845,7 @@ func Test_PublicIPPrefixSku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPublicIPPrefixSku tests if a specific instance of PublicIPPrefixSku can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForPublicIPPrefixSku tests if a specific instance of PublicIPPrefixSku can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPublicIPPrefixSku(subject PublicIPPrefixSku) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -948,7 +948,7 @@ func Test_PublicIPPrefixSku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPublicIPPrefixSku_STATUS tests if a specific instance of PublicIPPrefixSku_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForPublicIPPrefixSku_STATUS tests if a specific instance of PublicIPPrefixSku_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPublicIPPrefixSku_STATUS(subject PublicIPPrefixSku_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1052,7 +1052,7 @@ func Test_PublicIpPrefixSubResource_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPublicIpPrefixSubResource tests if a specific instance of PublicIpPrefixSubResource can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForPublicIpPrefixSubResource tests if a specific instance of PublicIpPrefixSubResource can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPublicIpPrefixSubResource(subject PublicIpPrefixSubResource) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1149,7 +1149,7 @@ func Test_PublicIpPrefixSubResource_STATUS_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPublicIpPrefixSubResource_STATUS tests if a specific instance of PublicIpPrefixSubResource_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForPublicIpPrefixSubResource_STATUS tests if a specific instance of PublicIpPrefixSubResource_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPublicIpPrefixSubResource_STATUS(subject PublicIpPrefixSubResource_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1252,7 +1252,7 @@ func Test_ReferencedPublicIpAddress_STATUS_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForReferencedPublicIpAddress_STATUS tests if a specific instance of ReferencedPublicIpAddress_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForReferencedPublicIpAddress_STATUS tests if a specific instance of ReferencedPublicIpAddress_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForReferencedPublicIpAddress_STATUS(subject ReferencedPublicIpAddress_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

@@ -5,7 +5,7 @@ package v1api20220701
 
 import (
 	"encoding/json"
-	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
+	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_DnsResolver_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsResolver tests if a specific instance of DnsResolver can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForDnsResolver tests if a specific instance of DnsResolver can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDnsResolver(subject DnsResolver) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_DnsResolver_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsResolver_Spec tests if a specific instance of DnsResolver_Spec can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForDnsResolver_Spec tests if a specific instance of DnsResolver_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDnsResolver_Spec(subject DnsResolver_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -293,7 +293,7 @@ func Test_DnsResolver_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsResolver_STATUS tests if a specific instance of DnsResolver_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForDnsResolver_STATUS tests if a specific instance of DnsResolver_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDnsResolver_STATUS(subject DnsResolver_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

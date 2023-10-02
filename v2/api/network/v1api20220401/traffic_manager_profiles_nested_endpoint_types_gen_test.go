@@ -5,7 +5,7 @@ package v1api20220401
 
 import (
 	"encoding/json"
-	v20220401s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401storage"
+	v20220401s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_TrafficManagerProfilesNestedEndpoint_WhenPropertiesConverted_RoundTrip
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForTrafficManagerProfilesNestedEndpoint tests if a specific instance of TrafficManagerProfilesNestedEndpoint can be assigned to v1api20220401storage and back losslessly
+// RunPropertyAssignmentTestForTrafficManagerProfilesNestedEndpoint tests if a specific instance of TrafficManagerProfilesNestedEndpoint can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForTrafficManagerProfilesNestedEndpoint(subject TrafficManagerProfilesNestedEndpoint) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_Trafficmanagerprofiles_NestedEndpoint_Spec_WhenPropertiesConverted_Rou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForTrafficmanagerprofiles_NestedEndpoint_Spec tests if a specific instance of Trafficmanagerprofiles_NestedEndpoint_Spec can be assigned to v1api20220401storage and back losslessly
+// RunPropertyAssignmentTestForTrafficmanagerprofiles_NestedEndpoint_Spec tests if a specific instance of Trafficmanagerprofiles_NestedEndpoint_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForTrafficmanagerprofiles_NestedEndpoint_Spec(subject Trafficmanagerprofiles_NestedEndpoint_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -313,7 +313,7 @@ func Test_Trafficmanagerprofiles_NestedEndpoint_STATUS_WhenPropertiesConverted_R
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForTrafficmanagerprofiles_NestedEndpoint_STATUS tests if a specific instance of Trafficmanagerprofiles_NestedEndpoint_STATUS can be assigned to v1api20220401storage and back losslessly
+// RunPropertyAssignmentTestForTrafficmanagerprofiles_NestedEndpoint_STATUS tests if a specific instance of Trafficmanagerprofiles_NestedEndpoint_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForTrafficmanagerprofiles_NestedEndpoint_STATUS(subject Trafficmanagerprofiles_NestedEndpoint_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

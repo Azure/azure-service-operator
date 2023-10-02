@@ -5,7 +5,7 @@ package v1api20201101
 
 import (
 	"fmt"
-	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &VirtualNetworksSubnet{}
 func (subnet *VirtualNetworksSubnet) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20201101s.VirtualNetworksSubnet)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20201101storage/VirtualNetworksSubnet but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20201101/storage/VirtualNetworksSubnet but received %T instead", hub)
 	}
 
 	return subnet.AssignProperties_From_VirtualNetworksSubnet(source)
@@ -61,7 +61,7 @@ func (subnet *VirtualNetworksSubnet) ConvertFrom(hub conversion.Hub) error {
 func (subnet *VirtualNetworksSubnet) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20201101s.VirtualNetworksSubnet)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20201101storage/VirtualNetworksSubnet but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20201101/storage/VirtualNetworksSubnet but received %T instead", hub)
 	}
 
 	return subnet.AssignProperties_To_VirtualNetworksSubnet(destination)

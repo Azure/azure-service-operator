@@ -5,7 +5,7 @@ package v1api20220701
 
 import (
 	"encoding/json"
-	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
+	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_DnsResolversInboundEndpoint_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsResolversInboundEndpoint tests if a specific instance of DnsResolversInboundEndpoint can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForDnsResolversInboundEndpoint tests if a specific instance of DnsResolversInboundEndpoint can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDnsResolversInboundEndpoint(subject DnsResolversInboundEndpoint) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_DnsResolvers_InboundEndpoint_Spec_WhenPropertiesConverted_RoundTripsWi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsResolvers_InboundEndpoint_Spec tests if a specific instance of DnsResolvers_InboundEndpoint_Spec can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForDnsResolvers_InboundEndpoint_Spec tests if a specific instance of DnsResolvers_InboundEndpoint_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDnsResolvers_InboundEndpoint_Spec(subject DnsResolvers_InboundEndpoint_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -295,7 +295,7 @@ func Test_DnsResolvers_InboundEndpoint_STATUS_WhenPropertiesConverted_RoundTrips
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsResolvers_InboundEndpoint_STATUS tests if a specific instance of DnsResolvers_InboundEndpoint_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForDnsResolvers_InboundEndpoint_STATUS tests if a specific instance of DnsResolvers_InboundEndpoint_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDnsResolvers_InboundEndpoint_STATUS(subject DnsResolvers_InboundEndpoint_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -426,7 +426,7 @@ func Test_IpConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForIpConfiguration tests if a specific instance of IpConfiguration can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForIpConfiguration tests if a specific instance of IpConfiguration can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForIpConfiguration(subject IpConfiguration) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -543,7 +543,7 @@ func Test_IpConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForIpConfiguration_STATUS tests if a specific instance of IpConfiguration_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForIpConfiguration_STATUS tests if a specific instance of IpConfiguration_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForIpConfiguration_STATUS(subject IpConfiguration_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

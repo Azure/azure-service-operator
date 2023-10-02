@@ -5,8 +5,8 @@ package v1beta20201101
 
 import (
 	"encoding/json"
-	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
-	v1beta20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
+	v1beta20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -73,7 +73,7 @@ func Test_RouteTable_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T)
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRouteTable tests if a specific instance of RouteTable can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForRouteTable tests if a specific instance of RouteTable can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForRouteTable(subject RouteTable) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_RouteTable_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRouteTable_Spec tests if a specific instance of RouteTable_Spec can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForRouteTable_Spec tests if a specific instance of RouteTable_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForRouteTable_Spec(subject RouteTable_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -281,7 +281,7 @@ func Test_RouteTable_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRouteTable_STATUS tests if a specific instance of RouteTable_STATUS can be assigned to v1beta20201101storage and back losslessly
+// RunPropertyAssignmentTestForRouteTable_STATUS tests if a specific instance of RouteTable_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForRouteTable_STATUS(subject RouteTable_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
