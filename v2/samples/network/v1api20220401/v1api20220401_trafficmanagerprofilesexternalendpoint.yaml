@@ -1,0 +1,11 @@
+apiVersion: network.azure.com/v1api20220401
+kind: TrafficManagerProfilesExternalEndpoint
+metadata:
+  name: aso-sample-external-xhhrvf
+  namespace: default
+spec:
+  alwaysServe: Enabled
+  endpointLocation: westus2
+  owner:
+    name: aso-sample-profile
+  target: contoso.com
