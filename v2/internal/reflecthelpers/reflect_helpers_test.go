@@ -567,13 +567,12 @@ func Test_SetProperty_WhenValueOfWrongType_ReturnsExpectedError(t *testing.T) {
 		},
 	}
 
-	err := reflecthelpers.SetProperty(subject, "Spec.AzureName", 40)
+	err := reflecthelpers.SetProperty(subject, "Spec.AzureName", make([]int, 0, 10))
 	g.Expect(err).To(HaveOccurred())
 	g.Expect(err).To(MatchError(ContainSubstring("Spec")))
 	g.Expect(err).To(MatchError(ContainSubstring("AzureName")))
-	g.Expect(err).To(MatchError(ContainSubstring("type int")))
-	g.Expect(err).To(MatchError(ContainSubstring("type string")))
-	g.Expect(err).To(MatchError(ContainSubstring("not assignable")))
+	g.Expect(err).To(MatchError(ContainSubstring("kind []")))
+	g.Expect(err).To(MatchError(ContainSubstring("not compatible")))
 }
 
 func Test_SetProperty_WhenValueOfCompatibleType_ModifiesValue(t *testing.T) {
