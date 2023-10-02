@@ -29,7 +29,7 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 
 	// Create an APIM instance
 	service := apim.Service{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("apim1")),
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("apim")),
 		Spec: apim.Service_Spec{
 			Location:       tc.AzureRegion,
 			Owner:          testcommon.AsOwner(rg),
