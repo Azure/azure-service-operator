@@ -8,12 +8,13 @@ package customizations
 import (
 	"context"
 
-	keyvaultapi "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"
 	keyvault "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401previewstorage"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601storage"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -22,11 +23,19 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
 
 var _ extensions.ARMResourceModifier = &VaultExtension{}
+
+const (
+	CreateMode_Default         = "default"
+	CreateMode_Recover         = "recover"
+	CreateMode_CreateOrRecover = "createOrRecover"
+	CreateMode_PurgeThenCreate = "purgeThenCreate"
+)
 
 // ModifyARMResource implements extensions.ARMResourceModifier.
 func (ex *VaultExtension) ModifyARMResource(
@@ -50,39 +59,103 @@ func (ex *VaultExtension) ModifyARMResource(
 	// the hub type has been changed but this extension has not been updated to match
 	var _ conversion.Hub = kv
 
-	// If createMode is nil (!!), Default or Recover, nothing for us to do
-	if kv.Spec.Properties == nil ||
-		kv.Spec.Properties.CreateMode == nil ||
-		*kv.Spec.Properties.CreateMode == string(keyvaultapi.VaultProperties_CreateMode_Default) ||
-		*kv.Spec.Properties.CreateMode == string(keyvaultapi.VaultProperties_CreateMode_Recover) {
+	// If createMode is nil, nothing for us to do
+	if kv.Spec.Properties == nil {
 		return armObj, nil
 	}
 
+	var createMode *string
+
+	switch *kv.Spec.Properties.CreateMode {
+	case CreateMode_CreateOrRecover:
+		mode := ex.handleCreateOrRecover(ctx, kv, armClient, kubeClient, resolver, log)
+		createMode = &mode
+
+	case CreateMode_PurgeThenCreate:
+		err := ex.handlePurgeThenCreate(ctx, kv, armClient, kubeClient, resolver, log)
+		if err != nil {
+			return nil, errors.Wrapf(err, "error purging soft-deleted KeyVault")
+		}
+
+		createMode = to.Ptr(CreateMode_Default)
+	}
+
+	if createMode != nil {
+		// Modify the payload as necessary
+		spec := armObj.Spec()
+		var v string = string(*createMode)
+		err := reflecthelpers.SetProperty(spec, "Properties.CreateMode", &v)
+		if err != nil {
+			return nil, errors.Wrapf(err, "error setting CreateMode to %s", v)
+		}
+	}
+
+	return armObj, nil
+}
+
+func (ex *VaultExtension) handleCreateOrRecover(
+	ctx context.Context,
+	kv *keyvault.Vault,
+	armClient *genericarmclient.GenericClient,
+	kubeClient kubeclient.Client,
+	resolver *resolver.Resolver,
+	log logr.Logger,
+) string {
+	exists, err := ex.checkForExistenceOfDeletedKeyVault(ctx, kv, armClient, kubeClient, resolver, log)
+	if err != nil {
+		// If we can't detect, assume best case and proceed
+		log.Error(err, "error checking for existence of soft-deleted KeyVault")
+		return CreateMode_Default
+	}
+
+	log.Info(
+		"KeyVault reconciliation requested CreateOrRecover, setting CreateMode",
+		"KeyVault", kv.Name,
+		"Deleted KeyVault exists", exists)
+
+	if exists {
+		return CreateMode_Recover
+	}
+
+	return CreateMode_Default
+}
+
+func (ex *VaultExtension) handlePurgeThenCreate(
+	ctx context.Context,
+	kv *keyvault.Vault,
+	armClient *genericarmclient.GenericClient,
+	kubeClient kubeclient.Client,
+	resolver *resolver.Resolver,
+	log logr.Logger,
+) error {
 	// Find out whether a soft-deleted KeyVault with the same name exists
 	exists, err := ex.checkForExistenceOfDeletedKeyVault(ctx, kv, armClient, kubeClient, resolver, log)
 	if err != nil {
 		// Couldn't determine whether a soft-deleted keyvault exists, assume it doesn't
+
 		log.Error(err, "error checking for existence of soft-deleted KeyVault")
-		return armObj, nil
+		return nil
 	}
 
-	if *kv.Spec.Properties.CreateMode == string(keyvaultapi.VaultProperties_CreateMode_CreateOrRecover) {
-		// If a soft-deleted KeyVault exists, we need to recover it, otherwise we create a new one
-		createMode := keyvaultapi.VaultProperties_CreateMode_Default
-		if exists {
-			createMode = keyvaultapi.VaultProperties_CreateMode_Recover
-		}
+	log.Info(
+		"KeyVault reconciliation requested PurgeThenCreate",
+		"KeyVault", kv.Name,
+		"Deleted KeyVault exists", exists)
 
-		spec := armObj.Spec()
-		err = reflecthelpers.SetProperty(spec, "Properties.CreateMode", &createMode)
+	if exists {
+		// if a soft-deleted KeyVault exists, we need to purge it before we can create a new one
+		req, err := ex.createPurgeRequest(ctx, kv, armClient, kubeClient, resolver, log)
 		if err != nil {
-			return nil, errors.Wrapf(err, "error setting CreateMode to %s", createMode)
+			return errors.Wrapf(err, "error creating purge request for KeyVault %s", kv.Name)
 		}
 
-		return armObj, nil
+		_, err = armClient.Post(ctx, req)
+		if err != nil {
+			return errors.Wrapf(err, "error purging KeyVault %s", kv.Name)
+		}
 	}
 
-	return armObj, nil
+	return nil
 }
 
 // checkForExistenceOfDeletedKeyVault checks to see whether there's a soft deleted KeyVault with the same name.
@@ -143,6 +216,58 @@ func (ex *VaultExtension) checkForExistenceOfDeletedKeyVault(
 	)
 
 	return exists, nil
+}
+
+func (ex *VaultExtension) createPurgeRequest(
+	ctx context.Context,
+	kv *keyvault.Vault,
+	armClient *genericarmclient.GenericClient,
+	kubeClient kubeclient.Client,
+	resolver *resolver.Resolver,
+	log logr.Logger,
+) (*policy.Request, error) {
+	// Get the owner of the KeyVault, we need this resource group to determine the subscription
+	owner, ownerErr := ex.getOwner(ctx, kv, resolver, log)
+	if ownerErr != nil {
+		return nil, errors.Wrapf(ownerErr, "unable to find owner of KeyVault %s", kv.Name)
+	}
+
+	// Get the subscription of the KeyVault
+	subscription, subscriptionErr := ex.getSubscription(owner)
+	if subscriptionErr != nil {
+		return nil, errors.Wrapf(subscriptionErr, "unable to determine subscription for KeyVault %s", kv.Name)
+	}
+
+	// Get the location of the KeyVault
+	location, locationOk := ex.getLocation(kv, owner)
+	if !locationOk {
+		return nil, errors.Errorf("unable to determine location of KeyVault %s", kv.Name)
+	}
+
+	// Create the ARM ID of the soft-deleted KeyVault, if any
+	armIdOfDeletedKeyVault, err := ex.createDeletedKeyVaultARMID(
+		subscription,
+		location,
+		kv.Name)
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to create ARM ID for potential soft-deleted KeyVault %s", kv.Name)
+	}
+
+	// Get the API version of the KeyVault API to use
+	apiVersion, err := genruntime.GetAPIVersion(kv, kubeClient.Scheme())
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to get api version for KeyVault")
+	}
+
+	req, err := armClient.CreatePostRequest(
+		ctx,
+		runtime.JoinPaths(armIdOfDeletedKeyVault, "purge"),
+		apiVersion)
+	if err != nil {
+		return nil, errors.Wrapf(err, "error creating purge request for KeyVault %s", kv.Name)
+	}
+
+	return req, nil
 }
 
 func (*VaultExtension) getOwner(
