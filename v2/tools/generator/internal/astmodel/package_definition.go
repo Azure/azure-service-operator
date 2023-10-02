@@ -182,6 +182,8 @@ func (p *PackageDefinition) createVersion(ref InternalPackageReference) string {
 	switch r := ref.(type) {
 	case LocalPackageReference:
 		return r.Version()
+	case StoragePackageReference:
+		return r.Version()
 	case DerivedPackageReference:
 		return p.createVersion(r.Base()) + ref.PackageName()
 	}
