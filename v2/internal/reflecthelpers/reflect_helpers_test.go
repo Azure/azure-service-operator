@@ -553,7 +553,6 @@ func Test_SetProperty_TargetingUnknownNestedProperty_ReturnsExpectedError(t *tes
 	err := reflecthelpers.SetProperty(subject, "Owner.UnknownProperty", "newValue")
 	g.Expect(err).To(HaveOccurred())
 
-	g.Expect(err).To(MatchError(ContainSubstring("Ownerx")))
 	g.Expect(err).To(MatchError(ContainSubstring("Owner")))
 	g.Expect(err).To(MatchError(ContainSubstring("UnknownProperty")))
 }
