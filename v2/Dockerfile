@@ -1,8 +1,8 @@
 ARG VERSION_FLAGS
-ARG CONTROLLER_APP=aso-controller
 
 # Build the manager binary
 FROM golang:1.20 as builder
+ARG VERSION_FLAGS
 
 WORKDIR /workspace/
 # Copy the Go Modules manifests
@@ -17,13 +17,13 @@ RUN go mod download
 COPY . ./
 
 # Build
-RUN CGO_ENABLED=0 GO111MODULE=on go build ${VERSION_FLAGS} -o ./bin/${CONTROLLER_APP} ./cmd/controller/
+RUN CGO_ENABLED=0 go build -ldflags "${VERSION_FLAGS}" -o ./bin/aso-controller ./cmd/controller/
 
 # Use distroless as minimal base image to package the manager binary
 # Refer to https://github.com/GoogleContainerTools/distroless for more details
 FROM gcr.io/distroless/static:nonroot
 WORKDIR /
-COPY --from=builder /workspace/bin/${CONTROLLER_APP} .
+COPY --from=builder /workspace/bin/aso-controller .
 COPY ./out/crds ./crds
 USER nonroot:nonroot
 ENTRYPOINT ["/aso-controller"]
