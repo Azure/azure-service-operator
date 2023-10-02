@@ -1934,10 +1934,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-dpwtny/providers/Microsoft.Insights/scheduledQueryRules/aso-sample-rule?api-version=2023-03-15-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-dpwtny/providers/Microsoft.Insights/scheduledQueryRules/aso-sample-rule?api-version=2022-06-15
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-dpwtny/providers/microsoft.insights/scheduledqueryrules/aso-sample-rule","name":"aso-sample-rule","type":"microsoft.insights/scheduledqueryrules","location":"westus2","systemData":{"createdBy":"5fe8acba-4694-403d-8c10-581a22063ff8","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"5fe8acba-4694-403d-8c10-581a22063ff8","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"createdWithApiVersion":"2023-03-15-preview","severity":0,"enabled":true,"evaluationFrequency":"PT10M","scopes":["/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-dpwtny/providers/Microsoft.Insights/components/sampleappinsights"],"windowSize":"PT10M","criteria":{"allOf":[{"query":"requests
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-dpwtny/providers/microsoft.insights/scheduledqueryrules/aso-sample-rule","name":"aso-sample-rule","type":"microsoft.insights/scheduledqueryrules","location":"westus2","systemData":{"createdBy":"5fe8acba-4694-403d-8c10-581a22063ff8","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"5fe8acba-4694-403d-8c10-581a22063ff8","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"createdWithApiVersion":"2022-06-15","severity":0,"enabled":true,"evaluationFrequency":"PT10M","scopes":["/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-dpwtny/providers/Microsoft.Insights/components/sampleappinsights"],"windowSize":"PT10M","criteria":{"allOf":[{"query":"requests
       | summarize CountByCountry=count() by client_CountryOrRegion","timeAggregation":"Count","operator":"LessThan","threshold":10.0,"failingPeriods":{"numberOfEvaluationPeriods":1,"minFailingPeriodsToAlert":1}}]}}}'
     headers:
       Cache-Control:
@@ -1971,10 +1971,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-dpwtny/providers/Microsoft.Insights/scheduledQueryRules/aso-sample-rule?api-version=2023-03-15-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-dpwtny/providers/Microsoft.Insights/scheduledQueryRules/aso-sample-rule?api-version=2022-06-15
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-dpwtny/providers/microsoft.insights/scheduledqueryrules/aso-sample-rule","name":"aso-sample-rule","type":"microsoft.insights/scheduledqueryrules","location":"westus2","systemData":{"createdBy":"5fe8acba-4694-403d-8c10-581a22063ff8","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"5fe8acba-4694-403d-8c10-581a22063ff8","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"createdWithApiVersion":"2023-03-15-preview","severity":0,"enabled":true,"evaluationFrequency":"PT10M","scopes":["/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-dpwtny/providers/Microsoft.Insights/components/sampleappinsights"],"windowSize":"PT10M","criteria":{"allOf":[{"query":"requests
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-dpwtny/providers/microsoft.insights/scheduledqueryrules/aso-sample-rule","name":"aso-sample-rule","type":"microsoft.insights/scheduledqueryrules","location":"westus2","systemData":{"createdBy":"5fe8acba-4694-403d-8c10-581a22063ff8","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"5fe8acba-4694-403d-8c10-581a22063ff8","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"createdWithApiVersion":"2022-06-15","severity":0,"enabled":true,"evaluationFrequency":"PT10M","scopes":["/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-dpwtny/providers/Microsoft.Insights/components/sampleappinsights"],"windowSize":"PT10M","criteria":{"allOf":[{"query":"requests
       | summarize CountByCountry=count() by client_CountryOrRegion","timeAggregation":"Count","operator":"LessThan","threshold":10.0,"failingPeriods":{"numberOfEvaluationPeriods":1,"minFailingPeriodsToAlert":1}}]}}}'
     headers:
       Cache-Control:
@@ -2010,10 +2010,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-dpwtny/providers/Microsoft.Insights/scheduledQueryRules/aso-sample-rule?api-version=2023-03-15-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-dpwtny/providers/Microsoft.Insights/scheduledQueryRules/aso-sample-rule?api-version=2022-06-15
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-dpwtny/providers/microsoft.insights/scheduledqueryrules/aso-sample-rule","name":"aso-sample-rule","type":"microsoft.insights/scheduledqueryrules","location":"westus2","systemData":{"createdBy":"5fe8acba-4694-403d-8c10-581a22063ff8","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"5fe8acba-4694-403d-8c10-581a22063ff8","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"createdWithApiVersion":"2023-03-15-preview","severity":0,"enabled":true,"evaluationFrequency":"PT10M","scopes":["/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-dpwtny/providers/Microsoft.Insights/components/sampleappinsights"],"windowSize":"PT10M","criteria":{"allOf":[{"query":"requests
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-dpwtny/providers/microsoft.insights/scheduledqueryrules/aso-sample-rule","name":"aso-sample-rule","type":"microsoft.insights/scheduledqueryrules","location":"westus2","systemData":{"createdBy":"5fe8acba-4694-403d-8c10-581a22063ff8","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"5fe8acba-4694-403d-8c10-581a22063ff8","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"createdWithApiVersion":"2022-06-15","severity":0,"enabled":true,"evaluationFrequency":"PT10M","scopes":["/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-dpwtny/providers/Microsoft.Insights/components/sampleappinsights"],"windowSize":"PT10M","criteria":{"allOf":[{"query":"requests
       | summarize CountByCountry=count() by client_CountryOrRegion","timeAggregation":"Count","operator":"LessThan","threshold":10.0,"failingPeriods":{"numberOfEvaluationPeriods":1,"minFailingPeriodsToAlert":1}}]}}}'
     headers:
       Cache-Control:
@@ -2710,7 +2710,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-dpwtny/providers/Microsoft.Insights/scheduledQueryRules/aso-sample-rule?api-version=2023-03-15-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-dpwtny/providers/Microsoft.Insights/scheduledQueryRules/aso-sample-rule?api-version=2022-06-15
     method: DELETE
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-dpwtny''

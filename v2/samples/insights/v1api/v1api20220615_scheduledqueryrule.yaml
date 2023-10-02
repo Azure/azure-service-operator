@@ -1,4 +1,4 @@
-apiVersion: insights.azure.com/v1api20230315preview
+apiVersion: insights.azure.com/v1api20220615
 kind: ScheduledQueryRule
 metadata:
   name: aso-sample-rule
