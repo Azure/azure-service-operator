@@ -372,6 +372,14 @@ func setPropertyCore(obj any, propertyPath []string, value any) (err error) {
 
 	value = valueKind.Convert(field.Type()).Interface()
 
+	// Cast value to the type required by the field
+	valueKind := reflect.ValueOf(value)
+	if !valueKind.CanConvert(field.Type()) {
+		return errors.Errorf("value %v was not compatible with field %s", value, propertyPath[0])
+	}
+
+	value = valueKind.Convert(field.Type()).Interface()
+
 	field.Set(reflect.ValueOf(value))
 	return nil
 }

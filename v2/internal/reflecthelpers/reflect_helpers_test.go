@@ -589,3 +589,18 @@ func Test_SetProperty_WhenValueOfCompatibleType_ModifiesValue(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(*subject.Status.ProvisioningState).To(Equal(ProvisioningStateFailed))
 }
+
+func Test_SetProperty_WhenValueOfCompatibleType_ModifiesValue(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	subject := &ResourceWithReferences{
+		Status: ResourceWithReferencesStatus{
+			ProvisioningState: to.Ptr(ProvisioningStateSucceeded),
+		},
+	}
+
+	err := reflecthelpers.SetProperty(subject, "Status.ProvisioningState", to.Ptr(string(ProvisioningStateFailed)))
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(*subject.Status.ProvisioningState).To(Equal(ProvisioningStateFailed))
+}
