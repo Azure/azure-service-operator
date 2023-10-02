@@ -73,6 +73,8 @@ import (
 	containerservice_v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201storage"
 	containerservice_v20230202p "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview"
 	containerservice_v20230202ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202previewstorage"
+	containerservice_v20230315p "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315preview"
+	containerservice_v20230315ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230315previewstorage"
 	containerservice_v1beta20210501 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501"
 	containerservice_v1beta20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501storage"
 	datafactory_customizations "github.com/Azure/azure-service-operator/v2/api/datafactory/customizations"
@@ -348,6 +350,9 @@ func getKnownStorageTypes() []*registration.StorageType {
 	})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20230201s.ManagedClustersAgentPool)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20230202ps.TrustedAccessRoleBinding)})
+	result = append(result, &registration.StorageType{Obj: new(containerservice_v20230315ps.Fleet)})
+	result = append(result, &registration.StorageType{Obj: new(containerservice_v20230315ps.FleetsMember)})
+	result = append(result, &registration.StorageType{Obj: new(containerservice_v20230315ps.FleetsUpdateRun)})
 	result = append(result, &registration.StorageType{Obj: new(datafactory_v20180601s.Factory)})
 	result = append(result, &registration.StorageType{Obj: new(dataprotection_v20230101s.BackupVault)})
 	result = append(result, &registration.StorageType{Obj: new(dataprotection_v20230101s.BackupVaultsBackupPolicy)})
@@ -995,6 +1000,16 @@ func getKnownTypes() []client.Object {
 		new(containerservice_v20230202ps.ManagedCluster),
 		new(containerservice_v20230202ps.ManagedClustersAgentPool),
 		new(containerservice_v20230202ps.TrustedAccessRoleBinding))
+	result = append(
+		result,
+		new(containerservice_v20230315p.Fleet),
+		new(containerservice_v20230315p.FleetsMember),
+		new(containerservice_v20230315p.FleetsUpdateRun))
+	result = append(
+		result,
+		new(containerservice_v20230315ps.Fleet),
+		new(containerservice_v20230315ps.FleetsMember),
+		new(containerservice_v20230315ps.FleetsUpdateRun))
 	result = append(result, new(datafactory_v20180601.Factory))
 	result = append(result, new(datafactory_v20180601s.Factory))
 	result = append(result, new(dataprotection_v20230101.BackupVault), new(dataprotection_v20230101.BackupVaultsBackupPolicy))
@@ -1642,6 +1657,8 @@ func createScheme() *runtime.Scheme {
 	_ = containerservice_v20230201s.AddToScheme(scheme)
 	_ = containerservice_v20230202p.AddToScheme(scheme)
 	_ = containerservice_v20230202ps.AddToScheme(scheme)
+	_ = containerservice_v20230315p.AddToScheme(scheme)
+	_ = containerservice_v20230315ps.AddToScheme(scheme)
 	_ = datafactory_v20180601.AddToScheme(scheme)
 	_ = datafactory_v20180601s.AddToScheme(scheme)
 	_ = dataprotection_v20230101.AddToScheme(scheme)
@@ -1783,6 +1800,9 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &compute_customizations.VirtualMachineScaleSetExtension{})
 	result = append(result, &containerinstance_customizations.ContainerGroupExtension{})
 	result = append(result, &containerregistry_customizations.RegistryExtension{})
+	result = append(result, &containerservice_customizations.FleetExtension{})
+	result = append(result, &containerservice_customizations.FleetsMemberExtension{})
+	result = append(result, &containerservice_customizations.FleetsUpdateRunExtension{})
 	result = append(result, &containerservice_customizations.ManagedClusterExtension{})
 	result = append(result, &containerservice_customizations.ManagedClustersAgentPoolExtension{})
 	result = append(result, &containerservice_customizations.TrustedAccessRoleBindingExtension{})

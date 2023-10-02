@@ -42,7 +42,11 @@ supportedResourcesReport:
 # Filters are applied in document order, with the earliest matching filter being applied for each type.
 #
 typeFilters:
-
+  - action: include
+    group: containerservice
+    version: v*20230315preview
+    because: We want to support Fleet
+    
   - action: include
     group: servicebus
     version: v*20210101preview;v*20221001preview
@@ -1022,6 +1026,18 @@ objectModelConfiguration:
       PrivateLinkResource:
         Id:
           $armReference: true
+    2023-03-15-preview:
+      Fleet:
+        $export: true
+        $supportedFrom: v2.4.0
+        $azureGeneratedSecrets:
+          - UserCredentials
+      Fleets_Member:
+        $exportAs: FleetsMember
+        $supportedFrom: v2.4.0
+      Fleets_UpdateRun:
+        $exportAs: FleetsUpdateRun
+        $supportedFrom: v2.4.0
   datafactory:
     2018-06-01:
       PurviewConfiguration:

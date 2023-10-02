@@ -17,6 +17,8 @@ type Direction interface {
 	SelectString(from string, to string) string
 	// SelectType returns one of the provided types, depending on the direction of conversion
 	SelectType(from astmodel.Type, to astmodel.Type) astmodel.Type
+	// SelectName returns one of the provided names, depending on the direction of conversion
+	SelectName(from astmodel.InternalTypeName, to astmodel.InternalTypeName) astmodel.InternalTypeName
 	// SelectExpr returns on one of the provided expressions, depending on the direction of conversion
 	SelectExpr(from dst.Expr, to dst.Expr) dst.Expr
 	// WhenFrom will run the specified function only if the direction is "From", returning the current direction for chaining
@@ -44,6 +46,14 @@ func (dir *ConvertFromDirection) SelectString(fromString string, _ string) strin
 // SelectType returns the type for conversion FROM
 func (dir *ConvertFromDirection) SelectType(fromType astmodel.Type, _ astmodel.Type) astmodel.Type {
 	return fromType
+}
+
+// SelectName returns one of the provided names, depending on the direction of conversion
+func (dir *ConvertFromDirection) SelectName(
+	from astmodel.InternalTypeName,
+	_ astmodel.InternalTypeName,
+) astmodel.InternalTypeName {
+	return from
 }
 
 // SelectExpr returns the expression for conversion FROM
@@ -75,6 +85,14 @@ func (dir *ConvertToDirection) SelectString(_ string, toValue string) string {
 // SelectType returns the type for conversion TO
 func (dir *ConvertToDirection) SelectType(_ astmodel.Type, toType astmodel.Type) astmodel.Type {
 	return toType
+}
+
+// SelectName returns one of the provided names, depending on the direction of conversion
+func (dir *ConvertToDirection) SelectName(
+	_ astmodel.InternalTypeName,
+	to astmodel.InternalTypeName,
+) astmodel.InternalTypeName {
+	return to
 }
 
 // SelectExpr returns the expression for conversion TO

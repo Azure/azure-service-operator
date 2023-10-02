@@ -11,6 +11,8 @@ import (
 	"math/rand"
 	"os"
 	"regexp"
+	"sigs.k8s.io/controller-runtime/pkg/metrics/server"
+	"sigs.k8s.io/controller-runtime/pkg/webhook"
 	"time"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
@@ -111,18 +113,29 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 
 	var cacheFunc cache.NewCacheFunc
 	if cfg.TargetNamespaces != nil && cfg.OperatorMode.IncludesWatchers() {
-		cacheFunc = cache.MultiNamespacedCacheBuilder(cfg.TargetNamespaces)
+		cacheFunc = func(config *rest.Config, opts cache.Options) (cache.Cache, error) {
+			opts.DefaultNamespaces = make(map[string]cache.Config, len(cfg.TargetNamespaces))
+			for _, ns := range cfg.TargetNamespaces {
+				opts.DefaultNamespaces[ns] = cache.Config{}
+			}
+
+			return cache.New(config, opts)
+		}
 	}
 
 	k8sConfig := ctrl.GetConfigOrDie()
 	mgr, err := ctrl.NewManager(k8sConfig, ctrl.Options{
 		Scheme:                 scheme,
-		MetricsBindAddress:     flgs.MetricsAddr,
 		NewCache:               cacheFunc,
 		LeaderElection:         flgs.EnableLeaderElection,
 		LeaderElectionID:       "controllers-leader-election-azinfra-generated",
-		Port:                   9443,
 		HealthProbeBindAddress: flgs.HealthAddr,
+		Metrics: server.Options{
+			BindAddress: flgs.MetricsAddr,
+		},
+		WebhookServer: webhook.NewServer(webhook.Options{
+			Port: 9443,
+		}),
 	})
 
 	if err != nil {

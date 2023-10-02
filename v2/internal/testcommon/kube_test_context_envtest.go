@@ -14,6 +14,8 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"sigs.k8s.io/controller-runtime/pkg/metrics/server"
+	"sigs.k8s.io/controller-runtime/pkg/webhook"
 	"strings"
 	"sync"
 	"time"
@@ -102,14 +104,19 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 
 	var cacheFunc cache.NewCacheFunc
 	if cfg.TargetNamespaces != nil && cfg.OperatorMode.IncludesWatchers() {
-		cacheFunc = cache.MultiNamespacedCacheBuilder(cfg.TargetNamespaces)
+		cacheFunc = func(config *rest.Config, opts cache.Options) (cache.Cache, error) {
+			opts.DefaultNamespaces = make(map[string]cache.Config, len(cfg.TargetNamespaces))
+			for _, ns := range cfg.TargetNamespaces {
+				opts.DefaultNamespaces[ns] = cache.Config{}
+			}
+
+			return cache.New(config, opts)
+		}
 	}
 
 	log.Println("Creating & starting controller-runtime manager")
 	mgr, err := ctrl.NewManager(kubeConfig, ctrl.Options{
 		Scheme:           scheme,
-		CertDir:          environment.WebhookInstallOptions.LocalServingCertDir,
-		Port:             environment.WebhookInstallOptions.LocalServingPort,
 		EventBroadcaster: record.NewBroadcasterForTests(1 * time.Second),
 		NewClient: func(config *rest.Config, options client.Options) (client.Client, error) {
 			// We bypass the caching client for tests, see https://github.com/kubernetes-sigs/controller-runtime/issues/343 and
@@ -132,8 +139,14 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 			options.Cache = &client.CacheOptions{}
 			return NewTestClient(config, options)
 		},
-		MetricsBindAddress: "0", // disable serving metrics, or else we get conflicts listening on same port 8080
-		NewCache:           cacheFunc,
+		NewCache: cacheFunc,
+		Metrics: server.Options{
+			BindAddress: "0", // disable serving metrics, or else we get conflicts listening on same port 8080
+		},
+		WebhookServer: webhook.NewServer(webhook.Options{
+			Port:    environment.WebhookInstallOptions.LocalServingPort,
+			CertDir: environment.WebhookInstallOptions.LocalServingCertDir,
+		}),
 	})
 	if err != nil {
 		stopEnvironment()
