@@ -1,7 +1,7 @@
 apiVersion: keyvault.azure.com/v1api20210401preview
 kind: Vault
 metadata:
-  name: mlworkspaces-vault
+  name: aso-cs-vault
   namespace: default
 spec:
   location: westus3
