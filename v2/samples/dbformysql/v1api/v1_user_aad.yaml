@@ -1,5 +1,12 @@
 apiVersion: dbformysql.azure.com/v1
 kind: User
+# IMPORTANT: Before creating an AAD user on MySQL you must ensure that the MySQL Flexible Server is configured
+# correctly to accept AAD users. See https://learn.microsoft.com/azure/mysql/flexible-server/how-to-azure-ad#grant-permissions-to-user-assigned-managed-identity.
+# The key points are:
+#   * The Flexible Server MUST be assigned a user-assigned identity.
+#   * That user-assigned identity MUST have the following Graph permissions: User.Read.All, GroupMember.Read.All, and Application.Read.ALL
+#   * The FlexibleServer must have an AAD Administrator configured. The identity of the administrator must be the identity
+#     used by ASO to provision the user (so that ASO is connecting to the MySQL Flexible Server as the admin).
 metadata:
   name: sampleaaduser
   namespace: default
