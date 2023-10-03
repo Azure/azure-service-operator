@@ -518,6 +518,9 @@ func (tc *KubePerTestContext) PatchAndExpectError(old client.Object, new client.
 // DeleteResourceAndWait deletes the given resource in K8s and waits for
 // it to update to the Deleted state.
 func (tc *KubePerTestContext) DeleteResourceAndWait(obj client.Object) {
+	tc.LogSubsectionf(
+		"Deleting resource %s",
+		obj.GetName())
 	tc.DeleteResource(obj)
 	tc.Eventually(obj).Should(tc.Match.BeDeleted())
 }

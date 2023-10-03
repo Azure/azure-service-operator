@@ -7,9 +7,9 @@ package customizations
 
 import (
 	"context"
+	"strings"
 
 	keyvault "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401previewstorage"
-
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601storage"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
@@ -66,12 +66,12 @@ func (ex *VaultExtension) ModifyARMResource(
 
 	var createMode *string
 
-	switch *kv.Spec.Properties.CreateMode {
-	case CreateMode_CreateOrRecover:
+	if strings.EqualFold(*kv.Spec.Properties.CreateMode, CreateMode_CreateOrRecover) {
 		mode := ex.handleCreateOrRecover(ctx, kv, armClient, kubeClient, resolver, log)
 		createMode = &mode
+	}
 
-	case CreateMode_PurgeThenCreate:
+	if strings.EqualFold(*kv.Spec.Properties.CreateMode, CreateMode_PurgeThenCreate) {
 		err := ex.handlePurgeThenCreate(ctx, kv, armClient, kubeClient, resolver, log)
 		if err != nil {
 			return nil, errors.Wrapf(err, "error purging soft-deleted KeyVault")
@@ -108,16 +108,18 @@ func (ex *VaultExtension) handleCreateOrRecover(
 		return CreateMode_Default
 	}
 
-	log.Info(
-		"KeyVault reconciliation requested CreateOrRecover, setting CreateMode",
-		"KeyVault", kv.Name,
-		"Deleted KeyVault exists", exists)
-
+	result := CreateMode_Default
 	if exists {
-		return CreateMode_Recover
+		result = CreateMode_Recover
 	}
 
-	return CreateMode_Default
+	log.Info(
+		"KeyVault reconciliation requested CreateOrRecover",
+		"KeyVault", kv.Name,
+		"Soft-deleted-KeyVault-exists", exists,
+		"createMode", result)
+
+	return result
 }
 
 func (ex *VaultExtension) handlePurgeThenCreate(
