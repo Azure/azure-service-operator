@@ -303,6 +303,13 @@ func SetProperty(obj any, propertyPath string, value any) error {
 }
 
 func setPropertyCore(obj any, propertyPath []string, value any) (err error) {
+	// Catch any panic that occurs when setting the field and turn it into an error return
+	defer func() {
+		if recovered := recover(); recovered != nil {
+			err = errors.Errorf("failed to set property %s: %s", propertyPath[0], recovered)
+		}
+	}()
+
 	// Get the underlying object we need to modify
 	subject := reflect.ValueOf(obj)
 
@@ -356,14 +363,6 @@ func setPropertyCore(obj any, propertyPath []string, value any) (err error) {
 	if !field.CanSet() {
 		return errors.Errorf("field %s was not settable", propertyPath[0])
 	}
-
-	// Catch any panic that occurs when setting the field and turn it into an error return
-	// We don't want to recover from earlier panics, so we do this last
-	defer func() {
-		if recovered := recover(); recovered != nil {
-			err = errors.Errorf("failed to set property %s: %s", propertyPath[0], recovered)
-		}
-	}()
 
 	// Cast value to the type required by the field
 	valueKind := reflect.ValueOf(value)
