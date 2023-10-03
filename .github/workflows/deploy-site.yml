@@ -3,7 +3,9 @@ on:
   push:
     branches:
       - main
-
+    paths:
+      - "docs/**"
+  
 jobs:
   deploy-site:
     runs-on: ubuntu-latest
