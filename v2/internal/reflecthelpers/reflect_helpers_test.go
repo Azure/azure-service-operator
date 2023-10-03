@@ -25,7 +25,8 @@ import (
 type ResourceWithReferences struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ResourceWithReferencesSpec `json:"spec,omitempty"`
+	Spec              ResourceWithReferencesSpec   `json:"spec,omitempty"`
+	Status            ResourceWithReferencesStatus `json:"status,omitempty"`
 }
 
 var _ client.Object = &ResourceWithReferences{}
@@ -118,9 +119,20 @@ func (in *ResourceWithReferencesSpec) PopulateFromARM(owner genruntime.Arbitrary
 	panic("not expected to be called")
 }
 
+type ResourceWithReferencesStatus struct {
+	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
+}
+
 type ResourceReference struct {
 	Reference genruntime.ResourceReference `armReference:"Id" json:"reference"`
 }
+
+type ProvisioningState string
+
+const (
+	ProvisioningStateSucceeded ProvisioningState = "Succeeded"
+	ProvisioningStateFailed    ProvisioningState = "Failed"
+)
 
 func Test_FindReferences(t *testing.T) {
 	t.Parallel()
@@ -407,4 +419,173 @@ func Test_SetObjectListItems(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(list.Items).To(HaveLen(1))
 	g.Expect(list.Items[0].GetName()).To(Equal("test-group"))
+}
+
+func Test_SetProperty_TargetingStringProperty_MakesChange(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	subject := &ResourceWithReferencesSpec{
+		AzureName: "azureName",
+	}
+
+	newValue := "newName"
+	err := reflecthelpers.SetProperty(subject, "AzureName", newValue)
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(subject.AzureName).To(Equal(newValue))
+}
+
+func Test_SetProperty_TargetingMultipleProperties_MakesChanges(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	subject := &ResourceWithReferencesSpec{
+		AzureName:       "azureName",
+		Location:        "westus",
+		PropertyWithTag: to.Ptr("hello"),
+	}
+
+	name := "dorothy"
+	location := "land-of-oz"
+	property := to.Ptr("flying-house")
+
+	g.Expect(reflecthelpers.SetProperty(subject, "AzureName", name)).To(Succeed())
+	g.Expect(reflecthelpers.SetProperty(subject, "Location", location)).To(Succeed())
+	g.Expect(reflecthelpers.SetProperty(subject, "PropertyWithTag", property)).To(Succeed())
+
+	g.Expect(subject.AzureName).To(Equal(name))
+	g.Expect(subject.Location).To(Equal(location))
+	g.Expect(subject.PropertyWithTag).To(Equal(property))
+}
+
+func Test_SetProperty_TargetingNestedStringProperty_MakesChange(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	subject := &ResourceWithReferences{
+		Spec: ResourceWithReferencesSpec{
+			AzureName: "azureName",
+		},
+	}
+
+	newValue := "newName"
+	err := reflecthelpers.SetProperty(subject, "Spec.AzureName", newValue)
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(subject.Spec.AzureName).To(Equal(newValue))
+}
+
+func Test_SetProperty_TargetingMultipleNestedProperties_MakesChange(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	subject := &ResourceWithReferences{
+		Spec: ResourceWithReferencesSpec{
+			AzureName:       "azureName",
+			Location:        "westus",
+			PropertyWithTag: to.Ptr("hello"),
+		},
+	}
+
+	name := "dorothy"
+	location := "land-of-oz"
+	property := to.Ptr("flying-house")
+
+	g.Expect(reflecthelpers.SetProperty(subject, "Spec.AzureName", name)).To(Succeed())
+	g.Expect(reflecthelpers.SetProperty(subject, "Spec.Location", location)).To(Succeed())
+	g.Expect(reflecthelpers.SetProperty(subject, "Spec.PropertyWithTag", property)).To(Succeed())
+
+	g.Expect(subject.Spec.AzureName).To(Equal(name))
+	g.Expect(subject.Spec.Location).To(Equal(location))
+	g.Expect(subject.Spec.PropertyWithTag).To(Equal(property))
+}
+
+func Test_SetProperty_TargetingNestedNestedStringProperty_MakesChange(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	subject := &ResourceWithReferences{
+		Spec: ResourceWithReferencesSpec{
+			AzureName: "azureName",
+		},
+	}
+
+	newValue := "newName"
+	err := reflecthelpers.SetProperty(subject, "Spec.Owner.Name", newValue)
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(subject.Spec.Owner.Name).To(Equal(newValue))
+}
+
+func Test_SetProperty_TargetingMultipleNestedNestedProperties_MakesChanges(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	subject := &ResourceWithReferences{}
+
+	name := "lock"
+	key := "key"
+
+	g.Expect(reflecthelpers.SetProperty(subject, "Spec.Secret.Name", name)).To(Succeed())
+	g.Expect(reflecthelpers.SetProperty(subject, "Spec.Secret.Key", key)).To(Succeed())
+
+	g.Expect(subject.Spec.Secret.Name).To(Equal(name))
+	g.Expect(subject.Spec.Secret.Key).To(Equal(key))
+}
+
+func Test_SetProperty_TargetingUnknownProperty_ReturnsExpectedError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	subject := &ResourceWithReferencesSpec{
+		AzureName: "azureName",
+	}
+
+	err := reflecthelpers.SetProperty(subject, "UnknownProperty", "newValue")
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(err).To(MatchError(ContainSubstring("UnknownProperty")))
+}
+
+func Test_SetProperty_TargetingUnknownNestedProperty_ReturnsExpectedError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	subject := &ResourceWithReferencesSpec{}
+
+	err := reflecthelpers.SetProperty(subject, "Owner.UnknownProperty", "newValue")
+	g.Expect(err).To(HaveOccurred())
+
+	g.Expect(err).To(MatchError(ContainSubstring("Owner")))
+	g.Expect(err).To(MatchError(ContainSubstring("UnknownProperty")))
+}
+
+func Test_SetProperty_WhenValueOfWrongType_ReturnsExpectedError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	subject := &ResourceWithReferences{
+		Spec: ResourceWithReferencesSpec{
+			AzureName: "azureName",
+		},
+	}
+
+	err := reflecthelpers.SetProperty(subject, "Spec.AzureName", make([]int, 0, 10))
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(err).To(MatchError(ContainSubstring("Spec")))
+	g.Expect(err).To(MatchError(ContainSubstring("AzureName")))
+	g.Expect(err).To(MatchError(ContainSubstring("kind []")))
+	g.Expect(err).To(MatchError(ContainSubstring("not compatible")))
+}
+
+func Test_SetProperty_WhenValueOfCompatibleType_ModifiesValue(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	subject := &ResourceWithReferences{
+		Status: ResourceWithReferencesStatus{
+			ProvisioningState: to.Ptr(ProvisioningStateSucceeded),
+		},
+	}
+
+	err := reflecthelpers.SetProperty(subject, "Status.ProvisioningState", to.Ptr(string(ProvisioningStateFailed)))
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(*subject.Status.ProvisioningState).To(Equal(ProvisioningStateFailed))
 }
