@@ -42,13 +42,7 @@ func Test_Networking_ApplicationGateway_HTTPS_Listener_CRUD(t *testing.T) {
 	tc.Expect(subnet.Status.Id).ToNot(BeNil())
 
 	appGtsListenerName := "app-gw-http-listener-1"
-	httpListenerParams := map[string]string{
-		"param-key1": "applicationGateways",
-		"param-val1": appGatewayName,
-		"param-key2": "httpListeners",
-		"param-val2": appGtsListenerName,
-	}
-	appGtwFHttpListenerID, err := getFrontendPortsARMID(tc, rg, httpListenerParams)
+	appGtwFHttpListenerID, err := getFrontendPortsARMID(tc, rg, "applicationGateways", appGatewayName, "httpListeners", appGtsListenerName)
 	tc.Expect(err).To(BeNil())
 
 	appGtwFIPConfig := defineApplicationGatewayIPConfiguration(tc.MakeReferenceFromResource(subnet))
@@ -176,13 +170,7 @@ func defineApplicationGatewayWebApplicationFirewallConfiguration(tc *testcommon.
 		RuleSetType:    to.Ptr("OWASP"),
 		RuleSetVersion: to.Ptr("3.2"),
 	})
-	armid_params := map[string]string{
-		"param-key1": "applicationGateways",
-		"param-val1": appGatewayName,
-		"param-key2": "applicationGatewayWebApplicationFirewallConfiguration",
-		"param-val2": subResname,
-	}
-	subResARMID, err := getFrontendPortsARMID(tc, rg, armid_params)
+	subResARMID, err := getFrontendPortsARMID(tc, rg, "applicationGateways", appGatewayName, "applicationGatewayWebApplicationFirewallConfiguration", subResname)
 	tc.Expect(err).To(BeNil())
 	return subRes, subResARMID
 }
@@ -206,13 +194,7 @@ func defineApplicationGatewayFrontendIPConfiguration(tc *testcommon.KubePerTestC
 			},
 		},
 	}
-	armid_params := map[string]string{
-		"param-key1": "applicationGateways",
-		"param-val1": appGatewayName,
-		"param-key2": "frontendIPConfigurations",
-		"param-val2": appGtwFeIpName,
-	}
-	appGtwARMID, err := getFrontendPortsARMID(tc, rg, armid_params)
+	appGtwARMID, err := getFrontendPortsARMID(tc, rg, "applicationGateways", appGatewayName, "frontendIPConfigurations", appGtwFeIpName)
 	tc.Expect(err).To(BeNil())
 	return appGtwFeIpConfig, appGtwARMID
 }
@@ -225,13 +207,7 @@ func defineApplicationGatewayFrontendPort(tc *testcommon.KubePerTestContext, rg 
 			Port: to.Ptr(443),
 		},
 	}
-	armid_params := map[string]string{
-		"param-key1": "applicationGateways",
-		"param-val1": appGatewayName,
-		"param-key2": "frontendPorts",
-		"param-val2": appGtwFePortName,
-	}
-	appGtwFePortsID, err := getFrontendPortsARMID(tc, rg, armid_params)
+	appGtwFePortsID, err := getFrontendPortsARMID(tc, rg, "applicationGateways", appGatewayName, "frontendPorts", appGtwFePortName)
 	tc.Expect(err).To(BeNil())
 	return AppGtwFEPorts, appGtwFePortsID
 }
@@ -298,13 +274,7 @@ func defineApplicationGatewaySslCertificate(tc *testcommon.KubePerTestContext, r
 			AAQUZcDhMEBZrBZVLOTMV1dEBK7cxTcECIAwrio+tqKLAgIIAA==`),
 		},
 	}
-	armid_params := map[string]string{
-		"param-key1": "applicationGateways",
-		"param-val1": appGatewayName,
-		"param-key2": "sslCertificates",
-		"param-val2": subResname,
-	}
-	subResARMID, err := getFrontendPortsARMID(tc, rg, armid_params)
+	subResARMID, err := getFrontendPortsARMID(tc, rg, "applicationGateways", appGatewayName, "sslCertificates", subResname)
 	tc.Expect(err).To(BeNil())
 	return subRes, subResARMID
 }
@@ -325,13 +295,7 @@ func defineApplicationGatewaySslProfile(tc *testcommon.KubePerTestContext, rg *r
 			},
 		},
 	}
-	armid_params := map[string]string{
-		"param-key1": "applicationGateways",
-		"param-val1": appGatewayName,
-		"param-key2": "sslProfiles",
-		"param-val2": subResname,
-	}
-	subResARMID, err := getFrontendPortsARMID(tc, rg, armid_params)
+	subResARMID, err := getFrontendPortsARMID(tc, rg, "applicationGateways", appGatewayName, "sslProfiles", subResname)
 	tc.Expect(err).To(BeNil())
 	return subRes, subResARMID
 }
@@ -348,13 +312,7 @@ func defineApplicationGatewayBackendAddressPool(tc *testcommon.KubePerTestContex
 			},
 		},
 	}
-	armid_params := map[string]string{
-		"param-key1": "applicationGateways",
-		"param-val1": appGatewayName,
-		"param-key2": "backendAddressPools",
-		"param-val2": subResname,
-	}
-	subResARMID, err := getFrontendPortsARMID(tc, rg, armid_params)
+	subResARMID, err := getFrontendPortsARMID(tc, rg, "applicationGateways", appGatewayName, "backendAddressPools", subResname)
 	tc.Expect(err).To(BeNil())
 	return subRes, subResARMID
 }
@@ -370,25 +328,19 @@ func defineApplicationGatewayBackendHttpSettings(tc *testcommon.KubePerTestConte
 			PickHostNameFromBackendAddress: to.Ptr(false),
 		},
 	}
-	armid_params := map[string]string{
-		"param-key1": "applicationGateways",
-		"param-val1": appGatewayName,
-		"param-key2": "backendHttpSettingsCollection",
-		"param-val2": subResname,
-	}
-	subResARMID, err := getFrontendPortsARMID(tc, rg, armid_params)
+	subResARMID, err := getFrontendPortsARMID(tc, rg, "applicationGateways", appGatewayName, "backendHttpSettingsCollection", subResname)
 	tc.Expect(err).To(BeNil())
 	return subRes, subResARMID
 }
 
-func getFrontendPortsARMID(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, params map[string]string) (string, error) {
+func getFrontendPortsARMID(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, appGtwTypeName string, appGatewayName string, appGtwSubResourceTypeName string, subResName string) (string, error) {
 	return genericarmclient.MakeResourceGroupScopeARMID(
 		tc.AzureSubscription,
 		rg.Name,
 		"Microsoft.Network",
-		params["param-key1"],
-		params["param-val1"],
-		params["param-key2"],
-		params["param-val2"],
+		appGtwTypeName,
+		appGatewayName,
+		appGtwSubResourceTypeName,
+		subResName,
 	)
 }
