@@ -23,8 +23,8 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	sku := apim.ApiManagementServiceSkuProperties{
-		Capacity: to.Ptr(0),
-		Name:     to.Ptr(apim.ApiManagementServiceSkuProperties_Name_Consumption),
+		Capacity: to.Ptr(1),
+		Name:     to.Ptr(apim.ApiManagementServiceSkuProperties_Name_Developer),
 	}
 
 	// Create an APIM instance
