@@ -9,6 +9,7 @@ spec:
     name: aso-sample-rg
   properties:
     tenantId: "00000000-0000-0000-0000-000000000000"
+    createMode: createOrRecover
     sku:
       family: A
       name: standard
