@@ -1441,15 +1441,9 @@ func VirtualNetworkConfigurationGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkConfiguration(generators)
 	virtualNetworkConfigurationGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkConfiguration{}), generators)
 
 	return virtualNetworkConfigurationGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualNetworkConfiguration is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworkConfiguration(gens map[string]gopter.Gen) {
-	gens["SubnetResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_VirtualNetworkConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

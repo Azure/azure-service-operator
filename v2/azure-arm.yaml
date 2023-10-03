@@ -692,6 +692,9 @@ objectModelConfiguration:
       RemotePrivateEndpointConnectionWrapper:
         Id:
           $armReference: true
+      VirtualNetworkConfiguration:
+        SubnetResourceId:
+          $armReference: true
   appconfiguration:
     2022-05-01:
       ConfigurationStore:

@@ -22,8 +22,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │   │   │   │       ├── "Premium"
 │   │   │   │       └── "Standard"
 │   │   │   ├── VirtualNetworkConfiguration: *Object (1 property)
-│   │   │   │   └── SubnetResourceId: Validated<*string> (1 rule)
-│   │   │   │       └── Rule 0: Pattern: "^/subscriptions/[^/]*/resourceGroups/[^/]*/providers/Microsoft.(ClassicNetwork|Network)/virtualNetworks/[^/]*/subnets/[^/]*$"
+│   │   │   │   └── SubnetResourceReference: *genruntime.ResourceReference
 │   │   │   └── Zones: string[]
 │   │   ├── ApiVersionConstraint: *Object (1 property)
 │   │   │   └── MinApiVersion: *string
@@ -117,8 +116,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │   │   │       └── "Standard"
 │   │   ├── Tags: map[string]string
 │   │   ├── VirtualNetworkConfiguration: *Object (1 property)
-│   │   │   └── SubnetResourceId: Validated<*string> (1 rule)
-│   │   │       └── Rule 0: Pattern: "^/subscriptions/[^/]*/resourceGroups/[^/]*/providers/Microsoft.(ClassicNetwork|Network)/virtualNetworks/[^/]*/subnets/[^/]*$"
+│   │   │   └── SubnetResourceReference: *genruntime.ResourceReference
 │   │   ├── VirtualNetworkType: *Enum (3 values)
 │   │   │   ├── "External"
 │   │   │   ├── "Internal"

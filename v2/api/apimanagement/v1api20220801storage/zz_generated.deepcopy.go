@@ -1428,9 +1428,9 @@ func (in *VirtualNetworkConfiguration) DeepCopyInto(out *VirtualNetworkConfigura
 			(*out)[key] = val
 		}
 	}
-	if in.SubnetResourceId != nil {
-		in, out := &in.SubnetResourceId, &out.SubnetResourceId
-		*out = new(string)
+	if in.SubnetResourceReference != nil {
+		in, out := &in.SubnetResourceReference, &out.SubnetResourceReference
+		*out = new(genruntime.ResourceReference)
 		**out = **in
 	}
 }

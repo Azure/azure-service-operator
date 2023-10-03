@@ -277,7 +277,6 @@ type UserAssignedIdentityDetails_ARM struct {
 
 // Configuration of a virtual network to which API Management service is deployed.
 type VirtualNetworkConfiguration_ARM struct {
-	// SubnetResourceId: The full resource ID of a subnet in a virtual network to deploy the API Management service in.
 	SubnetResourceId *string `json:"subnetResourceId,omitempty"`
 }
 

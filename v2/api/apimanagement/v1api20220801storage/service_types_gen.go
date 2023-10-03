@@ -435,8 +435,10 @@ type SystemData_STATUS struct {
 // Storage version of v1api20220801.VirtualNetworkConfiguration
 // Configuration of a virtual network to which API Management service is deployed.
 type VirtualNetworkConfiguration struct {
-	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SubnetResourceId *string                `json:"subnetResourceId,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+
+	// SubnetResourceReference: The full resource ID of a subnet in a virtual network to deploy the API Management service in.
+	SubnetResourceReference *genruntime.ResourceReference `armReference:"SubnetResourceId" json:"subnetResourceReference,omitempty"`
 }
 
 // Storage version of v1api20220801.VirtualNetworkConfiguration_STATUS

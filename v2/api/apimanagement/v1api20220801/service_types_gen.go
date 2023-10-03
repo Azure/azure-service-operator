@@ -5757,9 +5757,8 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 
 // Configuration of a virtual network to which API Management service is deployed.
 type VirtualNetworkConfiguration struct {
-	// +kubebuilder:validation:Pattern="^/subscriptions/[^/]*/resourceGroups/[^/]*/providers/Microsoft.(ClassicNetwork|Network)/virtualNetworks/[^/]*/subnets/[^/]*$"
-	// SubnetResourceId: The full resource ID of a subnet in a virtual network to deploy the API Management service in.
-	SubnetResourceId *string `json:"subnetResourceId,omitempty"`
+	// SubnetResourceReference: The full resource ID of a subnet in a virtual network to deploy the API Management service in.
+	SubnetResourceReference *genruntime.ResourceReference `armReference:"SubnetResourceId" json:"subnetResourceReference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualNetworkConfiguration{}
@@ -5772,9 +5771,13 @@ func (configuration *VirtualNetworkConfiguration) ConvertToARM(resolved genrunti
 	result := &VirtualNetworkConfiguration_ARM{}
 
 	// Set property "SubnetResourceId":
-	if configuration.SubnetResourceId != nil {
-		subnetResourceId := *configuration.SubnetResourceId
-		result.SubnetResourceId = &subnetResourceId
+	if configuration.SubnetResourceReference != nil {
+		subnetResourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*configuration.SubnetResourceReference)
+		if err != nil {
+			return nil, err
+		}
+		subnetResourceReference := subnetResourceReferenceARMID
+		result.SubnetResourceId = &subnetResourceReference
 	}
 	return result, nil
 }
@@ -5786,16 +5789,12 @@ func (configuration *VirtualNetworkConfiguration) NewEmptyARMValue() genruntime.
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *VirtualNetworkConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualNetworkConfiguration_ARM)
+	_, ok := armInput.(VirtualNetworkConfiguration_ARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkConfiguration_ARM, got %T", armInput)
 	}
 
-	// Set property "SubnetResourceId":
-	if typedInput.SubnetResourceId != nil {
-		subnetResourceId := *typedInput.SubnetResourceId
-		configuration.SubnetResourceId = &subnetResourceId
-	}
+	// no assignment for property "SubnetResourceReference"
 
 	// No error
 	return nil
@@ -5804,12 +5803,12 @@ func (configuration *VirtualNetworkConfiguration) PopulateFromARM(owner genrunti
 // AssignProperties_From_VirtualNetworkConfiguration populates our VirtualNetworkConfiguration from the provided source VirtualNetworkConfiguration
 func (configuration *VirtualNetworkConfiguration) AssignProperties_From_VirtualNetworkConfiguration(source *v20220801s.VirtualNetworkConfiguration) error {
 
-	// SubnetResourceId
-	if source.SubnetResourceId != nil {
-		subnetResourceId := *source.SubnetResourceId
-		configuration.SubnetResourceId = &subnetResourceId
+	// SubnetResourceReference
+	if source.SubnetResourceReference != nil {
+		subnetResourceReference := source.SubnetResourceReference.Copy()
+		configuration.SubnetResourceReference = &subnetResourceReference
 	} else {
-		configuration.SubnetResourceId = nil
+		configuration.SubnetResourceReference = nil
 	}
 
 	// No error
@@ -5821,12 +5820,12 @@ func (configuration *VirtualNetworkConfiguration) AssignProperties_To_VirtualNet
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// SubnetResourceId
-	if configuration.SubnetResourceId != nil {
-		subnetResourceId := *configuration.SubnetResourceId
-		destination.SubnetResourceId = &subnetResourceId
+	// SubnetResourceReference
+	if configuration.SubnetResourceReference != nil {
+		subnetResourceReference := configuration.SubnetResourceReference.Copy()
+		destination.SubnetResourceReference = &subnetResourceReference
 	} else {
-		destination.SubnetResourceId = nil
+		destination.SubnetResourceReference = nil
 	}
 
 	// Update the property bag
@@ -5843,12 +5842,12 @@ func (configuration *VirtualNetworkConfiguration) AssignProperties_To_VirtualNet
 // Initialize_From_VirtualNetworkConfiguration_STATUS populates our VirtualNetworkConfiguration from the provided source VirtualNetworkConfiguration_STATUS
 func (configuration *VirtualNetworkConfiguration) Initialize_From_VirtualNetworkConfiguration_STATUS(source *VirtualNetworkConfiguration_STATUS) error {
 
-	// SubnetResourceId
+	// SubnetResourceReference
 	if source.SubnetResourceId != nil {
-		subnetResourceId := *source.SubnetResourceId
-		configuration.SubnetResourceId = &subnetResourceId
+		subnetResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.SubnetResourceId)
+		configuration.SubnetResourceReference = &subnetResourceReference
 	} else {
-		configuration.SubnetResourceId = nil
+		configuration.SubnetResourceReference = nil
 	}
 
 	// No error

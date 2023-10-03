@@ -17,7 +17,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
     │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   ├── VirtualNetworkConfiguration: *Object (2 properties)
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   └── SubnetResourceId: *string
+    │   │   │   └── SubnetResourceReference: *genruntime.ResourceReference
     │   │   └── Zones: string[]
     │   ├── ApiVersionConstraint: *Object (2 properties)
     │   │   ├── MinApiVersion: *string
@@ -90,7 +90,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
     │   ├── Tags: map[string]string
     │   ├── VirtualNetworkConfiguration: *Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   └── SubnetResourceId: *string
+    │   │   └── SubnetResourceReference: *genruntime.ResourceReference
     │   ├── VirtualNetworkType: *string
     │   └── Zones: string[]
     └── Status: Object (42 properties)
