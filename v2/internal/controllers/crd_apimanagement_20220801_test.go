@@ -25,14 +25,17 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 
-	rg := tc.CreateTestResourceGroupAndWait()
+	// We don't want to delete the resource group as APIM takes a long time to provision
+	rg := tc.NewTestResourceGroup()
+	tc.CreateResourceAndWaitWithoutCleanup(rg)
 
 	sku := apim.ApiManagementServiceSkuProperties{
 		Capacity: to.Ptr(1),
 		Name:     to.Ptr(apim.ApiManagementServiceSkuProperties_Name_Developer),
 	}
 
-	// Create an APIM instance
+	// Create an APIM instance. APIM has a soft delete feature; if you find that you
+	// hit this problem add the restore back in to resurrect it
 	service := apim.Service{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("apim")),
 		Spec: apim.Service_Spec{
@@ -41,13 +44,13 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 			PublisherEmail: to.Ptr("ASO@testing.com"),
 			PublisherName:  to.Ptr("ASOTesting"),
 			Sku:            &sku,
-			Restore:        to.Ptr(true),
+			// Restore:        to.Ptr(true),
 		},
 	}
 
-	tc.CreateResourceAndWait(&service)
-
-	tc.Expect(service.Status.Id).ToNot(BeNil())
+	// When you are debugging, you can use this to create the APIM service once and not delete it
+	tc.CreateResourceAndWaitWithoutCleanup(&service)
+	// tc.CreateResourceAndWait(&service)
 
 	tc.Expect(service.Status.Id).ToNot(BeNil())
 
@@ -94,7 +97,7 @@ func APIM_Subscription_CRUD(tc *testcommon.KubePerTestContext, service client.Ob
 
 	tc.T.Log("creating apim subscription")
 	tc.CreateResourceAndWait(&subscription)
-	//defer tc.DeleteResourceAndWait(&subscription)
+	defer tc.DeleteResourceAndWait(&subscription)
 
 	tc.Expect(subscription.Status).ToNot(BeNil())
 
@@ -117,7 +120,7 @@ func APIM_Backend_CRUD(tc *testcommon.KubePerTestContext, service client.Object)
 
 	tc.T.Log("creating apim backend")
 	tc.CreateResourceAndWait(&backend)
-	//defer tc.DeleteResourceAndWait(&backend)
+	defer tc.DeleteResourceAndWait(&backend)
 
 	tc.Expect(backend.Status).ToNot(BeNil())
 
@@ -140,7 +143,7 @@ func APIM_NamedValue_CRUD(tc *testcommon.KubePerTestContext, service client.Obje
 
 	tc.T.Log("creating apim namedValue")
 	tc.CreateResourceAndWait(&namedValue)
-	//defer tc.DeleteResourceAndWait(&namedValue)
+	defer tc.DeleteResourceAndWait(&namedValue)
 
 	tc.Expect(namedValue.Status).ToNot(BeNil())
 
