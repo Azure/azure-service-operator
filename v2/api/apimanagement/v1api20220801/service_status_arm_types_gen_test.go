@@ -724,7 +724,6 @@ func HostnameConfiguration_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForHostnameConfiguration_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForHostnameConfiguration_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["CertificatePassword"] = gen.PtrOf(gen.AlphaString())
 	gens["CertificateSource"] = gen.PtrOf(gen.OneConstOf(
 		HostnameConfiguration_CertificateSource_STATUS_BuiltIn,
 		HostnameConfiguration_CertificateSource_STATUS_Custom,

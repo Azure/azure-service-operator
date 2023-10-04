@@ -199,7 +199,7 @@ func (service *Service) ValidateUpdate(old runtime.Object) (admission.Warnings, 
 
 // createValidations validates the creation of the resource
 func (service *Service) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){service.validateResourceReferences, service.validateOwnerReference}
+	return []func() (admission.Warnings, error){service.validateResourceReferences, service.validateOwnerReference, service.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +217,19 @@ func (service *Service) updateValidations() []func(old runtime.Object) (admissio
 		func(old runtime.Object) (admission.Warnings, error) {
 			return service.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return service.validateOptionalConfigMapReferences()
+		},
 	}
+}
+
+// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
+func (service *Service) validateOptionalConfigMapReferences() (admission.Warnings, error) {
+	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&service.Spec)
+	if err != nil {
+		return nil, err
+	}
+	return genruntime.ValidateOptionalConfigMapReferences(refs)
 }
 
 // validateOwnerReference validates the owner field
@@ -393,9 +405,6 @@ type Service_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-	// PrivateEndpointConnections: List of Private Endpoint Connections of this service.
-	PrivateEndpointConnections []RemotePrivateEndpointConnectionWrapper `json:"privateEndpointConnections,omitempty"`
-
 	// PublicIpAddressId: Public Standard SKU IP V4 based IP address to be associated with Virtual Network deployed service in
 	// the region. Supported only for Developer and Premium SKU being deployed in Virtual Network.
 	PublicIpAddressId *string `json:"publicIpAddressId,omitempty"`
@@ -477,7 +486,6 @@ func (service *Service_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		service.HostnameConfigurations != nil ||
 		service.NatGatewayState != nil ||
 		service.NotificationSenderEmail != nil ||
-		service.PrivateEndpointConnections != nil ||
 		service.PublicIpAddressId != nil ||
 		service.PublicNetworkAccess != nil ||
 		service.PublisherEmail != nil ||
@@ -537,13 +545,6 @@ func (service *Service_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if service.NotificationSenderEmail != nil {
 		notificationSenderEmail := *service.NotificationSenderEmail
 		result.Properties.NotificationSenderEmail = &notificationSenderEmail
-	}
-	for _, item := range service.PrivateEndpointConnections {
-		item_ARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.PrivateEndpointConnections = append(result.Properties.PrivateEndpointConnections, *item_ARM.(*RemotePrivateEndpointConnectionWrapper_ARM))
 	}
 	if service.PublicIpAddressId != nil {
 		publicIpAddressId := *service.PublicIpAddressId
@@ -739,19 +740,6 @@ func (service *Service_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	service.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
 		ARMID: owner.ARMID,
-	}
-
-	// Set property "PrivateEndpointConnections":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.PrivateEndpointConnections {
-			var item1 RemotePrivateEndpointConnectionWrapper
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			service.PrivateEndpointConnections = append(service.PrivateEndpointConnections, item1)
-		}
 	}
 
 	// Set property "PublicIpAddressId":
@@ -1030,24 +1018,6 @@ func (service *Service_Spec) AssignProperties_From_Service_Spec(source *v2022080
 		service.Owner = nil
 	}
 
-	// PrivateEndpointConnections
-	if source.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]RemotePrivateEndpointConnectionWrapper, len(source.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection RemotePrivateEndpointConnectionWrapper
-			err := privateEndpointConnection.AssignProperties_From_RemotePrivateEndpointConnectionWrapper(&privateEndpointConnectionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_RemotePrivateEndpointConnectionWrapper() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		service.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		service.PrivateEndpointConnections = nil
-	}
-
 	// PublicIpAddressId
 	service.PublicIpAddressId = genruntime.ClonePointerToString(source.PublicIpAddressId)
 
@@ -1260,24 +1230,6 @@ func (service *Service_Spec) AssignProperties_To_Service_Spec(destination *v2022
 		destination.Owner = nil
 	}
 
-	// PrivateEndpointConnections
-	if service.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v20220801s.RemotePrivateEndpointConnectionWrapper, len(service.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range service.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v20220801s.RemotePrivateEndpointConnectionWrapper
-			err := privateEndpointConnectionItem.AssignProperties_To_RemotePrivateEndpointConnectionWrapper(&privateEndpointConnection)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_RemotePrivateEndpointConnectionWrapper() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		destination.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		destination.PrivateEndpointConnections = nil
-	}
-
 	// PublicIpAddressId
 	destination.PublicIpAddressId = genruntime.ClonePointerToString(service.PublicIpAddressId)
 
@@ -1479,24 +1431,6 @@ func (service *Service_Spec) Initialize_From_Service_STATUS(source *Service_STAT
 		service.NotificationSenderEmail = &notificationSenderEmail
 	} else {
 		service.NotificationSenderEmail = nil
-	}
-
-	// PrivateEndpointConnections
-	if source.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]RemotePrivateEndpointConnectionWrapper, len(source.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection RemotePrivateEndpointConnectionWrapper
-			err := privateEndpointConnection.Initialize_From_RemotePrivateEndpointConnectionWrapper_STATUS(&privateEndpointConnectionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_RemotePrivateEndpointConnectionWrapper_STATUS() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		service.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		service.PrivateEndpointConnections = nil
 	}
 
 	// PublicIpAddressId
@@ -2749,9 +2683,9 @@ type AdditionalLocation struct {
 	// NatGatewayState: Property can be used to enable NAT Gateway for this API Management service.
 	NatGatewayState *AdditionalLocation_NatGatewayState `json:"natGatewayState,omitempty"`
 
-	// PublicIpAddressId: Public Standard SKU IP V4 based IP address to be associated with Virtual Network deployed service in
-	// the location. Supported only for Premium SKU being deployed in Virtual Network.
-	PublicIpAddressId *string `json:"publicIpAddressId,omitempty"`
+	// PublicIpAddressReference: Public Standard SKU IP V4 based IP address to be associated with Virtual Network deployed
+	// service in the location. Supported only for Premium SKU being deployed in Virtual Network.
+	PublicIpAddressReference *genruntime.ResourceReference `armReference:"PublicIpAddressId" json:"publicIpAddressReference,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Sku: SKU properties of the API Management service.
@@ -2792,9 +2726,13 @@ func (location *AdditionalLocation) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 
 	// Set property "PublicIpAddressId":
-	if location.PublicIpAddressId != nil {
-		publicIpAddressId := *location.PublicIpAddressId
-		result.PublicIpAddressId = &publicIpAddressId
+	if location.PublicIpAddressReference != nil {
+		publicIpAddressReferenceARMID, err := resolved.ResolvedReferences.Lookup(*location.PublicIpAddressReference)
+		if err != nil {
+			return nil, err
+		}
+		publicIpAddressReference := publicIpAddressReferenceARMID
+		result.PublicIpAddressId = &publicIpAddressReference
 	}
 
 	// Set property "Sku":
@@ -2854,11 +2792,7 @@ func (location *AdditionalLocation) PopulateFromARM(owner genruntime.ArbitraryOw
 		location.NatGatewayState = &natGatewayState
 	}
 
-	// Set property "PublicIpAddressId":
-	if typedInput.PublicIpAddressId != nil {
-		publicIpAddressId := *typedInput.PublicIpAddressId
-		location.PublicIpAddressId = &publicIpAddressId
-	}
+	// no assignment for property "PublicIpAddressReference"
 
 	// Set property "Sku":
 	if typedInput.Sku != nil {
@@ -2913,8 +2847,13 @@ func (location *AdditionalLocation) AssignProperties_From_AdditionalLocation(sou
 		location.NatGatewayState = nil
 	}
 
-	// PublicIpAddressId
-	location.PublicIpAddressId = genruntime.ClonePointerToString(source.PublicIpAddressId)
+	// PublicIpAddressReference
+	if source.PublicIpAddressReference != nil {
+		publicIpAddressReference := source.PublicIpAddressReference.Copy()
+		location.PublicIpAddressReference = &publicIpAddressReference
+	} else {
+		location.PublicIpAddressReference = nil
+	}
 
 	// Sku
 	if source.Sku != nil {
@@ -2971,8 +2910,13 @@ func (location *AdditionalLocation) AssignProperties_To_AdditionalLocation(desti
 		destination.NatGatewayState = nil
 	}
 
-	// PublicIpAddressId
-	destination.PublicIpAddressId = genruntime.ClonePointerToString(location.PublicIpAddressId)
+	// PublicIpAddressReference
+	if location.PublicIpAddressReference != nil {
+		publicIpAddressReference := location.PublicIpAddressReference.Copy()
+		destination.PublicIpAddressReference = &publicIpAddressReference
+	} else {
+		destination.PublicIpAddressReference = nil
+	}
 
 	// Sku
 	if location.Sku != nil {
@@ -3034,8 +2978,13 @@ func (location *AdditionalLocation) Initialize_From_AdditionalLocation_STATUS(so
 		location.NatGatewayState = nil
 	}
 
-	// PublicIpAddressId
-	location.PublicIpAddressId = genruntime.ClonePointerToString(source.PublicIpAddressId)
+	// PublicIpAddressReference
+	if source.PublicIpAddressId != nil {
+		publicIpAddressReference := genruntime.CreateResourceReferenceFromARMID(*source.PublicIpAddressId)
+		location.PublicIpAddressReference = &publicIpAddressReference
+	} else {
+		location.PublicIpAddressReference = nil
+	}
 
 	// Sku
 	if source.Sku != nil {
@@ -4454,7 +4403,7 @@ type HostnameConfiguration struct {
 	Certificate *CertificateInformation `json:"certificate,omitempty"`
 
 	// CertificatePassword: Certificate Password.
-	CertificatePassword *string `json:"certificatePassword,omitempty"`
+	CertificatePassword *genruntime.SecretReference `json:"certificatePassword,omitempty"`
 
 	// CertificateSource: Certificate Source.
 	CertificateSource *HostnameConfiguration_CertificateSource `json:"certificateSource,omitempty"`
@@ -4477,7 +4426,11 @@ type HostnameConfiguration struct {
 
 	// IdentityClientId: System or User Assigned Managed identity clientId as generated by Azure AD, which has GET access to
 	// the keyVault containing the SSL certificate.
-	IdentityClientId *string `json:"identityClientId,omitempty"`
+	IdentityClientId *string `json:"identityClientId,omitempty" optionalConfigMapPair:"IdentityClientId"`
+
+	// IdentityClientIdFromConfig: System or User Assigned Managed identity clientId as generated by Azure AD, which has GET
+	// access to the keyVault containing the SSL certificate.
+	IdentityClientIdFromConfig *genruntime.ConfigMapReference `json:"identityClientIdFromConfig,omitempty" optionalConfigMapPair:"IdentityClientId"`
 
 	// KeyVaultId: Url to the KeyVault Secret containing the Ssl Certificate. If absolute Url containing version is provided,
 	// auto-update of ssl certificate will not work. This requires Api Management service to be configured with aka.ms/apimmsi.
@@ -4513,7 +4466,11 @@ func (configuration *HostnameConfiguration) ConvertToARM(resolved genruntime.Con
 
 	// Set property "CertificatePassword":
 	if configuration.CertificatePassword != nil {
-		certificatePassword := *configuration.CertificatePassword
+		certificatePasswordSecret, err := resolved.ResolvedSecrets.Lookup(*configuration.CertificatePassword)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property CertificatePassword")
+		}
+		certificatePassword := certificatePasswordSecret
 		result.CertificatePassword = &certificatePassword
 	}
 
@@ -4550,6 +4507,14 @@ func (configuration *HostnameConfiguration) ConvertToARM(resolved genruntime.Con
 	// Set property "IdentityClientId":
 	if configuration.IdentityClientId != nil {
 		identityClientId := *configuration.IdentityClientId
+		result.IdentityClientId = &identityClientId
+	}
+	if configuration.IdentityClientIdFromConfig != nil {
+		identityClientIdValue, err := resolved.ResolvedConfigMaps.Lookup(*configuration.IdentityClientIdFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property IdentityClientId")
+		}
+		identityClientId := identityClientIdValue
 		result.IdentityClientId = &identityClientId
 	}
 
@@ -4596,11 +4561,7 @@ func (configuration *HostnameConfiguration) PopulateFromARM(owner genruntime.Arb
 		configuration.Certificate = &certificate
 	}
 
-	// Set property "CertificatePassword":
-	if typedInput.CertificatePassword != nil {
-		certificatePassword := *typedInput.CertificatePassword
-		configuration.CertificatePassword = &certificatePassword
-	}
+	// no assignment for property "CertificatePassword"
 
 	// Set property "CertificateSource":
 	if typedInput.CertificateSource != nil {
@@ -4637,6 +4598,8 @@ func (configuration *HostnameConfiguration) PopulateFromARM(owner genruntime.Arb
 		identityClientId := *typedInput.IdentityClientId
 		configuration.IdentityClientId = &identityClientId
 	}
+
+	// no assignment for property "IdentityClientIdFromConfig"
 
 	// Set property "KeyVaultId":
 	if typedInput.KeyVaultId != nil {
@@ -4676,7 +4639,12 @@ func (configuration *HostnameConfiguration) AssignProperties_From_HostnameConfig
 	}
 
 	// CertificatePassword
-	configuration.CertificatePassword = genruntime.ClonePointerToString(source.CertificatePassword)
+	if source.CertificatePassword != nil {
+		certificatePassword := source.CertificatePassword.Copy()
+		configuration.CertificatePassword = &certificatePassword
+	} else {
+		configuration.CertificatePassword = nil
+	}
 
 	// CertificateSource
 	if source.CertificateSource != nil {
@@ -4710,6 +4678,14 @@ func (configuration *HostnameConfiguration) AssignProperties_From_HostnameConfig
 
 	// IdentityClientId
 	configuration.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
+
+	// IdentityClientIdFromConfig
+	if source.IdentityClientIdFromConfig != nil {
+		identityClientIdFromConfig := source.IdentityClientIdFromConfig.Copy()
+		configuration.IdentityClientIdFromConfig = &identityClientIdFromConfig
+	} else {
+		configuration.IdentityClientIdFromConfig = nil
+	}
 
 	// KeyVaultId
 	configuration.KeyVaultId = genruntime.ClonePointerToString(source.KeyVaultId)
@@ -4752,7 +4728,12 @@ func (configuration *HostnameConfiguration) AssignProperties_To_HostnameConfigur
 	}
 
 	// CertificatePassword
-	destination.CertificatePassword = genruntime.ClonePointerToString(configuration.CertificatePassword)
+	if configuration.CertificatePassword != nil {
+		certificatePassword := configuration.CertificatePassword.Copy()
+		destination.CertificatePassword = &certificatePassword
+	} else {
+		destination.CertificatePassword = nil
+	}
 
 	// CertificateSource
 	if configuration.CertificateSource != nil {
@@ -4786,6 +4767,14 @@ func (configuration *HostnameConfiguration) AssignProperties_To_HostnameConfigur
 
 	// IdentityClientId
 	destination.IdentityClientId = genruntime.ClonePointerToString(configuration.IdentityClientId)
+
+	// IdentityClientIdFromConfig
+	if configuration.IdentityClientIdFromConfig != nil {
+		identityClientIdFromConfig := configuration.IdentityClientIdFromConfig.Copy()
+		destination.IdentityClientIdFromConfig = &identityClientIdFromConfig
+	} else {
+		destination.IdentityClientIdFromConfig = nil
+	}
 
 	// KeyVaultId
 	destination.KeyVaultId = genruntime.ClonePointerToString(configuration.KeyVaultId)
@@ -4831,9 +4820,6 @@ func (configuration *HostnameConfiguration) Initialize_From_HostnameConfiguratio
 	} else {
 		configuration.Certificate = nil
 	}
-
-	// CertificatePassword
-	configuration.CertificatePassword = genruntime.ClonePointerToString(source.CertificatePassword)
 
 	// CertificateSource
 	if source.CertificateSource != nil {
@@ -4896,9 +4882,6 @@ type HostnameConfiguration_STATUS struct {
 	// Certificate: Certificate information.
 	Certificate *CertificateInformation_STATUS `json:"certificate,omitempty"`
 
-	// CertificatePassword: Certificate Password.
-	CertificatePassword *string `json:"certificatePassword,omitempty"`
-
 	// CertificateSource: Certificate Source.
 	CertificateSource *HostnameConfiguration_CertificateSource_STATUS `json:"certificateSource,omitempty"`
 
@@ -4956,12 +4939,6 @@ func (configuration *HostnameConfiguration_STATUS) PopulateFromARM(owner genrunt
 		}
 		certificate := certificate1
 		configuration.Certificate = &certificate
-	}
-
-	// Set property "CertificatePassword":
-	if typedInput.CertificatePassword != nil {
-		certificatePassword := *typedInput.CertificatePassword
-		configuration.CertificatePassword = &certificatePassword
 	}
 
 	// Set property "CertificateSource":
@@ -5037,9 +5014,6 @@ func (configuration *HostnameConfiguration_STATUS) AssignProperties_From_Hostnam
 		configuration.Certificate = nil
 	}
 
-	// CertificatePassword
-	configuration.CertificatePassword = genruntime.ClonePointerToString(source.CertificatePassword)
-
 	// CertificateSource
 	if source.CertificateSource != nil {
 		certificateSource := HostnameConfiguration_CertificateSource_STATUS(*source.CertificateSource)
@@ -5113,9 +5087,6 @@ func (configuration *HostnameConfiguration_STATUS) AssignProperties_To_HostnameC
 		destination.Certificate = nil
 	}
 
-	// CertificatePassword
-	destination.CertificatePassword = genruntime.ClonePointerToString(configuration.CertificatePassword)
-
 	// CertificateSource
 	if configuration.CertificateSource != nil {
 		certificateSource := string(*configuration.CertificateSource)
@@ -5174,221 +5145,6 @@ func (configuration *HostnameConfiguration_STATUS) AssignProperties_To_HostnameC
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Remote Private Endpoint Connection resource.
-type RemotePrivateEndpointConnectionWrapper struct {
-	// Name: Private Endpoint Connection Name
-	Name *string `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// PrivateLinkServiceConnectionState: A collection of information about the state of the connection between service
-	// consumer and provider.
-	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState `json:"privateLinkServiceConnectionState,omitempty"`
-
-	// Reference: Private Endpoint connection resource id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-
-	// Type: Private Endpoint Connection Resource Type
-	Type *string `json:"type,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &RemotePrivateEndpointConnectionWrapper{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (wrapper *RemotePrivateEndpointConnectionWrapper) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if wrapper == nil {
-		return nil, nil
-	}
-	result := &RemotePrivateEndpointConnectionWrapper_ARM{}
-
-	// Set property "Id":
-	if wrapper.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.Lookup(*wrapper.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
-	}
-
-	// Set property "Name":
-	if wrapper.Name != nil {
-		name := *wrapper.Name
-		result.Name = &name
-	}
-
-	// Set property "Properties":
-	if wrapper.PrivateLinkServiceConnectionState != nil {
-		result.Properties = &PrivateEndpointConnectionWrapperProperties_ARM{}
-	}
-	if wrapper.PrivateLinkServiceConnectionState != nil {
-		privateLinkServiceConnectionState_ARM, err := (*wrapper.PrivateLinkServiceConnectionState).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		privateLinkServiceConnectionState := *privateLinkServiceConnectionState_ARM.(*PrivateLinkServiceConnectionState_ARM)
-		result.Properties.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
-	}
-
-	// Set property "Type":
-	if wrapper.Type != nil {
-		typeVar := *wrapper.Type
-		result.Type = &typeVar
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (wrapper *RemotePrivateEndpointConnectionWrapper) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RemotePrivateEndpointConnectionWrapper_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (wrapper *RemotePrivateEndpointConnectionWrapper) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RemotePrivateEndpointConnectionWrapper_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RemotePrivateEndpointConnectionWrapper_ARM, got %T", armInput)
-	}
-
-	// Set property "Name":
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		wrapper.Name = &name
-	}
-
-	// Set property "PrivateLinkServiceConnectionState":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PrivateLinkServiceConnectionState != nil {
-			var privateLinkServiceConnectionState1 PrivateLinkServiceConnectionState
-			err := privateLinkServiceConnectionState1.PopulateFromARM(owner, *typedInput.Properties.PrivateLinkServiceConnectionState)
-			if err != nil {
-				return err
-			}
-			privateLinkServiceConnectionState := privateLinkServiceConnectionState1
-			wrapper.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
-		}
-	}
-
-	// no assignment for property "Reference"
-
-	// Set property "Type":
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		wrapper.Type = &typeVar
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_RemotePrivateEndpointConnectionWrapper populates our RemotePrivateEndpointConnectionWrapper from the provided source RemotePrivateEndpointConnectionWrapper
-func (wrapper *RemotePrivateEndpointConnectionWrapper) AssignProperties_From_RemotePrivateEndpointConnectionWrapper(source *v20220801s.RemotePrivateEndpointConnectionWrapper) error {
-
-	// Name
-	wrapper.Name = genruntime.ClonePointerToString(source.Name)
-
-	// PrivateLinkServiceConnectionState
-	if source.PrivateLinkServiceConnectionState != nil {
-		var privateLinkServiceConnectionState PrivateLinkServiceConnectionState
-		err := privateLinkServiceConnectionState.AssignProperties_From_PrivateLinkServiceConnectionState(source.PrivateLinkServiceConnectionState)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkServiceConnectionState() to populate field PrivateLinkServiceConnectionState")
-		}
-		wrapper.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
-	} else {
-		wrapper.PrivateLinkServiceConnectionState = nil
-	}
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		wrapper.Reference = &reference
-	} else {
-		wrapper.Reference = nil
-	}
-
-	// Type
-	wrapper.Type = genruntime.ClonePointerToString(source.Type)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_RemotePrivateEndpointConnectionWrapper populates the provided destination RemotePrivateEndpointConnectionWrapper from our RemotePrivateEndpointConnectionWrapper
-func (wrapper *RemotePrivateEndpointConnectionWrapper) AssignProperties_To_RemotePrivateEndpointConnectionWrapper(destination *v20220801s.RemotePrivateEndpointConnectionWrapper) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(wrapper.Name)
-
-	// PrivateLinkServiceConnectionState
-	if wrapper.PrivateLinkServiceConnectionState != nil {
-		var privateLinkServiceConnectionState v20220801s.PrivateLinkServiceConnectionState
-		err := wrapper.PrivateLinkServiceConnectionState.AssignProperties_To_PrivateLinkServiceConnectionState(&privateLinkServiceConnectionState)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnectionState() to populate field PrivateLinkServiceConnectionState")
-		}
-		destination.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
-	} else {
-		destination.PrivateLinkServiceConnectionState = nil
-	}
-
-	// Reference
-	if wrapper.Reference != nil {
-		reference := wrapper.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(wrapper.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_RemotePrivateEndpointConnectionWrapper_STATUS populates our RemotePrivateEndpointConnectionWrapper from the provided source RemotePrivateEndpointConnectionWrapper_STATUS
-func (wrapper *RemotePrivateEndpointConnectionWrapper) Initialize_From_RemotePrivateEndpointConnectionWrapper_STATUS(source *RemotePrivateEndpointConnectionWrapper_STATUS) error {
-
-	// Name
-	wrapper.Name = genruntime.ClonePointerToString(source.Name)
-
-	// PrivateLinkServiceConnectionState
-	if source.PrivateLinkServiceConnectionState != nil {
-		var privateLinkServiceConnectionState PrivateLinkServiceConnectionState
-		err := privateLinkServiceConnectionState.Initialize_From_PrivateLinkServiceConnectionState_STATUS(source.PrivateLinkServiceConnectionState)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_PrivateLinkServiceConnectionState_STATUS() to populate field PrivateLinkServiceConnectionState")
-		}
-		wrapper.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
-	} else {
-		wrapper.PrivateLinkServiceConnectionState = nil
-	}
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		wrapper.Reference = &reference
-	} else {
-		wrapper.Reference = nil
-	}
-
-	// Type
-	wrapper.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -6042,18 +5798,25 @@ const (
 
 // SSL certificate information.
 type CertificateInformation struct {
-	// +kubebuilder:validation:Required
 	// Expiry: Expiration date of the certificate. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as
 	// specified by the ISO 8601 standard.
-	Expiry *string `json:"expiry,omitempty"`
+	Expiry *string `json:"expiry,omitempty" optionalConfigMapPair:"Expiry"`
 
-	// +kubebuilder:validation:Required
+	// ExpiryFromConfig: Expiration date of the certificate. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ`
+	// as specified by the ISO 8601 standard.
+	ExpiryFromConfig *genruntime.ConfigMapReference `json:"expiryFromConfig,omitempty" optionalConfigMapPair:"Expiry"`
+
 	// Subject: Subject of the certificate.
-	Subject *string `json:"subject,omitempty"`
+	Subject *string `json:"subject,omitempty" optionalConfigMapPair:"Subject"`
 
-	// +kubebuilder:validation:Required
+	// SubjectFromConfig: Subject of the certificate.
+	SubjectFromConfig *genruntime.ConfigMapReference `json:"subjectFromConfig,omitempty" optionalConfigMapPair:"Subject"`
+
 	// Thumbprint: Thumbprint of the certificate.
-	Thumbprint *string `json:"thumbprint,omitempty"`
+	Thumbprint *string `json:"thumbprint,omitempty" optionalConfigMapPair:"Thumbprint"`
+
+	// ThumbprintFromConfig: Thumbprint of the certificate.
+	ThumbprintFromConfig *genruntime.ConfigMapReference `json:"thumbprintFromConfig,omitempty" optionalConfigMapPair:"Thumbprint"`
 }
 
 var _ genruntime.ARMTransformer = &CertificateInformation{}
@@ -6070,16 +5833,40 @@ func (information *CertificateInformation) ConvertToARM(resolved genruntime.Conv
 		expiry := *information.Expiry
 		result.Expiry = &expiry
 	}
+	if information.ExpiryFromConfig != nil {
+		expiryValue, err := resolved.ResolvedConfigMaps.Lookup(*information.ExpiryFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property Expiry")
+		}
+		expiry := expiryValue
+		result.Expiry = &expiry
+	}
 
 	// Set property "Subject":
 	if information.Subject != nil {
 		subject := *information.Subject
 		result.Subject = &subject
 	}
+	if information.SubjectFromConfig != nil {
+		subjectValue, err := resolved.ResolvedConfigMaps.Lookup(*information.SubjectFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property Subject")
+		}
+		subject := subjectValue
+		result.Subject = &subject
+	}
 
 	// Set property "Thumbprint":
 	if information.Thumbprint != nil {
 		thumbprint := *information.Thumbprint
+		result.Thumbprint = &thumbprint
+	}
+	if information.ThumbprintFromConfig != nil {
+		thumbprintValue, err := resolved.ResolvedConfigMaps.Lookup(*information.ThumbprintFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property Thumbprint")
+		}
+		thumbprint := thumbprintValue
 		result.Thumbprint = &thumbprint
 	}
 	return result, nil
@@ -6103,17 +5890,23 @@ func (information *CertificateInformation) PopulateFromARM(owner genruntime.Arbi
 		information.Expiry = &expiry
 	}
 
+	// no assignment for property "ExpiryFromConfig"
+
 	// Set property "Subject":
 	if typedInput.Subject != nil {
 		subject := *typedInput.Subject
 		information.Subject = &subject
 	}
 
+	// no assignment for property "SubjectFromConfig"
+
 	// Set property "Thumbprint":
 	if typedInput.Thumbprint != nil {
 		thumbprint := *typedInput.Thumbprint
 		information.Thumbprint = &thumbprint
 	}
+
+	// no assignment for property "ThumbprintFromConfig"
 
 	// No error
 	return nil
@@ -6125,11 +5918,35 @@ func (information *CertificateInformation) AssignProperties_From_CertificateInfo
 	// Expiry
 	information.Expiry = genruntime.ClonePointerToString(source.Expiry)
 
+	// ExpiryFromConfig
+	if source.ExpiryFromConfig != nil {
+		expiryFromConfig := source.ExpiryFromConfig.Copy()
+		information.ExpiryFromConfig = &expiryFromConfig
+	} else {
+		information.ExpiryFromConfig = nil
+	}
+
 	// Subject
 	information.Subject = genruntime.ClonePointerToString(source.Subject)
 
+	// SubjectFromConfig
+	if source.SubjectFromConfig != nil {
+		subjectFromConfig := source.SubjectFromConfig.Copy()
+		information.SubjectFromConfig = &subjectFromConfig
+	} else {
+		information.SubjectFromConfig = nil
+	}
+
 	// Thumbprint
 	information.Thumbprint = genruntime.ClonePointerToString(source.Thumbprint)
+
+	// ThumbprintFromConfig
+	if source.ThumbprintFromConfig != nil {
+		thumbprintFromConfig := source.ThumbprintFromConfig.Copy()
+		information.ThumbprintFromConfig = &thumbprintFromConfig
+	} else {
+		information.ThumbprintFromConfig = nil
+	}
 
 	// No error
 	return nil
@@ -6143,11 +5960,35 @@ func (information *CertificateInformation) AssignProperties_To_CertificateInform
 	// Expiry
 	destination.Expiry = genruntime.ClonePointerToString(information.Expiry)
 
+	// ExpiryFromConfig
+	if information.ExpiryFromConfig != nil {
+		expiryFromConfig := information.ExpiryFromConfig.Copy()
+		destination.ExpiryFromConfig = &expiryFromConfig
+	} else {
+		destination.ExpiryFromConfig = nil
+	}
+
 	// Subject
 	destination.Subject = genruntime.ClonePointerToString(information.Subject)
 
+	// SubjectFromConfig
+	if information.SubjectFromConfig != nil {
+		subjectFromConfig := information.SubjectFromConfig.Copy()
+		destination.SubjectFromConfig = &subjectFromConfig
+	} else {
+		destination.SubjectFromConfig = nil
+	}
+
 	// Thumbprint
 	destination.Thumbprint = genruntime.ClonePointerToString(information.Thumbprint)
+
+	// ThumbprintFromConfig
+	if information.ThumbprintFromConfig != nil {
+		thumbprintFromConfig := information.ThumbprintFromConfig.Copy()
+		destination.ThumbprintFromConfig = &thumbprintFromConfig
+	} else {
+		destination.ThumbprintFromConfig = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -6322,153 +6163,6 @@ const (
 	HostnameConfiguration_Type_STATUS_Proxy           = HostnameConfiguration_Type_STATUS("Proxy")
 	HostnameConfiguration_Type_STATUS_Scm             = HostnameConfiguration_Type_STATUS("Scm")
 )
-
-// A collection of information about the state of the connection between service consumer and provider.
-type PrivateLinkServiceConnectionState struct {
-	// ActionsRequired: A message indicating if changes on the service provider require any updates on the consumer.
-	ActionsRequired *string `json:"actionsRequired,omitempty"`
-
-	// Description: The reason for approval/rejection of the connection.
-	Description *string `json:"description,omitempty"`
-
-	// Status: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
-	Status *PrivateEndpointServiceConnectionStatus `json:"status,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &PrivateLinkServiceConnectionState{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (state *PrivateLinkServiceConnectionState) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if state == nil {
-		return nil, nil
-	}
-	result := &PrivateLinkServiceConnectionState_ARM{}
-
-	// Set property "ActionsRequired":
-	if state.ActionsRequired != nil {
-		actionsRequired := *state.ActionsRequired
-		result.ActionsRequired = &actionsRequired
-	}
-
-	// Set property "Description":
-	if state.Description != nil {
-		description := *state.Description
-		result.Description = &description
-	}
-
-	// Set property "Status":
-	if state.Status != nil {
-		status := *state.Status
-		result.Status = &status
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (state *PrivateLinkServiceConnectionState) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateLinkServiceConnectionState_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (state *PrivateLinkServiceConnectionState) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateLinkServiceConnectionState_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkServiceConnectionState_ARM, got %T", armInput)
-	}
-
-	// Set property "ActionsRequired":
-	if typedInput.ActionsRequired != nil {
-		actionsRequired := *typedInput.ActionsRequired
-		state.ActionsRequired = &actionsRequired
-	}
-
-	// Set property "Description":
-	if typedInput.Description != nil {
-		description := *typedInput.Description
-		state.Description = &description
-	}
-
-	// Set property "Status":
-	if typedInput.Status != nil {
-		status := *typedInput.Status
-		state.Status = &status
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_PrivateLinkServiceConnectionState populates our PrivateLinkServiceConnectionState from the provided source PrivateLinkServiceConnectionState
-func (state *PrivateLinkServiceConnectionState) AssignProperties_From_PrivateLinkServiceConnectionState(source *v20220801s.PrivateLinkServiceConnectionState) error {
-
-	// ActionsRequired
-	state.ActionsRequired = genruntime.ClonePointerToString(source.ActionsRequired)
-
-	// Description
-	state.Description = genruntime.ClonePointerToString(source.Description)
-
-	// Status
-	if source.Status != nil {
-		status := PrivateEndpointServiceConnectionStatus(*source.Status)
-		state.Status = &status
-	} else {
-		state.Status = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_PrivateLinkServiceConnectionState populates the provided destination PrivateLinkServiceConnectionState from our PrivateLinkServiceConnectionState
-func (state *PrivateLinkServiceConnectionState) AssignProperties_To_PrivateLinkServiceConnectionState(destination *v20220801s.PrivateLinkServiceConnectionState) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// ActionsRequired
-	destination.ActionsRequired = genruntime.ClonePointerToString(state.ActionsRequired)
-
-	// Description
-	destination.Description = genruntime.ClonePointerToString(state.Description)
-
-	// Status
-	if state.Status != nil {
-		status := string(*state.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_PrivateLinkServiceConnectionState_STATUS populates our PrivateLinkServiceConnectionState from the provided source PrivateLinkServiceConnectionState_STATUS
-func (state *PrivateLinkServiceConnectionState) Initialize_From_PrivateLinkServiceConnectionState_STATUS(source *PrivateLinkServiceConnectionState_STATUS) error {
-
-	// ActionsRequired
-	state.ActionsRequired = genruntime.ClonePointerToString(source.ActionsRequired)
-
-	// Description
-	state.Description = genruntime.ClonePointerToString(source.Description)
-
-	// Status
-	if source.Status != nil {
-		status := PrivateEndpointServiceConnectionStatus(*source.Status)
-		state.Status = &status
-	} else {
-		state.Status = nil
-	}
-
-	// No error
-	return nil
-}
 
 // A collection of information about the state of the connection between service consumer and provider.
 type PrivateLinkServiceConnectionState_STATUS struct {
@@ -6675,16 +6369,6 @@ func (properties *UserIdentityProperties_STATUS) AssignProperties_To_UserIdentit
 	// No error
 	return nil
 }
-
-// The private endpoint connection status.
-// +kubebuilder:validation:Enum={"Approved","Pending","Rejected"}
-type PrivateEndpointServiceConnectionStatus string
-
-const (
-	PrivateEndpointServiceConnectionStatus_Approved = PrivateEndpointServiceConnectionStatus("Approved")
-	PrivateEndpointServiceConnectionStatus_Pending  = PrivateEndpointServiceConnectionStatus("Pending")
-	PrivateEndpointServiceConnectionStatus_Rejected = PrivateEndpointServiceConnectionStatus("Rejected")
-)
 
 // The private endpoint connection status.
 type PrivateEndpointServiceConnectionStatus_STATUS string

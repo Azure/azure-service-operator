@@ -161,19 +161,18 @@ type Service_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                       *genruntime.KnownResourceReference       `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PrivateEndpointConnections  []RemotePrivateEndpointConnectionWrapper `json:"privateEndpointConnections,omitempty"`
-	PropertyBag                 genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
-	PublicIpAddressId           *string                                  `json:"publicIpAddressId,omitempty"`
-	PublicNetworkAccess         *string                                  `json:"publicNetworkAccess,omitempty"`
-	PublisherEmail              *string                                  `json:"publisherEmail,omitempty"`
-	PublisherName               *string                                  `json:"publisherName,omitempty"`
-	Restore                     *bool                                    `json:"restore,omitempty"`
-	Sku                         *ApiManagementServiceSkuProperties       `json:"sku,omitempty"`
-	Tags                        map[string]string                        `json:"tags,omitempty"`
-	VirtualNetworkConfiguration *VirtualNetworkConfiguration             `json:"virtualNetworkConfiguration,omitempty"`
-	VirtualNetworkType          *string                                  `json:"virtualNetworkType,omitempty"`
-	Zones                       []string                                 `json:"zones,omitempty"`
+	Owner                       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag                 genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	PublicIpAddressId           *string                            `json:"publicIpAddressId,omitempty"`
+	PublicNetworkAccess         *string                            `json:"publicNetworkAccess,omitempty"`
+	PublisherEmail              *string                            `json:"publisherEmail,omitempty"`
+	PublisherName               *string                            `json:"publisherName,omitempty"`
+	Restore                     *bool                              `json:"restore,omitempty"`
+	Sku                         *ApiManagementServiceSkuProperties `json:"sku,omitempty"`
+	Tags                        map[string]string                  `json:"tags,omitempty"`
+	VirtualNetworkConfiguration *VirtualNetworkConfiguration       `json:"virtualNetworkConfiguration,omitempty"`
+	VirtualNetworkType          *string                            `json:"virtualNetworkType,omitempty"`
+	Zones                       []string                           `json:"zones,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Service_Spec{}
@@ -265,11 +264,14 @@ func (service *Service_STATUS) ConvertStatusTo(destination genruntime.Convertibl
 // Storage version of v1api20220801.AdditionalLocation
 // Description of an additional API Management resource location.
 type AdditionalLocation struct {
-	DisableGateway              *bool                              `json:"disableGateway,omitempty"`
-	Location                    *string                            `json:"location,omitempty"`
-	NatGatewayState             *string                            `json:"natGatewayState,omitempty"`
-	PropertyBag                 genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	PublicIpAddressId           *string                            `json:"publicIpAddressId,omitempty"`
+	DisableGateway  *bool                  `json:"disableGateway,omitempty"`
+	Location        *string                `json:"location,omitempty"`
+	NatGatewayState *string                `json:"natGatewayState,omitempty"`
+	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+
+	// PublicIpAddressReference: Public Standard SKU IP V4 based IP address to be associated with Virtual Network deployed
+	// service in the location. Supported only for Premium SKU being deployed in Virtual Network.
+	PublicIpAddressReference    *genruntime.ResourceReference      `armReference:"PublicIpAddressId" json:"publicIpAddressReference,omitempty"`
 	Sku                         *ApiManagementServiceSkuProperties `json:"sku,omitempty"`
 	VirtualNetworkConfiguration *VirtualNetworkConfiguration       `json:"virtualNetworkConfiguration,omitempty"`
 	Zones                       []string                           `json:"zones,omitempty"`
@@ -364,25 +366,25 @@ type CertificateConfiguration_STATUS struct {
 // Storage version of v1api20220801.HostnameConfiguration
 // Custom hostname configuration.
 type HostnameConfiguration struct {
-	Certificate                *CertificateInformation `json:"certificate,omitempty"`
-	CertificatePassword        *string                 `json:"certificatePassword,omitempty"`
-	CertificateSource          *string                 `json:"certificateSource,omitempty"`
-	CertificateStatus          *string                 `json:"certificateStatus,omitempty"`
-	DefaultSslBinding          *bool                   `json:"defaultSslBinding,omitempty"`
-	EncodedCertificate         *string                 `json:"encodedCertificate,omitempty"`
-	HostName                   *string                 `json:"hostName,omitempty"`
-	IdentityClientId           *string                 `json:"identityClientId,omitempty"`
-	KeyVaultId                 *string                 `json:"keyVaultId,omitempty"`
-	NegotiateClientCertificate *bool                   `json:"negotiateClientCertificate,omitempty"`
-	PropertyBag                genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
-	Type                       *string                 `json:"type,omitempty"`
+	Certificate                *CertificateInformation        `json:"certificate,omitempty"`
+	CertificatePassword        *genruntime.SecretReference    `json:"certificatePassword,omitempty"`
+	CertificateSource          *string                        `json:"certificateSource,omitempty"`
+	CertificateStatus          *string                        `json:"certificateStatus,omitempty"`
+	DefaultSslBinding          *bool                          `json:"defaultSslBinding,omitempty"`
+	EncodedCertificate         *string                        `json:"encodedCertificate,omitempty"`
+	HostName                   *string                        `json:"hostName,omitempty"`
+	IdentityClientId           *string                        `json:"identityClientId,omitempty" optionalConfigMapPair:"IdentityClientId"`
+	IdentityClientIdFromConfig *genruntime.ConfigMapReference `json:"identityClientIdFromConfig,omitempty" optionalConfigMapPair:"IdentityClientId"`
+	KeyVaultId                 *string                        `json:"keyVaultId,omitempty"`
+	NegotiateClientCertificate *bool                          `json:"negotiateClientCertificate,omitempty"`
+	PropertyBag                genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	Type                       *string                        `json:"type,omitempty"`
 }
 
 // Storage version of v1api20220801.HostnameConfiguration_STATUS
 // Custom hostname configuration.
 type HostnameConfiguration_STATUS struct {
 	Certificate                *CertificateInformation_STATUS `json:"certificate,omitempty"`
-	CertificatePassword        *string                        `json:"certificatePassword,omitempty"`
 	CertificateSource          *string                        `json:"certificateSource,omitempty"`
 	CertificateStatus          *string                        `json:"certificateStatus,omitempty"`
 	DefaultSslBinding          *bool                          `json:"defaultSslBinding,omitempty"`
@@ -393,18 +395,6 @@ type HostnameConfiguration_STATUS struct {
 	NegotiateClientCertificate *bool                          `json:"negotiateClientCertificate,omitempty"`
 	PropertyBag                genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 	Type                       *string                        `json:"type,omitempty"`
-}
-
-// Storage version of v1api20220801.RemotePrivateEndpointConnectionWrapper
-// Remote Private Endpoint Connection resource.
-type RemotePrivateEndpointConnectionWrapper struct {
-	Name                              *string                            `json:"name,omitempty"`
-	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState `json:"privateLinkServiceConnectionState,omitempty"`
-	PropertyBag                       genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-
-	// Reference: Private Endpoint connection resource id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	Type      *string                       `json:"type,omitempty"`
 }
 
 // Storage version of v1api20220801.RemotePrivateEndpointConnectionWrapper_STATUS
@@ -460,10 +450,13 @@ type ArmIdWrapper_STATUS struct {
 // Storage version of v1api20220801.CertificateInformation
 // SSL certificate information.
 type CertificateInformation struct {
-	Expiry      *string                `json:"expiry,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Subject     *string                `json:"subject,omitempty"`
-	Thumbprint  *string                `json:"thumbprint,omitempty"`
+	Expiry               *string                        `json:"expiry,omitempty" optionalConfigMapPair:"Expiry"`
+	ExpiryFromConfig     *genruntime.ConfigMapReference `json:"expiryFromConfig,omitempty" optionalConfigMapPair:"Expiry"`
+	PropertyBag          genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	Subject              *string                        `json:"subject,omitempty" optionalConfigMapPair:"Subject"`
+	SubjectFromConfig    *genruntime.ConfigMapReference `json:"subjectFromConfig,omitempty" optionalConfigMapPair:"Subject"`
+	Thumbprint           *string                        `json:"thumbprint,omitempty" optionalConfigMapPair:"Thumbprint"`
+	ThumbprintFromConfig *genruntime.ConfigMapReference `json:"thumbprintFromConfig,omitempty" optionalConfigMapPair:"Thumbprint"`
 }
 
 // Storage version of v1api20220801.CertificateInformation_STATUS
@@ -473,15 +466,6 @@ type CertificateInformation_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Subject     *string                `json:"subject,omitempty"`
 	Thumbprint  *string                `json:"thumbprint,omitempty"`
-}
-
-// Storage version of v1api20220801.PrivateLinkServiceConnectionState
-// A collection of information about the state of the connection between service consumer and provider.
-type PrivateLinkServiceConnectionState struct {
-	ActionsRequired *string                `json:"actionsRequired,omitempty"`
-	Description     *string                `json:"description,omitempty"`
-	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Status          *string                `json:"status,omitempty"`
 }
 
 // Storage version of v1api20220801.PrivateLinkServiceConnectionState_STATUS

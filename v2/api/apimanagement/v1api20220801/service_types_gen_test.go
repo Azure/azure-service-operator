@@ -296,7 +296,6 @@ func AddRelatedPropertyGeneratorsForService_Spec(gens map[string]gopter.Gen) {
 	gens["Certificates"] = gen.SliceOf(CertificateConfigurationGenerator())
 	gens["HostnameConfigurations"] = gen.SliceOf(HostnameConfigurationGenerator())
 	gens["Identity"] = gen.PtrOf(ApiManagementServiceIdentityGenerator())
-	gens["PrivateEndpointConnections"] = gen.SliceOf(RemotePrivateEndpointConnectionWrapperGenerator())
 	gens["Sku"] = gen.PtrOf(ApiManagementServiceSkuPropertiesGenerator())
 	gens["VirtualNetworkConfiguration"] = gen.PtrOf(VirtualNetworkConfigurationGenerator())
 }
@@ -570,7 +569,6 @@ func AddIndependentPropertyGeneratorsForAdditionalLocation(gens map[string]gopte
 	gens["DisableGateway"] = gen.PtrOf(gen.Bool())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["NatGatewayState"] = gen.PtrOf(gen.OneConstOf(AdditionalLocation_NatGatewayState_Disabled, AdditionalLocation_NatGatewayState_Enabled))
-	gens["PublicIpAddressId"] = gen.PtrOf(gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -1728,7 +1726,6 @@ func HostnameConfigurationGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForHostnameConfiguration is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForHostnameConfiguration(gens map[string]gopter.Gen) {
-	gens["CertificatePassword"] = gen.PtrOf(gen.AlphaString())
 	gens["CertificateSource"] = gen.PtrOf(gen.OneConstOf(
 		HostnameConfiguration_CertificateSource_BuiltIn,
 		HostnameConfiguration_CertificateSource_Custom,
@@ -1863,7 +1860,6 @@ func HostnameConfiguration_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForHostnameConfiguration_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForHostnameConfiguration_STATUS(gens map[string]gopter.Gen) {
-	gens["CertificatePassword"] = gen.PtrOf(gen.AlphaString())
 	gens["CertificateSource"] = gen.PtrOf(gen.OneConstOf(
 		HostnameConfiguration_CertificateSource_STATUS_BuiltIn,
 		HostnameConfiguration_CertificateSource_STATUS_Custom,
@@ -1887,124 +1883,6 @@ func AddIndependentPropertyGeneratorsForHostnameConfiguration_STATUS(gens map[st
 // AddRelatedPropertyGeneratorsForHostnameConfiguration_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForHostnameConfiguration_STATUS(gens map[string]gopter.Gen) {
 	gens["Certificate"] = gen.PtrOf(CertificateInformation_STATUSGenerator())
-}
-
-func Test_RemotePrivateEndpointConnectionWrapper_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RemotePrivateEndpointConnectionWrapper to RemotePrivateEndpointConnectionWrapper via AssignProperties_To_RemotePrivateEndpointConnectionWrapper & AssignProperties_From_RemotePrivateEndpointConnectionWrapper returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRemotePrivateEndpointConnectionWrapper, RemotePrivateEndpointConnectionWrapperGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForRemotePrivateEndpointConnectionWrapper tests if a specific instance of RemotePrivateEndpointConnectionWrapper can be assigned to v1api20220801storage and back losslessly
-func RunPropertyAssignmentTestForRemotePrivateEndpointConnectionWrapper(subject RemotePrivateEndpointConnectionWrapper) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.RemotePrivateEndpointConnectionWrapper
-	err := copied.AssignProperties_To_RemotePrivateEndpointConnectionWrapper(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RemotePrivateEndpointConnectionWrapper
-	err = actual.AssignProperties_From_RemotePrivateEndpointConnectionWrapper(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_RemotePrivateEndpointConnectionWrapper_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RemotePrivateEndpointConnectionWrapper via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRemotePrivateEndpointConnectionWrapper, RemotePrivateEndpointConnectionWrapperGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForRemotePrivateEndpointConnectionWrapper runs a test to see if a specific instance of RemotePrivateEndpointConnectionWrapper round trips to JSON and back losslessly
-func RunJSONSerializationTestForRemotePrivateEndpointConnectionWrapper(subject RemotePrivateEndpointConnectionWrapper) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual RemotePrivateEndpointConnectionWrapper
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of RemotePrivateEndpointConnectionWrapper instances for property testing - lazily instantiated by
-// RemotePrivateEndpointConnectionWrapperGenerator()
-var remotePrivateEndpointConnectionWrapperGenerator gopter.Gen
-
-// RemotePrivateEndpointConnectionWrapperGenerator returns a generator of RemotePrivateEndpointConnectionWrapper instances for property testing.
-// We first initialize remotePrivateEndpointConnectionWrapperGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func RemotePrivateEndpointConnectionWrapperGenerator() gopter.Gen {
-	if remotePrivateEndpointConnectionWrapperGenerator != nil {
-		return remotePrivateEndpointConnectionWrapperGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRemotePrivateEndpointConnectionWrapper(generators)
-	remotePrivateEndpointConnectionWrapperGenerator = gen.Struct(reflect.TypeOf(RemotePrivateEndpointConnectionWrapper{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRemotePrivateEndpointConnectionWrapper(generators)
-	AddRelatedPropertyGeneratorsForRemotePrivateEndpointConnectionWrapper(generators)
-	remotePrivateEndpointConnectionWrapperGenerator = gen.Struct(reflect.TypeOf(RemotePrivateEndpointConnectionWrapper{}), generators)
-
-	return remotePrivateEndpointConnectionWrapperGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRemotePrivateEndpointConnectionWrapper is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRemotePrivateEndpointConnectionWrapper(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForRemotePrivateEndpointConnectionWrapper is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRemotePrivateEndpointConnectionWrapper(gens map[string]gopter.Gen) {
-	gens["PrivateLinkServiceConnectionState"] = gen.PtrOf(PrivateLinkServiceConnectionStateGenerator())
 }
 
 func Test_RemotePrivateEndpointConnectionWrapper_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2757,111 +2635,6 @@ func AddIndependentPropertyGeneratorsForCertificateInformation_STATUS(gens map[s
 	gens["Expiry"] = gen.PtrOf(gen.AlphaString())
 	gens["Subject"] = gen.PtrOf(gen.AlphaString())
 	gens["Thumbprint"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_PrivateLinkServiceConnectionState_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from PrivateLinkServiceConnectionState to PrivateLinkServiceConnectionState via AssignProperties_To_PrivateLinkServiceConnectionState & AssignProperties_From_PrivateLinkServiceConnectionState returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPrivateLinkServiceConnectionState, PrivateLinkServiceConnectionStateGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForPrivateLinkServiceConnectionState tests if a specific instance of PrivateLinkServiceConnectionState can be assigned to v1api20220801storage and back losslessly
-func RunPropertyAssignmentTestForPrivateLinkServiceConnectionState(subject PrivateLinkServiceConnectionState) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.PrivateLinkServiceConnectionState
-	err := copied.AssignProperties_To_PrivateLinkServiceConnectionState(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual PrivateLinkServiceConnectionState
-	err = actual.AssignProperties_From_PrivateLinkServiceConnectionState(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_PrivateLinkServiceConnectionState_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrivateLinkServiceConnectionState via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateLinkServiceConnectionState, PrivateLinkServiceConnectionStateGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPrivateLinkServiceConnectionState runs a test to see if a specific instance of PrivateLinkServiceConnectionState round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateLinkServiceConnectionState(subject PrivateLinkServiceConnectionState) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PrivateLinkServiceConnectionState
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PrivateLinkServiceConnectionState instances for property testing - lazily instantiated by
-// PrivateLinkServiceConnectionStateGenerator()
-var privateLinkServiceConnectionStateGenerator gopter.Gen
-
-// PrivateLinkServiceConnectionStateGenerator returns a generator of PrivateLinkServiceConnectionState instances for property testing.
-func PrivateLinkServiceConnectionStateGenerator() gopter.Gen {
-	if privateLinkServiceConnectionStateGenerator != nil {
-		return privateLinkServiceConnectionStateGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionState(generators)
-	privateLinkServiceConnectionStateGenerator = gen.Struct(reflect.TypeOf(PrivateLinkServiceConnectionState{}), generators)
-
-	return privateLinkServiceConnectionStateGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionState is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionState(gens map[string]gopter.Gen) {
-	gens["ActionsRequired"] = gen.PtrOf(gen.AlphaString())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(PrivateEndpointServiceConnectionStatus_Approved, PrivateEndpointServiceConnectionStatus_Pending, PrivateEndpointServiceConnectionStatus_Rejected))
 }
 
 func Test_PrivateLinkServiceConnectionState_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

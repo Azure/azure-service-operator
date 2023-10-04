@@ -4,13 +4,13 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
 │   └── "2022-08-01"
 └── Service: Resource
     ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
-    ├── Spec: Object (26 properties)
+    ├── Spec: Object (25 properties)
     │   ├── AdditionalLocations: Object (8 properties)[]
     │   │   ├── DisableGateway: *bool
     │   │   ├── Location: *string
     │   │   ├── NatGatewayState: *string
     │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   ├── PublicIpAddressId: *string
+    │   │   ├── PublicIpAddressReference: *genruntime.ResourceReference
     │   │   ├── Sku: *Object (3 properties)
     │   │   │   ├── Capacity: *int
     │   │   │   ├── Name: *string
@@ -27,11 +27,14 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
     │   │   ├── Rule 1: MinLength: 1
     │   │   └── Rule 2: Pattern: "^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$"
     │   ├── Certificates: Object (5 properties)[]
-    │   │   ├── Certificate: *Object (4 properties)
+    │   │   ├── Certificate: *Object (7 properties)
     │   │   │   ├── Expiry: *string
+    │   │   │   ├── ExpiryFromConfig: *genruntime.ConfigMapReference
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   ├── Subject: *string
-    │   │   │   └── Thumbprint: *string
+    │   │   │   ├── SubjectFromConfig: *genruntime.ConfigMapReference
+    │   │   │   ├── Thumbprint: *string
+    │   │   │   └── ThumbprintFromConfig: *genruntime.ConfigMapReference
     │   │   ├── CertificatePassword: *string
     │   │   ├── EncodedCertificate: *string
     │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -39,19 +42,23 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
     │   ├── CustomProperties: map[string]string
     │   ├── DisableGateway: *bool
     │   ├── EnableClientCertificate: *bool
-    │   ├── HostnameConfigurations: Object (12 properties)[]
-    │   │   ├── Certificate: *Object (4 properties)
+    │   ├── HostnameConfigurations: Object (13 properties)[]
+    │   │   ├── Certificate: *Object (7 properties)
     │   │   │   ├── Expiry: *string
+    │   │   │   ├── ExpiryFromConfig: *genruntime.ConfigMapReference
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   ├── Subject: *string
-    │   │   │   └── Thumbprint: *string
-    │   │   ├── CertificatePassword: *string
+    │   │   │   ├── SubjectFromConfig: *genruntime.ConfigMapReference
+    │   │   │   ├── Thumbprint: *string
+    │   │   │   └── ThumbprintFromConfig: *genruntime.ConfigMapReference
+    │   │   ├── CertificatePassword: *genruntime.SecretReference
     │   │   ├── CertificateSource: *string
     │   │   ├── CertificateStatus: *string
     │   │   ├── DefaultSslBinding: *bool
     │   │   ├── EncodedCertificate: *string
     │   │   ├── HostName: *string
     │   │   ├── IdentityClientId: *string
+    │   │   ├── IdentityClientIdFromConfig: *genruntime.ConfigMapReference
     │   │   ├── KeyVaultId: *string
     │   │   ├── NegotiateClientCertificate: *bool
     │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -67,16 +74,6 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
     │   ├── NotificationSenderEmail: *string
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
-    │   ├── PrivateEndpointConnections: Object (5 properties)[]
-    │   │   ├── Name: *string
-    │   │   ├── PrivateLinkServiceConnectionState: *Object (4 properties)
-    │   │   │   ├── ActionsRequired: *string
-    │   │   │   ├── Description: *string
-    │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   └── Status: *string
-    │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   ├── Reference: *genruntime.ResourceReference
-    │   │   └── Type: *string
     │   ├── PropertyBag: genruntime.PropertyBag
     │   ├── PublicIpAddressId: *string
     │   ├── PublicNetworkAccess: *string
@@ -137,13 +134,12 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
         ├── Etag: *string
         ├── GatewayRegionalUrl: *string
         ├── GatewayUrl: *string
-        ├── HostnameConfigurations: Object (12 properties)[]
+        ├── HostnameConfigurations: Object (11 properties)[]
         │   ├── Certificate: *Object (4 properties)
         │   │   ├── Expiry: *string
         │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   ├── Subject: *string
         │   │   └── Thumbprint: *string
-        │   ├── CertificatePassword: *string
         │   ├── CertificateSource: *string
         │   ├── CertificateStatus: *string
         │   ├── DefaultSslBinding: *bool

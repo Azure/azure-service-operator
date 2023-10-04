@@ -40,13 +40,9 @@
 | HostnameConfiguration_STATUS                              | v1api20220801 |
 | HostnameConfiguration_Type                                | v1api20220801 |
 | HostnameConfiguration_Type_STATUS                         | v1api20220801 |
-| PrivateEndpointConnectionWrapperProperties                | v1api20220801 |
 | PrivateEndpointConnectionWrapperProperties_STATUS         | v1api20220801 |
-| PrivateEndpointServiceConnectionStatus                    | v1api20220801 |
 | PrivateEndpointServiceConnectionStatus_STATUS             | v1api20220801 |
-| PrivateLinkServiceConnectionState                         | v1api20220801 |
 | PrivateLinkServiceConnectionState_STATUS                  | v1api20220801 |
-| RemotePrivateEndpointConnectionWrapper                    | v1api20220801 |
 | RemotePrivateEndpointConnectionWrapper_STATUS             | v1api20220801 |
 | Service                                                   | v1api20220801 |
 | Service_STATUS                                            | v1api20220801 |
