@@ -647,7 +647,6 @@ func CertificateConfiguration_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCertificateConfiguration_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCertificateConfiguration_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["CertificatePassword"] = gen.PtrOf(gen.AlphaString())
 	gens["EncodedCertificate"] = gen.PtrOf(gen.AlphaString())
 	gens["StoreName"] = gen.PtrOf(gen.OneConstOf(CertificateConfiguration_StoreName_STATUS_CertificateAuthority, CertificateConfiguration_StoreName_STATUS_Root))
 }
