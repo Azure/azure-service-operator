@@ -7,4 +7,5 @@ spec:
   displayName: My_Key
   value: It's value
   secret: false
-  service: sampleapimservice
+  owner:
+    name: sampleapimservice

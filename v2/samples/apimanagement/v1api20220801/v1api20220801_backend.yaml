@@ -7,4 +7,5 @@ spec:
   description: Sample backend
   protocol: http
   url: http://www.contoso.com
-  service: sampleapimservice
+  owner:
+    name: sampleapimservice

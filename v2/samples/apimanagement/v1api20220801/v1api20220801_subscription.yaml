@@ -6,4 +6,5 @@ metadata:
 spec:
   displayName: Sample subscription
   scope: /apis
-  service: sampleapimservice
+  owner:
+    name: sampleapimservice
