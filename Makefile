@@ -11,7 +11,7 @@ else
 GOBIN=$(shell go env GOBIN)
 endif
 
-CRD_OPTIONS ?= "crd:crdVersions=v1"
+CRD_OPTIONS ?= crd:crdVersions=v1,allowDangerousTypes=true
 
 BUILD_ID ?= $(shell git rev-parse --short HEAD)
 timestamp := $(shell /bin/date "+%Y%m%d-%H%M%S")
