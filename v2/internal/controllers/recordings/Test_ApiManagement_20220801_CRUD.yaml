@@ -491,3 +491,68 @@ interactions:
     status: 200 OK
     code: 200
     duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh?api-version=2020-06-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRQV09LVUgtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01&t=638319129441798500&c=MIIHHjCCBgagAwIBAgITfwHPkDeMFREo3srnmQAEAc-QNzANBgkqhkiG9w0BAQsFADBEMRMwEQYKCZImiZPyLGQBGRYDR0JMMRMwEQYKCZImiZPyLGQBGRYDQU1FMRgwFgYDVQQDEw9BTUUgSW5mcmEgQ0EgMDIwHhcNMjMwODAyMTQxMTEyWhcNMjQwNzI3MTQxMTEyWjBAMT4wPAYDVQQDEzVhc3luY29wZXJhdGlvbnNpZ25pbmdjZXJ0aWZpY2F0ZS5tYW5hZ2VtZW50LmF6dXJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKitd-rzzV3Jpc3YK1S1KKsqeYzKrh4i8pFWP9gLw89VlCaB62w-zpHA-lwk5eUIBJ8DmUVN_5GN3fhBC66i_54fnxRwkxGGH_mth4r-Yz34khtX6VK_-4Md9Sq5mtTG0LPoIxGRtzVAvZEQOo-1rctARs4DYwTtef2iMKuLkeY9c6WEqV32b_HKhJa2AYtLV86N4Vz4NbJEU1xGyfpge2zzYHdDR70WCS81xhjl3sTbt6WeRx9xGS6QQsrTK2g4B2fGFmeB5KScCIdpApMEUKO1_PgV9sSZxFzHK1owPQiumJwWAagaJm2aNP7LdUiTEF0eBIA309r204KL4-kK2HkCAwEAAaOCBAswggQHMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwEwCgYIKwYBBQUHAwIwPQYJKwYBBAGCNxUHBDAwLgYmKwYBBAGCNxUIhpDjDYTVtHiE8Ys-hZvdFs6dEoFggvX2K4Py0SACAWQCAQowggHaBggrBgEFBQcBAQSCAcwwggHIMGYGCCsGAQUFBzAChlpodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vcGtpaW5mcmEvQ2VydHMvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmwxLmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MFYGCCsGAQUFBzAChkpodHRwOi8vY3JsMi5hbWUuZ2JsL2FpYS9CTDJQS0lJTlRDQTAxLkFNRS5HQkxfQU1FJTIwSW5mcmElMjBDQSUyMDAyKDQpLmNydDBWBggrBgEFBQcwAoZKaHR0cDovL2NybDMuYW1lLmdibC9haWEvQkwyUEtJSU5UQ0EwMS5BTUUuR0JMX0FNRSUyMEluZnJhJTIwQ0ElMjAwMig0KS5jcnQwVgYIKwYBBQUHMAKGSmh0dHA6Ly9jcmw0LmFtZS5nYmwvYWlhL0JMMlBLSUlOVENBMDEuQU1FLkdCTF9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3J0MB0GA1UdDgQWBBQ0OhiKnZOSPxrLWG3-btZSrlAOyDAOBgNVHQ8BAf8EBAMCBaAwggE1BgNVHR8EggEsMIIBKDCCASSgggEgoIIBHIZCaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraWluZnJhL0NSTC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMS5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMi5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsMy5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JshjRodHRwOi8vY3JsNC5hbWUuZ2JsL2NybC9BTUUlMjBJbmZyYSUyMENBJTIwMDIoNCkuY3JsMBcGA1UdIAQQMA4wDAYKKwYBBAGCN3sBATAfBgNVHSMEGDAWgBSuecJrXSWIEwb2BwnDl3x7l48dVTAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADggEBABSP4ZDyin7llkeZjLnLnduUX1uOkBJxhEHka8Ayx4WAiovVTkkiJgPVuZ-vlWUCbHyh6Pn4hPsE4BXCFkmg_9-edk6GL21aBvGRzZcAi7ydNt28n5JvhiYXfaKAyeH_syBvfWVYKwGbKirZQ_mf99jkUTJGwWqfqLEEwESl6Q5uYLxdclkdd2cc_LdIyeF1OgjtS1q6LRhZb4mrtErtVbH9oSTMAjRet4T4hjGNKwvxpiRsqmCsvszKZwOVQePpd8DJXGOhf45jXeVErnUunQDjOy2Ew7n_SO2ZRmDI27adEZJO8D7jeoDnpyX6pAWsLwqUnDCIGeX5RfiDIexaExY&s=ofnklslakbNCIN3qiFR2rpUvp5JVGZbsWGQLGmpFmuA9eRRqWpkRO8gFnLpjHtGoCFJcHYnfcuirc5DJfIQidS7OWfiPIVgr9DziktcFTbtPCenEFEzHxjZtduILXmOWz_N0N0BXfSsPotPhszII4QGV6fU3Bj2Ez8kWjrVux-IllAeTvw84Wqzoe7Yu8Or04PqBdRsIr3jPTZYcQrh6nTB1EOUXoU3t_t1Bn5Tlc6PyJAR5xJTOMg4Rb2zQxtGk-gRZR4scFokx36R0qf0WBzWqx46e8ujoi-ZZVwwhjUVu1JVnbucor5ebuATKneYPAOgeGmlkohyzQ_ItycXYvg&h=KGiklNQWOugTZtp2iNMCHRlaJsjmvTcgMiyOrr9TSmQ
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm?api-version=2022-08-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-pwokuh''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
