@@ -327,11 +327,6 @@ type ServiceList struct {
 	Items           []Service `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2022-08-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2022-08-01")
-
 type Service_Spec struct {
 	// AdditionalLocations: Additional datacenter locations of the API Management service.
 	AdditionalLocations []AdditionalLocation `json:"additionalLocations,omitempty"`

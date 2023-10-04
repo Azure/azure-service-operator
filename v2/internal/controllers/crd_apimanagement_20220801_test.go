@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	apim "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -36,6 +37,7 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 			PublisherEmail: to.Ptr("ASO@testing.com"),
 			PublisherName:  to.Ptr("ASOTesting"),
 			Sku:            &sku,
+			Restore:        to.Ptr(true),
 		},
 	}
 
@@ -51,4 +53,92 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 	service.Spec.Tags = map[string]string{"scratchcard": "lanyard"}
 	tc.PatchResourceAndWait(old, &service)
 	tc.Expect(service.Status.Tags).To(HaveKey("scratchcard"))
+
+	// Run sub-tests
+	tc.RunParallelSubtests(
+		testcommon.Subtest{
+			Name: "APIM Subscription CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				APIM_Subscription_CRUD(tc, &service)
+			},
+		},
+		testcommon.Subtest{
+			Name: "APIM Backend CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				APIM_Backend_CRUD(tc, &service)
+			},
+		},
+		testcommon.Subtest{
+			Name: "APIM Named Value CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				APIM_NamedValue_CRUD(tc, &service)
+			},
+		},
+	)
+}
+
+func APIM_Subscription_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
+	// Put this subscription on all APIs
+	subscription := apim.Subscription{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("sub")),
+		Spec: apim.Service_Subscription_Spec{
+			DisplayName: to.Ptr("test_subscription"),
+			Scope:       to.Ptr("/apis"),
+			Owner:       testcommon.AsOwner(service),
+		},
+	}
+
+	tc.T.Log("creating apim subscription")
+	tc.CreateResourceAndWait(&subscription)
+	//defer tc.DeleteResourceAndWait(&subscription)
+
+	tc.Expect(subscription.Status).ToNot(BeNil())
+
+	tc.T.Log("cleaning up subscription")
+}
+
+func APIM_Backend_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
+
+	// Add a simple backend
+	backend := apim.Backend{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("backend")),
+		Spec: apim.Service_Backend_Spec{
+			AzureName:   "test_backend",
+			Description: to.Ptr("A Decsription about the backend"),
+			Protocol:    to.Ptr(apim.BackendContractProperties_Protocol_Http),
+			Url:         to.Ptr("https://www.bing.com"),
+			Owner:       testcommon.AsOwner(service),
+		},
+	}
+
+	tc.T.Log("creating apim backend")
+	tc.CreateResourceAndWait(&backend)
+	//defer tc.DeleteResourceAndWait(&backend)
+
+	tc.Expect(backend.Status).ToNot(BeNil())
+
+	tc.T.Log("cleaning up backend")
+}
+
+func APIM_NamedValue_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
+
+	// Add a simple backend
+	namedValue := apim.NamedValue{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("namedvalue")),
+		Spec: apim.Service_NamedValue_Spec{
+			AzureName:   "test_namedvalue",
+			DisplayName: to.Ptr("My_Key"),
+			Value:       to.Ptr("It's value"),
+			Secret:      to.Ptr(false),
+			Owner:       testcommon.AsOwner(service),
+		},
+	}
+
+	tc.T.Log("creating apim namedValue")
+	tc.CreateResourceAndWait(&namedValue)
+	//defer tc.DeleteResourceAndWait(&namedValue)
+
+	tc.Expect(namedValue.Status).ToNot(BeNil())
+
+	tc.T.Log("cleaning up namedValue")
 }

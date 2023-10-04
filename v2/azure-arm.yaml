@@ -696,6 +696,18 @@ objectModelConfiguration:
       Service:
         $export: true
         $supportedFrom: v2.4.0
+      Service_Backend:
+        $exportAs: Backend
+        $supportedFrom: v2.4.0
+      Service_NamedValue:
+        $exportAs: NamedValue
+        $supportedFrom: v2.4.0
+      Service_Subscription:
+        $exportAs: Subscription
+        $supportedFrom: v2.4.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - SecondaryKey
       CertificateInformation:
         Expiry:
           $importConfigMapMode: optional

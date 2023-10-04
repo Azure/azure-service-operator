@@ -231,6 +231,8 @@ import (
 // getKnownStorageTypes returns the list of storage types which can be reconciled.
 func getKnownStorageTypes() []*registration.StorageType {
 	var result []*registration.StorageType
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.Backend)})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.NamedValue)})
 	result = append(result, &registration.StorageType{
 		Obj: new(apimanagement_v20220801s.Service),
 		Indexes: []registration.Index{
@@ -278,6 +280,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.Subscription)})
 	result = append(result, &registration.StorageType{Obj: new(appconfiguration_v20220501s.ConfigurationStore)})
 	result = append(result, &registration.StorageType{
 		Obj: new(authorization_v20200801ps.RoleAssignment),
@@ -934,8 +937,18 @@ func getKnownStorageTypes() []*registration.StorageType {
 // getKnownTypes returns the list of all types.
 func getKnownTypes() []client.Object {
 	var result []client.Object
-	result = append(result, new(apimanagement_v20220801.Service))
-	result = append(result, new(apimanagement_v20220801s.Service))
+	result = append(
+		result,
+		new(apimanagement_v20220801.Backend),
+		new(apimanagement_v20220801.NamedValue),
+		new(apimanagement_v20220801.Service),
+		new(apimanagement_v20220801.Subscription))
+	result = append(
+		result,
+		new(apimanagement_v20220801s.Backend),
+		new(apimanagement_v20220801s.NamedValue),
+		new(apimanagement_v20220801s.Service),
+		new(apimanagement_v20220801s.Subscription))
 	result = append(result, new(appconfiguration_v1beta20220501.ConfigurationStore))
 	result = append(result, new(appconfiguration_v1beta20220501s.ConfigurationStore))
 	result = append(result, new(appconfiguration_v20220501.ConfigurationStore))
@@ -1835,7 +1848,10 @@ func createScheme() *runtime.Scheme {
 // getResourceExtensions returns a list of resource extensions
 func getResourceExtensions() []genruntime.ResourceExtension {
 	var result []genruntime.ResourceExtension
+	result = append(result, &apimanagement_customizations.BackendExtension{})
+	result = append(result, &apimanagement_customizations.NamedValueExtension{})
 	result = append(result, &apimanagement_customizations.ServiceExtension{})
+	result = append(result, &apimanagement_customizations.SubscriptionExtension{})
 	result = append(result, &appconfiguration_customizations.ConfigurationStoreExtension{})
 	result = append(result, &authorization_customizations.RoleAssignmentExtension{})
 	result = append(result, &batch_customizations.BatchAccountExtension{})
