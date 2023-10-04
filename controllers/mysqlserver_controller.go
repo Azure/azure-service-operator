@@ -13,7 +13,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/handler"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
-	"sigs.k8s.io/controller-runtime/pkg/source"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha2"
 )
@@ -50,7 +49,7 @@ func (r *MySQLServerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&v1alpha2.MySQLServer{}).
-		Watches(&source.Kind{Type: &corev1.Secret{}}, handler.EnqueueRequestsFromMapFunc(r.makeMapFunc(mgr))).
+		Watches(&corev1.Secret{}, handler.EnqueueRequestsFromMapFunc(r.makeMapFunc(mgr))).
 		Complete(r)
 }
 
@@ -58,8 +57,13 @@ func (r *MySQLServerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 // TODO: this feature: https://github.com/kubernetes-sigs/controller-runtime/blob/master/designs/use-selectors-at-cache.md,
 // TODO: likely scoped by a label selector? That requires additional work as we would need to manage that label
 // TODO: in the MySQLServer reconcile loop probably.
-func (r *MySQLServerReconciler) makeMapFunc(mgr ctrl.Manager) func(o client.Object) []reconcile.Request {
-	return func(o client.Object) []reconcile.Request {
+func (r *MySQLServerReconciler) makeMapFunc(
+	mgr ctrl.Manager,
+) func(ctx context.Context, o client.Object) []reconcile.Request {
+	return func(
+		ctx context.Context,
+		o client.Object,
+	) []reconcile.Request {
 		// Safety check that we're looking at a secret, if not nothing to do
 		if _, ok := o.(*corev1.Secret); !ok {
 			return nil
@@ -67,8 +71,7 @@ func (r *MySQLServerReconciler) makeMapFunc(mgr ctrl.Manager) func(o client.Obje
 
 		// This should be fast since the list of items it's going through should always be cached
 		// locally with the shared informer.
-		// Unfortunately we don't have a ctx we can use here, see https://github.com/kubernetes-sigs/controller-runtime/issues/1628
-		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		ctx, cancel := context.WithTimeout(ctx, 10*time.Second)
 		defer cancel()
 
 		var matchingResources v1alpha2.MySQLServerList
