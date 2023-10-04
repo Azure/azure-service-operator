@@ -293,9 +293,6 @@ type CertificateConfiguration_STATUS_ARM struct {
 	// Certificate: Certificate information.
 	Certificate *CertificateInformation_STATUS_ARM `json:"certificate,omitempty"`
 
-	// CertificatePassword: Certificate Password.
-	CertificatePassword *string `json:"certificatePassword,omitempty"`
-
 	// EncodedCertificate: Base64 Encoded certificate.
 	EncodedCertificate *string `json:"encodedCertificate,omitempty"`
 

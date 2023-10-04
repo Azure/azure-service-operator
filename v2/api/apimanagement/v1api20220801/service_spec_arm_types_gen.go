@@ -103,10 +103,7 @@ type ApiManagementServiceProperties_ARM struct {
 
 	// NotificationSenderEmail: Email address from which the notification will be sent.
 	NotificationSenderEmail *string `json:"notificationSenderEmail,omitempty"`
-
-	// PublicIpAddressId: Public Standard SKU IP V4 based IP address to be associated with Virtual Network deployed service in
-	// the region. Supported only for Developer and Premium SKU being deployed in Virtual Network.
-	PublicIpAddressId *string `json:"publicIpAddressId,omitempty"`
+	PublicIpAddressId       *string `json:"publicIpAddressId,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this API Management service.  Value is
 	// optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access

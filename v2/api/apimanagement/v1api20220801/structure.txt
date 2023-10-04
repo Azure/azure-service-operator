@@ -165,7 +165,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │   │   │   │   ├── SubjectFromConfig: *genruntime.ConfigMapReference
 │   │   │   │   ├── Thumbprint: *string
 │   │   │   │   └── ThumbprintFromConfig: *genruntime.ConfigMapReference
-│   │   │   ├── CertificatePassword: *string
+│   │   │   ├── CertificatePassword: *genruntime.SecretReference
 │   │   │   ├── EncodedCertificate: *string
 │   │   │   └── StoreName: *Enum (2 values)
 │   │   │       ├── "CertificateAuthority"
@@ -219,7 +219,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │   │   ├── NotificationSenderEmail: Validated<*string> (1 rule)
 │   │   │   └── Rule 0: MaxLength: 100
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PublicIpAddressId: *string
+│   │   ├── PublicIpAddressReference: *genruntime.ResourceReference
 │   │   ├── PublicNetworkAccess: *Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
@@ -278,12 +278,11 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │       │   └── Zones: string[]
 │       ├── ApiVersionConstraint: *Object (1 property)
 │       │   └── MinApiVersion: *string
-│       ├── Certificates: Object (4 properties)[]
+│       ├── Certificates: Object (3 properties)[]
 │       │   ├── Certificate: *Object (3 properties)
 │       │   │   ├── Expiry: *string
 │       │   │   ├── Subject: *string
 │       │   │   └── Thumbprint: *string
-│       │   ├── CertificatePassword: *string
 │       │   ├── EncodedCertificate: *string
 │       │   └── StoreName: *Enum (2 values)
 │       │       ├── "CertificateAuthority"
@@ -558,12 +557,11 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │   │   │   └── Zones: string[]
 │   │   ├── ApiVersionConstraint: *Object (1 property)
 │   │   │   └── MinApiVersion: *string
-│   │   ├── Certificates: Object (4 properties)[]
+│   │   ├── Certificates: Object (3 properties)[]
 │   │   │   ├── Certificate: *Object (3 properties)
 │   │   │   │   ├── Expiry: *string
 │   │   │   │   ├── Subject: *string
 │   │   │   │   └── Thumbprint: *string
-│   │   │   ├── CertificatePassword: *string
 │   │   │   ├── EncodedCertificate: *string
 │   │   │   └── StoreName: *Enum (2 values)
 │   │   │       ├── "CertificateAuthority"

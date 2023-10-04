@@ -693,6 +693,24 @@ objectModelConfiguration:
       AdditionalLocation:
         PublicIpAddressId:
           $armReference: true
+      ApiManagementServiceProperties:
+        PublicIpAddressId:
+          $armReference: true
+      CertificateInformation:
+        Expiry:
+          $importConfigMapMode: optional
+        Subject:
+          $importConfigMapMode: optional
+        Thumbprint:
+          $importConfigMapMode: optional
+      CertificateConfiguration:
+        CertificatePassword:
+          $isSecret: true
+      HostnameConfiguration:
+        CertificatePassword:
+          $isSecret: true
+        IdentityClientId:
+          $importConfigMapMode: optional
       Service:
         $export: true
         $supportedFrom: v2.4.0
@@ -708,18 +726,6 @@ objectModelConfiguration:
         $azureGeneratedSecrets:
           - PrimaryKey
           - SecondaryKey
-      CertificateInformation:
-        Expiry:
-          $importConfigMapMode: optional
-        Subject:
-          $importConfigMapMode: optional
-        Thumbprint:
-          $importConfigMapMode: optional
-      HostnameConfiguration:
-        CertificatePassword:
-          $isSecret: true
-        IdentityClientId:
-          $importConfigMapMode: optional
       VirtualNetworkConfiguration:
         SubnetResourceId:
           $armReference: true

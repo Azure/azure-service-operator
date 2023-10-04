@@ -160,7 +160,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
 │   │   │   │   ├── SubjectFromConfig: *genruntime.ConfigMapReference
 │   │   │   │   ├── Thumbprint: *string
 │   │   │   │   └── ThumbprintFromConfig: *genruntime.ConfigMapReference
-│   │   │   ├── CertificatePassword: *string
+│   │   │   ├── CertificatePassword: *genruntime.SecretReference
 │   │   │   ├── EncodedCertificate: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── StoreName: *string
@@ -200,7 +200,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── PublicIpAddressId: *string
+│   │   ├── PublicIpAddressReference: *genruntime.ResourceReference
 │   │   ├── PublicNetworkAccess: *string
 │   │   ├── PublisherEmail: *string
 │   │   ├── PublisherName: *string
@@ -240,13 +240,12 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
 │       ├── ApiVersionConstraint: *Object (2 properties)
 │       │   ├── MinApiVersion: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── Certificates: Object (5 properties)[]
+│       ├── Certificates: Object (4 properties)[]
 │       │   ├── Certificate: *Object (4 properties)
 │       │   │   ├── Expiry: *string
 │       │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   ├── Subject: *string
 │       │   │   └── Thumbprint: *string
-│       │   ├── CertificatePassword: *string
 │       │   ├── EncodedCertificate: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── StoreName: *string

@@ -948,7 +948,7 @@ func (in *CertificateConfiguration) DeepCopyInto(out *CertificateConfiguration) 
 	}
 	if in.CertificatePassword != nil {
 		in, out := &in.CertificatePassword, &out.CertificatePassword
-		*out = new(string)
+		*out = new(genruntime.SecretReference)
 		**out = **in
 	}
 	if in.EncodedCertificate != nil {
@@ -987,11 +987,6 @@ func (in *CertificateConfiguration_STATUS) DeepCopyInto(out *CertificateConfigur
 		in, out := &in.Certificate, &out.Certificate
 		*out = new(CertificateInformation_STATUS)
 		(*in).DeepCopyInto(*out)
-	}
-	if in.CertificatePassword != nil {
-		in, out := &in.CertificatePassword, &out.CertificatePassword
-		*out = new(string)
-		**out = **in
 	}
 	if in.EncodedCertificate != nil {
 		in, out := &in.EncodedCertificate, &out.EncodedCertificate
@@ -2184,9 +2179,9 @@ func (in *Service_Spec) DeepCopyInto(out *Service_Spec) {
 			(*out)[key] = val
 		}
 	}
-	if in.PublicIpAddressId != nil {
-		in, out := &in.PublicIpAddressId, &out.PublicIpAddressId
-		*out = new(string)
+	if in.PublicIpAddressReference != nil {
+		in, out := &in.PublicIpAddressReference, &out.PublicIpAddressReference
+		*out = new(genruntime.ResourceReference)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {

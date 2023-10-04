@@ -152,7 +152,6 @@ func AddIndependentPropertyGeneratorsForService_Spec(gens map[string]gopter.Gen)
 	gens["NatGatewayState"] = gen.PtrOf(gen.AlphaString())
 	gens["NotificationSenderEmail"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
-	gens["PublicIpAddressId"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
 	gens["PublisherEmail"] = gen.PtrOf(gen.AlphaString())
 	gens["PublisherName"] = gen.PtrOf(gen.AlphaString())
@@ -913,7 +912,6 @@ func CertificateConfigurationGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCertificateConfiguration is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCertificateConfiguration(gens map[string]gopter.Gen) {
-	gens["CertificatePassword"] = gen.PtrOf(gen.AlphaString())
 	gens["EncodedCertificate"] = gen.PtrOf(gen.AlphaString())
 	gens["StoreName"] = gen.PtrOf(gen.AlphaString())
 }
@@ -990,7 +988,6 @@ func CertificateConfiguration_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCertificateConfiguration_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCertificateConfiguration_STATUS(gens map[string]gopter.Gen) {
-	gens["CertificatePassword"] = gen.PtrOf(gen.AlphaString())
 	gens["EncodedCertificate"] = gen.PtrOf(gen.AlphaString())
 	gens["StoreName"] = gen.PtrOf(gen.AlphaString())
 }

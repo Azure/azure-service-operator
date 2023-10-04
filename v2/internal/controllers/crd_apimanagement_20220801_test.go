@@ -19,6 +19,10 @@ import (
 func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 	t.Parallel()
 
+	if *isLive {
+		t.Skip("skipping test in live mode as it takes a very long time to provision an APIM service (1+h)")
+	}
+
 	tc := globalTestContext.ForTest(t)
 
 	rg := tc.CreateTestResourceGroupAndWait()
