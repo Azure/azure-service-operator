@@ -1,0 +1,14 @@
+apiVersion: apimanagement.azure.com/v1api20220801
+kind: Service
+metadata:
+  name: sampleapimservice
+  namespace: default
+spec:
+  location: westcentralus
+  sku:
+    capacity: 1
+    name: Developer
+  owner:
+    name: aso-sample-rg
+  publisherEmail: ASO@testing.com
+  publisherName: ASOTesting

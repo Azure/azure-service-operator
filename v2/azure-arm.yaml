@@ -154,6 +154,11 @@ typeTransformers:
     because: AccessKeys is only set on response to PUT/CREATE, but we fill out Status via GET so this field is always empty. It also contains secrets we wouldn't want to expose in status anyway.
 
   # Properties that should have been marked as ReadOnly in the Swagger
+  - name: ApiManagementServiceProperties
+    group: apimanagement
+    property: PrivateEndpointConnections
+    remove: true
+    because: This property should be marked readonly
   - name: BackupVault_Spec
     group: dataprotection
     property: SystemData
@@ -683,6 +688,29 @@ status:
 #     sub-resource.
 #
 objectModelConfiguration:
+  apimanagement:
+    2022-08-01:
+      AdditionalLocation:
+        PublicIpAddressId:
+          $armReference: true
+      Service:
+        $export: true
+        $supportedFrom: v2.4.0
+      CertificateInformation:
+        Expiry:
+          $importConfigMapMode: optional
+        Subject:
+          $importConfigMapMode: optional
+        Thumbprint:
+          $importConfigMapMode: optional
+      HostnameConfiguration:
+        CertificatePassword:
+          $isSecret: true
+        IdentityClientId:
+          $importConfigMapMode: optional
+      VirtualNetworkConfiguration:
+        SubnetResourceId:
+          $armReference: true
   appconfiguration:
     2022-05-01:
       ConfigurationStore:
