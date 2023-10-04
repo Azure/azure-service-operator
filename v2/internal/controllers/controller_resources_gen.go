@@ -235,8 +235,8 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj: new(apimanagement_v20220801s.Service),
 		Indexes: []registration.Index{
 			{
-				Key:  ".spec.hostnameConfigurations.certificatePassword",
-				Func: indexApimanagementServiceCertificatePassword,
+				Key:  ".spec.certificates.certificatePassword",
+				Func: indexApimanagementServiceCertificatesCertificatePassword,
 			},
 			{
 				Key:  ".spec.certificates.certificate.expiryFromConfig",
@@ -249,6 +249,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 			{
 				Key:  ".spec.certificates.certificate.thumbprintFromConfig",
 				Func: indexApimanagementServiceCertificatesThumbprintFromConfig,
+			},
+			{
+				Key:  ".spec.hostnameConfigurations.certificatePassword",
+				Func: indexApimanagementServiceHostnameConfigurationsCertificatePassword,
 			},
 			{
 				Key:  ".spec.hostnameConfigurations.certificate.expiryFromConfig",
@@ -270,7 +274,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.hostnameConfigurations.certificatePassword"}, &apimanagement_v20220801s.ServiceList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.certificates.certificatePassword", ".spec.hostnameConfigurations.certificatePassword"}, &apimanagement_v20220801s.ServiceList{}),
 			},
 			{
 				Type:             &v1.ConfigMap{},
@@ -2003,18 +2007,18 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	return result
 }
 
-// indexApimanagementServiceCertificatePassword an index function for apimanagement_v20220801s.Service .spec.hostnameConfigurations.certificatePassword
-func indexApimanagementServiceCertificatePassword(rawObj client.Object) []string {
+// indexApimanagementServiceCertificatesCertificatePassword an index function for apimanagement_v20220801s.Service .spec.certificates.certificatePassword
+func indexApimanagementServiceCertificatesCertificatePassword(rawObj client.Object) []string {
 	obj, ok := rawObj.(*apimanagement_v20220801s.Service)
 	if !ok {
 		return nil
 	}
 	var result []string
-	for _, hostnameConfigurationItem := range obj.Spec.HostnameConfigurations {
-		if hostnameConfigurationItem.CertificatePassword == nil {
+	for _, certificateItem := range obj.Spec.Certificates {
+		if certificateItem.CertificatePassword == nil {
 			continue
 		}
-		result = append(result, hostnameConfigurationItem.CertificatePassword.Index()...)
+		result = append(result, certificateItem.CertificatePassword.Index()...)
 	}
 	return result
 }
@@ -2072,6 +2076,22 @@ func indexApimanagementServiceCertificatesThumbprintFromConfig(rawObj client.Obj
 			continue
 		}
 		result = append(result, certificateItem.Certificate.ThumbprintFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexApimanagementServiceHostnameConfigurationsCertificatePassword an index function for apimanagement_v20220801s.Service .spec.hostnameConfigurations.certificatePassword
+func indexApimanagementServiceHostnameConfigurationsCertificatePassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.Service)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, hostnameConfigurationItem := range obj.Spec.HostnameConfigurations {
+		if hostnameConfigurationItem.CertificatePassword == nil {
+			continue
+		}
+		result = append(result, hostnameConfigurationItem.CertificatePassword.Index()...)
 	}
 	return result
 }

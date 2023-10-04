@@ -696,6 +696,9 @@ objectModelConfiguration:
       Service:
         $export: true
         $supportedFrom: v2.4.0
+      ApiManagementServiceProperties:
+        PublicIpAddressId:
+          $armReference: true
       CertificateInformation:
         Expiry:
           $importConfigMapMode: optional
@@ -703,6 +706,9 @@ objectModelConfiguration:
           $importConfigMapMode: optional
         Thumbprint:
           $importConfigMapMode: optional
+      CertificateConfiguration:
+        CertificatePassword:
+          $isSecret: true
       HostnameConfiguration:
         CertificatePassword:
           $isSecret: true
