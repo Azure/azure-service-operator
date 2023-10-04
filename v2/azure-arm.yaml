@@ -1596,16 +1596,30 @@ objectModelConfiguration:
         $resourceEmbeddedInParent: ApplicationGateway
       ApplicationGatewaySslCertificate:
         $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewaySslCertificatePropertiesFormat:
+        Data:
+          $isSecret: true
+        Password:
+          $isSecret: true    
       ApplicationGatewaySslProfile:
         $resourceEmbeddedInParent: ApplicationGateway
       ApplicationGatewayTrustedClientCertificate:
         $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayTrustedClientCertificatePropertiesFormat:
+        Data:
+          $isSecret: true
       ApplicationGatewayTrustedRootCertificate:
         $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayTrustedRootCertificatePropertiesFormat:
+        Data:
+          $isSecret: true      
       ApplicationGatewayUrlPathMap:
         $resourceEmbeddedInParent: ApplicationGateway
       ApplicationGatewayAuthenticationCertificate:
         $resourceEmbeddedInParent: ApplicationGateway
+      ApplicationGatewayAuthenticationCertificatePropertiesFormat:
+        Data:
+          $isSecret: true
       BastionHost:
         # This technically supports 2022-09-01 API version too, but it's identical to the 2022-07-01 version
         # so limiting proliferation of APIVersions and using 2022-07-01 for it

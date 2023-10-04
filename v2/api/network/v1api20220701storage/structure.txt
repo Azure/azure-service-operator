@@ -6,7 +6,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (39 properties)
 │   │   ├── AuthenticationCertificates: Object (3 properties)[]
-│   │   │   ├── Data: *string
+│   │   │   ├── Data: *genruntime.SecretReference
 │   │   │   ├── Name: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── AutoscaleConfiguration: *Object (3 properties)
@@ -273,10 +273,10 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Tier: *string
 │   │   ├── SslCertificates: Object (5 properties)[]
-│   │   │   ├── Data: *string
+│   │   │   ├── Data: *genruntime.SecretReference
 │   │   │   ├── KeyVaultSecretId: *string
 │   │   │   ├── Name: *string
-│   │   │   ├── Password: *string
+│   │   │   ├── Password: *genruntime.SecretReference
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── SslPolicy: *Object (6 properties)
 │   │   │   ├── CipherSuites: string[]
@@ -304,11 +304,11 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage
 │   │   │       └── Reference: *genruntime.ResourceReference
 │   │   ├── Tags: map[string]string
 │   │   ├── TrustedClientCertificates: Object (3 properties)[]
-│   │   │   ├── Data: *string
+│   │   │   ├── Data: *genruntime.SecretReference
 │   │   │   ├── Name: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── TrustedRootCertificates: Object (4 properties)[]
-│   │   │   ├── Data: *string
+│   │   │   ├── Data: *genruntime.SecretReference
 │   │   │   ├── KeyVaultSecretId: *string
 │   │   │   ├── Name: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag

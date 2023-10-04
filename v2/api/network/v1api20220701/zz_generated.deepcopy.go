@@ -48,7 +48,7 @@ func (in *ApplicationGatewayAuthenticationCertificate) DeepCopyInto(out *Applica
 	*out = *in
 	if in.Data != nil {
 		in, out := &in.Data, &out.Data
-		*out = new(string)
+		*out = new(genruntime.SecretReference)
 		**out = **in
 	}
 	if in.Name != nil {
@@ -4246,7 +4246,7 @@ func (in *ApplicationGatewaySslCertificate) DeepCopyInto(out *ApplicationGateway
 	*out = *in
 	if in.Data != nil {
 		in, out := &in.Data, &out.Data
-		*out = new(string)
+		*out = new(genruntime.SecretReference)
 		**out = **in
 	}
 	if in.KeyVaultSecretId != nil {
@@ -4261,7 +4261,7 @@ func (in *ApplicationGatewaySslCertificate) DeepCopyInto(out *ApplicationGateway
 	}
 	if in.Password != nil {
 		in, out := &in.Password, &out.Password
-		*out = new(string)
+		*out = new(genruntime.SecretReference)
 		**out = **in
 	}
 }
@@ -4750,7 +4750,7 @@ func (in *ApplicationGatewayTrustedClientCertificate) DeepCopyInto(out *Applicat
 	*out = *in
 	if in.Data != nil {
 		in, out := &in.Data, &out.Data
-		*out = new(string)
+		*out = new(genruntime.SecretReference)
 		**out = **in
 	}
 	if in.Name != nil {
@@ -4860,7 +4860,7 @@ func (in *ApplicationGatewayTrustedRootCertificate) DeepCopyInto(out *Applicatio
 	*out = *in
 	if in.Data != nil {
 		in, out := &in.Data, &out.Data
-		*out = new(string)
+		*out = new(genruntime.SecretReference)
 		**out = **in
 	}
 	if in.KeyVaultSecretId != nil {

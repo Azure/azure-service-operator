@@ -283,9 +283,9 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 // Storage version of v1api20220701.ApplicationGatewayAuthenticationCertificate
 // Authentication certificates of an application gateway.
 type ApplicationGatewayAuthenticationCertificate struct {
-	Data        *string                `json:"data,omitempty"`
-	Name        *string                `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Data        *genruntime.SecretReference `json:"data,omitempty"`
+	Name        *string                     `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20220701.ApplicationGatewayAuthenticationCertificate_STATUS
@@ -661,11 +661,11 @@ type ApplicationGatewaySku_STATUS struct {
 // Storage version of v1api20220701.ApplicationGatewaySslCertificate
 // SSL certificates of an application gateway.
 type ApplicationGatewaySslCertificate struct {
-	Data             *string                `json:"data,omitempty"`
-	KeyVaultSecretId *string                `json:"keyVaultSecretId,omitempty"`
-	Name             *string                `json:"name,omitempty"`
-	Password         *string                `json:"password,omitempty"`
-	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Data             *genruntime.SecretReference `json:"data,omitempty"`
+	KeyVaultSecretId *string                     `json:"keyVaultSecretId,omitempty"`
+	Name             *string                     `json:"name,omitempty"`
+	Password         *genruntime.SecretReference `json:"password,omitempty"`
+	PropertyBag      genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20220701.ApplicationGatewaySslCertificate_STATUS
@@ -733,9 +733,9 @@ type ApplicationGatewaySubResource_STATUS struct {
 // Storage version of v1api20220701.ApplicationGatewayTrustedClientCertificate
 // Trusted client certificates of an application gateway.
 type ApplicationGatewayTrustedClientCertificate struct {
-	Data        *string                `json:"data,omitempty"`
-	Name        *string                `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Data        *genruntime.SecretReference `json:"data,omitempty"`
+	Name        *string                     `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20220701.ApplicationGatewayTrustedClientCertificate_STATUS
@@ -748,10 +748,10 @@ type ApplicationGatewayTrustedClientCertificate_STATUS struct {
 // Storage version of v1api20220701.ApplicationGatewayTrustedRootCertificate
 // Trusted Root certificates of an application gateway.
 type ApplicationGatewayTrustedRootCertificate struct {
-	Data             *string                `json:"data,omitempty"`
-	KeyVaultSecretId *string                `json:"keyVaultSecretId,omitempty"`
-	Name             *string                `json:"name,omitempty"`
-	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Data             *genruntime.SecretReference `json:"data,omitempty"`
+	KeyVaultSecretId *string                     `json:"keyVaultSecretId,omitempty"`
+	Name             *string                     `json:"name,omitempty"`
+	PropertyBag      genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20220701.ApplicationGatewayTrustedRootCertificate_STATUS

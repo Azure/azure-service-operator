@@ -362,7 +362,6 @@ func ApplicationGatewayAuthenticationCertificateGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForApplicationGatewayAuthenticationCertificate is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApplicationGatewayAuthenticationCertificate(gens map[string]gopter.Gen) {
-	gens["Data"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -3137,10 +3136,8 @@ func ApplicationGatewaySslCertificateGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForApplicationGatewaySslCertificate is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApplicationGatewaySslCertificate(gens map[string]gopter.Gen) {
-	gens["Data"] = gen.PtrOf(gen.AlphaString())
 	gens["KeyVaultSecretId"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Password"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ApplicationGatewaySslCertificate_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3646,7 +3643,6 @@ func ApplicationGatewayTrustedClientCertificateGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForApplicationGatewayTrustedClientCertificate is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApplicationGatewayTrustedClientCertificate(gens map[string]gopter.Gen) {
-	gens["Data"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -3769,7 +3765,6 @@ func ApplicationGatewayTrustedRootCertificateGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForApplicationGatewayTrustedRootCertificate is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApplicationGatewayTrustedRootCertificate(gens map[string]gopter.Gen) {
-	gens["Data"] = gen.PtrOf(gen.AlphaString())
 	gens["KeyVaultSecretId"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }

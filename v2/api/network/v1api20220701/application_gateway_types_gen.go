@@ -4721,7 +4721,7 @@ func (embedded *ApplicationGateway_STATUS_ApplicationGateway_SubResourceEmbedded
 // Authentication certificates of an application gateway.
 type ApplicationGatewayAuthenticationCertificate struct {
 	// Data: Certificate public data.
-	Data *string `json:"data,omitempty"`
+	Data *genruntime.SecretReference `json:"data,omitempty"`
 
 	// Name: Name of the authentication certificate that is unique within an Application Gateway.
 	Name *string `json:"name,omitempty"`
@@ -4747,7 +4747,11 @@ func (certificate *ApplicationGatewayAuthenticationCertificate) ConvertToARM(res
 		result.Properties = &ApplicationGatewayAuthenticationCertificatePropertiesFormat_ARM{}
 	}
 	if certificate.Data != nil {
-		data := *certificate.Data
+		dataSecret, err := resolved.ResolvedSecrets.Lookup(*certificate.Data)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property Data")
+		}
+		data := dataSecret
 		result.Properties.Data = &data
 	}
 	return result, nil
@@ -4765,14 +4769,7 @@ func (certificate *ApplicationGatewayAuthenticationCertificate) PopulateFromARM(
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayAuthenticationCertificate_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Data’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Data != nil {
-			data := *typedInput.Properties.Data
-			certificate.Data = &data
-		}
-	}
+	// no assignment for property ‘Data’
 
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
@@ -4788,7 +4785,12 @@ func (certificate *ApplicationGatewayAuthenticationCertificate) PopulateFromARM(
 func (certificate *ApplicationGatewayAuthenticationCertificate) AssignProperties_From_ApplicationGatewayAuthenticationCertificate(source *v1api20220701s.ApplicationGatewayAuthenticationCertificate) error {
 
 	// Data
-	certificate.Data = genruntime.ClonePointerToString(source.Data)
+	if source.Data != nil {
+		datum := source.Data.Copy()
+		certificate.Data = &datum
+	} else {
+		certificate.Data = nil
+	}
 
 	// Name
 	certificate.Name = genruntime.ClonePointerToString(source.Name)
@@ -4803,7 +4805,12 @@ func (certificate *ApplicationGatewayAuthenticationCertificate) AssignProperties
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Data
-	destination.Data = genruntime.ClonePointerToString(certificate.Data)
+	if certificate.Data != nil {
+		datum := certificate.Data.Copy()
+		destination.Data = &datum
+	} else {
+		destination.Data = nil
+	}
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(certificate.Name)
@@ -11289,7 +11296,7 @@ func (gatewaySku *ApplicationGatewaySku_STATUS) AssignProperties_To_ApplicationG
 // SSL certificates of an application gateway.
 type ApplicationGatewaySslCertificate struct {
 	// Data: Base-64 encoded pfx certificate. Only applicable in PUT Request.
-	Data *string `json:"data,omitempty"`
+	Data *genruntime.SecretReference `json:"data,omitempty"`
 
 	// KeyVaultSecretId: Secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate' object stored in KeyVault.
 	KeyVaultSecretId *string `json:"keyVaultSecretId,omitempty"`
@@ -11298,7 +11305,7 @@ type ApplicationGatewaySslCertificate struct {
 	Name *string `json:"name,omitempty"`
 
 	// Password: Password for the pfx file specified in data. Only applicable in PUT request.
-	Password *string `json:"password,omitempty"`
+	Password *genruntime.SecretReference `json:"password,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ApplicationGatewaySslCertificate{}
@@ -11323,7 +11330,11 @@ func (certificate *ApplicationGatewaySslCertificate) ConvertToARM(resolved genru
 		result.Properties = &ApplicationGatewaySslCertificatePropertiesFormat_ARM{}
 	}
 	if certificate.Data != nil {
-		data := *certificate.Data
+		dataSecret, err := resolved.ResolvedSecrets.Lookup(*certificate.Data)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property Data")
+		}
+		data := dataSecret
 		result.Properties.Data = &data
 	}
 	if certificate.KeyVaultSecretId != nil {
@@ -11331,7 +11342,11 @@ func (certificate *ApplicationGatewaySslCertificate) ConvertToARM(resolved genru
 		result.Properties.KeyVaultSecretId = &keyVaultSecretId
 	}
 	if certificate.Password != nil {
-		password := *certificate.Password
+		passwordSecret, err := resolved.ResolvedSecrets.Lookup(*certificate.Password)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property Password")
+		}
+		password := passwordSecret
 		result.Properties.Password = &password
 	}
 	return result, nil
@@ -11349,14 +11364,7 @@ func (certificate *ApplicationGatewaySslCertificate) PopulateFromARM(owner genru
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewaySslCertificate_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Data’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Data != nil {
-			data := *typedInput.Properties.Data
-			certificate.Data = &data
-		}
-	}
+	// no assignment for property ‘Data’
 
 	// Set property ‘KeyVaultSecretId’:
 	// copying flattened property:
@@ -11373,14 +11381,7 @@ func (certificate *ApplicationGatewaySslCertificate) PopulateFromARM(owner genru
 		certificate.Name = &name
 	}
 
-	// Set property ‘Password’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Password != nil {
-			password := *typedInput.Properties.Password
-			certificate.Password = &password
-		}
-	}
+	// no assignment for property ‘Password’
 
 	// No error
 	return nil
@@ -11390,7 +11391,12 @@ func (certificate *ApplicationGatewaySslCertificate) PopulateFromARM(owner genru
 func (certificate *ApplicationGatewaySslCertificate) AssignProperties_From_ApplicationGatewaySslCertificate(source *v1api20220701s.ApplicationGatewaySslCertificate) error {
 
 	// Data
-	certificate.Data = genruntime.ClonePointerToString(source.Data)
+	if source.Data != nil {
+		datum := source.Data.Copy()
+		certificate.Data = &datum
+	} else {
+		certificate.Data = nil
+	}
 
 	// KeyVaultSecretId
 	certificate.KeyVaultSecretId = genruntime.ClonePointerToString(source.KeyVaultSecretId)
@@ -11399,7 +11405,12 @@ func (certificate *ApplicationGatewaySslCertificate) AssignProperties_From_Appli
 	certificate.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Password
-	certificate.Password = genruntime.ClonePointerToString(source.Password)
+	if source.Password != nil {
+		password := source.Password.Copy()
+		certificate.Password = &password
+	} else {
+		certificate.Password = nil
+	}
 
 	// No error
 	return nil
@@ -11411,7 +11422,12 @@ func (certificate *ApplicationGatewaySslCertificate) AssignProperties_To_Applica
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Data
-	destination.Data = genruntime.ClonePointerToString(certificate.Data)
+	if certificate.Data != nil {
+		datum := certificate.Data.Copy()
+		destination.Data = &datum
+	} else {
+		destination.Data = nil
+	}
 
 	// KeyVaultSecretId
 	destination.KeyVaultSecretId = genruntime.ClonePointerToString(certificate.KeyVaultSecretId)
@@ -11420,7 +11436,12 @@ func (certificate *ApplicationGatewaySslCertificate) AssignProperties_To_Applica
 	destination.Name = genruntime.ClonePointerToString(certificate.Name)
 
 	// Password
-	destination.Password = genruntime.ClonePointerToString(certificate.Password)
+	if certificate.Password != nil {
+		password := certificate.Password.Copy()
+		destination.Password = &password
+	} else {
+		destination.Password = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -12434,7 +12455,7 @@ func (resource *ApplicationGatewaySubResource_STATUS) AssignProperties_To_Applic
 // Trusted client certificates of an application gateway.
 type ApplicationGatewayTrustedClientCertificate struct {
 	// Data: Certificate public data.
-	Data *string `json:"data,omitempty"`
+	Data *genruntime.SecretReference `json:"data,omitempty"`
 
 	// Name: Name of the trusted client certificate that is unique within an Application Gateway.
 	Name *string `json:"name,omitempty"`
@@ -12460,7 +12481,11 @@ func (certificate *ApplicationGatewayTrustedClientCertificate) ConvertToARM(reso
 		result.Properties = &ApplicationGatewayTrustedClientCertificatePropertiesFormat_ARM{}
 	}
 	if certificate.Data != nil {
-		data := *certificate.Data
+		dataSecret, err := resolved.ResolvedSecrets.Lookup(*certificate.Data)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property Data")
+		}
+		data := dataSecret
 		result.Properties.Data = &data
 	}
 	return result, nil
@@ -12478,14 +12503,7 @@ func (certificate *ApplicationGatewayTrustedClientCertificate) PopulateFromARM(o
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayTrustedClientCertificate_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Data’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Data != nil {
-			data := *typedInput.Properties.Data
-			certificate.Data = &data
-		}
-	}
+	// no assignment for property ‘Data’
 
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
@@ -12501,7 +12519,12 @@ func (certificate *ApplicationGatewayTrustedClientCertificate) PopulateFromARM(o
 func (certificate *ApplicationGatewayTrustedClientCertificate) AssignProperties_From_ApplicationGatewayTrustedClientCertificate(source *v1api20220701s.ApplicationGatewayTrustedClientCertificate) error {
 
 	// Data
-	certificate.Data = genruntime.ClonePointerToString(source.Data)
+	if source.Data != nil {
+		datum := source.Data.Copy()
+		certificate.Data = &datum
+	} else {
+		certificate.Data = nil
+	}
 
 	// Name
 	certificate.Name = genruntime.ClonePointerToString(source.Name)
@@ -12516,7 +12539,12 @@ func (certificate *ApplicationGatewayTrustedClientCertificate) AssignProperties_
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Data
-	destination.Data = genruntime.ClonePointerToString(certificate.Data)
+	if certificate.Data != nil {
+		datum := certificate.Data.Copy()
+		destination.Data = &datum
+	} else {
+		destination.Data = nil
+	}
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(certificate.Name)
@@ -12601,7 +12629,7 @@ func (certificate *ApplicationGatewayTrustedClientCertificate_STATUS) AssignProp
 // Trusted Root certificates of an application gateway.
 type ApplicationGatewayTrustedRootCertificate struct {
 	// Data: Certificate public data.
-	Data *string `json:"data,omitempty"`
+	Data *genruntime.SecretReference `json:"data,omitempty"`
 
 	// KeyVaultSecretId: Secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate' object stored in KeyVault.
 	KeyVaultSecretId *string `json:"keyVaultSecretId,omitempty"`
@@ -12630,7 +12658,11 @@ func (certificate *ApplicationGatewayTrustedRootCertificate) ConvertToARM(resolv
 		result.Properties = &ApplicationGatewayTrustedRootCertificatePropertiesFormat_ARM{}
 	}
 	if certificate.Data != nil {
-		data := *certificate.Data
+		dataSecret, err := resolved.ResolvedSecrets.Lookup(*certificate.Data)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property Data")
+		}
+		data := dataSecret
 		result.Properties.Data = &data
 	}
 	if certificate.KeyVaultSecretId != nil {
@@ -12652,14 +12684,7 @@ func (certificate *ApplicationGatewayTrustedRootCertificate) PopulateFromARM(own
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationGatewayTrustedRootCertificate_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Data’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Data != nil {
-			data := *typedInput.Properties.Data
-			certificate.Data = &data
-		}
-	}
+	// no assignment for property ‘Data’
 
 	// Set property ‘KeyVaultSecretId’:
 	// copying flattened property:
@@ -12684,7 +12709,12 @@ func (certificate *ApplicationGatewayTrustedRootCertificate) PopulateFromARM(own
 func (certificate *ApplicationGatewayTrustedRootCertificate) AssignProperties_From_ApplicationGatewayTrustedRootCertificate(source *v1api20220701s.ApplicationGatewayTrustedRootCertificate) error {
 
 	// Data
-	certificate.Data = genruntime.ClonePointerToString(source.Data)
+	if source.Data != nil {
+		datum := source.Data.Copy()
+		certificate.Data = &datum
+	} else {
+		certificate.Data = nil
+	}
 
 	// KeyVaultSecretId
 	certificate.KeyVaultSecretId = genruntime.ClonePointerToString(source.KeyVaultSecretId)
@@ -12702,7 +12732,12 @@ func (certificate *ApplicationGatewayTrustedRootCertificate) AssignProperties_To
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Data
-	destination.Data = genruntime.ClonePointerToString(certificate.Data)
+	if certificate.Data != nil {
+		datum := certificate.Data.Copy()
+		destination.Data = &datum
+	} else {
+		destination.Data = nil
+	}
 
 	// KeyVaultSecretId
 	destination.KeyVaultSecretId = genruntime.ClonePointerToString(certificate.KeyVaultSecretId)
