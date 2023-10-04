@@ -88,6 +88,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/annotations/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/apimanagement/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/appconfiguration/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/appconfiguration/v1api20220501/</loc>

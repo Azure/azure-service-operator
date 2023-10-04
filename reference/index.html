@@ -175,7 +175,9 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreference-li">
   <a href="/azure-service-operator/reference/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreference"><span class="td-sidebar-nav-active-item">Supported Resources</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceappconfiguration-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceapimanagement-li">
+  <a href="/azure-service-operator/reference/apimanagement/" title="ApiManagement Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceapimanagement"><span class="">ApiManagement</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceappconfiguration-li">
   <a href="/azure-service-operator/reference/appconfiguration/" title="AppConfiguration Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceappconfiguration"><span class="">AppConfiguration</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappconfigurationv1api20220501-li">
@@ -637,6 +639,11 @@
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
+    <li><a href="#apimanagement">ApiManagement</a>
+      <ul>
+        <li><a href="#next-release">Next Release</a></li>
+      </ul>
+    </li>
     <li><a href="#appconfiguration">AppConfiguration</a>
       <ul>
         <li><a href="#released">Released</a></li>
@@ -687,7 +694,7 @@
     </li>
     <li><a href="#containerservice">ContainerService</a>
       <ul>
-        <li><a href="#next-release">Next Release</a></li>
+        <li><a href="#next-release-1">Next Release</a></li>
         <li><a href="#released-8">Released</a></li>
         <li><a href="#deprecated-8">Deprecated</a></li>
       </ul>
@@ -769,7 +776,7 @@
     </li>
     <li><a href="#network">Network</a>
       <ul>
-        <li><a href="#next-release-1">Next Release</a></li>
+        <li><a href="#next-release-2">Next Release</a></li>
         <li><a href="#released-22">Released</a></li>
         <li><a href="#deprecated-19">Deprecated</a></li>
       </ul>
@@ -889,6 +896,30 @@
 	<p>These are the resources with Azure Service Operator support committed to our <strong>main</strong> branch,
 grouped by the originating ARM service.
 (Newly supported resources will appear in this list prior to inclusion in any ASO release.)</p>
+<h2 id="apimanagement">ApiManagement</h2>
+<p>To install the CRDs for these resources, your ASO configuration must include <code>apimanagement.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
+<h3 id="next-release">Next Release</h3>
+<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>ARM Version</th>
+<th>CRD Version</th>
+<th>Supported From</th>
+<th>Sample</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Service</td>
+<td>2022-08-01</td>
+<td>v1api20220801</td>
+<td>v2.4.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20220801/v1api20220801_service.yaml">View</a></td>
+</tr>
+</tbody>
+</table>
 <h2 id="appconfiguration">AppConfiguration</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>appconfiguration.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
 <h3 id="released">Released</h3>
@@ -1490,7 +1521,7 @@ grouped by the originating ARM service.
 </table>
 <h2 id="containerservice">ContainerService</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>containerservice.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release">Next Release</h3>
+<h3 id="next-release-1">Next Release</h3>
 <p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
 <table>
 <thead>
@@ -2666,7 +2697,7 @@ grouped by the originating ARM service.
 </table>
 <h2 id="network">Network</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>network.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-1">Next Release</h3>
+<h3 id="next-release-2">Next Release</h3>
 <p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
 <table>
 <thead>
