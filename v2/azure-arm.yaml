@@ -42,7 +42,11 @@ supportedResourcesReport:
 # Filters are applied in document order, with the earliest matching filter being applied for each type.
 #
 typeFilters:
-
+  - action: include
+    group: containerservice
+    version: v*20230315preview
+    because: We want to support Fleet
+    
   - action: include
     group: servicebus
     version: v*20210101preview;v*20221001preview
@@ -1022,6 +1026,18 @@ objectModelConfiguration:
       PrivateLinkResource:
         Id:
           $armReference: true
+    2023-03-15-preview:
+      Fleet:
+        $export: true
+        $supportedFrom: v2.4.0
+        $azureGeneratedSecrets:
+          - UserCredentials
+      Fleets_Member:
+        $exportAs: FleetsMember
+        $supportedFrom: v2.4.0
+      Fleets_UpdateRun:
+        $exportAs: FleetsUpdateRun
+        $supportedFrom: v2.4.0
   datafactory:
     2018-06-01:
       PurviewConfiguration:
@@ -1603,6 +1619,25 @@ objectModelConfiguration:
       VirtualNetworks_VirtualNetworkPeering:
         $exportAs: VirtualNetworksVirtualNetworkPeering
         $supportedFrom: v2.0.0-alpha.1
+    2022-04-01:
+      TrafficManagerProfile:
+        # Hacking around here to use camel case. Normally the resource gets exported as Trafficmanagerprofile
+        $exportAs: TrafficManagerProfile
+        $supportedFrom: v2.4.0
+        $generatedConfigs:
+          DnsConfigFqdn: $.Status.DnsConfig.Fqdn
+      TrafficManagerProfiles_AzureEndpoint:
+        $exportAs: TrafficManagerProfilesAzureEndpoint
+        $supportedFrom: v2.4.0
+      TrafficManagerProfiles_ExternalEndpoint:
+        $exportAs: TrafficManagerProfilesExternalEndpoint
+        $supportedFrom: v2.4.0
+      TrafficManagerProfiles_NestedEndpoint:
+        $exportAs: TrafficManagerProfilesNestedEndpoint
+        $supportedFrom: v2.4.0
+      EndpointProperties:
+        TargetResourceId:
+          $armReference: true
     2022-07-01:
       BastionHost:
         # This technically supports 2022-09-01 API version too, but it's identical to the 2022-07-01 version

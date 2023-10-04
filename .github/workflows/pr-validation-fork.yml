@@ -57,6 +57,9 @@ jobs:
           submodules: 'true'
           ref: 'refs/pull/${{ github.event.client_payload.pull_request.number }}/merge'
 
+      - name: Force docker to SSD
+        run: sudo scripts/v2/linux-docker-use-ssd.sh --containerd true
+
       - name: check-changes
         id: check-changes
         run: scripts/v2/check-changes.sh

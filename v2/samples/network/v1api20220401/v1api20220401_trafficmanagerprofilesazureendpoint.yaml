@@ -1,0 +1,13 @@
+apiVersion: network.azure.com/v1api20220401
+kind: TrafficManagerProfilesAzureEndpoint
+metadata:
+  name: aso-sample-ep
+  namespace: default
+spec:
+  alwaysServe: Enabled
+  owner:
+    name: aso-sample-profile
+  targetResourceReference:
+    group: network.azure.com
+    kind: PublicIPAddress
+    name: aso-sample-publicip

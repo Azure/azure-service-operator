@@ -1,0 +1,4 @@
+name: Test docker image
+on:
+  workflow_dispatch:
+  # no content, allows manual triggering

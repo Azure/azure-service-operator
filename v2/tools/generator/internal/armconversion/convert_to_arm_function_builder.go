@@ -797,7 +797,7 @@ func (builder *convertToARMBuilder) convertComplexTypeNameProperty(
 	conversionBuilder *astmodel.ConversionFunctionBuilder,
 	params astmodel.ConversionParameters,
 ) ([]dst.Stmt, error) {
-	destinationType, ok := params.DestinationType.(astmodel.TypeName)
+	destinationType, ok := params.DestinationType.(astmodel.InternalTypeName)
 	if !ok {
 		return nil, nil
 	}
@@ -823,9 +823,9 @@ func (builder *convertToARMBuilder) convertComplexTypeNameProperty(
 		Type: astbuilder.Dereference(dst.NewIdent(destinationType.Name())),
 	}
 
-	if !destinationType.PackageReference().Equals(conversionBuilder.CodeGenerationContext.CurrentPackage()) {
+	if !destinationType.InternalPackageReference().Equals(conversionBuilder.CodeGenerationContext.CurrentPackage()) {
 		// needs to be qualified
-		packageName, err := conversionBuilder.CodeGenerationContext.GetImportedPackageName(destinationType.PackageReference())
+		packageName, err := conversionBuilder.CodeGenerationContext.GetImportedPackageName(destinationType.InternalPackageReference())
 		if err != nil {
 			return nil, err
 		}
