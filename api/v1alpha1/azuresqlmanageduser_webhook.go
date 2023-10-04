@@ -8,6 +8,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
+	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // log is for logging in this package.
@@ -24,23 +25,23 @@ func (r *AzureSQLManagedUser) SetupWebhookWithManager(mgr ctrl.Manager) error {
 var _ webhook.Validator = &AzureSQLManagedUser{}
 
 // ValidateCreate implements webhook.Validator so a webhook will be registered for the type
-func (r *AzureSQLManagedUser) ValidateCreate() error {
+func (r *AzureSQLManagedUser) ValidateCreate() (admission.Warnings, error) {
 	azuresqlmanageduserlog.Info("validate create", "name", r.Name)
 
-	return ValidateAzureSQLDBName(r.Spec.DbName)
+	return nil, ValidateAzureSQLDBName(r.Spec.DbName)
 }
 
 // ValidateUpdate implements webhook.Validator so a webhook will be registered for the type
-func (r *AzureSQLManagedUser) ValidateUpdate(old runtime.Object) error {
+func (r *AzureSQLManagedUser) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	azuresqlmanageduserlog.Info("validate update", "name", r.Name)
 
-	return ValidateAzureSQLDBName(r.Spec.DbName)
+	return nil, ValidateAzureSQLDBName(r.Spec.DbName)
 }
 
 // ValidateDelete implements webhook.Validator so a webhook will be registered for the type
-func (r *AzureSQLManagedUser) ValidateDelete() error {
+func (r *AzureSQLManagedUser) ValidateDelete() (admission.Warnings, error) {
 	azuresqlmanageduserlog.Info("validate delete", "name", r.Name)
 
 	// TODO(user): fill in your validation logic upon object deletion.
-	return nil
+	return nil, nil
 }
