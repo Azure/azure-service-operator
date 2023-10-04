@@ -51,6 +51,10 @@ func Test_ServiceBus_Namespace_Standard_v1api20211101_CRUD(t *testing.T) {
 				ServiceBus_NamespacesAuthorizationRule_v1api20211101_CRUD(tc, namespace)
 			},
 		},
+	)
+
+	// This must run at the end as it modifies the namespace
+	tc.RunSubtests(
 		testcommon.Subtest{
 			Name: "NamespaceSecrets CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {

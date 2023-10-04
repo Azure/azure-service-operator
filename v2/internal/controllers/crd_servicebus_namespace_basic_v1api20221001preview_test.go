@@ -38,13 +38,16 @@ func Test_ServiceBus_Namespace_Basic_v1api20221001preview_CRUD(t *testing.T) {
 				ServiceBus_NamespacesQueue_v1api20221001preview_CRUD(tc, namespace)
 			},
 		},
+	)
+
+	// This must run at the end as it modifies the namespace
+	tc.RunSubtests(
 		testcommon.Subtest{
 			Name: "Namespace secrets",
 			Test: func(tc *testcommon.KubePerTestContext) {
 				ServiceBus_Namespace_Secrets_v1api20221001preview(tc, namespace)
 			},
-		},
-	)
+		})
 
 	tc.DeleteResourceAndWait(namespace)
 
