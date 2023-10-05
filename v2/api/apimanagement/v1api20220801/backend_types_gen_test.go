@@ -276,7 +276,6 @@ func AddIndependentPropertyGeneratorsForService_Backend_Spec(gens map[string]gop
 	gens["AzureName"] = gen.AlphaString()
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(BackendContractProperties_Protocol_Http, BackendContractProperties_Protocol_Soap))
-	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["Title"] = gen.PtrOf(gen.AlphaString())
 	gens["Url"] = gen.PtrOf(gen.AlphaString())
 }

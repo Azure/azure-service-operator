@@ -155,10 +155,13 @@ type Service_Backend_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Protocol    *string                            `json:"protocol,omitempty"`
 	Proxy       *BackendProxyContract              `json:"proxy,omitempty"`
-	ResourceId  *string                            `json:"resourceId,omitempty"`
-	Title       *string                            `json:"title,omitempty"`
-	Tls         *BackendTlsProperties              `json:"tls,omitempty"`
-	Url         *string                            `json:"url,omitempty"`
+
+	// ResourceReference: Management Uri of the Resource in External System. This URL can be the Arm Resource Id of Logic Apps,
+	// Function Apps or API Apps.
+	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
+	Title             *string                       `json:"title,omitempty"`
+	Tls               *BackendTlsProperties         `json:"tls,omitempty"`
+	Url               *string                       `json:"url,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Service_Backend_Spec{}

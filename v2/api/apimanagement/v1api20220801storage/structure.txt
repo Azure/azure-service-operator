@@ -41,7 +41,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── Url: *string
 │   │   │   └── Username: *string
-│   │   ├── ResourceId: *string
+│   │   ├── ResourceReference: *genruntime.ResourceReference
 │   │   ├── Title: *string
 │   │   ├── Tls: *Object (3 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag

@@ -351,11 +351,9 @@ type Service_Backend_Spec struct {
 	// Proxy: Backend gateway Contract Properties
 	Proxy *BackendProxyContract `json:"proxy,omitempty"`
 
-	// +kubebuilder:validation:MaxLength=2000
-	// +kubebuilder:validation:MinLength=1
-	// ResourceId: Management Uri of the Resource in External System. This URL can be the Arm Resource Id of Logic Apps,
+	// ResourceReference: Management Uri of the Resource in External System. This URL can be the Arm Resource Id of Logic Apps,
 	// Function Apps or API Apps.
-	ResourceId *string `json:"resourceId,omitempty"`
+	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 
 	// +kubebuilder:validation:MaxLength=300
 	// +kubebuilder:validation:MinLength=1
@@ -390,7 +388,7 @@ func (backend *Service_Backend_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		backend.Properties != nil ||
 		backend.Protocol != nil ||
 		backend.Proxy != nil ||
-		backend.ResourceId != nil ||
+		backend.ResourceReference != nil ||
 		backend.Title != nil ||
 		backend.Tls != nil ||
 		backend.Url != nil {
@@ -428,8 +426,12 @@ func (backend *Service_Backend_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		proxy := *proxy_ARM.(*BackendProxyContract_ARM)
 		result.Properties.Proxy = &proxy
 	}
-	if backend.ResourceId != nil {
-		resourceId := *backend.ResourceId
+	if backend.ResourceReference != nil {
+		resourceIdARMID, err := resolved.ResolvedReferences.Lookup(*backend.ResourceReference)
+		if err != nil {
+			return nil, err
+		}
+		resourceId := resourceIdARMID
 		result.Properties.ResourceId = &resourceId
 	}
 	if backend.Title != nil {
@@ -532,14 +534,7 @@ func (backend *Service_Backend_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property "ResourceId":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ResourceId != nil {
-			resourceId := *typedInput.Properties.ResourceId
-			backend.ResourceId = &resourceId
-		}
-	}
+	// no assignment for property "ResourceReference"
 
 	// Set property "Title":
 	// copying flattened property:
@@ -693,12 +688,12 @@ func (backend *Service_Backend_Spec) AssignProperties_From_Service_Backend_Spec(
 		backend.Proxy = nil
 	}
 
-	// ResourceId
-	if source.ResourceId != nil {
-		resourceId := *source.ResourceId
-		backend.ResourceId = &resourceId
+	// ResourceReference
+	if source.ResourceReference != nil {
+		resourceReference := source.ResourceReference.Copy()
+		backend.ResourceReference = &resourceReference
 	} else {
-		backend.ResourceId = nil
+		backend.ResourceReference = nil
 	}
 
 	// Title
@@ -804,12 +799,12 @@ func (backend *Service_Backend_Spec) AssignProperties_To_Service_Backend_Spec(de
 		destination.Proxy = nil
 	}
 
-	// ResourceId
-	if backend.ResourceId != nil {
-		resourceId := *backend.ResourceId
-		destination.ResourceId = &resourceId
+	// ResourceReference
+	if backend.ResourceReference != nil {
+		resourceReference := backend.ResourceReference.Copy()
+		destination.ResourceReference = &resourceReference
 	} else {
-		destination.ResourceId = nil
+		destination.ResourceReference = nil
 	}
 
 	// Title
@@ -906,12 +901,12 @@ func (backend *Service_Backend_Spec) Initialize_From_Service_Backend_STATUS(sour
 		backend.Proxy = nil
 	}
 
-	// ResourceId
+	// ResourceReference
 	if source.ResourceId != nil {
-		resourceId := *source.ResourceId
-		backend.ResourceId = &resourceId
+		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
+		backend.ResourceReference = &resourceReference
 	} else {
-		backend.ResourceId = nil
+		backend.ResourceReference = nil
 	}
 
 	// Title

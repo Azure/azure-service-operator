@@ -149,7 +149,6 @@ func AddIndependentPropertyGeneratorsForService_Backend_Spec(gens map[string]gop
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["Protocol"] = gen.PtrOf(gen.AlphaString())
-	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["Title"] = gen.PtrOf(gen.AlphaString())
 	gens["Url"] = gen.PtrOf(gen.AlphaString())
 }

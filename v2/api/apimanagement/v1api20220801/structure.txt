@@ -45,9 +45,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │   │   │   │   ├── Rule 0: MaxLength: 2000
 │   │   │   │   └── Rule 1: MinLength: 1
 │   │   │   └── Username: *string
-│   │   ├── ResourceId: Validated<*string> (2 rules)
-│   │   │   ├── Rule 0: MaxLength: 2000
-│   │   │   └── Rule 1: MinLength: 1
+│   │   ├── ResourceReference: *genruntime.ResourceReference
 │   │   ├── Title: Validated<*string> (2 rules)
 │   │   │   ├── Rule 0: MaxLength: 300
 │   │   │   └── Rule 1: MinLength: 1
