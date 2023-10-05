@@ -717,6 +717,11 @@ objectModelConfiguration:
           $isSecret: true
         IdentityClientId:
           $importConfigMapMode: optional
+      KeyVaultContractCreateProperties:
+        IdentityClientId:
+          $importConfigMapMode: optional
+        SecretIdentifier:
+          $armReference: true
       Service:
         $export: true
         $supportedFrom: v2.4.0

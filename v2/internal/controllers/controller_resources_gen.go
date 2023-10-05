@@ -233,10 +233,21 @@ func getKnownStorageTypes() []*registration.StorageType {
 	var result []*registration.StorageType
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.Api)})
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.Backend)})
-	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.NamedValue)})
-	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.Policy)})
-	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.PolicyFragment)})
-	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.Product)})
+	result = append(result, &registration.StorageType{
+		Obj: new(apimanagement_v20220801s.NamedValue),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.keyVault.identityClientIdFromConfig",
+				Func: indexApimanagementNamedValueIdentityClientIdFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.keyVault.identityClientIdFromConfig"}, &apimanagement_v20220801s.NamedValueList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{
 		Obj: new(apimanagement_v20220801s.Service),
 		Indexes: []registration.Index{
@@ -2041,6 +2052,21 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &web_customizations.ServerFarmExtension{})
 	result = append(result, &web_customizations.SiteExtension{})
 	return result
+}
+
+// indexApimanagementNamedValueIdentityClientIdFromConfig an index function for apimanagement_v20220801s.NamedValue .spec.keyVault.identityClientIdFromConfig
+func indexApimanagementNamedValueIdentityClientIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.NamedValue)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.KeyVault == nil {
+		return nil
+	}
+	if obj.Spec.KeyVault.IdentityClientIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.KeyVault.IdentityClientIdFromConfig.Index()
 }
 
 // indexApimanagementServiceCertificatesCertificatePassword an index function for apimanagement_v20220801s.Service .spec.certificates.certificatePassword

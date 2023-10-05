@@ -208,9 +208,13 @@ func (value *Service_NamedValue_STATUS) ConvertStatusTo(destination genruntime.C
 // Storage version of v1api20220801.KeyVaultContractCreateProperties
 // Create keyVault contract details.
 type KeyVaultContractCreateProperties struct {
-	IdentityClientId *string                `json:"identityClientId,omitempty"`
-	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SecretIdentifier *string                `json:"secretIdentifier,omitempty"`
+	IdentityClientId           *string                        `json:"identityClientId,omitempty" optionalConfigMapPair:"IdentityClientId"`
+	IdentityClientIdFromConfig *genruntime.ConfigMapReference `json:"identityClientIdFromConfig,omitempty" optionalConfigMapPair:"IdentityClientId"`
+	PropertyBag                genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+
+	// SecretIdentifierReference: Key vault secret identifier for fetching secret. Providing a versioned secret will prevent
+	// auto-refresh. This requires API Management service to be configured with aka.ms/apimmsi
+	SecretIdentifierReference *genruntime.ResourceReference `armReference:"SecretIdentifier" json:"secretIdentifierReference,omitempty"`
 }
 
 // Storage version of v1api20220801.KeyVaultContractProperties_STATUS

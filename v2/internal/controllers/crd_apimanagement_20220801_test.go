@@ -51,7 +51,7 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 		},
 	}
 
-	// When you are debugging, you can use this to create the APIM service once and not delete it
+	// TODO: When you are debugging, you can use this to create the APIM service once and not delete it
 	tc.CreateResourceAndWaitWithoutCleanup(&service)
 	// tc.CreateResourceAndWait(&service)
 
