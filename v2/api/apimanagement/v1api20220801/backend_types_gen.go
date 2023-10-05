@@ -2139,7 +2139,7 @@ func (properties *BackendProperties_STATUS) AssignProperties_To_BackendPropertie
 // Details of the Backend WebProxy Server to use in the Request to Backend.
 type BackendProxyContract struct {
 	// Password: Password to connect to the WebProxy Server
-	Password *string `json:"password,omitempty"`
+	Password *genruntime.SecretReference `json:"password,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:MaxLength=2000
@@ -2163,7 +2163,11 @@ func (contract *BackendProxyContract) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property "Password":
 	if contract.Password != nil {
-		password := *contract.Password
+		passwordSecret, err := resolved.ResolvedSecrets.Lookup(*contract.Password)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property Password")
+		}
+		password := passwordSecret
 		result.Password = &password
 	}
 
@@ -2193,11 +2197,7 @@ func (contract *BackendProxyContract) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendProxyContract_ARM, got %T", armInput)
 	}
 
-	// Set property "Password":
-	if typedInput.Password != nil {
-		password := *typedInput.Password
-		contract.Password = &password
-	}
+	// no assignment for property "Password"
 
 	// Set property "Url":
 	if typedInput.Url != nil {
@@ -2219,7 +2219,12 @@ func (contract *BackendProxyContract) PopulateFromARM(owner genruntime.Arbitrary
 func (contract *BackendProxyContract) AssignProperties_From_BackendProxyContract(source *v20220801s.BackendProxyContract) error {
 
 	// Password
-	contract.Password = genruntime.ClonePointerToString(source.Password)
+	if source.Password != nil {
+		password := source.Password.Copy()
+		contract.Password = &password
+	} else {
+		contract.Password = nil
+	}
 
 	// Url
 	if source.Url != nil {
@@ -2242,7 +2247,12 @@ func (contract *BackendProxyContract) AssignProperties_To_BackendProxyContract(d
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Password
-	destination.Password = genruntime.ClonePointerToString(contract.Password)
+	if contract.Password != nil {
+		password := contract.Password.Copy()
+		destination.Password = &password
+	} else {
+		destination.Password = nil
+	}
 
 	// Url
 	if contract.Url != nil {
@@ -2269,9 +2279,6 @@ func (contract *BackendProxyContract) AssignProperties_To_BackendProxyContract(d
 // Initialize_From_BackendProxyContract_STATUS populates our BackendProxyContract from the provided source BackendProxyContract_STATUS
 func (contract *BackendProxyContract) Initialize_From_BackendProxyContract_STATUS(source *BackendProxyContract_STATUS) error {
 
-	// Password
-	contract.Password = genruntime.ClonePointerToString(source.Password)
-
 	// Url
 	if source.Url != nil {
 		url := *source.Url
@@ -2289,9 +2296,6 @@ func (contract *BackendProxyContract) Initialize_From_BackendProxyContract_STATU
 
 // Details of the Backend WebProxy Server to use in the Request to Backend.
 type BackendProxyContract_STATUS struct {
-	// Password: Password to connect to the WebProxy Server
-	Password *string `json:"password,omitempty"`
-
 	// Url: WebProxy Server AbsoluteUri property which includes the entire URI stored in the Uri instance, including all
 	// fragments and query strings.
 	Url *string `json:"url,omitempty"`
@@ -2314,12 +2318,6 @@ func (contract *BackendProxyContract_STATUS) PopulateFromARM(owner genruntime.Ar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendProxyContract_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property "Password":
-	if typedInput.Password != nil {
-		password := *typedInput.Password
-		contract.Password = &password
-	}
-
 	// Set property "Url":
 	if typedInput.Url != nil {
 		url := *typedInput.Url
@@ -2339,9 +2337,6 @@ func (contract *BackendProxyContract_STATUS) PopulateFromARM(owner genruntime.Ar
 // AssignProperties_From_BackendProxyContract_STATUS populates our BackendProxyContract_STATUS from the provided source BackendProxyContract_STATUS
 func (contract *BackendProxyContract_STATUS) AssignProperties_From_BackendProxyContract_STATUS(source *v20220801s.BackendProxyContract_STATUS) error {
 
-	// Password
-	contract.Password = genruntime.ClonePointerToString(source.Password)
-
 	// Url
 	contract.Url = genruntime.ClonePointerToString(source.Url)
 
@@ -2356,9 +2351,6 @@ func (contract *BackendProxyContract_STATUS) AssignProperties_From_BackendProxyC
 func (contract *BackendProxyContract_STATUS) AssignProperties_To_BackendProxyContract_STATUS(destination *v20220801s.BackendProxyContract_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// Password
-	destination.Password = genruntime.ClonePointerToString(contract.Password)
 
 	// Url
 	destination.Url = genruntime.ClonePointerToString(contract.Url)

@@ -75,9 +75,6 @@ type BackendProperties_STATUS_ARM struct {
 
 // Details of the Backend WebProxy Server to use in the Request to Backend.
 type BackendProxyContract_STATUS_ARM struct {
-	// Password: Password to connect to the WebProxy Server
-	Password *string `json:"password,omitempty"`
-
 	// Url: WebProxy Server AbsoluteUri property which includes the entire URI stored in the Uri instance, including all
 	// fragments and query strings.
 	Url *string `json:"url,omitempty"`

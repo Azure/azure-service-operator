@@ -231,7 +231,21 @@ import (
 // getKnownStorageTypes returns the list of storage types which can be reconciled.
 func getKnownStorageTypes() []*registration.StorageType {
 	var result []*registration.StorageType
-	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.Backend)})
+	result = append(result, &registration.StorageType{
+		Obj: new(apimanagement_v20220801s.Backend),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.proxy.password",
+				Func: indexApimanagementBackendPassword,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.proxy.password"}, &apimanagement_v20220801s.BackendList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{
 		Obj: new(apimanagement_v20220801s.NamedValue),
 		Indexes: []registration.Index{
@@ -2035,6 +2049,21 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &web_customizations.ServerFarmExtension{})
 	result = append(result, &web_customizations.SiteExtension{})
 	return result
+}
+
+// indexApimanagementBackendPassword an index function for apimanagement_v20220801s.Backend .spec.proxy.password
+func indexApimanagementBackendPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.Backend)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Proxy == nil {
+		return nil
+	}
+	if obj.Spec.Proxy.Password == nil {
+		return nil
+	}
+	return obj.Spec.Proxy.Password.Index()
 }
 
 // indexApimanagementNamedValueIdentityClientIdFromConfig an index function for apimanagement_v20220801s.NamedValue .spec.keyVault.identityClientIdFromConfig

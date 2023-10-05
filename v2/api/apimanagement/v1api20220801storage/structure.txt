@@ -37,7 +37,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── Protocol: *string
 │   │   ├── Proxy: *Object (4 properties)
-│   │   │   ├── Password: *string
+│   │   │   ├── Password: *genruntime.SecretReference
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── Url: *string
 │   │   │   └── Username: *string
@@ -78,8 +78,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
 │       │           └── PropertyBag: genruntime.PropertyBag
 │       ├── PropertyBag: genruntime.PropertyBag
 │       ├── Protocol: *string
-│       ├── Proxy: *Object (4 properties)
-│       │   ├── Password: *string
+│       ├── Proxy: *Object (3 properties)
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   ├── Url: *string
 │       │   └── Username: *string

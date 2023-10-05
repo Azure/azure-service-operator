@@ -696,6 +696,9 @@ objectModelConfiguration:
       ApiManagementServiceProperties:
         PublicIpAddressId:
           $armReference: true
+      BackendProxyContract:
+        Password:
+          $isSecret: true
       CertificateInformation:
         Expiry:
           $importConfigMapMode: optional

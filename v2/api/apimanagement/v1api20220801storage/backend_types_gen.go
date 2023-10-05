@@ -258,16 +258,15 @@ type BackendProperties_STATUS struct {
 // Storage version of v1api20220801.BackendProxyContract
 // Details of the Backend WebProxy Server to use in the Request to Backend.
 type BackendProxyContract struct {
-	Password    *string                `json:"password,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Url         *string                `json:"url,omitempty"`
-	Username    *string                `json:"username,omitempty"`
+	Password    *genruntime.SecretReference `json:"password,omitempty"`
+	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	Url         *string                     `json:"url,omitempty"`
+	Username    *string                     `json:"username,omitempty"`
 }
 
 // Storage version of v1api20220801.BackendProxyContract_STATUS
 // Details of the Backend WebProxy Server to use in the Request to Backend.
 type BackendProxyContract_STATUS struct {
-	Password    *string                `json:"password,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Url         *string                `json:"url,omitempty"`
 	Username    *string                `json:"username,omitempty"`
