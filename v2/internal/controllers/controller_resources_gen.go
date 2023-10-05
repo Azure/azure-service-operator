@@ -248,6 +248,9 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.Policy)})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.PolicyFragment)})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.Product)})
 	result = append(result, &registration.StorageType{
 		Obj: new(apimanagement_v20220801s.Service),
 		Indexes: []registration.Index{

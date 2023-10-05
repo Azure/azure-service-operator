@@ -82,6 +82,11 @@ typeFilters:
     version: v*20220131preview
     because: We want to export this particular preview version
 
+  # - action: include
+  #   group: apimanagement
+  #   version: v*20230301preview
+  #   because: We want to export this particular preview version
+
   - action: include
     group: common
     because: we need these for common resource properties
@@ -746,6 +751,8 @@ objectModelConfiguration:
       Service_Product:
         $exportAs: Product
         $supportedFrom: v2.4.0
+      # TODO: This generates 2 Keys, but also accepts them as input.
+      # Find a way to make this work.
       Service_Subscription:
         $exportAs: Subscription
         $supportedFrom: v2.4.0
@@ -755,6 +762,19 @@ objectModelConfiguration:
       VirtualNetworkConfiguration:
         SubnetResourceId:
           $armReference: true
+    # TODO: New APIM version
+    # 2023-03-01-preview:
+    #   Service:
+    #     $export: true
+    #     $supportedFrom: v2.4.0
+    #   CertificateConfiguration:
+    #     CertificatePassword:
+    #       $isSecret: true
+    #   HostnameConfiguration:
+    #     CertificatePassword:
+    #       $isSecret: true
+    #     IdentityClientId:
+    #       $importConfigMapMode: optional
   appconfiguration:
     2022-05-01:
       ConfigurationStore:

@@ -80,7 +80,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm?api-version=2022-08-01
     method: PUT
   response:
-    body: '{"etag":"AAAAAABLujk=","properties":{"publisherEmail":"ASO@testing.com","publisherName":"ASOTesting","notificationSenderEmail":"apimgmt-noreply@mail.windowsazure.com","provisioningState":"Succeeded","targetProvisioningState":"","createdAtUtc":"2001-02-03T04:05:06Z","gatewayUrl":"https://asotest-apim-sczlzm.azure-api.net","gatewayRegionalUrl":"https://asotest-apim-sczlzm-westus2-01.regional.azure-api.net","portalUrl":"https://asotest-apim-sczlzm.portal.azure-api.net","developerPortalUrl":"https://asotest-apim-sczlzm.developer.azure-api.net","managementApiUrl":"https://asotest-apim-sczlzm.management.azure-api.net","scmUrl":"https://asotest-apim-sczlzm.scm.azure-api.net","hostnameConfigurations":[{"type":"Proxy","hostName":"asotest-apim-sczlzm.azure-api.net","encodedCertificate":null,"keyVaultId":null,"certificatePassword":null,"negotiateClientCertificate":false,"certificate":null,"defaultSslBinding":true,"identityClientId":null,"certificateSource":"BuiltIn","certificateStatus":null}],"publicIPAddresses":["51.143.121.123"],"privateIPAddresses":null,"additionalLocations":null,"virtualNetworkConfiguration":null,"customProperties":{"Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Ssl30":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2":"False"},"virtualNetworkType":"None","certificates":null,"disableGateway":false,"natGatewayState":"Disabled","outboundPublicIPAddresses":["51.143.121.123"],"apiVersionConstraint":{"minApiVersion":null},"publicIpAddressId":null,"publicNetworkAccess":"Enabled","privateEndpointConnections":null,"platformVersion":"stv2"},"sku":{"name":"Developer","capacity":1},"identity":null,"zones":null,"systemData":{"createdBy":"32329496-f577-4a3e-9103-429eb74063a6","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"32329496-f577-4a3e-9103-429eb74063a6","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm","name":"asotest-apim-sczlzm","type":"Microsoft.ApiManagement/service","location":"West
+    body: '{"etag":"AAAAAABLztM=","properties":{"publisherEmail":"ASO@testing.com","publisherName":"ASOTesting","notificationSenderEmail":"apimgmt-noreply@mail.windowsazure.com","provisioningState":"Succeeded","targetProvisioningState":"","createdAtUtc":"2001-02-03T04:05:06Z","gatewayUrl":"https://asotest-apim-sczlzm.azure-api.net","gatewayRegionalUrl":"https://asotest-apim-sczlzm-westus2-01.regional.azure-api.net","portalUrl":"https://asotest-apim-sczlzm.portal.azure-api.net","developerPortalUrl":"https://asotest-apim-sczlzm.developer.azure-api.net","managementApiUrl":"https://asotest-apim-sczlzm.management.azure-api.net","scmUrl":"https://asotest-apim-sczlzm.scm.azure-api.net","hostnameConfigurations":[{"type":"Proxy","hostName":"asotest-apim-sczlzm.azure-api.net","encodedCertificate":null,"keyVaultId":null,"certificatePassword":null,"negotiateClientCertificate":false,"certificate":null,"defaultSslBinding":true,"identityClientId":null,"certificateSource":"BuiltIn","certificateStatus":null}],"publicIPAddresses":["51.143.121.123"],"privateIPAddresses":null,"additionalLocations":null,"virtualNetworkConfiguration":null,"customProperties":{"Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Ssl30":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2":"False"},"virtualNetworkType":"None","certificates":null,"disableGateway":false,"natGatewayState":"Disabled","outboundPublicIPAddresses":["51.143.121.123"],"apiVersionConstraint":{"minApiVersion":null},"publicIpAddressId":null,"publicNetworkAccess":"Enabled","privateEndpointConnections":null,"platformVersion":"stv2"},"sku":{"name":"Developer","capacity":1},"identity":null,"zones":null,"systemData":{"createdBy":"32329496-f577-4a3e-9103-429eb74063a6","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"32329496-f577-4a3e-9103-429eb74063a6","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm","name":"asotest-apim-sczlzm","type":"Microsoft.ApiManagement/service","location":"West
       US 2","tags":{}}'
     headers:
       Cache-Control:
@@ -88,7 +88,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - '"AAAAAABLujk="'
+      - '"AAAAAABLztM="'
       Expires:
       - "-1"
       Pragma:
@@ -115,7 +115,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm?api-version=2022-08-01
     method: GET
   response:
-    body: '{"etag":"AAAAAABLujk=","properties":{"publisherEmail":"ASO@testing.com","publisherName":"ASOTesting","notificationSenderEmail":"apimgmt-noreply@mail.windowsazure.com","provisioningState":"Succeeded","targetProvisioningState":"","createdAtUtc":"2001-02-03T04:05:06Z","gatewayUrl":"https://asotest-apim-sczlzm.azure-api.net","gatewayRegionalUrl":"https://asotest-apim-sczlzm-westus2-01.regional.azure-api.net","portalUrl":"https://asotest-apim-sczlzm.portal.azure-api.net","developerPortalUrl":"https://asotest-apim-sczlzm.developer.azure-api.net","managementApiUrl":"https://asotest-apim-sczlzm.management.azure-api.net","scmUrl":"https://asotest-apim-sczlzm.scm.azure-api.net","hostnameConfigurations":[{"type":"Proxy","hostName":"asotest-apim-sczlzm.azure-api.net","encodedCertificate":null,"keyVaultId":null,"certificatePassword":null,"negotiateClientCertificate":false,"certificate":null,"defaultSslBinding":true,"identityClientId":null,"certificateSource":"BuiltIn","certificateStatus":null}],"publicIPAddresses":["51.143.121.123"],"privateIPAddresses":null,"additionalLocations":null,"virtualNetworkConfiguration":null,"customProperties":{"Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Ssl30":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2":"False"},"virtualNetworkType":"None","certificates":null,"disableGateway":false,"natGatewayState":"Disabled","outboundPublicIPAddresses":["51.143.121.123"],"apiVersionConstraint":{"minApiVersion":null},"publicIpAddressId":null,"publicNetworkAccess":"Enabled","privateEndpointConnections":null,"platformVersion":"stv2"},"sku":{"name":"Developer","capacity":1},"identity":null,"zones":null,"systemData":{"createdBy":"32329496-f577-4a3e-9103-429eb74063a6","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"32329496-f577-4a3e-9103-429eb74063a6","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm","name":"asotest-apim-sczlzm","type":"Microsoft.ApiManagement/service","location":"West
+    body: '{"etag":"AAAAAABLztM=","properties":{"publisherEmail":"ASO@testing.com","publisherName":"ASOTesting","notificationSenderEmail":"apimgmt-noreply@mail.windowsazure.com","provisioningState":"Succeeded","targetProvisioningState":"","createdAtUtc":"2001-02-03T04:05:06Z","gatewayUrl":"https://asotest-apim-sczlzm.azure-api.net","gatewayRegionalUrl":"https://asotest-apim-sczlzm-westus2-01.regional.azure-api.net","portalUrl":"https://asotest-apim-sczlzm.portal.azure-api.net","developerPortalUrl":"https://asotest-apim-sczlzm.developer.azure-api.net","managementApiUrl":"https://asotest-apim-sczlzm.management.azure-api.net","scmUrl":"https://asotest-apim-sczlzm.scm.azure-api.net","hostnameConfigurations":[{"type":"Proxy","hostName":"asotest-apim-sczlzm.azure-api.net","encodedCertificate":null,"keyVaultId":null,"certificatePassword":null,"negotiateClientCertificate":false,"certificate":null,"defaultSslBinding":true,"identityClientId":null,"certificateSource":"BuiltIn","certificateStatus":null}],"publicIPAddresses":["51.143.121.123"],"privateIPAddresses":null,"additionalLocations":null,"virtualNetworkConfiguration":null,"customProperties":{"Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Ssl30":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2":"False"},"virtualNetworkType":"None","certificates":null,"disableGateway":false,"natGatewayState":"Disabled","outboundPublicIPAddresses":["51.143.121.123"],"apiVersionConstraint":{"minApiVersion":null},"publicIpAddressId":null,"publicNetworkAccess":"Enabled","privateEndpointConnections":null,"platformVersion":"stv2"},"sku":{"name":"Developer","capacity":1},"identity":null,"zones":null,"systemData":{"createdBy":"32329496-f577-4a3e-9103-429eb74063a6","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"32329496-f577-4a3e-9103-429eb74063a6","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm","name":"asotest-apim-sczlzm","type":"Microsoft.ApiManagement/service","location":"West
       US 2","tags":{}}'
     headers:
       Cache-Control:
@@ -123,7 +123,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - '"AAAAAABLujk="'
+      - '"AAAAAABLztM="'
       Expires:
       - "-1"
       Pragma:
@@ -154,7 +154,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm?api-version=2022-08-01
     method: PUT
   response:
-    body: '{"etag":"AAAAAABLujo=","properties":{"publisherEmail":"ASO@testing.com","publisherName":"ASOTesting","notificationSenderEmail":"apimgmt-noreply@mail.windowsazure.com","provisioningState":"Succeeded","targetProvisioningState":"","createdAtUtc":"2001-02-03T04:05:06Z","gatewayUrl":"https://asotest-apim-sczlzm.azure-api.net","gatewayRegionalUrl":"https://asotest-apim-sczlzm-westus2-01.regional.azure-api.net","portalUrl":"https://asotest-apim-sczlzm.portal.azure-api.net","developerPortalUrl":"https://asotest-apim-sczlzm.developer.azure-api.net","managementApiUrl":"https://asotest-apim-sczlzm.management.azure-api.net","scmUrl":"https://asotest-apim-sczlzm.scm.azure-api.net","hostnameConfigurations":[{"type":"Proxy","hostName":"asotest-apim-sczlzm.azure-api.net","encodedCertificate":null,"keyVaultId":null,"certificatePassword":null,"negotiateClientCertificate":false,"certificate":null,"defaultSslBinding":true,"identityClientId":null,"certificateSource":"BuiltIn","certificateStatus":null}],"publicIPAddresses":["51.143.121.123"],"privateIPAddresses":null,"additionalLocations":null,"virtualNetworkConfiguration":null,"customProperties":{"Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Ssl30":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2":"False"},"virtualNetworkType":"None","certificates":null,"disableGateway":false,"natGatewayState":"Disabled","outboundPublicIPAddresses":["51.143.121.123"],"apiVersionConstraint":{"minApiVersion":null},"publicIpAddressId":null,"publicNetworkAccess":"Enabled","privateEndpointConnections":null,"platformVersion":"stv2"},"sku":{"name":"Developer","capacity":1},"identity":null,"zones":null,"systemData":{"createdBy":"32329496-f577-4a3e-9103-429eb74063a6","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"32329496-f577-4a3e-9103-429eb74063a6","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm","name":"asotest-apim-sczlzm","type":"Microsoft.ApiManagement/service","location":"West
+    body: '{"etag":"AAAAAABLztQ=","properties":{"publisherEmail":"ASO@testing.com","publisherName":"ASOTesting","notificationSenderEmail":"apimgmt-noreply@mail.windowsazure.com","provisioningState":"Succeeded","targetProvisioningState":"","createdAtUtc":"2001-02-03T04:05:06Z","gatewayUrl":"https://asotest-apim-sczlzm.azure-api.net","gatewayRegionalUrl":"https://asotest-apim-sczlzm-westus2-01.regional.azure-api.net","portalUrl":"https://asotest-apim-sczlzm.portal.azure-api.net","developerPortalUrl":"https://asotest-apim-sczlzm.developer.azure-api.net","managementApiUrl":"https://asotest-apim-sczlzm.management.azure-api.net","scmUrl":"https://asotest-apim-sczlzm.scm.azure-api.net","hostnameConfigurations":[{"type":"Proxy","hostName":"asotest-apim-sczlzm.azure-api.net","encodedCertificate":null,"keyVaultId":null,"certificatePassword":null,"negotiateClientCertificate":false,"certificate":null,"defaultSslBinding":true,"identityClientId":null,"certificateSource":"BuiltIn","certificateStatus":null}],"publicIPAddresses":["51.143.121.123"],"privateIPAddresses":null,"additionalLocations":null,"virtualNetworkConfiguration":null,"customProperties":{"Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Ssl30":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2":"False"},"virtualNetworkType":"None","certificates":null,"disableGateway":false,"natGatewayState":"Disabled","outboundPublicIPAddresses":["51.143.121.123"],"apiVersionConstraint":{"minApiVersion":null},"publicIpAddressId":null,"publicNetworkAccess":"Enabled","privateEndpointConnections":null,"platformVersion":"stv2"},"sku":{"name":"Developer","capacity":1},"identity":null,"zones":null,"systemData":{"createdBy":"32329496-f577-4a3e-9103-429eb74063a6","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"32329496-f577-4a3e-9103-429eb74063a6","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm","name":"asotest-apim-sczlzm","type":"Microsoft.ApiManagement/service","location":"West
       US 2","tags":{"scratchcard":"lanyard"}}'
     headers:
       Cache-Control:
@@ -162,7 +162,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - '"AAAAAABLujo="'
+      - '"AAAAAABLztQ="'
       Expires:
       - "-1"
       Pragma:
@@ -189,7 +189,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm?api-version=2022-08-01
     method: GET
   response:
-    body: '{"etag":"AAAAAABLujo=","properties":{"publisherEmail":"ASO@testing.com","publisherName":"ASOTesting","notificationSenderEmail":"apimgmt-noreply@mail.windowsazure.com","provisioningState":"Succeeded","targetProvisioningState":"","createdAtUtc":"2001-02-03T04:05:06Z","gatewayUrl":"https://asotest-apim-sczlzm.azure-api.net","gatewayRegionalUrl":"https://asotest-apim-sczlzm-westus2-01.regional.azure-api.net","portalUrl":"https://asotest-apim-sczlzm.portal.azure-api.net","developerPortalUrl":"https://asotest-apim-sczlzm.developer.azure-api.net","managementApiUrl":"https://asotest-apim-sczlzm.management.azure-api.net","scmUrl":"https://asotest-apim-sczlzm.scm.azure-api.net","hostnameConfigurations":[{"type":"Proxy","hostName":"asotest-apim-sczlzm.azure-api.net","encodedCertificate":null,"keyVaultId":null,"certificatePassword":null,"negotiateClientCertificate":false,"certificate":null,"defaultSslBinding":true,"identityClientId":null,"certificateSource":"BuiltIn","certificateStatus":null}],"publicIPAddresses":["51.143.121.123"],"privateIPAddresses":null,"additionalLocations":null,"virtualNetworkConfiguration":null,"customProperties":{"Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Ssl30":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2":"False"},"virtualNetworkType":"None","certificates":null,"disableGateway":false,"natGatewayState":"Disabled","outboundPublicIPAddresses":["51.143.121.123"],"apiVersionConstraint":{"minApiVersion":null},"publicIpAddressId":null,"publicNetworkAccess":"Enabled","privateEndpointConnections":null,"platformVersion":"stv2"},"sku":{"name":"Developer","capacity":1},"identity":null,"zones":null,"systemData":{"createdBy":"32329496-f577-4a3e-9103-429eb74063a6","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"32329496-f577-4a3e-9103-429eb74063a6","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm","name":"asotest-apim-sczlzm","type":"Microsoft.ApiManagement/service","location":"West
+    body: '{"etag":"AAAAAABLztQ=","properties":{"publisherEmail":"ASO@testing.com","publisherName":"ASOTesting","notificationSenderEmail":"apimgmt-noreply@mail.windowsazure.com","provisioningState":"Succeeded","targetProvisioningState":"","createdAtUtc":"2001-02-03T04:05:06Z","gatewayUrl":"https://asotest-apim-sczlzm.azure-api.net","gatewayRegionalUrl":"https://asotest-apim-sczlzm-westus2-01.regional.azure-api.net","portalUrl":"https://asotest-apim-sczlzm.portal.azure-api.net","developerPortalUrl":"https://asotest-apim-sczlzm.developer.azure-api.net","managementApiUrl":"https://asotest-apim-sczlzm.management.azure-api.net","scmUrl":"https://asotest-apim-sczlzm.scm.azure-api.net","hostnameConfigurations":[{"type":"Proxy","hostName":"asotest-apim-sczlzm.azure-api.net","encodedCertificate":null,"keyVaultId":null,"certificatePassword":null,"negotiateClientCertificate":false,"certificate":null,"defaultSslBinding":true,"identityClientId":null,"certificateSource":"BuiltIn","certificateStatus":null}],"publicIPAddresses":["51.143.121.123"],"privateIPAddresses":null,"additionalLocations":null,"virtualNetworkConfiguration":null,"customProperties":{"Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Ssl30":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30":"False","Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2":"False"},"virtualNetworkType":"None","certificates":null,"disableGateway":false,"natGatewayState":"Disabled","outboundPublicIPAddresses":["51.143.121.123"],"apiVersionConstraint":{"minApiVersion":null},"publicIpAddressId":null,"publicNetworkAccess":"Enabled","privateEndpointConnections":null,"platformVersion":"stv2"},"sku":{"name":"Developer","capacity":1},"identity":null,"zones":null,"systemData":{"createdBy":"32329496-f577-4a3e-9103-429eb74063a6","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"32329496-f577-4a3e-9103-429eb74063a6","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm","name":"asotest-apim-sczlzm","type":"Microsoft.ApiManagement/service","location":"West
       US 2","tags":{"scratchcard":"lanyard"}}'
     headers:
       Cache-Control:
@@ -197,7 +197,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - '"AAAAAABLujo="'
+      - '"AAAAAABLztQ="'
       Expires:
       - "-1"
       Pragma:
@@ -206,10 +206,12 @@ interactions:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-    status: 201 Created
-    code: 201
+    status: 200 OK
+    code: 200
     duration: ""
 - request:
     body: '{"name":"asotest-policyfragment-pmmefq","properties":{"description":"A
@@ -232,15 +234,11 @@ interactions:
       Cache-Control:
       - no-cache
       Content-Length:
-      - "426"
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - '"AAAAAAAADJA="'
+      - "0"
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/policyFragments/asotest-policyfragment-pmmefq?api-version=2022-08-01&asyncId=651e7635463461104891cd8c&asyncCode=201
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/policyFragments/asotest-policyfragment-pmmefq?api-version=2022-08-01&asyncId=651f10ca463461104891cdb2&asyncCode=201
       Pragma:
       - no-cache
       Server:
@@ -249,8 +247,8 @@ interactions:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
-    status: 201 Created
-    code: 201
+    status: 202 Accepted
+    code: 202
     duration: ""
 - request:
     body: '{"name":"test_namedvalue","properties":{"displayName":"My_Key","secret":false,"value":"It''s
@@ -277,7 +275,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/namedValues/test_namedvalue?api-version=2022-08-01&asyncId=651eb8e9463461104891cda1&asyncCode=201
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/namedValues/test_namedvalue?api-version=2022-08-01&asyncId=651f10cb463461104891cdb7&asyncCode=201
       Pragma:
       - no-cache
       Server:
@@ -290,127 +288,16 @@ interactions:
     code: 202
     duration: ""
 - request:
-    body: '{"name":"asotest-sub-nccflz","properties":{"displayName":"test_subscription","scope":"/apis"}}'
+    body: '{"name":"asotest-vs-chttou","properties":{"description":"A version set
+      for the account api","displayName":"/apiVersionSets/account-api","versioningScheme":"Segment"}}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "94"
+      - "166"
       Content-Type:
       - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/subscriptions/asotest-sub-nccflz?api-version=2022-08-01
-    method: PUT
-  response:
-    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/subscriptions/asotest-sub-nccflz\",\r\n
-      \ \"type\": \"Microsoft.ApiManagement/service/subscriptions\",\r\n  \"name\":
-      \"asotest-sub-nccflz\",\r\n  \"properties\": {\r\n    \"scope\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/apis\",\r\n
-      \   \"displayName\": \"test_subscription\",\r\n    \"state\": \"active\",\r\n
-      \   \"createdDate\": \"2001-02-03T04:05:06Z\",\r\n    \"startDate\": null,\r\n
-      \   \"expirationDate\": null,\r\n    \"endDate\": null,\r\n    \"notificationDate\":
-      null,\r\n    \"primaryKey\": \"b9201622b86e44b797605231d7e2b5b3\",\r\n    \"secondaryKey\":
-      \"6c75c9613a224661b9f11aa29ab79df6\",\r\n    \"stateComment\": null,\r\n    \"allowTracing\":
-      false\r\n  }\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "871"
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - '"AAAAAAAADJU="'
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 201 Created
-    code: 201
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/backends/test_backend?api-version=2022-08-01
-    method: GET
-  response:
-    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/backends/test_backend\",\r\n
-      \ \"type\": \"Microsoft.ApiManagement/service/backends\",\r\n  \"name\": \"test_backend\",\r\n
-      \ \"properties\": {\r\n    \"title\": null,\r\n    \"description\": \"A Decsription
-      about the backend\",\r\n    \"url\": \"https://www.bing.com\",\r\n    \"protocol\":
-      \"http\"\r\n  }\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - '"AAAAAAAADJA="'
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/namedValues/test_namedvalue?api-version=2022-08-01&asyncId=651eb8e9463461104891cda1&asyncCode=201
-    method: GET
-  response:
-    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/namedValues/test_namedvalue\",\r\n
-      \ \"type\": \"Microsoft.ApiManagement/service/namedValues\",\r\n  \"name\":
-      \"test_namedvalue\",\r\n  \"properties\": {\r\n    \"displayName\": \"My_Key\",\r\n
-      \   \"value\": \"It's value\",\r\n    \"tags\": null,\r\n    \"secret\": false\r\n
-      \ }\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "401"
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - '"AAAAAAAADJM="'
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 201 Created
-    code: 201
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
       Test-Request-Attempt:
       - "0"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/apiVersionSets/asotest-vs-chttou?api-version=2022-08-01
@@ -430,7 +317,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - '"AAAAAAAADG8="'
+      - '"AAAAAAAADLc="'
       Expires:
       - "-1"
       Pragma:
@@ -473,7 +360,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - '"AAAAAAAADHI="'
+      - '"AAAAAAAADLw="'
       Expires:
       - "-1"
       Pragma:
@@ -486,6 +373,198 @@ interactions:
       - nosniff
     status: 201 Created
     code: 201
+    duration: ""
+- request:
+    body: '{"name":"asotest-sub1-nccflz","properties":{"displayName":"Subscription
+      for all APIs","scope":"/apis"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "103"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/subscriptions/asotest-sub1-nccflz?api-version=2022-08-01
+    method: PUT
+  response:
+    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/subscriptions/asotest-sub1-nccflz\",\r\n
+      \ \"type\": \"Microsoft.ApiManagement/service/subscriptions\",\r\n  \"name\":
+      \"asotest-sub1-nccflz\",\r\n  \"properties\": {\r\n    \"scope\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/apis\",\r\n
+      \   \"displayName\": \"Subscription for all APIs\",\r\n    \"state\": \"active\",\r\n
+      \   \"createdDate\": \"2001-02-03T04:05:06Z\",\r\n    \"startDate\": null,\r\n
+      \   \"expirationDate\": null,\r\n    \"endDate\": null,\r\n    \"notificationDate\":
+      null,\r\n    \"primaryKey\": \"e6570b9d0f624e44bce5429df6de4fa2\",\r\n    \"secondaryKey\":
+      \"1386e4c5458f403999c638cf7991c840\",\r\n    \"stateComment\": null,\r\n    \"allowTracing\":
+      false\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "881"
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - '"AAAAAAAADL4="'
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/policyFragments/asotest-policyfragment-pmmefq?api-version=2022-08-01&asyncId=651f10ca463461104891cdb2&asyncCode=201
+    method: GET
+  response:
+    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/policyfragments/asotest-policyfragment-pmmefq\",\r\n
+      \ \"type\": \"Microsoft.ApiManagement/service/policyFragments\",\r\n  \"name\":
+      \"asotest-policyfragment-pmmefq\",\r\n  \"properties\": {\r\n    \"description\":
+      \"A Description about the policy fragment\",\r\n    \"value\": \"<fragment></fragment>\"\r\n
+      \ }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "440"
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - '"swwAAAAAAAA="'
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/apiVersionSets/asotest-vs-chttou?api-version=2022-08-01
+    method: GET
+  response:
+    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/apiVersionSets/asotest-vs-chttou\",\r\n
+      \ \"type\": \"Microsoft.ApiManagement/service/apiVersionSets\",\r\n  \"name\":
+      \"asotest-vs-chttou\",\r\n  \"properties\": {\r\n    \"displayName\": \"/apiVersionSets/account-api\",\r\n
+      \   \"description\": \"A version set for the account api\",\r\n    \"versioningScheme\":
+      \"Segment\",\r\n    \"versionQueryName\": null,\r\n    \"versionHeaderName\":
+      null\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - '"AAAAAAAADLc="'
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/namedValues/test_namedvalue?api-version=2022-08-01&asyncId=651f10cb463461104891cdb7&asyncCode=201
+    method: GET
+  response:
+    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/namedValues/test_namedvalue\",\r\n
+      \ \"type\": \"Microsoft.ApiManagement/service/namedValues\",\r\n  \"name\":
+      \"test_namedvalue\",\r\n  \"properties\": {\r\n    \"displayName\": \"My_Key\",\r\n
+      \   \"value\": \"It's value\",\r\n    \"tags\": null,\r\n    \"secret\": false\r\n
+      \ }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "401"
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - '"AAAAAAAADLY="'
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/backends/test_backend?api-version=2022-08-01
+    method: GET
+  response:
+    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/backends/test_backend\",\r\n
+      \ \"type\": \"Microsoft.ApiManagement/service/backends\",\r\n  \"name\": \"test_backend\",\r\n
+      \ \"properties\": {\r\n    \"title\": null,\r\n    \"description\": \"A Description
+      about the backend\",\r\n    \"url\": \"https://www.bing.com\",\r\n    \"protocol\":
+      \"http\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - '"AAAAAAAADLw="'
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
     duration: ""
 - request:
     body: ""
@@ -509,7 +588,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - '"AAAAAAAADJU="'
+      - '"AAAAAAAADL4="'
       Expires:
       - "-1"
       Pragma:
@@ -529,23 +608,25 @@ interactions:
     body: ""
     form: {}
     headers:
+      Accept:
+      - application/json
       Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/backends/test_backend?api-version=2022-08-01
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/policyFragments/asotest-policyfragment-pmmefq?api-version=2022-08-01
     method: GET
   response:
-    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/backends/test_backend\",\r\n
-      \ \"type\": \"Microsoft.ApiManagement/service/backends\",\r\n  \"name\": \"test_backend\",\r\n
-      \ \"properties\": {\r\n    \"title\": null,\r\n    \"description\": \"A Description
-      about the backend\",\r\n    \"url\": \"https://www.bing.com\",\r\n    \"protocol\":
-      \"http\"\r\n  }\r\n}"
+    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/policyfragments/asotest-policyfragment-pmmefq\",\r\n
+      \ \"type\": \"Microsoft.ApiManagement/service/policyFragments\",\r\n  \"name\":
+      \"asotest-policyfragment-pmmefq\",\r\n  \"properties\": {\r\n    \"description\":
+      \"A Description about the policy fragment\",\r\n    \"value\": \"<fragment></fragment>\"\r\n
+      \ }\r\n}"
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - '"AAAAAAAADJA="'
+      - '"swwAAAAAAAA="'
       Expires:
       - "-1"
       Pragma:
@@ -583,7 +664,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - '"AAAAAAAADJM="'
+      - '"AAAAAAAADLY="'
       Expires:
       - "-1"
       Pragma:
@@ -607,13 +688,90 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/subscriptions/asotest-sub-nccflz?api-version=2022-08-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/apiVersionSets/asotest-vs-chttou?api-version=2022-08-01
     method: GET
   response:
-    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/subscriptions/asotest-sub-nccflz\",\r\n
+    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/apiVersionSets/asotest-vs-chttou\",\r\n
+      \ \"type\": \"Microsoft.ApiManagement/service/apiVersionSets\",\r\n  \"name\":
+      \"asotest-vs-chttou\",\r\n  \"properties\": {\r\n    \"displayName\": \"/apiVersionSets/account-api\",\r\n
+      \   \"description\": \"A version set for the account api\",\r\n    \"versioningScheme\":
+      \"Segment\",\r\n    \"versionQueryName\": null,\r\n    \"versionHeaderName\":
+      null\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - '"AAAAAAAADLc="'
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/backends/test_backend?api-version=2022-08-01
+    method: GET
+  response:
+    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/backends/test_backend\",\r\n
+      \ \"type\": \"Microsoft.ApiManagement/service/backends\",\r\n  \"name\": \"test_backend\",\r\n
+      \ \"properties\": {\r\n    \"title\": null,\r\n    \"description\": \"A Description
+      about the backend\",\r\n    \"url\": \"https://www.bing.com\",\r\n    \"protocol\":
+      \"http\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - '"AAAAAAAADLw="'
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/subscriptions/asotest-sub1-nccflz?api-version=2022-08-01
+    method: GET
+  response:
+    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/subscriptions/asotest-sub1-nccflz\",\r\n
       \ \"type\": \"Microsoft.ApiManagement/service/subscriptions\",\r\n  \"name\":
-      \"asotest-sub-nccflz\",\r\n  \"properties\": {\r\n    \"scope\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/apis\",\r\n
-      \   \"displayName\": \"test_subscription\",\r\n    \"state\": \"active\",\r\n
+      \"asotest-sub1-nccflz\",\r\n  \"properties\": {\r\n    \"scope\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/apis\",\r\n
+      \   \"displayName\": \"Subscription for all APIs\",\r\n    \"state\": \"active\",\r\n
       \   \"createdDate\": \"2001-02-03T04:05:06Z\",\r\n    \"startDate\": null,\r\n
       \   \"expirationDate\": null,\r\n    \"endDate\": null,\r\n    \"notificationDate\":
       null,\r\n    \"stateComment\": null,\r\n    \"allowTracing\": false\r\n  }\r\n}"
@@ -623,7 +781,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - '"AAAAAAAADJU="'
+      - '"AAAAAAAADL4="'
       Expires:
       - "-1"
       Pragma:
@@ -647,7 +805,191 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/policyFragments/asotest-policyfragment-pmmefq?api-version=2022-08-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/subscriptions/asotest-sub1-nccflz?api-version=2022-08-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"asotest-api-gbnjuu","properties":{"apiVersion":"2.0.0","apiRevision":"v1","apiRevisionDescription":"First
+      Revision","apiVersionDescription":"Second Version","apiVersionSetId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/apiVersionSets/asotest-vs-chttou","contact":{"email":"test@test.com","name":"Test","url":"https://www.bing.com"},"description":"A
+      Description about the api","displayName":"account-api","isCurrent":true,"path":"/account-api","protocols":["https"],"subscriptionRequired":false,"termsOfServiceUrl":"https://www.bing.com/tos","type":"http"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "669"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/apis/asotest-api-gbnjuu?api-version=2022-08-01
+    method: PUT
+  response:
+    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/apis/asotest-api-gbnjuu\",\r\n
+      \ \"type\": \"Microsoft.ApiManagement/service/apis\",\r\n  \"name\": \"asotest-api-gbnjuu\",\r\n
+      \ \"properties\": {\r\n    \"displayName\": \"account-api\",\r\n    \"apiRevision\":
+      \"1\",\r\n    \"description\": \"A Description about the api\",\r\n    \"subscriptionRequired\":
+      false,\r\n    \"serviceUrl\": null,\r\n    \"path\": \"account-api\",\r\n    \"protocols\":
+      [\r\n      \"https\"\r\n    ],\r\n    \"authenticationSettings\": {\r\n      \"oAuth2\":
+      null,\r\n      \"openid\": null\r\n    },\r\n    \"subscriptionKeyParameterNames\":
+      {\r\n      \"header\": \"Ocp-Apim-Subscription-Key\",\r\n      \"query\": \"subscription-key\"\r\n
+      \   },\r\n    \"termsOfServiceUrl\": \"https://www.bing.com/tos\",\r\n    \"contact\":
+      {\r\n      \"name\": \"Test\",\r\n      \"url\": \"https://www.bing.com\",\r\n
+      \     \"email\": \"test@test.com\"\r\n    },\r\n    \"isCurrent\": true,\r\n
+      \   \"apiRevisionDescription\": \"First Revision\",\r\n    \"apiVersion\": \"2.0.0\",\r\n
+      \   \"apiVersionDescription\": \"Second Version\",\r\n    \"apiVersionSetId\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/apiVersionSets/asotest-vs-chttou\",\r\n
+      \   \"apiVersionSet\": {\r\n      \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/apiVersionSets/asotest-vs-chttou\",\r\n
+      \     \"name\": \"/apiVersionSets/account-api\",\r\n      \"description\": \"A
+      version set for the account api\",\r\n      \"versioningScheme\": \"Segment\",\r\n
+      \     \"versionQueryName\": null,\r\n      \"versionHeaderName\": null\r\n    }\r\n
+      \ }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "1718"
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - '"AAAAAAAADMY="'
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/apis/asotest-api-gbnjuu?api-version=2022-08-01
+    method: GET
+  response:
+    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/apis/asotest-api-gbnjuu\",\r\n
+      \ \"type\": \"Microsoft.ApiManagement/service/apis\",\r\n  \"name\": \"asotest-api-gbnjuu\",\r\n
+      \ \"properties\": {\r\n    \"displayName\": \"account-api\",\r\n    \"apiRevision\":
+      \"1\",\r\n    \"description\": \"A Description about the api\",\r\n    \"subscriptionRequired\":
+      false,\r\n    \"serviceUrl\": null,\r\n    \"path\": \"account-api\",\r\n    \"protocols\":
+      [\r\n      \"https\"\r\n    ],\r\n    \"authenticationSettings\": {\r\n      \"oAuth2\":
+      null,\r\n      \"openid\": null,\r\n      \"oAuth2AuthenticationSettings\":
+      [],\r\n      \"openidAuthenticationSettings\": []\r\n    },\r\n    \"subscriptionKeyParameterNames\":
+      {\r\n      \"header\": \"Ocp-Apim-Subscription-Key\",\r\n      \"query\": \"subscription-key\"\r\n
+      \   },\r\n    \"termsOfServiceUrl\": \"https://www.bing.com/tos\",\r\n    \"contact\":
+      {\r\n      \"name\": \"Test\",\r\n      \"url\": \"https://www.bing.com\",\r\n
+      \     \"email\": \"test@test.com\"\r\n    },\r\n    \"isCurrent\": true,\r\n
+      \   \"apiRevisionDescription\": \"First Revision\",\r\n    \"apiVersion\": \"2.0.0\",\r\n
+      \   \"apiVersionDescription\": \"Second Version\",\r\n    \"apiVersionSetId\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/apiVersionSets/asotest-vs-chttou\"\r\n
+      \ }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - '"AAAAAAAADMY="'
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/apis/asotest-api-gbnjuu?api-version=2022-08-01
+    method: GET
+  response:
+    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/apis/asotest-api-gbnjuu\",\r\n
+      \ \"type\": \"Microsoft.ApiManagement/service/apis\",\r\n  \"name\": \"asotest-api-gbnjuu\",\r\n
+      \ \"properties\": {\r\n    \"displayName\": \"account-api\",\r\n    \"apiRevision\":
+      \"1\",\r\n    \"description\": \"A Description about the api\",\r\n    \"subscriptionRequired\":
+      false,\r\n    \"serviceUrl\": null,\r\n    \"path\": \"account-api\",\r\n    \"protocols\":
+      [\r\n      \"https\"\r\n    ],\r\n    \"authenticationSettings\": {\r\n      \"oAuth2\":
+      null,\r\n      \"openid\": null,\r\n      \"oAuth2AuthenticationSettings\":
+      [],\r\n      \"openidAuthenticationSettings\": []\r\n    },\r\n    \"subscriptionKeyParameterNames\":
+      {\r\n      \"header\": \"Ocp-Apim-Subscription-Key\",\r\n      \"query\": \"subscription-key\"\r\n
+      \   },\r\n    \"termsOfServiceUrl\": \"https://www.bing.com/tos\",\r\n    \"contact\":
+      {\r\n      \"name\": \"Test\",\r\n      \"url\": \"https://www.bing.com\",\r\n
+      \     \"email\": \"test@test.com\"\r\n    },\r\n    \"isCurrent\": true,\r\n
+      \   \"apiRevisionDescription\": \"First Revision\",\r\n    \"apiVersion\": \"2.0.0\",\r\n
+      \   \"apiVersionDescription\": \"Second Version\",\r\n    \"apiVersionSetId\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/apiVersionSets/asotest-vs-chttou\"\r\n
+      \ }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - '"AAAAAAAADMY="'
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/namedValues/test_namedvalue?api-version=2022-08-01
     method: DELETE
   response:
     body: ""
@@ -673,83 +1015,19 @@ interactions:
     body: ""
     form: {}
     headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/apis/asotest-api-gbnjuu?api-version=2022-08-01
-    method: GET
-  response:
-    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/apis/asotest-api-gbnjuu\",\r\n
-      \ \"type\": \"Microsoft.ApiManagement/service/apis\",\r\n  \"name\": \"asotest-api-gbnjuu\",\r\n
-      \ \"properties\": {\r\n    \"displayName\": \"account-api\",\r\n    \"apiRevision\":
-      \"1\",\r\n    \"description\": \"A Description about the api\",\r\n    \"subscriptionRequired\":
-      false,\r\n    \"serviceUrl\": null,\r\n    \"path\": \"account-api\",\r\n    \"protocols\":
-      [\r\n      \"https\"\r\n    ],\r\n    \"authenticationSettings\": {\r\n      \"oAuth2\":
-      null,\r\n      \"openid\": null,\r\n      \"oAuth2AuthenticationSettings\":
-      [],\r\n      \"openidAuthenticationSettings\": []\r\n    },\r\n    \"subscriptionKeyParameterNames\":
-      {\r\n      \"header\": \"Ocp-Apim-Subscription-Key\",\r\n      \"query\": \"subscription-key\"\r\n
-      \   },\r\n    \"termsOfServiceUrl\": \"https://www.bing.com/tos\",\r\n    \"contact\":
-      {\r\n      \"name\": \"Test\",\r\n      \"url\": \"https://www.bing.com\",\r\n
-      \     \"email\": \"test@test.com\"\r\n    },\r\n    \"isCurrent\": true,\r\n
-      \   \"apiRevisionDescription\": \"First Revision\",\r\n    \"apiVersion\": \"2.0.0\",\r\n
-      \   \"apiVersionDescription\": \"Second Version\",\r\n    \"apiVersionSetId\":
-      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/apiVersionSets/asotest-vs-chttou\"\r\n
-      \ }\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - '"AAAAAAAADHw="'
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "1"
+      - "0"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/apis/asotest-api-gbnjuu?api-version=2022-08-01
-    method: GET
+    method: DELETE
   response:
-    body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/apis/asotest-api-gbnjuu\",\r\n
-      \ \"type\": \"Microsoft.ApiManagement/service/apis\",\r\n  \"name\": \"asotest-api-gbnjuu\",\r\n
-      \ \"properties\": {\r\n    \"displayName\": \"account-api\",\r\n    \"apiRevision\":
-      \"1\",\r\n    \"description\": \"A Description about the api\",\r\n    \"subscriptionRequired\":
-      false,\r\n    \"serviceUrl\": null,\r\n    \"path\": \"account-api\",\r\n    \"protocols\":
-      [\r\n      \"https\"\r\n    ],\r\n    \"authenticationSettings\": {\r\n      \"oAuth2\":
-      null,\r\n      \"openid\": null,\r\n      \"oAuth2AuthenticationSettings\":
-      [],\r\n      \"openidAuthenticationSettings\": []\r\n    },\r\n    \"subscriptionKeyParameterNames\":
-      {\r\n      \"header\": \"Ocp-Apim-Subscription-Key\",\r\n      \"query\": \"subscription-key\"\r\n
-      \   },\r\n    \"termsOfServiceUrl\": \"https://www.bing.com/tos\",\r\n    \"contact\":
-      {\r\n      \"name\": \"Test\",\r\n      \"url\": \"https://www.bing.com\",\r\n
-      \     \"email\": \"test@test.com\"\r\n    },\r\n    \"isCurrent\": true,\r\n
-      \   \"apiRevisionDescription\": \"First Revision\",\r\n    \"apiVersion\": \"2.0.0\",\r\n
-      \   \"apiVersionDescription\": \"Second Version\",\r\n    \"apiVersionSetId\":
-      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/apiVersionSets/asotest-vs-chttou\"\r\n
-      \ }\r\n}"
+    body: ""
     headers:
       Cache-Control:
       - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - '"AAAAAAAADHw="'
+      Content-Length:
+      - "0"
       Expires:
       - "-1"
       Pragma:
@@ -758,8 +1036,6 @@ interactions:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
     status: 200 OK
@@ -773,7 +1049,37 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/apis/asotest-api-gbnjuu?api-version=2022-08-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/backends/test_backend?api-version=2022-08-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/policyFragments/asotest-policyfragment-pmmefq?api-version=2022-08-01
     method: DELETE
   response:
     body: ""
@@ -822,34 +1128,4 @@ interactions:
       - nosniff
     status: 204 No Content
     code: 204
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pwokuh/providers/Microsoft.ApiManagement/service/asotest-apim-sczlzm/backends/test_backend?api-version=2022-08-01
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
     duration: ""

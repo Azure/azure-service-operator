@@ -257,10 +257,10 @@ func APIM_ProductAPI_CRUD(tc *testcommon.KubePerTestContext, service client.Obje
 			Path:                   to.Ptr("/account-api"),
 			SubscriptionRequired:   to.Ptr(false),
 			IsCurrent:              to.Ptr(true),
-			Contact:                &apim.ApiContactInformation{
-										Email: to.Ptr("test@test.com"),
-										Name:  to.Ptr("Test"),
-										Url:   to.Ptr("https://www.bing.com"),
+			Contact: &apim.ApiContactInformation{
+					Email: to.Ptr("test@test.com"),
+					Name:  to.Ptr("Test"),
+					Url:   to.Ptr("https://www.bing.com"),
 			},
 			//Format: 				to.Ptr(apim.ApiCreateOrUpdateProperties_Format_Swagger),
 		
