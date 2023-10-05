@@ -197,7 +197,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │   │   │   ├── HostName: *string
 │   │   │   ├── IdentityClientId: *string
 │   │   │   ├── IdentityClientIdFromConfig: *genruntime.ConfigMapReference
-│   │   │   ├── KeyVaultId: *string
+│   │   │   ├── KeyVaultReference: *genruntime.ResourceReference
 │   │   │   ├── NegotiateClientCertificate: *bool
 │   │   │   └── Type: *Enum (5 values)
 │   │   │       ├── "DeveloperPortal"

@@ -4431,10 +4431,10 @@ type HostnameConfiguration struct {
 	// access to the keyVault containing the SSL certificate.
 	IdentityClientIdFromConfig *genruntime.ConfigMapReference `json:"identityClientIdFromConfig,omitempty" optionalConfigMapPair:"IdentityClientId"`
 
-	// KeyVaultId: Url to the KeyVault Secret containing the Ssl Certificate. If absolute Url containing version is provided,
-	// auto-update of ssl certificate will not work. This requires Api Management service to be configured with aka.ms/apimmsi.
-	// The secret should be of type *application/x-pkcs12*
-	KeyVaultId *string `json:"keyVaultId,omitempty"`
+	// KeyVaultReference: Url to the KeyVault Secret containing the Ssl Certificate. If absolute Url containing version is
+	// provided, auto-update of ssl certificate will not work. This requires Api Management service to be configured with
+	// aka.ms/apimmsi. The secret should be of type *application/x-pkcs12*
+	KeyVaultReference *genruntime.ResourceReference `armReference:"KeyVaultId" json:"keyVaultReference,omitempty"`
 
 	// NegotiateClientCertificate: Specify true to always negotiate client certificate on the hostname. Default Value is false.
 	NegotiateClientCertificate *bool `json:"negotiateClientCertificate,omitempty"`
@@ -4518,9 +4518,13 @@ func (configuration *HostnameConfiguration) ConvertToARM(resolved genruntime.Con
 	}
 
 	// Set property "KeyVaultId":
-	if configuration.KeyVaultId != nil {
-		keyVaultId := *configuration.KeyVaultId
-		result.KeyVaultId = &keyVaultId
+	if configuration.KeyVaultReference != nil {
+		keyVaultReferenceARMID, err := resolved.ResolvedReferences.Lookup(*configuration.KeyVaultReference)
+		if err != nil {
+			return nil, err
+		}
+		keyVaultReference := keyVaultReferenceARMID
+		result.KeyVaultId = &keyVaultReference
 	}
 
 	// Set property "NegotiateClientCertificate":
@@ -4600,11 +4604,7 @@ func (configuration *HostnameConfiguration) PopulateFromARM(owner genruntime.Arb
 
 	// no assignment for property "IdentityClientIdFromConfig"
 
-	// Set property "KeyVaultId":
-	if typedInput.KeyVaultId != nil {
-		keyVaultId := *typedInput.KeyVaultId
-		configuration.KeyVaultId = &keyVaultId
-	}
+	// no assignment for property "KeyVaultReference"
 
 	// Set property "NegotiateClientCertificate":
 	if typedInput.NegotiateClientCertificate != nil {
@@ -4686,8 +4686,13 @@ func (configuration *HostnameConfiguration) AssignProperties_From_HostnameConfig
 		configuration.IdentityClientIdFromConfig = nil
 	}
 
-	// KeyVaultId
-	configuration.KeyVaultId = genruntime.ClonePointerToString(source.KeyVaultId)
+	// KeyVaultReference
+	if source.KeyVaultReference != nil {
+		keyVaultReference := source.KeyVaultReference.Copy()
+		configuration.KeyVaultReference = &keyVaultReference
+	} else {
+		configuration.KeyVaultReference = nil
+	}
 
 	// NegotiateClientCertificate
 	if source.NegotiateClientCertificate != nil {
@@ -4775,8 +4780,13 @@ func (configuration *HostnameConfiguration) AssignProperties_To_HostnameConfigur
 		destination.IdentityClientIdFromConfig = nil
 	}
 
-	// KeyVaultId
-	destination.KeyVaultId = genruntime.ClonePointerToString(configuration.KeyVaultId)
+	// KeyVaultReference
+	if configuration.KeyVaultReference != nil {
+		keyVaultReference := configuration.KeyVaultReference.Copy()
+		destination.KeyVaultReference = &keyVaultReference
+	} else {
+		destination.KeyVaultReference = nil
+	}
 
 	// NegotiateClientCertificate
 	if configuration.NegotiateClientCertificate != nil {
@@ -4853,8 +4863,13 @@ func (configuration *HostnameConfiguration) Initialize_From_HostnameConfiguratio
 	// IdentityClientId
 	configuration.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
 
-	// KeyVaultId
-	configuration.KeyVaultId = genruntime.ClonePointerToString(source.KeyVaultId)
+	// KeyVaultReference
+	if source.KeyVaultId != nil {
+		keyVaultReference := genruntime.CreateResourceReferenceFromARMID(*source.KeyVaultId)
+		configuration.KeyVaultReference = &keyVaultReference
+	} else {
+		configuration.KeyVaultReference = nil
+	}
 
 	// NegotiateClientCertificate
 	if source.NegotiateClientCertificate != nil {

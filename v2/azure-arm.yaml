@@ -711,6 +711,8 @@ objectModelConfiguration:
           $isSecret: true
         IdentityClientId:
           $importConfigMapMode: optional
+        KeyVaultId:
+          $armReference: true
       KeyVaultContractCreateProperties:
         IdentityClientId:
           $importConfigMapMode: optional
@@ -725,6 +727,7 @@ objectModelConfiguration:
       Service_NamedValue:
         $exportAs: NamedValue
         $supportedFrom: v2.4.0
+      # TODO: This type generates 2 keys if there is no input. But if there is input, it generate them.
       Service_Subscription:
         $exportAs: Subscription
         $supportedFrom: v2.4.0
