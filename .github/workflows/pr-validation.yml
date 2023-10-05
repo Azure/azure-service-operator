@@ -41,7 +41,18 @@ jobs:
             sha='${{ github.sha }}'
           fi
 
-          go get "$repo/v2@$sha"
+          # Sometimes go get will fail initially, so we retry it up to 5 times before giving up
+          FAILED=1
+          for i in {1..5}; do
+            if go get "$repo/v2@$sha" ; then
+              FAILED=0
+              break
+            fi
+            echo "Failed to 'go get' $repo/v2@$sha, retrying in 10 seconds…"
+            sleep 10
+          done
+
+          exit $FAILED
 
   test-generator:
     runs-on: [self-hosted, 1ES.Pool=aso-1es-pool]
