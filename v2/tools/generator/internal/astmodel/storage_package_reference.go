@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"fmt"
+
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 )
 
@@ -26,6 +27,7 @@ var _ DerivedPackageReference = StoragePackageReference{}
 // packages). We only do this to reduce the number of changes in a single PR. Once we've migrated all the packages
 // we can remove this.
 var legacyStorageGroups = set.Make(
+	"apimanagement",
 	"appconfiguration",
 	"authorization",
 	"batch",
