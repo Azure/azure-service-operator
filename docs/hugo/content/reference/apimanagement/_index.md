@@ -9,10 +9,15 @@ To install the CRDs for these resources, your ASO configuration must include `ap
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource     | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                   |
-|--------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------|
-| Backend      | 2022-08-01  | v1api20220801 | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20220801/v1api20220801_backend.yaml)      |
-| NamedValue   | 2022-08-01  | v1api20220801 | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20220801/v1api20220801_namedvalue.yaml)   |
-| Service      | 2022-08-01  | v1api20220801 | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20220801/v1api20220801_service.yaml)      |
-| Subscription | 2022-08-01  | v1api20220801 | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20220801/v1api20220801_subscription.yaml) |
+| Resource       | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                   |
+|----------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------|
+| Api            | 2022-08-01  | v1api20220801 | v2.4.0         | -                                                                                                                                        |
+| Backend        | 2022-08-01  | v1api20220801 | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20220801/v1api20220801_backend.yaml)      |
+| NamedValue     | 2022-08-01  | v1api20220801 | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20220801/v1api20220801_namedvalue.yaml)   |
+| Policy         | 2022-08-01  | v1api20220801 | v2.4.0         | -                                                                                                                                        |
+| PolicyFragment | 2022-08-01  | v1api20220801 | v2.4.0         | -                                                                                                                                        |
+| Product        | 2022-08-01  | v1api20220801 | v2.4.0         | -                                                                                                                                        |
+| Service        | 2022-08-01  | v1api20220801 | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20220801/v1api20220801_service.yaml)      |
+| Subscription   | 2022-08-01  | v1api20220801 | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20220801/v1api20220801_subscription.yaml) |
+| VersionSet     | 2022-08-01  | v1api20220801 | v2.4.0         | -                                                                                                                                        |
 

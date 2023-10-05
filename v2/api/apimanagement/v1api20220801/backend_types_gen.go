@@ -315,11 +315,6 @@ type BackendList struct {
 	Items           []Backend `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2022-08-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2022-08-01")
-
 type Service_Backend_Spec struct {
 	// +kubebuilder:validation:MaxLength=80
 	// +kubebuilder:validation:MinLength=1

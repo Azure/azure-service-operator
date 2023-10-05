@@ -693,6 +693,12 @@ objectModelConfiguration:
       AdditionalLocation:
         PublicIpAddressId:
           $armReference: true
+      ApiCreateOrUpdateProperties:
+        ApiVersionSetId:
+          $armReference: false
+      ApiVersionSetContractDetails:
+        Id: 
+          $armReference: false
       ApiManagementServiceProperties:
         PublicIpAddressId:
           $armReference: true
@@ -714,11 +720,26 @@ objectModelConfiguration:
       Service:
         $export: true
         $supportedFrom: v2.4.0
+      Service_Api:
+        $exportAs: Api
+        $supportedFrom: v2.4.0
+      Service_ApiVersionSet:
+        $exportAs: VersionSet
+        $supportedFrom: v2.4.0
       Service_Backend:
         $exportAs: Backend
         $supportedFrom: v2.4.0
       Service_NamedValue:
         $exportAs: NamedValue
+        $supportedFrom: v2.4.0
+      Service_Policy:
+        $exportAs: Policy
+        $supportedFrom: v2.4.0
+      Service_PolicyFragment:
+        $exportAs: PolicyFragment
+        $supportedFrom: v2.4.0
+      Service_Product:
+        $exportAs: Product
         $supportedFrom: v2.4.0
       Service_Subscription:
         $exportAs: Subscription

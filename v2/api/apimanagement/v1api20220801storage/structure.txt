@@ -2,6 +2,139 @@
 github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storage
 ├── APIVersion: Enum (1 value)
 │   └── "2022-08-01"
+├── Api: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
+│   ├── Spec: Object (29 properties)
+│   │   ├── APIVersion: *string
+│   │   ├── ApiRevision: *string
+│   │   ├── ApiRevisionDescription: *string
+│   │   ├── ApiType: *string
+│   │   ├── ApiVersionDescription: *string
+│   │   ├── ApiVersionSet: *Object (7 properties)
+│   │   │   ├── Description: *string
+│   │   │   ├── Id: *string
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── VersionHeaderName: *string
+│   │   │   ├── VersionQueryName: *string
+│   │   │   └── VersioningScheme: *string
+│   │   ├── ApiVersionSetId: *string
+│   │   ├── AuthenticationSettings: *Object (5 properties)
+│   │   │   ├── OAuth2: *Object (3 properties)
+│   │   │   │   ├── AuthorizationServerId: *string
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Scope: *string
+│   │   │   ├── OAuth2AuthenticationSettings: Object (3 properties)[]
+│   │   │   │   ├── AuthorizationServerId: *string
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Scope: *string
+│   │   │   ├── Openid: *Object (3 properties)
+│   │   │   │   ├── BearerTokenSendingMethods: string[]
+│   │   │   │   ├── OpenidProviderId: *string
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── OpenidAuthenticationSettings: Object (3 properties)[]
+│   │   │   │   ├── BearerTokenSendingMethods: string[]
+│   │   │   │   ├── OpenidProviderId: *string
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── AzureName: Validated<string> (3 rules)
+│   │   │   ├── Rule 0: MaxLength: 256
+│   │   │   ├── Rule 1: MinLength: 1
+│   │   │   └── Rule 2: Pattern: "^[^*#&+:<>?]+$"
+│   │   ├── Contact: *Object (4 properties)
+│   │   │   ├── Email: *string
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Url: *string
+│   │   ├── Description: *string
+│   │   ├── DisplayName: *string
+│   │   ├── Format: *string
+│   │   ├── IsCurrent: *bool
+│   │   ├── License: *Object (3 properties)
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Url: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Path: *string
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Protocols: string[]
+│   │   ├── ServiceUrl: *string
+│   │   ├── SourceApiId: *string
+│   │   ├── SubscriptionKeyParameterNames: *Object (3 properties)
+│   │   │   ├── Header: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Query: *string
+│   │   ├── SubscriptionRequired: *bool
+│   │   ├── TermsOfServiceUrl: *string
+│   │   ├── TranslateRequiredQueryParameters: *string
+│   │   ├── Type: *string
+│   │   ├── Value: *string
+│   │   └── WsdlSelector: *Object (3 properties)
+│   │       ├── PropertyBag: genruntime.PropertyBag
+│   │       ├── WsdlEndpointName: *string
+│   │       └── WsdlServiceName: *string
+│   └── Status: Object (26 properties)
+│       ├── APIVersion: *string
+│       ├── ApiRevision: *string
+│       ├── ApiRevisionDescription: *string
+│       ├── ApiVersionDescription: *string
+│       ├── ApiVersionSet: *Object (7 properties)
+│       │   ├── Description: *string
+│       │   ├── Id: *string
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── VersionHeaderName: *string
+│       │   ├── VersionQueryName: *string
+│       │   └── VersioningScheme: *string
+│       ├── ApiVersionSetId: *string
+│       ├── AuthenticationSettings: *Object (5 properties)
+│       │   ├── OAuth2: *Object (3 properties)
+│       │   │   ├── AuthorizationServerId: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── Scope: *string
+│       │   ├── OAuth2AuthenticationSettings: Object (3 properties)[]
+│       │   │   ├── AuthorizationServerId: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── Scope: *string
+│       │   ├── Openid: *Object (3 properties)
+│       │   │   ├── BearerTokenSendingMethods: string[]
+│       │   │   ├── OpenidProviderId: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── OpenidAuthenticationSettings: Object (3 properties)[]
+│       │   │   ├── BearerTokenSendingMethods: string[]
+│       │   │   ├── OpenidProviderId: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Conditions: conditions.Condition[]
+│       ├── Contact: *Object (4 properties)
+│       │   ├── Email: *string
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Url: *string
+│       ├── Description: *string
+│       ├── DisplayName: *string
+│       ├── Id: *string
+│       ├── IsCurrent: *bool
+│       ├── IsOnline: *bool
+│       ├── License: *Object (3 properties)
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Url: *string
+│       ├── Name: *string
+│       ├── Path: *string
+│       ├── PropertiesType: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Protocols: string[]
+│       ├── ServiceUrl: *string
+│       ├── SourceApiId: *string
+│       ├── SubscriptionKeyParameterNames: *Object (3 properties)
+│       │   ├── Header: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Query: *string
+│       ├── SubscriptionRequired: *bool
+│       ├── TermsOfServiceUrl: *string
+│       └── Type: *string
 ├── Backend: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
 │   ├── Spec: Object (13 properties)
@@ -127,6 +260,73 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
 │       ├── Tags: string[]
 │       ├── Type: *string
 │       └── Value: *string
+├── Policy: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
+│   ├── Spec: Object (5 properties)
+│   │   ├── Format: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── Value: *string
+│   └── Status: Object (7 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Format: *string
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Type: *string
+│       └── Value: *string
+├── PolicyFragment: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
+│   ├── Spec: Object (7 properties)
+│   │   ├── AzureName: Validated<string> (3 rules)
+│   │   │   ├── Rule 0: MaxLength: 80
+│   │   │   ├── Rule 1: MinLength: 1
+│   │   │   └── Rule 2: Pattern: "(^[\\w]+$)|(^[\\w][\\w\\-]+[\\w]$)"
+│   │   ├── Description: *string
+│   │   ├── Format: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── Value: *string
+│   └── Status: Object (8 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Description: *string
+│       ├── Format: *string
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Type: *string
+│       └── Value: *string
+├── Product: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
+│   ├── Spec: Object (11 properties)
+│   │   ├── ApprovalRequired: *bool
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: MaxLength: 256
+│   │   │   └── Rule 1: MinLength: 1
+│   │   ├── Description: *string
+│   │   ├── DisplayName: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── State: *string
+│   │   ├── SubscriptionRequired: *bool
+│   │   ├── SubscriptionsLimit: *int
+│   │   └── Terms: *string
+│   └── Status: Object (12 properties)
+│       ├── ApprovalRequired: *bool
+│       ├── Conditions: conditions.Condition[]
+│       ├── Description: *string
+│       ├── DisplayName: *string
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── State: *string
+│       ├── SubscriptionRequired: *bool
+│       ├── SubscriptionsLimit: *int
+│       ├── Terms: *string
+│       └── Type: *string
 ├── Service: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (25 properties)
@@ -339,42 +539,68 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
 │       │   └── Vnetid: *string
 │       ├── VirtualNetworkType: *string
 │       └── Zones: string[]
-└── Subscription: Resource
+├── Subscription: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
+│   ├── Spec: Object (12 properties)
+│   │   ├── AllowTracing: *bool
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: MaxLength: 256
+│   │   │   └── Rule 1: Pattern: "^[^*#&+:<>?]+$"
+│   │   ├── DisplayName: *string
+│   │   ├── OperatorSpec: *Object (2 properties)
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Secrets: *Object (3 properties)
+│   │   │       ├── PrimaryKey: *genruntime.SecretDestination
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── SecondaryKey: *genruntime.SecretDestination
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── OwnerId: *string
+│   │   ├── PrimaryKey: *string
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Scope: *string
+│   │   ├── SecondaryKey: *string
+│   │   └── State: *string
+│   └── Status: Object (16 properties)
+│       ├── AllowTracing: *bool
+│       ├── Conditions: conditions.Condition[]
+│       ├── CreatedDate: *string
+│       ├── DisplayName: *string
+│       ├── EndDate: *string
+│       ├── ExpirationDate: *string
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── NotificationDate: *string
+│       ├── OwnerId: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Scope: *string
+│       ├── StartDate: *string
+│       ├── State: *string
+│       ├── StateComment: *string
+│       └── Type: *string
+└── VersionSet: Resource
     ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
-    ├── Spec: Object (12 properties)
-    │   ├── AllowTracing: *bool
-    │   ├── AzureName: Validated<string> (2 rules)
-    │   │   ├── Rule 0: MaxLength: 256
-    │   │   └── Rule 1: Pattern: "^[^*#&+:<>?]+$"
+    ├── Spec: Object (9 properties)
+    │   ├── AzureName: Validated<string> (3 rules)
+    │   │   ├── Rule 0: MaxLength: 80
+    │   │   ├── Rule 1: MinLength: 1
+    │   │   └── Rule 2: Pattern: "^[^*#&+:<>?]+$"
+    │   ├── Description: *string
     │   ├── DisplayName: *string
-    │   ├── OperatorSpec: *Object (2 properties)
-    │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   └── Secrets: *Object (3 properties)
-    │   │       ├── PrimaryKey: *genruntime.SecretDestination
-    │   │       ├── PropertyBag: genruntime.PropertyBag
-    │   │       └── SecondaryKey: *genruntime.SecretDestination
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
-    │   ├── OwnerId: *string
-    │   ├── PrimaryKey: *string
     │   ├── PropertyBag: genruntime.PropertyBag
-    │   ├── Scope: *string
-    │   ├── SecondaryKey: *string
-    │   └── State: *string
-    └── Status: Object (16 properties)
-        ├── AllowTracing: *bool
+    │   ├── VersionHeaderName: *string
+    │   ├── VersionQueryName: *string
+    │   └── VersioningScheme: *string
+    └── Status: Object (10 properties)
         ├── Conditions: conditions.Condition[]
-        ├── CreatedDate: *string
+        ├── Description: *string
         ├── DisplayName: *string
-        ├── EndDate: *string
-        ├── ExpirationDate: *string
         ├── Id: *string
         ├── Name: *string
-        ├── NotificationDate: *string
-        ├── OwnerId: *string
         ├── PropertyBag: genruntime.PropertyBag
-        ├── Scope: *string
-        ├── StartDate: *string
-        ├── State: *string
-        ├── StateComment: *string
-        └── Type: *string
+        ├── Type: *string
+        ├── VersionHeaderName: *string
+        ├── VersionQueryName: *string
+        └── VersioningScheme: *string
