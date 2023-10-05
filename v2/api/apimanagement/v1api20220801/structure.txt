@@ -104,9 +104,10 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │   │   │   ├── Rule 0: MaxLength: 256
 │   │   │   ├── Rule 1: MinLength: 1
 │   │   │   └── Rule 2: Pattern: "^[A-Za-z0-9-._]+$"
-│   │   ├── KeyVault: *Object (2 properties)
+│   │   ├── KeyVault: *Object (3 properties)
 │   │   │   ├── IdentityClientId: *string
-│   │   │   └── SecretIdentifier: *string
+│   │   │   ├── IdentityClientIdFromConfig: *genruntime.ConfigMapReference
+│   │   │   └── SecretIdentifierReference: *genruntime.ResourceReference
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── Secret: *bool
 │   │   ├── Tags: Validated<string[]> (1 rule)

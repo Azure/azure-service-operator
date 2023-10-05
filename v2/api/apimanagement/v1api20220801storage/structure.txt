@@ -98,10 +98,11 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
 │   │   │   ├── Rule 0: MaxLength: 256
 │   │   │   └── Rule 1: Pattern: "^[^*#&+:<>?]+$"
 │   │   ├── DisplayName: *string
-│   │   ├── KeyVault: *Object (3 properties)
+│   │   ├── KeyVault: *Object (4 properties)
 │   │   │   ├── IdentityClientId: *string
+│   │   │   ├── IdentityClientIdFromConfig: *genruntime.ConfigMapReference
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── SecretIdentifier: *string
+│   │   │   └── SecretIdentifierReference: *genruntime.ResourceReference
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag

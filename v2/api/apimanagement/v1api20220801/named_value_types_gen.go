@@ -199,7 +199,7 @@ func (value *NamedValue) ValidateUpdate(old runtime.Object) (admission.Warnings,
 
 // createValidations validates the creation of the resource
 func (value *NamedValue) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){value.validateResourceReferences, value.validateOwnerReference}
+	return []func() (admission.Warnings, error){value.validateResourceReferences, value.validateOwnerReference, value.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -217,7 +217,19 @@ func (value *NamedValue) updateValidations() []func(old runtime.Object) (admissi
 		func(old runtime.Object) (admission.Warnings, error) {
 			return value.validateOwnerReference()
 		},
+		func(old runtime.Object) (admission.Warnings, error) {
+			return value.validateOptionalConfigMapReferences()
+		},
 	}
+}
+
+// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
+func (value *NamedValue) validateOptionalConfigMapReferences() (admission.Warnings, error) {
+	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&value.Spec)
+	if err != nil {
+		return nil, err
+	}
+	return genruntime.ValidateOptionalConfigMapReferences(refs)
 }
 
 // validateOwnerReference validates the owner field
@@ -1008,11 +1020,15 @@ func (value *Service_NamedValue_STATUS) AssignProperties_To_Service_NamedValue_S
 type KeyVaultContractCreateProperties struct {
 	// IdentityClientId: Null for SystemAssignedIdentity or Client Id for UserAssignedIdentity , which will be used to access
 	// key vault secret.
-	IdentityClientId *string `json:"identityClientId,omitempty"`
+	IdentityClientId *string `json:"identityClientId,omitempty" optionalConfigMapPair:"IdentityClientId"`
 
-	// SecretIdentifier: Key vault secret identifier for fetching secret. Providing a versioned secret will prevent
+	// IdentityClientIdFromConfig: Null for SystemAssignedIdentity or Client Id for UserAssignedIdentity , which will be used
+	// to access key vault secret.
+	IdentityClientIdFromConfig *genruntime.ConfigMapReference `json:"identityClientIdFromConfig,omitempty" optionalConfigMapPair:"IdentityClientId"`
+
+	// SecretIdentifierReference: Key vault secret identifier for fetching secret. Providing a versioned secret will prevent
 	// auto-refresh. This requires API Management service to be configured with aka.ms/apimmsi
-	SecretIdentifier *string `json:"secretIdentifier,omitempty"`
+	SecretIdentifierReference *genruntime.ResourceReference `armReference:"SecretIdentifier" json:"secretIdentifierReference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &KeyVaultContractCreateProperties{}
@@ -1029,11 +1045,23 @@ func (properties *KeyVaultContractCreateProperties) ConvertToARM(resolved genrun
 		identityClientId := *properties.IdentityClientId
 		result.IdentityClientId = &identityClientId
 	}
+	if properties.IdentityClientIdFromConfig != nil {
+		identityClientIdValue, err := resolved.ResolvedConfigMaps.Lookup(*properties.IdentityClientIdFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property IdentityClientId")
+		}
+		identityClientId := identityClientIdValue
+		result.IdentityClientId = &identityClientId
+	}
 
 	// Set property "SecretIdentifier":
-	if properties.SecretIdentifier != nil {
-		secretIdentifier := *properties.SecretIdentifier
-		result.SecretIdentifier = &secretIdentifier
+	if properties.SecretIdentifierReference != nil {
+		secretIdentifierReferenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.SecretIdentifierReference)
+		if err != nil {
+			return nil, err
+		}
+		secretIdentifierReference := secretIdentifierReferenceARMID
+		result.SecretIdentifier = &secretIdentifierReference
 	}
 	return result, nil
 }
@@ -1056,11 +1084,9 @@ func (properties *KeyVaultContractCreateProperties) PopulateFromARM(owner genrun
 		properties.IdentityClientId = &identityClientId
 	}
 
-	// Set property "SecretIdentifier":
-	if typedInput.SecretIdentifier != nil {
-		secretIdentifier := *typedInput.SecretIdentifier
-		properties.SecretIdentifier = &secretIdentifier
-	}
+	// no assignment for property "IdentityClientIdFromConfig"
+
+	// no assignment for property "SecretIdentifierReference"
 
 	// No error
 	return nil
@@ -1072,8 +1098,21 @@ func (properties *KeyVaultContractCreateProperties) AssignProperties_From_KeyVau
 	// IdentityClientId
 	properties.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
 
-	// SecretIdentifier
-	properties.SecretIdentifier = genruntime.ClonePointerToString(source.SecretIdentifier)
+	// IdentityClientIdFromConfig
+	if source.IdentityClientIdFromConfig != nil {
+		identityClientIdFromConfig := source.IdentityClientIdFromConfig.Copy()
+		properties.IdentityClientIdFromConfig = &identityClientIdFromConfig
+	} else {
+		properties.IdentityClientIdFromConfig = nil
+	}
+
+	// SecretIdentifierReference
+	if source.SecretIdentifierReference != nil {
+		secretIdentifierReference := source.SecretIdentifierReference.Copy()
+		properties.SecretIdentifierReference = &secretIdentifierReference
+	} else {
+		properties.SecretIdentifierReference = nil
+	}
 
 	// No error
 	return nil
@@ -1087,8 +1126,21 @@ func (properties *KeyVaultContractCreateProperties) AssignProperties_To_KeyVault
 	// IdentityClientId
 	destination.IdentityClientId = genruntime.ClonePointerToString(properties.IdentityClientId)
 
-	// SecretIdentifier
-	destination.SecretIdentifier = genruntime.ClonePointerToString(properties.SecretIdentifier)
+	// IdentityClientIdFromConfig
+	if properties.IdentityClientIdFromConfig != nil {
+		identityClientIdFromConfig := properties.IdentityClientIdFromConfig.Copy()
+		destination.IdentityClientIdFromConfig = &identityClientIdFromConfig
+	} else {
+		destination.IdentityClientIdFromConfig = nil
+	}
+
+	// SecretIdentifierReference
+	if properties.SecretIdentifierReference != nil {
+		secretIdentifierReference := properties.SecretIdentifierReference.Copy()
+		destination.SecretIdentifierReference = &secretIdentifierReference
+	} else {
+		destination.SecretIdentifierReference = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1106,9 +1158,6 @@ func (properties *KeyVaultContractCreateProperties) Initialize_From_KeyVaultCont
 
 	// IdentityClientId
 	properties.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
-
-	// SecretIdentifier
-	properties.SecretIdentifier = genruntime.ClonePointerToString(source.SecretIdentifier)
 
 	// No error
 	return nil

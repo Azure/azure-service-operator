@@ -509,7 +509,6 @@ func KeyVaultContractCreatePropertiesGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForKeyVaultContractCreateProperties is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForKeyVaultContractCreateProperties(gens map[string]gopter.Gen) {
 	gens["IdentityClientId"] = gen.PtrOf(gen.AlphaString())
-	gens["SecretIdentifier"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_KeyVaultContractProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

@@ -2452,9 +2452,14 @@ func (in *KeyVaultContractCreateProperties) DeepCopyInto(out *KeyVaultContractCr
 		*out = new(string)
 		**out = **in
 	}
-	if in.SecretIdentifier != nil {
-		in, out := &in.SecretIdentifier, &out.SecretIdentifier
-		*out = new(string)
+	if in.IdentityClientIdFromConfig != nil {
+		in, out := &in.IdentityClientIdFromConfig, &out.IdentityClientIdFromConfig
+		*out = new(genruntime.ConfigMapReference)
+		**out = **in
+	}
+	if in.SecretIdentifierReference != nil {
+		in, out := &in.SecretIdentifierReference, &out.SecretIdentifierReference
+		*out = new(genruntime.ResourceReference)
 		**out = **in
 	}
 }
