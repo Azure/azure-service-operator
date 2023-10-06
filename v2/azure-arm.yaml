@@ -740,6 +740,11 @@ objectModelConfiguration:
         $azureGeneratedSecrets:
           - PrimaryKey
           - SecondaryKey
+      SubscriptionCreateParameterProperties:
+        PrimaryKey:
+          $importConfigMapMode: optional
+        SecondaryKey:
+          $importConfigMapMode: optional
       VirtualNetworkConfiguration:
         SubnetResourceId:
           $armReference: true

@@ -312,7 +312,25 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.Subscription)})
+	result = append(result, &registration.StorageType{
+		Obj: new(apimanagement_v20220801s.Subscription),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.primaryKeyFromConfig",
+				Func: indexApimanagementSubscriptionPrimaryKeyFromConfig,
+			},
+			{
+				Key:  ".spec.secondaryKeyFromConfig",
+				Func: indexApimanagementSubscriptionSecondaryKeyFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.primaryKeyFromConfig", ".spec.secondaryKeyFromConfig"}, &apimanagement_v20220801s.SubscriptionList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(appconfiguration_v20220501s.ConfigurationStore)})
 	result = append(result, &registration.StorageType{
 		Obj: new(authorization_v20200801ps.RoleAssignment),
@@ -2241,6 +2259,30 @@ func indexApimanagementServiceHostnameConfigurationsThumbprintFromConfig(rawObj 
 		result = append(result, hostnameConfigurationItem.Certificate.ThumbprintFromConfig.Index()...)
 	}
 	return result
+}
+
+// indexApimanagementSubscriptionPrimaryKeyFromConfig an index function for apimanagement_v20220801s.Subscription .spec.primaryKeyFromConfig
+func indexApimanagementSubscriptionPrimaryKeyFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.Subscription)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.PrimaryKeyFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.PrimaryKeyFromConfig.Index()
+}
+
+// indexApimanagementSubscriptionSecondaryKeyFromConfig an index function for apimanagement_v20220801s.Subscription .spec.secondaryKeyFromConfig
+func indexApimanagementSubscriptionSecondaryKeyFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.Subscription)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.SecondaryKeyFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.SecondaryKeyFromConfig.Index()
 }
 
 // indexAuthorizationRoleAssignmentPrincipalIdFromConfig an index function for authorization_v20200801ps.RoleAssignment .spec.principalIdFromConfig

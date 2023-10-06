@@ -2375,6 +2375,11 @@ func (in *Service_Subscription_Spec) DeepCopyInto(out *Service_Subscription_Spec
 		*out = new(string)
 		**out = **in
 	}
+	if in.PrimaryKeyFromConfig != nil {
+		in, out := &in.PrimaryKeyFromConfig, &out.PrimaryKeyFromConfig
+		*out = new(genruntime.ConfigMapReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
@@ -2390,6 +2395,11 @@ func (in *Service_Subscription_Spec) DeepCopyInto(out *Service_Subscription_Spec
 	if in.SecondaryKey != nil {
 		in, out := &in.SecondaryKey, &out.SecondaryKey
 		*out = new(string)
+		**out = **in
+	}
+	if in.SecondaryKeyFromConfig != nil {
+		in, out := &in.SecondaryKeyFromConfig, &out.SecondaryKeyFromConfig
+		*out = new(genruntime.ConfigMapReference)
 		**out = **in
 	}
 	if in.State != nil {

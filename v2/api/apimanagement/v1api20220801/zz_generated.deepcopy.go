@@ -3999,6 +3999,11 @@ func (in *Service_Subscription_Spec) DeepCopyInto(out *Service_Subscription_Spec
 		*out = new(string)
 		**out = **in
 	}
+	if in.PrimaryKeyFromConfig != nil {
+		in, out := &in.PrimaryKeyFromConfig, &out.PrimaryKeyFromConfig
+		*out = new(genruntime.ConfigMapReference)
+		**out = **in
+	}
 	if in.Scope != nil {
 		in, out := &in.Scope, &out.Scope
 		*out = new(string)
@@ -4007,6 +4012,11 @@ func (in *Service_Subscription_Spec) DeepCopyInto(out *Service_Subscription_Spec
 	if in.SecondaryKey != nil {
 		in, out := &in.SecondaryKey, &out.SecondaryKey
 		*out = new(string)
+		**out = **in
+	}
+	if in.SecondaryKeyFromConfig != nil {
+		in, out := &in.SecondaryKeyFromConfig, &out.SecondaryKeyFromConfig
+		*out = new(genruntime.ConfigMapReference)
 		**out = **in
 	}
 	if in.State != nil {
