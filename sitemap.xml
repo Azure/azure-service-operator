@@ -90,6 +90,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/apimanagement/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/apimanagement/v1api20220801/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/appconfiguration/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/appconfiguration/v1api20220501/</loc>
@@ -317,6 +319,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/network/v1api20200601/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/network/v1api20201101/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/network/v1api20220401/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/network/v1api20220701/</loc>
   </url><url>
