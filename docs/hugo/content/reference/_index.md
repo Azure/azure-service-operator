@@ -22,9 +22,9 @@ To install the CRDs for these resources, your ASO configuration must include `ap
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource | ARM Version | CRD Version   | Supported From | Sample                                                                                                                              |
-|----------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| Service  | 2022-08-01  | v1api20220801 | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20220801/v1api20220801_service.yaml) |
+| Resource                                                                                                                                       | ARM Version | CRD Version   | Supported From | Sample                                                                                                                              |
+|------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| [Service](https://azure.github.io/azure-service-operator/reference/apimanagement/v1api20220801/#apimanagement.azure.com/v1api20220801.Service) | 2022-08-01  | v1api20220801 | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20220801/v1api20220801_service.yaml) |
 
 ## AppConfiguration
 
@@ -588,12 +588,12 @@ To install the CRDs for these resources, your ASO configuration must include `ne
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource                               | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                       |
-|----------------------------------------|-------------|---------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| TrafficManagerProfile                  | 2022-04-01  | v1api20220401 | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220401/v1api20220401_trafficmanagerprofile.yaml)                  |
-| TrafficManagerProfilesAzureEndpoint    | 2022-04-01  | v1api20220401 | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220401/v1api20220401_trafficmanagerprofilesazureendpoint.yaml)    |
-| TrafficManagerProfilesExternalEndpoint | 2022-04-01  | v1api20220401 | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220401/v1api20220401_trafficmanagerprofilesexternalendpoint.yaml) |
-| TrafficManagerProfilesNestedEndpoint   | 2022-04-01  | v1api20220401 | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220401/v1api20220401_trafficmanagerprofilesnestedendpoint.yaml)   |
+| Resource                                                                                                                                                                                         | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                       |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [TrafficManagerProfile](https://azure.github.io/azure-service-operator/reference/network/v1api20220401/#network.azure.com/v1api20220401.TrafficManagerProfile)                                   | 2022-04-01  | v1api20220401 | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220401/v1api20220401_trafficmanagerprofile.yaml)                  |
+| [TrafficManagerProfilesAzureEndpoint](https://azure.github.io/azure-service-operator/reference/network/v1api20220401/#network.azure.com/v1api20220401.TrafficManagerProfilesAzureEndpoint)       | 2022-04-01  | v1api20220401 | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220401/v1api20220401_trafficmanagerprofilesazureendpoint.yaml)    |
+| [TrafficManagerProfilesExternalEndpoint](https://azure.github.io/azure-service-operator/reference/network/v1api20220401/#network.azure.com/v1api20220401.TrafficManagerProfilesExternalEndpoint) | 2022-04-01  | v1api20220401 | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220401/v1api20220401_trafficmanagerprofilesexternalendpoint.yaml) |
+| [TrafficManagerProfilesNestedEndpoint](https://azure.github.io/azure-service-operator/reference/network/v1api20220401/#network.azure.com/v1api20220401.TrafficManagerProfilesNestedEndpoint)     | 2022-04-01  | v1api20220401 | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220401/v1api20220401_trafficmanagerprofilesnestedendpoint.yaml)   |
 
 ### Released
 
