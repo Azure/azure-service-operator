@@ -234,7 +234,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
 │   │   │   ├── IdentityClientId: *string
 │   │   │   ├── IdentityClientIdFromConfig: *genruntime.ConfigMapReference
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── SecretIdentifierReference: *genruntime.ResourceReference
+│   │   │   └── SecretIdentifier: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -384,7 +384,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
 │   │   │   ├── HostName: *string
 │   │   │   ├── IdentityClientId: *string
 │   │   │   ├── IdentityClientIdFromConfig: *genruntime.ConfigMapReference
-│   │   │   ├── KeyVaultReference: *genruntime.ResourceReference
+│   │   │   ├── KeyVaultId: *string
 │   │   │   ├── NegotiateClientCertificate: *bool
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Type: *string
