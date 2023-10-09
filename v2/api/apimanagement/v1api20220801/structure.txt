@@ -209,14 +209,12 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │   │   │   ├── "http"
 │   │   │   └── "soap"
 │   │   ├── Proxy: *Object (3 properties)
-│   │   │   ├── Password: *string
+│   │   │   ├── Password: *genruntime.SecretReference
 │   │   │   ├── Url: Validated<*string> (2 rules)
 │   │   │   │   ├── Rule 0: MaxLength: 2000
 │   │   │   │   └── Rule 1: MinLength: 1
 │   │   │   └── Username: *string
-│   │   ├── ResourceId: Validated<*string> (2 rules)
-│   │   │   ├── Rule 0: MaxLength: 2000
-│   │   │   └── Rule 1: MinLength: 1
+│   │   ├── ResourceReference: *genruntime.ResourceReference
 │   │   ├── Title: Validated<*string> (2 rules)
 │   │   │   ├── Rule 0: MaxLength: 300
 │   │   │   └── Rule 1: MinLength: 1
@@ -252,8 +250,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │       ├── Protocol: *Enum (2 values)
 │       │   ├── "http"
 │       │   └── "soap"
-│       ├── Proxy: *Object (3 properties)
-│       │   ├── Password: *string
+│       ├── Proxy: *Object (2 properties)
 │       │   ├── Url: *string
 │       │   └── Username: *string
 │       ├── ResourceId: *string
@@ -446,7 +443,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │   │   │   ├── HostName: *string
 │   │   │   ├── IdentityClientId: *string
 │   │   │   ├── IdentityClientIdFromConfig: *genruntime.ConfigMapReference
-│   │   │   ├── KeyVaultId: *string
+│   │   │   ├── KeyVaultReference: *genruntime.ResourceReference
 │   │   │   ├── NegotiateClientCertificate: *bool
 │   │   │   └── Type: *Enum (5 values)
 │   │   │       ├── "DeveloperPortal"
@@ -863,8 +860,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │   │   ├── Protocol: *Enum (2 values)
 │   │   │   ├── "http"
 │   │   │   └── "soap"
-│   │   ├── Proxy: *Object (3 properties)
-│   │   │   ├── Password: *string
+│   │   ├── Proxy: *Object (2 properties)
 │   │   │   ├── Url: *string
 │   │   │   └── Username: *string
 │   │   ├── ResourceId: *string
@@ -1305,7 +1301,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │           └── "suspended"
 ├── Subscription: Resource
 │   ├── Owner: Service
-│   ├── Spec: Object (10 properties)
+│   ├── Spec: Object (12 properties)
 │   │   ├── AllowTracing: *bool
 │   │   ├── AzureName: Validated<string> (2 rules)
 │   │   │   ├── Rule 0: MaxLength: 256
@@ -1322,10 +1318,12 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │   │   ├── PrimaryKey: Validated<*string> (2 rules)
 │   │   │   ├── Rule 0: MaxLength: 256
 │   │   │   └── Rule 1: MinLength: 1
+│   │   ├── PrimaryKeyFromConfig: *genruntime.ConfigMapReference
 │   │   ├── Scope: *string
 │   │   ├── SecondaryKey: Validated<*string> (2 rules)
 │   │   │   ├── Rule 0: MaxLength: 256
 │   │   │   └── Rule 1: MinLength: 1
+│   │   ├── SecondaryKeyFromConfig: *genruntime.ConfigMapReference
 │   │   └── State: *Enum (6 values)
 │   │       ├── "active"
 │   │       ├── "cancelled"

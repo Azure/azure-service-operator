@@ -170,11 +170,11 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── Protocol: *string
 │   │   ├── Proxy: *Object (4 properties)
-│   │   │   ├── Password: *string
+│   │   │   ├── Password: *genruntime.SecretReference
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── Url: *string
 │   │   │   └── Username: *string
-│   │   ├── ResourceId: *string
+│   │   ├── ResourceReference: *genruntime.ResourceReference
 │   │   ├── Title: *string
 │   │   ├── Tls: *Object (3 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -211,8 +211,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
 │       │           └── PropertyBag: genruntime.PropertyBag
 │       ├── PropertyBag: genruntime.PropertyBag
 │       ├── Protocol: *string
-│       ├── Proxy: *Object (4 properties)
-│       │   ├── Password: *string
+│       ├── Proxy: *Object (3 properties)
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   ├── Url: *string
 │       │   └── Username: *string
@@ -385,7 +384,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
 │   │   │   ├── HostName: *string
 │   │   │   ├── IdentityClientId: *string
 │   │   │   ├── IdentityClientIdFromConfig: *genruntime.ConfigMapReference
-│   │   │   ├── KeyVaultId: *string
+│   │   │   ├── KeyVaultReference: *genruntime.ResourceReference
 │   │   │   ├── NegotiateClientCertificate: *bool
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Type: *string
@@ -542,7 +541,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
 │       └── Zones: string[]
 ├── Subscription: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
-│   ├── Spec: Object (12 properties)
+│   ├── Spec: Object (14 properties)
 │   │   ├── AllowTracing: *bool
 │   │   ├── AzureName: Validated<string> (2 rules)
 │   │   │   ├── Rule 0: MaxLength: 256
@@ -558,9 +557,11 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── OwnerId: *string
 │   │   ├── PrimaryKey: *string
+│   │   ├── PrimaryKeyFromConfig: *genruntime.ConfigMapReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── Scope: *string
 │   │   ├── SecondaryKey: *string
+│   │   ├── SecondaryKeyFromConfig: *genruntime.ConfigMapReference
 │   │   └── State: *string
 │   └── Status: Object (16 properties)
 │       ├── AllowTracing: *bool

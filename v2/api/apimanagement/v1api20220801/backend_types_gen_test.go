@@ -276,7 +276,6 @@ func AddIndependentPropertyGeneratorsForService_Backend_Spec(gens map[string]gop
 	gens["AzureName"] = gen.AlphaString()
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(BackendContractProperties_Protocol_Http, BackendContractProperties_Protocol_Soap))
-	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["Title"] = gen.PtrOf(gen.AlphaString())
 	gens["Url"] = gen.PtrOf(gen.AlphaString())
 }
@@ -961,7 +960,6 @@ func BackendProxyContractGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForBackendProxyContract is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBackendProxyContract(gens map[string]gopter.Gen) {
-	gens["Password"] = gen.PtrOf(gen.AlphaString())
 	gens["Url"] = gen.PtrOf(gen.AlphaString())
 	gens["Username"] = gen.PtrOf(gen.AlphaString())
 }
@@ -1066,7 +1064,6 @@ func BackendProxyContract_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForBackendProxyContract_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBackendProxyContract_STATUS(gens map[string]gopter.Gen) {
-	gens["Password"] = gen.PtrOf(gen.AlphaString())
 	gens["Url"] = gen.PtrOf(gen.AlphaString())
 	gens["Username"] = gen.PtrOf(gen.AlphaString())
 }

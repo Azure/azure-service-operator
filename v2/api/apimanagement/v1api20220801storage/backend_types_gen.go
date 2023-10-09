@@ -149,10 +149,13 @@ type Service_Backend_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Protocol    *string                            `json:"protocol,omitempty"`
 	Proxy       *BackendProxyContract              `json:"proxy,omitempty"`
-	ResourceId  *string                            `json:"resourceId,omitempty"`
-	Title       *string                            `json:"title,omitempty"`
-	Tls         *BackendTlsProperties              `json:"tls,omitempty"`
-	Url         *string                            `json:"url,omitempty"`
+
+	// ResourceReference: Management Uri of the Resource in External System. This URL can be the Arm Resource Id of Logic Apps,
+	// Function Apps or API Apps.
+	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
+	Title             *string                       `json:"title,omitempty"`
+	Tls               *BackendTlsProperties         `json:"tls,omitempty"`
+	Url               *string                       `json:"url,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Service_Backend_Spec{}
@@ -252,16 +255,15 @@ type BackendProperties_STATUS struct {
 // Storage version of v1api20220801.BackendProxyContract
 // Details of the Backend WebProxy Server to use in the Request to Backend.
 type BackendProxyContract struct {
-	Password    *string                `json:"password,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Url         *string                `json:"url,omitempty"`
-	Username    *string                `json:"username,omitempty"`
+	Password    *genruntime.SecretReference `json:"password,omitempty"`
+	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	Url         *string                     `json:"url,omitempty"`
+	Username    *string                     `json:"username,omitempty"`
 }
 
 // Storage version of v1api20220801.BackendProxyContract_STATUS
 // Details of the Backend WebProxy Server to use in the Request to Backend.
 type BackendProxyContract_STATUS struct {
-	Password    *string                `json:"password,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Url         *string                `json:"url,omitempty"`
 	Username    *string                `json:"username,omitempty"`

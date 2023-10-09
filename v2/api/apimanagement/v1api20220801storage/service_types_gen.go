@@ -371,10 +371,14 @@ type HostnameConfiguration struct {
 	HostName                   *string                        `json:"hostName,omitempty"`
 	IdentityClientId           *string                        `json:"identityClientId,omitempty" optionalConfigMapPair:"IdentityClientId"`
 	IdentityClientIdFromConfig *genruntime.ConfigMapReference `json:"identityClientIdFromConfig,omitempty" optionalConfigMapPair:"IdentityClientId"`
-	KeyVaultId                 *string                        `json:"keyVaultId,omitempty"`
-	NegotiateClientCertificate *bool                          `json:"negotiateClientCertificate,omitempty"`
-	PropertyBag                genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
-	Type                       *string                        `json:"type,omitempty"`
+
+	// KeyVaultReference: Url to the KeyVault Secret containing the Ssl Certificate. If absolute Url containing version is
+	// provided, auto-update of ssl certificate will not work. This requires Api Management service to be configured with
+	// aka.ms/apimmsi. The secret should be of type *application/x-pkcs12*
+	KeyVaultReference          *genruntime.ResourceReference `armReference:"KeyVaultId" json:"keyVaultReference,omitempty"`
+	NegotiateClientCertificate *bool                         `json:"negotiateClientCertificate,omitempty"`
+	PropertyBag                genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Type                       *string                       `json:"type,omitempty"`
 }
 
 // Storage version of v1api20220801.HostnameConfiguration_STATUS

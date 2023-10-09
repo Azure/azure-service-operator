@@ -373,7 +373,6 @@ func BackendProxyContract_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForBackendProxyContract_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBackendProxyContract_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Password"] = gen.PtrOf(gen.AlphaString())
 	gens["Url"] = gen.PtrOf(gen.AlphaString())
 	gens["Username"] = gen.PtrOf(gen.AlphaString())
 }
