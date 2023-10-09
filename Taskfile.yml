@@ -373,10 +373,7 @@ tasks:
       # excluding the ./apis directory here
       - "go.mod"
       - "go.sum"
-      - "*.go"
-      - "internal/**/*.go"
-      - "pkg/**/*.go"
-      - "cmd/controller/**/*.go"
+      - "**/*.go"
     cmds:
       - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build {{.LDFLAGS}} -o ./bin/{{.CONTROLLER_APP}} ./cmd/controller/
 
@@ -389,10 +386,7 @@ tasks:
     sources:
       - "go.mod"
       - "go.sum"
-      - "*.go"
-      - "internal/**/*.go"
-      - "pkg/**/*.go"
-      - "cmd/controller/**/*.go"
+      - "**/*.go"
       - "out/crds/**/*"
       - Dockerfile
     cmds:
@@ -415,10 +409,7 @@ tasks:
     sources:
       - "go.mod"
       - "go.sum"
-      - "*.go"
-      - "internal/**/*.go"
-      - "pkg/**/*.go"
-      - "cmd/controller/**/*.go"
+      - "**/*.go"
       - "out/crds/**/*"
       - Dockerfile
     cmds:
@@ -437,10 +428,7 @@ tasks:
     sources:
       - "go.mod"
       - "go.sum"
-      - "*.go"
-      - "internal/**/*.go"
-      - "pkg/**/*.go"
-      - "cmd/controller/**/*.go"
+      - "**/*.go"
       - "out/crds/**/*"
       - Dockerfile
     cmds:
