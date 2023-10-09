@@ -1149,9 +1149,9 @@ func (in *HostnameConfiguration) DeepCopyInto(out *HostnameConfiguration) {
 		*out = new(genruntime.ConfigMapReference)
 		**out = **in
 	}
-	if in.KeyVaultReference != nil {
-		in, out := &in.KeyVaultReference, &out.KeyVaultReference
-		*out = new(genruntime.ResourceReference)
+	if in.KeyVaultId != nil {
+		in, out := &in.KeyVaultId, &out.KeyVaultId
+		*out = new(string)
 		**out = **in
 	}
 	if in.NegotiateClientCertificate != nil {
@@ -1275,9 +1275,9 @@ func (in *KeyVaultContractCreateProperties) DeepCopyInto(out *KeyVaultContractCr
 			(*out)[key] = val
 		}
 	}
-	if in.SecretIdentifierReference != nil {
-		in, out := &in.SecretIdentifierReference, &out.SecretIdentifierReference
-		*out = new(genruntime.ResourceReference)
+	if in.SecretIdentifier != nil {
+		in, out := &in.SecretIdentifier, &out.SecretIdentifier
+		*out = new(string)
 		**out = **in
 	}
 }

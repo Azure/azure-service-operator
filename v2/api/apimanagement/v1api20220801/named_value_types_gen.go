@@ -1026,9 +1026,9 @@ type KeyVaultContractCreateProperties struct {
 	// to access key vault secret.
 	IdentityClientIdFromConfig *genruntime.ConfigMapReference `json:"identityClientIdFromConfig,omitempty" optionalConfigMapPair:"IdentityClientId"`
 
-	// SecretIdentifierReference: Key vault secret identifier for fetching secret. Providing a versioned secret will prevent
+	// SecretIdentifier: Key vault secret identifier for fetching secret. Providing a versioned secret will prevent
 	// auto-refresh. This requires API Management service to be configured with aka.ms/apimmsi
-	SecretIdentifierReference *genruntime.ResourceReference `armReference:"SecretIdentifier" json:"secretIdentifierReference,omitempty"`
+	SecretIdentifier *string `json:"secretIdentifier,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &KeyVaultContractCreateProperties{}
@@ -1055,13 +1055,9 @@ func (properties *KeyVaultContractCreateProperties) ConvertToARM(resolved genrun
 	}
 
 	// Set property "SecretIdentifier":
-	if properties.SecretIdentifierReference != nil {
-		secretIdentifierReferenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.SecretIdentifierReference)
-		if err != nil {
-			return nil, err
-		}
-		secretIdentifierReference := secretIdentifierReferenceARMID
-		result.SecretIdentifier = &secretIdentifierReference
+	if properties.SecretIdentifier != nil {
+		secretIdentifier := *properties.SecretIdentifier
+		result.SecretIdentifier = &secretIdentifier
 	}
 	return result, nil
 }
@@ -1086,7 +1082,11 @@ func (properties *KeyVaultContractCreateProperties) PopulateFromARM(owner genrun
 
 	// no assignment for property "IdentityClientIdFromConfig"
 
-	// no assignment for property "SecretIdentifierReference"
+	// Set property "SecretIdentifier":
+	if typedInput.SecretIdentifier != nil {
+		secretIdentifier := *typedInput.SecretIdentifier
+		properties.SecretIdentifier = &secretIdentifier
+	}
 
 	// No error
 	return nil
@@ -1106,13 +1106,8 @@ func (properties *KeyVaultContractCreateProperties) AssignProperties_From_KeyVau
 		properties.IdentityClientIdFromConfig = nil
 	}
 
-	// SecretIdentifierReference
-	if source.SecretIdentifierReference != nil {
-		secretIdentifierReference := source.SecretIdentifierReference.Copy()
-		properties.SecretIdentifierReference = &secretIdentifierReference
-	} else {
-		properties.SecretIdentifierReference = nil
-	}
+	// SecretIdentifier
+	properties.SecretIdentifier = genruntime.ClonePointerToString(source.SecretIdentifier)
 
 	// No error
 	return nil
@@ -1134,13 +1129,8 @@ func (properties *KeyVaultContractCreateProperties) AssignProperties_To_KeyVault
 		destination.IdentityClientIdFromConfig = nil
 	}
 
-	// SecretIdentifierReference
-	if properties.SecretIdentifierReference != nil {
-		secretIdentifierReference := properties.SecretIdentifierReference.Copy()
-		destination.SecretIdentifierReference = &secretIdentifierReference
-	} else {
-		destination.SecretIdentifierReference = nil
-	}
+	// SecretIdentifier
+	destination.SecretIdentifier = genruntime.ClonePointerToString(properties.SecretIdentifier)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1158,6 +1148,9 @@ func (properties *KeyVaultContractCreateProperties) Initialize_From_KeyVaultCont
 
 	// IdentityClientId
 	properties.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
+
+	// SecretIdentifier
+	properties.SecretIdentifier = genruntime.ClonePointerToString(source.SecretIdentifier)
 
 	// No error
 	return nil

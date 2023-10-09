@@ -104,7 +104,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │   │   ├── KeyVault: *Object (3 properties)
 │   │   │   ├── IdentityClientId: *string
 │   │   │   ├── IdentityClientIdFromConfig: *genruntime.ConfigMapReference
-│   │   │   └── SecretIdentifierReference: *genruntime.ResourceReference
+│   │   │   └── SecretIdentifier: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── Secret: *bool
 │   │   ├── Tags: Validated<string[]> (1 rule)
@@ -194,7 +194,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │   │   │   ├── HostName: *string
 │   │   │   ├── IdentityClientId: *string
 │   │   │   ├── IdentityClientIdFromConfig: *genruntime.ConfigMapReference
-│   │   │   ├── KeyVaultReference: *genruntime.ResourceReference
+│   │   │   ├── KeyVaultId: *string
 │   │   │   ├── NegotiateClientCertificate: *bool
 │   │   │   └── Type: *Enum (5 values)
 │   │   │       ├── "DeveloperPortal"

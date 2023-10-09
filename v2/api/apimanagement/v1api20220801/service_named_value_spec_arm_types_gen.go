@@ -53,5 +53,8 @@ type KeyVaultContractCreateProperties_ARM struct {
 	// IdentityClientId: Null for SystemAssignedIdentity or Client Id for UserAssignedIdentity , which will be used to access
 	// key vault secret.
 	IdentityClientId *string `json:"identityClientId,omitempty" optionalConfigMapPair:"IdentityClientId"`
+
+	// SecretIdentifier: Key vault secret identifier for fetching secret. Providing a versioned secret will prevent
+	// auto-refresh. This requires API Management service to be configured with aka.ms/apimmsi
 	SecretIdentifier *string `json:"secretIdentifier,omitempty"`
 }

@@ -1733,6 +1733,7 @@ func AddIndependentPropertyGeneratorsForHostnameConfiguration(gens map[string]go
 	gens["EncodedCertificate"] = gen.PtrOf(gen.AlphaString())
 	gens["HostName"] = gen.PtrOf(gen.AlphaString())
 	gens["IdentityClientId"] = gen.PtrOf(gen.AlphaString())
+	gens["KeyVaultId"] = gen.PtrOf(gen.AlphaString())
 	gens["NegotiateClientCertificate"] = gen.PtrOf(gen.Bool())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
 		HostnameConfiguration_Type_DeveloperPortal,
