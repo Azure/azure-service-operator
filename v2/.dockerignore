@@ -3,7 +3,6 @@
 # Ignore everything except below
 !/go.mod
 !/go.sum
-!/*.go
 !/internal
 !/pkg
 !/cmd/controller
