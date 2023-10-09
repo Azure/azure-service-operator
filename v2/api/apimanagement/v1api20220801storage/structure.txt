@@ -341,18 +341,12 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
 │       └── Zones: string[]
 └── Subscription: Resource
     ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
-    ├── Spec: Object (12 properties)
+    ├── Spec: Object (11 properties)
     │   ├── AllowTracing: *bool
     │   ├── AzureName: Validated<string> (2 rules)
     │   │   ├── Rule 0: MaxLength: 256
     │   │   └── Rule 1: Pattern: "^[^*#&+:<>?]+$"
     │   ├── DisplayName: *string
-    │   ├── OperatorSpec: *Object (2 properties)
-    │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   └── Secrets: *Object (3 properties)
-    │   │       ├── PrimaryKey: *genruntime.SecretDestination
-    │   │       ├── PropertyBag: genruntime.PropertyBag
-    │   │       └── SecondaryKey: *genruntime.SecretDestination
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── OwnerId: *string
