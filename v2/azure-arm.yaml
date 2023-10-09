@@ -699,6 +699,10 @@ objectModelConfiguration:
       BackendContractProperties:
         ResourceId:
           $armReference: true
+      # This is an array and fails
+      # BackendCredentialsContract:
+      #   Certificate:
+      #     $importConfigMapMode: optional
       BackendProxyContract:
         Password:
           $isSecret: true
