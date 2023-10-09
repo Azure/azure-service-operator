@@ -341,7 +341,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
 │       └── Zones: string[]
 └── Subscription: Resource
     ├── Owner: github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801.Service
-    ├── Spec: Object (14 properties)
+    ├── Spec: Object (12 properties)
     │   ├── AllowTracing: *bool
     │   ├── AzureName: Validated<string> (2 rules)
     │   │   ├── Rule 0: MaxLength: 256
@@ -356,12 +356,10 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── OwnerId: *string
-    │   ├── PrimaryKey: *string
-    │   ├── PrimaryKeyFromConfig: *genruntime.ConfigMapReference
+    │   ├── PrimaryKey: *genruntime.SecretReference
     │   ├── PropertyBag: genruntime.PropertyBag
     │   ├── Scope: *string
-    │   ├── SecondaryKey: *string
-    │   ├── SecondaryKeyFromConfig: *genruntime.ConfigMapReference
+    │   ├── SecondaryKey: *genruntime.SecretReference
     │   └── State: *string
     └── Status: Object (16 properties)
         ├── AllowTracing: *bool

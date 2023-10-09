@@ -146,15 +146,13 @@ type Service_Subscription_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a apimanagement.azure.com/Service resource
-	Owner                  *genruntime.KnownResourceReference `group:"apimanagement.azure.com" json:"owner,omitempty" kind:"Service"`
-	OwnerId                *string                            `json:"ownerId,omitempty"`
-	PrimaryKey             *string                            `json:"primaryKey,omitempty" optionalConfigMapPair:"PrimaryKey"`
-	PrimaryKeyFromConfig   *genruntime.ConfigMapReference     `json:"primaryKeyFromConfig,omitempty" optionalConfigMapPair:"PrimaryKey"`
-	PropertyBag            genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Scope                  *string                            `json:"scope,omitempty"`
-	SecondaryKey           *string                            `json:"secondaryKey,omitempty" optionalConfigMapPair:"SecondaryKey"`
-	SecondaryKeyFromConfig *genruntime.ConfigMapReference     `json:"secondaryKeyFromConfig,omitempty" optionalConfigMapPair:"SecondaryKey"`
-	State                  *string                            `json:"state,omitempty"`
+	Owner        *genruntime.KnownResourceReference `group:"apimanagement.azure.com" json:"owner,omitempty" kind:"Service"`
+	OwnerId      *string                            `json:"ownerId,omitempty"`
+	PrimaryKey   *genruntime.SecretReference        `json:"primaryKey,omitempty"`
+	PropertyBag  genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Scope        *string                            `json:"scope,omitempty"`
+	SecondaryKey *genruntime.SecretReference        `json:"secondaryKey,omitempty"`
+	State        *string                            `json:"state,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Service_Subscription_Spec{}

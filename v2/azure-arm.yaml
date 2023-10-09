@@ -742,9 +742,9 @@ objectModelConfiguration:
           - SecondaryKey
       SubscriptionCreateParameterProperties:
         PrimaryKey:
-          $importConfigMapMode: optional
+          $isSecret: true
         SecondaryKey:
-          $importConfigMapMode: optional
+          $isSecret: true
       VirtualNetworkConfiguration:
         SubnetResourceId:
           $armReference: true
