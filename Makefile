@@ -243,7 +243,7 @@ helm-chart-manifests: generate
 # Generate manifests e.g. CRD, RBAC etc.
 .PHONY: manifests
 manifests: install-tools
-	$(CONTROLLER_GEN) $(CRD_OPTIONS) rbac:roleName=manager-role webhook paths="./..." output:crd:artifacts:config=config/crd/bases
+	$(CONTROLLER_GEN) $(CRD_OPTIONS) rbac:roleName=manager-role webhook paths="./api/..." output:crd:artifacts:config=config/crd/bases
 	# update manifests to force preserveUnknownFields to false. We can't use controller-gen to set this to false because it has a bug...
 	# see: https://github.com/kubernetes-sigs/controller-tools/issues/476
 	# TODO: After this has been in the release for "a while" we can remove it since the default is also false and we just
