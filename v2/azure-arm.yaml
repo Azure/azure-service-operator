@@ -82,10 +82,10 @@ typeFilters:
     version: v*20220131preview
     because: We want to export this particular preview version
 
-  # - action: include
-  #   group: apimanagement
-  #   version: v*20230301preview
-  #   because: We want to export this particular preview version
+  - action: include
+    group: apimanagement
+    version: v*20230301preview
+    because: This version of APIM is created in a matter of minutes
 
   - action: include
     group: common
@@ -772,18 +772,18 @@ objectModelConfiguration:
         SubnetResourceId:
           $armReference: true
     # TODO: New APIM version
-    # 2023-03-01-preview:
-    #   Service:
-    #     $export: true
-    #     $supportedFrom: v2.4.0
-    #   CertificateConfiguration:
-    #     CertificatePassword:
-    #       $isSecret: true
-    #   HostnameConfiguration:
-    #     CertificatePassword:
-    #       $isSecret: true
-    #     IdentityClientId:
-    #       $importConfigMapMode: optional
+    2023-03-01-preview:
+      Service:
+        $export: true
+        $supportedFrom: v2.4.0
+      CertificateConfiguration:
+        CertificatePassword:
+          $isSecret: true
+      HostnameConfiguration:
+        CertificatePassword:
+          $isSecret: true
+        IdentityClientId:
+          $importConfigMapMode: optional
   appconfiguration:
     2022-05-01:
       ConfigurationStore:

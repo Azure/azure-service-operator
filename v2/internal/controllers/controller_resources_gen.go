@@ -7,6 +7,8 @@ import (
 	apimanagement_customizations "github.com/Azure/azure-service-operator/v2/api/apimanagement/customizations"
 	apimanagement_v20220801 "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801"
 	apimanagement_v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storage"
+	apimanagement_v20230301p "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230301preview"
+	apimanagement_v20230301ps "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230301previewstorage"
 	appconfiguration_customizations "github.com/Azure/azure-service-operator/v2/api/appconfiguration/customizations"
 	appconfiguration_v20220501 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501"
 	appconfiguration_v20220501s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501storage"
@@ -1014,6 +1016,8 @@ func getKnownTypes() []client.Object {
 		new(apimanagement_v20220801s.Service),
 		new(apimanagement_v20220801s.Subscription),
 		new(apimanagement_v20220801s.VersionSet))
+	result = append(result, new(apimanagement_v20230301p.Service))
+	result = append(result, new(apimanagement_v20230301ps.Service))
 	result = append(result, new(appconfiguration_v1beta20220501.ConfigurationStore))
 	result = append(result, new(appconfiguration_v1beta20220501s.ConfigurationStore))
 	result = append(result, new(appconfiguration_v20220501.ConfigurationStore))
@@ -1727,6 +1731,8 @@ func createScheme() *runtime.Scheme {
 	_ = clientgoscheme.AddToScheme(scheme)
 	_ = apimanagement_v20220801.AddToScheme(scheme)
 	_ = apimanagement_v20220801s.AddToScheme(scheme)
+	_ = apimanagement_v20230301p.AddToScheme(scheme)
+	_ = apimanagement_v20230301ps.AddToScheme(scheme)
 	_ = appconfiguration_v1beta20220501.AddToScheme(scheme)
 	_ = appconfiguration_v1beta20220501s.AddToScheme(scheme)
 	_ = appconfiguration_v20220501.AddToScheme(scheme)

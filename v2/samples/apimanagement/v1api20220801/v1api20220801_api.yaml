@@ -1,0 +1,21 @@
+apiVersion: apimanagement.azure.com/v1api20220801
+kind: Api
+metadata:
+  name: sampleapi
+  namespace: default
+spec:
+  apiVersion: "2020-08-01"
+  apiRevision: "2"
+  apiRevisionDescription: Second Revision
+  apiVersionDescription: August 2020
+  apiVersionSet:
+    id: /apiVersionSets/sampleapimversionset
+  displayName: account-api
+  description: Description about the API
+  subscriptionRequired: false
+  protocols:
+    - http
+  path: /account
+  termsOfServiceUrl: https://example.com/terms
+  owner:
+    name: sampleapimservice
