@@ -398,6 +398,14 @@ tasks:
     cmds:
       - docker build . --build-arg VERSION_FLAGS={{.VERSION_FLAGS}} --build-arg CONTROLLER_APP={{.CONTROLLER_APP}} -t {{.CONTROLLER_DOCKER_IMAGE}}
 
+  controller:docker-build-and-save:
+    desc: Builds the {{.CONTROLLER_APP}} Docker image and saves it using docker save.
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps:
+      - controller:docker-build
+    cmds:
+      - docker save {{.CONTROLLER_DOCKER_IMAGE}} > bin/$(echo '{{.CONTROLLER_DOCKER_IMAGE}}' | sed -e 's/:/_/g').tar
+
   controller:docker-push-local:
     desc: Pushes the controller container image to a local registry
     deps: 
