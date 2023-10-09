@@ -100,7 +100,7 @@ func runGroupTest(tc *testcommon.KubePerTestContext, groupVersionPath string) {
 		return
 	}
 
-	tc.CreateResourceAndWait(rg)
+	tc.CreateResourceAndWaitWithoutCleanup(rg)
 
 	// For secrets we need to look across refs and samples:
 	findRefsAndCreateSecrets(tc, samples.SamplesMap, samples.RefsMap)
@@ -112,7 +112,7 @@ func runGroupTest(tc *testcommon.KubePerTestContext, groupVersionPath string) {
 	tc.CreateResourcesAndWait(refsSlice...)
 	tc.CreateResourcesAndWait(samplesSlice...)
 
-	tc.DeleteResourceAndWait(rg)
+	//tc.DeleteResourceAndWait(rg)
 }
 
 func processSamples(samples map[string]genruntime.ARMMetaObject) []client.Object {
