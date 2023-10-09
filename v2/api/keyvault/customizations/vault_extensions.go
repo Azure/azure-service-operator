@@ -8,7 +8,6 @@ package customizations
 import (
 	"context"
 	"net/http"
-	"strings"
 	"time"
 
 	keyvault "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401previewstorage"
@@ -25,7 +24,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
-	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
@@ -62,7 +60,8 @@ func (ex *VaultExtension) ModifyARMResource(
 	var _ conversion.Hub = kv
 
 	// If createMode is nil, nothing for us to do
-	if kv.Spec.Properties == nil {
+	// (This shouldn't be possible, but better to hedge against it)
+	if kv.Spec.Properties == nil || kv.Spec.Properties.CreateMode == nil {
 		return armObj, nil
 	}
 
@@ -84,34 +83,28 @@ func (ex *VaultExtension) ModifyARMResource(
 		return nil, errors.Wrap(err, "failed to create new VaultsClient")
 	}
 
-	var createMode *string
-
-	if strings.EqualFold(*kv.Spec.Properties.CreateMode, CreateMode_CreateOrRecover) {
-		mode, err := ex.handleCreateOrRecover(ctx, kv, vc, resolver, log)
+	createMode := *kv.Spec.Properties.CreateMode
+	if createMode == CreateMode_CreateOrRecover {
+		createMode, err = ex.handleCreateOrRecover(ctx, kv, vc, resolver, log)
 		if err != nil {
 			return nil, errors.Wrapf(err, "error checking for existence of soft-deleted KeyVault")
 		}
-
-		createMode = &mode
 	}
 
-	if strings.EqualFold(*kv.Spec.Properties.CreateMode, CreateMode_PurgeThenCreate) {
-		err := ex.handlePurgeThenCreate(ctx, kv, vc, resolver, log)
+	if createMode == CreateMode_PurgeThenCreate {
+		err = ex.handlePurgeThenCreate(ctx, kv, vc, resolver, log)
 		if err != nil {
 			return nil, errors.Wrapf(err, "error purging soft-deleted KeyVault")
 		}
 
-		createMode = to.Ptr(CreateMode_Default)
+		createMode = CreateMode_Default
 	}
 
-	if createMode != nil {
-		// Modify the payload as necessary
-		spec := armObj.Spec()
-		var v string = string(*createMode)
-		err := reflecthelpers.SetProperty(spec, "Properties.CreateMode", &v)
-		if err != nil {
-			return nil, errors.Wrapf(err, "error setting CreateMode to %s", v)
-		}
+	// Modify the payload as necessary
+	spec := armObj.Spec()
+	err = reflecthelpers.SetProperty(spec, "Properties.CreateMode", &createMode)
+	if err != nil {
+		return nil, errors.Wrapf(err, "error setting CreateMode to %s", createMode)
 	}
 
 	return armObj, nil
@@ -137,7 +130,7 @@ func (ex *VaultExtension) handleCreateOrRecover(
 	log.Info(
 		"KeyVault reconciliation requested CreateOrRecover",
 		"KeyVault", kv.Name,
-		"Soft-deleted-KeyVault-exists", exists,
+		"softDeletedKeyvaultExists", exists,
 		"createMode", result)
 
 	return result, err
@@ -162,7 +155,7 @@ func (ex *VaultExtension) handlePurgeThenCreate(
 	log.Info(
 		"KeyVault reconciliation requested PurgeThenCreate",
 		"KeyVault", kv.Name,
-		"Deleted KeyVault exists", exists)
+		"softDeletedKeyVaultExists", exists)
 
 	if exists {
 		// Get the owner of the KeyVault, we need this resource group to determine the location
@@ -238,9 +231,9 @@ func (ex *VaultExtension) checkForExistenceOfDeletedKeyVault(
 
 	log.Info(
 		"Checking for existence of soft-deleted KeyVault",
-		"KeyVault", kv.Name,
-		"Location", location,
-		"Exists", exists,
+		"keyVault", kv.Name,
+		"location", location,
+		"softDeletedKeyvaultExists", exists,
 	)
 
 	return exists, nil
