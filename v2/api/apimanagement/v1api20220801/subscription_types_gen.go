@@ -199,7 +199,7 @@ func (subscription *Subscription) ValidateUpdate(old runtime.Object) (admission.
 
 // createValidations validates the creation of the resource
 func (subscription *Subscription) createValidations() []func() (admission.Warnings, error) {
-	return []func() (admission.Warnings, error){subscription.validateResourceReferences, subscription.validateOwnerReference, subscription.validateSecretDestinations, subscription.validateOptionalConfigMapReferences}
+	return []func() (admission.Warnings, error){subscription.validateResourceReferences, subscription.validateOwnerReference, subscription.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -220,19 +220,7 @@ func (subscription *Subscription) updateValidations() []func(old runtime.Object)
 		func(old runtime.Object) (admission.Warnings, error) {
 			return subscription.validateSecretDestinations()
 		},
-		func(old runtime.Object) (admission.Warnings, error) {
-			return subscription.validateOptionalConfigMapReferences()
-		},
 	}
-}
-
-// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
-func (subscription *Subscription) validateOptionalConfigMapReferences() (admission.Warnings, error) {
-	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&subscription.Spec)
-	if err != nil {
-		return nil, err
-	}
-	return genruntime.ValidateOptionalConfigMapReferences(refs)
 }
 
 // validateOwnerReference validates the owner field
@@ -374,25 +362,15 @@ type Service_Subscription_Spec struct {
 	// OwnerId: User (user id path) for whom subscription is being created in form /users/{userId}
 	OwnerId *string `json:"ownerId,omitempty"`
 
-	// +kubebuilder:validation:MaxLength=256
-	// +kubebuilder:validation:MinLength=1
 	// PrimaryKey: Primary subscription key. If not specified during request key will be generated automatically.
-	PrimaryKey *string `json:"primaryKey,omitempty" optionalConfigMapPair:"PrimaryKey"`
-
-	// PrimaryKeyFromConfig: Primary subscription key. If not specified during request key will be generated automatically.
-	PrimaryKeyFromConfig *genruntime.ConfigMapReference `json:"primaryKeyFromConfig,omitempty" optionalConfigMapPair:"PrimaryKey"`
+	PrimaryKey *genruntime.SecretReference `json:"primaryKey,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Scope: Scope like /products/{productId} or /apis or /apis/{apiId}.
 	Scope *string `json:"scope,omitempty"`
 
-	// +kubebuilder:validation:MaxLength=256
-	// +kubebuilder:validation:MinLength=1
 	// SecondaryKey: Secondary subscription key. If not specified during request key will be generated automatically.
-	SecondaryKey *string `json:"secondaryKey,omitempty" optionalConfigMapPair:"SecondaryKey"`
-
-	// SecondaryKeyFromConfig: Secondary subscription key. If not specified during request key will be generated automatically.
-	SecondaryKeyFromConfig *genruntime.ConfigMapReference `json:"secondaryKeyFromConfig,omitempty" optionalConfigMapPair:"SecondaryKey"`
+	SecondaryKey *genruntime.SecretReference `json:"secondaryKey,omitempty"`
 
 	// State: Initial subscription state. If no value is specified, subscription is created with Submitted state. Possible
 	// states are * active – the subscription is active, * suspended – the subscription is blocked, and the subscriber
@@ -420,10 +398,8 @@ func (subscription *Service_Subscription_Spec) ConvertToARM(resolved genruntime.
 		subscription.DisplayName != nil ||
 		subscription.OwnerId != nil ||
 		subscription.PrimaryKey != nil ||
-		subscription.PrimaryKeyFromConfig != nil ||
 		subscription.Scope != nil ||
 		subscription.SecondaryKey != nil ||
-		subscription.SecondaryKeyFromConfig != nil ||
 		subscription.State != nil {
 		result.Properties = &SubscriptionCreateParameterProperties_ARM{}
 	}
@@ -440,15 +416,11 @@ func (subscription *Service_Subscription_Spec) ConvertToARM(resolved genruntime.
 		result.Properties.OwnerId = &ownerId
 	}
 	if subscription.PrimaryKey != nil {
-		primaryKey := *subscription.PrimaryKey
-		result.Properties.PrimaryKey = &primaryKey
-	}
-	if subscription.PrimaryKeyFromConfig != nil {
-		primaryKeyValue, err := resolved.ResolvedConfigMaps.Lookup(*subscription.PrimaryKeyFromConfig)
+		primaryKeySecret, err := resolved.ResolvedSecrets.Lookup(*subscription.PrimaryKey)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property PrimaryKey")
+			return nil, errors.Wrap(err, "looking up secret for property PrimaryKey")
 		}
-		primaryKey := primaryKeyValue
+		primaryKey := primaryKeySecret
 		result.Properties.PrimaryKey = &primaryKey
 	}
 	if subscription.Scope != nil {
@@ -456,15 +428,11 @@ func (subscription *Service_Subscription_Spec) ConvertToARM(resolved genruntime.
 		result.Properties.Scope = &scope
 	}
 	if subscription.SecondaryKey != nil {
-		secondaryKey := *subscription.SecondaryKey
-		result.Properties.SecondaryKey = &secondaryKey
-	}
-	if subscription.SecondaryKeyFromConfig != nil {
-		secondaryKeyValue, err := resolved.ResolvedConfigMaps.Lookup(*subscription.SecondaryKeyFromConfig)
+		secondaryKeySecret, err := resolved.ResolvedSecrets.Lookup(*subscription.SecondaryKey)
 		if err != nil {
-			return nil, errors.Wrap(err, "looking up configmap for property SecondaryKey")
+			return nil, errors.Wrap(err, "looking up secret for property SecondaryKey")
 		}
-		secondaryKey := secondaryKeyValue
+		secondaryKey := secondaryKeySecret
 		result.Properties.SecondaryKey = &secondaryKey
 	}
 	if subscription.State != nil {
@@ -524,16 +492,7 @@ func (subscription *Service_Subscription_Spec) PopulateFromARM(owner genruntime.
 		}
 	}
 
-	// Set property "PrimaryKey":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PrimaryKey != nil {
-			primaryKey := *typedInput.Properties.PrimaryKey
-			subscription.PrimaryKey = &primaryKey
-		}
-	}
-
-	// no assignment for property "PrimaryKeyFromConfig"
+	// no assignment for property "PrimaryKey"
 
 	// Set property "Scope":
 	// copying flattened property:
@@ -544,16 +503,7 @@ func (subscription *Service_Subscription_Spec) PopulateFromARM(owner genruntime.
 		}
 	}
 
-	// Set property "SecondaryKey":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.SecondaryKey != nil {
-			secondaryKey := *typedInput.Properties.SecondaryKey
-			subscription.SecondaryKey = &secondaryKey
-		}
-	}
-
-	// no assignment for property "SecondaryKeyFromConfig"
+	// no assignment for property "SecondaryKey"
 
 	// Set property "State":
 	// copying flattened property:
@@ -665,18 +615,10 @@ func (subscription *Service_Subscription_Spec) AssignProperties_From_Service_Sub
 
 	// PrimaryKey
 	if source.PrimaryKey != nil {
-		primaryKey := *source.PrimaryKey
+		primaryKey := source.PrimaryKey.Copy()
 		subscription.PrimaryKey = &primaryKey
 	} else {
 		subscription.PrimaryKey = nil
-	}
-
-	// PrimaryKeyFromConfig
-	if source.PrimaryKeyFromConfig != nil {
-		primaryKeyFromConfig := source.PrimaryKeyFromConfig.Copy()
-		subscription.PrimaryKeyFromConfig = &primaryKeyFromConfig
-	} else {
-		subscription.PrimaryKeyFromConfig = nil
 	}
 
 	// Scope
@@ -684,18 +626,10 @@ func (subscription *Service_Subscription_Spec) AssignProperties_From_Service_Sub
 
 	// SecondaryKey
 	if source.SecondaryKey != nil {
-		secondaryKey := *source.SecondaryKey
+		secondaryKey := source.SecondaryKey.Copy()
 		subscription.SecondaryKey = &secondaryKey
 	} else {
 		subscription.SecondaryKey = nil
-	}
-
-	// SecondaryKeyFromConfig
-	if source.SecondaryKeyFromConfig != nil {
-		secondaryKeyFromConfig := source.SecondaryKeyFromConfig.Copy()
-		subscription.SecondaryKeyFromConfig = &secondaryKeyFromConfig
-	} else {
-		subscription.SecondaryKeyFromConfig = nil
 	}
 
 	// State
@@ -762,18 +696,10 @@ func (subscription *Service_Subscription_Spec) AssignProperties_To_Service_Subsc
 
 	// PrimaryKey
 	if subscription.PrimaryKey != nil {
-		primaryKey := *subscription.PrimaryKey
+		primaryKey := subscription.PrimaryKey.Copy()
 		destination.PrimaryKey = &primaryKey
 	} else {
 		destination.PrimaryKey = nil
-	}
-
-	// PrimaryKeyFromConfig
-	if subscription.PrimaryKeyFromConfig != nil {
-		primaryKeyFromConfig := subscription.PrimaryKeyFromConfig.Copy()
-		destination.PrimaryKeyFromConfig = &primaryKeyFromConfig
-	} else {
-		destination.PrimaryKeyFromConfig = nil
 	}
 
 	// Scope
@@ -781,18 +707,10 @@ func (subscription *Service_Subscription_Spec) AssignProperties_To_Service_Subsc
 
 	// SecondaryKey
 	if subscription.SecondaryKey != nil {
-		secondaryKey := *subscription.SecondaryKey
+		secondaryKey := subscription.SecondaryKey.Copy()
 		destination.SecondaryKey = &secondaryKey
 	} else {
 		destination.SecondaryKey = nil
-	}
-
-	// SecondaryKeyFromConfig
-	if subscription.SecondaryKeyFromConfig != nil {
-		secondaryKeyFromConfig := subscription.SecondaryKeyFromConfig.Copy()
-		destination.SecondaryKeyFromConfig = &secondaryKeyFromConfig
-	} else {
-		destination.SecondaryKeyFromConfig = nil
 	}
 
 	// State
