@@ -587,11 +587,6 @@ func (in *ApiVersionSetContractDetails) DeepCopyInto(out *ApiVersionSetContractD
 		*out = new(string)
 		**out = **in
 	}
-	if in.Id != nil {
-		in, out := &in.Id, &out.Id
-		*out = new(string)
-		**out = **in
-	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
 		*out = new(string)
@@ -603,6 +598,11 @@ func (in *ApiVersionSetContractDetails) DeepCopyInto(out *ApiVersionSetContractD
 		for key, val := range *in {
 			(*out)[key] = val
 		}
+	}
+	if in.Reference != nil {
+		in, out := &in.Reference, &out.Reference
+		*out = new(genruntime.ResourceReference)
+		**out = **in
 	}
 	if in.VersionHeaderName != nil {
 		in, out := &in.VersionHeaderName, &out.VersionHeaderName
@@ -2611,9 +2611,9 @@ func (in *Service_Api_Spec) DeepCopyInto(out *Service_Api_Spec) {
 		*out = new(ApiVersionSetContractDetails)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.ApiVersionSetId != nil {
-		in, out := &in.ApiVersionSetId, &out.ApiVersionSetId
-		*out = new(string)
+	if in.ApiVersionSetReference != nil {
+		in, out := &in.ApiVersionSetReference, &out.ApiVersionSetReference
+		*out = new(genruntime.ResourceReference)
 		**out = **in
 	}
 	if in.AuthenticationSettings != nil {
@@ -2678,9 +2678,9 @@ func (in *Service_Api_Spec) DeepCopyInto(out *Service_Api_Spec) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.SourceApiId != nil {
-		in, out := &in.SourceApiId, &out.SourceApiId
-		*out = new(string)
+	if in.SourceApiReference != nil {
+		in, out := &in.SourceApiReference, &out.SourceApiReference
+		*out = new(genruntime.ResourceReference)
 		**out = **in
 	}
 	if in.SubscriptionKeyParameterNames != nil {

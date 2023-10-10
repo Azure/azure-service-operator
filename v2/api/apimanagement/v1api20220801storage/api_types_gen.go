@@ -135,13 +135,15 @@ const APIVersion_Value = APIVersion("2022-08-01")
 
 // Storage version of v1api20220801.Service_Api_Spec
 type Service_Api_Spec struct {
-	APIVersion             *string                         `json:"apiVersion,omitempty"`
-	ApiRevision            *string                         `json:"apiRevision,omitempty"`
-	ApiRevisionDescription *string                         `json:"apiRevisionDescription,omitempty"`
-	ApiType                *string                         `json:"apiType,omitempty"`
-	ApiVersionDescription  *string                         `json:"apiVersionDescription,omitempty"`
-	ApiVersionSet          *ApiVersionSetContractDetails   `json:"apiVersionSet,omitempty"`
-	ApiVersionSetId        *string                         `json:"apiVersionSetId,omitempty"`
+	APIVersion             *string                       `json:"apiVersion,omitempty"`
+	ApiRevision            *string                       `json:"apiRevision,omitempty"`
+	ApiRevisionDescription *string                       `json:"apiRevisionDescription,omitempty"`
+	ApiType                *string                       `json:"apiType,omitempty"`
+	ApiVersionDescription  *string                       `json:"apiVersionDescription,omitempty"`
+	ApiVersionSet          *ApiVersionSetContractDetails `json:"apiVersionSet,omitempty"`
+
+	// ApiVersionSetReference: A resource identifier for the related ApiVersionSet.
+	ApiVersionSetReference *genruntime.ResourceReference   `armReference:"ApiVersionSetId" json:"apiVersionSetReference,omitempty"`
 	AuthenticationSettings *AuthenticationSettingsContract `json:"authenticationSettings,omitempty"`
 
 	// +kubebuilder:validation:MaxLength=256
@@ -162,12 +164,14 @@ type Service_Api_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a apimanagement.azure.com/Service resource
-	Owner                            *genruntime.KnownResourceReference        `group:"apimanagement.azure.com" json:"owner,omitempty" kind:"Service"`
-	Path                             *string                                   `json:"path,omitempty"`
-	PropertyBag                      genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
-	Protocols                        []string                                  `json:"protocols,omitempty"`
-	ServiceUrl                       *string                                   `json:"serviceUrl,omitempty"`
-	SourceApiId                      *string                                   `json:"sourceApiId,omitempty"`
+	Owner       *genruntime.KnownResourceReference `group:"apimanagement.azure.com" json:"owner,omitempty" kind:"Service"`
+	Path        *string                            `json:"path,omitempty"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Protocols   []string                           `json:"protocols,omitempty"`
+	ServiceUrl  *string                            `json:"serviceUrl,omitempty"`
+
+	// SourceApiReference: API identifier of the source API.
+	SourceApiReference               *genruntime.ResourceReference             `armReference:"SourceApiId" json:"sourceApiReference,omitempty"`
 	SubscriptionKeyParameterNames    *SubscriptionKeyParameterNamesContract    `json:"subscriptionKeyParameterNames,omitempty"`
 	SubscriptionRequired             *bool                                     `json:"subscriptionRequired,omitempty"`
 	TermsOfServiceUrl                *string                                   `json:"termsOfServiceUrl,omitempty"`
@@ -291,13 +295,15 @@ type ApiLicenseInformation_STATUS struct {
 // Storage version of v1api20220801.ApiVersionSetContractDetails
 // An API Version Set contains the common configuration for a set of API Versions relating
 type ApiVersionSetContractDetails struct {
-	Description       *string                `json:"description,omitempty"`
-	Id                *string                `json:"id,omitempty"`
-	Name              *string                `json:"name,omitempty"`
-	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	VersionHeaderName *string                `json:"versionHeaderName,omitempty"`
-	VersionQueryName  *string                `json:"versionQueryName,omitempty"`
-	VersioningScheme  *string                `json:"versioningScheme,omitempty"`
+	Description *string                `json:"description,omitempty"`
+	Name        *string                `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+
+	// Reference: Identifier for existing API Version Set. Omit this value to create a new Version Set.
+	Reference         *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	VersionHeaderName *string                       `json:"versionHeaderName,omitempty"`
+	VersionQueryName  *string                       `json:"versionQueryName,omitempty"`
+	VersioningScheme  *string                       `json:"versioningScheme,omitempty"`
 }
 
 // Storage version of v1api20220801.ApiVersionSetContractDetails_STATUS

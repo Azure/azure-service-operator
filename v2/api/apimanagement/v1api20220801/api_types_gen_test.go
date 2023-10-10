@@ -281,7 +281,6 @@ func AddIndependentPropertyGeneratorsForService_Api_Spec(gens map[string]gopter.
 		ApiCreateOrUpdateProperties_ApiType_Soap,
 		ApiCreateOrUpdateProperties_ApiType_Websocket))
 	gens["ApiVersionDescription"] = gen.PtrOf(gen.AlphaString())
-	gens["ApiVersionSetId"] = gen.PtrOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
@@ -305,7 +304,6 @@ func AddIndependentPropertyGeneratorsForService_Api_Spec(gens map[string]gopter.
 		ApiCreateOrUpdateProperties_Protocols_Ws,
 		ApiCreateOrUpdateProperties_Protocols_Wss))
 	gens["ServiceUrl"] = gen.PtrOf(gen.AlphaString())
-	gens["SourceApiId"] = gen.PtrOf(gen.AlphaString())
 	gens["SubscriptionRequired"] = gen.PtrOf(gen.Bool())
 	gens["TermsOfServiceUrl"] = gen.PtrOf(gen.AlphaString())
 	gens["TranslateRequiredQueryParameters"] = gen.PtrOf(gen.OneConstOf(ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_Query, ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters_Template))
@@ -1096,7 +1094,6 @@ func ApiVersionSetContractDetailsGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForApiVersionSetContractDetails is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApiVersionSetContractDetails(gens map[string]gopter.Gen) {
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["VersionHeaderName"] = gen.PtrOf(gen.AlphaString())
 	gens["VersionQueryName"] = gen.PtrOf(gen.AlphaString())

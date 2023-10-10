@@ -14,6 +14,7 @@ import (
 	apim "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_ApiManagement_20220801_CRUD(t *testing.T) {
@@ -25,10 +26,10 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 
-	// We don't want to delete the resource group at the end of the test as APIM
-	// takes a long time to provision. We'll clean it up manually
+	// If you don't want to delete the resource group at the end of the test as APIM
+	// takes a long time to provision; comment out the delete lines at the end of the test.
 	rg := tc.NewTestResourceGroup()
-	tc.CreateResourceAndWaitWithoutCleanup(rg)
+	tc.CreateResourceAndWait(rg)
 
 	// There will be a New v2 SKU released 5/10/2023 which will have a much quicker start up
 	// time. Move to that when it's available (BasicV2 or StandardV2 SKU)
@@ -51,9 +52,7 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 			},
 	}
 
-	// TODO: When you are debugging, you can use this to create the APIM service once and not delete it
 	tc.CreateResourceAndWaitWithoutCleanup(&service)
-	// tc.CreateResourceAndWait(&service)
 
 	tc.Expect(service.Status.Id).ToNot(BeNil())
 
@@ -109,6 +108,11 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 					},
 			},
 	)
+
+	// Whilst developing APIM tests, you can comment these two lines
+	// out to keep the APIM instance
+	tc.DeleteResourceAndWait(&service)
+	tc.DeleteResourceAndWait(rg)
 }
 
 func APIM_Subscription_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
@@ -263,6 +267,10 @@ func APIM_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 	tc.T.Log("creating apim version set")
 	tc.CreateResourceAndWait(&versionSet)
 
+	versionSetReference := genruntime.ResourceReference{
+		ARMID: *versionSet.Status.Id,
+	}
+
 	// Add a simple Api
 	api := apim.Api{
 			ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("api")),
@@ -271,7 +279,7 @@ func APIM_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 					ApiRevision:            to.Ptr("v1"),
 					ApiRevisionDescription: to.Ptr("First Revision"),
 					ApiVersionDescription:  to.Ptr("Second Version"),
-					ApiVersionSetId:        versionSet.Status.Id,
+					ApiVersionSetReference: &versionSetReference,
 					Description:            to.Ptr("A Description about the api"),
 					DisplayName:            to.Ptr("account-api"),
 					Owner:                  testcommon.AsOwner(service),

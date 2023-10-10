@@ -346,8 +346,8 @@ type Service_Api_Spec struct {
 	// ApiVersionSet: Version set details
 	ApiVersionSet *ApiVersionSetContractDetails `json:"apiVersionSet,omitempty"`
 
-	// ApiVersionSetId: A resource identifier for the related ApiVersionSet.
-	ApiVersionSetId *string `json:"apiVersionSetId,omitempty"`
+	// ApiVersionSetReference: A resource identifier for the related ApiVersionSet.
+	ApiVersionSetReference *genruntime.ResourceReference `armReference:"ApiVersionSetId" json:"apiVersionSetReference,omitempty"`
 
 	// AuthenticationSettings: Collection of authentication settings included into this API.
 	AuthenticationSettings *AuthenticationSettingsContract `json:"authenticationSettings,omitempty"`
@@ -401,8 +401,8 @@ type Service_Api_Spec struct {
 	// ServiceUrl: Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long.
 	ServiceUrl *string `json:"serviceUrl,omitempty"`
 
-	// SourceApiId: API identifier of the source API.
-	SourceApiId *string `json:"sourceApiId,omitempty"`
+	// SourceApiReference: API identifier of the source API.
+	SourceApiReference *genruntime.ResourceReference `armReference:"SourceApiId" json:"sourceApiReference,omitempty"`
 
 	// SubscriptionKeyParameterNames: Protocols over which API is made available.
 	SubscriptionKeyParameterNames *SubscriptionKeyParameterNamesContract `json:"subscriptionKeyParameterNames,omitempty"`
@@ -446,7 +446,7 @@ func (serviceApi *Service_Api_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		serviceApi.ApiType != nil ||
 		serviceApi.ApiVersionDescription != nil ||
 		serviceApi.ApiVersionSet != nil ||
-		serviceApi.ApiVersionSetId != nil ||
+		serviceApi.ApiVersionSetReference != nil ||
 		serviceApi.AuthenticationSettings != nil ||
 		serviceApi.Contact != nil ||
 		serviceApi.Description != nil ||
@@ -457,7 +457,7 @@ func (serviceApi *Service_Api_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		serviceApi.Path != nil ||
 		serviceApi.Protocols != nil ||
 		serviceApi.ServiceUrl != nil ||
-		serviceApi.SourceApiId != nil ||
+		serviceApi.SourceApiReference != nil ||
 		serviceApi.SubscriptionKeyParameterNames != nil ||
 		serviceApi.SubscriptionRequired != nil ||
 		serviceApi.TermsOfServiceUrl != nil ||
@@ -495,8 +495,12 @@ func (serviceApi *Service_Api_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		apiVersionSet := *apiVersionSet_ARM.(*ApiVersionSetContractDetails_ARM)
 		result.Properties.ApiVersionSet = &apiVersionSet
 	}
-	if serviceApi.ApiVersionSetId != nil {
-		apiVersionSetId := *serviceApi.ApiVersionSetId
+	if serviceApi.ApiVersionSetReference != nil {
+		apiVersionSetIdARMID, err := resolved.ResolvedReferences.Lookup(*serviceApi.ApiVersionSetReference)
+		if err != nil {
+			return nil, err
+		}
+		apiVersionSetId := apiVersionSetIdARMID
 		result.Properties.ApiVersionSetId = &apiVersionSetId
 	}
 	if serviceApi.AuthenticationSettings != nil {
@@ -550,8 +554,12 @@ func (serviceApi *Service_Api_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		serviceUrl := *serviceApi.ServiceUrl
 		result.Properties.ServiceUrl = &serviceUrl
 	}
-	if serviceApi.SourceApiId != nil {
-		sourceApiId := *serviceApi.SourceApiId
+	if serviceApi.SourceApiReference != nil {
+		sourceApiIdARMID, err := resolved.ResolvedReferences.Lookup(*serviceApi.SourceApiReference)
+		if err != nil {
+			return nil, err
+		}
+		sourceApiId := sourceApiIdARMID
 		result.Properties.SourceApiId = &sourceApiId
 	}
 	if serviceApi.SubscriptionKeyParameterNames != nil {
@@ -664,14 +672,7 @@ func (serviceApi *Service_Api_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property "ApiVersionSetId":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ApiVersionSetId != nil {
-			apiVersionSetId := *typedInput.Properties.ApiVersionSetId
-			serviceApi.ApiVersionSetId = &apiVersionSetId
-		}
-	}
+	// no assignment for property "ApiVersionSetReference"
 
 	// Set property "AuthenticationSettings":
 	// copying flattened property:
@@ -786,14 +787,7 @@ func (serviceApi *Service_Api_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property "SourceApiId":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.SourceApiId != nil {
-			sourceApiId := *typedInput.Properties.SourceApiId
-			serviceApi.SourceApiId = &sourceApiId
-		}
-	}
+	// no assignment for property "SourceApiReference"
 
 	// Set property "SubscriptionKeyParameterNames":
 	// copying flattened property:
@@ -977,8 +971,13 @@ func (serviceApi *Service_Api_Spec) AssignProperties_From_Service_Api_Spec(sourc
 		serviceApi.ApiVersionSet = nil
 	}
 
-	// ApiVersionSetId
-	serviceApi.ApiVersionSetId = genruntime.ClonePointerToString(source.ApiVersionSetId)
+	// ApiVersionSetReference
+	if source.ApiVersionSetReference != nil {
+		apiVersionSetReference := source.ApiVersionSetReference.Copy()
+		serviceApi.ApiVersionSetReference = &apiVersionSetReference
+	} else {
+		serviceApi.ApiVersionSetReference = nil
+	}
 
 	// AuthenticationSettings
 	if source.AuthenticationSettings != nil {
@@ -1083,8 +1082,13 @@ func (serviceApi *Service_Api_Spec) AssignProperties_From_Service_Api_Spec(sourc
 		serviceApi.ServiceUrl = nil
 	}
 
-	// SourceApiId
-	serviceApi.SourceApiId = genruntime.ClonePointerToString(source.SourceApiId)
+	// SourceApiReference
+	if source.SourceApiReference != nil {
+		sourceApiReference := source.SourceApiReference.Copy()
+		serviceApi.SourceApiReference = &sourceApiReference
+	} else {
+		serviceApi.SourceApiReference = nil
+	}
 
 	// SubscriptionKeyParameterNames
 	if source.SubscriptionKeyParameterNames != nil {
@@ -1201,8 +1205,13 @@ func (serviceApi *Service_Api_Spec) AssignProperties_To_Service_Api_Spec(destina
 		destination.ApiVersionSet = nil
 	}
 
-	// ApiVersionSetId
-	destination.ApiVersionSetId = genruntime.ClonePointerToString(serviceApi.ApiVersionSetId)
+	// ApiVersionSetReference
+	if serviceApi.ApiVersionSetReference != nil {
+		apiVersionSetReference := serviceApi.ApiVersionSetReference.Copy()
+		destination.ApiVersionSetReference = &apiVersionSetReference
+	} else {
+		destination.ApiVersionSetReference = nil
+	}
 
 	// AuthenticationSettings
 	if serviceApi.AuthenticationSettings != nil {
@@ -1310,8 +1319,13 @@ func (serviceApi *Service_Api_Spec) AssignProperties_To_Service_Api_Spec(destina
 		destination.ServiceUrl = nil
 	}
 
-	// SourceApiId
-	destination.SourceApiId = genruntime.ClonePointerToString(serviceApi.SourceApiId)
+	// SourceApiReference
+	if serviceApi.SourceApiReference != nil {
+		sourceApiReference := serviceApi.SourceApiReference.Copy()
+		destination.SourceApiReference = &sourceApiReference
+	} else {
+		destination.SourceApiReference = nil
+	}
 
 	// SubscriptionKeyParameterNames
 	if serviceApi.SubscriptionKeyParameterNames != nil {
@@ -1425,8 +1439,13 @@ func (serviceApi *Service_Api_Spec) Initialize_From_Service_Api_STATUS(source *S
 		serviceApi.ApiVersionSet = nil
 	}
 
-	// ApiVersionSetId
-	serviceApi.ApiVersionSetId = genruntime.ClonePointerToString(source.ApiVersionSetId)
+	// ApiVersionSetReference
+	if source.ApiVersionSetId != nil {
+		apiVersionSetReference := genruntime.CreateResourceReferenceFromARMID(*source.ApiVersionSetId)
+		serviceApi.ApiVersionSetReference = &apiVersionSetReference
+	} else {
+		serviceApi.ApiVersionSetReference = nil
+	}
 
 	// AuthenticationSettings
 	if source.AuthenticationSettings != nil {
@@ -1513,8 +1532,13 @@ func (serviceApi *Service_Api_Spec) Initialize_From_Service_Api_STATUS(source *S
 		serviceApi.ServiceUrl = nil
 	}
 
-	// SourceApiId
-	serviceApi.SourceApiId = genruntime.ClonePointerToString(source.SourceApiId)
+	// SourceApiReference
+	if source.SourceApiId != nil {
+		sourceApiReference := genruntime.CreateResourceReferenceFromARMID(*source.SourceApiId)
+		serviceApi.SourceApiReference = &sourceApiReference
+	} else {
+		serviceApi.SourceApiReference = nil
+	}
 
 	// SubscriptionKeyParameterNames
 	if source.SubscriptionKeyParameterNames != nil {
@@ -2838,11 +2862,11 @@ type ApiVersionSetContractDetails struct {
 	// Description: Description of API Version Set.
 	Description *string `json:"description,omitempty"`
 
-	// Id: Identifier for existing API Version Set. Omit this value to create a new Version Set.
-	Id *string `json:"id,omitempty"`
-
 	// Name: The display Name of the API Version Set.
 	Name *string `json:"name,omitempty"`
+
+	// Reference: Identifier for existing API Version Set. Omit this value to create a new Version Set.
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
 	// VersionHeaderName: Name of HTTP header parameter that indicates the API Version if versioningScheme is set to `header`.
 	VersionHeaderName *string `json:"versionHeaderName,omitempty"`
@@ -2870,9 +2894,13 @@ func (details *ApiVersionSetContractDetails) ConvertToARM(resolved genruntime.Co
 	}
 
 	// Set property "Id":
-	if details.Id != nil {
-		id := *details.Id
-		result.Id = &id
+	if details.Reference != nil {
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*details.Reference)
+		if err != nil {
+			return nil, err
+		}
+		reference := referenceARMID
+		result.Id = &reference
 	}
 
 	// Set property "Name":
@@ -2919,17 +2947,13 @@ func (details *ApiVersionSetContractDetails) PopulateFromARM(owner genruntime.Ar
 		details.Description = &description
 	}
 
-	// Set property "Id":
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		details.Id = &id
-	}
-
 	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		details.Name = &name
 	}
+
+	// no assignment for property "Reference"
 
 	// Set property "VersionHeaderName":
 	if typedInput.VersionHeaderName != nil {
@@ -2959,11 +2983,16 @@ func (details *ApiVersionSetContractDetails) AssignProperties_From_ApiVersionSet
 	// Description
 	details.Description = genruntime.ClonePointerToString(source.Description)
 
-	// Id
-	details.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Name
 	details.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		details.Reference = &reference
+	} else {
+		details.Reference = nil
+	}
 
 	// VersionHeaderName
 	details.VersionHeaderName = genruntime.ClonePointerToString(source.VersionHeaderName)
@@ -2991,11 +3020,16 @@ func (details *ApiVersionSetContractDetails) AssignProperties_To_ApiVersionSetCo
 	// Description
 	destination.Description = genruntime.ClonePointerToString(details.Description)
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(details.Id)
-
 	// Name
 	destination.Name = genruntime.ClonePointerToString(details.Name)
+
+	// Reference
+	if details.Reference != nil {
+		reference := details.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
 
 	// VersionHeaderName
 	destination.VersionHeaderName = genruntime.ClonePointerToString(details.VersionHeaderName)
@@ -3028,11 +3062,16 @@ func (details *ApiVersionSetContractDetails) Initialize_From_ApiVersionSetContra
 	// Description
 	details.Description = genruntime.ClonePointerToString(source.Description)
 
-	// Id
-	details.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Name
 	details.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Reference
+	if source.Id != nil {
+		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
+		details.Reference = &reference
+	} else {
+		details.Reference = nil
+	}
 
 	// VersionHeaderName
 	details.VersionHeaderName = genruntime.ClonePointerToString(source.VersionHeaderName)

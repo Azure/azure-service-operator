@@ -21,15 +21,15 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │   │   │   └── Rule 0: MaxLength: 256
 │   │   ├── ApiVersionSet: *Object (6 properties)
 │   │   │   ├── Description: *string
-│   │   │   ├── Id: *string
 │   │   │   ├── Name: *string
+│   │   │   ├── Reference: *genruntime.ResourceReference
 │   │   │   ├── VersionHeaderName: *string
 │   │   │   ├── VersionQueryName: *string
 │   │   │   └── VersioningScheme: *Enum (3 values)
 │   │   │       ├── "Header"
 │   │   │       ├── "Query"
 │   │   │       └── "Segment"
-│   │   ├── ApiVersionSetId: *string
+│   │   ├── ApiVersionSetReference: *genruntime.ResourceReference
 │   │   ├── AuthenticationSettings: *Object (4 properties)
 │   │   │   ├── OAuth2: *Object (2 properties)
 │   │   │   │   ├── AuthorizationServerId: *string
@@ -87,7 +87,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │   │   ├── ServiceUrl: Validated<*string> (2 rules)
 │   │   │   ├── Rule 0: MaxLength: 2000
 │   │   │   └── Rule 1: MinLength: 0
-│   │   ├── SourceApiId: *string
+│   │   ├── SourceApiReference: *genruntime.ResourceReference
 │   │   ├── SubscriptionKeyParameterNames: *Object (2 properties)
 │   │   │   ├── Header: *string
 │   │   │   └── Query: *string

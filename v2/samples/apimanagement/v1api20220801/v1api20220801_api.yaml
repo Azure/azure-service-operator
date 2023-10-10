@@ -8,8 +8,10 @@ spec:
   apiRevision: "2"
   apiRevisionDescription: Second Revision
   apiVersionDescription: August 2020
-  apiVersionSet:
-    id: /apiVersionSets/sampleapimversionset
+  ApiVersionSetReference:
+    group: apimanagement.azure.com
+    kind: VersionSet
+    name: sampleapimversionset
   displayName: account-api
   description: Description about the API
   subscriptionRequired: false

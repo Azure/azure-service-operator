@@ -700,10 +700,12 @@ objectModelConfiguration:
           $armReference: true
       ApiCreateOrUpdateProperties:
         ApiVersionSetId:
-          $armReference: false
+          $armReference: true
+        SourceApiId:
+          $armReference: true
       ApiVersionSetContractDetails:
         Id: 
-          $armReference: false
+          $armReference: true
       ApiManagementServiceProperties:
         PublicIpAddressId:
           $armReference: true

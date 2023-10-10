@@ -12,13 +12,13 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
 │   │   ├── ApiVersionDescription: *string
 │   │   ├── ApiVersionSet: *Object (7 properties)
 │   │   │   ├── Description: *string
-│   │   │   ├── Id: *string
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── Reference: *genruntime.ResourceReference
 │   │   │   ├── VersionHeaderName: *string
 │   │   │   ├── VersionQueryName: *string
 │   │   │   └── VersioningScheme: *string
-│   │   ├── ApiVersionSetId: *string
+│   │   ├── ApiVersionSetReference: *genruntime.ResourceReference
 │   │   ├── AuthenticationSettings: *Object (5 properties)
 │   │   │   ├── OAuth2: *Object (3 properties)
 │   │   │   │   ├── AuthorizationServerId: *string
@@ -60,7 +60,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── Protocols: string[]
 │   │   ├── ServiceUrl: *string
-│   │   ├── SourceApiId: *string
+│   │   ├── SourceApiReference: *genruntime.ResourceReference
 │   │   ├── SubscriptionKeyParameterNames: *Object (3 properties)
 │   │   │   ├── Header: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
