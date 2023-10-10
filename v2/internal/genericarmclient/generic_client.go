@@ -84,13 +84,6 @@ func NewGenericClient(
 		DisableRPRegistration: true,
 	}
 
-	rpRegistrationPolicy, err := NewRPRegistrationPolicy(
-		creds,
-		&opts.ClientOptions)
-	if err != nil {
-		return nil, errors.Wrapf(err, "failed to create rp registration policy")
-	}
-
 	// We assign this HTTPClient like this because if we actually set it to nil, due to the way
 	// go interfaces wrap values, the subsequent if httpClient == nil check returns false (even though
 	// the value IN the interface IS nil).
@@ -98,6 +91,13 @@ func NewGenericClient(
 		opts.Transport = options.HttpClient
 	} else {
 		opts.Transport = defaultHttpClient
+	}
+
+	rpRegistrationPolicy, err := NewRPRegistrationPolicy(
+		creds,
+		&opts.ClientOptions)
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to create rp registration policy")
 	}
 
 	opts.PerCallPolicies = append([]policy.Policy{rpRegistrationPolicy}, opts.PerCallPolicies...)
