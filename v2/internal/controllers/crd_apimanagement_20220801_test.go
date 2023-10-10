@@ -90,6 +90,12 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 				APIM_PolicyFragment_CRUD(tc, &service)
 			},
 		},
+		testcommon.Subtest{
+			Name: "APIM Policy CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				APIM_Policy_CRUD(tc, &service)
+			},
+		},
 		// testcommon.Subtest{
 		// 	Name: "APIM Product CRUD",
 		// 	Test: func(tc *testcommon.KubePerTestContext) {
@@ -182,6 +188,26 @@ func APIM_NamedValue_CRUD(tc *testcommon.KubePerTestContext, service client.Obje
 	tc.Expect(namedValue.Status).ToNot(BeNil())
 
 	tc.T.Log("cleaning up namedValue")
+}
+
+func APIM_Policy_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
+
+	// Add a simple Policy Fragment
+	policyFragment := apim.Policy{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("policy")),
+		Spec: apim.Service_Policy_Spec{
+			Value:       to.Ptr("<policies><inbound /><backend><forward-request /></backend><outbound /></policies>"),
+			Owner:       testcommon.AsOwner(service),
+		},
+	}
+
+	tc.T.Log("creating apim policy fragment")
+	tc.CreateResourceAndWait(&policyFragment)
+	defer tc.DeleteResourceAndWait(&policyFragment)
+
+	tc.Expect(policyFragment.Status).ToNot(BeNil())
+
+	tc.T.Log("cleaning up policyFragment")
 }
 
 func APIM_PolicyFragment_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {

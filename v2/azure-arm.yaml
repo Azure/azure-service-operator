@@ -760,6 +760,9 @@ objectModelConfiguration:
       Service_Subscription:
         $exportAs: Subscription
         $supportedFrom: v2.4.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - SecondaryKey
       SubscriptionCreateParameterProperties:
         PrimaryKey:
           $isSecret: true
