@@ -6,8 +6,6 @@ package customizations
 import (
 	v20220801 "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801"
 	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storage"
-	v20230301p "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230301preview"
-	v20230301ps "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230301previewstorage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -18,7 +16,5 @@ type ServiceExtension struct {
 func (extension *ServiceExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
 		&v20220801.Service{},
-		&v20220801s.Service{},
-		&v20230301p.Service{},
-		&v20230301ps.Service{}}
+		&v20220801s.Service{}}
 }
