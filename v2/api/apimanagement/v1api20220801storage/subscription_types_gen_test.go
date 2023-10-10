@@ -140,7 +140,6 @@ func AddIndependentPropertyGeneratorsForService_Subscription_Spec(gens map[strin
 	gens["AzureName"] = gen.AlphaString()
 	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
-	gens["OwnerId"] = gen.PtrOf(gen.AlphaString())
 	gens["Scope"] = gen.PtrOf(gen.AlphaString())
 	gens["State"] = gen.PtrOf(gen.AlphaString())
 }

@@ -2360,9 +2360,9 @@ func (in *Service_Subscription_Spec) DeepCopyInto(out *Service_Subscription_Spec
 		*out = new(genruntime.KnownResourceReference)
 		**out = **in
 	}
-	if in.OwnerId != nil {
-		in, out := &in.OwnerId, &out.OwnerId
-		*out = new(string)
+	if in.OwnerReference != nil {
+		in, out := &in.OwnerReference, &out.OwnerReference
+		*out = new(genruntime.ResourceReference)
 		**out = **in
 	}
 	if in.PrimaryKey != nil {

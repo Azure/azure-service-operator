@@ -820,7 +820,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
     │   │   ├── Rule 0: MaxLength: 100
     │   │   └── Rule 1: MinLength: 1
     │   ├── Owner: *genruntime.KnownResourceReference
-    │   ├── OwnerId: *string
+    │   ├── OwnerReference: *genruntime.ResourceReference
     │   ├── PrimaryKey: *genruntime.SecretReference
     │   ├── Scope: *string
     │   ├── SecondaryKey: *genruntime.SecretReference

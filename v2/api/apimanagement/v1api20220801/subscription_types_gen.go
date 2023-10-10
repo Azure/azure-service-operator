@@ -337,8 +337,8 @@ type Service_Subscription_Spec struct {
 	// reference to a apimanagement.azure.com/Service resource
 	Owner *genruntime.KnownResourceReference `group:"apimanagement.azure.com" json:"owner,omitempty" kind:"Service"`
 
-	// OwnerId: User (user id path) for whom subscription is being created in form /users/{userId}
-	OwnerId *string `json:"ownerId,omitempty"`
+	// OwnerReference: User (user id path) for whom subscription is being created in form /users/{userId}
+	OwnerReference *genruntime.ResourceReference `armReference:"OwnerId" json:"ownerReference,omitempty"`
 
 	// PrimaryKey: Primary subscription key. If not specified during request key will be generated automatically.
 	PrimaryKey *genruntime.SecretReference `json:"primaryKey,omitempty"`
@@ -374,7 +374,7 @@ func (subscription *Service_Subscription_Spec) ConvertToARM(resolved genruntime.
 	// Set property "Properties":
 	if subscription.AllowTracing != nil ||
 		subscription.DisplayName != nil ||
-		subscription.OwnerId != nil ||
+		subscription.OwnerReference != nil ||
 		subscription.PrimaryKey != nil ||
 		subscription.Scope != nil ||
 		subscription.SecondaryKey != nil ||
@@ -389,8 +389,12 @@ func (subscription *Service_Subscription_Spec) ConvertToARM(resolved genruntime.
 		displayName := *subscription.DisplayName
 		result.Properties.DisplayName = &displayName
 	}
-	if subscription.OwnerId != nil {
-		ownerId := *subscription.OwnerId
+	if subscription.OwnerReference != nil {
+		ownerIdARMID, err := resolved.ResolvedReferences.Lookup(*subscription.OwnerReference)
+		if err != nil {
+			return nil, err
+		}
+		ownerId := ownerIdARMID
 		result.Properties.OwnerId = &ownerId
 	}
 	if subscription.PrimaryKey != nil {
@@ -459,14 +463,7 @@ func (subscription *Service_Subscription_Spec) PopulateFromARM(owner genruntime.
 		ARMID: owner.ARMID,
 	}
 
-	// Set property "OwnerId":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.OwnerId != nil {
-			ownerId := *typedInput.Properties.OwnerId
-			subscription.OwnerId = &ownerId
-		}
-	}
+	// no assignment for property "OwnerReference"
 
 	// no assignment for property "PrimaryKey"
 
@@ -574,8 +571,13 @@ func (subscription *Service_Subscription_Spec) AssignProperties_From_Service_Sub
 		subscription.Owner = nil
 	}
 
-	// OwnerId
-	subscription.OwnerId = genruntime.ClonePointerToString(source.OwnerId)
+	// OwnerReference
+	if source.OwnerReference != nil {
+		ownerReference := source.OwnerReference.Copy()
+		subscription.OwnerReference = &ownerReference
+	} else {
+		subscription.OwnerReference = nil
+	}
 
 	// PrimaryKey
 	if source.PrimaryKey != nil {
@@ -643,8 +645,13 @@ func (subscription *Service_Subscription_Spec) AssignProperties_To_Service_Subsc
 		destination.Owner = nil
 	}
 
-	// OwnerId
-	destination.OwnerId = genruntime.ClonePointerToString(subscription.OwnerId)
+	// OwnerReference
+	if subscription.OwnerReference != nil {
+		ownerReference := subscription.OwnerReference.Copy()
+		destination.OwnerReference = &ownerReference
+	} else {
+		destination.OwnerReference = nil
+	}
 
 	// PrimaryKey
 	if subscription.PrimaryKey != nil {
@@ -703,8 +710,13 @@ func (subscription *Service_Subscription_Spec) Initialize_From_Service_Subscript
 		subscription.DisplayName = nil
 	}
 
-	// OwnerId
-	subscription.OwnerId = genruntime.ClonePointerToString(source.OwnerId)
+	// OwnerReference
+	if source.OwnerId != nil {
+		ownerReference := genruntime.CreateResourceReferenceFromARMID(*source.OwnerId)
+		subscription.OwnerReference = &ownerReference
+	} else {
+		subscription.OwnerReference = nil
+	}
 
 	// Scope
 	subscription.Scope = genruntime.ClonePointerToString(source.Scope)

@@ -742,6 +742,8 @@ objectModelConfiguration:
           $isSecret: true
         SecondaryKey:
           $isSecret: true
+        OwnerId:
+          $armReference: true
       VirtualNetworkConfiguration:
         SubnetResourceId:
           $armReference: true

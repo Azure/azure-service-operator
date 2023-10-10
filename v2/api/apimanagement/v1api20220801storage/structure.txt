@@ -349,7 +349,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storag
     │   ├── DisplayName: *string
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
-    │   ├── OwnerId: *string
+    │   ├── OwnerReference: *genruntime.ResourceReference
     │   ├── PrimaryKey: *genruntime.SecretReference
     │   ├── PropertyBag: genruntime.PropertyBag
     │   ├── Scope: *string
