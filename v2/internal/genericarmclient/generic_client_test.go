@@ -146,7 +146,7 @@ func Test_NewResourceGroup_SubscriptionNotRegisteredError(t *testing.T) {
 	g := NewGomegaWithT(t)
 	ctx := context.Background()
 
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodPut {
 			if r.URL.Path == "/subscriptions/12345/resourceGroups/myrg/providers/Microsoft.Fake/fakeResource/fake" {
 				w.WriteHeader(http.StatusConflict)
@@ -184,7 +184,10 @@ func Test_NewResourceGroup_SubscriptionNotRegisteredError(t *testing.T) {
 	subscriptionId := "12345"
 
 	metrics := asometrics.NewARMClientMetrics()
-	options := &genericarmclient.GenericClientOptions{Metrics: metrics}
+	options := &genericarmclient.GenericClientOptions{
+		HttpClient: server.Client(),
+		Metrics:    metrics,
+	}
 	client, err := genericarmclient.NewGenericClient(cfg, testcommon.MockTokenCredential{}, options)
 	g.Expect(err).ToNot(HaveOccurred())
 

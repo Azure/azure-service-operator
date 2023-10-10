@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/onsi/gomega"
+	"github.com/onsi/gomega/format"
 
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
@@ -34,6 +35,8 @@ func setup() error {
 	// meaning that there are very few instances where these timeouts are actually used.
 	gomega.SetDefaultEventuallyTimeout(DefaultResourceTimeout)
 	gomega.SetDefaultEventuallyPollingInterval(5 * time.Second)
+
+	format.TruncateThreshold = 4000 // Force a longer truncate threshold
 
 	// If you need to debug envtest setup/teardown,
 	// set a global logger for controller-runtime:
