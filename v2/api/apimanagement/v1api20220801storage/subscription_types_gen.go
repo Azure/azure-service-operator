@@ -137,24 +137,23 @@ type Service_Subscription_Spec struct {
 	// +kubebuilder:validation:Pattern="^[^*#&+:<>?]+$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string                    `json:"azureName,omitempty"`
-	DisplayName     *string                   `json:"displayName,omitempty"`
-	OperatorSpec    *SubscriptionOperatorSpec `json:"operatorSpec,omitempty"`
-	OriginalVersion string                    `json:"originalVersion,omitempty"`
+	AzureName       string  `json:"azureName,omitempty"`
+	DisplayName     *string `json:"displayName,omitempty"`
+	OriginalVersion string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a apimanagement.azure.com/Service resource
-	Owner                  *genruntime.KnownResourceReference `group:"apimanagement.azure.com" json:"owner,omitempty" kind:"Service"`
-	OwnerId                *string                            `json:"ownerId,omitempty"`
-	PrimaryKey             *string                            `json:"primaryKey,omitempty" optionalConfigMapPair:"PrimaryKey"`
-	PrimaryKeyFromConfig   *genruntime.ConfigMapReference     `json:"primaryKeyFromConfig,omitempty" optionalConfigMapPair:"PrimaryKey"`
-	PropertyBag            genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Scope                  *string                            `json:"scope,omitempty"`
-	SecondaryKey           *string                            `json:"secondaryKey,omitempty" optionalConfigMapPair:"SecondaryKey"`
-	SecondaryKeyFromConfig *genruntime.ConfigMapReference     `json:"secondaryKeyFromConfig,omitempty" optionalConfigMapPair:"SecondaryKey"`
-	State                  *string                            `json:"state,omitempty"`
+	Owner *genruntime.KnownResourceReference `group:"apimanagement.azure.com" json:"owner,omitempty" kind:"Service"`
+
+	// OwnerReference: User (user id path) for whom subscription is being created in form /users/{userId}
+	OwnerReference *genruntime.ResourceReference `armReference:"OwnerId" json:"ownerReference,omitempty"`
+	PrimaryKey     *genruntime.SecretReference   `json:"primaryKey,omitempty"`
+	PropertyBag    genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Scope          *string                       `json:"scope,omitempty"`
+	SecondaryKey   *genruntime.SecretReference   `json:"secondaryKey,omitempty"`
+	State          *string                       `json:"state,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Service_Subscription_Spec{}
@@ -215,20 +214,6 @@ func (subscription *Service_Subscription_STATUS) ConvertStatusTo(destination gen
 	}
 
 	return destination.ConvertStatusFrom(subscription)
-}
-
-// Storage version of v1api20220801.SubscriptionOperatorSpec
-// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
-type SubscriptionOperatorSpec struct {
-	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
-	Secrets     *SubscriptionOperatorSecrets `json:"secrets,omitempty"`
-}
-
-// Storage version of v1api20220801.SubscriptionOperatorSecrets
-type SubscriptionOperatorSecrets struct {
-	PrimaryKey   *genruntime.SecretDestination `json:"primaryKey,omitempty"`
-	PropertyBag  genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	SecondaryKey *genruntime.SecretDestination `json:"secondaryKey,omitempty"`
 }
 
 func init() {

@@ -322,18 +322,18 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj: new(apimanagement_v20220801s.Subscription),
 		Indexes: []registration.Index{
 			{
-				Key:  ".spec.primaryKeyFromConfig",
-				Func: indexApimanagementSubscriptionPrimaryKeyFromConfig,
+				Key:  ".spec.primaryKey",
+				Func: indexApimanagementSubscriptionPrimaryKey,
 			},
 			{
-				Key:  ".spec.secondaryKeyFromConfig",
-				Func: indexApimanagementSubscriptionSecondaryKeyFromConfig,
+				Key:  ".spec.secondaryKey",
+				Func: indexApimanagementSubscriptionSecondaryKey,
 			},
 		},
 		Watches: []registration.Watch{
 			{
-				Type:             &v1.ConfigMap{},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.primaryKeyFromConfig", ".spec.secondaryKeyFromConfig"}, &apimanagement_v20220801s.SubscriptionList{}),
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.primaryKey", ".spec.secondaryKey"}, &apimanagement_v20220801s.SubscriptionList{}),
 			},
 		},
 	})
@@ -2287,28 +2287,28 @@ func indexApimanagementServiceHostnameConfigurationsThumbprintFromConfig(rawObj 
 	return result
 }
 
-// indexApimanagementSubscriptionPrimaryKeyFromConfig an index function for apimanagement_v20220801s.Subscription .spec.primaryKeyFromConfig
-func indexApimanagementSubscriptionPrimaryKeyFromConfig(rawObj client.Object) []string {
+// indexApimanagementSubscriptionPrimaryKey an index function for apimanagement_v20220801s.Subscription .spec.primaryKey
+func indexApimanagementSubscriptionPrimaryKey(rawObj client.Object) []string {
 	obj, ok := rawObj.(*apimanagement_v20220801s.Subscription)
 	if !ok {
 		return nil
 	}
-	if obj.Spec.PrimaryKeyFromConfig == nil {
+	if obj.Spec.PrimaryKey == nil {
 		return nil
 	}
-	return obj.Spec.PrimaryKeyFromConfig.Index()
+	return obj.Spec.PrimaryKey.Index()
 }
 
-// indexApimanagementSubscriptionSecondaryKeyFromConfig an index function for apimanagement_v20220801s.Subscription .spec.secondaryKeyFromConfig
-func indexApimanagementSubscriptionSecondaryKeyFromConfig(rawObj client.Object) []string {
+// indexApimanagementSubscriptionSecondaryKey an index function for apimanagement_v20220801s.Subscription .spec.secondaryKey
+func indexApimanagementSubscriptionSecondaryKey(rawObj client.Object) []string {
 	obj, ok := rawObj.(*apimanagement_v20220801s.Subscription)
 	if !ok {
 		return nil
 	}
-	if obj.Spec.SecondaryKeyFromConfig == nil {
+	if obj.Spec.SecondaryKey == nil {
 		return nil
 	}
-	return obj.Spec.SecondaryKeyFromConfig.Index()
+	return obj.Spec.SecondaryKey.Index()
 }
 
 // indexAuthorizationRoleAssignmentPrincipalIdFromConfig an index function for authorization_v20200801ps.RoleAssignment .spec.principalIdFromConfig

@@ -760,14 +760,13 @@ objectModelConfiguration:
       Service_Subscription:
         $exportAs: Subscription
         $supportedFrom: v2.4.0
-        $azureGeneratedSecrets:
-          - PrimaryKey
-          - SecondaryKey
       SubscriptionCreateParameterProperties:
         PrimaryKey:
-          $importConfigMapMode: optional
+          $isSecret: true
         SecondaryKey:
-          $importConfigMapMode: optional
+          $isSecret: true
+        OwnerId:
+          $armReference: true
       VirtualNetworkConfiguration:
         SubnetResourceId:
           $armReference: true

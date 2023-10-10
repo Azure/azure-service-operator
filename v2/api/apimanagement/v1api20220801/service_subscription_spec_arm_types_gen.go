@@ -36,18 +36,16 @@ type SubscriptionCreateParameterProperties_ARM struct {
 
 	// DisplayName: Subscription name.
 	DisplayName *string `json:"displayName,omitempty"`
-
-	// OwnerId: User (user id path) for whom subscription is being created in form /users/{userId}
-	OwnerId *string `json:"ownerId,omitempty"`
+	OwnerId     *string `json:"ownerId,omitempty"`
 
 	// PrimaryKey: Primary subscription key. If not specified during request key will be generated automatically.
-	PrimaryKey *string `json:"primaryKey,omitempty" optionalConfigMapPair:"PrimaryKey"`
+	PrimaryKey *string `json:"primaryKey,omitempty"`
 
 	// Scope: Scope like /products/{productId} or /apis or /apis/{apiId}.
 	Scope *string `json:"scope,omitempty"`
 
 	// SecondaryKey: Secondary subscription key. If not specified during request key will be generated automatically.
-	SecondaryKey *string `json:"secondaryKey,omitempty" optionalConfigMapPair:"SecondaryKey"`
+	SecondaryKey *string `json:"secondaryKey,omitempty"`
 
 	// State: Initial subscription state. If no value is specified, subscription is created with Submitted state. Possible
 	// states are * active – the subscription is active, * suspended – the subscription is blocked, and the subscriber

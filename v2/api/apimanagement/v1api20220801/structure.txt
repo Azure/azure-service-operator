@@ -1301,7 +1301,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │           └── "suspended"
 ├── Subscription: Resource
 │   ├── Owner: Service
-│   ├── Spec: Object (12 properties)
+│   ├── Spec: Object (9 properties)
 │   │   ├── AllowTracing: *bool
 │   │   ├── AzureName: Validated<string> (2 rules)
 │   │   │   ├── Rule 0: MaxLength: 256
@@ -1309,21 +1309,11 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │   │   ├── DisplayName: Validated<*string> (2 rules)
 │   │   │   ├── Rule 0: MaxLength: 100
 │   │   │   └── Rule 1: MinLength: 1
-│   │   ├── OperatorSpec: *Object (1 property)
-│   │   │   └── Secrets: *Object (2 properties)
-│   │   │       ├── PrimaryKey: *genruntime.SecretDestination
-│   │   │       └── SecondaryKey: *genruntime.SecretDestination
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── OwnerId: *string
-│   │   ├── PrimaryKey: Validated<*string> (2 rules)
-│   │   │   ├── Rule 0: MaxLength: 256
-│   │   │   └── Rule 1: MinLength: 1
-│   │   ├── PrimaryKeyFromConfig: *genruntime.ConfigMapReference
+│   │   ├── OwnerReference: *genruntime.ResourceReference
+│   │   ├── PrimaryKey: *genruntime.SecretReference
 │   │   ├── Scope: *string
-│   │   ├── SecondaryKey: Validated<*string> (2 rules)
-│   │   │   ├── Rule 0: MaxLength: 256
-│   │   │   └── Rule 1: MinLength: 1
-│   │   ├── SecondaryKeyFromConfig: *genruntime.ConfigMapReference
+│   │   ├── SecondaryKey: *genruntime.SecretReference
 │   │   └── State: *Enum (6 values)
 │   │       ├── "active"
 │   │       ├── "cancelled"
