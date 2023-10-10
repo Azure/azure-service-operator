@@ -7,5 +7,4 @@ spec:
   displayName: Sample subscription
   scope: /apis
   owner:
-    armId: /subscriptions/d5a106d2-ebae-4327-b2e8-c21962d4aaf5/resourceGroups/asotest-rg-nnxzgr/providers/Microsoft.ApiManagement/service/asotestaachpc
     name: sampleapimservice
