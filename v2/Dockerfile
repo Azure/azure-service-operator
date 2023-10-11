@@ -1,4 +1,4 @@
-# Note: This Dockerfile still assumes that the "bundle-crds" taskfile target has been run already
+# Note: This Dockerfile assumes that the "bundle-crds" taskfile target has been run already
 ARG VERSION_FLAGS
 
 # Build the manager binary
