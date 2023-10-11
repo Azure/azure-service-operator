@@ -29,8 +29,7 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 
 	// If you don't want to delete the resource group at the end of the test as APIM
 	// takes a long time to provision; comment out the delete lines at the end of the test.
-	rg := tc.NewTestResourceGroup()
-	tc.CreateResourceAndWaitWithoutCleanup(rg)
+	rg := tc.CreateTestResourceGroupAndWait()
 
 	// There will be a New v2 SKU released 5/10/2023 which will have a much quicker start up
 	// time. Move to that when it's available (BasicV2 or StandardV2 SKU)
@@ -53,7 +52,7 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 			},
 	}
 
-	tc.CreateResourceAndWaitWithoutCleanup(&service)
+	tc.CreateResourcesAndWait(&service)
 
 	tc.Expect(service.Status.Id).ToNot(BeNil())
 
@@ -96,6 +95,7 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 							APIM_Policy_CRUD(tc, &service)
 					},
 			},
+			// TODO: https://github.com/Azure/azure-service-operator/issues/3408
 			// testcommon.Subtest{
 			//      Name: "APIM Product CRUD",
 			//      Test: func(tc *testcommon.KubePerTestContext) {
@@ -109,11 +109,6 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 					},
 			},
 	)
-
-	// Whilst developing APIM tests, you can comment these two lines
-	// out to keep the APIM instance
-	// tc.DeleteResourceAndWait(&service)
-	// tc.DeleteResourceAndWait(rg)
 }
 
 func APIM_Subscription_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
@@ -268,10 +263,8 @@ func APIM_Product_CRUD(tc *testcommon.KubePerTestContext, service client.Object)
 	tc.Expect(product.Status.Id).ToNot(BeNil())
 
 	// The product would have created a subscription, so we need to delete that first
-	// Get the subscription using the product name
+	// Pass in deleteSubscription = true
 
-	// Then delete the subscription
-	// Then delete the product
 	defer tc.DeleteResourceAndWait(&product)
 
 
