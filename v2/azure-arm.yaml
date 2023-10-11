@@ -757,8 +757,6 @@ objectModelConfiguration:
       Service_Product:
         $exportAs: Product
         $supportedFrom: v2.4.0
-      # TODO: This generates 2 Keys, but also accepts them as input.
-      # Find a way to make this work.
       Service_Subscription:
         $exportAs: Subscription
         $supportedFrom: v2.4.0
@@ -779,7 +777,7 @@ objectModelConfiguration:
     # 2023-05-01-preview:
     #   Service:
     #     $export: true
-    #     $supportedFrom: v2.4.0
+    #     $supportedFrom: v2.5.0
     #   CertificateConfiguration:
     #     CertificatePassword:
     #       $isSecret: true
