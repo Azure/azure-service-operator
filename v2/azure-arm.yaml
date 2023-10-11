@@ -693,12 +693,19 @@ objectModelConfiguration:
       AdditionalLocation:
         PublicIpAddressId:
           $armReference: true
-      Service:
-        $export: true
-        $supportedFrom: v2.4.0
       ApiManagementServiceProperties:
         PublicIpAddressId:
           $armReference: true
+      BackendContractProperties:
+        ResourceId:
+          $armReference: true
+      # This is an array and fails
+      # BackendCredentialsContract:
+      #   Certificate:
+      #     $importConfigMapMode: optional
+      BackendProxyContract:
+        Password:
+          $isSecret: true
       CertificateInformation:
         Expiry:
           $importConfigMapMode: optional
@@ -714,6 +721,29 @@ objectModelConfiguration:
           $isSecret: true
         IdentityClientId:
           $importConfigMapMode: optional
+      KeyVaultContractCreateProperties:
+        IdentityClientId:
+          $importConfigMapMode: optional
+      Service:
+        $export: true
+        $supportedFrom: v2.4.0
+      Service_Backend:
+        $exportAs: Backend
+        $supportedFrom: v2.4.0
+      Service_NamedValue:
+        $exportAs: NamedValue
+        $supportedFrom: v2.4.0
+      # TODO: This type generates 2 keys if there is none supplied.
+      Service_Subscription:
+        $exportAs: Subscription
+        $supportedFrom: v2.4.0
+      SubscriptionCreateParameterProperties:
+        PrimaryKey:
+          $isSecret: true
+        SecondaryKey:
+          $isSecret: true
+        OwnerId:
+          $armReference: true
       VirtualNetworkConfiguration:
         SubnetResourceId:
           $armReference: true
