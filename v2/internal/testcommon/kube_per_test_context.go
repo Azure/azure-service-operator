@@ -581,19 +581,18 @@ func (tc *KubePerTestContext) ExpectResourceDoesNotExist(key types.NamespacedNam
 
 // LogSection creates a distinctive header in the log to aid scanning
 func (tc *KubePerTestContext) LogSectionf(section string, args ...any) {
-	msg := fmt.Sprintf(section, args...)
-	line := strings.Repeat("=", len(msg))
-	tc.T.Log(line)
-	tc.T.Log(msg)
-	tc.T.Log(line)
+	tc.logHeader("=", fmt.Sprintf(section, args...))
 }
 
 // LogSection creates a distinctive header in the log to aid scanning
 func (tc *KubePerTestContext) LogSubsectionf(subsection string, args ...any) {
-	msg := fmt.Sprintf(subsection, args...)
-	line := strings.Repeat("-", len(msg))
+	tc.logHeader("-", fmt.Sprintf(subsection, args...))
+}
+
+func (tc *KubePerTestContext) logHeader(lineType string, header string) {
+	line := strings.Repeat(lineType, len(header))
 	tc.T.Log(line)
-	tc.T.Log(msg)
+	tc.T.Log(header)
 	tc.T.Log(line)
 }
 
