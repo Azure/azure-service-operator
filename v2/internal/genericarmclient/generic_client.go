@@ -264,38 +264,6 @@ func (client *GenericClient) getByIDHandleResponse(resp *http.Response, resource
 	return nil
 }
 
-func (client *GenericClient) CreatePostRequest(
-	ctx context.Context,
-	resourceID string,
-	apiVersion string,
-) (*policy.Request, error) {
-	req, err := runtime.NewRequest(ctx, http.MethodPost, runtime.JoinPaths(client.endpoint, resourceID))
-	if err != nil {
-		return nil, err
-	}
-
-	query := req.Raw().URL.Query()
-	query.Set("api-version", apiVersion)
-	req.Raw().URL.RawQuery = query.Encode()
-	return req, nil
-}
-
-func (client *GenericClient) Post(
-	ctx context.Context,
-	req *policy.Request,
-) (*http.Response, error) {
-	resp, err := client.pl.Do(req)
-	if err != nil {
-		return resp, err
-	}
-
-	if !runtime.HasStatusCode(resp, http.StatusOK, http.StatusCreated, http.StatusAccepted) {
-		return nil, client.handleError(resp)
-	}
-
-	return resp, nil
-}
-
 type listPageResponse[T any] struct {
 	// Value - The list of resources.
 	Value []T `json:"value,omitempty"`
