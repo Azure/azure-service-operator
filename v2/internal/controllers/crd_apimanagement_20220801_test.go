@@ -28,8 +28,8 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 	rg := tc.NewTestResourceGroup()
 
-	// APIM takes a long time to provision. When you are authoring tests in this file. I 
-	// recommend you change this line to CreateResourceAndWaitWithoutCleanup. This way
+	// APIM takes a long time to provision. When you are authoring tests in this file
+	// I recommend you change this line to CreateResourceAndWaitWithoutCleanup. This way
 	// apim will not be deleted until you have finished writing your tests. Also change
 	// the code below when you create the &service
 	tc.CreateResourceAndWait(rg)
