@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	apim "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801"
@@ -21,7 +22,7 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 	t.Parallel()
 
 	if *isLive {
-			t.Skip("skipping test in live mode as it takes a very long time to provision an APIM service (1+h)")
+		t.Skip("skipping test in live mode as it takes a very long time to provision an APIM service (1+h)")
 	}
 
 	tc := globalTestContext.ForTest(t)
@@ -29,7 +30,7 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 	// If you don't want to delete the resource group at the end of the test as APIM
 	// takes a long time to provision; comment out the delete lines at the end of the test.
 	rg := tc.NewTestResourceGroup()
-	tc.CreateResourceAndWait(rg)
+	tc.CreateResourceAndWaitWithoutCleanup(rg)
 
 	// There will be a New v2 SKU released 5/10/2023 which will have a much quicker start up
 	// time. Move to that when it's available (BasicV2 or StandardV2 SKU)
@@ -48,7 +49,7 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 					PublisherEmail: to.Ptr("ASO@testing.com"),
 					PublisherName:  to.Ptr("ASOTesting"),
 					Sku:            &sku,
-					// Restore:        to.Ptr(true),
+					Restore:        to.Ptr(true),
 			},
 	}
 
@@ -111,8 +112,8 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 
 	// Whilst developing APIM tests, you can comment these two lines
 	// out to keep the APIM instance
-	tc.DeleteResourceAndWait(&service)
-	tc.DeleteResourceAndWait(rg)
+	// tc.DeleteResourceAndWait(&service)
+	// tc.DeleteResourceAndWait(rg)
 }
 
 func APIM_Subscription_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
@@ -128,9 +129,34 @@ func APIM_Subscription_CRUD(tc *testcommon.KubePerTestContext, service client.Ob
 
 	tc.T.Log("creating apim subscriptions")
 	tc.CreateResourceAndWait(&subscription)
-	defer tc.DeleteResourceAndWait(&subscription)
-
 	tc.Expect(subscription.Status).ToNot(BeNil())
+	tc.Expect(subscription.Status.Id).ToNot(BeNil())
+
+	// The subscription will have been created and it would have generated it's own 
+	// PrimaryKey and SecondaryKey. Now let's see if we can set them from a Kubernetes secret.
+
+	// There should be no secrets at this point
+	secretList := &v1.SecretList{}
+	tc.ListResources(secretList, client.InNamespace(tc.Namespace))
+	tc.Expect(secretList.Items).To(HaveLen(0))
+
+	// Run sub-tests on subscription
+	tc.RunSubtests(
+		testcommon.Subtest{
+			Name: "SecretsWrittenToSameKubeSecret",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				Subscription_SecretsWrittenToSameKubeSecret(tc, &subscription)
+			},
+		},
+		testcommon.Subtest{
+			Name: "SecretsWrittenToDifferentKubeSecrets",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				Subscription_SecretsWrittenToDifferentKubeSecrets(tc, &subscription)
+			},
+		},
+	)	
+
+	defer tc.DeleteResourceAndWait(&subscription)
 
 	tc.T.Log("cleaning up subscription")
 }
@@ -310,3 +336,39 @@ func APIM_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 
 	tc.T.Log("cleaning up api")
 }
+
+func Subscription_SecretsWrittenToSameKubeSecret(tc *testcommon.KubePerTestContext, subscription *apim.Subscription) {
+	old := subscription.DeepCopy()
+	subscriptionSecret := "storagekeys"
+	subscription.Spec.OperatorSpec = &apim.SubscriptionOperatorSpec{
+		Secrets: &apim.SubscriptionOperatorSecrets{
+			PrimaryKey:   &genruntime.SecretDestination{Name: subscriptionSecret, Key: "primary"},
+			SecondaryKey: &genruntime.SecretDestination{Name: subscriptionSecret, Key: "secondary"},
+		},
+	}
+	tc.PatchResourceAndWait(old, subscription)
+
+	tc.ExpectSecretHasKeys(subscriptionSecret, "primary", "secondary")
+}
+
+func Subscription_SecretsWrittenToDifferentKubeSecrets(tc *testcommon.KubePerTestContext, subscription *apim.Subscription) {
+	old := subscription.DeepCopy()
+	primaryKeySecret := "secret1"
+	secondaryKeySecret := "secret2"
+
+	subscription.Spec.OperatorSpec = &apim.SubscriptionOperatorSpec{
+		Secrets: &apim.SubscriptionOperatorSecrets{
+			PrimaryKey: &genruntime.SecretDestination{
+				Name: primaryKeySecret,
+				Key:  "primarymasterkey",
+			},
+			SecondaryKey: &genruntime.SecretDestination{
+				Name: secondaryKeySecret,
+				Key:  "secondarymasterkey",
+			},
+		},
+	}
+	tc.PatchResourceAndWait(old, subscription)
+
+	tc.ExpectSecretHasKeys(primaryKeySecret, "primarymasterkey")
+	tc.ExpectSecretHasKeys(secondaryKeySecret, "secondarymasterkey")}
