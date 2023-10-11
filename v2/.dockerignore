@@ -1,0 +1,7 @@
+**
+
+# Ignore everything except below
+!/go.mod
+!/go.sum
+!**/*.go
+!/out/crds
