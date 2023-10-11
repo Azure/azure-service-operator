@@ -4,6 +4,9 @@
 package controllers
 
 import (
+	apimanagement_customizations "github.com/Azure/azure-service-operator/v2/api/apimanagement/customizations"
+	apimanagement_v20220801 "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801"
+	apimanagement_v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801storage"
 	appconfiguration_customizations "github.com/Azure/azure-service-operator/v2/api/appconfiguration/customizations"
 	appconfiguration_v20220501 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501"
 	appconfiguration_v20220501s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501storage"
@@ -159,6 +162,8 @@ import (
 	network_v20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601storage"
 	network_v20201101 "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	network_v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
+	network_v20220401 "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401"
+	network_v20220401s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401storage"
 	network_v20220701 "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701"
 	network_v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
 	network_v1beta20180901 "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901"
@@ -226,6 +231,106 @@ import (
 // getKnownStorageTypes returns the list of storage types which can be reconciled.
 func getKnownStorageTypes() []*registration.StorageType {
 	var result []*registration.StorageType
+	result = append(result, &registration.StorageType{
+		Obj: new(apimanagement_v20220801s.Backend),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.proxy.password",
+				Func: indexApimanagementBackendPassword,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.proxy.password"}, &apimanagement_v20220801s.BackendList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(apimanagement_v20220801s.NamedValue),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.keyVault.identityClientIdFromConfig",
+				Func: indexApimanagementNamedValueIdentityClientIdFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.keyVault.identityClientIdFromConfig"}, &apimanagement_v20220801s.NamedValueList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(apimanagement_v20220801s.Service),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.certificates.certificatePassword",
+				Func: indexApimanagementServiceCertificatesCertificatePassword,
+			},
+			{
+				Key:  ".spec.certificates.certificate.expiryFromConfig",
+				Func: indexApimanagementServiceCertificatesExpiryFromConfig,
+			},
+			{
+				Key:  ".spec.certificates.certificate.subjectFromConfig",
+				Func: indexApimanagementServiceCertificatesSubjectFromConfig,
+			},
+			{
+				Key:  ".spec.certificates.certificate.thumbprintFromConfig",
+				Func: indexApimanagementServiceCertificatesThumbprintFromConfig,
+			},
+			{
+				Key:  ".spec.hostnameConfigurations.certificatePassword",
+				Func: indexApimanagementServiceHostnameConfigurationsCertificatePassword,
+			},
+			{
+				Key:  ".spec.hostnameConfigurations.certificate.expiryFromConfig",
+				Func: indexApimanagementServiceHostnameConfigurationsExpiryFromConfig,
+			},
+			{
+				Key:  ".spec.hostnameConfigurations.identityClientIdFromConfig",
+				Func: indexApimanagementServiceHostnameConfigurationsIdentityClientIdFromConfig,
+			},
+			{
+				Key:  ".spec.hostnameConfigurations.certificate.subjectFromConfig",
+				Func: indexApimanagementServiceHostnameConfigurationsSubjectFromConfig,
+			},
+			{
+				Key:  ".spec.hostnameConfigurations.certificate.thumbprintFromConfig",
+				Func: indexApimanagementServiceHostnameConfigurationsThumbprintFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.certificates.certificatePassword", ".spec.hostnameConfigurations.certificatePassword"}, &apimanagement_v20220801s.ServiceList{}),
+			},
+			{
+				Type:             &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.certificates.certificate.expiryFromConfig", ".spec.certificates.certificate.subjectFromConfig", ".spec.certificates.certificate.thumbprintFromConfig", ".spec.hostnameConfigurations.certificate.expiryFromConfig", ".spec.hostnameConfigurations.certificate.subjectFromConfig", ".spec.hostnameConfigurations.certificate.thumbprintFromConfig", ".spec.hostnameConfigurations.identityClientIdFromConfig"}, &apimanagement_v20220801s.ServiceList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(apimanagement_v20220801s.Subscription),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.primaryKey",
+				Func: indexApimanagementSubscriptionPrimaryKey,
+			},
+			{
+				Key:  ".spec.secondaryKey",
+				Func: indexApimanagementSubscriptionSecondaryKey,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.primaryKey", ".spec.secondaryKey"}, &apimanagement_v20220801s.SubscriptionList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(appconfiguration_v20220501s.ConfigurationStore)})
 	result = append(result, &registration.StorageType{
 		Obj: new(authorization_v20200801ps.RoleAssignment),
@@ -624,6 +729,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.VirtualNetworkGateway)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.VirtualNetworksSubnet)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.VirtualNetworksVirtualNetworkPeering)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20220401s.TrafficManagerProfile)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20220401s.TrafficManagerProfilesAzureEndpoint)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20220401s.TrafficManagerProfilesExternalEndpoint)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20220401s.TrafficManagerProfilesNestedEndpoint)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.BastionHost)})
 	result = append(result, &registration.StorageType{
 		Obj: new(network_v20220701s.DnsForwardingRuleSetsForwardingRule),
@@ -878,6 +987,18 @@ func getKnownStorageTypes() []*registration.StorageType {
 // getKnownTypes returns the list of all types.
 func getKnownTypes() []client.Object {
 	var result []client.Object
+	result = append(
+		result,
+		new(apimanagement_v20220801.Backend),
+		new(apimanagement_v20220801.NamedValue),
+		new(apimanagement_v20220801.Service),
+		new(apimanagement_v20220801.Subscription))
+	result = append(
+		result,
+		new(apimanagement_v20220801s.Backend),
+		new(apimanagement_v20220801s.NamedValue),
+		new(apimanagement_v20220801s.Service),
+		new(apimanagement_v20220801s.Subscription))
 	result = append(result, new(appconfiguration_v1beta20220501.ConfigurationStore))
 	result = append(result, new(appconfiguration_v1beta20220501s.ConfigurationStore))
 	result = append(result, new(appconfiguration_v20220501.ConfigurationStore))
@@ -1356,6 +1477,18 @@ func getKnownTypes() []client.Object {
 		new(network_v20201101s.VirtualNetworksVirtualNetworkPeering))
 	result = append(
 		result,
+		new(network_v20220401.TrafficManagerProfile),
+		new(network_v20220401.TrafficManagerProfilesAzureEndpoint),
+		new(network_v20220401.TrafficManagerProfilesExternalEndpoint),
+		new(network_v20220401.TrafficManagerProfilesNestedEndpoint))
+	result = append(
+		result,
+		new(network_v20220401s.TrafficManagerProfile),
+		new(network_v20220401s.TrafficManagerProfilesAzureEndpoint),
+		new(network_v20220401s.TrafficManagerProfilesExternalEndpoint),
+		new(network_v20220401s.TrafficManagerProfilesNestedEndpoint))
+	result = append(
+		result,
 		new(network_v20220701.BastionHost),
 		new(network_v20220701.DnsForwardingRuleSetsForwardingRule),
 		new(network_v20220701.DnsForwardingRuleset),
@@ -1577,6 +1710,8 @@ func getKnownTypes() []client.Object {
 func createScheme() *runtime.Scheme {
 	scheme := runtime.NewScheme()
 	_ = clientgoscheme.AddToScheme(scheme)
+	_ = apimanagement_v20220801.AddToScheme(scheme)
+	_ = apimanagement_v20220801s.AddToScheme(scheme)
 	_ = appconfiguration_v1beta20220501.AddToScheme(scheme)
 	_ = appconfiguration_v1beta20220501s.AddToScheme(scheme)
 	_ = appconfiguration_v20220501.AddToScheme(scheme)
@@ -1713,6 +1848,8 @@ func createScheme() *runtime.Scheme {
 	_ = network_v20200601s.AddToScheme(scheme)
 	_ = network_v20201101.AddToScheme(scheme)
 	_ = network_v20201101s.AddToScheme(scheme)
+	_ = network_v20220401.AddToScheme(scheme)
+	_ = network_v20220401s.AddToScheme(scheme)
 	_ = network_v20220701.AddToScheme(scheme)
 	_ = network_v20220701s.AddToScheme(scheme)
 	_ = operationalinsights_v1beta20210601.AddToScheme(scheme)
@@ -1761,6 +1898,10 @@ func createScheme() *runtime.Scheme {
 // getResourceExtensions returns a list of resource extensions
 func getResourceExtensions() []genruntime.ResourceExtension {
 	var result []genruntime.ResourceExtension
+	result = append(result, &apimanagement_customizations.BackendExtension{})
+	result = append(result, &apimanagement_customizations.NamedValueExtension{})
+	result = append(result, &apimanagement_customizations.ServiceExtension{})
+	result = append(result, &apimanagement_customizations.SubscriptionExtension{})
 	result = append(result, &appconfiguration_customizations.ConfigurationStoreExtension{})
 	result = append(result, &authorization_customizations.RoleAssignmentExtension{})
 	result = append(result, &batch_customizations.BatchAccountExtension{})
@@ -1870,6 +2011,10 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &network_customizations.PublicIPPrefixExtension{})
 	result = append(result, &network_customizations.RouteTableExtension{})
 	result = append(result, &network_customizations.RouteTablesRouteExtension{})
+	result = append(result, &network_customizations.TrafficManagerProfileExtension{})
+	result = append(result, &network_customizations.TrafficManagerProfilesAzureEndpointExtension{})
+	result = append(result, &network_customizations.TrafficManagerProfilesExternalEndpointExtension{})
+	result = append(result, &network_customizations.TrafficManagerProfilesNestedEndpointExtension{})
 	result = append(result, &network_customizations.VirtualNetworkExtension{})
 	result = append(result, &network_customizations.VirtualNetworkGatewayExtension{})
 	result = append(result, &network_customizations.VirtualNetworksSubnetExtension{})
@@ -1922,6 +2067,222 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &web_customizations.ServerFarmExtension{})
 	result = append(result, &web_customizations.SiteExtension{})
 	return result
+}
+
+// indexApimanagementBackendPassword an index function for apimanagement_v20220801s.Backend .spec.proxy.password
+func indexApimanagementBackendPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.Backend)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Proxy == nil {
+		return nil
+	}
+	if obj.Spec.Proxy.Password == nil {
+		return nil
+	}
+	return obj.Spec.Proxy.Password.Index()
+}
+
+// indexApimanagementNamedValueIdentityClientIdFromConfig an index function for apimanagement_v20220801s.NamedValue .spec.keyVault.identityClientIdFromConfig
+func indexApimanagementNamedValueIdentityClientIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.NamedValue)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.KeyVault == nil {
+		return nil
+	}
+	if obj.Spec.KeyVault.IdentityClientIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.KeyVault.IdentityClientIdFromConfig.Index()
+}
+
+// indexApimanagementServiceCertificatesCertificatePassword an index function for apimanagement_v20220801s.Service .spec.certificates.certificatePassword
+func indexApimanagementServiceCertificatesCertificatePassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.Service)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, certificateItem := range obj.Spec.Certificates {
+		if certificateItem.CertificatePassword == nil {
+			continue
+		}
+		result = append(result, certificateItem.CertificatePassword.Index()...)
+	}
+	return result
+}
+
+// indexApimanagementServiceCertificatesExpiryFromConfig an index function for apimanagement_v20220801s.Service .spec.certificates.certificate.expiryFromConfig
+func indexApimanagementServiceCertificatesExpiryFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.Service)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, certificateItem := range obj.Spec.Certificates {
+		if certificateItem.Certificate == nil {
+			continue
+		}
+		if certificateItem.Certificate.ExpiryFromConfig == nil {
+			continue
+		}
+		result = append(result, certificateItem.Certificate.ExpiryFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexApimanagementServiceCertificatesSubjectFromConfig an index function for apimanagement_v20220801s.Service .spec.certificates.certificate.subjectFromConfig
+func indexApimanagementServiceCertificatesSubjectFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.Service)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, certificateItem := range obj.Spec.Certificates {
+		if certificateItem.Certificate == nil {
+			continue
+		}
+		if certificateItem.Certificate.SubjectFromConfig == nil {
+			continue
+		}
+		result = append(result, certificateItem.Certificate.SubjectFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexApimanagementServiceCertificatesThumbprintFromConfig an index function for apimanagement_v20220801s.Service .spec.certificates.certificate.thumbprintFromConfig
+func indexApimanagementServiceCertificatesThumbprintFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.Service)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, certificateItem := range obj.Spec.Certificates {
+		if certificateItem.Certificate == nil {
+			continue
+		}
+		if certificateItem.Certificate.ThumbprintFromConfig == nil {
+			continue
+		}
+		result = append(result, certificateItem.Certificate.ThumbprintFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexApimanagementServiceHostnameConfigurationsCertificatePassword an index function for apimanagement_v20220801s.Service .spec.hostnameConfigurations.certificatePassword
+func indexApimanagementServiceHostnameConfigurationsCertificatePassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.Service)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, hostnameConfigurationItem := range obj.Spec.HostnameConfigurations {
+		if hostnameConfigurationItem.CertificatePassword == nil {
+			continue
+		}
+		result = append(result, hostnameConfigurationItem.CertificatePassword.Index()...)
+	}
+	return result
+}
+
+// indexApimanagementServiceHostnameConfigurationsExpiryFromConfig an index function for apimanagement_v20220801s.Service .spec.hostnameConfigurations.certificate.expiryFromConfig
+func indexApimanagementServiceHostnameConfigurationsExpiryFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.Service)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, hostnameConfigurationItem := range obj.Spec.HostnameConfigurations {
+		if hostnameConfigurationItem.Certificate == nil {
+			continue
+		}
+		if hostnameConfigurationItem.Certificate.ExpiryFromConfig == nil {
+			continue
+		}
+		result = append(result, hostnameConfigurationItem.Certificate.ExpiryFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexApimanagementServiceHostnameConfigurationsIdentityClientIdFromConfig an index function for apimanagement_v20220801s.Service .spec.hostnameConfigurations.identityClientIdFromConfig
+func indexApimanagementServiceHostnameConfigurationsIdentityClientIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.Service)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, hostnameConfigurationItem := range obj.Spec.HostnameConfigurations {
+		if hostnameConfigurationItem.IdentityClientIdFromConfig == nil {
+			continue
+		}
+		result = append(result, hostnameConfigurationItem.IdentityClientIdFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexApimanagementServiceHostnameConfigurationsSubjectFromConfig an index function for apimanagement_v20220801s.Service .spec.hostnameConfigurations.certificate.subjectFromConfig
+func indexApimanagementServiceHostnameConfigurationsSubjectFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.Service)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, hostnameConfigurationItem := range obj.Spec.HostnameConfigurations {
+		if hostnameConfigurationItem.Certificate == nil {
+			continue
+		}
+		if hostnameConfigurationItem.Certificate.SubjectFromConfig == nil {
+			continue
+		}
+		result = append(result, hostnameConfigurationItem.Certificate.SubjectFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexApimanagementServiceHostnameConfigurationsThumbprintFromConfig an index function for apimanagement_v20220801s.Service .spec.hostnameConfigurations.certificate.thumbprintFromConfig
+func indexApimanagementServiceHostnameConfigurationsThumbprintFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.Service)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, hostnameConfigurationItem := range obj.Spec.HostnameConfigurations {
+		if hostnameConfigurationItem.Certificate == nil {
+			continue
+		}
+		if hostnameConfigurationItem.Certificate.ThumbprintFromConfig == nil {
+			continue
+		}
+		result = append(result, hostnameConfigurationItem.Certificate.ThumbprintFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexApimanagementSubscriptionPrimaryKey an index function for apimanagement_v20220801s.Subscription .spec.primaryKey
+func indexApimanagementSubscriptionPrimaryKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.Subscription)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.PrimaryKey == nil {
+		return nil
+	}
+	return obj.Spec.PrimaryKey.Index()
+}
+
+// indexApimanagementSubscriptionSecondaryKey an index function for apimanagement_v20220801s.Subscription .spec.secondaryKey
+func indexApimanagementSubscriptionSecondaryKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.Subscription)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.SecondaryKey == nil {
+		return nil
+	}
+	return obj.Spec.SecondaryKey.Index()
 }
 
 // indexAuthorizationRoleAssignmentPrincipalIdFromConfig an index function for authorization_v20200801ps.RoleAssignment .spec.principalIdFromConfig

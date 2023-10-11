@@ -154,6 +154,11 @@ typeTransformers:
     because: AccessKeys is only set on response to PUT/CREATE, but we fill out Status via GET so this field is always empty. It also contains secrets we wouldn't want to expose in status anyway.
 
   # Properties that should have been marked as ReadOnly in the Swagger
+  - name: ApiManagementServiceProperties
+    group: apimanagement
+    property: PrivateEndpointConnections
+    remove: true
+    because: This property should be marked readonly
   - name: BackupVault_Spec
     group: dataprotection
     property: SystemData
@@ -683,6 +688,65 @@ status:
 #     sub-resource.
 #
 objectModelConfiguration:
+  apimanagement:
+    2022-08-01:
+      AdditionalLocation:
+        PublicIpAddressId:
+          $armReference: true
+      ApiManagementServiceProperties:
+        PublicIpAddressId:
+          $armReference: true
+      BackendContractProperties:
+        ResourceId:
+          $armReference: true
+      # This is an array and fails
+      # BackendCredentialsContract:
+      #   Certificate:
+      #     $importConfigMapMode: optional
+      BackendProxyContract:
+        Password:
+          $isSecret: true
+      CertificateInformation:
+        Expiry:
+          $importConfigMapMode: optional
+        Subject:
+          $importConfigMapMode: optional
+        Thumbprint:
+          $importConfigMapMode: optional
+      CertificateConfiguration:
+        CertificatePassword:
+          $isSecret: true
+      HostnameConfiguration:
+        CertificatePassword:
+          $isSecret: true
+        IdentityClientId:
+          $importConfigMapMode: optional
+      KeyVaultContractCreateProperties:
+        IdentityClientId:
+          $importConfigMapMode: optional
+      Service:
+        $export: true
+        $supportedFrom: v2.4.0
+      Service_Backend:
+        $exportAs: Backend
+        $supportedFrom: v2.4.0
+      Service_NamedValue:
+        $exportAs: NamedValue
+        $supportedFrom: v2.4.0
+      # TODO: This type generates 2 keys if there is none supplied.
+      Service_Subscription:
+        $exportAs: Subscription
+        $supportedFrom: v2.4.0
+      SubscriptionCreateParameterProperties:
+        PrimaryKey:
+          $isSecret: true
+        SecondaryKey:
+          $isSecret: true
+        OwnerId:
+          $armReference: true
+      VirtualNetworkConfiguration:
+        SubnetResourceId:
+          $armReference: true
   appconfiguration:
     2022-05-01:
       ConfigurationStore:
@@ -1619,6 +1683,25 @@ objectModelConfiguration:
       VirtualNetworks_VirtualNetworkPeering:
         $exportAs: VirtualNetworksVirtualNetworkPeering
         $supportedFrom: v2.0.0-alpha.1
+    2022-04-01:
+      TrafficManagerProfile:
+        # Hacking around here to use camel case. Normally the resource gets exported as Trafficmanagerprofile
+        $exportAs: TrafficManagerProfile
+        $supportedFrom: v2.4.0
+        $generatedConfigs:
+          DnsConfigFqdn: $.Status.DnsConfig.Fqdn
+      TrafficManagerProfiles_AzureEndpoint:
+        $exportAs: TrafficManagerProfilesAzureEndpoint
+        $supportedFrom: v2.4.0
+      TrafficManagerProfiles_ExternalEndpoint:
+        $exportAs: TrafficManagerProfilesExternalEndpoint
+        $supportedFrom: v2.4.0
+      TrafficManagerProfiles_NestedEndpoint:
+        $exportAs: TrafficManagerProfilesNestedEndpoint
+        $supportedFrom: v2.4.0
+      EndpointProperties:
+        TargetResourceId:
+          $armReference: true
     2022-07-01:
       BastionHost:
         # This technically supports 2022-09-01 API version too, but it's identical to the 2022-07-01 version

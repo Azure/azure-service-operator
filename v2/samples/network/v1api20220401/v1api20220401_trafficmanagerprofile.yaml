@@ -1,0 +1,20 @@
+apiVersion: network.azure.com/v1api20220401
+kind: TrafficManagerProfile
+metadata:
+  name: aso-sample-profile
+  namespace: default
+spec:
+  dnsConfig:
+    relativeName: aso-test
+  location: global
+  monitorConfig:
+    port: 443
+    protocol: TCP
+  operatorSpec:
+    configMaps:
+      dnsConfigFqdn:
+        key: fqdn
+        name: profile-config
+  owner:
+    name: aso-sample-rg
+  trafficRoutingMethod: Performance

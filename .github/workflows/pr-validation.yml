@@ -41,7 +41,22 @@ jobs:
             sha='${{ github.sha }}'
           fi
 
-          go get "$repo/v2@$sha"
+          # Give GitHub some time to make the commit available
+          sleep 10
+
+          # Sometimes it can take https://proxy.golang.org up to a minute for the latest commit to be available.
+          # See the FAQ at https://proxy.golang.org/
+          FAILED=1
+          for i in {1..5}; do
+            if go get "$repo/v2@$sha" ; then
+              FAILED=0
+              break
+            fi
+            echo "Failed to 'go get' $repo/v2@$sha, retrying in 60 seconds…"
+            sleep 60
+          done
+
+          exit $FAILED
 
   test-generator:
     runs-on: [self-hosted, 1ES.Pool=aso-1es-pool]
@@ -54,6 +69,9 @@ jobs:
         with:
           fetch-depth: 0 # required to access tags
           submodules: 'true'
+
+      - name: Force docker to SSD
+        run: sudo scripts/v2/linux-docker-use-ssd.sh --containerd true
 
       - name: check-changes
         id: check-changes
@@ -156,6 +174,9 @@ jobs:
         with:
           fetch-depth: 0 # required to access tags
           submodules: 'true'
+
+      - name: Force docker to SSD
+        run: sudo scripts/v2/linux-docker-use-ssd.sh --containerd true
 
       - name: check-changes
         id: check-changes
