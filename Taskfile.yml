@@ -370,7 +370,6 @@ tasks:
     deps: 
       - controller:generate-crds
     sources:
-      # excluding the ./apis directory here
       - "go.mod"
       - "go.sum"
       - "**/*.go"
@@ -413,6 +412,8 @@ tasks:
       - "out/crds/**/*"
       - Dockerfile
     cmds:
+      # We don't use multi-arch images here for local registry as building cross-platform image takes about 10-15 minutes to build.
+      # Which would increase our CI time and in the local environment, only the same architecture image is going to be pulled always.
       - docker buildx create --driver-opt network=host --use
       - docker buildx build --push
         --build-arg VERSION_FLAGS={{.VERSION_FLAGS}}
