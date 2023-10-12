@@ -237,7 +237,11 @@ func VaultProperties_STATUS_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVaultProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVaultProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(VaultProperties_CreateMode_STATUS_Default, VaultProperties_CreateMode_STATUS_Recover))
+	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(
+		VaultProperties_CreateMode_STATUS_CreateOrRecover,
+		VaultProperties_CreateMode_STATUS_Default,
+		VaultProperties_CreateMode_STATUS_PurgeThenCreate,
+		VaultProperties_CreateMode_STATUS_Recover))
 	gens["EnablePurgeProtection"] = gen.PtrOf(gen.Bool())
 	gens["EnableRbacAuthorization"] = gen.PtrOf(gen.Bool())
 	gens["EnableSoftDelete"] = gen.PtrOf(gen.Bool())
