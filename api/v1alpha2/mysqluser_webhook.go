@@ -9,6 +9,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
+	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 
 	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 )
@@ -38,21 +39,21 @@ func ensureNoSQLAll(privileges []string) error {
 var _ webhook.Validator = &MySQLUser{}
 
 // ValidateCreate implements webhook.Validator so a webhook will be registered for the type
-func (r *MySQLUser) ValidateCreate() error {
+func (r *MySQLUser) ValidateCreate() (admission.Warnings, error) {
 	mysqluserlog.Info("validate create", "name", r.Name)
 
-	return ensureNoSQLAll(r.Spec.Roles)
+	return nil, ensureNoSQLAll(r.Spec.Roles)
 }
 
 // ValidateUpdate implements webhook.Validator so a webhook will be registered for the type
-func (r *MySQLUser) ValidateUpdate(old runtime.Object) error {
+func (r *MySQLUser) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	mysqluserlog.Info("validate update", "name", r.Name)
 
-	return ensureNoSQLAll(r.Spec.Roles)
+	return nil, ensureNoSQLAll(r.Spec.Roles)
 }
 
 // ValidateDelete implements webhook.Validator so a webhook will be registered for the type
-func (r *MySQLUser) ValidateDelete() error {
+func (r *MySQLUser) ValidateDelete() (admission.Warnings, error) {
 	mysqluserlog.Info("validate delete", "name", r.Name)
-	return nil
+	return nil, nil
 }

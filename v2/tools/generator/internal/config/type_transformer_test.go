@@ -158,9 +158,9 @@ func Test_TransformTypeName_WhenConfiguredWithEnum_ReturnsExpectedEnumType(t *te
 
 	expected := astmodel.NewEnumType(
 		astmodel.StringType,
-		astmodel.MakeEnumValue("Alpha", "alpha"),
-		astmodel.MakeEnumValue("Beta", "beta"),
-		astmodel.MakeEnumValue("Preview", "preview"))
+		astmodel.MakeEnumValue("Alpha", "\"alpha\""),
+		astmodel.MakeEnumValue("Beta", "\"beta\""),
+		astmodel.MakeEnumValue("Preview", "\"preview\""))
 
 	g.Expect(transformer.TransformTypeName(tutor2019)).To(Equal(expected))
 }

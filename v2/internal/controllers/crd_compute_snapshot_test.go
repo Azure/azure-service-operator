@@ -19,10 +19,10 @@ func Test_Compute_Snapshot_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
-	tc.LogSection("Create Resource Group")
+	tc.LogSectionf("Create Resource Group")
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	tc.LogSection("Create Snapshot")
+	tc.LogSectionf("Create Snapshot")
 	createOption := compute.CreationData_CreateOption_Empty
 	snapshot := &compute.Snapshot{
 		ObjectMeta: tc.MakeObjectMeta("snapshot"),
@@ -43,7 +43,7 @@ func Test_Compute_Snapshot_CRUD(t *testing.T) {
 	armId := *snapshot.Status.Id
 
 	// Perform a simple patch to resize the disk
-	tc.LogSection("Patch Snapshot")
+	tc.LogSectionf("Patch Snapshot")
 	old := snapshot.DeepCopy()
 	snapshot.Spec.DiskSizeGB = to.Ptr(64)
 	tc.PatchResourceAndWait(old, snapshot)
@@ -52,7 +52,7 @@ func Test_Compute_Snapshot_CRUD(t *testing.T) {
 	tc.Expect(*snapshot.Status.DiskSizeGB).To(Equal(64))
 
 	// Delete VM and resources.
-	tc.LogSection("Clean up")
+	tc.LogSectionf("Clean up")
 	tc.DeleteResourceAndWait(snapshot)
 
 	// Ensure that the resource was really deleted in Azure
