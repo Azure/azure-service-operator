@@ -759,6 +759,7 @@
     </li>
     <li><a href="#insights">Insights</a>
       <ul>
+        <li><a href="#next-release-2">Next Release</a></li>
         <li><a href="#released-18">Released</a></li>
         <li><a href="#deprecated-15">Deprecated</a></li>
       </ul>
@@ -783,7 +784,7 @@
     </li>
     <li><a href="#network">Network</a>
       <ul>
-        <li><a href="#next-release-2">Next Release</a></li>
+        <li><a href="#next-release-3">Next Release</a></li>
         <li><a href="#released-22">Released</a></li>
         <li><a href="#deprecated-19">Deprecated</a></li>
       </ul>
@@ -2485,6 +2486,49 @@ grouped by the originating ARM service.
 </table>
 <h2 id="insights">Insights</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>insights.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
+<h3 id="next-release-2">Next Release</h3>
+<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>ARM Version</th>
+<th>CRD Version</th>
+<th>Supported From</th>
+<th>Sample</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ActionGroup</td>
+<td>2023-01-01</td>
+<td>v1api20230101</td>
+<td>v2.4.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api/v1api20230101_actiongroup.yaml">View</a></td>
+</tr>
+<tr>
+<td>Autoscalesetting</td>
+<td>2022-10-01</td>
+<td>v1api20221001</td>
+<td>v2.4.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api/v1api20221001_autoscalesetting.yaml">View</a></td>
+</tr>
+<tr>
+<td>MetricAlert</td>
+<td>2018-03-01</td>
+<td>v1api20180301</td>
+<td>v2.4.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api/v1api20180301_metricalert.yaml">View</a></td>
+</tr>
+<tr>
+<td>ScheduledQueryRule</td>
+<td>2022-06-15</td>
+<td>v1api20220615</td>
+<td>v2.4.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api/v1api20220615_scheduledqueryrule.yaml">View</a></td>
+</tr>
+</tbody>
+</table>
 <h3 id="released-18">Released</h3>
 <p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
@@ -2725,7 +2769,7 @@ grouped by the originating ARM service.
 </table>
 <h2 id="network">Network</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>network.azure.com/*</code> as a one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-2">Next Release</h3>
+<h3 id="next-release-3">Next Release</h3>
 <p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
 <table>
 <thead>
