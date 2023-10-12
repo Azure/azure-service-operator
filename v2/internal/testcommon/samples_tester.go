@@ -59,6 +59,8 @@ var exclusions = []string{
 
 	// Excluding APIM Product and Subscription as we need to pass deleteSubscription flag to delete the subscription
 	// when we delete the Product. https://github.com/Azure/azure-service-operator/issues/3408
+	"api",
+	"apiversionset",
 	"product",
 	"subscription",
 }
