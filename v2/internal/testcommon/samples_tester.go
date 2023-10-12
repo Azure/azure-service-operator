@@ -245,10 +245,12 @@ func setOwnersName(sample genruntime.ARMMetaObject, ownerName string) genruntime
 
 func IsFolderExcluded(path string, exclusions []string) bool {
 	for _, exclusion := range exclusions {
-		if strings.Contains(path, exclusion) {
+
+		if strings.Contains(path, "/"+exclusion+"/") {
 			return true
 		}
 	}
+
 	return false
 }
 
