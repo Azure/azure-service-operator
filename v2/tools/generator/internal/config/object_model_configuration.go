@@ -144,6 +144,28 @@ func (omc *ObjectModelConfiguration) IsGroupConfigured(pkg astmodel.InternalPack
 	return result
 }
 
+// IsTypeConfigured returns true if we have any configuration for the specified type, false otherwise.
+func (omc *ObjectModelConfiguration) IsTypeConfigured(name astmodel.InternalTypeName) bool {
+	var result bool
+	visitor := newSingleTypeConfigurationVisitor(name, func(configuration *TypeConfiguration) error {
+		result = true
+		return nil
+	})
+
+	err := visitor.Visit(omc)
+	if err != nil {
+		if IsNotConfiguredError(err) {
+			// No configuration for this type, we're not expecting it
+			return false
+		}
+
+		// Some other error, we'll assume we're expecting it
+		return true
+	}
+
+	return result
+}
+
 // AddTypeAlias adds a type alias for the specified type name,
 // allowing configuration related to the type to be accessed via the new name.
 func (omc *ObjectModelConfiguration) AddTypeAlias(name astmodel.InternalTypeName, alias string) {

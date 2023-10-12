@@ -1388,6 +1388,51 @@ objectModelConfiguration:
         $generatedConfigs:
           ConnectionString: $.Status.ConnectionString
           InstrumentationKey: $.Status.InstrumentationKey
+    2023-01-01:
+      ActionGroup:
+        $export: true
+        $supportedFrom: v2.4.0
+      AutomationRunbookReceiver:
+        WebhookResourceId:
+          $armReference: true
+      AzureFunctionReceiver:
+        FunctionAppResourceId:
+          $armReference: true
+      LogicAppReceiver:
+        ResourceId:
+          $armReference: true
+    2022-10-01:
+      AutoscaleSetting:
+        $export: true
+        $supportedFrom: v2.4.0
+        TargetResourceUri:
+          $armReference: true
+      MetricTrigger:
+        MetricResourceUri:
+          $armReference: true
+    2018-03-01:
+      MetricAlert:
+        $export: true
+        $supportedFrom: v2.4.0
+      WebtestLocationAvailabilityCriteria:
+        ComponentId:
+          $armReference: true
+      MetricAlertProperties:
+        Scopes:
+          $armReference: true
+    2022-06-15:
+      ScheduledQueryRule:
+        $export: true
+        $supportedFrom: v2.4.0
+      Actions:
+        ActionGroups:
+          $armReference: true
+      Condition:
+        ResourceIdColumn:
+          $armReference: true
+      ScheduledQueryRuleProperties:
+        Scopes:
+          $armReference: true
   keyvault:
     2021-04-01-preview:
       Vault:

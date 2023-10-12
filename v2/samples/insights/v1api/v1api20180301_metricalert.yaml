@@ -1,0 +1,29 @@
+apiVersion: insights.azure.com/v1api20180301
+kind: MetricAlert
+metadata:
+  name: aso-sample-alert
+  namespace: default
+spec:
+  criteria:
+    microsoftAzureMonitorSingleResourceMultipleMetricCriteria:
+      allOf:
+      - criterionType: StaticThresholdCriterion
+        metricName: SampleMetric
+        metricNamespace: namespace
+        name: SampleCriteria
+        operator: GreaterThan
+        skipMetricValidation: true
+        threshold: 10
+        timeAggregation: Count
+      odata.type: Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria
+  enabled: false
+  evaluationFrequency: PT5M
+  location: global
+  owner:
+    name: aso-sample-rg
+  scopesReferences:
+  - group: storage.azure.com
+    kind: StorageAccount
+    name: samplestoragema
+  severity: 0
+  windowSize: PT5M

@@ -160,12 +160,13 @@ func (set TypeDefinitionSet) AddTypesAllowDuplicates(definitions TypeDefinitionS
 // Multiple adds of a type with the same shape are allowed, but attempting to add two
 // types with the same name but different shape will trigger an error.
 func (set TypeDefinitionSet) AddAllowDuplicates(def TypeDefinition) error {
-	if !set.Contains(def.Name()) {
+	existing, found := set[def.Name()]
+	if !found {
+		// Not already in the set
 		set.Add(def)
 		return nil
 	}
 
-	existing := set[def.Name()]
 	if !TypeEquals(def.Type(), existing.Type()) {
 		return errors.Errorf("type definition for %q has two shapes: \r\n%s", existing.Name(), DiffTypes(existing.Type(), def.Type()))
 	}
