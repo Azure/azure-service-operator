@@ -146,7 +146,7 @@ func (ex *VaultExtension) handlePurgeThenCreate(
 	// Find out whether a soft-deleted KeyVault with the same name exists
 	exists, err := ex.checkForExistenceOfDeletedKeyVault(ctx, kv, resolver, vc, log)
 	if err != nil {
-		// Could not determine whether a soft-deleted keyvault exists, assume it doesn't
+		// Could not determine whether a soft-deleted keyvault exists in the same subscription, assume it doesn't
 
 		log.Error(err, "error checking for existence of soft-deleted KeyVault")
 		return nil
