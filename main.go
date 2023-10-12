@@ -11,27 +11,27 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	kscheme "k8s.io/client-go/kubernetes/scheme"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
+	"k8s.io/client-go/rest"
 	ctrl "sigs.k8s.io/controller-runtime"
+
 	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
+	"sigs.k8s.io/controller-runtime/pkg/metrics/server"
+	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha2 "github.com/Azure/azure-service-operator/api/v1alpha2"
 	azurev1beta1 "github.com/Azure/azure-service-operator/api/v1beta1"
-	"github.com/Azure/azure-service-operator/controllers"
-	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	resourcemanagerconfig "github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
-	"github.com/Azure/azure-service-operator/pkg/secrets"
 	keyvaultSecrets "github.com/Azure/azure-service-operator/pkg/secrets/keyvault"
 	k8sSecrets "github.com/Azure/azure-service-operator/pkg/secrets/kube"
+
+	"github.com/Azure/azure-service-operator/controllers"
+	"github.com/Azure/azure-service-operator/pkg/secrets"
 	// +kubebuilder:scaffold:imports
 )
 
 var (
-	masterURL, kubeconfig, resources, clusterName               string
-	cloudName, tenantID, subscriptionID, clientID, clientSecret string
-	useAADPodIdentity                                           bool
-
 	scheme   = runtime.NewScheme()
 	setupLog = ctrl.Log.WithName("setup")
 )
@@ -77,16 +77,27 @@ func main() {
 	targetNamespaces := resourcemanagerconfig.TargetNamespaces()
 	var cacheFunc cache.NewCacheFunc
 	if targetNamespaces != nil {
-		cacheFunc = cache.MultiNamespacedCacheBuilder(targetNamespaces)
+		cacheFunc = func(config *rest.Config, opts cache.Options) (cache.Cache, error) {
+			opts.DefaultNamespaces = make(map[string]cache.Config, len(targetNamespaces))
+			for _, ns := range targetNamespaces {
+				opts.DefaultNamespaces[ns] = cache.Config{}
+			}
+
+			return cache.New(config, opts)
+		}
 	}
 
 	mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
 		Scheme:               scheme,
-		MetricsBindAddress:   metricsAddr,
 		NewCache:             cacheFunc,
 		LeaderElection:       enableLeaderElection,
 		LivenessEndpointName: "/healthz",
-		Port:                 9443,
+		Metrics: server.Options{
+			BindAddress: metricsAddr,
+		},
+		WebhookServer: webhook.NewServer(webhook.Options{
+			Port: 9443,
+		}),
 	})
 
 	if err != nil {
@@ -98,25 +109,25 @@ func main() {
 
 	if keyvaultName == "" {
 		setupLog.Info("Keyvault name is empty")
-		secretClient = k8sSecrets.New(mgr.GetClient(), config.SecretNamingVersion())
+		secretClient = k8sSecrets.New(mgr.GetClient(), resourcemanagerconfig.SecretNamingVersion())
 	} else {
 		setupLog.Info("Instantiating secrets client for keyvault " + keyvaultName)
 		secretClient = keyvaultSecrets.New(
 			keyvaultName,
-			config.GlobalCredentials(),
-			config.SecretNamingVersion(),
-			config.PurgeDeletedKeyVaultSecrets(),
-			config.RecoverSoftDeletedKeyVaultSecrets())
+			resourcemanagerconfig.GlobalCredentials(),
+			resourcemanagerconfig.SecretNamingVersion(),
+			resourcemanagerconfig.PurgeDeletedKeyVaultSecrets(),
+			resourcemanagerconfig.RecoverSoftDeletedKeyVaultSecrets())
 	}
 
-	if config.SelectedMode().IncludesWatchers() {
+	if resourcemanagerconfig.SelectedMode().IncludesWatchers() {
 		if err := controllers.RegisterReconcilers(mgr, scheme, secretClient); err != nil {
 			setupLog.Error(err, "unable to create controller")
 			os.Exit(1)
 		}
 	}
 
-	if config.SelectedMode().IncludesWebhooks() {
+	if resourcemanagerconfig.SelectedMode().IncludesWebhooks() {
 		if err := controllers.RegisterWebhooks(mgr); err != nil {
 			setupLog.Error(err, "unable to create webhook")
 			os.Exit(1)

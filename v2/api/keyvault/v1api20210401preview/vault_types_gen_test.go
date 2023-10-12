@@ -626,7 +626,11 @@ func VaultPropertiesGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVaultProperties is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVaultProperties(gens map[string]gopter.Gen) {
-	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(VaultProperties_CreateMode_Default, VaultProperties_CreateMode_Recover))
+	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(
+		VaultProperties_CreateMode_CreateOrRecover,
+		VaultProperties_CreateMode_Default,
+		VaultProperties_CreateMode_PurgeThenCreate,
+		VaultProperties_CreateMode_Recover))
 	gens["EnablePurgeProtection"] = gen.PtrOf(gen.Bool())
 	gens["EnableRbacAuthorization"] = gen.PtrOf(gen.Bool())
 	gens["EnableSoftDelete"] = gen.PtrOf(gen.Bool())
@@ -755,7 +759,11 @@ func VaultProperties_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVaultProperties_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVaultProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(VaultProperties_CreateMode_STATUS_Default, VaultProperties_CreateMode_STATUS_Recover))
+	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(
+		VaultProperties_CreateMode_STATUS_CreateOrRecover,
+		VaultProperties_CreateMode_STATUS_Default,
+		VaultProperties_CreateMode_STATUS_PurgeThenCreate,
+		VaultProperties_CreateMode_STATUS_Recover))
 	gens["EnablePurgeProtection"] = gen.PtrOf(gen.Bool())
 	gens["EnableRbacAuthorization"] = gen.PtrOf(gen.Bool())
 	gens["EnableSoftDelete"] = gen.PtrOf(gen.Bool())
