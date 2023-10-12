@@ -8,7 +8,6 @@ package pipeline
 import (
 	"context"
 	"fmt"
-	"golang.org/x/exp/slices"
 	"html/template"
 	"io"
 	"io/fs"
@@ -18,6 +17,7 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
+	"golang.org/x/exp/slices"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
@@ -29,8 +29,12 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/reporting"
 )
 
-// ReportResourceVersionsStageID is the unique identifier of this stage
-const ReportResourceVersionsStageID = "reportResourceVersions"
+const (
+	// ReportResourceVersionsStageID is the unique identifier of this stage
+	ReportResourceVersionsStageID = "reportResourceVersions"
+	v1betaVersionPrefix           = "v1beta"
+	v1VersionPrefix               = "v1api"
+)
 
 // ReportResourceVersions creates a pipeline stage that generates a report listing all generated resources.
 func ReportResourceVersions(configuration *config.Configuration) *Stage {

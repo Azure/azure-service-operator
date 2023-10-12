@@ -1,31 +1,31 @@
-| Type Definitions in package "batch"                | v1api20210101 | v1beta20210101 |
-|----------------------------------------------------|---------------|----------------|
-| APIVersion                                         | v1api20210101 | v1beta20210101 |
-| AutoStorageBaseProperties                          | v1api20210101 | v1beta20210101 |
-| AutoStorageProperties_STATUS                       | v1api20210101 | v1beta20210101 |
-| BatchAccount                                       | v1api20210101 | v1beta20210101 |
-| BatchAccountCreateProperties                       | v1api20210101 | v1beta20210101 |
-| BatchAccountIdentity                               | v1api20210101 | v1beta20210101 |
-| BatchAccountIdentity_STATUS                        | v1api20210101 | v1beta20210101 |
-| BatchAccountIdentity_Type                          | v1api20210101 | v1beta20210101 |
-| BatchAccountIdentity_Type_STATUS                   | v1api20210101 | v1beta20210101 |
-| BatchAccountIdentity_UserAssignedIdentities_STATUS | v1api20210101 | v1beta20210101 |
-| BatchAccountProperties_ProvisioningState_STATUS    | v1api20210101 | v1beta20210101 |
-| BatchAccountProperties_STATUS                      | v1api20210101 | v1beta20210101 |
-| BatchAccount_STATUS                                | v1api20210101 | v1beta20210101 |
-| BatchAccount_Spec                                  | v1api20210101 | v1beta20210101 |
-| EncryptionProperties                               | v1api20210101 | v1beta20210101 |
-| EncryptionProperties_KeySource                     | v1api20210101 | v1beta20210101 |
-| EncryptionProperties_KeySource_STATUS              | v1api20210101 | v1beta20210101 |
-| EncryptionProperties_STATUS                        | v1api20210101 | v1beta20210101 |
-| KeyVaultProperties                                 | v1api20210101 | v1beta20210101 |
-| KeyVaultProperties_STATUS                          | v1api20210101 | v1beta20210101 |
-| KeyVaultReference                                  | v1api20210101 | v1beta20210101 |
-| KeyVaultReference_STATUS                           | v1api20210101 | v1beta20210101 |
-| PoolAllocationMode                                 | v1api20210101 | v1beta20210101 |
-| PoolAllocationMode_STATUS                          | v1api20210101 | v1beta20210101 |
-| PrivateEndpointConnection_STATUS                   | v1api20210101 | v1beta20210101 |
-| PublicNetworkAccessType                            | v1api20210101 | v1beta20210101 |
-| PublicNetworkAccessType_STATUS                     | v1api20210101 | v1beta20210101 |
-| UserAssignedIdentityDetails                        | v1api20210101 | v1beta20210101 |
-| VirtualMachineFamilyCoreQuota_STATUS               | v1api20210101 | v1beta20210101 |
+| Type Definitions in package "batch"                | v1api20210101 |
+|----------------------------------------------------|---------------|
+| APIVersion                                         | v1api20210101 |
+| AutoStorageBaseProperties                          | v1api20210101 |
+| AutoStorageProperties_STATUS                       | v1api20210101 |
+| BatchAccount                                       | v1api20210101 |
+| BatchAccountCreateProperties                       | v1api20210101 |
+| BatchAccountIdentity                               | v1api20210101 |
+| BatchAccountIdentity_STATUS                        | v1api20210101 |
+| BatchAccountIdentity_Type                          | v1api20210101 |
+| BatchAccountIdentity_Type_STATUS                   | v1api20210101 |
+| BatchAccountIdentity_UserAssignedIdentities_STATUS | v1api20210101 |
+| BatchAccountProperties_ProvisioningState_STATUS    | v1api20210101 |
+| BatchAccountProperties_STATUS                      | v1api20210101 |
+| BatchAccount_STATUS                                | v1api20210101 |
+| BatchAccount_Spec                                  | v1api20210101 |
+| EncryptionProperties                               | v1api20210101 |
+| EncryptionProperties_KeySource                     | v1api20210101 |
+| EncryptionProperties_KeySource_STATUS              | v1api20210101 |
+| EncryptionProperties_STATUS                        | v1api20210101 |
+| KeyVaultProperties                                 | v1api20210101 |
+| KeyVaultProperties_STATUS                          | v1api20210101 |
+| KeyVaultReference                                  | v1api20210101 |
+| KeyVaultReference_STATUS                           | v1api20210101 |
+| PoolAllocationMode                                 | v1api20210101 |
+| PoolAllocationMode_STATUS                          | v1api20210101 |
+| PrivateEndpointConnection_STATUS                   | v1api20210101 |
+| PublicNetworkAccessType                            | v1api20210101 |
+| PublicNetworkAccessType_STATUS                     | v1api20210101 |
+| UserAssignedIdentityDetails                        | v1api20210101 |
+| VirtualMachineFamilyCoreQuota_STATUS               | v1api20210101 |

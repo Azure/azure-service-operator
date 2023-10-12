@@ -6,8 +6,6 @@ package customizations
 import (
 	v20181130 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	v20181130s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130storage"
-	v1beta20181130 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20181130"
-	v1beta20181130s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20181130storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -18,7 +16,5 @@ type UserAssignedIdentityExtension struct {
 func (extension *UserAssignedIdentityExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
 		&v20181130.UserAssignedIdentity{},
-		&v20181130s.UserAssignedIdentity{},
-		&v1beta20181130.UserAssignedIdentity{},
-		&v1beta20181130s.UserAssignedIdentity{}}
+		&v20181130s.UserAssignedIdentity{}}
 }
