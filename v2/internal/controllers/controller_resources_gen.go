@@ -232,11 +232,41 @@ import (
 func getKnownStorageTypes() []*registration.StorageType {
 	var result []*registration.StorageType
 	result = append(result, &registration.StorageType{
+		Obj: new(apimanagement_v20220801s.Backend),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.proxy.password",
+				Func: indexApimanagementBackendPassword,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.proxy.password"}, &apimanagement_v20220801s.BackendList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(apimanagement_v20220801s.NamedValue),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.keyVault.identityClientIdFromConfig",
+				Func: indexApimanagementNamedValueIdentityClientIdFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.keyVault.identityClientIdFromConfig"}, &apimanagement_v20220801s.NamedValueList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
 		Obj: new(apimanagement_v20220801s.Service),
 		Indexes: []registration.Index{
 			{
-				Key:  ".spec.hostnameConfigurations.certificatePassword",
-				Func: indexApimanagementServiceCertificatePassword,
+				Key:  ".spec.certificates.certificatePassword",
+				Func: indexApimanagementServiceCertificatesCertificatePassword,
 			},
 			{
 				Key:  ".spec.certificates.certificate.expiryFromConfig",
@@ -249,6 +279,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 			{
 				Key:  ".spec.certificates.certificate.thumbprintFromConfig",
 				Func: indexApimanagementServiceCertificatesThumbprintFromConfig,
+			},
+			{
+				Key:  ".spec.hostnameConfigurations.certificatePassword",
+				Func: indexApimanagementServiceHostnameConfigurationsCertificatePassword,
 			},
 			{
 				Key:  ".spec.hostnameConfigurations.certificate.expiryFromConfig",
@@ -270,11 +304,30 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Type:             &v1.Secret{},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.hostnameConfigurations.certificatePassword"}, &apimanagement_v20220801s.ServiceList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.certificates.certificatePassword", ".spec.hostnameConfigurations.certificatePassword"}, &apimanagement_v20220801s.ServiceList{}),
 			},
 			{
 				Type:             &v1.ConfigMap{},
 				MakeEventHandler: watchConfigMapsFactory([]string{".spec.certificates.certificate.expiryFromConfig", ".spec.certificates.certificate.subjectFromConfig", ".spec.certificates.certificate.thumbprintFromConfig", ".spec.hostnameConfigurations.certificate.expiryFromConfig", ".spec.hostnameConfigurations.certificate.subjectFromConfig", ".spec.hostnameConfigurations.certificate.thumbprintFromConfig", ".spec.hostnameConfigurations.identityClientIdFromConfig"}, &apimanagement_v20220801s.ServiceList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(apimanagement_v20220801s.Subscription),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.primaryKey",
+				Func: indexApimanagementSubscriptionPrimaryKey,
+			},
+			{
+				Key:  ".spec.secondaryKey",
+				Func: indexApimanagementSubscriptionSecondaryKey,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.primaryKey", ".spec.secondaryKey"}, &apimanagement_v20220801s.SubscriptionList{}),
 			},
 		},
 	})
@@ -934,8 +987,18 @@ func getKnownStorageTypes() []*registration.StorageType {
 // getKnownTypes returns the list of all types.
 func getKnownTypes() []client.Object {
 	var result []client.Object
-	result = append(result, new(apimanagement_v20220801.Service))
-	result = append(result, new(apimanagement_v20220801s.Service))
+	result = append(
+		result,
+		new(apimanagement_v20220801.Backend),
+		new(apimanagement_v20220801.NamedValue),
+		new(apimanagement_v20220801.Service),
+		new(apimanagement_v20220801.Subscription))
+	result = append(
+		result,
+		new(apimanagement_v20220801s.Backend),
+		new(apimanagement_v20220801s.NamedValue),
+		new(apimanagement_v20220801s.Service),
+		new(apimanagement_v20220801s.Subscription))
 	result = append(result, new(appconfiguration_v1beta20220501.ConfigurationStore))
 	result = append(result, new(appconfiguration_v1beta20220501s.ConfigurationStore))
 	result = append(result, new(appconfiguration_v20220501.ConfigurationStore))
@@ -1835,7 +1898,10 @@ func createScheme() *runtime.Scheme {
 // getResourceExtensions returns a list of resource extensions
 func getResourceExtensions() []genruntime.ResourceExtension {
 	var result []genruntime.ResourceExtension
+	result = append(result, &apimanagement_customizations.BackendExtension{})
+	result = append(result, &apimanagement_customizations.NamedValueExtension{})
 	result = append(result, &apimanagement_customizations.ServiceExtension{})
+	result = append(result, &apimanagement_customizations.SubscriptionExtension{})
 	result = append(result, &appconfiguration_customizations.ConfigurationStoreExtension{})
 	result = append(result, &authorization_customizations.RoleAssignmentExtension{})
 	result = append(result, &batch_customizations.BatchAccountExtension{})
@@ -2003,18 +2069,48 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	return result
 }
 
-// indexApimanagementServiceCertificatePassword an index function for apimanagement_v20220801s.Service .spec.hostnameConfigurations.certificatePassword
-func indexApimanagementServiceCertificatePassword(rawObj client.Object) []string {
+// indexApimanagementBackendPassword an index function for apimanagement_v20220801s.Backend .spec.proxy.password
+func indexApimanagementBackendPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.Backend)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Proxy == nil {
+		return nil
+	}
+	if obj.Spec.Proxy.Password == nil {
+		return nil
+	}
+	return obj.Spec.Proxy.Password.Index()
+}
+
+// indexApimanagementNamedValueIdentityClientIdFromConfig an index function for apimanagement_v20220801s.NamedValue .spec.keyVault.identityClientIdFromConfig
+func indexApimanagementNamedValueIdentityClientIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.NamedValue)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.KeyVault == nil {
+		return nil
+	}
+	if obj.Spec.KeyVault.IdentityClientIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.KeyVault.IdentityClientIdFromConfig.Index()
+}
+
+// indexApimanagementServiceCertificatesCertificatePassword an index function for apimanagement_v20220801s.Service .spec.certificates.certificatePassword
+func indexApimanagementServiceCertificatesCertificatePassword(rawObj client.Object) []string {
 	obj, ok := rawObj.(*apimanagement_v20220801s.Service)
 	if !ok {
 		return nil
 	}
 	var result []string
-	for _, hostnameConfigurationItem := range obj.Spec.HostnameConfigurations {
-		if hostnameConfigurationItem.CertificatePassword == nil {
+	for _, certificateItem := range obj.Spec.Certificates {
+		if certificateItem.CertificatePassword == nil {
 			continue
 		}
-		result = append(result, hostnameConfigurationItem.CertificatePassword.Index()...)
+		result = append(result, certificateItem.CertificatePassword.Index()...)
 	}
 	return result
 }
@@ -2072,6 +2168,22 @@ func indexApimanagementServiceCertificatesThumbprintFromConfig(rawObj client.Obj
 			continue
 		}
 		result = append(result, certificateItem.Certificate.ThumbprintFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexApimanagementServiceHostnameConfigurationsCertificatePassword an index function for apimanagement_v20220801s.Service .spec.hostnameConfigurations.certificatePassword
+func indexApimanagementServiceHostnameConfigurationsCertificatePassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.Service)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, hostnameConfigurationItem := range obj.Spec.HostnameConfigurations {
+		if hostnameConfigurationItem.CertificatePassword == nil {
+			continue
+		}
+		result = append(result, hostnameConfigurationItem.CertificatePassword.Index()...)
 	}
 	return result
 }
@@ -2147,6 +2259,30 @@ func indexApimanagementServiceHostnameConfigurationsThumbprintFromConfig(rawObj 
 		result = append(result, hostnameConfigurationItem.Certificate.ThumbprintFromConfig.Index()...)
 	}
 	return result
+}
+
+// indexApimanagementSubscriptionPrimaryKey an index function for apimanagement_v20220801s.Subscription .spec.primaryKey
+func indexApimanagementSubscriptionPrimaryKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.Subscription)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.PrimaryKey == nil {
+		return nil
+	}
+	return obj.Spec.PrimaryKey.Index()
+}
+
+// indexApimanagementSubscriptionSecondaryKey an index function for apimanagement_v20220801s.Subscription .spec.secondaryKey
+func indexApimanagementSubscriptionSecondaryKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.Subscription)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.SecondaryKey == nil {
+		return nil
+	}
+	return obj.Spec.SecondaryKey.Index()
 }
 
 // indexAuthorizationRoleAssignmentPrincipalIdFromConfig an index function for authorization_v20200801ps.RoleAssignment .spec.principalIdFromConfig

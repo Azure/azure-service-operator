@@ -327,11 +327,6 @@ type ServiceList struct {
 	Items           []Service `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2022-08-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2022-08-01")
-
 type Service_Spec struct {
 	// AdditionalLocations: Additional datacenter locations of the API Management service.
 	AdditionalLocations []AdditionalLocation `json:"additionalLocations,omitempty"`
@@ -405,9 +400,9 @@ type Service_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-	// PublicIpAddressId: Public Standard SKU IP V4 based IP address to be associated with Virtual Network deployed service in
-	// the region. Supported only for Developer and Premium SKU being deployed in Virtual Network.
-	PublicIpAddressId *string `json:"publicIpAddressId,omitempty"`
+	// PublicIpAddressReference: Public Standard SKU IP V4 based IP address to be associated with Virtual Network deployed
+	// service in the region. Supported only for Developer and Premium SKU being deployed in Virtual Network.
+	PublicIpAddressReference *genruntime.ResourceReference `armReference:"PublicIpAddressId" json:"publicIpAddressReference,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this API Management service.  Value is
 	// optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access
@@ -486,7 +481,7 @@ func (service *Service_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		service.HostnameConfigurations != nil ||
 		service.NatGatewayState != nil ||
 		service.NotificationSenderEmail != nil ||
-		service.PublicIpAddressId != nil ||
+		service.PublicIpAddressReference != nil ||
 		service.PublicNetworkAccess != nil ||
 		service.PublisherEmail != nil ||
 		service.PublisherName != nil ||
@@ -546,8 +541,12 @@ func (service *Service_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		notificationSenderEmail := *service.NotificationSenderEmail
 		result.Properties.NotificationSenderEmail = &notificationSenderEmail
 	}
-	if service.PublicIpAddressId != nil {
-		publicIpAddressId := *service.PublicIpAddressId
+	if service.PublicIpAddressReference != nil {
+		publicIpAddressIdARMID, err := resolved.ResolvedReferences.Lookup(*service.PublicIpAddressReference)
+		if err != nil {
+			return nil, err
+		}
+		publicIpAddressId := publicIpAddressIdARMID
 		result.Properties.PublicIpAddressId = &publicIpAddressId
 	}
 	if service.PublicNetworkAccess != nil {
@@ -742,14 +741,7 @@ func (service *Service_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		ARMID: owner.ARMID,
 	}
 
-	// Set property "PublicIpAddressId":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PublicIpAddressId != nil {
-			publicIpAddressId := *typedInput.Properties.PublicIpAddressId
-			service.PublicIpAddressId = &publicIpAddressId
-		}
-	}
+	// no assignment for property "PublicIpAddressReference"
 
 	// Set property "PublicNetworkAccess":
 	// copying flattened property:
@@ -1018,8 +1010,13 @@ func (service *Service_Spec) AssignProperties_From_Service_Spec(source *v2022080
 		service.Owner = nil
 	}
 
-	// PublicIpAddressId
-	service.PublicIpAddressId = genruntime.ClonePointerToString(source.PublicIpAddressId)
+	// PublicIpAddressReference
+	if source.PublicIpAddressReference != nil {
+		publicIpAddressReference := source.PublicIpAddressReference.Copy()
+		service.PublicIpAddressReference = &publicIpAddressReference
+	} else {
+		service.PublicIpAddressReference = nil
+	}
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
@@ -1230,8 +1227,13 @@ func (service *Service_Spec) AssignProperties_To_Service_Spec(destination *v2022
 		destination.Owner = nil
 	}
 
-	// PublicIpAddressId
-	destination.PublicIpAddressId = genruntime.ClonePointerToString(service.PublicIpAddressId)
+	// PublicIpAddressReference
+	if service.PublicIpAddressReference != nil {
+		publicIpAddressReference := service.PublicIpAddressReference.Copy()
+		destination.PublicIpAddressReference = &publicIpAddressReference
+	} else {
+		destination.PublicIpAddressReference = nil
+	}
 
 	// PublicNetworkAccess
 	if service.PublicNetworkAccess != nil {
@@ -1433,8 +1435,13 @@ func (service *Service_Spec) Initialize_From_Service_STATUS(source *Service_STAT
 		service.NotificationSenderEmail = nil
 	}
 
-	// PublicIpAddressId
-	service.PublicIpAddressId = genruntime.ClonePointerToString(source.PublicIpAddressId)
+	// PublicIpAddressReference
+	if source.PublicIpAddressId != nil {
+		publicIpAddressReference := genruntime.CreateResourceReferenceFromARMID(*source.PublicIpAddressId)
+		service.PublicIpAddressReference = &publicIpAddressReference
+	} else {
+		service.PublicIpAddressReference = nil
+	}
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
@@ -4056,7 +4063,7 @@ type CertificateConfiguration struct {
 	Certificate *CertificateInformation `json:"certificate,omitempty"`
 
 	// CertificatePassword: Certificate Password.
-	CertificatePassword *string `json:"certificatePassword,omitempty"`
+	CertificatePassword *genruntime.SecretReference `json:"certificatePassword,omitempty"`
 
 	// EncodedCertificate: Base64 Encoded certificate.
 	EncodedCertificate *string `json:"encodedCertificate,omitempty"`
@@ -4088,7 +4095,11 @@ func (configuration *CertificateConfiguration) ConvertToARM(resolved genruntime.
 
 	// Set property "CertificatePassword":
 	if configuration.CertificatePassword != nil {
-		certificatePassword := *configuration.CertificatePassword
+		certificatePasswordSecret, err := resolved.ResolvedSecrets.Lookup(*configuration.CertificatePassword)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property CertificatePassword")
+		}
+		certificatePassword := certificatePasswordSecret
 		result.CertificatePassword = &certificatePassword
 	}
 
@@ -4129,11 +4140,7 @@ func (configuration *CertificateConfiguration) PopulateFromARM(owner genruntime.
 		configuration.Certificate = &certificate
 	}
 
-	// Set property "CertificatePassword":
-	if typedInput.CertificatePassword != nil {
-		certificatePassword := *typedInput.CertificatePassword
-		configuration.CertificatePassword = &certificatePassword
-	}
+	// no assignment for property "CertificatePassword"
 
 	// Set property "EncodedCertificate":
 	if typedInput.EncodedCertificate != nil {
@@ -4167,7 +4174,12 @@ func (configuration *CertificateConfiguration) AssignProperties_From_Certificate
 	}
 
 	// CertificatePassword
-	configuration.CertificatePassword = genruntime.ClonePointerToString(source.CertificatePassword)
+	if source.CertificatePassword != nil {
+		certificatePassword := source.CertificatePassword.Copy()
+		configuration.CertificatePassword = &certificatePassword
+	} else {
+		configuration.CertificatePassword = nil
+	}
 
 	// EncodedCertificate
 	configuration.EncodedCertificate = genruntime.ClonePointerToString(source.EncodedCertificate)
@@ -4202,7 +4214,12 @@ func (configuration *CertificateConfiguration) AssignProperties_To_CertificateCo
 	}
 
 	// CertificatePassword
-	destination.CertificatePassword = genruntime.ClonePointerToString(configuration.CertificatePassword)
+	if configuration.CertificatePassword != nil {
+		certificatePassword := configuration.CertificatePassword.Copy()
+		destination.CertificatePassword = &certificatePassword
+	} else {
+		destination.CertificatePassword = nil
+	}
 
 	// EncodedCertificate
 	destination.EncodedCertificate = genruntime.ClonePointerToString(configuration.EncodedCertificate)
@@ -4241,9 +4258,6 @@ func (configuration *CertificateConfiguration) Initialize_From_CertificateConfig
 		configuration.Certificate = nil
 	}
 
-	// CertificatePassword
-	configuration.CertificatePassword = genruntime.ClonePointerToString(source.CertificatePassword)
-
 	// EncodedCertificate
 	configuration.EncodedCertificate = genruntime.ClonePointerToString(source.EncodedCertificate)
 
@@ -4263,9 +4277,6 @@ func (configuration *CertificateConfiguration) Initialize_From_CertificateConfig
 type CertificateConfiguration_STATUS struct {
 	// Certificate: Certificate information.
 	Certificate *CertificateInformation_STATUS `json:"certificate,omitempty"`
-
-	// CertificatePassword: Certificate Password.
-	CertificatePassword *string `json:"certificatePassword,omitempty"`
 
 	// EncodedCertificate: Base64 Encoded certificate.
 	EncodedCertificate *string `json:"encodedCertificate,omitempty"`
@@ -4300,12 +4311,6 @@ func (configuration *CertificateConfiguration_STATUS) PopulateFromARM(owner genr
 		configuration.Certificate = &certificate
 	}
 
-	// Set property "CertificatePassword":
-	if typedInput.CertificatePassword != nil {
-		certificatePassword := *typedInput.CertificatePassword
-		configuration.CertificatePassword = &certificatePassword
-	}
-
 	// Set property "EncodedCertificate":
 	if typedInput.EncodedCertificate != nil {
 		encodedCertificate := *typedInput.EncodedCertificate
@@ -4336,9 +4341,6 @@ func (configuration *CertificateConfiguration_STATUS) AssignProperties_From_Cert
 	} else {
 		configuration.Certificate = nil
 	}
-
-	// CertificatePassword
-	configuration.CertificatePassword = genruntime.ClonePointerToString(source.CertificatePassword)
 
 	// EncodedCertificate
 	configuration.EncodedCertificate = genruntime.ClonePointerToString(source.EncodedCertificate)
@@ -4371,9 +4373,6 @@ func (configuration *CertificateConfiguration_STATUS) AssignProperties_To_Certif
 	} else {
 		destination.Certificate = nil
 	}
-
-	// CertificatePassword
-	destination.CertificatePassword = genruntime.ClonePointerToString(configuration.CertificatePassword)
 
 	// EncodedCertificate
 	destination.EncodedCertificate = genruntime.ClonePointerToString(configuration.EncodedCertificate)

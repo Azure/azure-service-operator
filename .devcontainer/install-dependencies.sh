@@ -174,7 +174,7 @@ fi
 write-verbose "Checking for $TOOL_DEST/go-task"
 if should-install "$TOOL_DEST/task"; then 
     write-info "Installing go-task"
-    curl -sL "https://github.com/go-task/task/releases/download/v3.22.0/task_linux_amd64.tar.gz" | tar xz -C "$TOOL_DEST" task
+    curl -sL "https://github.com/go-task/task/releases/download/v3.31.0/task_linux_amd64.tar.gz" | tar xz -C "$TOOL_DEST" task
 fi
 
 # Install Trivy
@@ -208,6 +208,15 @@ write-verbose "Checking for $TOOL_DEST/cmctl"
 if should-install "$TOOL_DEST/cmctl"; then 
     write-info "Installing cmctl-${os}_${arch}…"
     curl -L "https://github.com/jetstack/cert-manager/releases/latest/download/cmctl-${os}-${arch}.tar.gz" | tar -xz -C "$TOOL_DEST"
+fi
+
+BUILDX_DEST=$HOME/.docker/cli-plugins
+write-verbose "Checking for $BUILDX_DEST/docker-buildx"
+if should-install "$BUILDX_DEST/docker-buildx"; then
+    write-info "Installing buildx-${os}_${arch}…"
+    mkdir -p "$BUILDX_DEST"
+    curl  -o "$BUILDX_DEST/docker-buildx" -L "https://github.com/docker/buildx/releases/download/v0.11.2/buildx-v0.11.2.${os}-${arch}"
+    chmod +x "$BUILDX_DEST/docker-buildx"
 fi
 
 # Install azwi

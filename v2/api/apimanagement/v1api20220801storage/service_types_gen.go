@@ -129,12 +129,6 @@ type ServiceList struct {
 	Items           []Service `json:"items"`
 }
 
-// Storage version of v1api20220801.APIVersion
-// +kubebuilder:validation:Enum={"2022-08-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2022-08-01")
-
 // Storage version of v1api20220801.Service_Spec
 type Service_Spec struct {
 	AdditionalLocations  []AdditionalLocation  `json:"additionalLocations,omitempty"`
@@ -161,9 +155,12 @@ type Service_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag                 genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	PublicIpAddressId           *string                            `json:"publicIpAddressId,omitempty"`
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+
+	// PublicIpAddressReference: Public Standard SKU IP V4 based IP address to be associated with Virtual Network deployed
+	// service in the region. Supported only for Developer and Premium SKU being deployed in Virtual Network.
+	PublicIpAddressReference    *genruntime.ResourceReference      `armReference:"PublicIpAddressId" json:"publicIpAddressReference,omitempty"`
 	PublicNetworkAccess         *string                            `json:"publicNetworkAccess,omitempty"`
 	PublisherEmail              *string                            `json:"publisherEmail,omitempty"`
 	PublisherName               *string                            `json:"publisherName,omitempty"`
@@ -346,21 +343,20 @@ type ApiVersionConstraint_STATUS struct {
 // Storage version of v1api20220801.CertificateConfiguration
 // Certificate configuration which consist of non-trusted intermediates and root certificates.
 type CertificateConfiguration struct {
-	Certificate         *CertificateInformation `json:"certificate,omitempty"`
-	CertificatePassword *string                 `json:"certificatePassword,omitempty"`
-	EncodedCertificate  *string                 `json:"encodedCertificate,omitempty"`
-	PropertyBag         genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
-	StoreName           *string                 `json:"storeName,omitempty"`
+	Certificate         *CertificateInformation     `json:"certificate,omitempty"`
+	CertificatePassword *genruntime.SecretReference `json:"certificatePassword,omitempty"`
+	EncodedCertificate  *string                     `json:"encodedCertificate,omitempty"`
+	PropertyBag         genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	StoreName           *string                     `json:"storeName,omitempty"`
 }
 
 // Storage version of v1api20220801.CertificateConfiguration_STATUS
 // Certificate configuration which consist of non-trusted intermediates and root certificates.
 type CertificateConfiguration_STATUS struct {
-	Certificate         *CertificateInformation_STATUS `json:"certificate,omitempty"`
-	CertificatePassword *string                        `json:"certificatePassword,omitempty"`
-	EncodedCertificate  *string                        `json:"encodedCertificate,omitempty"`
-	PropertyBag         genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
-	StoreName           *string                        `json:"storeName,omitempty"`
+	Certificate        *CertificateInformation_STATUS `json:"certificate,omitempty"`
+	EncodedCertificate *string                        `json:"encodedCertificate,omitempty"`
+	PropertyBag        genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	StoreName          *string                        `json:"storeName,omitempty"`
 }
 
 // Storage version of v1api20220801.HostnameConfiguration

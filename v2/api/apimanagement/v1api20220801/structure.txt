@@ -2,6 +2,131 @@
 github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 ├── APIVersion: Enum (1 value)
 │   └── "2022-08-01"
+├── Backend: Resource
+│   ├── Owner: Service
+│   ├── Spec: Object (11 properties)
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: MaxLength: 80
+│   │   │   └── Rule 1: MinLength: 1
+│   │   ├── Credentials: *Object (5 properties)
+│   │   │   ├── Authorization: *Object (2 properties)
+│   │   │   │   ├── Parameter: Validated<*string> (2 rules)
+│   │   │   │   │   ├── Rule 0: MaxLength: 300
+│   │   │   │   │   └── Rule 1: MinLength: 1
+│   │   │   │   └── Scheme: Validated<*string> (2 rules)
+│   │   │   │       ├── Rule 0: MaxLength: 100
+│   │   │   │       └── Rule 1: MinLength: 1
+│   │   │   ├── Certificate: Validated<string[]> (1 rule)
+│   │   │   │   └── Rule 0: MaxItems: 32
+│   │   │   ├── CertificateIds: Validated<string[]> (1 rule)
+│   │   │   │   └── Rule 0: MaxItems: 32
+│   │   │   ├── Header: map[string]string[]
+│   │   │   └── Query: map[string]string[]
+│   │   ├── Description: Validated<*string> (2 rules)
+│   │   │   ├── Rule 0: MaxLength: 2000
+│   │   │   └── Rule 1: MinLength: 1
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Properties: *Object (1 property)
+│   │   │   └── ServiceFabricCluster: *Object (6 properties)
+│   │   │       ├── ClientCertificateId: *string
+│   │   │       ├── ClientCertificatethumbprint: *string
+│   │   │       ├── ManagementEndpoints: string[]
+│   │   │       ├── MaxPartitionResolutionRetries: *int
+│   │   │       ├── ServerCertificateThumbprints: string[]
+│   │   │       └── ServerX509Names: Object (2 properties)[]
+│   │   │           ├── IssuerCertificateThumbprint: *string
+│   │   │           └── Name: *string
+│   │   ├── Protocol: *Enum (2 values)
+│   │   │   ├── "http"
+│   │   │   └── "soap"
+│   │   ├── Proxy: *Object (3 properties)
+│   │   │   ├── Password: *genruntime.SecretReference
+│   │   │   ├── Url: Validated<*string> (2 rules)
+│   │   │   │   ├── Rule 0: MaxLength: 2000
+│   │   │   │   └── Rule 1: MinLength: 1
+│   │   │   └── Username: *string
+│   │   ├── ResourceReference: *genruntime.ResourceReference
+│   │   ├── Title: Validated<*string> (2 rules)
+│   │   │   ├── Rule 0: MaxLength: 300
+│   │   │   └── Rule 1: MinLength: 1
+│   │   ├── Tls: *Object (2 properties)
+│   │   │   ├── ValidateCertificateChain: *bool
+│   │   │   └── ValidateCertificateName: *bool
+│   │   └── Url: Validated<*string> (2 rules)
+│   │       ├── Rule 0: MaxLength: 2000
+│   │       └── Rule 1: MinLength: 1
+│   └── Status: Object (13 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Credentials: *Object (5 properties)
+│       │   ├── Authorization: *Object (2 properties)
+│       │   │   ├── Parameter: *string
+│       │   │   └── Scheme: *string
+│       │   ├── Certificate: string[]
+│       │   ├── CertificateIds: string[]
+│       │   ├── Header: map[string]string[]
+│       │   └── Query: map[string]string[]
+│       ├── Description: *string
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── Properties: *Object (1 property)
+│       │   └── ServiceFabricCluster: *Object (6 properties)
+│       │       ├── ClientCertificateId: *string
+│       │       ├── ClientCertificatethumbprint: *string
+│       │       ├── ManagementEndpoints: string[]
+│       │       ├── MaxPartitionResolutionRetries: *int
+│       │       ├── ServerCertificateThumbprints: string[]
+│       │       └── ServerX509Names: Object (2 properties)[]
+│       │           ├── IssuerCertificateThumbprint: *string
+│       │           └── Name: *string
+│       ├── Protocol: *Enum (2 values)
+│       │   ├── "http"
+│       │   └── "soap"
+│       ├── Proxy: *Object (2 properties)
+│       │   ├── Url: *string
+│       │   └── Username: *string
+│       ├── ResourceId: *string
+│       ├── Title: *string
+│       ├── Tls: *Object (2 properties)
+│       │   ├── ValidateCertificateChain: *bool
+│       │   └── ValidateCertificateName: *bool
+│       ├── Type: *string
+│       └── Url: *string
+├── NamedValue: Resource
+│   ├── Owner: Service
+│   ├── Spec: Object (7 properties)
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: MaxLength: 256
+│   │   │   └── Rule 1: Pattern: "^[^*#&+:<>?]+$"
+│   │   ├── DisplayName: Validated<*string> (3 rules)
+│   │   │   ├── Rule 0: MaxLength: 256
+│   │   │   ├── Rule 1: MinLength: 1
+│   │   │   └── Rule 2: Pattern: "^[A-Za-z0-9-._]+$"
+│   │   ├── KeyVault: *Object (3 properties)
+│   │   │   ├── IdentityClientId: *string
+│   │   │   ├── IdentityClientIdFromConfig: *genruntime.ConfigMapReference
+│   │   │   └── SecretIdentifier: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── Secret: *bool
+│   │   ├── Tags: Validated<string[]> (1 rule)
+│   │   │   └── Rule 0: MaxItems: 32
+│   │   └── Value: Validated<*string> (1 rule)
+│   │       └── Rule 0: MaxLength: 4096
+│   └── Status: Object (9 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── DisplayName: *string
+│       ├── Id: *string
+│       ├── KeyVault: *Object (3 properties)
+│       │   ├── IdentityClientId: *string
+│       │   ├── LastStatus: *Object (3 properties)
+│       │   │   ├── Code: *string
+│       │   │   ├── Message: *string
+│       │   │   └── TimeStampUtc: *string
+│       │   └── SecretIdentifier: *string
+│       ├── Name: *string
+│       ├── Secret: *bool
+│       ├── Tags: string[]
+│       ├── Type: *string
+│       └── Value: *string
 ├── Service: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (23 properties)
@@ -38,7 +163,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │   │   │   │   ├── SubjectFromConfig: *genruntime.ConfigMapReference
 │   │   │   │   ├── Thumbprint: *string
 │   │   │   │   └── ThumbprintFromConfig: *genruntime.ConfigMapReference
-│   │   │   ├── CertificatePassword: *string
+│   │   │   ├── CertificatePassword: *genruntime.SecretReference
 │   │   │   ├── EncodedCertificate: *string
 │   │   │   └── StoreName: *Enum (2 values)
 │   │   │       ├── "CertificateAuthority"
@@ -92,7 +217,7 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │   │   ├── NotificationSenderEmail: Validated<*string> (1 rule)
 │   │   │   └── Rule 0: MaxLength: 100
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PublicIpAddressId: *string
+│   │   ├── PublicIpAddressReference: *genruntime.ResourceReference
 │   │   ├── PublicNetworkAccess: *Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
@@ -151,12 +276,11 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │       │   └── Zones: string[]
 │       ├── ApiVersionConstraint: *Object (1 property)
 │       │   └── MinApiVersion: *string
-│       ├── Certificates: Object (4 properties)[]
+│       ├── Certificates: Object (3 properties)[]
 │       │   ├── Certificate: *Object (3 properties)
 │       │   │   ├── Expiry: *string
 │       │   │   ├── Subject: *string
 │       │   │   └── Thumbprint: *string
-│       │   ├── CertificatePassword: *string
 │       │   ├── EncodedCertificate: *string
 │       │   └── StoreName: *Enum (2 values)
 │       │       ├── "CertificateAuthority"
@@ -284,6 +408,103 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │       │   ├── "Internal"
 │       │   └── "None"
 │       └── Zones: string[]
+├── Service_Backend_STATUS_ARM: Object (4 properties)
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (9 properties)
+│   │   ├── Credentials: *Object (5 properties)
+│   │   │   ├── Authorization: *Object (2 properties)
+│   │   │   │   ├── Parameter: *string
+│   │   │   │   └── Scheme: *string
+│   │   │   ├── Certificate: string[]
+│   │   │   ├── CertificateIds: string[]
+│   │   │   ├── Header: map[string]string[]
+│   │   │   └── Query: map[string]string[]
+│   │   ├── Description: *string
+│   │   ├── Properties: *Object (1 property)
+│   │   │   └── ServiceFabricCluster: *Object (6 properties)
+│   │   │       ├── ClientCertificateId: *string
+│   │   │       ├── ClientCertificatethumbprint: *string
+│   │   │       ├── ManagementEndpoints: string[]
+│   │   │       ├── MaxPartitionResolutionRetries: *int
+│   │   │       ├── ServerCertificateThumbprints: string[]
+│   │   │       └── ServerX509Names: Object (2 properties)[]
+│   │   │           ├── IssuerCertificateThumbprint: *string
+│   │   │           └── Name: *string
+│   │   ├── Protocol: *Enum (2 values)
+│   │   │   ├── "http"
+│   │   │   └── "soap"
+│   │   ├── Proxy: *Object (2 properties)
+│   │   │   ├── Url: *string
+│   │   │   └── Username: *string
+│   │   ├── ResourceId: *string
+│   │   ├── Title: *string
+│   │   ├── Tls: *Object (2 properties)
+│   │   │   ├── ValidateCertificateChain: *bool
+│   │   │   └── ValidateCertificateName: *bool
+│   │   └── Url: *string
+│   └── Type: *string
+├── Service_Backend_Spec_ARM: Object (2 properties)
+│   ├── Name: string
+│   └── Properties: *Object (9 properties)
+│       ├── Credentials: *Object (5 properties)
+│       │   ├── Authorization: *Object (2 properties)
+│       │   │   ├── Parameter: *string
+│       │   │   └── Scheme: *string
+│       │   ├── Certificate: string[]
+│       │   ├── CertificateIds: string[]
+│       │   ├── Header: map[string]string[]
+│       │   └── Query: map[string]string[]
+│       ├── Description: *string
+│       ├── Properties: *Object (1 property)
+│       │   └── ServiceFabricCluster: *Object (6 properties)
+│       │       ├── ClientCertificateId: *string
+│       │       ├── ClientCertificatethumbprint: *string
+│       │       ├── ManagementEndpoints: string[]
+│       │       ├── MaxPartitionResolutionRetries: *int
+│       │       ├── ServerCertificateThumbprints: string[]
+│       │       └── ServerX509Names: Object (2 properties)[]
+│       │           ├── IssuerCertificateThumbprint: *string
+│       │           └── Name: *string
+│       ├── Protocol: *Enum (2 values)
+│       │   ├── "http"
+│       │   └── "soap"
+│       ├── Proxy: *Object (3 properties)
+│       │   ├── Password: *string
+│       │   ├── Url: *string
+│       │   └── Username: *string
+│       ├── ResourceId: *string
+│       ├── Title: *string
+│       ├── Tls: *Object (2 properties)
+│       │   ├── ValidateCertificateChain: *bool
+│       │   └── ValidateCertificateName: *bool
+│       └── Url: *string
+├── Service_NamedValue_STATUS_ARM: Object (4 properties)
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (5 properties)
+│   │   ├── DisplayName: *string
+│   │   ├── KeyVault: *Object (3 properties)
+│   │   │   ├── IdentityClientId: *string
+│   │   │   ├── LastStatus: *Object (3 properties)
+│   │   │   │   ├── Code: *string
+│   │   │   │   ├── Message: *string
+│   │   │   │   └── TimeStampUtc: *string
+│   │   │   └── SecretIdentifier: *string
+│   │   ├── Secret: *bool
+│   │   ├── Tags: string[]
+│   │   └── Value: *string
+│   └── Type: *string
+├── Service_NamedValue_Spec_ARM: Object (2 properties)
+│   ├── Name: string
+│   └── Properties: *Object (5 properties)
+│       ├── DisplayName: *string
+│       ├── KeyVault: *Object (2 properties)
+│       │   ├── IdentityClientId: *string
+│       │   └── SecretIdentifier: *string
+│       ├── Secret: *bool
+│       ├── Tags: string[]
+│       └── Value: *string
 ├── Service_STATUS_ARM: Object (11 properties)
 │   ├── Etag: *string
 │   ├── Id: *string
@@ -333,12 +554,11 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │   │   │   └── Zones: string[]
 │   │   ├── ApiVersionConstraint: *Object (1 property)
 │   │   │   └── MinApiVersion: *string
-│   │   ├── Certificates: Object (4 properties)[]
+│   │   ├── Certificates: Object (3 properties)[]
 │   │   │   ├── Certificate: *Object (3 properties)
 │   │   │   │   ├── Expiry: *string
 │   │   │   │   ├── Subject: *string
 │   │   │   │   └── Thumbprint: *string
-│   │   │   ├── CertificatePassword: *string
 │   │   │   ├── EncodedCertificate: *string
 │   │   │   └── StoreName: *Enum (2 values)
 │   │   │       ├── "CertificateAuthority"
@@ -451,103 +671,185 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801
 │   ├── Tags: map[string]string
 │   ├── Type: *string
 │   └── Zones: string[]
-└── Service_Spec_ARM: Object (7 properties)
-    ├── Identity: *Object (2 properties)
-    │   ├── Type: *Enum (4 values)
-    │   │   ├── "None"
-    │   │   ├── "SystemAssigned"
-    │   │   ├── "SystemAssigned, UserAssigned"
-    │   │   └── "UserAssigned"
-    │   └── UserAssignedIdentities: map[string]Object (0 properties)
-    ├── Location: *string
-    ├── Name: string
-    ├── Properties: *Object (16 properties)
-    │   ├── AdditionalLocations: Object (7 properties)[]
-    │   │   ├── DisableGateway: *bool
-    │   │   ├── Location: *string
-    │   │   ├── NatGatewayState: *Enum (2 values)
-    │   │   │   ├── "Disabled"
-    │   │   │   └── "Enabled"
-    │   │   ├── PublicIpAddressId: *string
-    │   │   ├── Sku: *Object (2 properties)
-    │   │   │   ├── Capacity: *int
-    │   │   │   └── Name: *Enum (6 values)
-    │   │   │       ├── "Basic"
-    │   │   │       ├── "Consumption"
-    │   │   │       ├── "Developer"
-    │   │   │       ├── "Isolated"
-    │   │   │       ├── "Premium"
-    │   │   │       └── "Standard"
-    │   │   ├── VirtualNetworkConfiguration: *Object (1 property)
-    │   │   │   └── SubnetResourceId: *string
-    │   │   └── Zones: string[]
-    │   ├── ApiVersionConstraint: *Object (1 property)
-    │   │   └── MinApiVersion: *string
-    │   ├── Certificates: Object (4 properties)[]
-    │   │   ├── Certificate: *Object (3 properties)
-    │   │   │   ├── Expiry: *string
-    │   │   │   ├── Subject: *string
-    │   │   │   └── Thumbprint: *string
-    │   │   ├── CertificatePassword: *string
-    │   │   ├── EncodedCertificate: *string
-    │   │   └── StoreName: *Enum (2 values)
-    │   │       ├── "CertificateAuthority"
-    │   │       └── "Root"
-    │   ├── CustomProperties: map[string]string
-    │   ├── DisableGateway: *bool
-    │   ├── EnableClientCertificate: *bool
-    │   ├── HostnameConfigurations: Object (11 properties)[]
-    │   │   ├── Certificate: *Object (3 properties)
-    │   │   │   ├── Expiry: *string
-    │   │   │   ├── Subject: *string
-    │   │   │   └── Thumbprint: *string
-    │   │   ├── CertificatePassword: *string
-    │   │   ├── CertificateSource: *Enum (4 values)
-    │   │   │   ├── "BuiltIn"
-    │   │   │   ├── "Custom"
-    │   │   │   ├── "KeyVault"
-    │   │   │   └── "Managed"
-    │   │   ├── CertificateStatus: *Enum (3 values)
-    │   │   │   ├── "Completed"
-    │   │   │   ├── "Failed"
-    │   │   │   └── "InProgress"
-    │   │   ├── DefaultSslBinding: *bool
-    │   │   ├── EncodedCertificate: *string
-    │   │   ├── HostName: *string
-    │   │   ├── IdentityClientId: *string
-    │   │   ├── KeyVaultId: *string
-    │   │   ├── NegotiateClientCertificate: *bool
-    │   │   └── Type: *Enum (5 values)
-    │   │       ├── "DeveloperPortal"
-    │   │       ├── "Management"
-    │   │       ├── "Portal"
-    │   │       ├── "Proxy"
-    │   │       └── "Scm"
-    │   ├── NatGatewayState: *Enum (2 values)
-    │   │   ├── "Disabled"
-    │   │   └── "Enabled"
-    │   ├── NotificationSenderEmail: *string
-    │   ├── PublicIpAddressId: *string
-    │   ├── PublicNetworkAccess: *Enum (2 values)
-    │   │   ├── "Disabled"
-    │   │   └── "Enabled"
-    │   ├── PublisherEmail: *string
-    │   ├── PublisherName: *string
-    │   ├── Restore: *bool
-    │   ├── VirtualNetworkConfiguration: *Object (1 property)
-    │   │   └── SubnetResourceId: *string
-    │   └── VirtualNetworkType: *Enum (3 values)
-    │       ├── "External"
-    │       ├── "Internal"
-    │       └── "None"
-    ├── Sku: *Object (2 properties)
-    │   ├── Capacity: *int
-    │   └── Name: *Enum (6 values)
-    │       ├── "Basic"
-    │       ├── "Consumption"
-    │       ├── "Developer"
-    │       ├── "Isolated"
-    │       ├── "Premium"
-    │       └── "Standard"
-    ├── Tags: map[string]string
-    └── Zones: string[]
+├── Service_Spec_ARM: Object (7 properties)
+│   ├── Identity: *Object (2 properties)
+│   │   ├── Type: *Enum (4 values)
+│   │   │   ├── "None"
+│   │   │   ├── "SystemAssigned"
+│   │   │   ├── "SystemAssigned, UserAssigned"
+│   │   │   └── "UserAssigned"
+│   │   └── UserAssignedIdentities: map[string]Object (0 properties)
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: *Object (16 properties)
+│   │   ├── AdditionalLocations: Object (7 properties)[]
+│   │   │   ├── DisableGateway: *bool
+│   │   │   ├── Location: *string
+│   │   │   ├── NatGatewayState: *Enum (2 values)
+│   │   │   │   ├── "Disabled"
+│   │   │   │   └── "Enabled"
+│   │   │   ├── PublicIpAddressId: *string
+│   │   │   ├── Sku: *Object (2 properties)
+│   │   │   │   ├── Capacity: *int
+│   │   │   │   └── Name: *Enum (6 values)
+│   │   │   │       ├── "Basic"
+│   │   │   │       ├── "Consumption"
+│   │   │   │       ├── "Developer"
+│   │   │   │       ├── "Isolated"
+│   │   │   │       ├── "Premium"
+│   │   │   │       └── "Standard"
+│   │   │   ├── VirtualNetworkConfiguration: *Object (1 property)
+│   │   │   │   └── SubnetResourceId: *string
+│   │   │   └── Zones: string[]
+│   │   ├── ApiVersionConstraint: *Object (1 property)
+│   │   │   └── MinApiVersion: *string
+│   │   ├── Certificates: Object (4 properties)[]
+│   │   │   ├── Certificate: *Object (3 properties)
+│   │   │   │   ├── Expiry: *string
+│   │   │   │   ├── Subject: *string
+│   │   │   │   └── Thumbprint: *string
+│   │   │   ├── CertificatePassword: *string
+│   │   │   ├── EncodedCertificate: *string
+│   │   │   └── StoreName: *Enum (2 values)
+│   │   │       ├── "CertificateAuthority"
+│   │   │       └── "Root"
+│   │   ├── CustomProperties: map[string]string
+│   │   ├── DisableGateway: *bool
+│   │   ├── EnableClientCertificate: *bool
+│   │   ├── HostnameConfigurations: Object (11 properties)[]
+│   │   │   ├── Certificate: *Object (3 properties)
+│   │   │   │   ├── Expiry: *string
+│   │   │   │   ├── Subject: *string
+│   │   │   │   └── Thumbprint: *string
+│   │   │   ├── CertificatePassword: *string
+│   │   │   ├── CertificateSource: *Enum (4 values)
+│   │   │   │   ├── "BuiltIn"
+│   │   │   │   ├── "Custom"
+│   │   │   │   ├── "KeyVault"
+│   │   │   │   └── "Managed"
+│   │   │   ├── CertificateStatus: *Enum (3 values)
+│   │   │   │   ├── "Completed"
+│   │   │   │   ├── "Failed"
+│   │   │   │   └── "InProgress"
+│   │   │   ├── DefaultSslBinding: *bool
+│   │   │   ├── EncodedCertificate: *string
+│   │   │   ├── HostName: *string
+│   │   │   ├── IdentityClientId: *string
+│   │   │   ├── KeyVaultId: *string
+│   │   │   ├── NegotiateClientCertificate: *bool
+│   │   │   └── Type: *Enum (5 values)
+│   │   │       ├── "DeveloperPortal"
+│   │   │       ├── "Management"
+│   │   │       ├── "Portal"
+│   │   │       ├── "Proxy"
+│   │   │       └── "Scm"
+│   │   ├── NatGatewayState: *Enum (2 values)
+│   │   │   ├── "Disabled"
+│   │   │   └── "Enabled"
+│   │   ├── NotificationSenderEmail: *string
+│   │   ├── PublicIpAddressId: *string
+│   │   ├── PublicNetworkAccess: *Enum (2 values)
+│   │   │   ├── "Disabled"
+│   │   │   └── "Enabled"
+│   │   ├── PublisherEmail: *string
+│   │   ├── PublisherName: *string
+│   │   ├── Restore: *bool
+│   │   ├── VirtualNetworkConfiguration: *Object (1 property)
+│   │   │   └── SubnetResourceId: *string
+│   │   └── VirtualNetworkType: *Enum (3 values)
+│   │       ├── "External"
+│   │       ├── "Internal"
+│   │       └── "None"
+│   ├── Sku: *Object (2 properties)
+│   │   ├── Capacity: *int
+│   │   └── Name: *Enum (6 values)
+│   │       ├── "Basic"
+│   │       ├── "Consumption"
+│   │       ├── "Developer"
+│   │       ├── "Isolated"
+│   │       ├── "Premium"
+│   │       └── "Standard"
+│   ├── Tags: map[string]string
+│   └── Zones: string[]
+├── Service_Subscription_STATUS_ARM: Object (4 properties)
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (11 properties)
+│   │   ├── AllowTracing: *bool
+│   │   ├── CreatedDate: *string
+│   │   ├── DisplayName: *string
+│   │   ├── EndDate: *string
+│   │   ├── ExpirationDate: *string
+│   │   ├── NotificationDate: *string
+│   │   ├── OwnerId: *string
+│   │   ├── Scope: *string
+│   │   ├── StartDate: *string
+│   │   ├── State: *Enum (6 values)
+│   │   │   ├── "active"
+│   │   │   ├── "cancelled"
+│   │   │   ├── "expired"
+│   │   │   ├── "rejected"
+│   │   │   ├── "submitted"
+│   │   │   └── "suspended"
+│   │   └── StateComment: *string
+│   └── Type: *string
+├── Service_Subscription_Spec_ARM: Object (2 properties)
+│   ├── Name: string
+│   └── Properties: *Object (7 properties)
+│       ├── AllowTracing: *bool
+│       ├── DisplayName: *string
+│       ├── OwnerId: *string
+│       ├── PrimaryKey: *string
+│       ├── Scope: *string
+│       ├── SecondaryKey: *string
+│       └── State: *Enum (6 values)
+│           ├── "active"
+│           ├── "cancelled"
+│           ├── "expired"
+│           ├── "rejected"
+│           ├── "submitted"
+│           └── "suspended"
+└── Subscription: Resource
+    ├── Owner: Service
+    ├── Spec: Object (9 properties)
+    │   ├── AllowTracing: *bool
+    │   ├── AzureName: Validated<string> (2 rules)
+    │   │   ├── Rule 0: MaxLength: 256
+    │   │   └── Rule 1: Pattern: "^[^*#&+:<>?]+$"
+    │   ├── DisplayName: Validated<*string> (2 rules)
+    │   │   ├── Rule 0: MaxLength: 100
+    │   │   └── Rule 1: MinLength: 1
+    │   ├── Owner: *genruntime.KnownResourceReference
+    │   ├── OwnerReference: *genruntime.ResourceReference
+    │   ├── PrimaryKey: *genruntime.SecretReference
+    │   ├── Scope: *string
+    │   ├── SecondaryKey: *genruntime.SecretReference
+    │   └── State: *Enum (6 values)
+    │       ├── "active"
+    │       ├── "cancelled"
+    │       ├── "expired"
+    │       ├── "rejected"
+    │       ├── "submitted"
+    │       └── "suspended"
+    └── Status: Object (15 properties)
+        ├── AllowTracing: *bool
+        ├── Conditions: conditions.Condition[]
+        ├── CreatedDate: *string
+        ├── DisplayName: *string
+        ├── EndDate: *string
+        ├── ExpirationDate: *string
+        ├── Id: *string
+        ├── Name: *string
+        ├── NotificationDate: *string
+        ├── OwnerId: *string
+        ├── Scope: *string
+        ├── StartDate: *string
+        ├── State: *Enum (6 values)
+        │   ├── "active"
+        │   ├── "cancelled"
+        │   ├── "expired"
+        │   ├── "rejected"
+        │   ├── "submitted"
+        │   └── "suspended"
+        ├── StateComment: *string
+        └── Type: *string
