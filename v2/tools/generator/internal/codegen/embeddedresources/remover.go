@@ -183,14 +183,12 @@ func (e EmbeddedResourceRemover) makeEmbeddedResourceRemovalTypeVisitor() astmod
 				}
 			}
 
-			var keep []*astmodel.PropertyDefinition
-			it.Properties().ForEach(func(def *astmodel.PropertyDefinition) {
-				if def.HasName("Id") {
-					keep = append(keep, def)
-				}
-			})
+			id, ok := it.Property("Id")
+			it = it.WithoutProperties()
+			if ok {
+				it = it.WithProperties(id)
+			}
 
-			it = it.WithoutProperties().WithProperties(keep...)
 			return astmodel.OrderedIdentityVisitOfObjectType(this, it, ctx)
 		},
 	}.Build()
