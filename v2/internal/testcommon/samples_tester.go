@@ -56,6 +56,11 @@ var exclusions = []string{
 	// TODO: Unable to test diskencryptionsets sample since it requires keyvault/key URI.
 	// TODO: we don't support Keyvault/Keys to automate the process
 	"diskencryptionset",
+
+	// Excluding APIM Product and Subscription as we need to pass deleteSubscription flag to delete the subscription
+	// when we delete the Product. https://github.com/Azure/azure-service-operator/issues/3408
+	"product",
+	"subscription",
 }
 
 type SamplesTester struct {
