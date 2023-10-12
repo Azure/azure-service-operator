@@ -13,7 +13,7 @@ type ManagedClusters_AgentPool_STATUS_ARM struct {
 
 // Deprecated version of ManagedClusterAgentPoolProfileProperties_STATUS. Use v1api20210501.ManagedClusterAgentPoolProfileProperties_STATUS instead
 type ManagedClusterAgentPoolProfileProperties_STATUS_ARM struct {
-	AvailabilityZones         []string                             `json:"availabilityZones,omitempty"`
+	AvailabilityZones         []string                             `json:"availabilityZones"`
 	Count                     *int                                 `json:"count,omitempty"`
 	EnableAutoScaling         *bool                                `json:"enableAutoScaling,omitempty"`
 	EnableEncryptionAtHost    *bool                                `json:"enableEncryptionAtHost,omitempty"`
@@ -29,9 +29,9 @@ type ManagedClusterAgentPoolProfileProperties_STATUS_ARM struct {
 	MinCount                  *int                                 `json:"minCount,omitempty"`
 	Mode                      *AgentPoolMode_STATUS                `json:"mode,omitempty"`
 	NodeImageVersion          *string                              `json:"nodeImageVersion,omitempty"`
-	NodeLabels                map[string]string                    `json:"nodeLabels,omitempty"`
+	NodeLabels                map[string]string                    `json:"nodeLabels"`
 	NodePublicIPPrefixID      *string                              `json:"nodePublicIPPrefixID,omitempty"`
-	NodeTaints                []string                             `json:"nodeTaints,omitempty"`
+	NodeTaints                []string                             `json:"nodeTaints"`
 	OrchestratorVersion       *string                              `json:"orchestratorVersion,omitempty"`
 	OsDiskSizeGB              *int                                 `json:"osDiskSizeGB,omitempty"`
 	OsDiskType                *OSDiskType_STATUS                   `json:"osDiskType,omitempty"`
@@ -44,7 +44,7 @@ type ManagedClusterAgentPoolProfileProperties_STATUS_ARM struct {
 	ScaleSetEvictionPolicy    *ScaleSetEvictionPolicy_STATUS       `json:"scaleSetEvictionPolicy,omitempty"`
 	ScaleSetPriority          *ScaleSetPriority_STATUS             `json:"scaleSetPriority,omitempty"`
 	SpotMaxPrice              *float64                             `json:"spotMaxPrice,omitempty"`
-	Tags                      map[string]string                    `json:"tags,omitempty"`
+	Tags                      map[string]string                    `json:"tags"`
 	Type                      *AgentPoolType_STATUS                `json:"type,omitempty"`
 	UpgradeSettings           *AgentPoolUpgradeSettings_STATUS_ARM `json:"upgradeSettings,omitempty"`
 	VmSize                    *string                              `json:"vmSize,omitempty"`
@@ -58,7 +58,7 @@ type AgentPoolUpgradeSettings_STATUS_ARM struct {
 
 // Deprecated version of KubeletConfig_STATUS. Use v1api20210501.KubeletConfig_STATUS instead
 type KubeletConfig_STATUS_ARM struct {
-	AllowedUnsafeSysctls  []string `json:"allowedUnsafeSysctls,omitempty"`
+	AllowedUnsafeSysctls  []string `json:"allowedUnsafeSysctls"`
 	ContainerLogMaxFiles  *int     `json:"containerLogMaxFiles,omitempty"`
 	ContainerLogMaxSizeMB *int     `json:"containerLogMaxSizeMB,omitempty"`
 	CpuCfsQuota           *bool    `json:"cpuCfsQuota,omitempty"`

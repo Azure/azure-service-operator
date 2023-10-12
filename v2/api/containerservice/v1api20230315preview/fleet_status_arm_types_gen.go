@@ -28,7 +28,7 @@ type Fleet_STATUS_ARM struct {
 	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 
 	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags map[string]string `json:"tags"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`

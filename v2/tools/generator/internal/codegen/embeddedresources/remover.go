@@ -106,9 +106,9 @@ func MakeEmbeddedResourceRemover(configuration *config.Configuration, definition
 func (e EmbeddedResourceRemover) RemoveEmbeddedResources(
 	log logr.Logger,
 ) (astmodel.TypeDefinitionSet, error) {
-	result := make(astmodel.TypeDefinitionSet)
+	result := make(astmodel.TypeDefinitionSet, len(e.definitions))
 
-	originalNames := make(map[astmodel.InternalTypeName]embeddedResourceTypeName)
+	originalNames := make(map[astmodel.InternalTypeName]embeddedResourceTypeName, len(e.definitions)/2)
 
 	visitor := e.makeEmbeddedResourceRemovalTypeVisitor()
 	for _, def := range astmodel.FindResourceDefinitions(e.definitions) {
@@ -183,14 +183,12 @@ func (e EmbeddedResourceRemover) makeEmbeddedResourceRemovalTypeVisitor() astmod
 				}
 			}
 
-			var keep []*astmodel.PropertyDefinition
-			it.Properties().ForEach(func(def *astmodel.PropertyDefinition) {
-				if def.HasName("Id") {
-					keep = append(keep, def)
-				}
-			})
+			id, ok := it.Property("Id")
+			it = it.WithoutProperties()
+			if ok {
+				it = it.WithProperties(id)
+			}
 
-			it = it.WithoutProperties().WithProperties(keep...)
 			return astmodel.OrderedIdentityVisitOfObjectType(this, it, ctx)
 		},
 	}.Build()

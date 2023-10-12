@@ -71,12 +71,14 @@ type Sku_ARM struct {
 }
 
 // Deprecated version of VaultProperties_CreateMode. Use v1api20210401preview.VaultProperties_CreateMode instead
-// +kubebuilder:validation:Enum={"default","recover"}
+// +kubebuilder:validation:Enum={"createOrRecover","default","purgeThenCreate","recover"}
 type VaultProperties_CreateMode string
 
 const (
-	VaultProperties_CreateMode_Default = VaultProperties_CreateMode("default")
-	VaultProperties_CreateMode_Recover = VaultProperties_CreateMode("recover")
+	VaultProperties_CreateMode_CreateOrRecover = VaultProperties_CreateMode("createOrRecover")
+	VaultProperties_CreateMode_Default         = VaultProperties_CreateMode("default")
+	VaultProperties_CreateMode_PurgeThenCreate = VaultProperties_CreateMode("purgeThenCreate")
+	VaultProperties_CreateMode_Recover         = VaultProperties_CreateMode("recover")
 )
 
 // Deprecated version of VaultProperties_ProvisioningState. Use v1api20210401preview.VaultProperties_ProvisioningState
