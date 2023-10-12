@@ -30,38 +30,42 @@ func findMisbehavingResources(
 	resources := make(map[astmodel.InternalTypeName][]misbehavingResourceDetails)
 	visitor := astmodel.TypeVisitorBuilder[misbehavingResourceCtx]{
 		VisitObjectType: func(this *astmodel.TypeVisitor[misbehavingResourceCtx], ot *astmodel.ObjectType, ctx misbehavingResourceCtx) (astmodel.Type, error) {
-			for _, prop := range ot.Properties().Copy() {
-				resourceLifecycleOwnedByParent, err := configuration.ResourceLifecycleOwnedByParent(ctx.typeName, prop.PropertyName())
-				if err != nil {
-					if config.IsNotConfiguredError(err) {
+			// If we don't have any configuration at all for the type, we don't need to check any of the properties
+			if configuration.ObjectModelConfiguration.IsTypeConfigured(ctx.typeName) {
+				for _, prop := range ot.Properties().Copy() {
+					resourceLifecycleOwnedByParent, err := configuration.ResourceLifecycleOwnedByParent(ctx.typeName, prop.PropertyName())
+					if err != nil {
+						if config.IsNotConfiguredError(err) {
+							continue
+						}
+
+						return nil, errors.Wrap(err, "unexpected error checking config")
+					}
+
+					// If the property is a subresource whose lifecycle is owned by a parent resource, but we're not
+					// examining the parent resource in question, continue
+					if ctx.resourceName.Name() != resourceLifecycleOwnedByParent {
 						continue
 					}
-					return nil, errors.Wrap(err, "unexpected error checking config")
-				}
 
-				// If the property is a subresource whose lifecycle is owned by a parent resource, but we're not
-				// examining the parent resource in question, continue
-				if ctx.resourceName.Name() != resourceLifecycleOwnedByParent {
-					continue
-				}
+					// Expected that the property in question is a TypeName
+					propertyType, ok := astmodel.ExtractTypeName(prop.PropertyType())
+					if !ok {
+						return nil, errors.Errorf("property %s of %s doesn't look like a resource because it is not a TypeName", prop.PropertyName(), ctx.typeName.String())
+					}
 
-				// Expected that the property in question is a TypeName
-				propertyType, ok := astmodel.ExtractTypeName(prop.PropertyType())
-				if !ok {
-					return nil, errors.Errorf("property %s of %s doesn't look like a resource because it is not a TypeName", prop.PropertyName(), ctx.typeName.String())
-				}
+					if _, ok = resources[ctx.resourceName]; !ok {
+						resources[ctx.resourceName] = []misbehavingResourceDetails{}
+					}
 
-				if _, ok = resources[ctx.resourceName]; !ok {
-					resources[ctx.resourceName] = []misbehavingResourceDetails{}
+					resources[ctx.resourceName] = append(
+						resources[ctx.resourceName],
+						misbehavingResourceDetails{
+							typeName:     ctx.typeName,
+							resourceName: ctx.resourceName,
+							propertyType: propertyType,
+						})
 				}
-
-				resources[ctx.resourceName] = append(
-					resources[ctx.resourceName],
-					misbehavingResourceDetails{
-						typeName:     ctx.typeName,
-						resourceName: ctx.resourceName,
-						propertyType: propertyType,
-					})
 			}
 
 			return astmodel.IdentityVisitOfObjectType(this, ot, ctx)
