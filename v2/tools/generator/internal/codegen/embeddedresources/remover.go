@@ -106,9 +106,9 @@ func MakeEmbeddedResourceRemover(configuration *config.Configuration, definition
 func (e EmbeddedResourceRemover) RemoveEmbeddedResources(
 	log logr.Logger,
 ) (astmodel.TypeDefinitionSet, error) {
-	result := make(astmodel.TypeDefinitionSet)
+	result := make(astmodel.TypeDefinitionSet, len(e.definitions))
 
-	originalNames := make(map[astmodel.InternalTypeName]embeddedResourceTypeName)
+	originalNames := make(map[astmodel.InternalTypeName]embeddedResourceTypeName, len(e.definitions)/2)
 
 	visitor := e.makeEmbeddedResourceRemovalTypeVisitor()
 	for _, def := range astmodel.FindResourceDefinitions(e.definitions) {

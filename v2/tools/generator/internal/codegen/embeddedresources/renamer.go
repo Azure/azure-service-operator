@@ -181,7 +181,7 @@ func simplifyTypeNames(
 	log logr.Logger,
 ) (astmodel.TypeDefinitionSet, error) {
 	// Find all type names that have the flag we're interested in
-	updatedNames := make(map[astmodel.InternalTypeName]astmodel.InternalTypeNameSet)
+	updatedNames := make(map[astmodel.InternalTypeName]astmodel.InternalTypeNameSet, len(definitions))
 	for _, def := range definitions {
 		if flag.IsOn(def.Type()) {
 			en, ok := originalNames[def.Name()]
