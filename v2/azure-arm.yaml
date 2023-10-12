@@ -150,7 +150,7 @@ anyTypePackages:
 #
 # All of these properties are matchers:
 #
-# o They wllow multiple values, semicolon (;) separated
+# o They allow multiple values, semicolon (;) separated
 # o They allow glob style wildcards '*' and '?'
 #
 # ifType - matches a type or property only if it has the specified type
