@@ -75,7 +75,7 @@ jobs:
       - name: Generate Index files
         run: |
           container_id=${{ env.container_id }}
-          docker exec "$container_id" task controller:generate-types --force
+          docker exec "$container_id" task controller:generate-types
 
       # Workaround for getting "Permission denied" errors when trying to stage files
       - name: Take Ownership

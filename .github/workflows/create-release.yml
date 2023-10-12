@@ -34,13 +34,6 @@ jobs:
           container_id=${{env.container_id}}
           docker exec "$container_id" task make-release-artifacts
 
-      - name: Build & tag Docker image
-        run: |
-          container_id=${{env.container_id}}
-          docker exec -e DOCKER_PUSH_TARGET "$container_id" task controller:docker-tag-version
-        env:
-          DOCKER_PUSH_TARGET: ${{ secrets.REGISTRY_PUBLIC }}
-
       - name: Upload release assets
         uses: svenstaro/upload-release-action@7319e4733ec7a184d739a6f412c40ffc339b69c7 # this is v2.5.0, but pinned
         with:
@@ -49,13 +42,18 @@ jobs:
           file: "v2/out/release/*"
           file_glob: true
 
-      - name: Login to registry
-        # note that all creds are on host and never passed into devcontainer
-        uses: docker/login-action@v2.1.0
-        with:
-          registry: ${{ secrets.REGISTRY_LOGIN }}
-          username: ${{ secrets.AZURE_CLIENT_ID }}
-          password: ${{ secrets.AZURE_CLIENT_SECRET }}
+      - name: Docker login
+        run: |
+          container_id=${{env.container_id}}
+          docker exec -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e DOCKER_REGISTRY "$container_id" task docker-login
+        env:
+          DOCKER_REGISTRY: ${{ secrets.REGISTRY_LOGIN }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
 
-      - name: Push docker image
-        run: docker push --all-tags ${{ secrets.REGISTRY_PUBLIC }}/azureserviceoperator
+      - name: Build, tag and push docker image
+        run: |
+          container_id=${{env.container_id}}
+          docker exec -e DOCKER_PUSH_TARGET "$container_id" task controller:docker-push-multiarch
+        env:
+          DOCKER_PUSH_TARGET: ${{ secrets.REGISTRY_PUBLIC }}
