@@ -12,7 +12,7 @@ type ManagedCluster_STATUS_ARM struct {
 	Name             *string                              `json:"name,omitempty"`
 	Properties       *ManagedClusterProperties_STATUS_ARM `json:"properties,omitempty"`
 	Sku              *ManagedClusterSKU_STATUS_ARM        `json:"sku,omitempty"`
-	Tags             map[string]string                    `json:"tags,omitempty"`
+	Tags             map[string]string                    `json:"tags"`
 	Type             *string                              `json:"type,omitempty"`
 }
 
@@ -27,14 +27,14 @@ type ManagedClusterIdentity_STATUS_ARM struct {
 	PrincipalId            *string                                                             `json:"principalId,omitempty"`
 	TenantId               *string                                                             `json:"tenantId,omitempty"`
 	Type                   *ManagedClusterIdentity_Type_STATUS                                 `json:"type,omitempty"`
-	UserAssignedIdentities map[string]ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARM `json:"userAssignedIdentities"`
 }
 
 // Deprecated version of ManagedClusterProperties_STATUS. Use v1api20210501.ManagedClusterProperties_STATUS instead
 type ManagedClusterProperties_STATUS_ARM struct {
 	AadProfile              *ManagedClusterAADProfile_STATUS_ARM                   `json:"aadProfile,omitempty"`
-	AddonProfiles           map[string]ManagedClusterAddonProfile_STATUS_ARM       `json:"addonProfiles,omitempty"`
-	AgentPoolProfiles       []ManagedClusterAgentPoolProfile_STATUS_ARM            `json:"agentPoolProfiles,omitempty"`
+	AddonProfiles           map[string]ManagedClusterAddonProfile_STATUS_ARM       `json:"addonProfiles"`
+	AgentPoolProfiles       []ManagedClusterAgentPoolProfile_STATUS_ARM            `json:"agentPoolProfiles"`
 	ApiServerAccessProfile  *ManagedClusterAPIServerAccessProfile_STATUS_ARM       `json:"apiServerAccessProfile,omitempty"`
 	AutoScalerProfile       *ManagedClusterProperties_AutoScalerProfile_STATUS_ARM `json:"autoScalerProfile,omitempty"`
 	AutoUpgradeProfile      *ManagedClusterAutoUpgradeProfile_STATUS_ARM           `json:"autoUpgradeProfile,omitempty"`
@@ -47,7 +47,7 @@ type ManagedClusterProperties_STATUS_ARM struct {
 	Fqdn                    *string                                                `json:"fqdn,omitempty"`
 	FqdnSubdomain           *string                                                `json:"fqdnSubdomain,omitempty"`
 	HttpProxyConfig         *ManagedClusterHTTPProxyConfig_STATUS_ARM              `json:"httpProxyConfig,omitempty"`
-	IdentityProfile         map[string]UserAssignedIdentity_STATUS_ARM             `json:"identityProfile,omitempty"`
+	IdentityProfile         map[string]UserAssignedIdentity_STATUS_ARM             `json:"identityProfile"`
 	KubernetesVersion       *string                                                `json:"kubernetesVersion,omitempty"`
 	LinuxProfile            *ContainerServiceLinuxProfile_STATUS_ARM               `json:"linuxProfile,omitempty"`
 	MaxAgentPools           *int                                                   `json:"maxAgentPools,omitempty"`
@@ -56,7 +56,7 @@ type ManagedClusterProperties_STATUS_ARM struct {
 	PodIdentityProfile      *ManagedClusterPodIdentityProfile_STATUS_ARM           `json:"podIdentityProfile,omitempty"`
 	PowerState              *PowerState_STATUS_ARM                                 `json:"powerState,omitempty"`
 	PrivateFQDN             *string                                                `json:"privateFQDN,omitempty"`
-	PrivateLinkResources    []PrivateLinkResource_STATUS_ARM                       `json:"privateLinkResources,omitempty"`
+	PrivateLinkResources    []PrivateLinkResource_STATUS_ARM                       `json:"privateLinkResources"`
 	ProvisioningState       *string                                                `json:"provisioningState,omitempty"`
 	ServicePrincipalProfile *ManagedClusterServicePrincipalProfile_STATUS_ARM      `json:"servicePrincipalProfile,omitempty"`
 	WindowsProfile          *ManagedClusterWindowsProfile_STATUS_ARM               `json:"windowsProfile,omitempty"`
@@ -95,7 +95,7 @@ const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZo
 
 // Deprecated version of ManagedClusterAADProfile_STATUS. Use v1api20210501.ManagedClusterAADProfile_STATUS instead
 type ManagedClusterAADProfile_STATUS_ARM struct {
-	AdminGroupObjectIDs []string `json:"adminGroupObjectIDs,omitempty"`
+	AdminGroupObjectIDs []string `json:"adminGroupObjectIDs"`
 	ClientAppID         *string  `json:"clientAppID,omitempty"`
 	EnableAzureRBAC     *bool    `json:"enableAzureRBAC,omitempty"`
 	Managed             *bool    `json:"managed,omitempty"`
@@ -106,14 +106,14 @@ type ManagedClusterAADProfile_STATUS_ARM struct {
 
 // Deprecated version of ManagedClusterAddonProfile_STATUS. Use v1api20210501.ManagedClusterAddonProfile_STATUS instead
 type ManagedClusterAddonProfile_STATUS_ARM struct {
-	Config   map[string]string                `json:"config,omitempty"`
+	Config   map[string]string                `json:"config"`
 	Enabled  *bool                            `json:"enabled,omitempty"`
 	Identity *UserAssignedIdentity_STATUS_ARM `json:"identity,omitempty"`
 }
 
 // Deprecated version of ManagedClusterAgentPoolProfile_STATUS. Use v1api20210501.ManagedClusterAgentPoolProfile_STATUS instead
 type ManagedClusterAgentPoolProfile_STATUS_ARM struct {
-	AvailabilityZones         []string                             `json:"availabilityZones,omitempty"`
+	AvailabilityZones         []string                             `json:"availabilityZones"`
 	Count                     *int                                 `json:"count,omitempty"`
 	EnableAutoScaling         *bool                                `json:"enableAutoScaling,omitempty"`
 	EnableEncryptionAtHost    *bool                                `json:"enableEncryptionAtHost,omitempty"`
@@ -130,9 +130,9 @@ type ManagedClusterAgentPoolProfile_STATUS_ARM struct {
 	Mode                      *AgentPoolMode_STATUS                `json:"mode,omitempty"`
 	Name                      *string                              `json:"name,omitempty"`
 	NodeImageVersion          *string                              `json:"nodeImageVersion,omitempty"`
-	NodeLabels                map[string]string                    `json:"nodeLabels,omitempty"`
+	NodeLabels                map[string]string                    `json:"nodeLabels"`
 	NodePublicIPPrefixID      *string                              `json:"nodePublicIPPrefixID,omitempty"`
-	NodeTaints                []string                             `json:"nodeTaints,omitempty"`
+	NodeTaints                []string                             `json:"nodeTaints"`
 	OrchestratorVersion       *string                              `json:"orchestratorVersion,omitempty"`
 	OsDiskSizeGB              *int                                 `json:"osDiskSizeGB,omitempty"`
 	OsDiskType                *OSDiskType_STATUS                   `json:"osDiskType,omitempty"`
@@ -145,7 +145,7 @@ type ManagedClusterAgentPoolProfile_STATUS_ARM struct {
 	ScaleSetEvictionPolicy    *ScaleSetEvictionPolicy_STATUS       `json:"scaleSetEvictionPolicy,omitempty"`
 	ScaleSetPriority          *ScaleSetPriority_STATUS             `json:"scaleSetPriority,omitempty"`
 	SpotMaxPrice              *float64                             `json:"spotMaxPrice,omitempty"`
-	Tags                      map[string]string                    `json:"tags,omitempty"`
+	Tags                      map[string]string                    `json:"tags"`
 	Type                      *AgentPoolType_STATUS                `json:"type,omitempty"`
 	UpgradeSettings           *AgentPoolUpgradeSettings_STATUS_ARM `json:"upgradeSettings,omitempty"`
 	VmSize                    *string                              `json:"vmSize,omitempty"`
@@ -154,7 +154,7 @@ type ManagedClusterAgentPoolProfile_STATUS_ARM struct {
 
 // Deprecated version of ManagedClusterAPIServerAccessProfile_STATUS. Use v1api20210501.ManagedClusterAPIServerAccessProfile_STATUS instead
 type ManagedClusterAPIServerAccessProfile_STATUS_ARM struct {
-	AuthorizedIPRanges             []string `json:"authorizedIPRanges,omitempty"`
+	AuthorizedIPRanges             []string `json:"authorizedIPRanges"`
 	EnablePrivateCluster           *bool    `json:"enablePrivateCluster,omitempty"`
 	EnablePrivateClusterPublicFQDN *bool    `json:"enablePrivateClusterPublicFQDN,omitempty"`
 	PrivateDNSZone                 *string  `json:"privateDNSZone,omitempty"`
@@ -169,7 +169,7 @@ type ManagedClusterAutoUpgradeProfile_STATUS_ARM struct {
 type ManagedClusterHTTPProxyConfig_STATUS_ARM struct {
 	HttpProxy  *string  `json:"httpProxy,omitempty"`
 	HttpsProxy *string  `json:"httpsProxy,omitempty"`
-	NoProxy    []string `json:"noProxy,omitempty"`
+	NoProxy    []string `json:"noProxy"`
 	TrustedCa  *string  `json:"trustedCa,omitempty"`
 }
 
@@ -192,8 +192,8 @@ type ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARM struct {
 type ManagedClusterPodIdentityProfile_STATUS_ARM struct {
 	AllowNetworkPluginKubenet      *bool                                           `json:"allowNetworkPluginKubenet,omitempty"`
 	Enabled                        *bool                                           `json:"enabled,omitempty"`
-	UserAssignedIdentities         []ManagedClusterPodIdentity_STATUS_ARM          `json:"userAssignedIdentities,omitempty"`
-	UserAssignedIdentityExceptions []ManagedClusterPodIdentityException_STATUS_ARM `json:"userAssignedIdentityExceptions,omitempty"`
+	UserAssignedIdentities         []ManagedClusterPodIdentity_STATUS_ARM          `json:"userAssignedIdentities"`
+	UserAssignedIdentityExceptions []ManagedClusterPodIdentityException_STATUS_ARM `json:"userAssignedIdentityExceptions"`
 }
 
 // Deprecated version of ManagedClusterProperties_AutoScalerProfile_STATUS. Use v1api20210501.ManagedClusterProperties_AutoScalerProfile_STATUS instead
@@ -254,7 +254,7 @@ type PrivateLinkResource_STATUS_ARM struct {
 	Id                   *string  `json:"id,omitempty"`
 	Name                 *string  `json:"name,omitempty"`
 	PrivateLinkServiceID *string  `json:"privateLinkServiceID,omitempty"`
-	RequiredMembers      []string `json:"requiredMembers,omitempty"`
+	RequiredMembers      []string `json:"requiredMembers"`
 	Type                 *string  `json:"type,omitempty"`
 }
 
@@ -267,13 +267,13 @@ type UserAssignedIdentity_STATUS_ARM struct {
 
 // Deprecated version of ContainerServiceSshConfiguration_STATUS. Use v1api20210501.ContainerServiceSshConfiguration_STATUS instead
 type ContainerServiceSshConfiguration_STATUS_ARM struct {
-	PublicKeys []ContainerServiceSshPublicKey_STATUS_ARM `json:"publicKeys,omitempty"`
+	PublicKeys []ContainerServiceSshPublicKey_STATUS_ARM `json:"publicKeys"`
 }
 
 // Deprecated version of ManagedClusterLoadBalancerProfile_STATUS. Use v1api20210501.ManagedClusterLoadBalancerProfile_STATUS instead
 type ManagedClusterLoadBalancerProfile_STATUS_ARM struct {
 	AllocatedOutboundPorts *int                                                             `json:"allocatedOutboundPorts,omitempty"`
-	EffectiveOutboundIPs   []ResourceReference_STATUS_ARM                                   `json:"effectiveOutboundIPs,omitempty"`
+	EffectiveOutboundIPs   []ResourceReference_STATUS_ARM                                   `json:"effectiveOutboundIPs"`
 	IdleTimeoutInMinutes   *int                                                             `json:"idleTimeoutInMinutes,omitempty"`
 	ManagedOutboundIPs     *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM `json:"managedOutboundIPs,omitempty"`
 	OutboundIPPrefixes     *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM `json:"outboundIPPrefixes,omitempty"`
@@ -294,7 +294,7 @@ type ManagedClusterPodIdentity_STATUS_ARM struct {
 type ManagedClusterPodIdentityException_STATUS_ARM struct {
 	Name      *string           `json:"name,omitempty"`
 	Namespace *string           `json:"namespace,omitempty"`
-	PodLabels map[string]string `json:"podLabels,omitempty"`
+	PodLabels map[string]string `json:"podLabels"`
 }
 
 // Deprecated version of ContainerServiceSshPublicKey_STATUS. Use v1api20210501.ContainerServiceSshPublicKey_STATUS instead
@@ -309,12 +309,12 @@ type ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_ARM struct {
 
 // Deprecated version of ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS. Use v1api20210501.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS instead
 type ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_ARM struct {
-	PublicIPPrefixes []ResourceReference_STATUS_ARM `json:"publicIPPrefixes,omitempty"`
+	PublicIPPrefixes []ResourceReference_STATUS_ARM `json:"publicIPPrefixes"`
 }
 
 // Deprecated version of ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS. Use v1api20210501.ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS instead
 type ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_ARM struct {
-	PublicIPs []ResourceReference_STATUS_ARM `json:"publicIPs,omitempty"`
+	PublicIPs []ResourceReference_STATUS_ARM `json:"publicIPs"`
 }
 
 // Deprecated version of ManagedClusterPodIdentity_ProvisioningInfo_STATUS. Use v1api20210501.ManagedClusterPodIdentity_ProvisioningInfo_STATUS instead
@@ -335,7 +335,7 @@ type ManagedClusterPodIdentityProvisioningError_STATUS_ARM struct {
 // Deprecated version of ManagedClusterPodIdentityProvisioningErrorBody_STATUS. Use v1api20210501.ManagedClusterPodIdentityProvisioningErrorBody_STATUS instead
 type ManagedClusterPodIdentityProvisioningErrorBody_STATUS_ARM struct {
 	Code    *string                                                              `json:"code,omitempty"`
-	Details []ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM `json:"details,omitempty"`
+	Details []ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_ARM `json:"details"`
 	Message *string                                                              `json:"message,omitempty"`
 	Target  *string                                                              `json:"target,omitempty"`
 }
