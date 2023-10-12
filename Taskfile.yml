@@ -35,7 +35,8 @@ vars:
   LATEST_VERSION_TAG:
     sh: git describe --tags $(git rev-list --tags=v2* --max-count=1)
 
-  VERSION_FLAGS: -ldflags "-X {{.PACKAGE}}/internal/version.BuildVersion={{.VERSION}}"
+  VERSION_FLAGS: '"-X {{.PACKAGE}}/internal/version.BuildVersion={{.VERSION}}"'
+  LDFLAGS: -ldflags {{.VERSION_FLAGS}}
 
   CONTROLLER_DOCKER_IMAGE: azureserviceoperator:{{.VERSION}}
   PUBLIC_REGISTRY: mcr.microsoft.com/k8s/
@@ -162,7 +163,7 @@ tasks:
       - "{{.ARCHIVE}}"
     cmds:
       - mkdir -p ./bin/{{.GOOS}}-{{.GOARCH}}
-      - GOOS={{.GOOS}} GOARCH={{.GOARCH}} go build {{.VERSION_FLAGS}} -o {{.EXECUTABLE}}
+      - GOOS={{.GOOS}} GOARCH={{.GOARCH}} go build {{.LDFLAGS}} -o {{.EXECUTABLE}}
       - if [ "{{.ARCHIVETYPE}}" = ".zip" ]; then zip -j -r {{.ARCHIVE}} {{.EXECUTABLE}}; fi
       - if [ "{{.ARCHIVETYPE}}" = ".gz" ]; then gzip -v -c {{.EXECUTABLE}} > {{.ARCHIVE}} ; fi
     vars:
@@ -239,7 +240,7 @@ tasks:
     desc: Generate the {{.GENERATOR_APP}} binary.
     dir: '{{.GENERATOR_ROOT}}'
     cmds:
-      - go build {{.VERSION_FLAGS}} -o ../../bin/{{.GENERATOR_APP}} .
+      - go build {{.LDFLAGS}} -o ../../bin/{{.GENERATOR_APP}} .
 
   # Stub retained until migration of workflows complete
   generator:diagrams:
@@ -369,60 +370,76 @@ tasks:
     deps: 
       - controller:generate-crds
     sources:
-      # excluding the ./apis directory here
       - "go.mod"
       - "go.sum"
-      - "*.go"
-      - "internal/**/*.go"
-      - "pkg/**/*.go"
-      - "cmd/controller/**/*.go"
+      - "**/*.go"
     cmds:
-      - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build {{.VERSION_FLAGS}} -o ./bin/{{.CONTROLLER_APP}} ./cmd/controller/
+      - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build {{.LDFLAGS}} -o ./bin/{{.CONTROLLER_APP}} ./cmd/controller/
 
   controller:docker-build:
     desc: Builds the {{.CONTROLLER_APP}} Docker image.
     dir: "{{.CONTROLLER_ROOT}}"
     deps:
-      - controller:build
       - controller:bundle-crds
     run: always
     sources:
+      - "go.mod"
+      - "go.sum"
+      - "**/*.go"
+      - "out/crds/**/*"
       - Dockerfile
-      - ./bin/{{.CONTROLLER_APP}}
-      - out/crds/**/*
     cmds:
-      - docker build . -t {{.CONTROLLER_DOCKER_IMAGE}}
-    status:
-      - "docker manifest inspect {{.CONTROLLER_DOCKER_IMAGE}} > /dev/null"
+      - docker build . --build-arg VERSION_FLAGS={{.VERSION_FLAGS}} --build-arg CONTROLLER_APP={{.CONTROLLER_APP}} -t {{.CONTROLLER_DOCKER_IMAGE}}
 
   controller:docker-build-and-save:
     desc: Builds the {{.CONTROLLER_APP}} Docker image and saves it using docker save.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: 
+    deps:
       - controller:docker-build
     cmds:
       - docker save {{.CONTROLLER_DOCKER_IMAGE}} > bin/$(echo '{{.CONTROLLER_DOCKER_IMAGE}}' | sed -e 's/:/_/g').tar
 
-  controller:docker-tag-version:
-    desc: Tags the {{.CONTROLLER_APP}} Docker image with the appropriate version.
-    dir: "{{.CONTROLLER_ROOT}}"
-    deps: 
-      - controller:docker-build
-    cmds:
-      - 'if [ -z "{{.DOCKER_PUSH_TARGET}}" ]; then echo "Error: DOCKER_PUSH_TARGET must be set"; exit 1; fi'
-      - docker tag {{.CONTROLLER_DOCKER_IMAGE}} "{{.DOCKER_PUSH_TARGET}}/{{.CONTROLLER_DOCKER_IMAGE}}"
-
   controller:docker-push-local:
     desc: Pushes the controller container image to a local registry
     deps: 
-      - controller:docker-build
+      - controller:bundle-crds
     dir: "{{.CONTROLLER_ROOT}}"
     run: always
+    sources:
+      - "go.mod"
+      - "go.sum"
+      - "**/*.go"
+      - "out/crds/**/*"
+      - Dockerfile
     cmds:
-      - docker tag {{.CONTROLLER_DOCKER_IMAGE}} {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}}
-      - docker push {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}}
-    status:
-      - "docker manifest inspect {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} > /dev/null"
+      # We don't use multi-arch images here for local registry as building cross-platform image takes about 10-15 minutes to build.
+      # Which would increase our CI time and in the local environment, only the same architecture image is going to be pulled always.
+      - docker buildx create --driver-opt network=host --use
+      - docker buildx build --push
+        --build-arg VERSION_FLAGS={{.VERSION_FLAGS}}
+        --build-arg CONTROLLER_APP={{.CONTROLLER_APP}}
+        --tag "{{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}}" .
+
+  controller:docker-push-multiarch:
+    desc: Builds, tags and pushes the multi architecture controller container image to repository
+    deps:
+      - controller:bundle-crds
+    dir: "{{.CONTROLLER_ROOT}}"
+    run: always
+    sources:
+      - "go.mod"
+      - "go.sum"
+      - "**/*.go"
+      - "out/crds/**/*"
+      - Dockerfile
+    cmds:
+      - 'if [ -z "{{.DOCKER_PUSH_TARGET}}" ]; then echo "Error: DOCKER_PUSH_TARGET must be set"; exit 1; fi'
+      - docker buildx create --use
+      - docker buildx build --push 
+        --build-arg VERSION_FLAGS={{.VERSION_FLAGS}}
+        --build-arg CONTROLLER_APP={{.CONTROLLER_APP}}
+        --platform linux/amd64,linux/arm64 
+        --tag "{{.DOCKER_PUSH_TARGET}}/{{.CONTROLLER_DOCKER_IMAGE}}" .
 
   controller:test-integration-envtest:
     desc: Run integration tests with envtest using record/replay.
@@ -1030,6 +1047,12 @@ tasks:
     cmds:
       - az login --service-principal -u {{.AZURE_CLIENT_ID}} -p {{.AZURE_CLIENT_SECRET}} --tenant {{.AZURE_TENANT_ID}} > /dev/null
       - az account set --subscription {{.AZURE_SUBSCRIPTION_ID}}
+
+  docker-login:
+    desc: Docker login
+    cmds:
+      - 'if [ -z "{{.DOCKER_REGISTRY}}" ]; then echo "Error: DOCKER_REGISTRY must be set"; exit 1; fi'
+      - docker login {{.DOCKER_REGISTRY}} --username {{.AZURE_CLIENT_ID}} --password {{.AZURE_CLIENT_SECRET}}
 
   header-check:
     desc: Ensure all files have an appropriate license header.
