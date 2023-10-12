@@ -130,8 +130,45 @@ typeFilters:
 # weird json or by handling them differently in the generator.
 anyTypePackages:
 
+
+# 
+# Type Transformers are used to make precision edits to the object model we've loaded from the 
+# original OpeanAPI/Swagger files.
+#
+# We need these because there is great variability in how different product groups define their 
+# APIs, and because some of the common constructs that are used can't be directly handled in Go.
+#
+# The available properties fall into two groups - the first used to select which type needs to be 
+# transformed, and the second to define the required transformation.
+#
+# Selection Properties
+#
+# group    - select types or properties in the specified group or groups
+# version  - select types or properties in the specified version or version(s)
+# name     - select types or properties with the specified name or name(s)
+# property - select properties with the given name or name(s)
+#
+# All of these properties are matchers:
+#
+# o They allow multiple values, semicolon (;) separated
+# o They allow glob style wildcards '*' and '?'
+#
+# ifType - matches a type or property only if it has the specified type
+#
+# target - defines a new type to replace the existing
+# remove - specifies a property should be deleted
+#
+# Every TypeTransformer has a 'because' property which should be used to explain (in human terms)
+# what's being done and why.
+#
+# Some of the transformations below have been commented to illustrate use.
+#
 typeTransformers:
-  # Deal with stuff that exists on ARM resources but doesn't make sense on CRDs
+  # 
+  # Match the property 'Tags' on any type,
+  # but only if it has the type 'map[string]any'
+  # and replace it with 'map[string]string'
+  #
   - name: "*"
     property: Tags
     ifType: 
@@ -147,138 +184,152 @@ typeTransformers:
         value:
           name: string
     because: Tags is defined as map[string]interface{} when it should be map[string]string
+
+  #
+  # In the group 'cache', 
+  # remove the property'RedisProperties_Status.AccessKeys'
+  # because it's only populated in a response from Azure 
+  #
   - group: cache
     name: RedisProperties_Status
     property: AccessKeys
     remove: true
     because: AccessKeys is only set on response to PUT/CREATE, but we fill out Status via GET so this field is always empty. It also contains secrets we wouldn't want to expose in status anyway.
 
-  # Properties that should have been marked as ReadOnly in the Swagger
-  - name: ApiManagementServiceProperties
-    group: apimanagement
+  # 
+  # In the group 'apimanagement', 
+  # remove the property 'ApiManagementServiceProperties.PrivateEndpointConnections'
+  # 
+  - group: apimanagement
+    name: ApiManagementServiceProperties
     property: PrivateEndpointConnections
     remove: true
     because: This property should be marked readonly
-  - name: BackupVault_Spec
-    group: dataprotection
+
+  # 
+  # In the group 'dataprotection',
+  # from the type 'BackupVault_Spec',
+  # Remove the properties 'Etag' and 'SystemData'
+  #
+  - group: dataprotection
+    name: BackupVault_Spec
+    property: Etag;SystemData
+    remove: true
+    because: These properties should be marked readonly in Swagger
+
+  - group: dataprotection
+    name: BackupVaults_BackupPolicy_Spec
     property: SystemData
     remove: true
     because: This property should be marked readonly in Swagger
-  - name: BackupVault_Spec
-    group: dataprotection
-    property: Etag
-    remove: true
-    because: This property should be marked readonly in Swagger
-  - name: BackupVaults_BackupPolicy_Spec
-    group: dataprotection
-    property: SystemData
-    remove: true
-    because: This property should be marked readonly in Swagger
+
   - name: BackupVaults_BackupInstance_Spec
     group: dataprotection
     property: SystemData
     remove: true
     because: This property should be marked readonly in Swagger
+
   - name: IotHub_Spec
     group: devices
     property: Etag
     remove: true
     because: This property should be marked readonly
-  - name: SharedAccessSignatureAuthorizationRule
-    group: devices
-    property: PrimaryKey
-    remove: true
-    because: This property should be marked readonly
-  - name: SharedAccessSignatureAuthorizationRule
-    group: devices
-    property: SecondaryKey
-    remove: true
-  - name: SharedAccessSignatureAuthorizationRule_STATUS
-    group: devices
-    property: PrimaryKey
-    remove: true
-    because: This property should be marked readonly
-  - name: SharedAccessSignatureAuthorizationRule_STATUS
-    group: devices
-    property: SecondaryKey
-    remove: true
-    because: This property should be marked readonly
-  - name: Namespace_Properties_Spec
-    group: eventhub
-    property: PrivateEndpointConnections
-    remove: true
-    because: This property should be marked readonly
-  - name: PrivateEndpointConnectionProperties
-    group: eventhub
-    property: PrivateLinkServiceConnectionState
-    remove: true
-    because: This property should be marked readonly
-  - name: PrivateEndpointConnectionProperties
-    group: eventhub
-    property: ProvisioningState
+
+  # 
+  # In the group 'devices',
+  # from the types 'SharedAccessSignatureAuthorizationRule'
+  # and 'SharedAccessSignatureAuthorizationRule_STATUS'
+  # remove the properties 'PrimaryKey' and 'SecondaryKey'
+  #
+  - group: devices
+    name: SharedAccessSignatureAuthorizationRule;SharedAccessSignatureAuthorizationRule_STATUS
+    property: PrimaryKey;SecondaryKey
     remove: true
     because: This property should be marked readonly
 
+  #
+  # In the group 'eventhub',
+  # from the type 'Namespace_Properties_Spec'
+  # remove the property 'PrivateEndpointConnections'
+  #
+  - group: eventhub
+    name: Namespace_Properties_Spec
+    property: PrivateEndpointConnections
+    remove: true
+    because: This property should be marked readonly
+
+  #
+  # In the group 'eventhub'
+  # from the object 'PrivateEndpointConnectionProperties'
+  # remove the properties 'PrivateLinkServiceConnectionState' and 'ProvisioningState'
+  #
+  - group: eventhub
+    name: PrivateEndpointConnectionProperties
+    property: PrivateLinkServiceConnectionState; ProvisioningState
+    remove: true
+    because: These properties should be marked readonly
+
   - group: network
-    version: "*"
     name: RouteTables_Route_Spec
     property: Type
     remove: true
     because: it is supposed to be marked ReadOnly in Swagger
+
   - group: network
-    version: "*"
     name: NetworkInterfaceIPConfiguration
     property: Type
     remove: true
     because: it is supposed to be marked ReadOnly in Swagger
+
   - group: network
-    version: "*"
     name: NetworkInterfacePropertiesFormat
     property: MigrationPhase
     remove: true
     because: it is supposed to be marked ReadOnly in Swagger
+
   - group: network
-    version: "*"
     name: PublicIPAddressPropertiesFormat
     property: MigrationPhase
     remove: true
     because: it is supposed to be marked ReadOnly in Swagger
+  
+  # 
+  # In the group 'network'
+  # remove the property 'Type'
+  # from the following four types
+  #
+  # - Delegation
+  # - NetworkSecurityGroups_SecurityRule_Spec
+  # - VirtualNetworks_Subnet_Spec
+  # - VirtualNetworks_VirtualNetworkPeering_Spec
+  #
   - group: network
-    version: "*"
-    name: NetworkSecurityGroups_SecurityRule_Spec
+    name: Delegation;NetworkSecurityGroups_SecurityRule_Spec;VirtualNetworks_Subnet_Spec;VirtualNetworks_VirtualNetworkPeering_Spec
     property: Type
     remove: true
-    because: it is supposed to be marked ReadOnly in Swagger
+    because: type is supposed to be marked ReadOnly in Swagger
+
+  # 
+  # In the group 'network'
+  # remove the property 'Etag'
+  # from the following nine types:
+  #
+  # - DnsZone_Spec
+  # - DnsZones_AAAA_Spec
+  # - DnsZones_CAA_Spec
+  # - DnsZones_CNAME_Spec
+  # - DnsZones_MX_Spec
+  # - DnsZones_NS_Spec
+  # - DnsZones_PTR_Spec
+  # - DnsZones_SRV_Spec
+  # - DnsZones_TXT_Spec
+  #
   - group: network
-    version: "*"
-    name: VirtualNetworks_Subnet_Spec
-    property: Type
-    remove: true
-    because: it is supposed to be marked ReadOnly in Swagger
-  - group: network
-    version: "*"
-    name: VirtualNetworks_VirtualNetworkPeering_Spec
-    property: Type
-    remove: true
-    because: it is supposed to be marked ReadOnly in Swagger
-  - group: network
-    version: "*"
-    name: Delegation
-    property: Type
-    remove: true
-    because: it is supposed to be marked ReadOnly in Swagger
-  - group: network
-    version: "*"
-    name: DnsZone_Spec
+    name: DnsZone_Spec;DnsZones_AAAA_Spec;DnsZones_CAA_Spec;DnsZones_CNAME_Spec;DnsZones_MX_Spec;DnsZones_NS_Spec;DnsZones_PTR_Spec;DnsZones_SRV_Spec;DnsZones_TXT_Spec
     property: Etag
     remove: true
-    because: it is supposed to be marked ReadOnly in Swagger
-  - group: network
-    version: "*"
-    name: DnsZones_AAAA_Spec;DnsZones_CAA_Spec;DnsZones_CNAME_Spec;DnsZones_MX_Spec;DnsZones_NS_Spec;DnsZones_PTR_Spec;DnsZones_SRV_Spec;DnsZones_TXT_Spec
-    property: Etag
-    remove: true
-    because: it is supposed to be marked ReadOnly in Swagger
+    because: Etag is supposed to be marked ReadOnly in Swagger
+
   - group: network
     version: "*"
     name: Delegation
@@ -293,6 +344,7 @@ typeTransformers:
     #  4. Live with it.
     remove: true
     because: We don't handle this very well right now, manually remove until TODO above has been done
+
   - group: network
     version: "*"
     name: PrivateEndpointProperties
@@ -332,11 +384,13 @@ typeTransformers:
     property: Status
     remove: true
     because: This property should have been marked readonly but wasn't.
+
   - group: servicebus
     name: SBSubscriptionProperties  # This type is subsequently flattened into Namespaces_Topics_Subscription_Spec
     property: Status
     remove: true
     because: This property should have been marked readonly but wasn't.
+
   - group: documentdb
     name: Location  # This type is subsequently flattened into NamespacesTopics_Spec
     property: ProvisioningState
@@ -355,21 +409,25 @@ typeTransformers:
     property: Subnets
     remove: true
     because: This is an embedded resource
+
   - group: network
     name: VirtualNetworkPropertiesFormat_Status  # This type is subsequently flattened into VirtualNetwork_Status
     property: VirtualNetworkPeerings
     remove: true
     because: This is an embedded resource
+
   - group: network
     name: RouteTablePropertiesFormat_Status  # This type is subsequently flattened into RouteTable_Status
     property: Routes
     remove: true
     because: This is an embedded resource
+
   - group: network
     name: RouteTablePropertiesFormat_Status  # This type is subsequently flattened into RouteTable_Status
     property: Subnets
     remove: true
     because: This is an embedded resource
+
   - group: network
     name: NetworkSecurityGroupPropertiesFormat_Status  # This type is subsequently flattened into NetworkSecurityGroup_Status
     property: SecurityRules
