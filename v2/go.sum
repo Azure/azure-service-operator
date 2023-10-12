@@ -26,8 +26,8 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus v
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus v1.1.1/go.mod h1:Ad79PTMmXBLbmMbRJkfefudJNxzFHfszKYadXA8SDSw=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage v1.0.0 h1:TMEyRFKh1zaSPmoQh3kxK+xRAYVq8guCI/7SMO0F3KY=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage v1.0.0/go.mod h1:c+Lifp3EDEamAkPVzMooRNOK6CZjNSdEnf1A7jsI9u4=
-github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/subscription/armsubscription v1.0.0 h1:vsovXlTyKHZXnqzQyt7QMVkwpJBDkHchQL53qXaGBRY=
-github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/subscription/armsubscription v1.0.0/go.mod h1:UZy1vHcRdEymNP1d6fTrvYHpSdkXoUdowfrvffcQOOU=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/subscription/armsubscription v1.1.0 h1:pYhaMoTHP/zYIJGDA1sWsfyTDjdglaoYjIFMOEcL+/U=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/subscription/armsubscription v1.1.0/go.mod h1:iLq8GwpQhj09gpI4EdELwifR9kHrb/Q0LThq6iQq9yY=
 github.com/AzureAD/microsoft-authentication-library-for-go v1.2.0 h1:hVeq+yCyUi+MsoO/CU95yqCIcdzra5ovzk8Q2BBpV2M=
 github.com/AzureAD/microsoft-authentication-library-for-go v1.2.0/go.mod h1:wP83P5OoQ5p6ip3ScPr0BAq0BvuPAvacpEuSzyouqAI=
 github.com/benbjohnson/clock v1.3.5 h1:VvXlSJBzZpA/zum6Sj74hxwYI2DIxRWuNIoXAzHZz5o=

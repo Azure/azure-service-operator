@@ -30,7 +30,7 @@ func (pool *ManagedClusters_AgentPool_Spec_ARM) GetType() string {
 
 // Deprecated version of ManagedClusterAgentPoolProfileProperties. Use v1api20210501.ManagedClusterAgentPoolProfileProperties instead
 type ManagedClusterAgentPoolProfileProperties_ARM struct {
-	AvailabilityZones         []string                      `json:"availabilityZones,omitempty"`
+	AvailabilityZones         []string                      `json:"availabilityZones"`
 	Count                     *int                          `json:"count,omitempty"`
 	EnableAutoScaling         *bool                         `json:"enableAutoScaling,omitempty"`
 	EnableEncryptionAtHost    *bool                         `json:"enableEncryptionAtHost,omitempty"`
@@ -45,9 +45,9 @@ type ManagedClusterAgentPoolProfileProperties_ARM struct {
 	MaxPods                   *int                          `json:"maxPods,omitempty"`
 	MinCount                  *int                          `json:"minCount,omitempty"`
 	Mode                      *AgentPoolMode                `json:"mode,omitempty"`
-	NodeLabels                map[string]string             `json:"nodeLabels,omitempty"`
+	NodeLabels                map[string]string             `json:"nodeLabels"`
 	NodePublicIPPrefixID      *string                       `json:"nodePublicIPPrefixID,omitempty"`
-	NodeTaints                []string                      `json:"nodeTaints,omitempty"`
+	NodeTaints                []string                      `json:"nodeTaints"`
 	OrchestratorVersion       *string                       `json:"orchestratorVersion,omitempty"`
 	OsDiskSizeGB              *ContainerServiceOSDisk       `json:"osDiskSizeGB,omitempty"`
 	OsDiskType                *OSDiskType                   `json:"osDiskType,omitempty"`
@@ -58,7 +58,7 @@ type ManagedClusterAgentPoolProfileProperties_ARM struct {
 	ScaleSetEvictionPolicy    *ScaleSetEvictionPolicy       `json:"scaleSetEvictionPolicy,omitempty"`
 	ScaleSetPriority          *ScaleSetPriority             `json:"scaleSetPriority,omitempty"`
 	SpotMaxPrice              *float64                      `json:"spotMaxPrice,omitempty"`
-	Tags                      map[string]string             `json:"tags,omitempty"`
+	Tags                      map[string]string             `json:"tags"`
 	Type                      *AgentPoolType                `json:"type,omitempty"`
 	UpgradeSettings           *AgentPoolUpgradeSettings_ARM `json:"upgradeSettings,omitempty"`
 	VmSize                    *string                       `json:"vmSize,omitempty"`
@@ -72,7 +72,7 @@ type AgentPoolUpgradeSettings_ARM struct {
 
 // Deprecated version of KubeletConfig. Use v1api20210501.KubeletConfig instead
 type KubeletConfig_ARM struct {
-	AllowedUnsafeSysctls  []string `json:"allowedUnsafeSysctls,omitempty"`
+	AllowedUnsafeSysctls  []string `json:"allowedUnsafeSysctls"`
 	ContainerLogMaxFiles  *int     `json:"containerLogMaxFiles,omitempty"`
 	ContainerLogMaxSizeMB *int     `json:"containerLogMaxSizeMB,omitempty"`
 	CpuCfsQuota           *bool    `json:"cpuCfsQuota,omitempty"`
