@@ -311,9 +311,17 @@ func (target *TransformTarget) produceTargetEnumType(
 
 	values := make([]astmodel.EnumValue, 0, len(target.Enum.Values))
 	for _, value := range target.Enum.Values {
+		id := strings.Title(value)
+		v := value
+
+		if baseType == astmodel.StringType {
+			// String enums need to be quoted
+			v = fmt.Sprintf("%q", value)
+		}
+
 		values = append(values, astmodel.EnumValue{
-			Identifier: strings.Title(value),
-			Value:      value,
+			Identifier: id,
+			Value:      v,
 		})
 	}
 

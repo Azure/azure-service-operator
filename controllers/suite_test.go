@@ -25,6 +25,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
+	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/api/v1alpha2"
@@ -128,15 +129,24 @@ func setup() error {
 	var cacheFunc cache.NewCacheFunc
 	if targetNamespaces != nil {
 		log.Println("Restricting operator cache to namespaces", targetNamespaces)
-		cacheFunc = cache.MultiNamespacedCacheBuilder(targetNamespaces)
+		cacheFunc = func(config *rest.Config, opts cache.Options) (cache.Cache, error) {
+			opts.DefaultNamespaces = make(map[string]cache.Config, len(targetNamespaces))
+			for _, ns := range targetNamespaces {
+				opts.DefaultNamespaces[ns] = cache.Config{}
+			}
+
+			return cache.New(config, opts)
+		}
 	}
 
 	// +kubebuilder:scaffold:scheme
 	k8sManager, err = ctrl.NewManager(cfg, ctrl.Options{
 		Scheme:   scheme.Scheme,
-		CertDir:  testEnv.WebhookInstallOptions.LocalServingCertDir,
-		Port:     testEnv.WebhookInstallOptions.LocalServingPort,
 		NewCache: cacheFunc,
+		WebhookServer: webhook.NewServer(webhook.Options{
+			CertDir: testEnv.WebhookInstallOptions.LocalServingCertDir,
+			Port:    testEnv.WebhookInstallOptions.LocalServingPort,
+		}),
 	})
 	if err != nil {
 		return err
