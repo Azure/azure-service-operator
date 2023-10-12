@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_VersionSet_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ApiVersionSet_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VersionSet via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVersionSet, VersionSetGenerator()))
+		"Round trip of ApiVersionSet via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApiVersionSet, ApiVersionSetGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVersionSet runs a test to see if a specific instance of VersionSet round trips to JSON and back losslessly
-func RunJSONSerializationTestForVersionSet(subject VersionSet) string {
+// RunJSONSerializationTestForApiVersionSet runs a test to see if a specific instance of ApiVersionSet round trips to JSON and back losslessly
+func RunJSONSerializationTestForApiVersionSet(subject ApiVersionSet) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForVersionSet(subject VersionSet) string {
 	}
 
 	// Deserialize back into memory
-	var actual VersionSet
+	var actual ApiVersionSet
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,24 +56,24 @@ func RunJSONSerializationTestForVersionSet(subject VersionSet) string {
 	return ""
 }
 
-// Generator of VersionSet instances for property testing - lazily instantiated by VersionSetGenerator()
-var versionSetGenerator gopter.Gen
+// Generator of ApiVersionSet instances for property testing - lazily instantiated by ApiVersionSetGenerator()
+var apiVersionSetGenerator gopter.Gen
 
-// VersionSetGenerator returns a generator of VersionSet instances for property testing.
-func VersionSetGenerator() gopter.Gen {
-	if versionSetGenerator != nil {
-		return versionSetGenerator
+// ApiVersionSetGenerator returns a generator of ApiVersionSet instances for property testing.
+func ApiVersionSetGenerator() gopter.Gen {
+	if apiVersionSetGenerator != nil {
+		return apiVersionSetGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForVersionSet(generators)
-	versionSetGenerator = gen.Struct(reflect.TypeOf(VersionSet{}), generators)
+	AddRelatedPropertyGeneratorsForApiVersionSet(generators)
+	apiVersionSetGenerator = gen.Struct(reflect.TypeOf(ApiVersionSet{}), generators)
 
-	return versionSetGenerator
+	return apiVersionSetGenerator
 }
 
-// AddRelatedPropertyGeneratorsForVersionSet is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVersionSet(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForApiVersionSet is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForApiVersionSet(gens map[string]gopter.Gen) {
 	gens["Spec"] = Service_ApiVersionSet_SpecGenerator()
 	gens["Status"] = Service_ApiVersionSet_STATUSGenerator()
 }

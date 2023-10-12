@@ -26,53 +26,53 @@ import (
 // Generator information:
 // - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/apimapiversionsets.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}
-type VersionSet struct {
+type ApiVersionSet struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Service_ApiVersionSet_Spec   `json:"spec,omitempty"`
 	Status            Service_ApiVersionSet_STATUS `json:"status,omitempty"`
 }
 
-var _ conditions.Conditioner = &VersionSet{}
+var _ conditions.Conditioner = &ApiVersionSet{}
 
 // GetConditions returns the conditions of the resource
-func (versionSet *VersionSet) GetConditions() conditions.Conditions {
+func (versionSet *ApiVersionSet) GetConditions() conditions.Conditions {
 	return versionSet.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (versionSet *VersionSet) SetConditions(conditions conditions.Conditions) {
+func (versionSet *ApiVersionSet) SetConditions(conditions conditions.Conditions) {
 	versionSet.Status.Conditions = conditions
 }
 
-var _ conversion.Convertible = &VersionSet{}
+var _ conversion.Convertible = &ApiVersionSet{}
 
-// ConvertFrom populates our VersionSet from the provided hub VersionSet
-func (versionSet *VersionSet) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20220801s.VersionSet)
+// ConvertFrom populates our ApiVersionSet from the provided hub ApiVersionSet
+func (versionSet *ApiVersionSet) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v20220801s.ApiVersionSet)
 	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801storage/VersionSet but received %T instead", hub)
+		return fmt.Errorf("expected apimanagement/v1api20220801storage/ApiVersionSet but received %T instead", hub)
 	}
 
-	return versionSet.AssignProperties_From_VersionSet(source)
+	return versionSet.AssignProperties_From_ApiVersionSet(source)
 }
 
-// ConvertTo populates the provided hub VersionSet from our VersionSet
-func (versionSet *VersionSet) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20220801s.VersionSet)
+// ConvertTo populates the provided hub ApiVersionSet from our ApiVersionSet
+func (versionSet *ApiVersionSet) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v20220801s.ApiVersionSet)
 	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20220801storage/VersionSet but received %T instead", hub)
+		return fmt.Errorf("expected apimanagement/v1api20220801storage/ApiVersionSet but received %T instead", hub)
 	}
 
-	return versionSet.AssignProperties_To_VersionSet(destination)
+	return versionSet.AssignProperties_To_ApiVersionSet(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-apimanagement-azure-com-v1api20220801-versionset,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=apimanagement.azure.com,resources=versionsets,verbs=create;update,versions=v1api20220801,name=default.v1api20220801.versionsets.apimanagement.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/mutate-apimanagement-azure-com-v1api20220801-apiversionset,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=apimanagement.azure.com,resources=apiversionsets,verbs=create;update,versions=v1api20220801,name=default.v1api20220801.apiversionsets.apimanagement.azure.com,admissionReviewVersions=v1
 
-var _ admission.Defaulter = &VersionSet{}
+var _ admission.Defaulter = &ApiVersionSet{}
 
-// Default applies defaults to the VersionSet resource
-func (versionSet *VersionSet) Default() {
+// Default applies defaults to the ApiVersionSet resource
+func (versionSet *ApiVersionSet) Default() {
 	versionSet.defaultImpl()
 	var temp any = versionSet
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
@@ -81,19 +81,19 @@ func (versionSet *VersionSet) Default() {
 }
 
 // defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (versionSet *VersionSet) defaultAzureName() {
+func (versionSet *ApiVersionSet) defaultAzureName() {
 	if versionSet.Spec.AzureName == "" {
 		versionSet.Spec.AzureName = versionSet.Name
 	}
 }
 
-// defaultImpl applies the code generated defaults to the VersionSet resource
-func (versionSet *VersionSet) defaultImpl() { versionSet.defaultAzureName() }
+// defaultImpl applies the code generated defaults to the ApiVersionSet resource
+func (versionSet *ApiVersionSet) defaultImpl() { versionSet.defaultAzureName() }
 
-var _ genruntime.ImportableResource = &VersionSet{}
+var _ genruntime.ImportableResource = &ApiVersionSet{}
 
 // InitializeSpec initializes the spec for this resource from the given status
-func (versionSet *VersionSet) InitializeSpec(status genruntime.ConvertibleStatus) error {
+func (versionSet *ApiVersionSet) InitializeSpec(status genruntime.ConvertibleStatus) error {
 	if s, ok := status.(*Service_ApiVersionSet_STATUS); ok {
 		return versionSet.Spec.Initialize_From_Service_ApiVersionSet_STATUS(s)
 	}
@@ -101,51 +101,51 @@ func (versionSet *VersionSet) InitializeSpec(status genruntime.ConvertibleStatus
 	return fmt.Errorf("expected Status of type Service_ApiVersionSet_STATUS but received %T instead", status)
 }
 
-var _ genruntime.KubernetesResource = &VersionSet{}
+var _ genruntime.KubernetesResource = &ApiVersionSet{}
 
 // AzureName returns the Azure name of the resource
-func (versionSet *VersionSet) AzureName() string {
+func (versionSet *ApiVersionSet) AzureName() string {
 	return versionSet.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2022-08-01"
-func (versionSet VersionSet) GetAPIVersion() string {
+func (versionSet ApiVersionSet) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
-func (versionSet *VersionSet) GetResourceScope() genruntime.ResourceScope {
+func (versionSet *ApiVersionSet) GetResourceScope() genruntime.ResourceScope {
 	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
-func (versionSet *VersionSet) GetSpec() genruntime.ConvertibleSpec {
+func (versionSet *ApiVersionSet) GetSpec() genruntime.ConvertibleSpec {
 	return &versionSet.Spec
 }
 
 // GetStatus returns the status of this resource
-func (versionSet *VersionSet) GetStatus() genruntime.ConvertibleStatus {
+func (versionSet *ApiVersionSet) GetStatus() genruntime.ConvertibleStatus {
 	return &versionSet.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ApiManagement/service/apiVersionSets"
-func (versionSet *VersionSet) GetType() string {
+func (versionSet *ApiVersionSet) GetType() string {
 	return "Microsoft.ApiManagement/service/apiVersionSets"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (versionSet *VersionSet) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (versionSet *ApiVersionSet) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Service_ApiVersionSet_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
-func (versionSet *VersionSet) Owner() *genruntime.ResourceReference {
+func (versionSet *ApiVersionSet) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(versionSet.Spec)
 	return versionSet.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
-func (versionSet *VersionSet) SetStatus(status genruntime.ConvertibleStatus) error {
+func (versionSet *ApiVersionSet) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*Service_ApiVersionSet_STATUS); ok {
 		versionSet.Status = *st
@@ -163,12 +163,12 @@ func (versionSet *VersionSet) SetStatus(status genruntime.ConvertibleStatus) err
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-apimanagement-azure-com-v1api20220801-versionset,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=apimanagement.azure.com,resources=versionsets,verbs=create;update,versions=v1api20220801,name=validate.v1api20220801.versionsets.apimanagement.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/validate-apimanagement-azure-com-v1api20220801-apiversionset,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=apimanagement.azure.com,resources=apiversionsets,verbs=create;update,versions=v1api20220801,name=validate.v1api20220801.apiversionsets.apimanagement.azure.com,admissionReviewVersions=v1
 
-var _ admission.Validator = &VersionSet{}
+var _ admission.Validator = &ApiVersionSet{}
 
 // ValidateCreate validates the creation of the resource
-func (versionSet *VersionSet) ValidateCreate() (admission.Warnings, error) {
+func (versionSet *ApiVersionSet) ValidateCreate() (admission.Warnings, error) {
 	validations := versionSet.createValidations()
 	var temp any = versionSet
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
@@ -178,7 +178,7 @@ func (versionSet *VersionSet) ValidateCreate() (admission.Warnings, error) {
 }
 
 // ValidateDelete validates the deletion of the resource
-func (versionSet *VersionSet) ValidateDelete() (admission.Warnings, error) {
+func (versionSet *ApiVersionSet) ValidateDelete() (admission.Warnings, error) {
 	validations := versionSet.deleteValidations()
 	var temp any = versionSet
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
@@ -188,7 +188,7 @@ func (versionSet *VersionSet) ValidateDelete() (admission.Warnings, error) {
 }
 
 // ValidateUpdate validates an update of the resource
-func (versionSet *VersionSet) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
+func (versionSet *ApiVersionSet) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	validations := versionSet.updateValidations()
 	var temp any = versionSet
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
@@ -198,17 +198,17 @@ func (versionSet *VersionSet) ValidateUpdate(old runtime.Object) (admission.Warn
 }
 
 // createValidations validates the creation of the resource
-func (versionSet *VersionSet) createValidations() []func() (admission.Warnings, error) {
+func (versionSet *ApiVersionSet) createValidations() []func() (admission.Warnings, error) {
 	return []func() (admission.Warnings, error){versionSet.validateResourceReferences, versionSet.validateOwnerReference}
 }
 
 // deleteValidations validates the deletion of the resource
-func (versionSet *VersionSet) deleteValidations() []func() (admission.Warnings, error) {
+func (versionSet *ApiVersionSet) deleteValidations() []func() (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (versionSet *VersionSet) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
+func (versionSet *ApiVersionSet) updateValidations() []func(old runtime.Object) (admission.Warnings, error) {
 	return []func(old runtime.Object) (admission.Warnings, error){
 		func(old runtime.Object) (admission.Warnings, error) {
 			return versionSet.validateResourceReferences()
@@ -221,12 +221,12 @@ func (versionSet *VersionSet) updateValidations() []func(old runtime.Object) (ad
 }
 
 // validateOwnerReference validates the owner field
-func (versionSet *VersionSet) validateOwnerReference() (admission.Warnings, error) {
+func (versionSet *ApiVersionSet) validateOwnerReference() (admission.Warnings, error) {
 	return genruntime.ValidateOwner(versionSet)
 }
 
 // validateResourceReferences validates all resource references
-func (versionSet *VersionSet) validateResourceReferences() (admission.Warnings, error) {
+func (versionSet *ApiVersionSet) validateResourceReferences() (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&versionSet.Spec)
 	if err != nil {
 		return nil, err
@@ -235,8 +235,8 @@ func (versionSet *VersionSet) validateResourceReferences() (admission.Warnings, 
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (versionSet *VersionSet) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
-	oldObj, ok := old.(*VersionSet)
+func (versionSet *ApiVersionSet) validateWriteOnceProperties(old runtime.Object) (admission.Warnings, error) {
+	oldObj, ok := old.(*ApiVersionSet)
 	if !ok {
 		return nil, nil
 	}
@@ -244,8 +244,8 @@ func (versionSet *VersionSet) validateWriteOnceProperties(old runtime.Object) (a
 	return genruntime.ValidateWriteOnceProperties(oldObj, versionSet)
 }
 
-// AssignProperties_From_VersionSet populates our VersionSet from the provided source VersionSet
-func (versionSet *VersionSet) AssignProperties_From_VersionSet(source *v20220801s.VersionSet) error {
+// AssignProperties_From_ApiVersionSet populates our ApiVersionSet from the provided source ApiVersionSet
+func (versionSet *ApiVersionSet) AssignProperties_From_ApiVersionSet(source *v20220801s.ApiVersionSet) error {
 
 	// ObjectMeta
 	versionSet.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -270,8 +270,8 @@ func (versionSet *VersionSet) AssignProperties_From_VersionSet(source *v20220801
 	return nil
 }
 
-// AssignProperties_To_VersionSet populates the provided destination VersionSet from our VersionSet
-func (versionSet *VersionSet) AssignProperties_To_VersionSet(destination *v20220801s.VersionSet) error {
+// AssignProperties_To_ApiVersionSet populates the provided destination ApiVersionSet from our ApiVersionSet
+func (versionSet *ApiVersionSet) AssignProperties_To_ApiVersionSet(destination *v20220801s.ApiVersionSet) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *versionSet.ObjectMeta.DeepCopy()
@@ -297,11 +297,11 @@ func (versionSet *VersionSet) AssignProperties_To_VersionSet(destination *v20220
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (versionSet *VersionSet) OriginalGVK() *schema.GroupVersionKind {
+func (versionSet *ApiVersionSet) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
 		Version: versionSet.Spec.OriginalVersion(),
-		Kind:    "VersionSet",
+		Kind:    "ApiVersionSet",
 	}
 }
 
@@ -309,10 +309,10 @@ func (versionSet *VersionSet) OriginalGVK() *schema.GroupVersionKind {
 // Generator information:
 // - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/apimapiversionsets.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}
-type VersionSetList struct {
+type ApiVersionSetList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []VersionSet `json:"items"`
+	Items           []ApiVersionSet `json:"items"`
 }
 
 type Service_ApiVersionSet_Spec struct {
@@ -936,6 +936,23 @@ func (versionSet *Service_ApiVersionSet_STATUS) AssignProperties_To_Service_ApiV
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"Header","Query","Segment"}
+type ApiVersionSetContractProperties_VersioningScheme string
+
+const (
+	ApiVersionSetContractProperties_VersioningScheme_Header  = ApiVersionSetContractProperties_VersioningScheme("Header")
+	ApiVersionSetContractProperties_VersioningScheme_Query   = ApiVersionSetContractProperties_VersioningScheme("Query")
+	ApiVersionSetContractProperties_VersioningScheme_Segment = ApiVersionSetContractProperties_VersioningScheme("Segment")
+)
+
+type ApiVersionSetContractProperties_VersioningScheme_STATUS string
+
+const (
+	ApiVersionSetContractProperties_VersioningScheme_STATUS_Header  = ApiVersionSetContractProperties_VersioningScheme_STATUS("Header")
+	ApiVersionSetContractProperties_VersioningScheme_STATUS_Query   = ApiVersionSetContractProperties_VersioningScheme_STATUS("Query")
+	ApiVersionSetContractProperties_VersioningScheme_STATUS_Segment = ApiVersionSetContractProperties_VersioningScheme_STATUS("Segment")
+)
+
 func init() {
-	SchemeBuilder.Register(&VersionSet{}, &VersionSetList{})
+	SchemeBuilder.Register(&ApiVersionSet{}, &ApiVersionSetList{})
 }

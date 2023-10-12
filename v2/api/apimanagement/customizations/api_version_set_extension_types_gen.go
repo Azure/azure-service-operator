@@ -9,12 +9,12 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-type VersionSetExtension struct {
+type ApiVersionSetExtension struct {
 }
 
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
-func (extension *VersionSetExtension) GetExtendedResources() []genruntime.KubernetesResource {
+func (extension *ApiVersionSetExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20220801.VersionSet{},
-		&v20220801s.VersionSet{}}
+		&v20220801.ApiVersionSet{},
+		&v20220801s.ApiVersionSet{}}
 }

@@ -10,7 +10,7 @@ spec:
   apiVersionDescription: August 2020
   ApiVersionSetReference:
     group: apimanagement.azure.com
-    kind: VersionSet
+    kind: ApiVersionSet
     name: sampleapimversionset
   displayName: account-api
   description: Description about the API

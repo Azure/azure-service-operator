@@ -240,6 +240,7 @@ import (
 func getKnownStorageTypes() []*registration.StorageType {
 	var result []*registration.StorageType
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.Api)})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.ApiVersionSet)})
 	result = append(result, &registration.StorageType{
 		Obj: new(apimanagement_v20220801s.Backend),
 		Indexes: []registration.Index{
@@ -343,7 +344,6 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20220801s.VersionSet)})
 	result = append(result, &registration.StorageType{Obj: new(appconfiguration_v20220501s.ConfigurationStore)})
 	result = append(result, &registration.StorageType{
 		Obj: new(authorization_v20200801ps.RoleAssignment),
@@ -1007,25 +1007,25 @@ func getKnownTypes() []client.Object {
 	result = append(
 		result,
 		new(apimanagement_v20220801.Api),
+		new(apimanagement_v20220801.ApiVersionSet),
 		new(apimanagement_v20220801.Backend),
 		new(apimanagement_v20220801.NamedValue),
 		new(apimanagement_v20220801.Policy),
 		new(apimanagement_v20220801.PolicyFragment),
 		new(apimanagement_v20220801.Product),
 		new(apimanagement_v20220801.Service),
-		new(apimanagement_v20220801.Subscription),
-		new(apimanagement_v20220801.VersionSet))
+		new(apimanagement_v20220801.Subscription))
 	result = append(
 		result,
 		new(apimanagement_v20220801s.Api),
+		new(apimanagement_v20220801s.ApiVersionSet),
 		new(apimanagement_v20220801s.Backend),
 		new(apimanagement_v20220801s.NamedValue),
 		new(apimanagement_v20220801s.Policy),
 		new(apimanagement_v20220801s.PolicyFragment),
 		new(apimanagement_v20220801s.Product),
 		new(apimanagement_v20220801s.Service),
-		new(apimanagement_v20220801s.Subscription),
-		new(apimanagement_v20220801s.VersionSet))
+		new(apimanagement_v20220801s.Subscription))
 	result = append(result, new(appconfiguration_v1beta20220501.ConfigurationStore))
 	result = append(result, new(appconfiguration_v1beta20220501s.ConfigurationStore))
 	result = append(result, new(appconfiguration_v20220501.ConfigurationStore))
@@ -1942,6 +1942,7 @@ func createScheme() *runtime.Scheme {
 func getResourceExtensions() []genruntime.ResourceExtension {
 	var result []genruntime.ResourceExtension
 	result = append(result, &apimanagement_customizations.ApiExtension{})
+	result = append(result, &apimanagement_customizations.ApiVersionSetExtension{})
 	result = append(result, &apimanagement_customizations.BackendExtension{})
 	result = append(result, &apimanagement_customizations.NamedValueExtension{})
 	result = append(result, &apimanagement_customizations.PolicyExtension{})
@@ -1949,7 +1950,6 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &apimanagement_customizations.ProductExtension{})
 	result = append(result, &apimanagement_customizations.ServiceExtension{})
 	result = append(result, &apimanagement_customizations.SubscriptionExtension{})
-	result = append(result, &apimanagement_customizations.VersionSetExtension{})
 	result = append(result, &appconfiguration_customizations.ConfigurationStoreExtension{})
 	result = append(result, &authorization_customizations.RoleAssignmentExtension{})
 	result = append(result, &batch_customizations.BatchAccountExtension{})

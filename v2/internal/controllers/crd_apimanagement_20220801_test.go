@@ -278,7 +278,7 @@ func APIM_Product_CRUD(tc *testcommon.KubePerTestContext, service client.Object)
 
 func APIM_Api_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
 	
-	versionSet := apim.VersionSet{
+	versionSet := apim.ApiVersionSet{
 			ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vs")),
 			Spec: apim.Service_ApiVersionSet_Spec{
 					DisplayName:      to.Ptr("/apiVersionSets/account-api"),

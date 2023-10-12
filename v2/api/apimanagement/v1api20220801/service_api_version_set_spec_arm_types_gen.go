@@ -46,12 +46,3 @@ type ApiVersionSetContractProperties_ARM struct {
 	// VersioningScheme: An value that determines where the API Version identifier will be located in a HTTP request.
 	VersioningScheme *ApiVersionSetContractProperties_VersioningScheme `json:"versioningScheme,omitempty"`
 }
-
-// +kubebuilder:validation:Enum={"Header","Query","Segment"}
-type ApiVersionSetContractProperties_VersioningScheme string
-
-const (
-	ApiVersionSetContractProperties_VersioningScheme_Header  = ApiVersionSetContractProperties_VersioningScheme("Header")
-	ApiVersionSetContractProperties_VersioningScheme_Query   = ApiVersionSetContractProperties_VersioningScheme("Query")
-	ApiVersionSetContractProperties_VersioningScheme_Segment = ApiVersionSetContractProperties_VersioningScheme("Segment")
-)

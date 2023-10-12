@@ -11,8 +11,8 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
-// +kubebuilder:rbac:groups=apimanagement.azure.com,resources=versionsets,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=apimanagement.azure.com,resources={versionsets/status,versionsets/finalizers},verbs=get;update;patch
+// +kubebuilder:rbac:groups=apimanagement.azure.com,resources=apiversionsets,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=apimanagement.azure.com,resources={apiversionsets/status,apiversionsets/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
@@ -21,74 +21,74 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Storage version of v1api20220801.VersionSet
+// Storage version of v1api20220801.ApiVersionSet
 // Generator information:
 // - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/apimapiversionsets.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}
-type VersionSet struct {
+type ApiVersionSet struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Service_ApiVersionSet_Spec   `json:"spec,omitempty"`
 	Status            Service_ApiVersionSet_STATUS `json:"status,omitempty"`
 }
 
-var _ conditions.Conditioner = &VersionSet{}
+var _ conditions.Conditioner = &ApiVersionSet{}
 
 // GetConditions returns the conditions of the resource
-func (versionSet *VersionSet) GetConditions() conditions.Conditions {
+func (versionSet *ApiVersionSet) GetConditions() conditions.Conditions {
 	return versionSet.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (versionSet *VersionSet) SetConditions(conditions conditions.Conditions) {
+func (versionSet *ApiVersionSet) SetConditions(conditions conditions.Conditions) {
 	versionSet.Status.Conditions = conditions
 }
 
-var _ genruntime.KubernetesResource = &VersionSet{}
+var _ genruntime.KubernetesResource = &ApiVersionSet{}
 
 // AzureName returns the Azure name of the resource
-func (versionSet *VersionSet) AzureName() string {
+func (versionSet *ApiVersionSet) AzureName() string {
 	return versionSet.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2022-08-01"
-func (versionSet VersionSet) GetAPIVersion() string {
+func (versionSet ApiVersionSet) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
 
 // GetResourceScope returns the scope of the resource
-func (versionSet *VersionSet) GetResourceScope() genruntime.ResourceScope {
+func (versionSet *ApiVersionSet) GetResourceScope() genruntime.ResourceScope {
 	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
-func (versionSet *VersionSet) GetSpec() genruntime.ConvertibleSpec {
+func (versionSet *ApiVersionSet) GetSpec() genruntime.ConvertibleSpec {
 	return &versionSet.Spec
 }
 
 // GetStatus returns the status of this resource
-func (versionSet *VersionSet) GetStatus() genruntime.ConvertibleStatus {
+func (versionSet *ApiVersionSet) GetStatus() genruntime.ConvertibleStatus {
 	return &versionSet.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ApiManagement/service/apiVersionSets"
-func (versionSet *VersionSet) GetType() string {
+func (versionSet *ApiVersionSet) GetType() string {
 	return "Microsoft.ApiManagement/service/apiVersionSets"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (versionSet *VersionSet) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (versionSet *ApiVersionSet) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Service_ApiVersionSet_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
-func (versionSet *VersionSet) Owner() *genruntime.ResourceReference {
+func (versionSet *ApiVersionSet) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(versionSet.Spec)
 	return versionSet.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
-func (versionSet *VersionSet) SetStatus(status genruntime.ConvertibleStatus) error {
+func (versionSet *ApiVersionSet) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*Service_ApiVersionSet_STATUS); ok {
 		versionSet.Status = *st
@@ -106,27 +106,27 @@ func (versionSet *VersionSet) SetStatus(status genruntime.ConvertibleStatus) err
 	return nil
 }
 
-// Hub marks that this VersionSet is the hub type for conversion
-func (versionSet *VersionSet) Hub() {}
+// Hub marks that this ApiVersionSet is the hub type for conversion
+func (versionSet *ApiVersionSet) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (versionSet *VersionSet) OriginalGVK() *schema.GroupVersionKind {
+func (versionSet *ApiVersionSet) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
 		Version: versionSet.Spec.OriginalVersion,
-		Kind:    "VersionSet",
+		Kind:    "ApiVersionSet",
 	}
 }
 
 // +kubebuilder:object:root=true
-// Storage version of v1api20220801.VersionSet
+// Storage version of v1api20220801.ApiVersionSet
 // Generator information:
 // - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/apimapiversionsets.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}
-type VersionSetList struct {
+type ApiVersionSetList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []VersionSet `json:"items"`
+	Items           []ApiVersionSet `json:"items"`
 }
 
 // Storage version of v1api20220801.Service_ApiVersionSet_Spec
@@ -207,5 +207,5 @@ func (versionSet *Service_ApiVersionSet_STATUS) ConvertStatusTo(destination genr
 }
 
 func init() {
-	SchemeBuilder.Register(&VersionSet{}, &VersionSetList{})
+	SchemeBuilder.Register(&ApiVersionSet{}, &ApiVersionSetList{})
 }

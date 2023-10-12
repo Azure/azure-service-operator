@@ -18,32 +18,32 @@ import (
 	"testing"
 )
 
-func Test_VersionSet_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+func Test_ApiVersionSet_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VersionSet to hub returns original",
-		prop.ForAll(RunResourceConversionTestForVersionSet, VersionSetGenerator()))
+		"Round trip from ApiVersionSet to hub returns original",
+		prop.ForAll(RunResourceConversionTestForApiVersionSet, ApiVersionSetGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunResourceConversionTestForVersionSet tests if a specific instance of VersionSet round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForVersionSet(subject VersionSet) string {
+// RunResourceConversionTestForApiVersionSet tests if a specific instance of ApiVersionSet round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForApiVersionSet(subject ApiVersionSet) string {
 	// Copy subject to make sure conversion doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20220801s.VersionSet
+	var hub v20220801s.ApiVersionSet
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Convert from our hub version
-	var actual VersionSet
+	var actual ApiVersionSet
 	err = actual.ConvertFrom(&hub)
 	if err != nil {
 		return err.Error()
@@ -61,32 +61,32 @@ func RunResourceConversionTestForVersionSet(subject VersionSet) string {
 	return ""
 }
 
-func Test_VersionSet_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_ApiVersionSet_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VersionSet to VersionSet via AssignProperties_To_VersionSet & AssignProperties_From_VersionSet returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVersionSet, VersionSetGenerator()))
+		"Round trip from ApiVersionSet to ApiVersionSet via AssignProperties_To_ApiVersionSet & AssignProperties_From_ApiVersionSet returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApiVersionSet, ApiVersionSetGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVersionSet tests if a specific instance of VersionSet can be assigned to v1api20220801storage and back losslessly
-func RunPropertyAssignmentTestForVersionSet(subject VersionSet) string {
+// RunPropertyAssignmentTestForApiVersionSet tests if a specific instance of ApiVersionSet can be assigned to v1api20220801storage and back losslessly
+func RunPropertyAssignmentTestForApiVersionSet(subject ApiVersionSet) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.VersionSet
-	err := copied.AssignProperties_To_VersionSet(&other)
+	var other v20220801s.ApiVersionSet
+	err := copied.AssignProperties_To_ApiVersionSet(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VersionSet
-	err = actual.AssignProperties_From_VersionSet(&other)
+	var actual ApiVersionSet
+	err = actual.AssignProperties_From_ApiVersionSet(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -103,20 +103,20 @@ func RunPropertyAssignmentTestForVersionSet(subject VersionSet) string {
 	return ""
 }
 
-func Test_VersionSet_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ApiVersionSet_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VersionSet via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVersionSet, VersionSetGenerator()))
+		"Round trip of ApiVersionSet via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApiVersionSet, ApiVersionSetGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVersionSet runs a test to see if a specific instance of VersionSet round trips to JSON and back losslessly
-func RunJSONSerializationTestForVersionSet(subject VersionSet) string {
+// RunJSONSerializationTestForApiVersionSet runs a test to see if a specific instance of ApiVersionSet round trips to JSON and back losslessly
+func RunJSONSerializationTestForApiVersionSet(subject ApiVersionSet) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -124,7 +124,7 @@ func RunJSONSerializationTestForVersionSet(subject VersionSet) string {
 	}
 
 	// Deserialize back into memory
-	var actual VersionSet
+	var actual ApiVersionSet
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -142,24 +142,24 @@ func RunJSONSerializationTestForVersionSet(subject VersionSet) string {
 	return ""
 }
 
-// Generator of VersionSet instances for property testing - lazily instantiated by VersionSetGenerator()
-var versionSetGenerator gopter.Gen
+// Generator of ApiVersionSet instances for property testing - lazily instantiated by ApiVersionSetGenerator()
+var apiVersionSetGenerator gopter.Gen
 
-// VersionSetGenerator returns a generator of VersionSet instances for property testing.
-func VersionSetGenerator() gopter.Gen {
-	if versionSetGenerator != nil {
-		return versionSetGenerator
+// ApiVersionSetGenerator returns a generator of ApiVersionSet instances for property testing.
+func ApiVersionSetGenerator() gopter.Gen {
+	if apiVersionSetGenerator != nil {
+		return apiVersionSetGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForVersionSet(generators)
-	versionSetGenerator = gen.Struct(reflect.TypeOf(VersionSet{}), generators)
+	AddRelatedPropertyGeneratorsForApiVersionSet(generators)
+	apiVersionSetGenerator = gen.Struct(reflect.TypeOf(ApiVersionSet{}), generators)
 
-	return versionSetGenerator
+	return apiVersionSetGenerator
 }
 
-// AddRelatedPropertyGeneratorsForVersionSet is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVersionSet(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForApiVersionSet is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForApiVersionSet(gens map[string]gopter.Gen) {
 	gens["Spec"] = Service_ApiVersionSet_SpecGenerator()
 	gens["Status"] = Service_ApiVersionSet_STATUSGenerator()
 }

@@ -40,6 +40,7 @@
 | ApiManagementServiceSkuProperties_STATUS                     | v1api20220801 |
 | ApiVersionConstraint                                         | v1api20220801 |
 | ApiVersionConstraint_STATUS                                  | v1api20220801 |
+| ApiVersionSet                                                | v1api20220801 |
 | ApiVersionSetContractDetails                                 | v1api20220801 |
 | ApiVersionSetContractDetails_STATUS                          | v1api20220801 |
 | ApiVersionSetContractDetails_VersioningScheme                | v1api20220801 |
@@ -145,7 +146,6 @@
 | SystemData_STATUS                                            | v1api20220801 |
 | UserAssignedIdentityDetails                                  | v1api20220801 |
 | UserIdentityProperties_STATUS                                | v1api20220801 |
-| VersionSet                                                   | v1api20220801 |
 | VirtualNetworkConfiguration                                  | v1api20220801 |
 | VirtualNetworkConfiguration_STATUS                           | v1api20220801 |
 | X509CertificateName                                          | v1api20220801 |
