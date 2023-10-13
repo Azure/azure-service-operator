@@ -30,7 +30,7 @@ require (
 	github.com/stretchr/testify v1.8.4
 	golang.org/x/crypto v0.13.0
 	golang.org/x/net v0.13.0
-	k8s.io/api v0.28.1
+	k8s.io/api v0.28.2
 	k8s.io/apimachinery v0.28.2
 	k8s.io/client-go v0.28.1
 	sigs.k8s.io/controller-runtime v0.16.2
