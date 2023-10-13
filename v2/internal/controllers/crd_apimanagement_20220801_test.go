@@ -42,7 +42,7 @@ func Test_ApiManagement_20220801_CRUD(t *testing.T) {
 	}
 
 	// Create an APIM instance. APIM has a soft delete feature; if you find that you
-	// hit this problem add the `restore`` back in to resurrect it
+	// hit this problem add the `restore` back in to resurrect it
 	service := apim.Service{
 			ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("apim")),
 			Spec: apim.Service_Spec{
