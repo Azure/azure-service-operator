@@ -160,7 +160,11 @@ func VaultProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVaultProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVaultProperties_ARM(gens map[string]gopter.Gen) {
-	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(VaultProperties_CreateMode_Default, VaultProperties_CreateMode_Recover))
+	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(
+		VaultProperties_CreateMode_CreateOrRecover,
+		VaultProperties_CreateMode_Default,
+		VaultProperties_CreateMode_PurgeThenCreate,
+		VaultProperties_CreateMode_Recover))
 	gens["EnablePurgeProtection"] = gen.PtrOf(gen.Bool())
 	gens["EnableRbacAuthorization"] = gen.PtrOf(gen.Bool())
 	gens["EnableSoftDelete"] = gen.PtrOf(gen.Bool())

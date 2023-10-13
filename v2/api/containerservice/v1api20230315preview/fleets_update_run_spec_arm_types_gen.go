@@ -51,7 +51,7 @@ type ManagedClusterUpdate_ARM struct {
 // The UpdateRunStrategy configures the sequence of Stages and Groups in which the clusters will be updated.
 type UpdateRunStrategy_ARM struct {
 	// Stages: The list of stages that compose this update run.
-	Stages []UpdateStage_ARM `json:"stages,omitempty"`
+	Stages []UpdateStage_ARM `json:"stages"`
 }
 
 // The upgrade to apply to a ManagedCluster.
@@ -79,7 +79,7 @@ type UpdateStage_ARM struct {
 
 	// Groups: A list of group names that compose the stage.
 	// The groups will be updated in parallel. Each group name can only appear once in the UpdateRun.
-	Groups []UpdateGroup_ARM `json:"groups,omitempty"`
+	Groups []UpdateGroup_ARM `json:"groups"`
 
 	// Name: The name of the stage. Must be unique within the UpdateRun.
 	Name *string `json:"name,omitempty"`

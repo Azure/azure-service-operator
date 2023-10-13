@@ -22,10 +22,10 @@ func Test_Compute_Image_20220301_CRUD(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 
-	tc.LogSection("Create Resource Group")
+	tc.LogSectionf("Create Resource Group")
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	tc.LogSection("Create Snapshot")
+	tc.LogSectionf("Create Snapshot")
 	createOption := compute2020.CreationData_CreateOption_Empty
 	snapshot := &compute2020.Snapshot{
 		ObjectMeta: tc.MakeObjectMeta("snapshot"),
@@ -43,7 +43,7 @@ func Test_Compute_Image_20220301_CRUD(t *testing.T) {
 	tc.Expect(snapshot.Status.Id).ToNot(BeNil())
 	snapshotARMId := *snapshot.Status.Id
 
-	tc.LogSection("Create Image")
+	tc.LogSectionf("Create Image")
 	v2 := compute2022.HyperVGenerationType_V2
 	linuxOS := compute2022.ImageOSDisk_OsType_Linux
 	linuxOSState := compute2022.ImageOSDisk_OsState_Generalized
@@ -77,7 +77,7 @@ func Test_Compute_Image_20220301_CRUD(t *testing.T) {
 	tc.Expect(string(*image.Status.StorageProfile.OsDisk.OsState)).To(Equal(string(*image.Spec.StorageProfile.OsDisk.OsState)))
 	imageARMId := *image.Status.Id
 
-	tc.LogSection("Clean up")
+	tc.LogSectionf("Clean up")
 	// Delete image.
 	tc.DeleteResourceAndWait(image)
 
