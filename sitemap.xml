@@ -276,9 +276,17 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/insights/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/insights/v1api20180301/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/insights/v1api20180501preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/insights/v1api20200202/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/insights/v1api20220615/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/insights/v1api20221001/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/insights/v1api20230101/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/insights/v1beta20180501preview/</loc>
   </url><url>
