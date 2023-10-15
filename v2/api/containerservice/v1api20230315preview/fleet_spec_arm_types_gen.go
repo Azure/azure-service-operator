@@ -14,7 +14,7 @@ type Fleet_Spec_ARM struct {
 	Properties *FleetProperties_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags map[string]string `json:"tags"`
 }
 
 var _ genruntime.ARMResourceSpec = &Fleet_Spec_ARM{}

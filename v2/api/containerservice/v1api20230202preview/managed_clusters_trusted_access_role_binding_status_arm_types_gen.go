@@ -28,7 +28,7 @@ type TrustedAccessRoleBindingProperties_STATUS_ARM struct {
 
 	// Roles: A list of roles to bind, each item is a resource type qualified role name. For example:
 	// 'Microsoft.MachineLearningServices/workspaces/reader'.
-	Roles []string `json:"roles,omitempty"`
+	Roles []string `json:"roles"`
 
 	// SourceResourceId: The ARM resource ID of source resource that trusted access is configured for.
 	SourceResourceId *string `json:"sourceResourceId,omitempty"`

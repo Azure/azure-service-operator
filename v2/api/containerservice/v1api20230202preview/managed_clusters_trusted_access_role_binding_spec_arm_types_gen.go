@@ -33,6 +33,6 @@ func (binding *ManagedClusters_TrustedAccessRoleBinding_Spec_ARM) GetType() stri
 type TrustedAccessRoleBindingProperties_ARM struct {
 	// Roles: A list of roles to bind, each item is a resource type qualified role name. For example:
 	// 'Microsoft.MachineLearningServices/workspaces/reader'.
-	Roles            []string `json:"roles,omitempty"`
+	Roles            []string `json:"roles"`
 	SourceResourceId *string  `json:"sourceResourceId,omitempty"`
 }

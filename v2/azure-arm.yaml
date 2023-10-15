@@ -1095,6 +1095,7 @@ objectModelConfiguration:
         PrincipalId:
           $armReference: false
   containerservice:
+    $payloadType: explicitCollections
     2021-05-01:
       ManagedCluster:
         $export: true
