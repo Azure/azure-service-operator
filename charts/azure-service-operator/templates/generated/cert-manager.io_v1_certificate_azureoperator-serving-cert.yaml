@@ -2,11 +2,11 @@ apiVersion: {{ .Values.certManagerResourcesAPIVersion }}
 kind: Certificate
 metadata:
   name: azureoperator-serving-cert
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ include "azure-service-operator.namespace" . }}
 spec:
   dnsNames:
-  - azureoperator-webhook-service.{{ .Release.Namespace }}.svc
-  - azureoperator-webhook-service.{{ .Release.Namespace }}.svc.cluster.local
+  - azureoperator-webhook-service.{{ include "azure-service-operator.namespace" . }}.svc
+  - azureoperator-webhook-service.{{ include "azure-service-operator.namespace" . }}.svc.cluster.local
   issuerRef:
     kind: Issuer
     name: azureoperator-selfsigned-issuer

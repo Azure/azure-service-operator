@@ -2,7 +2,7 @@ apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration
 metadata:
   annotations:
-    cert-manager.io/inject-ca-from: {{ .Release.Namespace }}/azureoperator-serving-cert
+    cert-manager.io/inject-ca-from: {{ include "azure-service-operator.namespace" . }}/azureoperator-serving-cert
   name: azureoperator-validating-webhook-configuration
 webhooks:
 - admissionReviewVersions:
@@ -11,7 +11,7 @@ webhooks:
   clientConfig:
     service:
       name: azureoperator-webhook-service
-      namespace: {{ .Release.Namespace }}
+      namespace: {{ include "azure-service-operator.namespace" . }}
       path: /validate-azure-microsoft-com-v1alpha2-mysqlaaduser
   failurePolicy: Fail
   name: vmysqlaaduser.kb.io
@@ -32,7 +32,7 @@ webhooks:
   clientConfig:
     service:
       name: azureoperator-webhook-service
-      namespace: {{ .Release.Namespace }}
+      namespace: {{ include "azure-service-operator.namespace" . }}
       path: /validate-azure-microsoft-com-v1alpha2-mysqluser
   failurePolicy: Fail
   name: vmysqluser.kb.io
@@ -53,7 +53,7 @@ webhooks:
   clientConfig:
     service:
       name: azureoperator-webhook-service
-      namespace: {{ .Release.Namespace }}
+      namespace: {{ include "azure-service-operator.namespace" . }}
       path: /validate-azure-microsoft-com-v1alpha1-azuresqlmanageduser
   failurePolicy: Fail
   name: vazuresqlmanageduser.kb.io
@@ -74,7 +74,7 @@ webhooks:
   clientConfig:
     service:
       name: azureoperator-webhook-service
-      namespace: {{ .Release.Namespace }}
+      namespace: {{ include "azure-service-operator.namespace" . }}
       path: /validate-azure-microsoft-com-v1alpha1-azuresqluser
   failurePolicy: Fail
   name: vazuresqluser.kb.io

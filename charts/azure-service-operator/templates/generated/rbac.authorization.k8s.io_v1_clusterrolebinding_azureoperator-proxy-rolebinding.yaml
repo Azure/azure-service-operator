@@ -1,12 +1,12 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: azureoperator-proxy-rolebinding-{{ .Release.Namespace }}
+  name: azureoperator-proxy-rolebinding-{{ include "azure-service-operator.namespace" . }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: azureoperator-proxy-role-{{ .Release.Namespace }}
+  name: azureoperator-proxy-role-{{ include "azure-service-operator.namespace" . }}
 subjects:
 - kind: ServiceAccount
   name: default
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ include "azure-service-operator.namespace" . }}

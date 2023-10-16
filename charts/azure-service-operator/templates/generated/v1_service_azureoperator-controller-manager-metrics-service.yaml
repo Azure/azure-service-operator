@@ -8,7 +8,7 @@ metadata:
   labels:
     control-plane: controller-manager
   name: azureoperator-controller-manager-metrics-service
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ include "azure-service-operator.namespace" . }}
 spec:
   ports:
   - name: https
