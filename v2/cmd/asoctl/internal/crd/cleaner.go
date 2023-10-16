@@ -19,10 +19,14 @@ import (
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
+	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"k8s.io/apimachinery/pkg/selection"
 	"k8s.io/apimachinery/pkg/util/wait"
 	"k8s.io/client-go/util/retry"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+
+	"github.com/Azure/azure-service-operator/v2/internal/crdmanagement"
 )
 
 type Cleaner struct {
@@ -60,25 +64,40 @@ func (c *Cleaner) Run(ctx context.Context) error {
 		c.log.Info("Starting update")
 	}
 
-	list, err := c.apiExtensionsClient.List(ctx, v1.ListOptions{})
+	appLabelRequirement, err := labels.NewRequirement(crdmanagement.ServiceOperatorAppLabel, selection.Equals, []string{crdmanagement.ServiceOperatorAppValue})
+	if err != nil {
+		return err
+	}
+	selector := labels.NewSelector()
+	selector = selector.Add(*appLabelRequirement)
+	crdsWithNewLabel, err := c.apiExtensionsClient.List(ctx, v1.ListOptions{LabelSelector: selector.String()})
 	if err != nil {
 		return errors.Wrap(err, "failed to list CRDs")
 	}
 
-	var updated int
-	var asoCrdsSeen int
-	crdRegexp := regexp.MustCompile(`.*\.azure\.com`)
-	deprecatedVersionRegexp := regexp.MustCompile(`v1alpha1api\d{8}(preview)?(storage)?`)
+	versionLabelRequirement, err := labels.NewRequirement(crdmanagement.ServiceOperatorVersionLabelOld, selection.Exists, []string{})
+	if err != nil {
+		return err
+	}
+	selector = labels.NewSelector()
+	selector = selector.Add(*versionLabelRequirement)
+	crdsWithOldLabel, err := c.apiExtensionsClient.List(ctx, v1.ListOptions{LabelSelector: selector.String()})
+	if err != nil {
+		return errors.Wrap(err, "failed to list CRDs")
+	}
 
-	for _, crd := range list.Items {
+	var crds []apiextensions.CustomResourceDefinition
+	crds = append(crds, crdsWithNewLabel.Items...)
+	crds = append(crds, crdsWithOldLabel.Items...)
+
+	var updated int
+	var asoCRDsSeen int
+	deprecatedVersionRegexp := regexp.MustCompile(`(v1alpha1api|v1beta)\d{8}(preview)?(storage)?`)
+
+	for _, crd := range crds {
 		crd := crd
 
-		if !crdRegexp.MatchString(crd.Name) {
-			c.log.V(1).Info("Skipping CRD", "crd-name", crd.Name)
-			continue
-		}
-
-		asoCrdsSeen++
+		asoCRDsSeen++
 		newStoredVersions, deprecatedVersion := removeMatchingStoredVersions(crd.Status.StoredVersions, deprecatedVersionRegexp)
 
 		// If there is no new version found other than the matched version, we short circuit here, as there is no updated version found in the CRDs
@@ -119,7 +138,7 @@ func (c *Cleaner) Run(ctx context.Context) error {
 		updated++
 	}
 
-	if asoCrdsSeen <= 0 {
+	if asoCRDsSeen <= 0 {
 		return errors.New("found no Azure Service Operator CRDs, make sure you have ASO installed.")
 	}
 
