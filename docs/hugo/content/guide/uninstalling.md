@@ -9,7 +9,11 @@ Before you uninstall Azure Service Operator, ensure that all of the resources ma
 Use the [detach-on-delete reconcile-policy annotation]( {{< relref "annotations#serviceoperatorazurecomreconcile-policy" >}} )
 if you want to delete an ASO resource from Kubernetes but retain it in Azure.
 
-You can check if all ASO resources have been deleted by using: `kubectl api-resources -o name | grep azure.com | paste -sd "," - | xargs kubectl get -A`
+You can check if all ASO resources have been deleted: 
+
+```
+kubectl api-resources -o name | grep azure.com | paste -sd "," - | xargs kubectl get -A
+``````
 
 ## Uninstalling
 
@@ -17,18 +21,22 @@ We recommend that you uninstall ASO using the same mechanism you used to install
 
 ### Uninstalling with Helm
 
-> **Warning**: This command will also remove installed ASO CRDs. As mentioned [above](#before-you-uninstall) it is strongly recommended that you
-> ensure that there are no remaining ASO resources in the cluster before you run this command.
+
+As mentioned [above](#before-you-uninstall) it is strongly recommended that you
+ensure that there are no remaining ASO resources in the cluster before you run this command.
 
 ```bash
 helm --namespace azureserviceoperator-system delete asov2
 kubectl delete namespace azureserviceoperator-system
 ```
 
-### Uninstalling with kubectl
+Note that Helm does not remove CRDs, due to the potential for user data-loss. The Helm documentation reads:
 
-> **Warning**: This command will also remove installed ASO CRDs. As mentioned [above](#before-you-uninstall) it is strongly recommended that you
-> ensure that there are no remaining ASO resources in the cluster before you run this command.
+> There is no support at this time for upgrading or deleting CRDs using Helm. This was an explicit decision after much community discussion due to the danger for unintentional data loss.
+
+-- Retrieved from [**helm.sh**](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/) on Monday, 16 October 2023
+
+### Uninstalling with kubectl
 
 ```bash
 kubectl delete -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0/azureserviceoperator_v2.0.0.yaml
