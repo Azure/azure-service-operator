@@ -412,7 +412,12 @@ func (config *Configuration) TransformTypeProperties(
 	toTransform := objectType
 
 	for _, transformer := range config.propertyTransformers {
-		result := transformer.TransformProperty(name, toTransform)
+		result, err := transformer.TransformProperty(name, toTransform)
+		if err != nil {
+			// Temporary
+			panic(err)
+		}
+
 		if result != nil {
 			toTransform = result.NewType
 			results = append(results, result)

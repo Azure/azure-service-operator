@@ -417,24 +417,6 @@ func Test_TransformWithBothMapAndEnumTargets_ReportsError(t *testing.T) {
 		ContainSubstring("Map transformation")))
 }
 
-func Test_TransformWithNonExistentPrimitive_ReportsError(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	transformer := config.TypeTransformer{
-		TypeMatcher: config.TypeMatcher{
-			Name: newFieldMatcher("tutor"),
-		},
-		Target: &config.TransformTarget{
-			Name: newFieldMatcher("nemo"),
-		},
-	}
-
-	err := transformer.Initialize(test.MakeLocalPackageReference)
-	g.Expect(err).To(Not(BeNil()))
-	g.Expect(err.Error()).To(ContainSubstring("unknown primitive type transformation target: nemo"))
-}
-
 func Test_TransformWithIfTypeAndNoProperty_ReportsError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
@@ -454,6 +436,47 @@ func Test_TransformWithIfTypeAndNoProperty_ReportsError(t *testing.T) {
 	err := transformer.Initialize(test.MakeLocalPackageReference)
 	g.Expect(err).To(Not(BeNil()))
 	g.Expect(err.Error()).To(ContainSubstring("ifType is only usable with property matches"))
+}
+
+func Test_TypeTransformer_WhenTransformingTypeName_ReturnsExpectedTypeName(t *testing.T) {
+	t.Parallel()
+
+	cases := []struct {
+		name     string
+		original astmodel.InternalTypeName
+		newName  string
+		expected astmodel.InternalTypeName
+	}{
+		{
+			"Rename student to tutor",
+			student2019,
+			"tutor",
+			tutor2019,
+		},
+	}
+
+	for _, c := range cases {
+		c := c
+		t.Run(
+			c.name,
+			func(t *testing.T) {
+				t.Parallel()
+				g := NewGomegaWithT(t)
+
+				transformer := config.TypeTransformer{
+					TypeMatcher: config.TypeMatcher{
+						Group: newFieldMatcher("role"),
+					},
+					Target: &config.TransformTarget{
+						Name: newFieldMatcher(c.newName),
+					},
+				}
+				g.Expect(transformer.Initialize(test.MakeLocalPackageReference)).To(Succeed())
+
+				actual := transformer.TransformTypeName(c.original)
+				g.Expect(actual).To(Equal(c.expected))
+			})
+	}
 }
 
 func Test_TransformCanTransformProperty(t *testing.T) {

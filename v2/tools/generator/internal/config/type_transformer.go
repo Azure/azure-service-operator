@@ -11,11 +11,13 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
-// A TransformTarget represents the target of a transformation
+// TransformTarget is used either to select a type for transformation, or to specify the result of that transformation
 type TransformTarget struct {
 	Group        FieldMatcher `yaml:",omitempty"`
 	Version      FieldMatcher `yaml:"version,omitempty"`
@@ -181,7 +183,7 @@ func (target *TransformTarget) appliesToMapType(mp *astmodel.MapType) bool {
 func (target *TransformTarget) assignActualType(
 	descriptor string,
 	makeLocalPackageReferenceFunc func(group string, version string) astmodel.LocalPackageReference) error {
-	t, err := target.produceTargetType(descriptor, makeLocalPackageReferenceFunc)
+	t, err := target.produceTargetType(descriptor, astmodel.InternalTypeName{}, makeLocalPackageReferenceFunc)
 	if err != nil {
 		return err
 	}
@@ -192,12 +194,13 @@ func (target *TransformTarget) assignActualType(
 
 func (target *TransformTarget) produceTargetType(
 	descriptor string,
+	original astmodel.InternalTypeName,
 	makeLocalPackageReferenceFunc func(group string, version string) astmodel.LocalPackageReference) (astmodel.Type, error) {
 
 	var result astmodel.Type
 
 	if target.Name.IsRestrictive() {
-		t, err := target.produceTargetNamedType(makeLocalPackageReferenceFunc)
+		t, err := target.produceTargetNamedType(original, makeLocalPackageReferenceFunc)
 		if err != nil {
 			return nil, err
 		}
@@ -206,7 +209,7 @@ func (target *TransformTarget) produceTargetType(
 	}
 
 	if target.Map != nil {
-		t, err := target.produceTargetMapType(descriptor, makeLocalPackageReferenceFunc)
+		t, err := target.produceTargetMapType(descriptor, original, makeLocalPackageReferenceFunc)
 		if err != nil {
 			return nil, err
 		}
@@ -235,6 +238,7 @@ func (target *TransformTarget) produceTargetType(
 }
 
 func (target *TransformTarget) produceTargetNamedType(
+	original astmodel.InternalTypeName,
 	makeLocalPackageReferenceFunc func(group string, version string) astmodel.LocalPackageReference,
 ) (astmodel.Type, error) {
 	// Transform to name, ensure we have no other transformation
@@ -246,24 +250,32 @@ func (target *TransformTarget) produceTargetNamedType(
 		return nil, errors.Errorf("cannot specify both Name transformation and Enum transformation")
 	}
 
-	var result astmodel.Type
-	if target.Group.IsRestrictive() || target.Version.IsRestrictive() {
-		result = astmodel.MakeInternalTypeName(
-			makeLocalPackageReferenceFunc(target.Group.String(), target.Version.String()),
-			target.Name.String())
-	} else {
-		var err error
-		result, err = target.asPrimitiveType(target.Name.String())
-		if err != nil {
-			return nil, err
+	// If we have *only* a name and that name represents a primitive type, we should use that
+	// primitive type instead of a named type
+	if !target.Group.IsRestrictive() &&
+		!target.Version.IsRestrictive() {
+		result, err := target.asPrimitiveType(target.Name.String())
+		if err == nil {
+			return result, nil
 		}
+
+		// If we got an error, it's because the name wasn't a primitive type, so we fall through to treating it
+		// as a named type
 	}
 
-	return result, nil
+	result := original
+	if target.Group.IsRestrictive() || target.Version.IsRestrictive() {
+		ref := target.produceTargetPackageReference(result.InternalPackageReference())
+		result = result.WithPackageReference(ref)
+	}
+
+	return result.WithName(target.Name.String()), nil
 }
 
 func (target *TransformTarget) produceTargetMapType(
-	descriptor string, makeLocalPackageReferenceFunc func(group string, version string) astmodel.LocalPackageReference,
+	descriptor string,
+	original astmodel.InternalTypeName,
+	makeLocalPackageReferenceFunc func(group string, version string) astmodel.LocalPackageReference,
 ) (astmodel.Type, error) {
 	// Transform to map, ensure we have no other transformation
 	if target.Name.IsRestrictive() {
@@ -274,12 +286,12 @@ func (target *TransformTarget) produceTargetMapType(
 		return nil, errors.Errorf("cannot specify both Map transformation and Enum transformation")
 	}
 
-	keyType, err := target.Map.Key.produceTargetType(descriptor+"/map/key", makeLocalPackageReferenceFunc)
+	keyType, err := target.Map.Key.produceTargetType(descriptor+"/map/key", original, makeLocalPackageReferenceFunc)
 	if err != nil {
 		return nil, err
 	}
 
-	valueType, err := target.Map.Value.produceTargetType(descriptor+"/map/value", makeLocalPackageReferenceFunc)
+	valueType, err := target.Map.Value.produceTargetType(descriptor+"/map/value", original, makeLocalPackageReferenceFunc)
 	if err != nil {
 		return nil, err
 	}
@@ -310,8 +322,9 @@ func (target *TransformTarget) produceTargetEnumType(
 	}
 
 	values := make([]astmodel.EnumValue, 0, len(target.Enum.Values))
+	caser := cases.Title(language.English, cases.NoLower)
 	for _, value := range target.Enum.Values {
-		id := strings.Title(value)
+		id := caser.String(value)
 		v := value
 
 		if baseType == astmodel.StringType {
@@ -327,6 +340,40 @@ func (target *TransformTarget) produceTargetEnumType(
 
 	result := astmodel.NewEnumType(baseType, values...)
 	return result, nil
+}
+
+func (target *TransformTarget) produceTargetPackageReference(ref astmodel.InternalPackageReference) astmodel.InternalPackageReference {
+	switch t := ref.(type) {
+	case astmodel.LocalPackageReference:
+		if target.Group.IsRestrictive() || target.Version.IsRestrictive() {
+			prefix := t.LocalPathPrefix()
+			group := t.Group()
+			versionPrefix := t.GeneratorVersion()
+			version := t.Version()
+
+			if target.Group.IsRestrictive() {
+				group = target.Group.String()
+			}
+
+			if target.Version.IsRestrictive() {
+				version = target.Version.String()
+			}
+
+			return astmodel.MakeLocalPackageReference(prefix, group, versionPrefix, version)
+		}
+
+		return ref
+
+	case astmodel.StoragePackageReference:
+		base := target.produceTargetPackageReference(t.Base())
+		return astmodel.MakeStoragePackageReference(base)
+
+	case astmodel.SubPackageReference:
+		base := target.produceTargetPackageReference(t.Base())
+		return astmodel.MakeSubPackageReference(t.PackageName(), base)
+	}
+
+	return ref
 }
 
 func (transformer *TypeTransformer) Initialize(makeLocalPackageReferenceFunc func(group string, version string) astmodel.LocalPackageReference) error {
@@ -397,7 +444,13 @@ func (target *TransformTarget) asPrimitiveType(name string) (*astmodel.Primitive
 // the provided type name matches the pattern(s) specified in the TypeTransformer
 func (transformer *TypeTransformer) TransformTypeName(typeName astmodel.InternalTypeName) astmodel.Type {
 	if transformer.AppliesToType(typeName) {
-		return transformer.Target.actualType
+		result, err := transformer.Target.produceTargetType("target", typeName, transformer.makeLocalPackageReferenceFunc)
+		if err != nil {
+			// Temporary
+			panic(err)
+		}
+
+		return result
 	}
 
 	// Didn't match so return nil
