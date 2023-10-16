@@ -19,13 +19,12 @@ import (
 
 // TransformTarget is used either to select a type for transformation, or to specify the result of that transformation
 type TransformTarget struct {
-	Group        FieldMatcher `yaml:",omitempty"`
-	Version      FieldMatcher `yaml:"version,omitempty"`
-	Name         FieldMatcher `yaml:",omitempty"`
-	Optional     bool         `yaml:",omitempty"`
-	Map          *MapType     `yaml:",omitempty"`
-	Enum         *EnumType    `yaml:",omitempty"`
-	actualType   astmodel.Type
+	Group        FieldMatcher           `yaml:",omitempty"`
+	Version      FieldMatcher           `yaml:"version,omitempty"`
+	Name         FieldMatcher           `yaml:",omitempty"`
+	Optional     bool                   `yaml:",omitempty"`
+	Map          *MapType               `yaml:",omitempty"`
+	Enum         *EnumType              `yaml:",omitempty"`
 	appliesCache map[astmodel.Type]bool // cache for the results of AppliesToType()
 }
 
@@ -177,19 +176,9 @@ func (target *TransformTarget) appliesToMapType(mp *astmodel.MapType) bool {
 		target.Map.Value.AppliesToType(mp.ValueType())
 }
 
-func (target *TransformTarget) assignActualType(descriptor string) error {
-	t, err := target.produceTargetType(descriptor, astmodel.InternalTypeName{})
-	if err != nil {
-		return err
-	}
-
-	target.actualType = t
-	return nil
-}
-
 func (target *TransformTarget) produceTargetType(
 	descriptor string,
-	original astmodel.InternalTypeName,
+	original astmodel.Type,
 ) (astmodel.Type, error) {
 
 	var result astmodel.Type
@@ -232,7 +221,7 @@ func (target *TransformTarget) produceTargetType(
 	return result, nil
 }
 
-func (target *TransformTarget) produceTargetNamedType(original astmodel.InternalTypeName) (astmodel.Type, error) {
+func (target *TransformTarget) produceTargetNamedType(original astmodel.Type) (astmodel.Type, error) {
 	// Transform to name, ensure we have no other transformation
 	if target.Map != nil {
 		return nil, errors.Errorf("cannot specify both Name transformation and Map transformation")
@@ -255,7 +244,14 @@ func (target *TransformTarget) produceTargetNamedType(original astmodel.Internal
 		// as a named type
 	}
 
-	result := original
+	tn, ok := astmodel.AsInternalTypeName(original)
+	if !ok {
+		return nil, errors.Errorf(
+			"cannot apply type transformation; expected InternalTypeName, but have %s",
+			astmodel.DebugDescription(original))
+	}
+
+	result := tn
 	if target.Group.IsRestrictive() || target.Version.IsRestrictive() {
 		ref := target.produceTargetPackageReference(result.InternalPackageReference())
 		result = result.WithPackageReference(ref)
@@ -266,7 +262,7 @@ func (target *TransformTarget) produceTargetNamedType(original astmodel.Internal
 
 func (target *TransformTarget) produceTargetMapType(
 	descriptor string,
-	original astmodel.InternalTypeName,
+	original astmodel.Type,
 ) (astmodel.Type, error) {
 	// Transform to map, ensure we have no other transformation
 	if target.Name.IsRestrictive() {
@@ -392,14 +388,14 @@ func (transformer *TypeTransformer) Initialize() error {
 			return errors.Errorf("ifType is only usable with property matches (for now)")
 		}
 
-		err := transformer.IfType.assignActualType("ifType")
+		_, err := transformer.IfType.produceTargetType("ifType", astmodel.InternalTypeName{})
 		if err != nil {
 			return err
 		}
 	}
 
 	if transformer.Target != nil {
-		err := transformer.Target.assignActualType("target")
+		_, err := transformer.Target.produceTargetType("target", astmodel.InternalTypeName{})
 		if err != nil {
 			return errors.Wrapf(
 				err,
@@ -522,14 +518,15 @@ func (transformer *TypeTransformer) RequiredPropertiesWereMatched() error {
 func (transformer *TypeTransformer) TransformProperty(
 	name astmodel.InternalTypeName,
 	objectType *astmodel.ObjectType,
-) *PropertyTransformResult {
+) (*PropertyTransformResult, error) {
 	if !transformer.AppliesToType(name) {
-		return nil
+		return nil, nil
 	}
 
 	found := false
 	var propName astmodel.PropertyName
 	var newProps []*astmodel.PropertyDefinition
+	var newPropertyType astmodel.Type
 
 	for _, prop := range objectType.Properties().AsSlice() {
 		if transformer.Property.Matches(string(prop.PropertyName())).Matched &&
@@ -538,8 +535,14 @@ func (transformer *TypeTransformer) TransformProperty(
 			found = true
 			propName = prop.PropertyName()
 
-			if transformer.Target != nil && transformer.Target.actualType != nil {
-				newProps = append(newProps, prop.WithType(transformer.Target.actualType))
+			if transformer.Target != nil {
+				propertyType, err := transformer.Target.produceTargetType(string(propName), prop.PropertyType())
+				if err != nil {
+					return nil, errors.Wrapf(err, "transforming property %s", propName)
+				}
+
+				newProps = append(newProps, prop.WithType(propertyType))
+				newPropertyType = propertyType
 			}
 			// Otherwise, this is a removal - we don't copy the prop across.
 		} else {
@@ -548,7 +551,7 @@ func (transformer *TypeTransformer) TransformProperty(
 	}
 
 	if !found {
-		return nil
+		return nil, nil
 	}
 
 	transformer.matchedProperties[name] = propName.String()
@@ -563,7 +566,8 @@ func (transformer *TypeTransformer) TransformProperty(
 	if transformer.Remove {
 		result.Removed = true
 	} else {
-		result.NewPropertyType = transformer.Target.actualType
+		result.NewPropertyType = newPropertyType
 	}
-	return &result
+
+	return &result, nil
 }

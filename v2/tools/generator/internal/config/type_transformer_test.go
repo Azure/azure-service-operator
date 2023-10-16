@@ -181,6 +181,7 @@ func Test_TransformTypeName_WhenEnumMissingBase_ReturnsExpectedError(t *testing.
 			},
 		},
 	}
+
 	err := transformer.Initialize()
 	g.Expect(err).ToNot(BeNil())
 	g.Expect(err.Error()).To(ContainSubstring("requires a base type"))
@@ -500,8 +501,9 @@ func Test_TransformCanTransformProperty(t *testing.T) {
 	prop := astmodel.NewPropertyDefinition("foo", "foo", astmodel.IntType)
 	typeDef := astmodel.NewObjectType().WithProperties(prop)
 
-	result := transformer.TransformProperty(typeName, typeDef)
+	result, err := transformer.TransformProperty(typeName, typeDef)
 	g.Expect(result).ToNot(BeNil())
+	g.Expect(err).ToNot(HaveOccurred())
 
 	fooProp, ok := result.NewType.Property("foo")
 	g.Expect(ok).To(BeTrue())
@@ -533,8 +535,9 @@ func Test_TransformCanTransformProperty_Wildcard(t *testing.T) {
 	}
 	typeDef := astmodel.NewObjectType().WithProperties(props...)
 
-	result := transformer.TransformProperty(typeName, typeDef)
+	result, err := transformer.TransformProperty(typeName, typeDef)
 	g.Expect(result).ToNot(BeNil())
+	g.Expect(err).ToNot(HaveOccurred())
 
 	foo1Prop, ok := result.NewType.Property("foo1")
 	g.Expect(ok).To(BeTrue())
@@ -573,8 +576,9 @@ func Test_TransformDoesNotTransformPropertyIfTypeDoesNotMatch(t *testing.T) {
 	prop := astmodel.NewPropertyDefinition("foo", "foo", astmodel.IntType)
 	typeDef := astmodel.NewObjectType().WithProperties(prop)
 
-	result := transformer.TransformProperty(typeName, typeDef)
+	result, err := transformer.TransformProperty(typeName, typeDef)
 	g.Expect(result).To(BeNil()) // as ifType does not match
+	g.Expect(err).ToNot(HaveOccurred())
 }
 
 func TestTransformProperty_DoesTransformProperty_IfTypeDoesMatch(t *testing.T) {
@@ -648,8 +652,9 @@ func TestTransformProperty_DoesTransformProperty_IfTypeDoesMatch(t *testing.T) {
 
 				g.Expect(c.transformer.Initialize()).To(Succeed())
 
-				result := c.transformer.TransformProperty(student2019, c.subject)
+				result, err := c.transformer.TransformProperty(student2019, c.subject)
 				g.Expect(result).To(Not(BeNil()))
+				g.Expect(err).ToNot(HaveOccurred())
 
 				prop, ok := result.NewType.Property(c.propertyToInspect)
 				g.Expect(ok).To(BeTrue())
@@ -726,8 +731,9 @@ func TestTransformProperty_CanRemoveProperty(t *testing.T) {
 
 				g.Expect(c.transformer.Initialize()).To(Succeed())
 
-				result := c.transformer.TransformProperty(student2019, c.subject)
+				result, err := c.transformer.TransformProperty(student2019, c.subject)
 				g.Expect(result).To(Not(BeNil()))
+				g.Expect(err).ToNot(HaveOccurred())
 
 				_, ok := result.NewType.Property(c.propertyToInspect)
 				g.Expect(ok).To(BeFalse())
