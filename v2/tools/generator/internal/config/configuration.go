@@ -325,7 +325,7 @@ func (config *Configuration) initialize(configPath string) error {
 	var typeTransformers []*TypeTransformer
 	var propertyTransformers []*TypeTransformer
 	for _, transformer := range config.Transformers {
-		err := transformer.Initialize(config.MakeLocalPackageReference)
+		err := transformer.Initialize()
 		if err != nil {
 			errs = append(errs, err)
 		}
