@@ -161,7 +161,7 @@ jobs:
     runs-on: [self-hosted, 1ES.Pool=aso-1es-pool]
     if: 
       # Only run on pull requests in this repo, that are not created by dependendabot
-      github.event_name == 'pull_request' && 
+      ( github.event_name == 'pull_request' || github.event_name == 'merge_group' ) && 
       github.event.pull_request.head.repo.full_name == github.repository &&
       github.actor != 'dependabot[bot]'
     permissions:
