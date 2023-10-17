@@ -13,6 +13,7 @@ on:
   merge_group:
     branches:
       - main
+    types: [checks_requested]
 
 jobs:
   test-go-get:
@@ -160,9 +161,11 @@ jobs:
   integration-tests:
     runs-on: [self-hosted, 1ES.Pool=aso-1es-pool]
     if: 
-      # Run on ppull requests in this repository that are not from @dependabot, and run for merge groups
-      ( ( github.event_name == 'pull_request' && github.actor != 'dependabot[bot]' ) || github.event_name == 'merge_group' ) && 
-      github.event.pull_request.head.repo.full_name == github.repository 
+      # Run on pull requests in this repository that are not from @dependabot, and run for merge groups
+      github.event_name == 'merge_group' ||
+      ( github.event_name == 'pull_request' &&
+        github.actor != 'dependabot[bot]' &&
+        github.event.pull_request.head.repo.full_name == github.repository )
     permissions:
       packages: read
       checks: write
