@@ -2,12 +2,10 @@
 # tiggers on push.
 trigger:
   branches:
-    include:
     # Run automatically on GitHub Merge Queue branches
-      - 'gh-readonly-queue/*'
-    exclude:
+    include: [ 'gh-readonly-queue/*' ]
     # But not on anything else
-    - '*'
+    exclude: [ '*' ]
 
 # PR Section describes what happens on PR
 pr:
