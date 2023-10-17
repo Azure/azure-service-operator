@@ -71,6 +71,15 @@ func (setting *AutoscaleSetting) GetStatus() genruntime.ConvertibleStatus {
 	return &setting.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (setting *AutoscaleSetting) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Insights/autoscalesettings"
 func (setting *AutoscaleSetting) GetType() string {
 	return "Microsoft.Insights/autoscalesettings"

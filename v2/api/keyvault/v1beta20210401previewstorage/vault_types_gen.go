@@ -90,6 +90,15 @@ func (vault *Vault) GetStatus() genruntime.ConvertibleStatus {
 	return &vault.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (vault *Vault) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.KeyVault/vaults"
 func (vault *Vault) GetType() string {
 	return "Microsoft.KeyVault/vaults"

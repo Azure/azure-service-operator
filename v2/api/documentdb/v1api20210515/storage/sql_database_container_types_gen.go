@@ -71,6 +71,15 @@ func (container *SqlDatabaseContainer) GetStatus() genruntime.ConvertibleStatus 
 	return &container.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (container *SqlDatabaseContainer) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers"
 func (container *SqlDatabaseContainer) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers"

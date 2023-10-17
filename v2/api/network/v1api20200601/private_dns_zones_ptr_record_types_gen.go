@@ -128,6 +128,15 @@ func (record *PrivateDnsZonesPTRRecord) GetStatus() genruntime.ConvertibleStatus
 	return &record.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (record *PrivateDnsZonesPTRRecord) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/privateDnsZones/PTR"
 func (record *PrivateDnsZonesPTRRecord) GetType() string {
 	return "Microsoft.Network/privateDnsZones/PTR"

@@ -662,7 +662,7 @@ func generateDefinitionsFor(
 	// TODO: are retired.
 	resourceType := categorizeResourceType(schemaUrl)
 	if resourceType != nil {
-		result = astmodel.NewAzureResourceType(result, nil, typeName, *resourceType)
+		result = astmodel.NewAzureResourceType(result, nil, typeName, *resourceType, nil)
 	}
 	definition := astmodel.MakeTypeDefinition(typeName, result)
 

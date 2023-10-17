@@ -122,6 +122,15 @@ func (assignment *SqlRoleAssignment) GetStatus() genruntime.ConvertibleStatus {
 	return &assignment.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (assignment *SqlRoleAssignment) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlRoleAssignments"
 func (assignment *SqlRoleAssignment) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlRoleAssignments"

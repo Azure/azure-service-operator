@@ -128,6 +128,15 @@ func (credential *FederatedIdentityCredential) GetStatus() genruntime.Convertibl
 	return &credential.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (credential *FederatedIdentityCredential) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials"
 func (credential *FederatedIdentityCredential) GetType() string {
 	return "Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials"

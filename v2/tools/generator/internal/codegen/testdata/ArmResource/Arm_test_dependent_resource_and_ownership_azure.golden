@@ -106,6 +106,15 @@ func (a *A) GetSpec() genruntime.ConvertibleSpec {
 	return &a.Spec
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (a *A) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always ""
 func (a *A) GetType() string {
 	return ""
@@ -361,6 +370,15 @@ func (b *B) GetResourceScope() genruntime.ResourceScope {
 // GetSpec returns the specification of this resource
 func (b *B) GetSpec() genruntime.ConvertibleSpec {
 	return &b.Spec
+}
+
+// GetSupportedOperations returns the operations supported by the resource
+func (b *B) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
 }
 
 // GetType returns the ARM Type of the resource. This is always ""
@@ -620,6 +638,15 @@ func (c *C) GetSpec() genruntime.ConvertibleSpec {
 	return &c.Spec
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (c *C) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always ""
 func (c *C) GetType() string {
 	return ""
@@ -875,6 +902,15 @@ func (d *D) GetResourceScope() genruntime.ResourceScope {
 // GetSpec returns the specification of this resource
 func (d *D) GetSpec() genruntime.ConvertibleSpec {
 	return &d.Spec
+}
+
+// GetSupportedOperations returns the operations supported by the resource
+func (d *D) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
 }
 
 // GetType returns the ARM Type of the resource. This is always ""

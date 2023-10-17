@@ -71,6 +71,14 @@ func (policy *ServersDatabasesBackupShortTermRetentionPolicy) GetStatus() genrun
 	return &policy.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (policy *ServersDatabasesBackupShortTermRetentionPolicy) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Sql/servers/databases/backupShortTermRetentionPolicies"
 func (policy *ServersDatabasesBackupShortTermRetentionPolicy) GetType() string {
 	return "Microsoft.Sql/servers/databases/backupShortTermRetentionPolicies"

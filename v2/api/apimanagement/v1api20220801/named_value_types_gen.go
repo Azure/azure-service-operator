@@ -128,6 +128,16 @@ func (value *NamedValue) GetStatus() genruntime.ConvertibleStatus {
 	return &value.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (value *NamedValue) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationHead,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ApiManagement/service/namedValues"
 func (value *NamedValue) GetType() string {
 	return "Microsoft.ApiManagement/service/namedValues"

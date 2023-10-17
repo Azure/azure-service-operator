@@ -71,6 +71,16 @@ func (subscription *Subscription) GetStatus() genruntime.ConvertibleStatus {
 	return &subscription.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (subscription *Subscription) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationHead,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ApiManagement/service/subscriptions"
 func (subscription *Subscription) GetType() string {
 	return "Microsoft.ApiManagement/service/subscriptions"

@@ -128,6 +128,15 @@ func (subscription *EventSubscription) GetStatus() genruntime.ConvertibleStatus 
 	return &subscription.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (subscription *EventSubscription) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/eventSubscriptions"
 func (subscription *EventSubscription) GetType() string {
 	return "Microsoft.EventGrid/eventSubscriptions"

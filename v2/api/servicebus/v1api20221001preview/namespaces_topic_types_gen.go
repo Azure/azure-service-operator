@@ -131,6 +131,15 @@ func (topic *NamespacesTopic) GetStatus() genruntime.ConvertibleStatus {
 	return &topic.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (topic *NamespacesTopic) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces/topics"
 func (topic *NamespacesTopic) GetType() string {
 	return "Microsoft.ServiceBus/namespaces/topics"

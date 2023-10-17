@@ -71,6 +71,14 @@ func (service *StorageAccountsTableService) GetStatus() genruntime.ConvertibleSt
 	return &service.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (service *StorageAccountsTableService) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/tableServices"
 func (service *StorageAccountsTableService) GetType() string {
 	return "Microsoft.Storage/storageAccounts/tableServices"

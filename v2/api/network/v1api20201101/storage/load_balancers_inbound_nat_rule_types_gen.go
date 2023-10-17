@@ -71,6 +71,15 @@ func (rule *LoadBalancersInboundNatRule) GetStatus() genruntime.ConvertibleStatu
 	return &rule.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (rule *LoadBalancersInboundNatRule) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/loadBalancers/inboundNatRules"
 func (rule *LoadBalancersInboundNatRule) GetType() string {
 	return "Microsoft.Network/loadBalancers/inboundNatRules"

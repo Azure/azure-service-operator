@@ -71,6 +71,15 @@ func (endpoint *DnsResolversOutboundEndpoint) GetStatus() genruntime.Convertible
 	return &endpoint.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (endpoint *DnsResolversOutboundEndpoint) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/dnsResolvers/outboundEndpoints"
 func (endpoint *DnsResolversOutboundEndpoint) GetType() string {
 	return "Microsoft.Network/dnsResolvers/outboundEndpoints"

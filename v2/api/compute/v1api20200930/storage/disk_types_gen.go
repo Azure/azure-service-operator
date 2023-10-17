@@ -73,6 +73,15 @@ func (disk *Disk) GetStatus() genruntime.ConvertibleStatus {
 	return &disk.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (disk *Disk) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/disks"
 func (disk *Disk) GetType() string {
 	return "Microsoft.Compute/disks"

@@ -71,6 +71,15 @@ func (record *DnsZonesSRVRecord) GetStatus() genruntime.ConvertibleStatus {
 	return &record.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (record *DnsZonesSRVRecord) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/dnsZones/SRV"
 func (record *DnsZonesSRVRecord) GetType() string {
 	return "Microsoft.Network/dnsZones/SRV"

@@ -90,6 +90,15 @@ func (rule *NetworkSecurityGroupsSecurityRule) GetStatus() genruntime.Convertibl
 	return &rule.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (rule *NetworkSecurityGroupsSecurityRule) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/networkSecurityGroups/securityRules"
 func (rule *NetworkSecurityGroupsSecurityRule) GetType() string {
 	return "Microsoft.Network/networkSecurityGroups/securityRules"

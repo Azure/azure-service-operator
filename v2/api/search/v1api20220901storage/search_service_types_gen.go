@@ -72,6 +72,15 @@ func (service *SearchService) GetStatus() genruntime.ConvertibleStatus {
 	return &service.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (service *SearchService) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Search/searchServices"
 func (service *SearchService) GetType() string {
 	return "Microsoft.Search/searchServices"

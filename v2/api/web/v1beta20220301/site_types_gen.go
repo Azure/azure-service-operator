@@ -129,6 +129,15 @@ func (site *Site) GetStatus() genruntime.ConvertibleStatus {
 	return &site.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (site *Site) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Web/sites"
 func (site *Site) GetType() string {
 	return "Microsoft.Web/sites"

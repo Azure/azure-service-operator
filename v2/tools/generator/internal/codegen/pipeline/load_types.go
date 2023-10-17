@@ -89,11 +89,12 @@ func LoadTypes(
 
 				resourceType := astmodel.NewResourceType(specType, statusType)
 
-				// add on ARM Type & URI
+				// add on ARM Type, URI, and supported operations
 				resourceType = resourceType.WithARMType(resourceInfo.ARMType).WithARMURI(resourceInfo.ARMURI)
-
 				scope := categorizeResourceScope(resourceInfo.ARMURI)
 				resourceType = resourceType.WithScope(scope)
+				resourceType = resourceType.WithSupportedOperations(resourceInfo.SupportedOperations)
+
 				resourceDefinition := astmodel.MakeTypeDefinition(resourceName, resourceType)
 
 				// document origin of resource
@@ -589,11 +590,12 @@ func applyRenames(
 		}
 
 		newResourceTypes[rn] = jsonast.ResourceDefinition{
-			SpecType:   newSpecType,
-			StatusType: newStatusType,
-			SourceFile: rt.SourceFile,
-			ARMURI:     rt.ARMURI,
-			ARMType:    rt.ARMType,
+			SpecType:            newSpecType,
+			StatusType:          newStatusType,
+			SourceFile:          rt.SourceFile,
+			ARMURI:              rt.ARMURI,
+			ARMType:             rt.ARMType,
+			SupportedOperations: rt.SupportedOperations,
 		}
 	}
 

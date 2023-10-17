@@ -7,15 +7,16 @@ package astmodel
 
 import (
 	"fmt"
-	"github.com/pkg/errors"
 	"go/token"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sort"
 	"strings"
 
 	"github.com/dave/dst"
+	"github.com/pkg/errors"
 	"golang.org/x/exp/maps"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 )
 
@@ -33,6 +34,15 @@ const (
 	ResourceScopeTenant = ResourceScope("tenant")
 )
 
+type ResourceOperation string
+
+const (
+	ResourceOperationGet    = ResourceOperation("GET")
+	ResourceOperationHead   = ResourceOperation("HEAD")
+	ResourceOperationPut    = ResourceOperation("PUT")
+	ResourceOperationDelete = ResourceOperation("DELETE")
+)
+
 // ResourceType represents a Kubernetes CRD resource which has both
 // spec (the user-requested state) and status (the current state)
 type ResourceType struct {
@@ -47,6 +57,7 @@ type ResourceType struct {
 	scope               ResourceScope
 	armType             string
 	armURI              string
+	supportedOperations set.Set[ResourceOperation]
 	apiVersionTypeName  InternalTypeName
 	apiVersionEnumValue EnumValue
 	InterfaceImplementer
@@ -78,7 +89,13 @@ func IsResourceDefinition(def TypeDefinition) bool {
 // NewAzureResourceType defines a new resource type for Azure. It ensures that
 // the resource has certain expected properties such as type and name.
 // The typeName parameter is just used for logging.
-func NewAzureResourceType(specType Type, statusType Type, typeName TypeName, scope ResourceScope) *ResourceType {
+func NewAzureResourceType(
+	specType Type,
+	statusType Type,
+	typeName TypeName,
+	scope ResourceScope,
+	supportedOperations set.Set[ResourceOperation],
+) *ResourceType {
 	if objectType, ok := specType.(*ObjectType); ok {
 		// We have certain expectations about structure for resources
 		var nameProperty *PropertyDefinition
@@ -142,7 +159,16 @@ func NewAzureResourceType(specType Type, statusType Type, typeName TypeName, sco
 		specType = objectType
 	}
 
-	return NewResourceType(specType, statusType).WithScope(scope)
+	if len(supportedOperations) == 0 {
+		// The default assumed set of supported operations is the set of standard REST CRUD verbs
+		supportedOperations = set.Make(
+			ResourceOperationPut,
+			ResourceOperationGet,
+			ResourceOperationDelete,
+		)
+	}
+
+	return NewResourceType(specType, statusType).WithScope(scope).WithSupportedOperations(supportedOperations)
 }
 
 // Ensure ResourceType implements the Type interface correctly
@@ -280,6 +306,18 @@ func (resource *ResourceType) WithARMURI(armURI string) *ResourceType {
 // ARMURI gets the ARMURI
 func (resource *ResourceType) ARMURI() string {
 	return resource.armURI
+}
+
+// WithSupportedOperations sets the SupportedOperations
+func (resource *ResourceType) WithSupportedOperations(operations set.Set[ResourceOperation]) *ResourceType {
+	result := resource.copy()
+	result.supportedOperations = operations
+	return result
+}
+
+// SupportedOperations gets the set of supported operations SupportedOperations
+func (resource *ResourceType) SupportedOperations() set.Set[ResourceOperation] {
+	return resource.supportedOperations
 }
 
 // WithAPIVersion returns a new ResourceType with the specified API version (type and value).
@@ -741,6 +779,7 @@ func (resource *ResourceType) copy() *ResourceType {
 		armURI:               resource.armURI,
 		apiVersionTypeName:   resource.apiVersionTypeName,
 		apiVersionEnumValue:  resource.apiVersionEnumValue,
+		supportedOperations:  set.Make[ResourceOperation](),
 		InterfaceImplementer: resource.InterfaceImplementer.copy(),
 	}
 
@@ -755,6 +794,8 @@ func (resource *ResourceType) copy() *ResourceType {
 	for key, fn := range resource.functions {
 		result.functions[key] = fn
 	}
+
+	result.supportedOperations.AddAll(resource.supportedOperations)
 
 	return result
 }

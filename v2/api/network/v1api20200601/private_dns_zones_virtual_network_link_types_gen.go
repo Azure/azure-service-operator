@@ -128,6 +128,15 @@ func (link *PrivateDnsZonesVirtualNetworkLink) GetStatus() genruntime.Convertibl
 	return &link.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (link *PrivateDnsZonesVirtualNetworkLink) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/privateDnsZones/virtualNetworkLinks"
 func (link *PrivateDnsZonesVirtualNetworkLink) GetType() string {
 	return "Microsoft.Network/privateDnsZones/virtualNetworkLinks"

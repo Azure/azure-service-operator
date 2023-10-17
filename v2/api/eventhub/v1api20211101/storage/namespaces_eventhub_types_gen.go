@@ -71,6 +71,15 @@ func (eventhub *NamespacesEventhub) GetStatus() genruntime.ConvertibleStatus {
 	return &eventhub.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (eventhub *NamespacesEventhub) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces/eventhubs"
 func (eventhub *NamespacesEventhub) GetType() string {
 	return "Microsoft.EventHub/namespaces/eventhubs"

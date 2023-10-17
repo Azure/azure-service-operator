@@ -71,6 +71,15 @@ func (function *SqlDatabaseContainerUserDefinedFunction) GetStatus() genruntime.
 	return &function.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (function *SqlDatabaseContainerUserDefinedFunction) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/userDefinedFunctions"
 func (function *SqlDatabaseContainerUserDefinedFunction) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/userDefinedFunctions"

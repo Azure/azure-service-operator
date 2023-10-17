@@ -71,6 +71,14 @@ func (setting *ServersDatabasesAuditingSetting) GetStatus() genruntime.Convertib
 	return &setting.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (setting *ServersDatabasesAuditingSetting) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Sql/servers/databases/auditingSettings"
 func (setting *ServersDatabasesAuditingSetting) GetType() string {
 	return "Microsoft.Sql/servers/databases/auditingSettings"

@@ -117,6 +117,15 @@ func (component *Component) GetStatus() genruntime.ConvertibleStatus {
 	return &component.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (component *Component) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Insights/components"
 func (component *Component) GetType() string {
 	return "Microsoft.Insights/components"

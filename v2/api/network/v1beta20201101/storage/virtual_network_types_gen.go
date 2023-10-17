@@ -92,6 +92,15 @@ func (network *VirtualNetwork) GetStatus() genruntime.ConvertibleStatus {
 	return &network.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (network *VirtualNetwork) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworks"
 func (network *VirtualNetwork) GetType() string {
 	return "Microsoft.Network/virtualNetworks"

@@ -105,6 +105,15 @@ func (machine *VirtualMachine) GetStatus() genruntime.ConvertibleStatus {
 	return &machine.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (machine *VirtualMachine) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/virtualMachines"
 func (machine *VirtualMachine) GetType() string {
 	return "Microsoft.Compute/virtualMachines"

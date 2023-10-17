@@ -129,6 +129,15 @@ func (account *BatchAccount) GetStatus() genruntime.ConvertibleStatus {
 	return &account.Status
 }
 
+// GetSupportedOperations returns the operations supported by the resource
+func (account *BatchAccount) GetSupportedOperations() []genruntime.ResourceOperation {
+	return []genruntime.ResourceOperation{
+		genruntime.ResourceOperationDelete,
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	}
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Batch/batchAccounts"
 func (account *BatchAccount) GetType() string {
 	return "Microsoft.Batch/batchAccounts"
