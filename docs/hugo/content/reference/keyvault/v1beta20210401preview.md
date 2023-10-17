@@ -2710,7 +2710,11 @@ string
 <th>Description</th>
 </tr>
 </thead>
-<tbody><tr><td><p>&#34;default&#34;</p></td>
+<tbody><tr><td><p>&#34;createOrRecover&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;default&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;purgeThenCreate&#34;</p></td>
 <td></td>
 </tr><tr><td><p>&#34;recover&#34;</p></td>
 <td></td>
@@ -2732,7 +2736,11 @@ instead</p>
 <th>Description</th>
 </tr>
 </thead>
-<tbody><tr><td><p>&#34;default&#34;</p></td>
+<tbody><tr><td><p>&#34;createOrRecover&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;default&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;purgeThenCreate&#34;</p></td>
 <td></td>
 </tr><tr><td><p>&#34;recover&#34;</p></td>
 <td></td>

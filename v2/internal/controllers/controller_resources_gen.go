@@ -126,10 +126,18 @@ import (
 	eventhub_v1beta20211101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101"
 	eventhub_v1beta20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101storage"
 	insights_customizations "github.com/Azure/azure-service-operator/v2/api/insights/customizations"
+	insights_v20180301 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180301"
+	insights_v20180301s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180301storage"
 	insights_v20180501p "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180501preview"
 	insights_v20180501ps "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180501previewstorage"
 	insights_v20200202 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202"
 	insights_v20200202s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202storage"
+	insights_v20220615 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20220615"
+	insights_v20220615s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20220615storage"
+	insights_v20221001 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20221001"
+	insights_v20221001s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20221001storage"
+	insights_v20230101 "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101"
+	insights_v20230101s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101storage"
 	insights_v1beta20180501p "github.com/Azure/azure-service-operator/v2/api/insights/v1beta20180501preview"
 	insights_v1beta20180501ps "github.com/Azure/azure-service-operator/v2/api/insights/v1beta20180501previewstorage"
 	insights_v1beta20200202 "github.com/Azure/azure-service-operator/v2/api/insights/v1beta20200202"
@@ -232,6 +240,36 @@ import (
 func getKnownStorageTypes() []*registration.StorageType {
 	var result []*registration.StorageType
 	result = append(result, &registration.StorageType{
+		Obj: new(apimanagement_v20220801s.Backend),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.proxy.password",
+				Func: indexApimanagementBackendPassword,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.proxy.password"}, &apimanagement_v20220801s.BackendList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(apimanagement_v20220801s.NamedValue),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.keyVault.identityClientIdFromConfig",
+				Func: indexApimanagementNamedValueIdentityClientIdFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.keyVault.identityClientIdFromConfig"}, &apimanagement_v20220801s.NamedValueList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
 		Obj: new(apimanagement_v20220801s.Service),
 		Indexes: []registration.Index{
 			{
@@ -279,6 +317,25 @@ func getKnownStorageTypes() []*registration.StorageType {
 			{
 				Type:             &v1.ConfigMap{},
 				MakeEventHandler: watchConfigMapsFactory([]string{".spec.certificates.certificate.expiryFromConfig", ".spec.certificates.certificate.subjectFromConfig", ".spec.certificates.certificate.thumbprintFromConfig", ".spec.hostnameConfigurations.certificate.expiryFromConfig", ".spec.hostnameConfigurations.certificate.subjectFromConfig", ".spec.hostnameConfigurations.certificate.thumbprintFromConfig", ".spec.hostnameConfigurations.identityClientIdFromConfig"}, &apimanagement_v20220801s.ServiceList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(apimanagement_v20220801s.Subscription),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.primaryKey",
+				Func: indexApimanagementSubscriptionPrimaryKey,
+			},
+			{
+				Key:  ".spec.secondaryKey",
+				Func: indexApimanagementSubscriptionSecondaryKey,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type:             &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.primaryKey", ".spec.secondaryKey"}, &apimanagement_v20220801s.SubscriptionList{}),
 			},
 		},
 	})
@@ -563,8 +620,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(eventhub_v20211101s.NamespacesEventhub)})
 	result = append(result, &registration.StorageType{Obj: new(eventhub_v20211101s.NamespacesEventhubsAuthorizationRule)})
 	result = append(result, &registration.StorageType{Obj: new(eventhub_v20211101s.NamespacesEventhubsConsumerGroup)})
+	result = append(result, &registration.StorageType{Obj: new(insights_v20180301s.MetricAlert)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20180501ps.Webtest)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20200202s.Component)})
+	result = append(result, &registration.StorageType{Obj: new(insights_v20220615s.ScheduledQueryRule)})
+	result = append(result, &registration.StorageType{Obj: new(insights_v20221001s.Autoscalesetting)})
+	result = append(result, &registration.StorageType{Obj: new(insights_v20230101s.ActionGroup)})
 	result = append(result, &registration.StorageType{
 		Obj: new(keyvault_v20210401ps.Vault),
 		Indexes: []registration.Index{
@@ -938,8 +999,18 @@ func getKnownStorageTypes() []*registration.StorageType {
 // getKnownTypes returns the list of all types.
 func getKnownTypes() []client.Object {
 	var result []client.Object
-	result = append(result, new(apimanagement_v20220801.Service))
-	result = append(result, new(apimanagement_v20220801s.Service))
+	result = append(
+		result,
+		new(apimanagement_v20220801.Backend),
+		new(apimanagement_v20220801.NamedValue),
+		new(apimanagement_v20220801.Service),
+		new(apimanagement_v20220801.Subscription))
+	result = append(
+		result,
+		new(apimanagement_v20220801s.Backend),
+		new(apimanagement_v20220801s.NamedValue),
+		new(apimanagement_v20220801s.Service),
+		new(apimanagement_v20220801s.Subscription))
 	result = append(result, new(appconfiguration_v1beta20220501.ConfigurationStore))
 	result = append(result, new(appconfiguration_v1beta20220501s.ConfigurationStore))
 	result = append(result, new(appconfiguration_v20220501.ConfigurationStore))
@@ -1278,10 +1349,18 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(insights_v1beta20180501ps.Webtest))
 	result = append(result, new(insights_v1beta20200202.Component))
 	result = append(result, new(insights_v1beta20200202s.Component))
+	result = append(result, new(insights_v20180301.MetricAlert))
+	result = append(result, new(insights_v20180301s.MetricAlert))
 	result = append(result, new(insights_v20180501p.Webtest))
 	result = append(result, new(insights_v20180501ps.Webtest))
 	result = append(result, new(insights_v20200202.Component))
 	result = append(result, new(insights_v20200202s.Component))
+	result = append(result, new(insights_v20220615.ScheduledQueryRule))
+	result = append(result, new(insights_v20220615s.ScheduledQueryRule))
+	result = append(result, new(insights_v20221001.Autoscalesetting))
+	result = append(result, new(insights_v20221001s.Autoscalesetting))
+	result = append(result, new(insights_v20230101.ActionGroup))
+	result = append(result, new(insights_v20230101s.ActionGroup))
 	result = append(result, new(keyvault_v1beta20210401p.Vault))
 	result = append(result, new(keyvault_v1beta20210401ps.Vault))
 	result = append(result, new(keyvault_v20210401p.Vault))
@@ -1757,10 +1836,18 @@ func createScheme() *runtime.Scheme {
 	_ = insights_v1beta20180501ps.AddToScheme(scheme)
 	_ = insights_v1beta20200202.AddToScheme(scheme)
 	_ = insights_v1beta20200202s.AddToScheme(scheme)
+	_ = insights_v20180301.AddToScheme(scheme)
+	_ = insights_v20180301s.AddToScheme(scheme)
 	_ = insights_v20180501p.AddToScheme(scheme)
 	_ = insights_v20180501ps.AddToScheme(scheme)
 	_ = insights_v20200202.AddToScheme(scheme)
 	_ = insights_v20200202s.AddToScheme(scheme)
+	_ = insights_v20220615.AddToScheme(scheme)
+	_ = insights_v20220615s.AddToScheme(scheme)
+	_ = insights_v20221001.AddToScheme(scheme)
+	_ = insights_v20221001s.AddToScheme(scheme)
+	_ = insights_v20230101.AddToScheme(scheme)
+	_ = insights_v20230101s.AddToScheme(scheme)
 	_ = keyvault_v1beta20210401p.AddToScheme(scheme)
 	_ = keyvault_v1beta20210401ps.AddToScheme(scheme)
 	_ = keyvault_v20210401p.AddToScheme(scheme)
@@ -1839,7 +1926,10 @@ func createScheme() *runtime.Scheme {
 // getResourceExtensions returns a list of resource extensions
 func getResourceExtensions() []genruntime.ResourceExtension {
 	var result []genruntime.ResourceExtension
+	result = append(result, &apimanagement_customizations.BackendExtension{})
+	result = append(result, &apimanagement_customizations.NamedValueExtension{})
 	result = append(result, &apimanagement_customizations.ServiceExtension{})
+	result = append(result, &apimanagement_customizations.SubscriptionExtension{})
 	result = append(result, &appconfiguration_customizations.ConfigurationStoreExtension{})
 	result = append(result, &authorization_customizations.RoleAssignmentExtension{})
 	result = append(result, &batch_customizations.BatchAccountExtension{})
@@ -1903,7 +1993,11 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &eventhub_customizations.NamespacesEventhubExtension{})
 	result = append(result, &eventhub_customizations.NamespacesEventhubsAuthorizationRuleExtension{})
 	result = append(result, &eventhub_customizations.NamespacesEventhubsConsumerGroupExtension{})
+	result = append(result, &insights_customizations.ActionGroupExtension{})
+	result = append(result, &insights_customizations.AutoscalesettingExtension{})
 	result = append(result, &insights_customizations.ComponentExtension{})
+	result = append(result, &insights_customizations.MetricAlertExtension{})
+	result = append(result, &insights_customizations.ScheduledQueryRuleExtension{})
 	result = append(result, &insights_customizations.WebtestExtension{})
 	result = append(result, &keyvault_customizations.VaultExtension{})
 	result = append(result, &machinelearningservices_customizations.WorkspaceExtension{})
@@ -2005,6 +2099,36 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &web_customizations.ServerFarmExtension{})
 	result = append(result, &web_customizations.SiteExtension{})
 	return result
+}
+
+// indexApimanagementBackendPassword an index function for apimanagement_v20220801s.Backend .spec.proxy.password
+func indexApimanagementBackendPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.Backend)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Proxy == nil {
+		return nil
+	}
+	if obj.Spec.Proxy.Password == nil {
+		return nil
+	}
+	return obj.Spec.Proxy.Password.Index()
+}
+
+// indexApimanagementNamedValueIdentityClientIdFromConfig an index function for apimanagement_v20220801s.NamedValue .spec.keyVault.identityClientIdFromConfig
+func indexApimanagementNamedValueIdentityClientIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.NamedValue)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.KeyVault == nil {
+		return nil
+	}
+	if obj.Spec.KeyVault.IdentityClientIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.KeyVault.IdentityClientIdFromConfig.Index()
 }
 
 // indexApimanagementServiceCertificatesCertificatePassword an index function for apimanagement_v20220801s.Service .spec.certificates.certificatePassword
@@ -2167,6 +2291,30 @@ func indexApimanagementServiceHostnameConfigurationsThumbprintFromConfig(rawObj 
 		result = append(result, hostnameConfigurationItem.Certificate.ThumbprintFromConfig.Index()...)
 	}
 	return result
+}
+
+// indexApimanagementSubscriptionPrimaryKey an index function for apimanagement_v20220801s.Subscription .spec.primaryKey
+func indexApimanagementSubscriptionPrimaryKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.Subscription)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.PrimaryKey == nil {
+		return nil
+	}
+	return obj.Spec.PrimaryKey.Index()
+}
+
+// indexApimanagementSubscriptionSecondaryKey an index function for apimanagement_v20220801s.Subscription .spec.secondaryKey
+func indexApimanagementSubscriptionSecondaryKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20220801s.Subscription)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.SecondaryKey == nil {
+		return nil
+	}
+	return obj.Spec.SecondaryKey.Index()
 }
 
 // indexAuthorizationRoleAssignmentPrincipalIdFromConfig an index function for authorization_v20200801ps.RoleAssignment .spec.principalIdFromConfig

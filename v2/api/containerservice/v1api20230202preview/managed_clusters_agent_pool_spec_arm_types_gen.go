@@ -33,7 +33,7 @@ func (pool *ManagedClusters_AgentPool_Spec_ARM) GetType() string {
 type ManagedClusterAgentPoolProfileProperties_ARM struct {
 	// AvailabilityZones: The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType
 	// property is 'VirtualMachineScaleSets'.
-	AvailabilityZones []string `json:"availabilityZones,omitempty"`
+	AvailabilityZones []string `json:"availabilityZones"`
 
 	// CapacityReservationGroupID: AKS will associate the specified agent pool with the Capacity Reservation Group.
 	CapacityReservationGroupID *string `json:"capacityReservationGroupID,omitempty"`
@@ -109,11 +109,11 @@ type ManagedClusterAgentPoolProfileProperties_ARM struct {
 	NetworkProfile *AgentPoolNetworkProfile_ARM `json:"networkProfile,omitempty"`
 
 	// NodeLabels: The node labels to be persisted across all nodes in agent pool.
-	NodeLabels           map[string]string `json:"nodeLabels,omitempty"`
+	NodeLabels           map[string]string `json:"nodeLabels"`
 	NodePublicIPPrefixID *string           `json:"nodePublicIPPrefixID,omitempty"`
 
 	// NodeTaints: The taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.
-	NodeTaints []string `json:"nodeTaints,omitempty"`
+	NodeTaints []string `json:"nodeTaints"`
 
 	// OrchestratorVersion: Both patch version <major.minor.patch> and <major.minor> are supported. When <major.minor> is
 	// specified, the latest supported patch version is chosen automatically. Updating the agent pool with the same
@@ -161,7 +161,7 @@ type ManagedClusterAgentPoolProfileProperties_ARM struct {
 	SpotMaxPrice *float64 `json:"spotMaxPrice,omitempty"`
 
 	// Tags: The tags to be persisted on the agent pool virtual machine scale set.
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags map[string]string `json:"tags"`
 
 	// Type: The type of Agent Pool.
 	Type *AgentPoolType `json:"type,omitempty"`
@@ -185,11 +185,11 @@ type ManagedClusterAgentPoolProfileProperties_ARM struct {
 // Network settings of an agent pool.
 type AgentPoolNetworkProfile_ARM struct {
 	// AllowedHostPorts: The port ranges that are allowed to access. The specified ranges are allowed to overlap.
-	AllowedHostPorts          []PortRange_ARM `json:"allowedHostPorts,omitempty"`
+	AllowedHostPorts          []PortRange_ARM `json:"allowedHostPorts"`
 	ApplicationSecurityGroups []string        `json:"applicationSecurityGroups,omitempty"`
 
 	// NodePublicIPTags: IPTags of instance-level public IPs.
-	NodePublicIPTags []IPTag_ARM `json:"nodePublicIPTags,omitempty"`
+	NodePublicIPTags []IPTag_ARM `json:"nodePublicIPTags"`
 }
 
 // Settings for upgrading an agentpool
@@ -211,7 +211,7 @@ type AgentPoolWindowsProfile_ARM struct {
 // See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type KubeletConfig_ARM struct {
 	// AllowedUnsafeSysctls: Allowed list of unsafe sysctls or unsafe sysctl patterns (ending in `*`).
-	AllowedUnsafeSysctls []string `json:"allowedUnsafeSysctls,omitempty"`
+	AllowedUnsafeSysctls []string `json:"allowedUnsafeSysctls"`
 
 	// ContainerLogMaxFiles: The maximum number of container log files that can be present for a container. The number must be
 	// ≥ 2.

@@ -25,6 +25,10 @@ You can install directly [using YAML]( {{< relref "installing-from-yaml" >}}) if
 
 [Uninstalling]( {{< relref "uninstalling" >}}) ASO is easy.  
 
+### Diagnosing problems
+
+[Common issues]( {{< relref "diagnosing-problems" >}} ).
+
 {{< /card >}}
 {{< card header="**Configuration**">}}
 
@@ -49,6 +53,11 @@ Configure your Azure resources using Kubernetes [configmaps]( {{< relref "config
 {{< /cardpane >}}
 
 {{< cardpane >}}
+{{< card header="**Resources**">}}
+### KeyVaults
+For resiliency ASO introduces new options for [creating KeyVaults]( {{< relref "keyvaults" >}}).
+
+{{< /card >}}
 {{< card header="**Upgrading**">}}
 
 ### Breaking Changes
@@ -60,6 +69,9 @@ Before upgrading, check for any [breaking changes]( {{< relref "breaking-changes
 [Upgrading]( {{< relref "upgrading" >}}) to a new release of ASO.
 
 {{< /card >}}
+{{< /cardpane >}}
+
+{{< cardpane >}}
 {{< card header="**Reference**">}}
 
 ### Frequently Asked Questions
@@ -77,10 +89,6 @@ How does ASO manage a [large number of CRDs]( {{< relref "crd-management" >}})?
 ### Conditions
 
 [Conditions]( {{< relref "conditions" >}}) are used to report the status of a resource.
-
-### Diagnosing problems
-
-[Common issues]( {{< relref "diagnosing-problems" >}} ).
 
 ### Metrics
 

@@ -2,7 +2,11 @@
 # tiggers on push.
 trigger:
   branches:
+    include:
+    # Run automatically on GitHub Merge Queue branches
+      - 'gh-readonly-queue/*'
     exclude:
+    # But not on anything else
     - '*'
 
 # PR Section describes what happens on PR
@@ -74,10 +78,10 @@ jobs:
 
 
     - task: GoTool@0
-      displayName: Get Go 1.18
+      displayName: Get Go 1.20
       condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       inputs:
-        version: '1.18'
+        version: '1.20'
 
     - task: Go@0
       displayName: Get Go dependencies

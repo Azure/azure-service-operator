@@ -57,7 +57,7 @@ type ManagedClusterUpdate_STATUS_ARM struct {
 // The status of a UpdateRun.
 type UpdateRunStatus_STATUS_ARM struct {
 	// Stages: The stages composing an update run. Stages are run sequentially withing an UpdateRun.
-	Stages []UpdateStageStatus_STATUS_ARM `json:"stages,omitempty"`
+	Stages []UpdateStageStatus_STATUS_ARM `json:"stages"`
 
 	// Status: The status of the UpdateRun.
 	Status *UpdateStatus_STATUS_ARM `json:"status,omitempty"`
@@ -66,7 +66,7 @@ type UpdateRunStatus_STATUS_ARM struct {
 // The UpdateRunStrategy configures the sequence of Stages and Groups in which the clusters will be updated.
 type UpdateRunStrategy_STATUS_ARM struct {
 	// Stages: The list of stages that compose this update run.
-	Stages []UpdateStage_STATUS_ARM `json:"stages,omitempty"`
+	Stages []UpdateStage_STATUS_ARM `json:"stages"`
 }
 
 // The upgrade to apply to a ManagedCluster.
@@ -94,7 +94,7 @@ type UpdateStage_STATUS_ARM struct {
 
 	// Groups: A list of group names that compose the stage.
 	// The groups will be updated in parallel. Each group name can only appear once in the UpdateRun.
-	Groups []UpdateGroup_STATUS_ARM `json:"groups,omitempty"`
+	Groups []UpdateGroup_STATUS_ARM `json:"groups"`
 
 	// Name: The name of the stage. Must be unique within the UpdateRun.
 	Name *string `json:"name,omitempty"`
@@ -106,7 +106,7 @@ type UpdateStageStatus_STATUS_ARM struct {
 	AfterStageWaitStatus *WaitStatus_STATUS_ARM `json:"afterStageWaitStatus,omitempty"`
 
 	// Groups: The list of groups to be updated as part of this UpdateStage.
-	Groups []UpdateGroupStatus_STATUS_ARM `json:"groups,omitempty"`
+	Groups []UpdateGroupStatus_STATUS_ARM `json:"groups"`
 
 	// Name: The name of the UpdateStage.
 	Name *string `json:"name,omitempty"`
@@ -133,13 +133,13 @@ type UpdateStatus_STATUS_ARM struct {
 // The error detail.
 type ErrorDetail_STATUS_ARM struct {
 	// AdditionalInfo: The error additional info.
-	AdditionalInfo []ErrorAdditionalInfo_STATUS_ARM `json:"additionalInfo,omitempty"`
+	AdditionalInfo []ErrorAdditionalInfo_STATUS_ARM `json:"additionalInfo"`
 
 	// Code: The error code.
 	Code *string `json:"code,omitempty"`
 
 	// Details: The error details.
-	Details []ErrorDetail_STATUS_Unrolled_ARM `json:"details,omitempty"`
+	Details []ErrorDetail_STATUS_Unrolled_ARM `json:"details"`
 
 	// Message: The error message.
 	Message *string `json:"message,omitempty"`
@@ -159,7 +159,7 @@ type UpdateGroup_STATUS_ARM struct {
 // The status of a UpdateGroup.
 type UpdateGroupStatus_STATUS_ARM struct {
 	// Members: The list of member this UpdateGroup updates.
-	Members []MemberUpdateStatus_STATUS_ARM `json:"members,omitempty"`
+	Members []MemberUpdateStatus_STATUS_ARM `json:"members"`
 
 	// Name: The name of the UpdateGroup.
 	Name *string `json:"name,omitempty"`
@@ -180,7 +180,7 @@ type WaitStatus_STATUS_ARM struct {
 // The resource management error additional info.
 type ErrorAdditionalInfo_STATUS_ARM struct {
 	// Info: The additional info.
-	Info map[string]v1.JSON `json:"info,omitempty"`
+	Info map[string]v1.JSON `json:"info"`
 
 	// Type: The additional info type.
 	Type *string `json:"type,omitempty"`
@@ -188,7 +188,7 @@ type ErrorAdditionalInfo_STATUS_ARM struct {
 
 type ErrorDetail_STATUS_Unrolled_ARM struct {
 	// AdditionalInfo: The error additional info.
-	AdditionalInfo []ErrorAdditionalInfo_STATUS_ARM `json:"additionalInfo,omitempty"`
+	AdditionalInfo []ErrorAdditionalInfo_STATUS_ARM `json:"additionalInfo"`
 
 	// Code: The error code.
 	Code *string `json:"code,omitempty"`

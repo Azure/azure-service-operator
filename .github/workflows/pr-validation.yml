@@ -13,6 +13,7 @@ on:
   merge_group:
     branches:
       - main
+    types: [checks_requested]
 
 jobs:
   test-go-get:
@@ -41,15 +42,19 @@ jobs:
             sha='${{ github.sha }}'
           fi
 
-          # Sometimes go get will fail initially, so we retry it up to 5 times before giving up
+          # Give GitHub some time to make the commit available
+          sleep 10
+
+          # Sometimes it can take https://proxy.golang.org up to a minute for the latest commit to be available.
+          # See the FAQ at https://proxy.golang.org/
           FAILED=1
           for i in {1..5}; do
             if go get "$repo/v2@$sha" ; then
               FAILED=0
               break
             fi
-            echo "Failed to 'go get' $repo/v2@$sha, retrying in 10 seconds…"
-            sleep 10
+            echo "Failed to 'go get' $repo/v2@$sha, retrying in 60 seconds…"
+            sleep 60
           done
 
           exit $FAILED
@@ -156,10 +161,11 @@ jobs:
   integration-tests:
     runs-on: [self-hosted, 1ES.Pool=aso-1es-pool]
     if: 
-      # Only run on pull requests in this repo, that are not created by dependendabot
-      github.event_name == 'pull_request' && 
-      github.event.pull_request.head.repo.full_name == github.repository &&
-      github.actor != 'dependabot[bot]'
+      # Run on pull requests in this repository that are not from @dependabot, and run for merge groups
+      github.event_name == 'merge_group' ||
+      ( github.event_name == 'pull_request' &&
+        github.actor != 'dependabot[bot]' &&
+        github.event.pull_request.head.repo.full_name == github.repository )
     permissions:
       packages: read
       checks: write

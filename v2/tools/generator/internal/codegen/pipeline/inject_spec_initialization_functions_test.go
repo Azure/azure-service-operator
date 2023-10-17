@@ -15,24 +15,31 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
+// TestGolden_InjectSpecInitializationFunctions creates parallel spec and status versions of a Person and checks
+// to see the right code is generated, using golden files as reference.
+// The spec Address is deliberately mapped to two different spec types (Address and Location) to ensure we generate
+// both conversion functions correctly.
 func TestGolden_InjectSpecInitializationFunctions(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()
 
+	// Define a spec type for addresses
 	addressSpec := test.CreateObjectDefinition(
 		test.Pkg2020,
 		"Address"+astmodel.SpecSuffix,
 		test.FullAddressProperty,
 		test.CityProperty)
 
-	addressesSpecProperty := astmodel.NewPropertyDefinition(
-		"Addresses",
-		"addresses",
-		astmodel.NewArrayType(addressSpec.Name()))
+	// Define a status type for addresses
+	addressStatus := test.CreateObjectDefinition(
+		test.Pkg2020,
+		"Address"+astmodel.StatusSuffix,
+		test.FullAddressProperty,
+		test.CityProperty)
 
-	// We want a status type that has a wholly different name from the spec type
+	// Define a second status type for addresses, with a wholly different name
 	locationStatus := test.CreateObjectDefinition(
 		test.Pkg2020,
 		"Location"+astmodel.StatusSuffix,
@@ -40,12 +47,35 @@ func TestGolden_InjectSpecInitializationFunctions(t *testing.T) {
 		test.CityProperty,
 		test.StatusProperty)
 
+	// Define a spec property for addresses
+	addressesSpecProperty := astmodel.NewPropertyDefinition(
+		"Addresses",
+		"addresses",
+		astmodel.NewArrayType(addressSpec.Name())).
+		WithDescription("All the places this person has lived.")
+
+	// Define a status property for locations, using the same type as the spec property for addresses
+	locationsSpecProperty := astmodel.NewPropertyDefinition(
+		"Locations",
+		"locations",
+		astmodel.NewArrayType(addressSpec.Name())).
+		WithDescription("Other places this person frequents.")
+
+	// Define a status property for addresses
 	addressesStatusProperty := astmodel.NewPropertyDefinition(
 		"Addresses",
 		"addresses",
-		astmodel.NewArrayType(locationStatus.Name()))
+		astmodel.NewArrayType(addressStatus.Name())).
+		WithDescription("All the places this person has lived.")
 
-	personReferenceReference := astmodel.NewPropertyDefinition(
+	// Define a status proeprty for locations
+	locationsStatusProperty := astmodel.NewPropertyDefinition(
+		"Locations",
+		"locations",
+		astmodel.NewArrayType(locationStatus.Name())).
+		WithDescription("Other places this person frequents.")
+
+	personReferenceProperty := astmodel.NewPropertyDefinition(
 		"PersonReference",
 		"personReference",
 		astmodel.ResourceReferenceType)
@@ -62,7 +92,8 @@ func TestGolden_InjectSpecInitializationFunctions(t *testing.T) {
 		test.FamilyNameProperty,
 		test.KnownAsProperty,
 		addressesSpecProperty,
-		personReferenceReference,
+		locationsSpecProperty,
+		personReferenceProperty,
 	)
 
 	status := test.CreateStatus(
@@ -72,13 +103,14 @@ func TestGolden_InjectSpecInitializationFunctions(t *testing.T) {
 		test.FamilyNameProperty,
 		test.KnownAsProperty,
 		addressesStatusProperty,
+		locationsStatusProperty,
 		personIdProperty,
 	)
 
 	resource := test.CreateResource(test.Pkg2020, "Person", spec, status)
 
 	defs := make(astmodel.TypeDefinitionSet)
-	defs.AddAll(resource, spec, status, addressSpec, locationStatus)
+	defs.AddAll(resource, spec, status, addressSpec, addressStatus, locationStatus)
 
 	state := NewState().WithDefinitions(defs)
 

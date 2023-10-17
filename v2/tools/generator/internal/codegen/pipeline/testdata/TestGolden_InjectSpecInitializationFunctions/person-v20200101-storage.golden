@@ -32,16 +32,18 @@ type Person_Spec struct {
 	FamilyName      *string                      `json:"familyName,omitempty"`
 	FullName        *string                      `json:"fullName,omitempty"`
 	KnownAs         *string                      `json:"knownAs,omitempty"`
+	Locations       []Address_Spec               `json:"locations,omitempty"`
 	PersonReference genruntime.ResourceReference `json:"personReference,omitempty"`
 	PropertyBag     genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v20200101.Person_STATUS
 type Person_STATUS struct {
-	Addresses   []Location_STATUS      `json:"addresses,omitempty"`
+	Addresses   []Address_STATUS       `json:"addresses,omitempty"`
 	FamilyName  *string                `json:"familyName,omitempty"`
 	FullName    *string                `json:"fullName,omitempty"`
 	KnownAs     *string                `json:"knownAs,omitempty"`
+	Locations   []Location_STATUS      `json:"locations,omitempty"`
 	PersonId    *string                `json:"personId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
@@ -49,6 +51,13 @@ type Person_STATUS struct {
 
 // Storage version of v20200101.Address_Spec
 type Address_Spec struct {
+	City        *string                `json:"city,omitempty"`
+	FullAddress *string                `json:"fullAddress,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v20200101.Address_STATUS
+type Address_STATUS struct {
 	City        *string                `json:"city,omitempty"`
 	FullAddress *string                `json:"fullAddress,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
