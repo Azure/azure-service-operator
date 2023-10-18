@@ -138,7 +138,7 @@ anyTypePackages:
 
 # 
 # Type Transformers are used to make precision edits to the object model we've loaded from the 
-# original OpeanAPI/Swagger files.
+# original OpenAPI/Swagger files.
 #
 # We need these because there is great variability in how different product groups define their 
 # APIs, and because some of the common constructs that are used can't be directly handled in Go.
@@ -201,6 +201,11 @@ typeTransformers:
     remove: true
     because: AccessKeys is only set on response to PUT/CREATE, but we fill out Status via GET so this field is always empty. It also contains secrets we wouldn't want to expose in status anyway.
 
+  #
+  # In the group 'keyvault',
+  # on the types 'VaultProperties_CreateMode` and 'VaultProperties_CreateMode_STATUS'
+  # redefine the property 'CreateMode' to be an enum with four values
+  #
   - group: keyvault
     name: VaultProperties_CreateMode;VaultProperties_CreateMode_STATUS 
     target:
@@ -212,6 +217,19 @@ typeTransformers:
           - createOrRecover
           - purgeThenCreate
     because: "We're adding two new options to allow KeyVaults to goal-seek"
+
+  #
+  # In the group 'insights'
+  # rename the type 'AutoscaleSetting' 
+  # to 'AutoscaleSettingProperties'
+  #
+  - group: insights
+    name: AutoscaleSetting
+    renameTo: AutoscaleSettingProperties
+    ifType:
+      object: true
+    because: We want to use the name `AutoscaleSetting` (with a capital 'S') for the resource
+
   # 
   # In the group 'apimanagement', 
   # remove the property 'ApiManagementServiceProperties.PrivateEndpointConnections'
@@ -1511,9 +1529,10 @@ objectModelConfiguration:
         ResourceId:
           $armReference: true
     2022-10-01:
-      AutoscaleSetting:
-        $export: true
+      Autoscalesetting:
+        $exportAs: AutoscaleSetting
         $supportedFrom: v2.4.0
+      AutoscaleSettingProperties:
         TargetResourceUri:
           $armReference: true
       MetricTrigger:
