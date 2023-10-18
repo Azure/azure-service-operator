@@ -8,6 +8,7 @@ package pipeline
 import (
 	"context"
 	"github.com/go-logr/logr"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -28,7 +29,11 @@ func ApplyTypeRewrites(
 			for name, def := range definitions {
 
 				// First apply entire type transformation, if any
-				if newType, because := config.TransformType(name); newType != nil {
+				newType, because, err := config.TransformType(name)
+				if err != nil {
+					return nil, errors.Wrapf(err, "unable to transform type %q", name)
+				}
+				if newType != nil {
 					log.V(2).Info(
 						"Transforming type",
 						"type", name,

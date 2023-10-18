@@ -364,12 +364,6 @@ func (target *TransformTarget) produceTargetPackageReference(ref astmodel.Intern
 }
 
 func (transformer *TypeTransformer) Initialize() error {
-	err := transformer.TypeMatcher.Initialize()
-	if err != nil {
-		return err
-	}
-	transformer.matchedProperties = make(map[astmodel.TypeName]string)
-
 	if transformer.Remove {
 		if !transformer.Property.IsRestrictive() {
 			return errors.Errorf("remove is only usable with property matches")
@@ -428,19 +422,23 @@ func (target *TransformTarget) asPrimitiveType(name string) (*astmodel.Primitive
 
 // TransformTypeName transforms the type with the specified name into the TypeTransformer target type if
 // the provided type name matches the pattern(s) specified in the TypeTransformer
-func (transformer *TypeTransformer) TransformTypeName(typeName astmodel.InternalTypeName) astmodel.Type {
+func (transformer *TypeTransformer) TransformTypeName(typeName astmodel.InternalTypeName) (astmodel.Type, error) {
 	if transformer.AppliesToType(typeName) {
 		result, err := transformer.Target.produceTargetType("target", typeName)
 		if err != nil {
-			// Temporary
-			panic(err)
+			return nil, errors.Wrapf(
+				err,
+				"type transformer for group: %s, version: %s, name: %s",
+				transformer.Group.String(),
+				transformer.Version.String(),
+				transformer.Name.String())
 		}
 
-		return result
+		return result, nil
 	}
 
 	// Didn't match so return nil
-	return nil
+	return nil, nil
 }
 
 // PropertyTransformResult is the result of applying a property type transform
@@ -496,7 +494,7 @@ func (transformer *TypeTransformer) RequiredPropertiesWereMatched() error {
 		return transformer.RequiredTypesWereMatched()
 	}
 
-	if !*transformer.MatchRequired {
+	if !transformer.MustMatch() {
 		return nil
 	}
 
@@ -552,6 +550,11 @@ func (transformer *TypeTransformer) TransformProperty(
 
 	if !found {
 		return nil, nil
+	}
+
+	// Ensure we've JIT created the map
+	if transformer.matchedProperties == nil {
+		transformer.matchedProperties = make(map[astmodel.TypeName]string)
 	}
 
 	transformer.matchedProperties[name] = propName.String()

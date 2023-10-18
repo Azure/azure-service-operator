@@ -314,13 +314,6 @@ func (config *Configuration) initialize(configPath string) error {
 		config.goModulePath = modPath
 	}
 
-	for _, filter := range config.TypeFilters {
-		err := filter.Initialize()
-		if err != nil {
-			errs = append(errs, err)
-		}
-	}
-
 	// split Transformers into two sets
 	var typeTransformers []*TypeTransformer
 	var propertyTransformers []*TypeTransformer
@@ -391,16 +384,20 @@ func (config *Configuration) ShouldPrune(typeName astmodel.InternalTypeName) (re
 
 // TransformType uses the configured type transformers to transform a type name (reference) to a different type.
 // If no transformation is performed, nil is returned
-func (config *Configuration) TransformType(name astmodel.InternalTypeName) (astmodel.Type, string) {
+func (config *Configuration) TransformType(name astmodel.InternalTypeName) (astmodel.Type, string, error) {
 	for _, transformer := range config.typeTransformers {
-		result := transformer.TransformTypeName(name)
+		result, err := transformer.TransformTypeName(name)
+		if err != nil {
+			return nil, "", err
+		}
+
 		if result != nil {
-			return result, transformer.Because
+			return result, transformer.Because, nil
 		}
 	}
 
 	// No matches, return nil
-	return nil, ""
+	return nil, "", nil
 }
 
 // TransformTypeProperties applies any property transformers to the type
