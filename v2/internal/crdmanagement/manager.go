@@ -4,8 +4,11 @@
 package crdmanagement
 
 import (
+	"bufio"
+	"bytes"
 	"context"
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 	"reflect"
@@ -18,6 +21,8 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/selection"
+	"k8s.io/apimachinery/pkg/util/sets"
+	k8syaml "k8s.io/apimachinery/pkg/util/yaml"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/yaml"
@@ -29,10 +34,12 @@ import (
 
 // ServiceOperatorVersionLabelOld is the label the CRDs have on them containing the ASO version. This value must match the value
 // injected by config/crd/labels.yaml
-const ServiceOperatorVersionLabelOld = "serviceoperator.azure.com/version"
-const ServiceOperatorVersionLabel = "app.kubernetes.io/version"
-const ServiceOperatorAppLabel = "app.kubernetes.io/name"
-const ServiceOperatorAppValue = "azure-service-operator"
+const (
+	ServiceOperatorVersionLabelOld = "serviceoperator.azure.com/version"
+	ServiceOperatorVersionLabel    = "app.kubernetes.io/version"
+	ServiceOperatorAppLabel        = "app.kubernetes.io/name"
+	ServiceOperatorAppValue        = "azure-service-operator"
+)
 
 const CRDLocation = "crds"
 
@@ -101,7 +108,6 @@ func (m *Manager) FindMatchingCRDs(
 	goal []apiextensions.CustomResourceDefinition,
 	comparators ...func(a apiextensions.CustomResourceDefinition, b apiextensions.CustomResourceDefinition) bool,
 ) map[string]apiextensions.CustomResourceDefinition {
-
 	matching := make(map[string]apiextensions.CustomResourceDefinition)
 
 	// Build a map so lookup is faster
@@ -145,7 +151,6 @@ func (m *Manager) FindNonMatchingCRDs(
 	goal []apiextensions.CustomResourceDefinition,
 	comparators ...func(a apiextensions.CustomResourceDefinition, b apiextensions.CustomResourceDefinition) bool,
 ) map[string]apiextensions.CustomResourceDefinition {
-
 	// Just invert the comparators and call FindMatchingCRDs
 	invertedComparators := make([]func(a apiextensions.CustomResourceDefinition, b apiextensions.CustomResourceDefinition) bool, 0, len(comparators))
 	for _, c := range comparators {
@@ -167,7 +172,6 @@ func (m *Manager) DetermineCRDsToInstallOrUpgrade(
 	existingCRDs []apiextensions.CustomResourceDefinition,
 	patterns string,
 ) ([]*CRDInstallationInstruction, error) {
-
 	m.logger.V(Info).Info("Goal CRDs", "count", len(goalCRDs))
 	m.logger.V(Info).Info("Existing CRDs", "count", len(existingCRDs))
 
@@ -304,26 +308,34 @@ func (m *Manager) loadCRDs(path string) ([]apiextensions.CustomResourceDefinitio
 
 	results := make([]apiextensions.CustomResourceDefinition, 0, len(entries))
 
+	// White list the file extensions that may contain CRDs
+	crdExts := sets.NewString(".json", ".yaml", ".yml")
+
 	for _, entry := range entries {
 		if entry.IsDir() {
 			continue // Ignore directories
 		}
+		if !crdExts.Has(filepath.Ext(entry.Name())) {
+			continue // Only parse allowlisted file types
+		}
 
 		filePath := filepath.Join(path, entry.Name())
-		var content []byte
-		content, err = os.ReadFile(filePath)
+		docs, err := readDocuments(filePath)
 		if err != nil {
-			return nil, errors.Wrapf(err, "failed to read %s", filePath)
+			return nil, err
 		}
 
-		crd := apiextensions.CustomResourceDefinition{}
-		err = yaml.Unmarshal(content, &crd)
-		if err != nil {
-			return nil, errors.Wrapf(err, "failed to unmarshal %s to CRD", filePath)
+		for _, doc := range docs {
+			crd := apiextensions.CustomResourceDefinition{}
+			if err = yaml.Unmarshal(doc, &crd); err != nil {
+				return nil, err
+			}
+			if crd.Kind != "CustomResourceDefinition" || crd.Spec.Names.Kind == "" || crd.Spec.Group == "" {
+				continue
+			}
+			m.logger.V(Verbose).Info("Loaded CRD", "path", filePath, "name", crd.Name)
+			results = append(results, crd)
 		}
-
-		m.logger.V(Verbose).Info("Loaded CRD", "path", filePath, "name", crd.Name)
-		results = append(results, crd)
 	}
 
 	return results, nil
@@ -454,4 +466,30 @@ func VersionEqual(a apiextensions.CustomResourceDefinition, b apiextensions.Cust
 	}
 
 	return aVersion == bVersion
+}
+
+// readDocuments reads documents from file.
+func readDocuments(fp string) ([][]byte, error) {
+	b, err := os.ReadFile(fp)
+	if err != nil {
+		return nil, err
+	}
+
+	docs := [][]byte{}
+	reader := k8syaml.NewYAMLReader(bufio.NewReader(bytes.NewReader(b)))
+	for {
+		// Read document
+		doc, err := reader.Read()
+		if err != nil {
+			if errors.Is(err, io.EOF) {
+				break
+			}
+
+			return nil, err
+		}
+
+		docs = append(docs, doc)
+	}
+
+	return docs, nil
 }
