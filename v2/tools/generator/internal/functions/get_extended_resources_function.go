@@ -6,9 +6,10 @@
 package functions
 
 import (
+	"reflect"
+
 	"github.com/dave/dst"
 	"golang.org/x/exp/slices"
-	"reflect"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
