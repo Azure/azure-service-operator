@@ -5,7 +5,7 @@ package v1api20200601
 
 import (
 	"fmt"
-	v20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601storage"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &PrivateDnsZonesARecord{}
 func (record *PrivateDnsZonesARecord) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20200601s.PrivateDnsZonesARecord)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20200601storage/PrivateDnsZonesARecord but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20200601/storage/PrivateDnsZonesARecord but received %T instead", hub)
 	}
 
 	return record.AssignProperties_From_PrivateDnsZonesARecord(source)
@@ -61,7 +61,7 @@ func (record *PrivateDnsZonesARecord) ConvertFrom(hub conversion.Hub) error {
 func (record *PrivateDnsZonesARecord) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20200601s.PrivateDnsZonesARecord)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20200601storage/PrivateDnsZonesARecord but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20200601/storage/PrivateDnsZonesARecord but received %T instead", hub)
 	}
 
 	return record.AssignProperties_To_PrivateDnsZonesARecord(destination)

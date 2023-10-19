@@ -101,11 +101,7 @@ func (s SubPackageReference) LocalPathPrefix() string {
 }
 
 func (s SubPackageReference) Version() string {
-	if lpr, ok := s.parent.(InternalPackageReference); ok {
-		return lpr.Version()
-	}
-
-	panic("SubPackageReference parent is not a InternalPackageReference")
+	return s.parent.Version()
 }
 
 // ImportAlias returns the import alias to use for this package reference.

@@ -5,7 +5,7 @@ package v1api20201101
 
 import (
 	"fmt"
-	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &NetworkSecurityGroupsSecurityRule{}
 func (rule *NetworkSecurityGroupsSecurityRule) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20201101s.NetworkSecurityGroupsSecurityRule)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20201101storage/NetworkSecurityGroupsSecurityRule but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20201101/storage/NetworkSecurityGroupsSecurityRule but received %T instead", hub)
 	}
 
 	return rule.AssignProperties_From_NetworkSecurityGroupsSecurityRule(source)
@@ -61,7 +61,7 @@ func (rule *NetworkSecurityGroupsSecurityRule) ConvertFrom(hub conversion.Hub) e
 func (rule *NetworkSecurityGroupsSecurityRule) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20201101s.NetworkSecurityGroupsSecurityRule)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20201101storage/NetworkSecurityGroupsSecurityRule but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20201101/storage/NetworkSecurityGroupsSecurityRule but received %T instead", hub)
 	}
 
 	return rule.AssignProperties_To_NetworkSecurityGroupsSecurityRule(destination)

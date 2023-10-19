@@ -5,7 +5,7 @@ package v1api20220401
 
 import (
 	"encoding/json"
-	v20220401s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401storage"
+	v20220401s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_TrafficManagerProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForTrafficManagerProfile tests if a specific instance of TrafficManagerProfile can be assigned to v1api20220401storage and back losslessly
+// RunPropertyAssignmentTestForTrafficManagerProfile tests if a specific instance of TrafficManagerProfile can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForTrafficManagerProfile(subject TrafficManagerProfile) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_Trafficmanagerprofile_Spec_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForTrafficmanagerprofile_Spec tests if a specific instance of Trafficmanagerprofile_Spec can be assigned to v1api20220401storage and back losslessly
+// RunPropertyAssignmentTestForTrafficmanagerprofile_Spec tests if a specific instance of Trafficmanagerprofile_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForTrafficmanagerprofile_Spec(subject Trafficmanagerprofile_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -313,7 +313,7 @@ func Test_Trafficmanagerprofile_STATUS_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForTrafficmanagerprofile_STATUS tests if a specific instance of Trafficmanagerprofile_STATUS can be assigned to v1api20220401storage and back losslessly
+// RunPropertyAssignmentTestForTrafficmanagerprofile_STATUS tests if a specific instance of Trafficmanagerprofile_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForTrafficmanagerprofile_STATUS(subject Trafficmanagerprofile_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -451,7 +451,7 @@ func Test_DnsConfig_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsConfig tests if a specific instance of DnsConfig can be assigned to v1api20220401storage and back losslessly
+// RunPropertyAssignmentTestForDnsConfig tests if a specific instance of DnsConfig can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDnsConfig(subject DnsConfig) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -554,7 +554,7 @@ func Test_DnsConfig_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsConfig_STATUS tests if a specific instance of DnsConfig_STATUS can be assigned to v1api20220401storage and back losslessly
+// RunPropertyAssignmentTestForDnsConfig_STATUS tests if a specific instance of DnsConfig_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDnsConfig_STATUS(subject DnsConfig_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -658,7 +658,7 @@ func Test_Endpoint_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEndpoint_STATUS tests if a specific instance of Endpoint_STATUS can be assigned to v1api20220401storage and back losslessly
+// RunPropertyAssignmentTestForEndpoint_STATUS tests if a specific instance of Endpoint_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForEndpoint_STATUS(subject Endpoint_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -760,7 +760,7 @@ func Test_MonitorConfig_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMonitorConfig tests if a specific instance of MonitorConfig can be assigned to v1api20220401storage and back losslessly
+// RunPropertyAssignmentTestForMonitorConfig tests if a specific instance of MonitorConfig can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMonitorConfig(subject MonitorConfig) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -888,7 +888,7 @@ func Test_MonitorConfig_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMonitorConfig_STATUS tests if a specific instance of MonitorConfig_STATUS can be assigned to v1api20220401storage and back losslessly
+// RunPropertyAssignmentTestForMonitorConfig_STATUS tests if a specific instance of MonitorConfig_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMonitorConfig_STATUS(subject MonitorConfig_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1017,7 +1017,7 @@ func Test_TrafficManagerProfileOperatorSpec_WhenPropertiesConverted_RoundTripsWi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForTrafficManagerProfileOperatorSpec tests if a specific instance of TrafficManagerProfileOperatorSpec can be assigned to v1api20220401storage and back losslessly
+// RunPropertyAssignmentTestForTrafficManagerProfileOperatorSpec tests if a specific instance of TrafficManagerProfileOperatorSpec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForTrafficManagerProfileOperatorSpec(subject TrafficManagerProfileOperatorSpec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1120,7 +1120,7 @@ func Test_MonitorConfig_CustomHeaders_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMonitorConfig_CustomHeaders tests if a specific instance of MonitorConfig_CustomHeaders can be assigned to v1api20220401storage and back losslessly
+// RunPropertyAssignmentTestForMonitorConfig_CustomHeaders tests if a specific instance of MonitorConfig_CustomHeaders can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMonitorConfig_CustomHeaders(subject MonitorConfig_CustomHeaders) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1224,7 +1224,7 @@ func Test_MonitorConfig_CustomHeaders_STATUS_WhenPropertiesConverted_RoundTripsW
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMonitorConfig_CustomHeaders_STATUS tests if a specific instance of MonitorConfig_CustomHeaders_STATUS can be assigned to v1api20220401storage and back losslessly
+// RunPropertyAssignmentTestForMonitorConfig_CustomHeaders_STATUS tests if a specific instance of MonitorConfig_CustomHeaders_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMonitorConfig_CustomHeaders_STATUS(subject MonitorConfig_CustomHeaders_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1328,7 +1328,7 @@ func Test_MonitorConfig_ExpectedStatusCodeRanges_WhenPropertiesConverted_RoundTr
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMonitorConfig_ExpectedStatusCodeRanges tests if a specific instance of MonitorConfig_ExpectedStatusCodeRanges can be assigned to v1api20220401storage and back losslessly
+// RunPropertyAssignmentTestForMonitorConfig_ExpectedStatusCodeRanges tests if a specific instance of MonitorConfig_ExpectedStatusCodeRanges can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMonitorConfig_ExpectedStatusCodeRanges(subject MonitorConfig_ExpectedStatusCodeRanges) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1432,7 +1432,7 @@ func Test_MonitorConfig_ExpectedStatusCodeRanges_STATUS_WhenPropertiesConverted_
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMonitorConfig_ExpectedStatusCodeRanges_STATUS tests if a specific instance of MonitorConfig_ExpectedStatusCodeRanges_STATUS can be assigned to v1api20220401storage and back losslessly
+// RunPropertyAssignmentTestForMonitorConfig_ExpectedStatusCodeRanges_STATUS tests if a specific instance of MonitorConfig_ExpectedStatusCodeRanges_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForMonitorConfig_ExpectedStatusCodeRanges_STATUS(subject MonitorConfig_ExpectedStatusCodeRanges_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -1536,7 +1536,7 @@ func Test_TrafficManagerProfileOperatorConfigMaps_WhenPropertiesConverted_RoundT
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForTrafficManagerProfileOperatorConfigMaps tests if a specific instance of TrafficManagerProfileOperatorConfigMaps can be assigned to v1api20220401storage and back losslessly
+// RunPropertyAssignmentTestForTrafficManagerProfileOperatorConfigMaps tests if a specific instance of TrafficManagerProfileOperatorConfigMaps can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForTrafficManagerProfileOperatorConfigMaps(subject TrafficManagerProfileOperatorConfigMaps) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

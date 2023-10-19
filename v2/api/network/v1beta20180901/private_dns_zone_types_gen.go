@@ -5,7 +5,7 @@ package v1beta20180901
 
 import (
 	"fmt"
-	v1beta20180901s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901storage"
+	v1beta20180901s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"

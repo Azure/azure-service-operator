@@ -5,7 +5,7 @@ package v1api20220701
 
 import (
 	"encoding/json"
-	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
+	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_PrivateEndpointsPrivateDnsZoneGroup_WhenPropertiesConverted_RoundTrips
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateEndpointsPrivateDnsZoneGroup tests if a specific instance of PrivateEndpointsPrivateDnsZoneGroup can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForPrivateEndpointsPrivateDnsZoneGroup tests if a specific instance of PrivateEndpointsPrivateDnsZoneGroup can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateEndpointsPrivateDnsZoneGroup(subject PrivateEndpointsPrivateDnsZoneGroup) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_PrivateEndpoints_PrivateDnsZoneGroup_Spec_WhenPropertiesConverted_Roun
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateEndpoints_PrivateDnsZoneGroup_Spec tests if a specific instance of PrivateEndpoints_PrivateDnsZoneGroup_Spec can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForPrivateEndpoints_PrivateDnsZoneGroup_Spec tests if a specific instance of PrivateEndpoints_PrivateDnsZoneGroup_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateEndpoints_PrivateDnsZoneGroup_Spec(subject PrivateEndpoints_PrivateDnsZoneGroup_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -293,7 +293,7 @@ func Test_PrivateEndpoints_PrivateDnsZoneGroup_STATUS_WhenPropertiesConverted_Ro
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateEndpoints_PrivateDnsZoneGroup_STATUS tests if a specific instance of PrivateEndpoints_PrivateDnsZoneGroup_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForPrivateEndpoints_PrivateDnsZoneGroup_STATUS tests if a specific instance of PrivateEndpoints_PrivateDnsZoneGroup_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateEndpoints_PrivateDnsZoneGroup_STATUS(subject PrivateEndpoints_PrivateDnsZoneGroup_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -417,7 +417,7 @@ func Test_PrivateDnsZoneConfig_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateDnsZoneConfig tests if a specific instance of PrivateDnsZoneConfig can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForPrivateDnsZoneConfig tests if a specific instance of PrivateDnsZoneConfig can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateDnsZoneConfig(subject PrivateDnsZoneConfig) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -520,7 +520,7 @@ func Test_PrivateDnsZoneConfig_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateDnsZoneConfig_STATUS tests if a specific instance of PrivateDnsZoneConfig_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForPrivateDnsZoneConfig_STATUS tests if a specific instance of PrivateDnsZoneConfig_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateDnsZoneConfig_STATUS(subject PrivateDnsZoneConfig_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -638,7 +638,7 @@ func Test_RecordSet_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRecordSet_STATUS tests if a specific instance of RecordSet_STATUS can be assigned to v1api20220701storage and back losslessly
+// RunPropertyAssignmentTestForRecordSet_STATUS tests if a specific instance of RecordSet_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForRecordSet_STATUS(subject RecordSet_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
