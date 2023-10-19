@@ -7,6 +7,8 @@ package astmodel
 
 import (
 	"fmt"
+
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 )
 
 const (
@@ -21,13 +23,56 @@ var _ PackageReference = StoragePackageReference{}
 var _ InternalPackageReference = StoragePackageReference{}
 var _ DerivedPackageReference = StoragePackageReference{}
 
+// legacyStorageGroups is a set of groups for which we generate old style storage packages (siblings of the API
+// packages). We only do this to reduce the number of changes in a single PR. Once we've migrated all the packages
+// we can remove this.
+var legacyStorageGroups = set.Make(
+	"apimanagement",
+	"appconfiguration",
+	"authorization",
+	"batch",
+	"cache",
+	"cdn",
+	"compute",
+	"containerinstance",
+	"containerregistry",
+	"containerservice",
+	"datafactory",
+	"dataprotection",
+	"dbformariadb",
+	"dbformysql",
+	"dbforpostgresql",
+	"devices",
+	"documentdb",
+	"eventgrid",
+	"eventhub",
+	"insights",
+	"keyvault",
+	"machinelearningservices",
+	"managedidentity",
+	"operationalinsights",
+	"resources",
+	"search",
+	"servicebus",
+	"signalrservice",
+	"sql",
+	"storage",
+	"subscription",
+	"synapse",
+	"web",
+)
+
 // MakeStoragePackageReference creates a new storage package reference from a local package reference
 func MakeStoragePackageReference(ref InternalPackageReference) InternalPackageReference {
 	switch r := ref.(type) {
 	case LocalPackageReference:
-		return StoragePackageReference{
-			inner: r,
+		if legacyStorageGroups.Contains(r.group) {
+			return StoragePackageReference{
+				inner: r,
+			}
 		}
+
+		return MakeSubPackageReference(StoragePackageSuffix, r)
 	case StoragePackageReference:
 		return r
 	case SubPackageReference:
@@ -91,10 +136,17 @@ func (s StoragePackageReference) IsPreview() bool {
 	return s.inner.IsPreview()
 }
 
-// IsStoragePackageReference returns true if the reference is to a storage package
+// IsStoragePackageReference returns true if the reference is to a storage package OR to a subpackage for storage
 func IsStoragePackageReference(reference PackageReference) bool {
-	_, ok := reference.(StoragePackageReference)
-	return ok
+	if _, ok := reference.(StoragePackageReference); ok {
+		return true
+	}
+
+	if sub, ok := reference.(SubPackageReference); ok {
+		return sub.name == StoragePackageSuffix
+	}
+
+	return false
 }
 
 // GroupVersion returns the group and version of this storage reference.

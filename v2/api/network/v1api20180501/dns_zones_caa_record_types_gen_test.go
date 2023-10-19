@@ -5,7 +5,7 @@ package v1api20180501
 
 import (
 	"encoding/json"
-	v20180501s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501storage"
+	v20180501s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_DnsZonesCAARecord_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsZonesCAARecord tests if a specific instance of DnsZonesCAARecord can be assigned to v1api20180501storage and back losslessly
+// RunPropertyAssignmentTestForDnsZonesCAARecord tests if a specific instance of DnsZonesCAARecord can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDnsZonesCAARecord(subject DnsZonesCAARecord) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -175,7 +175,7 @@ func Test_DnsZones_CAA_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsZones_CAA_Spec tests if a specific instance of DnsZones_CAA_Spec can be assigned to v1api20180501storage and back losslessly
+// RunPropertyAssignmentTestForDnsZones_CAA_Spec tests if a specific instance of DnsZones_CAA_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDnsZones_CAA_Spec(subject DnsZones_CAA_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -303,7 +303,7 @@ func Test_DnsZones_CAA_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDnsZones_CAA_STATUS tests if a specific instance of DnsZones_CAA_STATUS can be assigned to v1api20180501storage and back losslessly
+// RunPropertyAssignmentTestForDnsZones_CAA_STATUS tests if a specific instance of DnsZones_CAA_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForDnsZones_CAA_STATUS(subject DnsZones_CAA_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

@@ -5,7 +5,7 @@ package v1api20200601
 
 import (
 	"encoding/json"
-	v20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601storage"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -72,7 +72,7 @@ func Test_PrivateDnsZonesSRVRecord_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateDnsZonesSRVRecord tests if a specific instance of PrivateDnsZonesSRVRecord can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForPrivateDnsZonesSRVRecord tests if a specific instance of PrivateDnsZonesSRVRecord can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateDnsZonesSRVRecord(subject PrivateDnsZonesSRVRecord) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -176,7 +176,7 @@ func Test_PrivateDnsZones_SRV_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateDnsZones_SRV_Spec tests if a specific instance of PrivateDnsZones_SRV_Spec can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForPrivateDnsZones_SRV_Spec tests if a specific instance of PrivateDnsZones_SRV_Spec can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateDnsZones_SRV_Spec(subject PrivateDnsZones_SRV_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
@@ -303,7 +303,7 @@ func Test_PrivateDnsZones_SRV_STATUS_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateDnsZones_SRV_STATUS tests if a specific instance of PrivateDnsZones_SRV_STATUS can be assigned to v1api20200601storage and back losslessly
+// RunPropertyAssignmentTestForPrivateDnsZones_SRV_STATUS tests if a specific instance of PrivateDnsZones_SRV_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForPrivateDnsZones_SRV_STATUS(subject PrivateDnsZones_SRV_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()

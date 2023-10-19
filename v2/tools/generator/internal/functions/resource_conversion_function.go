@@ -152,7 +152,7 @@ func (fn *ResourceConversionFunction) directConversion(
 	receiverName string, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 	fmtPackage := generationContext.MustGetImportedPackageName(astmodel.FmtReference)
 
-	hubGroup, hubVersion := fn.hub.InternalPackageReference().GroupVersion()
+	hubPackage := fn.hub.InternalPackageReference().FolderPath()
 	localId := fn.localVariableId()
 	localIdent := dst.NewIdent(localId)
 	hubIdent := dst.NewIdent("hub")
@@ -165,7 +165,7 @@ func (fn *ResourceConversionFunction) directConversion(
 	checkAssert := astbuilder.ReturnIfNotOk(
 		astbuilder.FormatError(
 			fmtPackage,
-			fmt.Sprintf("expected %s/%s/%s but received %%T instead", hubGroup, hubVersion, fn.Hub().Name()),
+			fmt.Sprintf("expected %s/%s but received %%T instead", hubPackage, fn.Hub().Name()),
 			hubIdent))
 
 	copyAndReturn := astbuilder.Returns(

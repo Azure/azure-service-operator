@@ -43,29 +43,32 @@ func InjectSpecInitializationFunctions(
 			functionInjector := astmodel.NewFunctionInjector()
 			newDefs := make(astmodel.TypeDefinitionSet, len(mappings))
 			var errs []error
-			for specName, statusName := range mappings {
+			for specName, statuses := range mappings {
 				spec := defs[specName]
-				status := defs[statusName]
 
-				// Create the initialization function
-				assignmentContext := conversions.NewPropertyConversionContext(conversions.InitializationMethodPrefix, defs, idFactory).
-					WithConfiguration(configuration.ObjectModelConfiguration)
+				for statusName := range statuses {
+					status := defs[statusName]
 
-				initializationBuilder := functions.NewPropertyAssignmentFunctionBuilder(spec, status, conversions.ConvertFrom)
-				initializationBuilder.AddSuffixMatchingAssignmentSelector("Id", "Reference")
-				initializationFn, err := initializationBuilder.Build(assignmentContext)
-				if err != nil {
-					errs = append(errs, errors.Wrapf(err, "creating Initialize_From_*() function for %q", specName))
-					continue
+					// Create the initialization function
+					assignmentContext := conversions.NewPropertyConversionContext(conversions.InitializationMethodPrefix, defs, idFactory).
+						WithConfiguration(configuration.ObjectModelConfiguration)
+
+					initializationBuilder := functions.NewPropertyAssignmentFunctionBuilder(spec, status, conversions.ConvertFrom)
+					initializationBuilder.AddSuffixMatchingAssignmentSelector("Id", "Reference")
+					initializationFn, err := initializationBuilder.Build(assignmentContext)
+					if err != nil {
+						errs = append(errs, errors.Wrapf(err, "creating Initialize_From_*() function for %q", specName))
+						continue
+					}
+
+					spec, err = functionInjector.Inject(spec, initializationFn)
+					if err != nil {
+						errs = append(errs, errors.Wrapf(err, "failed to inject %s function into %q", initializationFn.Name(), specName))
+						continue
+					}
 				}
 
-				newSpec, err := functionInjector.Inject(spec, initializationFn)
-				if err != nil {
-					errs = append(errs, errors.Wrapf(err, "failed to inject %s function into %q", initializationFn.Name(), specName))
-					continue
-				}
-
-				newDefs[specName] = newSpec
+				newDefs[specName] = spec
 			}
 
 			if len(errs) > 0 {
@@ -81,11 +84,11 @@ func InjectSpecInitializationFunctions(
 }
 
 type specInitializationScanner struct {
-	defs            astmodel.TypeDefinitionSet          // A set of all known types, used to follow references
-	conversionGraph *storage.ConversionGraph            // Conversion graph between resource versions
-	config          *config.ObjectModelConfiguration    // Configuration for which resources are importable and which are not
-	specToStatus    astmodel.TypeAssociation            // maps spec types to corresponding status types
-	visitor         astmodel.TypeVisitor[astmodel.Type] // used to walk resources to find the mappings
+	defs            astmodel.TypeDefinitionSet                                 // A set of all known types, used to follow references
+	conversionGraph *storage.ConversionGraph                                   // Conversion graph between resource versions
+	config          *config.ObjectModelConfiguration                           // Configuration for which resources are importable and which are not
+	specToStatus    map[astmodel.InternalTypeName]astmodel.InternalTypeNameSet // maps spec types to one (or more) corresponding status types
+	visitor         astmodel.TypeVisitor[astmodel.Type]                        // used to walk resources to find the mappings
 }
 
 func newSpecInitializationScanner(
@@ -101,7 +104,7 @@ func newSpecInitializationScanner(
 		defs:            defs,
 		conversionGraph: conversionGraph,
 		config:          config.ObjectModelConfiguration,
-		specToStatus:    make(astmodel.TypeAssociation, capacity),
+		specToStatus:    make(map[astmodel.InternalTypeName]astmodel.InternalTypeNameSet, capacity),
 	}
 
 	builder := astmodel.TypeVisitorBuilder[astmodel.Type]{
@@ -116,7 +119,7 @@ func newSpecInitializationScanner(
 }
 
 // scanResources does a scan for all the non-storage ResourceTypes in the supplied set
-func (s *specInitializationScanner) scanResources() (astmodel.TypeAssociation, error) {
+func (s *specInitializationScanner) scanResources() (map[astmodel.InternalTypeName]astmodel.InternalTypeNameSet, error) {
 	rsrcs, err := s.findResources()
 	if err != nil {
 		// Don't need to wrap this error, it's already wrapped
@@ -217,18 +220,23 @@ func (s *specInitializationScanner) visitInternalTypeName(
 	// If we already have this specToStatus, we're done (as we've already visited their underlying definitions).
 	// If we have a different specToStatus, we have an error.
 	// If we have no specToStatus, we need to add one.
-	if existing, ok := s.specToStatus[specName]; ok {
-		if existing != statusName {
-			return nil, errors.Errorf("found multiple status types %q and %q for spec type %q", existing, statusName, specName)
-		}
+	existing, ok := s.specToStatus[specName]
+	if ok {
+		existing.Add(statusName)
 	} else {
-		s.specToStatus[specName] = statusName
+		existing = astmodel.NewInternalTypeNameSet(statusName)
+		s.specToStatus[specName] = existing
 	}
 
 	// Recursively visit the definitions of these types
 	_, err := visitor.Visit(specDef.Type(), statusDef.Type())
 	if err != nil {
-		return nil, errors.Wrapf(err, "visiting definitions of spec type %s and status type %s", specName, statusName)
+		return nil, errors.Wrapf(
+			err,
+			"visiting definitions of spec type %s and status type %s in package %s",
+			specName.Name(),
+			statusName.Name(),
+			specName.InternalPackageReference().FolderPath())
 	}
 
 	return specName, nil
@@ -259,10 +267,10 @@ func (s *specInitializationScanner) visitObjectType(
 
 		_, err := visitor.Visit(specProperty.PropertyType(), statusProperty.PropertyType())
 		if err != nil {
-			// I know that both the property names will be the same, but being explicit should make the message
-			// less confusing to anyone reading it
+			// I know that both the property names will be the same, so only log once
+			// (including the name twice was tried, but was confusing)
 			errs = append(errs, errors.Wrapf(
-				err, "visiting properties %q and %q", specProperty.PropertyName(), statusProperty.PropertyName()))
+				err, "visiting spec and status properties %s", specProperty.PropertyName()))
 		}
 	}
 

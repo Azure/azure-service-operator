@@ -4,7 +4,7 @@
 package v20200101
 
 import (
-	v20200101s "github.com/Azure/azure-service-operator/testing/person/v20200101storage"
+	v20200101s "github.com/Azure/azure-service-operator/testing/person/v20200101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"

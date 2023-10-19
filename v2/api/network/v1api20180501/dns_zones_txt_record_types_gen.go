@@ -5,7 +5,7 @@ package v1api20180501
 
 import (
 	"fmt"
-	v20180501s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501storage"
+	v20180501s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,7 +51,7 @@ var _ conversion.Convertible = &DnsZonesTXTRecord{}
 func (record *DnsZonesTXTRecord) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v20180501s.DnsZonesTXTRecord)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20180501storage/DnsZonesTXTRecord but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20180501/storage/DnsZonesTXTRecord but received %T instead", hub)
 	}
 
 	return record.AssignProperties_From_DnsZonesTXTRecord(source)
@@ -61,7 +61,7 @@ func (record *DnsZonesTXTRecord) ConvertFrom(hub conversion.Hub) error {
 func (record *DnsZonesTXTRecord) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v20180501s.DnsZonesTXTRecord)
 	if !ok {
-		return fmt.Errorf("expected network/v1api20180501storage/DnsZonesTXTRecord but received %T instead", hub)
+		return fmt.Errorf("expected network/v1api20180501/storage/DnsZonesTXTRecord but received %T instead", hub)
 	}
 
 	return record.AssignProperties_To_DnsZonesTXTRecord(destination)
